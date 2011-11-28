@@ -1,0 +1,67 @@
+/*
+ *  grid
+ * - store ( reader )          **** 
+ * - - model   ( proxy )   
+ * 
+ * @Dario Gomez 11.11 
+ * Requiere : 
+ *              protoConcept
+ */
+
+var PAGESIZE = 100; 
+
+Ext.define('ProtoUL.store.ProtoStore', {
+    extend: 'Ext.data.JsonStore',
+    alias: 'store.protoStore',
+
+    autoLoad: true,
+    pageSize: PAGESIZE,
+    // autoLoad: {start: 0, limit: PAGESIZE},
+    remoteSort: true,
+    
+    //DGT***  separar como singleton 
+    // proxy: {
+        // url : 'protoExt/protoList.action?' + this.protoConcept,
+        // method: 'POST',
+        // type: 'ajax',
+        // // api: {
+            // // read : 'protoExt/protoList.action',
+            // // create : 'protoExt/protoCreate.action/',
+            // // update: 'protoExt/protoUpdate.action/',
+            // // destroy: 'protoExt/protoDelete.action/'
+        // // },
+        // reader: {
+            // type: 'json',
+            // root: 'rows',
+            // successProperty: 'success',
+            // id: 'id',   //DGT** _meta.idProperty ,
+        // },
+//         
+        // writer: {
+            // type: 'json',
+            // // writeAllFields: true,
+            // encode: false,
+            // root: 'data',
+        // },
+        // listeners: {
+            // exception: function(proxy, response, operation){
+                // Ext.MessageBox.show({
+                    // title: 'REMOTE EXCEPTION',
+                    // msg: operation.getError(),
+                    // icon: Ext.MessageBox.ERROR,
+                    // buttons: Ext.Msg.OK
+                // });
+            // }
+        // }
+    // }, 
+    
+    
+    // baseParams: {
+        // protoFilter: '{"pk" : 0,}',
+        // protoConcept : this.protoConcept,
+    // },
+    
+    //DGT No pasa por aqui 
+    // initComponent: function() {},
+
+});

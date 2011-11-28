@@ -1,0 +1,31 @@
+{
+    "success": true,
+    "meta": {
+        "totalCount": 2,
+        "sortInfo": {
+            "field": "id",
+            "direction": "ASC"
+        },
+        "filter": [{
+            "dataIndex": "id",
+            "filterOp": ">",
+            "value": "0",
+            },{
+            "dataIndex": "id",
+            "filterOp": "<",
+            "value": "100",
+            }], 
+        "initial": 0,
+        "limit": 100,
+    },
+    "rows": [{
+        "code": "metaDb",
+        "id": "86",
+        "description": ""
+    }, {
+        "code": "Prueba",
+        "id": "192",
+        "description": ""
+    }],
+
+}

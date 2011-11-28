@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>Proto Certae</title>
+        
+        <!-- Ext JS Files -->
+        <link rel="stylesheet" type="text/css"
+
+        href="{{ STATIC_URL }}ext-4.0.2a/resources/css/ext-all.css">
+        
+<!--    Carga Dinamica en Debuger,  es muy lento 
+        <script type="text/javascript" src="{{ STATIC_URL }}ext-4.0.2a/ext-debug.js"></script> 
+    -->
+        <script type="text/javascript" src="{{ STATIC_URL }}ext-4.0.2a/ext-all-debug.js"></script>
+        
+        <!-- App Files La aplicacion esta corriendo en JS -->
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/app.css">
+        <script type="text/javascript" src="{{ STATIC_URL }}js/globals/variables.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/globals/Tools.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/app.js"></script>
+
+        <!--         
+        <script type="text/javascript">
+            Ext.onReady(function() {
+                Ext.require(["Ext.util.Cookies", "Ext.Ajax"], function() {
+                    // Add csrf token to every ajax request
+                    var token = Ext.util.Cookies.get('csrftoken');
+                    if(!token) {
+                        Ext.Error.raise("Missing csrftoken cookie");
+                    } else {
+                        Ext.Ajax.defaultHeaders = Ext.apply(Ext.Ajax.defaultHeaders || {}, {
+                            'X-CSRFToken' : token
+                        });
+                    }
+                });
+            });
+
+        </script> 
+        -->
+
+    </head>
+    <body></body>
+</html>

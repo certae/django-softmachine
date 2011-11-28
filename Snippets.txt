@@ -1,0 +1,4 @@
+
+** AutoField 
+
+    model._meta.pk.name   

@@ -1,0 +1,8 @@
+[{
+    'text':'Dictionaire de donnes',
+    'expanded':True,
+    'children':[
+        { 'id': 'Concept' , 'text':'Elements des donnes', 'leaf':True },
+        { 'id': 'Property' , 'text':'Proprietes',  'leaf':True },
+    ]
+}]

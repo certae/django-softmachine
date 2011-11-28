@@ -1,0 +1,19 @@
+/*
+ *  grid
+ * -  store  ( proxy )   
+ * -  -	model ( reader )  *** 
+ * 
+ * @Dario Gomez 11.11 
+ * Requiere : 
+ *              protoConcept
+ */
+Ext.define('ProtoUL.model.ProtoModel', {
+    extend: 'Ext.data.Model',
+    alias: 'model.protoModel',
+
+
+
+    //DGT  NO  pasa por aqui  
+    // initComponent: function() {},
+    
+});
