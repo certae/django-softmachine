@@ -6,7 +6,7 @@
 
 function DefineProtoModel ( myMeta , modelClassName ){
         
-    console.log ( 'Loading ' + modelClassName + '...' );
+//    console.log ( 'Loading ' + modelClassName + '...' );
     
     var myFields = [];
     for (var ix in myMeta.fields ) {

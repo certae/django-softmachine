@@ -13,7 +13,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
     initComponent: function() {
 
-        console.log ( this.protoConcept , ' masterPanel def'  ); 
+//        console.log ( this.protoConcept , ' masterPanel def'  ); 
 
 
         // Recupera la meta   ------------------------------------------------------------ 
@@ -116,7 +116,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         function linkDetail() {
     
             ixActiveTab =  _masterDetail.ixActiveTab
-            console.log( '_ LinkDetail tab', ixActiveTab,  _masterDetail.ixActiveTab, ' idM', idMasterGrid,  _masterDetail.idMasterGrid )
+//            console.log( '_ LinkDetail tab', ixActiveTab,  _masterDetail.ixActiveTab, ' idM', idMasterGrid,  _masterDetail.idMasterGrid )
             
             // Verifica q halla un tab activo 
             if (ixActiveTab < 0) { return; }
@@ -148,7 +148,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         var ixActiveTab = this.ixActiveTab;
         var idMasterGrid = this.idMasterGrid;
 
-        console.log( 'MenuSelect tab', ixActiveTab, ' idM', idMasterGrid, _masterDetail.idMasterGrid )
+//        console.log( 'MenuSelect tab', ixActiveTab, ' idM', idMasterGrid, _masterDetail.idMasterGrid )
 
         var tab = protoTabs.items.findBy(function (i) {
             return i.title === protoConcept;
@@ -159,7 +159,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             var modelClassName = _PConfig.clsBaseModel + protoConcept ; 
             
             if  (! Ext.ClassManager.isCreated( modelClassName )){
-                console.log ( protoConcept, ' Loading  Pci ...  ' ); 
+//                console.log ( protoConcept, ' Loading  Pci ...  ' ); 
     
                 Ext.Ajax.request({
                     method: 'GET',
@@ -169,7 +169,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
                         },
                     success: function ( result, request ) { 
                         
-                        console.log( protoConcept, ' Pci loaded ');
+//                        console.log( protoConcept, ' Pci loaded ');
                         var myResult = Ext.decode( result.responseText )
     
                         // Colleccion de PCI, 
@@ -181,7 +181,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
                     },
                     failure: function ( result, request) { 
                         // Se aborta la ejecucion 
-                        console.log('Failed', result.responseText);
+//                        console.log('Failed', result.responseText);
                         return ;  
                     },
                 });
@@ -203,7 +203,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 //      Sacar en una funcion comun con el view port  ( segun feedMvc/lib )   ***********************************
         function createDetailGrid() {
             
-            console.log( '> createDetailGrid tab', ixActiveTab, ' idM', idMasterGrid )
+//            console.log( '> createDetailGrid tab', ixActiveTab, ' idM', idMasterGrid )
 
             // Definicion grilla Detail  ============================================================================= 
             var detailGrid = Ext.create('ProtoUL.view.ProtoGrid', {
@@ -237,7 +237,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             ixActiveTab = item.ixTab;
             protoTabs.setActiveTab(tab);
     
-            console.log( '< setActiveDetail', ixActiveTab, _masterDetail.ixActiveTab  )
+//            console.log( '< setActiveDetail', ixActiveTab, _masterDetail.ixActiveTab  )
             _masterDetail.ixActiveTab = ixActiveTab;
     
         };

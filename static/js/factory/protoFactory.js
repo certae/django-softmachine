@@ -163,7 +163,7 @@ function generateDynamicModel(pciDefinition){
 
     myGrid.on('columnmove', function (ct, column, fromIdx, toIdx, eOpts) {
     // Ext.grid.header.Container ct, Ext.grid.column.Column column, Number fromIdx, Number toIdx, Object eOpts 
-        console.log( ct, column , fromIdx, toIdx, eOpts) ;
+//        console.log( ct, column , fromIdx, toIdx, eOpts) ;
     });
 
 

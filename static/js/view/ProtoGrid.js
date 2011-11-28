@@ -16,12 +16,12 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 	initComponent: function() {
 
 
-        console.log ( this.protoConcept + '  grid init'  ); 
+//        console.log ( this.protoConcept + '  grid init'  ); 
 
         var modelClassName = _PConfig.clsBaseModel + this.protoConcept ; 
-        if  (! Ext.ClassManager.isCreated( modelClassName )){
-            console.log ( this.protoConcept, ' ERROR Pci  not loaded ' ); 
-        } ;
+//        if  (! Ext.ClassManager.isCreated( modelClassName )){
+//            console.log ( this.protoConcept, ' ERROR Pci  not loaded ' ); 
+//        } ;
 
         // VErifica si el store viene como parametro ( Detail )
         if (typeof this.protoFilterBase == 'undefined') {
@@ -32,7 +32,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             var myFilter = ''
         };   
         
-        console.log (  this.protoConcept, ' Loading store ...  '  ); 
+//        console.log (  this.protoConcept, ' Loading store ...  '  ); 
 
         var myStore = Ext.create('Ext.data.Store', {
             model : modelClassName, 

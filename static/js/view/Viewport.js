@@ -41,7 +41,7 @@ Ext.define('ProtoUL.view.Viewport', {
         // Carga las PCI de autoload
         // TODO: Esto podria ser un llamado configurado por usuario  
         for (var autoPci in _AUTOLOAD_PCI) {
-            console.log ( 'AutoLoad' , _AUTOLOAD_PCI[autoPci])
+//            console.log ( 'AutoLoad' , _AUTOLOAD_PCI[autoPci])
             this.loadPci( _AUTOLOAD_PCI[autoPci] )
         }
         
@@ -88,12 +88,12 @@ Ext.define('ProtoUL.view.Viewport', {
         var protoConcept = menuOpt ;  
         var thisRef = this ;
         
-        console.log( protoConcept, ' Loading MasterPanel ...')
+//        console.log( protoConcept, ' Loading MasterPanel ...')
 
         var modelClassName = _PConfig.clsBaseModel + protoConcept ; 
         
         if  (! Ext.ClassManager.isCreated( modelClassName )){
-            console.log ( protoConcept, ' Loading  Pci ...  ' ); 
+//            console.log ( protoConcept, ' Loading  Pci ...  ' ); 
 
             Ext.Ajax.request({
                 method: 'GET',
@@ -103,7 +103,7 @@ Ext.define('ProtoUL.view.Viewport', {
                     },
                 success: function ( result, request ) { 
                     
-                    console.log( protoConcept, ' Pci loaded ');
+//                    console.log( protoConcept, ' Pci loaded ');
                     var myResult = Ext.decode( result.responseText )
 
                     // Colleccion de PCI, 
@@ -115,7 +115,7 @@ Ext.define('ProtoUL.view.Viewport', {
                 },
                 failure: function ( result, request) { 
                     // Se aborta la ejecucion 
-                    console.log('Failed', result.responseText); 
+//                    console.log('Failed', result.responseText); 
                 },
             });
 
