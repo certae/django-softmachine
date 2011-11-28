@@ -1,4 +1,4 @@
-Como Comenzar 
+Como Comenzar
 
 Aptana Stuio 
 
@@ -8,22 +8,37 @@ File - Import - Git Repository
 	HOME : 
 	
 
+Python Config  2.6 Minimo 	
+
+** Snippets.git
+
 Indicar donde queda la instalation  ExtJS  ( ver 4.07 min  )
 
 settings.py 
 
 STATICFILES_DIRS = (
     PPATH + '/static',
-    '/u/data/ExtJs',		#  Linux 
-    'D:/data/ExtJs',		#  Windows 
+    '/u/data/ExtJs/ext-4.0.7-gpl',		#  Linux 
+    'D:/data/ExtJs/ext-4.0.7-gpl',		#  Windows 
 )
 	 
 Reemplazarlo por el directorio q corresponda segun el s.o. de trabajo 
-	 
-	 
-protoExt.html 
 
-	 href="{{ STATIC_URL }}ext-4.0.2a/resources/css/ext-all.css">
-	 	 
 
-	
+Configurar ejecucion
+
+Run 
+Debug Configuratio / Run Configuration 
+
+Python Run ( Icon New )
+
+       Name :  ProtoExt
+       Project : protoExt
+       Main:  manage.py 
+
+       Arguments 
+       Prog Arguments :  runserver --noreload 
+       
+
+Abrir explorador 
+http://127.0.0.1:8000/protoExt

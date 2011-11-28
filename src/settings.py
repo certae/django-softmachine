@@ -7,12 +7,6 @@ PPATH = os.path.abspath( os.path.join( os.path.dirname(__file__), os.pardir )).r
 if ('/src' in PPATH): 
     PPATH = os.path.abspath(os.path.join( PPATH, os.pardir )).replace('\\','/')
          
-
-# Para encontrar librerias situadas al mismo nivel raiz como proyecto paralelo  
-#PPATHLIB = os.path.abspath( PPATH + '/../ProtoLib'  ).replace('\\','/')
-#sys.path.append(PPATHLIB)
-
-
 # Django settings for modelibra project.
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -99,7 +93,7 @@ USE_DJANGO_JQUERY = True
 STATICFILES_DIRS = (
     PPATH + '/static',
 #    '/u/data/ExtJs',
-    'D:/data/ExtJs',
+    'D:/data/ExtJs/ext-4.0.7-gpl',
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
