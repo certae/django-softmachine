@@ -67,6 +67,7 @@ def protoGetPCI(request):
                  'successProperty':'success',
                  'shortTitle': grid.title,
                  'description': grid.title,
+                 'queryFields': grid.QFields, 
 
                  'idProperty':id_field,
                  'sortInfo':{
@@ -96,15 +97,14 @@ def protoGetList(request):
         protoConcept = request.POST.get('protoConcept', '')
         protoFilter = request.POST.get('protoFilter', '')
         protoFilterBase = request.POST.get('protoFilterBase', '')
+        protoQFields = request.POST.get('queryFields', '')
         
-#       page = int(request.GET.get('page', 0))
         start = int(request.POST.get('start', 0))
         limit = int(request.POST.get('limit', 100))
         page = int(request.POST.get('page', 1))
 
         sort = request.POST.get('sort', 'id')
         sort_dir = request.POST.get('dir', 'ASC')
-
         
         
 #   Carga la info
@@ -125,8 +125,8 @@ def protoGetList(request):
         protoStmtBase = {}
 
 #   Obtiene las filas del modelo 
-    pRowsCount = model.objects.filter(**protoStmt ).filter(**protoStmtBase ).count()
-    pRows = model.objects.filter(**protoStmt ).filter(**protoStmtBase ).order_by('id')[start: page*limit ]
+    pRowsCount = model.objects.select_related(protoQFields).filter(**protoStmt ).filter(**protoStmtBase ).count()
+    pRows = model.objects.select_related(protoQFields).filter(**protoStmt ).filter(**protoStmtBase ).order_by('id')[start: page*limit ]
 
 
     pList = []

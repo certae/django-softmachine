@@ -14,14 +14,16 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     // iconCls: 'icon-grid',
 
 	initComponent: function() {
+        //console.log ( this.protoConcept + '  grid init'  ); 
 
-
-//        console.log ( this.protoConcept + '  grid init'  ); 
+		// Recupera la clase para obtener la meta ------------------------------------------
+        var myMeta = _cllPCI[ this.protoConcept ] ; 
 
         var modelClassName = _PConfig.clsBaseModel + this.protoConcept ; 
-//        if  (! Ext.ClassManager.isCreated( modelClassName )){
-//            console.log ( this.protoConcept, ' ERROR Pci  not loaded ' ); 
-//        } ;
+        if  (! Ext.ClassManager.isCreated( modelClassName )){
+            //console.log ( this.protoConcept, ' ERROR Pci  not loaded ' );
+            return 
+        } ;
 
         // VErifica si el store viene como parametro ( Detail )
         if (typeof this.protoFilterBase == 'undefined') {
@@ -32,14 +34,12 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             var myFilter = ''
         };   
         
-//        console.log (  this.protoConcept, ' Loading store ...  '  ); 
-
+        //console.log (  this.protoConcept, ' Loading store ...  '  ); 
         var myStore = Ext.create('Ext.data.Store', {
             model : modelClassName, 
             autoLoad: true,
             pageSize: _PAGESIZE,
-            // remoteSort: true,
-            // autoLoad: {start: 0, limit: PAGESIZE},
+            remoteSort: true,
             proxy : {
                 type: 'ajax',
                 url : 'protoExt/protoList/', 
@@ -53,7 +53,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                     protoConcept : this.protoConcept,
                     protoFilter : myFilter,
                     protoFilterBase: this.protoFilterBase, 
-                    // protoApp: protoAppCode,
+                    queryFields  : myMeta.queryFields.toString(),
                 },
                 // sorters: [{
                     // property: 'leaf',
@@ -67,25 +67,15 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             }, 
                     
         });
-            
-            
 
         myStore.proxy.actionMethods.read = 'POST';
-        // myStore.load(); 
-
-        // Ext.apply(Ext.data.AjaxProxy.prototype.actionMethods, { read: 'POST' });
-        // store.getProxy().extraParams.feed = url;
-        // store.loadPage(1);
 
 
-        // REcupera la clase para obtener la meta ------------------------------------------
-        var myMeta = _cllPCI[ this.protoConcept ] ;                         
+        // Definicion de Columnas y Fields        ------------------------------------------
         var myColumns = [];
 
-         // * adding RowNumberer  
-        myColumns.push(Ext.create('Ext.grid.RowNumberer', { 
-            "width":37
-            }));
+        // DGT adding RowNumberer  
+        myColumns.push(Ext.create('Ext.grid.RowNumberer',{"width":37 }));
 
 
         // DGT** Creacion de columnas  
@@ -103,10 +93,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             };
 
             myColumns.push(col);
-            
+
         }
         
-
         // myColumns = [{"xtype":"rownumberer","width":30},{"text":"ID","sortable":true,"dataIndex":"id","hidden":true},{"text":"First Name","sortable":true,"dataIndex":"first","editor":{"xtype":"textfield"}},{"text":"Last Name","sortable":true,"dataIndex":"last","editor":{"xtype":null}},{"text":"Email","sortable":true,"dataIndex":"email","editor":{"xtype":"textfield"}}]; 
                 
         this.columns = myColumns;  
@@ -132,8 +121,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 // store_product.load();
             // }
         // }
-
-
 
 	},
 	

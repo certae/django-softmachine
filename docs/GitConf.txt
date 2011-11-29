@@ -1,4 +1,4 @@
-Git 
+Git
 
 3. Generate a new SSH key. 
 To generate a new SSH key, enter the code below. We want the default settings so when asked to enter a file in which to save the key, just press enter.
@@ -8,19 +8,19 @@ Generating pub/priv rsa key pair
 Enter file in which to save the key
 
 
-4.  Add your SSH key to GitHub. 
+4.Â Â Add your SSH key to GitHub. 
 
-On the GitHub site Click “Account Settings” > Click “SSH Public Keys” > Click “Add another public key”
+On the GitHub site Click â€œAccount Settingsâ€ > Click â€œSSH Public Keysâ€ > Click â€œAdd another public keyâ€
 
 Open the id_rsa.pub file with a text editor (Notepad, TextEdit, or gedit will do just fine). 
-This is your public SSH key. You may need turn on “view hidden files” to find it because the .ssh directory is hidden. 
-It’s important you copy your SSH key exactly as it is written without adding any newlines or whitespace. 
-Now paste it into the “Key” field.
+This is your public SSH key. You may need turn on â€œview hidden filesâ€ to find it because the .ssh directory is hidden. 
+Itâ€™s important you copy your SSH key exactly as it is written without adding any newlines or whitespace. 
+Now paste it into the â€œKeyâ€ field.
 
 
 5. Test everything out.
 
-To make sure everything is working you’ll now SSH to GitHub. Don’t change the “git@github.com” part. That’s supposed to be there.
+To make sure everything is working youâ€™ll now SSH to GitHub. Donâ€™t change the â€œgit@github.comâ€ part. Thatâ€™s supposed to be there.
 
 $ ssh -T git@github.com
 (Attempts to ssh to github)
@@ -31,12 +31,6 @@ The authenticity of host 'github.com (207.97.227.239)' can't be established.
 RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.
 Are you sure you want to continue connecting (yes/no)?
 
-Don’t worry, this is supposed to happen. Type “yes”.
+Donâ€™t worry, this is supposed to happen. Type â€œyesâ€.
 
 Hi username! You've successfully authenticated, but GitHub does not provide shell access.
-
-
-
-** AutoField 
-
-    model._meta.pk.name   

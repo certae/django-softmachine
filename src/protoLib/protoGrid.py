@@ -25,11 +25,10 @@ class ProtoGridFactory(object):
         self.model = model          # the model to use as reference
         self.fields = []            # holds the extjs fields
         self.base_fields = []       # holds the base model fields
+        self.QFields = []           # holds the Query Fields 
 
         # Obtiene el nombre de la entidad 
-        self.nomConcept = self.model._meta.object_name 
         self.title = self.model._meta.verbose_name.title()
-        
         self.model_fields = self.model._meta._fields()
 
         #DGT Siempre existe, la creacion del site la asigna por defecto 
@@ -39,10 +38,20 @@ class ProtoGridFactory(object):
         self.protoAdmin = getattr(self.model_admin, 'protoExt', {})
 
         excludes =  verifyList( getattr(self.model_admin , 'exclude', [])) 
-        list_display = verifyList( getattr(self.model_admin , 'list_display', []))
+        list_display = verifyList( getattr(self.model_admin , 'list_display', []))[:]
+
+        # Por defecto solo vienen  Chk, _str_
+        try: list_display.remove('action_checkbox')
+        except ValueError:  pass
+
+        try: list_display.remove('__str__')
+        except ValueError:  pass
+        
+        # 
+        idName = model._meta.pk.name   
         
 #       REORDER  (include )  cols if defined  
-        if len( list_display ) > 2 :   # Por defecto solo vienen  Chk, _str_
+        if len( list_display ) > 0 :   
             
             for field in list_display:
                 added = False
@@ -67,7 +76,8 @@ class ProtoGridFactory(object):
             
             # Field Attrs   ------------------------------------------------------------------
             fdict = { 
-                     'name':field.name, 
+                     'name':   field.name, 
+                     'query_code':   field.name, 
                      'header': verifyStr( field.verbose_name,  field.name ) 
                      }
 
@@ -81,14 +91,14 @@ class ProtoGridFactory(object):
             self.getUdp( fdict, protoField, 'sortable', 'Boolean', True )
 
 #           Permite la sintaxis objeto del QRM  [foreing]__[campo] 
-            self.getUdp( fdict, protoField, 'query_code', 'String', '' )
+#           self.getUdp( fdict, protoField, 'query_code', 'String', '' )
 
             self.getUdp( fdict, protoField, 'width', 'Numeric', 0 )
             self.getUdp( fdict, protoField, 'align', 'String', '' )
             self.getUdp( fdict, protoField, 'tooltip', 'String', '' )
             self.getUdp( fdict, protoField, 'flex', 'Numeric', 0 )
 
-            if field.name == 'id':
+            if field.name == idName:
                 fdict['hidden']= True
                 
             if  field.__class__.__name__ == 'DateTimeField':
@@ -123,8 +133,21 @@ class ProtoGridFactory(object):
                 # TODO: Zoom,  Convertir ID en __unicode__ 
                 # TODO: Agregar columna __unicode__ de la tabla padre, con el header definido 
                 #y ocultar la columna de la llave 
-                fdict['xtype'] = 'numbercolumn '
-#                self.fields.append(fdict)
+
+                fdict['query_code'] = field.name + '__str__',
+                
+                # Agrega la Pk
+                fKey = { 
+                     'name':    field.name + '__pk', 
+#                     'header':  verifyStr( field.verbose_name,  field.name ) + ' Id',
+                     'xtype':  'numbercolumn',
+                     'allow_filter':  False, 
+                     'sortable' : False, 
+                     'hidden':  True, 
+                     'width' : 0 ,
+                     }
+                self.fields.append(fKey)
+                self.QFields.append(fKey['name'] )
 
                 pass
                 
@@ -139,10 +162,12 @@ class ProtoGridFactory(object):
 #                fdict.update(self.Meta.fields_conf[field.name])
                 
             self.fields.append(fdict)
-         
+            self.QFields.append(field.name )
+            
+        pass
+    
            
         #TODO: Agregar el PK Siempre ( Verificar si esta u agregarlo ) 
-
     
     def get_field(self, name):  
         for f in self.fields:

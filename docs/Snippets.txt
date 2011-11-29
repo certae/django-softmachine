@@ -1,0 +1,13 @@
+
+
+
+** AutoField 
+
+    model._meta.pk.name   
+
+
+** JS Conf Store
+        // myStore.load();
+        // Ext.apply(Ext.data.AjaxProxy.prototype.actionMethods, { read: 'POST' });
+        // store.getProxy().extraParams.feed = url;
+        // store.loadPage(1);
