@@ -1,7 +1,5 @@
 from django.conf.urls.defaults import patterns, include, url
 
-from views import protoGetConceptModel
-
 from protoLib.protoMenu import protoGetMenuData
 from protoLib.protoConcept import protoGetPCI, protoGetList
 
@@ -15,9 +13,5 @@ urlpatterns = patterns('',
 
     url('protoGetMenuData/$', protoGetMenuData ), 
     url('protoGetPCI/$', protoGetPCI ),
-    
-    
-    # TExto directo 
-    url('datos/$', protoGetConceptModel ), 
 
 )

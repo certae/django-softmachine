@@ -110,16 +110,12 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             for (var i = 0, len = myMeta.fields.length; i < len; i++) {
                 var c = myMeta.fields[i];
     
-                if (c.allowFilter == undefined) {
-                    c.allowFilter = 1
+                if (c.filterable == undefined) {
+                    c.filterable = 1
                 };
     
-                if (c.queryCode == undefined) { 
-                    c.queryCode =  c.name; 
-                };
-                
-                if (c.allowFilter == 1) {
-                    colData[j] = [c.queryCode, c.header];
+                if (c.filterable == 1) {
+                    colData[j] = [c.name, c.header];
                     j += 1;
     
                     // DGT: esta carga es directa al store, pienso q es mas costosa por q interactua cada vez con extjs
@@ -179,8 +175,10 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         function onClickLoadData ( btn ) { 
     
             var sFilter = '';
+            var sCols = comboCols.getValue() | '' 
+            var sOps  = comboOp.getValue() | '' 
         
-            if ((comboCols.getValue() == '') && (comboOp.getValue() == '') && (searchCr.getValue() == '' )) {
+            if ( (sCols =='')  && ( sOps == '') && (searchCr.getValue() == '' )) {
                 sFilter = '';
             } else if ((comboCols.getValue() == '') || (comboOp.getValue() == '') || (searchCr.getValue() == '' )) {
                 Ext.Msg.alert('Status', 'Invalid criteria');

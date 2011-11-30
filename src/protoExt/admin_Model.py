@@ -9,14 +9,11 @@ class ConceptInline(django.contrib.admin.TabularInline):
     fields = ('code', 'description',  'superConcept')
 
 
-fdsModel= ( 'code', 'category', 'description',  'modelPrefix', 'superModel', 'alias', 'physicalName' )
-intModel= ( 'idModel', 'idRef' )
-
 class Model_Admin(django.contrib.admin.ModelAdmin):
     app_name = 'Dictionnaire de donnees'
     verbose_name_plural = 'Modeles' 
-    list_display =(  'code', 'description','superModel', 'domain', 'physicalName')
-    list_filter =(  'domain', 'superModel', )
+    list_display =(  'code', 'description','superModel', 'physicalName')
+    list_filter =(   'superModel', )
     search_fields =('code', 'description', 'superModel', 'physicalName' )
     
     fieldsets = (
@@ -33,4 +30,8 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
         {'menuText': 'Entite', 'conceptDetail': 'protoExt.Concept', 'detailField': 'model__pk', 'masterField': 'pk'},
         {'menuText': 'Udp', 'conceptDetail': 'protoExt.Udp', 'detailField': 'metaObj__pk', 'masterField': 'pk'}, 
         ]
+
+    protoExt[ 'protoFields' ] = [
+        {'field': 'domain__code', 'header' : 'domain', 'sortable' : True, 'filterable' : True, 'width': 300 },  
+     ]
 

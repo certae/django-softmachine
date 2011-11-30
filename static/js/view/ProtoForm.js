@@ -1,4 +1,4 @@
-Ext.define('ProtoUL.view.contact.Edit', {
+Ext.define('ProtoUL.view.ProtoForm', {
     extend: 'Ext.window.Window',
     alias : 'widget.contactedit',
 

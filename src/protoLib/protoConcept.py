@@ -15,12 +15,10 @@ from django.template import  Context
 from django.template import  RequestContext
 from django.template.loader import get_template 
 from django.utils.translation import gettext as __
-
-from protoLib import protoGrid, utilsBase, utilsWeb  
-from protoLib.forms import ExtJsForm, getExtJsModelForm
-
 from django.conf import settings
 
+from protoLib import protoGrid, utilsBase, utilsWeb  
+from protoLib.protoGrid import Q2Dict 
 
 
 from django.core import serializers
@@ -56,8 +54,9 @@ def protoGetPCI(request):
         base_fields = grid.get_fields( None )
         protoDetails = grid.get_details()
         
-        #TODO : Debe ser buscao en la META
-        id_field = model._meta.pk.name
+        #busca el id en la META
+#       id_field = model._meta.pk.name
+        id_field = u'id'
             
         jsondict = {
              'succes':True,
@@ -69,7 +68,7 @@ def protoGetPCI(request):
                  'description': grid.title,
                  'queryFields': grid.QFields, 
 
-                 'idProperty':id_field,
+                 'idProperty': id_field,
                  'sortInfo':{
                    "field": id_field, 
                    "direction": 'DESC'
@@ -106,7 +105,8 @@ def protoGetList(request):
         sort = request.POST.get('sort', 'id')
         sort_dir = request.POST.get('dir', 'ASC')
         
-        
+    else: return 
+    
 #   Carga la info
     model = getDjangoModel(protoConcept)
     
@@ -124,17 +124,21 @@ def protoGetList(request):
     else: 
         protoStmtBase = {}
 
+#   Prepara las cols del Query 
+    protoQFields =  tuple(protoQFields[:].split(','))
+
 #   Obtiene las filas del modelo 
-    pRowsCount = model.objects.select_related(protoQFields).filter(**protoStmt ).filter(**protoStmtBase ).count()
-    pRows = model.objects.select_related(protoQFields).filter(**protoStmt ).filter(**protoStmtBase ).order_by('id')[start: page*limit ]
+#   valiues, No permite llamar los metodos del modelo
+    pRowsCount = model.objects.filter(**protoStmt ).filter(**protoStmtBase ).count()
+    pRows =      model.objects.\
+        select_related(depth=1).\
+        filter(**protoStmt ).\
+        filter(**protoStmtBase ).\
+        order_by('id')\
+        [ start: page*limit ]
 
+    pList = Q2Dict(protoQFields , pRows )
 
-    pList = []
-    for reg in pRows:
-        pList.append(model_to_dict(reg, fields=[field.name for field in reg._meta.fields]))
-
-#    pList = [{'id':1,'first':"Fred",'last':"Flintstone",'email':"fred@flintstone.com"},{'id':2,'first':"Wilma",'last':"Flintstone",'email':"wilma@flintstone.com"},{'id':3,'first':"Pebbles",'last':"Flintstone",'email':"pebbles@flintstone.com"},{'id':4,'first':"Barney",'last':"Rubble",'email':"barney@rubble.com"},{'id':5,'first':"Betty",'last':"Rubble",'email':"betty@rubble.com"},{'id':6,'first':"BamBam",'last':"Rubble",'email':"bambam@rubble.com"}]
-    
     context = json.dumps({
             "success": True,
             'totalCount': pRowsCount,

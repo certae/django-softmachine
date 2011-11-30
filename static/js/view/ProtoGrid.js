@@ -39,7 +39,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             model : modelClassName, 
             autoLoad: true,
             pageSize: _PAGESIZE,
-            remoteSort: true,
+            remoteSort: false,
             proxy : {
                 type: 'ajax',
                 url : 'protoExt/protoList/', 

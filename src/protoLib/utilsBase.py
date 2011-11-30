@@ -234,7 +234,6 @@ def strip_euro(inStr):
 
 
 #DGT:  Utilizado para campos q no tienen relacion en el modelo,
-
 class VirtualField(object):
     def __init__(self, name):
         self.name = name

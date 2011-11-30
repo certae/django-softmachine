@@ -75,6 +75,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         var ixActiveTab = -1;
         var idMasterGrid = 0; 
         var cllStoreDet = [];  
+        var currentRow = [];
 
         // coleccion con los store de los detalles  y su indice  =============================================  
         this.ixActiveTab = ixActiveTab;
@@ -116,7 +117,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         function linkDetail() {
     
             ixActiveTab =  _masterDetail.ixActiveTab
-//            console.log( '_ LinkDetail tab', ixActiveTab,  _masterDetail.ixActiveTab, ' idM', idMasterGrid,  _masterDetail.idMasterGrid )
+            console.log( '_ LinkDetail tab', ixActiveTab,  _masterDetail.ixActiveTab, ' idM', idMasterGrid,  _masterDetail.idMasterGrid )
             
             // Verifica q halla un tab activo 
             if (ixActiveTab < 0) { return; }

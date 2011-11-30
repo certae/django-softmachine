@@ -29,7 +29,7 @@ class MetaObj(models.Model):
     description = models.TextField( blank = True, null = True, max_length=200)
 
     code.help_text = 'Codigo o Identificador principal del objeto'
-    code.allowFilter = True
+    code.filterable = True
     
     description.sortable = False 
     description.protoExt = {}

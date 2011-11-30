@@ -1,9 +1,15 @@
 import sys 
-import utilsBase, utilsWeb
 from django.db import models
 from django.contrib.admin.sites import  site
+from django.forms.models import model_to_dict
 
 from django.conf import settings
+
+from utilsBase import VirtualField 
+
+
+# Prefijo de las funciones ORM invocadas como campos, __unicode__ para las FK  
+_PROTOFN_ = '_protoFn_'
 
 def verifyList( obj ):
 #   DGT:  Los objetos del admin son en su mayoria del tipo tuple,
@@ -25,7 +31,7 @@ class ProtoGridFactory(object):
         self.model = model          # the model to use as reference
         self.fields = []            # holds the extjs fields
         self.base_fields = []       # holds the base model fields
-        self.QFields = []           # holds the Query Fields 
+        self.QFields = ''           # holds the Query Fields 
 
         # Obtiene el nombre de la entidad 
         self.title = self.model._meta.verbose_name.title()
@@ -47,20 +53,20 @@ class ProtoGridFactory(object):
         try: list_display.remove('__str__')
         except ValueError:  pass
         
-        # 
-        idName = model._meta.pk.name   
+#       idName = model._meta.pk.name   
+        idName = 'id'   
+        
         
 #       REORDER  (include )  cols if defined  
         if len( list_display ) > 0 :   
-            
             for field in list_display:
-                added = False
                 for f in self.model_fields:
                     if f.name == field:
-                        added = True
                         self.base_fields.append(f)
-#                if not added:
-#                    self.base_fields.append(VirtualField(field))
+
+        #TODO:  0 Agregarlos todos como campos virtuales, si existe en admin sobreescribir 
+
+
         else:
             self.base_fields = self.model_fields
 
@@ -68,7 +74,7 @@ class ProtoGridFactory(object):
         for field in self.base_fields:
             if field.name in excludes: continue
 
-            #----------------            
+            # TODO: Otras propiedades de base de los campos, usarlas para la edicion             
             #field.default, field.editable, field.error_message, field.help_text, fiedl.verbose_name_plural
             #field.blank, field.null, field.choises 
 
@@ -77,7 +83,6 @@ class ProtoGridFactory(object):
             # Field Attrs   ------------------------------------------------------------------
             fdict = { 
                      'name':   field.name, 
-                     'query_code':   field.name, 
                      'header': verifyStr( field.verbose_name,  field.name ) 
                      }
 
@@ -85,20 +90,17 @@ class ProtoGridFactory(object):
             self.getUdp( fdict, protoField, 'hidden', 'Boolean', False)
 
 #           Columns in Query Combo 
-            self.getUdp( fdict, protoField, 'allow_filter', 'Boolean', True )
+            self.getUdp( fdict, protoField, 'filterable', 'Boolean', True )
             
-#           The column is sortable  
+#           Sortable : Solo tener en cuenta si el sort es a nivel de servidor, a nivel cliente no hay ningun problema   
             self.getUdp( fdict, protoField, 'sortable', 'Boolean', True )
-
-#           Permite la sintaxis objeto del QRM  [foreing]__[campo] 
-#           self.getUdp( fdict, protoField, 'query_code', 'String', '' )
 
             self.getUdp( fdict, protoField, 'width', 'Numeric', 0 )
             self.getUdp( fdict, protoField, 'align', 'String', '' )
             self.getUdp( fdict, protoField, 'tooltip', 'String', '' )
             self.getUdp( fdict, protoField, 'flex', 'Numeric', 0 )
 
-            if field.name == idName:
+            if field.name == model._meta.pk.name:
                 fdict['hidden']= True
                 
             if  field.__class__.__name__ == 'DateTimeField':
@@ -108,7 +110,7 @@ class ProtoGridFactory(object):
                 fdict['format'] = 'Y-m-d H:i:s'
 
                 #fdict['editor'] = "new Ext.ux.form.DateTime({hiddenFormat:'Y-m-d H:i', dateFormat:'Y-m-D', timeFormat:'H:i'})"
-            if  field.__class__.__name__ == 'DateField':
+            elif  field.__class__.__name__ == 'DateField':
                 fdict['type'] = 'date'
                 fdict['xtype'] = 'datecolumn' 
                 fdict['dateFormat'] = 'Y-m-d'
@@ -130,44 +132,42 @@ class ProtoGridFactory(object):
                 #fdict['editor'] = 'new Ext.form.NumberField()'
                 
             elif  field.__class__.__name__ == 'ForeignKey':
-                # TODO: Zoom,  Convertir ID en __unicode__ 
-                # TODO: Agregar columna __unicode__ de la tabla padre, con el header definido 
-                #y ocultar la columna de la llave 
-
-                fdict['query_code'] = field.name + '__str__',
+                # TODO: Agregar columna __unicode__ de la tabla padre, con el header definido y ocultar la columna de la llave 
+                fdict['name'] = field.name  + _PROTOFN_ + '__unicode__'
+                fdict['filterable'] = False
+                fdict['sortable'] = False
                 
-                # Agrega la Pk
+                # Agrega la referencia al ID 
                 fKey = { 
-                     'name':    field.name + '__pk', 
-#                     'header':  verifyStr( field.verbose_name,  field.name ) + ' Id',
+                     'name':    field.name + '_id', 
+                     'header':  verifyStr( field.verbose_name,  field.name ) + ' Id',
                      'xtype':  'numbercolumn',
-                     'allow_filter':  False, 
+                     'filterable':  False, 
                      'sortable' : False, 
                      'hidden':  True, 
-                     'width' : 0 ,
                      }
                 self.fields.append(fKey)
-                self.QFields.append(fKey['name'] )
+                self.QFields += ',' + fKey['name']
 
-                pass
-                
-#            elif field.choices:
-#                #print 'FIELD CHOICES', field.choices
-#                a = {}
-#                for c in field.choices:
-#                    a[c[0]] = c[1]
-#                fdict['renderer'] = 'function(v) {a = %s; return a[v] || "";}' % utils.JSONserialise(a)
-                
-#            if getattr(self.Meta, 'fields_conf', {}).has_key(field.name):
-#                fdict.update(self.Meta.fields_conf[field.name])
                 
             self.fields.append(fdict)
-            self.QFields.append(field.name )
+            self.QFields +=  ',' + fdict['name'] 
             
-        pass
-    
-           
-        #TODO: Agregar el PK Siempre ( Verificar si esta u agregarlo ) 
+        #if (idName not in self.QFields ): 
+#            fKey = { 
+#                 'name':    idName , 
+#                 'header':  'id',
+#                 'xtype':  'numbercolumn',
+#                 'filterable':  False, 
+#                 'sortable' : False, 
+#                 'hidden':  True, 
+#                 }
+#            self.fields.append(fKey)
+#            self.QFields += ',' + fKey['name']
+        
+        #Recorta la primera ','  ( Nada elegante, pero funciona )     
+        self.QFields = self.QFields[1:]
+        
     
     def get_field(self, name):  
         for f in self.fields:
@@ -219,10 +219,9 @@ class ProtoGridFactory(object):
         # Si no han sido definido genera por defecto  
         if (len( details )  == 0 ):        
             opts = self.model._meta
+
             for rel in opts.get_all_related_objects(): # + opts.get_all_related_many_to_many_objects():
-    
                 oMeta = rel.model._meta         
-    
                 details.append({
                     "menuText"      : oMeta.verbose_name.title(), 
                     "conceptDetail" : oMeta.app_label + '.' + oMeta.object_name, 
@@ -233,7 +232,6 @@ class ProtoGridFactory(object):
             # Lo imprime en el debuger para poder copiarlo a la definicion 
             if settings.DEBUG: 
                 print opts.object_name, details 
-                
             
         return details 
 
@@ -264,47 +262,38 @@ class ProtoGridFactory(object):
         return 
 
 
-    def get_rows(self, fields, queryset, start, limit):
-        """ 
-            return the row list from given queryset 
-            order the data based on given field list
-            paging from start,limit
-        """
-        rows = []
-        if queryset:
-            if limit > 0:
-                queryset = queryset[int(start):int(start) + int(limit)]
-            fields_items = []
-            for item in queryset:
-                field_items = []
-                rowdict = {}
-                for field in fields:
-                    val = getattr(item, field['name'], '')
-                    if val:
-                        if field.get('type', '') == 'date':
-                            val = val.strftime(utilsBase.DateFormatConverter(to_python = field['format'] ) )
-                        elif field.get('type', '') == 'datetime':
-                            val = val.strftime(utilsBase.DateFormatConverter(to_python = field['format'] ) )
-                        else:
-                            val = utilsWeb.JsonCleanstr(val)
-                    else:
-                        if field.get('type', '') == 'float':
-                            val = 0.0
-                        elif field.get('type', '') == 'int':
-                            val = 0
-                        else:
-                            val = ''
-                    #astr = utils.JSONserialise_dict_item(field['name'], val)
-                    rowdict[field['name']] = val
-                    #field_items.append(astr)
-                #fields_items.append('{%s}' % ','.join(field_items))
-                rows.append(rowdict)
-            #json += ','.join(fields_items)
-            #json += ']\n'
 
-        return rows
-         
-#    class Meta:
-#        exclude = []
-#        viewPosition = []
-#        fields_conf = {}
+# Obtiene el diccionario basado en el Query Set 
+def Q2Dict (  QFields, pRows ):
+    """ 
+        return the row list from given queryset  
+    """
+    rows = []
+#   Este es el metodo mas rapido, pero no permite evaluar las funciones objeto  
+#    for reg in pRows:
+#        rows.append(model_to_dict(reg, fields=[field.name for field in reg._meta.fields]))
+#    return rows 
+
+#   Esta forma permite agregar las funciones entre ellas el __unicode__
+    for item in pRows:
+        rowdict = {}
+        for fName in QFields:
+            #Es una funcion 
+            if ( _PROTOFN_ in fName ):
+                try: 
+                    val = eval( 'item.' + fName.replace( _PROTOFN_,'.') + '()'  )
+                    val = verifyStr(val , '' )
+                except: val = '??'
+            else:
+                try:
+                    val = getattr( item, fName  )
+                except: val = '??'
+            
+            rowdict[ fName ] = val
+            
+        #Agrega el Id Siempre como idInterno ( no representa una col, idProperty ) 
+        rowdict[ 'id'] = item.pk 
+        rows.append(rowdict)
+        
+    return rows
+
