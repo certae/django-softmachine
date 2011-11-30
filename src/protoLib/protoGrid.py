@@ -5,24 +5,8 @@ from django.forms.models import model_to_dict
 
 from django.conf import settings
 
-from utilsBase import VirtualField 
-
-
-# Prefijo de las funciones ORM invocadas como campos, __unicode__ para las FK  
-_PROTOFN_ = '_protoFn_'
-
-def verifyList( obj ):
-#   DGT:  Los objetos del admin son en su mayoria del tipo tuple,
-#   Es necesario convertirlos a listas por facilidad de trabajo 
-    if obj is None:  obj = []
-    if type( obj ) != type([]):  [obj]
-    return obj 
-
-
-def verifyStr( vrBase , vrDefault ):
-    sAux = vrBase or vrDefault
-    return  u'%s' % sAux 
-
+from utilsBase import _PROTOFN_ , verifyStr, verifyList
+from protoField import  setFieldDict
 
 class ProtoGridFactory(object):
 
@@ -30,18 +14,20 @@ class ProtoGridFactory(object):
             
         self.model = model          # the model to use as reference
         self.fields = []            # holds the extjs fields
-        self.base_fields = []       # holds the base model fields
+        
+
+
         self.QFields = ''           # holds the Query Fields 
 
         # Obtiene el nombre de la entidad 
         self.title = self.model._meta.verbose_name.title()
-        self.model_fields = self.model._meta._fields()
 
         #DGT Siempre existe, la creacion del site la asigna por defecto 
         self.model_admin = site._registry.get( model )
 
         self.protoModel = getattr(model, 'protoExt', {})
         self.protoAdmin = getattr(self.model_admin, 'protoExt', {})
+        self.protoFields = self.protoAdmin.get( 'protoFields', {}) 
 
         excludes =  verifyList( getattr(self.model_admin , 'exclude', [])) 
         list_display = verifyList( getattr(self.model_admin , 'list_display', []))[:]
@@ -53,135 +39,36 @@ class ProtoGridFactory(object):
         try: list_display.remove('__str__')
         except ValueError:  pass
         
+
+#       WHY: Por alguna Ext no retiene el IdProperty ( idInternal al hacer click en las filas )     
 #       idName = model._meta.pk.name   
-        idName = 'id'   
+
         
-        
-#       REORDER  (include )  cols if defined  
         if len( list_display ) > 0 :   
-            for field in list_display:
-                for f in self.model_fields:
-                    if f.name == field:
-                        self.base_fields.append(f)
-
-        #TODO:  0 Agregarlos todos como campos virtuales, si existe en admin sobreescribir 
-
-
+            for fName in list_display:
+                try: field = self.model._meta.get_field(fName )
+                except: continue
+                setFieldDict (  self.protoFields , field )
         else:
-            self.base_fields = self.model_fields
 
-        
-        for field in self.base_fields:
-            if field.name in excludes: continue
+            for field in self.model._meta._fields():
+                if field.name in excludes: continue
+                setFieldDict (  self.protoFields , field )
 
-            # TODO: Otras propiedades de base de los campos, usarlas para la edicion             
-            #field.default, field.editable, field.error_message, field.help_text, fiedl.verbose_name_plural
-            #field.blank, field.null, field.choises 
 
-            protoField = getattr(field , 'protoExt', {})
-            
-            # Field Attrs   ------------------------------------------------------------------
-            fdict = { 
-                     'name':   field.name, 
-                     'header': verifyStr( field.verbose_name,  field.name ) 
-                     }
 
-#           Col visualisation 
-            self.getUdp( fdict, protoField, 'hidden', 'Boolean', False)
+        for key in self.protoFields:        
 
-#           Columns in Query Combo 
-            self.getUdp( fdict, protoField, 'filterable', 'Boolean', True )
-            
-#           Sortable : Solo tener en cuenta si el sort es a nivel de servidor, a nivel cliente no hay ningun problema   
-            self.getUdp( fdict, protoField, 'sortable', 'Boolean', True )
+            fdict = self.protoFields[ key ]
+            if ( getattr( fdict, 'name', '') == '') :
+                fdict[ 'name' ] = key  
 
-            self.getUdp( fdict, protoField, 'width', 'Numeric', 0 )
-            self.getUdp( fdict, protoField, 'align', 'String', '' )
-            self.getUdp( fdict, protoField, 'tooltip', 'String', '' )
-            self.getUdp( fdict, protoField, 'flex', 'Numeric', 0 )
-
-            if field.name == model._meta.pk.name:
-                fdict['hidden']= True
-                
-            if  field.__class__.__name__ == 'DateTimeField':
-                fdict['type'] = 'datetime'
-                fdict['xtype'] = 'datecolumn' 
-                fdict['dateFormat'] = 'Y-m-d H:i:s'
-                fdict['format'] = 'Y-m-d H:i:s'
-
-                #fdict['editor'] = "new Ext.ux.form.DateTime({hiddenFormat:'Y-m-d H:i', dateFormat:'Y-m-D', timeFormat:'H:i'})"
-            elif  field.__class__.__name__ == 'DateField':
-                fdict['type'] = 'date'
-                fdict['xtype'] = 'datecolumn' 
-                fdict['dateFormat'] = 'Y-m-d'
-                fdict['format'] = 'Y-m-d'
-                #fdict['renderer'] = 'Ext.util.' 
-                #fdict['editor'] = "new Ext.form.DateField({format:'Y-m-d'})"
-                
-            elif field.__class__.__name__ == 'IntegerField':
-                fdict['xtype'] = 'numbercolumn'
-                #fdict['editor'] = 'new Ext.form.NumberField()'
-                
-            elif field.__class__.__name__ == 'BooleanField':
-                fdict['xtype'] = 'booleancolumn'
-                #fdict['editor'] = 'new Ext.form.Checkbox()'
-                
-            elif field.__class__.__name__ == 'DecimalField':
-                fdict['xtype'] = 'numbercolumn '
-                fdict['renderer'] = 'function(v) {return (v.toFixed && v.toFixed(2) || 0);}'
-                #fdict['editor'] = 'new Ext.form.NumberField()'
-                
-            elif  field.__class__.__name__ == 'ForeignKey':
-                # TODO: Agregar columna __unicode__ de la tabla padre, con el header definido y ocultar la columna de la llave 
-                fdict['name'] = field.name  + _PROTOFN_ + '__unicode__'
-                fdict['filterable'] = False
-                fdict['sortable'] = False
-                
-                # Agrega la referencia al ID 
-                fKey = { 
-                     'name':    field.name + '_id', 
-                     'header':  verifyStr( field.verbose_name,  field.name ) + ' Id',
-                     'xtype':  'numbercolumn',
-                     'filterable':  False, 
-                     'sortable' : False, 
-                     'hidden':  True, 
-                     }
-                self.fields.append(fKey)
-                self.QFields += ',' + fKey['name']
-
-                
             self.fields.append(fdict)
             self.QFields +=  ',' + fdict['name'] 
             
-        #if (idName not in self.QFields ): 
-#            fKey = { 
-#                 'name':    idName , 
-#                 'header':  'id',
-#                 'xtype':  'numbercolumn',
-#                 'filterable':  False, 
-#                 'sortable' : False, 
-#                 'hidden':  True, 
-#                 }
-#            self.fields.append(fKey)
-#            self.QFields += ',' + fKey['name']
-        
         #Recorta la primera ','  ( Nada elegante, pero funciona )     
         self.QFields = self.QFields[1:]
         
-    
-    def get_field(self, name):  
-        for f in self.fields:
-            if f.get('name') == name:
-                return f
-        return None
-    
-    
-    def get_base_field(self, name):  
-        for f in self.base_fields:
-            if f.name == name:
-                return f
-        return None
-    
     
     def get_fields(self, colModel):  
         """ return this grid field list
@@ -236,31 +123,6 @@ class ProtoGridFactory(object):
         return details 
 
 
-    def getUdp( self, fdict, protoField, udpCode , udpType, udpDefault ):
-        
-        udpReturn = udpDefault
-         
-        try:
-            udpReturn = protoField.get( udpCode , udpDefault )
-            
-            if ( udpType == 'Boolean' ):
-                if (udpReturn[0].lower() in ( 't','y','o', '1')): 
-                    udpReturn = True
-                else: udpReturn = False 
-
-            if ( udpType == 'Numeric' ):
-                try:
-                    udpReturn = int( udpReturn  )
-                except: udpReturn = udpDefault
-
-            if (udpReturn != udpDefault ): 
-                fdict[udpCode] = udpReturn   
-             
-        except: 
-            pass
-        
-        return 
-
 
 
 # Obtiene el diccionario basado en el Query Set 
@@ -283,11 +145,18 @@ def Q2Dict (  QFields, pRows ):
                 try: 
                     val = eval( 'item.' + fName.replace( _PROTOFN_,'.') + '()'  )
                     val = verifyStr(val , '' )
-                except: val = '??'
+                except: val = 'fn?'
+            elif ( '__' in fName ) :
+                try: 
+                    val = eval( 'item.' + fName.replace( '__', '.'))
+                    val = verifyStr(val , '' )
+                except: val = 'fn?'
             else:
                 try:
                     val = getattr( item, fName  )
-                except: val = '??'
+                    if isinstance( val,models.Model): 
+                        val = verifyStr(val , '' )
+                except: val = 'vr?'
             
             rowdict[ fName ] = val
             

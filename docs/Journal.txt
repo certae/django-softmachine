@@ -1,3 +1,27 @@
+11/11/30 
+
+El autoPK, no es necesario, el id es una columna interna q no necesita ser parte de la grilla
+
+En el caso del maestro detalle, al interrogar la llave del maestro se verificara antes si es 
+id, pk, %model_id %model_pk  en cualquiera de estos casos se tomara el  internalId de la grilla
+
+El internalId a pesar de haber sido redefinido con otro nombre, siempre usa id, poria intentar 
+redefinirlo en el reader, pero por ahora solo reconfirmo el 'id' para no tener problema con futuras versiones  
+
+        #if (idName not in self.QFields ): 
+#            fKey = { 
+#                 'name':    idName , 
+#                 'header':  'id',
+#                 'xtype':  'numbercolumn',
+#                 'filterable':  False, 
+#                 'sortable' : False, 
+#                 'hidden':  True, 
+#                 }
+#            self.fields.append(fKey)
+#            self.QFields += ',' + fKey['name']
+
+
+
 11/11/26  Autolink
 
 	La funcionalidad de autolink, examina el modelo para agregar las tablas relacionadas, 

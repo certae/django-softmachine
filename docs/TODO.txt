@@ -44,17 +44,20 @@ Tareas pendientes
 	file:///D:/data/ExtJs/ext-3.4.0/examples/grid-filtering/grid-filter-local.html
 
 
-    **	Otras 
-	Pasar la vista a ProtoLib
-	Q la vista genere los datos de manejo tomados de la definicion Db
-	Manejar los modelos tambien dinamicamente Db
-	Independizar las DB 	
+    # TODO: Otras propiedades de base de los campos, usarlas para la edicion             
+    #field.default, field.editable, field.error_message, field.help_text, fiedl.verbose_name_plural
+    #field.blank, field.null, field.choises 
 	 	
 	 	
 
 ------------------------------------------------------------------------
 
-11/11/19
+Ok	Otras 
+	Pasar la vista a ProtoLib
+	Q la vista genere los datos de manejo tomados de la definicion Db
+	Manejar los modelos tambien dinamicamente Db
+	Independizar las DB 	
+
 
 Ok    Separar los datos dela  definicion 
 

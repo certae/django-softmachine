@@ -31,7 +31,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
         {'menuText': 'Udp', 'conceptDetail': 'protoExt.Udp', 'detailField': 'metaObj__pk', 'masterField': 'pk'}, 
         ]
 
-    protoExt[ 'protoFields' ] = [
-        {'field': 'domain__code', 'header' : 'domain', 'sortable' : True, 'filterable' : True, 'width': 300 },  
-     ]
+    protoExt[ 'protoFields' ] =  {        
+          'domain__code': {'header' : 'domain', 'type': 'CharField' ,  'sortable' : True, 'filterable' : True, 'width': 300 },  
+     }
 

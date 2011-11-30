@@ -9,6 +9,23 @@ from datetime import datetime
 import os
 import re
 
+# Prefijo de las funciones ORM invocadas como campos, __unicode__ para las FK  
+_PROTOFN_ = '_protoFn_'
+
+
+def verifyList( obj ):
+#   DGT:  Los objetos del admin son en su mayoria del tipo tuple,
+#   Es necesario convertirlos a listas por facilidad de trabajo 
+    if obj is None:  obj = []
+    if type( obj ) != type([]):  [obj]
+    return obj 
+
+
+def verifyStr( vrBase , vrDefault ):
+    sAux = vrBase or vrDefault
+    return  u'%s' % sAux 
+
+
 def datetimeFromExtDateField(indatestr):
 
     if indatestr.count("T")>0:
