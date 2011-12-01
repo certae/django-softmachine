@@ -230,7 +230,6 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             });
 
             setActiveDetail( tab , item.ixTab );
-
         };  
         
         function setActiveDetail (tab, ixTab ) {
@@ -240,10 +239,19 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
     
 //            console.log( '< setActiveDetail', ixActiveTab, _masterDetail.ixActiveTab  )
             _masterDetail.ixActiveTab = ixActiveTab;
-    
+
+//            toggleDetail( true );
+
         };
-    
-      
+
+        function toggleDetail(show){
+            var detail = _masterDetail.child('#Details');
+            if (show) {
+                detail.show();
+            } else {
+                detail.hide();
+            }
+        };
         
     },
 
@@ -253,17 +261,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         this.protoMasterStore.getProxy().extraParams.protoFilter = sFilter;
         this.protoMasterStore.load();
 
-    }, 
+    } 
     
-    toggleDetail: function(show){
-        var detail = this.child('#detail');
-        if (show) {
-            detail.show();
-        } else {
-            detail.hide();
-        }
-    },
-
-
 
 });
