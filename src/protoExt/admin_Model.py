@@ -35,3 +35,5 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
           'domain__code': {'header' : 'domain', 'type': 'CharField' ,  'sortable' : True, 'filterable' : True, 'width': 300 },  
      }
 
+    protoExt[ 'searchFields' ] =  ( 'code', 'description', 'domain__code' )        
+

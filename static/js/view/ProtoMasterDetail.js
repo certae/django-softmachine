@@ -58,7 +58,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             }, {
                 title: 'Details',
                 region: 'south',
-                collapsed: false,
+                collapsed: true,
                 layout: 'fit',
                 height: 180,
                 minSize: 75,

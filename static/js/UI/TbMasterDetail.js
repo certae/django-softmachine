@@ -14,13 +14,15 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
 
         // Menu Detail 
-        var menuDetail = new Ext.menu.Menu();
+        var menuDetail = new Ext.menu.Menu({
+        	hidden:true
+        	});
         var menuPromDetail = Ext.id();
         menuDetail.add({
             text: '<b>Promote Detail<b>',
             id: menuPromDetail,
             disabled: true,
-            handler:  onMenuPromoteDetail,
+            handler:  onMenuPromoteDetail
         },{
             xtype: 'menuseparator'
         });
@@ -31,7 +33,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         // Combo Columnas  
         var colStore = new Ext.data.ArrayStore({
             fields: ['colPhysique', 'colName'],
-            data: configureComboColumns( ),
+            data: configureComboColumns()
         });
     
         var comboCols = new Ext.form.ComboBox({
@@ -106,7 +108,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         
                 // Columnas para el Query del tipo :  newColData = [['idx', 'Id Reg'],['code', 'Code Reg']];
             var colData = [];
-            j = 0;
+            colData[0] = ['', ''];
+            j = 1;
             for (var i = 0, len = myMeta.fields.length; i < len; i++) {
                 var c = myMeta.fields[i];
     
@@ -175,14 +178,15 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         function onClickLoadData ( btn ) { 
     
             var sFilter = '';
-            var sCols = comboCols.getValue() | '' 
-            var sOps  = comboOp.getValue() | '' 
+            var sCols = comboCols.getValue() || '' 
+            var sOps  = comboOp.getValue() || 'icontains' 
         
-            if ( (sCols =='')  && ( sOps == '') && (searchCr.getValue() == '' )) {
+            if (searchCr.getValue() == '' ) {
                 sFilter = '';
-            } else if ((comboCols.getValue() == '') || (comboOp.getValue() == '') || (searchCr.getValue() == '' )) {
-                Ext.Msg.alert('Status', 'Invalid criteria');
-                return; 
+
+            } else if ((sCols  == '') && (searchCr.getValue() != '' )) {
+                sFilter = searchCr.getValue();
+
             } else {
                 sFilter = '{"' + comboCols.getValue() + '__' + comboOp.getValue() + '" : "' + searchCr.getValue() + '",}';
             }

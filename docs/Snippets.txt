@@ -137,4 +137,77 @@ search_fields
         // myStore.load();
         // Ext.apply(Ext.data.AjaxProxy.prototype.actionMethods, { read: 'POST' });
         // store.getProxy().extraParams.feed = url;
-        // store.loadPage(1);
+        // store.loadPage(1);                           
+        
+** Lista alfabetica 
+
+AlphabeticListe = new Ext.List({
+            store:store,
+            tpl:tpl,
+            itemSelector:"div.member",
+            grouped:true,
+            //indexBar:true,
+            indexBar:{
+                alphabet:true,
+                direction:"horizontal",
+                letters: ['2','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+            }
+})
+
+-------------------------------------------
+http://www.sencha.com/forum/showthread.php?24648-Dual-Example-Add-a-second-tbar-to-make-GridPanel-alphabetical-search
+
+
+var alphaTbarItems = new Array();
+for(var i = 65; i < 91; i++) { // JS char codes from (upper) A to Z
+    var myChar = String.fromCharCode(i); // get the letter from the char code
+    alphaTbarItems.push({ // add this vars to the array
+        text: myChar, // just the letter
+        id: 'alphaTbarItem' + myChar, // this button id will contain the letter
+        enableToggle: true, // only one will be pressed
+        toggleGroup: 'alphaTbarItems',
+        handler: function() { // when this button is pressed
+            if (this.pressed) { // if it is now in a "pressed" state (toggle is enabled)
+                myDataStore.load({ // reload the dataStore
+                    params: { letter: this.text, } // passing the letter as parameter
+                });
+            } else myDataStore.load(); // if it is unpressed, reload the dataStore with full list
+        }
+    });
+}  \
+
+
+var myListGrid = new Ext.grid.GridPanel({
+    border: false,
+    store: myDataStore,
+    columns: [
+        {header: 'Name', width: 140, sortable: true, dataIndex: 'name'},
+        {header: 'Zip', width: 35, sortable: true, dataIndex: 'zip'},
+        {header: 'City', width: 90, sortable: true, dataIndex: 'city'},
+        {header: 'Phone', width: 50, sortable: true, dataIndex: 'phone'},
+    ],
+    viewConfig: { forceFit: true, },
+    // only one toolbar can be passed inline
+    tbar: myActionButtonsTopToolbar, // this one has add/delete/refresh buttons
+    bbar: myInfoBottomToolbar,
+});
+
+
+myWindow.show();
+myDataStore.load(); 
+myAlphaTbar = new Ext.Toolbar({ 
+    renderTo: myListGrid.tbar, // that one line did the job!! 
+    items: myAlphaTbarItems, // use formerly created buttons
+}); 
+myListGrid.syncSize(); // don't do that and the toolbar may not appear!
+
+
+Para despresionar los botosnes
+
+for(var i = 65; i < 91; i++) { // unpress the pressed alphaTbarItem toggle Button
+    var myChar = String.fromCharCode(i); // get the char (from A to Z) 
+    var cmp = Ext.getCmp('alphaTbarItem' + myChar); // get the component under that name
+    if (cmp.pressed) cmp.toggle(); // if it's pressed, toggles (unpress) it! 
+}
+
+

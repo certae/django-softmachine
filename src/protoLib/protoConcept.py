@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import operator
 
 from django import forms
 from django.contrib import messages
@@ -16,9 +17,13 @@ from django.template import  RequestContext
 from django.template.loader import get_template 
 from django.utils.translation import gettext as __
 from django.conf import settings
+from django.contrib.admin.sites import  site
+from django.db.models import Q
 
 from protoLib import protoGrid, utilsBase, utilsWeb  
-from protoLib.protoGrid import Q2Dict 
+from protoGrid import Q2Dict, getVisibleFields
+
+from utilsBase import construct_search
 
 
 from django.core import serializers
@@ -109,39 +114,68 @@ def protoGetList(request):
     
 #   Carga la info
     model = getDjangoModel(protoConcept)
-    
-#   Convierte el filtro en un diccionario 
-    if (len (protoFilter) > 0 ):
-        try: protoStmt = eval( protoFilter )
-        except: protoStmt = {'pk':0}
-    else: 
-        protoStmt = {}
+
+#   QSEt 
+    Qs = model.objects.select_related(depth=1)
+    qsFilter = ''
 
 #   El filtro base viene en la configuracion MD 
     if (len (protoFilterBase) > 0 ):
-        try: protoStmtBase = eval( protoFilterBase )
-        except: protoStmtBase = {'pk':0}
-    else: 
-        protoStmtBase = {}
+        try: 
+            protoStmtBase = eval( protoFilterBase )
+            Qs = Qs.filter(**protoStmtBase )
+            qsFilter = protoFilterBase
+        except: 
+            qsFilter = 'Error: ' + qsFilter
+            Qs = Qs.none()
 
-#   Prepara las cols del Query 
-    protoQFields =  tuple(protoQFields[:].split(','))
+
+#   Busqueda Textual ( no viene con ningun tipo de formato solo el texto a buscar 
+    if not protoFilter.startswith( '{' ) and (len( protoFilter) > 0) :
+        model_admin = site._registry.get( model )
+        protoAdmin = getattr(model_admin, 'protoExt', {})
+        pSearchFields = protoAdmin.get( 'searchFields', '') 
+
+        if pSearchFields == '': 
+            pSearchFields = getVisibleFields( protoQFields, model )
+
+        if pSearchFields != '': 
+            qsFilter +=  ' '.join(pSearchFields)  + ':' + protoFilter
+            orm_lookups = [construct_search(str(search_field))
+                           for search_field in pSearchFields]
+        
+            for bit in protoFilter.split():
+                or_queries = [models.Q(**{orm_lookup: bit})
+                              for orm_lookup in orm_lookups]
+                Qs = Qs.filter(reduce(operator.or_, or_queries))
+
+        else:  
+            qsFilter = 'Error: ' + qsFilter
+            Qs = Qs.none()
+
+
+#   Convierte el filtro en un diccionario 
+    elif (len (protoFilter) > 0 ):
+        try: 
+            protoStmt = eval( protoFilter )
+            Qs = Qs.filter(**protoStmt )             
+            qsFilter +=  ' ' + protoFilter
+        except:
+            qsFilter = 'Error: ' + qsFilter
+            Qs = Qs.none()
 
 #   Obtiene las filas del modelo 
 #   valiues, No permite llamar los metodos del modelo
-    pRowsCount = model.objects.filter(**protoStmt ).filter(**protoStmtBase ).count()
-    pRows =      model.objects.\
-        select_related(depth=1).\
-        filter(**protoStmt ).\
-        filter(**protoStmtBase ).\
-        order_by('id')\
-        [ start: page*limit ]
+    pRowsCount = Qs.count()
+    pRows =  Qs.order_by('id')[ start: page*limit ]
 
+#   Prepara las cols del Query 
     pList = Q2Dict(protoQFields , pRows )
 
     context = json.dumps({
             "success": True,
             'totalCount': pRowsCount,
+            'filter': protoFilter,
             'rows': pList,
             })
     

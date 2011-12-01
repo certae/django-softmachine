@@ -31,8 +31,8 @@ def setFieldDict(protoFields ,  field ):
         pField['xtype'] = 'datecolumn' 
         pField['dateFormat'] = 'Y-m-d H:i:s'
         pField['format'] = 'Y-m-d H:i:s'
-
         #pField['editor'] = "new Ext.ux.form.DateTime({hiddenFormat:'Y-m-d H:i', dateFormat:'Y-m-D', timeFormat:'H:i'})"
+
     elif  field.__class__.__name__ == 'DateField':
         pField['type'] = 'date'
         pField['xtype'] = 'datecolumn' 
@@ -53,6 +53,9 @@ def setFieldDict(protoFields ,  field ):
         pField['xtype'] = 'numbercolumn '
         pField['renderer'] = 'function(v) {return (v.toFixed && v.toFixed(2) || 0);}'
         #pField['editor'] = 'new Ext.form.NumberField()'
+
+#    elif  field.__class__.__name__ == 'CharField':
+#        pField['xtype'] = '??'
         
     elif  field.__class__.__name__ == 'ForeignKey':
         # Dafine la columna __unicode__ de la tabla padre, con el header definido y ocultar la columna de la llave 

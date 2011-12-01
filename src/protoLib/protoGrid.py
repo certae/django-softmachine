@@ -66,7 +66,7 @@ class ProtoGridFactory(object):
             self.fields.append(fdict)
             self.QFields +=  ',' + fdict['name'] 
             
-        #Recorta la primera ','  ( Nada elegante, pero funciona )     
+        #Recorta la primera ','       
         self.QFields = self.QFields[1:]
         
     
@@ -131,10 +131,14 @@ def Q2Dict (  QFields, pRows ):
         return the row list from given queryset  
     """
     rows = []
+    QFields =  tuple(QFields[:].split(','))
+
 #   Este es el metodo mas rapido, pero no permite evaluar las funciones objeto  
 #    for reg in pRows:
 #        rows.append(model_to_dict(reg, fields=[field.name for field in reg._meta.fields]))
 #    return rows 
+
+
 
 #   Esta forma permite agregar las funciones entre ellas el __unicode__
     for item in pRows:
@@ -166,3 +170,19 @@ def Q2Dict (  QFields, pRows ):
         
     return rows
 
+
+# Obtiene los campos visibles del modelo base  
+def getVisibleFields(  QFields, model ):
+
+    lFields = ''
+    for fName in QFields.split(','):
+        try: field = model._meta.get_field(fName )
+        except: continue
+        
+        if field.__class__.__name__ == 'CharField':
+            lFields = ',' + fName  
+
+    #Recorta la primera ','       
+    return lFields[1:].split(',')
+
+    
