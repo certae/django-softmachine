@@ -27,6 +27,7 @@ Ext.application({
     // autoCreateViewport: true
     launch: function() {
 
+        Ext.QuickTips.init();
         var app = new ProtoUL.view.Viewport();
         
     }

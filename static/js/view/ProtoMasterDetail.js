@@ -38,11 +38,12 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         tb.doLayout();
         
         // Panel de detalles ==================================================================================
-        var detailEI = Ext.id();
+        var IDprotoTabs = Ext.id();
         var protoTabs = new Ext.TabPanel({
-            id: detailEI
+            id: IDprotoTabs
         });
         
+        this.IDdetailPanel = Ext.id();
         Ext.apply(this, {
             layout: 'border',
             defaults: {
@@ -52,21 +53,20 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             items: [{
                 tbar: tb,
                 region: 'center',
+                flex: 1,
                 layout: 'fit',
                 collapsible: false,
-                items: masterGrid
+                items: masterGrid 
             }, {
+                id: this.IDdetailPanel, 
                 title: 'Details',
                 region: 'south',
+                flex: 1,
                 collapsed: true,
                 layout: 'fit',
-                height: 180,
                 minSize: 75,
-                defaults: {
-                    border: false,
-                    activeTab: 0
-                },
-                items: protoTabs,
+                defaults: { border: false, activeTab: 0 },
+                items: protoTabs 
             }]
         });
 
@@ -117,7 +117,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         function linkDetail() {
     
             ixActiveTab =  _masterDetail.ixActiveTab
-            console.log( '_ LinkDetail tab', ixActiveTab,  _masterDetail.ixActiveTab, ' idM', idMasterGrid,  _masterDetail.idMasterGrid )
+            //console.log( '_ LinkDetail tab', ixActiveTab,  _masterDetail.ixActiveTab, ' idM', idMasterGrid,  _masterDetail.idMasterGrid )
             
             // Verifica q halla un tab activo 
             if (ixActiveTab < 0) { return; }
@@ -152,7 +152,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 //        console.log( 'MenuSelect tab', ixActiveTab, ' idM', idMasterGrid, _masterDetail.idMasterGrid )
 
         var tab = protoTabs.items.findBy(function (i) {
-            return i.title === protoConcept;
+            return i.protoConcept === protoConcept;
         });
         if (!tab) {
         
@@ -206,6 +206,13 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             
 //            console.log( '> createDetailGrid tab', ixActiveTab, ' idM', idMasterGrid )
 
+            var detail = Ext.getCmp(_masterDetail.IDdetailPanel);
+            if ( detail.collapsed  ) { 
+                // detail.height =  _masterDetail.container.dom.clientHeight /2 ; 
+                detail.expand();
+            }; 
+
+
             // Definicion grilla Detail  ============================================================================= 
             var detailGrid = Ext.create('ProtoUL.view.ProtoGrid', {
                 protoConcept : protoConcept,  
@@ -224,7 +231,9 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
             var tab = protoTabs.add({
                 title: item.text ,
+                protoConcept : protoConcept ,
                 layout: 'fit',
+                closable: true, 
                 items: detailGrid,
                 ixTab: item.ixTab
             });
@@ -234,23 +243,14 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         
         function setActiveDetail (tab, ixTab ) {
 
+
             ixActiveTab = item.ixTab;
             protoTabs.setActiveTab(tab);
     
-//            console.log( '< setActiveDetail', ixActiveTab, _masterDetail.ixActiveTab  )
+           // console.log( '< setActiveDetail', ixActiveTab, _masterDetail.ixActiveTab, _masterDetail.IDdetailPanel  )
             _masterDetail.ixActiveTab = ixActiveTab;
 
-//            toggleDetail( true );
 
-        };
-
-        function toggleDetail(show){
-            var detail = _masterDetail.child('#Details');
-            if (show) {
-                detail.show();
-            } else {
-                detail.hide();
-            }
         };
         
     },

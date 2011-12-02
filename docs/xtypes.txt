@@ -1,3 +1,44 @@
+Ejemplos 
+
+http://dev.sencha.com/deploy/ext-4.0.0/examples/grid/array-grid.html
+
+Guarda el estado ( reload  )  
+tiene iconos en cada linea, dependientes de algun valor 
+Formate los valores 
+usa el hoover al pasar sobre cada linea 
+
+
+http://dev.sencha.com/deploy/ext-4.0.0/examples/grid/paging.html
+
+Maneja botones en la barra inferior, 
+Maneja linea de descripcion adicional   
+Maneja links en los campos 
+
+http://dev.sencha.com/deploy/ext-4.0.0/examples/grid/groupgrid.html
+
+Manejo de grupos segun algun(os) campo(s)  *** 
+
+    var groupingFeature = Ext.create('Ext.grid.feature.Grouping',{
+        groupHeaderTpl: 'Cuisine: {name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})'
+    });
+
+
+    var grid = Ext.create('Ext.grid.Panel', {
+        ... 
+        features: [groupingFeature],
+        columns: [{
+            ...
+        }],
+        fbar  : ['->', {
+            text:'Clear Grouping',
+            iconCls: 'icon-clear-group',
+            handler : function(){
+                groupingFeature.disable();
+            }
+        }]
+    });
+
+
 xtype Class
 ------------- ------------------
 button Ext.button.Button
