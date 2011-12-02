@@ -4,7 +4,8 @@
  * -  - model ( reader )  *** 
  */
 Ext.define('ProtoUL.view.ProtoGrid' ,{
-    extend: 'Ext.grid.Panel',
+    extend: 'Ext.container.Container',
+    // extend: 'Ext.grid.Panel',
     alias : 'widget.protoGrid',
     
     //DGT**  
@@ -13,10 +14,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     //requires: ['Ext.toolbar.Paging'],
     // iconCls: 'icon-grid',
 
-	initComponent: function() {
+    initComponent: function() {
         //console.log ( this.protoConcept + '  grid init'  ); 
 
-		// Recupera la clase para obtener la meta ------------------------------------------
+        // Recupera la clase para obtener la meta ------------------------------------------
         var myMeta = _cllPCI[ this.protoConcept ] ; 
 
         var modelClassName = _PConfig.clsBaseModel + this.protoConcept ; 
@@ -28,14 +29,14 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         // VErifica si el store viene como parametro ( Detail )
         if (typeof this.protoFilterBase == 'undefined') {
             var myFilter = '{"pk" : 0,}'            
-	        // TODO: Agregar parametro Autoload
-	        var myFilter = ''
+            // TODO: Agregar parametro Autoload
+            var myFilter = ''
         } else {
             var myFilter = ''
         };   
         
         //console.log (  this.protoConcept, ' Loading store ...  '  ); 
-        var myStore = Ext.create('Ext.data.Store', {
+        this.store = Ext.create('Ext.data.Store', {
             model : modelClassName, 
             autoLoad: true,
             pageSize: _PAGESIZE,
@@ -68,7 +69,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                     
         });
 
-        myStore.proxy.actionMethods.read = 'POST';
+        this.store.proxy.actionMethods.read = 'POST';
 
 
         // Definicion de Columnas y Fields        ------------------------------------------
@@ -97,33 +98,89 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         }
         
         // myColumns = [{"xtype":"rownumberer","width":30},{"text":"ID","sortable":true,"dataIndex":"id","hidden":true},{"text":"First Name","sortable":true,"dataIndex":"first","editor":{"xtype":"textfield"}},{"text":"Last Name","sortable":true,"dataIndex":"last","editor":{"xtype":null}},{"text":"Email","sortable":true,"dataIndex":"email","editor":{"xtype":"textfield"}}]; 
-                
-        this.columns = myColumns;  
-        this.store = myStore; 
-        this.dockedItems = [{
-            xtype: 'pagingtoolbar',
-            dock:'bottom',
-            store: myStore,
-            displayInfo: true,
-            displayMsg: 'Displaying  {0} - {1} of {2}',
-            emptyMsg: "No register to display"
-        },];
+        var grid = Ext.create('Ext.grid.Panel', {
+            columns : myColumns,   
+            store : this.store,  
+            // dockedItems : [{
+                // xtype: 'pagingtoolbar',
+                // dock:'bottom',
+                // store: this.store,
+                // displayInfo: true,
+                // displayMsg: '{0} - {1} of {2}',
+                // // emptyMsg: "No register to display"
+            // },],
+
+            listeners: {
+                scope: this,
+                itemClick: this.onItemClick
+            }
+            
+        }); 
+
+//-----------
+        var IDfiche = Ext.id();
+
+        Ext.apply(this, {
+            layout: 'border',
+            defaults: {
+                collapsible: false,
+                split: false
+            },
+            items: [{
+                region: 'center',
+                flex: 1,
+                layout: 'fit',
+                minSize: 50,
+                items: grid 
+            }, {
+                id: IDfiche, 
+                title: 'Fiche',
+                region: 'east',
+                flex: 1,
+                collapsible: true,
+                split: true,
+                collapsed: false,
+                layout: 'fit',
+                minSize: 50,
+                html: 'Texto xxx' 
+            },{
+                xtype: 'pagingtoolbar',
+                region: 'south',
+                store: this.store,
+                displayInfo: true,
+                displayMsg: 'Total {2}',
+                // emptyMsg: "No register to display"
+            }
+            ],
+        });
+
+
+//------        
+        this.addEvents(
+            'itemClick'
+        );
 
         
         this.callParent(arguments);
 
-        // listeners: {
-            // itemclick: function () {
-                // var data = grid_company.getSelectionModel().selected.items[0].data;
-                // grid_product.setTitle(data.name + ' Products List');
-                // store_product.clearFilter();
-                // store_product.filter('company_id', data.id);
-                // store_product.load();
-            // }
-        // }
+        //  Datos en el Store this.store.getAt(index)
+        // var data = grid_company.getSelectionModel().selected.items[0].data;
+        // grid_product.setTitle(data.name + ' Products List');
+        
+        grid.on({
+            itemClick: {fn: function (g, rowIndex, e) {
+                console.log ( g, rowIndex   ); 
+                }, 
+            scope: this },
+        });                 
 
-	},
-	
+
+    },
+    
+    onItemClick: function (g, rowIndex, e) {
+        this.fireEvent('itemClick', g, rowIndex, e);
+    }
+    
 });
 
 

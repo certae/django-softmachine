@@ -168,6 +168,10 @@ def Q2Dict (  QFields, pRows ):
         rowdict[ 'id'] = item.pk 
         rows.append(rowdict)
         
+#        if bFiche: 
+        if item.udp_set.exists():
+            pass
+        
     return rows
 
 

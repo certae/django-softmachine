@@ -1,0 +1,371 @@
+Ejemplos 
+
+http://dev.sencha.com/deploy/ext-4.0.0/examples/grid/array-grid.html
+-----------------------------------------------------------------------
+
+Guarda el estado ( reload  )  
+tiene iconos en cada linea, dependientes de algun valor 
+Formate los valores 
+usa el hoover al pasar sobre cada linea 
+
+
+http://dev.sencha.com/deploy/ext-4.0.0/examples/grid/paging.html
+-----------------------------------------------------------------------
+
+Maneja botones en la barra inferior, 
+Maneja linea de descripcion adicional   
+Maneja links en los campos 
+
+        bbar: Ext.create('Ext.PagingToolbar', {
+            store: store,
+            displayInfo: true,
+            displayMsg: 'Displaying topics {0} - {1} of {2}',
+            emptyMsg: "No topics to display",
+            items:[
+                '-', {
+                text: 'Show Preview',
+                pressed: pluginExpanded,
+                enableToggle: true,
+                toggleHandler: function(btn, pressed) {
+                    var preview = Ext.getCmp('gv').getPlugin('preview');
+                    preview.toggleExpanded(pressed);
+                }
+            }]
+        }),
+  
+
+http://dev.sencha.com/deploy/ext-4.0.0/examples/grid/groupgrid.html
+-----------------------------------------------------------------------
+
+Manejo de grupos segun algun(os) campo(s)  *** 
+
+    var groupingFeature = Ext.create('Ext.grid.feature.Grouping',{
+        groupHeaderTpl: 'Cuisine: {name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})'
+    });
+
+
+    var grid = Ext.create('Ext.grid.Panel', {
+        ... 
+        features: [groupingFeature],
+        columns: [{
+            ...
+        }],
+        fbar  : ['->', {
+            text:'Clear Grouping',
+            iconCls: 'icon-clear-group',
+            handler : function(){
+                groupingFeature.disable();
+            }
+        }]
+    });
+
+
+http://dev.sencha.com/deploy/ext-4.0.0/examples/grid/grid-plugins.html
+-----------------------------------------------------------------------
+
+
+		columns: [.. ], 
+        plugins: [{
+            ptype: 'rowexpander',
+            rowBodyTpl : [
+                '<p><b>Company:</b> {company}</p><br>',
+                '<p><b>Summary:</b> {desc}</p>'
+            ]
+        
+----
+        
+	var sm = Ext.create('Ext.selection.CheckboxModel', {
+        listeners: {
+            selectionchange: function(sm, selections) {
+                grid4.down('#removeButton').setDisabled(selections.length == 0);
+            }
+        }
+    });
+
+    var grid2 = Ext.create('Ext.grid.Panel', {
+        selModel: sm,
+		... 
+
+        // inline buttons
+        dockedItems: [{
+            xtype: 'toolbar',
+            dock: 'bottom',
+            ui: 'footer',
+            layout: {
+                pack: 'center'
+            },
+            items: [{
+                minWidth: 80,
+                text: 'Save'
+            },{
+                minWidth: 80,
+                text: 'Cancel'
+            }]
+        }, {
+            xtype: 'toolbar',
+            items: [{
+                text:'Add Something',
+                tooltip:'Add a new row',
+                iconCls:'add'
+            }, '-', {
+                text:'Options',
+                tooltip:'Set options',
+                iconCls:'option'
+            },'-',{
+                itemId: 'removeButton',
+                text:'Remove Something',
+                tooltip:'Remove the selected item',
+                iconCls:'remove',
+                disabled: true
+            }]
+        }],        
+
+
+http://dev.sencha.com/deploy/ext-4.0.0/examples/grid-filtering/grid-filter-local.html
+-----------------------------------------------------------------------
+
+** Agrega botones en el botton
+** Reconfigura las columnas  
+
+   var grid = Ext.create('Ext.grid.Panel', {
+        border: false,
+        store: store,
+        columns: createHeaders(4),    // ***********
+        loadMask: true,
+        features: [filters],
+        bbar: Ext.create('Ext.toolbar.Paging', {
+            store: store
+        })
+    });
+
+    // add some buttons to bottom toolbar just for demonstration purposes
+    grid.child('[dock=bottom]').add([
+        '->',
+        {
+            text: 'Encode: ' + (encode ? 'On' : 'Off'),
+            tooltip: 'Toggle Filter encoding on/off',
+            enableToggle: true,
+            handler: function (button, state) {
+                var encode = (grid.filters.encode !== true);
+                var text = 'Encode: ' + (encode ? 'On' : 'Off'); 
+                grid.filters.encode = encode;
+                grid.filters.reload();
+                button.setText(text);
+            } 
+        },{
+            text: 'Add Columns',									// ***********************
+            handler: function () {
+                if (grid.headerCt.items.length < 6) {
+                    grid.headerCt.add(createHeaders(6, 4));
+                    grid.view.refresh();
+                    this.disable();
+                }
+            }
+        }    
+    ]);
+
+    // use a factory method to reduce code while demonstrating
+    // that the GridFilter plugin may be configured with or without
+    // the filter types (the filters may be specified on the column model
+    var createHeaders = function (finish, start) {
+
+        var columns = [{
+            dataIndex: 'id',
+			...
+            }
+        }];
+
+        return columns;
+    };
+
+
+
+http://dev.sencha.com/deploy/ext-4.0.0/examples/grid/binding.html
+-----------------------------------------------------------------------
+
+Bindigs, Templates 
+
+    // define a template to use for the detail view
+    var bookTplMarkup = [
+        'Title: <a href="{DetailPageURL}" target="_blank">{Title}</a><br/>',
+        'Author: {Author}<br/>',
+        'Manufacturer: {Manufacturer}<br/>',
+        'Product Group: {ProductGroup}<br/>'
+    ];
+    var bookTpl = Ext.create('Ext.Template', bookTplMarkup);
+
+... Panel
+        items: [
+            grid, 
+        {
+            id: 'detailPanel',
+            region: 'center',
+            bodyPadding: 7,
+            bodyStyle: "background: #ffffff;",
+            html: 'Please select a book to see additional details.'
+        }]
+
+
+    // update panel body on selection change
+    grid.getSelectionModel().on('selectionchange', function(sm, selectedRecord) {
+        if (selectedRecord.length) {
+            var detailPanel = Ext.getCmp('detailPanel');
+            bookTpl.overwrite(detailPanel.body, selectedRecord[0].data);
+        }
+    });
+
+
+
+http://dev.sencha.com/deploy/ext-4.0.0/examples/grid/multiple-sorting.html
+-----------------------------------------------------------------------
+
+****  Espectacular MAnejo de sort haciendo drag de los encabezados sobre la barra 
+
+
+
+http://dev.sencha.com/deploy/ext-4.0.0/examples/grid/group-summary-grid.html
+
+Editable con totales 
+
+
+http://dev.sencha.com/deploy/ext-4.0.0/examples/grid/live-search-grid.html
+-----------------------------------------------------------------------
+
+
+Busca en el texto y resalta los valores coincidentes, ***
+
+
+
+http://dev.sencha.com/deploy/ext-4.0.0/examples/writer/writer.html
+-----------------------------------------------------------------------
+
+***********     MAnejo de edicion completa en una forma independiente
+
+
+http://dev.sencha.com/deploy/ext-4.0.0/examples/tree/treegrid.html
+
+**  Grilla jerarquica 
+
+
+http://dev.sencha.com/deploy/ext-4.0.0/examples/menu/action-grid.html
+-----------------------------------------------------------------------
+
+
+Acciones con click derecho en la grilla 
+
+http://dev.sencha.com/deploy/ext-4.0.0/examples/form/forum-search.html
+-----------------------------------------------------------------------
+
+Combo con template de varias columnas, descripcion y paginas  ( grilla completa ) 
+
+
+
+====================================================================================
+xtype Class
+------------- ------------------
+button Ext.button.Button
+buttongroup Ext.container.ButtonGroup
+colorpalette Ext.picker.Color
+component Ext.Component
+container Ext.container.Container
+cycle Ext.button.Cycle
+dataview Ext.view.View
+datepicker Ext.picker.Date
+editor Ext.Editor
+editorgrid Ext.grid.plugin.Editing
+grid Ext.grid.Panel
+multislider Ext.slider.Multi
+panel Ext.panel.Panel
+progress Ext.ProgressBar
+slider Ext.slider.Single
+spacer Ext.toolbar.Spacer
+splitbutton Ext.button.Split
+tabpanel Ext.tab.Panel
+treepanel Ext.tree.Panel
+viewport Ext.container.Viewport
+window Ext.window.Window
+
+Toolbar components
+---------------------------------------
+paging Ext.toolbar.Paging
+toolbar Ext.toolbar.Toolbar
+tbfill Ext.toolbar.Fill
+tbitem Ext.toolbar.Item
+tbseparator Ext.toolbar.Separator
+tbspacer Ext.toolbar.Spacer
+tbtext Ext.toolbar.TextItem
+
+Menu components
+---------------------------------------
+menu Ext.menu.Menu
+menucheckitem Ext.menu.CheckItem
+menuitem Ext.menu.Item
+menuseparator Ext.menu.Separator
+menutextitem Ext.menu.Item
+
+Form components
+---------------------------------------
+form Ext.form.Panel
+checkbox Ext.form.field.Checkbox
+combo Ext.form.field.ComboBox
+datefield Ext.form.field.Date
+displayfield Ext.form.field.Display
+field Ext.form.field.Base
+fieldset Ext.form.FieldSet
+hidden Ext.form.field.Hidden
+htmleditor Ext.form.field.HtmlEditor
+label Ext.form.Label
+numberfield Ext.form.field.Number
+radio Ext.form.field.Radio
+radiogroup Ext.form.RadioGroup
+textarea Ext.form.field.TextArea
+textfield Ext.form.field.Text
+timefield Ext.form.field.Time
+trigger Ext.form.field.Trigger
+
+Chart components
+---------------------------------------
+chart Ext.chart.Chart
+barchart Ext.chart.series.Bar
+columnchart Ext.chart.series.Column
+linechart Ext.chart.series.Line
+piechart Ext.chart.series.Pie
+
+
+================================================================
+
+
+fbar : Object/Object[]
+Convenience config used for adding items to the bottom of the panel. Short for Footer Bar.
+
+fbar: [
+  { type: 'button', text: 'Button 1' }
+]
+is equivalent to
+
+dockedItems: [{
+    xtype: 'toolbar',
+    dock: 'bottom',
+    ui: 'footer',
+    defaults: {minWidth: minButtonWidth},
+    items: [
+        { xtype: 'component', flex: 1 },
+        { xtype: 'button', text: 'Button 1' }
+    ]
+}]
+
+-----------------------
+
+bbar: [
+  { xtype: 'button', text: 'Button 1' }
+]
+
+is equivalent to
+
+dockedItems: [{
+    xtype: 'toolbar',
+    dock: 'bottom',
+    items: [
+        { xtype: 'button', text: 'Button 1' }
+    ]
+}]
