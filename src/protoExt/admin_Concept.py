@@ -40,4 +40,40 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
         {'menuText': 'Associations', 'conceptDetail': 'protoExt.Relationship', 'detailField': 'concept__pk', 'masterField': 'pk'}, 
         {'menuText': 'Udp', 'conceptDetail': 'protoExt.Udp', 'detailField': 'metaObj__pk', 'masterField': 'pk'}, 
         ]
+
+    # Define la apariencia de los campos en la grilla,  
+    # model__code es un campo proveniente de un FK, ( absorbido, join ) 
+    # upd__format es un campo proveniente de una propiedad personalizada ( UDP )  
+    protoExt[ 'protoFields' ] =  {        
+          'code': {'header' : 'Concept', 'type': 'CharField' ,  'sortable' : True, 'filterable' : True, 'width': 300 },
+          'model__code': {'header' : 'Model', 'type': 'CharField' ,  'sortable' : True, 'filterable' : True, 'width': 300 },  
+            
+          'udp__format': {'header' : 'Format', 'type': 'CharField' , 'width': 300 },  
+          'udp__alias': {'header' : 'Alias', },  
+     }
+
+    protoExt['protoViews'] = [
+            { 'viewName': 'default', 
+              'viewFields': ( 'model__code', 'code',  'description',  'udp__format', 'udp__gabarit'  )},
+            { 'viewName': 'resume', 
+              'viewFields': ( 'model__code', 'code',  )},
+                                ]
+
+    
+    protoExt[ 'protoUdp' ] =   { 
+        'udpTable': 'udp', 'udpFk': 'metaObj', 'basePk': 'id', 
+        'propertyName': 'code', 
+        'propertyValue': 'valueUdp', 
+        'propertyPrefix' : 'udp', 
+        'properties' : ( 'format', 'alias', 'longueur', 'gabarit'), 
+         },
+
+    
+    protoExt[ 'protoSheet' ] =  {        
+          'property': ( 'code', 'description', 'format', 'udp__' ),   
+          'udp': 
+          'udp': { 'table': 'udp', 'udpFk': 'metaObj', 'basePk': 'id' }, 
+     }
+
+    
     
