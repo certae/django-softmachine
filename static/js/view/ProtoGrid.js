@@ -118,7 +118,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         }); 
 
 //-----------
-        var IDfiche = Ext.id();
+        this.IdeSheet = Ext.id();
 
         Ext.apply(this, {
             layout: 'border',
@@ -133,7 +133,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 minSize: 50,
                 items: grid 
             }, {
-                id: IDfiche, 
+                id: this.IdeSheet, 
                 title: 'Fiche',
                 region: 'east',
                 flex: 1,
@@ -169,11 +169,39 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         grid.on({
             itemClick: {fn: function (g, rowIndex, e) {
-                console.log ( g, rowIndex   ); 
+                // console.log ( g, rowIndex   );
+                this.rowData = this.store.getAt(rowIndex.index)
+                
+                prepareSheet( this )
+                 
                 }, 
             scope: this },
         });                 
 
+
+        function prepareSheet( me ){
+
+            var pSheet = myMeta.protoSheet;
+            if (pSheet.properties == undefined) {
+              return  
+            };
+
+            var pTemplate = pSheet.template
+
+            for (var ix in pSheet.properties  ) {
+                var vFld  =  pSheet.properties[ix]; 
+
+                var pKey = '{{' + vFld + '}}';
+                var pValue =  me.rowData.data[ vFld ];
+                pTemplate = pTemplate.replace( pKey , pValue  ); 
+
+            }
+
+            var sheet = Ext.getCmp( me.IdeSheet );
+            // sheet.html = pTemplate; 
+            sheet.update( pTemplate );
+
+        }
 
     },
     

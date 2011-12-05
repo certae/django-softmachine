@@ -61,12 +61,3 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
               'viewFields': ( 'model__code', 'code',  )},
                                 ]
     
-    TEMPLATE =  '<b>Fiche Techinique<b><br>' 
-    TEMPLATE += 'Codigo: {{code}}<br>'
-    TEMPLATE += 'Description {{description}}<br>'  
-    TEMPLATE += 'Gabarit : {{udp_gabarit}}'
-    
-    protoExt[ 'protoSheet' ] =  {        
-          'properties': ( 'code', 'description', 'udp__format', 'udp__gabarit' ),   
-          'template': TEMPLATE }  
-    

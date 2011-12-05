@@ -151,9 +151,6 @@ def Q2Dict (  QFields, pRows , protoAdmin ):
         lsProperties =  pUDP['properties']
                 
 
-    pSheet = protoAdmin.get( 'protoSheet', {}) 
-
-
 
 #   Esta forma permite agregar las funciones entre ellas el __unicode__
     for item in pRows:
@@ -200,8 +197,6 @@ def Q2Dict (  QFields, pRows , protoAdmin ):
                     if prpGridName in lsProperties:
                         rowdict[ prpPrefix +'__' + prpGridName ] = getattr( lUpd, prpValue, '' )
                 
-        if pSheet:
-            pass 
 
         # Agrega la fila al diccionario
         #Agrega el Id Siempre como idInterno ( no representa una col, idProperty ) 

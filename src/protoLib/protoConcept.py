@@ -58,7 +58,8 @@ def protoGetPCI(request):
 
         base_fields = grid.get_fields( None )
         protoDetails = grid.get_details()
-        
+        protoSheet = grid.protoAdmin.get( 'protoSheet', {}) 
+
         #busca el id en la META
 #       id_field = model._meta.pk.name
         id_field = u'id'
@@ -81,6 +82,7 @@ def protoGetPCI(request):
                 'fields': base_fields, 
 #                'protoTabs':[{'T1': ['Col1','Col2']},  {'T2': ['Col3','Col2']},],     
                 'protoDetails': protoDetails, 
+                'protoSheet': protoSheet, 
             },
             'rows':[],
             'totalCount': pRowsCount, 

@@ -41,3 +41,13 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
           'udp__DEFINITION': {'header' : 'Definition', 'type': 'CharField' , 'width': 300 },  
           'udp__gabarit': {'header' : 'Gabarit', },  
      }
+
+    TEMPLATE =  'Fiche Techinique<br>' 
+    TEMPLATE += 'Codigo      : {{code}}<br>'
+    TEMPLATE += 'Description : {{description}}<br>'  
+    TEMPLATE += 'Definition  : {{udp__DEFINITION}}'
+    
+    protoExt[ 'protoSheet' ] =  {        
+          'properties': ( 'code', 'description', 'udp__DEFINITION'  ),   
+          'template': TEMPLATE }  
+    
