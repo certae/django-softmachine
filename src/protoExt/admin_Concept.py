@@ -35,6 +35,8 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
     protoExt = {}
     protoExt[ 'description' ] = 'Esta es la description del concpeto concepto'
     protoExt[ 'menu_index' ] = 0
+    
+    # El concept detail es el nmbre del modelo con su app de base [app].[modelo]
     protoExt[ 'protoDetails' ] = [
         {'menuText': 'Elements De Donnees', 'conceptDetail': 'protoExt.Property', 'detailField': 'concept__pk', 'masterField': 'pk'}, 
         {'menuText': 'Associations', 'conceptDetail': 'protoExt.Relationship', 'detailField': 'concept__pk', 'masterField': 'pk'}, 
@@ -58,22 +60,13 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
             { 'viewName': 'resume', 
               'viewFields': ( 'model__code', 'code',  )},
                                 ]
-
     
-    protoExt[ 'protoUdp' ] =   { 
-        'udpTable': 'udp', 'udpFk': 'metaObj', 'basePk': 'id', 
-        'propertyName': 'code', 
-        'propertyValue': 'valueUdp', 
-        'propertyPrefix' : 'udp', 
-        'properties' : ( 'format', 'alias', 'longueur', 'gabarit'), 
-         },
-
+    TEMPLATE =  '<b>Fiche Techinique<b><br>' 
+    TEMPLATE += 'Codigo: {{code}}<br>'
+    TEMPLATE += 'Description {{description}}<br>'  
+    TEMPLATE += 'Gabarit : {{udp_gabarit}}'
     
     protoExt[ 'protoSheet' ] =  {        
-          'property': ( 'code', 'description', 'format', 'udp__' ),   
-          'udp': 
-          'udp': { 'table': 'udp', 'udpFk': 'metaObj', 'basePk': 'id' }, 
-     }
-
-    
+          'properties': ( 'code', 'description', 'udp__format', 'udp__gabarit' ),   
+          'template': TEMPLATE }  
     

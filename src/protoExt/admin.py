@@ -25,33 +25,7 @@ admin.site.register(Concept, Concept_Admin)
 #    list_display obliga la definicion ya sea en el modelo o como funcion    
 
 
-class PropertyAdmin(django.contrib.admin.ModelAdmin):
-    verbose_name_plural = 'Elements de donnees' 
-    list_display =( 'model_concept', 'concept', 'code',  'description',  'baseType','superProperty', 'alias')
-    list_filter = ( 'concept__model', )
-    search_fields = ( 'code', 'superProperty', 'alias') 
-    fieldsets = (
-        (None, {
-            'fields': [
-            ( 'concept', 'code', 'baseType', 'length', 'decLength',  
-              'isNullable', 'isRequired', 
-#              'isSensitive', 'isEssential' 
-              )
-                       ]
-        }),
-    )
-
-    inlines = [
-        UpdInline,
-        ]
-
-    protoExt = {}
-    protoExt[ 'protoDetails' ] = [
-        {'menuText': 'Udp', 'conceptDetail': 'protoExt.Udp', 'detailField': 'metaObj__pk', 'masterField': 'pk'}, 
-        ]
-
-
-
+from admin_Property import PropertyAdmin
 admin.site.register(Property, PropertyAdmin)
 
 #---------------  
@@ -67,15 +41,8 @@ admin.site.register(Relationship, RelationshipAdmin)
 
 
 
-class UdpAdmin(django.contrib.admin.ModelAdmin):
-    list_display =( 'metaObj', 'code', 'objType' )
-    list_filter = ( 'code', )
-    search_fields = ( 'code', 'valueUdp')
-    index = 1   
-
-
+from admin_Udp import UdpAdmin 
 admin.site.register(Udp, UdpAdmin)
-
 
 class MetaLinkAdmin(django.contrib.admin.ModelAdmin):
     verbose_name_plural = 'Modeles de liens Detail' 

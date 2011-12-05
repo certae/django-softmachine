@@ -38,8 +38,6 @@ class MetaObj(models.Model):
     code.protoExt = {}
     code.protoExt[ 'width' ] = 200
 
-
-
     def __unicode__(self):
         return self.code 
 
@@ -203,8 +201,8 @@ class Udp(models.Model):
     indexUdp = models.IntegerField(blank = True, null = True)
     metaObj = models.ForeignKey('MetaObj')
 
-    def objType(self):
-        return self.metaObj.objType
+#    def objType(self):
+#        return self.metaObj.objType
 
     def __unicode__(self):
         return (strNotNull(self.metaObj.code) + '.' + strNotNull(self.code))

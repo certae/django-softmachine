@@ -139,7 +139,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 flex: 1,
                 collapsible: true,
                 split: true,
-                collapsed: false,
+                collapsed: true,
                 layout: 'fit',
                 minSize: 50,
                 html: 'Texto xxx' 

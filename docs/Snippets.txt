@@ -32,7 +32,7 @@ search_fields
    model.objects[.filter().exclude() ].values('achievements__name', 'achievement__points')
 
    - values(*fields)         ---------------------
-     Returns a ValuesQuerySet — a QuerySet subclass that returns dictionaries when used as an iterable, rather than model-instance objects.
+     Returns a ValuesQuerySet ï¿½ a QuerySet subclass that returns dictionaries when used as an iterable, rather than model-instance objects.
 
      >>> Blog.objects.filter(name__startswith='Beatles')
      [<Blog: Beatles Blog>]
@@ -211,3 +211,9 @@ for(var i = 65; i < 91; i++) { // unpress the pressed alphaTbarItem toggle Butto
 }
 
 
+
+
+#   Este es el metodo mas rapido, pero no permite evaluar las funciones objeto  
+#    for reg in pRows:
+#        rows.append(model_to_dict(reg, fields=[field.name for field in reg._meta.fields]))
+#    return rows 

@@ -1,0 +1,49 @@
+'header', 'String', '')
+'hidden', 'Boolean', False)
+'filterable', 'Boolean', True )
+    getProperty( pField, modelField, 'sortable', 'Boolean', True )
+    getProperty( pField, modelField, 'width', 'Numeric', 0 )
+    getProperty( pField, modelField, 'align', 'String', '' )
+    getProperty( pField, modelField, 'tooltip', 'String', '' )
+    getProperty( pField, modelField, 'flex', 'Numeric', 0 )
+
+
+    getProperty( pField, modelField, 'header', 'String', '')
+    getProperty( pField, modelField, 'hidden', 'Boolean', False)
+    getProperty( pField, modelField, 'filterable', 'Boolean', True )
+    getProperty( pField, modelField, 'sortable', 'Boolean', True )
+    getProperty( pField, modelField, 'width', 'Numeric', 0 )
+    getProperty( pField, modelField, 'align', 'String', '' )
+    getProperty( pField, modelField, 'tooltip', 'String', '' )
+    getProperty( pField, modelField, 'flex', 'Numeric', 0 )
+
+    
+    #LLamados de configuracion,  
+#ya no son necesarios pues todo el manejo sera parametrizado en  admin y el recorrido se hace en la coleccion 
+
+
+def getProperty( pField, modelField, udpCode , udpType, udpDefault ):
+
+    # El atributo ya fue definido en el admin
+    if pField.get( udpCode, '') != '': 
+        return 
+
+    udpReturn = udpDefault
+    try:
+        udpReturn = modelField.get( udpCode , udpDefault )
+        if ( udpType == 'Boolean' ):
+            if (udpReturn[0].lower() in ( 't','y','o', '1')): 
+                udpReturn = True
+            else: udpReturn = False 
+
+        if ( udpType == 'Numeric' ):
+            try:
+                udpReturn = int( udpReturn  )
+            except: udpReturn = udpDefault
+
+        if (udpReturn != udpDefault ): 
+            pField[udpCode] = udpReturn   
+    except: 
+        pass
+    return 
+    

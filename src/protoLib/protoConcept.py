@@ -96,6 +96,8 @@ def protoGetPCI(request):
 def protoGetList(request):
 #   Vista simple para cargar la informacion, 
     
+    PAGESIZE = 20
+    
     if request.method == 'POST':
 
         protoConcept = request.POST.get('protoConcept', '')
@@ -104,7 +106,7 @@ def protoGetList(request):
         protoQFields = request.POST.get('queryFields', '')
         
         start = int(request.POST.get('start', 0))
-        limit = int(request.POST.get('limit', 100))
+        limit = int(request.POST.get('limit', PAGESIZE ))
         page = int(request.POST.get('page', 1))
 
         sort = request.POST.get('sort', 'id')
@@ -114,6 +116,10 @@ def protoGetList(request):
     
 #   Carga la info
     model = getDjangoModel(protoConcept)
+
+#   Carga las definiciones  
+    model_admin = site._registry.get( model )
+    protoAdmin = getattr(model_admin, 'protoExt', {})
 
 #   QSEt 
     Qs = model.objects.select_related(depth=1)
@@ -132,8 +138,6 @@ def protoGetList(request):
 
 #   Busqueda Textual ( no viene con ningun tipo de formato solo el texto a buscar 
     if not protoFilter.startswith( '{' ) and (len( protoFilter) > 0) :
-        model_admin = site._registry.get( model )
-        protoAdmin = getattr(model_admin, 'protoExt', {})
         pSearchFields = protoAdmin.get( 'searchFields', '') 
 
         if pSearchFields == '': 
@@ -170,7 +174,7 @@ def protoGetList(request):
     pRows =  Qs.order_by('id')[ start: page*limit ]
 
 #   Prepara las cols del Query 
-    pList = Q2Dict(protoQFields , pRows )
+    pList = Q2Dict(protoQFields , pRows, protoAdmin )
 
     context = json.dumps({
             "success": True,

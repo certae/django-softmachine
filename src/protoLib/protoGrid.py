@@ -28,7 +28,9 @@ class ProtoGridFactory(object):
         self.protoModel = getattr(model, 'protoExt', {})
         self.protoAdmin = getattr(self.model_admin, 'protoExt', {})
         self.protoFields = self.protoAdmin.get( 'protoFields', {}) 
-
+        
+        protoExclude = self.protoAdmin.get( 'protoExclude', ())
+         
         excludes =  verifyList( getattr(self.model_admin , 'exclude', [])) 
         list_display = verifyList( getattr(self.model_admin , 'list_display', []))[:]
 
@@ -42,21 +44,26 @@ class ProtoGridFactory(object):
 
 #       WHY: Por alguna Ext no retiene el IdProperty ( idInternal al hacer click en las filas )     
 #       idName = model._meta.pk.name   
-
         
+        
+        # La lista de campos del admin sirve de base 
         if len( list_display ) > 0 :   
             for fName in list_display:
+                if fName in protoExclude: continue
                 try: field = self.model._meta.get_field(fName )
                 except: continue
                 setFieldDict (  self.protoFields , field )
+                
+        # Se crean los campos con base al modelo 
         else:
 
             for field in self.model._meta._fields():
+                if field.name in protoExclude: continue
                 if field.name in excludes: continue
                 setFieldDict (  self.protoFields , field )
 
 
-
+        # Genera la lista de campos y agrega el nombre al diccionario 
         for key in self.protoFields:        
 
             fdict = self.protoFields[ key ]
@@ -126,17 +133,25 @@ class ProtoGridFactory(object):
 
 
 # Obtiene el diccionario basado en el Query Set 
-def Q2Dict (  QFields, pRows ):
+def Q2Dict (  QFields, pRows , protoAdmin ):
     """ 
         return the row list from given queryset  
     """
+
     rows = []
     QFields =  tuple(QFields[:].split(','))
 
-#   Este es el metodo mas rapido, pero no permite evaluar las funciones objeto  
-#    for reg in pRows:
-#        rows.append(model_to_dict(reg, fields=[field.name for field in reg._meta.fields]))
-#    return rows 
+
+    pUDP = protoAdmin.get( 'protoUdp', {}) 
+    if pUDP:
+        udpTable = pUDP['udpTable'] 
+        prpName = pUDP['propertyName'] 
+        prpValue = pUDP['propertyValue'] 
+        prpPrefix = pUDP['propertyPrefix']
+        lsProperties =  pUDP['properties']
+                
+
+    pSheet = protoAdmin.get( 'protoSheet', {}) 
 
 
 
@@ -144,17 +159,25 @@ def Q2Dict (  QFields, pRows ):
     for item in pRows:
         rowdict = {}
         for fName in QFields:
+            # UDP Se evaluan despues 
+            if pUDP and fName.startswith( prpPrefix + '__'): 
+                continue  
+            
             #Es una funcion 
             if ( _PROTOFN_ in fName ):
                 try: 
                     val = eval( 'item.' + fName.replace( _PROTOFN_,'.') + '()'  )
                     val = verifyStr(val , '' )
                 except: val = 'fn?'
-            elif ( '__' in fName ) :
+                
+            # Campo Absorbido
+            elif ( '__' in fName ):
                 try: 
                     val = eval( 'item.' + fName.replace( '__', '.'))
                     val = verifyStr(val , '' )
                 except: val = 'fn?'
+
+            # Campo del modelo                 
             else:
                 try:
                     val = getattr( item, fName  )
@@ -164,18 +187,32 @@ def Q2Dict (  QFields, pRows ):
             
             rowdict[ fName ] = val
             
+        
+        if pUDP:
+            try: 
+                bAux = eval ( 'item.' + udpTable + '_set.exists()' ) 
+            except: bAux = False 
+            if bAux: 
+                cllUpd = eval ( 'item.' + udpTable + '_set.all()' ) 
+                
+                for lUpd in cllUpd:
+                    prpGridName = getattr( lUpd, prpName , '') 
+                    if prpGridName in lsProperties:
+                        rowdict[ prpPrefix +'__' + prpGridName ] = getattr( lUpd, prpValue, '' )
+                
+        if pSheet:
+            pass 
+
+        # Agrega la fila al diccionario
         #Agrega el Id Siempre como idInterno ( no representa una col, idProperty ) 
         rowdict[ 'id'] = item.pk 
         rows.append(rowdict)
-        
-#        if bFiche: 
-        if item.udp_set.exists():
-            pass
-        
+
+
     return rows
 
 
-# Obtiene los campos visibles del modelo base  
+# Obtiene los campos visibles del modelo base, se usa como valor por defecto 
 def getVisibleFields(  QFields, model ):
 
     lFields = ''

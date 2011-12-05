@@ -5,27 +5,23 @@ from utilsBase import _PROTOFN_ , verifyStr
 def setFieldDict(protoFields ,  field ):
 
     #Verifico si existe en el diccionario 
-    pField = getattr(  protoFields, field.name , {})
+    pField = protoFields.get( field.name, {} )
     
     pField['name'] = field.name 
     pField['type'] = field.__class__.__name__
     
     #Verifica si existe parametrizacion a nivel de modelo.campo 
-    protoField = getattr(field , 'protoExt', {})
+    modelField = getattr(field , 'protoExt', {})
     
-    # Field Attrs   ------------------------------------------------------------------
-    getUdp( pField, protoField, 'hidden', 'Boolean', False)
-    getUdp( pField, protoField, 'filterable', 'Boolean', True )
-    getUdp( pField, protoField, 'sortable', 'Boolean', True )
-    getUdp( pField, protoField, 'width', 'Numeric', 0 )
-    getUdp( pField, protoField, 'align', 'String', '' )
-    getUdp( pField, protoField, 'tooltip', 'String', '' )
-    getUdp( pField, protoField, 'flex', 'Numeric', 0 )
+    # TODO: Recorrer el dict Field y agregar las prop q no estan  protoFields    ----------
+    for mProp in modelField:
+        if pField.get( mProp, '') == '': 
+            pField[ mProp ] = modelField[ mProp ] 
 
-    
-    if getattr( pField , 'header', '') == '':
+    # Si no existe el verbose name verificar los defautls del modelo 
+    if pField.get( 'header', '') == '':
         pField['header'] = verifyStr( field.verbose_name,  field.name ) 
-        
+
     if  field.__class__.__name__ == 'DateTimeField':
         pField['type'] = 'datetime'
         pField['xtype'] = 'datecolumn' 
@@ -80,38 +76,9 @@ def setFieldDict(protoFields ,  field ):
 
     
     #Lo retorna al diccionario
-    protoFields[pField['name']] = pField 
+    protoFields[ pField['name'] ] = pField 
 
 
 #----------------------------------------------------------
 
-#LLamados de configuracion,  
-#ya no son necesarios pues todo el manejo sera parametrizado en  admin y el recorrido se hace en la coleccion 
-
-
-def getUdp( pField, protoField, udpCode , udpType, udpDefault ):
-
-    # El atributo ya fue definido en el admin 
-    if getattr( pField,  udpCode , '' ) != '': 
-        return 
-
-
-    udpReturn = udpDefault
-    try:
-        udpReturn = protoField.get( udpCode , udpDefault )
-        if ( udpType == 'Boolean' ):
-            if (udpReturn[0].lower() in ( 't','y','o', '1')): 
-                udpReturn = True
-            else: udpReturn = False 
-
-        if ( udpType == 'Numeric' ):
-            try:
-                udpReturn = int( udpReturn  )
-            except: udpReturn = udpDefault
-
-        if (udpReturn != udpDefault ): 
-            pField[udpCode] = udpReturn   
-    except: 
-        pass
-    return 
 
