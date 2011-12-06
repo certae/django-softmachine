@@ -98,7 +98,7 @@ def protoGetPCI(request):
 def protoGetList(request):
 #   Vista simple para cargar la informacion, 
     
-    PAGESIZE = 20
+    PAGESIZE = 50
     
     if request.method == 'POST':
 

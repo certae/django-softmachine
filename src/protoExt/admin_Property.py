@@ -1,20 +1,9 @@
-from models import *
+
 import django.contrib.admin          
 
 class PropertyAdmin(django.contrib.admin.ModelAdmin):
     verbose_name_plural = 'Elements de donnees' 
-    list_display =( 'id',  'code',  'description', )
-    list_filter = ( 'concept__model', )
-    search_fields = ( 'code', 'superProperty', 'alias') 
-    fieldsets = (
-        (None, {
-            'fields': [ ( 'concept', 'code', ) ]
-        }),
-    )
-
-    inlines = [
-        UpdInline,
-        ]
+    list_display =( 'code',  'description', )
 
     protoExt = {}
     
@@ -38,8 +27,8 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
           'concept__code': {'header' : 'Concept', 'type': 'CharField' ,  'sortable' : True, 'filterable' : True, 'width': 300 },  
           'concept__model__code': {'header' : 'Model', 'type': 'CharField' ,  'sortable' : True, 'filterable' : True, 'width': 300 },  
             
-          'udp__DEFINITION': {'header' : 'Definition', 'type': 'CharField' , 'width': 300 },  
-          'udp__gabarit': {'header' : 'Gabarit', },  
+          'udp__DEFINITION': {'header' : 'Definition', 'type': 'CharField', 'hidden' : True},  
+          'udp__gabarit': {'header' : 'Gabarit', 'hidden' : True},  
      }
 
     TEMPLATE =  'Fiche Techinique<br>' 
@@ -50,4 +39,4 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     protoExt[ 'protoSheet' ] =  {        
           'properties': ( 'code', 'description', 'udp__DEFINITION'  ),   
           'template': TEMPLATE }  
-    
+

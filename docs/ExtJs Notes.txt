@@ -1,5 +1,41 @@
 Ejemplos 
 
+
+Buffered 
+
+    var store = Ext.create('Ext.data.Store', {
+        pageSize: 200,
+        model: 'ForumThread',
+        remoteSort: true,
+ 
+        // allow the grid to interact with the paging scroller by buffering
+        buffered: true,
+        // never purge any data, we prefetch all up front default 5 
+        purgePageCount: 0,
+         
+        .... 
+        
+
+    var grid = Ext.create('Ext.grid.Panel', {
+        disableSelection: true,
+        loadMask: true,
+        invalidateScrollerOnRefresh: false,
+        viewConfig: {
+            trackOver: false
+        },        
+
+        verticalScrollerType: 'paginggridscroller',
+O//
+        verticalScroller: {
+            xtype: 'paginggridscroller',
+            activePrefetch: false
+        },
+           
+
+    // trigger the data store load
+    store.guaranteeRange(0, 199);
+    
+
 http://dev.sencha.com/deploy/ext-4.0.0/examples/grid/array-grid.html
 -----------------------------------------------------------------------
 
@@ -37,7 +73,13 @@ Maneja links en los campos
 http://dev.sencha.com/deploy/ext-4.0.0/examples/grid/groupgrid.html
 -----------------------------------------------------------------------
 
-Manejo de grupos segun algun(os) campo(s)  *** 
+Manejo de grupos segun (un solo campo)  *** 
+
+    var Restaurants = Ext.create('Ext.data.Store', {
+        model: 'Restaurant',
+        sorters: ['cuisine','name'],
+        groupField: 'cuisine',
+        ... 
 
     var groupingFeature = Ext.create('Ext.grid.feature.Grouping',{
         groupHeaderTpl: 'Cuisine: {name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})'
@@ -242,16 +284,11 @@ http://dev.sencha.com/deploy/ext-4.0.0/examples/writer/writer.html
 ***********     MAnejo de edicion completa en una forma independiente
 
 
-http://dev.sencha.com/deploy/ext-4.0.0/examples/tree/treegrid.html
-
-**  Grilla jerarquica 
-
-
 http://dev.sencha.com/deploy/ext-4.0.0/examples/menu/action-grid.html
 -----------------------------------------------------------------------
 
-
 Acciones con click derecho en la grilla 
+
 
 http://dev.sencha.com/deploy/ext-4.0.0/examples/form/forum-search.html
 -----------------------------------------------------------------------

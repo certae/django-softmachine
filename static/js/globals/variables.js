@@ -29,7 +29,7 @@ _gridTypeEditor = {
 };
 
 // PageSize par default 
-_PAGESIZE = 20; 
+_PAGESIZE = 50; 
 
 
 // Autoload entites
