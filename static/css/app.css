@@ -55,3 +55,18 @@
 .icon-5 { background-image: url(../img/tmp/5.png ) !important; }
 .icon-6 { background-image: url(../img/tmp/6.png ) !important; }
 .icon-7 { background-image: url(../img/tmp/7.png ) !important; }
+
+
+/*Fiche */
+
+
+.negro {font-weight: normal; width:25%;}
+.desc {width:75%;}
+.ficha {width:100%;}
+
+.blanco{font:normal 12px tahoma, arial, verdana, sans-serif;background-color:white;border-color:#ededed;border-style:solid;border-width:1px 0;border-top-color:#fafafa}
+.azul  {font:normal 12px tahoma, arial, verdana, sans-serif;background-color:#fafafa;border-color:#ededed;border-style:solid;border-width:1px 0;border-top-color:white}
+
+
+/*.x-grid-row-alt .x-grid-cell,.x-grid-row-alt .x-grid-rowwrap-div{background-color:#fafafa}*/
+

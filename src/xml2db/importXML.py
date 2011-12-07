@@ -10,7 +10,7 @@ import os
 os.environ['DJANGO_SETTINGS_MODULE'] = 'proto.settings'
 
 from django.core import management
-import proto.settings as settings 
+import settings as settings 
 management.setup_environ(settings)
 
 
@@ -18,7 +18,7 @@ management.setup_environ(settings)
 import logging
 
 #Import Database class
-from proto.protoExt.models import *  
+from protoExt.models import *  
 
 
 def toInteger(s , iDefault = None):
@@ -245,7 +245,7 @@ class importXML():
                                     dUdp = Udp()
                                     dUdp.metaObj = lProperty.metaobj_ptr
                                     dUdp.code = key
-                                    dUdp.value = value
+                                    dUdp.valueUdp = value
                                     dUdp.save()
 
 

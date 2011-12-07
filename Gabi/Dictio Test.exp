@@ -1,0 +1,1458 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<domains>
+  <domain>
+    <code>AI RSSSS mccd v7</code>
+    <origin>OpenModelSphere 3.2</origin>
+    <udpDefinitions>
+      <udpDefinition>
+        <code>DOCUMENT DE RÉFÉRENCE</code>
+        <baseType>String</baseType>
+        <alias>DOCUMENTDEREFERENCE</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>FORMAT</code>
+        <baseType>Multiline Text</baseType>
+        <alias>FORMAT</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>GABARIT</code>
+        <baseType>Multiline Text</baseType>
+        <alias>GABARIT</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>DÉFINITION</code>
+        <baseType>Multiline Text</baseType>
+        <alias>DEFINITION</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>DESCRIPTION CN</code>
+        <baseType>Multiline Text</baseType>
+        <alias>DESCRIPTIONCN</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>PRÉCISIONS</code>
+        <baseType>Multiline Text</baseType>
+        <alias>PRECISIONS</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>VALIDATION</code>
+        <baseType>Multiline Text</baseType>
+        <alias>VALIDATION</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>VALIDATIONS SUR ÉLÉMENT</code>
+        <baseType>Multiline Text</baseType>
+        <alias>VALIDATIONSSURELEMENT</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>VALIDATIONS INTER-ÉLÉMENT</code>
+        <baseType>Multiline Text</baseType>
+        <alias>VALIDATIONSINTERELEMENT</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>VALIDATION INTER-ENREGISTREMENT</code>
+        <baseType>Multiline Text</baseType>
+        <alias>VALIDATIONINTERENREGISTREMENT</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>SOURCE DE DONNÉES EXTERNES</code>
+        <baseType>Multiline Text</baseType>
+        <alias>SOURCEDEDONNEESEXTERNES</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>ÉLÉMENT TRANSFORMÉ</code>
+        <baseType>Multiline Text</baseType>
+        <alias>ELEMENTTRANSFORME</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>ÉLÉMENT TRANSMIS</code>
+        <baseType>Multiline Text</baseType>
+        <alias>ELEMENTTRANSMIS</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>DOMAINE DE VALEURS</code>
+        <baseType>Multiline Text</baseType>
+        <alias>DOMAINEDEVALEURS</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>ENTRÉE EN VIGUEUR</code>
+        <baseType>Multiline Text</baseType>
+        <alias>ENTREEENVIGUEUR</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>DATE DE LA DERNIÈRE MODIFICATION</code>
+        <baseType>Multiline Text</baseType>
+        <alias>DATEDELADERNIEREMODIFICATION</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>REQUIS PAR</code>
+        <baseType>Multiline Text</baseType>
+        <alias>REQUISPAR</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>TRANSMISSION</code>
+        <baseType>Multiline Text</baseType>
+        <alias>TRANSMISSION</alias>
+      </udpDefinition>
+    </udpDefinitions>
+    <models>
+      <model>
+        <idModel>3</idModel>
+        <idRef>2</idRef>
+        <code>Vue locale - FiTQ</code>
+        <concepts>
+          <concept>
+            <code>Code des pays selon ISO</code>
+            <properties>
+              <property>
+                <code>Code pays</code>
+                <isNullable>False</isNullable>
+                <isUnique>True</isUnique>
+              </property>
+            </properties>
+            <foreigns />
+          </concept>
+          <concept>
+            <code>REGISTRE DES DÉCÈS</code>
+            <properties>
+              <property>
+                <code>Code du registre des décès</code>
+                <isNullable>False</isNullable>
+                <isUnique>True</isUnique>
+              </property>
+            </properties>
+            <foreigns />
+          </concept>
+          <concept>
+            <code>DOSSIER RCC</code>
+            <properties>
+              <property>
+                <code>Numéro d'identification au Registre canadien du cancer</code>
+                <alias>012</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>9</length>
+                <isNullable>False</isNullable>
+                <isUnique>True</isUnique>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique,  Longueur : 9." />
+                  <DEFINITION text="Numéro unique que Statistique Canada attribue à chaque nouvelle personne au moment de son inscription initiale dans le RCC. " />
+                  <DESCRIPTIONCN text="Cette information est obligatoire pour transmettre des données de mise à jour à Statistique Canada.  Exceptions ou réserve : Il ne peut contenir que des zéros." />
+                  <PRECISIONS text="Ce numéro est transmis au FTQ par Statistique Canada après réception et validation des données d'un nouvel enregistrement &quot; patient &quot;. Tout changement subséquent à cet enregistrement doit inclure le numéro d'identification du RCC." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance verticale au central avec statut d'envoi. " />
+                  <SOURCEDEDONNEESEXTERNES text="RCC." />
+                  <DOMAINEDEVALEURS text="Le code doit être conforme aux valeurs transmises par Statistique Canada." />
+                  <REQUISPAR text="Le MSSS et le RCC. " />
+                </udps>
+              </property>
+              <property>
+                <code>Numéro identification de la personne </code>
+                <alias>011</alias>
+                <isNullable>False</isNullable>
+                <isForeign>True</isForeign>
+                <foreignConcept>PERSONNE</foreignConcept>
+              </property>
+            </properties>
+            <foreigns>
+              <foreign>
+                <code>PERSONNE-DOSSIER RCC</code>
+                <baseConcept>PERSONNE</baseConcept>
+                <baseMin>0</baseMin>
+                <baseMax>1</baseMax>
+                <refMin>1</refMin>
+                <refMax>1</refMax>
+              </foreign>
+            </foreigns>
+          </concept>
+          <concept>
+            <code>RÉSIDENCE PATIENT</code>
+            <properties>
+              <property>
+                <code>Identifiant résident patient</code>
+                <isNullable>False</isNullable>
+                <isUnique>True</isUnique>
+              </property>
+              <property>
+                <code>Numéro identification de la personne</code>
+                <alias>011</alias>
+                <isNullable>False</isNullable>
+                <isForeign>True</isForeign>
+                <foreignConcept>PERSONNE</foreignConcept>
+              </property>
+              <property>
+                <code>Code CLSC de résidence du patient</code>
+                <alias>015</alias>
+                <isNullable>False</isNullable>
+                <isUnique>True</isUnique>
+                <isForeign>True</isForeign>
+                <foreignConcept>CLSC</foreignConcept>
+              </property>
+              <property>
+                <code>Code municipal du lieu de résidence</code>
+                <alias>013</alias>
+                <isNullable>False</isNullable>
+                <isUnique>True</isUnique>
+                <isForeign>True</isForeign>
+                <foreignConcept>MUNICIPALITE</foreignConcept>
+              </property>
+              <property>
+                <code>Code postal du lieu résidence patient</code>
+                <alias>024</alias>
+                <isNullable>False</isNullable>
+                <isUnique>True</isUnique>
+                <isForeign>True</isForeign>
+                <foreignConcept>CODEPOSTAL</foreignConcept>
+              </property>
+            </properties>
+            <foreigns>
+              <foreign>
+                <code>CLSC-RÉSIDENCE PATIENT</code>
+                <baseConcept>CLSC</baseConcept>
+                <baseMin>0</baseMin>
+                <baseMax>N</baseMax>
+                <refMin>1</refMin>
+                <refMax>1</refMax>
+              </foreign>
+              <foreign>
+                <code>MUNICIPALITÉ-RÉSIDENCE PATIENT</code>
+                <baseConcept>MUNICIPALITÉ</baseConcept>
+                <baseMin>0</baseMin>
+                <baseMax>N</baseMax>
+                <refMin>1</refMin>
+                <refMax>1</refMax>
+              </foreign>
+              <foreign>
+                <code>CODE POSTAL-RÉSIDENCE PATIENT</code>
+                <baseConcept>CODE POSTAL</baseConcept>
+                <baseMin>0</baseMin>
+                <baseMax>N</baseMax>
+                <refMin>1</refMin>
+                <refMax>1</refMax>
+              </foreign>
+            </foreigns>
+          </concept>
+          <concept>
+            <code>PERSONNE</code>
+            <properties>
+              <property>
+                <code>Numéro identification de la personne</code>
+                <alias>011</alias>
+                <baseType>INTEGER</baseType>
+                <length>7</length>
+                <isNullable>False</isNullable>
+                <isUnique>True</isUnique>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Numérique  Longueur : 7." />
+                  <DEFINITION text="Numéro d'identification unique attribué automatiquement par le système à chaque nouvelle personne inscrite au FTQ." />
+                  <DESCRIPTIONCN text="Cette information est obligatoire." />
+                  <PRECISIONS text="Exceptions ou réserve : Il ne peut contenir que des zéros." />
+                  <VALIDATION text="Un numéro d'identification est attribué lorsqu'une inscription échoue aux diverses (clés) et conditions de raccordement listées en annexe." />
+                  <SOURCEDEDONNEESEXTERNES text="Telles qu'attribuées par le système." />
+                  <REQUISPAR text="Le MSSS." />
+                </udps>
+              </property>
+              <property>
+                <code>NAM</code>
+                <alias>001</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>12</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique Longueur : 12." />
+                  <GABARIT text="NNNP AAMM JJVR" />
+                  <DEFINITION text="Numéro d'assurance maladie tel qu'attribué par la RAMQ." />
+                  <DESCRIPTIONCN text="Cette information est obligatoire sauf pour: les nouveau-nés les non résidents du Québec les résidents du Québec de moins de trois mois. Le NAM est constitué de la façon suivante : nom (3 premiers caractères) prénom (1e caractère) année de naissance (AA) mois de naissance (MM + 50 si sexe =F) jour de naissance vérification du caractère valideur (12e). " />
+                </udps>
+              </property>
+              <property>
+                <code>Date de naisance</code>
+                <alias>002</alias>
+                <baseType>INTEGER</baseType>
+                <length>8</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Numérique, Longueur : 8." />
+                  <DEFINITION text="Date de naissance de la personne inscrite au FTQ.  " />
+                  <DESCRIPTIONCN text="Cette information est obligatoire." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance simple au central avec le NAM (positions 5 et 6 pour l'année de naissance).  Correspondance simple au central avec le NAM (positions 7 et 8 pour le mois de la naissance moins 50 si sexe =F).  &#xA;Correspondance simple au central avec le NAM (positions 9 et 10 pour le jour de la naissance).  Correspondance relationnelle au central avec la date du décès." />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé. " />
+                </udps>
+              </property>
+              <property>
+                <code>Sexe</code>
+                <alias>003</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>1</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique,  Longueur : 1." />
+                  <DEFINITION text="Sexe de la personne inscrite au FTQ." />
+                  <DESCRIPTIONCN text="Cette information est obligatoire." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance simple au central avec le NAM (positions 7 et 8 pour le mois de la naissance moins 50 si sexe =F).  &#xA;Correspondance verticale au central avec la topographie : si sexe =M, alors le siège de la tumeur doit être différent de :174, 179 à 184, 233.1 à 233.3, 236.0 à 236.3 si sexe =F, alors le siège de la tumeur doit être différent de :175, 185 à 187.9, 133.4 à 233.6, 236.4 à 236.6. " />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO." />
+                  <DOMAINEDEVALEURS text="F : féminin &#xA;M : masculin &#xA;X : indéterminé " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                </udps>
+              </property>
+              <property>
+                <code>Nom à la naissance</code>
+                <alias>004</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>25</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique,  Longueur : 25." />
+                  <DEFINITION text="Nom de famille officiel ou nom de famille sous lequel la personne a été inscrite à la naissance." />
+                  <DESCRIPTIONCN text="Cette information est obligatoire. Exceptions ou réserve :  Les signes tels que le trait d'union, l'apostrophe, le tiret, etc. et les blancs ne sont pas acceptés dans le nom (exemple : STAMOUR)." />
+                  <PRECISIONS text="L'inscription doit être cadrée à gauche et le reste des espaces laissé à blanc." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance simple au central avec le NAM (3 premiers caractères)." />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO (local)." />
+                  <DOMAINEDEVALEURS text="Lettres majuscules sans accent (A à Z). " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                </udps>
+              </property>
+              <property>
+                <code>Prénom à la naissance</code>
+                <alias>005</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>25</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique,  Longueur : 25." />
+                  <DEFINITION text="Prénom sous lequel la personne a été inscrite à la naissance." />
+                  <DESCRIPTIONCN text="Peut être absent. Exceptions ou réserve : Pour les résidents du Québec, au moins l'initiale doit être présente. Les signes tels que le trait d'union, l'apostrophe, le tiret, etc. et les blancs ne sont pas acceptés dans le prénom (exemple : JEANNEDARC)." />
+                  <PRECISIONS text="L'inscription doit être cadrée à gauche et le reste des espaces laissé à blanc." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance simple au central avec le NAM (4e caractère). " />
+                  <DOMAINEDEVALEURS text="Lettres majuscules sans accent (A à Z)." />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                </udps>
+              </property>
+              <property>
+                <code>Nom du père</code>
+                <alias>006</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>25</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique, Longueur : 25." />
+                  <DEFINITION text="Nom du père à la naissance." />
+                  <DESCRIPTIONCN text="Peut être absent. Exceptions ou réserve : Les signes tels que le trait d'union, l'apostrophe, le tiret, etc. et les blancs ne sont pas acceptés dans le nom (exemple : STJEAN)." />
+                  <PRECISIONS text="L'inscription doit être cadrée à gauche et le reste des espaces laissé à blanc." />
+                  <DOMAINEDEVALEURS text="Lettres majuscules sans accent (A à Z)." />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                </udps>
+              </property>
+              <property>
+                <code>Prénom du père</code>
+                <alias>007</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>25</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique,  Longueur : 25." />
+                  <DEFINITION text="Prénom du père à la naissance." />
+                  <DESCRIPTIONCN text="Peut être absent. Exceptions ou réserve : Les signes tels que le trait d'union, l'apostrophe, le tiret etc. et les blancs ne sont pas acceptés dans le prénom (exemple : JOSEPHARTHUR)." />
+                  <PRECISIONS text="L'inscription doit être cadrée à gauche et le reste des espaces laissé à blanc." />
+                  <DOMAINEDEVALEURS text="Lettres majuscules sans accent (A à Z). " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                </udps>
+              </property>
+              <property>
+                <code>Nom de la mère</code>
+                <alias>008</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>25</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique,  Longueur : 25." />
+                  <DEFINITION text="Nom de la mère la naissance." />
+                  <DESCRIPTIONCN text="Peut être absent.  Exceptions ou réserve: Les signes tels que le trait d'union, l'apostrophe, le tiret etc. et les blancs ne sont pas acceptés dans le nom (exemple : MCDONALD)." />
+                  <PRECISIONS text="L'inscription doit être cadrée à gauche et le reste des espaces laissé à blanc." />
+                  <DOMAINEDEVALEURS text="Lettres majuscules sans accent (A à Z)." />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                </udps>
+              </property>
+              <property>
+                <code>Prénom de la mère</code>
+                <alias>009</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>25</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique,  Longueur : 25." />
+                  <DEFINITION text="Prénom de la mère à la naissance." />
+                  <DESCRIPTIONCN text="Peut être absent. Exceptions ou réserve: Les signes tels que le trait d'union, l'apostrophe, le tiret etc. et les blancs ne sont pas acceptés dans le prénom (exemple : ANNEMARIE)." />
+                  <PRECISIONS text="L'inscription doit être cadrée à gauche et le reste des espaces laissé à blanc." />
+                  <DOMAINEDEVALEURS text="Lettres majuscules sans accent (A à Z). " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                </udps>
+              </property>
+              <property>
+                <code>Lieu de naissance</code>
+                <alias>010</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>3</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique,  Longueur : 3." />
+                  <DEFINITION text="La province ou le territoire (au Canada) ou le pays (autre que le Canada) où la personne est née." />
+                  <DESCRIPTIONCN text="Les endroits sont codés d'après les frontières géopolitiques courantes. Cette information est obligatoire." />
+                  <DOMAINEDEVALEURS text="Selon la table des codes créés par l'organisation internationale de normalisation (ISO). La série de codes originaux de l'ISO a été étendue afin d'inclure chaque province ainsi que les territoires du Canada.  &#xA;Exceptions ou réserve :  &#xA;999 : province/pays de naissance inconnu " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                </udps>
+              </property>
+            </properties>
+            <foreigns>
+              <foreign>
+                <code>RÉSIDENCE PATIENT-PERSONNE</code>
+                <baseConcept>RÉSIDENCE PATIENT</baseConcept>
+                <baseMin>1</baseMin>
+                <baseMax>1</baseMax>
+                <refMin>0</refMin>
+                <refMax>1</refMax>
+              </foreign>
+            </foreigns>
+          </concept>
+          <concept>
+            <code>ADMISSION INSTALLATION</code>
+            <properties>
+              <property>
+                <code>Identifiant admission installation</code>
+                <isNullable>False</isNullable>
+                <isUnique>True</isUnique>
+              </property>
+              <property>
+                <code>Date admission</code>
+                <alias>041</alias>
+                <baseType>INTEGER</baseType>
+                <length>8</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Numérique,  Longueur : 8." />
+                  <DEFINITION text="Date à laquelle la personne a été admise à l'établissement où le diagnostic a été posé." />
+                  <DESCRIPTIONCN text="Cette information est obligatoire." />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO." />
+                  <DOMAINEDEVALEURS text="Positions 1 à 4 : siècle et année (1875 - 2000 années valides) &#xA;Positions 5 et 6 : mois de janvier à décembre (01 à 12) &#xA;Positions 7 et 8 : jour du mois ( 01 à 31) " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                </udps>
+              </property>
+              <property>
+                <code>Date sortie</code>
+                <alias>042</alias>
+                <baseType>INTEGER</baseType>
+                <length>8</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Numérique,  Longueur : 8." />
+                  <DEFINITION text="Date à laquelle le bénéficiaire est sorti (vivant ou décédé) de l'établissement où le diagnostic a été posé. " />
+                  <DESCRIPTIONCN text="Cette information est obligatoire." />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO." />
+                  <DOMAINEDEVALEURS text="Positions 1 à 4 : siècle et année ( 1875-2000 années valides) &#xA;Positions 5 et 6 : mois de janvier à décembre ( 01 à 12 )  &#xA;Positions 7 et 8 : jour du mois ( 01 à 31)   " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                </udps>
+              </property>
+              <property>
+                <code>Secteur de soins ou source de transaction</code>
+                <alias>025</alias>
+                <baseType>INTEGER</baseType>
+                <length>2</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Numérique,  Longueur : 2." />
+                  <DEFINITION text="Code du secteur de soins de l'organisme qui fournit l'information initiale ou les données de mise à jour." />
+                  <DESCRIPTIONCN text="Cette information est obligatoire." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance simple au central avec code de l'organisme." />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO." />
+                  <DOMAINEDEVALEURS text="01 soins de courte durée &#xA;03 soins de longue durée et hébergement &#xA;27 chirurgie d'un jour &#xA;35 laboratoire &#xA;36 fichier local des tumeurs &#xA;37 fichier provincial " />
+                  <REQUISPAR text="Le MSSS et les établissements de santé." />
+                </udps>
+              </property>
+              <property>
+                <code>Code d'organisme</code>
+                <alias>023</alias>
+                <isNullable>False</isNullable>
+                <isForeign>True</isForeign>
+                <foreignConcept>ETABLISSEMENT</foreignConcept>
+              </property>
+              <property>
+                <code>DOSSIER PATIENT Code installation</code>
+                <isNullable>False</isNullable>
+                <isForeign>True</isForeign>
+                <foreignConcept>DOSSIERPATIENT</foreignConcept>
+              </property>
+              <property>
+                <code>Numéro de dossier médical</code>
+                <alias>016</alias>
+                <isNullable>False</isNullable>
+                <isForeign>True</isForeign>
+                <foreignConcept>DOSSIERPATIENT</foreignConcept>
+              </property>
+              <property>
+                <code>Numéro de référence du diagnostic</code>
+                <alias>044</alias>
+                <isNullable>False</isNullable>
+                <isForeign>True</isForeign>
+                <foreignConcept>DIAGNOSTIC</foreignConcept>
+              </property>
+              <property>
+                <code>Code installation</code>
+                <isNullable>False</isNullable>
+                <isForeign>True</isForeign>
+                <foreignConcept>INSTALLATION</foreignConcept>
+              </property>
+            </properties>
+            <foreigns>
+              <foreign>
+                <code>Installation de séjour</code>
+                <alias>INSTALLATION-ADMISSION INSTALLATION</alias>
+                <baseConcept>INSTALLATION</baseConcept>
+                <baseMin>0</baseMin>
+                <baseMax>N</baseMax>
+                <refMin>1</refMin>
+                <refMax>1</refMax>
+              </foreign>
+              <foreign>
+                <code>Diagnostic d'admission (24.3)</code>
+                <alias>DIAGNOSTIC-ADMISSION INSTALLATION</alias>
+                <baseConcept>DIAGNOSTIC</baseConcept>
+                <baseMin>0</baseMin>
+                <baseMax>1</baseMax>
+                <refMin>1</refMin>
+                <refMax>1</refMax>
+              </foreign>
+              <foreign>
+                <code>ETABLISSEMENT-ADMISSION INSTALLATION</code>
+                <baseConcept>ETABLISSEMENT</baseConcept>
+                <baseMin>1</baseMin>
+                <baseMax>N</baseMax>
+                <refMin>1</refMin>
+                <refMax>1</refMax>
+              </foreign>
+            </foreigns>
+          </concept>
+          <concept>
+            <code>DIAGNOSTIC</code>
+            <properties>
+              <property>
+                <code>Numéro de référence du diagnostic</code>
+                <alias>044</alias>
+                <baseType>NUMERIC</baseType>
+                <length>2</length>
+                <isNullable>False</isNullable>
+                <isUnique>True</isUnique>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Numérique  Longueur : 2." />
+                  <DEFINITION text="Numéro unique attribué automatiquement par le système qui permet d'ordonner les diagnostics dans la banque &quot; tumeur &quot;. Ce numéro indique le rang du diagnostic pour une tumeur." />
+                  <DESCRIPTIONCN text="Cette information est obligatoire.  " />
+                  <PRECISIONS text="Exceptions ou réserve :  Le numéro doit être différent de zéro ( 0 )." />
+                  <VALIDATION text="Un numéro de référence est attribué à chaque nouveau diagnostic." />
+                  <DOMAINEDEVALEURS text="Telles qu'attribuées par le système. " />
+                  <REQUISPAR text="Le MSSS et le RCC." />
+                  <TRANSMISSION text="Donnée générée par le système." />
+                </udps>
+              </property>
+              <property>
+                <code>Date de mise à jour du diagnostic</code>
+                <alias>046</alias>
+                <baseType>NUMERIC</baseType>
+                <length>8</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Numérique  Longueur : 8." />
+                  <DEFINITION text="Date des dernières modifications apportées au diagnostic." />
+                  <DESCRIPTIONCN text="Cette information est obligatoire." />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO." />
+                  <DOMAINEDEVALEURS text="Positions 1 à 4 : siècle et année (1875-2000 années valides) &#xA;Positions 5 et 6 : mois de janvier à décembre ( 01 à 12 )  &#xA;Positions 7 et 8 : jour du mois ( 01 à 31)   " />
+                  <REQUISPAR text="Le MSSS et le RCC." />
+                  <TRANSMISSION text="Donnée générée par le système." />
+                </udps>
+              </property>
+              <property>
+                <code>Code CIM-9</code>
+                <isNullable>False</isNullable>
+                <isForeign>True</isForeign>
+                <foreignConcept>CIM9</foreignConcept>
+              </property>
+              <property>
+                <code>Mode de diagnostic</code>
+                <alias>032</alias>
+                <isNullable>False</isNullable>
+                <isForeign>True</isForeign>
+                <foreignConcept>CATEGORIEMETHODESDIAGNOSTIQUES</foreignConcept>
+              </property>
+            </properties>
+            <foreigns>
+              <foreign>
+                <code>CIM-9-DIAGNOSTIC</code>
+                <baseConcept>CIM-9</baseConcept>
+                <baseMin>0</baseMin>
+                <baseMax>N</baseMax>
+                <refMin>1</refMin>
+                <refMax>1</refMax>
+              </foreign>
+              <foreign>
+                <code>CATÉGORIE MÉTHODES DIAGNOSTIQUES-DIAGNOSTIC</code>
+                <baseConcept>CATÉGORIE MÉTHODES DIAGNOSTIQUES</baseConcept>
+                <baseMin>0</baseMin>
+                <baseMax>N</baseMax>
+                <refMin>1</refMin>
+                <refMax>1</refMax>
+              </foreign>
+            </foreigns>
+          </concept>
+          <concept>
+            <code>TUMEUR</code>
+            <properties>
+              <property>
+                <code>Numéro de référence de la tumeur</code>
+                <alias>040</alias>
+                <baseType>INTEGER</baseType>
+                <length>2</length>
+                <isNullable>False</isNullable>
+                <isUnique>True</isUnique>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Numérique  Longueur : 2" />
+                  <DEFINITION text="Numéro unique attribué automatiquement par le système à chaque nouvelle tumeur déclarée au FTQ . Ce numéro indique le rang de la tumeur pour une tumeur : première, deuxième, etc.  " />
+                  <DESCRIPTIONCN text="Cette information est obligatoire. Exceptions ou réserve : Le numéro doit être différent de zéro ( 0 )." />
+                  <VALIDATION text="Un numéro de référence est attribué à chaque nouveau cas de tumeur." />
+                  <DOMAINEDEVALEURS text="Telles qu'attribuées par le système. " />
+                  <REQUISPAR text="Le MSSS et le RCC" />
+                  <TRANSMISSION text="Donnée générée par le système" />
+                </udps>
+              </property>
+              <property>
+                <code>Topographie ou siège de la tumeur</code>
+                <alias>029</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>6</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique  Longueur : 6" />
+                  <DEFINITION text="Siège du néoplasme codé d'après la Classification Internationale des Maladies, 9ième révision. " />
+                  <DESCRIPTIONCN text="Cette information est obligatoire.  " />
+                  <PRECISIONS text="Le code doit être cadré à gauche suivi de blanc si nécessaire." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance verticale au central avec morphologie. &#xA;Correspondance verticale au central avec code de comportement. &#xA;Correspondance verticale au central avec latéralité. &#xA;Correspondance relationnelle au central avec l'âge. &#xA;Correspondance relationnelle au central avec sexe." />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO" />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé" />
+                </udps>
+              </property>
+              <property>
+                <code>Morphologie </code>
+                <alias>030</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>4</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique  Longueur : 4" />
+                  <DEFINITION text="Description histologique du néoplasme codé d'après la Classification Internationale des Maladies-Oncologie (2ième édition)." />
+                  <DESCRIPTIONCN text="Cette information est obligatoire. " />
+                  <PRECISIONS text="Valeurs par défaut :  8000 : Morphologie inconnue." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance verticale au central avec topographie. &#xA;Correspondance verticale au central avec statut de la tumeur." />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO." />
+                  <DOMAINEDEVALEURS text="Liste des valeurs permises : &#xA;Liste des groupes de morphologies &#xA;M800 Tumeurs sai &#xA;M801-M804 Tumeurs épithéliales sai &#xA;M805-M808 Tumeurs épidermoïdes &#xA;M809-M811 Tumeurs basocellulaires &#xA;M812-M813 Papillomes et carcinomes à cellules transitionnelles &#xA;M814-M838 Adénomes et adénocarcinomes &#xA;M839-M842 Tumeurs des annexes cutanées &#xA;M843 Tumeurs muco-épidermoïdes &#xA;M844-M849 Tumeurs kystiques, muqueuses et séreuses &#xA;M850-M854 Tumeurs canalaires, lobulaires et médullaires &#xA;M855 Tumeurs à cellules acineuses &#xA;M856-M858 Tumeurs épithéliales complexes &#xA;M859-M867 Tumeurs spécifiques des gonades &#xA;M868-M871 Paragangliomes et tumeurs glomiques &#xA;M872-M879 Naevus et mélanomes &#xA;M880 Tumeurs des tissus mous et sarcomes sai &#xA;M881-M883 Tumeurs fibromateuses M884 Tumeurs myxomateuses &#xA;M885-M888 Tumeurs du tissu adipeux &#xA;M889-M892 Tumeurs des tissus musculaires &#xA;M893-M899 Tumeurs complexes, mixtes et du stroma &#xA;M900-M903 Tumeurs fibro-épithéliales &#xA;M904 Tumeurs synoviales &#xA;M905 Tumeurs mésothéliales &#xA;M906-M909 Tumeurs des cellules germinales &#xA;M910 Tumeurs trophoblastiques &#xA;M911 Mésonéphromes &#xA;M912-M916 Tumeurs des vaisseaux sanguins &#xA;M917 Tumeurs des vaisseaux lymphatiques &#xA;M918-M924 Tumeurs osseuses et chondromateuses &#xA;M925 Tumeurs à cellules géantes &#xA;M926 Tumeurs osseuses diverses &#xA;M927-M934 Tumeurs odontogéniques &#xA;M935-M937 Tumeurs diverses &#xA;M938-M948 Gliomes et tumeurs apparentées &#xA;M949-M952 Tumeurs neuro-épithéliales &#xA;M953 Méningiomes &#xA;M954-M957 Tumeurs des gaines nerveuses &#xA;M958 Tumeurs à cellules granuleuses et sarcome alvéolaire des tissus mous &#xA;M959-M971 Lymphomes hodgkiniens et non hodgkiniens &#xA;M972 Autres tumeurs lymphoréticulaires &#xA;M973 Tumeurs plasmocytaires &#xA;M974 Tumeurs mastocytaires &#xA;M976 Maladies immunoprolifératives &#xA;M980-M994 Leucémies &#xA;M995-M997 Affections diverses myéloprolifératives et lymphoprolifératives &#xA;M998 Syndromes myélodysplasiques " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                </udps>
+              </property>
+              <property>
+                <code>Code de comportement </code>
+                <alias>031</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>1</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique  Longueur : 1" />
+                  <DEFINITION text="Comportement associé à la description histologique du néoplasme." />
+                  <DESCRIPTIONCN text="Cette information est obligatoire." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance verticale au central avec topographie. &#xA;Correspondance verticale au central avec morphologie. &#xA;Correspondance verticale au central avec statut de la tumeur." />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO." />
+                  <DOMAINEDEVALEURS text="Liste des valeurs permises : &#xA;1 incertain si bénin ou malin/à la limite de la malignité &#xA;2 cancer in-situ /intra-épithélial /non infiltrant /non invasif &#xA;3 malin, siège primaire &#xA;6 malin, secondaire/métastase &#xA;9 malin de nature primitive ou secondaire non assurée/ incertain si primaire ou secondaire " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                </udps>
+              </property>
+              <property>
+                <code>Date de confirmation du diagnostic histologique</code>
+                <alias>033</alias>
+                <baseType>INTEGER</baseType>
+                <length>8</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Numérique  Longueur : 8" />
+                  <DEFINITION text="Date où la tumeur a été confirmée par histologie ou cytologie." />
+                  <DESCRIPTIONCN text="Peut être absent, Valeurs par défaut : Zéro ( 0 )" />
+                  <VALIDATIONSINTERELEMENT text="Correspondance verticale au central avec autopsie confirmant la cause du décès. &#xA;Correspondance verticale au central avec date de déclaration. &#xA;Correspondance verticale au central avec date du décès. &#xA;Correspondance hiérarchique au central avec mode de diagnostic. &#xA;Correspondance hiérarchique au central avec code de l'organisme." />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO." />
+                  <DOMAINEDEVALEURS text="Positions 1 à 4 : siècle et année  &#xA;Positions 5 et 6 : mois de janvier à décembre ( 01 à 12 ) &#xA;Positions 7 et 8 : jour du mois ( 01 à 31 )  " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                </udps>
+              </property>
+              <property>
+                <code>Grade histopathologique</code>
+                <alias>034</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>1</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique  Longueur : 1" />
+                  <DEFINITION text="Grade : un numéro à un chiffre a été inclus dans la CIM-O pour désigner le grade de différenciation d'une tumeur maligne. Le grade décrit dans qu'elle mesure les cellules tumorales ressemblent aux cellules normales du même tissu.  Cellules T et B : un numéro à un chiffre est aussi utilisé pour indiquer le type de cellules dans les cas de lymphome et de leucémie." />
+                  <DESCRIPTIONCN text="Cette information est obligatoire." />
+                  <PRECISIONS text="Valeurs par défaut : Neuf  ( 9 )." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance verticale au central avec topographie. &#xA;Correspondance verticale au central avec morphologie. &#xA;Correspondance verticale au central avec code de comportement." />
+                  <DOMAINEDEVALEURS text="Grades  &#xA;1 Grade I Bien différencié Différencié &#xA;2 Grade II Moyennement différencié Moyennement bien différencié &#xA;3 Grade III Peu différencié &#xA;4 Grade IV Indifférencié Anaplasique &#xA;9 Grade ou différenciation non déterminé, non cité ou inapplicable Cellules  &#xA;5 Cellule T (T-cell) 6 Cellule B (B-cell) Pré-B B-précurseur &#xA;7 Cellule nulle (Null cell) leucémie seulement Non T non B leucémie seulement &#xA;9 Type de cellule non déterminé, non cité ou inapplicable   " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                  <TRANSMISSION text="Élément non transmis à la banque centrale actuellement." />
+                </udps>
+              </property>
+              <property>
+                <code>Latéralité</code>
+                <alias>035</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>1</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique  Longueur : 1." />
+                  <DEFINITION text="Localisation spécifique du siège de la tumeur dans les organes pairs. Le code précise si la tumeur se trouve du côté droit, du coté gauche, au centre ou à gauche et à droite, selon le cas." />
+                  <DESCRIPTIONCN text="Cette information est obligatoire." />
+                  <PRECISIONS text="Valeurs par défaut : Zéro ( 0 ) ou Neuf ( 9 )." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance verticale au central avec topographie (table ci-jointe)" />
+                  <DOMAINEDEVALEURS text="0 pas un organe pair &#xA;1 gauche &#xA;2 droite &#xA;3 centre &#xA;4 gauche et droite &#xA;9 latéralité inconnue " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                  <TRANSMISSION text="Élément non transmis à la banque centrale actuellement." />
+                </udps>
+              </property>
+              <property>
+                <code>Tumeurs multifocales</code>
+                <alias>036</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>1</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique  Longueur : 1." />
+                  <DEFINITION text="Existence de plus d'un foyer de la tumeur, chaque foyer étant du même type histologique et survenant au même sous siège.  " />
+                  <DESCRIPTIONCN text="Peut être absent." />
+                  <PRECISIONS text="Valeurs par défaut : Neuf ( 9 )." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance relationnelle au central avec topographie. Correspondance relationnelle au central avec morphologie." />
+                  <DOMAINEDEVALEURS text="1 oui, tumeur multifocale &#xA;2 non, tumeur non multifocale &#xA;9 inconnue " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                  <TRANSMISSION text="Élément non transmis à la banque centrale actuellement." />
+                </udps>
+              </property>
+              <property>
+                <code>Stade initial de la tumeur</code>
+                <alias>037</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>9</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique  Longueur : 9." />
+                  <DEFINITION text="Le stade de la tumeur représente le degré d'extension de la maladie au niveau de l'organisme. Le stade initial est évalué par différentes approches incluant les examens cliniques, radiologiques et histopathologiques." />
+                  <DESCRIPTIONCN text="Peut être absent." />
+                  <PRECISIONS text="Les critères spécifiques pour chaque stade varient d'un organe à l'autre et il existe plusieurs systèmes de classification des stades (TNM, FIGO, UICC, etc.)." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance verticale au central avec topographie. &#xA;Correspondance verticale au central avec date de déclaration." />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé" />
+                  <TRANSMISSION text="Élément non transmis à la banque centrale actuellement. " />
+                </udps>
+              </property>
+              <property>
+                <code>Date du stade initial de la tumeur</code>
+                <alias>038</alias>
+                <baseType>INTEGER</baseType>
+                <length>8</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Numérique  Longueur : 8." />
+                  <DEFINITION text="Date où le stade de la tumeur primaire a été fait.  " />
+                  <DESCRIPTIONCN text="Cette information est obligatoire si la zone &quot; stade initial de la tumeur &quot; est différente de ø." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance relationnelle au central avec date de naissance. &#xA;Correspondance relationnelle au central avec date du jour. &#xA;orrespondance relationnelle au central avec date de déclaration. &#xA;Correspondance relationnelle au central avec date de décès." />
+                  <DOMAINEDEVALEURS text="Positions 1 à 4 : siècle et année &#xA;Positions 5 et 6 : mois de janvier à décembre (01 à 12) &#xA;Positions 7 et 8 : jour du mois (01 à 31)  " />
+                  <REQUISPAR text="Le MSSS et le RCC." />
+                  <TRANSMISSION text="Élément non transmis à la banque centrale actuellement." />
+                </udps>
+              </property>
+              <property>
+                <code>Statut de la tumeur</code>
+                <alias>039</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>2</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique  Longueur : 2." />
+                  <DEFINITION text="Code indiquant la nature de la tumeur." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance verticale au central avec topographie. Correspondance verticale au central avec morphologie." />
+                  <DOMAINEDEVALEURS text="01 évolution imprévisible &#xA;*02 in-situ &#xA;*03 primaire &#xA;*06 métastase déclarée comme primaire  &#xA;07 primaire/peau (tumeurs épidermoïdes et basocellulaires) &#xA;*08 primaire/peau (autres que tumeurs épidermoïdes et basocellulaires) &#xA;09 incertain si primaire ou métastatique &#xA;*10 primaire non confirmée, fichier des décès  &#xA;11 tumeur chez un touriste : NE PAS TRANSMETTRE " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                  <TRANSMISSION text="Donnée générée par le système." />
+                </udps>
+              </property>
+              <property>
+                <code>Date de mise à jour de la tumeur</code>
+                <alias>047</alias>
+                <baseType>INTEGER</baseType>
+                <length>8</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Numérique  Longueur : 8." />
+                  <DEFINITION text="Date de la dernière mise à jour appliquée sur l'occurrence de la tumeur." />
+                  <DESCRIPTIONCN text="Cette information est obligatoire." />
+                  <DOMAINEDEVALEURS text="Positions 1 à 4 : siècle et année (1875-2000 années valides) &#xA;Positions 5 et 6 : mois de janvier à décembre ( 01 à 12 )  &#xA;Positions 7 et 8 : jour du mois ( 01 à 31)   " />
+                  <REQUISPAR text="Le MSSS et le RCC." />
+                </udps>
+              </property>
+              <property>
+                <code>Date de déclaration du diagnostic de tumeur</code>
+                <alias>028</alias>
+                <baseType>INTEGER</baseType>
+                <length>8</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Numérique  Longueur : 8." />
+                  <DEFINITION text="Date associée à la première rencontre connue avec un représentant du système des soins de santé au sujet de cette tumeur.  Il peut s'agir de : la date de la première hospitalisation &quot; soins internes, chirurgie d'un jour &quot; ou la date du premier diagnostic de la tumeur &quot; soins ambulatoires ou celle du premier rapport de pathologie ou de laboratoire &quot; ou la date du décès pour les cas diagnostiqués à partir du certificat de décès seulement." />
+                  <DESCRIPTIONCN text="Cette information est obligatoire." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance relationnelle au central avec date de naissance. &#xA;Correspondance relationnelle au central avec date du jour. &#xA;Correspondance relationnelle au central avec date du décès. &#xA;Correspondance hiérarchique au central avec code de l'organisme." />
+                  <DOMAINEDEVALEURS text="Positions 1 à 4 : siècle et année  &#xA;Positions 5 et 6 : mois de janvier à décembre ( 01 à 12 ) &#xA;Positions 7 et 8 : jour du mois ( 01 à 31 ) " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                </udps>
+              </property>
+              <property>
+                <code>Statut de résidence</code>
+                <alias>026</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>1</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique  Longueur : 1." />
+                  <DEFINITION text="Code permettant de connaître qui est &quot; propriétaire &quot; de la tumeur en termes de responsabilité de la tumeur." />
+                  <DESCRIPTIONCN text="Donnée toujours présente." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance verticale au central avec code municipal. Correspondance relationnelle au central avec le NAM." />
+                  <DOMAINEDEVALEURS text="N :  non-résident &#xA;R :  résident " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                  <TRANSMISSION text="Donnée générée par le système." />
+                </udps>
+              </property>
+              <property>
+                <code>Numéro identification de la personne</code>
+                <alias>011</alias>
+                <isNullable>False</isNullable>
+                <isForeign>True</isForeign>
+                <foreignConcept>PERSONNE</foreignConcept>
+              </property>
+              <property>
+                <code>Numéro de référence du diagnostic</code>
+                <alias>044</alias>
+                <isNullable>False</isNullable>
+                <isForeign>True</isForeign>
+                <foreignConcept>DIAGNOSTIC</foreignConcept>
+              </property>
+            </properties>
+            <foreigns>
+              <foreign>
+                <code>Cas de tumeur</code>
+                <alias>PERSONNE-TUMEUR</alias>
+                <baseConcept>PERSONNE</baseConcept>
+                <baseMin>0</baseMin>
+                <baseMax>N</baseMax>
+                <refMin>1</refMin>
+                <refMax>1</refMax>
+              </foreign>
+              <foreign>
+                <code>Topographie de la tumeur (37.5.1)</code>
+                <alias>DIAGNOSTIC-TUMEUR</alias>
+                <baseConcept>DIAGNOSTIC</baseConcept>
+                <baseMin>0</baseMin>
+                <baseMax>1</baseMax>
+                <refMin>1</refMin>
+                <refMax>1</refMax>
+              </foreign>
+            </foreigns>
+          </concept>
+          <concept>
+            <code>DÉCÈS</code>
+            <description text="Mort de lusager au cours de son hospitalisation. Les informations du bloc « décès » sont obligatoires dans le cas dun usager hospitalisé ou inscrit à lunité de chirurgie dun jour et qui décède, les trois informations suivantes doivent alors être transmises : 1) cause immédiate du décès ; 2) type de décès ; 3) autopsie." />
+            <properties>
+              <property>
+                <code>Numéro d'enregistrement du décès</code>
+                <alias>019</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>6</length>
+                <isNullable>False</isNullable>
+                <isUnique>True</isUnique>
+                <description text="&#xA;" />
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique,  Longueur : 6." />
+                  <DEFINITION text="Numéro séquentiel utilisé pour identifier le dossier de chacun des résidents du Québec qui décède au cours d'une année.  Il est attribué selon l'ordre d'arrivée des formulaires au cours de l'année du décès et des années subséquentes. " />
+                  <DESCRIPTIONCN text="Peut être absent.  Valeurs par défaut : Zéro (0)." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance verticale au central avec date du décès. &#xA;Correspondance verticale au central avec source d'information décès. &#xA;Correspondance verticale au central avec code de l'organisme." />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO." />
+                  <DOMAINEDEVALEURS text="Telles qu'inscrites au Ficher des décès du Québec (K29). &#xA;Liste des valeurs permises : &#xA;101001 à 150000 : si la personne est décédée au Québec &#xA;501001 et plus : si la personne est décédée à l'extérieur du Québec &#xA;999998 : si la personnes est décédée à l'extérieur du Canada &#xA;999999 : personne décédée, mais numéro d'enregistrement inconnu " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                  <TRANSMISSION text="Élément non transmis à la banque centrale actuellement." />
+                </udps>
+              </property>
+              <property>
+                <code>Date du décès</code>
+                <alias>017</alias>
+                <baseType>INTEGER</baseType>
+                <length>8</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Numérique,  Longueur : 8." />
+                  <GABARIT text="AAAA MM JJ" />
+                  <DEFINITION text="Date du décès de la personne." />
+                  <DESCRIPTIONCN text="Peut être absent." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance verticale au central avec source information décès. &#xA;Correspondance relationnelle au central avec date de naissance. &#xA;Correspondance relationnelle au central avec date du jour. &#xA;Correspondance relationnelle au central avec date de déclaration." />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO." />
+                  <DOMAINEDEVALEURS text="Positions 1 à  4 :  siècle et année. &#xA;Positions 5 et 6 :  mois de janvier à décembre (01 à 12). &#xA;Positions 7 et 8 :  jour du mois (01 à 31). " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                </udps>
+              </property>
+              <property>
+                <code>Lieu du décès</code>
+                <alias>018</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>3</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique,  Longueur : 3." />
+                  <DEFINITION text="La province ou le territoire (au Canada) ou le pays (autre que le Canada) où la personne est décédée." />
+                  <DESCRIPTIONCN text="Les endroits sont codés d'après les frontières géopolitiques courantes. Peut être absent. Valeurs par défaut  Zéro ( 0 )." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance verticale au central avec source de décès. Correspondance verticale au central avec code de l'organisme." />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO." />
+                  <DOMAINEDEVALEURS text="Selon la table des codes créés par l'organisation internationale de normalisation (ISO).  &#xA;La série de codes originaux de l'ISO a été étendue afin d'inclure chaque province ainsi que les territoires du Canada.  " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                  <TRANSMISSION text="Élément non transmis à la banque centrale actuellement." />
+                </udps>
+              </property>
+              <property>
+                <code>Cause sous-jacente du décès</code>
+                <alias>020</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>6</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique,  Longueur : 6." />
+                  <DEFINITION text="Cause sous-jacente du décès de la personne, déterminée par l'ISQ à partir du certificat du décès.     La maladie ou le traumatisme qui a déclenché l'évolution morbide conduisant directement au décès ou les circonstances de l'accident ou de la violence qui ont entraîné le traumatisme mortel &quot;." />
+                  <DESCRIPTIONCN text="Peut être absent." />
+                  <PRECISIONS text="Cette donnée est codée à l'aide des codes de la CIM-9, conformément aux règles internationales.  Cette inscription doit être cadrée à gauche suivie de blanc. " />
+                  <VALIDATIONSINTERELEMENT text="Correspondance verticale au central avec date du décès. &#xA;Correspondance verticale au central avec source d'information décès. &#xA;Correspondance verticale au central avec code de l'organisme." />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO, Système Statistiques démographiques (K29), Province déclarante RCC, CH québécois non client de MED-ÉCHO, Laboratoire." />
+                  <DOMAINEDEVALEURS text="Liste des valeurs permises : Telles qu'inscrites au Fichier des décès. &#xA;Exception ou réserve 7999 : cause sous-jacente du décès codée &quot; inconnue &quot; sur le certificat de décès. " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                </udps>
+              </property>
+              <property>
+                <code>Source d'information sur le décès</code>
+                <alias>022</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>1</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique,  Longueur : 1. " />
+                  <DEFINITION text="Organisme qui transmet l'information initiale ou les données de mise à jour sur le décès." />
+                  <DESCRIPTIONCN text="Peut être absent. Valeurs par défaut : Zéro (0)." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance verticale au central avec date du décès. &#xA;Correspondance verticale au central avec lieu du décès. &#xA;Correspondance verticale au central avec numéro d'enregistrement du décès. &#xA;Correspondance verticale au central avec cause sous-jacente du décès. &#xA;Correspondance verticale au central avec autopsie confirmant la cause du décès. &#xA;Correspondance verticale au central avec code de l'organisme." />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO, Système Statistiques démographiques (K29,) Province déclarante RCC, CH québécois non client de MED-ÉCHO, Laboratoire." />
+                  <DOMAINEDEVALEURS text="1 MED-ÉCHO (date seulement) &#xA;2 RAMQ (date seulement) &#xA;3 Fichier des décès (Québec ou autres) &#xA;4 Province déclarante (date seulement) &#xA;5 Registre canadien du cancer ( ? ) &#xA;6 CH québécois non client MED-ÉCHO (date seulement) &#xA;7 Laboratoire (date seulement) " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                </udps>
+              </property>
+              <property>
+                <code>Numéro identification de la personne </code>
+                <isNullable>False</isNullable>
+                <isForeign>True</isForeign>
+                <foreignConcept>PERSONNE</foreignConcept>
+              </property>
+              <property>
+                <code>Identifiant admission installation</code>
+                <isNullable>False</isNullable>
+                <isForeign>True</isForeign>
+                <foreignConcept>ADMISSIONINSTALLATION</foreignConcept>
+              </property>
+              <property>
+                <code>Numéro de référence du diagnostic </code>
+                <isNullable>False</isNullable>
+                <isForeign>True</isForeign>
+                <foreignConcept>DIAGNOSTIC</foreignConcept>
+              </property>
+              <property>
+                <code>Code du registre des décès</code>
+                <isNullable>False</isNullable>
+                <isForeign>True</isForeign>
+                <foreignConcept>REGISTREDESDECES</foreignConcept>
+              </property>
+            </properties>
+            <foreigns>
+              <foreign>
+                <code>REGISTRE DES DÉCÈS-DÉCÈS</code>
+                <baseConcept>REGISTRE DES DÉCÈS</baseConcept>
+                <baseMin>0</baseMin>
+                <baseMax>N</baseMax>
+                <refMin>1</refMin>
+                <refMax>1</refMax>
+              </foreign>
+              <foreign>
+                <code>PERSONNE-DÉCÈS</code>
+                <baseConcept>PERSONNE</baseConcept>
+                <baseMin>0</baseMin>
+                <baseMax>1</baseMax>
+                <refMin>1</refMin>
+                <refMax>1</refMax>
+              </foreign>
+              <foreign>
+                <code>Décès</code>
+                <alias>ADMISSION INSTALLATION-DÉCÈS</alias>
+                <baseConcept>ADMISSION INSTALLATION</baseConcept>
+                <baseMin>0</baseMin>
+                <baseMax>1</baseMax>
+                <refMin>1</refMin>
+                <refMax>1</refMax>
+              </foreign>
+              <foreign>
+                <code>Cause immédiate du décès (38.1)</code>
+                <alias>DIAGNOSTIC-DÉCÈS</alias>
+                <baseConcept>DIAGNOSTIC</baseConcept>
+                <baseMin>0</baseMin>
+                <baseMax>1</baseMax>
+                <refMin>1</refMin>
+                <refMax>1</refMax>
+              </foreign>
+            </foreigns>
+          </concept>
+          <concept>
+            <code>CODE POSTAL</code>
+            <properties>
+              <property>
+                <code>Code postal du lieu résidence patient</code>
+                <alias>024</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>6</length>
+                <isNullable>False</isNullable>
+                <isUnique>True</isUnique>
+                <description text="FORMAT  Alphanumérique   Longueur : 6 Gabarit (ANA NAN)  &#xA;DÉFINITION Au moment du diagnostic de chaque nouvelle tumeur, code postal de l'adresse de résidence du patient au Québec.  &#xA;DESCRIPTION Peut être absent.  &#xA;VALIDATION Validation inter-élément Correspondance verticale au central avec code municipal.  &#xA;REQUIS PAR  Le MSSS, le RCC et les établissements de santé  &#xA;SOURCES DE DONNÉES EXTERNES   Système d'information MED-ÉCHO   &#xA;VALEURS PERMISES   Liste des valeurs permises : Pour les résidents du Québec : selon les codes postaux/municipaux en vigueur du système référentiel ministériel &quot; Découpage géographique &quot; (M22). " />
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique, Longueur : 6." />
+                  <GABARIT text="ANA NAN" />
+                  <DEFINITION text="Au moment du diagnostic de chaque nouvelle tumeur, code postal de l'adresse de résidence du patient au Québec." />
+                  <DESCRIPTIONCN text="Peut être absent." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance verticale au central avec code municipal." />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO." />
+                  <DOMAINEDEVALEURS text="Pour les résidents du Québec : selon les codes postaux/municipaux en vigueur du système référentiel ministériel &quot; Découpage géographique &quot; (M22). " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                </udps>
+              </property>
+            </properties>
+            <foreigns />
+          </concept>
+          <concept>
+            <code>MUNICIPALITÉ</code>
+            <properties>
+              <property>
+                <code>Code municipal du lieu de résidence</code>
+                <alias>013</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>5</length>
+                <isNullable>False</isNullable>
+                <isUnique>True</isUnique>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique  Longueur : 5" />
+                  <DEFINITION text="Au moment du diagnostic de chaque nouvelle tumeur, code établi par l'ISQ et attribué à chacune des municipalités ayant un statut légalement reconnu et aux territoires non organisés du Québec. Pour les non résidents du Québec des codes ont été prévus et intégrés dans la table des codes possibles." />
+                  <DESCRIPTIONCN text="Cette information est obligatoire." />
+                  <VALIDATIONSINTERELEMENT text="Validation inter-élément Correspondance verticale au central avec code postal." />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO" />
+                  <DOMAINEDEVALEURS text="Liste des valeurs permises : Pour les résidents québécois :  selon les codes municipaux en vigueur du système référentiel ministériel &quot; Découpage géographique &quot; (M22). Pour les touristes :   selon la table ci-dessous Cas en provenance de l'Ontario :  88888 Inconnu :  99999 Description de certains codes particuliers :  &#xA;Codes des lieux de résidence pour les non résidents du Québec  &#xA;00080 Alberta &#xA;00081 Colombie- Britannique &#xA;00082 Île-du-Prince-Édouard &#xA;00083 Manitoba 00084 Nouveau-Brunswick &#xA;00085 Nouvelle-Écosse &#xA;00086 Ontario &#xA;00087 Saskatchewan &#xA;00088 Terre-Neuve &#xA;00089 Territoires du Nord-Ouest &#xA;00090 Yukon &#xA;00091 États-Unis d'Amérique (USA) &#xA;00092 Autres pays " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé " />
+                </udps>
+              </property>
+              <property>
+                <code>Code pays</code>
+                <isNullable>False</isNullable>
+                <isForeign>True</isForeign>
+                <foreignConcept>CodeDesPaysSelonISO</foreignConcept>
+              </property>
+            </properties>
+            <foreigns>
+              <foreign>
+                <code>Code des pays selon ISO-MUNICIPALITÉ</code>
+                <baseConcept>Code des pays selon ISO</baseConcept>
+                <baseMin>0</baseMin>
+                <baseMax>N</baseMax>
+                <refMin>1</refMin>
+                <refMax>1</refMax>
+              </foreign>
+            </foreigns>
+          </concept>
+          <concept>
+            <code>INSTALLATION</code>
+            <properties>
+              <property>
+                <code>Code installation</code>
+                <baseType>INTEGER</baseType>
+                <length>8</length>
+                <isNullable>False</isNullable>
+                <isUnique>True</isUnique>
+                <description text="(Installation de séjour) : Numéro matricule attribué à l'installation où les soins ont été donnés à l'usager et utilisé comme numéro de permis d'exploitation par le ministère de la Santé et des Services sociaux à la délivrance du permis. Dans le cas où un établissement a plus d'une installation avec une mission de centre hospitalier, les données doivent être transmises pour chacune des installations où sont donnés des soins. Ex. : Le code 1104 2371 est celui du Centre hospitalier universitaire de Québec. Or, cet établissement a plusieurs installations ayant une mission de centre hospitalier. Chaque installation utilisera donc son propre code pour la transmission des données MED-ÉCHO : 5121 7586 pavillon l'Hôtel-Dieu de Québec ; 5121 7594 pavillon le Centre hospitalier de l'Université Laval ; 5121 7602 pavillon Saint-François-d'Assise.  &#xA;21 : Code de l'installation ou valeur établie pour le lieu d'où arrive l'usager. Il s'agit du numéro matricule attribué par le ministère de la Santé et des Services sociaux comme numéro de permis d'exploitation à la délivrance du permis ou d'une valeur attribuée à un lieu qui n'est pas une installation. Dans le cas où un établissement a plus d'une entité physique (installation), indiquer le code de l'entité d'où arrive l'usager, ce qui permettra de faire la distinction entre le transfert vers un autre établissement et le déplacement d'une installation à l'autre d'un même établissement.&#xA;28 : Code de l'installation ou du lieu vers lequel a été dirigé l'usager après son hospitalisation. Il s'agit du numéro matricule attribué par le ministère de la Santé et des Services sociaux à la délivrance du permis s'il s'agit d'une installation, ou d'une valeur attribuée pour tout autre lieu. Dans le cas où une entreprise a plus d'une entité physique (installation), indiquer le code de l'entité vers où est dirigé l'usager, ce qui permettra de faire la distinction entre le transfert vers un autre établissement et le déplacement d'une installation à l'autre d'un même établissement. La valeur 00000000 est attribuée pour l'usager dont le « type de destination » a une valeur 21 (domicile), 31 (départ sans autorisation), 34 (maison funéraire après prélèvement d'organes) ou dans certaines conditions, une valeur 17 (CLSC) ou 30 (maison funéraire)." />
+              </property>
+              <property>
+                <code>Code d'organisme (023)</code>
+                <isNullable>False</isNullable>
+                <isForeign>True</isForeign>
+                <foreignConcept>ETABLISSEMENT</foreignConcept>
+              </property>
+            </properties>
+            <foreigns>
+              <foreign>
+                <code>ETABLISSEMENT-INSTALLATION</code>
+                <baseConcept>ETABLISSEMENT</baseConcept>
+                <baseMin>1</baseMin>
+                <baseMax>N</baseMax>
+                <refMin>1</refMin>
+                <refMax>1</refMax>
+              </foreign>
+            </foreigns>
+          </concept>
+          <concept>
+            <code>AUTOPSIE</code>
+            <properties>
+              <property>
+                <code>Code autopsie confirmant la cause du décès</code>
+                <alias>021</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>1</length>
+                <isNullable>False</isNullable>
+                <isUnique>True</isUnique>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique,  Longueur : 1." />
+                  <DEFINITION text="Code indiquant s'il y a eu autopsie ou non et dans l'affirmative, si la certification de la cause du décès tient compte de l'information fournie par l'autopsie." />
+                  <DESCRIPTIONCN text="Peut être absent. Valeurs par défaut : Zéro (0)." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance verticale au central avec date du décès. &#xA;Correspondance verticale au central avec source d'information décès. &#xA;Correspondance verticale au central avec code de l'organisme. &#xA;Correspondance verticale au central avec date de confirmation de la tumeur." />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO, Système Statistiques démographiques (K29), Province déclarante RCC, CH québécois non client de MED-ÉCHO, Laboratoire." />
+                  <DOMAINEDEVALEURS text="Telles qu'inscrites au Fichier des décès : &#xA;1 : autopsie pratiquée, la cause déclarée du décès tient compte des résultats. &#xA;2 : autopsie pratiquée, la cause déclarée du décès ne tient pas compte des résultats. &#xA;9 : inconnu   " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                </udps>
+              </property>
+              <property>
+                <code>Numéro d'enregistrement du décès</code>
+                <alias>019</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>6</length>
+                <isNullable>False</isNullable>
+                <isUnique>True</isUnique>
+                <isForeign>True</isForeign>
+                <foreignConcept>DECES</foreignConcept>
+                <udps>
+                  <FORMAT text="Alphanumérique  Longueur : 6  " />
+                  <DEFINITION text="Numéro séquentiel utilisé pour identifier le dossier de chacun des résidents du Québec qui décède au cours d'une année.  Il est attribué selon l'ordre d'arrivée des formulaires au cours de l'année du décès et des années subséquentes.  " />
+                  <DESCRIPTIONCN text="Peut être absent.  Valeurs par défaut : Zéro (0)  " />
+                  <VALIDATIONSINTERELEMENT text="Correspondance verticale au central avec date du décès. &#xA;Correspondance verticale au central avec source d'information  décès. &#xA;Correspondance verticale au central avec code de l'organisme.  " />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO     " />
+                  <DOMAINEDEVALEURS text="Telles qu'inscrites au Ficher des décès du Québec (K29). Liste des valeurs permises : &#xA;101001 à 150000 : si la personne est décédée au Québec &#xA;501001 et plus : si la personne est décédée à l'extérieur du Québec &#xA;999998 : si la personnes est décédée à l'extérieur du Canada &#xA;999999 :  personne décédée, mais numéro d'enregistrement inconnu " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé  " />
+                  <TRANSMISSION text="Élément non transmis à la banque centrale actuellement.  " />
+                </udps>
+              </property>
+            </properties>
+            <foreigns>
+              <foreign>
+                <code>DÉCÈS-AUTOPSIE</code>
+                <baseConcept>DÉCÈS</baseConcept>
+                <baseMin>0</baseMin>
+                <baseMax>N</baseMax>
+                <refMin>1</refMin>
+                <refMax>1</refMax>
+              </foreign>
+            </foreigns>
+          </concept>
+          <concept>
+            <code>TRANSMISSION</code>
+            <properties>
+              <property>
+                <code>Statut d'envoi à Statisque Canada</code>
+                <alias>901</alias>
+                <baseType>INTEGER</baseType>
+                <length>1</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Numérique,  Longueur : 1." />
+                  <DEFINITION text="Code indiquant la nature de la transaction à transmettre à Statistique Canada : une nouvelle inscription, la mise à jour d'un enregistrement déjà transmis, la suppression d'un enregistrement ou le changement de propriété." />
+                  <DESCRIPTIONCN text="Peut être absent." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance verticale au central avec date de transmission à Statistique Canada. &#xA;Correspondance verticale (ou hiérarchique)au central avec statut de la tumeur." />
+                  <DOMAINEDEVALEURS text="1 ajout &#xA;2 mise à jour &#xA;3 suppression &#xA;4 changement de propriété " />
+                  <REQUISPAR text="Le MSSS et le RCC." />
+                </udps>
+              </property>
+              <property>
+                <code>Date de transmission</code>
+              </property>
+              <property>
+                <code>Date d'envoi à Statistique Canada</code>
+                <alias>902</alias>
+                <baseType>INTEGER</baseType>
+                <length>8</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Numérique,  Longueur : 8." />
+                  <DEFINITION text="Date à laquelle une copie de l'enregistrement &quot; patient &quot; a été extraite du FTQ pour l'introduction initiale ou la mise à jour subséquente dans le RCC." />
+                  <DESCRIPTIONCN text="Peut être absent. Valeurs par défaut : Zéro (0). " />
+                  <PRECISIONS text="Date complète figurant dans l'ordinateur au moment où l'enregistrement patient ou la tumeur a été extrait pour être transmis à Statistique Canada." />
+                  <DOMAINEDEVALEURS text="Positions 1 à 4 :  siècle et année &#xA;Positions 5 et 6 :  mois &#xA;Positions 7 et 8 :  jour " />
+                  <REQUISPAR text="Le MSSS et le RCC." />
+                </udps>
+              </property>
+              <property>
+                <code>Code de l'utlisateur de confirmation</code>
+              </property>
+              <property>
+                <code>Code du statut de raccordement</code>
+              </property>
+            </properties>
+            <foreigns />
+          </concept>
+          <concept>
+            <code>DOSSIER PATIENT</code>
+            <properties>
+              <property>
+                <code>Numéro de dossier médical</code>
+                <alias>016</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>12</length>
+                <isNullable>False</isNullable>
+                <isUnique>True</isUnique>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique  Longueur : 12" />
+                  <DEFINITION text="Le numéro de dossier médical attribué à la personne par l'établissement où le diagnostic a été posé. Une personne pour laquelle des diagnostics sont posés dans des établissements différents se verra assigner un numéro de dossier distinct pour chacun de ces établissements." />
+                  <DESCRIPTIONCN text="Cette information est obligatoire." />
+                  <PRECISIONS text="Le numéro de dossier doit être différent de zéro (0)." />
+                  <DOMAINEDEVALEURS text="Les lettres A à Z ainsi que les nombres 0 à 9. " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                </udps>
+              </property>
+              <property>
+                <code>Date de création du dossier patient</code>
+                <alias>027</alias>
+                <baseType>INTEGER</baseType>
+                <length>8</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Numérique  Longueur : 8." />
+                  <DEFINITION text="Date de la première déclaration de la première tumeur pour la personne." />
+                  <DESCRIPTIONCN text="Cette information est obligatoire. " />
+                  <VALIDATIONSINTERELEMENT text="Correspondance relationnelle au central avec date de naissance. &#xA;Correspondance relationnelle au central avec date de décès. &#xA;Correspondance relationnelle au central avec date du jour. &#xA;Correspondance relationnelle au central avec date de déclaration." />
+                  <DOMAINEDEVALEURS text="Positions 1 à 4 : siècle et année (1975 à l'année courante) &#xA;Positions 5 et 6 : mois &#xA;Positions 7 et 8 : jour " />
+                  <REQUISPAR text="Le MSSS et le RCC." />
+                </udps>
+              </property>
+              <property>
+                <code>Date de la dernière hospitalisation</code>
+                <alias>045</alias>
+                <baseType>INTEGER</baseType>
+                <length>8</length>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Numérique  Longueur : 8." />
+                  <DEFINITION text="Date de la dernière hospitalisation de la personne que l'on a traitée dans le système. Cette date est mise à jour par le raccordement.  " />
+                  <DESCRIPTIONCN text="Cette information est obligatoire." />
+                  <DOMAINEDEVALEURS text="Positions 1 à 4 : siècle et année (1875-2000 années valides) &#xA;Positions 5 et 6 : mois de janvier à décembre ( 01 à 12 )  &#xA;Positions 7 et 8 : jour du mois ( 01 à 31) " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé. " />
+                  <TRANSMISSION text="Donnée générée par le système." />
+                </udps>
+              </property>
+              <property>
+                <code>Numéro identification de la personne</code>
+                <alias>011</alias>
+                <isNullable>False</isNullable>
+                <isForeign>True</isForeign>
+                <foreignConcept>PERSONNE</foreignConcept>
+              </property>
+              <property>
+                <code>Code installation</code>
+                <isNullable>False</isNullable>
+                <isUnique>True</isUnique>
+                <isForeign>True</isForeign>
+                <foreignConcept>INSTALLATION</foreignConcept>
+              </property>
+            </properties>
+            <foreigns>
+              <foreign>
+                <code>PERSONNE-DOSSIER PATIENT</code>
+                <baseConcept>PERSONNE</baseConcept>
+                <baseMin>0</baseMin>
+                <baseMax>N</baseMax>
+                <refMin>1</refMin>
+                <refMax>1</refMax>
+              </foreign>
+              <foreign>
+                <code>ADMISSION INSTALLATION-DOSSIER PATIENT</code>
+                <baseConcept>ADMISSION INSTALLATION</baseConcept>
+                <baseMin>1</baseMin>
+                <baseMax>1</baseMax>
+                <refMin>0</refMin>
+                <refMax>N</refMax>
+              </foreign>
+              <foreign>
+                <code>INSTALLATION-DOSSIER PATIENT</code>
+                <baseConcept>INSTALLATION</baseConcept>
+                <baseMin>0</baseMin>
+                <baseMax>N</baseMax>
+                <refMin>1</refMin>
+                <refMax>1</refMax>
+              </foreign>
+            </foreigns>
+          </concept>
+          <concept>
+            <code>ETABLISSEMENT</code>
+            <properties>
+              <property>
+                <code>Code d'organisme</code>
+                <alias>023</alias>
+                <baseType>INTEGER</baseType>
+                <length>8</length>
+                <isUnique>True</isUnique>
+                <description text="&#xA;" />
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Numérique,  Longueur : 8.   &#xA;" />
+                  <DEFINITION text="Code de l'organisme qui transmet au Fichier des tumeurs les données d'enregistrement initiales ou les données de mise à jour de l'enregistrement.  Le code correspond au numéro de permis délivré à chacun des établissements de santé du Québec par le MSSS. Pour les organismes autres et ceux situés hors du Québec, des codes spéciaux ont été donnés par le Fichier des tumeurs.  &#xA;" />
+                  <DESCRIPTIONCN text="Cette information est obligatoire.  &#xA;" />
+                  <VALIDATIONSINTERELEMENT text="Validation-interélément au central avec source d'information sur le décès.  &#xA;" />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO Référentiel Établissements (M02).  " />
+                  <DOMAINEDEVALEURS text="Le code doit être conforme aux valeurs présentées dans la liste des valeurs permises tirée du système référentiel ministériel &quot; ÉTABLISSEMENTS, M02 &quot; et selon la table des codes spéciaux.  Description de certains codes particuliers :  Les codes suivants sont à utiliser lorsque l'information est transmise par d'autres fichiers canadiens : &#xA;07900079  Terre-Neuve &#xA;07901077 Nouvelle-Écosse &#xA;07902075 Île du Prince-Édouard &#xA;07903073 Nouveau-Brunswick &#xA;07904071 Ontario &#xA;07905078 Manitoba &#xA;07906076 Alberta &#xA;07907074 Saskatchewan &#xA;07908072 Colombie-Britannique &#xA;07909070 Territoires du Nord-Ouest &#xA;07910078 Yukon  &#xA;00000029 Fichier des décès Québec" />
+                  <REQUISPAR text="Le MSSS et les établissements de santé.  &#xA;" />
+                </udps>
+              </property>
+              <property>
+                <code>Code de la région de l'organisme</code>
+                <alias>043</alias>
+                <length>8</length>
+                <isNullable>False</isNullable>
+                <isForeign>True</isForeign>
+                <foreignConcept>REGIONSOCIOSANITAIRE</foreignConcept>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Numérique,  Longueur : 8." />
+                  <DEFINITION text="Code de l'organisme qui transmet au Fichier des tumeurs les données d'enregistrement initiales ou les données de mise à jour de l'enregistrement.  Le code correspond au numéro de permis délivré à chacun des établissements de santé du Québec par le MSSS. Pour les organismes autres et ceux situés hors du Québec, des codes spéciaux ont été donnés par le Fichier des tumeurs." />
+                  <DESCRIPTIONCN text="Cette information est obligatoire." />
+                  <VALIDATIONSINTERELEMENT text="Validation inter élément au central avec source d'information sur le décès." />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO, Référentiel Établissements (M02)." />
+                  <DOMAINEDEVALEURS text="Le code doit être conforme aux valeurs présentées dans la liste des valeurs permises tirée du système référentiel ministériel &quot; ÉTABLISSEMENTS, M02 &quot; et selon la table des codes spéciaux.  Description de certains codes particuliers :  Les codes suivants sont à utiliser lorsque l'information est transmise par d'autres fichiers canadiens : &#xA;07900079  Terre-Neuve &#xA;07901077 Nouvelle-Écosse &#xA;07902075 Île du Prince-Édouard &#xA;07903073 Nouveau-Brunswick &#xA;07904071 Ontario &#xA;07905078  Manitoba &#xA;07906076 Alberta &#xA;07907074 Saskatchewan &#xA;07908072 Colombie-Britannique &#xA;07909070 Territoires du Nord-Ouest &#xA;07910078 Yukon &#xA;00000029 Fichier des décès Québec   " />
+                  <REQUISPAR text="Le MSSS et les établissements de santé." />
+                </udps>
+              </property>
+            </properties>
+            <foreigns>
+              <foreign>
+                <code>REGION SOCIO-SANITAIRE-ETABLISSEMENT</code>
+                <baseConcept>REGION SOCIO-SANITAIRE</baseConcept>
+                <baseMin>0</baseMin>
+                <baseMax>N</baseMax>
+                <refMin>1</refMin>
+                <refMax>1</refMax>
+              </foreign>
+            </foreigns>
+          </concept>
+          <concept>
+            <code>CLSC</code>
+            <properties>
+              <property>
+                <code>Code CLSC de résidence du patient</code>
+                <alias>015</alias>
+                <baseType>NVARCHAR</baseType>
+                <length>5</length>
+                <isNullable>False</isNullable>
+                <isUnique>True</isUnique>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Alphanumérique  Longueur : 5" />
+                  <DEFINITION text="Il s'agit d'un code qui indique les territoires ou districts de CLSC de résidence du patient au moment du diagnostic. " />
+                  <PRECISIONS text="Cette donnée est attribuée, à l'aide du code postal et du code municipal, par le système référentiel ministériel &quot; Découpage géographique &quot; (M22)." />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO" />
+                  <DOMAINEDEVALEURS text="Liste des valeurs permises : Selon les codes du système ministériel référentiel &quot; Découpage géographique &quot; (M22) :  &#xA;Positions 1 et 2 : région sociosanitaire. &#xA;Position 3 : département de santé communautaire. &#xA;Positions 4 et 5 : centre local de santé communautaire.  &#xA;XX000 : indéterminé (XX =code de la région sociosanitaire) &#xA;99999 : touriste  Le découpage géographique est évolutif en fonction de décisions administratives gouvernementales qui touchent à la fois les territoires du MSSS et les autres entités territoriales. " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé " />
+                  <TRANSMISSION text="Donnée générée par le système.  " />
+                </udps>
+              </property>
+              <property>
+                <code>Nom du CLSC</code>
+                <udps>
+                  <DEFINITION text="Voir élément 015 Code CLSC de résidence du patient&#xA;" />
+                </udps>
+              </property>
+            </properties>
+            <foreigns />
+          </concept>
+          <concept>
+            <code>REGION SOCIO-SANITAIRE</code>
+            <properties>
+              <property>
+                <code>Code de la région de l'organisme</code>
+                <alias>043</alias>
+                <baseType>INTEGER</baseType>
+                <length>2</length>
+                <isNullable>False</isNullable>
+                <isUnique>True</isUnique>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Numérique  Longueur : 2" />
+                  <DEFINITION text="Code de la région socio-sanitaire de l'établissement qui était en vigueur lorsque le diagnostic a été posé." />
+                  <DESCRIPTIONCN text="Cette information est obligatoire.  " />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO." />
+                  <DOMAINEDEVALEURS text="01 Bas Saint-Laurent &#xA;02 Saguenay-Lac Saint-Jean &#xA;03 Québec &#xA;04 Mauricie-Bois-Francs &#xA;05 Estrie 06 Montréal-Centre &#xA;07 Outaouais &#xA;08 Abitibi-Témiscamingue &#xA;09 Côte-Nord &#xA;10 Nord-du-Québec &#xA;11 Gaspésie-Iles-de-la-Madeleine &#xA;12 Chaudière-Appalaches &#xA;13 Laval &#xA;14 Lanaudière &#xA;15 Laurentides &#xA;16 Montérégie &#xA;17 Nunavik &#xA;18 Terres-Cries-de-la-Baie-James &#xA;99 Hors Québec " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                </udps>
+              </property>
+            </properties>
+            <foreigns />
+          </concept>
+          <concept>
+            <code>CIM-9</code>
+            <description text="Ça devrait changer à CIM-10" />
+            <properties>
+              <property>
+                <code>Code CIM-9</code>
+                <isNullable>False</isNullable>
+                <isUnique>True</isUnique>
+              </property>
+            </properties>
+            <foreigns />
+          </concept>
+          <concept>
+            <code>CATÉGORIE MÉTHODES DIAGNOSTIQUES</code>
+            <properties>
+              <property>
+                <code>Mode de diagnostic</code>
+                <alias>032</alias>
+                <baseType>INTEGER</baseType>
+                <length>2</length>
+                <isNullable>False</isNullable>
+                <isUnique>True</isUnique>
+                <udps>
+                  <DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004" />
+                  <FORMAT text="Numérique  Longueur : 2." />
+                  <DEFINITION text="Le procédé le plus définitif par lequel la tumeur a été diagnostiquée." />
+                  <DESCRIPTIONCN text="Cette information est obligatoire." />
+                  <PRECISIONS text="En général, le mode ou méthode de diagnostic doit être fondé sur l'état du patient avant l'administration de tout traitement autre qu'une intervention chirurgicale.  Voir l'algorithme annexé ci-joint." />
+                  <VALIDATIONSINTERELEMENT text="Correspondance verticale au central avec morphologie. &#xA;Correspondance hiérarchique au central avec date du décès. &#xA;Correspondance hiérarchique au central avec source information décès." />
+                  <SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO." />
+                  <DOMAINEDEVALEURS text="Les catégories de méthodes diagnostiques sont énumérées ci-dessous, en ordre décroissant de priorité :  &#xA;01 biopsie ou histologie (que le tissu ait été prélevé du siège primaire ou d'un siège secondaire) &#xA;02 cytologie &#xA;03 autopsie&#xA;04 radiologie (médecine nucléaire) &#xA;05 diagnostic clinique &#xA;06 fait antérieurement ou non spécifié &#xA;10 certificat de décès seulement (le certificat de décès étant l'unique source de renseignements sur le cas) " />
+                  <REQUISPAR text="Le MSSS, le RCC et les établissements de santé." />
+                </udps>
+              </property>
+              <property>
+                <code>Nom méthode diagnostique</code>
+                <udps>
+                  <DEFINITION text="Voir élément 032 Mode de diagnostic" />
+                </udps>
+              </property>
+            </properties>
+            <foreigns />
+          </concept>
+        </concepts>
+      </model>
+    </models>
+  </domain>
+</domains>

@@ -81,7 +81,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         // DGT** Creacion de columnas  
         for (var ix in myMeta.fields ) {
-            var vFld  =  myMeta.fields[ix]; 
+            var vFld  =  myMeta.fields[ix];
+            if (!vFld.header) { vFld.header = vFld.name }
             var col = {
                 dataIndex: vFld.name,
                 text: vFld.header,
@@ -134,7 +135,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 items: grid 
             }, {
                 id: this.IdeSheet, 
-                title: 'Fiche',
+                title: 'Fiche descriptive de lélément de donnée',
                 region: 'east',
                 flex: 1,
                 collapsible: true,
@@ -142,7 +143,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 collapsed: true,
                 layout: 'fit',
                 minSize: 50,
-                html: 'Texto xxx' 
+                html: '' 
             },{
                 xtype: 'pagingtoolbar',
                 region: 'south',

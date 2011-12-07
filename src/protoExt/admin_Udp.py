@@ -17,7 +17,7 @@ class UdpAdmin(django.contrib.admin.ModelAdmin):
     protoExt[ 'protoFields' ] =  {        
           'code': {'header' : 'Udp', 'type': 'CharField' ,  'sortable' : True, 'filterable' : True, 'width': 300 },
           'metaObj__code': {'header' : 'Poperty', 'type': 'CharField' ,  'sortable' : True, 'filterable' : True, 'width': 300 },  
-          'metaObj__objType': {'header' : 'objType', 'type': 'CharField' ,  'sortable' : True, 'filterable' : True, 'width': 300 },  
+#         'metaObj__objType': {'header' : 'objType', 'type': 'CharField' ,  'sortable' : True, 'filterable' : True, 'width': 300 },  
           'metaObj__id': {'header' : 'metaObj Id', 'type': 'IntegerField' ,  'sortable' : True, 'filterable' : True},  
      }
 

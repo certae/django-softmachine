@@ -67,8 +67,8 @@ class ProtoGridFactory(object):
         for key in self.protoFields:        
 
             fdict = self.protoFields[ key ]
-            if ( getattr( fdict, 'name', '') == '') :
-                fdict[ 'name' ] = key  
+            if (fdict.get( 'name', '') == '') : fdict[ 'name' ] = key  
+#           if (fdict.get( 'header', '') == '') : fdict[ 'header' ] = key  
 
             self.fields.append(fdict)
             self.QFields +=  ',' + fdict['name'] 
@@ -148,9 +148,10 @@ def Q2Dict (  QFields, pRows , protoAdmin ):
         prpName = pUDP['propertyName'] 
         prpValue = pUDP['propertyValue'] 
         prpPrefix = pUDP['propertyPrefix']
-        lsProperties =  pUDP['properties']
+        lsProperties =  []
+        for fName in QFields:
+            if fName.startswith( prpPrefix + '__'): lsProperties.append(fName)
                 
-
 
 #   Esta forma permite agregar las funciones entre ellas el __unicode__
     for item in pRows:
@@ -193,9 +194,9 @@ def Q2Dict (  QFields, pRows , protoAdmin ):
                 cllUpd = eval ( 'item.' + udpTable + '_set.all()' ) 
                 
                 for lUpd in cllUpd:
-                    prpGridName = getattr( lUpd, prpName , '') 
+                    prpGridName = prpPrefix + '__' + getattr( lUpd, prpName , '') 
                     if prpGridName in lsProperties:
-                        rowdict[ prpPrefix +'__' + prpGridName ] = getattr( lUpd, prpValue, '' )
+                        rowdict[ prpGridName ] = getattr( lUpd, prpValue, '' )
                 
 
         # Agrega la fila al diccionario
