@@ -1,31 +1,3 @@
-.icon-user {
-    background-image: url(../images/user.png) !important;
-}
-
-.icon-user-add {
-    background-image: url(../images/user_add.gif) !important;
-}
-
-.icon-save {
-    background-image: url(../images/save.gif) !important;
-}
-
-.icon-reset {
-    background-image: url(../images/stop.png) !important;
-}
-
-.icon-grid {
-    background-image: url(../images/grid.png) !important;
-}
-
-.icon-add {
-    background-image: url(../images/add.png) !important;
-}
-
-.icon-delete {
-    background-image: url(../images/delete.png) !important;
-}
-
 
 .title {
     font-family: Arial, sans-serif;
@@ -44,3 +16,42 @@
 .x-tree-selected {
     font-weight: bold;
 }
+
+/*  Iconos del ToolBar */
+
+.icon-search  { background-image: url(../img/protoImg/search16.png ) !important; }
+.icon-filter  { background-image: url(../img/protoImg/filter24.png ) !important; }
+.icon-order   { background-image: url(../img/protoImg/order24.png ) !important;  }
+.icon-views   { background-image: url(../img/protoImg/cards24.png ) !important;  }
+.icon-details { background-image: url(../img/protoImg/details24.png ) !important;}
+
+.icon-page_white_get { background-image:url(../img/famfamfam/page_white_get.png) !important; }
+
+
+.sort-desc {
+    background-image: url(../img/protoImg/sort_desc.gif) !important;
+    background-position: 4px 7px !important;
+}
+
+.sort-asc {
+    background-image: url(../img/protoImg/sort_asc.gif) !important;
+    background-position: 4px 7px !important;
+}
+
+
+
+/*  Iconos Aplicacion  */
+.icon-model    { background-image: url(../img/app/model.png ) !important;}
+.icon-concept  { background-image: url(../img/app/concept.png ) !important;}
+.icon-property { background-image: url(../img/app/property.png ) !important;}
+
+
+
+/*  Iconos temporales */
+.icon-1 { background-image: url(../img/tmp/1.png ) !important; }
+.icon-2 { background-image: url(../img/tmp/2.png ) !important; }
+.icon-3 { background-image: url(../img/tmp/3.png ) !important; }
+.icon-4 { background-image: url(../img/tmp/4.png ) !important; }
+.icon-5 { background-image: url(../img/tmp/5.png ) !important; }
+.icon-6 { background-image: url(../img/tmp/6.png ) !important; }
+.icon-7 { background-image: url(../img/tmp/7.png ) !important; }

@@ -1,5 +1,5 @@
 Ext.Loader.setConfig({enabled: true});
-Ext.Loader.setPath('Ext.ux', '/u/data/ExtJs/ext-4.0.7-gpl/examples/ux/');
+Ext.Loader.setPath('Ext.ux', '../ux/');
 
 Ext.require([
     'Ext.data.*',
@@ -27,16 +27,16 @@ Ext.onReady(function() {
 
 
     //create the toolbar with the 2 plugins
-    var tbar = Ext.create('Ext.toolbar.Toolbar', {
+    var orderTbar = Ext.create('Ext.toolbar.Toolbar', {
         items  : [{
             xtype: 'tbtext',
             text: 'Sorting order:',
-            reorderable: false
-        }, '-'],
+            reorderable: false 
+        	}, '-'],
         plugins: [reorderer,  ]
     });
 
-    tbar.add(createSorterButtonConfig({
+    orderTbar.add(createSorterButtonConfig({
         text: 'Name',
         sortData: {
             property: 'name',
@@ -45,7 +45,7 @@ Ext.onReady(function() {
     }));
 
 
-    tbar.add(createSorterButtonConfig({
+    orderTbar.add(createSorterButtonConfig({
         text: 'Rating',
         sortData: {
             property: 'rating',
@@ -53,7 +53,7 @@ Ext.onReady(function() {
         }
     }));
 
-    tbar.add(createSorterButtonConfig({
+    orderTbar.add(createSorterButtonConfig({
         text: 'Salary',
         sortData: {
             property: 'salary',
@@ -109,7 +109,7 @@ Ext.onReady(function() {
 
     // create the Grid
     var grid = Ext.create('Ext.grid.Panel', {
-        tbar : tbar,
+        tbar : orderTbar,
         store: store,
         columns: [
             {
@@ -172,7 +172,7 @@ Ext.onReady(function() {
      */
     function getSorters() {
         var sorters = [];
-        Ext.each(tbar.query('button'), function(button) {
+        Ext.each(orderTbar.query('button'), function(button) {
             sorters.push(button.sortData);
         }, this);
         return sorters;

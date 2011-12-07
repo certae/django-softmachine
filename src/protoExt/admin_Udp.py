@@ -6,9 +6,8 @@ class UdpAdmin(django.contrib.admin.ModelAdmin):
     list_filter = ( 'code', )
     search_fields = ( 'code', 'valueUdp')
 
-    protoExt = {}
+    protoExt = { 'protoMenuIx': -1 }
     protoExt[ 'description' ] = 'Esta es la description del concpeto concepto'
-    protoExt[ 'menu_index' ] = 0
     
 
     # Define la apariencia de los campos en la grilla,  

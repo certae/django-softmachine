@@ -6,13 +6,8 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
     requires: ['ProtoUL.view.ProtoMasterDetail', ],
 
     initComponent: function() {
-        this.tabBar = {
-            border: false
-        };
-        
         
         __TabContainer = this; 
-        
         this.callParent();
     },
     
@@ -22,6 +17,7 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
                                  
         var tab = this.add({
             title: myMeta.shortTitle  ,
+            iconCls: myMeta.protoIcon , 
             closable: true, 
             layout: 'fit',
             items: [

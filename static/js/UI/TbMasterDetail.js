@@ -1,12 +1,124 @@
 /*
  * 
  */
+
+
 Ext.define('ProtoUL.UI.TbMasterDetail', {
-    extend: 'Ext.Toolbar',
+    // extend: 'Ext.Toolbar',
+    // extend: 'Ext.container.Container',
+    extend: 'Ext.Panel',
     alias: 'widget.tbMasterDetail',
+    
+    // isToolbar: true,
+    // baseCls  : Ext.baseCSSPrefix + 'toolbar',
+    // ariaRole : 'toolbar',
+    // vertical: false,    
 
     initComponent: function() {
 
+        // Barras internas 
+        var ideTbSearch = Ext.id();
+        var ideTbDetails = Ext.id();
+        var ideTbOrder = Ext.id();
+        var ideTbFilter = Ext.id();
+        var ideTbViews = Ext.id();
+
+
+        // Reorder obj 
+        var reorderer = Ext.create('ProtoUL.ux.BoxReorderer', {
+            listeners: {
+                scope: this,
+                Drop: function(r, c, button) { //update sort direction when button is dropped
+                    changeSortDirection(button, false);
+                }
+            }
+        });
+    
+
+        //--------------------------------------------------------
+
+
+        var tbar1 = Ext.create('Ext.Toolbar', {
+            dock: 'top',
+            defaults: { 
+                    scale: 'medium',
+                    enableToggle: true,
+                    toggleGroup: 'tb1' , 
+                    handler: toogleTb2 
+                },
+            items: [{
+                pressed: true,
+                text: 'Search',
+                iconCls: 'icon-search',
+                idTb2  : ideTbSearch
+            },'-',{
+                text: 'Details',
+                iconCls: 'icon-details',
+                idTb2  : ideTbDetails
+            },'-',{
+                text: 'Order',
+                iconCls: 'icon-order',
+                idTb2  : ideTbOrder
+            },'-',{
+                text: 'Filter',
+                iconCls: 'icon-filter',
+                idTb2  : ideTbFilter
+            },'-',{
+                text: 'Views',
+                iconCls: 'icon-views',
+                idTb2  : ideTbViews
+            }]
+        
+        });
+        
+        var tbar2 = Ext.create('Ext.Toolbar', {
+            dock: 'top',
+            defaults: { scale: 'small', hidden : false },
+
+            id : ideTbOrder, 
+            plugins: [reorderer,  ],
+             
+            items: [{
+                id : ideTbSearch , 
+                xtype: 'buttongroup',
+                hidden : false, 
+            },{
+                id : ideTbDetails, 
+                xtype: 'buttongroup',
+            // },{
+                // xtype: 'toolbar',
+                // items  : [{
+                    // xtype: 'tbtext',
+                    // text: 'Sorting order:',
+                    // reorderable: false 
+                    // }, '-'],
+            },{
+                id : ideTbFilter, 
+                xtype: 'buttongroup',
+            },{
+                id : ideTbViews, 
+                xtype: 'buttongroup',
+            },{
+
+                    xtype: 'tbtext',
+                    text: 'Sorting order:',
+                    reorderable: false 
+                    }, '-',
+            ]
+            });
+
+        function toogleTb2( but  ) {
+            
+            Ext.each(tbar2.query('buttongroup'), function(button) {
+                button.hide();
+            }, this);
+            
+            var tb2 = Ext.getCmp ( but.idTb2  )
+            tb2.show()
+              
+        }; 
+
+        //--------------------------------------------------------
 
         // Asigna una referencia al objeto 
         var myMeta = this.protoMeta; 
@@ -14,20 +126,21 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
 
         // Menu Detail 
-        var menuDetail = new Ext.menu.Menu({
-        	hidden:true
-        	});
+        // var menuDetail = new Ext.menu.Menu({ hidden:true  });
+        var menuDetail = Ext.getCmp( ideTbDetails );
         var menuPromDetail = Ext.id();
         menuDetail.add({
+            iconCls : 'icon-page_white_get', 
             text: '<b>Promote Detail<b>',
             id: menuPromDetail,
             disabled: true,
             handler:  onMenuPromoteDetail
-        },{
-            xtype: 'menuseparator'
+        // },{  xtype: 'menuseparator'
         });
         configureMenuDetail( ); 
 
+
+        //--------------------------------------------------------
 
 
         // Combo Columnas  
@@ -65,19 +178,18 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         // Criteria 
         var searchCr = new Ext.form.TextField({
             emptyText: 'search criteria ..',
-            width: 135
+            width: 200
         })
 
         // Load Data button 
         var searchBtn = new Ext.button.Split({
             text: 'Load data',
             handler: onClickLoadData,
-            // iconCls: 'blist',
+            iconCls: 'icon-search',
             menu: {
                 items: [{
                     text: '<b>Clear filter<b>',
                     handler: onClickClearFilter, 
-                    
                 // }, {
                     // text: 'add filter',
                     // handler: __MasterDetail.onClickFilter
@@ -85,23 +197,85 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             }
         })
         
-        tbItems = [{
-            text: 'Details',
-            // iconCls: 'bmenu',    // <-- icon
-            menu: menuDetail        // assign menu by instance
-            }, 
-            '->',
-            comboCols,
-            comboOp,
+
+        tbItems = [
+            searchBtn,    
             searchCr,
-            searchBtn    
+            comboOp,
+            comboCols,
             ];
+        
+        var tbSearch = Ext.getCmp( ideTbSearch );
+        tbSearch.add(tbItems )
 
         // Inicializa Combos 
         clearCombos()     
+
+// ----------------------------------------------------------------------------------
+
+        /**
+         * Convenience function for creating Toolbar Buttons that are tied to sorters
+         * @param {Object} config Optional config object
+         * @return {Object} The new Button configuration
+         */
+        function createSorterButtonConfig(config) {
+            config = config || {};
+            Ext.applyIf(config, {
+                listeners: {
+                    click: function(button, e) {
+                        changeSortDirection(button, true);
+                    }
+                },
+                iconCls: 'sort-' + config.sortData.direction.toLowerCase(),
+                reorderable: true,
+                xtype: 'button'
+            });
+            return config;
+        }
+
+
+        var orderTbar = Ext.getCmp( ideTbOrder  );
+        orderTbar.add(createSorterButtonConfig({
+            text: 'Name',
+            sortData: {
+                property: 'name',
+                direction: 'ASC'
+            }
+        }));
+
+
+        orderTbar.add(createSorterButtonConfig({
+            text: 'Rating',
+            sortData: {
+                property: 'rating',
+                direction: 'DESC'
+            }
+        }));
+
+        orderTbar.show()
+        orderTbar.doLayout()
+
+// ----------------------------------------------------------------------------------
+
+
         
         // Objetos internos 
-        this.items = tbItems;      
+        // this.items = tbItems;      
+        Ext.apply(this, {
+            layout: {
+                type: 'vbox',
+                border: false, 
+                align: 'stretchmax'
+            },
+            dockedItems: [
+                tbar1,  tbar2
+            ]
+                
+        });
+        
+        // panel.add(tool1);
+        // panel.add(tool2);
+        
         this.callParent();
 
         function configureComboColumns ( tb ){
@@ -230,6 +404,48 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             
         };
 
+// ------------------------------------------------------------------------------------------------
+
+
+    /**
+     * Callback handler used when a sorter button is clicked or reordered
+     * @param {Ext.Button} button The button that was clicked
+     * @param {Boolean} changeDirection True to change direction (default). Set to false for reorder
+     * operations as we wish to preserve ordering there
+     */
+    function changeSortDirection(button, changeDirection) {
+        var sortData = button.sortData,
+            iconCls  = button.iconCls;
+        
+        if (sortData) {
+            if (changeDirection !== false) {
+                button.sortData.direction = Ext.String.toggle(button.sortData.direction, "ASC", "DESC");
+                button.setIconCls(Ext.String.toggle(iconCls, "sort-asc", "sort-desc"));
+            }
+            // store.clearFilter();
+            doSort();
+        }
+    }
+
+    function doSort() {
+        // store.sort(getSorters());
+    }
+
+    /**
+     * Returns an array of sortData from the sorter buttons
+     * @return {Array} Ordered sort data from each of the sorter buttons
+     */
+    function getSorters() {
+        var sorters = [];
+        // Ext.each(tbar.query('button'), function(button) {
+            // sorters.push(button.sortData);
+        // }, this);
+        return sorters;
+    }
+
+    doSort();
+
+// ------------------------------------------------------------------------------------------------
 
 
 

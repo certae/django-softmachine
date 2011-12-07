@@ -59,6 +59,7 @@ def protoGetPCI(request):
         base_fields = grid.get_fields( None )
         protoDetails = grid.get_details()
         protoSheet = grid.protoAdmin.get( 'protoSheet', {}) 
+        protoIcon  = 'icon-%s' % grid.protoAdmin.get( 'protoIcon', '1') 
 
         #busca el id en la META
 #       id_field = model._meta.pk.name
@@ -73,17 +74,17 @@ def protoGetPCI(request):
                  'shortTitle': grid.title,
                  'description': grid.title,
                  'queryFields': grid.QFields, 
-
                  'idProperty': id_field,
                  'sortInfo':{
-                   "field": id_field, 
-                   "direction": 'DESC'
-                },
-                'fields': base_fields, 
-#                'protoTabs':[{'T1': ['Col1','Col2']},  {'T2': ['Col3','Col2']},],     
-                'protoDetails': protoDetails, 
-                'protoSheet': protoSheet, 
-            },
+                       "field": id_field, 
+                       "direction": 'DESC'
+                    },
+                 'fields': base_fields, 
+#                 'protoTabs':[{'T1': ['Col1','Col2']},  {'T2': ['Col3','Col2']},],     
+                 'protoDetails': protoDetails, 
+                 'protoIcon': protoIcon, 
+                 'protoSheet': protoSheet, 
+                 },
             'rows':[],
             'totalCount': pRowsCount, 
         }

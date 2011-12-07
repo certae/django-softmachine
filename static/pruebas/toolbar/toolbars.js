@@ -59,7 +59,6 @@ Ext.onReady(function() {
         }]
     
     });
-    tbar1.doLayout();
 
 
     var tbar2 = Ext.create('Ext.Toolbar', {
@@ -126,7 +125,6 @@ Ext.onReady(function() {
             }]
         }]
     });
-
     tbar2.doLayout();
 
     panel = new SamplePanel({

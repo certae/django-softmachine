@@ -18,6 +18,9 @@ Ext.application({
         'Ext.toolbar.Paging', 
         'Ext.layout.container.Border',
         'ProtoUL.view.Viewport',
+
+        'ProtoUL.ux.ToolbarDroppable',
+        'ProtoUL.ux.BoxReorderer'
     ],
 
     // controllers: [

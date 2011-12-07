@@ -51,7 +51,14 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
                 split: true
             },
             items: [{
-                tbar: tb,
+                region:'north',
+                height: 70,
+                collapsible: false,
+                split: false,
+                items: tb 
+            
+            }, {
+                // tbar: tb,
                 region: 'center',
                 flex: 1,
                 layout: 'fit',

@@ -5,7 +5,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     verbose_name_plural = 'Elements de donnees' 
     list_display =( 'code',  'description', )
 
-    protoExt = {}
+    protoExt = {'protoIcon': 'property' }
     
     protoExt[ 'protoDetails' ] = [
         {'menuText': 'Udp', 'conceptDetail': 'protoExt.Udp', 'detailField': 'metaObj__pk', 'masterField': 'pk'}, 

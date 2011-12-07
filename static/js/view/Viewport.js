@@ -8,7 +8,6 @@ Ext.define('ProtoUL.view.Viewport', {
         'ProtoUL.view.MenuTree',
         // 'ProtoUL.view.ProtoProperties',
         'ProtoUL.view.ProtoTabContainer',
-        // 'ProtoUL.globals.Tools',
     ],
 
     initComponent: function(){

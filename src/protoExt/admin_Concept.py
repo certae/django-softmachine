@@ -32,7 +32,7 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
         ]
     
 
-    protoExt = {}
+    protoExt = {'protoIcon': 'concept', }
     protoExt[ 'description' ] = 'Esta es la description del concpeto concepto'
     protoExt[ 'menu_index' ] = 0
     

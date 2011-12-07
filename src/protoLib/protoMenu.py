@@ -30,8 +30,12 @@ def protoGetMenuData(request):
 #   user = request.user
     for model, model_admin in site._registry.items():
 
-        protoModel = getattr(model, 'protoExt', {})
+#       protoModel = getattr(model, 'protoExt', {})
         protoAdmin = getattr(model_admin, 'protoExt', {}) 
+
+        # El menuIx determina tambien si aparece o no en el menu 
+        ixModAux = protoAdmin.get( 'protoMenuIx', ixMod)
+        if ixModAux < 0: continue 
 
         appCode = model._meta.app_label
         menuLabel = protoAdmin.get('app_name', appCode )
@@ -40,15 +44,16 @@ def protoGetMenuData(request):
         try: menuDefinition = settings.PROTO_APP.get( 'app_menu', {}).get( menuLabel, {} ) 
         except: menuDefinition = {}
             
-        if menuDefinition.get('hidden', False ): 
-            continue 
+        if menuDefinition.get('hidden', False ): continue 
 
-        ixModAux = protoModel.get('menu_index', protoAdmin.get( 'menu_index', ixMod) )
+        # Icono por defecto
+        protoIcon = 'icon-%s' % protoAdmin.get( 'protoIcon',  '1')
 
         model_dict = {
             'id': appCode + '.' + model._meta.object_name,
             'text': model._meta.verbose_name.title() ,
             'index': ixModAux ,
+            'iconCls': protoIcon ,
             'leaf': True,
         }
         if menuLabel in app_dict:
