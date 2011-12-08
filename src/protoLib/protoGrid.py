@@ -17,7 +17,7 @@ class ProtoGridFactory(object):
         
 
 
-        self.QFields = ''           # holds the Query Fields 
+        self.storeFields = ''           # holds the Query Fields 
 
         # Obtiene el nombre de la entidad 
         self.title = self.model._meta.verbose_name.title()
@@ -71,10 +71,10 @@ class ProtoGridFactory(object):
 #           if (fdict.get( 'header', '') == '') : fdict[ 'header' ] = key  
 
             self.fields.append(fdict)
-            self.QFields +=  ',' + fdict['name'] 
+            self.storeFields +=  ',' + fdict['name'] 
             
         #Recorta la primera ','       
-        self.QFields = self.QFields[1:]
+        self.storeFields = self.storeFields[1:]
         
     
     def get_fields(self, colModel):  
@@ -133,13 +133,13 @@ class ProtoGridFactory(object):
 
 
 # Obtiene el diccionario basado en el Query Set 
-def Q2Dict (  QFields, pRows , protoAdmin ):
+def Q2Dict (  storeFields, pRows , protoAdmin ):
     """ 
         return the row list from given queryset  
     """
 
     rows = []
-    QFields =  tuple(QFields[:].split(','))
+    storeFields =  tuple(storeFields[:].split(','))
 
 
     pUDP = protoAdmin.get( 'protoUdp', {}) 
@@ -149,14 +149,14 @@ def Q2Dict (  QFields, pRows , protoAdmin ):
         prpValue = pUDP['propertyValue'] 
         prpPrefix = pUDP['propertyPrefix']
         lsProperties =  []
-        for fName in QFields:
+        for fName in storeFields:
             if fName.startswith( prpPrefix + '__'): lsProperties.append(fName)
                 
 
 #   Esta forma permite agregar las funciones entre ellas el __unicode__
     for item in pRows:
         rowdict = {}
-        for fName in QFields:
+        for fName in storeFields:
             # UDP Se evaluan despues 
             if pUDP and fName.startswith( prpPrefix + '__'): 
                 continue  
@@ -208,15 +208,15 @@ def Q2Dict (  QFields, pRows , protoAdmin ):
     return rows
 
 
-# Obtiene los campos visibles del modelo base, se usa como valor por defecto 
-def getVisibleFields(  QFields, model ):
+# Obtiene los campos visibles del modelo base, se usa como valor por defecto para los searchFields 
+def getVisibleFields(  storeFields, model ):
 
     lFields = ''
-    for fName in QFields.split(','):
+    for fName in storeFields.split(','):
         try: field = model._meta.get_field(fName )
         except: continue
         
-        if field.__class__.__name__ == 'CharField':
+        if field.__class__.__name__ in ( 'CharField', 'TextField', 'IntegerField', ):
             lFields = ',' + fName  
 
     #Recorta la primera ','       

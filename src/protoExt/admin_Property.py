@@ -6,6 +6,10 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     list_display =( 'code',  'description', )
 
     protoExt = {'protoIcon': 'property' }
+
+    protoExt[ 'searchFields' ] = ( 'code', 'concept__code', 'concept__model__code' ) 
+    protoExt[ 'sortFields' ] = ( 'code', 'concept__code', 'concept__model__code' ) 
+    protoExt[ 'sortInfo' ] = ( 'concept__model__code', 'code' ) 
     
     protoExt[ 'protoDetails' ] = [
         {'menuText': 'Udp', 'conceptDetail': 'protoExt.Udp', 'detailField': 'metaObj__pk', 'masterField': 'pk'}, 
@@ -18,38 +22,38 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         'udpTable': 'udp', 
         'propertyName': 'code', 
         'propertyValue': 'valueUdp', 
-        'propertyPrefix' : 'udp',           # Las referencias a los campos estaran precedidas por [prefix]__ 
-#        'properties' : ( 'DEFINITION', 'TRANSMISSION', 'gabarit'), 
+        'propertyPrefix' : 'udp',           # Las referencias a los campos estaran precedidas por [prefix]__
          }
 
     protoExt[ 'protoFields' ] =  {        
-          'code': {'header' : 'Elm Donnee', 'type': 'CharField' ,  'sortable' : True, 'filterable' : True, 'width': 300 },
-          'baseType' : {}, 
-          'length' : {}, 
-          'concept__code': {'header' : 'Concept', 'type': 'CharField' ,  'sortable' : True, 'filterable' : True, 'width': 300 },  
-          'concept__model__code': {'header' : 'Model', 'type': 'CharField' ,  'sortable' : True, 'filterable' : True, 'width': 300 },  
+        'code': {'header' : 'Elm Donnee', 'type': 'CharField' ,  'width': 300 },
+        'concept__code': {'header' : 'Concept', 'type': 'CharField' , 'width': 300 },  
+        'concept__model__code': {'header' : 'Model', 'type': 'CharField' , 'width': 300 },  
 
-            'isNullable':{ 'hidden' : False },
-            'alias':{ 'hidden' : False },
-            'description': { 'hidden' : False },
-            'udp__DOCUMENTDEREFERENCE' :{ 'hidden' : False },
-            'udp__FORMAT': { 'hidden' : False },
-            'udp__GABARIT': { 'hidden' : False },
-            'udp__DEFINITION': { 'hidden' : False },
-            'udp__DESCRIPTIONCN': { 'hidden' : False },
-            'udp__PRECISIONS': { 'hidden' : False },
-            'udp__VALIDATION': { 'hidden' : False },
-            'udp__VALIDATIONSSURELEMENT': { 'hidden' : False },
-            'udp__VALIDATIONSINTERELEMENT': { 'hidden' : False },
-            'udp__VALIDATION_INTER-ENREGISTREMENT': { 'hidden' : False },
-            'udp__SOURCE_DE_DONNEES_EXTERNES': { 'hidden' : False },
-            'udp__ELEMENTTRANSFORME': { 'hidden' : False },
-            'udp__ELEMENTTRANSMIS': { 'hidden' : False },
-            'udp__DOMAINEDEVALEURS': { 'hidden' : False },
-            'udp__ENTREEENVIGUEUR': { 'hidden' : False },
-            'udp__DATEDERNIREMODIFICATION': { 'hidden' : False },
-            'udp__REQUISPAR': { 'hidden' : False },
-            'udp__TRANSMISSION': { 'hidden' : False },
+        'description': { 'storeOnly': True },
+        'isNullable':{  },
+        'alias':{  },
+        'baseType' : {}, 
+        'length' : {}, 
+
+        'udp__DOCUMENTDEREFERENCE' :{},
+        'udp__FORMAT': {  },
+        'udp__GABARIT': {  },
+        'udp__DEFINITION': {  },
+        'udp__DESCRIPTIONCN': {  },
+        'udp__PRECISIONS': {  },
+        'udp__VALIDATION': {  },
+        'udp__VALIDATIONSSURELEMENT': {  },
+        'udp__VALIDATIONSINTERELEMENT': {  },
+        'udp__VALIDATION_INTER-ENREGISTREMENT': {  },
+        'udp__SOURCE_DE_DONNEES_EXTERNES': {  },
+        'udp__ELEMENTTRANSFORME': {  },
+        'udp__ELEMENTTRANSMIS': {  },
+        'udp__DOMAINEDEVALEURS': {  },
+        'udp__ENTREEENVIGUEUR': {  },
+        'udp__DATEDERNIREMODIFICATION': {  },
+        'udp__REQUISPAR': {  },
+        'udp__TRANSMISSION': {  },
      }
 
     TEMPLATE = '<table id="ficha" border="0" cellpadding="3">'

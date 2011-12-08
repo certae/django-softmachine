@@ -32,3 +32,27 @@ function DefineProtoModel ( myMeta , modelClassName ){
         });
   
 };
+
+// Object converter: Para testear si un elto hace parte de un array se convierte el array en objeto 
+function oc(a)
+{
+  var o = {};
+  for(var i=0;i<a.length;i++)
+  {
+    o[a[i]]='';
+  }
+  return o;
+}
+
+
+// TODO: Los templates de las finchas deberian ser leidos de un archivo 
+function OpenFile( fileName  ) {
+    // fh = window.open( fileName , 0);     // Open the file for reading 
+    // if(fh!=-1)                          // If the file has been successfully opened 
+    // { 
+        // length = flength(fh);           // Get the length of the file     
+        // str = fread(fh, length);        // Read in the entire file 
+        // fclose(fh);                     // Close the file 
+    // }
+    // return str     
+}

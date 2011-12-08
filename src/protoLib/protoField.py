@@ -56,16 +56,12 @@ def setFieldDict(protoFields ,  field ):
     elif  field.__class__.__name__ == 'ForeignKey':
         # Dafine la columna __unicode__ de la tabla padre, con el header definido y ocultar la columna de la llave 
         pField['name'] = field.name  + _PROTOFN_ + '__unicode__'
-        pField['filterable'] = False
-        pField['sortable'] = False
         
         # Agrega la referencia al ID 
         fKey = { 
              'name':    field.name + '_id', 
              'header':  field.name + ' Id',
              'xtype':  'numbercolumn',
-             'filterable':  False, 
-             'sortable' : False, 
              'hidden':  True, 
              }
         protoFields[fKey['name']] = fKey 

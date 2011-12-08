@@ -26,13 +26,17 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
         ]
     
     protoExt = {'protoIcon' : 'model',  }
+    protoExt[ 'searchFields' ] = ( 'code', 'domain_code' ) 
+    protoExt[ 'sortFields' ] = ( 'code', 'domain_code' ) 
+    
+    
     protoExt[ 'protoDetails' ] = [
         {'menuText': 'Entite', 'conceptDetail': 'protoExt.Concept', 'detailField': 'model__pk', 'masterField': 'pk'},
         {'menuText': 'Udp', 'conceptDetail': 'protoExt.Udp', 'detailField': 'metaObj__pk', 'masterField': 'pk'}, 
         ]
 
     protoExt[ 'protoFields' ] =  {        
-          'domain__code': {'header' : 'domain', 'type': 'CharField' ,  'sortable' : True, 'filterable' : True, 'width': 300 },  
+          'domain__code': {'header' : 'domain', 'type': 'CharField' ,  'width': 300 },  
      }
 
     protoExt[ 'searchFields' ] =  ( 'code', 'description', 'domain__code' )        

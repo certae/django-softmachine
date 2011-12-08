@@ -1,3 +1,25 @@
+
+Scroll Html 
+-----------------------------------
+http://www.sencha.com/forum/showthread.php?56199-Scrollbar-to-the-ExtJS-panel
+
+var myExtJSPanel_1 = new Ext.Panel({
+    title:'Title of the panel',
+    id:'myExtJSPanel_2',
+    width:400,
+    height:400,
+    listeners: {
+        render: function(c){
+            CSBfleXcroll.defer(1, window, [c.body.dom]);
+        }
+    },
+    renderTo:'myExtJSPanel_1',
+    html:'...'  
+});
+
+-----------------------------------
+
+
 Ejemplos 
 
 

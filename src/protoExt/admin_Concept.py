@@ -34,7 +34,10 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
 
     protoExt = {'protoIcon': 'concept', }
     protoExt[ 'description' ] = 'Esta es la description del concpeto concepto'
-    protoExt[ 'menu_index' ] = 0
+    protoExt[ 'menu_index' ] = 1
+    
+    protoExt[ 'searchFields' ] = ( 'code', 'model_code' ) 
+    protoExt[ 'sortFields' ] = ( 'model_code', '-code',  ) 
     
     # El concept detail es el nmbre del modelo con su app de base [app].[modelo]
     protoExt[ 'protoDetails' ] = [
@@ -47,11 +50,8 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
     # model__code es un campo proveniente de un FK, ( absorbido, join ) 
     # upd__format es un campo proveniente de una propiedad personalizada ( UDP )  
     protoExt[ 'protoFields' ] =  {        
-          'code': {'header' : 'Concept', 'type': 'CharField' ,  'sortable' : True, 'filterable' : True, 'width': 300 },
-          'model__code': {'header' : 'Model', 'type': 'CharField' ,  'sortable' : True, 'filterable' : True, 'width': 300 },  
-            
-          'udp__format': {'header' : 'Format', 'type': 'CharField' , 'width': 300 },  
-          'udp__alias': {'header' : 'Alias', },  
+          'code': {'header' : 'Concept', 'type': 'CharField' ,  'width': 300 },
+          'model__code': {'header' : 'Model', 'type': 'CharField' , 'width': 300 },  
      }
 
     protoExt['protoViews'] = [

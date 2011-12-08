@@ -73,49 +73,39 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         
         var tbar2 = Ext.create('Ext.Toolbar', {
             dock: 'top',
-            defaults: { scale: 'small', hidden : false },
-
-            id : ideTbOrder, 
-            plugins: [reorderer,  ],
-             
+            defaults: { scale: 'small', hidden : true },
             items: [{
-                id : ideTbSearch , 
-                xtype: 'buttongroup',
-                hidden : false, 
-            },{
-                id : ideTbDetails, 
-                xtype: 'buttongroup',
-            // },{
-                // xtype: 'toolbar',
-                // items  : [{
-                    // xtype: 'tbtext',
-                    // text: 'Sorting order:',
-                    // reorderable: false 
-                    // }, '-'],
-            },{
-                id : ideTbFilter, 
-                xtype: 'buttongroup',
-            },{
-                id : ideTbViews, 
-                xtype: 'buttongroup',
-            },{
-
-                    xtype: 'tbtext',
-                    text: 'Sorting order:',
-                    reorderable: false 
-                    }, '-',
-            ]
+                    id : ideTbSearch , 
+                    xtype: 'buttongroup',
+                    hidden : false, 
+                },{
+                    id : ideTbDetails, 
+                    xtype: 'buttongroup',
+                },{
+                    id : ideTbFilter, 
+                    xtype: 'buttongroup',
+                },{
+                    id : ideTbViews, 
+                    xtype: 'buttongroup',
+                }]
             });
 
         function toogleTb2( but  ) {
-            
-            Ext.each(tbar2.query('buttongroup'), function(button) {
-                button.hide();
-            }, this);
-            
-            var tb2 = Ext.getCmp ( but.idTb2  )
-            tb2.show()
-              
+
+            if ( but.idTb2 != ideTbOrder ) {
+                Ext.each(tbar2.query('buttongroup'), function(button) {
+                    button.hide();
+                }, this);
+                
+                var tb2 = Ext.getCmp ( but.idTb2  )
+                tb2.show()
+                
+                orderTbar.hide()
+                tbar2.show()
+            } else {
+                orderTbar.show()
+                tbar2.hide()
+            }             
         }; 
 
         //--------------------------------------------------------
@@ -198,15 +188,13 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         })
         
 
-        tbItems = [
+        var tbSearch = Ext.getCmp( ideTbSearch );
+        tbSearch.add( [
             searchBtn,    
             searchCr,
             comboOp,
             comboCols,
-            ];
-        
-        var tbSearch = Ext.getCmp( ideTbSearch );
-        tbSearch.add(tbItems )
+            ] )
 
         // Inicializa Combos 
         clearCombos()     
@@ -234,29 +222,39 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         }
 
 
-        var orderTbar = Ext.getCmp( ideTbOrder  );
-        orderTbar.add(createSorterButtonConfig({
-            text: 'Name',
-            sortData: {
-                property: 'name',
-                direction: 'ASC'
-            }
-        }));
+        // var orderTbar = Ext.getCmp( ideTbOrder );
+        var orderTbar = Ext.create('Ext.toolbar.Toolbar', {
+            items  : [{
+                id : ideTbOrder, 
+                xtype: 'tbtext',
+                text: 'Sorting order:',
+                reorderable: false 
+                }, '-'],
+            plugins: [reorderer,  ],
+            hidden : true
+        });
 
+        function configureOrderTab (  ){
+            for (var i = 0, len = myMeta.fields.length; i < len; i++) {
+                var c = myMeta.fields[i];
+                if ( c.name in oc( myMeta.sortFields)  ) { 
 
-        orderTbar.add(createSorterButtonConfig({
-            text: 'Rating',
-            sortData: {
-                property: 'rating',
-                direction: 'DESC'
-            }
-        }));
-
-        orderTbar.show()
-        orderTbar.doLayout()
+                    orderTbar.add(createSorterButtonConfig({
+                        text: c.header,
+                        reorderable: true, 
+                        sortData: {
+                            property: c.name,
+                            direction: 'ASC'
+                        }
+                    }));
+                }    
+            };
+        }; 
+        
+        configureOrderTab(); 
+        // orderTbar.doLayout()
 
 // ----------------------------------------------------------------------------------
-
 
         
         // Objetos internos 
@@ -268,7 +266,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 align: 'stretchmax'
             },
             dockedItems: [
-                tbar1,  tbar2
+                tbar1,  orderTbar, tbar2, 
             ]
                 
         });
@@ -279,25 +277,17 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         this.callParent();
 
         function configureComboColumns ( tb ){
-        
-                // Columnas para el Query del tipo :  newColData = [['idx', 'Id Reg'],['code', 'Code Reg']];
+            // Columnas para el Query del tipo :  newColData = [['idx', 'Id Reg'],['code', 'Code Reg']];
             var colData = [];
             colData[0] = ['', ''];
             j = 1;
+
             for (var i = 0, len = myMeta.fields.length; i < len; i++) {
                 var c = myMeta.fields[i];
-    
-                if (c.filterable == undefined) {
-                    c.filterable = 1
-                };
-    
-                if (c.filterable == 1) {
+                if ( c.name in oc( myMeta.searchFields)  ) { 
                     colData[j] = [c.name, c.header];
                     j += 1;
-    
-                    // DGT: esta carga es directa al store, pienso q es mas costosa por q interactua cada vez con extjs
-                    // colStore.add(new colStore.recordType({ colPhysique: c.name, colName: c.header }));
-                }
+                }    
             };
             
             return colData ; 
@@ -305,17 +295,10 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         function configureMenuDetail(  ){
             
-           // Configuracion de detalles    ------------------------------------------------------------------------ 
             var pDetails = myMeta.protoDetails;
-    
-            // Agrega un numero secuencia para marcar los tabs 
-            var ixTabC = 0
-            
-            // Indica si tiene o no detalles 
-            var bDetails = false;
-
-            // Recorre y agrega los detalles al menu 
-            for (var vDet in pDetails) {
+            var ixTabC = 0                      // Agrega un numero secuencia para marcar los tabs
+            var bDetails = false;               // Indica si tiene o no detalles
+            for (var vDet in pDetails) {        // Recorre y agrega los detalles al menu 
                 // console.log( pDetails[vTab] + " ");
                 bDetails = true;
                 
@@ -337,8 +320,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 item.on({
                     click: { fn: __MasterDetail.onMenuSelectDetail,scope: __MasterDetail  },
                 });                 
-                
-    
                 ixTabC += 1;
             };
     
@@ -371,7 +352,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         function onClickClearFilter (item ){
             // TODO: Manejara los filtros compuestos ( QBE )
-    
             clearCombos()
             onClickLoadData( {} );
     

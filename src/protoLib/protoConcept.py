@@ -53,13 +53,26 @@ def protoGetPCI(request):
         grid = protoGrid.ProtoGridFactory( model  )        
 
 #       pRows = model.objects.filter(pk = 0)
-        pRows = []
-        pRowsCount = 0
-
         base_fields = grid.get_fields( None )
         protoDetails = grid.get_details()
         protoSheet = grid.protoAdmin.get( 'protoSheet', {}) 
         protoIcon  = 'icon-%s' % grid.protoAdmin.get( 'protoIcon', '1') 
+        
+        pSearchFields = grid.protoAdmin.get( 'searchFields', '') 
+        if pSearchFields == '': pSearchFields = getVisibleFields( grid.storeFields, model )
+
+        pSortFields = grid.protoAdmin.get( 'sortFields', '') 
+        if pSortFields == '': pSortFields = pSearchFields
+
+        # Sort Info 
+        sortInfo = []
+        for sField in pSortFields:
+            sortOrder = 'ASC'
+            if sField[0] == '-':
+                sortOrder =  'DESC'
+                sField = sField[1:]
+            sortInfo.append({ 'field': sField, 'direction' : sortOrder })
+            
 
         #busca el id en la META
 #       id_field = model._meta.pk.name
@@ -73,12 +86,11 @@ def protoGetPCI(request):
                  'successProperty':'success',
                  'shortTitle': grid.title,
                  'description': grid.title,
-                 'queryFields': grid.QFields, 
+                 'storeFields': grid.storeFields, 
+                 'searchFields': pSearchFields, 
+                 'sortFields': pSortFields, 
                  'idProperty': id_field,
-                 'sortInfo':{
-                       "field": id_field, 
-                       "direction": 'DESC'
-                    },
+                 'sortInfo': sortInfo,
                  'fields': base_fields, 
 #                 'protoTabs':[{'T1': ['Col1','Col2']},  {'T2': ['Col3','Col2']},],     
                  'protoDetails': protoDetails, 
@@ -86,7 +98,7 @@ def protoGetPCI(request):
                  'protoSheet': protoSheet, 
                  },
             'rows':[],
-            'totalCount': pRowsCount, 
+            'totalCount': 0, 
         }
 
         context = json.dumps( jsondict)
@@ -106,7 +118,7 @@ def protoGetList(request):
         protoConcept = request.POST.get('protoConcept', '')
         protoFilter = request.POST.get('protoFilter', '')
         protoFilterBase = request.POST.get('protoFilterBase', '')
-        protoQFields = request.POST.get('queryFields', '')
+        protostoreFields = request.POST.get('storeFields', '')
         
         start = int(request.POST.get('start', 0))
         limit = int(request.POST.get('limit', PAGESIZE ))
@@ -142,9 +154,7 @@ def protoGetList(request):
 #   Busqueda Textual ( no viene con ningun tipo de formato solo el texto a buscar 
     if not protoFilter.startswith( '{' ) and (len( protoFilter) > 0) :
         pSearchFields = protoAdmin.get( 'searchFields', '') 
-
-        if pSearchFields == '': 
-            pSearchFields = getVisibleFields( protoQFields, model )
+        if pSearchFields == '': pSearchFields = getVisibleFields( protostoreFields, model )
 
         if pSearchFields != '': 
             qsFilter +=  ' '.join(pSearchFields)  + ':' + protoFilter
@@ -177,7 +187,7 @@ def protoGetList(request):
     pRows =  Qs.order_by('id')[ start: page*limit ]
 
 #   Prepara las cols del Query 
-    pList = Q2Dict(protoQFields , pRows, protoAdmin )
+    pList = Q2Dict(protostoreFields , pRows, protoAdmin )
 
     context = json.dumps({
             "success": True,

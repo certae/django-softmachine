@@ -7,9 +7,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     extend: 'Ext.container.Container',
     // extend: 'Ext.grid.Panel',
     alias : 'widget.protoGrid',
-    
-    //DGT**  
-    stripeRows: true, 
 
     //requires: ['Ext.toolbar.Paging'],
     // iconCls: 'icon-grid',
@@ -19,6 +16,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         // Recupera la clase para obtener la meta ------------------------------------------
         var myMeta = _cllPCI[ this.protoConcept ] ; 
+        var _pGrid = this 
 
         var modelClassName = _PConfig.clsBaseModel + this.protoConcept ; 
         if  (! Ext.ClassManager.isCreated( modelClassName )){
@@ -54,7 +52,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                     protoConcept : this.protoConcept,
                     protoFilter : myFilter,
                     protoFilterBase: this.protoFilterBase, 
-                    queryFields  : myMeta.queryFields.toString(),
+                    storeFields  : myMeta.storeFields.toString(),
                 },
                 // sorters: [{
                     // property: 'leaf',
@@ -82,7 +80,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         // DGT** Creacion de columnas  
         for (var ix in myMeta.fields ) {
             var vFld  =  myMeta.fields[ix];
-            if (!vFld.header) { vFld.header = vFld.name }
+
+            if (!vFld.header ||  vFld.storeOnly  ) { continue  }
+            
             var col = {
                 dataIndex: vFld.name,
                 text: vFld.header,
@@ -102,15 +102,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         var grid = Ext.create('Ext.grid.Panel', {
             columns : myColumns,   
             store : this.store,  
-            // dockedItems : [{
-                // xtype: 'pagingtoolbar',
-                // dock:'bottom',
-                // store: this.store,
-                // displayInfo: true,
-                // displayMsg: '{0} - {1} of {2}',
-                // // emptyMsg: "No register to display"
-            // },],
-
+            stripeRows: true, 
+            
             listeners: {
                 scope: this,
                 itemClick: this.onItemClick
@@ -150,6 +143,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 store: this.store,
                 displayInfo: true,
                 displayMsg: 'Total {2}',
+                // displayMsg: '{0} - {1} of {2}',
                 // emptyMsg: "No register to display"
             }
             ],
@@ -171,21 +165,22 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         grid.on({
             itemClick: {fn: function (g, rowIndex, e) {
                 // console.log ( g, rowIndex   );
-                this.rowData = this.store.getAt(rowIndex.index)
+                _pGrid.rowData = rowIndex.data
                 
-                prepareSheet( this )
+                prepareSheet(  )
                  
                 }, 
             scope: this },
         });                 
 
 
-        function prepareSheet( me ){
+        function prepareSheet( ){
 
             var pSheet = myMeta.protoSheet;
             if (pSheet.properties == undefined) {
               return  
             };
+
 
             var pTemplate = pSheet.template
 
@@ -193,12 +188,12 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 var vFld  =  pSheet.properties[ix]; 
 
                 var pKey = '{{' + vFld + '}}';
-                var pValue =  me.rowData.data[ vFld ];
+                var pValue =  _pGrid.rowData[ vFld ];
                 pTemplate = pTemplate.replace( pKey , pValue  ); 
 
             }
 
-            var sheet = Ext.getCmp( me.IdeSheet );
+            var sheet = Ext.getCmp( _pGrid.IdeSheet );
             // sheet.html = pTemplate; 
             sheet.update( pTemplate );
 

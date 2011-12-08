@@ -15,10 +15,10 @@ class UdpAdmin(django.contrib.admin.ModelAdmin):
     # upd__format es un campo proveniente de una propiedad personalizada ( UDP )  
     protoExt[ 'protoExclude' ] = ( 'metaObj', )           
     protoExt[ 'protoFields' ] =  {        
-          'code': {'header' : 'Udp', 'type': 'CharField' ,  'sortable' : True, 'filterable' : True, 'width': 300 },
-          'metaObj__code': {'header' : 'Poperty', 'type': 'CharField' ,  'sortable' : True, 'filterable' : True, 'width': 300 },  
-#         'metaObj__objType': {'header' : 'objType', 'type': 'CharField' ,  'sortable' : True, 'filterable' : True, 'width': 300 },  
-          'metaObj__id': {'header' : 'metaObj Id', 'type': 'IntegerField' ,  'sortable' : True, 'filterable' : True},  
+          'code': {'header' : 'Udp', 'type': 'CharField' ,  'width': 300 },
+          'metaObj__code': {'header' : 'Poperty', 'type': 'CharField' ,  'width': 300 },  
+#         'metaObj__objType': {'header' : 'objType', 'type': 'CharField' , 'width': 300 },  
+          'metaObj__id': {'header' : 'metaObj Id', 'type': 'IntegerField' , },  
      }
 
     #TODO: Implementar el manejo de las vistas 
