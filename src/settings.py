@@ -92,7 +92,7 @@ USE_DJANGO_JQUERY = True
 # Additional locations of static files
 STATICFILES_DIRS = (
     PPATH + '/static',
-    '/u/data/ExtJs/ext-4.0.7-gpl',
+    'd:/data/ExtJs/ext-4.0.7-gpl',
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -146,7 +146,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-#   'django.contrib.auth',
+    'django.contrib.auth',
     'django.contrib.admin',
     'protoExt'
     # Uncomment the next line to enable admin documentation:

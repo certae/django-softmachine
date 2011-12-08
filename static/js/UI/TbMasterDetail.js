@@ -2,7 +2,6 @@
  * 
  */
 
-
 Ext.define('ProtoUL.UI.TbMasterDetail', {
     // extend: 'Ext.Toolbar',
     // extend: 'Ext.container.Container',
@@ -298,6 +297,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             return colData ; 
         }; 
 
+
         function configureMenuDetail(  ){
             
             var pDetails = myMeta.protoDetails;
@@ -440,9 +440,21 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
 // ------------------------------------------------------------------------------------------------
 
+        function configureProtoViews(  ){
 
-
+        	var pViews = myMeta.protoViews;
+            var tbViews = Ext.getCmp( 'ideTbViews' )
+            
+            for (var vDet in pViews) {         
+            	tbViews.add({
+                    text: pViews[vDet].menuText,
+                    viewFields: pViews[vDet].viewFields,
+                    iconCls: 'icon-search',
+                    handler: onClickChangeView,
+            	})
+            };
+                
+        };
     }, 
-    
 
 }); 

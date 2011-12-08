@@ -1,5 +1,6 @@
-#Wed Dec 07 14:38:46 EST 2011
+#Thu Dec 08 14:32:06 EST 2011
 eclipse.preferences.version=1
+encoding//src/protoExt/admin_Model.py=utf-8
 encoding//src/protoExt/admin_Property.py=utf-8
 encoding//src/protoLib/protoConcept.py=utf-8
 encoding//src/protoLib/protoField.py=utf-8

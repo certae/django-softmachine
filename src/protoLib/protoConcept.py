@@ -64,6 +64,9 @@ def protoGetPCI(request):
         pSortFields = grid.protoAdmin.get( 'sortFields', '') 
         if pSortFields == '': pSortFields = pSearchFields
 
+#       Vistas 
+        protoViews = grid.protoAdmin.get( 'protoViews', []) 
+
         # Sort Info 
         sortInfo = []
         for sField in pSortFields:
@@ -92,7 +95,7 @@ def protoGetPCI(request):
                  'idProperty': id_field,
                  'sortInfo': sortInfo,
                  'fields': base_fields, 
-#                 'protoTabs':[{'T1': ['Col1','Col2']},  {'T2': ['Col3','Col2']},],     
+                 'protoViews':protoViews ,     
                  'protoDetails': protoDetails, 
                  'protoIcon': protoIcon, 
                  'protoSheet': protoSheet, 
@@ -100,12 +103,10 @@ def protoGetPCI(request):
             'rows':[],
             'totalCount': 0, 
         }
-
         context = json.dumps( jsondict)
         return HttpResponse(context, mimetype="application/json")
 
 # protoGetPCI ----------------------------
-
 
 
 def protoGetList(request):

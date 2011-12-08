@@ -4,6 +4,18 @@
 // TODO:  Traer aqui  manejo de la carga de la PCI 
 
 
+// Object converter: Para testear si un elto hace parte de un array se convierte el array en objeto 
+function oc(a)
+{
+  var o = {};
+  for(var i=0;i<a.length;i++)
+  {
+    o[a[i]]='';
+  }
+  return o;
+}
+
+
 function DefineProtoModel ( myMeta , modelClassName ){
         
 //    console.log ( 'Loading ' + modelClassName + '...' );
@@ -32,17 +44,6 @@ function DefineProtoModel ( myMeta , modelClassName ){
         });
   
 };
-
-// Object converter: Para testear si un elto hace parte de un array se convierte el array en objeto 
-function oc(a)
-{
-  var o = {};
-  for(var i=0;i<a.length;i++)
-  {
-    o[a[i]]='';
-  }
-  return o;
-}
 
 
 // TODO: Los templates de las finchas deberian ser leidos de un archivo 

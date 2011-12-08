@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from models import *
 
 import django.contrib.admin          
@@ -10,7 +12,6 @@ class ConceptInline(django.contrib.admin.TabularInline):
 
 
 class Model_Admin(django.contrib.admin.ModelAdmin):
-    app_name = 'Dictionnaire de donnees'
     verbose_name_plural = 'Modeles' 
     list_display =(  'code', 'description','superModel', 'physicalName')
     list_filter =(  'superModel', )
@@ -32,7 +33,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
     
     protoExt[ 'protoDetails' ] = [
         {'menuText': 'Entite', 'conceptDetail': 'protoExt.Concept', 'detailField': 'model__pk', 'masterField': 'pk'},
-        {'menuText': 'Udp', 'conceptDetail': 'protoExt.Udp', 'detailField': 'metaObj__pk', 'masterField': 'pk'}, 
+        {'menuText': 'El Donnee', 'conceptDetail': 'protoExt.property', 'detailField': 'concept__model__pk', 'masterField': 'pk'}, 
         ]
 
     protoExt[ 'protoFields' ] =  {        

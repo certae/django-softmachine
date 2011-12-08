@@ -3,7 +3,7 @@ import django.contrib.admin
 
 class PropertyAdmin(django.contrib.admin.ModelAdmin):
     verbose_name_plural = 'Elements de donnees' 
-    list_display =( 'code',  'description', )
+    list_display =( 'code',  'description','isForeign', 'foreignConcept' )
 
     protoExt = {'protoIcon': 'property' }
 
@@ -113,3 +113,11 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                           ),   
           'template': TEMPLATE }  
 
+
+    protoExt['protoViews'] = [
+            { 'viewName': 'default', 
+              'viewFields': ( 'concept__model__code', 'code',  ), 
+              'icon' : 'icon-1'},
+            { 'viewName': 'all', 
+              'viewFields': ( 'code', 'concept__code', 'concept__model__code' )},
+                        ]
