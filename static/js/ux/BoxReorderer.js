@@ -240,7 +240,7 @@ Ext.define('ProtoUL.ux.BoxReorderer', {
     },
 
     /**
-     * @private
+     * Publique
      * Swap 2 components.
      * @param {Number} newIndex The initial drop index.
      */
@@ -276,6 +276,8 @@ Ext.define('ProtoUL.ux.BoxReorderer', {
         if ((newIndex !== undefined)) {
             me.reorderer.fireEvent('Drag', me, me.container, me.dragCmp, me.startIndex, me.curIndex);
             me.doSwap(newIndex);
+            
+            this.protoIndex = newIndex; 
         }
 
     },

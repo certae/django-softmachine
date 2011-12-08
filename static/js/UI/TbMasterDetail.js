@@ -224,12 +224,13 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         // var orderTbar = Ext.getCmp( ideTbOrder );
         var orderTbar = Ext.create('Ext.toolbar.Toolbar', {
+            id : ideTbOrder, 
             items  : [{
-                id : ideTbOrder, 
+                iconCls : 'sort', 
                 xtype: 'tbtext',
-                text: 'Sorting order:',
+                text: '<b>Sorting order:</b>',
                 reorderable: false 
-                }, '-'],
+                }],  
             plugins: [reorderer,  ],
             hidden : true
         });
@@ -250,15 +251,22 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 }    
             };
         }; 
+
+        var ideBtNoSort = Ext.id();
+        orderTbar.add({
+            xtype: 'tbtext',
+            id : ideBtNoSort, 
+            text: '<b>No Sort:</b>',
+            iconCls : 'stop', 
+            reorderable: true,
+            handler: doSort()
+        });
         
         configureOrderTab(); 
         // orderTbar.doLayout()
 
 // ----------------------------------------------------------------------------------
 
-        
-        // Objetos internos 
-        // this.items = tbItems;      
         Ext.apply(this, {
             layout: {
                 type: 'vbox',
@@ -268,11 +276,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             dockedItems: [
                 tbar1,  orderTbar, tbar2, 
             ]
-                
         });
-        
-        // panel.add(tool1);
-        // panel.add(tool2);
+        // panel.add(tool1);  ...
         
         this.callParent();
 
@@ -357,9 +362,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
     
         } 
 
-        // function onMenuSelectDetail (item) {
-            // __MasterDetail.onMenuSelectDetail( item  );
-        // }
 
         function clearCombos ( ){
             comboCols.setValue('');
@@ -387,43 +389,54 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 // ------------------------------------------------------------------------------------------------
 
 
-    /**
-     * Callback handler used when a sorter button is clicked or reordered
-     * @param {Ext.Button} button The button that was clicked
-     * @param {Boolean} changeDirection True to change direction (default). Set to false for reorder
-     * operations as we wish to preserve ordering there
-     */
-    function changeSortDirection(button, changeDirection) {
-        var sortData = button.sortData,
-            iconCls  = button.iconCls;
-        
-        if (sortData) {
-            if (changeDirection !== false) {
-                button.sortData.direction = Ext.String.toggle(button.sortData.direction, "ASC", "DESC");
-                button.setIconCls(Ext.String.toggle(iconCls, "sort-asc", "sort-desc"));
+        /**
+         * Callback handler used when a sorter button is clicked or reordered
+         * @param {Ext.Button} button The button that was clicked
+         * @param {Boolean} changeDirection True to change direction (default). Set to false for reorder
+         * operations as we wish to preserve ordering there
+         */
+        function changeSortDirection(button, changeDirection) {
+            var sortData = button.sortData,
+                iconCls  = button.iconCls;
+            
+            if (sortData) {
+                if (changeDirection !== false) {
+                    button.sortData.direction = Ext.String.toggle(button.sortData.direction, "ASC", "DESC");
+                    button.setIconCls(Ext.String.toggle(iconCls, "sort-asc", "sort-desc"));
+                }
+                __MasterDetail.protoMasterStore.clearFilter();
+                doSort();
             }
-            // store.clearFilter();
-            doSort();
         }
-    }
+    
+        function doSort() {
+            __MasterDetail.protoMasterStore.sort( getSorters() );
+        }
+    
+        /**
+         * Returns an array of sortData from the sorter buttons
+         * @return {Array} Ordered sort data from each of the sorter buttons
+         */
+        function getSorters() {
 
-    function doSort() {
-        // store.sort(getSorters());
-    }
+            var sorters = [];
 
-    /**
-     * Returns an array of sortData from the sorter buttons
-     * @return {Array} Ordered sort data from each of the sorter buttons
-     */
-    function getSorters() {
-        var sorters = [];
-        // Ext.each(tbar.query('button'), function(button) {
-            // sorters.push(button.sortData);
-        // }, this);
-        return sorters;
-    }
+            // tiene en cuenta la posicion de: ideBtNoSort
+            var ixBt = -1;  
+            for (var ix in orderTbar.items.items) {
+                if ( orderTbar.items.items[ix].id  ==  ideBtNoSort ) { break; }
+                ixBt ++;  
+            }
+            if ( ixBt <= 0 ) { return sorters  };  
+            
+            Ext.each(orderTbar.query('button'), function(button) {
+                sorters.push(button.sortData);
+            }, this);
 
-    doSort();
+            return sorters.slice(0, ixBt );
+        }
+    
+        doSort();
 
 // ------------------------------------------------------------------------------------------------
 

@@ -266,6 +266,11 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
         this.protoMasterStore.clearFilter();
         this.protoMasterStore.getProxy().extraParams.protoFilter = sFilter;
+
+        // Resetea la pagina 
+        this.protoMasterStore.getProxy().pageParam =1;
+        this.protoMasterStore.getProxy().startParam =0;
+        
         this.protoMasterStore.load();
 
     } 

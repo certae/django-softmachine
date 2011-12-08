@@ -121,11 +121,10 @@ def protoGetList(request):
         protostoreFields = request.POST.get('storeFields', '')
         
         start = int(request.POST.get('start', 0))
-        limit = int(request.POST.get('limit', PAGESIZE ))
         page = int(request.POST.get('page', 1))
+        limit = int(request.POST.get('limit', PAGESIZE ))
 
-        sort = request.POST.get('sort', 'id')
-        sort_dir = request.POST.get('dir', 'ASC')
+        sort = request.POST.get('sort', '')
         
     else: return 
     
@@ -139,6 +138,16 @@ def protoGetList(request):
 #   QSEt 
     Qs = model.objects.select_related(depth=1)
     qsFilter = ''
+
+
+#   Order by 
+    orderBy = []
+    if sort:
+        sort = eval ( sort ) 
+        for sField in sort: 
+            if sField['direction'] == 'DESC': sField['property'] = '-' + sField['property']  
+            orderBy.append( sField['property'] )
+    orderBy = tuple( orderBy )
 
 #   El filtro base viene en la configuracion MD 
     if (len (protoFilterBase) > 0 ):
@@ -184,7 +193,14 @@ def protoGetList(request):
 #   Obtiene las filas del modelo 
 #   valiues, No permite llamar los metodos del modelo
     pRowsCount = Qs.count()
-    pRows =  Qs.order_by('id')[ start: page*limit ]
+
+#   Cuando esta en la pagina el filtro continua en la pagina 2 y no muestra nada.     
+#   if ( ( page -1 ) *limit >= pRowsCount ): page = 1
+    
+    if orderBy: 
+        pRows =  Qs.order_by(*orderBy)[ start: page*limit ]
+    else: pRows =  Qs[ start: page*limit ]
+
 
 #   Prepara las cols del Query 
     pList = Q2Dict(protostoreFields , pRows, protoAdmin )
