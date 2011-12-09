@@ -23,7 +23,7 @@ from django.db.models import Q
 from protoLib import protoGrid, utilsBase, utilsWeb  
 from protoGrid import Q2Dict, getVisibleFields
 
-from utilsBase import construct_search
+from utilsBase import construct_search, addFilter
 
 
 from django.core import serializers
@@ -64,18 +64,25 @@ def protoGetPCI(request):
         pSortFields = grid.protoAdmin.get( 'sortFields', '') 
         if pSortFields == '': pSortFields = pSearchFields
 
-#       Vistas 
+        # TODO: Vistas 
         protoViews = grid.protoAdmin.get( 'protoViews', []) 
 
-        # Sort Info 
+        # TODO: Este filtro deberia ser usado para la autocarga
+        # El filtro de base no se lee aqui, pues se cargara cada vez q se solicite la info. 
+        initialFilter = grid.protoAdmin.get( 'initialFilter', {})
+
+        # TODO: Sort Info  ( para guardarlo como sorter q despues sea cargado igual )
+        # Lista de campos precedidos con '-' para order desc
+        #   ( 'campo1' , '-campo2' ) 
+        initialSort = grid.protoAdmin.get( 'initialSort', ())
         sortInfo = []
-        for sField in pSortFields:
+        for sField in initialSort:
             sortOrder = 'ASC'
             if sField[0] == '-':
                 sortOrder =  'DESC'
                 sField = sField[1:]
-            sortInfo.append({ 'field': sField, 'direction' : sortOrder })
-            
+            sortInfo.append({ 'property': sField, 'direction' : sortOrder })
+        
 
         #busca el id en la META
 #       id_field = model._meta.pk.name
@@ -93,12 +100,13 @@ def protoGetPCI(request):
                  'searchFields': pSearchFields, 
                  'sortFields': pSortFields, 
                  'idProperty': id_field,
-                 'sortInfo': sortInfo,
                  'fields': base_fields, 
                  'protoViews':protoViews ,     
                  'protoDetails': protoDetails, 
                  'protoIcon': protoIcon, 
                  'protoSheet': protoSheet, 
+                 'initialSort': sortInfo,
+                 'initialFilter': initialFilter,
                  },
             'rows':[],
             'totalCount': 0, 
@@ -135,11 +143,11 @@ def protoGetList(request):
 #   Carga las definiciones  
     model_admin = site._registry.get( model )
     protoAdmin = getattr(model_admin, 'protoExt', {})
-
+    
 #   QSEt 
+    baseFilter = protoAdmin.get( 'baseFilter', '') 
     Qs = model.objects.select_related(depth=1)
-    qsFilter = ''
-
+    Qs = addFilter( Qs, baseFilter )
 
 #   Order by 
     orderBy = []
@@ -151,14 +159,8 @@ def protoGetList(request):
     orderBy = tuple( orderBy )
 
 #   El filtro base viene en la configuracion MD 
-    if (len (protoFilterBase) > 0 ):
-        try: 
-            protoStmtBase = eval( protoFilterBase )
-            Qs = Qs.filter(**protoStmtBase )
-            qsFilter = protoFilterBase
-        except: 
-            qsFilter = 'Error: ' + qsFilter
-            Qs = Qs.none()
+    textFilter = protoFilterBase
+    Qs = addFilter( Qs, protoFilterBase )
 
 
 #   Busqueda Textual ( no viene con ningun tipo de formato solo el texto a buscar 
@@ -167,7 +169,7 @@ def protoGetList(request):
         if pSearchFields == '': pSearchFields = getVisibleFields( protostoreFields, model )
 
         if pSearchFields != '': 
-            qsFilter +=  ' '.join(pSearchFields)  + ':' + protoFilter
+            textFilter +=  ' '.join(pSearchFields)  + ':' + protoFilter
             orm_lookups = [construct_search(str(search_field))
                            for search_field in pSearchFields]
         
@@ -177,19 +179,14 @@ def protoGetList(request):
                 Qs = Qs.filter(reduce(operator.or_, or_queries))
 
         else:  
-            qsFilter = 'Error: ' + qsFilter
+            textFilter = 'Error: ' + textFilter
             Qs = Qs.none()
 
 
 #   Convierte el filtro en un diccionario 
     elif (len (protoFilter) > 0 ):
-        try: 
-            protoStmt = eval( protoFilter )
-            Qs = Qs.filter(**protoStmt )             
-            qsFilter +=  ' ' + protoFilter
-        except:
-            qsFilter = 'Error: ' + qsFilter
-            Qs = Qs.none()
+        Qs = addFilter( Qs, protoFilter )
+        textFilter +=  ' ' + protoFilter
 
 #   Obtiene las filas del modelo 
 #   valiues, No permite llamar los metodos del modelo

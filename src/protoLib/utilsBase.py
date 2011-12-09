@@ -13,6 +13,24 @@ import re
 _PROTOFN_ = '_protoFn_'
 
 
+def addFilter( Qs, sFilter ):
+#   Agrega un filtro q viene en modo texto a un Qset 
+    if (len (sFilter) == 0 ):
+        return Qs 
+
+    # Tipo dictionario
+    if type( sFilter ) == type({}):
+        protoStmt = sFilter
+    
+    # Filtro String 
+    else: 
+        try: protoStmt = eval( sFilter )
+        except: return Qs 
+
+    Qs = Qs.filter(**protoStmt )
+    return Qs 
+
+
 def verifyList( obj ):
 #   DGT:  Los objetos del admin son en su mayoria del tipo tuple,
 #   Es necesario convertirlos a listas por facilidad de trabajo 

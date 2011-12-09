@@ -435,26 +435,36 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
             return sorters.slice(0, ixBt );
         }
-    
-        doSort();
+        // doSort();
 
 // ------------------------------------------------------------------------------------------------
 
-        function configureProtoViews(  ){
+        var tbViews = Ext.getCmp( ideTbViews )
+        menuDetail.add({
+            iconCls : 'icon-views', 
+            text: '<b>Views<b>',
+            disabled: true,
+            // },{  xtype: 'menuseparator'
+        });
+
+        function configureProtoViews(){
 
         	var pViews = myMeta.protoViews;
-            var tbViews = Ext.getCmp( 'ideTbViews' )
-            
             for (var vDet in pViews) {         
             	tbViews.add({
                     text: pViews[vDet].menuText,
+                    iconCls : pViews[vDet].viewIcon, 
                     viewFields: pViews[vDet].viewFields,
-                    iconCls: 'icon-search',
-                    handler: onClickChangeView,
+                    // handler: onClickChangeView,
             	})
             };
-                
         };
+    
+        configureProtoViews(); 
+
+// ------------------------------------------------------------------------------------------------
+
+
     }, 
 
 }); 

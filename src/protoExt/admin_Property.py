@@ -3,13 +3,17 @@ import django.contrib.admin
 
 class PropertyAdmin(django.contrib.admin.ModelAdmin):
     verbose_name_plural = 'Elements de donnees' 
-    list_display =( 'code',  'description','isForeign', 'foreignConcept' )
+    list_display =( 'code',  'description', )
 
     protoExt = {'protoIcon': 'property' }
 
     protoExt[ 'searchFields' ] = ( 'code', 'concept__code', 'concept__model__code' ) 
-    protoExt[ 'sortFields' ] = ( 'code', 'concept__code', 'concept__model__code' ) 
-    protoExt[ 'sortInfo' ] = ( 'concept__model__code', 'code' ) 
+    protoExt[ 'sortFields' ] = ( 'code', 'concept__code', 'concept__model__code' )
+    protoExt[ 'baseFilter' ] = { 'isForeign': False  }
+    
+    # Valores iniciales ( initialFilter maneja el autoload )   
+    protoExt[ 'initialSort' ] = ( '-concept__model__code', 'code' ) 
+    protoExt[ 'initialFilter' ] = { 'concept__code__istartswith': 'a'}
     
     protoExt[ 'protoDetails' ] = [
         {'menuText': 'Udp', 'conceptDetail': 'protoExt.Udp', 'detailField': 'metaObj__pk', 'masterField': 'pk'}, 
@@ -31,8 +35,8 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         'concept__model__code': {'header' : 'Model', 'type': 'CharField' , 'width': 300 },  
 
         'description': { 'storeOnly': True },
-        'isNullable':{  },
-        'alias':{  },
+        'isNullable':{},
+        'alias':{},
         'baseType' : {}, 
         'length' : {}, 
 

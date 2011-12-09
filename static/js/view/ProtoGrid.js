@@ -26,12 +26,17 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         // VErifica si el store viene como parametro ( Detail )
         if (typeof this.protoFilterBase == 'undefined') {
-            // TODO: Agregar parametro Autoload
-            var myFilter = '{"pk" : 0,}'            
-            var myFilter = ''
+            // DGT: Agregar parametro Autoload
+            // var myFilter = '{"pk" : 0,}'            
+            var myFilter = myMeta.initialFilter
+            myFilter = Ext.encode( myFilter )
+             
         } else {
             var myFilter = ''
         };   
+        
+        // Sorters 
+        pSorters = myMeta.initialSort 
         
         //console.log (  this.protoConcept, ' Loading store ...  '  ); 
         this.store = Ext.create('Ext.data.Store', {
@@ -39,6 +44,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             autoLoad: true,
             pageSize: _PAGESIZE,
             remoteSort: true,
+            // sorters: [{ property: 'xx', direction: 'ASC' },],
+            sorters: pSorters,
             proxy : {
                 type: 'ajax',
                 url : 'protoExt/protoList/', 
@@ -54,7 +61,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                     protoFilterBase: this.protoFilterBase, 
                     storeFields  : myMeta.storeFields.toString(),
                 },
-                // sorters: [{ property: 'xx', direction: 'ASC' },],
             },
             listeners: {
                 'load' :  function(store,records,options) {
