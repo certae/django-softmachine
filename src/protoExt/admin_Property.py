@@ -30,9 +30,9 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
          }
 
     protoExt[ 'protoFields' ] =  {        
-        'code': {'header' : 'Elm Donnee', 'type': 'CharField' ,  'width': 300 },
-        'concept__code': {'header' : 'Concept', 'type': 'CharField' , 'width': 300 },  
-        'concept__model__code': {'header' : 'Model', 'type': 'CharField' , 'width': 300 },  
+        'code': {'header' : 'Elm Donnee', 'type': 'CharField' ,  'minWidth': 200, 'flex': 1 },
+        'concept__code': {'header' : 'Concept', 'type': 'CharField' , 'minWidth': 200, 'flex': 1  },  
+        'concept__model__code': {'header' : 'Model', 'type': 'CharField' , 'minWidth': 200 , 'flex': 1 },  
 
         'description': { 'storeOnly': True },
         'isNullable':{},
@@ -89,6 +89,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     TEMPLATE += '</table>'
     
     protoExt[ 'protoSheet' ] =  {        
+          'title' : "Fiche descriptive de l'élément de donnée",                        
           'properties': (   'code',
                             'concept__model__code',
                             'isNullable',
@@ -125,3 +126,14 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
             { 'viewName': 'all', 
               'viewFields': ( 'code', 'concept__code', 'concept__model__code' )},
                         ]
+
+
+    protoExt['protoFilters'] = []
+    for nFiltre in ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']:
+    
+        protoExt['protoFilters'].append ( 
+                { 'filterName': nFiltre, 
+                  'filter': { 'concept__code__istartswith': nFiltre }, 
+#                 'icon' : 'icon-?'
+                  }
+        ) 

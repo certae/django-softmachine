@@ -41,6 +41,7 @@ Ejemplos
 
 
 Buffered 
+-----------------------------------
 
     var store = Ext.create('Ext.data.Store', {
         pageSize: 200,
@@ -144,6 +145,9 @@ Manejo de grupos segun (un solo campo)  ***
 http://dev.sencha.com/deploy/ext-4.0.0/examples/grid/grid-plugins.html
 -----------------------------------------------------------------------
 
+Linea adicional
+------------------
+
 
 		columns: [.. ], 
         plugins: [{
@@ -152,8 +156,9 @@ http://dev.sencha.com/deploy/ext-4.0.0/examples/grid/grid-plugins.html
                 '<p><b>Company:</b> {company}</p><br>',
                 '<p><b>Summary:</b> {desc}</p>'
             ]
-        
-----
+
+Check Boxpara el manejo de acciones         
+----------------
         
 	var sm = Ext.create('Ext.selection.CheckboxModel', {
         listeners: {
@@ -162,6 +167,10 @@ http://dev.sencha.com/deploy/ext-4.0.0/examples/grid/grid-plugins.html
             }
         }
     });
+
+
+Varios toolbars docked
+---------------------------------
 
     var grid2 = Ext.create('Ext.grid.Panel', {
         selModel: sm,

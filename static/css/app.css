@@ -19,26 +19,21 @@
 
 /*  Iconos del ToolBar */
 
-.icon-search  { background-image: url(../img/protoImg/search16.png ) !important; }
-.icon-filter  { background-image: url(../img/protoImg/filter24.png ) !important; }
-.icon-order   { background-image: url(../img/protoImg/order24.png ) !important;  }
-.icon-views   { background-image: url(../img/protoImg/cards24.png ) !important;  }
-.icon-details { background-image: url(../img/protoImg/details24.png ) !important;}
+.icon-search24  { background-image: url(../img/protoImg/search16.png ) !important; }
+.icon-filter24  { background-image: url(../img/protoImg/filter24.png ) !important; }
+.icon-order24   { background-image: url(../img/protoImg/order24.png ) !important;  }
+.icon-views24   { background-image: url(../img/protoImg/cards24.png ) !important;  }
+.icon-details24 { background-image: url(../img/protoImg/details24.png ) !important;}
 
 .icon-page_white_get { background-image:url(../img/famfamfam/page_white_get.png) !important; }
 
-.sort-desc {
-    background-image: url(../img/protoImg/sort_desc.gif) !important;
-    background-position: 4px 7px !important;
-}
-
-.sort-asc {
-    background-image: url(../img/protoImg/sort_asc.gif) !important;
-    background-position: 4px 7px !important;
-}
+.sort-desc { background-image: url(../img/protoImg/sort_desc.gif) !important; background-position: 4px 7px !important; }
+.sort-asc  { background-image: url(../img/protoImg/sort_asc.gif) !important; background-position: 4px 7px !important; }
 
 
-.icon-stop { background-image: url(../img/protoImg/stop.png) !important; }
+.icon-stop    { background-image: url(../img/protoImg/stop.png) !important; }
+.icon-details { background-image: url(../img/protoImg/details.png) !important; }
+.icon-promote { background-image: url(../img/protoImg/promote.png) !important; }
 
 
 

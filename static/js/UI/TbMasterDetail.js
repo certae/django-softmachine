@@ -48,23 +48,23 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             items: [{
                 pressed: true,
                 text: 'Search',
-                iconCls: 'icon-search',
+                iconCls: 'icon-search24',
                 idTb2  : ideTbSearch
             },'-',{
                 text: 'Details',
-                iconCls: 'icon-details',
+                iconCls: 'icon-details24',
                 idTb2  : ideTbDetails
             },'-',{
                 text: 'Order',
-                iconCls: 'icon-order',
+                iconCls: 'icon-order24',
                 idTb2  : ideTbOrder
             },'-',{
                 text: 'Filter',
-                iconCls: 'icon-filter',
+                iconCls: 'icon-filter24',
                 idTb2  : ideTbFilter
             },'-',{
                 text: 'Views',
-                iconCls: 'icon-views',
+                iconCls: 'icon-views24',
                 idTb2  : ideTbViews
             }]
         
@@ -117,13 +117,13 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         // Menu Detail 
         // var menuDetail = new Ext.menu.Menu({ hidden:true  });
         var menuDetail = Ext.getCmp( ideTbDetails );
-        var menuPromDetail = Ext.id();
+        // var menuPromDetail = Ext.id();
         menuDetail.add({
-            iconCls : 'icon-page_white_get', 
-            text: '<b>Promote Detail<b>',
-            id: menuPromDetail,
-            disabled: true,
-            handler:  onMenuPromoteDetail
+            iconCls : 'icon-details', 
+            text: 'Details:',
+            // id: menuPromDetail,
+            // disabled: true,
+            // handler:  onMenuPromoteDetail
         // },{  xtype: 'menuseparator'
         });
         configureMenuDetail( ); 
@@ -329,9 +329,9 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             };
     
             // activa el boton de promover detalles 
-            if (bDetails == true) {
-                menuDetail.items.get( menuPromDetail ).enable();
-            };
+            // if (bDetails == true) {
+                // menuDetail.items.get( menuPromDetail ).enable();
+            // };
         };
 
 
@@ -440,10 +440,9 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 // ------------------------------------------------------------------------------------------------
 
         var tbViews = Ext.getCmp( ideTbViews )
-        menuDetail.add({
+        tbViews.add({
             iconCls : 'icon-views', 
             text: '<b>Views<b>',
-            disabled: true,
             // },{  xtype: 'menuseparator'
         });
 
@@ -452,17 +451,56 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         	var pViews = myMeta.protoViews;
             for (var vDet in pViews) {         
             	tbViews.add({
-                    text: pViews[vDet].menuText,
-                    iconCls : pViews[vDet].viewIcon, 
-                    viewFields: pViews[vDet].viewFields,
-                    // handler: onClickChangeView,
+                    text:       pViews[vDet].viewName,
+                    iconCls :   pViews[vDet].icon, 
+                    protoView:  pViews[vDet].viewFields,
+                    handler:    onClickChangeView,
             	})
             };
         };
     
         configureProtoViews(); 
 
+        function onClickChangeView( btn ){
+
+              __MasterDetail.protoMasterGrid.configureColumns ( btn.protoView  );
+            
+        }
+
+
 // ------------------------------------------------------------------------------------------------
+
+
+        var tbFilter = Ext.getCmp( ideTbFilter )
+        tbFilter.add({
+            iconCls : 'icon-filter', 
+            text: '<b>Filters<b>',
+            // },{  xtype: 'menuseparator'
+        });
+
+        function configureProtoFilter(){
+
+            var pFilters = myMeta.protoFilters;
+            for (var vDet in pFilters) {         
+                tbFilter.add({
+                    text:           pFilters[vDet].filterName,
+                    iconCls :       pFilters[vDet].icon, 
+                    protoFilter:    Ext.encode( pFilters[vDet].filter ),
+                    handler: onClickProtoFilter,
+                })
+            };
+        };
+        
+        function onClickProtoFilter( btn ){
+              
+              __MasterDetail.onClickLoadData ( btn.protoFilter  );
+
+        }
+              
+        configureProtoFilter(); 
+
+// ------------------------------------------------------------------------------------------------
+
 
 
     }, 

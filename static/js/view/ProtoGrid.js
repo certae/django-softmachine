@@ -26,12 +26,12 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         // VErifica si el store viene como parametro ( Detail )
         if (typeof this.protoFilterBase == 'undefined') {
-            // DGT: Agregar parametro Autoload
-            // var myFilter = '{"pk" : 0,}'            
+            // DGT: Agregar parametro Autoload  -  '{"pk" : 0,}'            
             var myFilter = myMeta.initialFilter
             myFilter = Ext.encode( myFilter )
              
         } else {
+            var isDetail = true 
             var myFilter = ''
         };   
         
@@ -93,6 +93,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 flex: vFld.flex,
                 hidden: vFld.hidden,
                 width: vFld.width ,
+                minWidth: vFld.minWidth 
                 // editor:  { xtype: _gridTypeEditor[vFld.type] }, 
                 // renderer: this.formatDate,                
             };
@@ -101,9 +102,20 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         }
         
+        this.myColumns = myColumns 
+        var gridColumns =  myColumns
+        
+        // Vista por defecto 
+        var pViews = myMeta.protoViews;
+        if (pViews != undefined) {
+            try {
+                gridColumns = this.getViewColumns( pViews[0].viewFields ) 
+            } catch(e) {}
+        }; 
+        
         // myColumns = [{"xtype":"rownumberer","width":30},{"text":"ID","sortable":true,"dataIndex":"id","hidden":true},{"text":"First Name","sortable":true,"dataIndex":"first","editor":{"xtype":"textfield"}},{"text":"Last Name","sortable":true,"dataIndex":"last","editor":{"xtype":null}},{"text":"Email","sortable":true,"dataIndex":"email","editor":{"xtype":"textfield"}}]; 
         var grid = Ext.create('Ext.grid.Panel', {
-            columns : myColumns,   
+            columns : gridColumns,   
             store : this.store,  
             stripeRows: true, 
             
@@ -114,8 +126,66 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             
         }); 
 
+
+        this.myGrid = grid 
+
+
+//----------
+
+        if ( isDetail ) {
+            // var IdePromoteDetail = Ext.id();
+            itemDetail = [
+                    '-', {
+                    // id      : IdePromoteDetail, 
+                    text: 'View in new tab',
+                    iconCls : 'icon-promote',
+                    handler : onMenuPromoteDetail
+                }]
+            
+        } else { itemDetail = [] } 
+
 //-----------
-        this.IdeSheet = Ext.id();
+
+        panelItems =   [{
+                region: 'center',
+                flex: 1,
+                layout: 'fit',
+                minSize: 50,
+                items: grid 
+            }, {
+                xtype: 'pagingtoolbar',
+                region: 'south',
+                store: this.store,
+                displayInfo: true,
+                displayMsg: 'Total {2}',
+                items: itemDetail 
+                // displayMsg: '{0} - {1} of {2}',
+                // emptyMsg: "No register to display"
+            }
+            ];
+
+
+        var pSheet = myMeta.protoSheet;
+        if (pSheet.properties != undefined) {
+            
+            this.IdeSheet = Ext.id();
+            panelItems.push( {
+                    region: 'east',
+                    id: this.IdeSheet, 
+                    title: pSheet.title ,
+                    collapsible: true,
+                    collapsed: false ,
+                    split: true,
+                    flex: 1,
+                    layout: 'fit',
+                    minSize: 50,
+                    xtype: 'panel',
+                    autoScroll: true,
+                    border: false
+            })
+        }; 
+        
+//-----------        
 
         Ext.apply(this, {
             layout: 'border',
@@ -123,39 +193,13 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 collapsible: false,
                 split: false
             },
-            items: [{
-                region: 'center',
-                flex: 1,
-                layout: 'fit',
-                minSize: 50,
-                items: grid 
-            }, {
-                id: this.IdeSheet, 
-                title: 'Fiche descriptive de lélément de donnée',
-                region: 'east',
-                flex: 1,
-                collapsible: true,
-                split: true,
-                collapsed: true,
-                layout: 'fit',
-                minSize: 50,
-                html: '' 
-            },{
-                xtype: 'pagingtoolbar',
-                region: 'south',
-                store: this.store,
-                displayInfo: true,
-                displayMsg: 'Total {2}',
-                // displayMsg: '{0} - {1} of {2}',
-                // emptyMsg: "No register to display"
-            }
-            ],
+            items: panelItems 
         });
 
 
 //------        
         this.addEvents(
-            'itemClick'
+            'itemClick', 'promoteDetail'
         );
 
         
@@ -169,8 +213,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             itemClick: {fn: function (g, rowIndex, e) {
                 // console.log ( g, rowIndex   );
                 _pGrid.rowData = rowIndex.data
-                
-                prepareSheet(  )
+                prepareSheet()
                  
                 }, 
             scope: this },
@@ -200,13 +243,57 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             // sheet.html = pTemplate; 
             sheet.update( pTemplate );
 
+        };
+        
+        function onMenuPromoteDetail() {
+    
+            __TabContainer.addTabPanel ( 
+                   _pGrid.store.protoConcept , 
+                   _pGrid.store.getProxy().extraParams.protoFilterBase 
+               ); 
+            
         }
+
 
     },
     
     onItemClick: function (g, rowIndex, e) {
         this.fireEvent('itemClick', g, rowIndex, e);
+    },  
+
+    getViewColumns: function (  viewCols  ) {
+        
+        vColumns = [];
+        vColumns.push(Ext.create('Ext.grid.RowNumberer',{"width":37 }));
+        
+        for (var ixV in viewCols  ) {
+            var vCol  =  viewCols[ixV];
+
+            for (var ixC in this.myColumns  ) {
+                var gCol  =  this.myColumns[ixC];
+                if ( gCol.dataIndex == vCol ) {
+                    vColumns.push( gCol );
+                    break 
+                }
+            }            
+        }
+        
+        return vColumns
+
+    },
+    
+    configureColumns: function (  viewCols  ) {
+
+        vColumns = this.getViewColumns( viewCols )
+
+        // Configurar columnas de la grilla
+        this.myGrid.headerCt.removeAll()
+        this.myGrid.headerCt.add( vColumns );
+        this.myGrid.view.refresh();
+        
+
     }
+    
     
 });
 

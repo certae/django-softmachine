@@ -66,6 +66,7 @@ def protoGetPCI(request):
 
         # TODO: Vistas 
         protoViews = grid.protoAdmin.get( 'protoViews', []) 
+        protoFilters = grid.protoAdmin.get( 'protoFilters', []) 
 
         # TODO: Este filtro deberia ser usado para la autocarga
         # El filtro de base no se lee aqui, pues se cargara cada vez q se solicite la info. 
@@ -101,12 +102,13 @@ def protoGetPCI(request):
                  'sortFields': pSortFields, 
                  'idProperty': id_field,
                  'fields': base_fields, 
-                 'protoViews':protoViews ,     
                  'protoDetails': protoDetails, 
                  'protoIcon': protoIcon, 
                  'protoSheet': protoSheet, 
                  'initialSort': sortInfo,
                  'initialFilter': initialFilter,
+                 'protoViews':protoViews ,     
+                 'protoFilters': protoFilters,
                  },
             'rows':[],
             'totalCount': 0, 

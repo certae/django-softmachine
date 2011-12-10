@@ -27,6 +27,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             protoFilterBase : this.protoFilterBase,
         }) ; 
         
+        this.protoMasterGrid = masterGrid  
         this.protoMasterStore = masterGrid.store  
 
 

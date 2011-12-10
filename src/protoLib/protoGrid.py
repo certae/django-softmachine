@@ -196,7 +196,9 @@ def Q2Dict (  storeFields, pRows , protoAdmin ):
                 for lUpd in cllUpd:
                     prpGridName = prpPrefix + '__' + getattr( lUpd, prpName , '') 
                     if prpGridName in lsProperties:
-                        rowdict[ prpGridName ] = getattr( lUpd, prpValue, '' )
+                        sAux = getattr( lUpd, prpValue, '' ).replace( '\n', '<br>').replace( '\r', '<br>')
+                        sAux = sAux.replace( '<br><br>', '<br>')
+                        rowdict[ prpGridName ] =  sAux 
                 
 
         # Agrega la fila al diccionario
