@@ -19,12 +19,12 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': PPATH + '/db/protoMeta.db',
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'dictionnaire',
+        'USER': 'root',                      # Not used with sqlite3.
+        'PASSWORD': '1214moi',               # Not used with sqlite3.
+        'HOST': '132.203.51.190',             # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -92,7 +92,7 @@ USE_DJANGO_JQUERY = True
 # Additional locations of static files
 STATICFILES_DIRS = (
     PPATH + '/static',
-    '/u/data/ExtJs/ext-4.0.7-gpl',
+    'd:/data/ExtJs/ext-4.0.7-gpl',
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.

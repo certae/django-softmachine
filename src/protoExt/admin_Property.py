@@ -13,7 +13,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     
     # Valores iniciales ( initialFilter maneja el autoload )   
     protoExt[ 'initialSort' ] = ( '-concept__model__code', 'code' ) 
-    protoExt[ 'initialFilter' ] = { 'concept__code__istartswith': 'a'}
+    protoExt[ 'initialFilter' ] = { 'code__istartswith': 'a'}
     
     protoExt[ 'protoDetails' ] = [
         {'menuText': 'Udp', 'conceptDetail': 'protoExt.Udp', 'detailField': 'metaObj__pk', 'masterField': 'pk'}, 
@@ -129,11 +129,11 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
 
 
     protoExt['protoFilters'] = []
-    for nFiltre in ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']:
+    for nFiltre in ['A','B','C','D','E','É','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']:
     
         protoExt['protoFilters'].append ( 
                 { 'filterName': nFiltre, 
-                  'filter': { 'concept__code__istartswith': nFiltre }, 
+                  'filter': { 'code__istartswith': nFiltre }, 
 #                 'icon' : 'icon-?'
                   }
         ) 

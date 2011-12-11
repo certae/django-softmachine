@@ -159,7 +159,12 @@ class importXML():
                     if child.tag in fdsDomain:
                         setattr( lDomain, child.tag, child.text ) 
                         
-                lDomain.save()
+                try: 
+                    lDomain.save()
+                except:  pass 
+
+
+                
                 self.__logger.info("Domain..."  + lDomain.code)
 
                 xUdpDefinitions = xDomain.getiterator("udpDefinition")
@@ -171,7 +176,9 @@ class importXML():
                         if child.tag in fdsUdpDefinition:
                             setattr( dUdpDefinition, child.tag, child.text ) 
 
-                    dUdpDefinition.save()
+                    try: 
+                        dUdpDefinition.save()
+                    except:  pass 
 
                 
                 xModels = xDomain.getiterator("model")
@@ -206,8 +213,12 @@ class importXML():
                                     setattr( concept, child.tag, child.text )
                                 elif  ( child.tag == 'description' ):
                                     setattr( concept, child.tag, child.get('text'))
-                                     
-                        concept.save()
+                        
+                        try:              
+                            concept.save()
+                        except: pass
+                        
+                        
                         self.__logger.info("Concept..."  + concept.code)
 
                         xPropertys = xConcept.getiterator("property")
@@ -236,8 +247,11 @@ class importXML():
                                         udps.append( (xUdp.tag, xUdp.get('text') ) )
                                 else:
                                     udps.append( (child.tag, child.text) )
-                                        
-                            lProperty.save()
+                                       
+                            try: 
+                                lProperty.save()
+                            except: pass
+
 
                             #DGT:  saveUdps ( MetaObj, Udps ) 
                             if len( udps ) > 0:
@@ -246,7 +260,10 @@ class importXML():
                                     dUdp.metaObj = lProperty.metaobj_ptr
                                     dUdp.code = key
                                     dUdp.valueUdp = value
-                                    dUdp.save()
+                                    
+                                    try:
+                                        dUdp.save()
+                                    except: pass
 
 
                         xForeigns = xConcept.getiterator("foreign")
@@ -262,7 +279,9 @@ class importXML():
                                 if sKey in fdsForeign:
                                     setattr( dForeign, sKey, xForeign.get(sKey) )
                                     
-                            dForeign.save()
+                            try:
+                                dForeign.save()
+                            except: pass
 
                 xLinkModels = xDomain.getiterator("linkModel")
                 for xLinkModel in xLinkModels:
@@ -273,7 +292,10 @@ class importXML():
                         if child.tag in fdsLinkModel:
                             setattr( dLinkModel, child.tag, child.text ) 
                             
-                    dLinkModel.save()
+                    try:
+                        dLinkModel.save()
+                    except: pass
+                    
                     self.__logger.info("LinkModel..."  + dLinkModel.code)
 
                     xLinks = xLinkModel.getiterator("link")
@@ -284,8 +306,10 @@ class importXML():
                         for child in xLink:
                             if child.tag in fdsLink:
                                 setattr( dLink, child.tag, child.text)
-
-                        dLink.save()
+                                        
+                        try:
+                            dLink.save()
+                        except: pass
 
                     
 
