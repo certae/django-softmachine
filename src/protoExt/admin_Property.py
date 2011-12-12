@@ -7,16 +7,16 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
 
     protoExt = {'protoIcon': 'property' }
 
-    protoExt[ 'searchFields' ] = ( 'code', 'concept__code', 'concept__model__code' ) 
-    protoExt[ 'sortFields' ] = ( 'code', 'concept__code', 'concept__model__code' )
+    protoExt[ 'searchFields' ] = ( 'code', 'concept__model__code' ) 
+    protoExt[ 'sortFields' ] = ( 'code', 'concept__model__code' )
     protoExt[ 'baseFilter' ] = { 'isForeign': False  }
     
     # Valores iniciales ( initialFilter maneja el autoload )   
-    protoExt[ 'initialSort' ] = ( '-concept__model__code', 'code' ) 
+    protoExt[ 'initialSort' ] = ( 'code', 'concept__model__code', ) 
     protoExt[ 'initialFilter' ] = { 'code__istartswith': 'a'}
     
     protoExt[ 'protoDetails' ] = [
-        {'menuText': 'Udp', 'conceptDetail': 'protoExt.Udp', 'detailField': 'metaObj__pk', 'masterField': 'pk'}, 
+        {'menuText': 'Propiétés d''élément de donnée', 'conceptDetail': 'protoExt.Udp', 'detailField': 'metaObj__pk', 'masterField': 'pk'}, 
         ]
 
     # Define el manejo de propiedades extendidas ( User defined properties 'UDP'
@@ -30,10 +30,10 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
          }
 
     protoExt[ 'protoFields' ] =  {        
-        'code': {'header' : 'Elm Donnee', 'type': 'CharField' ,  'minWidth': 200, 'flex': 1 },
-        'concept__code': {'header' : 'Concept', 'type': 'CharField' , 'minWidth': 200, 'flex': 1  },  
-        'concept__model__code': {'header' : 'Model', 'type': 'CharField' , 'minWidth': 200 , 'flex': 1 },  
+        'code': {'header' : 'Éléments de données', 'type': 'CharField' ,  'minWidth': 200, 'flex': 1 },
+        'concept__model__code': {'header' : 'Vue', 'type': 'CharField' , 'minWidth': 200 , 'flex': 1 },  
 
+#        'concept__code': {'header' : 'Concept', 'type': 'CharField' , 'minWidth': 200, 'flex': 1  },  
         'description': { 'storeOnly': True },
         'isNullable':{},
         'alias':{},
@@ -121,10 +121,10 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
 
     protoExt['protoViews'] = [
             { 'viewName': 'default', 
-              'viewFields': ( 'concept__model__code', 'code',  ), 
+              'viewFields': (  'code', 'concept__model__code',  ), 
               'icon' : 'icon-1'},
-            { 'viewName': 'all', 
-              'viewFields': ( 'code', 'concept__code', 'concept__model__code' )},
+#            { 'viewName': 'all', 
+#              'viewFields': ( 'code', 'concept__code', 'concept__model__code' )},
                         ]
 
 

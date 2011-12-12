@@ -33,7 +33,7 @@ _PAGESIZE = 50;
 
 
 // Autoload entites
-_AUTOLOAD_PCI = ['protoExt.Property',  ]
+_AUTOLOAD_PCI = ['protoExt.Model', 'protoExt.Property'  ]
 
 // ProtoUL.view.ProtoMasterDetail 
 _ComboFilterOp = [
