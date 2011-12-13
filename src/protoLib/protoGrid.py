@@ -131,7 +131,6 @@ class ProtoGridFactory(object):
 
 
 
-
 # Obtiene el diccionario basado en el Query Set 
 def Q2Dict (  storeFields, pRows , protoAdmin ):
     """ 

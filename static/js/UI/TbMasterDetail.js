@@ -251,15 +251,16 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             };
         }; 
 
-        var ideBtNoSort = Ext.id();
-        orderTbar.add({
-            xtype: 'tbtext',
-            id : ideBtNoSort, 
-            text: '<b>No Sort:</b>',
-            iconCls : 'stop', 
-            reorderable: true,
-            handler: doSort()
-        });
+// 		Boton no sort         
+//        var ideBtNoSort = Ext.id();
+//        orderTbar.add({
+//            xtype: 'tbtext',
+//            id : ideBtNoSort, 
+//            text: '<b>No Sort:</b>',
+//            iconCls : 'stop', 
+//            reorderable: true,
+//            handler: doSort()
+//        });
         
         configureOrderTab(); 
         // orderTbar.doLayout()
@@ -305,8 +306,12 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             var bDetails = false;               // Indica si tiene o no detalles
             for (var vDet in pDetails) {        // Recorre y agrega los detalles al menu 
                 // console.log( pDetails[vTab] + " ");
-                bDetails = true;
-                
+
+                // TODO: Undefined 
+                if (pDetails[vDet].menuText == undefined ) {
+                	continue 
+                } 
+
                 if (pDetails[vDet].menuText == '-') { 
                     var item = menuDetail.add({ xtype: 'menuseparator' });
                     continue
@@ -322,6 +327,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 
                 // Agrego el handler q activara el tab a partir del menu
                 // item.on('click', onMenuSelectDetail);
+                bDetails = true;
                 item.on({
                     click: { fn: __MasterDetail.onMenuSelectDetail,scope: __MasterDetail  },
                 });                 
@@ -421,19 +427,20 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
             var sorters = [];
 
-            // tiene en cuenta la posicion de: ideBtNoSort
-            var ixBt = -1;  
-            for (var ix in orderTbar.items.items) {
-                if ( orderTbar.items.items[ix].id  ==  ideBtNoSort ) { break; }
-                ixBt ++;  
-            }
-            if ( ixBt <= 0 ) { return sorters  };  
+//            // tiene en cuenta la posicion de: ideBtNoSort
+//            var ixBt = -1;  
+//            for (var ix in orderTbar.items.items) {
+//                if ( orderTbar.items.items[ix].id  ==  ideBtNoSort ) { break; }
+//                ixBt ++;  
+//            }
+//            if ( ixBt <= 0 ) { return sorters  };  
             
             Ext.each(orderTbar.query('button'), function(button) {
                 sorters.push(button.sortData);
             }, this);
 
-            return sorters.slice(0, ixBt );
+//            return sorters.slice(0, ixBt );
+            return sorters
         }
         // doSort();
 

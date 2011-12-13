@@ -269,8 +269,8 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         this.protoMasterStore.getProxy().extraParams.protoFilter = sFilter;
 
         // TODO: Resetea la pagina ( todavia deja el contador de lineas mal cuando se hace load en pag >1 ) 
-        this.protoMasterStore.getProxy().pageParam =1;
-        this.protoMasterStore.getProxy().startParam =0;
+		//        this.protoMasterStore.getProxy().pageParam =1;
+		//        this.protoMasterStore.getProxy().startParam =0;
         
         // TODO: Cargar el sort, buscarlo en proxy.sorters o setear una var en la grilla 
         this.protoMasterStore.load();

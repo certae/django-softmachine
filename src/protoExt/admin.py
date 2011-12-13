@@ -35,6 +35,7 @@ class RelationshipAdmin(django.contrib.admin.ModelAdmin):
     list_display =( 'concept', 'baseConcept', 'code',  'description', 'alias')
     list_filter = ( 'concept', )
     search_fields = ( 'baseConcept', 'code',  'description', 'alias')
+    protoExt = { 'protoMenuIx': -1 }
 
 
 admin.site.register(Relationship, RelationshipAdmin)
@@ -50,7 +51,7 @@ class MetaLinkAdmin(django.contrib.admin.ModelAdmin):
     list_filter = ( 'metaLinkModel' , )
     search_fields = ( 'code', 'alias', 'destinationText', 'sourceCol', 'destinationCol')
 
-    protoExt = {}
+    protoExt = { 'protoMenuIx': -1 }
     protoExt[ 'app_name' ] = 'Liens'
     protoExt[ 'menu_index' ] = 2
 
@@ -64,13 +65,19 @@ class MetaLinkModelAdmin(django.contrib.admin.ModelAdmin):
 #    list_filter = ( 'metaLinkModel' , )
 #    search_fields = ( 'code', 'alias', 'destinationText', 'sourceCol', 'destinationCol')
 
-    protoExt = {}
+    protoExt = { 'protoMenuIx': -1 }
     protoExt[ 'app_name' ] = 'Liens'
     protoExt[ 'menu_index' ] = 1
     
 
 admin.site.register(MetaLinkModel, MetaLinkModelAdmin)
-admin.site.register(UdpDefinition)
+
+
+class UdpAdminDefinition(django.contrib.admin.ModelAdmin):
+#   N'est pas inclu dans le menu 
+    protoExt = { 'protoMenuIx': -1 }
+
+admin.site.register(UdpDefinition, UdpAdminDefinition)
 
 
 #admin.site.register(PropertyChoice)

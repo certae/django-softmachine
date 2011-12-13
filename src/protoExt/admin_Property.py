@@ -15,8 +15,8 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     protoExt[ 'initialSort' ] = ( 'code', 'concept__model__code', ) 
     protoExt[ 'initialFilter' ] = { 'code__istartswith': 'a'}
     
-    protoExt[ 'protoDetails' ] = [
-        {'menuText': 'Propiétés d''élément de donnée', 'conceptDetail': 'protoExt.Udp', 'detailField': 'metaObj__pk', 'masterField': 'pk'}, 
+    protoExt[ 'protoDetails' ] = [ {}, 
+#        {'menuText': 'Propiétés d''élément de donnée', 'conceptDetail': 'protoExt.Udp', 'detailField': 'metaObj__pk', 'masterField': 'pk'}, 
         ]
 
     # Define el manejo de propiedades extendidas ( User defined properties 'UDP'
@@ -50,7 +50,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         'udp__VALIDATIONSSURELEMENT': {  },
         'udp__VALIDATIONSINTERELEMENT': {  },
         'udp__VALIDATION_INTER-ENREGISTREMENT': {  },
-        'udp__SOURCE_DE_DONNEES_EXTERNES': {  },
+        'udp__SOURCEDEDONNEESEXTERNES': {  },
         'udp__ELEMENTTRANSFORME': {  },
         'udp__ELEMENTTRANSMIS': {  },
         'udp__DOMAINEDEVALEURS': {  },

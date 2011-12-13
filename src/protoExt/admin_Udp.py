@@ -6,14 +6,16 @@ class UdpAdmin(django.contrib.admin.ModelAdmin):
     list_filter = ( 'code', )
     search_fields = ( 'code', 'valueUdp')
 
-    protoExt = { 'protoMenuIx': -1 }
+#   N'est pas inclu dans le menu 
+    protoExt = {}
+    protoExt[ 'protoMenuIx' ] = -1 
     protoExt[ 'description' ] = 'Esta es la description del concpeto concepto'
     
 
     # Define la apariencia de los campos en la grilla,  
     # model__code es un campo proveniente de un FK, ( absorbido, join ) 
     # upd__format es un campo proveniente de una propiedad personalizada ( UDP )  
-    protoExt[ 'protoExclude' ] = ( 'metaObj', )           
+#    protoExt[ 'protoExclude' ] = ( 'metaObj', )           
     protoExt[ 'protoFields' ] =  {        
           'code': {'header' : 'Udp', 'type': 'CharField' ,  'width': 300 },
           'metaObj__code': {'header' : 'Poperty', 'type': 'CharField' ,  'width': 300 },  
@@ -24,7 +26,7 @@ class UdpAdmin(django.contrib.admin.ModelAdmin):
     #TODO: Implementar el manejo de las vistas 
     protoExt['protoViews'] = [
             { 'viewName': 'default', 
-              'viewFields': ( 'model__code', 'code',  'valueUdp' )},
+              'viewFields': ( 'code',  'valueUdp' )},
                                 ]
 
 #-----------

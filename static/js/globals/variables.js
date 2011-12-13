@@ -34,6 +34,7 @@ _PAGESIZE = 50;
 
 // Autoload entites
 _AUTOLOAD_PCI = ['protoExt.Model', 'protoExt.Property'  ]
+_MENU_COLLAPSED = true 
 
 // ProtoUL.view.ProtoMasterDetail 
 _ComboFilterOp = [

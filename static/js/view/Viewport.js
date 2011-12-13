@@ -40,19 +40,21 @@ Ext.define('ProtoUL.view.Viewport', {
         // Carga las PCI de autoload
         // TODO: Esto podria ser un llamado configurado por usuario  
         for (var autoPci in _AUTOLOAD_PCI) {
-//            console.log ( 'AutoLoad' , _AUTOLOAD_PCI[autoPci])
             this.loadPci( _AUTOLOAD_PCI[autoPci] )
         }
         
     },
 
     createMenuPanel: function(){
-        // this.menuPanel = Ext.create('widget.menupanel', {
+
+    	if ( _MENU_COLLAPSED == undefined ) { _MENU_COLLAPSED = false }
+    	
         this.menuPanel = {
             region: 'west',
             width: 300,
             title : 'Menu',
             collapsible: true,
+            collapsed: _MENU_COLLAPSED,
             
             // Solo en el panel de menus
             xtype: 'menuTree'
