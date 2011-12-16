@@ -78,7 +78,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     TEMPLATE += '<tr class="azul"><td class="negro">Validations sur l''élément: </td><td class="desc">{{udp__VALIDATIONSSURELEMENT}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Validations inter-élément: </td><td class="desc">{{udp__VALIDATIONSINTERELEMENT}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Validation inter-enregistrement: </td><td class="desc">{{udp__VALIDATION_INTER-ENREGISTREMENT}}</td></tr>'
-    TEMPLATE += '<tr class="blanco"><td class="negro">Source de données externes: </td><td class="desc">{{udp__SOURCE_DE_DONNEES_EXTERNES}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Source de données externes: </td><td class="desc">{{udp__SOURCEDEDONNEESEXTERNES}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Élément transformé: </td><td class="desc">{{udp__ELEMENTTRANSFORME}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Élément transmis: </td><td class="desc">{{udp__ELEMENTTRANSMIS}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Domaine de valeurs: </td><td class="desc">{{udp__DOMAINEDEVALEURS}}</td></tr>'
@@ -107,7 +107,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                             'udp__VALIDATIONSSURELEMENT',
                             'udp__VALIDATIONSINTERELEMENT',
                             'udp__VALIDATION_INTER-ENREGISTREMENT',
-                            'udp__SOURCE_DE_DONNEES_EXTERNES',
+                            'udp__SOURCEDEDONNEESEXTERNES',
                             'udp__ELEMENTTRANSFORME',
                             'udp__ELEMENTTRANSMIS',
                             'udp__DOMAINEDEVALEURS',
