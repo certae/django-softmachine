@@ -68,8 +68,9 @@ class Model(MetaObj):
     idRef = models.CharField(verbose_name=u'IxRef', blank = True, null = True, max_length=50)
     domain = models.ForeignKey('Domain', verbose_name=u'Domaine')
     
-#   superModel = models.ForeignKey('Model', blank = True, null = True)
     superModel = models.CharField( blank = True, null = True, max_length=50)
+    #Fix
+#    superModelRef = models.ForeignKey('Model', blank = True, null = True)
 
     def save(self, *args, **kwargs ):
         self.objType = "Model"
@@ -85,8 +86,10 @@ class Model(MetaObj):
 class Concept(MetaObj):
     model = models.ForeignKey('Model', verbose_name=u'Nom du modele')
     
-#   superConcept = models.ForeignKey('Concept', blank = True, null = True)
     superConcept = models.CharField( verbose_name=u'Super table',blank = True, null = True, max_length=50)
+    #Fix
+#    superConceptRef = models.ForeignKey('Concept', blank = True, null = True)
+
     def __unicode__(self):
         return self.code 
 
@@ -124,8 +127,10 @@ class Property(MetaObj):
 #    derivationProperty = models.CharField(max_length=200,blank = True, null = True)
 
     concept = models.ForeignKey('Concept')
-#   superProperty = models.ForeignKey('Property', blank = True, null = True)
     superProperty= models.CharField( blank = True, null = True, max_length=50, verbose_name=u'Propriete pere')
+
+    #Fix
+#    superPropertyRef = models.ForeignKey('Property', blank = True, null = True)
     
     concept.query_code = 'concept__code'
      
@@ -174,6 +179,8 @@ class Relationship(MetaObj):
     #DGT: deberia ser una referencia pero en la carga no es posible hacer la referencia se requiere un campo texto
      
     baseConcept = models.CharField(max_length=50, blank = True, null = True,)
+    #Fix 
+#    baseconceptRef = models.ForeignKey('Concept', blank = True, null = True, related_name = '+')
 
     def save(self, *args, **kwargs ):
         self.objType = "Relationship"
@@ -199,6 +206,9 @@ class Udp(models.Model):
     valueUdp = models.TextField(blank = True, null = True, max_length=200)
     indexUdp = models.IntegerField(blank = True, null = True)
     metaObj = models.ForeignKey('MetaObj')
+    
+    #Fix
+#    udpDefinition = models.ForeignKey('UdpDefinition', blank = True, null = True)
 
 #    def objType(self):
 #        return self.metaObj.objType
@@ -235,6 +245,11 @@ class MetaLink(models.Model):
     destinationCol = models.CharField(max_length=50)
 
     metaLinkModel = models.ForeignKey('MetaLinkModel')
+    
+    #Fix
+    #No hay jerarquia, los objetos se relacionan libremente  
+#    ObjRef1 = models.ForeignKey('MetaObj', blank = True, null = True, related_name = '+')
+#    ObjRef2 = models.ForeignKey('MetaObj', blank = True, null = True, related_name = '+')
 
     def __unicode__(self):
         return self.code 

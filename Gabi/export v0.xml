@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project name="Exemple de raccordement">
+  <udfs>
+    <udf alias="precision" description="" name="PRÉCISION" type="Multiline Text" />
+  </udfs>
+  <datamodel idmodel="1" idref="0" name="Modèle Conceptuel Corporatif">
+    <tables>
+      <table alias="" name="CONTACT" physicalName="" superTable="">
+        <column alias="" foreign="False" name="Date début contact" nullable="True" physicalName="" primary="False" superColumn="" type="DATE TIME">
+          <udfs>
+            <udf description="" />
+          </udfs>
+        </column>
+      </table>
+      <table alias="" name="INTERVENANT" physicalName="" superTable="">
+        <column alias="" foreign="False" name="Identifiant intervenant" nullable="False" physicalName="" primary="True" superColumn="" type="?"></column>
+        <column alias="" foreign="False" name="Nom intervenant" nullable="True" physicalName="" primary="False" superColumn="" type="?(20)">
+          <udfs>
+            <udf description="" />
+            <udf precision="" />
+          </udfs>
+        </column>
+      </table>
+    </tables>
+    <relations>
+      <relation LogicalName="" name="USAGER-CONTACT">
+        <r0 cardianlity="0..N" multiplicity="MANY" name="USAGER" />
+        <r1 cardianlity="1..1" multiplicity="EXACTLY_ONE" name="CONTACT" />
+      </relation>
+    </relations>
+  </datamodel>
+  <linkModels>
+    <linkModel destination="Projet Client - Préposé" name="Client Liens" source="Modèle Conceptuel 1">
+      <link alias="1" destinationText="PRÉPOSÉ.Numéro préposé" name="Identifiant intervenant -&gt; Numéro préposé">
+        <sourceCol name="Identifiant intervenant" />
+        <destinationCol name="Numéro préposé" />
+      </link>
+    </linkModel>
+  </linkModels>
+</project>

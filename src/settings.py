@@ -156,6 +156,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.auth',
     'django.contrib.admin',
+    'django_extensions',
     'protoExt'
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
