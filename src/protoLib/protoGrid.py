@@ -195,15 +195,18 @@ def Q2Dict (  storeFields, pRows , protoAdmin ):
                 for lUpd in cllUpd:
                     prpGridName = prpPrefix + '__' + getattr( lUpd, prpName , '') 
                     if prpGridName in lsProperties:
-                        sAux = getattr( lUpd, prpValue, '' ).replace( '\n', '<br>').replace( '\r', '<br>')
+                        sAux = getattr( lUpd, prpValue, '' ).replace( '\n', '<br>').replace( '\r', '<br>')  
                         sAux = sAux.replace( '<br><br>', '<br>')
-                        sAux = sAux.replace( '<td><br>', '<td>').replace( '<td><br>', '</td>')
-                        sAux = sAux.replace( '<th><br>', '<th>').replace( '<th><br>', '</th>')
-                        sAux = sAux.replace( '<tr><br>', '<tr>').replace( '<tr><br>', '</tr>')
+                        sAux = sAux.replace( '<td><br>', '<td>').replace( '</td><br>', '</td>')
+                        sAux = sAux.replace( '<th><br>', '<th>').replace( '</th><br>', '</th>')
+                        sAux = sAux.replace( '<tr><br>', '<tr>').replace( '</tr><br>', '</tr>')
 
-                        sAux = sAux.replace( '<br><td>', '<td>').replace( '<br><td>', '</td>')
-                        sAux = sAux.replace( '<br><th>', '<th>').replace( '<br><th>', '</th>')
-                        sAux = sAux.replace( '<br><tr>', '<tr>').replace( '<br><tr>', '</tr>')
+                        sAux = sAux.replace( '<br><td>', '<td>').replace( '<br></td>', '</td>')
+                        sAux = sAux.replace( '<br><th>', '<th>').replace( '<br></th>', '</th>')
+                        sAux = sAux.replace( '<br><tr>', '<tr>').replace( '<br></tr>', '</tr>')
+
+                        #sAux = sAux.replace( '</td><br></tr>', '</td></tr>')
+                        
                         rowdict[ prpGridName ] =  sAux 
                 
 

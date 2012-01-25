@@ -25,7 +25,7 @@ _gridTypeEditor = {
     'float' : 'numberfield',
     'string' : 'textfield',
     'date' : 'datefield',
-    'boolean' : 'checkbox',
+    'boolean' : 'checkbox'
 };
 
 // PageSize par default 

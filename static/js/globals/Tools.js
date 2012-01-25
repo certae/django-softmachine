@@ -25,7 +25,7 @@ function DefineProtoModel ( myMeta , modelClassName ){
         var vFld  =  myMeta.fields[ix]; 
         var mField = {
             name: vFld.name,
-            type: 'string', 
+            type: 'string' 
             // type: vFld.type,
             // useNull : vFld.allowNull, 
             // defaultValue: vFld.defaultValue,
@@ -39,11 +39,11 @@ function DefineProtoModel ( myMeta , modelClassName ){
     
     Ext.define(modelClassName, {
         extend: 'Ext.data.Model',
-            fields: myFields, 
+            fields: myFields 
 
         });
   
-};
+}
 
 
 // TODO: Los templates de las finchas deberian ser leidos de un archivo 

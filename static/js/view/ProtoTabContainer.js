@@ -3,7 +3,7 @@
 Ext.define('ProtoUL.view.ProtoTabContainer', {
     extend: 'Ext.tab.Panel',
     alias: 'widget.protoTabContainer',
-    requires: ['ProtoUL.view.ProtoMasterDetail', ],
+    requires: ['ProtoUL.view.ProtoMasterDetail' ],
 
     initComponent: function() {
         
@@ -21,8 +21,8 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
             closable: true, 
             layout: 'fit',
             items: [
-                this.createProtoMasterDetail( protoConcept, protoFilterBase ),
-                ], 
+                this.createProtoMasterDetail( protoConcept, protoFilterBase )
+                ]
         });
 
         this.setActiveTab(tab)
@@ -32,10 +32,10 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
 
         var MDPanel = Ext.create('widget.protoMasterDetail', {
             protoConcept : protoConcept,
-            protoFilterBase : protoFilterBase,
+            protoFilterBase : protoFilterBase
         });
         return MDPanel;
-    },
+    }
     
 
 });

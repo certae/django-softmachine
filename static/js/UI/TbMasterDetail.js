@@ -76,16 +76,16 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             items: [{
                     id : ideTbSearch , 
                     xtype: 'buttongroup',
-                    hidden : false, 
+                    hidden : false 
                 },{
                     id : ideTbDetails, 
-                    xtype: 'buttongroup',
+                    xtype: 'buttongroup'
                 },{
                     id : ideTbFilter, 
-                    xtype: 'buttongroup',
+                    xtype: 'buttongroup'
                 },{
                     id : ideTbViews, 
-                    xtype: 'buttongroup',
+                    xtype: 'buttongroup'
                 }]
             });
 
@@ -96,16 +96,16 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                     button.hide();
                 }, this);
                 
-                var tb2 = Ext.getCmp ( but.idTb2  )
-                tb2.show()
+                var tb2 = Ext.getCmp(but.idTb2);
+                tb2.show();
                 
-                orderTbar.hide()
-                tbar2.show()
+                orderTbar.hide();
+                tbar2.show();
             } else {
-                orderTbar.show()
-                tbar2.hide()
+                orderTbar.show();
+                tbar2.hide();
             }             
-        }; 
+        } 
 
         //--------------------------------------------------------
 
@@ -120,7 +120,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         // var menuPromDetail = Ext.id();
         menuDetail.add({
             iconCls : 'icon-details', 
-            text: 'Details:',
+            text: 'Details:'
             // id: menuPromDetail,
             // disabled: true,
             // handler:  onMenuPromoteDetail
@@ -148,7 +148,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             forceSelection: true,
             emptyText: 'Select a column ...',
             selectOnFocus: true,
-            typeAhead: true,
+            typeAhead: true
         });
 
 
@@ -161,14 +161,14 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             displayField: 'operation',
             valueField: 'code',
             forceSelection: true,
-            editable: false,
+            editable: false
         });
 
         // Criteria 
         var searchCr = new Ext.form.TextField({
             emptyText: 'search criteria ..',
             width: 200
-        })
+        });
 
         // Load Data button 
         var searchBtn = new Ext.button.Split({
@@ -178,13 +178,13 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             menu: {
                 items: [{
                     text: '<b>Clear filter<b>',
-                    handler: onClickClearFilter, 
+                    handler: onClickClearFilter 
                 // }, {
                     // text: 'add filter',
                     // handler: __MasterDetail.onClickFilter
                 }]
             }
-        })
+        });
         
 
         var tbSearch = Ext.getCmp( ideTbSearch );
@@ -192,7 +192,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             searchBtn,    
             searchCr,
             comboOp,
-            comboCols,
+            comboCols
             ] )
 
         // Inicializa Combos 
@@ -230,7 +230,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 text: '<b>Sorting order:</b>',
                 reorderable: false 
                 }],  
-            plugins: [reorderer,  ],
+            plugins: [reorderer],
             hidden : true
         });
 
@@ -248,8 +248,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                         }
                     }));
                 }    
-            };
-        }; 
+            }
+        } 
 
 // 		Boton no sort         
 //        var ideBtNoSort = Ext.id();
@@ -274,7 +274,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 align: 'stretchmax'
             },
             dockedItems: [
-                tbar1,  orderTbar, tbar2, 
+                tbar1,  orderTbar, tbar2 
             ]
         });
         // panel.add(tool1);  ...
@@ -308,7 +308,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 // console.log( pDetails[vTab] + " ");
 
                 // TODO: Undefined 
-                if (pDetails[vDet].menuText == undefined ) {
+                if (pDetails[vDet].menuText === undefined ) {
                 	continue 
                 } 
 
@@ -322,14 +322,14 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                     detail: pDetails[vDet].conceptDetail,
                     detailField: pDetails[vDet].detailField,
                     masterField: pDetails[vDet].masterField,
-                    ixTab: ixTabC,
+                    ixTab: ixTabC
                 });
                 
                 // Agrego el handler q activara el tab a partir del menu
                 // item.on('click', onMenuSelectDetail);
                 bDetails = true;
                 item.on({
-                    click: { fn: __MasterDetail.onMenuSelectDetail,scope: __MasterDetail  },
+                    click: { fn: __MasterDetail.onMenuSelectDetail,scope: __MasterDetail  }
                 });                 
                 ixTabC += 1;
             };
@@ -449,7 +449,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         var tbViews = Ext.getCmp( ideTbViews )
         tbViews.add({
             iconCls : 'icon-views', 
-            text: '<b>Views<b>',
+            text: '<b>Views<b>'
             // },{  xtype: 'menuseparator'
         });
 
@@ -461,7 +461,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                     text:       pViews[vDet].viewName,
                     iconCls :   pViews[vDet].icon, 
                     protoView:  pViews[vDet].viewFields,
-                    handler:    onClickChangeView,
+                    handler:    onClickChangeView
             	})
             };
         };
@@ -481,7 +481,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         var tbFilter = Ext.getCmp( ideTbFilter )
         tbFilter.add({
             iconCls : 'icon-filter', 
-            text: '<b>Filters<b>',
+            text: '<b>Filters<b>'
             // },{  xtype: 'menuseparator'
         });
 
@@ -493,14 +493,14 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                     text:           pFilters[vDet].filterName,
                     iconCls :       pFilters[vDet].icon, 
                     protoFilter:    Ext.encode( pFilters[vDet].filter ),
-                    handler: onClickProtoFilter,
+                    handler: onClickProtoFilter
                 })
             };
         };
         
         function onClickProtoFilter( btn ){
               
-              __MasterDetail.onClickLoadData ( btn.protoFilter  );
+              __MasterDetail.onClickLoadData (btn.protoFilter);
 
         }
               

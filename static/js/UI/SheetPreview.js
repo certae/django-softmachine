@@ -10,7 +10,7 @@ Ext.define('ProtoUL.UI.Preview', {
 	autoScroll: true,
 	border: false,
 	
-	initComponent: function() {
+	initComponent: function () {
 		Ext.apply(this, {
 			tpl: new Ext.XTemplate(
 			    '<div class="post-data">',

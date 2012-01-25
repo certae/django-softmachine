@@ -8,7 +8,7 @@ Ext.define('ProtoUL.controller.Contacts', {
     refs: [{
             ref: 'contactsPanel',
             selector: 'panel'
-        },{
+        }, {
             ref: 'contactlist',
             selector: 'contactlist'
         }

@@ -2,7 +2,7 @@ Ext.define('ProtoUL.view.MenuTree', {
     extend: 'Ext.tree.Panel',
     alias: 'widget.menuTree',
     requires: [
-        'ProtoUL.model.MenuModel',
+        'ProtoUL.model.MenuModel'
     ],
     
     rootVisible: false,
@@ -16,8 +16,8 @@ Ext.define('ProtoUL.view.MenuTree', {
             model: 'ProtoUL.model.MenuModel',
             root: {
                 text:'menu',
-                expanded: true,
-            },            
+                expanded: true 
+            }            
         });
         
         this.callParent(arguments);
@@ -36,7 +36,7 @@ Ext.define('ProtoUL.view.MenuTree', {
             }
         }
         
-    },
+    }
 
 
 });

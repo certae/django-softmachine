@@ -32,7 +32,7 @@ Ext.define('ProtoUL.ux.BoxReorderer', {
      */
     animate: 100,
 
-    constructor: function() {
+    constructor: function () {
         this.addEvents(
             /**
              * @event StartDrag
@@ -77,7 +77,7 @@ Ext.define('ProtoUL.ux.BoxReorderer', {
         this.mixins.observable.constructor.apply(this, arguments);
     },
 
-    init: function(container) {
+    init: function (container) {
         this.container = container;
 
         // Initialize the DD on first layout, when the innerCt has been created.
@@ -219,12 +219,12 @@ Ext.define('ProtoUL.ux.BoxReorderer', {
         if (items.getAt(newIndex).reorderable === false) {
             newItem = items.getAt(newIndex);
             if (newIndex > me.startIndex) {
-                 while(newItem && newItem.reorderable === false) {
+                 while (newItem && newItem.reorderable === false) {
                     newIndex++;
                     newItem = items.getAt(newIndex);
                 }
             } else {
-                while(newItem && newItem.reorderable === false) {
+                while (newItem && newItem.reorderable === false) {
                     newIndex--;
                     newItem = items.getAt(newIndex);
                 }

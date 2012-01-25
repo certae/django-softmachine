@@ -6,11 +6,11 @@ Ext.define('ProtoUL.view.Viewport', {
 
     requires: [
         'ProtoUL.view.MenuTree',
-        // 'ProtoUL.view.ProtoProperties',
-        'ProtoUL.view.ProtoTabContainer',
+     // 'ProtoUL.view.ProtoProperties',
+        'ProtoUL.view.ProtoTabContainer'
     ],
 
-    initComponent: function(){
+    initComponent: function () {
 
         Ext.apply(this, {
             layout: 'border',
@@ -21,11 +21,11 @@ Ext.define('ProtoUL.view.Viewport', {
             },
             items: [
                 this.createMenuPanel(),
-                this.createProtoTabContainer(),
+                this.createProtoTabContainer()
                 // this.createPropertyPanel(),
                 // this.createHeaderPanel(),
                 // this.createFooterPanel(),
-                ],
+            ]
         });
 
         this.callParent(arguments);
@@ -34,20 +34,20 @@ Ext.define('ProtoUL.view.Viewport', {
     },
 
     // Eventos despues de cargado el panel 
-    afterRender: function(){
+    afterRender: function () {
         this.callParent(arguments);
 
         // Carga las PCI de autoload
         // TODO: Esto podria ser un llamado configurado por usuario  
         for (var autoPci in _AUTOLOAD_PCI) {
-            this.loadPci( _AUTOLOAD_PCI[autoPci] )
+            this.loadPci(_AUTOLOAD_PCI[autoPci]);
         }
         
     },
 
-    createMenuPanel: function(){
+    createMenuPanel: function () {
 
-    	if ( _MENU_COLLAPSED == undefined ) { _MENU_COLLAPSED = false }
+    	if (_MENU_COLLAPSED == undefined) {_MENU_COLLAPSED = false};
     	
         this.menuPanel = {
             region: 'west',
@@ -98,14 +98,14 @@ Ext.define('ProtoUL.view.Viewport', {
 
             Ext.Ajax.request({
                 method: 'GET',
-                url: _PConfig.urlProtoDefinition  ,
+                url: _PConfig.urlProtoDefinition,
                 params : { 
                     protoConcept : protoConcept 
-                    },
-                success: function ( result, request ) { 
+                },
+                success: function (result, request) { 
                     
 //                    console.log( protoConcept, ' Pci loaded ');
-                    var myResult = Ext.decode( result.responseText )
+                    var myResult = Ext.decode(result.responseText);
 
                     // Colleccion de PCI, 
                     _cllPCI[protoConcept]  = myResult.metaData  
@@ -117,7 +117,7 @@ Ext.define('ProtoUL.view.Viewport', {
                 failure: function ( result, request) { 
                     // Se aborta la ejecucion 
 //                    console.log('Failed', result.responseText); 
-                },
+                }
             });
 
         }  else {

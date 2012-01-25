@@ -8,7 +8,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
     alias: 'widget.protoMasterDetail',
     requires: [
         'ProtoUL.view.ProtoGrid',
-        'ProtoUL.UI.TbMasterDetail',
+        'ProtoUL.UI.TbMasterDetail'
     ],
 
     initComponent: function() {
@@ -24,17 +24,17 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         // y la Guarda el store para efectos de eventos y referencias 
         var masterGrid = Ext.create('ProtoUL.view.ProtoGrid', {
             protoConcept : this.protoConcept,  
-            protoFilterBase : this.protoFilterBase,
+            protoFilterBase : this.protoFilterBase
         }) ; 
         
-        this.protoMasterGrid = masterGrid  
-        this.protoMasterStore = masterGrid.store  
+        this.protoMasterGrid = masterGrid ; 
+        this.protoMasterStore = masterGrid.store ;  
 
 
         // Necesaria para poder agregar cosas dinamicamente   --------------------------------------------------
         var tb = Ext.create('ProtoUL.UI.TbMasterDetail', {
             protoMeta : myMeta, 
-            objMasterDet : this,  
+            objMasterDet : this  
         });
         tb.doLayout();
         
@@ -101,12 +101,12 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         masterGrid.on({
             itemClick: {fn: function (g, rowIndex, e) {
                 
-                idMasterGrid = rowIndex.internalId
+                idMasterGrid = rowIndex.internalId;
                 this.idMasterGrid = idMasterGrid;
                  
                 linkDetail( );
                 }, 
-            scope: _masterDetail },
+            scope: _masterDetail }
         });                 
 
     
@@ -116,8 +116,8 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
                 this.ixActiveTab = ixActiveTab;
                 
                 linkDetail( );
-                }, 
-            scope: _masterDetail },
+            }, 
+            scope: _masterDetail }
         });                 
     
     
@@ -131,17 +131,17 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             if (ixActiveTab < 0) { return; }
     
             // carga el store 
-            var tmpStore = cllStoreDet[ixActiveTab]
+            var tmpStore = cllStoreDet[ixActiveTab];
     
             // Verifica si la llave cambio
-            if (tmpStore.protoMasterId == idMasterGrid ) { return; };
+            if (tmpStore.protoMasterId == idMasterGrid ) { return; }
     
             tmpStore.clearFilter();
             tmpStore.getProxy().extraParams.protoFilterBase = '{"' + tmpStore.detailField + '" : ' + idMasterGrid + ',}';
             tmpStore.protoMasterId = idMasterGrid;
             tmpStore.load();
             
-        };
+        }
 
 
     },
@@ -192,7 +192,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
                         // Se aborta la ejecucion 
 //                        console.log('Failed', result.responseText);
                         return ;  
-                    },
+                    }
                 });
 
             }  else {
@@ -227,7 +227,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
                 protoFilterBase : '{"' + item.detailField + '" : ' +  idMasterGrid + ',}',
 
                 // Para saber de q linea del maestro  depende  
-                protoMasterId: idMasterGrid,
+                protoMasterId: idMasterGrid
             }) ; 
 
             // guarda el store con el indice apropiado   

@@ -16,27 +16,27 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         // Recupera la clase para obtener la meta ------------------------------------------
         var myMeta = _cllPCI[ this.protoConcept ] ; 
-        var _pGrid = this 
+        var _pGrid = this; 
 
         var modelClassName = _PConfig.clsBaseModel + this.protoConcept ; 
         if  (! Ext.ClassManager.isCreated( modelClassName )){
             //console.log ( this.protoConcept, ' ERROR Pci  not loaded ' );
-            return 
-        } ;
+            return; 
+        }
 
         // VErifica si el store viene como parametro ( Detail )
+        var myFilter = '';
         if (typeof this.protoFilterBase == 'undefined') {
             // DGT: Agregar parametro Autoload  -  '{"pk" : 0,}'            
-            var myFilter = myMeta.initialFilter
-            myFilter = Ext.encode( myFilter )
+            myFilter = myMeta.initialFilter;
+            myFilter = Ext.encode(myFilter);
              
         } else {
-            var isDetail = true 
-            var myFilter = ''
-        };   
+            var isDetail = true; 
+        }   
         
         // Sorters 
-        pSorters = myMeta.initialSort 
+        pSorters = myMeta.initialSort; 
         
         //console.log (  this.protoConcept, ' Loading store ...  '  ); 
         this.store = Ext.create('Ext.data.Store', {
@@ -53,20 +53,20 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                     type: 'json',
                     root: 'rows',
                     successProperty: 'success',
-                    totalProperty: 'totalCount',
+                    totalProperty: 'totalCount'
                 },
                 extraParams : {
                     protoConcept : this.protoConcept,
                     protoFilter : myFilter,
                     protoFilterBase: this.protoFilterBase, 
-                    storeFields  : myMeta.storeFields.toString(),
-                },
+                    storeFields  : myMeta.storeFields.toString()
+                }
             },
             listeners: {
                 'load' :  function(store,records,options) {
                     this.loaded = true;
                 }
-            }, 
+            } 
                     
         });
 
@@ -84,7 +84,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         for (var ix in myMeta.fields ) {
             var vFld  =  myMeta.fields[ix];
 
-            if (!vFld.header ||  vFld.storeOnly  ) { continue  }
+            if (!vFld.header || vFld.storeOnly) {continue;}
             
             var col = {
                 dataIndex: vFld.name,
@@ -102,16 +102,16 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         }
         
-        this.myColumns = myColumns 
-        var gridColumns =  myColumns
+        this.myColumns = myColumns; 
+        var gridColumns =  myColumns;
         
         // Vista por defecto 
         var pViews = myMeta.protoViews;
-        if (pViews != undefined) {
+        if (pViews !== undefined) {
             try {
-                gridColumns = this.getViewColumns( pViews[0].viewFields ) 
+                gridColumns = this.getViewColumns( pViews[0].viewFields ); 
             } catch(e) {}
-        }; 
+        } 
         
         // myColumns = [{"xtype":"rownumberer","width":30},{"text":"ID","sortable":true,"dataIndex":"id","hidden":true},{"text":"First Name","sortable":true,"dataIndex":"first","editor":{"xtype":"textfield"}},{"text":"Last Name","sortable":true,"dataIndex":"last","editor":{"xtype":null}},{"text":"Email","sortable":true,"dataIndex":"email","editor":{"xtype":"textfield"}}]; 
         var grid = Ext.create('Ext.grid.Panel', {
@@ -127,12 +127,12 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         }); 
 
 
-        this.myGrid = grid 
+        this.myGrid = grid;
 
 
 //----------
 
-        if ( isDetail ) {
+        if (isDetail) {
             // var IdePromoteDetail = Ext.id();
             itemDetail = [
                     '-', {
@@ -140,9 +140,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                     text: 'View in new tab',
                     iconCls : 'icon-promote',
                     handler : onMenuPromoteDetail
-                }]
+                }];
             
-        } else { itemDetail = [] } 
+        } else { itemDetail = []; } 
 
 //-----------
 
@@ -182,8 +182,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                     xtype: 'panel',
                     autoScroll: true,
                     border: false
-            })
-        }; 
+            });
+        } 
         
 //-----------        
 
@@ -212,11 +212,11 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         grid.on({
             itemClick: {fn: function (g, rowIndex, e) {
                 // console.log ( g, rowIndex   );
-                _pGrid.rowData = rowIndex.data
-                prepareSheet()
+                _pGrid.rowData = rowIndex.data;
+                prepareSheet();
                  
                 }, 
-            scope: this },
+            scope: this }
         });                 
 
 
@@ -224,8 +224,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
             var pSheet = myMeta.protoSheet;
             if (pSheet.properties == undefined) {
-              return  
-            };
+              return;  
+            }
 
 
             var pTemplate = pSheet.template
@@ -243,11 +243,11 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             // sheet.html = pTemplate; 
             sheet.update( pTemplate );
 
-        };
+        }
         
         function onMenuPromoteDetail() {
     
-            __TabContainer.addTabPanel ( 
+            __TabContainer.addTabPanel(
                    _pGrid.store.protoConcept , 
                    _pGrid.store.getProxy().extraParams.protoFilterBase 
                ); 

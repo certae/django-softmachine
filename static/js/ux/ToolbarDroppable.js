@@ -43,7 +43,7 @@ If you are unsure which license is appropriate for your use, please contact the 
      * Initializes the plugin and saves a reference to the toolbar
      * @param {Ext.toolbar.Toolbar} toolbar The toolbar instance
      */
-    init: function(toolbar) {
+    init: function (toolbar) {
       /**
        * @property toolbar
        * @type Ext.toolbar.Toolbar
@@ -60,7 +60,7 @@ If you are unsure which license is appropriate for your use, please contact the 
     /**
      * Creates a drop target on the toolbar
      */
-    createDropTarget: function() {
+    createDropTarget: function () {
         /**
          * @property dropTarget
          * @type Ext.dd.DropTarget
@@ -76,7 +76,7 @@ If you are unsure which license is appropriate for your use, please contact the 
      * Adds the given DD Group to the drop target
      * @param {String} ddGroup The DD Group
      */
-    addDDGroup: function(ddGroup) {
+    addDDGroup: function (ddGroup) {
         this.dropTarget.addToGroup(ddGroup);
     },
 
@@ -86,7 +86,7 @@ If you are unsure which license is appropriate for your use, please contact the 
      * @param {Ext.EventObject} e The event object
      * @return {Number} The index at which to insert the new button
      */
-    calculateEntryIndex: function(e) {
+    calculateEntryIndex: function (e) {
         var entryIndex = 0,
             toolbar    = this.toolbar,
             items      = toolbar.items.items,
@@ -119,7 +119,7 @@ If you are unsure which license is appropriate for your use, please contact the 
      * @param {Object} data Arbitrary data from the drag source
      * @return {Boolean} True if the drop is allowed
      */
-    canDrop: function(data) {
+    canDrop: function (data) {
         return true;
     },
 
@@ -127,7 +127,7 @@ If you are unsure which license is appropriate for your use, please contact the 
      * Custom notifyOver method which will be used in the plugin's internal DropTarget
      * @return {String} The CSS class to add
      */
-    notifyOver: function(dragSource, event, data) {
+    notifyOver: function (dragSource, event, data) {
         return this.canDrop.apply(this, arguments) ? this.dropTarget.dropAllowed : this.dropTarget.dropNotAllowed;
     },
 

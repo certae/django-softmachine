@@ -9,13 +9,13 @@ Ext.define('ProtoUL.model.MenuModel', {
     proxy: {
         method: 'GET',
         type: 'ajax',
-        url: _PConfig.urlMenu , 
+        url: _PConfig.urlMenu  
     }, 
 
     fields: [
         {name: 'id', type: 'string'},
         {name: 'text', type: 'string'},
-        {name: 'leaf', type: 'boolean'},
-    ],
+        {name: 'leaf', type: 'boolean'}
+    ]
     
 });

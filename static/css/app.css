@@ -73,7 +73,7 @@ ul.cuadro {list-style-type: square;}
 .cuadro {list-style-type:square;font:normal 11px tahoma, arial, verdana, sans-serif;}
 .table_interieure{border-style: none;}
 .table_interieure th{
-	border-width:2px;   
+	border-width:2px;
 	padding:3px;
 	border-style:solid;
 	border-bottom-color:gray;

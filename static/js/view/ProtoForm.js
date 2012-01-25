@@ -11,7 +11,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
     
     iconCls: 'icon-user',
 
-    initComponent: function() {
+    initComponent: function () {
         this.items = [
             {
                 xtype: 'form',
