@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^protoExt/', include('protoExt.urls')),
 
     url(r'^prueba$', direct_to_template, { 'template': 'prueba.html' }),
+#    Use for production instalation 
 #    (r'static/(?P<path>.*)$', 'django.views.static.serve',{'document_root': '/var/www/protoExt/static'}),
 )
 

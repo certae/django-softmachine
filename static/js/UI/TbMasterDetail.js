@@ -126,7 +126,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             // handler:  onMenuPromoteDetail
         // },{  xtype: 'menuseparator'
         });
-        configureMenuDetail( ); 
+        configureMenuDetail(); 
 
 
         //--------------------------------------------------------
@@ -193,10 +193,10 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             searchCr,
             comboOp,
             comboCols
-            ] )
+            ] );
 
         // Inicializa Combos 
-        clearCombos()     
+        clearCombos();     
 
 // ----------------------------------------------------------------------------------
 
@@ -251,7 +251,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             }
         } 
 
-// 		Boton no sort         
+//      Boton no sort         
 //        var ideBtNoSort = Ext.id();
 //        orderTbar.add({
 //            xtype: 'tbtext',
@@ -293,7 +293,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                     colData[j] = [c.name, c.header];
                     j += 1;
                 }    
-            };
+            }
             
             return colData ; 
         }; 
@@ -302,19 +302,19 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         function configureMenuDetail(  ){
             
             var pDetails = myMeta.protoDetails;
-            var ixTabC = 0                      // Agrega un numero secuencia para marcar los tabs
+            var ixTabC = 0;                     // Agrega un numero secuencia para marcar los tabs
             var bDetails = false;               // Indica si tiene o no detalles
             for (var vDet in pDetails) {        // Recorre y agrega los detalles al menu 
                 // console.log( pDetails[vTab] + " ");
 
                 // TODO: Undefined 
                 if (pDetails[vDet].menuText === undefined ) {
-                	continue 
+                    continue; 
                 } 
 
                 if (pDetails[vDet].menuText == '-') { 
                     var item = menuDetail.add({ xtype: 'menuseparator' });
-                    continue
+                    continue;
                 }
                 
                 var item = menuDetail.add({
@@ -357,7 +357,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 sFilter = '{"' + comboCols.getValue() + '__' + comboOp.getValue() + '" : "' + searchCr.getValue() + '",}';
             }
             
-            __MasterDetail.onClickLoadData ( sFilter  );
+            __MasterDetail.onClickLoadData(sFilter);
     
         }; 
 
@@ -455,22 +455,22 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         function configureProtoViews(){
 
-        	var pViews = myMeta.protoViews;
+            var pViews = myMeta.protoViews;
             for (var vDet in pViews) {         
-            	tbViews.add({
+                tbViews.add({
                     text:       pViews[vDet].viewName,
                     iconCls :   pViews[vDet].icon, 
                     protoView:  pViews[vDet].viewFields,
                     handler:    onClickChangeView
-            	})
-            };
-        };
+                });
+            }
+        }
     
         configureProtoViews(); 
 
         function onClickChangeView( btn ){
 
-              __MasterDetail.protoMasterGrid.configureColumns ( btn.protoView  );
+              __MasterDetail.protoMasterGrid.configureColumns(btn.protoView);
             
         }
 
@@ -508,8 +508,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
 // ------------------------------------------------------------------------------------------------
 
-
-
-    }, 
+    } 
 
 }); 

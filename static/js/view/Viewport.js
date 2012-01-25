@@ -132,10 +132,9 @@ Ext.define('ProtoUL.view.Viewport', {
     createProtoTabContainer: function(){
        this.protoTabContainer = Ext.create('widget.protoTabContainer', {
             region: 'center',
-            minWidth: 300,
+            minWidth: 300
         }); 
         return this.protoTabContainer;
-    },
-
+    }
 
 });

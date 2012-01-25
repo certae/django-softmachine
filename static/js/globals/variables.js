@@ -9,7 +9,7 @@ _PConfig =  {
     urlMenu : 'protoExt/protoGetMenuData/', 
     urlProtoDefinition : 'protoExt/protoGetPCI/', 
    
-    clsBaseModel: 'ProtoUL.model.', 
+    clsBaseModel: 'ProtoUL.model.' 
 }; 
 
 
