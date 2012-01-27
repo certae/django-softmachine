@@ -58,7 +58,7 @@ _ComboFilterOp = [
             ['year', 'YY'],
             ['--', ''],
 
-            ['isnull', 'null'],
+            ['isnull', 'null']
             // ['iregex', 'regex'],
     ]; 
  

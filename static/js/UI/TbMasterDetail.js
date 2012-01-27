@@ -135,7 +135,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         // Combo Columnas  
         var colStore = new Ext.data.ArrayStore({
             fields: ['colPhysique', 'colName'],
-            data: configureComboColumns()
+            data: configureComboColumns()  
         });
     
         var comboCols = new Ext.form.ComboBox({
@@ -153,8 +153,13 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
 
         // combo - operation 
+        opStore = new Ext.data.ArrayStore({ 
+        	fields: ['code', 'operation'], 
+        	data: _ComboFilterOp 
+    	}); 
+        
         var comboOp = new Ext.form.ComboBox({
-            store: new Ext.data.ArrayStore({ fields: ['code', 'operation'], data: _ComboFilterOp }),
+            store: opStore,
             width: 50,
             mode: 'local',
             triggerAction: 'all',  
