@@ -12,9 +12,9 @@ class ConceptInline(django.contrib.admin.TabularInline):
 
 
 class Model_Admin(django.contrib.admin.ModelAdmin):
-    verbose_name_plural = 'Modeles' 
+    verbose_name_plural = 'Modèles' 
     list_display =(  'code', 'description')
-    list_filter =(  'code', 'description', )
+    list_filter =( 'code', 'description', )
     search_fields =('code', 'description', )
     
     fieldsets = (
@@ -29,11 +29,12 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
     protoExt = {'protoIcon' : 'model',  }
     protoExt[ 'searchFields' ] = ( 'code', 'description' ) 
     protoExt[ 'sortFields' ] = ( 'code', 'description' ) 
+    protoExt[ 'initialSort' ] = ( 'code', ) 
     
     
     protoExt[ 'protoDetails' ] = [
 #       {'menuText': 'Entite', 'conceptDetail': 'protoExt.Concept', 'detailField': 'model__pk', 'masterField': 'pk'},
-        {'menuText': 'Éléments des Données', 'conceptDetail': 'protoExt.property', 'detailField': 'concept__model__pk', 'masterField': 'pk'}, 
+        {'menuText': 'Éléments de Données', 'conceptDetail': 'protoExt.property', 'detailField': 'concept__model__pk', 'masterField': 'pk'}, 
         ]
 
     protoExt[ 'protoFields' ] =  {        
@@ -42,3 +43,12 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
 
     protoExt[ 'searchFields' ] =  ( 'code', 'description' )        
 
+    protoExt['protoFilters'] = []
+    for nFiltre in ['A','B','C','D','E','É','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']:
+    
+        protoExt['protoFilters'].append ( 
+                { 'filterName': nFiltre, 
+                  'filter': { 'code__istartswith': nFiltre }, 
+#                 'icon' : 'icon-?'
+                  }
+        ) 

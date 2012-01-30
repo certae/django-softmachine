@@ -2,7 +2,7 @@
 import django.contrib.admin          
 
 class PropertyAdmin(django.contrib.admin.ModelAdmin):
-    verbose_name_plural = 'Elements de donnees' 
+    verbose_name_plural = 'Éléments de données' 
     list_display =( 'code',  'description', )
 
     protoExt = {'protoIcon': 'property' }
@@ -61,21 +61,21 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
      }
 
     TEMPLATE = '<table class="ficha" cellpadding="3">'
-    TEMPLATE += '<tr class="azul"><td class="negro">Nom de l''élément de donnée: </td><td>{{code}}</td></tr>'
-    TEMPLATE += '<tr class="blanco"><td class="negro"> Nom de la vue de l''élément de donnée:</td><td>{{concept__model__code}}</td></tr>'
+    TEMPLATE += '<tr class="azul"><td class="negro">Nom de l\'élément de donnée: </td><td>{{code}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro"> Nom de la vue de l\'élément de donnée:</td><td>{{concept__model__code}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro"> Document de référence: </td><td class="desc">{{udp__DOCUMENTDEREFERENCE}}</td></tr>'
-    TEMPLATE += '<tr class="blanco"><td class="negro">Alias: </td><td class="desc">{{alias}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Numéro de l\'élément de donnée au CN: </td><td class="desc">{{alias}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Type de donnée: </td><td class="desc">{{baseType}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Longueur: </td><td class="desc">{{length}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Valeur nulle possible (oui,non)</td><td class="desc">{{isNullable}}</td></tr>'
-    TEMPLATE += '<tr class="blanco"><td class="negro">Description: </td><td class="desc">{{description}}</td></tr>'
-    TEMPLATE += '<tr class="azul"><td class="negro">Format: </td><td class="desc">{{udp__FORMAT}}</td></tr>'
+#   TEMPLATE += '<tr class="blanco"><td class="negro">Description: </td><td class="desc">{{description}}</td></tr>'
+#   TEMPLATE += '<tr class="azul"><td class="negro">Format: </td><td class="desc">{{udp__FORMAT}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Gabarit: </td><td class="desc">{{udp__GABARIT}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Définition: </td><td class="desc">{{udp__DEFINITION}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Description CN: </td><td class="desc">{{udp__DESCRIPTIONCN}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro"> Précisions: </td><td class="desc">{{udp__PRECISIONS}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Validation: </td><td class="desc">{{udp__VALIDATION}}</td></tr>'
-    TEMPLATE += '<tr class="azul"><td class="negro">Validations sur l''élément: </td><td class="desc">{{udp__VALIDATIONSSURELEMENT}}</td></tr>'
+    TEMPLATE += '<tr class="azul"><td class="negro">Validations sur l\'élément: </td><td class="desc">{{udp__VALIDATIONSSURELEMENT}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Validations inter-élément: </td><td class="desc">{{udp__VALIDATIONSINTERELEMENT}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Validation inter-enregistrement: </td><td class="desc">{{udp__VALIDATION_INTER-ENREGISTREMENT}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Source de données externes: </td><td class="desc">{{udp__SOURCEDEDONNEESEXTERNES}}</td></tr>'

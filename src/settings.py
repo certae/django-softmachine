@@ -188,6 +188,6 @@ PROTO_APP = {}
 PROTO_APP['app_menu'] = {
     'auth' : { 'hidden': True, },  
     'admin': { 'hidden': True, },
-    'protoExt' : { 'hidden': False, 'title': 'Dictionnairé des donn&eacute;es', 'expanded':True, }
+    'protoExt' : { 'hidden': False, 'title': 'Dictionnaire des données MSSS', 'expanded':True, }
     } 
 

@@ -32,7 +32,7 @@ admin.site.register(Property, PropertyAdmin)
 
 class RelationshipAdmin(django.contrib.admin.ModelAdmin):
     verbose_name_plural = 'Associations' 
-    list_display =( 'concept', 'baseConcept', 'code',  'description', 'alias')
+    list_display =( 'concept', 'baseConcept', 'code',  'alias')
     list_filter = ( 'concept', )
     search_fields = ( 'baseConcept', 'code',  'description', 'alias')
     protoExt = { 'protoMenuIx': -1 }

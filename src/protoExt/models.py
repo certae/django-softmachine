@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # This is an auto-generated model module by CeRTAE OMS PlugIn
 # for project : "Modelibra" > 
 # You'll have to do the following manually to clean this up:
@@ -24,9 +25,9 @@ class MetaObj(models.Model):
     code = models.CharField(verbose_name=u'Nom',blank = True, null = True, max_length=200 )
     objType = models.CharField(max_length=50)
     category = models.CharField(max_length=50, blank = True, null = True )
-    alias = models.CharField(blank = True, null = True, max_length=50)
+    alias = models.CharField(verbose_name=u'Alias',blank = True, null = True, max_length=50)
     physicalName = models.CharField(blank = True, null = True, max_length=200)
-    description = models.TextField( blank = True, null = True, max_length=200)
+    description = models.TextField( verbose_name=u'Description',blank = True, null = True, max_length=200)
 
     code.help_text = 'Codigo o Identificador principal del objeto'
     
@@ -79,12 +80,15 @@ class Model(MetaObj):
     def __unicode__(self):
         return self.code 
 
+    class Meta:
+        verbose_name = 'Modèle'
+
     protoExt = {}
     protoExt[ 'description' ] = 'Esta es la description del concpeto concepto'
 
 
 class Concept(MetaObj):
-    model = models.ForeignKey('Model', verbose_name=u'Nom du modele')
+    model = models.ForeignKey('Model', verbose_name=u'Vue')
     
     superConcept = models.CharField( verbose_name=u'Super table',blank = True, null = True, max_length=50)
     #Fix
@@ -98,7 +102,7 @@ class Concept(MetaObj):
         super(Concept, self).save(*args, **kwargs) # Call the "real" save() method.
 
     class Meta:
-        verbose_name = 'Entite'
+        verbose_name = 'Éntite'
 
     protoExt = {}
     protoExt[ 'description' ] = 'Esta es la description del concpeto concepto'
@@ -156,7 +160,7 @@ class Property(MetaObj):
         return self.concept.model.code + '.' + sConcept + '.' + sProperty    
 
     class Meta:
-        verbose_name = 'Elements de donnees'
+        verbose_name = 'Éléments de données'
 
 
 class Relationship(MetaObj):
@@ -173,14 +177,18 @@ class Relationship(MetaObj):
     refMax = models.CharField( blank = True, null = True, max_length=50)
 
     concept = models.ForeignKey('Concept')
+
     """concept corresponde al concepto referencia"""
 #   superProperty = models.ForeignKey('Property', blank = True, null = True)
 
     #DGT: deberia ser una referencia pero en la carga no es posible hacer la referencia se requiere un campo texto
      
-    baseConcept = models.CharField(max_length=50, blank = True, null = True,)
+    baseConcept = models.CharField(verbose_name=u'Concept de Base',max_length=50, blank = True, null = True,)
     #Fix 
 #    baseconceptRef = models.ForeignKey('Concept', blank = True, null = True, related_name = '+')
+
+    
+    concept.verbose_name=u'Concept' 
 
     def save(self, *args, **kwargs ):
         self.objType = "Relationship"

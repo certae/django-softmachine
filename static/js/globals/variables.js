@@ -38,27 +38,27 @@ _MENU_COLLAPSED = true
 
 // ProtoUL.view.ProtoMasterDetail 
 _ComboFilterOp = [
-            ['iexact', '='],
-            ['icontains', '*_*'],
-            ['iendswith', '*_'],
-            ['istartswith', '_*'],
+            ['iexact', 'égal'],
+            ['icontains', 'qui contient'],
+            ['iendswith', 'qui finisse par'],
+            ['istartswith', 'qui commence par'],
             ['--', ''],
 
-            ['gt', '>'],
-            ['gte', '>='],
-            ['lt', '<'],
-            ['lte', '<='],
+            ['gt', 'plus grand que'],
+            ['gte', 'plus grand ou égal que'],
+            ['lt', 'plus petit que'],
+            ['lte', 'plus petit ou égal que'],
             // ['range', '(..)'],
             // ['in', '(_,_)'],
             ['--', ''],
 
-            ['day', 'DD'],
-            ['month', 'MM'],
-            ['week_day', 'WD'],
-            ['year', 'YY'],
+            ['day', 'jour'],
+            ['month', 'mois'],
+            ['week_day', 'jour de la semaine'],
+            ['year', 'année'],
             ['--', ''],
 
-            ['isnull', 'null']
+            ['isnull', 'valeur nulle']
             // ['iregex', 'regex'],
     ]; 
  

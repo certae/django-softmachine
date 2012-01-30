@@ -47,23 +47,23 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 },
             items: [{
                 pressed: true,
-                text: 'Search',
+                text: 'Rechercher',
                 iconCls: 'icon-search24',
                 idTb2  : ideTbSearch
             },'-',{
-                text: 'Details',
+                text: 'Voir détails',
                 iconCls: 'icon-details24',
                 idTb2  : ideTbDetails
             },'-',{
-                text: 'Order',
+                text: 'Ordonner',
                 iconCls: 'icon-order24',
                 idTb2  : ideTbOrder
             },'-',{
-                text: 'Filter',
+                text: 'Filtrer',
                 iconCls: 'icon-filter24',
                 idTb2  : ideTbFilter
             },'-',{
-                text: 'Views',
+                text: 'Group de colonnes',
                 iconCls: 'icon-views24',
                 idTb2  : ideTbViews
             }]
@@ -120,7 +120,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         // var menuPromDetail = Ext.id();
         menuDetail.add({
             iconCls : 'icon-details', 
-            text: 'Details:'
+            text: 'Détails:'
             // id: menuPromDetail,
             // disabled: true,
             // handler:  onMenuPromoteDetail
@@ -146,7 +146,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             displayField: 'colName',
             valueField: 'colPhysique',
             forceSelection: true,
-            emptyText: 'Select a column ...',
+            emptyText: 'dans ...',
             selectOnFocus: true,
             typeAhead: true
         });
@@ -160,7 +160,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         
         var comboOp = new Ext.form.ComboBox({
             store: opStore,
-            width: 50,
+            width: 150,
             mode: 'local',
             triggerAction: 'all',  
             displayField: 'operation',
@@ -171,13 +171,13 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         // Criteria 
         var searchCr = new Ext.form.TextField({
-            emptyText: 'search criteria ..',
+            emptyText: 'mots-clés recherchés ..',
             width: 200
         });
 
         // Load Data button 
         var searchBtn = new Ext.button.Split({
-            text: 'Load data',
+            text: 'Rechercher',
             handler: onClickLoadData,
             iconCls: 'icon-search',
             menu: {
@@ -232,7 +232,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             items  : [{
                 iconCls : 'sort', 
                 xtype: 'tbtext',
-                text: '<b>Sorting order:</b>',
+                text: '<b>Ordonner par :</b>',
                 reorderable: false 
                 }],  
             plugins: [reorderer],
@@ -454,7 +454,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         var tbViews = Ext.getCmp( ideTbViews )
         tbViews.add({
             iconCls : 'icon-views', 
-            text: '<b>Views<b>'
+            text: '<b>Group de colonnes<b>'
             // },{  xtype: 'menuseparator'
         });
 
@@ -486,7 +486,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         var tbFilter = Ext.getCmp( ideTbFilter )
         tbFilter.add({
             iconCls : 'icon-filter', 
-            text: '<b>Filters<b>'
+            text: '<b>Filtrer par :<b>'
             // },{  xtype: 'menuseparator'
         });
 

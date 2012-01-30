@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from models import *
 
 import django.contrib.admin          
@@ -36,22 +37,25 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
     protoExt[ 'description' ] = 'Esta es la description del concpeto concepto'
     protoExt[ 'menu_index' ] = 1
     
-    protoExt[ 'searchFields' ] = ( 'code', 'model_code' ) 
-    protoExt[ 'sortFields' ] = ( 'model_code', '-code',  ) 
+#Definir cual debe llamar a las tablas superiores     
+    protoExt[ 'searchFields' ] = ( 'code', 'model__code' ) 
+    protoExt[ 'sortFields' ] = ( 'model__code', 'code',  ) 
+
+    protoExt[ 'initialSort' ] = ( 'model__code', 'code',  ) 
+
     
     # El concept detail es el nmbre del modelo con su app de base [app].[modelo]
     protoExt[ 'protoDetails' ] = [
-        {'menuText': 'Elements De Donnees', 'conceptDetail': 'protoExt.Property', 'detailField': 'concept__pk', 'masterField': 'pk'}, 
+        {'menuText': 'Éléments de Données', 'conceptDetail': 'protoExt.Property', 'detailField': 'concept__pk', 'masterField': 'pk'}, 
         {'menuText': 'Associations', 'conceptDetail': 'protoExt.Relationship', 'detailField': 'concept__pk', 'masterField': 'pk'}, 
-        {'menuText': 'Udp', 'conceptDetail': 'protoExt.Udp', 'detailField': 'metaObj__pk', 'masterField': 'pk'}, 
         ]
 
     # Define la apariencia de los campos en la grilla,  
     # model__code es un campo proveniente de un FK, ( absorbido, join ) 
     # upd__format es un campo proveniente de una propiedad personalizada ( UDP )  
     protoExt[ 'protoFields' ] =  {        
-          'code': {'header' : 'Concept', 'type': 'CharField' ,  'width': 300 },
-          'model__code': {'header' : 'Model', 'type': 'CharField' , 'width': 300 },  
+          'code': {'header' : 'Nom Éntite', 'type': 'CharField' ,  'width': 300 },
+          'model__code': {'header' : 'Vue', 'type': 'CharField' , 'width': 300 },  
      }
 
     protoExt['protoViews'] = [
@@ -60,4 +64,15 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
             { 'viewName': 'resume', 
               'viewFields': ( 'model__code', 'code',  )},
                                 ]
+
+    protoExt['protoFilters'] = []
+    for nFiltre in ['A','B','C','D','E','É','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']:
+    
+        protoExt['protoFilters'].append ( 
+                { 'filterName': nFiltre, 
+                  'filter': { 'code__istartswith': nFiltre }, 
+#                 'icon' : 'icon-?'
+                  }
+        ) 
+
     

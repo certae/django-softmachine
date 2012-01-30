@@ -4,12 +4,13 @@
     color: #596F8F;
     font-size: 22px;
     font-weight: 200;
-    padding: 20px 15px 8px 100px;
+    padding: 20px 15px 30px 200px;
     text-shadow: 0 1px 0 #fff;
-    background: url(ul.gif) no-repeat 8px 8px;
+    background: url(../img/logo.gif) no-repeat 1px 16px ;
 }
 .subtitle {
     font-size: 12px;
+    padding: 20px 15px 30px 200px;
     color: #369;
 }
 

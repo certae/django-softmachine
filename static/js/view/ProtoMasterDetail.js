@@ -67,7 +67,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
                 items: masterGrid 
             }, {
                 id: this.IDdetailPanel, 
-                title: 'Details',
+                title: 'Détails',
                 region: 'south',
                 flex: 1,
                 collapsed: true,
@@ -258,8 +258,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
            // console.log( '< setActiveDetail', ixActiveTab, _masterDetail.ixActiveTab, _masterDetail.IDdetailPanel  )
             _masterDetail.ixActiveTab = ixActiveTab;
 
-
-        };
+        }
         
     },
 

@@ -20,6 +20,14 @@ Ext.define('ProtoUL.view.Viewport', {
                 split: true
             },
             items: [
+                    {
+                         xtype: 'box',
+                         region:'north',
+                         html: '<span class="title">Dictionnaire de données de la Santé et Services sociaux</span><br><span class="subtitle">Version 0.9</span>', 
+                         height: 61,
+                         collapsible: false,
+                         split: false
+                    },
                 this.createMenuPanel(),
                 this.createProtoTabContainer()
                 // this.createPropertyPanel(),
@@ -52,7 +60,7 @@ Ext.define('ProtoUL.view.Viewport', {
         this.menuPanel = {
             region: 'west',
             width: 300,
-            title : 'Menu',
+            title : 'Composants du Dictionnaire',
             collapsible: true,
             collapsed: _MENU_COLLAPSED,
             
