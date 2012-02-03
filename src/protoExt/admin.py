@@ -107,3 +107,5 @@ admin.site.register(UdpDefinition, UdpAdminDefinition)
 #        return True
 #                
 #admin.site.register(MetaObj, MetaObjAdmin)
+
+admin.site.register(MetaObj)

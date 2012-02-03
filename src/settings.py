@@ -63,11 +63,12 @@ NUMBER_GROUPING = 1
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
+#MEDIA_ROOT = 'D:/data/PyDjango/protoExt/static/django_qbe'
 MEDIA_ROOT = ''
 
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash.
+# URL that handles the media served from MEDIA_ROOT. Make sure to use a trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
+#MEDIA_URL = 'http://127.0.0.1:8000/static/'
 MEDIA_URL = ''
 
 # Absolute path to the directory static files should be collected to.
@@ -140,7 +141,8 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
-    PPATH + '/templates',                 
+    PPATH + '/templates',          
+    'D:/data/PyDjango/protoExt/src/django_qbe/templates',
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -154,7 +156,8 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.admin',
 #    'django_extensions',
-    'protoExt'
+    'protoExt', 
+    'django_qbe'
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -191,3 +194,11 @@ PROTO_APP['app_menu'] = {
     'protoExt' : { 'hidden': False, 'title': 'Dictionnaire des données MSSS', 'expanded':True, }
     } 
 
+
+#  The next lines show de available settings and its default QBE values.
+QBE_AUTOCOMPLETE = True
+QBE_EXHIBIT = False
+QBE_ADMIN = "admin"
+QBE_ADMIN_SITE ="admin.admin_site"
+QBE_ACCESS_FOR = lambda user: user.is_staff
+QBE_FORMATS_EXPORT = "qbe_formats"

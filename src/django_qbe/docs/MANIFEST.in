@@ -1,0 +1,8 @@
+include AUTHORS.txt
+include CHANGES.txt
+include LICENSE-AGPL-ADDITIONAL.txt
+include LICENSE-AGPL.txt
+include MANIFEST.in
+include README.rst
+recursive-include django_qbe/templates *
+recursive-include django_qbe/media *

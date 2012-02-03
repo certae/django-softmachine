@@ -33,18 +33,16 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         'code': {'header' : 'Éléments de données', 'type': 'CharField' ,  'minWidth': 200, 'flex': 1 },
         'concept__model__code': {'header' : 'Vue', 'type': 'CharField' , 'minWidth': 200 , 'flex': 1 },  
 
-#        'concept__code': {'header' : 'Concept', 'type': 'CharField' , 'minWidth': 200, 'flex': 1  },  
-        'description': { 'storeOnly': True },
+#       'concept__code': {'header' : 'Concept', 'type': 'CharField' , 'minWidth': 200, 'flex': 1  },  
+#        'description': { 'storeOnly': True },
         'isNullable':{},
         'alias':{},
         'baseType' : {}, 
         'length' : {}, 
 
         'udp__DOCUMENTDEREFERENCE' :{},
-        'udp__FORMAT': {  },
         'udp__GABARIT': {  },
         'udp__DEFINITION': {  },
-        'udp__DESCRIPTIONCN': {  },
         'udp__PRECISIONS': {  },
         'udp__VALIDATION': {  },
         'udp__VALIDATIONSSURELEMENT': {  },
@@ -58,6 +56,8 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         'udp__DATEDERNIREMODIFICATION': {  },
         'udp__REQUISPAR': {  },
         'udp__TRANSMISSION': {  },
+        'udp__DESCRIPTIONCN': {  },
+#        'udp__FORMAT': {  },
      }
 
     TEMPLATE = '<table class="ficha" cellpadding="3">'
@@ -67,14 +67,10 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     TEMPLATE += '<tr class="blanco"><td class="negro">Numéro de l\'élément de donnée au CN: </td><td class="desc">{{alias}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Type de donnée: </td><td class="desc">{{baseType}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Longueur: </td><td class="desc">{{length}}</td></tr>'
-    TEMPLATE += '<tr class="azul"><td class="negro">Valeur nulle possible (oui,non)</td><td class="desc">{{isNullable}}</td></tr>'
-#   TEMPLATE += '<tr class="blanco"><td class="negro">Description: </td><td class="desc">{{description}}</td></tr>'
-#   TEMPLATE += '<tr class="azul"><td class="negro">Format: </td><td class="desc">{{udp__FORMAT}}</td></tr>'
-    TEMPLATE += '<tr class="blanco"><td class="negro">Gabarit: </td><td class="desc">{{udp__GABARIT}}</td></tr>'
-    TEMPLATE += '<tr class="azul"><td class="negro">Définition: </td><td class="desc">{{udp__DEFINITION}}</td></tr>'
-    TEMPLATE += '<tr class="blanco"><td class="negro">Description CN: </td><td class="desc">{{udp__DESCRIPTIONCN}}</td></tr>'
-    TEMPLATE += '<tr class="azul"><td class="negro"> Précisions: </td><td class="desc">{{udp__PRECISIONS}}</td></tr>'
-    TEMPLATE += '<tr class="blanco"><td class="negro">Validation: </td><td class="desc">{{udp__VALIDATION}}</td></tr>'
+    TEMPLATE += '<tr class="azul"><td class="negro">Gabarit: </td><td class="desc">{{udp__GABARIT}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Définition: </td><td class="desc">{{udp__DEFINITION}}</td></tr>'
+    TEMPLATE += '<tr class="azul"><td class="negro">Description: </td><td class="desc">{{udp__DESCRIPTIONCN}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Précisions: </td><td class="desc">{{udp__PRECISIONS}}</td></tr>'   
     TEMPLATE += '<tr class="azul"><td class="negro">Validations sur l\'élément: </td><td class="desc">{{udp__VALIDATIONSSURELEMENT}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Validations inter-élément: </td><td class="desc">{{udp__VALIDATIONSINTERELEMENT}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Validation inter-enregistrement: </td><td class="desc">{{udp__VALIDATION_INTER-ENREGISTREMENT}}</td></tr>'
@@ -84,10 +80,14 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     TEMPLATE += '<tr class="azul"><td class="negro">Domaine de valeurs: </td><td class="desc">{{udp__DOMAINEDEVALEURS}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Entrée en vigueur: </td><td class="desc">{{udp__ENTREEENVIGUEUR}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Date de la dernière modification: </td><td class="desc">{{udp__DATEDERNIREMODIFICATION}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Valeur nulle possible (oui,non)</td><td class="desc">{{isNullable}}</td></tr>'
+    TEMPLATE += '<tr class="azul"><td class="negro">Validation: </td><td class="desc">{{udp__VALIDATION}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Requis par: </td><td class="desc">{{udp__REQUISPAR}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Transmission: </td><td class="desc">{{udp__TRANSMISSION}}</td></tr>'
+#   TEMPLATE += '<tr class="blanco"><td class="negro">Description: </td><td class="desc">{{description}}</td></tr>'
+#   TEMPLATE += '<tr class="azul"><td class="negro">Format: </td><td class="desc">{{udp__FORMAT}}</td></tr>'
     TEMPLATE += '</table>'
-    
+        
     protoExt[ 'protoSheet' ] =  {        
           'title' : "Fiche descriptive de l'élément de donnée",                        
           'properties': (   'code',
@@ -97,8 +97,8 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                             'alias',
                             'baseType',
                             'length',
-                            'description',
-                            'udp__FORMAT',
+#                            'description',
+#                            'udp__FORMAT',
                             'udp__GABARIT',
                             'udp__DEFINITION',
                             'udp__DESCRIPTIONCN',
