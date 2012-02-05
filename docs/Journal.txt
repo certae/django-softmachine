@@ -1,3 +1,15 @@
+12/02/03
+
+
+    Se agrego el worwrap 
+    Se puso a funcionar el QBE
+    
+        JPlumb  Libreria a mirar con detenimiento 
+     
+    Se puso a funcionar DjangoReporter 
+    
+    
+
 11/11/30 
 
 El autoPK, no es necesario, el id es una columna interna q no necesita ser parte de la grilla

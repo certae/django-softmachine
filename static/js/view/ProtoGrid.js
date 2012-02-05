@@ -7,7 +7,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     extend: 'Ext.container.Container',
     // extend: 'Ext.grid.Panel',
     alias : 'widget.protoGrid',
-
     //requires: ['Ext.toolbar.Paging'],
     // iconCls: 'icon-grid',
 
@@ -98,6 +97,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 // renderer: this.formatDate,                
             };
 
+            if ( vFld.wordWrap == true ) {
+                col.renderer = columnWrap
+                }
+
             myColumns.push(col);
 
         }
@@ -127,7 +130,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         }); 
 
 
-        this.myGrid = grid;
+        this._extGrid = grid;
 
 
 //----------
@@ -220,6 +223,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         });                 
 
 
+        function columnWrap(value){
+            return '<div style="white-space:normal !important";>' + value + "</div>";
+        }
+
         function prepareSheet( ){
 
             var pSheet = myMeta.protoSheet;
@@ -287,9 +294,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         vColumns = this.getViewColumns( viewCols )
 
         // Configurar columnas de la grilla
-        this.myGrid.headerCt.removeAll()
-        this.myGrid.headerCt.add( vColumns );
-        this.myGrid.view.refresh();
+        this._extGrid.headerCt.removeAll()
+        this._extGrid.headerCt.add( vColumns );
+        this._extGrid.view.refresh();
         
 
     }

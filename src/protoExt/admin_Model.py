@@ -39,6 +39,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
 
     protoExt[ 'protoFields' ] =  {        
           'code': {'header' : 'Vues', 'type': 'CharField' ,  'width': 300 },  
+          'description': { 'wordWrap': True },
      }
 
     protoExt[ 'searchFields' ] =  ( 'code', 'description' )        
