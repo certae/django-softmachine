@@ -153,7 +153,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
 
 
     protoExt['protoFilters'] = []
-    for nFiltre in ['A','B','C','D','E','É','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']:
+    for nFiltre in ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']:
     
         protoExt['protoFilters'].append ( 
                 { 'filterName': nFiltre, 
