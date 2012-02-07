@@ -20,7 +20,8 @@ Ext.application({
         'ProtoUL.view.Viewport',
 
         'ProtoUL.ux.ToolbarDroppable',
-        'ProtoUL.ux.BoxReorderer'
+        'ProtoUL.ux.BoxReorderer',
+        'ProtoUL.ux.Printer'
     ],
 
     // controllers: [

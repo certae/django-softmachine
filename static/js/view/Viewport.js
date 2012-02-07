@@ -23,7 +23,7 @@ Ext.define('ProtoUL.view.Viewport', {
                     {
                          xtype: 'box',
                          region:'north',
-                         html: '<span class="title">Dictionnaire de données de la Santé et Services sociaux</span><br><span class="subtitle">Version 0.9</span>', 
+                         html: '<span class="title">' + _siteTitle + '</span><br><span class="subtitle">Version 0.9</span>', 
                          height: 61,
                          collapsible: false,
                          split: false

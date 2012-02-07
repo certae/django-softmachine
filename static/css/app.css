@@ -25,11 +25,17 @@
 .icon-order24   { background-image: url(../img/protoImg/order24.png ) !important;  }
 .icon-views24   { background-image: url(../img/protoImg/cards24.png ) !important;  }
 .icon-details24 { background-image: url(../img/protoImg/details24.png ) !important;}
+.icon-print24   { background-image: url(../img/protoImg/print24.png ) !important;}
 
 .icon-page_white_get { background-image:url(../img/famfamfam/page_white_get.png) !important; }
 
 .sort-desc { background-image: url(../img/protoImg/sort_desc.gif) !important; background-position: 4px 7px !important; }
 .sort-asc  { background-image: url(../img/protoImg/sort_asc.gif) !important; background-position: 4px 7px !important; }
+
+
+.icon-printGrid  { background-image: url(../img/protoImg/grid16.png) !important;  }
+.icon-printSheet { background-image: url(../img/protoImg/sheet16.png) !important; }
+
 
 
 .icon-stop    { background-image: url(../img/protoImg/stop.png) !important; }

@@ -2,11 +2,15 @@
  * 
  */
 
+// Ext.Loader.setConfig({enabled: true});
+
+
 Ext.define('ProtoUL.UI.TbMasterDetail', {
     // extend: 'Ext.Toolbar',
     // extend: 'Ext.container.Container',
     extend: 'Ext.Panel',
     alias: 'widget.tbMasterDetail',
+    
     
     // isToolbar: true,
     // baseCls  : Ext.baseCSSPrefix + 'toolbar',
@@ -21,7 +25,13 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         var ideTbOrder = Ext.id();
         var ideTbFilter = Ext.id();
         var ideTbViews = Ext.id();
+        var ideTbPrint = Ext.id();
 
+        // Barra principal 
+        var ideBtOrder = Ext.id();
+        var ideBtDetails = Ext.id();
+        var ideBtFilter = Ext.id();
+        var ideBtViews = Ext.id();
 
         // Reorder obj 
         var reorderer = Ext.create('ProtoUL.ux.BoxReorderer', {
@@ -51,21 +61,29 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 iconCls: 'icon-search24',
                 idTb2  : ideTbSearch
             },'-',{
-                text: 'Voir détails',
-                iconCls: 'icon-details24',
-                idTb2  : ideTbDetails
-            },'-',{
                 text: 'Ordonner',
                 iconCls: 'icon-order24',
-                idTb2  : ideTbOrder
+                idTb2  : ideTbOrder, 
+                id     : ideBtOrder 
             },'-',{
                 text: 'Filtrer',
                 iconCls: 'icon-filter24',
-                idTb2  : ideTbFilter
+                idTb2  : ideTbFilter, 
+                id     : ideBtFilter 
+            },'-',{
+                text: 'Imprimer',
+                iconCls: 'icon-print24',
+                idTb2  : ideTbPrint
+            },'-',{
+                text: 'Voir détails',
+                iconCls: 'icon-details24',
+                idTb2  : ideTbDetails,
+                id     : ideBtDetails
             },'-',{
                 text: 'Group de colonnes',
                 iconCls: 'icon-views24',
-                idTb2  : ideTbViews
+                idTb2  : ideTbViews,
+                id     : ideBtViews
             }]
         
         });
@@ -78,10 +96,13 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                     xtype: 'buttongroup',
                     hidden : false 
                 },{
-                    id : ideTbDetails, 
+                    id : ideTbFilter, 
                     xtype: 'buttongroup'
                 },{
-                    id : ideTbFilter, 
+                    id : ideTbPrint, 
+                    xtype: 'buttongroup'
+                },{
+                    id : ideTbDetails, 
                     xtype: 'buttongroup'
                 },{
                     id : ideTbViews, 
@@ -101,6 +122,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 
                 orderTbar.hide();
                 tbar2.show();
+                
             } else {
                 orderTbar.show();
                 tbar2.hide();
@@ -113,20 +135,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         var myMeta = this.protoMeta; 
         var __MasterDetail = this.objMasterDet; 
 
-
-        // Menu Detail 
-        // var menuDetail = new Ext.menu.Menu({ hidden:true  });
-        var menuDetail = Ext.getCmp( ideTbDetails );
-        // var menuPromDetail = Ext.id();
-        menuDetail.add({
-            iconCls : 'icon-details', 
-            text: 'Détails:'
-            // id: menuPromDetail,
-            // disabled: true,
-            // handler:  onMenuPromoteDetail
-        // },{  xtype: 'menuseparator'
-        });
-        configureMenuDetail(); 
 
 
         //--------------------------------------------------------
@@ -159,6 +167,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
     	}); 
         
         var comboOp = new Ext.form.ComboBox({
+            emptyText: _ComboFilterOp[1][1] ,
             store: opStore,
             width: 150,
             mode: 'local',
@@ -167,12 +176,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             valueField: 'code',
             forceSelection: true,
             editable: false
-        });
-
-        // Criteria 
-        var searchCr = new Ext.form.TextField({
-            emptyText: 'mots-clés recherchés ..',
-            width: 200
         });
 
         // Load Data button 
@@ -190,6 +193,20 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 }]
             }
         });
+
+        // Criteria 
+        var searchCr = new Ext.form.TextField({
+            emptyText: 'mots-clés recherchés ..',
+            enableKeyEvents : true,  
+            width: 200, 
+            listeners: {
+                keydown: function( me, e ) { 
+                    if (e.getKey() == e.ENTER ) {
+                        onClickLoadData ( searchBtn  )
+                       }
+                }}
+        });
+
         
 
         var tbSearch = Ext.getCmp( ideTbSearch );
@@ -303,49 +320,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             return colData ; 
         }; 
 
-
-        function configureMenuDetail(  ){
-            
-            var pDetails = myMeta.protoDetails;
-            var ixTabC = 0;                     // Agrega un numero secuencia para marcar los tabs
-            var bDetails = false;               // Indica si tiene o no detalles
-            for (var vDet in pDetails) {        // Recorre y agrega los detalles al menu 
-                // console.log( pDetails[vTab] + " ");
-
-                // TODO: Undefined 
-                if (pDetails[vDet].menuText === undefined ) {
-                    continue; 
-                } 
-
-                if (pDetails[vDet].menuText == '-') { 
-                    var item = menuDetail.add({ xtype: 'menuseparator' });
-                    continue;
-                }
-                
-                var item = menuDetail.add({
-                    text: pDetails[vDet].menuText,
-                    detail: pDetails[vDet].conceptDetail,
-                    detailField: pDetails[vDet].detailField,
-                    masterField: pDetails[vDet].masterField,
-                    ixTab: ixTabC
-                });
-                
-                // Agrego el handler q activara el tab a partir del menu
-                // item.on('click', onMenuSelectDetail);
-                bDetails = true;
-                item.on({
-                    click: { fn: __MasterDetail.onMenuSelectDetail,scope: __MasterDetail  }
-                });                 
-                ixTabC += 1;
-            };
-    
-            // activa el boton de promover detalles 
-            // if (bDetails == true) {
-                // menuDetail.items.get( menuPromDetail ).enable();
-            // };
-        };
-
-
+//      -------------------------------------------------------------------------------
         function onClickLoadData ( btn ) { 
     
             var sFilter = '';
@@ -453,13 +428,15 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         var tbViews = Ext.getCmp( ideTbViews )
         tbViews.add({
+            xtype: 'tbtext',
             iconCls : 'icon-views', 
-            text: '<b>Group de colonnes<b>'
+            text: '<b>Group de colonnes :<b>'
             // },{  xtype: 'menuseparator'
         });
 
         function configureProtoViews(){
 
+            var bHide = true; 
             var pViews = myMeta.protoViews;
             for (var vDet in pViews) {         
                 tbViews.add({
@@ -468,6 +445,12 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                     protoView:  pViews[vDet].viewFields,
                     handler:    onClickChangeView
                 });
+                bHide = false; 
+            }
+            
+            if ( bHide) {
+                var btViews = Ext.getCmp( ideBtViews );
+                btViews.hidden = true
             }
         }
     
@@ -483,8 +466,102 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 // ------------------------------------------------------------------------------------------------
 
 
+        var tbPrint = Ext.getCmp( ideTbPrint )
+        tbPrint.add({
+            xtype   : 'tbtext',
+            text: '<b>Imprimer :<b>'
+        }, {
+            iconCls : 'icon-printGrid', 
+            text:       'Grille',
+            handler:    onClickPrintGrid
+        }); 
+
+        if ( __MasterDetail.protoMasterGrid.IdeSheet != undefined ) {
+            tbPrint.add({
+                iconCls : 'icon-printSheet', 
+                text:       'Fiche',
+                handler:    onClickPrintSheet
+                }
+            );
+        };
+
+        function onClickPrintGrid( btn ){
+    
+            var prn = ProtoUL.ux.Printer
+            prn.gridPrint( __MasterDetail.protoMasterGrid._extGrid )
+            
+        };
+
+        function onClickPrintSheet( btn ){
+    
+            var prn = ProtoUL.ux.Printer ;
+            var pGrid = __MasterDetail.protoMasterGrid ;
+            prn.sheetPrint( pGrid._extGrid, pGrid.sheetHtml  )
+            
+        }
+
+// ------------------------------------------------------------------------------------------------
+
+        // Menu Detail 
+        var menuDetail = Ext.getCmp( ideTbDetails );
+        menuDetail.add({
+            xtype   : 'tbtext',
+            iconCls : 'icon-details', 
+            text: '<b>Détails :<b>'
+        });
+        
+        function configureMenuDetail(  ){
+            
+            var pDetails = myMeta.protoDetails;
+            var ixTabC = 0;                     // Agrega un numero secuencia para marcar los tabs
+            var bDetails = false;               // Indica si tiene o no detalles
+            for (var vDet in pDetails) {        // Recorre y agrega los detalles al menu 
+                // console.log( pDetails[vTab] + " ");
+
+                // TODO: Undefined 
+                if (pDetails[vDet].menuText === undefined ) {
+                    continue; 
+                } 
+
+                if (pDetails[vDet].menuText == '-') { 
+                    var item = menuDetail.add({ xtype: 'menuseparator' });
+                    continue;
+                }
+                
+                var item = menuDetail.add({
+                    text: pDetails[vDet].menuText,
+                    detail: pDetails[vDet].conceptDetail,
+                    detailField: pDetails[vDet].detailField,
+                    masterField: pDetails[vDet].masterField,
+                    ixTab: ixTabC
+                });
+                
+                // Agrego el handler q activara el tab a partir del menu
+                // item.on('click', onMenuSelectDetail);
+                bDetails = true;
+                item.on({
+                    click: { fn: __MasterDetail.onMenuSelectDetail,scope: __MasterDetail  }
+                });                 
+                ixTabC += 1;
+            };
+
+            if ( ! bDetails) {
+                var btAux = Ext.getCmp( ideBtDetails );
+                btAux.hidden = true
+            }
+
+    
+        };
+        
+        configureMenuDetail(); 
+
+
+// ------------------------------------------------------------------------------------------------
+
+
         var tbFilter = Ext.getCmp( ideTbFilter )
         tbFilter.add({
+            xtype: 'tbtext',
             iconCls : 'icon-filter', 
             text: '<b>Filtrer par :<b>'
             // },{  xtype: 'menuseparator'
@@ -492,6 +569,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         function configureProtoFilter(){
 
+            var bHide = true; 
             var pFilters = myMeta.protoFilters;
             for (var vDet in pFilters) {         
                 tbFilter.add({
@@ -499,8 +577,16 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                     iconCls :       pFilters[vDet].icon, 
                     protoFilter:    Ext.encode( pFilters[vDet].filter ),
                     handler: onClickProtoFilter
-                })
+                }); 
+                
+                bHide = false;
             };
+
+            if ( bHide) {
+                var btAux = Ext.getCmp( ideBtFilter );
+                btAux.hidden = true
+            }
+            
         };
         
         function onClickProtoFilter( btn ){
@@ -511,7 +597,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
               
         configureProtoFilter(); 
 
-// ------------------------------------------------------------------------------------------------
 
     } 
 

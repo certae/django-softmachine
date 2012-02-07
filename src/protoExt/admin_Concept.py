@@ -34,7 +34,8 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
     
 
     protoExt = {'protoIcon': 'concept', }
-    protoExt[ 'description' ] = 'Esta es la description del concpeto concepto'
+    protoExt[ 'title' ] = 'Éntite'
+    protoExt[ 'description' ] = 'Concept, Table, Entity'
     protoExt[ 'menu_index' ] = 1
     
 #Definir cual debe llamar a las tablas superiores     
@@ -54,8 +55,9 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
     # model__code es un campo proveniente de un FK, ( absorbido, join ) 
     # upd__format es un campo proveniente de una propiedad personalizada ( UDP )  
     protoExt[ 'protoFields' ] =  {        
-          'code': {'header' : 'Nom Éntite', 'type': 'CharField' ,  'width': 300 },
-          'model__code': {'header' : 'Vue', 'type': 'CharField' , 'width': 300 },  
+          'code': {'header' : 'Nom Éntite', 'type': 'CharField' , 'width': 200 },
+          'model__code': {'header' : 'Vue', 'type': 'CharField' , 'width': 200 },  
+          'description': { 'wordWrap': True, 'minWidth': 200, 'flex': 1 },
      }
 
     protoExt['protoViews'] = [

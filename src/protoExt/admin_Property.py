@@ -6,6 +6,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     list_display =( 'code',  'description', )
 
     protoExt = {'protoIcon': 'property' }
+    protoExt[ 'title' ] = 'Éléments de données'
 
     protoExt[ 'searchFields' ] = ( 'code', 'concept__model__code' ) 
     protoExt[ 'sortFields' ] = ( 'code', 'concept__model__code' )

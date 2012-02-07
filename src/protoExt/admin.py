@@ -108,4 +108,4 @@ admin.site.register(UdpDefinition, UdpAdminDefinition)
 #                
 #admin.site.register(MetaObj, MetaObjAdmin)
 
-admin.site.register(MetaObj)
+#admin.site.register(MetaObj)

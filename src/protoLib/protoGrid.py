@@ -1,7 +1,10 @@
-import sys 
+# -*- coding: utf-8 -*-
+
+#import sys 
+#from django.forms.models import model_to_dict
+
 from django.db import models
 from django.contrib.admin.sites import  site
-from django.forms.models import model_to_dict
 
 from django.conf import settings
 

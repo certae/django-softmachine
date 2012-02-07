@@ -39,6 +39,7 @@ def protoGetMenuData(request):
 
         appCode = model._meta.app_label
         menuLabel = protoAdmin.get('app_name', appCode )
+        pTitle = protoAdmin.get('title', model._meta.verbose_name.title() )
 
 #       Obtiene el menu de settigs.PROTO_APP          
         try: menuDefinition = settings.PROTO_APP.get( 'app_menu', {}).get( menuLabel, {} ) 
@@ -51,7 +52,7 @@ def protoGetMenuData(request):
 
         model_dict = {
             'id': appCode + '.' + model._meta.object_name,
-            'text': model._meta.verbose_name.title() ,
+            'text': pTitle ,
             'index': ixModAux ,
             'iconCls': protoIcon ,
             'leaf': True,

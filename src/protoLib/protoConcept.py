@@ -1,32 +1,34 @@
 # -*- coding: utf-8 -*-
 
-import sys
+#import sys
 import operator
 
-from django import forms
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+#from django import forms
+#from django.contrib import messages
+#from django.contrib.auth.decorators import login_required
+#from django.contrib.auth.models import User
 from django.db import models
-from django.db import transaction
-from django.forms.models import model_to_dict
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render_to_response, get_object_or_404
-from django.template import  Context
-from django.template import  RequestContext
-from django.template.loader import get_template 
-from django.utils.translation import gettext as __
-from django.conf import settings
+#from django.db import transaction
+#from django.forms.models import model_to_dict
+from django.http import HttpResponse
+#from django.http import HttpResponseRedirect
+#from django.shortcuts import render_to_response, get_object_or_404
+#from django.template import  Context
+#from django.template import  RequestContext
+#from django.template.loader import get_template 
+#from django.utils.translation import gettext as __
+#from django.conf import settings
 from django.contrib.admin.sites import  site
-from django.db.models import Q
+#from django.db.models import Q
 
-from protoLib import protoGrid, utilsBase, utilsWeb  
+from protoLib import protoGrid
+#from protoLib import utilsBase, utilsWeb  
 from protoGrid import Q2Dict, getVisibleFields
 
 from utilsBase import construct_search, addFilter
 
 
-from django.core import serializers
+#from django.core import serializers
 import django.utils.simplejson as json
 
 def getDjangoModel( modelName ):
@@ -89,14 +91,18 @@ def protoGetPCI(request):
 #       id_field = model._meta.pk.name
         id_field = u'id'
             
+#       
+        pTitle = grid.protoAdmin.get( 'title', grid.title) 
+        pDescription = grid.protoAdmin.get( 'description', pTitle) 
+            
         jsondict = {
              'succes':True,
              'metaData':{
                  'root':'rows',
                  'totalProperty':'totalCount',
                  'successProperty':'success',
-                 'shortTitle': grid.title,
-                 'description': grid.title,
+                 'shortTitle': pTitle,
+                 'description': pDescription,
                  'storeFields': grid.storeFields, 
                  'searchFields': pSearchFields, 
                  'sortFields': pSortFields, 
