@@ -25,7 +25,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
     inlines = [
         ConceptInline,
         ]
-    
+
 
     
     protoExt = {'protoIcon' : 'model',  }

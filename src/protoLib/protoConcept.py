@@ -90,7 +90,7 @@ def protoGetPCI(request):
         #busca el id en la META
 #       id_field = model._meta.pk.name
         id_field = u'id'
-            
+
 #       
         pTitle = grid.protoAdmin.get( 'title', grid.title) 
         pDescription = grid.protoAdmin.get( 'description', pTitle) 

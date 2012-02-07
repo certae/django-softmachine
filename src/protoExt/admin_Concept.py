@@ -60,6 +60,7 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
           'description': { 'wordWrap': True, 'minWidth': 200, 'flex': 1 },
      }
 
+
     protoExt['protoViews'] = [
             { 'viewName': 'default', 
               'viewFields': ( 'model__code', 'code',  'description',  'udp__format', 'udp__gabarit'  )},
