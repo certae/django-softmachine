@@ -13,13 +13,13 @@ class ConceptInline(django.contrib.admin.TabularInline):
 
 class Model_Admin(django.contrib.admin.ModelAdmin):
     verbose_name_plural = 'Modèles' 
-    list_display =(  'code', 'description')
-    list_filter =( 'code', 'description', )
-    search_fields =('code', 'description', )
+    list_display =(  'code', 'description', 'category')
+    list_filter =( 'code', 'description', 'category' )
+    search_fields =('code', 'description', 'category' )
     
     fieldsets = (
         (None, {
-            'fields': [('code', 'description')]
+            'fields': [('code', 'category'), 'description']
         }),
     )
     inlines = [
@@ -32,7 +32,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
     protoExt[ 'searchFields' ] = ( 'code', 'description' ) 
     protoExt[ 'sortFields' ] = ( 'code', 'description' ) 
     protoExt[ 'initialSort' ] = ( 'code', ) 
-    protoExt[ 'title' ] = 'Modèle'
+    protoExt[ 'title' ] = 'Vues'
     
     protoExt[ 'protoDetails' ] = [
 #       {'menuText': 'Entite', 'conceptDetail': 'protoExt.Concept', 'detailField': 'model__pk', 'masterField': 'pk'},
@@ -42,6 +42,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
     protoExt[ 'protoFields' ] =  {        
           'code': {'header' : 'Vues', 'type': 'CharField' ,  'width': 300 },  
           'description': { 'wordWrap': True },
+          'category': {'storeOnly': True },
      }
 
     protoExt[ 'searchFields' ] =  ( 'code', 'description' )        

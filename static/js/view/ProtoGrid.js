@@ -143,7 +143,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
               ['500']
         ]; 
         
-        var titlePageSize = 'per page:'
         var comboPageSize = new Ext.form.ComboBox({
           name : 'perpage',
           width: 60,
@@ -168,14 +167,14 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         if (isDetail) {
             itemDetail = [
                     '-', {
-                    text: 'View in new tab',
+                    text: _detailViewNewTab,
                     iconCls : 'icon-promote',
                     handler : onMenuPromoteDetail
                 },  
-                titlePageSize, comboPageSize ] ;
+                comboPageSize, _gridBbPerPage ] ;
             
         } else { 
-            itemDetail = [ '-', titlePageSize, comboPageSize ] ;
+            itemDetail = [ '-', comboPageSize, _gridBbPerPage ] ;
         } 
 
 //-----------
@@ -192,8 +191,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 store: this.store,
                 displayInfo: true,
                 items: itemDetail,
-                // displayMsg: 'Total : {2}'
-                displayMsg: 'Show : {0} - {1} of {2}'
+                afterPageText : _gridBbOf  + ' {0}',
+                beforePageText : _gridBbPage,  
+                displayMsg: _gridBbShow + ' : {0} - {1} ' + _gridBbOf +' {2}'
                 // emptyMsg: "No register to display"
             }
             ];
@@ -207,14 +207,14 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 // --------------------------------------------------------------------------------
 
-        var pSheet = myMeta.protoSheet;
-        if (pSheet.properties != undefined) {
+        var pSheetProps = myMeta.protoSheetProperties;
+        if (pSheetProps.length != 0 ) {
             
             this.IdeSheet = Ext.id();
             panelItems.push( {
                     region: 'east',
                     id: this.IdeSheet, 
-                    title: pSheet.title ,
+//                  title: pSheetProps.title ,
                     collapsible: true,
                     collapsed: false ,
                     split: true,
@@ -263,21 +263,40 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 
         function columnWrap(value){
-            return '<div style="white-space:normal !important";>' + value + "</div>";
+            return '<div style="white-space:normal; text-align:justify !important";>' + value + "</div>";
         }
 
         function prepareSheet( ){
 
-            var pSheet = myMeta.protoSheet;
-            if (pSheet.properties == undefined) {
+            var pSheetProps = myMeta.protoSheetProperties;
+            if (pSheetProps.length == 0 ) {
               return;  
             }
 
+            var pSheets = myMeta.protoSheets;
+            
+            var pSheetSelector = myMeta.protoSheetSelector;
+            var pSheetCriteria = _pGrid.rowData[ pSheetSelector ] 
+            var pSheet = undefined;  
+            
+            for (var ix in pSheets  ) {
+            	
+            	if ( ix == 'DEFAULT' ) {
+                	pSheet =  pSheets[ix]  
+            	}; 
+            	
+            	if ( ix == pSheetCriteria ) { 
+            		pSheet =  pSheets[ix];
+            		break; 
+                }
+            };
 
-            var pTemplate = pSheet.template
+           if (  pSheet == undefined ) { return }; 
+            
+           var pTemplate = pSheet.template ; 
 
-            for (var ix in pSheet.properties  ) {
-                var vFld  =  pSheet.properties[ix]; 
+           for (var ix in pSheetProps) {
+                var vFld  =  pSheetProps[ix]; 
 
                 var pKey = '{{' + vFld + '}}';
                 var pValue =  _pGrid.rowData[ vFld ];
@@ -286,6 +305,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             }
 
             var sheet = Ext.getCmp( _pGrid.IdeSheet );
+            sheet.setTitle( pSheet.title );
             sheet.update( pTemplate );
 
             // Expone el template 

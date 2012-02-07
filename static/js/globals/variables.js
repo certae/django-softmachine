@@ -4,9 +4,17 @@
  */
 
 
-_siteTitle = 'Dictionnaire de données de la Santé et Services sociaux'
+_siteTitle = 'Dictionnaire de données de la Santé et des Services Sociaux'
+_versionProto = 'Version 0.91'
 
+_detailViewNewTab 	= 'Voir dans un nouvel onglet'
+_gridBbPerPage 		= ' par page'
+_gridBbShow  = 'Résultats' 
+_gridBbOf = 'de' 
+_gridBbPage = 'Page'
 
+_tbSearchClearFilter = '<b>Supprimer les filtres<b>'
+	
 // Config Variables 
 _PConfig =  {
     urlMenu : 'protoExt/protoGetMenuData/', 

@@ -3,8 +3,9 @@ import django.contrib.admin
 
 class PropertyAdmin(django.contrib.admin.ModelAdmin):
     verbose_name_plural = 'Éléments de données' 
-    list_display =( 'code',  'description', )
-
+    list_display =( 'code',  'description' )
+    search_fields = ( 'code', 'category' )
+    
     protoExt = {'protoIcon': 'property' }
     protoExt[ 'title' ] = 'Éléments de données'
 
@@ -33,14 +34,14 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     protoExt[ 'protoFields' ] =  {        
         'code': {'header' : 'Éléments de données', 'type': 'CharField' ,  'minWidth': 200, 'flex': 1 },
         'concept__model__code': {'header' : 'Vue', 'type': 'CharField' , 'minWidth': 200 , 'flex': 1 },  
-
+        'concept__model__category' : {},                             
+         
 #       'concept__code': {'header' : 'Concept', 'type': 'CharField' , 'minWidth': 200, 'flex': 1  },  
-#        'description': { 'storeOnly': True },
+        'description': { 'storeOnly': True },
         'isNullable':{},
         'alias':{},
         'baseType' : {}, 
         'length' : {}, 
-
         'udp__DOCUMENTDEREFERENCE' :{},
         'udp__GABARIT': {  },
         'udp__DEFINITION': {  },
@@ -57,9 +58,38 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         'udp__DATEDERNIREMODIFICATION': {  },
         'udp__REQUISPAR': {  },
         'udp__TRANSMISSION': {  },
-        'udp__DESCRIPTIONCN': {  },
-#        'udp__FORMAT': {  },
+        'udp__DESCRIPTIONCN': {  }
      }
+
+#    Al momento de cargar la finca verifico el campo @criteriaField@ y lo busco en las diferentes fichas, 
+#    la ficha 'DEFAULT' se usa si no hay otra definicion, el campo de criterio se define aparte  
+
+    protoExt[ 'protoSheetSelector' ] = 'concept__model__category'
+    protoExt[ 'protoSheetProperties' ] = (   'code',
+                            'concept__model__code',
+                            'isNullable',
+                            'udp__DOCUMENTDEREFERENCE',
+                            'alias',
+                            'baseType',
+                            'length',
+                            'udp__GABARIT',
+                            'udp__DEFINITION',
+                            'udp__DESCRIPTIONCN',
+                            'udp__PRECISIONS',
+                            'udp__VALIDATION',
+                            'udp__VALIDATIONSSURELEMENT',
+                            'udp__VALIDATIONSINTERELEMENT',
+                            'udp__VALIDATION_INTER-ENREGISTREMENT',
+                            'udp__SOURCEDEDONNEESEXTERNES',
+                            'udp__ELEMENTTRANSFORME',
+                            'udp__ELEMENTTRANSMIS',
+                            'udp__DOMAINEDEVALEURS',
+                            'udp__ENTREEENVIGUEUR',
+                            'udp__DATEDERNIREMODIFICATION',
+                            'udp__REQUISPAR',
+                            'udp__TRANSMISSION' 
+                            )
+
 
     TEMPLATE = '<table class="ficha" cellpadding="3">'
     TEMPLATE += '<tr class="azul"><td class="negro">Nom de l\'élément de donnée: </td><td>{{code}}</td></tr>'
@@ -85,48 +115,41 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     TEMPLATE += '<tr class="azul"><td class="negro">Validation: </td><td class="desc">{{udp__VALIDATION}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Requis par: </td><td class="desc">{{udp__REQUISPAR}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Transmission: </td><td class="desc">{{udp__TRANSMISSION}}</td></tr>'
-#   TEMPLATE += '<tr class="blanco"><td class="negro">Description: </td><td class="desc">{{description}}</td></tr>'
-#   TEMPLATE += '<tr class="azul"><td class="negro">Format: </td><td class="desc">{{udp__FORMAT}}</td></tr>'
     TEMPLATE += '</table>'
-        
-    protoExt[ 'protoSheet' ] =  {        
-          'title' : "Fiche descriptive de l'élément de donnée",                        
-          'properties': (   'code',
-                            'concept__model__code',
-                            'isNullable',
-                            'udp__DOCUMENTDEREFERENCE',
-                            'alias',
-                            'baseType',
-                            'length',
-#                            'description',
-#                            'udp__FORMAT',
-                            'udp__GABARIT',
-                            'udp__DEFINITION',
-                            'udp__DESCRIPTIONCN',
-                            'udp__PRECISIONS',
-                            'udp__VALIDATION',
-                            'udp__VALIDATIONSSURELEMENT',
-                            'udp__VALIDATIONSINTERELEMENT',
-                            'udp__VALIDATION_INTER-ENREGISTREMENT',
-                            'udp__SOURCEDEDONNEESEXTERNES',
-                            'udp__ELEMENTTRANSFORME',
-                            'udp__ELEMENTTRANSMIS',
-                            'udp__DOMAINEDEVALEURS',
-                            'udp__ENTREEENVIGUEUR',
-                            'udp__DATEDERNIREMODIFICATION',
-                            'udp__REQUISPAR',
-                            'udp__TRANSMISSION',
-                          ),   
-          'template': TEMPLATE }  
 
+    TEMPLATE_CN = TEMPLATE 
 
-    protoExt['protoViews'] = [
-            { 'viewName': 'default', 
-              'viewFields': (  'code', 'concept__model__code',  ), 
-              'icon' : 'icon-1'},
+    TEMPLATE = '<table class="ficha" cellpadding="3">'
+    TEMPLATE += '<tr class="azul"><td class="negro">Nom de l\'élément de donnée: </td><td>{{code}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro"> Nom de la vue de l\'élément de donnée:</td><td>{{concept__model__code}}</td></tr>'
+    TEMPLATE += '<tr class="azul"><td class="negro"> Document de référence: </td><td class="desc">{{udp__DOCUMENTDEREFERENCE}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Alias: </td><td class="desc">{{alias}}</td></tr>'
+    TEMPLATE += '<tr class="azul"><td class="negro">Type de donnée: </td><td class="desc">{{baseType}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Longueur: </td><td class="desc">{{length}}</td></tr>'
+    TEMPLATE += '<tr class="azul"><td class="negro">Valeur nulle possible (oui,non)</td><td class="desc">{{isNullable}}</td></tr>'
+    TEMPLATE += '</table>'
+
+    TEMPLATE_DEFAULT = TEMPLATE 
+
+    
+    protoExt[ 'protoSheets' ] =  {        
+          'DEFAULT' : {                        
+              'title'     : "Fiche descriptive de l'élément de donnée",                        
+              'template': TEMPLATE_DEFAULT  
+              },
+          'CN' : {                        
+              'title'   : "Fiche descriptive de l'élément de donnée - Cadre Normatif",                        
+              'template': TEMPLATE_CN  
+              }
+            } 
+
+#    protoExt['protoViews'] = [
+#            { 'viewName': 'default', 
+#              'viewFields': (  'code', 'concept__model__code',  ), 
+#              'icon' : 'icon-1'},
 #            { 'viewName': 'all', 
 #              'viewFields': ( 'code', 'concept__code', 'concept__model__code' )},
-                        ]
+#                        ]
 
 
     protoExt['protoFilters'] = []

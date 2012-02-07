@@ -57,7 +57,11 @@ def protoGetPCI(request):
 #       pRows = model.objects.filter(pk = 0)
         base_fields = grid.get_fields( None )
         protoDetails = grid.get_details()
-        protoSheet = grid.protoAdmin.get( 'protoSheet', {}) 
+        
+        protoSheets = grid.protoAdmin.get( 'protoSheets', {})
+        protoSheetSelector = grid.protoAdmin.get( 'protoSheetSelector', '')
+        protoSheetProperties = grid.protoAdmin.get( 'protoSheetProperties', ())
+         
         protoIcon  = 'icon-%s' % grid.protoAdmin.get( 'protoIcon', '1') 
         
         pSearchFields = grid.protoAdmin.get( 'searchFields', '') 
@@ -110,7 +114,9 @@ def protoGetPCI(request):
                  'fields': base_fields, 
                  'protoDetails': protoDetails, 
                  'protoIcon': protoIcon, 
-                 'protoSheet': protoSheet, 
+                 'protoSheets': protoSheets, 
+                 'protoSheetSelector': protoSheetSelector, 
+                 'protoSheetProperties': protoSheetProperties, 
                  'initialSort': sortInfo,
                  'initialFilter': initialFilter,
                  'protoViews':protoViews ,     

@@ -182,10 +182,11 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         var searchBtn = new Ext.button.Split({
             text: 'Rechercher',
             handler: onClickLoadData,
+            pressed: true,
             iconCls: 'icon-search',
             menu: {
                 items: [{
-                    text: '<b>Clear filter<b>',
+                    text: _tbSearchClearFilter ,
                     handler: onClickClearFilter 
                 // }, {
                     // text: 'add filter',
@@ -211,10 +212,11 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         var tbSearch = Ext.getCmp( ideTbSearch );
         tbSearch.add( [
-            searchBtn,    
             searchCr,
             comboOp,
-            comboCols
+            comboCols,
+            { xtype: 'tbseparator' },
+            searchBtn    
             ] );
 
         // Inicializa Combos 
