@@ -4,6 +4,9 @@
  */
 
 
+_siteTitle = 'Dictionnaire de données de la Santé et Services sociaux'
+
+
 // Config Variables 
 _PConfig =  {
     urlMenu : 'protoExt/protoGetMenuData/', 

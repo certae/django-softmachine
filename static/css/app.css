@@ -33,6 +33,11 @@
 .sort-asc  { background-image: url(../img/protoImg/sort_asc.gif) !important; background-position: 4px 7px !important; }
 
 
+.icon-printGrid  { background-image: url(../img/protoImg/grid16.png) !important;  }
+.icon-printSheet { background-image: url(../img/protoImg/sheet16.png) !important; }
+
+
+
 .icon-stop    { background-image: url(../img/protoImg/stop.png) !important; }
 .icon-details { background-image: url(../img/protoImg/details.png) !important; }
 .icon-promote { background-image: url(../img/protoImg/promote.png) !important; }

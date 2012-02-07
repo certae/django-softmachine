@@ -1,4 +1,4 @@
-#Thu Feb 02 03:38:50 EST 2012
+#Mon Feb 06 05:14:11 EST 2012
 eclipse.preferences.version=1
 encoding//src/django_qbe/views.py=utf-8
 encoding//src/django_qbe/widgets.py=utf-8
@@ -8,6 +8,7 @@ encoding//src/protoExt/admin_Property.py=utf-8
 encoding//src/protoExt/models.py=utf-8
 encoding//src/protoLib/protoConcept.py=utf-8
 encoding//src/protoLib/protoField.py=utf-8
+encoding//src/protoLib/protoGrid.py=utf-8
 encoding//src/protoLib/protoMenu.py=utf-8
 encoding//src/protoLib/utilsBase.py=utf-8
 encoding//src/protoLib/utilsWeb.py=utf-8

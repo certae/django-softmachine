@@ -25,12 +25,14 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
     inlines = [
         ConceptInline,
         ]
+
+
     
     protoExt = {'protoIcon' : 'model',  }
     protoExt[ 'searchFields' ] = ( 'code', 'description' ) 
     protoExt[ 'sortFields' ] = ( 'code', 'description' ) 
     protoExt[ 'initialSort' ] = ( 'code', ) 
-    
+    protoExt[ 'title' ] = 'Modèle'
     
     protoExt[ 'protoDetails' ] = [
 #       {'menuText': 'Entite', 'conceptDetail': 'protoExt.Concept', 'detailField': 'model__pk', 'masterField': 'pk'},

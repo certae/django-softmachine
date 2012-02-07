@@ -66,7 +66,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                     this.loaded = true;
                 }
             } 
-                    
         });
 
         this.store.proxy.actionMethods.read = 'POST';
@@ -114,7 +113,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             try {
                 gridColumns = this.getViewColumns( pViews[0].viewFields ); 
             } catch(e) {}
-        } 
+        }; 
         
         // myColumns = [{"xtype":"rownumberer","width":30},{"text":"ID","sortable":true,"dataIndex":"id","hidden":true},{"text":"First Name","sortable":true,"dataIndex":"first","editor":{"xtype":"textfield"}},{"text":"Last Name","sortable":true,"dataIndex":"last","editor":{"xtype":null}},{"text":"Email","sortable":true,"dataIndex":"email","editor":{"xtype":"textfield"}}]; 
         var grid = Ext.create('Ext.grid.Panel', {
@@ -131,21 +130,53 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 
         this._extGrid = grid;
+        this._extGrid.title = myMeta.shortTitle;
 
 
 //----------
 
+
+        _ComboPageSize = [
+              ['25'],
+              ['50'],
+              ['100'],
+              ['500']
+        ]; 
+        
+        var titlePageSize = 'per page:'
+        var comboPageSize = new Ext.form.ComboBox({
+          name : 'perpage',
+          width: 60,
+          store: new Ext.data.ArrayStore({
+            fields: ['id'],
+            data  : _ComboPageSize
+          }),
+          mode : 'local',
+          value: '50',
+
+          listWidth     : 60,
+          triggerAction : 'all',
+          displayField  : 'id',
+          valueField    : 'id',
+          editable      : false,
+          forceSelection: true
+        });
+        
+        
+        //         ---------------------------------------------------
+
         if (isDetail) {
-            // var IdePromoteDetail = Ext.id();
             itemDetail = [
                     '-', {
-                    // id      : IdePromoteDetail, 
                     text: 'View in new tab',
                     iconCls : 'icon-promote',
                     handler : onMenuPromoteDetail
-                }];
+                },  
+                titlePageSize, comboPageSize ] ;
             
-        } else { itemDetail = []; } 
+        } else { 
+            itemDetail = [ '-', titlePageSize, comboPageSize ] ;
+        } 
 
 //-----------
 
@@ -160,13 +191,21 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 region: 'south',
                 store: this.store,
                 displayInfo: true,
-                displayMsg: 'Total {2}',
-                items: itemDetail 
-                // displayMsg: '{0} - {1} of {2}',
+                items: itemDetail,
+                // displayMsg: 'Total : {2}'
+                displayMsg: 'Show : {0} - {1} of {2}'
                 // emptyMsg: "No register to display"
             }
             ];
 
+
+        comboPageSize.on('select', function(combo, record) {
+            this.store.pageSize = parseInt( combo.getValue(), 10);
+            this.store.load(); 
+        }, this);            
+        
+
+// --------------------------------------------------------------------------------
 
         var pSheet = myMeta.protoSheet;
         if (pSheet.properties != undefined) {
@@ -247,10 +286,12 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             }
 
             var sheet = Ext.getCmp( _pGrid.IdeSheet );
-            // sheet.html = pTemplate; 
             sheet.update( pTemplate );
 
-        }
+            // Expone el template 
+            _pGrid.sheetHtml = pTemplate ;             
+
+        };
         
         function onMenuPromoteDetail() {
     
@@ -259,7 +300,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                    _pGrid.store.getProxy().extraParams.protoFilterBase 
                ); 
             
-        }
+        };
 
 
     },

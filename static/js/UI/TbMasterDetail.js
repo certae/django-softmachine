@@ -27,6 +27,11 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         var ideTbViews = Ext.id();
         var ideTbPrint = Ext.id();
 
+        // Barra principal 
+        var ideBtOrder = Ext.id();
+        var ideBtDetails = Ext.id();
+        var ideBtFilter = Ext.id();
+        var ideBtViews = Ext.id();
 
         // Reorder obj 
         var reorderer = Ext.create('ProtoUL.ux.BoxReorderer', {
@@ -58,11 +63,13 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             },'-',{
                 text: 'Ordonner',
                 iconCls: 'icon-order24',
-                idTb2  : ideTbOrder
+                idTb2  : ideTbOrder, 
+                id     : ideBtOrder 
             },'-',{
                 text: 'Filtrer',
                 iconCls: 'icon-filter24',
-                idTb2  : ideTbFilter
+                idTb2  : ideTbFilter, 
+                id     : ideBtFilter 
             },'-',{
                 text: 'Imprimer',
                 iconCls: 'icon-print24',
@@ -70,11 +77,13 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             },'-',{
                 text: 'Voir détails',
                 iconCls: 'icon-details24',
-                idTb2  : ideTbDetails
+                idTb2  : ideTbDetails,
+                id     : ideBtDetails
             },'-',{
                 text: 'Group de colonnes',
                 iconCls: 'icon-views24',
-                idTb2  : ideTbViews
+                idTb2  : ideTbViews,
+                id     : ideBtViews
             }]
         
         });
@@ -158,6 +167,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
     	}); 
         
         var comboOp = new Ext.form.ComboBox({
+            emptyText: _ComboFilterOp[1][1] ,
             store: opStore,
             width: 150,
             mode: 'local',
@@ -166,12 +176,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             valueField: 'code',
             forceSelection: true,
             editable: false
-        });
-
-        // Criteria 
-        var searchCr = new Ext.form.TextField({
-            emptyText: 'mots-clés recherchés ..',
-            width: 200
         });
 
         // Load Data button 
@@ -189,6 +193,20 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 }]
             }
         });
+
+        // Criteria 
+        var searchCr = new Ext.form.TextField({
+            emptyText: 'mots-clés recherchés ..',
+            enableKeyEvents : true,  
+            width: 200, 
+            listeners: {
+                keydown: function( me, e ) { 
+                    if (e.getKey() == e.ENTER ) {
+                        onClickLoadData ( searchBtn  )
+                       }
+                }}
+        });
+
         
 
         var tbSearch = Ext.getCmp( ideTbSearch );
@@ -418,6 +436,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         function configureProtoViews(){
 
+            var bHide = true; 
             var pViews = myMeta.protoViews;
             for (var vDet in pViews) {         
                 tbViews.add({
@@ -426,6 +445,12 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                     protoView:  pViews[vDet].viewFields,
                     handler:    onClickChangeView
                 });
+                bHide = false; 
+            }
+            
+            if ( bHide) {
+                var btViews = Ext.getCmp( ideBtViews );
+                btViews.hidden = true
             }
         }
     
@@ -440,40 +465,49 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
 // ------------------------------------------------------------------------------------------------
 
+
         var tbPrint = Ext.getCmp( ideTbPrint )
         tbPrint.add({
             xtype   : 'tbtext',
-            iconCls : 'icon-print', 
             text: '<b>Imprimer :<b>'
         }, {
+            iconCls : 'icon-printGrid', 
             text:       'Grille',
             handler:    onClickPrintGrid
-        // }, {
-            // text:       'Fiche',
-            // handler:    onClickPrintSheet
-            }
-        );
+        }); 
+
+        if ( __MasterDetail.protoMasterGrid.IdeSheet != undefined ) {
+            tbPrint.add({
+                iconCls : 'icon-printSheet', 
+                text:       'Fiche',
+                handler:    onClickPrintSheet
+                }
+            );
+        };
 
         function onClickPrintGrid( btn ){
+    
+            var prn = ProtoUL.ux.Printer
+            prn.gridPrint( __MasterDetail.protoMasterGrid._extGrid )
+            
+        };
 
-            ProtoUL.ux.Printer.print( __MasterDetail.protoMasterGrid._extGrid )
+        function onClickPrintSheet( btn ){
+    
+            var prn = ProtoUL.ux.Printer ;
+            var pGrid = __MasterDetail.protoMasterGrid ;
+            prn.sheetPrint( pGrid._extGrid, pGrid.sheetHtml  )
             
         }
 
 // ------------------------------------------------------------------------------------------------
 
         // Menu Detail 
-        // var menuDetail = new Ext.menu.Menu({ hidden:true  });
         var menuDetail = Ext.getCmp( ideTbDetails );
-        // var menuPromDetail = Ext.id();
         menuDetail.add({
             xtype   : 'tbtext',
             iconCls : 'icon-details', 
             text: '<b>Détails :<b>'
-            // id: menuPromDetail,
-            // disabled: true,
-            // handler:  onMenuPromoteDetail
-        // },{  xtype: 'menuseparator'
         });
         
         function configureMenuDetail(  ){
@@ -510,11 +544,13 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 });                 
                 ixTabC += 1;
             };
+
+            if ( ! bDetails) {
+                var btAux = Ext.getCmp( ideBtDetails );
+                btAux.hidden = true
+            }
+
     
-            // activa el boton de promover detalles 
-            // if (bDetails == true) {
-                // menuDetail.items.get( menuPromDetail ).enable();
-            // };
         };
         
         configureMenuDetail(); 
@@ -533,6 +569,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         function configureProtoFilter(){
 
+            var bHide = true; 
             var pFilters = myMeta.protoFilters;
             for (var vDet in pFilters) {         
                 tbFilter.add({
@@ -540,8 +577,16 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                     iconCls :       pFilters[vDet].icon, 
                     protoFilter:    Ext.encode( pFilters[vDet].filter ),
                     handler: onClickProtoFilter
-                })
+                }); 
+                
+                bHide = false;
             };
+
+            if ( bHide) {
+                var btAux = Ext.getCmp( ideBtFilter );
+                btAux.hidden = true
+            }
+            
         };
         
         function onClickProtoFilter( btn ){
@@ -552,7 +597,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
               
         configureProtoFilter(); 
 
-// ------------------------------------------------------------------------------------------------
 
     } 
 

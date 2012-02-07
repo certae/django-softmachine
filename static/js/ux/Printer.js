@@ -1,32 +1,11 @@
 /**
  * @class ProtoUL.ux.Printer
- * @author Ed Spencer (edward@domine.co.uk)
+ * @author  Dario Gomez ,  basado en el Ext.ux.Printer / Ed Spencer (edward@domine.co.uk)
+
  * Helper class to easily print the contents of a grid. Will open a new window with a table where the first row
  * contains the headings from your column model, and with a row for each item in your grid's store. When formatted
  * with appropriate CSS it should look very similar to a default grid. If renderers are specified in your column
  * model, they will be used in creating the table. Override headerTpl and bodyTpl to change how the markup is generated
- * 
- * Usage:
- * 
- * 1 - Add Ext.Require Before the Grid code
- * Ext.require([
- *   'Ext.ux.grid.GridPrinter',
- * ]);
- * 
- * 2 - Declare the Grid 
- * var grid = Ext.create('Ext.grid.Panel', {
- *   columns: //some column model,
- *   store   : //some store
- * });
- * 
- * 3 - Print!
- * Ext.ux.grid.Printer.print(grid);
- * 
- * Original url: http://edspencer.net/2009/07/printing-grids-with-ext-js.html
- * 
- * Modified by Loiane Groner (me@loiane.com) - September 2011 - Ported to Ext JS 4
- * http://loianegroner.com (English)
- * http://loiane.com (Portuguese)
  */
 Ext.define("ProtoUL.ux.Printer", {
 	
@@ -37,59 +16,32 @@ Ext.define("ProtoUL.ux.Printer", {
 		 * Prints the passed grid. Reflects on the grid's column model to build a table, and fills it using the store
 		 * @param {Ext.grid.Panel} grid The grid to print
 		 */
-		print: function(grid) {
+		gridPrint: function(grid) {
 			//We generate an XTemplate here by using 2 intermediary XTemplates - one to create the header,
 			//the other to create the body (see the escaped {} below)
-			var columns = grid.columns;
 
+            // Filtrar las columas de index y check en caso de q las halla
+            var columns = this.getGridColumns( grid ) ;
+    
 			//build a useable array of store data for the XTemplate
-			var data = [];
-			grid.store.data.each(function(item) {
-				var convertedData = [];
-
-				//apply renderers from column model
-				for (var key in item.data) {
-					var value = item.data[key];
-
-					Ext.each(columns, function(column) {
-						if (column.dataIndex == key) {
-							convertedData[key] = column.renderer ? column.renderer(value) : value;
-						}
-					}, this);
-				}
-
-				data.push(convertedData);
-			});
-
+			var data = this.getGridData( grid,  columns) ;
+			
 			//use the headerTpl and bodyTpl markups to create the main XTemplate below
 			var headings = Ext.create('Ext.XTemplate', this.headerTpl).apply(columns);
-			var body     = Ext.create('Ext.XTemplate', this.bodyTpl).apply(columns);
-			
-			var htmlMarkup = [
-				'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
-				'<html>',
-				  '<head>',
-				    '<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />',
-				    '<link href="' + this.stylesheetPath + '" rel="stylesheet" type="text/css" media="screen,print" />',
-				    '<title>' + grid.title + '</title>',
-				  '</head>',
-				  '<body>',
-				    '<table>',
-				      headings,
-				      '<tpl for=".">',
-				        body,
-				      '</tpl>',
-				    '</table>',
-				  '</body>',
-				'</html>'           
-			];
 
-			var html = Ext.create('Ext.XTemplate', htmlMarkup).apply(data); 
+			var body     = Ext.create('Ext.XTemplate', this.bodyTpl).apply(columns);
+            body = Ext.create('Ext.XTemplate', '<tpl for=".">' + body + '</tpl>').apply(data); 
+            
+			
+            var html1 = this.htmlTpl.toString();
+            html1 = html1.replace( /@gridTitle@/g, grid.title );
+            html1 = html1.replace( /@siteTitle@/g, _siteTitle );
+            html1 = html1.replace( '@headings@', headings );
+            html1 = html1.replace( '@body@', body );
 
 			//open up a new printing window, write to it, print it and close
 			var win = window.open('', 'printgrid');
-
-			win.document.write(html);
+			win.document.write(html1);
 
 			if (this.printAutomatically){
 				win.print();
@@ -97,12 +49,71 @@ Ext.define("ProtoUL.ux.Printer", {
 			}
 		},
 
-		/**
-		 * @property stylesheetPath
-		 * @type String
-		 * The path at which the print stylesheet can be found (defaults to 'ux/grid/gridPrinterCss/print.css')
-		 */
-		stylesheetPath: '/static/css/print.css',
+
+        sheetPrint: function(grid, sheetHtml ) {
+            //We generate an XTemplate here by using 2 intermediary XTemplates - one to create the header,
+            //the other to create the body (see the escaped {} below)
+
+            //use the headerTpl and bodyTpl markups to create the main XTemplate below
+            var body     = '<hr>' + sheetHtml   
+            
+            var html1 = this.htmlTpl.toString();
+            html1 = html1.replace( /@gridTitle@/g, grid.title );
+            html1 = html1.replace( /@siteTitle@/g, _siteTitle );
+            html1 = html1.replace( '@headings@', '' );
+            html1 = html1.replace( '@body@', body );
+
+            //open up a new printing window, write to it, print it and close
+            var win = window.open('', 'printgrid');
+            win.document.write(html1);
+
+            if (this.printAutomatically){
+                win.print();
+                // win.close();
+            }
+        },
+
+
+
+        getGridData: function(grid, columns ) {
+
+
+            var data = [];
+            grid.store.data.each(function(item) {
+                var convertedData = [];
+
+                //apply renderers from column model
+                for (var key in item.data) {
+                    var value = item.data[key];
+
+                    Ext.each(columns, function(column) {
+                        if (column.dataIndex == key) {
+                            convertedData[key] = column.renderer ? column.renderer(value) : value;
+                        }
+                    }, this);
+                }
+
+                data.push(convertedData);
+            });
+            
+            return data; 
+        },  
+
+        getGridColumns: function(grid  ) {
+
+            var columns = [];
+    
+            // DGT** Creacion de columnas  
+            for (var ix in grid.columns ) {
+                var col  =  grid.columns[ix];
+                if ( col.dataIndex  ) {
+                    columns.push(col);          
+                   }
+            };            
+            
+            return columns 
+        },  
+
 		
 		/**
 		 * @property printAutomatically
@@ -122,7 +133,8 @@ Ext.define("ProtoUL.ux.Printer", {
 				'<tpl for=".">',
 					'<th>{text}</th>',
 				'</tpl>',
-			'</tr>'
+			'</tr>',
+            '</thead>'
 		],
 
 		/**
@@ -137,6 +149,32 @@ Ext.define("ProtoUL.ux.Printer", {
 					'<td>\{{dataIndex}\}</td>',
 				'</tpl>',
 			'</tr>'
-		]
+		],  
+		
+        /**
+         * @property htmlTpl  template
+         * @type {Object/Array} vars  
+         *      @gridTitle@
+         *      @siteTitle@
+         *      @headings@
+         *      @body@
+         */
+        htmlTpl: '<!DOCTYPE html>' + 
+                '<html>' +
+                  '<head>' +
+                    '<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />' +
+                    '<link href="/static/css/print.css" rel="stylesheet" type="text/css" media="screen,print" />' +
+                    '<title>@gridTitle@</title>' +
+                  '</head>' +
+                  '<body>' +
+                    '<h1>@siteTitle@</h1>' +
+                    '<h2>@gridTitle@</h2>' +
+                    '<table>' +
+                        '<thead>@headings@</thead>' +
+                        '<tbody>@body@</tbody>' +
+                    '</table>' +
+                  '</body>' +
+                '</html>'           
+
 	}
 });
