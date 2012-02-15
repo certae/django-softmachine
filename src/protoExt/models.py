@@ -27,7 +27,7 @@ class MetaObj(models.Model):
     category = models.CharField(max_length=50, blank = True, null = True )
     alias = models.CharField(verbose_name=u'Alias',blank = True, null = True, max_length=50)
     physicalName = models.CharField(blank = True, null = True, max_length=200)
-    description = models.TextField( verbose_name=u'Description',blank = True, null = True, max_length=200)
+    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True, max_length=200)
 
     code.help_text = 'Codigo o Identificador principal del objeto'
     
