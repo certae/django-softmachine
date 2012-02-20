@@ -7,15 +7,14 @@
         <!-- meta -->
         <meta name="description" content="">
         <meta name="author" content="CeRTAE U.Laval/ Dario Gomez">
+    	{% csrf_token %}
  
         <!-- icon -->
         <link rel="shortcut icon" href="laval.ico">
                 
         
         <!-- Ext JS Files -->
-        <link rel="stylesheet" type="text/css"
-
-        href="{{ STATIC_URL }}resources/css/ext-all.css">
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}resources/css/ext-all.css">
         
 <!--    Carga Dinamica en Debuger,  es muy lento 
         <script type="text/javascript" src="{{ STATIC_URL }}ext-debug.js"></script> 
@@ -32,25 +31,7 @@
 
         <script type="text/javascript" src="{{ STATIC_URL }}js/app.js"></script>
 
-        <!--         
-        <script type="text/javascript">
-            Ext.onReady(function() {
-                Ext.require(["Ext.util.Cookies", "Ext.Ajax"], function() {
-                    // Add csrf token to every ajax request
-                    var token = Ext.util.Cookies.get('csrftoken');
-                    if(!token) {
-                        Ext.Error.raise("Missing csrftoken cookie");
-                    } else {
-                        Ext.Ajax.defaultHeaders = Ext.apply(Ext.Ajax.defaultHeaders || {}, {
-                            'X-CSRFToken' : token
-                        });
-                    }
-                });
-            });
-
-        </script> 
-        -->
-
+               
     </head>
     <body></body>
 </html>
