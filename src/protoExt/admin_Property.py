@@ -15,7 +15,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     
     # Valores iniciales ( initialFilter maneja el autoload )   
     protoExt[ 'initialSort' ] = ( 'code', 'concept__model__code', ) 
-    protoExt[ 'initialFilter' ] = { 'code__istartswith': 'a'}
+    protoExt[ 'initialFilter' ] = {}
     
     protoExt[ 'protoDetails' ] = [ {}, 
 #        {'menuText': 'Propiétés d''élément de donnée', 'conceptDetail': 'protoExt.Udp', 'detailField': 'metaObj__pk', 'masterField': 'pk'}, 
@@ -103,7 +103,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     TEMPLATE += '<tr class="azul"><td class="negro">Description: </td><td class="desc">{{udp__DESCRIPTIONCN}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Précisions: </td><td class="desc">{{udp__PRECISIONS}}</td></tr>'   
     TEMPLATE += '<tr class="azul"><td class="negro">Validations sur l\'élément: </td><td class="desc">{{udp__VALIDATIONSSURELEMENT}}</td></tr>'
-    TEMPLATE += '<tr class="blanco"><td class="negro">Validations inter-élément: </td><td class="desc">{{udp__VALIDATIONSINTERELEMENT}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Validations inter-éléments: </td><td class="desc">{{udp__VALIDATIONSINTERELEMENT}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Validation inter-enregistrement: </td><td class="desc">{{udp__VALIDATION_INTER-ENREGISTREMENT}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Source de données externes: </td><td class="desc">{{udp__SOURCEDEDONNEESEXTERNES}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Élément transformé: </td><td class="desc">{{udp__ELEMENTTRANSFORME}}</td></tr>'
@@ -123,12 +123,12 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     TEMPLATE += '<tr class="azul"><td class="negro">Nom de l\'élément de donnée: </td><td>{{code}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro"> Nom de la vue de l\'élément de donnée:</td><td>{{concept__model__code}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro"> Document de référence: </td><td class="desc">{{udp__DOCUMENTDEREFERENCE}}</td></tr>'
-    TEMPLATE += '<tr class="blanco"><td class="negro">Alias: </td><td class="desc">{{alias}}</td></tr>'
-    TEMPLATE += '<tr class="azul"><td class="negro">Type de donnée: </td><td class="desc">{{baseType}}</td></tr>'
-    TEMPLATE += '<tr class="blanco"><td class="negro">Longueur: </td><td class="desc">{{length}}</td></tr>'
-    TEMPLATE += '<tr class="azul"><td class="negro">Valeur nulle possible (oui,non)</td><td class="desc">{{isNullable}}</td></tr>'
-    TEMPLATE += '<tr class="blanco"><td class="negro">Gabarit: </td><td class="desc">{{udp__GABARIT}}</td></tr>'
-    TEMPLATE += '<tr class="azul"><td class="negro">Définition: </td><td class="desc">{{udp__DEFINITION}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Description: </td><td class="desc">{{udp__DESCRIPTIONCN}}</td></tr>'
+    TEMPLATE += '<tr class="azul"><td class="negro">Alias: </td><td class="desc">{{alias}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Type de donnée: </td><td class="desc">{{baseType}}</td></tr>'
+    TEMPLATE += '<tr class="azul"><td class="negro">Longueur: </td><td class="desc">{{length}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Valeur nulle possible (oui,non)</td><td class="desc">{{isNullable}}</td></tr>'
+    TEMPLATE += '<tr class="azul"><td class="negro">Gabarit: </td><td class="desc">{{udp__GABARIT}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Domaine de valeurs: </td><td class="desc">{{udp__DOMAINEDEVALEURS}}</td></tr>'
     TEMPLATE += '</table>'
 
@@ -162,5 +162,11 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                 { 'filterName': nFiltre, 
                   'filter': { 'code__istartswith': nFiltre }, 
 #                 'icon' : 'icon-?'
+                  }
+        ) 
+
+    protoExt['protoFilters'].append ( 
+                { 'filterName': ' Tous ', 
+                  'filter': {}, 
                   }
         ) 

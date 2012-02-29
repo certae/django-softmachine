@@ -48,11 +48,27 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
     protoExt[ 'searchFields' ] =  ( 'code', 'description' )        
 
     protoExt['protoFilters'] = []
-    for nFiltre in ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']:
-    
-        protoExt['protoFilters'].append ( 
-                { 'filterName': nFiltre, 
-                  'filter': { 'code__istartswith': nFiltre }, 
-#                 'icon' : 'icon-?'
+
+    protoExt['protoFilters'].append ( 
+                { 'filterName': 'AT', 
+                  'filter': { 'code__istartswith': 'AT'}, 
+                  }
+        ) 
+
+    protoExt['protoFilters'].append ( 
+                { 'filterName': 'Vue corportative', 
+                  'filter': { 'code__istartswith': 'Vue Corporative'}, 
+                  }
+        ) 
+
+    protoExt['protoFilters'].append ( 
+                { 'filterName': 'Vue locale', 
+                  'filter': { 'code__istartswith': 'Vue locale'}, 
+                  }
+        ) 
+
+    protoExt['protoFilters'].append ( 
+                { 'filterName': ' Tous ', 
+                  'filter': {}, 
                   }
         ) 

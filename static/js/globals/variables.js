@@ -5,7 +5,7 @@
 
 
 _siteTitle = 'Dictionnaire de données de la Santé et des Services sociaux'
-_versionProto = 'Version 0.92'
+_versionProto = 'Version 0.93'
 
 _detailViewNewTab 	= 'Voir dans un nouvel onglet'
 _gridBbPerPage 		= ' par page'

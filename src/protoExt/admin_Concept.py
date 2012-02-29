@@ -78,4 +78,8 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
                   }
         ) 
 
-    
+    protoExt['protoFilters'].append ( 
+                { 'filterName': ' Tous ', 
+                  'filter': {}, 
+                  }
+        ) 
