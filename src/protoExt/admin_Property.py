@@ -68,10 +68,11 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     protoExt[ 'protoSheetProperties' ] = (   'code',
                             'concept__model__code',
                             'isNullable',
-                            'udp__DOCUMENTDEREFERENCE',
                             'alias',
                             'baseType',
                             'length',
+                            'description', 
+                            'udp__DOCUMENTDEREFERENCE',
                             'udp__GABARIT',
                             'udp__DEFINITION',
                             'udp__DESCRIPTIONCN',
@@ -100,7 +101,10 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     TEMPLATE += '<tr class="blanco"><td class="negro">Longueur: </td><td class="desc">{{length}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Gabarit: </td><td class="desc">{{udp__GABARIT}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Définition: </td><td class="desc">{{udp__DEFINITION}}</td></tr>'
+
+#    TEMPLATE += '<tr class="azul"><td class="negro">Description: </td><td class="desc">{{description}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Description: </td><td class="desc">{{udp__DESCRIPTIONCN}}</td></tr>'
+
     TEMPLATE += '<tr class="blanco"><td class="negro">Précisions: </td><td class="desc">{{udp__PRECISIONS}}</td></tr>'   
     TEMPLATE += '<tr class="azul"><td class="negro">Validations sur l\'élément: </td><td class="desc">{{udp__VALIDATIONSSURELEMENT}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Validations inter-éléments: </td><td class="desc">{{udp__VALIDATIONSINTERELEMENT}}</td></tr>'
@@ -123,7 +127,10 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     TEMPLATE += '<tr class="azul"><td class="negro">Nom de l\'élément de donnée: </td><td>{{code}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro"> Nom de la vue de l\'élément de donnée:</td><td>{{concept__model__code}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro"> Document de référence: </td><td class="desc">{{udp__DOCUMENTDEREFERENCE}}</td></tr>'
-    TEMPLATE += '<tr class="blanco"><td class="negro">Description: </td><td class="desc">{{udp__DESCRIPTIONCN}}</td></tr>'
+
+    TEMPLATE += '<tr class="blanco"><td class="negro">Description: </td><td class="desc">{{description}}</td></tr>'
+#    TEMPLATE += '<tr class="blanco"><td class="negro">Description: </td><td class="desc">{{udp__DESCRIPTIONCN}}</td></tr>'
+    
     TEMPLATE += '<tr class="azul"><td class="negro">Alias: </td><td class="desc">{{alias}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Type de donnée: </td><td class="desc">{{baseType}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Longueur: </td><td class="desc">{{length}}</td></tr>'
