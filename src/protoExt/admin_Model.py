@@ -19,7 +19,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
     
     fieldsets = (
         (None, {
-            'fields': [('code', 'category'), 'description']
+            'fields': [('code', 'category', 'domain'), 'description']
         }),
     )
     inlines = [

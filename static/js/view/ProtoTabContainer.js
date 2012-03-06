@@ -4,7 +4,16 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
     extend: 'Ext.tab.Panel',
     alias: 'widget.protoTabContainer',
     requires: ['ProtoUL.view.ProtoMasterDetail' ],
-
+    
+    listeners: {
+        'tabchange': function(tabs, tab) {
+        	//DGT: Para arreglar un error reportado en ExtJs 4.0.7
+        	//  http://www.sencha.com/forum/showthread.php?41280-GridPanel-in-RowExpander-and-Vertical-Scrollbar
+        	tab.down('gridpanel').view.refresh();
+        },
+        scope: this 
+    }, 
+    
     initComponent: function() {
         
         __TabContainer = this; 

@@ -327,8 +327,10 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
     
             var sFilter = '';
             var sCols = comboCols.getValue() || '' 
-            var sOps  = comboOp.getValue() || 'icontains' 
-        
+
+            var sOps  = comboOp.getValue() || 'icontains'; 
+            if ( sOps == '--' ) { sOps = 'icontains' };    
+            
             if (searchCr.getValue() == '' ) {
                 sFilter = '';
 
@@ -336,7 +338,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 sFilter = searchCr.getValue();
 
             } else {
-                sFilter = '{"' + comboCols.getValue() + '__' + comboOp.getValue() + '" : "' + searchCr.getValue() + '",}';
+                sFilter = '{"' + sCols + '__' + sOps + '" : "' + searchCr.getValue() + '",}';
             }
             
             __MasterDetail.onClickLoadData(sFilter);
