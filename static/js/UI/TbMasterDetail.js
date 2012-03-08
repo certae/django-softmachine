@@ -360,21 +360,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         }; 
 
 
-        function onMenuPromoteDetail  (item) {
-    
-            // Verifica q halla un tab activo 
-            if (__MasterDetail.ixActiveTab < 0) { return; }
-    
-            // carga el store 
-            var tmpStore = __MasterDetail.cllStoreDet[__MasterDetail.ixActiveTab]
-    
-    
-            __TabContainer.addTabPanel ( 
-                   tmpStore.protoConcept , 
-                   tmpStore.getProxy().extraParams.protoFilterBase 
-               ); 
-            
-        };
 
 // ------------------------------------------------------------------------------------------------
 
@@ -514,15 +499,14 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             text: '<b>Détails :<b>'
         });
         
-        function configureMenuDetail(  ){
+        function configureMenuDetail(){
             
             var pDetails = myMeta.protoDetails;
             var ixTabC = 0;                     // Agrega un numero secuencia para marcar los tabs
             var bDetails = false;               // Indica si tiene o no detalles
             for (var vDet in pDetails) {        // Recorre y agrega los detalles al menu 
-                // console.log( pDetails[vTab] + " ");
 
-                // TODO: Undefined 
+            	// console.log( pDetails[vTab] + " ");
                 if (pDetails[vDet].menuText === undefined ) {
                     continue; 
                 } 
@@ -537,6 +521,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                     detail: pDetails[vDet].conceptDetail,
                     detailField: pDetails[vDet].detailField,
                     masterField: pDetails[vDet].masterField,
+                    filterTitle: pDetails[vDet].filterTitle,
+                    filterAttr: pDetails[vDet].filterAttr,
                     ixTab: ixTabC
                 });
                 

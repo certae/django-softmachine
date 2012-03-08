@@ -42,6 +42,13 @@ _gridTypeEditor = {
 // PageSize par default 
 _PAGESIZE = 50; 
 
+_ComboPageSize = [
+                  ['25'],
+                  ['50'],
+                  ['100'],
+                  ['500']
+            ]; 
+            
 
 // Autoload entites
 _AUTOLOAD_PCI = ['protoExt.Model', 'protoExt.Property'  ]

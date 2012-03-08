@@ -35,8 +35,15 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
     protoExt[ 'title' ] = 'Vues'
     
     protoExt[ 'protoDetails' ] = [
-#       {'menuText': 'Entite', 'conceptDetail': 'protoExt.Concept', 'detailField': 'model__pk', 'masterField': 'pk'},
-        {'menuText': 'Éléments de Données', 'conceptDetail': 'protoExt.property', 'detailField': 'concept__model__pk', 'masterField': 'pk'}, 
+        {'menuText': 'Entite', 'conceptDetail': 'protoExt.Concept', 'detailField': 'model__pk', 'masterField': 'pk',
+         'filterTitle': 'Vue :',
+         'filterAttr': 'code'}, 
+        {'menuText': 'Éléments de Données', 
+         'conceptDetail': 'protoExt.property', 
+         'detailField': 'concept__model__pk', 
+         'masterField': 'pk', 
+         'filterTitle': 'Vue :',
+         'filterAttr': 'code'}, 
         ]
 
     protoExt[ 'protoFields' ] =  {        
@@ -47,8 +54,10 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
 
     protoExt[ 'searchFields' ] =  ( 'code', 'description' )        
 
-    protoExt['protoFilters'] = []
 
+
+#   -------------------------------------------------------------------------------------------------
+    protoExt['protoFilters'] = []
     protoExt['protoFilters'].append ( 
                 { 'filterName': 'AT', 
                   'filter': { 'code__istartswith': 'AT'}, 

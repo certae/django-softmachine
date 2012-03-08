@@ -1,13 +1,15 @@
 Tareas pendientes
 
-    Reportes
-    --------------- 
 
-    Agregar un boton y generar una nueva pagina totalmente Django con html de base,
-    
-    Si genero una grilla en ext,  debe tener un heigt predeterminado,  la impresion automatica solo toma la 
-    informacion visible,  mientras que una grilla html se imprime completa. 
-    
+Detalles
+--------------
+	En la lectura del modelo carga una col con un vr significativo prara las FKey,
+	La ventana detalles debe contener un indicativo de cual es su filtro, 
+	al independizar la ventana,  debe desaparecer el boton de independizar 
+
+
+    Reportes
+--------------
     Para la impresion de la grilla se hace una unica tabla, se puede agregar dos columnas cerradas 
     para manejar totales y agrupamientos en la col de totales se puede manejar el numero de linea,
     en la ultima linea se hace el conteo, 
@@ -15,15 +17,27 @@ Tareas pendientes
     Los agryupamientos se definien como hace el Django reports
     y en la pagina se maneja el onready windows.print  de js 
 
-    La otra alternativa es la impresion de la ficha,  en este caso solo se imprimira la ficha actual 
-    una linea inicial con los datos de la grilla y el espacio para generar el html de la ficha 
-        
 
     Criterios 
-    ----------------
+----------------
     En la barra de criterios agregar un boton Add, este boton solo creara nuevos elementos que se 
     enviaran al momento de enviar el criterio. 
     
+
+
+
+---------------  ---------------------------------------------------------------------------------------------------------- 
+
+**    Agregar un boton y generar una nueva pagina totalmente Django con html de base,
+    
+**    Si genero una grilla en ext,  debe tener un heigt predeterminado,  la impresion automatica solo toma la 
+      informacion visible,  mientras que una grilla html se imprime completa. 
+    
+
+**    La otra alternativa es la impresion de la ficha,  en este caso solo se imprimira la ficha actual 
+      una linea inicial con los datos de la grilla y el espacio para generar el html de la ficha 
+        
+
 
 
 ---
@@ -35,7 +49,6 @@ Tareas pendientes
 	
 	** Cargar el page_limit del admin, para cada entidad, si no se envia asumir el vr por defecto 
 	
-	** En la lectura del modelo carga una col con un vr significativo prara las FKey,
 
 
 ---

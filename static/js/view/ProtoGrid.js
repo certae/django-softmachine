@@ -30,8 +30,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             myFilter = myMeta.initialFilter;
             myFilter = Ext.encode(myFilter);
              
-        } else {
-            var isDetail = true; 
+//        } else { var isDetail = true; 
         }   
         
         // Sorters 
@@ -121,28 +120,22 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             store : this.store,  
             stripeRows: true, 
             
-            listeners: {
-                scope: this,
-                itemClick: this.onItemClick
-            }
+//            listeners: {
+//                scope: this,
+//                itemClick: this.onItemClick
+//            }
             
         }); 
 
 
         this._extGrid = grid;
-        this._extGrid.title = myMeta.shortTitle;
+        this.myMeta = myMeta;
+        this.setGridTitle( this ) ;
 
 
 //----------
 
 
-        _ComboPageSize = [
-              ['25'],
-              ['50'],
-              ['100'],
-              ['500']
-        ]; 
-        
         var comboPageSize = new Ext.form.ComboBox({
           name : 'perpage',
           width: 60,
@@ -164,19 +157,18 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         //         ---------------------------------------------------
 
-        if (isDetail) {
-            itemDetail = [
-                    '-', {
+        itemDetail = ['-']; 
+
+        if ( this.protoIsDetailGrid ) {
+            itemDetail.push ({
                     text: _detailViewNewTab,
                     iconCls : 'icon-promote',
                     handler : onMenuPromoteDetail
-                },  
-                comboPageSize, _gridBbPerPage ] ;
-            
-        } else { 
-            itemDetail = [ '-', comboPageSize, _gridBbPerPage ] ;
+                })  
         } 
 
+        itemDetail.push( comboPageSize, _gridBbPerPage );
+        
 //-----------
 
         panelItems =   [{
@@ -241,7 +233,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 //------        
         this.addEvents(
-            'itemClick', 'promoteDetail'
+            'rowClick', 'promoteDetail'
         );
 
         
@@ -253,15 +245,16 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         grid.on({
             itemClick: {fn: function (g, rowIndex, e) {
-                // console.log ( g, rowIndex   );
                 _pGrid.rowData = rowIndex.data;
+
+                this.fireEvent('rowClick', g, rowIndex, e);
                 prepareSheet();
-                 
-                }, 
-            scope: this }
+
+            	}, scope: this }
         });                 
 
 
+        
         function columnWrap(value){
             return '<div style="white-space:normal; text-align:justify !important";>' + value + "</div>";
         }
@@ -314,10 +307,12 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         };
         
         function onMenuPromoteDetail() {
-    
+        	
+        	if ( _pGrid.filterValue ) { var gridTitle = _pGrid.filterTitle + ' ' + _pGrid.filterValue  }   
             __TabContainer.addTabPanel(
                    _pGrid.store.protoConcept , 
-                   _pGrid.store.getProxy().extraParams.protoFilterBase 
+                   _pGrid.store.getProxy().extraParams.protoFilterBase, 
+                   gridTitle 
                ); 
             
         };
@@ -325,9 +320,11 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
     },
     
-    onItemClick: function (g, rowIndex, e) {
-        this.fireEvent('itemClick', g, rowIndex, e);
-    },  
+//    onItemClick: function (g, rowIndex, e) {
+//        this.rowData = rowIndex.data;
+//        prepareSheet();
+//        this.fireEvent('rowClick', g, rowIndex, e);
+//    },  
 
     getViewColumns: function (  viewCols  ) {
         
@@ -360,6 +357,19 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         this._extGrid.view.refresh();
         
 
+    }, 
+    
+    setGridTitle: function( me ){
+    	var gridTitle = me.myMeta.shortTitle; 
+    	
+    	if ( me.detailTitle ) {
+    		gridTitle += ' {' + me.detailTitle + '}'
+    	}
+    	else if ((me.protoIsDetailGrid != true ) && ( me.protoFilterBase != undefined ) ) { 
+    		gridTitle += ' ' + me.protoFilterBase  
+    	};
+        
+        me._extGrid.title =  gridTitle 
     }
     
     
