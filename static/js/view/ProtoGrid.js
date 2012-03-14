@@ -360,16 +360,23 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     }, 
     
     setGridTitle: function( me ){
-    	var gridTitle = me.myMeta.shortTitle; 
+    	var gridTitle = ''; 
     	
     	if ( me.detailTitle ) {
-    		gridTitle += ' {' + me.detailTitle + '}'
-    	}
-    	else if ((me.protoIsDetailGrid != true ) && ( me.protoFilterBase != undefined ) ) { 
-    		gridTitle += ' ' + me.protoFilterBase  
+    		gridTitle = me.detailTitle 
+    	} else if ((me.protoIsDetailGrid != true ) && ( me.protoFilterBase != undefined ) ) { 
+    		gridTitle = me.protoFilterBase  
     	};
         
-        me._extGrid.title =  gridTitle 
+    	if ( me.protoLocalFilter ) {
+    		if ( gridTitle ) { gridTitle += '; '  };
+    		gridTitle +=  me.protoLocalFilter ; 
+    	} 
+
+		if ( gridTitle ) { gridTitle = ' {' + gridTitle + '}' };
+    	
+    	var gridTitle = me.myMeta.shortTitle + gridTitle ; 
+        me._extGrid.setTitle( gridTitle )  
     }
     
     

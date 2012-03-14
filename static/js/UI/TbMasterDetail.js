@@ -326,6 +326,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         function onClickLoadData ( btn ) { 
     
             var sFilter = '';
+            var sTitle =  ''; 
             var sCols = comboCols.getValue() || '' 
 
             var sOps  = comboOp.getValue() || 'icontains'; 
@@ -333,15 +334,19 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             
             if (searchCr.getValue() == '' ) {
                 sFilter = '';
-
             } else if ((sCols  == '') && (searchCr.getValue() != '' )) {
                 sFilter = searchCr.getValue();
-
+                sTitle = '* ' + searchCr.getValue();
             } else {
                 sFilter = '{"' + sCols + '__' + sOps + '" : "' + searchCr.getValue() + '",}';
+                sTitle = comboOp.getDisplayValue() || comboOp.emptyText;  
+                sTitle =  comboCols.getDisplayValue() + " '" +  sTitle + "' " + searchCr.getValue();
             }
             
             __MasterDetail.onClickLoadData(sFilter);
+
+            __MasterDetail.protoMasterGrid.protoLocalFilter = sTitle; 
+            __MasterDetail.protoMasterGrid.setGridTitle( __MasterDetail.protoMasterGrid ) 
     
         }; 
 

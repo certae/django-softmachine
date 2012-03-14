@@ -1,11 +1,7 @@
 Tareas pendientes
 
-
-Detalles
---------------
-	En la lectura del modelo carga una col con un vr significativo prara las FKey,
-	La ventana detalles debe contener un indicativo de cual es su filtro, 
-	al independizar la ventana,  debe desaparecer el boton de independizar 
+	Agregar el locking de columnas para la grilla 
+	AGregar manejo de grupos ( permite agrupas incluso columnas ocultas )
 
 
     Reportes
@@ -27,6 +23,10 @@ Detalles
 
 
 ---------------  ---------------------------------------------------------------------------------------------------------- 
+
+** 	En la lectura del modelo carga una col con un vr significativo prara las FKey,
+	La ventana detalles debe contener un indicativo de cual es su filtro, 
+	al independizar la ventana,  debe desaparecer el boton de independizar 
 
 **    Agregar un boton y generar una nueva pagina totalmente Django con html de base,
     
