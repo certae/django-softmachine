@@ -167,7 +167,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
     	}); 
         
         var comboOp = new Ext.form.ComboBox({
-            emptyText: _ComboFilterOp[1][1] ,
+//            emptyText: _ComboFilterOp[1][1] ,
+            emptyText: 'sélectionner opérator' ,
             store: opStore,
             width: 150,
             mode: 'local',
@@ -336,11 +337,13 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 sFilter = '';
             } else if ((sCols  == '') && (searchCr.getValue() != '' )) {
                 sFilter = searchCr.getValue();
-                sTitle = '* ' + searchCr.getValue();
+                sTitle = ' " ' + searchCr.getValue() + ' "';
             } else {
                 sFilter = '{"' + sCols + '__' + sOps + '" : "' + searchCr.getValue() + '",}';
-                sTitle = comboOp.getDisplayValue() || comboOp.emptyText;  
-                sTitle =  comboCols.getDisplayValue() + " '" +  sTitle + "' " + searchCr.getValue();
+
+//                sTitle = comboOp.getDisplayValue() || comboOp.emptyText;  
+                sTitle = comboOp.getDisplayValue() || 'qui contient';  
+                sTitle =  ' " ' + comboCols.getDisplayValue() + " " +  sTitle + " " + searchCr.getValue() + ' "';
             }
             
             __MasterDetail.onClickLoadData(sFilter);
@@ -586,7 +589,11 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         
         function onClickProtoFilter( btn ){
               
-              __MasterDetail.onClickLoadData (btn.protoFilter);
+            __MasterDetail.protoMasterGrid.protoLocalFilter = ' " ' +  btn.text + ' "'; 
+            __MasterDetail.protoMasterGrid.setGridTitle( __MasterDetail.protoMasterGrid ) 
+
+            __MasterDetail.onClickLoadData( btn.protoFilter );
+    
 
         }
               

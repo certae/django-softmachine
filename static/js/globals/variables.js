@@ -68,12 +68,12 @@ _ComboFilterOp = [
             ['lte', 'plus petit ou égal que'],
             // ['range', '(..)'],
             // ['in', '(_,_)'],
-            ['--', ''],
 
-            ['day', 'jour'],
-            ['month', 'mois'],
-            ['week_day', 'jour de la semaine'],
-            ['year', 'année'],
+//            ['--', ''],
+//            ['day', 'jour'],
+//            ['month', 'mois'],
+//            ['week_day', 'jour de la semaine'],
+//            ['year', 'année'],
             ['--', ''],
 
             ['isnull', 'valeur nulle']

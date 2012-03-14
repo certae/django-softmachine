@@ -363,17 +363,17 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     	var gridTitle = ''; 
     	
     	if ( me.detailTitle ) {
-    		gridTitle = me.detailTitle 
+    		gridTitle = '" ' + me.detailTitle + ' "' 
     	} else if ((me.protoIsDetailGrid != true ) && ( me.protoFilterBase != undefined ) ) { 
     		gridTitle = me.protoFilterBase  
     	};
         
     	if ( me.protoLocalFilter ) {
-    		if ( gridTitle ) { gridTitle += '; '  };
+    		if ( gridTitle ) { gridTitle += ' ; '  };
     		gridTitle +=  me.protoLocalFilter ; 
     	} 
 
-		if ( gridTitle ) { gridTitle = ' {' + gridTitle + '}' };
+		if ( gridTitle ) { gridTitle = ' filtrés par ' +  gridTitle + '' };
     	
     	var gridTitle = me.myMeta.shortTitle + gridTitle ; 
         me._extGrid.setTitle( gridTitle )  
