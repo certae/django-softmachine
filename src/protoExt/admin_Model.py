@@ -36,14 +36,14 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
     
     protoExt[ 'protoDetails' ] = [
         {'menuText': 'Entite', 'conceptDetail': 'protoExt.Concept', 'detailField': 'model__pk', 'masterField': 'pk',
-         'filterTitle': 'Vue :',
-         'filterAttr': 'code'}, 
+         'detailTitleLbl': 'Vue :',
+         'detailTitlePattern': 'code'}, 
         {'menuText': 'Éléments de Données', 
          'conceptDetail': 'protoExt.property', 
          'detailField': 'concept__model__pk', 
          'masterField': 'pk', 
-         'filterTitle': ' ',
-         'filterAttr': 'code'}, 
+         'detailTitleLbl': ' ',
+         'detailTitlePattern': 'code'}, 
         ]
 
     protoExt[ 'protoFields' ] =  {        

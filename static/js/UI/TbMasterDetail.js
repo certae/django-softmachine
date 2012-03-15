@@ -509,7 +509,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         function configureMenuDetail(){
             
             var pDetails = myMeta.protoDetails;
-            var ixTabC = 0;                     // Agrega un numero secuencia para marcar los tabs
+            var detailCount = 0;                     // Agrega un numero secuencia para marcar los tabs
             var bDetails = false;               // Indica si tiene o no detalles
             for (var vDet in pDetails) {        // Recorre y agrega los detalles al menu 
 
@@ -525,21 +525,21 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 
                 var item = menuDetail.add({
                     text: pDetails[vDet].menuText,
-                    detail: pDetails[vDet].conceptDetail,
+                    detailKey: pDetails[vDet].conceptDetail,
                     detailField: pDetails[vDet].detailField,
                     masterField: pDetails[vDet].masterField,
-                    filterTitle: pDetails[vDet].filterTitle,
-                    filterAttr: pDetails[vDet].filterAttr,
-                    ixTab: ixTabC
+                    
+                    detailTitleLbl: pDetails[vDet].detailTitleLbl,
+                    detailTitlePattern: pDetails[vDet].detailTitlePattern,
+                    ixDetail: detailCount
                 });
                 
                 // Agrego el handler q activara el tab a partir del menu
-                // item.on('click', onMenuSelectDetail);
                 bDetails = true;
                 item.on({
-                    click: { fn: __MasterDetail.onMenuSelectDetail,scope: __MasterDetail  }
+                    click: { fn: __MasterDetail.onTbSelectDetail,scope: __MasterDetail  }
                 });                 
-                ixTabC += 1;
+                detailCount += 1;
             };
 
             if ( ! bDetails) {

@@ -5,7 +5,7 @@
 
 
 _siteTitle = 'Dictionnaire de données de la Santé et des Services sociaux'
-_versionProto = 'Version 0.93'
+_versionProto = 'Version 0.93a'
 
 _detailViewNewTab 	= 'Voir dans un nouvel onglet'
 _gridBbPerPage 		= ' par page'
@@ -51,7 +51,8 @@ _ComboPageSize = [
             
 
 // Autoload entites
-_AUTOLOAD_PCI = ['protoExt.Model', 'protoExt.Property'  ]
+//_AUTOLOAD_PCI = ['protoExt.Model', 'protoExt.Property'  ]
+_AUTOLOAD_PCI = ['protoExt.Model' ]
 _MENU_COLLAPSED = true 
 
 // ProtoUL.view.ProtoMasterDetail 

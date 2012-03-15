@@ -17,6 +17,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         var myMeta = _cllPCI[ this.protoConcept ] ; 
         var _pGrid = this; 
 
+        // por defecto AutoLoad
+        var lAutoLoad = this.autoLoad || true; 
+        
         var modelClassName = _PConfig.clsBaseModel + this.protoConcept ; 
         if  (! Ext.ClassManager.isCreated( modelClassName )){
             //console.log ( this.protoConcept, ' ERROR Pci  not loaded ' );
@@ -39,11 +42,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         //console.log (  this.protoConcept, ' Loading store ...  '  ); 
         this.store = Ext.create('Ext.data.Store', {
             model : modelClassName, 
-            autoLoad: true,
+            autoLoad: lAutoLoad,
             pageSize: _PAGESIZE,
             remoteSort: true,
-            // sorters: [{ property: 'xx', direction: 'ASC' },],
-            sorters: pSorters,
+            sorters: pSorters,   // [{ property: 'xx', direction: 'ASC' },],
             proxy : {
                 type: 'ajax',
                 url : 'protoExt/protoList/', 
@@ -308,7 +310,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         function onMenuPromoteDetail() {
         	
-        	if ( _pGrid.filterValue ) { var gridTitle = _pGrid.filterTitle + ' ' + _pGrid.filterValue  }   
+        	if ( _pGrid.filterValue ) { var gridTitle = _pGrid.detailTitleLbl + ' ' + _pGrid.filterValue  }   
+        	
             __TabContainer.addTabPanel(
                    _pGrid.store.protoConcept , 
                    _pGrid.store.getProxy().extraParams.protoFilterBase, 
