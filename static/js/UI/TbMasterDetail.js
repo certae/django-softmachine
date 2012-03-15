@@ -341,7 +341,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             } else {
                 sFilter = '{"' + sCols + '__' + sOps + '" : "' + searchCr.getValue() + '",}';
 
-//                sTitle = comboOp.getDisplayValue() || comboOp.emptyText;  
                 sTitle = comboOp.getDisplayValue() || 'qui contient';  
                 sTitle =  ' " ' + comboCols.getDisplayValue() + " " +  sTitle + " " + searchCr.getValue() + ' "';
             }

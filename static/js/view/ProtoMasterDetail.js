@@ -129,8 +129,10 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             ixActiveTab =  _masterDetail.ixActiveTab
             //console.log( '_ LinkDetail tab', ixActiveTab,  _masterDetail.ixActiveTab, ' idM', idMasterGrid,  _masterDetail.idMasterGrid )
             
-            // Verifica q halla un tab activo 
+            // Verifica q halla un tab activo y q no hallan sido borrados  
             if (ixActiveTab < 0) { return; }
+            if (protoTabs.items.length == 0) { return; }
+
     
             // carga el store 
             var tmpStore = cllStoreDet[ixActiveTab];
@@ -146,7 +148,11 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             
             
             // Prepara el titulo   -------------------------------------------
-            detailGrid = protoTabs.items.items[ ixActiveTab ].down('protoGrid'); 
+            var tab = protoTabs.items.findBy(function (i) {
+			    return i.protoConcept === tmpStore.protoConcept;
+			});
+
+            detailGrid = tab.down('protoGrid'); 
             if ( detailGrid.filterAttr ) {
 	            detailGrid.filterValue =  _masterDetail.protoMasterGrid.rowData[ detailGrid.filterAttr ];
 	            detailGrid.setGridTitle( detailGrid );
@@ -173,6 +179,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         var tab = protoTabs.items.findBy(function (i) {
             return i.protoConcept === protoConcept;
         });
+
         if (!tab) {
         
 //          Sacar en una funcion comun con el view port  ( segun feedMvc/lib )   ***********************************
@@ -265,14 +272,14 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             setActiveDetail( tab , item.ixTab );
         };  
         
-        function setActiveDetail (tab, ixTab ) {
+        function setActiveDetail(tab, ixTab ) {
 
 
             ixActiveTab = item.ixTab;
-            protoTabs.setActiveTab(tab);
-    
-           // console.log( '< setActiveDetail', ixActiveTab, _masterDetail.ixActiveTab, _masterDetail.IDdetailPanel  )
             _masterDetail.ixActiveTab = ixActiveTab;
+
+           // console.log( '< setActiveDetail', ixActiveTab, _masterDetail.ixActiveTab, _masterDetail.IDdetailPanel  )
+            protoTabs.setActiveTab( tab );
 
         }
         

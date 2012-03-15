@@ -18,18 +18,18 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'dictionnaire',
-        'USER': 'root',                      # Not used with sqlite3.
-        'PASSWORD': '1214moi',               # Not used with sqlite3.
-        'HOST': '132.203.51.190',             # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
-    }, 
 #    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-#        'NAME': PPATH + '/db/protoMeta.db',
-#    }
+#        'ENGINE': 'mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+#        'NAME': 'dictionnaire',
+#        'USER': 'root',                      # Not used with sqlite3.
+#        'PASSWORD': '1214moi',               # Not used with sqlite3.
+#        'HOST': '132.203.51.190',             # Set to empty string for localhost. Not used with sqlite3.
+#        'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
+#    }, 
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': PPATH + '/db/protoMeta.db',
+    }
 }
 
 # Local time zone for this installation. Choices can be found here:
@@ -142,6 +142,7 @@ ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
     PPATH + '/templates',          
+    
 #    '/home/dario/data/PyDjango/protoExt/src/django_qbe/templates',
 #    'D:/data/PyDjango/protoExt/src/django_qbe/templates',
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".

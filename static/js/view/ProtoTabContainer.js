@@ -35,7 +35,7 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
                 ]
         });
 
-        this.setActiveTab(tab)
+        this.setActiveTab( tab )
     },
 
     createProtoMasterDetail: function( protoConcept, protoFilterBase, detailTitle ){
