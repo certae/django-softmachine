@@ -139,15 +139,6 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             tmpStore.protoMasterId = idMasterGrid;
             tmpStore.load();
             
-            
-            // Prepara el titulo   -------------------------------------------
-            var tab = _masterDetail.getTab( _masterDetail, tmpStore.protoConcept ); 
-            var detailGrid = tab.down('protoGrid'); 
-            if ( detailGrid.detailTitlePattern ) {
-	            detailGrid.filterValue =  _masterDetail.protoMasterGrid.rowData[ detailGrid.detailTitlePattern ];
-	            detailGrid.setGridTitle( detailGrid );
-            }
-            
         }
 
 

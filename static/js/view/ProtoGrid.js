@@ -32,8 +32,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             // DGT: Agregar parametro Autoload  -  '{"pk" : 0,}'            
             myFilter = myMeta.initialFilter;
             myFilter = Ext.encode(myFilter);
-             
-//        } else { var isDetail = true; 
         }   
         
         // Sorters 
@@ -309,13 +307,16 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         };
         
         function onMenuPromoteDetail() {
-        	
-        	if ( _pGrid.filterValue ) { var gridTitle = _pGrid.detailTitleLbl + ' ' + _pGrid.filterValue  }   
+
+            if ( _pGrid.detailTitlePattern ) {
+	            var detailSubTitle =  _pGrid._masterDetail.protoMasterGrid.rowData[ _pGrid.detailTitlePattern ];
+	            detailSubTitle = _pGrid.detailTitleLbl + ' ' + detailSubTitle
+            }
         	
             __TabContainer.addTabPanel(
                    _pGrid.store.protoConcept , 
                    _pGrid.store.getProxy().extraParams.protoFilterBase, 
-                   gridTitle 
+                   detailSubTitle 
                ); 
             
         };
