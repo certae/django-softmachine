@@ -20,14 +20,7 @@ Ext.define('ProtoUL.view.Viewport', {
                 split: true
             },
             items: [
-                    {
-                         xtype: 'box',
-                         region:'north',
-                         html: '<span class="title">' + _siteTitle + '</span><br><span class="subtitle">' + _versionProto + '</span>', 
-                         height: 61,
-                         collapsible: false,
-                         split: false
-                    },
+                this.createHeaderPanel(),
                 this.createMenuPanel(),
                 this.createProtoTabContainer()
                 // this.createPropertyPanel(),
@@ -52,6 +45,40 @@ Ext.define('ProtoUL.view.Viewport', {
         }
         
     },
+    
+
+    createHeaderPanel: function () {
+
+    	
+        var headerPanel = {
+			region:'north',            
+            margins:'0 0 0 0',
+            split: false,
+            collapsible: false,
+            layout: {
+                type: 'hbox',
+                align:'middle'
+            },
+            items:[{
+            	 margins:'5 5',
+                 xtype: 'box',
+                 html: '<span class="title">' + _siteTitle + '</span><br><span class="subtitle">' + _versionProto + '</span>', 
+                 height: 56
+            },{
+                xtype:'tbfill'
+            },{
+                xtype:'splitbutton',
+                scale: 'medium',
+           		margins:'5 5 5 5',
+                text: 'Login'
+            }]
+
+        }
+
+        return headerPanel;
+    },
+     
+    
 
     createMenuPanel: function () {
 

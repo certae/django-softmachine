@@ -1,7 +1,11 @@
 Tareas pendientes
 
-	Agregar el locking de columnas para la grilla 
-	AGregar manejo de grupos ( permite agrupas incluso columnas ocultas )
+	vinculos a las formas 
+	
+	login
+	edicion 
+	seguridad 
+	 
 
 
     Reportes
@@ -18,11 +22,19 @@ Tareas pendientes
 ----------------
     En la barra de criterios agregar un boton Add, este boton solo creara nuevos elementos que se 
     enviaran al momento de enviar el criterio. 
-    
 
+    
+	Agregar el locking de columnas para la grilla 
+	AGregar manejo de grupos ( permite agrupas incluso columnas ocultas )
 
 
 ---------------  ---------------------------------------------------------------------------------------------------------- 
+
+**	Hay un error al cargar los tabs, el indice del tab corresponde al indice tab
+	buscar el tab segun el indice de los detalles o crear una estructura de equivalencia. 
+
+**	Al momento de abreir el tab y luego selecionar no esta pasando por el seteo del titulo, revizar si el setActiveTab esta pasando 
+
 
 ** 	En la lectura del modelo carga una col con un vr significativo prara las FKey,
 	La ventana detalles debe contener un indicativo de cual es su filtro, 

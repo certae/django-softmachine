@@ -8,6 +8,7 @@
     text-shadow: 0 1px 0 #fff;
     background: url(../img/logo.gif) no-repeat 1px 16px ;
 }
+
 .subtitle {
     font-size: 12px;
     padding: 20px 15px 30px 200px;
@@ -20,28 +21,35 @@
 
 /*  Iconos del ToolBar */
 
-.icon-search24  { background-image: url(../img/protoImg/search16.png ) !important; }
-.icon-filter24  { background-image: url(../img/protoImg/filter24.png ) !important; }
-.icon-order24   { background-image: url(../img/protoImg/order24.png ) !important;  }
-.icon-views24   { background-image: url(../img/protoImg/cards24.png ) !important;  }
-.icon-details24 { background-image: url(../img/protoImg/details24.png ) !important;}
-.icon-print24   { background-image: url(../img/protoImg/print24.png ) !important;}
+.icon-search24  { background-image: url(../img/protoImg/icon_search24.png ) !important; }
+.icon-filter24  { background-image: url(../img/protoImg/icon_filter24.png ) !important; }
+.icon-order24   { background-image: url(../img/protoImg/icon_order24.png ) !important;  }
+.icon-views24   { background-image: url(../img/protoImg/icon_views24.png ) !important;  }
+.icon-details24 { background-image: url(../img/protoImg/icon_details24.png ) !important;}
+.icon-print24   { background-image: url(../img/protoImg/icon_print24.png ) !important;}
+.icon-config24  { background-image: url(../img/protoImg/icon_config24.png ) !important;}
 
-.icon-page_white_get { background-image:url(../img/famfamfam/page_white_get.png) !important; }
+.icon-printGrid  { background-image: url(../img/protoImg/print_grid.png) !important;  }
+.icon-printSheet { background-image: url(../img/protoImg/print_sheet.png) !important; }
 
+.icon-promote { background-image: url(../img/protoImg/table_promote.png) !important; }
+
+/* Iconos Config - Edit */
+.icon-tableSheet        { background-image: url(../img/protoImg/print_sheet.png ) !important;}
+
+.icon-tableAutoSync     { background-image: url(../img/protoImg/edit_autosync.png ) !important;}
+.icon-tableSave         { background-image: url(../img/protoImg/edit_save.png ) !important;}
+.icon-tableCancel       { background-image: url(../img/protoImg/edit_cancel.png ) !important;}
+
+.icon-tableAdd          { background-image: url(../img/protoImg/table_row_insert.png ) !important;}
+.icon-tableDelete       { background-image: url(../img/protoImg/table_row_delete.png ) !important;}
+.icon-tableDuplicate    { background-image: url(../img/protoImg/table_row_copy.png ) !important;}
+.icon-tableUpdate       { background-image: url(../img/protoImg/table_row_edit.png ) !important;}
+
+
+/*  Iconos Adv Sort  */
 .sort-desc { background-image: url(../img/protoImg/sort_desc.gif) !important; background-position: 4px 7px !important; }
 .sort-asc  { background-image: url(../img/protoImg/sort_asc.gif) !important; background-position: 4px 7px !important; }
-
-
-.icon-printGrid  { background-image: url(../img/protoImg/grid16.png) !important;  }
-.icon-printSheet { background-image: url(../img/protoImg/sheet16.png) !important; }
-
-
-
-.icon-stop    { background-image: url(../img/protoImg/stop.png) !important; }
-.icon-details { background-image: url(../img/protoImg/details.png) !important; }
-.icon-promote { background-image: url(../img/protoImg/promote.png) !important; }
-
 
 
 /*  Iconos Aplicacion  */

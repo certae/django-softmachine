@@ -26,6 +26,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         var ideTbFilter = Ext.id();
         var ideTbViews = Ext.id();
         var ideTbPrint = Ext.id();
+        var ideTbConfig = Ext.id();
 
         // Barra principal 
         var ideBtOrder = Ext.id();
@@ -71,6 +72,10 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 idTb2  : ideTbFilter, 
                 id     : ideBtFilter 
             },'-',{
+                text: 'Config',
+                iconCls: 'icon-config24',
+                idTb2  : ideTbConfig
+            },'-',{
                 text: 'Imprimer',
                 iconCls: 'icon-print24',
                 idTb2  : ideTbPrint
@@ -97,6 +102,9 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                     hidden : false 
                 },{
                     id : ideTbFilter, 
+                    xtype: 'buttongroup'
+                },{
+                    id : ideTbConfig, 
                     xtype: 'buttongroup'
                 },{
                     id : ideTbPrint, 
@@ -469,40 +477,111 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         }, {
             iconCls : 'icon-printGrid', 
             text:       'Grille',
-            handler:    onClickPrintGrid
+            handler:    onClickConfigGrid
         }); 
 
         if ( __MasterDetail.protoMasterGrid.IdeSheet != undefined ) {
-            tbPrint.add({
+            tbConfig.add({
                 iconCls : 'icon-printSheet', 
                 text:       'Fiche',
-                handler:    onClickPrintSheet
+                handler:    onClickConfigSheet
                 }
             );
         };
 
-        function onClickPrintGrid( btn ){
+        function onClickConfigGrid( btn ){
     
-            var prn = ProtoUL.ux.Printer
-            prn.gridPrint( __MasterDetail.protoMasterGrid._extGrid )
+            var prn = ProtoUL.ux.Configer
+            prn.gridConfig( __MasterDetail.protoMasterGrid._extGrid )
             
         };
 
-        function onClickPrintSheet( btn ){
+        function onClickConfigSheet( btn ){
     
-            var prn = ProtoUL.ux.Printer ;
+            var prn = ProtoUL.ux.Configer ;
             var pGrid = __MasterDetail.protoMasterGrid ;
-            prn.sheetPrint( pGrid._extGrid, pGrid.sheetHtml  )
+            prn.sheetConfig( pGrid._extGrid, pGrid.sheetHtml  )
             
         }
 
+
 // ------------------------------------------------------------------------------------------------
+
+
+        var tbConfig = Ext.getCmp( ideTbConfig )
+        tbConfig.add({
+            xtype   : 'tbtext',
+            text: '<b>Config :<b>'
+        }, {
+            iconCls : 'icon-tableSheet', 
+            text:       'Fiche',
+            handler:    onClickTableSheet
+        }, {
+            iconCls : 'icon-tableSave', 
+            text:       'Save',
+            handler:    onClickTableSave
+        }, {
+            iconCls : 'icon-tableCancel', 
+            text:       'Cancel',
+            handler:    onClickTableCancel
+        }, {
+            iconCls : 'icon-tableAdd', 
+            text:       'Add',
+            handler:    onClickTableAdd
+        }, {
+            iconCls : 'icon-tableUpdate', 
+            text:       'Edit',
+            handler:    onClickTableUpdate
+        }, {
+            iconCls : 'icon-tableDuplicate', 
+            text:       'Duplicate',
+            handler:    onClickTableDuplicate
+        }, {
+            iconCls : 'icon-tableDelete', 
+            text:       'Delete',
+            handler:    onClickTableDelete
+        },  { 
+        	xtype: 'tbspacer', 
+        	flex : 1
+       	}, { 
+            iconCls : 'icon-tableAutoSync', 
+            text:       'AutoSync',
+            handler:    onClickTableAutoSync
+        }); 
+
+
+        function onClickTableAdd( btn ){
+			console.log( btn.text ) 
+        }; 
+        function onClickTableAutoSync( btn ){
+			console.log( btn.text ) 
+        }; 
+        function onClickTableCancel( btn ){
+			console.log( btn.text ) 
+        }; 
+        function onClickTableDelete( btn ){
+			console.log( btn.text ) 
+        }; 
+        function onClickTableDuplicate( btn ){
+			console.log( btn.text ) 
+        }; 
+        function onClickTableSave( btn ){
+			console.log( btn.text ) 
+        }; 
+        function onClickTableSheet( btn ){
+			console.log( btn.text ) 
+        }; 
+        function onClickTableUpdate( btn ){
+			console.log( btn.text ) 
+        }; 
+
+// ------------------------------------------------------------------------------------------------
+
 
         // Menu Detail 
         var menuDetail = Ext.getCmp( ideTbDetails );
         menuDetail.add({
             xtype   : 'tbtext',
-            iconCls : 'icon-details', 
             text: '<b>Détails :<b>'
         });
         
