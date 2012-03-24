@@ -22,6 +22,7 @@ Ext.application({
         'ProtoUL.ux.ToolbarDroppable',
         'ProtoUL.ux.BoxReorderer',
         'ProtoUL.ux.Printer',
+        'ProtoUL.ux.HeaderToolTip',
         'Ext.util.Cookies', 
         'Ext.Ajax'
     ],

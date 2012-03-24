@@ -28,8 +28,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         var ideTbPrint = Ext.id();
         var ideTbConfig = Ext.id();
 
-        // Barra principal 
-        var ideBtOrder = Ext.id();
+        // Id en la Barra principal 
+        // var ideBtOrder = Ext.id();
         var ideBtDetails = Ext.id();
         var ideBtFilter = Ext.id();
         var ideBtViews = Ext.id();
@@ -65,7 +65,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 text: 'Ordonner',
                 iconCls: 'icon-order24',
                 idTb2  : ideTbOrder, 
-                id     : ideBtOrder 
+                // id     : ideBtOrder 
             },'-',{
                 text: 'Filtrer',
                 iconCls: 'icon-filter24',
@@ -120,20 +120,25 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         function toogleTb2( but  ) {
 
-            if ( but.idTb2 != ideTbOrder ) {
+            if ( but.idTb2 == ideTbOrder ) {
+                orderTbar.show();
+                configTbar.hide();
+                tbar2.hide();
+                
+            } else if ( but.idTb2 == ideTbConfig ) {
+                configTbar.show();
+                orderTbar.hide();
+                tbar2.hide();
+            } else {
                 Ext.each(tbar2.query('buttongroup'), function(button) {
                     button.hide();
                 }, this);
                 
                 var tb2 = Ext.getCmp(but.idTb2);
                 tb2.show();
-                
-                orderTbar.hide();
                 tbar2.show();
-                
-            } else {
-                orderTbar.show();
-                tbar2.hide();
+                configTbar.hide();
+                orderTbar.hide();
             }             
         } 
 
@@ -257,6 +262,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         // var orderTbar = Ext.getCmp( ideTbOrder );
         var orderTbar = Ext.create('Ext.toolbar.Toolbar', {
             id : ideTbOrder, 
+	        padding: '5 5 5 5',
             items  : [{
                 iconCls : 'sort', 
                 xtype: 'tbtext',
@@ -298,6 +304,116 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         configureOrderTab(); 
         // orderTbar.doLayout()
 
+
+// ------------------------------------------------------------------------------------------------
+
+		var autoSync = true; 
+		var inEdition = false; 
+
+        var configTbar = Ext.create('Ext.toolbar.Toolbar', {
+            id : ideTbConfig, 
+       		// margins:'5 5 5 5',
+            padding: '5 5 5 5',
+            items  : [{
+	            xtype   : 'tbtext',
+	            text: '<b>Config :<b>'
+	        }, {
+	            iconCls : 'icon-tableSheet', 
+	            text:       'Fiche',
+	            handler:    onClickTableSheet
+	        }, {
+	            iconCls : 'icon-tableAdd', 
+	            text:       'Add',
+	            handler:    onClickTableAdd
+	        }, {
+	            iconCls : 'icon-tableUpdate', 
+	            text:       'Edit',
+	            handler:    onClickTableUpdate
+	        }, {
+	            iconCls : 'icon-tableDuplicate', 
+	            text:       'Duplicate',
+	            handler:    onClickTableDuplicate
+	        }, {
+	            iconCls : 'icon-tableDelete', 
+	            text:       'Delete',
+	            handler:    onClickTableDelete
+	        },  { 
+	        	xtype: 'tbfill', 
+	        }, {
+	            iconCls : 'icon-tableSave', 
+	            itemId:     'save',
+	            text:       'Save',
+	            handler:    onClickTableSave,
+	            disabled: 	! (inEdition )  
+	       	}, { 
+	            iconCls : 'icon-tableAutoSync', 
+	            text:       'AutoSync',
+                toggleHandler: onClickTableAutoSync,
+	            enableToggle: true, 
+	            pressed:	autoSync  
+	        }, {
+	            iconCls : 'icon-tableCancel', 
+	            itemId:     'cancel',
+	            text:       'Cancel',
+	            handler:    onClickTableCancel,
+	            disabled: 	! (inEdition )  
+            }],  
+            hidden : true
+        });
+
+        function onClickTableAutoSync( btn, pressed ){
+			autoSync = pressed ; 			
+
+			// configTbar.getComponent('save').setDisabled( autoSync );
+			// btn.ownerCt.getComponent('cancel').setDisabled( autoSync ); 
+
+        }; 
+
+        function onClickTableSheet( btn ){
+
+        	var form = Ext.widget('protoform', {
+            	myMeta : myMeta  
+            });  
+
+            var win = Ext.widget('window', {
+            	constrain: true, 
+                title: 'Contact Us',
+                closeAction: 'hide',
+                // width: 600,
+                // height: 800,
+                // minHeight: 400,
+                // minWidth: 400,
+                layout: 'fit',
+                resizable: true,
+                modal: true,
+                items: form
+            });
+
+	        win.show();
+        	
+        }; 
+
+        function onClickTableAdd( btn ){
+			console.log( btn.text ) 
+        }; 
+        
+        function onClickTableCancel( btn ){
+			console.log( btn.text ) 
+        }; 
+        function onClickTableDelete( btn ){
+			console.log( btn.text ) 
+        }; 
+        function onClickTableDuplicate( btn ){
+			console.log( btn.text ) 
+        }; 
+        function onClickTableSave( btn ){
+			console.log( btn.text ) 
+        }; 
+        function onClickTableUpdate( btn ){
+			console.log( btn.text ) 
+        }; 
+
+
 // ----------------------------------------------------------------------------------
 
         Ext.apply(this, {
@@ -307,7 +423,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 align: 'stretchmax'
             },
             dockedItems: [
-                tbar1,  orderTbar, tbar2 
+                tbar1,  orderTbar, configTbar, tbar2 
             ]
         });
         // panel.add(tool1);  ...
@@ -477,103 +593,33 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         }, {
             iconCls : 'icon-printGrid', 
             text:       'Grille',
-            handler:    onClickConfigGrid
+            handler:    onClickPrintGrid
         }); 
 
         if ( __MasterDetail.protoMasterGrid.IdeSheet != undefined ) {
-            tbConfig.add({
+            tbPrint.add({
                 iconCls : 'icon-printSheet', 
                 text:       'Fiche',
-                handler:    onClickConfigSheet
+                handler:    onClickPrintSheet
                 }
             );
         };
 
-        function onClickConfigGrid( btn ){
+        function onClickPrintGrid( btn ){
     
-            var prn = ProtoUL.ux.Configer
-            prn.gridConfig( __MasterDetail.protoMasterGrid._extGrid )
+            var prn = ProtoUL.ux.Printer
+            prn.gridPrint( __MasterDetail.protoMasterGrid._extGrid )
             
         };
 
-        function onClickConfigSheet( btn ){
+        function onClickPrintSheet( btn ){
     
-            var prn = ProtoUL.ux.Configer ;
+            var prn = ProtoUL.ux.Printer ;
             var pGrid = __MasterDetail.protoMasterGrid ;
-            prn.sheetConfig( pGrid._extGrid, pGrid.sheetHtml  )
+            prn.sheetPrint( pGrid._extGrid, pGrid.sheetHtml  )
             
         }
 
-
-// ------------------------------------------------------------------------------------------------
-
-
-        var tbConfig = Ext.getCmp( ideTbConfig )
-        tbConfig.add({
-            xtype   : 'tbtext',
-            text: '<b>Config :<b>'
-        }, {
-            iconCls : 'icon-tableSheet', 
-            text:       'Fiche',
-            handler:    onClickTableSheet
-        }, {
-            iconCls : 'icon-tableSave', 
-            text:       'Save',
-            handler:    onClickTableSave
-        }, {
-            iconCls : 'icon-tableCancel', 
-            text:       'Cancel',
-            handler:    onClickTableCancel
-        }, {
-            iconCls : 'icon-tableAdd', 
-            text:       'Add',
-            handler:    onClickTableAdd
-        }, {
-            iconCls : 'icon-tableUpdate', 
-            text:       'Edit',
-            handler:    onClickTableUpdate
-        }, {
-            iconCls : 'icon-tableDuplicate', 
-            text:       'Duplicate',
-            handler:    onClickTableDuplicate
-        }, {
-            iconCls : 'icon-tableDelete', 
-            text:       'Delete',
-            handler:    onClickTableDelete
-        },  { 
-        	xtype: 'tbspacer', 
-        	flex : 1
-       	}, { 
-            iconCls : 'icon-tableAutoSync', 
-            text:       'AutoSync',
-            handler:    onClickTableAutoSync
-        }); 
-
-
-        function onClickTableAdd( btn ){
-			console.log( btn.text ) 
-        }; 
-        function onClickTableAutoSync( btn ){
-			console.log( btn.text ) 
-        }; 
-        function onClickTableCancel( btn ){
-			console.log( btn.text ) 
-        }; 
-        function onClickTableDelete( btn ){
-			console.log( btn.text ) 
-        }; 
-        function onClickTableDuplicate( btn ){
-			console.log( btn.text ) 
-        }; 
-        function onClickTableSave( btn ){
-			console.log( btn.text ) 
-        }; 
-        function onClickTableSheet( btn ){
-			console.log( btn.text ) 
-        }; 
-        function onClickTableUpdate( btn ){
-			console.log( btn.text ) 
-        }; 
 
 // ------------------------------------------------------------------------------------------------
 

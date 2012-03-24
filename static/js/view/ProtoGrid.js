@@ -7,7 +7,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     extend: 'Ext.container.Container',
     // extend: 'Ext.grid.Panel',
     alias : 'widget.protoGrid',
-    //requires: ['Ext.toolbar.Paging'],
+    requires: [
+        'Ext.selection.CheckboxModel'
+    ],
     // iconCls: 'icon-grid',
 
     initComponent: function() {
@@ -74,8 +76,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         var myColumns = [];
 
         // DGT adding RowNumberer  
-        // myColumns.push(Ext.create('Ext.grid.RowNumberer',{"width":37 }));
-
+        myColumns.push(Ext.create('Ext.grid.RowNumberer',{"width":37, "draggable":false }));
 
         // DGT** Creacion de columnas  
         for (var ix in myMeta.fields ) {
@@ -105,6 +106,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         this.myColumns = myColumns; 
         var gridColumns =  myColumns;
+        // [{"xtype":"rownumberer","width":30},{"text":"ID","sortable":true,"dataIndex":"id","hidden":true},{"text":"First Name","sortable":true,"dataIndex":"first","editor":{"xtype":"textfield"}},{"text":"Last Name","sortable":true,"dataIndex":"last","editor":{"xtype":null}},{"text":"Email","sortable":true,"dataIndex":"email","editor":{"xtype":"textfield"}}];
         
         // Vista por defecto 
         var pViews = myMeta.protoViews;
@@ -114,8 +116,18 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             } catch(e) {}
         }; 
         
-        // myColumns = [{"xtype":"rownumberer","width":30},{"text":"ID","sortable":true,"dataIndex":"id","hidden":true},{"text":"First Name","sortable":true,"dataIndex":"first","editor":{"xtype":"textfield"}},{"text":"Last Name","sortable":true,"dataIndex":"last","editor":{"xtype":null}},{"text":"Email","sortable":true,"dataIndex":"email","editor":{"xtype":"textfield"}}]; 
+        
+        var selModel = Ext.create('Ext.selection.CheckboxModel', {
+            // listeners: {
+                // selectionchange: function(sm, selections) {
+                    // grid4.down('#removeButton').setDisabled(selections.length == 0);
+                // }
+            // }
+        });
+         
         var grid = Ext.create('Ext.grid.Panel', {
+  			plugins: ['headertooltip'],
+            // selModel: selModel,
             columns : gridColumns,   
             store : this.store,  
             stripeRows: true, 
@@ -333,7 +345,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     getViewColumns: function (  viewCols  ) {
         
         vColumns = [];
-        // vColumns.push(Ext.create('Ext.grid.RowNumberer',{"width":37 }));
+        vColumns.push(Ext.create('Ext.grid.RowNumberer',{"width":37 }));
         
         for (var ixV in viewCols  ) {
             var vCol  =  viewCols[ixV];
