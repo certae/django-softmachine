@@ -259,6 +259,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         }
 
 
+
         // var orderTbar = Ext.getCmp( ideTbOrder );
         var orderTbar = Ext.create('Ext.toolbar.Toolbar', {
             id : ideTbOrder, 
@@ -377,7 +378,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
             var win = Ext.widget('window', {
             	constrain: true, 
-                title: 'Contact Us',
+				title : myMeta.description,
                 closeAction: 'hide',
                 // width: 600,
                 // height: 800,

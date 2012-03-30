@@ -57,6 +57,7 @@ def protoGetPCI(request):
 #       pRows = model.objects.filter(pk = 0)
         base_fields = grid.get_fields( None )
         protoDetails = grid.get_details()
+        protoFieldSet = grid.getFieldSets()
         
         protoSheets = grid.protoAdmin.get( 'protoSheets', {})
         protoSheetSelector = grid.protoAdmin.get( 'protoSheetSelector', '')
@@ -121,6 +122,7 @@ def protoGetPCI(request):
                  'initialFilter': initialFilter,
                  'protoViews':protoViews ,     
                  'protoFilters': protoFilters,
+                 'protoFieldSet': protoFieldSet, 
                  },
             'rows':[],
             'totalCount': 0, 

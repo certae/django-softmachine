@@ -78,7 +78,48 @@ class ProtoGridFactory(object):
             
         #Recorta la primera ','       
         self.storeFields = self.storeFields[1:]
-        
+
+
+# ---------------------------------------------
+    def getFieldSets(self):
+
+        prFieldSet = self.protoAdmin.get( 'protoFieldSet', []) 
+
+        # Si no han sido definido genera por defecto  
+        if (len( prFieldSet )  == 0 ):
+
+            # Toma la lista del field set si no existe lo crea de base, 
+            baseFieldSet = verifyList( getattr(self.model_admin , 'fieldsets', []))
+            
+            
+            if (len( baseFieldSet )  == 0 ):        
+                # Genera la lista de campos y agrega el nombre al diccionario
+#                prSection = { 'style' : 'Section', 'frame': True, 'autoScroll': True, 'fields' : [] }
+                prSection = { 'style' : 'Section', 'autoScroll': True, 'fields' : [] }
+                
+                for key in self.protoFields:        
+                    prSection['fields'].append(key)
+
+                prFieldSet.append ( prSection )
+            
+            # si existe un fieldset convierte la estructura                      
+            else: 
+                for name, opts in baseFieldSet:
+#                    prSection = { 'style' : 'Section', 'frame': True, 'autoScroll': True, 'fields' : [] }
+                    prSection = { 'style' : 'Section', 'autoScroll': True, 'fields' : [] }
+                    
+                    if ( name != None ): prSection.title = name  
+                    for field in opts['fields']:
+#                        if type(field) == tuple:
+                        prSection['fields'].append(field)
+
+                    classes = getattr( opts, 'classes', [] )
+                    if ( 'collapse' in classes ): prSection['collapsible'] = True 
+
+                    prFieldSet.append( prSection )
+            
+        return prFieldSet 
+            
     
     def get_fields(self, colModel):  
         """ return this grid field list
@@ -236,4 +277,7 @@ def getVisibleFields(  storeFields, model ):
     #Recorta la primera ','       
     return lFields[1:].split(',')
 
+    
+
+    
     
