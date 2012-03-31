@@ -39,7 +39,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 	        autoScroll : true,
 	        // bodyPadding: 10,
 	        xtype : 'container',
-	        layout : 'anchor',
+	        layout : 'fit',
 	        defaults : {
 	            anchor : '100%'
 	        },
@@ -123,17 +123,21 @@ Ext.define('ProtoUL.view.ProtoForm', {
 			msgTarget : 'side'
 		};
 
-		// DGT traer la definicion del campo getFld
+
+
+		if( typeof (prVar) == 'string') {
+
+			var vFld = this.getProtoField ( this.myMeta, prVar )
+
+			prFld.name = prVar;
+			prFld.fieldLabel = prVar;
+			// prFld.labelWidth = vFld.label 
 
 		// labelStyle: 'font-weight:bold;padding:0',
 		// labelAlign: 'top'
 		// hideLabel: true
 		// margins: '0 10 0 0'
-
-		if( typeof (prVar) == 'string') {
-			prFld.name = prVar;
-			prFld.fieldLabel = prVar;
-			prFld.labelWidth = _labelWidth;
+			
 
 		} else if(typeOf(prVar) == 'object') {
 			prFld.name = prVar.name;
