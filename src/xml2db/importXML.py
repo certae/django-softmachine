@@ -139,7 +139,7 @@ class importXML():
         
         fdsProperty = ( 'code', 'category', 'description',  'baseType', 'defaultValue', 'superProperty', 'alias', 'physicalName')
         booProperty = ( 'isNullable', 'isRequired', 'isSensitive', 'isEssential', 'isUnique', 'isForeign')
-        intProperty = ( 'length', 'decLength', 'conceptPosition', )
+        intProperty = ( 'prpLength', 'conceptPosition', )
         
         fdsForeign= ( 'code', 'category', 'description', 'baseMin', 'baseMax', 'refMin', 'refMax', 'superProperty', 'baseConcept', 'alias', 'physicalName')
 

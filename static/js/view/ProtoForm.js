@@ -130,9 +130,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
 			var vFld = this.getProtoField ( this.myMeta, prVar )
 
 			prFld.name = prVar;
-			prFld.fieldLabel = prVar;
-			// prFld.labelWidth = vFld.label 
-
+			prFld.fieldLabel = vFld.fldLabel || prVar ;
+			
 		// labelStyle: 'font-weight:bold;padding:0',
 		// labelAlign: 'top'
 		// hideLabel: true
@@ -140,8 +139,11 @@ Ext.define('ProtoUL.view.ProtoForm', {
 			
 
 		} else if(typeOf(prVar) == 'object') {
+
+			var vFld = this.getProtoField ( this.myMeta, prVar.name )
+
 			prFld.name = prVar.name;
-			prFld.fieldLabel = prVar.name;
+			prFld.fieldLabel = prVar.fldLabel || vFld.fldLabel ;
 			prFld.labelWidth = _labelWidth;
 
 			if(prVar.width)
@@ -185,6 +187,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 		return prFld;
 	},
 	getProtoField : function(myMeta, fldName) {
+		
 		// Construye un dictionario y retorna el campo solicitado
 		var dict = {}
 		if(!myMeta.dict) {
@@ -195,6 +198,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
 			myMeta.dict = dict
 		} else
 			dict = myMeta.dict
+		
+		if ( ! dict[fldName] ) dict[fldName] = {} 	
 		return dict[fldName]
 	},
 	defineProtoFormItem : function(parent, prSection) {

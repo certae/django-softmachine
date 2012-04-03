@@ -110,8 +110,7 @@ class Concept(MetaObj):
 
 class Property(MetaObj):
     baseType = models.CharField(verbose_name=u'Type de Base', blank = True, null = True, max_length=50)
-    length = models.IntegerField(blank = True, null = True)
-    decLength = models.IntegerField(blank = True, null = True)
+    prpLength = models.DecimalField(blank = True, null = True, decimal_places =2 ,max_digits = 6)
 
     isNullable = models.BooleanField()
     isRequired = models.BooleanField()
@@ -275,7 +274,7 @@ class MetaLink(models.Model):
 #
 #fdsProperty = ( 'concept', 'code', 'category', 'description',  'baseType', 'defaultValue', 'superProperty', 'alias', 'physicalName')
 #booProperty = ( 'isNullable', 'isRequired', 'isSensitive', 'isEssential', 'isUnique', 'isForeign')
-#intProperty = ( 'length', 'decLength', 'conceptPosition', )
+#decProperty = ( 'prplength', 'conceptPosition', )
 #
 #fdsForeign= ( 'code', 'category', 'description', 'baseMin', 'baseMax', 'refMin', 'refMax', 'superProperty', 'baseConcept', 'alias', 'physicalName')
 #

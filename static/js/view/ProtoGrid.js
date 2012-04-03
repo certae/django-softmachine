@@ -5,10 +5,10 @@
  */
 Ext.define('ProtoUL.view.ProtoGrid' ,{
     extend: 'Ext.container.Container',
-    // extend: 'Ext.grid.Panel',
     alias : 'widget.protoGrid',
     requires: [
-        'Ext.selection.CheckboxModel'
+        'Ext.selection.CheckboxModel', 
+        'Ext.toolbar.TextItem',
     ],
     // iconCls: 'icon-grid',
 
@@ -118,11 +118,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         
         var selModel = Ext.create('Ext.selection.CheckboxModel', {
-            // listeners: {
-                // selectionchange: function(sm, selections) {
-                    // grid4.down('#removeButton').setDisabled(selections.length == 0);
-                // }
-            // }
+            // listeners: { selectionchange: function(sm, selections) {} }
         });
          
         var grid = Ext.create('Ext.grid.Panel', {
@@ -132,10 +128,13 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             store : this.store,  
             stripeRows: true, 
             
-//            listeners: {
-//                scope: this,
-//                itemClick: this.onItemClick
-//            }
+            listeners: {
+                scope: this,
+                selectionchange: function(selModel, selected) {
+                	this.selected = selected[0] || null;
+                    // grid4.down('#removeButton').setDisabled(selections.length == 0);
+                 }
+            }
             
         }); 
 
@@ -245,7 +244,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 //------        
         this.addEvents(
-            'rowClick', 'promoteDetail'
+            'rowClick', 'promoteDetail', 'selectionChange'
         );
 
         
@@ -253,7 +252,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         //  Datos en el Store this.store.getAt(index)
         // var data = grid_company.getSelectionModel().selected.items[0].data;
-        // grid_product.setTitle(data.name + ' Products List');
         
         grid.on({
             itemClick: {fn: function (g, rowIndex, e) {
@@ -263,6 +261,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 prepareSheet();
 
             	}, scope: this }
+            	
         });                 
 
 
@@ -397,6 +396,3 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     
     
 });
-
-
-

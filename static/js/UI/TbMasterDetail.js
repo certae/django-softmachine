@@ -180,7 +180,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
     	}); 
         
         var comboOp = new Ext.form.ComboBox({
-//            emptyText: _ComboFilterOp[1][1] ,
             emptyText: 'sélectionner opérator' ,
             store: opStore,
             width: 150,
@@ -372,26 +371,38 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         function onClickTableSheet( btn ){
 
+			// Obtener los datos de la grilla 
+			if ( ! __MasterDetail.protoMasterGrid.selected  ) {
+				alert ( 'No hay ningun registro seleccionado');
+				return ;
+			}
+
         	var form = Ext.widget('protoform', {
             	myMeta : myMeta  
             });  
+
 
             var win = Ext.widget('window', {
             	constrain: true, 
 				title : myMeta.description,
                 closeAction: 'hide',
-                // width: 600,
-                // height: 800,
-                // minHeight: 400,
-                // minWidth: 400,
+                width: 600,
+                height: 400,
+                minHeight: 400,
+                minWidth: 400,
                 layout: 'fit',
                 resizable: true,
                 modal: true,
                 items: form
             });
 
+			form.setActiveRecord( __MasterDetail.protoMasterGrid.selected  );
 	        win.show();
         	
+        }; 
+
+        function onClickTableUpdate( btn ){
+			console.log( btn.text ) 
         }; 
 
         function onClickTableAdd( btn ){
@@ -408,9 +419,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 			console.log( btn.text ) 
         }; 
         function onClickTableSave( btn ){
-			console.log( btn.text ) 
-        }; 
-        function onClickTableUpdate( btn ){
 			console.log( btn.text ) 
         }; 
 

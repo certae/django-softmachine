@@ -5,6 +5,15 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     verbose_name_plural = 'Éléments de données' 
     list_display =( 'code',  'description' )
     search_fields = ( 'code', 'category' )
+
+#    fieldsets = (
+#        (None, {
+#            'fields': ('code', 'category',  'description' )
+#        }),
+#        ('UDP', {
+#            'fields': ('udp__DOCUMENTDEREFERENCE', 'udp__GABARIT', 'udp__DOMAINEDEVALEURS' )
+#        }),
+#    )
     
     protoExt = {'protoIcon': 'property' }
     protoExt[ 'title' ] = 'Éléments de données'
@@ -38,27 +47,27 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
          
 #       'concept__code': {'header' : 'Concept', 'type': 'CharField' , 'minWidth': 200, 'flex': 1  },  
         'description': { 'storeOnly': True },
-        'isNullable':{},
-        'alias':{},
-        'baseType' : {}, 
-        'length' : {}, 
-        'udp__DOCUMENTDEREFERENCE' :{},
-        'udp__GABARIT': {  },
-        'udp__DEFINITION': {  },
-        'udp__PRECISIONS': {  },
-        'udp__VALIDATION': {  },
-        'udp__VALIDATIONSSURELEMENT': {  },
-        'udp__VALIDATIONSINTERELEMENT': {  },
-        'udp__VALIDATION_INTER-ENREGISTREMENT': {  },
-        'udp__SOURCEDEDONNEESEXTERNES': {  },
-        'udp__ELEMENTTRANSFORME': {  },
-        'udp__ELEMENTTRANSMIS': {  },
-        'udp__DOMAINEDEVALEURS': {  },
-        'udp__ENTREEENVIGUEUR': {  },
-        'udp__DATEDERNIREMODIFICATION': {  },
-        'udp__REQUISPAR': {  },
-        'udp__TRANSMISSION': {  },
-        'udp__DESCRIPTIONCN': {  }
+        'isNullable':{ 'fieldLabel' : 'Is null' },
+        'alias':{ 'fieldLabel' : 'Alias' },
+        'baseType' : { 'fieldLabel' : 'Type' }, 
+        'prpLength' : { 'fieldLabel' : 'Length' }, 
+        'udp__DOCUMENTDEREFERENCE' :{ 'fieldLabel' : 'Doc Reference'},
+        'udp__GABARIT': { 'fieldLabel' : 'Gabarit'  },
+        'udp__DEFINITION': { 'fieldLabel' : 'Definition'  },
+        'udp__PRECISIONS': { 'fieldLabel' : 'Precision' },
+        'udp__VALIDATION': { 'fieldLabel' : 'Validation'  },
+        'udp__VALIDATIONSSURELEMENT': { 'fieldLabel' : 'Validation Elto'  },
+        'udp__VALIDATIONSINTERELEMENT': { 'fieldLabel' : 'Validation Reg'   },
+        'udp__VALIDATION_INTER-ENREGISTREMENT': { 'fieldLabel' : 'Validation Entt'   },
+        'udp__SOURCEDEDONNEESEXTERNES': { 'fieldLabel' : 'Source Donnes'  },
+        'udp__ELEMENTTRANSFORME': { 'fieldLabel' : 'Elto transforme'  },
+        'udp__ELEMENTTRANSMIS': { 'fieldLabel' : 'Elto Transmis'  },
+        'udp__DOMAINEDEVALEURS': { 'fieldLabel' : 'Domain Valuers' },
+        'udp__ENTREEENVIGUEUR': { 'fieldLabel' : 'Entree en viguer'  },
+        'udp__DATEDERNIREMODIFICATION': { 'fieldLabel' : 'Dt derniere modif'  },
+        'udp__REQUISPAR': { 'fieldLabel' : 'Rquis par'  },
+        'udp__TRANSMISSION': { 'fieldLabel' : 'Transmission'  },
+        'udp__DESCRIPTIONCN': { 'fieldLabel' : 'Description CN'  }
      }
 
 #    Al momento de cargar la finca verifico el campo @criteriaField@ y lo busco en las diferentes fichas, 
@@ -70,7 +79,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                             'isNullable',
                             'alias',
                             'baseType',
-                            'length',
+                            'prpLength',
                             'description', 
                             'udp__DOCUMENTDEREFERENCE',
                             'udp__GABARIT',
@@ -98,7 +107,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     TEMPLATE += '<tr class="azul"><td class="negro"> Document de référence: </td><td class="desc">{{udp__DOCUMENTDEREFERENCE}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Numéro de l\'élément de donnée au CN: </td><td class="desc">{{alias}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Type de donnée: </td><td class="desc">{{baseType}}</td></tr>'
-    TEMPLATE += '<tr class="blanco"><td class="negro">Longueur: </td><td class="desc">{{length}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Longueur: </td><td class="desc">{{prpLength}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Gabarit: </td><td class="desc">{{udp__GABARIT}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Définition: </td><td class="desc">{{udp__DEFINITION}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Description: </td><td class="desc">{{udp__DESCRIPTIONCN}}</td></tr>'
@@ -129,7 +138,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     
     TEMPLATE += '<tr class="azul"><td class="negro">Alias: </td><td class="desc">{{alias}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Type de donnée: </td><td class="desc">{{baseType}}</td></tr>'
-    TEMPLATE += '<tr class="azul"><td class="negro">Longueur: </td><td class="desc">{{length}}</td></tr>'
+    TEMPLATE += '<tr class="azul"><td class="negro">Longueur: </td><td class="desc">{{prpLength}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Valeur nulle possible (oui,non)</td><td class="desc">{{isNullable}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Gabarit: </td><td class="desc">{{udp__GABARIT}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Domaine de valeurs: </td><td class="desc">{{udp__DOMAINEDEVALEURS}}</td></tr>'
@@ -173,3 +182,43 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                   'filter': {}, 
                   }
         ) 
+
+    protoExt['protoFieldSet'] = [{
+          "style" : 'VBox',
+        "items": [ 
+              {"title" : 'Basicas ',
+                   "style" : 'Section',
+                    "collapsible" : False,
+                    "items" : [ "code", "baseType", "isNullable"]
+                    },
+              {"title" : 'Udpa ',
+                   "style" : 'Section',
+                    "collapsible" : True,
+                    "items" : [ 
+                        "alias",
+                        "concept__model__category",
+                        "concept__model__code",
+                        "description",
+                        "prpLength",
+                        "udp__DATEDERNIREMODIFICATION",
+                        "udp__DESCRIPTIONCN",
+                        "udp__DOCUMENTDEREFERENCE",
+                        "udp__DOMAINEDEVALEURS",
+                        "udp__ELEMENTTRANSMIS",
+                        "udp__ENTREEENVIGUEUR",
+                        "udp__GABARIT",
+                        "udp__PRECISIONS",
+                        "udp__REQUISPAR",
+                        "udp__SOURCEDEDONNEESEXTERNES",
+                        "udp__TRANSMISSION",
+                        "udp__VALIDATION",
+                        "udp__VALIDATION_INTER-ENREGISTREMENT",
+                        "udp__VALIDATIONSINTERELEMENT",
+                        "udp__VALIDATIONSSURELEMENT",
+                        "udp__DEFINITION",
+                        "udp__ELEMENTTRANSFORME",
+                    ]
+                    }
+                  ]
+                                  }] 
+                    

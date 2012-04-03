@@ -23,7 +23,7 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': [('code', 'description', 'superConcept', 'model')]
+            'fields': ('code', 'description', 'superConcept', 'model')
         }),
     )
     inlines = [
