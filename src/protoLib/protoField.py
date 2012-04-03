@@ -49,24 +49,22 @@ def setFieldDict(protoFields ,  field ):
         pField['xtype'] = 'numbercolumn '
         pField['renderer'] = 'function(v) {return (v.toFixed && v.toFixed(2) || 0);}'
         #pField['editor'] = 'new Ext.form.NumberField()'
-
-#    elif  field.__class__.__name__ == 'CharField':
-#        pField['xtype'] = '??'
         
     elif  field.__class__.__name__ == 'ForeignKey':
         # Dafine la columna __unicode__ de la tabla padre, con el header definido y ocultar la columna de la llave 
-        pField['name'] = field.name  + _PROTOFN_ + '__unicode__'
+        pField['xtype'] = 'protoZoom '
+        pField['fkName'] = field.name  + _PROTOFN_ + '__unicode__'      # Funcion unicode de retorno 
+        pField['fkId'] = field.name + '_id'                             # Campo q contiene el ID 
         
         # Agrega la referencia al ID 
         fKey = { 
              'name':    field.name + '_id', 
-             'header':  field.name + ' Id',
-             'xtype':  'numbercolumn',
-             'hidden':  True, 
+             'fkField':    field.name ,                                 # Campo de base a mostrar 
+             'xtype':  'protoId',                                       # pseudo type ( hidden = true, etc.... ) 
              }
         protoFields[fKey['name']] = fKey 
 
-#    La llave si agrega automatica, si se especifico, el usuario decide q hacer con ella 
+#    La llave se agrega automatica, si se especifico, el usuario decide q hacer con ella 
 #    if field.name == model._meta.pk.name:
 #        pField['hidden']= True
 

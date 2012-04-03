@@ -3,7 +3,7 @@ import django.contrib.admin
 
 class PropertyAdmin(django.contrib.admin.ModelAdmin):
     verbose_name_plural = 'Éléments de données' 
-    list_display =( 'code',  'description' )
+    list_display =( 'code',  'description' , 'concept')
     search_fields = ( 'code', 'category' )
 
 #    fieldsets = (
@@ -41,13 +41,14 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
          }
 
     protoExt[ 'protoFields' ] =  {        
-        'code': {'header' : 'Éléments de données', 'type': 'CharField' ,  'minWidth': 200, 'flex': 1 },
-        'concept__model__code': {'header' : 'Vue', 'type': 'CharField' , 'minWidth': 200 , 'flex': 1 },  
-        'concept__model__category' : {},                             
-         
-#       'concept__code': {'header' : 'Concept', 'type': 'CharField' , 'minWidth': 200, 'flex': 1  },  
-        'description': { 'storeOnly': True },
+        'code': {'header' : 'Éléments de données', 'type': 'CharField' ,  'minWidth': 200, 'flex': 1, 'fieldLabel' : 'Property' },
+        'concept__code': { 'storeOnly': True ,'header' : 'Concept', 'type': 'CharField' , 'minWidth': 200, 'flex': 1 , 'fieldLabel' : 'Entity' },
+        'concept__model__code': {'header' : 'Vue', 'type': 'CharField' , 'minWidth': 200 , 'flex': 1, 'fieldLabel' : 'Vue' },  
+        'concept__model__category' : { 'fieldLabel' : 'Category' },                             
+          
+        'description': { 'storeOnly': True , 'fieldLabel' : 'Description'},
         'isNullable':{ 'fieldLabel' : 'Is null' },
+        'isRequired':{ 'fieldLabel' : 'Is Required' },
         'alias':{ 'fieldLabel' : 'Alias' },
         'baseType' : { 'fieldLabel' : 'Type' }, 
         'prpLength' : { 'fieldLabel' : 'Length' }, 
@@ -64,7 +65,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         'udp__ELEMENTTRANSMIS': { 'fieldLabel' : 'Elto Transmis'  },
         'udp__DOMAINEDEVALEURS': { 'fieldLabel' : 'Domain Valuers' },
         'udp__ENTREEENVIGUEUR': { 'fieldLabel' : 'Entree en viguer'  },
-        'udp__DATEDERNIREMODIFICATION': { 'fieldLabel' : 'Dt derniere modif'  },
+        'udp__DATEDERNIREMODIFICATION': { 'fieldLabel' : 'Dt derniere modif' , 'xtype' : 'datecolumn' },
         'udp__REQUISPAR': { 'fieldLabel' : 'Rquis par'  },
         'udp__TRANSMISSION': { 'fieldLabel' : 'Transmission'  },
         'udp__DESCRIPTIONCN': { 'fieldLabel' : 'Description CN'  }
@@ -185,21 +186,31 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
 
     protoExt['protoFieldSet'] = [{
           "style" : 'VBox',
-        "items": [ 
+          "labelWidth" : 200,
+          "items": [ 
               {"title" : 'Basicas ',
                    "style" : 'Section',
                     "collapsible" : False,
-                    "items" : [ "code", "baseType", "isNullable"]
-                    },
-              {"title" : 'Udpa ',
+                    "fields" : [
+                                 "code", 
+                                 ( "baseType", "isNullable", ) , 
+                                 ( "alias", "prpLength"), 
+                                 "description",
+                        ]
+               },
+              {"title" : 'Hierarchie ',
                    "style" : 'Section',
                     "collapsible" : True,
-                    "items" : [ 
-                        "alias",
-                        "concept__model__category",
-                        "concept__model__code",
-                        "description",
-                        "prpLength",
+                    "fields" : [ 
+                                "concept__code", 
+                                "concept__model__code", 
+                                "concept__model__category" , 
+                        ]
+                    },
+              {"title" : 'Udps ',
+                   "style" : 'Section',
+                    "collapsible" : True,
+                    "fields" : [ 
                         "udp__DATEDERNIREMODIFICATION",
                         "udp__DESCRIPTIONCN",
                         "udp__DOCUMENTDEREFERENCE",

@@ -15,11 +15,8 @@ class ProtoGridFactory(object):
 
     def __init__(self, model):
             
-        self.model = model          # the model to use as reference
-        self.fields = []            # holds the extjs fields
-        
-
-
+        self.model = model              # the model to use as reference
+        self.fields = []                # holds the extjs fields
         self.storeFields = ''           # holds the Query Fields 
 
         # Obtiene el nombre de la entidad 
@@ -68,10 +65,16 @@ class ProtoGridFactory(object):
 
         # Genera la lista de campos y agrega el nombre al diccionario 
         for key in self.protoFields:        
-
             fdict = self.protoFields[ key ]
             if (fdict.get( 'name', '') == '') : fdict[ 'name' ] = key  
-#           if (fdict.get( 'header', '') == '') : fdict[ 'header' ] = key  
+
+            # Repasa las propiedades de base
+            if ((fdict.get( 'type', '') == '' ) and not ( key.startswith( 'udp__') )):
+                try: 
+                    field = self.model._meta.get_field( key )
+                    setFieldDict ( self.protoFields , field )
+                    fdict = self.protoFields[ key ]
+                except: pass 
 
             self.fields.append(fdict)
             self.storeFields +=  ',' + fdict['name'] 

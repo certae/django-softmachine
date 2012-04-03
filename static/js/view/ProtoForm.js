@@ -130,7 +130,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 			var vFld = this.getProtoField ( this.myMeta, prVar )
 
 			prFld.name = prVar;
-			prFld.fieldLabel = vFld.fldLabel || prVar ;
+			prFld.fieldLabel = vFld.fieldLabel || prVar ;
 			
 		// labelStyle: 'font-weight:bold;padding:0',
 		// labelAlign: 'top'
