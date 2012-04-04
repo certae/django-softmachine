@@ -41,9 +41,12 @@ function DefineProtoModel ( myMeta , modelClassName ){
             name: vFld.name,
             type: 'string' 
         };
+
+		// DGT:  traer esto directamente del modelo 
         editor = {
             allowBlank: false,
-            readOnly: false
+            readOnly: false, 
+            fieldLabel:  vFld.fieldLabel || vFld.header || vFld.name 
 		}; 
 		
 		// Determina el xType y otros parametros 
@@ -59,6 +62,7 @@ function DefineProtoModel ( myMeta , modelClassName ){
 		case 'text':
 			editor.xtype = 'htmleditor'
 			editor.height = 200
+			editor.msgTarget = 'top'
 		  	break;
 
 		case 'string':
@@ -167,12 +171,9 @@ function DefineProtoModel ( myMeta , modelClassName ){
 			mField.type = 'bool';
 			vFld['xtype'] = 'checkcolumn'      
 
-			// vFld['xtype'] = 'booleancolumn'      
-			// vFld['trueText'] = 'Yes'      
-			// vFld['falseText'] = 'No'      
-		            
             editor.xtype = 'checkbox'
             editor.cls = 'x-grid-checkheader-editor'
+		  	break;
 		  	
 		case 'choise':
 			// mField.type = 'string';	        
@@ -187,19 +188,6 @@ function DefineProtoModel ( myMeta , modelClassName ){
             editor.listClass = 'x-combo-list-small'
 		  	break;
 
-		case 'zoom':
-			// mField.type = 'string';	        
-	        // vFld['xtype'] = 'textcolumn'
-		
-            editor.xtype = 'combobox'
-            editor.typeAhead = true
-            editor.triggerAction = 'all'
-            editor.selectOnTab = true
-            editor.store = vFld.choises
-            editor.lazyRender = true
-            editor.listClass = 'x-combo-list-small'
-		  	break;
-		
 		case 'foreigntext': 
             editor.xtype = 'protoZoom'
 		  	break;
@@ -262,9 +250,14 @@ function typeOf(value) {
 }
 
 
-// =====================================================
-
-
-
+function copyProps(oBase, oRef, overWrite )
+{
+	for(var i in oRef)
+	{
+		if (  overWrite ||  ! oBase[i]  ) 
+			oBase[i] = oRef[i];
+	}
+	return oBase;
+}
 
 

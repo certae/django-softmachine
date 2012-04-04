@@ -130,25 +130,26 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
 			var vFld = this.getProtoField ( this.myMeta, prVar )
 
+			prFld = vFld.editor; 
+			if ( ! prFld ) prFld = {}
 			prFld.name = prVar;
-			prFld.fieldLabel = vFld.fieldLabel || prVar ;
 
 		} else if(typeOf(prVar) == 'object') {
 
-			var vFld = this.getProtoField ( this.myMeta, prVar.name )
+			if ( !prVar.name ) {
+				console.log( prVar ) 
+			}
 
-			prFld.name = prVar.name;
-			prFld.fieldLabel = prVar.fldLabel || vFld.fldLabel ;
-			// prFld.labelWidth = _labelWidth;
+			var vFld = this.getProtoField ( this.myMeta, prVar.name  )
 
-			if(prVar.width) 
-				prFld.width = prVar.width;
-			if(prVar.anchor)
-				prFld.anchor = prVar.anchor;
-			if(prVar.flex)
-				prFld.flex = prVar.flex;
-			if(prVar.labelWidth)
-				prFld.labelWidth = pVar.labelWidth;
+			prFld = vFld.editor; 
+			if ( ! prFld ) prFld = {}
+			prFld = copyProps( prFld, prVar, false ) ;
+			
+			// if(prVar.width) prFld.width = prVar.width;
+			// if(prVar.anchor) prFld.anchor = prVar.anchor;
+			// if(prVar.flex) 	prFld.flex = prVar.flex;
+			// if(prVar.labelWidth) prFld.labelWidth = pVar.labelWidth;
 
 		} else if(typeOf(prVar) == 'array') {
 
@@ -227,7 +228,9 @@ Ext.define('ProtoUL.view.ProtoForm', {
 				anchor : '100%', 
 				xtype : 'textfield', 
 				msgTarget : 'side',
-				margins: '10 10 0'
+				margins: '10 10 0', 
+				allowBlank : false,
+				readOnly : false
 			};
 			prLayout.fieldDefaults = {
 				labelAlign: 'left',
@@ -263,10 +266,10 @@ Ext.define('ProtoUL.view.ProtoForm', {
 			}
 
 			// TRBL, TB RL, T RL B
-			if(prSection.margins)
-				prLayout.defaults.margins = prSection.margins;
-			if(prSection.padding)
-				prLayout.defaults.padding = prSection.padding;
+			// if(prSection.margins)
+				// prLayout.defaults.margins = prSection.margins;
+			// if(prSection.padding)
+				// prLayout.defaults.padding = prSection.padding;
 
 			prLayout.fieldDefaults = {};
 			if(prSection.labelAlign)
