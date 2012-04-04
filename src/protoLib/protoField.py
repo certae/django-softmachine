@@ -24,49 +24,43 @@ def setFieldDict(protoFields ,  field ):
 
     if  field.__class__.__name__ == 'DateTimeField':
         pField['type'] = 'datetime'
-        pField['xtype'] = 'datecolumn' 
-        pField['dateFormat'] = 'Y-m-d H:i:s'
-        pField['format'] = 'Y-m-d H:i:s'
-        #pField['editor'] = "new Ext.ux.form.DateTime({hiddenFormat:'Y-m-d H:i', dateFormat:'Y-m-D', timeFormat:'H:i'})"
 
     elif  field.__class__.__name__ == 'DateField':
         pField['type'] = 'date'
-        pField['xtype'] = 'datecolumn' 
-        pField['dateFormat'] = 'Y-m-d'
-        pField['format'] = 'Y-m-d'
-        #pField['renderer'] = 'Ext.util.' 
-        #pField['editor'] = "new Ext.form.DateField({format:'Y-m-d'})"
+
+    elif  field.__class__.__name__ == 'TimeField':
+        pField['type'] = 'time'
         
     elif field.__class__.__name__ == 'IntegerField':
-        pField['xtype'] = 'numbercolumn'
-        #pField['editor'] = 'new Ext.form.NumberField()'
-        
-    elif field.__class__.__name__ == 'BooleanField':
-        pField['xtype'] = 'booleancolumn'
-        #pField['editor'] = 'new Ext.form.Checkbox()'
+        pField['type'] = 'int'
         
     elif field.__class__.__name__ == 'DecimalField':
-        pField['xtype'] = 'numbercolumn '
-        pField['renderer'] = 'function(v) {return (v.toFixed && v.toFixed(2) || 0);}'
-        #pField['editor'] = 'new Ext.form.NumberField()'
+        pField['type'] = 'decimal'
+
+    elif field.__class__.__name__ == 'BooleanField':
+        pField['type'] = 'bool'
+
+    elif field.__class__.__name__ == 'TextField':
+        pField['type'] = 'text'
+
+    elif field.choices:
+        pField['type'] = 'combo'
+        pField['choices'] = field.choices  
         
     elif  field.__class__.__name__ == 'ForeignKey':
-        # Dafine la columna __unicode__ de la tabla padre, con el header definido y ocultar la columna de la llave 
-        pField['xtype'] = 'protoZoom '
+        # Dafine la columna __unicode__ de la tabla padre, 
+        pField['type'] = 'foreigntext'
         pField['fkName'] = field.name  + _PROTOFN_ + '__unicode__'      # Funcion unicode de retorno 
         pField['fkId'] = field.name + '_id'                             # Campo q contiene el ID 
+        pField['descZoom'] = True                                       # Si hace el zoom sobre la descripcion 
         
         # Agrega la referencia al ID 
         fKey = { 
              'name':    field.name + '_id', 
              'fkField':    field.name ,                                 # Campo de base a mostrar 
-             'xtype':  'protoId',                                       # pseudo type ( hidden = true, etc.... ) 
+             'type':  'foreignid',                                      # pseudo type ( hidden = true, etc.... ) 
              }
         protoFields[fKey['name']] = fKey 
-
-#    La llave se agrega automatica, si se especifico, el usuario decide q hacer con ella 
-#    if field.name == model._meta.pk.name:
-#        pField['hidden']= True
 
     
     #Lo retorna al diccionario
@@ -75,4 +69,8 @@ def setFieldDict(protoFields ,  field ):
 
 #----------------------------------------------------------
 
-
+# Choise,  Borrar despues de probar 
+#        a = []
+#        for c in field.choices:
+#            a[c[0]] = c[1]              //  Dict
+#            a.push ( [ c[0], c[1] ])    //  List

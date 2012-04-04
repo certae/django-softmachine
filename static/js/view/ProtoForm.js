@@ -114,16 +114,17 @@ Ext.define('ProtoUL.view.ProtoForm', {
 		this.setActiveRecord(null);
 		this.getForm().reset();
 	},
+	
+	
 	defineProtoFormField : function(prVar) {
+		/*  ----------------------------------------------------------------------------------
+		 * Define la creacion de campos,  
+		 * utiliza los valores por defecto,  
+		 * crea agrupaciones fieldContainer 
+		 * --------------------------------------------------------------------------------- */
 
 		var _labelWidth = 150;
-
-		var prFld = {
-			xtype : 'textfield',
-			msgTarget : 'side'
-		};
-
-
+		var prFld = {}
 
 		if( typeof (prVar) == 'string') {
 
@@ -131,12 +132,6 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
 			prFld.name = prVar;
 			prFld.fieldLabel = vFld.fieldLabel || prVar ;
-			
-		// labelStyle: 'font-weight:bold;padding:0',
-		// labelAlign: 'top'
-		// hideLabel: true
-		// margins: '0 10 0 0'
-			
 
 		} else if(typeOf(prVar) == 'object') {
 
@@ -144,9 +139,9 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
 			prFld.name = prVar.name;
 			prFld.fieldLabel = prVar.fldLabel || vFld.fldLabel ;
-			prFld.labelWidth = _labelWidth;
+			// prFld.labelWidth = _labelWidth;
 
-			if(prVar.width)
+			if(prVar.width) 
 				prFld.width = prVar.width;
 			if(prVar.anchor)
 				prFld.anchor = prVar.anchor;
@@ -156,6 +151,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 				prFld.labelWidth = pVar.labelWidth;
 
 		} else if(typeOf(prVar) == 'array') {
+
 			prFld.xtype = 'fieldcontainer';
 			prFld.combineErrors = true;
 			prFld.layout = 'hbox';
@@ -184,36 +180,26 @@ Ext.define('ProtoUL.view.ProtoForm', {
 			return
 		}
 
+				
 		return prFld;
 	},
 	getProtoField : function(myMeta, fldName) {
-		
-		// Construye un dictionario y retorna el campo solicitado
-		var dict = {}
-		if(!myMeta.dict) {
-			for(var ix in myMeta.fields ) {
-				var vFld = myMeta.fields[ix];
-				dict[vFld.name] = vFld
-			};
-			myMeta.dict = dict
-		} else
-			dict = myMeta.dict
-		
+		var dict = myMeta.dict; 
 		if ( ! dict[fldName] ) dict[fldName] = {} 	
 		return dict[fldName]
 	},
+	
+	
 	defineProtoFormItem : function(parent, prSection) {
+		/* ---------------------------------------------------------------------
+		 * Se asegura de un tipo de section valida, La section es la unica que tiene
+		 * campos definidos Las cajas solo pueden contener otras sectiones
+		 * -----------------------------------------------------------------		 */
 
 		var prLayout = {
 			items : []
 		};
 
-		/*
-		 * ---------------------------------------------------------------------
-		 * Se asegura de un tipo de section valida, La section es la unica que tiene
-		 * campos definidos Las cajas solo pueden contener otras sectiones
-		 * -----------------------------------------------------------------
-		 */
 		if(!(prSection.style in oc(['Section', 'HBox', 'Tab', 'VBox', 'Accordion', 'Grid']))) {
 			prSection.style = 'Section'
 			if(prSection.items)
@@ -238,10 +224,18 @@ Ext.define('ProtoUL.view.ProtoForm', {
 			prLayout.anchor = '100%';
 			prLayout.defaults = {
 				flex : 1,
-				anchor : '100%'
+				anchor : '100%', 
+				xtype : 'textfield', 
+				msgTarget : 'side',
+				margins: '10 10 0'
 			};
-			prLayout.defaults.margins = '10 10 0';
-
+			prLayout.fieldDefaults = {
+				labelAlign: 'left',
+			    labelWidth: 100
+				// labelStyle: 'font-weight:bold;padding:0',
+				// hideLabel: true
+			};
+ 
 			if(prSection.title || prSection.collapsible || prSection.frame) {
 				prLayout.xtype = 'fieldset';
 				prLayout.padding = 5;

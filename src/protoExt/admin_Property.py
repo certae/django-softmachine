@@ -193,8 +193,8 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                     "collapsible" : False,
                     "fields" : [
                                  "code", 
-                                 ( "baseType", "isNullable", ) , 
-                                 ( "alias", "prpLength"), 
+                                 "baseType", "isNullable" , 
+                                 "alias", "prpLength", 
                                  "description",
                         ]
                },

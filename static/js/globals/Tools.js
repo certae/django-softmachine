@@ -19,24 +19,212 @@ function oc(a)
 function DefineProtoModel ( myMeta , modelClassName ){
         
 //    console.log ( 'Loading ' + modelClassName + '...' );
+
+    // dateFormat: 'Y-m-d'
+    // type: 'date', 'float', 'int', 'number'
+
+    // useNull : vFld.allowNull,  ( solo para numeros, si no puede hacer la conversion )
+    // defaultValue: vFld.defaultValue,
+    // persist: vFld.editPolicy,		( falso = NoUpdate )
+    
+    // type: 'hasMany',
+    // autoLoad: true
+    // convert :  Campo Virtual calculado,  Apunta a una funcion q  genera el valor 
     
     var myFields = [];
+	var dict = {};
+
     for (var ix in myMeta.fields ) {
+
         var vFld  =  myMeta.fields[ix]; 
         var mField = {
             name: vFld.name,
             type: 'string' 
-            // type: vFld.type,
-            // useNull : vFld.allowNull, 
-            // defaultValue: vFld.defaultValue,
-            // persist: vFld.editPolicy,
         };
+        editor = {
+            allowBlank: false,
+            readOnly: false
+		}; 
+		
+		// Determina el xType y otros parametros 
+		if ( ! vFld.type )  vFld.type = 'string'
+		switch( vFld.type )
+		{
+		case 'string':
+			editor.minLength = 2
+			editor.minLengthText = 'Cannot ...'
+	        // editor.vtype = 'email'
+		  	break;
+
+		case 'text':
+			editor.xtype = 'htmleditor'
+			editor.height = 200
+		  	break;
+
+		case 'string':
+			editor.minLength = 2
+			editor.minLengthText = 'Cannot ...'
+	        // editor.vtype = 'email'
+		  	break;
+		
+		case 'int':
+			mField.type = 'int';	        
+
+	        vFld['xtype'] = 'numbercolumn'
+			vFld['align'] = 'right'
+			vFld['format'] = '0,000'
+
+			editor.xtype = 'numberfield'
+			editor.format = '0,000'
+			editor.allowDecimals = false
+            editor.step = 1
+
+            editor.minValue = 0
+            editor.minText = 'Cannot ...'
+
+            editor.maxValue = 1000000
+            editor.maxText = 'Cannot  ...'
+		  	break;
+
+		case 'decimal':
+			mField.type = 'number';	        
+
+	        vFld['xtype'] = 'numbercolumn'
+			vFld['align'] = 'right'
+			vFld['format'] = '0,000.00'
+            // vFld['renderer'] = 'usMoney'
+
+			editor.xtype = 'numberfield'
+			editor.format = '0,000'
+			editor.allowDecimals = true
+            editor.decimalPrecision = 2
+            editor.step = 0.5
+
+            editor.minValue = 0
+            editor.minText = 'Cannot ...'
+
+            editor.maxValue = 1000000
+            editor.maxText = 'Cannot  ...'
+		  	break;
+
+		
+		case 'date':
+			mField.type = 'date';	        
+			mField.dateFormat ='Y-m-D' 
+
+	        vFld['xtype'] = 'datecolumn' 
+	        vFld['format'] = 'Y-m-d'
+
+			editor.xtype = 'datefield'
+			editor.format = 'y/m/d'
+
+            editor.minValue = '1900/01/01'
+            editor.minText = 'Cannot ...'
+            editor.maxValue = Ext.Date.format(new Date(), 'Y/m/d')
+            editor.maxText = 'Cannot ...'
+            editor.disabledDays = [0, 6]
+            editor.disabledDaysText = 'Plants are not available on the weekends'
+		  	break;
+
+		case 'datetime':
+			mField.type = 'date';	        
+			mField.dateFormat ='Y-m-D'  // 'timestamp' 
+
+	        vFld['xtype'] = 'datecolumn' 
+	        vFld['format'] = 'Y-m-d H:i:s'
+
+
+			editor.xtype = 'datefield'
+			editor.format = 'm/d/y'
+	        editor.timeFormat = 'H:i'
+
+            editor.minValue = '01/01/06'
+            editor.minText = 'Cannot have a start date before the company existed!'
+            editor.maxValue = Ext.Date.format(new Date(), 'm/d/Y')
+            editor.maxText = 'Cannot have a start date before the company existed!'
+            editor.disabledDays = [0, 6]
+            editor.disabledDaysText = 'Plants are not available on the weekends'
+            
+		  	break;
+
+		case 'time':
+			mField.type = 'time';	        
+
+	        vFld['format'] = 'H:i:s'  //  'H:i'
+
+			editor.xtype = 'timefield'
+			editor.format = vFld['format']  	
+
+            editor.minValue = '6:00 AM'
+            editor.maxValue = '8:00 PM'
+            editor.minText = 'Cannot ...'
+            editor.maxText = 'Cannot ..'
+            
+		  	break;
+		  	
+		  	
+		case 'bool':
+			mField.type = 'bool';
+			vFld['xtype'] = 'checkcolumn'      
+
+			// vFld['xtype'] = 'booleancolumn'      
+			// vFld['trueText'] = 'Yes'      
+			// vFld['falseText'] = 'No'      
+		            
+            editor.xtype = 'checkbox'
+            editor.cls = 'x-grid-checkheader-editor'
+		  	
+		case 'choise':
+			// mField.type = 'string';	        
+	        // vFld['xtype'] = 'textcolumn'
+		
+            editor.xtype = 'combobox'
+            editor.typeAhead = true
+            editor.triggerAction = 'all'
+            editor.selectOnTab = true
+            editor.store = vFld.choises
+            editor.lazyRender = true
+            editor.listClass = 'x-combo-list-small'
+		  	break;
+
+		case 'zoom':
+			// mField.type = 'string';	        
+	        // vFld['xtype'] = 'textcolumn'
+		
+            editor.xtype = 'combobox'
+            editor.typeAhead = true
+            editor.triggerAction = 'all'
+            editor.selectOnTab = true
+            editor.store = vFld.choises
+            editor.lazyRender = true
+            editor.listClass = 'x-combo-list-small'
+		  	break;
+		
+		case 'foreigntext': 
+            editor.xtype = 'protoZoom'
+		  	break;
+
+		case 'foreignid': 
+            editor.xtype = 'numbercolumn'
+           	vFld['hidden']= true
+
+		  	break;
+		}
+
+		// Asigna el editor 
+        vFld['editor'] = editor; 
+		
         myFields.push(mField);
+		dict[vFld.name] = vFld
+		
     }
     
     
-    // myFields = [{"name":"id","type":"int","useNull":true},{"name":"first","type":"string"},{"name":"last","type":"String"},{"name":"email","type":"string"}]
+    // Asigna un diccionario con las llaves como clave. 
+	myMeta.dict = dict
+
     
+    // myFields = [{"name":"id","type":"int","useNull":true},{"name":"first","type":"string"},{"name":"last","type":"String"},{"name":"email","type":"string"}]
     Ext.define(modelClassName, {
         extend: 'Ext.data.Model',
             fields: myFields 
@@ -72,6 +260,11 @@ function typeOf(value) {
     }
     return s;
 }
+
+
+// =====================================================
+
+
 
 
 
