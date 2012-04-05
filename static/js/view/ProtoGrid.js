@@ -8,7 +8,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     alias : 'widget.protoGrid',
     requires: [
         'Ext.selection.CheckboxModel', 
-        'Ext.toolbar.TextItem',
+        'Ext.toolbar.TextItem'
     ],
     // iconCls: 'icon-grid',
 
@@ -84,18 +84,17 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
             if (!vFld.header || vFld.storeOnly) {continue;}
             
-            var col = {
+        	var col = {
                 dataIndex: vFld.name,
-                text: vFld.header,
-                sortable: false,        // vFld.sortable,
-                flex: vFld.flex,
-                hidden: vFld.hidden,
-                width: vFld.width ,
-                minWidth: vFld.minWidth 
-                // editor:  { xtype: _gridTypeEditor[vFld.type] }, 
-                // renderer: this.formatDate,                
-            };
+                text: vFld.header 
+    		}
 
+			var lstProps = ['flex', 'hidden', 'width', 'minWidth', 'sortable',  
+							'xtype', 'editMode',
+							'editor', 'render', 'align', 'format'
+							]
+        
+        	col = copyProps ( col,  vFld, true, lstProps )
             if ( vFld.wordWrap == true ) {
                 col.renderer = columnWrap
                 }

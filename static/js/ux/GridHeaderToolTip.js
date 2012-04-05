@@ -1,4 +1,5 @@
 /**
+ * Original Information 
  * @class Ext.ux.grid.HeaderToolTip
  * @namespace Ext.ux.grid
  *
@@ -6,8 +7,10 @@
  *  
  *  Sencha forum url: 
  *  http://www.sencha.com/forum/showthread.php?132637-Ext.ux.grid.HeaderToolTip
+ * 
+ * Forked for ProtoExt  12/03  Dario 
  */
-Ext.define('ProtoUL.ux.HeaderToolTip', {
+Ext.define('ProtoUL.ux.GridHeaderToolTip', {
     alias: 'plugin.headertooltip',
     init : function(grid) {
         var headerCt = grid.headerCt;
@@ -30,4 +33,6 @@ Ext.define('ProtoUL.ux.HeaderToolTip', {
         });
     }
 });
+
+
 

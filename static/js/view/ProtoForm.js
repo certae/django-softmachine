@@ -153,7 +153,9 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
 		} else if(typeOf(prVar) == 'array') {
 
+			// El fieldContainer requiere!!  el defaultType 
 			prFld.xtype = 'fieldcontainer';
+			prFld.defaultType = 'textfield'
 			prFld.combineErrors = true;
 			prFld.layout = 'hbox';
 			prFld.margins = 0;

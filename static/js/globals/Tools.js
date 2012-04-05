@@ -62,7 +62,7 @@ function DefineProtoModel ( myMeta , modelClassName ){
 		case 'text':
 			editor.xtype = 'htmleditor'
 			editor.height = 200
-			editor.msgTarget = 'top'
+			editor.labelAlign = 'top'
 		  	break;
 
 		case 'string':
@@ -143,11 +143,11 @@ function DefineProtoModel ( myMeta , modelClassName ){
 	        editor.timeFormat = 'H:i'
 
             editor.minValue = '01/01/06'
-            editor.minText = 'Cannot have a start date before the company existed!'
+            editor.minText = 'Cannot have a start date before .......!'
             editor.maxValue = Ext.Date.format(new Date(), 'm/d/Y')
-            editor.maxText = 'Cannot have a start date before the company existed!'
+            editor.maxText = 'Cannot have a start date after ..........!'
             editor.disabledDays = [0, 6]
-            editor.disabledDaysText = 'Plants are not available on the weekends'
+            editor.disabledDaysText = 'Not available on the weekends '
             
 		  	break;
 
@@ -170,6 +170,7 @@ function DefineProtoModel ( myMeta , modelClassName ){
 		case 'bool':
 			mField.type = 'bool';
 			vFld['xtype'] = 'checkcolumn'      
+            vFld['editMode'] = false 
 
             editor.xtype = 'checkbox'
             editor.cls = 'x-grid-checkheader-editor'
@@ -249,15 +250,25 @@ function typeOf(value) {
     return s;
 }
 
-
-function copyProps(oBase, oRef, overWrite )
+/*
+ * @oBase 		: Base objet ( source )
+ * @oRef 		: Ref object ( source )
+ * @overWrite	: Overwrite Base with Ref 
+ * @lstProps 	: Properties to copy 
+ */
+function copyProps(oBase, oRef, overWrite, lstProps )
 {
+	
+	if ( !overWrite ) overWrite = true; 
+	
 	for(var i in oRef)
 	{
-		if (  overWrite ||  ! oBase[i]  ) 
-			oBase[i] = oRef[i];
+		if (  overWrite ||  ! oBase[i]  ) {
+			if ( !lstProps ||  i in oc(lstProps) ) {
+				oBase[i] = oRef[i];
+			} 
+		}
 	}
 	return oBase;
 }
-
 

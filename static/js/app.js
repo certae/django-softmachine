@@ -22,7 +22,9 @@ Ext.application({
         'ProtoUL.ux.ToolbarDroppable',
         'ProtoUL.ux.BoxReorderer',
         'ProtoUL.ux.Printer',
-        'ProtoUL.ux.HeaderToolTip',
+        'ProtoUL.ux.GridHeaderToolTip',
+        'ProtoUL.ux.GridCheckColumn',
+
         'Ext.util.Cookies', 
         'Ext.Ajax'
     ],

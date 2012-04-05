@@ -8,7 +8,8 @@ Ext.define('Ext.ux.protoZoom', {
     extend : 'Ext.form.field.Trigger',
     alias : 'widget.protoZoom',
     
-    // triggerCls : Ext.baseCSSPrefix + 'form-search-trigger',
+    // Boton del trigger
+    triggerCls : Ext.baseCSSPrefix + 'form-search-trigger',
     
     initComponent : function() {
         
@@ -51,7 +52,7 @@ Ext.define('Ext.ux.protoZoom', {
             ]
         }
 
-        var form = defineProtoForm(protoFormLayout);
+        // var form = defineProtoForm(protoFormLayout);
         
         // -----------------------------------------------------------------------------
         

@@ -108,3 +108,22 @@ ul.cuadro {list-style-type: square;}
 	background-color: white;
 	font:normal 11px tahoma, arial, verdana, sans-serif;text-align:justify;
 	vertical-align:top;}
+
+/*  CheckHeader.css */
+
+.x-grid-checkheader {
+    height: 14px;
+    background-image: url(../img/protoImg/unchecked.gif);
+    background-position: 50% -2px;
+    background-repeat: no-repeat;
+    background-color: transparent;
+}
+
+.x-grid-checkheader-checked {
+    background-image: url(../img/protoImg/checked.gif);
+}
+
+.x-grid-checkheader-editor .x-form-cb-wrap {
+    text-align: center;
+}
+

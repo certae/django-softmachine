@@ -202,6 +202,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                    "style" : 'Section',
                     "collapsible" : True,
                     "fields" : [ 
+                                "concept", 
                                 "concept__code", 
                                 "concept__model__code", 
                                 "concept__model__category" , 
