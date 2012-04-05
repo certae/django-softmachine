@@ -60,7 +60,7 @@ function DefineProtoModel ( myMeta , modelClassName ){
 		  	break;
 
 		case 'text':
-			editor.xtype = 'htmleditor'
+			editor.xtype = 'fieldhtmleditor'
 			editor.height = 200
 			editor.labelAlign = 'top'
 		  	break;
