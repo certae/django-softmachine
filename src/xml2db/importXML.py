@@ -185,14 +185,22 @@ class importXML():
                 for xModel in xModels:
                     dModel = Model()
                     dModel.domain = lDomain
+                    udps = []
 
                     for child in xModel:
                         if child.tag in fdsModel:
                             setattr( dModel, child.tag, child.text )
                              
-                        if child.tag in intModel:
+                        elif child.tag in intModel:
                             iValue = toInteger(child.text , 0)
                             setattr( dModel, child.tag, iValue ) 
+                            
+                        elif child.tag == 'udps':
+                            for xUdp in child:
+                                udps.append( (xUdp.tag, xUdp.get('text') ) )
+                        else:
+                            udps.append( (child.tag, child.text) )
+
 
                     for sKey in xModel.attrib:
                         if sKey in intModel:
@@ -200,6 +208,8 @@ class importXML():
                             setattr( dModel, sKey, iValue ) 
                             
                     dModel.save()
+                    if len( udps ) > 0: self.saveUdps( udps, dModel.metaobj_ptr )
+                    
                     self.__logger.info("Model..."  + dModel.code)
 
                     xConcepts = xModel.getiterator("concept")
@@ -213,11 +223,18 @@ class importXML():
                                     setattr( concept, child.tag, child.text )
                                 elif  ( child.tag == 'description' ):
                                     setattr( concept, child.tag, child.get('text'))
-                        
+
+                            elif child.tag == 'udps':
+                                for xUdp in child:
+                                    udps.append( (xUdp.tag, xUdp.get('text') ) )
+                            else:
+                                udps.append( (child.tag, child.text) )
+    
                         try:              
                             concept.save()
                         except: pass
-                        
+
+                        if len( udps ) > 0: self.saveUdps( udps, concept.metaobj_ptr )
                         
                         self.__logger.info("Concept..."  + concept.code)
 
@@ -252,18 +269,7 @@ class importXML():
                                 lProperty.save()
                             except: pass
 
-
-                            #DGT:  saveUdps ( MetaObj, Udps ) 
-                            if len( udps ) > 0:
-                                for key, value  in udps:
-                                    dUdp = Udp()
-                                    dUdp.metaObj = lProperty.metaobj_ptr
-                                    dUdp.code = key
-                                    dUdp.valueUdp = value
-                                    
-                                    try:
-                                        dUdp.save()
-                                    except: pass
+                            if len( udps ) > 0: self.saveUdps( udps, lProperty.metaobj_ptr )
 
 
                         xForeigns = xConcept.getiterator("foreign")
@@ -336,3 +342,14 @@ class importXML():
                 
         return {'state':self.OK, 'message': 'Ecriture effectuee base donnee'}
     
+    def saveUdps(self, udps, idMetaObj ):
+        # Save Upds within de MetaObj 
+        for key, value  in udps:
+            dUdp = Udp()
+            dUdp.metaObj = idMetaObj
+            dUdp.code = key
+            dUdp.valueUdp = value
+            try:
+                dUdp.save()
+            except: pass
+

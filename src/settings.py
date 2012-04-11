@@ -97,8 +97,8 @@ USE_DJANGO_JQUERY = True
 # Additional locations of static files
 STATICFILES_DIRS = (
     PPATH + '/static',
-    '/home/dario/data/ExtJs/ext-4.0.7-gpl',
-#    'd:/data/ExtJs/ext-4.0.7-gpl',
+#    '/home/dario/data/ExtJs/ext-4.0.7-gpl',
+    'd:/data/ExtJs/ext-4.0.7-gpl',
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
