@@ -46,7 +46,7 @@ function DefineProtoModel ( myMeta , modelClassName ){
         editor = {
             allowBlank: false,
             readOnly: false, 
-            fieldLabel:  vFld.fieldLabel || vFld.header || vFld.name 
+            // fieldLabel:  vFld.fieldLabel || vFld.header || vFld.name 
 		}; 
 		
 		// Determina el xType y otros parametros 

@@ -13,7 +13,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 	    'Ext.state.*',
 	    'Ext.form.*',
 
-        'Ext.selection.CheckboxModel', 
+        // 'Ext.selection.CheckboxModel', 
         'Ext.toolbar.TextItem'
     ],
     // iconCls: 'icon-grid',
@@ -89,7 +89,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         var myColumns = [];
 
         // DGT adding RowNumberer  
-        myColumns.push(Ext.create('Ext.grid.RowNumberer',{"width":37, "draggable":false }));
+        if ( ! myMeta.hideRowNumbers ) {
+        	myColumns.push(Ext.create('Ext.grid.RowNumberer',{"width":37, "draggable":false }));	
+        }
 
         // DGT** Creacion de columnas  
         for (var ix in myMeta.fields ) {
@@ -129,9 +131,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         }; 
         
         
-        var selModel = Ext.create('Ext.selection.CheckboxModel', {
+        // var selModel = Ext.create('Ext.selection.CheckboxModel', {
             // listeners: { selectionchange: function(sm, selections) {} }
-        });
+        // });
          
         var grid = Ext.create('Ext.grid.Panel', {
   			plugins: ['headertooltip',

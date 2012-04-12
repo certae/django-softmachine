@@ -74,6 +74,7 @@ def protoGetPCI(request):
         protoSheetProperties = grid.protoAdmin.get( 'protoSheetProperties', ())
          
         protoIcon  = 'icon-%s' % grid.protoAdmin.get( 'protoIcon', '1') 
+        hideRowNumbers  = grid.protoAdmin.get( 'hideRowNumbers',False) 
         
         pSearchFields = grid.protoAdmin.get( 'searchFields', '') 
         if pSearchFields == '': pSearchFields = getVisibleFields( grid.storeFields, model )
@@ -124,7 +125,8 @@ def protoGetPCI(request):
                  'idProperty': id_field,
                  'fields': base_fields, 
                  'protoDetails': protoDetails, 
-                 'protoIcon': protoIcon, 
+                 'protoIcon': protoIcon,
+                 'hideRowNumbers' : hideRowNumbers,  
                  'protoSheets': protoSheets, 
                  'protoSheetSelector': protoSheetSelector, 
                  'protoSheetProperties': protoSheetProperties, 
