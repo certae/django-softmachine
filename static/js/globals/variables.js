@@ -24,6 +24,11 @@ _PConfig =  {
 }; 
 
 
+// Globally changing the text of Cancel and Save buttons;
+
+Ext.grid.RowEditor.prototype.saveBtnText = 'Enregistrer'; 
+Ext.grid.RowEditor.prototype.cancelBtnText = 'Canceler';
+
 
 // Collection of ProtoConcept Definition 
 
@@ -52,7 +57,7 @@ _ComboPageSize = [
 
 // Autoload entites
 //_AUTOLOAD_PCI = ['protoExt.Model', 'protoExt.Property'  ]
-_AUTOLOAD_PCI = ['protoExt.Property'  ]
+_AUTOLOAD_PCI = ['protoExt.Prueba'  ]
 _MENU_COLLAPSED = true 
 
 // ProtoUL.view.ProtoMasterDetail 

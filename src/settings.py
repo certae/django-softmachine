@@ -4,6 +4,11 @@
 import os.path, sys 
 PPATH = os.path.abspath( os.path.join( os.path.dirname(__file__), os.pardir )).replace('\\','/')
 
+if PPATH.startswith('/'): 
+    EXT_PATH = '/home/dario/data/ExtJs/ext-4.0.7-gpl' 
+else:  EXT_PATH = 'd:/data/ExtJs/ext-4.0.7-gpl'
+
+
 if ('/src' in PPATH): 
     PPATH = os.path.abspath(os.path.join( PPATH, os.pardir )).replace('\\','/')
          
@@ -97,8 +102,7 @@ USE_DJANGO_JQUERY = True
 # Additional locations of static files
 STATICFILES_DIRS = (
     PPATH + '/static',
-#    '/home/dario/data/ExtJs/ext-4.0.7-gpl',
-    'd:/data/ExtJs/ext-4.0.7-gpl',
+    EXT_PATH
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.

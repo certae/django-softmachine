@@ -7,6 +7,12 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     extend: 'Ext.container.Container',
     alias : 'widget.protoGrid',
     requires: [
+	    'Ext.grid.*',
+	    'Ext.data.*',
+	    'Ext.util.*',
+	    'Ext.state.*',
+	    'Ext.form.*',
+
         'Ext.selection.CheckboxModel', 
         'Ext.toolbar.TextItem'
     ],
@@ -72,6 +78,13 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         this.store.proxy.actionMethods.read = 'POST';
 
 
+		// Start Row Editing PlugIn
+	    var rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
+	        clicksToMoveEditor: 1,
+	        autoCancel: false
+	    });
+
+
         // Definicion de Columnas y Fields        ------------------------------------------
         var myColumns = [];
 
@@ -121,7 +134,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         });
          
         var grid = Ext.create('Ext.grid.Panel', {
-  			plugins: ['headertooltip'],
+  			plugins: ['headertooltip',
+  			        	rowEditing
+  					],
             // selModel: selModel,
             columns : gridColumns,   
             store : this.store,  

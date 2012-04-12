@@ -27,9 +27,19 @@ from protoGrid import Q2Dict, getVisibleFields
 
 from utilsBase import construct_search, addFilter
 
+import datetime, decimal 
+
 
 #from django.core import serializers
 import django.utils.simplejson as json
+
+class JSONEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, ( datetime.date, datetime.time, datetime.datetime)):
+            return obj.isoformat()
+        else:
+            return json.JSONEncoder.default(self, obj)    
+
 
 def getDjangoModel( modelName ):
 #   Obtiene el modelo 
@@ -224,7 +234,8 @@ def protoGetList(request):
             'totalCount': pRowsCount,
             'filter': protoFilter,
             'rows': pList,
-            })
+            }, cls=JSONEncoder, use_decimal= True  )
     
     return HttpResponse(context, mimetype="application/json")
+
 

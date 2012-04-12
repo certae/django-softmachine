@@ -23,10 +23,13 @@ def setFieldDict(protoFields ,  field ):
         pField['header'] = verifyStr( field.verbose_name,  field.name ) 
 
     if  field.__class__.__name__ == 'DateTimeField':
-        pField['type'] = 'datetime'
+#        pField['type'] = 'datetime'
+        pField['type'] = 'date'
+        pField['dateFormat'] = 'Y-m-d'
 
     elif  field.__class__.__name__ == 'DateField':
         pField['type'] = 'date'
+        pField['dateFormat'] = 'Y-m-d'
 
     elif  field.__class__.__name__ == 'TimeField':
         pField['type'] = 'time'

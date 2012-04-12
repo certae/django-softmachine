@@ -27,7 +27,7 @@ class MetaObj(models.Model):
     category = models.CharField(max_length=50, blank = True, null = True )
     alias = models.CharField(verbose_name=u'Alias',blank = True, null = True, max_length=50)
     physicalName = models.CharField(blank = True, null = True, max_length=200)
-    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True, max_length=200)
+    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
     code.help_text = 'Codigo o Identificador principal del objeto'
     
@@ -281,4 +281,32 @@ class MetaLink(models.Model):
 #fdsLinkModel= ['code', 'source', 'destination']
 #fdsLink = ['code', 'alias', 'destinationText', 'sourceCol', 'destinationCol']
 #fdsUdpDefinition = ['code', 'baseType', 'alias', 'description']
+
+
+
+
+class Prueba(models.Model):
+    OBJTYPE  = (('Domain', 'Domain'),('Model', 'Model'),('Concept', 'Concept'),('Property', 'Porperty'),('?', 'Unknown'),)
+    
+    prCode = models.CharField(verbose_name=u'Nom',blank = True, null = True, max_length=200 )
+    
+    prChoice = models.CharField(max_length=50, choices= OBJTYPE)
+    
+    prBoolean = models.BooleanField(verbose_name=u'Active')
+    
+    prDate  = models.DateField(blank = True, null = True)
+
+    prTime  = models.TimeField(blank = True, null = True)
+    
+    prDecimal = models.DecimalField(blank = True, null = True, max_digits=5, decimal_places=2)
+
+    prInteger = models.IntegerField(blank = True, null = True)
+    
+    prDescription = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
+
+    def __unicode__(self):
+        return self.prCode 
+
+    class Meta:
+        verbose_name = 'Pruebas' 
 

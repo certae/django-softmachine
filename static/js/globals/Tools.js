@@ -114,7 +114,7 @@ function DefineProtoModel ( myMeta , modelClassName ){
 		
 		case 'date':
 			mField.type = 'date';	        
-			mField.dateFormat ='Y-m-D' 
+			mField.dateFormat ='Y-m-d' 
 
 	        vFld['xtype'] = 'datecolumn' 
 	        vFld['format'] = 'Y-m-d'
@@ -132,7 +132,7 @@ function DefineProtoModel ( myMeta , modelClassName ){
 
 		case 'datetime':
 			mField.type = 'date';	        
-			mField.dateFormat ='Y-m-D'  // 'timestamp' 
+			mField.dateFormat ='Y-m-d'  // 'timestamp' 
 
 	        vFld['xtype'] = 'datecolumn' 
 	        vFld['format'] = 'Y-m-d H:i:s'
