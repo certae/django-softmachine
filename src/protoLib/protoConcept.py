@@ -1,42 +1,40 @@
 # -*- coding: utf-8 -*-
 
-#import sys
-import operator
-
 #from django import forms
+#from django.conf import settings
+#from django.core import serializers
 #from django.contrib import messages
 #from django.contrib.auth.decorators import login_required
 #from django.contrib.auth.models import User
-from django.db import models
 #from django.db import transaction
+#from django.db.models import Q
 #from django.forms.models import model_to_dict
-from django.http import HttpResponse
 #from django.http import HttpResponseRedirect
 #from django.shortcuts import render_to_response, get_object_or_404
 #from django.template import  Context
 #from django.template import  RequestContext
-#from django.template.loader import get_template 
+#from django.template.loader import get_template
 #from django.utils.translation import gettext as __
-#from django.conf import settings
+#from protoLib import utilsBase, utilsWeb
+#import sys, 
+
 from django.contrib.admin.sites import  site
-#from django.db.models import Q
-
-from protoLib import protoGrid
-#from protoLib import utilsBase, utilsWeb  
+from django.db import models
+from django.http import HttpResponse
 from protoGrid import Q2Dict, getVisibleFields
-
+from protoLib import protoGrid
 from utilsBase import construct_search, addFilter
 
-import datetime, decimal 
-
-
-#from django.core import serializers
+import datetime, operator, decimal
 import django.utils.simplejson as json
+
 
 class JSONEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, ( datetime.date, datetime.time, datetime.datetime)):
             return obj.isoformat()
+        elif isinstance(obj,  decimal.Decimal ):
+            return str( obj )
         else:
             return json.JSONEncoder.default(self, obj)    
 
@@ -236,7 +234,7 @@ def protoGetList(request):
             'totalCount': pRowsCount,
             'filter': protoFilter,
             'rows': pList,
-            }, cls=JSONEncoder, use_decimal= True  )
+            }, cls=JSONEncoder )
     
     return HttpResponse(context, mimetype="application/json")
 
