@@ -6,7 +6,7 @@ Control que recoje todos los plugins necesarios para el htmleditor
 
 Ext.define('ProtoUL.ux.FieldHtmlEditor', {
     extend: 'Ext.form.HtmlEditor',
-    alias: 'widget.fieldhtmleditor',
+    alias: 'widget.htmlfield',
 
     initComponent: function() {
 	    

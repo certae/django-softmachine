@@ -45,9 +45,13 @@ function DefineProtoModel ( myMeta , modelClassName ){
 		// DGT:  traer esto directamente del modelo 
         editor = {
             allowBlank: false,
-            readOnly: false, 
-            // fieldLabel:  vFld.fieldLabel || vFld.header || vFld.name 
+            readOnly: false
 		}; 
+
+        formEditor = {
+            fieldLabel:  vFld.fieldLabel || vFld.header || vFld.name 
+		}; 
+
 		
 		// Determina el xType y otros parametros 
 		if ( ! vFld.type )  vFld.type = 'string'
@@ -60,9 +64,9 @@ function DefineProtoModel ( myMeta , modelClassName ){
 		  	break;
 
 		case 'text':
-			editor.xtype = 'fieldhtmleditor'
-			editor.height = 200
-			editor.labelAlign = 'top'
+			formEditor.xtype = 'htmlfield'
+			formEditor.height = 200
+			formEditor.labelAlign = 'top'
 		  	break;
 
 		case 'string':
@@ -202,6 +206,7 @@ function DefineProtoModel ( myMeta , modelClassName ){
 
 		// Asigna el editor 
         vFld['editor'] = editor; 
+        vFld['formEditor'] = formEditor; 
 		
         myFields.push(mField);
 		dict[vFld.name] = vFld
@@ -260,15 +265,51 @@ function copyProps(oBase, oRef, overWrite, lstProps )
 {
 	
 	if ( !overWrite ) overWrite = true; 
-	
+
+	oResult = clone( oBase ); 	
 	for(var i in oRef)
 	{
 		if (  overWrite ||  ! oBase[i]  ) {
 			if ( !lstProps ||  i in oc(lstProps) ) {
-				oBase[i] = oRef[i];
+				oResult[i] = oRef[i];
 			} 
 		}
 	}
-	return oBase;
+	return oResult;
 }
 
+
+function clone(obj) {
+    if (null == obj || "object" != typeof obj) return obj;
+    
+    if (obj instanceof Date) {
+        var copy = new Date();
+        copy.setTime(obj.getTime());
+        return copy;
+    }
+    else if (obj instanceof Array) {
+        var copy = [];
+        var len = obj.length;
+        for (var i = 0; i < len; ++i) {
+            copy[i] = clone(obj[i]);
+        }
+        return copy;
+    }
+    else if (obj instanceof Object) {
+        var copy = {};
+        for (var attr in obj) {
+            if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
+        }
+        return copy;
+    }
+	else  {
+
+	    var copy = obj.constructor();
+	    for (var attr in obj) {
+	        if (obj.hasOwnProperty(attr))  copy[attr] = obj[attr];
+			else copy[attr] = clone( obj[attr] );
+	    }
+	    return copy;
+	} 
+    
+}

@@ -130,7 +130,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
 			var vFld = this.getProtoField ( this.myMeta, prVar )
 
-			prFld = vFld.editor; 
+			prFld = copyProps( vFld.editor, vFld.formEditor, true ) ;
+			
 			if ( ! prFld ) prFld = {}
 			prFld.name = prVar;
 
@@ -142,7 +143,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
 			var vFld = this.getProtoField ( this.myMeta, prVar.name  )
 
-			prFld = vFld.editor; 
+			prFld = copyProps( vFld.editor, vFld.formEditor, true ) ;
+
 			if ( ! prFld ) prFld = {}
 			prFld = copyProps( prFld, prVar, false ) ;
 			
