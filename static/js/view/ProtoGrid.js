@@ -134,12 +134,15 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         // var selModel = Ext.create('Ext.selection.CheckboxModel', {
             // listeners: { selectionchange: function(sm, selections) {} }
         // });
-         
+
+		this.editMode = false; 
+        this.myMeta = myMeta;
+        
         var grid = Ext.create('Ext.grid.Panel', {
-  			plugins: ['headertooltip',
+			plugins: ['headertooltip',
   			        	rowEditing
-  					],
-            // selModel: selModel,
+  					],            
+			// selModel: selModel,
             columns : gridColumns,   
             store : this.store,  
             stripeRows: true, 
@@ -150,15 +153,31 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 	this.selected = selected[0] || null;
                     // grid4.down('#removeButton').setDisabled(selections.length == 0);
                  }
-            }
+            }, 
+            
+		    tools: [{
+		        itemId: 'toolRefresh',
+		        type: 'refresh',
+		        hidden: true,
+				scope: this,
+		        handler: function (){ 
+		        	this.setEditionOff( false )
+		        }
+		     },{
+		        itemId: 'toolSave',
+		        type: 'save',
+		        hidden: true,
+				scope: this,
+		        handler: function (){ 
+		        	this.setEditionOff( true )
+		        }
+		    }]
+            
             
         }); 
 
-
         this._extGrid = grid;
-        this.myMeta = myMeta;
         this.setGridTitle( this ) ;
-
 
 //----------
 
@@ -280,11 +299,31 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             	
         });                 
 
+        grid.on({
+            beforeedit: {fn: function ( edPlugin, e, eOpts) {
+				if ( ! this.editMode )  return false; 
+            	}, scope: this }
+            	
+        });                 
 
-        
+		// grid.on('beforeedit', function( edPlugin, e, eOpts  ) {
+			// if ( ! this.editMode )  return false; 
+			// /* DGT: Manejo de edicion condicional segun datos
+				// Puede ser una coleccion 
+					// CampoCriterio, Condicion, Lista de campos habilidatos 
+// 					
+			    // if (e.record.get('status') == "0")
+			        // grid.getPlugin('rowEditing').editor.form.findField('xx').disable();
+			    // else
+			        // grid.getPlugin('rowEditing').editor.form.findField('xx').enable();
+			 // */ 
+		// });
+
+
+
         function columnWrap(value){
             return '<div style="white-space:normal; text-align:justify !important";>' + value + "</div>";
-        }
+        };
 
         function prepareSheet( ){
 
@@ -408,7 +447,37 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     	
     	var gridTitle = me.myMeta.shortTitle + gridTitle ; 
         me._extGrid.setTitle( gridTitle )  
-    }
+    }, 
+    
+
+    setEditMode: function( editMode ){
+
+		this.editMode = editMode ;    	
+
+		if (editMode ) {
+			this._extGrid.down('#toolSave').show();
+			this._extGrid.down('#toolRefresh').show();
+		} else {
+			this._extGrid.down('#toolSave').hide();
+			this._extGrid.down('#toolRefresh').hide();
+		}
+		
+   },
+
+	setEditionOff: function( doSave ) {
+		
+			if ((! this._extGrid ) || ( ! this.editMode )) return; 
+			 
+			// Invocada desde el tool, debe cancelar la edicion y retroalimentar el toolbar 
+			this.setEditMode( false ) 
+			
+			// Reconfigura el toolBar 
+			if ( this._toolBar ) {
+				this._toolBar.toggleEditMode( false, true )
+			};   
+
+	}
+    
     
     
 });

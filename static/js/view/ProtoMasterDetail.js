@@ -23,7 +23,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         var masterGrid = Ext.create('ProtoUL.view.ProtoGrid', {
             protoConcept : this.protoConcept,  
             protoFilterBase : this.protoFilterBase, 
-            detailTitle : this.detailTitle
+            detailTitle : this.detailTitle 
         }) ; 
         
         this.protoMasterGrid = masterGrid ; 
@@ -33,9 +33,13 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         // Necesaria para poder agregar cosas dinamicamente   --------------------------------------------------
         var tb = Ext.create('ProtoUL.UI.TbMasterDetail', {
             protoMeta : myMeta, 
-            objMasterDet : this  
+            __MasterDetail : this  
         });
         tb.doLayout();
+        
+        // Asigna el tab de control a la grilla 
+        masterGrid._toolBar = tb 
+        
         
         // Panel de detalles ==================================================================================
         var IDprotoTabs = Ext.id();

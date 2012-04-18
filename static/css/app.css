@@ -44,7 +44,12 @@
 .icon-tableAdd          { background-image: url(../img/protoImg/table_row_insert.png ) !important;}
 .icon-tableDelete       { background-image: url(../img/protoImg/table_row_delete.png ) !important;}
 .icon-tableDuplicate    { background-image: url(../img/protoImg/table_row_copy.png ) !important;}
-.icon-tableUpdate       { background-image: url(../img/protoImg/table_row_edit.png ) !important;}
+.icon-tableEdit         { background-image: url(../img/protoImg/table_row_edit.png ) !important;}
+
+
+.icon-formAdd     	{ background-image: url(../img/protoImg/form_add.png ) !important;}
+.icon-formEdit      { background-image: url(../img/protoImg/form_edit.png ) !important;}
+.icon-formView      { background-image: url(../img/protoImg/form_view.png ) !important;}
 
 
 /*  Iconos Adv Sort  */

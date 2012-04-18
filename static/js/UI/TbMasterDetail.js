@@ -146,7 +146,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         // Asigna una referencia al objeto 
         var myMeta = this.protoMeta; 
-        var __MasterDetail = this.objMasterDet; 
+        var __MasterDetail = this.__MasterDetail; 
 
 
 
@@ -307,8 +307,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
 // ------------------------------------------------------------------------------------------------
 
-		var autoSync = true; 
-		var inEdition = false; 
+		this.autoSync = true; 
+		this.editMode = false; 
 
         var configTbar = Ext.create('Ext.toolbar.Toolbar', {
             id : ideTbConfig, 
@@ -316,19 +316,38 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             padding: '5 5 5 5',
             items  : [{
 	            xtype   : 'tbtext',
-	            text: '<b>Config :<b>'
+	            text: '<b>Form :<b>'
 	        }, {
-	            iconCls : 'icon-tableSheet', 
-	            text:       'Fiche',
-	            handler:    onClickTableSheet
+	            iconCls : 'icon-formAdd', 
+	            text:       'Add',
+	            toolBar: 	'Form Add Record',
+	            handler:    onClickFormAdd
+	        }, {
+	            iconCls : 'icon-formEdit', 
+	            text:       'Edit',
+	            toolBar: 	'Form Edit  Record',
+	            handler:    onClickFormEdit
+	        }, {
+	            iconCls : 'icon-formView', 
+	            text:       'View',
+	            toolBar: 	'Form View Read Only Mode',
+	            handler:    onClickFormView
+	        }, '|',  {
+	            xtype   : 'tbtext',
+	            text: '<b>Table :<b>'
 	        }, {
 	            iconCls : 'icon-tableAdd', 
 	            text:       'Add',
 	            handler:    onClickTableAdd
 	        }, {
-	            iconCls : 'icon-tableUpdate', 
+	        	
+	        	//  ----------------------------------------------------
+	            iconCls : 'icon-tableEdit', 
+	            itemId:     'edit',
 	            text:       'Edit',
-	            handler:    onClickTableUpdate
+	            scope:    	this,
+	            handler:    toggleEditMode,
+	            disabled: 	this.editMode  
 	        }, {
 	            iconCls : 'icon-tableDuplicate', 
 	            text:       'Duplicate',
@@ -344,32 +363,47 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 	            itemId:     'save',
 	            text:       'Save',
 	            handler:    onClickTableSave,
-	            disabled: 	! (inEdition )  
+	            disabled: 	! (this.editMode )  
 	       	}, { 
 	            iconCls : 'icon-tableAutoSync', 
+	            itemId:     'autoSync',
 	            text:       'AutoSync',
                 toggleHandler: onClickTableAutoSync,
 	            enableToggle: true, 
-	            pressed:	autoSync  
+	            pressed:	this.autoSync,   
+	            disabled: 	! (this.editMode )  
 	        }, {
+	        	//  ----------------------------------------------------
 	            iconCls : 'icon-tableCancel', 
 	            itemId:     'cancel',
 	            text:       'Cancel',
-	            handler:    onClickTableCancel,
-	            disabled: 	! (inEdition )  
+	            scope:    	this,
+	            handler:    toggleEditMode,
+	            disabled: 	! (this.editMode )  
             }],  
             hidden : true
         });
 
-        function onClickTableAutoSync( btn, pressed ){
-			autoSync = pressed ; 			
+		this.configTbar = configTbar; 
 
-			// configTbar.getComponent('save').setDisabled( autoSync );
-			// btn.ownerCt.getComponent('cancel').setDisabled( autoSync ); 
+        function onClickTableAutoSync( btn, pressed ){
+
+			this.autoSync = pressed ; 			
+
+			btn.ownerCt.getComponent('save').setDisabled( this.autoSync || (!this.editMode ) );
+			btn.ownerCt.getComponent('cancel').setDisabled( !this.editMode  ); 
 
         }; 
 
-        function onClickTableSheet( btn ){
+		function toggleEditMode(){
+			this.toggleEditMode()
+		}
+
+        function onClickFormAdd( btn ){
+			console.log( btn.text ) 
+        }; 
+
+        function onClickFormEdit( btn ){
 
 			// Obtener los datos de la grilla 
 			if ( ! __MasterDetail.protoMasterGrid.selected  ) {
@@ -401,6 +435,11 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         	
         }; 
 
+
+        function onClickFormView( btn ){
+			console.log( btn.text ) 
+        }; 
+
         function onClickTableUpdate( btn ){
 			console.log( btn.text ) 
         }; 
@@ -409,9 +448,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 			console.log( btn.text ) 
         }; 
         
-        function onClickTableCancel( btn ){
-			console.log( btn.text ) 
-        }; 
         function onClickTableDelete( btn ){
 			console.log( btn.text ) 
         }; 
@@ -733,6 +769,27 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         configureProtoFilter(); 
 
 
-    } 
+  	}, 
+
+	toggleEditMode: function ( forceEdit, tbOnly ) {
+		// tbOnly : ToolBarOnly,  is internal event
+		
+		if ( forceEdit ) this.editMode = forceEdit;  
+		else this.editMode = ! this.editMode ; 			
+		
+		if ( (!tbOnly ) && ( this.__MasterDetail ))  {
+			this.__MasterDetail.protoMasterGrid.setEditMode( this.editMode )
+		} 
+		
+		if ( this.configTbar ) {
+			this.configTbar.getComponent('edit').setDisabled ( this.editMode );
+			this.configTbar.getComponent('cancel').setDisabled( !this.editMode ); 
+	
+			this.configTbar.getComponent('autoSync').setDisabled( ! this.editMode );
+			this.configTbar.getComponent('save').setDisabled( this.autoSync || (!this.editMode ));
+		}; 
+		
+	}
+  
 
 }); 
