@@ -23,20 +23,10 @@ from django.db import models
 from django.http import HttpResponse
 from protoGrid import Q2Dict, getVisibleFields
 from protoLib import protoGrid
-from utilsBase import construct_search, addFilter
+from utilsBase import construct_search, addFilter, JSONEncoder 
 
-import datetime, operator, decimal
 import django.utils.simplejson as json
-
-
-class JSONEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, ( datetime.date, datetime.time, datetime.datetime)):
-            return obj.isoformat()
-        elif isinstance(obj,  decimal.Decimal ):
-            return str( obj )
-        else:
-            return json.JSONEncoder.default(self, obj)    
+import datetime, operator, decimal
 
 
 def getDjangoModel( modelName ):

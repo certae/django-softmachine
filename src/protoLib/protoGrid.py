@@ -28,11 +28,18 @@ class ProtoGridFactory(object):
         self.protoModel = getattr(model, 'protoExt', {})
         self.protoAdmin = getattr(self.model_admin, 'protoExt', {})
         self.protoFields = self.protoAdmin.get( 'protoFields', {}) 
-        
-        protoExclude = self.protoAdmin.get( 'protoExclude', ())
-         
-        excludes =  verifyList( getattr(self.model_admin , 'exclude', [])) 
+
+        # lista de campos para la presentacion en la grilla 
         list_display = verifyList( getattr(self.model_admin , 'list_display', []))[:]
+        
+        #Se leen los excluidos y se cargan en una sola coleccion 
+        protoExclude = verifyList( self.protoAdmin.get( 'excludeFields', []) ) 
+        protoExclude.extend ( verifyList( getattr(self.model_admin , 'exclude', [])) )
+
+        #TODO: se leen los readonly fields para setear el attr readOnly = true 
+        protoReadOnly = verifyList( self.protoAdmin.get( 'readOnlyFields', []) )
+        protoReadOnly.extend( verifyList( getattr(self.model_admin , 'readonly_fields', [])) )  
+
 
         # Por defecto solo vienen  Chk, _str_
         try: list_display.remove('action_checkbox')
@@ -59,7 +66,6 @@ class ProtoGridFactory(object):
 
             for field in self.model._meta._fields():
                 if field.name in protoExclude: continue
-                if field.name in excludes: continue
                 setFieldDict (  self.protoFields , field )
 
 
@@ -67,6 +73,8 @@ class ProtoGridFactory(object):
         for key in self.protoFields:        
             fdict = self.protoFields[ key ]
             if (fdict.get( 'name', '') == '') : fdict[ 'name' ] = key  
+
+            if key in protoReadOnly: fdict[ 'readOnly' ] = True
 
             # Repasa las propiedades de base
             if ((fdict.get( 'type', '') == '' ) and not ( key.startswith( 'udp__') )):
@@ -83,9 +91,10 @@ class ProtoGridFactory(object):
         self.storeFields = self.storeFields[1:]
 
 
-# ---------------------------------------------
     def getFieldSets(self):
-
+        """ El field set determina la distribucion de los campos en la forma
+        """ 
+        
         prFieldSet = self.protoAdmin.get( 'protoFieldSet', []) 
 
         # Si no han sido definido genera por defecto  

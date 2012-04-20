@@ -20,6 +20,7 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
     list_display =( 'model', 'code',  'description',  'superConcept', )
     list_filter = ( 'model', 'superConcept', )
     search_fields = ( 'code', 'description',  'superConcept')
+    readonly_fields = ( 'superConcept',  )
 
     fieldsets = (
         (None, {
@@ -43,6 +44,7 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
     protoExt[ 'sortFields' ] = ( 'model__code', 'code',  ) 
 
     protoExt[ 'initialSort' ] = ( 'model__code', 'code',  ) 
+#   protoExt[ 'readOnlyFields' ] = ( 'model__code', 'code',  ) 
 
     
     # El concept detail es el nmbre del modelo con su app de base [app].[modelo]

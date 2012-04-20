@@ -55,6 +55,7 @@ _ComboPageSize = [
             ]; 
             
 
+
 // Autoload entites
 //_AUTOLOAD_PCI = ['protoExt.Model', 'protoExt.Property'  ]
 _AUTOLOAD_PCI = ['protoExt.Prueba'  ]

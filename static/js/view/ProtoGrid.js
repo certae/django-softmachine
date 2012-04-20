@@ -106,9 +106,12 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 			var lstProps = ['flex', 'hidden', 'width', 'minWidth', 'sortable',  
 							'xtype', 'editMode',
-							'editor', 'render', 'align', 'format'
+							'render', 'align', 'format'
 							]
         
+        	if (( vFld.type != 'autofield' ) &&  ! vFld.readOnly ) 
+        		lstProps.push( 'editor'  )   
+        	
         	col = copyProps ( col,  vFld, true, lstProps )
             if ( vFld.wordWrap == true ) {
                 col.renderer = columnWrap
@@ -171,8 +174,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 		        handler: function (){ 
 		        	this.setEditionOff( true )
 		        }
+		     },{
+		        type: 'gear',
+		        handler: showConfig 
 		    }]
-            
             
         }); 
 
@@ -320,6 +325,12 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 		// });
 
 
+        function showConfig() {
+        	
+        	safeCols = clone( myColumns  )
+        	alert ( Ext.encode( safeCols ) ) 
+        	
+        }
 
         function columnWrap(value){
             return '<div style="white-space:normal; text-align:justify !important";>' + value + "</div>";

@@ -194,12 +194,20 @@ function DefineProtoModel ( myMeta , modelClassName ){
 		  	break;
 
 		case 'foreigntext': 
+			// El zoom se divide en 2 cols el texto ( _unicode ) y el ID ( foreignid )
             editor.xtype = 'protoZoom'
 		  	break;
 
 		case 'foreignid': 
             editor.xtype = 'numbercolumn'
+            editor.hidden = true
            	vFld['hidden']= true
+
+		  	break;
+
+		case 'autofield': 
+            mField.type = 'autofield'
+            editor = {}
 
 		  	break;
 		}
@@ -279,37 +287,64 @@ function copyProps(oBase, oRef, overWrite, lstProps )
 }
 
 
-function clone(obj) {
-    if (null == obj || "object" != typeof obj) return obj;
+function clone(obj, auxRec) {
+	
+	// Verificacion de nivel de recursividad en la copia de objetos 
+	if ( auxRec ) 	{ 
+		auxRec = auxRec + 1 
+	} else { auxRec = 1 } 
+
+    if (null == obj || "object" != typeof obj) 
+    	// si es un tipo simple,
+    	return obj;
     
     if (obj instanceof Date) {
+    	// los objetos tipo date no son tipos de base 
         var copy = new Date();
         copy.setTime(obj.getTime());
         return copy;
     }
     else if (obj instanceof Array) {
+    	// Los array son copiados elto by elto.
         var copy = [];
         var len = obj.length;
         for (var i = 0; i < len; ++i) {
-            copy[i] = clone(obj[i]);
+            copy[i] = clone(obj[i], auxRec );
         }
         return copy;
     }
+    else if ( obj.$class ) {
+		// Si es una clase, solo copia el initialConfig y un nombre de clase 
+        var copy = {};
+        if (obj.hasOwnProperty('initialConfig')) {
+        	copy.initialConfig = clone( obj.initialConfig )
+    	} 
+        if (obj.__proto__.$className ) {
+        	copy.className = obj.__proto__.$className
+    	} 
+		return copy; 
+	}
+	
     else if (obj instanceof Object) {
+    	// Si es un objeto recorre las propiedades y las clona una a una 
         var copy = {};
         for (var attr in obj) {
-            if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
+        	if ( attr in oc( ['events', 'renderer'] )) continue; 
+            if (obj.hasOwnProperty(attr)) {
+            	// console.log ( auxRec,  obj, attr, obj[attr] )
+            	copy[attr] = clone(obj[attr], auxRec);
+            } 
         }
         return copy;
     }
 	else  {
-
-	    var copy = obj.constructor();
-	    for (var attr in obj) {
-	        if (obj.hasOwnProperty(attr))  copy[attr] = obj[attr];
-			else copy[attr] = clone( obj[attr] );
-	    }
-	    return copy;
+		// console.log ( 'N/A')
+	    // var copy = obj.constructor();
+	    // for (var attr in obj) {
+	        // if (obj.hasOwnProperty(attr))  copy[attr] = obj[attr];
+			// else copy[attr] = clone( obj[attr] );
+	    // }
+	    // return copy;
 	} 
     
 }

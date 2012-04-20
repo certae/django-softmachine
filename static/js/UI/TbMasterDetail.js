@@ -389,9 +389,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         function onClickTableAutoSync( btn, pressed ){
 
 			this.autoSync = pressed ; 			
-
-			btn.ownerCt.getComponent('save').setDisabled( this.autoSync || (!this.editMode ) );
-			btn.ownerCt.getComponent('cancel').setDisabled( !this.editMode  ); 
+			btn.ownerCt.getComponent('save').setDisabled(  this.autoSync  );
 
         }; 
 

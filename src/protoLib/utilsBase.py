@@ -1,7 +1,5 @@
 # -*- encoding: utf-8 -*-
 
-from datetime import datetime
-
 # some common routines
 # Compiled by : Dgt 11/11
 
@@ -9,8 +7,22 @@ from datetime import datetime
 import os
 import re
 
+import datetime, operator, decimal
+import django.utils.simplejson as json
+
+
 # Prefijo de las funciones ORM invocadas como campos, __unicode__ para las FK  
 _PROTOFN_ = '_protoFn_'
+
+
+class JSONEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, ( datetime.date, datetime.time, datetime.datetime)):
+            return obj.isoformat()
+        elif isinstance(obj,  decimal.Decimal ):
+            return str( obj )
+        else:
+            return json.JSONEncoder.default(self, obj)    
 
 
 def addFilter( Qs, sFilter ):
@@ -35,7 +47,8 @@ def verifyList( obj ):
 #   DGT:  Los objetos del admin son en su mayoria del tipo tuple,
 #   Es necesario convertirlos a listas por facilidad de trabajo 
     if obj is None:  obj = []
-    if type( obj ) != type([]):  [obj]
+    if type( obj ).__name__ != type([]).__name__ :  
+        obj = list( obj )
     return obj 
 
 
@@ -180,17 +193,6 @@ def DateFormatConverter(to_extjs = None, to_python = None):
     return out
     
     
-
-def count_files_in_dir(inDir, recursive=True):
-    import os
-    file_count = 0
-    if recursive:
-        for root, dirs, files in os.walk(inDir):
-            file_count += len(files)
-    else:
-        file_count = len(os.walk(path)[2])
-    return file_count
-    
     
 def reduceDict(inDict, keep_keys):
     """ keep only keep_keys in the dict (return a new one) """
@@ -286,25 +288,3 @@ class VirtualField(object):
         self.name = name
 
 
-
- #############################"" XML STUFF 
- 
-def xsl_transormation(xslfile, xmlfile = None, xmlstring = None, params={}):
-    from lxml import etree
-    import StringIO
-    xslt_tree = etree.XML(open(xslfile, 'r').read())
-    xml_contents = xmlstring
-    if not xml_contents:
-        if xmlfile:
-            xml_contents = open(xmlfile, 'r').read()
-        else:
-            xml_contents = '<?xml version="1.0"?>\n<foo>A</foo>\n'
-    f = StringIO.StringIO(xml_contents)
-    #print xml_contents
-    doc = etree.parse(f)
-    f.close()
-    transform = etree.XSLT(xslt_tree)
-    #print params
-    result = transform(doc, **params)
-    return result
- 

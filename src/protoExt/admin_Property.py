@@ -18,6 +18,9 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     protoExt = {'protoIcon': 'property' }
     protoExt[ 'title' ] = 'Éléments de données'
 
+
+#   protoExt[ 'readOnlyFields' ] = ( 'code', 'concept__model__code' ) 
+
     protoExt[ 'searchFields' ] = ( 'code', 'concept__model__code' ) 
     protoExt[ 'sortFields' ] = ( 'code', 'concept__model__code' )
     protoExt[ 'baseFilter' ] = { 'isForeign': False  }

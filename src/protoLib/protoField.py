@@ -65,6 +65,9 @@ def setFieldDict(protoFields ,  field ):
              }
         protoFields[fKey['name']] = fKey 
 
+    elif  field.__class__.__name__ == 'AutoField':
+        pField['type'] = 'autofield'
+
     
     #Lo retorna al diccionario
     protoFields[ pField['name'] ] = pField 
