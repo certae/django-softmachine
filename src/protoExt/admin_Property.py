@@ -56,7 +56,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         'baseType' : { 'fieldLabel' : 'Type' }, 
         'prpLength' : { 'fieldLabel' : 'Length', 'type' : 'decimal' }, 
 #        'udp__DOCUMENTDEREFERENCE' :{ 'fieldLabel' : 'Doc Reference'},
-        'udp__GABARIT': { 'fieldLabel' : 'Gabarit', 'type' : 'choise', 'choises' : [[ '0', 'cero'], [ '1', 'uno']]  },
+        'udp__GABARIT': { 'fieldLabel' : 'Gabarit', 'type' : 'choice', 'choices' : [[ '0', 'cero'], [ '1', 'uno']]  },
 #        'udp__DEFINITION': { 'fieldLabel' : 'Definition'  },
 #        'udp__PRECISIONS': { 'fieldLabel' : 'Precision' },
 #        'udp__VALIDATION': { 'fieldLabel' : 'Validation'  },

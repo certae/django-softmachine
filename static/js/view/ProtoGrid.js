@@ -176,7 +176,12 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 		        }
 		     },{
 		        type: 'gear',
-		        handler: showConfig 
+		        handler: showMetaConfig,
+		        tooltip: 'Meta Config ... '
+		     },{
+		        type: 'gear',
+		        handler: showColsConfig,
+		        tooltip: 'ColsConfig ... '
 		    }]
             
         }); 
@@ -325,13 +330,29 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 		// });
 
 
-        function showConfig() {
+        function showMetaConfig() {
+        	var safeConf =  clone( myMeta  )
+        	delete safeConf.dict 
         	
-        	safeCols = clone( myColumns  )
-        	alert ( Ext.encode( safeCols ) ) 
-        	
+        	showConfig( 'MetaConfig', safeConf )
         }
 
+        function showColsConfig() {
+        	var safeConf =  clone( myColumns )
+        	showConfig( 'ColsConfig' , myColumns  )
+        }
+        
+        function showConfig( title , myConf ) {
+
+        	Ext.Msg.show({
+               title: title,
+               multiline : true,   
+               width : 500, 
+               value: Ext.encode( myConf ) 
+               });
+
+        }
+        
         function columnWrap(value){
             return '<div style="white-space:normal; text-align:justify !important";>' + value + "</div>";
         };

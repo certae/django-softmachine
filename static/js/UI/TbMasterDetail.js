@@ -397,55 +397,43 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 			this.toggleEditMode()
 		}
 
-        function onClickFormAdd( btn ){
-			console.log( btn.text ) 
-        }; 
 
-        function onClickFormEdit( btn ){
+//  --------------------------------------------------------------------------
 
-			// Obtener los datos de la grilla 
-			if ( ! __MasterDetail.protoMasterGrid.selected  ) {
-				alert ( 'No hay ningun registro seleccionado');
-				return ;
-			}
+		function initFormController(){
 
-        	var form = Ext.widget('protoform', {
+        	var formController = Ext.create('ProtoUL.UI.FormControler', {
             	myMeta : myMeta  
-            });  
-
-
-            var win = Ext.widget('window', {
-            	constrain: true, 
-				title : myMeta.description,
-                closeAction: 'hide',
-                width: 600,
-                height: 400,
-                minHeight: 400,
-                minWidth: 400,
-                layout: 'fit',
-                resizable: true,
-                modal: true,
-                items: form
             });
-
-			form.setActiveRecord( __MasterDetail.protoMasterGrid.selected  );
-	        win.show();
         	
-        }; 
+        	return formController
 
+		}
+
+        function onClickFormAdd( btn ){
+        	var formController = initFormController()
+        	formController.newEditionForm ()
+        }; 
+        
+        function onClickFormEdit( btn ){
+        	var formController = initFormController()
+        	formController.newEditionForm ( __MasterDetail.protoMasterGrid.selected )
+        }; 
 
         function onClickFormView( btn ){
-			console.log( btn.text ) 
+        	var formController = initFormController()
+        	formController.newEditionForm ( __MasterDetail.protoMasterGrid.selected, true  )
         }; 
 
+//  --------------------------------------------------------------------------
+
+        function onClickTableAdd( btn ){
+        }; 
+        
         function onClickTableUpdate( btn ){
 			console.log( btn.text ) 
         }; 
 
-        function onClickTableAdd( btn ){
-			console.log( btn.text ) 
-        }; 
-        
         function onClickTableDelete( btn ){
 			console.log( btn.text ) 
         }; 

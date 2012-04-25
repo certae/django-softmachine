@@ -75,7 +75,7 @@ def setFieldDict(protoFields ,  field ):
 
 #----------------------------------------------------------
 
-# Choise,  Borrar despues de probar 
+# choice,  Borrar despues de probar 
 #        a = []
 #        for c in field.choices:
 #            a[c[0]] = c[1]              //  Dict

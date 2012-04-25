@@ -6,4 +6,4 @@ class PruebaAdmin(django.contrib.admin.ModelAdmin):
     protoExt[ 'hideRowNumbers' ] = True 
     protoExt[ 'protoMenuIx' ] = 0 
     protoExt[ 'description' ] = 'Esta es la description del concpeto concepto'
-    protoExt[ 'readOnlyFields' ] = ( 'id', 'prChoice', 'prBoolean' )           
+    protoExt[ 'readOnlyFields' ] = ( 'id', )           

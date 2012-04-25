@@ -36,13 +36,16 @@ function DefineProtoModel ( myMeta , modelClassName ){
 
     for (var ix in myMeta.fields ) {
 
-        var vFld  =  myMeta.fields[ix]; 
+        var vFld  =  myMeta.fields[ix];
+        
+        
+        // modelField  
         var mField = {
             name: vFld.name,
             type: 'string' 
         };
 
-		// DGT:  traer esto directamente del modelo 
+		// Todo:  traer esto directamente del modelo 
         editor = {
             allowBlank: false,
             readOnly: false
@@ -121,14 +124,14 @@ function DefineProtoModel ( myMeta , modelClassName ){
 			mField.dateFormat ='Y-m-d' 
 
 	        vFld['xtype'] = 'datecolumn' 
-	        vFld['format'] = 'Y-m-d'
+	        vFld['format'] = 'Y/m/d'
 
 			editor.xtype = 'datefield'
 			editor.format = 'y/m/d'
 
             editor.minValue = '1900/01/01'
             editor.minText = 'Cannot ...'
-            editor.maxValue = Ext.Date.format(new Date(), 'Y/m/d')
+            editor.maxValue = Ext.Date.format(new Date(), editor.format)
             editor.maxText = 'Cannot ...'
             editor.disabledDays = [0, 6]
             editor.disabledDaysText = 'Plants are not available on the weekends'
@@ -143,12 +146,12 @@ function DefineProtoModel ( myMeta , modelClassName ){
 
 
 			editor.xtype = 'datefield'
-			editor.format = 'm/d/y'
+			editor.format = 'y/m/d'
 	        editor.timeFormat = 'H:i'
 
             editor.minValue = '01/01/06'
             editor.minText = 'Cannot have a start date before .......!'
-            editor.maxValue = Ext.Date.format(new Date(), 'm/d/Y')
+            editor.maxValue = Ext.Date.format(new Date(), editor.format )
             editor.maxText = 'Cannot have a start date after ..........!'
             editor.disabledDays = [0, 6]
             editor.disabledDaysText = 'Not available on the weekends '
@@ -156,15 +159,16 @@ function DefineProtoModel ( myMeta , modelClassName ){
 		  	break;
 
 		case 'time':
+			//TODO:  En la edicion de grilla, al regresar cambia el formato 
 			mField.type = 'time';	        
 
-	        vFld['format'] = 'H:i:s'  //  'H:i'
+	        vFld['format'] = 'H:i'  //  'H:i:s'
 
 			editor.xtype = 'timefield'
 			editor.format = vFld['format']  	
 
-            editor.minValue = '6:00 AM'
-            editor.maxValue = '8:00 PM'
+            editor.minValue = '06:00'
+            editor.maxValue = '18:00'
             editor.minText = 'Cannot ...'
             editor.maxText = 'Cannot ..'
             
@@ -180,7 +184,7 @@ function DefineProtoModel ( myMeta , modelClassName ){
             editor.cls = 'x-grid-checkheader-editor'
 		  	break;
 		  	
-		case 'choise':
+		case 'combo':
 			// mField.type = 'string';	        
 	        // vFld['xtype'] = 'textcolumn'
 		
@@ -188,7 +192,7 @@ function DefineProtoModel ( myMeta , modelClassName ){
             editor.typeAhead = true
             editor.triggerAction = 'all'
             editor.selectOnTab = true
-            editor.store = vFld.choises
+            editor.store = vFld.choices
             editor.lazyRender = true
             editor.listClass = 'x-combo-list-small'
 		  	break;

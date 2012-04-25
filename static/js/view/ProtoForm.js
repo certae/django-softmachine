@@ -75,10 +75,45 @@ Ext.define('ProtoUL.view.ProtoForm', {
 					scope : this,
 					handler : this.onReset
 				}]
-			}]
+			}],
+
+		    tools: [{
+		        type: 'gear',
+				scope: this,
+		        handler: this.showMetaConfig,
+		        tooltip: 'Meta Config ... '
+		     },{
+		        type: 'gear',
+				scope: this,
+		        handler: this.showColsConfig,
+		        tooltip: 'LayoutConfig ... '
+		    }]
+			
 		});
 		this.callParent();
 	},
+	
+	showMetaConfig: function () {
+        	var safeConf =  clone( this.myMeta  )
+        	this._showConfig( 'MetaConfig', safeConf )
+       },
+
+    showColsConfig: function () {
+        	var safeConf =  clone( this.prFormLayout  )
+        	this._showConfig( 'ColsConfig' , safeConf   )
+       },
+        
+    _showConfig: function ( title , myConf ) {
+
+        	Ext.Msg.show({
+               title: title,
+               multiline : true,   
+               width : 500, 
+               value: Ext.encode( myConf ) 
+               });
+
+       },
+	
 	setActiveRecord : function(record) {
 		this.activeRecord = record;
 		if(record) {
@@ -362,7 +397,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 				}
 			}
 
-		} else if(prSection.style in                     oc(['Tab', 'Accordion'])) {
+		} else if(prSection.style in oc(['Tab', 'Accordion'])) {
 
 			if(prSection.height)
 				prLayout.height = prSection.height;
@@ -402,5 +437,28 @@ Ext.define('ProtoUL.view.ProtoForm', {
 		}
 		return prLayout;
 
-	}
+	}, 
+	
+  setReadOnly: function( bReadOnly ){
+  	
+  	var readOnlyCls = '.x-protofield-readonly'
+  	var myFields = this.getForm().getFields();
+
+
+    Ext.Array.forEach( myFields.items , function( obj ) {
+
+    	obj.setReadOnly( bReadOnly );
+    	// obj[bReadOnly ? 'addCls' : 'removeCls']( readOnlyCls );
+
+    	if ( obj.xtype != 'htmlfield' ) obj.setDisabled( bReadOnly );
+
+    });
+  	
+    // Ext.Array.forEach(this.query('textfield'), function( obj ) {
+    // Ext.Array.forEach(this.query('htmlfield'), function( obj ) {
+    // Ext.Array.forEach(this.query('combobox'), function( obj ) {
+        
+  }
+	
+	
 });
