@@ -37,8 +37,8 @@ class ProtoGridFactory(object):
         protoExclude.extend ( verifyList( getattr(self.model_admin , 'exclude', [])) )
 
         #TODO: se leen los readonly fields para setear el attr readOnly = true 
-        protoReadOnly = verifyList( self.protoAdmin.get( 'readOnlyFields', []) )
-        protoReadOnly.extend( verifyList( getattr(self.model_admin , 'readonly_fields', [])) )  
+        self.protoReadOnlyFields = verifyList( self.protoAdmin.get( 'readOnlyFields', []) )
+        self.protoReadOnlyFields.extend( verifyList( getattr(self.model_admin , 'readonly_fields', [])) )  
 
 
         # Por defecto solo vienen  Chk, _str_
@@ -74,7 +74,7 @@ class ProtoGridFactory(object):
             fdict = self.protoFields[ key ]
             if (fdict.get( 'name', '') == '') : fdict[ 'name' ] = key  
 
-            if key in protoReadOnly: fdict[ 'readOnly' ] = True
+            if key in self.protoReadOnlyFields: fdict[ 'readOnly' ] = True
 
             # Repasa las propiedades de base
             if ((fdict.get( 'type', '') == '' ) and not ( key.startswith( 'udp__') )):

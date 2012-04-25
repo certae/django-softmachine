@@ -123,6 +123,7 @@ def protoGetPCI(request):
                  'protoViews':protoViews ,     
                  'protoFilters': protoFilters,
                  'protoFieldSet': protoFieldSet, 
+                 'readOnlyFields' : grid.protoReadOnlyFields,
                  },
             'rows':[],
             'totalCount': 0, 

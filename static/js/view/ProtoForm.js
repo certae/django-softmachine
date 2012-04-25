@@ -94,8 +94,9 @@ Ext.define('ProtoUL.view.ProtoForm', {
 	},
 	
 	showMetaConfig: function () {
-        	var safeConf =  clone( this.myMeta  )
-        	this._showConfig( 'MetaConfig', safeConf )
+    	var safeConf =  clone( this.myMeta  );
+    	delete safeConf.dict 
+    	this._showConfig( 'MetaConfig', safeConf )
        },
 
     showColsConfig: function () {
@@ -439,7 +440,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
 	}, 
 	
-  setReadOnly: function( bReadOnly ){
+  setReadOnly: function( bReadOnly , readOnlyFields ){
   	
   	var readOnlyCls = '.x-protofield-readonly'
   	var myFields = this.getForm().getFields();
@@ -447,10 +448,13 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
     Ext.Array.forEach( myFields.items , function( obj ) {
 
-    	obj.setReadOnly( bReadOnly );
-    	// obj[bReadOnly ? 'addCls' : 'removeCls']( readOnlyCls );
+		if ( ! readOnlyFields  || ( obj.name in oc( readOnlyFields )  )  ) {
 
-    	if ( obj.xtype != 'htmlfield' ) obj.setDisabled( bReadOnly );
+	    	obj.setReadOnly( bReadOnly );
+	    	// obj[bReadOnly ? 'addCls' : 'removeCls']( readOnlyCls );
+	    	if ( obj.xtype != 'htmlfield' ) obj.setDisabled( bReadOnly );
+			
+		}
 
     });
   	
