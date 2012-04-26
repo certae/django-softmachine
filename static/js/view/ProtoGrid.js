@@ -140,7 +140,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             
 		    tools: [{
 		        itemId: 'toolRefresh',
-		        type: 'refresh',
+		        type: 'close',
 		        hidden: true,
 				scope: this,
 		        handler: function (){ 
