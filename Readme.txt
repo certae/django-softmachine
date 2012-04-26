@@ -1,11 +1,3 @@
-ERROR: 
-
-Hay un error al cargar los tabs, el indice del tab corresponde al indice tab
-buscar el tab segun el indice de los detalles o crear una estructura de equivalencia. 
-
-Al momento de abreir el tab y luego selecionar no esta pasando por el seteo del titulo, revizar si el setActiveTab esta pasando 
-  
-=------------------------------------------------------------------------
 
 Como Comenzar
 

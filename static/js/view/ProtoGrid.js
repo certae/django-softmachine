@@ -93,35 +93,15 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         	myColumns.push(Ext.create('Ext.grid.RowNumberer',{"width":37, "draggable":false }));	
         }
 
-        // DGT** Creacion de columnas  
+        // DGT** Copia las columnas   
         for (var ix in myMeta.fields ) {
-            var vFld  =  myMeta.fields[ix];
-
-            if (!vFld.header || vFld.storeOnly) {continue;}
-            
-        	var col = {
-                dataIndex: vFld.name,
-                text: vFld.header 
-    		}
-
-			var lstProps = ['flex', 'hidden', 'width', 'minWidth', 'sortable',  
-							'xtype', 'editMode',
-							'render', 'align', 'format'
-							]
-        
-        	if (( vFld.type != 'autofield' ) &&  ! vFld.readOnly ) 
-        		lstProps.push( 'editor'  )   
-        	
-        	col = copyProps ( col,  vFld, true, lstProps )
-            if ( vFld.wordWrap == true ) {
-                col.renderer = columnWrap
-                }
-
-            myColumns.push(col);
-
+            var col = getColDefinition( myMeta.fields[ix]  );
+            myColumns.push( col  );
         }
         
         this.myColumns = myColumns; 
+        
+        //   gridColumns: Es un subconjuto para poder manejar diferentes conf de columnas  
         var gridColumns =  myColumns;
         // [{"xtype":"rownumberer","width":30},{"text":"ID","sortable":true,"dataIndex":"id","hidden":true},{"text":"First Name","sortable":true,"dataIndex":"first","editor":{"xtype":"textfield"}},{"text":"Last Name","sortable":true,"dataIndex":"last","editor":{"xtype":null}},{"text":"Email","sortable":true,"dataIndex":"email","editor":{"xtype":"textfield"}}];
         
@@ -331,15 +311,13 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 
         function showMetaConfig() {
-        	var safeConf =  clone( myMeta  )
-        	delete safeConf.dict 
-        	
+        	var safeConf =  clone( myMeta , 0, exclude =['dict','gridDefinition', 'formDefinition'] )
+        	// delete safeConf.dict 
         	showConfig( 'MetaConfig', safeConf )
         }
 
         function showColsConfig() {
-        	var safeConf =  clone( myColumns )
-        	showConfig( 'ColsConfig' , myColumns  )
+        	showConfig( 'ColsConfig' , myMeta.gridDefinition   )
         }
         
         function showConfig( title , myConf ) {
@@ -353,9 +331,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         }
         
-        function columnWrap(value){
-            return '<div style="white-space:normal; text-align:justify !important";>' + value + "</div>";
-        };
 
         function prepareSheet( ){
 

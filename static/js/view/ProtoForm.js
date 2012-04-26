@@ -166,22 +166,18 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
 			var vFld = this.getProtoField ( this.myMeta, prVar )
 
-			prFld = copyProps( vFld.editor, vFld.formEditor, true ) ;
-			
-			if ( ! prFld ) prFld = {}
+			prFld = getFormFieldDefinition ( vFld ) ;
+			if ( ! prFld ) prFld = { readOnly : true }
 			prFld.name = prVar;
 
 		} else if(typeOf(prVar) == 'object') {
-
-			if ( !prVar.name ) {
-				console.log( prVar ) 
-			}
+			// if ( !prVar.name ) console.log( prVar ) 
 
 			var vFld = this.getProtoField ( this.myMeta, prVar.name  )
 
-			prFld = copyProps( vFld.editor, vFld.formEditor, true ) ;
+			prFld = getFormFieldDefinition ( vFld ) ;
+			if ( ! prFld ) prFld = { readOnly : true }
 
-			if ( ! prFld ) prFld = {}
 			prFld = copyProps( prFld, prVar, false ) ;
 			
 			// if(prVar.width) prFld.width = prVar.width;

@@ -31,212 +31,53 @@ function DefineProtoModel ( myMeta , modelClassName ){
     // autoLoad: true
     // convert :  Campo Virtual calculado,  Apunta a una funcion q  genera el valor 
     
-    var myFields = [];
-	var dict = {};
+    var myFields = [];   		// model Fields 
+	var dict = {};		 		// For indexing fields
 
     for (var ix in myMeta.fields ) {
 
         var vFld  =  myMeta.fields[ix];
-        
+        if (!vFld.header || vFld.storeOnly) {continue;}
+		if (!vFld.type )  vFld.type = 'string'
         
         // modelField  
         var mField = {
             name: vFld.name,
-            type: 'string' 
+            type: vFld.type 
         };
 
-		// Todo:  traer esto directamente del modelo 
-        editor = {
-            allowBlank: false,
-            readOnly: false
-		}; 
 
-        formEditor = {
-            fieldLabel:  vFld.fieldLabel || vFld.header || vFld.name 
-		}; 
-
-		
 		// Determina el xType y otros parametros 
-		if ( ! vFld.type )  vFld.type = 'string'
 		switch( vFld.type )
 		{
-		case 'string':
-			editor.minLength = 2
-			editor.minLengthText = 'Cannot ...'
-	        // editor.vtype = 'email'
-		  	break;
-
-		case 'text':
-			formEditor.xtype = 'htmlfield'
-			formEditor.height = 200
-			formEditor.labelAlign = 'top'
-		  	break;
-
-		case 'string':
-			editor.minLength = 2
-			editor.minLengthText = 'Cannot ...'
-	        // editor.vtype = 'email'
-		  	break;
-		
-		case 'int':
-			mField.type = 'int';	        
-
-	        vFld['xtype'] = 'numbercolumn'
-			vFld['align'] = 'right'
-			vFld['format'] = '0,000'
-
-			editor.xtype = 'numberfield'
-			editor.format = '0,000'
-			editor.allowDecimals = false
-            editor.step = 1
-
-            editor.minValue = 0
-            editor.minText = 'Cannot ...'
-
-            editor.maxValue = 1000000
-            editor.maxText = 'Cannot  ...'
-		  	break;
-
 		case 'decimal':
 			mField.type = 'number';	        
-
-	        vFld['xtype'] = 'numbercolumn'
-			vFld['align'] = 'right'
-			vFld['format'] = '0,000.00'
-            // vFld['renderer'] = 'usMoney'
-
-			editor.xtype = 'numberfield'
-			editor.format = '0,000'
-			editor.allowDecimals = true
-            editor.decimalPrecision = 2
-            editor.step = 0.5
-
-            editor.minValue = 0
-            editor.minText = 'Cannot ...'
-
-            editor.maxValue = 1000000
-            editor.maxText = 'Cannot  ...'
 		  	break;
-
-		
 		case 'date':
-			mField.type = 'date';	        
 			mField.dateFormat ='Y-m-d' 
-
-	        vFld['xtype'] = 'datecolumn' 
-	        vFld['format'] = 'Y/m/d'
-
-			editor.xtype = 'datefield'
-			editor.format = 'y/m/d'
-
-            editor.minValue = '1900/01/01'
-            editor.minText = 'Cannot ...'
-            editor.maxValue = Ext.Date.format(new Date(), editor.format)
-            editor.maxText = 'Cannot ...'
-            editor.disabledDays = [0, 6]
-            editor.disabledDaysText = 'Plants are not available on the weekends'
 		  	break;
-
 		case 'datetime':
 			mField.type = 'date';	        
-			mField.dateFormat ='Y-m-d'  // 'timestamp' 
-
-	        vFld['xtype'] = 'datecolumn' 
-	        vFld['format'] = 'Y-m-d H:i:s'
-
-
-			editor.xtype = 'datefield'
-			editor.format = 'y/m/d'
-	        editor.timeFormat = 'H:i'
-
-            editor.minValue = '01/01/06'
-            editor.minText = 'Cannot have a start date before .......!'
-            editor.maxValue = Ext.Date.format(new Date(), editor.format )
-            editor.maxText = 'Cannot have a start date after ..........!'
-            editor.disabledDays = [0, 6]
-            editor.disabledDaysText = 'Not available on the weekends '
-            
-		  	break;
-
-		case 'time':
-			//TODO:  En la edicion de grilla, al regresar cambia el formato 
-			mField.type = 'time';	        
-
-	        vFld['format'] = 'H:i'  //  'H:i:s'
-
-			editor.xtype = 'timefield'
-			editor.format = vFld['format']  	
-
-            editor.minValue = '06:00'
-            editor.maxValue = '18:00'
-            editor.minText = 'Cannot ...'
-            editor.maxText = 'Cannot ..'
-            
-		  	break;
-		  	
-		  	
-		case 'bool':
-			mField.type = 'bool';
-			vFld['xtype'] = 'checkcolumn'      
-            vFld['editMode'] = false 
-
-            editor.xtype = 'checkbox'
-            editor.cls = 'x-grid-checkheader-editor'
-		  	break;
-		  	
-		case 'combo':
-			// mField.type = 'string';	        
-	        // vFld['xtype'] = 'textcolumn'
-		
-            editor.xtype = 'combobox'
-            editor.typeAhead = true
-            editor.triggerAction = 'all'
-            editor.selectOnTab = true
-            editor.store = vFld.choices
-            editor.lazyRender = true
-            editor.listClass = 'x-combo-list-small'
-		  	break;
-
-		case 'foreigntext': 
-			// El zoom se divide en 2 cols el texto ( _unicode ) y el ID ( foreignid )
-            editor.xtype = 'protoZoom'
-		  	break;
-
-		case 'foreignid': 
-            editor.xtype = 'numbercolumn'
-            editor.hidden = true
-           	vFld['hidden']= true
-
-		  	break;
-
-		case 'autofield': 
-            mField.type = 'autofield'
-            editor = {}
-
+			mField.dateFormat ='Y-m-d H:i:s'  // 'timestamp' 
 		  	break;
 		}
 
-		// Asigna el editor 
-        vFld['editor'] = editor; 
-        vFld['formEditor'] = formEditor; 
-		
+		// Asigna el modelo y el diccionario 
         myFields.push(mField);
 		dict[vFld.name] = vFld
 		
     }
     
     
-    // Asigna un diccionario con las llaves como clave. 
+    // Asigna un diccionario con las llaves como clave  
 	myMeta.dict = dict
-
-    
+	
     // myFields = [{"name":"id","type":"int","useNull":true},{"name":"first","type":"string"},{"name":"last","type":"String"},{"name":"email","type":"string"}]
     Ext.define(modelClassName, {
         extend: 'Ext.data.Model',
             fields: myFields 
 
         });
-  
 }
 
 
@@ -291,7 +132,9 @@ function copyProps(oBase, oRef, overWrite, lstProps )
 }
 
 
-function clone(obj, auxRec) {
+function clone(obj, auxRec, exclude ) {
+	// @exclude permite excluir propiedades de un diccionario 
+	
 	
 	// Verificacion de nivel de recursividad en la copia de objetos 
 	if ( auxRec ) 	{ 
@@ -313,7 +156,7 @@ function clone(obj, auxRec) {
         var copy = [];
         var len = obj.length;
         for (var i = 0; i < len; ++i) {
-            copy[i] = clone(obj[i], auxRec );
+            copy[i] = clone(obj[i], auxRec, exclude );
         }
         return copy;
     }
@@ -334,9 +177,11 @@ function clone(obj, auxRec) {
         var copy = {};
         for (var attr in obj) {
         	if ( attr in oc( ['events', 'renderer'] )) continue; 
+        	if (( exclude ) && ( attr in oc( exclude ))) continue; 
+
             if (obj.hasOwnProperty(attr)) {
             	// console.log ( auxRec,  obj, attr, obj[attr] )
-            	copy[attr] = clone(obj[attr], auxRec);
+            	copy[attr] = clone(obj[attr], auxRec, exclude);
             } 
         }
         return copy;
@@ -352,3 +197,200 @@ function clone(obj, auxRec) {
 	} 
     
 }
+
+
+function getColDefinition( vFld ) {
+	
+
+	//TODO:  traer esto directamente del modelo
+	colDefinition = {
+            dataIndex: vFld.name,
+            text: vFld.header 
+	}
+
+	var lstProps = ['flex', 'hidden', 'width', 'minWidth', 'sortable',  
+					'xtype', 'editMode', 'readOnly', 
+					'render', 'align', 'format'
+					]
+
+	colDefinition = copyProps ( colDefinition,  vFld, true, lstProps )
+    if ( vFld.wordWrap == true ) colDefinition.renderer = columnWrap
+	
+	//TODO: Copiar las propiedades de base 
+    editor = {
+        // allowBlank: false,
+        // readOnly: false
+	}
+
+	// Determina el xType y otros parametros 
+	if ( ! vFld.type )  vFld.type = 'string'
+	switch( vFld.type )
+	{
+	case 'string':
+		editor.minLength = 2
+		editor.minLengthText = 'Cannot ...'
+        // editor.vtype = 'email'
+	  	break;
+
+	case 'text':
+		colDefinition.renderer = columnWrap
+	  	break;
+
+	case 'string':
+		editor.minLength = 2
+		editor.minLengthText = 'Cannot ...'
+        // editor.vtype = 'email'
+	  	break;
+	
+	case 'int':
+        colDefinition['xtype'] = 'numbercolumn'
+		colDefinition['align'] = 'right'
+		colDefinition['format'] = '0,000'
+
+		editor.xtype = 'numberfield'
+		editor.format = '0,000'
+		editor.allowDecimals = false
+        editor.step = 1
+
+        editor.minValue = 0
+        editor.minText = 'Cannot ...'
+
+        editor.maxValue = 1000000
+        editor.maxText = 'Cannot  ...'
+	  	break;
+
+	case 'decimal':
+        colDefinition['xtype'] = 'numbercolumn'
+		colDefinition['align'] = 'right'
+		colDefinition['format'] = '0,000.00'
+        // vFld['renderer'] = 'usMoney'
+
+		editor.xtype = 'numberfield'
+		editor.format = '0,000'
+		editor.allowDecimals = true
+        editor.decimalPrecision = 2
+        editor.step = 0.5
+
+        editor.minValue = 0
+        editor.minText = 'Cannot ...'
+
+        editor.maxValue = 1000000
+        editor.maxText = 'Cannot  ...'
+	  	break;
+
+	
+	case 'date':
+        colDefinition['xtype'] = 'datecolumn' 
+        colDefinition['format'] = 'Y/m/d'
+
+		editor.xtype = 'datefield'
+		editor.format = colDefinition['format']
+
+        editor.minValue = '1900/01/01'
+        editor.minText = 'Cannot ...'
+        editor.maxValue = Ext.Date.format(new Date(), editor.format)
+        editor.maxText = 'Cannot ...'
+        editor.disabledDays = [0, 6]
+        editor.disabledDaysText = 'Plants are not available on the weekends'
+	  	break;
+
+	case 'datetime':
+        colDefinition['xtype'] = 'datecolumn' 
+        colDefinition['format'] = 'Y/m/d H:i:s'
+
+		editor.xtype = 'datefield'
+		editor.format = 'y/m/d'
+        editor.timeFormat = 'H:i'
+
+        editor.minValue = '01/01/06'
+        editor.minText = 'Cannot have a start date before .......!'
+        editor.maxValue = Ext.Date.format(new Date(), editor.format )
+        editor.maxText = 'Cannot have a start date after ..........!'
+        editor.disabledDays = [0, 6]
+        editor.disabledDaysText = 'Not available on the weekends '
+        
+	  	break;
+
+	case 'time':
+		//TODO:  En la edicion de grilla, al regresar cambia el formato 
+        colDefinition['format'] = 'H:i'  //  'H:i:s'
+
+		editor.xtype = 'timefield'
+		editor.format = colDefinition['format']  	
+
+        editor.minValue = '06:00'
+        editor.maxValue = '18:00'
+        editor.minText = 'Cannot ...'
+        editor.maxText = 'Cannot ..'
+        
+	  	break;
+	  	
+	  	
+	case 'bool':
+		colDefinition['xtype'] = 'checkcolumn'      
+        colDefinition['editMode'] = false 
+
+        editor.xtype = 'checkbox'
+        editor.cls = 'x-grid-checkheader-editor'
+	  	break;
+	  	
+	case 'combo':
+        editor.xtype = 'combobox'
+        editor.typeAhead = true
+        editor.triggerAction = 'all'
+        editor.selectOnTab = true
+        editor.store = vFld.choices
+        editor.lazyRender = true
+        editor.listClass = 'x-combo-list-small'
+	  	break;
+
+	case 'foreigntext': 
+		// El zoom se divide en 2 cols el texto ( _unicode ) y el ID ( foreignid )
+        editor.xtype = 'protoZoom'
+	  	break;
+
+	case 'foreignid': 
+       	colDefinition['hidden']= true
+
+        editor.xtype = 'numbercolumn'
+        editor.hidden = true
+	  	break;
+	}
+
+
+	// Asigna las coleccoiones de presentacion 
+	if (( vFld.type != 'autofield' ) &&  ! vFld.readOnly ) 
+    	colDefinition['editor'] = editor; 
+
+	return colDefinition; 
+
+	//  
+  function columnWrap(value){
+        return '<div style="white-space:normal; text-align:justify !important";>' + value + "</div>";
+  };
+
+
+}
+
+function getFormFieldDefinition( vFld ) {
+
+	var colDefinition = getColDefinition( vFld );
+	
+	if ( colDefinition.editor ) var formEditor = colDefinition.editor;
+	else var formEditor = { readOnly : true  }
+	  
+    formEditor.fieldLabel =  vFld.fieldLabel || vFld.header || vFld.name 
+	
+	switch( vFld.type )
+	{
+	case 'text':
+		formEditor.xtype = 'htmlfield'
+		formEditor.height = 200
+		formEditor.labelAlign = 'top'
+	  	break;
+	}
+
+	return formEditor; 
+	
+}
+

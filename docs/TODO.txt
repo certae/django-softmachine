@@ -1,11 +1,20 @@
 Tareas pendientes
 
-	vinculos a las formas 
-	
-	login
 	edicion 
-	seguridad 
+		Separar colecciones de edicion de forma y grilla, dejar la meta tal cual 
 	 
+
+	vinculos a las formas  
+		** Creado el hipervinculo, 
+		abrir la forma correspondiente  
+	
+	seguridad y login
+		**  Ubicacion del boton 
+		Funciones de login 
+		Funciones de acceso 
+		Funciones de grupos organizacionales
+			Multiherencia con una tabla q maneje la seguridad por tipo de campo depediendo del propie 
+		 
 
 
     Reportes
