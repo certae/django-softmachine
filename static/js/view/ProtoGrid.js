@@ -3,6 +3,10 @@
  * -  store  ( proxy )   
  * -  - model ( reader )  *** 
  */
+
+//TODO: Revizar Allow Null
+//TODO: agregar __str__ 
+
 Ext.define('ProtoUL.view.ProtoGrid' ,{
     extend: 'Ext.container.Container',
     alias : 'widget.protoGrid',
@@ -23,6 +27,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         // Recupera la clase para obtener la meta ------------------------------------------
         var myMeta = _cllPCI[ this.protoConcept ] ; 
+        this.myMeta = myMeta;
+
         var _pGrid = this; 
 
         // por defecto AutoLoad
@@ -43,7 +49,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         }   
         
         // Sorters 
-        pSorters = myMeta.initialSort; 
+        var pSorters = myMeta.initialSort; 
         
         //console.log (  this.protoConcept, ' Loading store ...  '  ); 
         this.store = Ext.create('Ext.data.Store', {
@@ -95,7 +101,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         // DGT** Copia las columnas   
         for (var ix in myMeta.fields ) {
-            var col = getColDefinition( myMeta.fields[ix]  );
+			var vFld = myMeta.fields[ix] 
+            if ( vFld.storeOnly ) continue;
+
+            var col = getColDefinition( vFld  );
             myColumns.push( col  );
         }
         
@@ -105,21 +114,18 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         var gridColumns =  myColumns;
         // [{"xtype":"rownumberer","width":30},{"text":"ID","sortable":true,"dataIndex":"id","hidden":true},{"text":"First Name","sortable":true,"dataIndex":"first","editor":{"xtype":"textfield"}},{"text":"Last Name","sortable":true,"dataIndex":"last","editor":{"xtype":null}},{"text":"Email","sortable":true,"dataIndex":"email","editor":{"xtype":"textfield"}}];
         
-        // Vista por defecto 
-        var pViews = myMeta.protoViews;
-        if (pViews !== undefined) {
-            try {
-                gridColumns = this.getViewColumns( pViews[0].viewFields ); 
+        // Vista por defecto
+        var myDefaultCols = myMeta.gridColumns;
+        if ( myDefaultCols.length > 0 ) {
+            try {  gridColumns = this.getViewColumns( myDefaultCols ); 
             } catch(e) {}
-        }; 
-        
+        }
         
         // var selModel = Ext.create('Ext.selection.CheckboxModel', {
             // listeners: { selectionchange: function(sm, selections) {} }
         // });
 
 		this.editMode = false; 
-        this.myMeta = myMeta;
         
         var grid = Ext.create('Ext.grid.Panel', {
 			plugins: ['headertooltip',
@@ -312,12 +318,12 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         function showMetaConfig() {
         	var safeConf =  clone( myMeta , 0, exclude =['dict','gridDefinition', 'formDefinition'] )
-        	// delete safeConf.dict 
         	showConfig( 'MetaConfig', safeConf )
         }
 
         function showColsConfig() {
-        	showConfig( 'ColsConfig' , myMeta.gridDefinition   )
+        	var safeConf =  clone( myColumns )
+        	showConfig( 'ColsConfig' , safeConf  )
         }
         
         function showConfig( title , myConf ) {
@@ -406,7 +412,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     getViewColumns: function (  viewCols  ) {
         
         vColumns = [];
-        vColumns.push(Ext.create('Ext.grid.RowNumberer',{"width":37 }));
+        if ( ! this.myMeta.hideRowNumbers ) {
+        	vColumns.push(Ext.create('Ext.grid.RowNumberer',{"width":37 }));
+        }; 
         
         for (var ixV in viewCols  ) {
             var vCol  =  viewCols[ixV];
@@ -427,6 +435,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     configureColumns: function (  viewCols  ) {
 
         vColumns = this.getViewColumns( viewCols )
+
+		//Fix: hay un error la primera vez q pasa por aqui??? 
+        this._extGrid.view.refresh();
 
         // Configurar columnas de la grilla
         this._extGrid.headerCt.removeAll()

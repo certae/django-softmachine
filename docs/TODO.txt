@@ -1,7 +1,13 @@
+
+
+
 Tareas pendientes
 
 	edicion 
-		Separar colecciones de edicion de forma y grilla, dejar la meta tal cual 
+		Revizar Allow Null
+		agregar __str__ 
+		** Separar colecciones de edicion de forma y grilla, dejar la meta tal cual
+		** displaylist vista por defecto   
 	 
 
 	vinculos a las formas  

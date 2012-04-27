@@ -37,7 +37,6 @@ function DefineProtoModel ( myMeta , modelClassName ){
     for (var ix in myMeta.fields ) {
 
         var vFld  =  myMeta.fields[ix];
-        if (!vFld.header || vFld.storeOnly) {continue;}
 		if (!vFld.type )  vFld.type = 'string'
         
         // modelField  
@@ -200,35 +199,49 @@ function clone(obj, auxRec, exclude ) {
 
 
 function getColDefinition( vFld ) {
-	
+	//TODO:  Cargar las propiedades del modelo 
 
-	//TODO:  traer esto directamente del modelo
+    if (!vFld.header ) vFld.header = vFld.name
 	colDefinition = {
             dataIndex: vFld.name,
             text: vFld.header 
 	}
 
 	var lstProps = ['flex', 'hidden', 'width', 'minWidth', 'sortable',  
-					'xtype', 'editMode', 'readOnly', 
-					'render', 'align', 'format'
+					'xtype', 'editMode', 'readOnly', 'hidden', 
+					'render', 'align', 'format', 'tooltip'
 					]
 
 	colDefinition = copyProps ( colDefinition,  vFld, true, lstProps )
     if ( vFld.wordWrap == true ) colDefinition.renderer = columnWrap
 	
-	//TODO: Copiar las propiedades de base 
-    editor = {
-        // allowBlank: false,
-        // readOnly: false
-	}
+	// Copia las propiedades de base 
+	var lstProps = [
+		'defaultValue', 
+	
+		// string 
+		'allowBlank', 'readOnly', 
+		'minLength', 'minLengthText', 
+		'maxLength', 'maxLengthText', 
+		
+		// int, decimal
+        'step', 
+
+		// int, decimal, date, datime, time  
+        'minValue', 'minText', 
+        'maxValue', 'maxText',  
+
+		// date, datime 
+        'disabledDays', 'disabledDaysText'  	// [0, 6]
+		]
+    editor = copyProps ( {},  vFld, true, lstProps )
+
 
 	// Determina el xType y otros parametros 
 	if ( ! vFld.type )  vFld.type = 'string'
 	switch( vFld.type )
 	{
 	case 'string':
-		editor.minLength = 2
-		editor.minLengthText = 'Cannot ...'
         // editor.vtype = 'email'
 	  	break;
 
@@ -236,27 +249,14 @@ function getColDefinition( vFld ) {
 		colDefinition.renderer = columnWrap
 	  	break;
 
-	case 'string':
-		editor.minLength = 2
-		editor.minLengthText = 'Cannot ...'
-        // editor.vtype = 'email'
-	  	break;
-	
 	case 'int':
         colDefinition['xtype'] = 'numbercolumn'
 		colDefinition['align'] = 'right'
 		colDefinition['format'] = '0,000'
 
 		editor.xtype = 'numberfield'
-		editor.format = '0,000'
+		editor.format = colDefinition['format']
 		editor.allowDecimals = false
-        editor.step = 1
-
-        editor.minValue = 0
-        editor.minText = 'Cannot ...'
-
-        editor.maxValue = 1000000
-        editor.maxText = 'Cannot  ...'
 	  	break;
 
 	case 'decimal':
@@ -266,16 +266,9 @@ function getColDefinition( vFld ) {
         // vFld['renderer'] = 'usMoney'
 
 		editor.xtype = 'numberfield'
-		editor.format = '0,000'
+		editor.format = colDefinition['format']
 		editor.allowDecimals = true
         editor.decimalPrecision = 2
-        editor.step = 0.5
-
-        editor.minValue = 0
-        editor.minText = 'Cannot ...'
-
-        editor.maxValue = 1000000
-        editor.maxText = 'Cannot  ...'
 	  	break;
 
 	
@@ -285,13 +278,6 @@ function getColDefinition( vFld ) {
 
 		editor.xtype = 'datefield'
 		editor.format = colDefinition['format']
-
-        editor.minValue = '1900/01/01'
-        editor.minText = 'Cannot ...'
-        editor.maxValue = Ext.Date.format(new Date(), editor.format)
-        editor.maxText = 'Cannot ...'
-        editor.disabledDays = [0, 6]
-        editor.disabledDaysText = 'Plants are not available on the weekends'
 	  	break;
 
 	case 'datetime':
@@ -299,16 +285,8 @@ function getColDefinition( vFld ) {
         colDefinition['format'] = 'Y/m/d H:i:s'
 
 		editor.xtype = 'datefield'
-		editor.format = 'y/m/d'
+		editor.format = 'Y/m/d'
         editor.timeFormat = 'H:i'
-
-        editor.minValue = '01/01/06'
-        editor.minText = 'Cannot have a start date before .......!'
-        editor.maxValue = Ext.Date.format(new Date(), editor.format )
-        editor.maxText = 'Cannot have a start date after ..........!'
-        editor.disabledDays = [0, 6]
-        editor.disabledDaysText = 'Not available on the weekends '
-        
 	  	break;
 
 	case 'time':
@@ -317,12 +295,6 @@ function getColDefinition( vFld ) {
 
 		editor.xtype = 'timefield'
 		editor.format = colDefinition['format']  	
-
-        editor.minValue = '06:00'
-        editor.maxValue = '18:00'
-        editor.minText = 'Cannot ...'
-        editor.maxText = 'Cannot ..'
-        
 	  	break;
 	  	
 	  	

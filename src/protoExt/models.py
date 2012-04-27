@@ -22,7 +22,7 @@ def strNotNull(  sValue ):
 
 class MetaObj(models.Model):
     #OBJTYPE  = (('Domain', 'Domain'),('Model', 'Model'),('Concept', 'Concept'),('Property', 'Porperty'),('?', 'Unknown'),)
-    code = models.CharField(verbose_name=u'Nom',blank = True, null = True, max_length=200 )
+    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
     objType = models.CharField(max_length=50)
     category = models.CharField(max_length=50, blank = True, null = True )
     alias = models.CharField(verbose_name=u'Alias',blank = True, null = True, max_length=50)
@@ -84,7 +84,7 @@ class Model(MetaObj):
         verbose_name = 'Modèle'
 
     protoExt = {}
-    protoExt[ 'description' ] = 'Esta es la description del concpeto concepto'
+    protoExt[ 'description' ] = 'Esta es la description del model'
 
 
 class Concept(MetaObj):
@@ -105,7 +105,7 @@ class Concept(MetaObj):
         verbose_name = 'Éntite'
 
     protoExt = {}
-    protoExt[ 'description' ] = 'Esta es la description del concpeto concepto'
+    protoExt[ 'description' ] = 'Esta es la description del  concepto'
 
 
 class Property(MetaObj):
@@ -141,7 +141,7 @@ class Property(MetaObj):
     concept.protoExt[ 'query_code' ] = 'concept__code' 
 
     protoExt = {}
-    protoExt[ 'description' ] = 'Esta es la description del concpeto concepto'
+    protoExt[ 'description' ] = 'Esta es la description de property'
 
 
     def model_concept(self):
@@ -288,17 +288,17 @@ class MetaLink(models.Model):
 class Prueba(models.Model):
     OBJTYPE  = (('Domain', 'Domain'),('Model', 'Model'),('Concept', 'Concept'),('Property', 'Porperty'),('?', 'Unknown'),)
     
-    prCode = models.CharField(verbose_name=u'Nom',blank = True, null = True, max_length=200 )
+    prCode = models.CharField(verbose_name=u'Nom',blank = True, null = True, max_length=200 , default = 'Codigo')
     
     prChoice = models.CharField(max_length=50, choices= OBJTYPE)
     
-    prBoolean = models.BooleanField(verbose_name=u'Active')
+    prBoolean = models.BooleanField(verbose_name=u'Active', default = True)
     
     prDate  = models.DateField(blank = True, null = True)
 
-    prTime  = models.TimeField(blank = True, null = True)
+    prTime  = models.TimeField(blank = True, null = True, default = '06:00')
     
-    prDecimal = models.DecimalField(blank = True, null = True, max_digits=5, decimal_places=2)
+    prDecimal = models.DecimalField(blank = True, null = True, max_digits=5, decimal_places=2, default = 0.00)
 
     prInteger = models.IntegerField(blank = True, null = True)
     

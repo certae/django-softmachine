@@ -588,6 +588,18 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         function configureProtoViews(){
 
             var bHide = true; 
+
+            // Agrega la vista por defecto 
+            var myDefaultCols = myMeta.gridColumns;
+            if ( myDefaultCols.length > 0 ) {
+                tbViews.add({
+                    text:       _defaultViewText,
+                    iconCls :   _defaultViewIcon, 
+                    protoView:  myDefaultCols ,
+                    handler:    onClickChangeView
+                });
+            }
+            
             var pViews = myMeta.protoViews;
             for (var vDet in pViews) {         
                 tbViews.add({

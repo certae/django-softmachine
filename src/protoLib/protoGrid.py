@@ -30,7 +30,7 @@ class ProtoGridFactory(object):
         self.protoFields = self.protoAdmin.get( 'protoFields', {}) 
 
         # lista de campos para la presentacion en la grilla 
-        list_display = verifyList( getattr(self.model_admin , 'list_display', []))[:]
+        list_display = verifyList( getattr(self.model_admin , 'list_display', []))
         
         #Se leen los excluidos y se cargan en una sola coleccion 
         protoExclude = verifyList( self.protoAdmin.get( 'excludeFields', []) ) 
@@ -53,7 +53,7 @@ class ProtoGridFactory(object):
 #       idName = model._meta.pk.name   
         
         
-        # La lista de campos del admin sirve de base 
+        # La lista de campos del admin sirve de base, pues puede haber muchos mas campos en proto q en admin 
         if len( list_display ) > 0 :   
             for fName in list_display:
                 if fName in protoExclude: continue
@@ -61,9 +61,8 @@ class ProtoGridFactory(object):
                 except: continue
                 setFieldDict (  self.protoFields , field )
                 
-        # Se crean los campos con base al modelo 
         else:
-
+            # Se crean los campos con base al modelo ( trae todos los campos del modelo 
             for field in self.model._meta._fields():
                 if field.name in protoExclude: continue
                 setFieldDict (  self.protoFields , field )
@@ -76,7 +75,7 @@ class ProtoGridFactory(object):
 
             if key in self.protoReadOnlyFields: fdict[ 'readOnly' ] = True
 
-            # Repasa las propiedades de base
+            #TODO:  Repasa las propiedades de base, ver por q no esta pasando trayendo las props de base ( ie:  defaulValue )  
             if ((fdict.get( 'type', '') == '' ) and not ( key.startswith( 'udp__') )):
                 try: 
                     field = self.model._meta.get_field( key )
@@ -89,6 +88,7 @@ class ProtoGridFactory(object):
             
         #Recorta la primera ','       
         self.storeFields = self.storeFields[1:]
+
 
 
     def getFieldSets(self):
@@ -109,7 +109,9 @@ class ProtoGridFactory(object):
 #                prSection = { 'style' : 'Section', 'frame': True, 'autoScroll': True, 'fields' : [] }
                 prSection = { 'style' : 'Section', 'autoScroll': True, 'fields' : [] }
                 
-                for key in self.protoFields:        
+                for key in self.protoFields:
+                    vFld = self.protoFields.get( key , {})
+                    if ( vFld.get( 'storeOnly', False )): continue        
                     prSection['fields'].append(key)
 
                 prFieldSet.append ( prSection )
@@ -140,6 +142,8 @@ class ProtoGridFactory(object):
         """
         # standard fields
         fields = self.fields
+        
+        #TODO: No uso col model, ver la definicion 
         # use the given colModel to order the fields
         if colModel and colModel.get('fields'):
             fields = []

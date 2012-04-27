@@ -3,8 +3,8 @@ import django.contrib.admin
 
 class PropertyAdmin(django.contrib.admin.ModelAdmin):
     verbose_name_plural = 'Éléments de données' 
-    list_display =( 'code',  'description' , 'concept')
-    search_fields = ( 'code', 'category' )
+    list_display =( 'code', 'category', 'concept')
+    search_fields = ( 'code', 'category', 'concept' )
 
 #    fieldsets = (
 #        (None, {
@@ -17,6 +17,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     
     protoExt = {'protoIcon': 'property' }
     protoExt[ 'title' ] = 'Éléments de données'
+    protoExt[ 'gridColumns' ] = ( 'code', 'concept__model__code' )
 
 
 #   protoExt[ 'readOnlyFields' ] = ( 'code', 'concept__model__code' ) 
@@ -49,12 +50,12 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         'concept__model__code': {'header' : 'Vue', 'type': 'CharField' , 'minWidth': 200 , 'flex': 1, 'fieldLabel' : 'Vue' },  
         'concept__model__category' : { 'fieldLabel' : 'Category' },                             
           
-        'description': { 'storeOnly': True , 'fieldLabel' : 'Description'},
         'isNullable':{ 'header' : 'Is null' , 'type' : 'bool'},
         'isRequired':{ 'fieldLabel' : 'Is Required' , 'type' : 'bool'},
         'alias':{ 'fieldLabel' : 'Alias' },
         'baseType' : { 'fieldLabel' : 'Type' }, 
-        'prpLength' : { 'fieldLabel' : 'Length', 'type' : 'decimal' }, 
+        'prpLength' : { 'fieldLabel' : 'Length', 'type' : 'decimal' },
+         
         'udp__GABARIT': { 'fieldLabel' : 'Gabarit', 'type' : 'choice', 'choices' : [[ '0', 'cero'], [ '1', 'uno']]  },
         'udp__DOCUMENTDEREFERENCE' :{ 'fieldLabel' : 'Doc Reference'},
         'udp__DEFINITION': { 'fieldLabel' : 'Definition'  },
@@ -72,13 +73,6 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         'udp__REQUISPAR': { 'fieldLabel' : 'Rquis par'  },
         'udp__TRANSMISSION': { 'fieldLabel' : 'Transmission'  },
         'udp__DESCRIPTIONCN': { 'fieldLabel' : 'Description CN'  }, 
-        
-        
-        #TODO :  Gabi llevar al modelo 
-        'udp__DescriptionModele': { 'fieldLabel' : 'Description Modele'  },
-        'udp__ActeurPrincipal': { 'fieldLabel' : 'Acteur Princ'  },
-        'udp__AutresActeurs': { 'fieldLabel' : 'Autres acteurs'  },
-        'udp__IntrantsDeclencheurs': { 'fieldLabel' : 'Intrants Declan'  },
      }
 
 #    Al momento de cargar la finca verifico el campo @criteriaField@ y lo busco en las diferentes fichas, 
@@ -239,13 +233,6 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                         "udp__VALIDATIONSSURELEMENT",
                         "udp__DEFINITION",
                         "udp__ELEMENTTRANSFORME",
-                        
-        #TODO :  Gabi llevar al modelo 
-                        
-                        "udp__DescriptionModele",
-                        "udp__ActeurPrincipal",
-                        "udp__AutresActeurs",
-                        "udp__IntrantsDeclencheurs",
                         ]
                     }
                   ]

@@ -220,6 +220,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 				
 		return prFld;
 	},
+	
 	getProtoField : function(myMeta, fldName) {
 		var dict = myMeta.dict; 
 		if ( ! dict[fldName] ) dict[fldName] = {} 	
@@ -462,3 +463,23 @@ Ext.define('ProtoUL.view.ProtoForm', {
 	
 	
 });
+
+
+/* 
+
+Agregar tooltip a los campos 
+
+{
+  fieldLabel: 'test label'
+  allowBlank: false,
+  listeners: {
+    render: function(c) {
+      Ext.QuickTips.register({
+        target: c.getEl(),
+        text: 'this is a test message'
+      });
+    }
+  }
+} 
+  
+ */

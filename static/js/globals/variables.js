@@ -57,8 +57,8 @@ _ComboPageSize = [
 
 
 // Autoload entites
-//_AUTOLOAD_PCI = ['protoExt.Model', 'protoExt.Property'  ]
-_AUTOLOAD_PCI = ['protoExt.Prueba'  ]
+//_AUTOLOAD_PCI = ['protoExt.Model', 'protoExt.Property' , 'protoExt.Prueba'  ]
+_AUTOLOAD_PCI = ['protoExt.Model'  ]
 _MENU_COLLAPSED = true 
 
 // ProtoUL.view.ProtoMasterDetail 
@@ -87,33 +87,12 @@ _ComboFilterOp = [
             // ['iregex', 'regex'],
     ]; 
  
+
+_defaultViewText = 'Default';
+_defaultViewIcon = 'default_view' 
  
  
- /*
-  *  Configuracion del metodo por defecto  
-  */
+ 
+  // *  Configuracion del metodo por defecto  
   // Ext.data.Connection.prototype.method = 'GET';
  
- 
- /*
-  * There are two ways to add new properties to an object:
-
-var obj = {
-    key1: value1,
-    key2: value2
-};
-Using dot notation:
-
-obj.key3 = "value3";
-Using square bracket notation:
-
-obj["key3"] = "value3";
-The first form is used when you know the name of the property. The second form is used when the name of the property is dynamically determined. Like in this example:
-
-var getProperty = function (propertyName) {
-    return obj[propertyName];
-};
-
-getProperty("key1");
-
-  */

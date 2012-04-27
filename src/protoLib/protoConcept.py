@@ -23,7 +23,7 @@ from django.db import models
 from django.http import HttpResponse
 from protoGrid import Q2Dict, getVisibleFields
 from protoLib import protoGrid
-from utilsBase import construct_search, addFilter, JSONEncoder 
+from utilsBase import construct_search, addFilter, JSONEncoder, verifyList 
 
 import django.utils.simplejson as json
 import datetime, operator, decimal
@@ -70,7 +70,12 @@ def protoGetPCI(request):
         pSortFields = grid.protoAdmin.get( 'sortFields', '') 
         if pSortFields == '': pSortFields = pSearchFields
 
-        # TODO: Vistas 
+        # Vistas
+        gridColumns = verifyList( grid.protoAdmin.get( 'gridColumns', []) )
+        if len( gridColumns ) == 0: 
+            gridColumns = verifyList( getattr(grid.model_admin , 'list_display', []))
+ 
+        
         protoViews = grid.protoAdmin.get( 'protoViews', []) 
         protoFilters = grid.protoAdmin.get( 'protoFilters', []) 
 
@@ -123,6 +128,7 @@ def protoGetPCI(request):
                  'protoViews':protoViews ,     
                  'protoFilters': protoFilters,
                  'protoFieldSet': protoFieldSet, 
+                 'gridColumns' : gridColumns,
                  'readOnlyFields' : grid.protoReadOnlyFields,
                  },
             'rows':[],

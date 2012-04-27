@@ -13,26 +13,51 @@ class ConceptInline(django.contrib.admin.TabularInline):
 
 class Model_Admin(django.contrib.admin.ModelAdmin):
     verbose_name_plural = 'Modèles' 
-    list_display =(  'code', 'description', 'category')
-    list_filter =( 'code', 'description', 'category' )
-    search_fields =('code', 'description', 'category' )
+    list_display =(  'code',  'category')
+    list_filter =( 'code',  'category' )
+    search_fields =('code',  'category' )
     
-    fieldsets = (
-        (None, {
-            'fields': [('code', 'category', 'domain'), 'description']
-        }),
-    )
-    inlines = [
-        ConceptInline,
-        ]
+#    fieldsets = (
+#        (None, {
+#            'fields': [('code', 'category', 'domain'),  ]
+#        }),
+#                        "udp__DescriptionModele",
+#                        "udp__ActeurPrincipal",
+#                        "udp__AutresActeurs",
+#                        "udp__IntrantsDeclencheurs",
+#    )
+#    inlines = [
+#        ConceptInline,
+#        ]
 
 
     
     protoExt = {'protoIcon' : 'model',  }
-    protoExt[ 'searchFields' ] = ( 'code', 'description' ) 
-    protoExt[ 'sortFields' ] = ( 'code', 'description' ) 
+    protoExt[ 'gridColumns' ] = ( 'code',  
+        'udp__DescriptionModele', 
+        'udp__ActeurPrincipal',
+#        'udp__AutresActeurs',
+#        'udp__IntrantsDeclencheurs'
+        )
+    
+    protoExt[ 'excludeFields' ] = ( 'description', )           
+    protoExt[ 'searchFields' ] = ( 'code',  ) 
+    protoExt[ 'sortFields' ] = ( 'code',  ) 
     protoExt[ 'initialSort' ] = ( 'code', ) 
     protoExt[ 'title' ] = 'Vues'
+
+
+
+#   -------------------------------------------------------------------------------------------------
+
+    protoExt[ 'protoUdp' ] =   { 
+        'udpTable': 'udp', 
+        'propertyName': 'code', 
+        'propertyValue': 'valueUdp', 
+        'propertyPrefix' : 'udp',           # Las referencias a los campos estaran precedidas por [prefix]__
+         }
+
+
     
     protoExt[ 'protoDetails' ] = [
         {'menuText': 'Entite', 'conceptDetail': 'protoExt.Concept', 'detailField': 'model__pk', 'masterField': 'pk',
@@ -47,16 +72,21 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
         ]
 
     protoExt[ 'protoFields' ] =  {        
-          'code': {'header' : 'Vues', 'type': 'CharField' ,  'width': 300 },  
-          'description': { 'wordWrap': True },
-          'category': {'storeOnly': True },
+        'code': {'header' : 'Vues', 'type': 'CharField' ,  'width': 200, 'flex': 1 },  
+        'category': {'storeOnly': True },
+
+        'udp__DescriptionModele': { 'header' : 'Description Modele', 'type': 'text' ,  'flex': 2 },
+        'udp__ActeurPrincipal': { 'header' : 'Acteur Princ', 'wordWrap': True , 'flex': 1  },
+        'udp__AutresActeurs': { 'header' : 'Autres acteurs', 'wordWrap': True , 'flex': 1  },
+        'udp__IntrantsDeclencheurs': { 'header' : 'Intrants Declan' , 'wordWrap': True , 'flex': 1 },
+          
      }
 
-    protoExt[ 'searchFields' ] =  ( 'code', 'description' )        
 
 
 
 #   -------------------------------------------------------------------------------------------------
+
     protoExt['protoFilters'] = []
     protoExt['protoFilters'].append ( 
                 { 'filterName': 'AT', 
