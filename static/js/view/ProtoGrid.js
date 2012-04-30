@@ -4,7 +4,7 @@
  * -  - model ( reader )  *** 
  */
 
-//TODO: Revizar Allow Null
+//TODO: Revizar Allow Null, Listo el Blank en la grilla, falta la forma, falta en el modelo
 //TODO: agregar __str__ 
 
 Ext.define('ProtoUL.view.ProtoGrid' ,{
@@ -16,8 +16,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 	    'Ext.util.*',
 	    'Ext.state.*',
 	    'Ext.form.*',
-
-        // 'Ext.selection.CheckboxModel', 
+        'Ext.toolbar.TextItem', 
+        //DGT: 'Ext.selection.CheckboxModel',
+         
         'Ext.toolbar.TextItem'
     ],
     // iconCls: 'icon-grid',
@@ -57,6 +58,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             autoLoad: lAutoLoad,
             pageSize: _PAGESIZE,
             remoteSort: true,
+            autoSync: false, 
             sorters: pSorters,   // [{ property: 'xx', direction: 'ASC' },],
             proxy : {
                 type: 'ajax',

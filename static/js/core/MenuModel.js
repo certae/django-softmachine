@@ -3,7 +3,7 @@
  *  Dgt 11.11  
  */
 
-Ext.define('ProtoUL.model.MenuModel', {
+Ext.define('ProtoUL.core.MenuModel', {
     extend: 'Ext.data.Model',
     alias: 'model.menuModel',
     proxy: {

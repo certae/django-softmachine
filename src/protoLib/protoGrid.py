@@ -75,8 +75,8 @@ class ProtoGridFactory(object):
 
             if key in self.protoReadOnlyFields: fdict[ 'readOnly' ] = True
 
-            #TODO:  Repasa las propiedades de base, ver por q no esta pasando trayendo las props de base ( ie:  defaulValue )  
-            if ((fdict.get( 'type', '') == '' ) and not ( key.startswith( 'udp__') )):
+            # Repasa las propiedades de base, ver por q no esta pasando trayendo las props de base ( ie:  defaulValue )  
+            if ((fdict.get( 'fromModel', False) == False ) and not ( key.startswith( 'udp__') )):
                 try: 
                     field = self.model._meta.get_field( key )
                     setFieldDict ( self.protoFields , field )
@@ -88,7 +88,6 @@ class ProtoGridFactory(object):
             
         #Recorta la primera ','       
         self.storeFields = self.storeFields[1:]
-
 
 
     def getFieldSets(self):

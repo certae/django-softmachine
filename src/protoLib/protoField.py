@@ -15,6 +15,9 @@ def setFieldDict(protoFields ,  field ):
     #Verifica si existe parametrizacion a nivel de modelo.campo 
     modelField = getattr(field , 'protoExt', {})
     
+    
+    #TODO:  useNull  para definirlo sobre el modelo 
+    
     # Recorrer el dict Field y agregar las prop q no estan  protoField
     setFieldProperty(  pField, 'allowBlank',  True, field, 'blank', False   )
     setFieldProperty(  pField, 'tooltip',  '', field, 'help_text', ''  )
@@ -80,16 +83,15 @@ def setFieldDict(protoFields ,  field ):
         if bDefault:                     
             setFieldProperty(  pField, 'defaultValue', '' , field, 'default', ''  )
 
+        if field.choices:
+            pField['type'] = 'combo'
+            pField['choices'] = field.choices  
+
     elif field.__class__.__name__ == 'TextField':
         pField['type'] = 'text'
         if bDefault:                     
             setFieldProperty(  pField, 'defaultValue', '' , field, 'default', ''  )
 
-    elif field.choices:
-        pField['type'] = 'combo'
-        pField['choices'] = field.choices  
-        if bDefault:                     
-            setFieldProperty(  pField, 'defaultValue', '' , field, 'default', ''  )
         
     elif  field.__class__.__name__ == 'ForeignKey':
         # Dafine la columna __unicode__ de la tabla padre, 
@@ -111,10 +113,12 @@ def setFieldDict(protoFields ,  field ):
 
     
     #Lo retorna al diccionario
+    pField['fromModel'] = True 
     protoFields[ pField['name'] ] = pField 
 
 
 def setFieldProperty( pField, pProperty, pDefault, field, fProperty, fpDefault ):
+    # Lee la propiedad del campo,  si es igual al default no la carga, excepto para los defaultValue 
     vAux = getattr( field, fProperty, fpDefault  )
     if ( type( vAux )  == type( pDefault )) and ( vAux != pDefault ):  
         pField[ pProperty ] = vAux
@@ -122,9 +126,9 @@ def setFieldProperty( pField, pProperty, pDefault, field, fProperty, fpDefault )
         pField[ pProperty ] = vAux
         
 
-#----------------------------------------------------------
 
-#TODO:  choice,  Borrar despues de probar 
+#----------------------------------------------------------
+#DGT:  choice,  Convierte las propiedades en una lista  
 #        a = []
 #        for c in field.choices:
 #            a[c[0]] = c[1]              //  Dict

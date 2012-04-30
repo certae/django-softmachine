@@ -307,7 +307,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
 // ------------------------------------------------------------------------------------------------
 
-		this.autoSync = true; 
+		this.autoSync = false; 
 		this.editMode = false; 
 
         var configTbar = Ext.create('Ext.toolbar.Toolbar', {
@@ -391,7 +391,9 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
 			this.autoSync = pressed ; 			
 			btn.ownerCt.getComponent('save').setDisabled(  this.autoSync  );
-
+			
+			__MasterDetail.protoMasterGrid.store.autoSync = pressed;
+			
         }; 
 
 

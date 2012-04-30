@@ -2,7 +2,7 @@ Ext.define('ProtoUL.view.MenuTree', {
     extend: 'Ext.tree.Panel',
     alias: 'widget.menuTree',
     requires: [
-        'ProtoUL.model.MenuModel'
+        'ProtoUL.core.MenuModel'
     ],
     
     rootVisible: false,
@@ -13,7 +13,7 @@ Ext.define('ProtoUL.view.MenuTree', {
         
         this.store = Ext.create('Ext.data.TreeStore', {
     		autoLoad: true,
-            model: 'ProtoUL.model.MenuModel',
+            model: 'ProtoUL.core.MenuModel',
             root: {
                 text:'menu',
                 expanded: true 
