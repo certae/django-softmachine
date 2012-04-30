@@ -9,6 +9,7 @@
 // Ext.require('Ext.layout.container.Border');
 
 Ext.Loader.setConfig({enabled: true});
+Ext.Loader.setPath('Ext.ux', 'static/extjs-4.1.x/examples/ux');
 
 Ext.application({
     name: 'ProtoUL',
@@ -17,16 +18,18 @@ Ext.application({
     requires: [
         'Ext.toolbar.Paging', 
         'Ext.layout.container.Border',
+        
+	    'Ext.ux.ToolbarDroppable',
+	    'Ext.ux.BoxReorderer',
+	    
+        'Ext.util.Cookies', 
+        'Ext.Ajax',
+        
         'ProtoUL.view.Viewport',
-
-        'ProtoUL.ux.ToolbarDroppable',
-        'ProtoUL.ux.BoxReorderer',
         'ProtoUL.ux.Printer',
         'ProtoUL.ux.GridHeaderToolTip',
-        'ProtoUL.ux.GridCheckColumn',
+        'ProtoUL.ux.GridCheckColumn'
 
-        'Ext.util.Cookies', 
-        'Ext.Ajax'
     ],
 
 

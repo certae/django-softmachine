@@ -35,7 +35,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         var ideBtViews = Ext.id();
 
         // Reorder obj 
-        var reorderer = Ext.create('ProtoUL.ux.BoxReorderer', {
+        var reorderer = Ext.create('Ext.ux.BoxReorderer', {
             listeners: {
                 scope: this,
                 Drop: function(r, c, button) { //update sort direction when button is dropped

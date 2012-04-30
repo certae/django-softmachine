@@ -299,7 +299,7 @@ function getColDefinition( vFld ) {
 	  	
 	  	
 	case 'bool':
-		colDefinition['xtype'] = 'checkcolumn'      
+		colDefinition['xtype'] = 'checkcolumnreadonly'      
         colDefinition['editMode'] = false 
 
         editor.xtype = 'checkbox'
