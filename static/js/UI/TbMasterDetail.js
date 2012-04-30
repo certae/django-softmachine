@@ -339,9 +339,10 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 	            iconCls : 'icon-tableAdd', 
 	            text:       'Add',
 	            handler:    onClickTableAdd
-	        }, {
+	        }, 
 	        	
 	        	//  ----------------------------------------------------
+        	{
 	            iconCls : 'icon-tableEdit', 
 	            itemId:     'edit',
 	            text:       'Edit',
@@ -393,10 +394,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         }; 
 
-		function toggleEditMode(){
-			this.toggleEditMode()
-		}
-
 
 //  --------------------------------------------------------------------------
 
@@ -427,7 +424,17 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
 //  --------------------------------------------------------------------------
 
+		function toggleEditMode(){
+			this.toggleEditMode()
+		}
+
+        
         function onClickTableAdd( btn ){
+
+    		if ( __MasterDetail )  {
+    			__MasterDetail.protoMasterGrid.addNewRecord()
+    		} 
+
         }; 
         
         function onClickTableUpdate( btn ){

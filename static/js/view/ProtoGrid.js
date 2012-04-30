@@ -96,9 +96,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         // DGT adding RowNumberer  
         if ( ! myMeta.hideRowNumbers ) {
-        	myColumns.push(Ext.create('Ext.grid.RowNumberer',{"width":37, "draggable":false }));	
+        	// myColumns.push(Ext.create('Ext.grid.RowNumberer',{"width":37, "draggable":false}));
+        	myColumns.push( this._getRowNumberDefinition() )
         }
-
+       
         // DGT** Copia las columnas   
         for (var ix in myMeta.fields ) {
 			var vFld = myMeta.fields[ix] 
@@ -112,7 +113,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         //   gridColumns: Es un subconjuto para poder manejar diferentes conf de columnas  
         var gridColumns =  myColumns;
-        // [{"xtype":"rownumberer","width":30},{"text":"ID","sortable":true,"dataIndex":"id","hidden":true},{"text":"First Name","sortable":true,"dataIndex":"first","editor":{"xtype":"textfield"}},{"text":"Last Name","sortable":true,"dataIndex":"last","editor":{"xtype":null}},{"text":"Email","sortable":true,"dataIndex":"email","editor":{"xtype":"textfield"}}];
         
         // Vista por defecto
         var myDefaultCols = myMeta.gridColumns;
@@ -399,9 +399,17 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                ); 
             
         };
-
-
+        
     },
+
+	_getRowNumberDefinition: function () {
+
+		//FIX:  Cuando la columna es locked,  el headerCT va nulo y no puede asignar el tooltip 
+		
+		// var rowNumberCol = Ext.create('Ext.grid.RowNumberer',{"width":37, "draggable":false , "sortable": false})
+		var rowNumberCol = { xtype: 'rownumberer', width:37, draggable:false,  sortable: false } // locked: true, lockable: false }
+    	return 	rowNumberCol
+      },
     
 //    onItemClick: function (g, rowIndex, e) {
 //        this.rowData = rowIndex.data;
@@ -413,7 +421,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         vColumns = [];
         if ( ! this.myMeta.hideRowNumbers ) {
-        	vColumns.push(Ext.create('Ext.grid.RowNumberer',{"width":37 }));
+        	vColumns.push( this._getRowNumberDefinition());
         }; 
         
         for (var ixV in viewCols  ) {
@@ -494,8 +502,26 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 				this._toolBar.toggleEditMode( false, true )
 			};   
 
-	}
-    
+	}, 
+
+	setDefaults: function() {
+
+		var vDefault = {}
+        for (var ix in this.myMeta.fields ) {
+			var vFld = this.myMeta.fields[ix] 
+            if ( ! vFld['defaultValue'] ) continue;
+            vDefault[ vFld.name  ]  = vFld['defaultValue'] ;
+        };
+        return vDefault
+	}, 
+		
+	
+	addNewRecord: function() {
+
+        var rec = new this.store.model( this.setDefaults()  ) 
+        this.store.insert(0, rec);
+
+	} 
     
     
 });

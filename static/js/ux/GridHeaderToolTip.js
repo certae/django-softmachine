@@ -14,6 +14,10 @@ Ext.define('ProtoUL.ux.GridHeaderToolTip', {
     alias: 'plugin.headertooltip',
     init : function(grid) {
         var headerCt = grid.headerCt;
+        
+        // Si alguna columna es locked ( rowNuber ) el header viene nulo
+        if ( ! headerCt ) return
+        
         grid.headerCt.on("afterrender", function(g) {
             grid.tip = Ext.create('Ext.tip.ToolTip', {
                 target: headerCt.el,
