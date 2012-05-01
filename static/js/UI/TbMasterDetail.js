@@ -444,7 +444,9 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         }; 
 
         function onClickTableDuplicate( btn ){
-			console.log( btn.text ) 
+    		if ( __MasterDetail )  {
+    			__MasterDetail.protoMasterGrid.duplicateRecord()
+    		} 
         }; 
 
         function onClickTableSave( btn ){

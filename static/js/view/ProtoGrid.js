@@ -556,19 +556,31 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 		
 	
 	addNewRecord: function() {
+		if ((! this._extGrid ) || ( ! this.editMode )) return; 
 
         var rec = new this.store.model( this.setDefaults()  ) 
         this.store.insert(0, rec);
-
+	}, 
+	
+	duplicateRecord: function() {
+		if ((! this._extGrid ) || ( ! this.editMode )) return; 
+		
+        var rec =  this.selected
+        if ( rec )  {
+        	rec = rec.copy()
+        	rec.data.id = undefined 
+        	rec.phantom = true 
+        	this.store.insert(0, rec );
+        } 
+        	
 	}, 
 	
 	deleteCurrentRecord: function() {
 		if ((! this._extGrid ) || ( ! this.editMode )) return; 
 
-        var selection = this._extGrid.getView().getSelectionModel().getSelection()[0];
-        if (selection) {
-            this.store.remove(selection);
-        }
+        // var rec = this._extGrid.getView().getSelectionModel().getSelection()[0];
+        var rec =  this.selected
+        if ( rec ) this.store.remove( rec );
 	}, 
 
 	setEditionOff: function() {
