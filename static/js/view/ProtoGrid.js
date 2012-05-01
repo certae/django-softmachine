@@ -16,10 +16,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 	    'Ext.util.*',
 	    'Ext.state.*',
 	    'Ext.form.*',
-        'Ext.toolbar.TextItem', 
-        //DGT: 'Ext.selection.CheckboxModel',
-         
-        'Ext.toolbar.TextItem'
+        'Ext.toolbar.TextItem' 
+     // 'Ext.selection.CheckboxModel',
     ],
     // iconCls: 'icon-grid',
 
@@ -32,9 +30,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         var _pGrid = this; 
 
-        // por defecto AutoLoad
-        var lAutoLoad = this.autoLoad || true; 
-        
         var modelClassName = _PConfig.clsBaseModel + this.protoConcept ; 
         if  (! Ext.ClassManager.isCreated( modelClassName )){
             //console.log ( this.protoConcept, ' ERROR Pci  not loaded ' );
@@ -53,37 +48,22 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         var pSorters = myMeta.initialSort; 
         
         //console.log (  this.protoConcept, ' Loading store ...  '  ); 
-        this.store = Ext.create('Ext.data.Store', {
+        this.store = Ext.create('ProtoUL.core.ProtoStore', {
             model : modelClassName, 
-            autoLoad: lAutoLoad,
+            autoLoad: this.autoLoad || true,
             pageSize: _PAGESIZE,
             remoteSort: true,
             autoSync: false, 
             sorters: pSorters,   // [{ property: 'xx', direction: 'ASC' },],
-            proxy : {
-                type: 'ajax',
-                url : 'protoExt/protoList/', 
-                reader : {
-                    type: 'json',
-                    root: 'rows',
-                    successProperty: 'success',
-                    totalProperty: 'totalCount'
-                },
-                extraParams : {
+        });
+
+        this.store.proxy.actionMethods.read = 'POST';
+        this.store.proxy.extraParams = {
                     protoConcept : this.protoConcept,
                     protoFilter : myFilter,
                     protoFilterBase: this.protoFilterBase, 
                     storeFields  : myMeta.storeFields.toString()
                 }
-            },
-            listeners: {
-                'load' :  function(store,records,options) {
-                    this.loaded = true;
-                }
-            } 
-        });
-
-        this.store.proxy.actionMethods.read = 'POST';
 
 
 		// Start Row Editing PlugIn

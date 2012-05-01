@@ -7,21 +7,16 @@ Ext.define('ProtoUL.core.ProtoStore', {
     remoteSort: true,
     autoSync: false, 
 
-    model: modelClassName, 
-    autoLoad: {start: 0, limit: 35},
-    autoLoad: lAutoLoad,
-    pageSize: _PAGESIZE,
-    sorters: pSorters,   // [{ property: 'xx', direction: 'ASC' },],
+    // autoLoad: true,
+    // model: modelClassName, 
+    // pageSize: _PAGESIZE,
+    // sorters: pSorters,   // 
 
     initComponent: function() {
-        var me = this
-        me.sorters = me.sorters || [{
-            property: calendarData.CalendarMappings.Title.name,
-            direction: 'ASC'
-        }];
-        // me.idProperty = me.idProperty || calendarData.CalendarMappings.CalendarId.name || 'id';
-        // me.fields = calendarData.CalendarModel.prototype.fields.getRange();
-        me.callParent(arguments);
+        // this.sorters = me.sorters || [{ property: 'xx', direction: 'ASC' }]
+        // this.idProperty = 
+        // me.fields = 
+        // this.callParent(arguments);
     }, 
 
     proxy: {
@@ -29,12 +24,13 @@ Ext.define('ProtoUL.core.ProtoStore', {
         batchActions : true, 
         batchOrder : "create,update,destroy", 
         url : 'protoExt/protoList/', 
-        api: {
-        	read :   'protoExt/protoList/',
-            create:  'protoExt/protoAdd/',
-            update:  'protoExt/protoUpd/',
-            destroy: 'protoExt/protoDel/'
-        },
+
+        // api: {
+        	// read :   'protoExt/protoList/',
+            // create:  'protoExt/protoAdd/',
+            // update:  'protoExt/protoUpd/',
+            // destroy: 'protoExt/protoDel/'
+        // },
 
         reader: {
             type: 'json',
@@ -47,22 +43,14 @@ Ext.define('ProtoUL.core.ProtoStore', {
         writer: {
             type: 'json',
             root: 'rows', 
+            allowSingle: false, 
             writeAllFields: false,
             encode: false
         },
         
-        extraParams : {
-            protoConcept : this.protoConcept,
-            protoFilter : myFilter,
-            protoFilterBase: this.protoFilterBase, 
-            storeFields  : myMeta.storeFields.toString()
-        },
-
         listeners: {
-            'load' :  function(store,records,options) {
-                this.loaded = true;
-            },
-
+            // 'load' :  function(store,records,options) {this.loaded = true},
+            
             'exception': function(proxy, response, operation){
 //				var msg = operation.request.scope.reader.jsonData["message"] ;
             	var msg = operation.getError();
@@ -148,7 +136,7 @@ Ext.define('ProtoUL.core.ProtoStore', {
 			var title =   'Event:';            	
 			var msg = 'write ' + operation.action + ' ' + operation.resultSet.message ;   
 
-            /* Ver de q se trata este pedazo
+            /* Lee todos los registros 
 			for ( var ix in operation.resultSet.records ) {
 				var record = operation.resultSet.records[ix]
 				
@@ -168,6 +156,5 @@ Ext.define('ProtoUL.core.ProtoStore', {
             Ext.outils.msg(title, msg );
         }
     }
-    
     
 });
