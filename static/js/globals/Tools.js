@@ -16,69 +16,6 @@ function oc(a)
 }
 
 
-function DefineProtoModel ( myMeta , modelClassName ){
-        
-//    console.log ( 'Loading ' + modelClassName + '...' );
-
-    // dateFormat: 'Y-m-d'
-    // type: 'date', 'float', 'int', 'number'
-
-    // useNull : vFld.allowNull,  ( solo para numeros, si no puede hacer la conversion )
-    // defaultValue: vFld.defaultValue,
-    // persist: vFld.editPolicy,		( falso = NoUpdate )
-    
-    // type: 'hasMany',
-    // autoLoad: true
-    // convert :  Campo Virtual calculado,  Apunta a una funcion q  genera el valor 
-    
-    var myFields = [];   		// model Fields 
-	var dict = {};		 		// For indexing fields
-
-    for (var ix in myMeta.fields ) {
-
-        var vFld  =  myMeta.fields[ix];
-		if (!vFld.type )  vFld.type = 'string'
-        
-        // modelField  
-        var mField = {
-            name: vFld.name,
-            type: vFld.type 
-        };
-
-
-		// Determina el xType y otros parametros 
-		switch( vFld.type )
-		{
-		case 'decimal':
-			mField.type = 'number';	        
-		  	break;
-		case 'date':
-			mField.dateFormat ='Y-m-d' 
-		  	break;
-		case 'datetime':
-			mField.type = 'date';	        
-			mField.dateFormat ='Y-m-d H:i:s'  // 'timestamp' 
-		  	break;
-		}
-
-		// Asigna el modelo y el diccionario 
-        myFields.push(mField);
-		dict[vFld.name] = vFld
-		
-    }
-    
-    
-    // Asigna un diccionario con las llaves como clave  
-	myMeta.dict = dict
-	
-    // myFields = [{"name":"id","type":"int","useNull":true},{"name":"first","type":"string"},{"name":"last","type":"String"},{"name":"email","type":"string"}]
-    Ext.define(modelClassName, {
-        extend: 'Ext.data.Model',
-            fields: myFields 
-
-        });
-}
-
 
 // TODO: Los templates de las finchas deberian ser leidos de un archivo 
 function OpenFile( fileName  ) {
@@ -214,6 +151,14 @@ function getColDefinition( vFld ) {
 
 	colDefinition = copyProps ( colDefinition,  vFld, true, lstProps )
     if ( vFld.wordWrap == true ) colDefinition.renderer = columnWrap
+    
+    
+    // Agrega un tool tip con el contenido de la celda
+    if ( vFld.cellToolTip ) colDefinition.renderer = cellToolTip
+
+    // Formatea el contenido como un hiperLink, TODO: la logica debe estar en otra propiedad
+    if ( vFld.cellLink ) colDefinition.renderer = cellLink
+
 	
 	// Copia las propiedades de base 
 	var lstProps = [
@@ -333,6 +278,7 @@ function getColDefinition( vFld ) {
 	// Asigna las coleccoiones de presentacion 
 	if (( vFld.type != 'autofield' ) &&  ! vFld.readOnly ) 
     	colDefinition['editor'] = editor; 
+	else colDefinition.renderer = cellReadOnly
 
 	return colDefinition; 
 
@@ -341,6 +287,18 @@ function getColDefinition( vFld ) {
         return '<div style="white-space:normal; text-align:justify !important";>' + value + "</div>";
   };
 
+  function cellToolTip(value, metaData, record, rowIndex, colIndex, store, view ){
+    	metaData.tdAttr = 'data-qtip="' + value + '"';
+        return value;
+	}; 
+
+  function cellReadOnly(value, metaData, record, rowIndex, colIndex, store, view ){
+        return '<span style="color:grey;">' + value + '</span>';
+	}; 
+
+  function cellLink(value, metaData, record, rowIndex, colIndex, store, view ){
+        return '<a href="#">'+value+'</a>';  	
+  	}
 
 }
 

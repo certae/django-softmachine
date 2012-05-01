@@ -36,7 +36,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
     protoExt[ 'gridColumns' ] = ( 'code',  
         'udp__DescriptionModele', 
         'udp__ActeurPrincipal',
-#        'udp__AutresActeurs',
+        'udp__AutresActeurs',
 #        'udp__IntrantsDeclencheurs'
         )
     
@@ -77,7 +77,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
 
         'udp__DescriptionModele': { 'header' : 'Description Modele', 'type': 'text' ,  'flex': 2 },
         'udp__ActeurPrincipal': { 'header' : 'Acteur Princ', 'wordWrap': True , 'flex': 1  },
-        'udp__AutresActeurs': { 'header' : 'Autres acteurs', 'wordWrap': True , 'flex': 1  },
+        'udp__AutresActeurs': { 'header' : 'Autres acteurs', 'cellToolTip' : True , 'flex': 1  },
         'udp__IntrantsDeclencheurs': { 'header' : 'Intrants Declan' , 'wordWrap': True , 'flex': 1 },
           
      }

@@ -3,6 +3,16 @@
  *  
  */
 
+// Estados en cada fila de la grilla al iteractuar con el BackEnd  
+_ROW_ST = { 
+	EXIST 	: 'ERR_EXIST',
+	NOEXIST : 'ERR_NOEXIST',
+	ADD 	: 'ERR_ADD',
+	UPD 	: 'ERR_UPD',
+	DEL 	: 'ERR_DEL',
+	NEWROW 	: 'NEW_ROW'
+	}
+
 
 _siteTitle = 'Dictionnaire de données de la Santé et des Services sociaux'
 _versionProto = 'Version 0.93a'

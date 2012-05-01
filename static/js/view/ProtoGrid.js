@@ -119,27 +119,50 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             listeners: {
                 scope: this,
                 selectionchange: function(selModel, selected) {
+                	// Expone la fila seleccionada. 
                 	this.selected = selected[0] || null;
+                	
+                	// Si hay botones o eltos de la interface a modificar 
                     // grid4.down('#removeButton').setDisabled(selections.length == 0);
-                 }
+                }, 
+                
+
+	        itemmouseenter: function(view, record, item) {
+	        	// Esto maneja los tooltip en las las filas
+	        	//TODO: crear la columna _ptStatus para poder manejar l'interaction con el BackEnd.  
+	        	var msg = record.get('_ptStatus')
+				switch (msg)
+				{
+					case _ROW_ST.EXIST:
+					case _ROW_ST.NOEXIST:
+					case _ROW_ST.ADD:
+					case _ROW_ST.UPD:
+					case _ROW_ST.DEL:
+					  break;
+					default:
+					  msg = ''	
+				}        	
+	        	// Asigna un tooltip a la fila, pero respeta los de cada celda y los de los Actiosn
+	        	Ext.fly(item).set({'data-qtip': msg });
+	            
+	            // Dgt :  Este tooltip evita las actions columns 
+		        // Ext.fly(item).select('.x-grid-cell:not(.x-action-col-cell)').set({'data-qtip': 'My tooltip: ' + record.get('name')});
+	        	}
+                
             }, 
             
 		    tools: [{
-		        itemId: 'toolRefresh',
+		        itemId: 'toolCancelEdit',
 		        type: 'close',
 		        hidden: true,
 				scope: this,
-		        handler: function (){ 
-		        	this.setEditionOff( false )
-		        }
+		        handler: this.cancelChanges 
 		     },{
 		        itemId: 'toolSave',
 		        type: 'save',
 		        hidden: true,
 				scope: this,
-		        handler: function (){ 
-		        	this.setEditionOff( true )
-		        }
+		        handler: this.saveChanges 
 		     },{
 		        type: 'gear',
 		        handler: showMetaConfig,
@@ -148,7 +171,56 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 		        type: 'gear',
 		        handler: showColsConfig,
 		        tooltip: 'ColsConfig ... '
-		    }]
+		    }], 
+		    
+ 
+		   viewConfig: {
+			   
+                listeners: {
+                    cellclick: function (view, cell, cellIndex, record, row, rowIndex, e) {
+                    	// Esto maneja los vinculos en los campos 
+                        var linkClicked = (e.target.tagName == 'A');
+                        var clickedDataIndex = view.panel.headerCt.getHeaderAtIndex(cellIndex).dataIndex;
+                        if (linkClicked && clickedDataIndex ) {
+                            alert(record.get('id'));
+                        }
+                    }
+                }, 			   
+			   
+		        getRowClass: function(record, rowIndex, rowParams, store){
+                	//	Esto permite marcar los registros despues de la actualizacion 
+		        	var stRec = record.get('_ptStatus');
+		        	
+					switch (stRec)
+					{
+					case _ROW_ST.EXIST:
+					case _ROW_ST.ADD:
+						record.dirty = true;
+						if ( record.getId() == 0 ) {
+							record.phantom = true;   		        		
+						}
+					  	break;
+					  	
+					case _ROW_ST.NOEXIST:
+					  	break;
+
+					case _ROW_ST.UPD:
+						record.dirty = true;
+					  	break;
+
+					case _ROW_ST.DEL:
+					case _ROW_ST.NEWROW:
+					  	break;
+
+					default:
+						stRec = ''
+					  	break;
+					}        	
+		        	
+		            return stRec;
+		        }
+		   },
+           		    
             
         }); 
 
@@ -462,27 +534,14 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 		if (editMode ) {
 			this._extGrid.down('#toolSave').show();
-			this._extGrid.down('#toolRefresh').show();
+			this._extGrid.down('#toolCancelEdit').show();
 		} else {
 			this._extGrid.down('#toolSave').hide();
-			this._extGrid.down('#toolRefresh').hide();
+			this._extGrid.down('#toolCancelEdit').hide();
 		}
 		
    },
 
-	setEditionOff: function( doSave ) {
-		
-			if ((! this._extGrid ) || ( ! this.editMode )) return; 
-			 
-			// Invocada desde el tool, debe cancelar la edicion y retroalimentar el toolbar 
-			this.setEditMode( false ) 
-			
-			// Reconfigura el toolBar 
-			if ( this._toolBar ) {
-				this._toolBar.toggleEditMode( false, true )
-			};   
-
-	}, 
 
 	setDefaults: function() {
 
@@ -501,7 +560,38 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         var rec = new this.store.model( this.setDefaults()  ) 
         this.store.insert(0, rec);
 
-	} 
+	}, 
+	
+	deleteCurrentRecord: function() {
+		if ((! this._extGrid ) || ( ! this.editMode )) return; 
+
+        var selection = this._extGrid.getView().getSelectionModel().getSelection()[0];
+        if (selection) {
+            this.store.remove(selection);
+        }
+	}, 
+
+	setEditionOff: function() {
+		
+		if ((! this._extGrid ) || ( ! this.editMode )) return; 
+		 
+		// Invocada desde el tool, debe cancelar la edicion y retroalimentar el toolbar 
+		this.setEditMode( false ) 
+		
+		// Reconfigura el toolBar 
+		if ( this._toolBar ) {
+			this._toolBar.toggleEditMode( false, true )
+		};   
+
+	}, 
     
+    saveChanges: function(){
+        this.store.sync();
+    }, 
+    
+    cancelChanges: function() {
+    	this.setEditionOff()
+        this.store.load(); 
+    } 
     
 });

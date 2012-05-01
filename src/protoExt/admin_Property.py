@@ -47,7 +47,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     protoExt[ 'protoFields' ] =  {        
         'code': {'header' : 'Éléments de données', 'type': 'CharField' ,  'minWidth': 200, 'flex': 1, 'fieldLabel' : 'Property' },
         'concept__code': { 'storeOnly': True ,'header' : 'Concept', 'type': 'CharField' , 'minWidth': 200, 'flex': 1 , 'fieldLabel' : 'Entity' },
-        'concept__model__code': {'header' : 'Vue', 'type': 'CharField' , 'minWidth': 200 , 'flex': 1, 'fieldLabel' : 'Vue' },  
+        'concept__model__code': {'header' : 'Vue', 'type': 'CharField' , 'minWidth': 200 , 'flex': 1, 'fieldLabel' : 'Vue', 'cellLink' : True },  
         'concept__model__category' : { 'fieldLabel' : 'Category' },                             
           
         'isNullable':{ 'header' : 'Is null' , 'type' : 'bool'},

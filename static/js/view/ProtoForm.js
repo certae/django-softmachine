@@ -465,10 +465,9 @@ Ext.define('ProtoUL.view.ProtoForm', {
 });
 
 
+//TODO:  Agregar tooltip a los campos 
+
 /* 
-
-Agregar tooltip a los campos 
-
 {
   fieldLabel: 'test label'
   allowBlank: false,

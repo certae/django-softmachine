@@ -180,6 +180,79 @@ function getStoreDefinition(  storeDefinition  ){
 
 
     
+function DefineProtoModel ( myMeta , modelClassName ){
+        
+//    console.log ( 'Loading ' + modelClassName + '...' );
+
+    // dateFormat: 'Y-m-d'
+    // type: 'date', 'float', 'int', 'number'
+
+    // useNull : vFld.allowNull,  ( solo para numeros, si no puede hacer la conversion )
+    // defaultValue: vFld.defaultValue,
+    // persist: vFld.editPolicy,		( falso = NoUpdate )
+    
+    // type: 'hasMany',
+    // autoLoad: true
+    // convert :  Campo Virtual calculado,  Apunta a una funcion q  genera el valor 
+    
+    var myFields = [];   		// model Fields 
+	var dict = {};		 		// For indexing fields
+
+    for (var ix in myMeta.fields ) {
+
+        var vFld  =  myMeta.fields[ix];
+		if (!vFld.type )  vFld.type = 'string'
+        
+        // modelField  
+        var mField = {
+            name: vFld.name,
+            type: vFld.type 
+            
+            //TODO:  useNull : true / false    ( NullAllowed, IsNull,  NotNull )
+        };
+
+
+		// Determina el xType y otros parametros 
+		switch( vFld.type )
+		{
+		case 'decimal':
+			mField.type = 'number';	        
+		  	break;
+		case 'date':
+			mField.dateFormat ='Y-m-d' 
+		  	break;
+		case 'datetime':
+			mField.type = 'date';	        
+			mField.dateFormat ='Y-m-d H:i:s'  // 'timestamp' 
+		  	break;
+		}
+
+		// Asigna el modelo y el diccionario 
+        myFields.push(mField);
+		dict[vFld.name] = vFld
+		
+    }
+    
+    
+    // Asigna un diccionario con las llaves como clave  
+	myMeta.dict = dict
+	
+    // myFields = [{"name":"id","type":"int","useNull":true},{"name":"first","type":"string"}]
+    Ext.define(modelClassName, {
+        extend: 'Ext.data.Model',
+            fields: myFields 
+            
+		//TODO: Validation, Validaciones             
+		//    validations: [{
+		//        type: 'length',
+		//        field: 'name',
+		//        min: 1
+		//    }]
+
+        });
+        
+}
+
 
 
 

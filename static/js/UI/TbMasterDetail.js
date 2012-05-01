@@ -379,7 +379,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 	            itemId:     'cancel',
 	            text:       'Cancel',
 	            scope:    	this,
-	            handler:    toggleEditMode,
+	            handler:    onClickTableCancelEdit,
 	            disabled: 	! (this.editMode )  
             }],  
             hidden : true
@@ -432,27 +432,32 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         
         function onClickTableAdd( btn ){
-
     		if ( __MasterDetail )  {
     			__MasterDetail.protoMasterGrid.addNewRecord()
     		} 
-
         }; 
         
-        function onClickTableUpdate( btn ){
-			console.log( btn.text ) 
+        function onClickTableDelete( btn ){
+    		if ( __MasterDetail )  {
+    			__MasterDetail.protoMasterGrid.deleteCurrentRecord()
+    		} 
         }; 
 
-        function onClickTableDelete( btn ){
-			console.log( btn.text ) 
-        }; 
         function onClickTableDuplicate( btn ){
 			console.log( btn.text ) 
         }; 
+
         function onClickTableSave( btn ){
-			console.log( btn.text ) 
+    		if ( __MasterDetail )  {
+    			__MasterDetail.protoMasterGrid.saveChanges()
+    		} 
         }; 
 
+        function onClickTableCancelEdit( btn ){
+    		if ( __MasterDetail )  {
+    			__MasterDetail.protoMasterGrid.cancelChanges()
+    		} 
+        }; 
 
 // ----------------------------------------------------------------------------------
 
@@ -779,7 +784,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
   	}, 
 
 	toggleEditMode: function ( forceEdit, tbOnly ) {
-		// tbOnly : ToolBarOnly,  is internal event
+		// tbOnly : is internal event fired from grid 
 		
 		if ( forceEdit ) this.editMode = forceEdit;  
 		else this.editMode = ! this.editMode ; 			
