@@ -174,7 +174,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
 
         // combo - operation 
-        opStore = new Ext.data.ArrayStore({ 
+        var opStore = new Ext.data.ArrayStore({ 
         	fields: ['code', 'operation'], 
         	data: _ComboFilterOp 
     	}); 

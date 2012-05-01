@@ -44,26 +44,24 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             myFilter = Ext.encode(myFilter);
         }   
         
-        // Sorters 
-        var pSorters = myMeta.initialSort; 
-        
         //console.log (  this.protoConcept, ' Loading store ...  '  ); 
-        this.store = Ext.create('ProtoUL.core.ProtoStore', {
-            model : modelClassName, 
-            autoLoad: this.autoLoad || true,
-            pageSize: _PAGESIZE,
-            remoteSort: true,
-            autoSync: false, 
-            sorters: pSorters,   // [{ property: 'xx', direction: 'ASC' },],
-        });
 
-        this.store.proxy.actionMethods.read = 'POST';
-        this.store.proxy.extraParams = {
-                    protoConcept : this.protoConcept,
-                    protoFilter : myFilter,
-                    protoFilterBase: this.protoFilterBase, 
-                    storeFields  : myMeta.storeFields.toString()
-                }
+/* */
+
+		var storeDefinition =  {
+            model : modelClassName, 
+            autoLoad: this.autoLoad || true, 
+            pageSize: _PAGESIZE,
+            sorters: myMeta.initialSort, 
+
+        	//  proxy.extraParams = {
+            protoConcept : this.protoConcept,
+            protoFilter : myFilter,
+            protoFilterBase: this.protoFilterBase, 
+            storeFields  : myMeta.storeFields.toString()
+        };
+
+        this.store = getStoreDefinition( storeDefinition )
 
 
 		// Start Row Editing PlugIn
@@ -181,7 +179,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         //         ---------------------------------------------------
 
-        itemDetail = ['-']; 
+        var itemDetail = ['-']; 
 
         if ( this.protoIsDetailGrid ) {
             itemDetail.push ({
@@ -195,7 +193,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
 //-----------
 
-        panelItems =   [{
+        var panelItems =   [{
                 region: 'center',
                 flex: 1,
                 layout: 'fit',
