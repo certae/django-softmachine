@@ -293,6 +293,3 @@ def getVisibleFields(  storeFields, model ):
     return lFields[1:].split(',')
 
     
-
-    
-    

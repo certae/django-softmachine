@@ -29,14 +29,12 @@ function getStoreDefinition(  storeDefinition  ){
 	        type: 'ajax',
 	        batchActions : true, 
 	        batchOrder : "create,update,destroy", 
-	        url : 'protoExt/protoList/', 
-	
-	        // api: {
-	        	// read :   'protoExt/protoList/',
-	            // create:  'protoExt/protoAdd/',
-	            // update:  'protoExt/protoUpd/',
-	            // destroy: 'protoExt/protoDel/'
-	        // },
+	         api: {
+	        	 read :   'protoExt/protoList/',
+	             create:  'protoExt/protoAdd/',
+	             update:  'protoExt/protoUpd/',
+	             destroy: 'protoExt/protoDel/'
+	         },
 	
 	        reader: {
 	            type: 'json',
