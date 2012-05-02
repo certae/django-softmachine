@@ -29,7 +29,7 @@ function getStoreDefinition(  storeDefinition  ){
 	        type: 'ajax',
 	        batchActions : true, 
 	        batchOrder : "create,update,destroy", 
-	         api: {
+	        api: {
 	        	 read :   'protoExt/protoList/',
 	             create:  'protoExt/protoAdd/',
 	             update:  'protoExt/protoUpd/',
@@ -44,13 +44,6 @@ function getStoreDefinition(  storeDefinition  ){
 	            messageProperty: 'message'
 	        },
 
-            extraParams : {
-                protoConcept : me.protoConcept,
-                protoFilter : me.protoFilter,
-                protoFilterBase: me.protoFilterBase, 
-                storeFields  : me.storeFields
-			},	
-
 	        writer: {
 	            type: 'json',
 	            root: 'rows', 
@@ -58,7 +51,14 @@ function getStoreDefinition(  storeDefinition  ){
 	            writeAllFields: false,
 	            encode: false
 	        },
-	        
+
+            extraParams : {
+                protoConcept : me.protoConcept,
+                protoFilter : me.protoFilter,
+                protoFilterBase: me.protoFilterBase, 
+                storeFields  : me.storeFields
+			},	
+
 	        listeners: {
 	            'load' :  function(store,records,options) {
 	            	this.loaded = true
@@ -217,11 +217,16 @@ function DefineProtoModel ( myMeta , modelClassName ){
 			mField.type = 'number';	        
 		  	break;
 		case 'date':
+			mField.type = 'date';	        
 			mField.dateFormat ='Y-m-d' 
 		  	break;
 		case 'datetime':
 			mField.type = 'date';	        
 			mField.dateFormat ='Y-m-d H:i:s'  // 'timestamp' 
+		  	break;
+		case 'time':
+			mField.type = 'date';	        
+			mField.dateFormat ='H:i:s'  
 		  	break;
 		}
 

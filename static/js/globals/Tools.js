@@ -236,6 +236,7 @@ function getColDefinition( vFld ) {
 
 	case 'time':
 		//TODO:  En la edicion de grilla, al regresar cambia el formato 
+        colDefinition['xtype'] = 'datecolumn' 
         colDefinition['format'] = 'H:i'  //  'H:i:s'
 
 		editor.xtype = 'timefield'

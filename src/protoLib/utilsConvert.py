@@ -42,8 +42,14 @@ def toBoolean(s):
     """
     Conversion a boolean,  utilizada antes de cargar la Db 
     """
-    return ( s.lower()[0] in ("y", "t", "o", "s", "1") ) 
-
+    if type(s).__name__  == 'str':
+        return ( s.lower()[0] in ("y", "t", "o", "s", "1") ) 
+    elif type(s).__name__  == 'bool':
+        return s 
+    elif type(s).__name__  == 'int' and s != 0:
+        return True 
+    else: 
+        return False 
 
 
 def toDate(sVal, iDefault = None ):

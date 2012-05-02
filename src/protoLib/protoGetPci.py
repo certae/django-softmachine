@@ -21,7 +21,7 @@
 from django.contrib.admin.sites import  site
 from django.db import models
 from django.http import HttpResponse
-from protoGrid import Q2Dict, getVisibleFields
+from protoGrid import getVisibleFields
 from protoLib import protoGrid
 from utilsBase import construct_search, addFilter, JSONEncoder, verifyList 
 from models import getDjangoModel 

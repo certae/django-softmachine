@@ -1,26 +1,30 @@
 # -*- coding: utf-8 -*-
 
-from django.forms.models import model_to_dict
 from django.utils import simplejson as json
 from django.http import HttpResponse 
+from django.contrib.admin.sites import  site
 
 from models import getDjangoModel
+from protoGrid import Q2Dict
 from protoActions import ERR_EXIST, ERR_NOEXIST,  ERR_UPD, ERR_DEL 
 from utilsConvert import toInteger, toDate,toDateTime,toTime, toFloat, toDecimal, toBoolean
+from utilsBase import JSONEncoder 
 
 
 def protoCreate(request):
     myAction = { 'INS': True, 'UPD': False, 'DEL': False }
-    return protoEdit(request, myAction ) 
+    jContext = protoEdit(request, myAction ) 
+    return HttpResponse(jContext, mimetype="application/json")
 
 def protoUpdate(request):
     myAction = { 'UPD': True, 'INS': False, 'DEL': False }
-    return protoEdit(request, myAction )
+    jContext = protoEdit(request, myAction ) 
+    return HttpResponse(jContext, mimetype="application/json")
 
 def protoDelete(request):
     myAction = { 'DEL': True, 'INS': False, 'UPD': False  }
-    return protoEdit(request, myAction )
-
+    jContext = protoEdit(request, myAction ) 
+    return HttpResponse(jContext, mimetype="application/json")
 
 def protoEdit(request, myAction ):
     
@@ -31,6 +35,9 @@ def protoEdit(request, myAction ):
 
 #   Carga la info
     model = getDjangoModel(protoConcept)
+    model_admin = site._registry.get( model )
+    protoAdmin = getattr(model_admin, 'protoExt', {})
+    pUDP = protoAdmin.get( 'protoUdp', {}) 
 
     # Verifica q sea una lista de registros, (no deberia pasar, ya desde Extjs se controla )  
     dataList = json.loads(request.POST.keys()[0])['rows']
@@ -51,12 +58,18 @@ def protoEdit(request, myAction ):
 
         if not myAction['DEL']:
             for key in data:
-                if myAction['INS'] and key == 'id': continue
+                if  key == 'id': continue
                 setRegister( model,  rec, key,  data[key] )
                 
             try:
                 rec.save()
-                data = model_to_dict(rec, fields=[field.name for field in rec._meta.fields])
+                
+                # Convierte el registro en una lista y luego toma solo el primer elto de la lista resultado. 
+                data = Q2Dict(protostoreFields , [rec], pUDP )[0]
+
+#            -- Los tipos complejos ie. date, generan un error, 
+#               de las UDPS y evaluar las posible funciones  
+#               data = model_to_dict(rec, fields=[field.name for field in rec._meta.fields])
     
     #            TODO: Guardar las Udps 
     #            for key in data:
@@ -74,13 +87,14 @@ def protoEdit(request, myAction ):
         
         pList.append( data )
                 
-        
+
     context = {
-        'total': pList.__len__(),
-        'data': pList,
+        'totalCount': pList.__len__(),
+        'rows': pList,
         'success': True 
     }
-    return HttpResponse(json.dumps(context), mimetype="application/json")
+#    return HttpResponse(json.dumps(context), mimetype="application/json")
+    return json.dumps(context, cls=JSONEncoder)
 
 # ---------------
 

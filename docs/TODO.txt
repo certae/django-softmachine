@@ -3,6 +3,16 @@
 
 Tareas pendientes
 
+	Campo tipo time 
+	Actualizacion del estado de la grilla despues de sincronzar 
+	Colores en la grilla para indicar el estado 
+	Manejo del zoom FKey 
+	Actualizacion de Fkey
+	Evento de cambio en la grilla padre e indicador de refresh en la dependiente 
+
+	Barra de estado,  
+	Login en la barra de estado y no en la parte superior 
+
 	edicion 
 		Revizar Allow Null
 		agregar __str__ 

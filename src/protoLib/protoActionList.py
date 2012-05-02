@@ -97,7 +97,8 @@ def protoList(request):
 
 
 #   Prepara las cols del Query 
-    pList = Q2Dict(protostoreFields , pRows, protoAdmin )
+    pUDP = protoAdmin.get( 'protoUdp', {}) 
+    pList = Q2Dict(protostoreFields , pRows, pUDP )
 
     context = json.dumps({
             "success": True,

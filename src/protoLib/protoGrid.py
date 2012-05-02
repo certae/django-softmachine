@@ -191,7 +191,7 @@ class ProtoGridFactory(object):
 
 
 # Obtiene el diccionario basado en el Query Set 
-def Q2Dict (  storeFields, pRows , protoAdmin ):
+def Q2Dict (  storeFields, pRows , pUDP ):
     """ 
         return the row list from given queryset  
     """
@@ -199,8 +199,6 @@ def Q2Dict (  storeFields, pRows , protoAdmin ):
     rows = []
     storeFields =  tuple(storeFields[:].split(','))
 
-
-    pUDP = protoAdmin.get( 'protoUdp', {}) 
     if pUDP:
         udpTable = pUDP['udpTable'] 
         prpName = pUDP['propertyName'] 
@@ -264,7 +262,6 @@ def Q2Dict (  storeFields, pRows , protoAdmin ):
                         sAux = sAux.replace( '<br><th>', '<th>').replace( '<br></th>', '</th>')
                         sAux = sAux.replace( '<br><tr>', '<tr>').replace( '<br></tr>', '</tr>')
 
-                        #sAux = sAux.replace( '</td><br></tr>', '</td></tr>')
                         
                         rowdict[ prpGridName ] =  sAux 
                 
