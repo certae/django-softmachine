@@ -1,4 +1,4 @@
-#Tue May 01 18:38:52 EDT 2012
+#Tue May 01 23:51:24 EDT 2012
 eclipse.preferences.version=1
 encoding//Pruebas/fieldSets.py=utf-8
 encoding//Pruebas/jsonDump.py=utf-8
@@ -15,6 +15,7 @@ encoding//src/protoLib/protoGetPci.py=utf-8
 encoding//src/protoLib/protoGrid.py=utf-8
 encoding//src/protoLib/protoMenu.py=utf-8
 encoding//src/protoLib/utilsBase.py=utf-8
+encoding//src/protoLib/utilsConvert.py=utf-8
 encoding//src/protoLib/utilsWeb.py=utf-8
 encoding//src/settings.py=utf-8
 encoding//src/xml2db/main.py=utf-8
