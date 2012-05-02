@@ -5,10 +5,24 @@ from django.utils import simplejson as json
 from django.http import HttpResponse 
 
 from models import getDjangoModel
-from protoActions import ERR_EXIST, ERR_NOEXIST, ERR_ADD, ERR_UPD, ERR_DEL 
-from utilsConvert import toInteger, toDate, toFloat, toDecimal, toBoolean
+from protoActions import ERR_EXIST, ERR_NOEXIST,  ERR_UPD, ERR_DEL 
+from utilsConvert import toInteger, toDate,toDateTime,toTime, toFloat, toDecimal, toBoolean
+
 
 def protoCreate(request):
+    myAction = { 'INS': True, 'UPD': False, 'DEL': False }
+    return protoEdit(request, myAction ) 
+
+def protoUpdate(request):
+    myAction = { 'UPD': True, 'INS': False, 'DEL': False }
+    return protoEdit(request, myAction )
+
+def protoDelete(request):
+    myAction = { 'DEL': True, 'INS': False, 'UPD': False  }
+    return protoEdit(request, myAction )
+
+
+def protoEdit(request, myAction ):
     
     if request.method == 'POST':
         protoConcept = request.GET.get('protoConcept', '')
@@ -25,25 +39,40 @@ def protoCreate(request):
         
     pList = []
     for data in dataList: 
+        if myAction['INS']:
+            rec = model()
+        else: 
+            try:
+                rec = model.objects.get( pk = data['id']  )
+            except:
+                data['_ptStatus'] =  ERR_NOEXIST
+                pList.append( data )
+                continue 
 
-        rec = model()
-        for key in data:
-            if key == 'id': continue
-            setRegister( model,  rec, key,  data[key] )
-            
-        try:
-            rec.save()
-            data = model_to_dict(rec, fields=[field.name for field in rec._meta.fields])
-
-#            TODO: Guardar las Udps 
-#            for key in data:
-#                if key.startby( 'udp__' ): continue
-
-            pList.append( data )
-            
-        except: 
-            data['_ptStatus'] =  ERR_ADD
-            pList.append( data )
+        if not myAction['DEL']:
+            for key in data:
+                if myAction['INS'] and key == 'id': continue
+                setRegister( model,  rec, key,  data[key] )
+                
+            try:
+                rec.save()
+                data = model_to_dict(rec, fields=[field.name for field in rec._meta.fields])
+    
+    #            TODO: Guardar las Udps 
+    #            for key in data:
+    #                if key.startby( 'udp__' ): continue
+                
+            except: 
+                data['_ptStatus'] =  ERR_UPD
+        
+        else:  # Action Delete
+            try:
+                rec.delete()
+                data['_ptStatus'] =  ''
+            except: 
+                data['_ptStatus'] =  ERR_DEL
+        
+        pList.append( data )
                 
         
     context = {
@@ -72,13 +101,17 @@ def setRegister( model,  rec, key,  value  ):
         if  field.__class__.__name__ == 'DateField':
             value = toDate( value  )
         elif  field.__class__.__name__ == 'DateTimeField':
-            value = toDate( value )
+            value = toDateTime( value )
         elif  field.__class__.__name__ == 'TimeField':
-            value = toDate( value )
+            value = toTime( value )
+
         elif field.__class__.__name__ == 'IntegerField':
             value = toInteger( value )
         elif field.__class__.__name__ == 'DecimalField':
             value = toDecimal( value )
+        elif field.__class__.__name__ == 'FloatField':
+            value = toFloat( value )
+
         elif field.__class__.__name__ == 'BooleanField':
             value = toBoolean( value )
 

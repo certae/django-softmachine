@@ -26,7 +26,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         var ideTbFilter = Ext.id();
         var ideTbViews = Ext.id();
         var ideTbPrint = Ext.id();
-        var ideTbConfig = Ext.id();
+        var ideTbEdit = Ext.id();
 
         // Id en la Barra principal 
         // var ideBtOrder = Ext.id();
@@ -72,9 +72,9 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 idTb2  : ideTbFilter, 
                 id     : ideBtFilter 
             },'-',{
-                text: 'Config',
-                iconCls: 'icon-config24',
-                idTb2  : ideTbConfig
+                text: 'Editer',
+                iconCls: 'icon-edit24',
+                idTb2  : ideTbEdit
             },'-',{
                 text: 'Imprimer',
                 iconCls: 'icon-print24',
@@ -104,7 +104,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                     id : ideTbFilter, 
                     xtype: 'buttongroup'
                 },{
-                    id : ideTbConfig, 
+                    id : ideTbEdit, 
                     xtype: 'buttongroup'
                 },{
                     id : ideTbPrint, 
@@ -125,7 +125,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 configTbar.hide();
                 tbar2.hide();
                 
-            } else if ( but.idTb2 == ideTbConfig ) {
+            } else if ( but.idTb2 == ideTbEdit ) {
                 configTbar.show();
                 orderTbar.hide();
                 tbar2.hide();
@@ -311,7 +311,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 		this.editMode = false; 
 
         var configTbar = Ext.create('Ext.toolbar.Toolbar', {
-            id : ideTbConfig, 
+            id : ideTbEdit, 
        		// margins:'5 5 5 5',
             padding: '5 5 5 5',
             items  : [{
