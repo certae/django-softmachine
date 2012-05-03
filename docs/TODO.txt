@@ -3,6 +3,8 @@
 
 Tareas pendientes
 
+	MAnejo de un avento afer edito para marcar el registro como dirty y ademas quitarle es status, 
+
 	Cargar los mensajes de regreso en un campo virutal como _ptStatus pero con el mensaje para cada campo 
 
 

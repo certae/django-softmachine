@@ -129,25 +129,16 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 	        itemmouseenter: function(view, record, item) {
 	        	// Esto maneja los tooltip en las las filas
-	        	//TODO: crear la columna _ptStatus para poder manejar l'interaction con el BackEnd.  
 	        	var msg = record.get('_ptStatus')
-				switch (msg)
-				{
-					case _ROW_ST.EXIST:
-					case _ROW_ST.NOEXIST:
-					case _ROW_ST.ADD:
-					case _ROW_ST.UPD:
-					case _ROW_ST.DEL:
-					  break;
-					default:
-					  msg = ''	
-				}        	
+	        	if ( msg == _ROW_ST.NEWROW  ) msg = '';
+
 	        	// Asigna un tooltip a la fila, pero respeta los de cada celda y los de los Actiosn
 	        	Ext.fly(item).set({'data-qtip': msg });
 	            
 	            // Dgt :  Este tooltip evita las actions columns 
 		        // Ext.fly(item).select('.x-grid-cell:not(.x-action-col-cell)').set({'data-qtip': 'My tooltip: ' + record.get('name')});
-	        	}
+
+        		}
                 
             }, 
             
@@ -190,34 +181,17 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 		        getRowClass: function(record, rowIndex, rowParams, store){
                 	//	Esto permite marcar los registros despues de la actualizacion 
 		        	var stRec = record.get('_ptStatus');
-		        	
-					switch (stRec)
-					{
-					case _ROW_ST.EXIST:
-					case _ROW_ST.ADD:
-						record.dirty = true;
-						if ( record.getId() == 0 ) {
-							record.phantom = true;   		        		
+					if ( stRec ) { 
+
+						if ( stRec == _ROW_ST.NEWROW ) {
+		            		return stRec;
+						} else {
+							record.dirty = true;
+							if ( ! record.getId()  ) record.phantom = true;   		        		
+		            		return _ROW_ST.ERROR;
 						}
-					  	break;
-					  	
-					case _ROW_ST.NOEXIST:
-					  	break;
-
-					case _ROW_ST.UPD:
-						record.dirty = true;
-					  	break;
-
-					case _ROW_ST.DEL:
-					case _ROW_ST.NEWROW:
-					  	break;
-
-					default:
-						stRec = ''
-					  	break;
-					}        	
+					} else { return '' }
 		        	
-		            return stRec;
 		        }
 		   },
            		    
@@ -559,6 +533,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 		if ((! this._extGrid ) || ( ! this.editMode )) return; 
 
         var rec = new this.store.model( this.setDefaults()  ) 
+    	rec.data._ptStatus = _ROW_ST.NEWROW 
         this.store.insert(0, rec);
 	}, 
 	
@@ -568,6 +543,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         var rec =  this.selected
         if ( rec )  {
         	rec = rec.copy()
+        	rec.data._ptStatus = _ROW_ST.NEWROW 
         	rec.data.id = undefined 
         	rec.phantom = true 
         	this.store.insert(0, rec );

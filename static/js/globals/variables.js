@@ -5,12 +5,8 @@
 
 // Estados en cada fila de la grilla al iteractuar con el BackEnd  
 _ROW_ST = { 
-	EXIST 	: 'ERR_EXIST',
-	NOEXIST : 'ERR_NOEXIST',
-	ADD 	: 'ERR_ADD',
-	UPD 	: 'ERR_UPD',
-	DEL 	: 'ERR_DEL',
-	NEWROW 	: 'NEW_ROW'
+	ERROR 	: 'ROWST_ERR',
+	NEWROW 	: 'ROWST_NEW'
 	}
 
 
