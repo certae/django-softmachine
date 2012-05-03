@@ -4,11 +4,12 @@ from django.utils import simplejson as json
 from django.http import HttpResponse 
 from django.contrib.admin.sites import  site
 
+
 from models import getDjangoModel
 from protoGrid import Q2Dict
-from protoActions import ERR_EXIST, ERR_NOEXIST,  ERR_UPD, ERR_DEL 
+from protoActions import ERR_NOEXIST  
 from utilsConvert import toInteger, toDate,toDateTime,toTime, toFloat, toDecimal, toBoolean
-from utilsBase import JSONEncoder 
+from utilsBase import JSONEncoder, getReadableError 
 
 
 def protoCreate(request):
@@ -74,16 +75,17 @@ def protoEdit(request, myAction ):
     #            TODO: Guardar las Udps 
     #            for key in data:
     #                if key.startby( 'udp__' ): continue
-                
-            except: 
-                data['_ptStatus'] =  ERR_UPD
-        
+
+            except Exception,  e:
+                data['_ptStatus'] =  getReadableError( e ) 
+
         else:  # Action Delete
             try:
                 rec.delete()
                 data['_ptStatus'] =  ''
-            except: 
-                data['_ptStatus'] =  ERR_DEL
+
+            except Exception,  e:
+                data['_ptStatus'] =  getReadableError( e ) 
         
         pList.append( data )
                 
