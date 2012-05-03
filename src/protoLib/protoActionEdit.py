@@ -67,6 +67,7 @@ def protoEdit(request, myAction ):
                 
                 # Convierte el registro en una lista y luego toma solo el primer elto de la lista resultado. 
                 data = Q2Dict(protostoreFields , [rec], pUDP )[0]
+                data['_ptStatus'] =  ''
 
 #            -- Los tipos complejos ie. date, generan un error, 
 #               de las UDPS y evaluar las posible funciones  

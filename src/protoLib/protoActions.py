@@ -20,16 +20,9 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 
 
 # Error Constants 
-ERR_EXIST = 'ERR_EXIST'
-ERR_NOEXIST = 'ERR_NOEXIST'
-ERR_ADD = 'ERR_ADD'
-ERR_UPD = 'ERR_UPD'
-ERR_DEL = 'ERR_DEL'
-
-
+ERR_NOEXIST = '<b>ErrType:</b> KeyNotFound<br>The specifique record does not exist'
 
 #import tools as utils
-
 
 def main(request):
 
@@ -37,8 +30,6 @@ def main(request):
         return direct_to_template( request , 'login.html' )
     
     return direct_to_template( request , 'gridWriter.html' )
-
-
 
 
 

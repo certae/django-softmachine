@@ -341,7 +341,20 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 			 // */ 
 		// });
 
+        grid.on('validateedit', function(editor, e) {
+        	// Resetea el status despues de la edicion 
+			if ( ! e.record.getId() ) {
+				e.record.phantom = true;   		        		
+	        	e.record.data._ptStatus = _ROW_ST.NEWROW 
+			} else {
+	        	e.record.data._ptStatus = '' 
+			}
+			e.record.dirty = true;
 
+			// commit the changes right after editing finished
+    		// e.record.commit();
+        });
+        
         function showMetaConfig() {
         	var safeConf =  clone( myMeta , 0, exclude =['dict','gridDefinition', 'formDefinition'] )
         	showConfig( 'MetaConfig', safeConf )
