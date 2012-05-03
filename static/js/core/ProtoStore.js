@@ -233,13 +233,22 @@ function DefineProtoModel ( myMeta , modelClassName ){
 		// Asigna el modelo y el diccionario 
         myFields.push(mField);
 		dict[vFld.name] = vFld
-		
+
     }
     
     
     // Asigna un diccionario con las llaves como clave  
 	myMeta.dict = dict
+
 	
+	// Agrega el status 
+    var mField = { 
+			name: '_ptStatus',
+            type: 'string' 
+        };
+    myFields.push(mField);
+	
+
     // myFields = [{"name":"id","type":"int","useNull":true},{"name":"first","type":"string"}]
     Ext.define(modelClassName, {
         extend: 'Ext.data.Model',

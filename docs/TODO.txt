@@ -3,6 +3,9 @@
 
 Tareas pendientes
 
+	Cargar los mensajes de regreso en un campo virutal como _ptStatus pero con el mensaje para cada campo 
+
+
 	Campo tipo time 
 	Actualizacion del estado de la grilla despues de sincronzar 
 	Colores en la grilla para indicar el estado 

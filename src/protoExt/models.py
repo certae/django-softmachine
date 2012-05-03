@@ -288,20 +288,13 @@ class MetaLink(models.Model):
 class Prueba(models.Model):
     OBJTYPE  = (('Domain', 'Domain'),('Model', 'Model'),('Concept', 'Concept'),('Property', 'Porperty'),('?', 'Unknown'),)
     
-    prCode = models.CharField(verbose_name=u'Nom',blank = True, null = True, max_length=200 , default = 'Codigo')
-    
+    prCode = models.CharField(verbose_name=u'Codigo',blank = True, null = True, max_length=200 , default = 'Codigo', unique = True )
     prChoice = models.CharField(max_length=50, choices= OBJTYPE)
-    
     prBoolean = models.BooleanField(verbose_name=u'Active', default = True)
-    
     prDate  = models.DateField(blank = True, null = True)
-
     prTime  = models.TimeField(blank = True, null = True, default = '06:00')
-    
     prDecimal = models.DecimalField(blank = True, null = True, max_digits=5, decimal_places=2, default = 0.00)
-
     prInteger = models.IntegerField(blank = True, null = True)
-    
     prDescription = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
     def __unicode__(self):
@@ -309,4 +302,4 @@ class Prueba(models.Model):
 
     class Meta:
         verbose_name = 'Pruebas' 
-
+        unique_together = ('prDecimal', 'prInteger',)

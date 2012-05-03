@@ -75,6 +75,16 @@
 .icon-7 { background-image: url(../img/tmp/7.png ) !important; }
 
 
+/* Row Status  */
+
+.ERR_ADD .x-grid-cell {  background-color: #DC89FF !important; }
+.ERR_UPD .x-grid-cell {  background-color: #ABBEFF !important; }
+.ERR_DEL .x-grid-cell {  background-color: #D0978D !important; }
+.NEW_ROW .x-grid-cell {  background-color: #FFF98B !important; }
+.ERR_EXIST .x-grid-cell { background-color: #FBCD52 !important; }
+.ERR_NOEXIST .x-grid-cell { background-color: #FF8E79 !important; }
+
+
 /*Fiche */
 
 .negro {padding:5px;font-weight: normal; width:25%;vertical-align:top;}

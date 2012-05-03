@@ -58,7 +58,7 @@ def protoEdit(request, myAction ):
 
         if not myAction['DEL']:
             for key in data:
-                if  key == 'id': continue
+                if  key == 'id' or key == '_ptStatus': continue
                 setRegister( model,  rec, key,  data[key] )
                 
             try:
