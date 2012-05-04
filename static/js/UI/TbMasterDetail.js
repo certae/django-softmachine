@@ -325,12 +325,11 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 	            handler:    toggleEditMode,
 	            hidden: 	this.editMode  
 	        }, {
-	            iconCls : 'icon-tableCancel', 
-	            itemId:     'cancel',
-	            text:       'Cancel',
-	            scope:    	this,
-	            handler:    onClickTableCancelEdit,
-	            hidden : 	! (this.editMode )  
+	            iconCls : 'icon-tableSave', 
+	            itemId:     'save',
+	            text:       'Save',
+	            handler:    onClickTableSave,
+	            hidden: 	! this.editMode  
 	        }, {
 	            iconCls : 'icon-tableAdd', 
 	            itemId:     'add',
@@ -350,11 +349,12 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 	            handler:    onClickTableDelete,
 	            disabled: 	! this.editMode  
 	        },  { 
-	            iconCls : 'icon-tableSave', 
-	            itemId:     'save',
-	            text:       'Save',
-	            handler:    onClickTableSave,
-	            disabled: 	this.autoSync || (!this.editMode )
+	            iconCls : 'icon-tableCancel', 
+	            itemId:     'cancel',
+	            text:       'Cancel',
+	            scope:    	this,
+	            handler:    onClickTableCancelEdit,
+	            disabled: 	! this.editMode  
 	        }, '|',  {
 	            xtype   : 'tbtext',
 	            text: '<b>Form :<b>'
@@ -395,6 +395,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 			this.autoSync = pressed ; 			
 			btn.ownerCt.getComponent('save').setDisabled(  this.autoSync  );
 			
+			if ( pressed ) __MasterDetail.protoMasterGrid.saveChanges()
 			__MasterDetail.protoMasterGrid.store.autoSync = pressed;
 			
         }; 
@@ -801,12 +802,15 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 		if ( this.configTbar ) {
 
 			this.configTbar.getComponent('edit').setVisible ( ! this.editMode );
-			this.configTbar.getComponent('cancel').setVisible( this.editMode ); 
+			this.configTbar.getComponent('save').setVisible( this.editMode  );
 
+//			this.configTbar.getComponent('cancel').setVisible( this.editMode ); 
 			this.configTbar.getComponent('save').setDisabled( this.autoSync || (!this.editMode ));
+
 			this.configTbar.getComponent('add').setDisabled ( ! this.editMode );
 			this.configTbar.getComponent('copy').setDisabled ( ! this.editMode );
 			this.configTbar.getComponent('delete').setDisabled ( ! this.editMode );
+			this.configTbar.getComponent('cancel').setDisabled ( ! this.editMode );
 			
 			this.configTbar.getComponent('autoSync').setDisabled( ! this.editMode );
 		}; 
