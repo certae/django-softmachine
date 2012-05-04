@@ -48,7 +48,7 @@ function getStoreDefinition(  storeDefinition  ){
 	            type: 'json',
 	            root: 'rows', 
 	            allowSingle: false, 
-	            writeAllFields: false,
+	            writeAllFields: true,
 	            encode: false
 	        },
 
@@ -87,91 +87,98 @@ function getStoreDefinition(  storeDefinition  ){
     	
 	 		// Fired when a Model instance has been added to this Store ...
 			add: function ( store, records,  index,  eOpts ) {
-				var msg = 'add';
-				var title =   'Event: '            	
-		    	Ext.outils.msg( title ,  msg ); 
+				// var msg = 'add';
 			}, 
 	 
 			// Fires before a request is made for a new data object. ...
 			beforeload: function(  store,  operation,  eOpts ) {
-				var msg = 'beforeload';
-				var title =   'Event: '            	
-		    	Ext.outils.msg( title ,  msg ); 
+				// var msg = 'beforeload';
 			},
 	 
 			// Fired before a call to sync is executed. Return false from any listener to cancel the synv
 			beforesync: function(  options,  eOpts ) {
-				var msg = 'beforesync';
-				var title =   'Event: '            	
-		    	Ext.outils.msg( title ,  msg ); 
+				// var msg = 'beforesync';
 			},
+	
+			//  Fires before a prefetch occurs. Return false to cancel.
+			beforeprefetch: function ( store, operation, eOpts ) {
+				// var msg = 'beforesync';
+			}, 
+			
+			// Fires whenever records have been prefetched
+			prefetch: function ( store, records, successful, operation,  eOpts ) {
+				// var msg = 'beforesync';
+			}, 
 	
 			// Fired after the removeAll method is called. ...
 			clear: function ( store,  eOpts ) {
-				var msg = 'clear';
-				var title =   'Event: '            	
-		    	Ext.outils.msg( title ,  msg ); 
+				// var msg = 'clear';
 			},
 	 
 			// Fires whenever the records in the Store have changed in some way - this could include adding or removing records, or ...
 			datachanged: function( store,  eOpts ) {
-				var msg = 'datachanged';
-				var title =   'Event: '            	
-		    	Ext.outils.msg( title ,  msg ); 
+				// var msg = 'datachanged';
 			},
 			 
 			// Fires whenever the store reads data from a remote data source. ...
 			load: function ( store, records,  successful,  eOpts ) {
-				var msg = 'load';
-				var title =   'Event: '            	
-		    	Ext.outils.msg( title ,  msg ); 
+				// var msg = 'load';
 			},
 			 
 			// Fired when a Model instance has been removed from this Store ...
 			remove: function (  store,  record,  index,  eOpts ) {
-				var msg = 'remove';
-				var title =   'Event: '            	
-		    	Ext.outils.msg( title ,  msg ); 
+				// var msg = 'remove';
 			},
 			 
 			// Fires when a Model instance has been updated ...\    	
 			update: function ( store,  record,  sOperation,  eOpts ) {
-				var msg = 'update';
-				var title =   'Event: '            	
-		    	Ext.outils.msg( title ,  msg ); 
+				// var msg = 'update';		 
 			},  
 	    	
 	    	// Fires whenever a successful write has been made via the configured Proxy 
 	        write: function(store, operation, eOpts ){
-				var title =   'Event:';            	
-				var msg = 'write ' + operation.action + ' ' + operation.resultSet.message ;   
+
+				for ( var ix in operation.records ) {
+					var recResult = operation.resultSet.records[ix]
+					var recOrigin = operation.records[ix]
 	
-	            /* Lee todos los registros 
-				for ( var ix in operation.resultSet.records ) {
-					var record = operation.resultSet.records[ix]
-					
-					if ((operation.action == 'destroy') && ( record.data._ptStatus != '' )) {
-	        			// record = Ext.create('Writer.Person');
-	        			// record.set(record.data);
-	                    store.insert(0, record);
-					};
-					
-		            msg = msg + ' - ' + Ext.String.format("Reg: {0}", record.getId()); 
-				} */
+					// Si existe un resultSet 
+					if ( recResult ) {
+
+						if (operation.action == 'create') {
+			            	//Cuando son varios inserts, Extjs no es capaz hacer la actualizacion de los registros.
+			            
+			            	// Copia la data resultado sobre la data de base 
+			            	// Tengo un campo para mandar el Id, para efectos de control, podria ser elimiando en la prox version  
+							var recOrigin = operation.records[ix]
+							recOrigin.data = recResult.data 
 	
-	            var record = operation.records[0]
-	            var op = Ext.String.capitalize(operation.action)
-	                
-	            msg = msg + ' - ' + Ext.String.format("{0} user: {1}", op, record.getId()); 
-	            Ext.outils.msg(title, msg );
-	        }
+						} // End create  
+					
+						else if  (operation.action == 'destroy') {
+			            	//Dgt:  Restaura los registros q no pudieron ser borrados, ie Integridad referencial    
+	
+							if ( recResult.data._ptStatus != '' ) store.insert(0, recResult);
+						} // En Delete
+										
+					} 
+				
+					// Marca los registros segun el estado 
+	        		var stRec = recOrigin.get('_ptStatus');
+					if ( stRec ) { 
+						recOrigin.dirty = true;
+						if ( ! recOrigin.getId()  ) recOrigin.phantom = true;
+					}   		        		
+
+				} // End for
+	
+	        } // End Event 
 	    }
 
     })
         
     myStore.proxy.actionMethods.read = 'POST';
 	return myStore
-
 
 }
         
@@ -241,13 +248,13 @@ function DefineProtoModel ( myMeta , modelClassName ){
 	myMeta.dict = dict
 
 	
-	// Agrega el status 
-    var mField = { 
-			name: '_ptStatus',
-            type: 'string' 
-        };
+	// Agrega el status y el interna ID 
+    var mField = { name: '_ptStatus', type: 'string' };
     myFields.push(mField);
-	
+
+    var mField = { name: '_ptId', type: 'string' };
+    myFields.push(mField);
+
 
     // myFields = [{"name":"id","type":"int","useNull":true},{"name":"first","type":"string"}]
     Ext.define(modelClassName, {

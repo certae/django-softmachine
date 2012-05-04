@@ -77,7 +77,7 @@
 
 /* Row Status  */
 .ROWST_NEW .x-grid-cell { background-color: #FFF98B !important; }
-.ROWST_ERR .x-grid-cell { background-color: #FBCD52 !important; }
+.ROWST_ERR .x-grid-cell { background-color: #FFEAC9 !important; }
 
 
 /*Fiche */

@@ -186,8 +186,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 						if ( stRec == _ROW_ST.NEWROW ) {
 		            		return stRec;
 						} else {
-							record.dirty = true;
-							if ( ! record.getId()  ) record.phantom = true;   		        		
 		            		return _ROW_ST.ERROR;
 						}
 					} else { return '' }
@@ -545,24 +543,26 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 	addNewRecord: function() {
 		if ((! this._extGrid ) || ( ! this.editMode )) return; 
 
-        var rec = new this.store.model( this.setDefaults()  ) 
-    	rec.data._ptStatus = _ROW_ST.NEWROW 
-        this.store.insert(0, rec);
+        var rec = new this.store.model( this.setDefaults()  )
+        this.insertNewRecord ( rec  ) 
 	}, 
 	
 	duplicateRecord: function() {
 		if ((! this._extGrid ) || ( ! this.editMode )) return; 
 		
         var rec =  this.selected
-        if ( rec )  {
-        	rec = rec.copy()
-        	rec.data._ptStatus = _ROW_ST.NEWROW 
-        	rec.data.id = undefined 
-        	rec.phantom = true 
-        	this.store.insert(0, rec );
-        } 
+        if ( rec )  this.insertNewRecord ( rec.copy()  ) 
         	
 	}, 
+
+	insertNewRecord: function( rec ) {
+    	rec.data._ptStatus = _ROW_ST.NEWROW 
+    	rec.data._ptId = rec.internalId  
+    	rec.data.id = undefined 
+    	rec.phantom = true 
+    	this.store.insert(0, rec );
+	},
+
 	
 	deleteCurrentRecord: function() {
 		if ((! this._extGrid ) || ( ! this.editMode )) return; 

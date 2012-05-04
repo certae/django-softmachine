@@ -59,9 +59,15 @@ def protoEdit(request, myAction ):
 
         if not myAction['DEL']:
             for key in data:
-                if  key == 'id' or key == '_ptStatus': continue
+                if  key == 'id' or key == '_ptStatus' or key == '_ptId': continue
                 setRegister( model,  rec, key,  data[key] )
-                
+
+            # Guarda el idInterno para concatenar registros nuevos en la grilla 
+            try:
+                _ptId = data['_ptId']
+            except: 
+                _ptId = ''
+
             try:
                 rec.save()
                 
@@ -79,7 +85,9 @@ def protoEdit(request, myAction ):
 
             except Exception,  e:
                 data['_ptStatus'] =  getReadableError( e ) 
-
+            finally: 
+                data['_ptId'] =  _ptId
+                
         else:  # Action Delete
             try:
                 rec.delete()
@@ -96,7 +104,7 @@ def protoEdit(request, myAction ):
         'rows': pList,
         'success': True 
     }
-#    return HttpResponse(json.dumps(context), mimetype="application/json")
+#   return HttpResponse(json.dumps(context), mimetype="application/json")
     return json.dumps(context, cls=JSONEncoder)
 
 # ---------------
