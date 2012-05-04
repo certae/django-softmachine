@@ -64,7 +64,7 @@ def protoEdit(request, myAction ):
         if not myAction['DEL']:
             for key in data:
                 if  key == 'id' or key == '_ptStatus' or key == '_ptId': continue
-                if (prpPrefix and key.startswith( prpPrefix + '__')): continue 
+                if (pUDP and key.startswith( prpPrefix + '__')): continue 
                 setRegister( model,  rec, key,  data[key] )
 
             # Guarda el idInterno para concatenar registros nuevos en la grilla 

@@ -46,6 +46,7 @@ Ext.application({
 
         // 
         Ext.QuickTips.init();
+        
         var app = new ProtoUL.view.Viewport();
         
     }

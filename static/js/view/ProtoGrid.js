@@ -22,6 +22,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     // iconCls: 'icon-grid',
 
     initComponent: function() {
+        
+        
         //console.log ( this.protoConcept + '  grid init'  ); 
 
         // Recupera la clase para obtener la meta ------------------------------------------
@@ -65,10 +67,11 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 
 		// Start Row Editing PlugIn
-	    var rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
+	    this.rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
 	        clicksToMoveEditor: 1,
 	        autoCancel: false
 	    });
+
 
 
         // Definicion de Columnas y Fields        ------------------------------------------
@@ -108,8 +111,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 		this.editMode = false; 
         
         var grid = Ext.create('Ext.grid.Panel', {
-			plugins: ['headertooltip',
-  			        	rowEditing
+			plugins: [	'headertooltip',
+		        		this.rowEditing
   					],            
 			// selModel: selModel,
             columns : gridColumns,   
@@ -198,6 +201,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         this._extGrid = grid;
         this.setGridTitle( this ) ;
+
 
 //----------
 
@@ -308,36 +312,45 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         //  Datos en el Store this.store.getAt(index)
         // var data = grid_company.getSelectionModel().selected.items[0].data;
         
-        grid.on({
-            itemClick: {fn: function (g, rowIndex, e) {
-                _pGrid.rowData = rowIndex.data;
+        // grid.on({
+            // itemClick: {fn: function ( gView, record, item, rowIndex,  e,  eOpts ) {
+            	// // Table.itemClick 
+                // _pGrid.rowData = record.data;
+                // this.fireEvent('rowClick', gView, record, item, rowIndex,  e,  eOpts );
+                // prepareSheet();
+            	// }, scope: this }
+        // });                 
 
-                this.fireEvent('rowClick', g, rowIndex, e);
+        grid.on({
+            select: {fn: function ( rowModel , record,  rowIndex,  eOpts ) {
+            	// SelectionModel.rowSelected 
+                _pGrid.rowData = record.data;
+
+                this.fireEvent('rowClick', rowModel, record, rowIndex,  eOpts );
                 prepareSheet();
 
             	}, scope: this }
-            	
         });                 
 
+
+		// grid.on('beforeedit', function( edPlugin, e, eOpts  ) {
         grid.on({
-            beforeedit: {fn: function ( edPlugin, e, eOpts) {
-				if ( ! this.editMode )  return false; 
+        	beforeedit: {fn: function ( edPlugin, e, eOpts) {
+				if ( ! this.editMode )  return false;
+				
+				// TODO: Manejo de edicion condicional segun datos
+				// Parametros: una coleccion ( CampoCriterio, Condicion, Lista de campos habilidatos ) 
+			    // if (e.record.get('status') == "0")
+			        // grid.getPlugin('rowEditing').editor.form.findField('xx').disable();
+			    // else 
+			        // grid.getPlugin('rowEditing').editor.form.findField('xx').enable();
+				
+				 
             	}, scope: this }
             	
         });                 
 
-		// grid.on('beforeedit', function( edPlugin, e, eOpts  ) {
-			// if ( ! this.editMode )  return false; 
-			// /* DGT: Manejo de edicion condicional segun datos
-				// Puede ser una coleccion 
-					// CampoCriterio, Condicion, Lista de campos habilidatos 
-// 					
-			    // if (e.record.get('status') == "0")
-			        // grid.getPlugin('rowEditing').editor.form.findField('xx').disable();
-			    // else
-			        // grid.getPlugin('rowEditing').editor.form.findField('xx').enable();
-			 // */ 
-		// });
+
 
         grid.on('validateedit', function(editor, e) {
         	// Resetea el status despues de la edicion 
@@ -561,15 +574,34 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     	rec.data.id = undefined 
     	rec.phantom = true 
     	this.store.insert(0, rec );
+
 	},
 
+
+	getRowIndex: function() {
+		
+	    var sm = this._extGrid.getSelectionModel();
+		var rowIndex = this.store.indexOf( sm.getSelection()[0])
+		if ( rowIndex < 0 ) rowIndex = 0  
+		return rowIndex 
+		 
+	}, 
 	
 	deleteCurrentRecord: function() {
 		if ((! this._extGrid ) || ( ! this.editMode )) return; 
 
-        // var rec = this._extGrid.getView().getSelectionModel().getSelection()[0];
-        var rec =  this.selected
-        if ( rec ) this.store.remove( rec );
+		var rowIndex = this.getRowIndex();  
+
+	    var sm = this._extGrid.getSelectionModel();
+	    this.rowEditing.cancelEdit();
+        this.store.remove( sm.getSelection()  );
+
+		// this.grid.store.indexOf( this.selections.itemAt(0) );
+		if (this.store.getCount() <= rowIndex ) rowIndex = 0 
+	    if (this.store.getCount() > 0) {
+	        sm.select( rowIndex  );
+	    }        
+	    
 	}, 
 
 	setEditionOff: function() {

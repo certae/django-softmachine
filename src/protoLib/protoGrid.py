@@ -8,7 +8,7 @@ from django.contrib.admin.sites import  site
 
 from django.conf import settings
 
-from utilsBase import _PROTOFN_ , verifyStr, verifyList
+from utilsBase import _PROTOFN_ , verifyStr, verifyList, verifyUdpDefinition
 from protoField import  setFieldDict
 
 class ProtoGridFactory(object):
@@ -200,6 +200,7 @@ def Q2Dict (  storeFields, pRows , pUDP ):
     storeFields =  tuple(storeFields[:].split(','))
 
     if pUDP:
+        pUDP = verifyUdpDefinition( pUDP )
         udpTable = pUDP['udpTable'] 
         prpName = pUDP['propertyName'] 
         prpValue = pUDP['propertyValue'] 

@@ -101,9 +101,9 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         //  Eventos de los objetos internos para el manejo Master-Detail   
                 
         masterGrid.on({
-            rowClick: {fn: function (g, rowIndex, e) {
+            rowClick: {fn: function ( gView, record, item, rowIndex,  e,  eOpts ) {
                 
-                idMasterGrid = rowIndex.internalId;
+                idMasterGrid = record.internalId;
                 this.idMasterGrid = idMasterGrid;
                 linkDetail();
                 }, 
