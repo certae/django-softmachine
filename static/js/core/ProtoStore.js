@@ -150,14 +150,12 @@ function getStoreDefinition(  storeDefinition  ){
 			            
 			            	// Copia la data resultado sobre la data de base 
 			            	// Tengo un campo para mandar el Id, para efectos de control, podria ser elimiando en la prox version  
-							var recOrigin = operation.records[ix]
 							recOrigin.data = recResult.data 
 	
 						} // End create  
 					
 						else if  (operation.action == 'destroy') {
 			            	//Dgt:  Restaura los registros q no pudieron ser borrados, ie Integridad referencial    
-	
 							if ( recResult.data._ptStatus != '' ) store.insert(0, recResult);
 						} // En Delete
 										

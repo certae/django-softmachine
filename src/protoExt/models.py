@@ -223,6 +223,10 @@ class Udp(models.Model):
     def __unicode__(self):
         return (strNotNull(self.metaObj.code) + '.' + strNotNull(self.code))
 
+    class Meta:
+        unique_together = ('metaObj', 'code',)
+
+
 #    Esto deberia ser la tabla de titulos de UPS ( un maesrto ) 
 #    udpTarget = models.CharField(verbose_name=u'udpTarget', blank = True, null = True, max_length=50)
 #    udpType = models.CharField(verbose_name=u'udpType', blank = True, null = True, max_length=50)

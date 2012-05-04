@@ -273,3 +273,23 @@ def getReadableError( e ):
     if len( e.args ) > 1: sAux += '<br>' +  '; '.join( e.args )
     return sAux 
 
+
+def verifyUdpDefinition( pUDP ):
+    # Verifica q todos los valores tengan su definicion 
+
+    # La tabla es obligatoria 
+    pUDP['udpTable']        = getattr( pUDP, 'udpTable', 'udp' )  
+
+    # Nombre de la UDP
+    pUDP['propertyName']    = getattr( pUDP, 'propertyName', 'code')
+    
+    # Valor str donde se almacenara la Udp  
+    pUDP['propertyValue']   = getattr( pUDP, 'propertyValue', 'valueUdp')
+    
+    # Valor de referencia del objeto base que contiene la cll de Udps 
+    pUDP['propertyReference']= getattr( pUDP, 'propertyReference', 'metaObj')
+    
+    # prefijo usado en el recordSet para diferenciar los campos provenientes de UDP 
+    pUDP['propertyPrefix']   = getattr( pUDP, 'propertyPrefix', 'udp')
+    
+    return pUDP    

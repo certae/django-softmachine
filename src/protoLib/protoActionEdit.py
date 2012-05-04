@@ -9,7 +9,7 @@ from models import getDjangoModel
 from protoGrid import Q2Dict
 from protoActions import ERR_NOEXIST  
 from utilsConvert import toInteger, toDate,toDateTime,toTime, toFloat, toDecimal, toBoolean
-from utilsBase import JSONEncoder, getReadableError 
+from utilsBase import JSONEncoder, getReadableError, addFilter, verifyUdpDefinition 
 
 
 def protoCreate(request):
@@ -38,7 +38,11 @@ def protoEdit(request, myAction ):
     model = getDjangoModel(protoConcept)
     model_admin = site._registry.get( model )
     protoAdmin = getattr(model_admin, 'protoExt', {})
-    pUDP = protoAdmin.get( 'protoUdp', {}) 
+    
+    pUDP = protoAdmin.get( 'protoUdp', {})
+    if pUDP: 
+        pUDP = verifyUdpDefinition( pUDP )
+        prpPrefix = pUDP['propertyPrefix']
 
     # Verifica q sea una lista de registros, (no deberia pasar, ya desde Extjs se controla )  
     dataList = json.loads(request.POST.keys()[0])['rows']
@@ -60,6 +64,7 @@ def protoEdit(request, myAction ):
         if not myAction['DEL']:
             for key in data:
                 if  key == 'id' or key == '_ptStatus' or key == '_ptId': continue
+                if (prpPrefix and key.startswith( prpPrefix + '__')): continue 
                 setRegister( model,  rec, key,  data[key] )
 
             # Guarda el idInterno para concatenar registros nuevos en la grilla 
@@ -71,17 +76,17 @@ def protoEdit(request, myAction ):
             try:
                 rec.save()
                 
+                # Guardar las Udps
+                if pUDP:  saveUDP( rec, data, pUDP  )
+
+                # -- Los tipos complejos ie. date, generan un error, 
+                #    de las UDPS y evaluar las posible funciones  
+                #    data = model_to_dict(rec, fields=[field.name for field in rec._meta.fields])
+
                 # Convierte el registro en una lista y luego toma solo el primer elto de la lista resultado. 
                 data = Q2Dict(protostoreFields , [rec], pUDP )[0]
                 data['_ptStatus'] =  ''
 
-#            -- Los tipos complejos ie. date, generan un error, 
-#               de las UDPS y evaluar las posible funciones  
-#               data = model_to_dict(rec, fields=[field.name for field in rec._meta.fields])
-    
-    #            TODO: Guardar las Udps 
-    #            for key in data:
-    #                if key.startby( 'udp__' ): continue
 
             except Exception,  e:
                 data['_ptStatus'] =  getReadableError( e ) 
@@ -109,11 +114,42 @@ def protoEdit(request, myAction ):
 
 # ---------------
 
+
+
+def saveUDP( rec,  data, pUDP  ):
+
+    UdpModel = getDjangoModel( pUDP['udpTable'] )
+
+    Qs = UdpModel.objects
+    Qs = addFilter( Qs, { pUDP['propertyReference'] : rec.id  } )
+
+    for key in data:
+        if (not key.startswith( pUDP['propertyPrefix'] + '__')): continue 
+
+        UdpCode = key.lstrip( pUDP['propertyPrefix'] + '__' ) 
+        
+        QsUdp = addFilter( Qs, { pUDP['propertyName'] : UdpCode  } )
+        if QsUdp.exists():
+            rUdp = QsUdp[0]
+        else: 
+            rUdp = UdpModel()
+            setattr( rUdp, pUDP['propertyReference'], rec )
+            setattr( rUdp, pUDP['propertyName'] , UdpCode)
+            
+        setattr( rUdp, pUDP['propertyValue'] , data[key])
+
+        rUdp.save()
+
+
+# ---------------------
+
 def setRegister( model,  rec, key,  value  ):
 
     try: 
         field = model._meta.get_field( key )
     except: return  
+
+    if getattr( field, 'editable', False ) == False: return   
     if  field.__class__.__name__ == 'AutoField': return
     
     try: 
