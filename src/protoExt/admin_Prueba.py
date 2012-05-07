@@ -26,7 +26,6 @@ class PruebaAdmin(django.contrib.admin.ModelAdmin):
      }
 
     protoExt[ 'protoViews' ] =  {        
-        'prueba1': {}, 
         'prueba2': {
             'title' : 'prueba2', 
             'description' : 'Esta es la description del concpeto concepto', 

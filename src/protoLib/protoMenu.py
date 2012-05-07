@@ -74,19 +74,17 @@ def protoGetMenuData(request):
         
         protoAdmin = getattr(model_admin, 'protoExt', {}) 
         protoViews = protoAdmin.get( 'protoViews' )
+
+        menuNode = model._meta.object_name
+        getMenuItem( protoAdmin, model, menuNode )
          
         if protoViews: 
-
             # si existen vistas,  carga una opcion de menu para cada una             
             for view in protoViews: 
                 menuNode = model._meta.object_name + '.' + view
                 protoOpcion =  getProtoViewObj( protoAdmin, view   )
                 getMenuItem( protoOpcion, model, menuNode )
 
-            
-        else:  
-            menuNode = model._meta.object_name
-            getMenuItem( protoAdmin, model, menuNode )
 
     # Sort the apps alphabetically.
     app_list = app_dict.values()
