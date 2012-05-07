@@ -30,7 +30,6 @@ def protoGetMenuData(request):
 #   user = request.user
     for model, model_admin in site._registry.items():
 
-#       protoModel = getattr(model, 'protoExt', {})
         protoAdmin = getattr(model_admin, 'protoExt', {}) 
 
         # El menuIx determina tambien si aparece o no en el menu 

@@ -38,9 +38,11 @@ def protoGetPCI(request):
 
     if request.method == 'GET':
         protoConcept = request.GET.get('protoConcept', '') 
+        protoView = getProtoView( protoConcept )
         
+            
         model = getDjangoModel(protoConcept)
-        grid = protoGrid.ProtoGridFactory( model  )        
+        grid = protoGrid.ProtoGridFactory( model, view  )        
 
 #       pRows = model.objects.filter(pk = 0)
         base_fields = grid.get_fields( None )
@@ -66,7 +68,7 @@ def protoGetPCI(request):
             gridColumns = verifyList( getattr(grid.model_admin , 'list_display', []))
  
         
-        protoViews = grid.protoAdmin.get( 'protoViews', []) 
+        protoGridCols = grid.protoAdmin.get( 'protoGridCols', []) 
         protoFilters = grid.protoAdmin.get( 'protoFilters', []) 
 
         # TODO: Este filtro deberia ser usado para la autocarga
@@ -115,7 +117,7 @@ def protoGetPCI(request):
                  'protoSheetProperties': protoSheetProperties, 
                  'initialSort': sortInfo,
                  'initialFilter': initialFilter,
-                 'protoViews':protoViews ,     
+                 'protoGridCols':protoGridCols ,     
                  'protoFilters': protoFilters,
                  'protoFieldSet': protoFieldSet, 
                  'gridColumns' : gridColumns,
@@ -128,6 +130,5 @@ def protoGetPCI(request):
         return HttpResponse(context, mimetype="application/json")
 
 # protoGetPCI ----------------------------
-
 
 

@@ -1,4 +1,16 @@
 
+Tableau de bord de l’état de santé des projets
+
+
+Se puede definir en el menu y definir la pseudo entidad como una coleccion adicional sobre la misma entidad, asi se manejaran vistas diferentes sobre un mismo modelo y un mismo admin. 
+
+Crear una pseudo entidad q cargue valores agrupados y permitir el manejo de dimensiones de detalle. 
+
+El menu tedra q manejar un campo para el modelo,  para no cambiar la definicion, 
+podria ser manejar un nombre compuesto,   modelo.vista,  asi se mantendria la definicion.  
+Si no existe la vista, entonces el modelo es la base, en caso contrario se revisa la coleccion de vistas q sera parte del admin.  
+
+De esta forma la misma tabla, el mimsmo modelo sirve para poder majar deiferentes presnetaciones incluso para manejar los agrapados.  verificar los agraupados.  y verificar si se puede hacer un grafico/ 
 
 
 Tareas pendientes

@@ -13,11 +13,13 @@ from protoField import  setFieldDict
 
 class ProtoGridFactory(object):
 
-    def __init__(self, model):
+    def __init__(self, model, view ):
             
         self.model = model              # the model to use as reference
         self.fields = []                # holds the extjs fields
-        self.storeFields = ''           # holds the Query Fields 
+        self.storeFields = ''           # holds the Query Fields
+         
+        self.view  = view 
 
         # Obtiene el nombre de la entidad 
         self.title = self.model._meta.verbose_name.title()
@@ -25,7 +27,6 @@ class ProtoGridFactory(object):
         #DGT Siempre existe, la creacion del site la asigna por defecto 
         self.model_admin = site._registry.get( model )
 
-        self.protoModel = getattr(model, 'protoExt', {})
         self.protoAdmin = getattr(self.model_admin, 'protoExt', {})
         self.protoFields = self.protoAdmin.get( 'protoFields', {}) 
 
@@ -47,7 +48,7 @@ class ProtoGridFactory(object):
 
         try: list_display.remove('__str__')
         except ValueError:  pass
-        
+
 
 #       WHY: Por alguna Ext no retiene el IdProperty ( idInternal al hacer click en las filas )     
 #       idName = model._meta.pk.name   
@@ -290,4 +291,34 @@ def getVisibleFields(  storeFields, model ):
     #Recorta la primera ','       
     return lFields[1:].split(',')
 
+
     
+def getProtoViewName( protoConcept   ):
+#    Verifica si es una instancia del modelo ( vista )
+#    Concept Format :    app.model.view 
+#    Return :  app.model ,  view 
+
+    if protoConcept.count(".") == '2':
+        app, model, view = protoConcept.split(".")
+        protoConcept = app + '.' +  model
+    else: view = ''
+    
+    return protoConcept, view 
+
+def getProtoViewObj( protoAdmin, view   ):
+#    Copia las propiedades de la vista en el protoAdmin 
+    
+    if view:
+        # intenta leer la definicion de la vista             
+        protoAux  = getattr( protoAdmin, 'protoViews', {})
+        if protoAux:  
+            protoView  = getattr(protoAux, view, {})
+
+    if protoView:
+        for key in protoView: 
+            # evitar recursividad en vistas 
+            if key == 'protoViews': continue 
+            protoAdmin[ key ] = protoView[ key ]
+          
+    return protoAdmin 
+

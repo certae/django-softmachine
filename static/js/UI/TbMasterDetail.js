@@ -605,7 +605,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             // },{  xtype: 'menuseparator'
         });
 
-        function configureProtoViews(){
+        function configureprotoGridCols(){
 
             var bHide = true; 
 
@@ -620,7 +620,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 });
             }
             
-            var pViews = myMeta.protoViews;
+            var pViews = myMeta.protoGridCols;
             for (var vDet in pViews) {         
                 tbViews.add({
                     text:       pViews[vDet].viewName,
@@ -637,7 +637,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             }
         }
     
-        configureProtoViews(); 
+        configureprotoGridCols(); 
 
         function onClickChangeView( btn ){
 

@@ -132,13 +132,27 @@ ul.cuadro {list-style-type: square;}
     background-color: transparent;
 }
 
-.x-grid-checkheader-checked {
+.x-grid-checkheader-checked { 
     background-image: url(../img/protoImg/checked.gif);
 }
 
 .x-grid-checkheader-editor .x-form-cb-wrap {
     text-align: center;
 }
+
+
+.x-grid-stopligth-red {
+    background-color:#FF7D7D ;
+}
+
+.x-grid-cell .x-grid-stopligth-yellow {
+	background-color:#FFE13D; 
+}
+
+.x-grid-stopligth-green {
+    background-color:#78FF78 ;
+}
+
 
 
 

@@ -163,7 +163,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
               }
             } 
 
-#    protoExt['protoViews'] = [
+#    protoExt['protoGridCols'] = [
 #            { 'viewName': 'default', 
 #              'viewFields': (  'code', 'concept__model__code',  ), 
 #              'icon' : 'icon-1'},

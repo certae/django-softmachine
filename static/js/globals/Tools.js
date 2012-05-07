@@ -159,6 +159,13 @@ function getColDefinition( vFld ) {
     // Formatea el contenido como un hiperLink, TODO: la logica debe estar en otra propiedad
     if ( vFld.cellLink ) colDefinition.renderer = cellLink
 
+    // Maneja los subtipos 
+    if ( vFld.subType ) {
+    	// subType stopLigth  Maneja el codigo de colores para un semaforo con 3 indicadores, 2 limites Red-Yellow; Yellow-Green   
+		if ( vFld.subType = 'stopLight' ) colDefinition.renderer = cellStopLight
+
+    } 
+
 	
 	// Copia las propiedades de base 
 	var lstProps = [
@@ -300,6 +307,33 @@ function getColDefinition( vFld ) {
   function cellLink(value, metaData, record, rowIndex, colIndex, store, view ){
         return '<a href="#">'+value+'</a>';  	
   	}
+
+  function cellStopLight(value, metaData, record, rowIndex, colIndex, store, view ){
+	//TODO: Leer las propiedades stopLightRY y  stopLightYG  para comparar,  
+
+    // subType stopLigth  Maneja el codigo de colores para un semaforo con 3 indicadores, 
+    // stopLightRY : valor limite  de Rojo a Amarillo
+    // stopLightYG : valor limite  de Amarillo a Verde
+    // si el valor RY > YG se asume una secuencia inversa. 
+    // los valores son comparados estrictamente mayor  X > RY -->  Y   
+
+	//
+        var cssPrefix = Ext.baseCSSPrefix
+        var cls = [];
+
+        if (value > 66 ) {
+            cls.push(cssPrefix + 'grid-stopligth-green');
+        } else if (value > 33 ) {
+            cls.push(cssPrefix + 'grid-stopligth-yellow');
+        } else if (value > 0 ) {
+            cls.push(cssPrefix + 'grid-stopligth-red');
+        }  
+        
+        return '<div class="' + cls.join(' ')  + '">&#160;' +  value + '</div>';
+  	}
+
+
+
 
 }
 
