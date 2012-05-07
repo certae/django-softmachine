@@ -194,6 +194,15 @@ LOGGING = {
 
 # Variables prototipeur
 PROTO_APP = {}
+
+#Los menus se manejan a dos niveles:  app, opcion
+#La app por defecto es la app definida en django y las opciones son los modelos 
+#un modelo puede definir un nombre de app diferente, el titulo se tomara de esta variable 
+#un modelo puede definir mas de una vista ( protoViews ) y cada vista puede definir su propio modelo
+#
+#Las propiedades de app_menu son :   hidden,   title,  expanded  
+
+# app_menu se usa para ordenar la pre
 PROTO_APP['app_menu'] = {
     'auth' : { 'hidden': True, },  
     'admin': { 'hidden': True, },

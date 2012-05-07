@@ -25,6 +25,15 @@ class PruebaAdmin(django.contrib.admin.ModelAdmin):
         'prInteger': {'subType' : 'stopLight', 'stoplightRY': 33 ,  'stoplightYG': 67}
      }
 
+    protoExt[ 'protoViews' ] =  {        
+        'prueba1': {}, 
+        'prueba2': {
+            'title' : 'prueba2', 
+            'description' : 'Esta es la description del concpeto concepto', 
+            'gridColumns' : ( 'prChoice', 'prInteger' )
+            }
+     }
+
 
 #    protoExt[ 'gridColumns' ] = ( 'code', 'concept__model__code' )
 #    protoExt[ 'readOnlyFields' ] = ( 'code', 'concept__model__code' ) 

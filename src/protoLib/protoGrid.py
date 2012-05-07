@@ -28,6 +28,8 @@ class ProtoGridFactory(object):
         self.model_admin = site._registry.get( model )
 
         self.protoAdmin = getattr(self.model_admin, 'protoExt', {})
+        self.protoAdmin =  getProtoViewObj( self.protoAdmin, view   )
+        
         self.protoFields = self.protoAdmin.get( 'protoFields', {}) 
 
         # lista de campos para la presentacion en la grilla 
@@ -298,7 +300,7 @@ def getProtoViewName( protoConcept   ):
 #    Concept Format :    app.model.view 
 #    Return :  app.model ,  view 
 
-    if protoConcept.count(".") == '2':
+    if protoConcept.count(".") == 2:
         app, model, view = protoConcept.split(".")
         protoConcept = app + '.' +  model
     else: view = ''
@@ -306,19 +308,24 @@ def getProtoViewName( protoConcept   ):
     return protoConcept, view 
 
 def getProtoViewObj( protoAdmin, view   ):
-#    Copia las propiedades de la vista en el protoAdmin 
-    
+#   Copia las propiedades de la vista en el protoAdmin 
+
+    protoView = {}
     if view:
         # intenta leer la definicion de la vista             
-        protoAux  = getattr( protoAdmin, 'protoViews', {})
-        if protoAux:  
-            protoView  = getattr(protoAux, view, {})
+        protoViews  = protoAdmin.get( 'protoViews', {})
+        if protoViews:  
+            protoView  = protoViews.get(  view, {})
 
     if protoView:
+        protoCopy = protoAdmin.copy()
         for key in protoView: 
             # evitar recursividad en vistas 
             if key == 'protoViews': continue 
-            protoAdmin[ key ] = protoView[ key ]
+            protoCopy[ key ] = protoView[ key ]
           
-    return protoAdmin 
+        return protoCopy
+
+    else: 
+        return protoAdmin
 

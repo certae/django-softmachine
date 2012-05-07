@@ -18,16 +18,13 @@
 #from protoLib import utilsBase, utilsWeb
 #import sys, 
 
-from django.contrib.admin.sites import  site
-from django.db import models
 from django.http import HttpResponse
-from protoGrid import getVisibleFields
+from protoGrid import getVisibleFields, getProtoViewName
 from protoLib import protoGrid
-from utilsBase import construct_search, addFilter, JSONEncoder, verifyList 
+from utilsBase import  verifyList 
 from models import getDjangoModel 
 
 import django.utils.simplejson as json
-import datetime, operator, decimal
 
 
 
@@ -38,8 +35,7 @@ def protoGetPCI(request):
 
     if request.method == 'GET':
         protoConcept = request.GET.get('protoConcept', '') 
-        protoView = getProtoView( protoConcept )
-        
+        protoConcept, view = getProtoViewName( protoConcept )
             
         model = getDjangoModel(protoConcept)
         grid = protoGrid.ProtoGridFactory( model, view  )        
