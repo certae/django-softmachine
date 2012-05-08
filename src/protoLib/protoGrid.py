@@ -48,8 +48,8 @@ class ProtoGridFactory(object):
         try: list_display.remove('action_checkbox')
         except ValueError:  pass
 
-        try: list_display.remove('__str__')
-        except ValueError:  pass
+#        try: list_display.remove('__str__')
+#        except ValueError:  pass
 
 
 #       WHY: Por alguna Ext no retiene el IdProperty ( idInternal al hacer click en las filas )     
@@ -194,7 +194,7 @@ class ProtoGridFactory(object):
 
 
 # Obtiene el diccionario basado en el Query Set 
-def Q2Dict (  storeFields, pRows , pUDP ):
+def Q2Dict (  storeFields, pRows , cUDP ):
     """ 
         return the row list from given queryset  
     """
@@ -202,15 +202,10 @@ def Q2Dict (  storeFields, pRows , pUDP ):
     rows = []
     storeFields =  tuple(storeFields[:].split(','))
 
-    if pUDP:
-        pUDP = verifyUdpDefinition( pUDP )
-        udpTable = pUDP['udpTable'] 
-        prpName = pUDP['propertyName'] 
-        prpValue = pUDP['propertyValue'] 
-        prpPrefix = pUDP['propertyPrefix']
+    if cUDP.udpTable :
         lsProperties =  []
         for fName in storeFields:
-            if fName.startswith( prpPrefix + '__'): lsProperties.append(fName)
+            if fName.startswith( cUDP.propertyPrefix + '__'): lsProperties.append(fName)
                 
 
 #   Esta forma permite agregar las funciones entre ellas el __unicode__
@@ -218,11 +213,17 @@ def Q2Dict (  storeFields, pRows , pUDP ):
         rowdict = {}
         for fName in storeFields:
             # UDP Se evaluan despues 
-            if pUDP and fName.startswith( prpPrefix + '__'): 
+            if cUDP.udpTable and fName.startswith( cUDP.propertyPrefix + '__'): 
                 continue  
             
             #Es una funcion 
-            if ( _PROTOFN_ in fName ):
+            if ( '__str__' in fName ):
+                try: 
+                    val = eval( 'item.__str__'  )
+                    val = verifyStr(val , '' )
+                except: val = 'fn?'
+
+            elif ( _PROTOFN_ in fName ):
                 try: 
                     val = eval( 'item.' + fName.replace( _PROTOFN_,'.') + '()'  )
                     val = verifyStr(val , '' )
@@ -246,17 +247,17 @@ def Q2Dict (  storeFields, pRows , pUDP ):
             rowdict[ fName ] = val
             
         
-        if pUDP:
+        if cUDP.udpTable:
             try: 
-                bAux = eval ( 'item.' + udpTable + '_set.exists()' ) 
+                bAux = eval ( 'item.' + cUDP.udpTable + '_set.exists()' ) 
             except: bAux = False 
             if bAux: 
-                cllUpd = eval ( 'item.' + udpTable + '_set.all()' ) 
+                cllUpd = eval ( 'item.' + cUDP.udpTable + '_set.all()' ) 
                 
                 for lUpd in cllUpd:
-                    prpGridName = prpPrefix + '__' + getattr( lUpd, prpName , '') 
+                    prpGridName = cUDP.propertyPrefix + '__' + getattr( lUpd, cUDP.propertyName  , '') 
                     if prpGridName in lsProperties:
-                        sAux = getattr( lUpd, prpValue, '' ).replace( '\n', '<br>').replace( '\r', '<br>')  
+                        sAux = getattr( lUpd, cUDP.propertyValue, '' ).replace( '\n', '<br>').replace( '\r', '<br>')  
                         sAux = sAux.replace( '<br><br>', '<br>')
                         sAux = sAux.replace( '<td><br>', '<td>').replace( '</td><br>', '</td>')
                         sAux = sAux.replace( '<th><br>', '<th>').replace( '</th><br>', '</th>')

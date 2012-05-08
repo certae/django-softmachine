@@ -261,10 +261,13 @@ def DateFormatConverter(to_extjs = None, to_python = None):
     
 
 
-#DGT:  Utilizado para campos q no tienen relacion en el modelo,
+# Utilizado para campos q no tienen relacion en el modelo,
 class VirtualField(object):
     def __init__(self, name):
         self.name = name
+
+# Para pasar atributos en forma de clase   
+class cAux: pass 
 
 
 def getReadableError( e ):
@@ -275,21 +278,28 @@ def getReadableError( e ):
 
 
 def verifyUdpDefinition( pUDP ):
-    # Verifica q todos los valores tengan su definicion 
+    # Verifica q todos los valores tengan su definicion y retorna una clase  
 
-    # La tabla es obligatoria 
-    pUDP['udpTable']        = getattr( pUDP, 'udpTable', 'udp' )  
+    #@@ udpTable         : Nombre de la tabla q aloja las UDPs ( obligatoria )  
+    #@@ propertyName     : Nombre de la UDP
+    #@@ propertyValue    : Valor str donde se almacenara la Udp  
+    #@@ propertyReference: Valor de referencia del objeto base que contiene la cll de Udps  
+    #@@ propertyPrefix   : prefijo usado en el recordSet para diferenciar los campos provenientes de UDP 
 
-    # Nombre de la UDP
-    pUDP['propertyName']    = getattr( pUDP, 'propertyName', 'code')
+    cUDP = cAux()
+
+    if ( pUDP ) : 
+        cUDP.udpTable          = getattr( pUDP, 'udpTable', 'udp' )  
+        cUDP.propertyName      = getattr( pUDP, 'propertyName', 'code')
+        cUDP.propertyValue     = getattr( pUDP, 'propertyValue', 'valueUdp')
+        cUDP.propertyReference = getattr( pUDP, 'propertyReference', 'metaObj')
+        cUDP.propertyPrefix    = getattr( pUDP, 'propertyPrefix', 'udp')
+    else: 
+        cUDP.udpTable          = ''  
+        cUDP.propertyName      = ''
+        cUDP.propertyValue     = ''
+        cUDP.propertyReference = ''
+        cUDP.propertyPrefix    = ''
     
-    # Valor str donde se almacenara la Udp  
-    pUDP['propertyValue']   = getattr( pUDP, 'propertyValue', 'valueUdp')
-    
-    # Valor de referencia del objeto base que contiene la cll de Udps 
-    pUDP['propertyReference']= getattr( pUDP, 'propertyReference', 'metaObj')
-    
-    # prefijo usado en el recordSet para diferenciar los campos provenientes de UDP 
-    pUDP['propertyPrefix']   = getattr( pUDP, 'propertyPrefix', 'udp')
-    
-    return pUDP    
+    return cUDP    
+

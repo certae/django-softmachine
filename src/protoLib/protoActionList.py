@@ -6,7 +6,7 @@ from django.db import models
 from django.http import HttpResponse
 
 from protoGrid import Q2Dict, getVisibleFields
-from utilsBase import construct_search, addFilter, JSONEncoder 
+from utilsBase import construct_search, addFilter, JSONEncoder, verifyUdpDefinition 
 from models import getDjangoModel 
 
 import django.utils.simplejson as json
@@ -98,7 +98,8 @@ def protoList(request):
 
 #   Prepara las cols del Query 
     pUDP = protoAdmin.get( 'protoUdp', {}) 
-    pList = Q2Dict(protostoreFields , pRows, pUDP )
+    cUDP = verifyUdpDefinition( pUDP )
+    pList = Q2Dict(protostoreFields , pRows, cUDP )
 
     context = json.dumps({
             "success": True,

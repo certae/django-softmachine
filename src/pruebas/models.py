@@ -12,7 +12,7 @@ class PruebaM(models.Model):
         return self.prCode + '-' + self.prDescription
 
     class Meta:
-        verbose_name = 'Pruebas' 
+        verbose_name = 'Maestro' 
         
 
 
@@ -33,6 +33,6 @@ class Prueba(models.Model):
         return self.prCode + '-' + self.prDescription
 
     class Meta:
-        verbose_name = 'Pruebas' 
+        verbose_name = 'Detalle' 
 #        unique_together = ('prDecimal', 'prInteger',)
 

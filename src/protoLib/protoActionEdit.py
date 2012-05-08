@@ -40,9 +40,7 @@ def protoEdit(request, myAction ):
     protoAdmin = getattr(model_admin, 'protoExt', {})
     
     pUDP = protoAdmin.get( 'protoUdp', {})
-    if pUDP: 
-        pUDP = verifyUdpDefinition( pUDP )
-        prpPrefix = pUDP['propertyPrefix']
+    cUDP = verifyUdpDefinition( pUDP )
 
     # Verifica q sea una lista de registros, (no deberia pasar, ya desde Extjs se controla )  
     dataList = json.loads(request.POST.keys()[0])['rows']
@@ -64,7 +62,7 @@ def protoEdit(request, myAction ):
         if not myAction['DEL']:
             for key in data:
                 if  key == 'id' or key == '_ptStatus' or key == '_ptId': continue
-                if (pUDP and key.startswith( prpPrefix + '__')): continue 
+                if (pUDP and key.startswith( cUDP.propertyPrefix + '__')): continue 
                 setRegister( model,  rec, key,  data[key] )
 
             # Guarda el idInterno para concatenar registros nuevos en la grilla 
@@ -77,14 +75,11 @@ def protoEdit(request, myAction ):
                 rec.save()
                 
                 # Guardar las Udps
-                if pUDP:  saveUDP( rec, data, pUDP  )
+                if pUDP:  saveUDP( rec, data, cUDP  )
 
-                # -- Los tipos complejos ie. date, generan un error, 
-                #    de las UDPS y evaluar las posible funciones  
-                #    data = model_to_dict(rec, fields=[field.name for field in rec._meta.fields])
-
+                # -- Los tipos complejos ie. date, generan un error, es necesario hacerlo detalladamente 
                 # Convierte el registro en una lista y luego toma solo el primer elto de la lista resultado. 
-                data = Q2Dict(protostoreFields , [rec], pUDP )[0]
+                data = Q2Dict(protostoreFields , [rec], cUDP )[0]
                 data['_ptStatus'] =  ''
 
 
@@ -116,27 +111,27 @@ def protoEdit(request, myAction ):
 
 
 
-def saveUDP( rec,  data, pUDP  ):
+def saveUDP( rec,  data, cUDP  ):
 
-    UdpModel = getDjangoModel( pUDP['udpTable'] )
+    UdpModel = getDjangoModel( cUDP.udpTable )
 
     Qs = UdpModel.objects
-    Qs = addFilter( Qs, { pUDP['propertyReference'] : rec.id  } )
+    Qs = addFilter( Qs, { cUDP.propertyReference : rec.id  } )
 
     for key in data:
-        if (not key.startswith( pUDP['propertyPrefix'] + '__')): continue 
+        if (not key.startswith( cUDP.propertyPrefix + '__')): continue 
 
-        UdpCode = key.lstrip( pUDP['propertyPrefix'] + '__' ) 
+        UdpCode = key.lstrip( cUDP.propertyPrefix + '__' ) 
         
-        QsUdp = addFilter( Qs, { pUDP['propertyName'] : UdpCode  } )
+        QsUdp = addFilter( Qs, { cUDP.propertyName : UdpCode  } )
         if QsUdp.exists():
             rUdp = QsUdp[0]
         else: 
             rUdp = UdpModel()
-            setattr( rUdp, pUDP['propertyReference'], rec )
-            setattr( rUdp, pUDP['propertyName'] , UdpCode)
+            setattr( rUdp, cUDP.propertyReference, rec )
+            setattr( rUdp, cUDP.propertyName , UdpCode)
             
-        setattr( rUdp, pUDP['propertyValue'] , data[key])
+        setattr( rUdp, cUDP.propertyValue , data[key])
 
         rUdp.save()
 

@@ -5,6 +5,28 @@ from django.contrib  import admin
 
 import django.contrib.admin
 
+class PruebaMAdmin(django.contrib.admin.ModelAdmin):
+
+    protoExt = {'title': 'Maestro' }
+    protoExt[ 'protoMenuIx' ] = 1 
+    protoExt[ 'gridColumns' ] = ( 'prCode', 'prDescription', '__str__', 'id' )
+    protoExt[ 'readOnlyFields' ] = ( ) 
+
+    protoExt[ 'searchFields' ] = ( 'prCode', 'prDescription' ) 
+    protoExt[ 'sortFields' ] = ( 'prCode', 'prDescription' )
+    
+    # Valores iniciales ( initialFilter maneja el autoload )   
+    protoExt[ 'initialSort' ] = () 
+    protoExt[ 'initialFilter' ] = {}
+
+
+admin.site.register(PruebaM, PruebaMAdmin)
+
+
+
+
+
+
 class PruebaAdmin(django.contrib.admin.ModelAdmin):
 
 #TODO:  Definir Validations por campo 
@@ -16,10 +38,10 @@ class PruebaAdmin(django.contrib.admin.ModelAdmin):
 
  
     protoExt = {'protoIcon': 'property' }
-    protoExt[ 'title' ] = 'Tableau de bord'
+    protoExt[ 'title' ] = 'Tableu de test'
 
     protoExt[ 'hideRowNumbers' ] = True 
-    protoExt[ 'protoMenuIx' ] = 0 
+    protoExt[ 'protoMenuIx' ] = 2 
 
 
     protoExt[ 'protoFields' ] =  {        
@@ -28,15 +50,17 @@ class PruebaAdmin(django.contrib.admin.ModelAdmin):
 
     protoExt[ 'protoViews' ] =  {        
         'prueba2': {
-            'title' : 'prueba2', 
+            'title' : 'Tableu de test (resume)', 
             'description' : 'Esta es la description del concpeto concepto', 
-            'gridColumns' : ( 'prChoice', 'prInteger' )
+            'gridColumns' : ( 'prChoice', 'prInteger' ), 
+            'protoMenuIx' : 3
             }
      }
 
 
 
 admin.site.register(Prueba, PruebaAdmin)
+
 
 
 
