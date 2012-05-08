@@ -24,9 +24,11 @@ Ext.define('ProtoUL.view.ProtoForm', {
 	    
 	    for ( var ixV in myMeta.protoFieldSet) {
 	        var section = myMeta.protoFieldSet[ixV];
+	        
 	        var prItem = this.defineProtoFormItem({
 	            style : 'panel'
 	        }, section)
+	        
 	        prFormLayout.push(prItem);
 	    }
 
@@ -45,6 +47,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 	        },
 			activeRecord : null,
 			iconCls : 'icon-user',
+			
 			// defaultType : 'textfield',
 			// bodyPadding : 5,
 			// fieldDefaults : {
@@ -255,7 +258,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
 			prLayout.xtype = 'container';
 			prLayout.frame = true;
-			prLayout.border = 10;
+			// prLayout.border = 10;
 			prLayout.margins = '10 10 0';
 			prLayout.layout = 'anchor';
 			prLayout.defaultType = 'textfield';
@@ -325,8 +328,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
 		} else if(prSection.style == 'VBox') {
 
-			// Es realmente un contenedor para poder incluir secciones en Tabs o
-			// Accordions
+			// Se requiere un contenedor para poder incluir secciones en Tabs o Accordions
 			prLayout.xtype = 'container';
 			prLayout.layout = 'anchor';
 			prLayout.anchor = '100%';

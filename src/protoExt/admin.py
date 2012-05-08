@@ -108,7 +108,3 @@ admin.site.register(UdpDefinition, UdpAdminDefinition)
 #                
 #admin.site.register(MetaObj, MetaObjAdmin)
 #admin.site.register(MetaObj)
-
-
-from admin_Prueba import PruebaAdmin 
-admin.site.register(Prueba, PruebaAdmin)

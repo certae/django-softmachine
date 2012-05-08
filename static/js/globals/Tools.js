@@ -361,6 +361,7 @@ function getFormFieldDefinition( vFld ) {
 
 
 Ext.outils = function(){
+	// Mensajes Style ExtJs Fix: Render position  
     var msgCt;
 
     function createBox(t, s){
