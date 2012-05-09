@@ -63,7 +63,7 @@ def protoEdit(request, myAction ):
             for key in data:
                 if  key == 'id' or key == '_ptStatus' or key == '_ptId': continue
                 if (pUDP and key.startswith( cUDP.propertyPrefix + '__')): continue 
-                setRegister( model,  rec, key,  data[key] )
+                setRegister( model,  rec, key,  data )
 
             # Guarda el idInterno para concatenar registros nuevos en la grilla 
             try:
@@ -138,39 +138,45 @@ def saveUDP( rec,  data, cUDP  ):
 
 # ---------------------
 
-def setRegister( model,  rec, key,  value  ):
+def setRegister( model,  rec, key,  data   ):
 
     try: 
         field = model._meta.get_field( key )
     except: return  
 
+    # Tipo de attr 
+    cName = field.__class__.__name__
+
     if getattr( field, 'editable', False ) == False: return   
-    if  field.__class__.__name__ == 'AutoField': return
+    if  cName == 'AutoField': return
+    
+    # Obtiene el valor 
+    value = data[key]
     
     try: 
-#        if field.__class__.__name__ == 'CharField':
-#        if field.__class__.__name__ == 'TextField':
-        
-#        TODO: Implementar la logica de FKeys
-#        elif  field.__class__.__name__ == 'ForeignKey':
 
-        if  field.__class__.__name__ == 'DateField':
-            value = toDate( value  )
-        elif  field.__class__.__name__ == 'DateTimeField':
-            value = toDateTime( value )
-        elif  field.__class__.__name__ == 'TimeField':
-            value = toTime( value )
+        if cName == 'CharField' or cName == 'TextField':
+            setattr( rec, key, value  )
+            return 
+         
+        elif  cName  == 'ForeignKey':
+            keyId = key + '_id'
+            value = data[keyId]
+            exec( 'rec.' + keyId + ' =  ' + str( value ) )
+            return 
 
-        elif field.__class__.__name__ == 'IntegerField':
-            value = toInteger( value )
-        elif field.__class__.__name__ == 'DecimalField':
-            value = toDecimal( value )
-        elif field.__class__.__name__ == 'FloatField':
-            value = toFloat( value )
+        elif  cName == 'DateField':     value = toDate( value  )
+        elif  cName == 'DateTimeField': value = toDateTime( value )
+        elif  cName == 'TimeField':     value = toTime( value )
 
-        elif field.__class__.__name__ == 'BooleanField':
-            value = toBoolean( value )
+        elif cName == 'IntegerField':   value = toInteger( value )
+        elif cName == 'DecimalField':   value = toDecimal( value )
+        elif cName == 'FloatField':     value = toFloat( value )
+
+        elif cName == 'BooleanField':   value = toBoolean( value )
 
         setattr( rec, key, value  ) 
 
-    except: return  
+    except Exception,  e:
+        #TODO: Raise 
+        return  

@@ -421,15 +421,15 @@ function getColDefinition( vFld ) {
 
 	case 'foreignid':
 		// El zoom id debe estar oculto  
-       	// colDefinition['hidden']= true
-        // editor.xtype = 'numbercolumn'
-        // editor.hidden = true
+       	colDefinition['hidden']= true
+        editor.xtype = 'numberfield'
 	  	break;
 	}
 
 
-	// Asigna las coleccoiones de presentacion 
-	if (  vFld.type in oc([ 'autofield', 'foreignid']) || vFld.readOnly  ) 
+	// Asigna las coleccoiones de presentacion
+	// El foreignid puede ser editable directamente, 
+	if (  vFld.type in oc([ 'autofield' ]) || vFld.readOnly  ) 
 	 	colDefinition.renderer = cellReadOnly
 	else  colDefinition['editor'] = editor; 
 
