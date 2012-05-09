@@ -1,7 +1,7 @@
 
 
 
-#    protoExt[ 'gridColumns' ] = ( 'code', 'concept__model__code' )
+#    protoExt[ 'listDisplay' ] = ( 'code', 'concept__model__code' )
 #    protoExt[ 'readOnlyFields' ] = ( 'code', 'concept__model__code' ) 
 #    protoExt[ 'searchFields' ] = ( 'code', 'concept__model__code' ) 
 #    protoExt[ 'sortFields' ] = ( 'code', 'concept__model__code' )

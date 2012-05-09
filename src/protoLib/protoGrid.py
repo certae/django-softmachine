@@ -32,26 +32,30 @@ class ProtoGridFactory(object):
         
         self.protoFields = self.protoAdmin.get( 'protoFields', {}) 
 
+
+        #UDPs para poder determinar el valor por defecto ROnly 
+        pUDP = self.protoAdmin.get( 'protoUdp', {}) 
+        cUDP = verifyUdpDefinition( pUDP )
+        
         # lista de campos para la presentacion en la grilla 
         self.protoListDisplay = verifyList( self.protoAdmin.get( 'listDisplay', []) )
         if len( self.protoListDisplay ) == 0: 
             self.protoListDisplay = verifyList( getattr(self.model_admin , 'list_display', []))
+
+            # Por defecto solo vienen  Chk, _str_
+            try: self.protoListDisplay.remove('action_checkbox')
+            except ValueError:  pass
+    
+            # Si solo queda el __str__ , lo elimina para q asuma todos los campos del modelo 
+            if self.protoListDisplay[0] == ('__str__'): self.protoListDisplay = []
         
         #Se leen los excluidos y se cargan en una sola coleccion 
         protoExclude = verifyList( self.protoAdmin.get( 'excludeFields', []) ) 
         protoExclude.extend ( verifyList( getattr(self.model_admin , 'exclude', [])) )
 
-        #TODO: se leen los readonly fields para setear el attr readOnly = true 
+        #Se leen los readonly fields para setear el attr readOnly = true 
         self.protoReadOnlyFields = verifyList( self.protoAdmin.get( 'readOnlyFields', []) )
         self.protoReadOnlyFields.extend( verifyList( getattr(self.model_admin , 'readonly_fields', [])) )  
-
-
-        # Por defecto solo vienen  Chk, _str_
-        try: self.protoListDisplay.remove('action_checkbox')
-        except ValueError:  pass
-
-#        try: self.protoListDisplay.remove('__str__')
-#        except ValueError:  pass
 
 
 #       WHY: Por alguna Ext no retiene el IdProperty ( idInternal al hacer click en las filas )     
@@ -62,9 +66,20 @@ class ProtoGridFactory(object):
         if len( self.protoListDisplay ) > 0 :   
             for fName in self.protoListDisplay:
                 if fName in protoExclude: continue
-                try: field = self.model._meta.get_field(fName )
-                except: continue
-                setFieldDict (  self.protoFields , field )
+                try:
+                    # Recibe los parametros de los campos del modelo  
+                    field = self.model._meta.get_field(fName )
+                    setFieldDict (  self.protoFields , field )
+                except: 
+                    # Si no es parte del modelo, se asegura q exista en el diccionario
+                    fdict = self.protoFields.get( fName, {} )
+                    if not fdict: 
+                        fdict['name'] = fName
+                        self.protoFields[ fName ] = fdict
+                        
+                        # Si no es una UDP y no esta en diccionario debe ser ReadOnly 
+                        if not (pUDP and fName.startswith( cUDP.propertyPrefix + '__')):  
+                            fdict[ 'readOnly' ] = True
                 
         else:
             # Se crean los campos con base al modelo ( trae todos los campos del modelo 
@@ -192,9 +207,9 @@ def Q2Dict (  storeFields, pRows , cUDP ):
                 continue  
             
             #Es una funcion 
-            if ( '__str__' in fName ):
+            if ( fName  == '__str__'   ):
                 try: 
-                    val = eval( 'item.__str__'  )
+                    val = eval( 'item.__str__()'  )
                     val = verifyStr(val , '' )
                 except: val = 'fn?'
 
