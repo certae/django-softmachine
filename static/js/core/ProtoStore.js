@@ -473,6 +473,9 @@ function getColDefinition( vFld ) {
         } else if (value > 0 ) {
             cls.push(cssPrefix + 'grid-stopligth-red');
         }  
+      
+		//TODO: Probar <span>  en vez de <div> 
+        // return '<span style="color:green;">' + val + '</span>';
         
         return '<div class="' + cls.join(' ')  + '">&#160;' +  value + '</div>';
   	}

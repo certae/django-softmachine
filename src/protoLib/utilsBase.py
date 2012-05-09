@@ -274,7 +274,7 @@ def getReadableError( e ):
     sAux = '<b>ErrType:</b> ' + type( e ).__name__ + '<br>'
     sAux += e.message 
     if len( e.args ) > 1: sAux += '<br>' +  '; '.join( e.args )
-    return sAux 
+    return sAux + '<br>'
 
 
 def verifyUdpDefinition( pUDP ):

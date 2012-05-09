@@ -52,7 +52,7 @@ Ext.define('Ext.ux.protoZoom', {
             ]
         }
 
-        // var form = defineProtoForm(protoFormLayout);
+        var form = defineProtoForm(protoFormLayout);
         
         // -----------------------------------------------------------------------------
         

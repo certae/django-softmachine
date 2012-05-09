@@ -49,13 +49,16 @@ def protoEdit(request, myAction ):
         
     pList = []
     for data in dataList: 
+        
+        data['_ptStatus'] =  ''
+
         if myAction['INS']:
             rec = model()
         else: 
             try:
                 rec = model.objects.get( pk = data['id']  )
             except:
-                data['_ptStatus'] =  ERR_NOEXIST
+                data['_ptStatus'] = data['_ptStatus'] +  ERR_NOEXIST + '<br>'
                 pList.append( data )
                 continue 
 
@@ -63,7 +66,10 @@ def protoEdit(request, myAction ):
             for key in data:
                 if  key == 'id' or key == '_ptStatus' or key == '_ptId': continue
                 if (pUDP and key.startswith( cUDP.propertyPrefix + '__')): continue 
-                setRegister( model,  rec, key,  data )
+                try:
+                    setRegister( model,  rec, key,  data )
+                except Exception,  e:
+                    data['_ptStatus'] = data['_ptStatus'] +  getReadableError( e ) 
 
             # Guarda el idInterno para concatenar registros nuevos en la grilla 
             try:
@@ -80,21 +86,19 @@ def protoEdit(request, myAction ):
                 # -- Los tipos complejos ie. date, generan un error, es necesario hacerlo detalladamente 
                 # Convierte el registro en una lista y luego toma solo el primer elto de la lista resultado. 
                 data = Q2Dict(protostoreFields , [rec], cUDP )[0]
-                data['_ptStatus'] =  ''
 
 
             except Exception,  e:
-                data['_ptStatus'] =  getReadableError( e ) 
+                data['_ptStatus'] =  data['_ptStatus'] +  getReadableError( e ) 
             finally: 
                 data['_ptId'] =  _ptId
                 
         else:  # Action Delete
             try:
                 rec.delete()
-                data['_ptStatus'] =  ''
 
             except Exception,  e:
-                data['_ptStatus'] =  getReadableError( e ) 
+                data['_ptStatus'] = data['_ptStatus'] +  getReadableError( e ) 
         
         pList.append( data )
                 
@@ -177,6 +181,5 @@ def setRegister( model,  rec, key,  data   ):
 
         setattr( rec, key, value  ) 
 
-    except Exception,  e:
-        #TODO: Raise 
-        return  
+    except:
+        raise   

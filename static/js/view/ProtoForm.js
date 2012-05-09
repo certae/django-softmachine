@@ -162,6 +162,9 @@ Ext.define('ProtoUL.view.ProtoForm', {
 		 * crea agrupaciones fieldContainer 
 		 * --------------------------------------------------------------------------------- */
 
+		// Indicador de campo requerido 
+ 		var required = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
+ 		
 		var _labelWidth = 150;
 		var prFld = {}
 
@@ -220,6 +223,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
 			return
 		}
 
+		//Todo: Verificar la propiedad required para agregar el indicador 
+ 		// afterLabelTextTpl: required,
 				
 		return prFld;
 	},

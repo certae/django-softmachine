@@ -2,23 +2,36 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title></title>
+    <title>Live Search Grid Example</title>
 
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}ext-4.0.7/resources/css/ext-all.css" />
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}ext-4.0.7/examples/shared/example.css" />
+    <!-- Ext JS Files -->
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}extjs-4.1.x/resources/css/ext-all.css">
+    <script type="text/javascript" src="{{ STATIC_URL }}extjs-4.1.x/ext-all-debug.js"></script>
 
-    <script type="text/javascript" src="{{ STATIC_URL }}ext-4.0.7/bootstrap.js"></script>
-<!--     <script type="text/javascript" src="../shared/examples.js"></script> -->
+    
+    <script type="text/javascript" src="{{ STATIC_URL }}js/globals/variables.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/globals/Tools.js"></script>
+    
+    <!-- App Files La aplicacion esta corriendo en JS -->
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/app.css">
+    <script type="text/javascript" src="{{ STATIC_URL }}js/ux/ProtoZoomGrid.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/ux/ProtoSearchBG.js"></script>
 
-<!--     <link rel="stylesheet" type="text/css" href="../ux/grid/css/GridFilters.css" /> -->
 
-    <script type="text/javascript" src="{{ STATIC_URL }}js/_dynamicModel/dynamic_model.js"></script>
-
-<!--     <link rel="stylesheet" type="text/css" href="../grid/css/RangeMenu.css" /> -->
-<!--     <link rel="stylesheet" type="text/css" href="style.css" /> -->
+    <!-- page specific -->
+    <style type="text/css">
+        /* style rows on mouseover */
+        .x-grid-row-over .x-grid-cell-inner {
+            font-weight: bold;
+        }
+    </style>
+    <script type="text/javascript" src="{{ STATIC_URL }}pruebas/pruebas.js"></script>
 
 </head>
-
 <body>
+    <h1>Live Search Grid Example</h1>
+    <p>This example shows how to create a grid with live search support.</p>
+
+    <div id="grid-example"></div>
 </body>
 </html>
