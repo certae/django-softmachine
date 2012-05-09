@@ -1,38 +1,55 @@
 
-Tableau de bord de l’état de santé des projets
-
-
-Se puede definir en el menu y definir la pseudo entidad como una coleccion adicional sobre la misma entidad, asi se manejaran vistas diferentes sobre un mismo modelo y un mismo admin. 
-
-Crear una pseudo entidad q cargue valores agrupados y permitir el manejo de dimensiones de detalle. 
-
-El menu tedra q manejar un campo para el modelo,  para no cambiar la definicion, 
-podria ser manejar un nombre compuesto,   modelo.vista,  asi se mantendria la definicion.  
-Si no existe la vista, entonces el modelo es la base, en caso contrario se revisa la coleccion de vistas q sera parte del admin.  
-
-De esta forma la misma tabla, el mimsmo modelo sirve para poder majar deiferentes presnetaciones incluso para manejar los agrapados.  verificar los agraupados.  y verificar si se puede hacer un grafico/ 
 
 
 Tareas pendientes
 
-	MAnejo de un avento afer edito para marcar el registro como dirty y ademas quitarle es status, 
-
-	Cargar los mensajes de regreso en un campo virutal como _ptStatus pero con el mensaje para cada campo 
-
-
-	Campo tipo time 
-	Actualizacion del estado de la grilla despues de sincronzar 
-	Colores en la grilla para indicar el estado 
-	Manejo del zoom FKey 
-	Actualizacion de Fkey
-	Evento de cambio en la grilla padre e indicador de refresh en la dependiente 
 
 	Barra de estado,  
 	Login en la barra de estado y no en la parte superior 
 
+	Zoom 
+
+		@ZoomModel 	
+		El valor del zoom por defecto solo necesita la entidad base, este attr es automatico  
+		
+		Por defecto se configura una grilla con el valor __str__ y el ID. 
+
+		@ZoomView  ( app.model.zoom )
+		Luego se pueden manejar los campos del zoom q pueden ser asociados a una vista sobre la entidad  app.model.zoom ( vista )
+		esto permitira configurar los valores presentado, esta conf es manual 
+		
+		de ZoomView tomara sobre todo el listDisplay y la conf de campos ( flex entre otras )
+		
+		@ZoomOnly = True/False
+		Las vistas podran configurar si son zoomOnly para no aparecer en el menu 
+
+		@ZoomReturn 
+		no es nedd presentar los campos en el zoom para retornarlos, se deben configurar el el fkey q llama por q depende siemrpe 
+		de la conf del objeto base, esto debe ser una llamada en el retorno del zoom, para buscar basado en la tabla foranea   		
+		
+
+	Tablero de control 
+
+		Se puede definir en el menu y definir la pseudo entidad como una coleccion adicional sobre la misma entidad, asi se manejaran vistas diferentes sobre un mismo modelo y un mismo admin. 
+		
+		Crear una pseudo entidad q cargue valores agrupados y permitir el manejo de dimensiones de detalle. 
+		
+		El menu tedra q manejar un campo para el modelo,  para no cambiar la definicion, 
+		podria ser manejar un nombre compuesto,   modelo.vista,  asi se mantendria la definicion.  
+		Si no existe la vista, entonces el modelo es la base, en caso contrario se revisa la coleccion de vistas q sera parte del admin.  
+		
+		De esta forma la misma tabla, el mimsmo modelo sirve para poder majar deiferentes presnetaciones incluso para manejar los agrapados.  verificar los agraupados.  y verificar si se puede hacer un grafico/ 
+	
+
+	Varios 
+		Los campos tipo char/text tendran flex = 1/3 por defecto 
+		
+
 	edicion 
+		Manejo del zoom FKey 
 		Revizar Allow Null
-		agregar __str__ 
+		agregar __str__
+		 
 		** Separar colecciones de edicion de forma y grilla, dejar la meta tal cual
 		** displaylist vista por defecto   
 	 
@@ -71,6 +88,15 @@ Tareas pendientes
 
 
 ---------------  ---------------------------------------------------------------------------------------------------------- 
+
+Edicion 
+	** MAnejo de un avento afer edito para marcar el registro como dirty y ademas quitarle es status, 
+	** Cargar los mensajes de regreso en un campo virutal como _ptStatus pero con el mensaje para cada campo 
+	** Campo tipo time 
+	** Actualizacion del estado de la grilla despues de sincronzar 
+	** Colores en la grilla para indicar el estado 
+	** Actualizacion de Fkey
+	** Evento de cambio en la grilla padre e indicador de refresh en la dependiente 
 
 **	Hay un error al cargar los tabs, el indice del tab corresponde al indice tab
 	buscar el tab segun el indice de los detalles o crear una estructura de equivalencia. 

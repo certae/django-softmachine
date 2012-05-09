@@ -11,6 +11,11 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         'ProtoUL.UI.TbMasterDetail'
     ],
 
+    /**
+     * @private
+     * search value initialization
+     */
+
     initComponent: function() {
 
 //        console.log ( this.protoConcept , ' masterPanel def'  ); 

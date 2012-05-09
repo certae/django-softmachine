@@ -27,7 +27,8 @@ class Prueba(models.Model):
 #    prDate  = models.DateField(blank = True, null = True)
 #    prTime  = models.TimeField(blank = True, null = True, default = '06:00')
 #    prDecimal = models.DecimalField(blank = True, null = True, max_digits=5, decimal_places=2, default = 0.00)
-    prMaestro = models.ForeignKey('PruebaM', verbose_name=u'Maestro', blank = True, null = True)
+    prMaestro1 = models.ForeignKey('PruebaM', verbose_name=u'Maestro1', blank = True, null = True, related_name = '+')
+    prMaestro2 = models.ForeignKey('PruebaM', verbose_name=u'Maestro2', blank = True, null = True, related_name = '+')
 
     def __unicode__(self):
         return self.prCode + '-' + self.prDescription

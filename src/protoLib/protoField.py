@@ -94,15 +94,17 @@ def setFieldDict(protoFields ,  field ):
 
         
     elif  field.__class__.__name__ == 'ForeignKey':
-        # Dafine la columna __unicode__ de la tabla padre, 
+
+@@@@@@@@@@@@@@222   Verificar q pasa cuando existen dos ref al mismo maestro 
+
+
         pField['type'] = 'foreigntext'
-        pField['fkName'] = field.name  + _PROTOFN_ + '__unicode__'      # Funcion unicode de retorno 
-        pField['fkId'] = field.name + '_id'                             # Campo q contiene el ID 
-        pField['descZoom'] = True                                       # Si hace el zoom sobre la descripcion 
+        pField['fkId'] = field.attname                              # Campo q contiene el ID 
+        pField['zoomModel'] = field.rel.to.__name__                 # Nombre del modelo referenciado  
         
         # Agrega la referencia al ID 
         fKey = { 
-             'name':    field.name + '_id', 
+             'name':       field.attname, 
              'fkField':    field.name ,                                 # Campo de base a mostrar 
              'type':  'foreignid',                                      # pseudo type ( hidden = true, etc.... ) 
              }

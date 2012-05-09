@@ -7,6 +7,16 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
     extend : 'Ext.container.ButtonGroup',
     alias :  'widget.protoSearch',
 
+    /**
+     * @private
+     * MetaData  initialization
+     */
+	protoMeta: null, 
+
+    /**
+     * @private
+     * Component initialization override:  ToolBar setup
+     */
     initComponent : function() {
 
     	var me = this;
