@@ -33,7 +33,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
 
     
     protoExt = {'protoIcon' : 'model',  }
-    protoExt[ 'gridColumns' ] = ( 'code',  
+    protoExt[ 'listDisplay' ] = ( 'code',  
         'udp__DescriptionModele', 
         'udp__ActeurPrincipal',
         'udp__AutresActeurs',

@@ -24,7 +24,7 @@ class UdpAdmin(django.contrib.admin.ModelAdmin):
      }
 
     #TODO: Implementar el manejo de las vistas 
-    protoExt['protoGridCols'] = [
+    protoExt['protoGridViews'] = [
             { 'viewName': 'default', 
               'viewFields': ( 'code',  'valueUdp' )},
                                 ]

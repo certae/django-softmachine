@@ -98,7 +98,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         var gridColumns =  myColumns;
         
         // Vista por defecto
-        var myDefaultCols = myMeta.gridColumns;
+        var myDefaultCols = myMeta.listDisplay;
         if ( myDefaultCols.length > 0 ) {
             try {  gridColumns = this.getViewColumns( myDefaultCols ); 
             } catch(e) {}

@@ -33,7 +33,9 @@ class ProtoGridFactory(object):
         self.protoFields = self.protoAdmin.get( 'protoFields', {}) 
 
         # lista de campos para la presentacion en la grilla 
-        list_display = verifyList( getattr(self.model_admin , 'list_display', []))
+        self.protoListDisplay = verifyList( self.protoAdmin.get( 'listDisplay', []) )
+        if len( self.protoListDisplay ) == 0: 
+            self.protoListDisplay = verifyList( getattr(self.model_admin , 'list_display', []))
         
         #Se leen los excluidos y se cargan en una sola coleccion 
         protoExclude = verifyList( self.protoAdmin.get( 'excludeFields', []) ) 
@@ -45,10 +47,10 @@ class ProtoGridFactory(object):
 
 
         # Por defecto solo vienen  Chk, _str_
-        try: list_display.remove('action_checkbox')
+        try: self.protoListDisplay.remove('action_checkbox')
         except ValueError:  pass
 
-#        try: list_display.remove('__str__')
+#        try: self.protoListDisplay.remove('__str__')
 #        except ValueError:  pass
 
 
@@ -57,8 +59,8 @@ class ProtoGridFactory(object):
         
         
         # La lista de campos del admin sirve de base, pues puede haber muchos mas campos en proto q en admin 
-        if len( list_display ) > 0 :   
-            for fName in list_display:
+        if len( self.protoListDisplay ) > 0 :   
+            for fName in self.protoListDisplay:
                 if fName in protoExclude: continue
                 try: field = self.model._meta.get_field(fName )
                 except: continue
@@ -136,33 +138,6 @@ class ProtoGridFactory(object):
             
         return prFieldSet 
             
-    
-    def get_fields(self, colModel):  
-        """ return this grid field list
-            . can include hidden fields
-            . A given colModel can order the fields and override width/hidden properties
-        """
-        # standard fields
-        fields = self.fields
-        
-        #TODO: No uso col model, ver la definicion 
-        # use the given colModel to order the fields
-        if colModel and colModel.get('fields'):
-            fields = []
-            for f in colModel['fields']:    
-                for cf in self.fields:
-                    if cf['name'] == f['name']:
-                        config_field = cf
-                        if f.get('width'):
-                            config_field['width'] = f.get('width')
-                        # force hidden=False if field present in given colModel
-                        if f.get('hidden') == True:                        
-                            config_field['hidden'] = True
-                        else:
-                            config_field['hidden'] = False
-                        fields.append(config_field)
-        return fields
-                        
 
     def get_details(self):  
 

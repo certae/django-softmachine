@@ -9,7 +9,7 @@ class PruebaMAdmin(django.contrib.admin.ModelAdmin):
 
     protoExt = {'title': 'Maestro' }
     protoExt[ 'protoMenuIx' ] = 1 
-    protoExt[ 'gridColumns' ] = ( 'prCode', 'prDescription', '__str__', 'id' )
+    protoExt[ 'listDisplay' ] = ( 'prCode', 'prDescription', '__str__', 'id' )
     protoExt[ 'readOnlyFields' ] = ( ) 
 
     protoExt[ 'searchFields' ] = ( 'prCode', 'prDescription' ) 
@@ -42,7 +42,7 @@ class PruebaAdmin(django.contrib.admin.ModelAdmin):
 
     protoExt[ 'hideRowNumbers' ] = True 
     protoExt[ 'protoMenuIx' ] = 2 
-
+    protoExt[ 'listDisplay' ] = ( 'prCode', 'prDescription', '__str__', 'id', 'prChoice', 'prInteger' ) 
 
     protoExt[ 'protoFields' ] =  {        
         'prInteger': {'subType' : 'stopLight', 'stoplightRY': 33 ,  'stoplightYG': 67}
@@ -52,7 +52,7 @@ class PruebaAdmin(django.contrib.admin.ModelAdmin):
         'prueba2': {
             'title' : 'Tableu de test (resume)', 
             'description' : 'Esta es la description del concpeto concepto', 
-            'gridColumns' : ( 'prChoice', 'prInteger' ), 
+            'listDisplay' : ( 'prChoice', 'prInteger' ), 
             'protoMenuIx' : 3
             }
      }

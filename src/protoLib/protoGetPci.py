@@ -41,7 +41,6 @@ def protoGetPCI(request):
         grid = protoGrid.ProtoGridFactory( model, view  )        
 
 #       pRows = model.objects.filter(pk = 0)
-        base_fields = grid.get_fields( None )
         protoDetails = grid.get_details()
         protoFieldSet = grid.getFieldSets()
         
@@ -58,14 +57,10 @@ def protoGetPCI(request):
         pSortFields = grid.protoAdmin.get( 'sortFields', '') 
         if pSortFields == '': pSortFields = pSearchFields
 
-        # Vistas
-        gridColumns = verifyList( grid.protoAdmin.get( 'gridColumns', []) )
-        if len( gridColumns ) == 0: 
-            gridColumns = verifyList( getattr(grid.model_admin , 'list_display', []))
- 
-        
-        protoGridCols = grid.protoAdmin.get( 'protoGridCols', []) 
         protoFilters = grid.protoAdmin.get( 'protoFilters', []) 
+ 
+        # Diferentes configuraciones de columnas para una misma grilla 
+        protoGridViews = grid.protoAdmin.get( 'protoGridViews', []) 
 
         # TODO: Este filtro deberia ser usado para la autocarga
         # El filtro de base no se lee aqui, pues se cargara cada vez q se solicite la info. 
@@ -98,26 +93,37 @@ def protoGetPCI(request):
                  'root':'rows',
                  'totalProperty':'totalCount',
                  'successProperty':'success',
+                 
                  'shortTitle': pTitle,
                  'description': pDescription,
-                 'storeFields': grid.storeFields, 
+
+                # Campos leidos de la definicion  
                  'searchFields': pSearchFields, 
                  'sortFields': pSortFields, 
                  'idProperty': id_field,
-                 'fields': base_fields, 
+
                  'protoDetails': protoDetails, 
                  'protoIcon': protoIcon,
                  'hideRowNumbers' : hideRowNumbers,  
                  'protoSheets': protoSheets, 
-                 'protoSheetSelector': protoSheetSelector, 
-                 'protoSheetProperties': protoSheetProperties, 
-                 'initialSort': sortInfo,
-                 'initialFilter': initialFilter,
-                 'protoGridCols':protoGridCols ,     
+
                  'protoFilters': protoFilters,
                  'protoFieldSet': protoFieldSet, 
-                 'gridColumns' : gridColumns,
+                 'protoGridViews':protoGridViews ,     
+
+                # Campos definidos en  ProtoGridFactory
+                 'fields': grid.fields, 
+                 'storeFields': grid.storeFields, 
+                 'listDisplay' : grid.protoListDisplay,  
                  'readOnlyFields' : grid.protoReadOnlyFields,
+                 
+                # sheet html asociada ( diccionario MSSSQ  )  
+                 'protoSheetSelector': protoSheetSelector, 
+                 'protoSheetProperties': protoSheetProperties, 
+
+                # Valores iniciales 
+                 'initialSort': sortInfo,
+                 'initialFilter': initialFilter,
                  },
             'rows':[],
             'totalCount': 0, 

@@ -605,12 +605,12 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             // },{  xtype: 'menuseparator'
         });
 
-        function configureprotoGridCols(){
+        function configureprotoGridViews(){
 
             var bHide = true; 
 
             // Agrega la vista por defecto 
-            var myDefaultCols = myMeta.gridColumns;
+            var myDefaultCols = myMeta.listDisplay;
             if ( myDefaultCols.length > 0 ) {
                 tbViews.add({
                     text:       _defaultViewText,
@@ -620,7 +620,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 });
             }
             
-            var pViews = myMeta.protoGridCols;
+            var pViews = myMeta.protoGridViews;
             for (var vDet in pViews) {         
                 tbViews.add({
                     text:       pViews[vDet].viewName,
@@ -637,7 +637,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             }
         }
     
-        configureprotoGridCols(); 
+        configureprotoGridViews(); 
 
         function onClickChangeView( btn ){
 

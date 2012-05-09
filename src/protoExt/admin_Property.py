@@ -17,7 +17,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     
     protoExt = {'protoIcon': 'property' }
     protoExt[ 'title' ] = 'Éléments de données'
-    protoExt[ 'gridColumns' ] = ( 'code', 'concept__model__code' )
+    protoExt[ 'listDisplay' ] = ( 'code', 'concept__model__code' )
 
 
 #   protoExt[ 'readOnlyFields' ] = ( 'code', 'concept__model__code' ) 
@@ -163,7 +163,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
               }
             } 
 
-#    protoExt['protoGridCols'] = [
+#    protoExt['protoGridViews'] = [
 #            { 'viewName': 'default', 
 #              'viewFields': (  'code', 'concept__model__code',  ), 
 #              'icon' : 'icon-1'},

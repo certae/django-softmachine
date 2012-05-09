@@ -36,7 +36,7 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
 
     protoExt = {'protoIcon': 'concept', }
     protoExt[ 'title' ] = 'Éntite'
-    protoExt[ 'gridColumns' ] = ('model__code', 'code',  'description',  'udp__format', 'udp__gabarit'  )   
+    protoExt[ 'listDisplay' ] = ('model__code', 'code',  'description',  'udp__format', 'udp__gabarit'  )   
     protoExt[ 'description' ] = 'Concept, Table, Entity'
     protoExt[ 'menu_index' ] = 1
     
@@ -64,7 +64,7 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
      }
 
 
-    protoExt['protoGridCols'] = [
+    protoExt['protoGridViews'] = [
             { 'viewName': 'resume', 
               'viewFields': ( 'model__code', 'code',  )},
                                 ]
