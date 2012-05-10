@@ -15,6 +15,10 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
     
     initComponent: function() {
         
+        /*
+         * @gloale 
+         * __TabContainer : Referencia al objeto padre de la interface 
+         */ 
         __TabContainer = this; 
         this.callParent();
     },

@@ -20,10 +20,18 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     ],
     // iconCls: 'icon-grid',
 
+	/* 
+	 * @Required 
+	 * protoConcept : Base Model 
+	 */
+	protoConcept: null, 
+
+
+
     initComponent: function() {
         
-        
-        //console.log ( this.protoConcept + '  grid init'  ); 
+
+		var me = this;         
 
         // Recupera la clase para obtener la meta ------------------------------------------
         var myMeta = _cllPCI[ this.protoConcept ] ; 
@@ -63,11 +71,11 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             storeFields  : myMeta.storeFields.toString()
         };
 
-        this.store = getStoreDefinition( storeDefinition )
+        me.store = getStoreDefinition( storeDefinition )
 
 
 		// Start Row Editing PlugIn
-	    this.rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
+	    me.rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
 	        clicksToMoveEditor: 1,
 	        autoCancel: false
 	    });
@@ -303,7 +311,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 //------        
         this.addEvents(
-            'rowClick', 'promoteDetail', 'selectionChange'
+            'rowClick', 'rowDblClick', 'promoteDetail', 'selectionChange'
         );
 
         
@@ -332,6 +340,15 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             	}, scope: this }
         });                 
 
+        grid.on({
+			// Evento DblClick para seleccionar en el zoom         
+            celldblclick: {fn: function ( tbl, el,  cellIndex, record, tr, rowIndex, e,  eOpts ) {
+            	// Si esta en modo edicion no dispara nada para permitir entrar al editor 
+            	if ( me.editMode ) return  
+            	me.fireEvent('rowDblClick', record, rowIndex  );
+            }, scope: me }
+        });                 
+
 
 		// grid.on('beforeedit', function( edPlugin, e, eOpts  ) {
         grid.on({
@@ -351,7 +368,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         });                 
 
 
-
         grid.on('validateedit', function(editor, e) {
         	// Resetea el status despues de la edicion 
 			if ( ! e.record.getId() ) {
@@ -365,6 +381,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 			// commit the changes right after editing finished
     		// e.record.commit();
         });
+
+
         
         function showMetaConfig() {
         	var safeConf =  clone( myMeta , 0, exclude =['dict','gridDefinition', 'formDefinition'] )
@@ -470,7 +488,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
     getViewColumns: function (  viewCols  ) {
         
-        vColumns = [];
+        var vColumns = [];
         if ( ! this.myMeta.hideRowNumbers ) {
         	vColumns.push( this._getRowNumberDefinition());
         }; 
@@ -493,7 +511,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     
     configureColumns: function (  viewCols  ) {
 
-        vColumns = this.getViewColumns( viewCols )
+        var vColumns = this.getViewColumns( viewCols )
 
 		//Fix: hay un error la primera vez q pasa por aqui??? 
         this._extGrid.view.refresh();
@@ -629,6 +647,20 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     cancelChanges: function() {
     	this.setEditionOff()
         this.store.load(); 
-    } 
+    }, 
     
+    loadData: function( grid,  sFilter, sTitle  ) {
+    	 
+	    grid.store.clearFilter();
+	    grid.store.getProxy().extraParams.protoFilter = sFilter;
+	
+	    // TODO: Cargar el sort, buscarlo en proxy.sorters o setear una var en la grilla 
+	    grid.store.load();
+	    
+	    if ( grid.store.currentPage != 1 ) {
+	        grid.store.loadPage(1);
+	    }
+    	 
+	} 
+
 });

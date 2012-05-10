@@ -426,7 +426,10 @@ function getColDefinition( vFld ) {
 	case 'foreigntext': 
 		// El zoom se divide en 2 cols el texto ( _unicode ) y el ID ( foreignid )
         if ( ! colDefinition.flex  ) colDefinition.flex = 1 
+
+		colDefinition.renderer = cellLink
         editor.xtype = 'protoZoom'
+        editor.editable  = false 
 	  	break;
 
 	case 'foreignid':

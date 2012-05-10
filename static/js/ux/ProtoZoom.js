@@ -69,21 +69,31 @@ Ext.define('Ext.ux.protoZoom', {
 
 		var zoomGrid = Ext.create('ProtoUL.view.ProtoGrid', { protoConcept : me.zoomModel }) ; 
 
+        zoomGrid.on({
+            rowDblClick: {fn: function ( record, rowIndex ) {
+            	console.log('rowDblClick', record, rowIndex  )
+            }, scope: this }
+        });
+
+        zoomGrid.on({
+            rowClick: {fn: function ( rowModel, record, rowIndex,  eOpts ) {
+            	console.log('rowClick', record, rowIndex  )
+            }, scope: this }
+        });
+
         var searchBG = Ext.create('ProtoUL.ux.ProtoSearchBG', {
 	                 protoMeta: me.myMeta
 	               })
 	               
-
         searchBG.on({
             loadData: {fn: function ( searchBG , sFilter, sTitle ) {
-				// TODO: Cambiar el filtro             	
-				console.log ( sFilter, sTitle )             	
-            	}, scope: this }
+		        zoomGrid.loadData( zoomGrid, sFilter, sTitle );
+            }, scope: this }
         });                 
         
         // referencia a la ventana modal
         me.win  = Ext.widget('window', {
-            title : 'Zoom : ' + me.myMeta.title,
+            title : 'Zoom : ' + me.myMeta.shortTitle,
             closeAction : 'hide',
             layout : 'fit',
             modal : true,
@@ -92,7 +102,19 @@ Ext.define('Ext.ux.protoZoom', {
             resizable : true,
 
 			tbar :  searchBG, 
-			items : zoomGrid
+			items : zoomGrid, 
+
+			dockedItems: [{
+			    xtype: 'toolbar',
+			    dock: 'bottom',
+			    ui: 'footer',
+			    defaults: {minWidth: 75},
+			    items: [
+			        { xtype: 'component', flex: 1 },
+			        { xtype: 'button', text: 'Button 1' }
+			    ]
+			}]			
+
         });
 
 		me.isLoaded = true; 

@@ -16,6 +16,11 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
     initComponent: function() {
 
+		var me = this; 
+
+		me.autoSync = false; 
+		me.editMode = false; 
+
         // Asigna una referencia al objeto 
         var myMeta = this.protoMeta; 
         var __MasterDetail = this.__MasterDetail; 
@@ -146,6 +151,9 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 tbar2.hide();
                 
             } else if ( but.idTb2 == ideTbEdit ) {
+				// Entra en modo edicion 
+				me.toggleEditMode( true )
+				            	
                 configTbar.show();
                 orderTbar.hide();
                 tbar2.hide();
@@ -238,8 +246,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
 // ------------------------------------------------------------------------------------------------
 
-		this.autoSync = false; 
-		this.editMode = false; 
 
         var configTbar = Ext.create('Ext.toolbar.Toolbar', {
             id : ideTbEdit, 
@@ -361,8 +367,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
 //  --------------------------------------------------------------------------
 
-		function toggleEditMode(){
-			this.toggleEditMode()
+		function toggleEditMode( forceEdit ){
+			this.toggleEditMode( forceEdit )
 		}
 
         

@@ -242,6 +242,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 		 * campos definidos Las cajas solo pueden contener otras sectiones
 		 * -----------------------------------------------------------------		 */
 
+		var prBox; 
 		var prLayout = {
 			items : []
 		};

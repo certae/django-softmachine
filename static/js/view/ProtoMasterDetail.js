@@ -253,17 +253,18 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
     
     onClickLoadData: function ( sFilter ) { 
-
-        this.protoMasterStore.clearFilter();
-        this.protoMasterStore.getProxy().extraParams.protoFilter = sFilter;
-
-        
-        // TODO: Cargar el sort, buscarlo en proxy.sorters o setear una var en la grilla 
-        this.protoMasterStore.load();
-        
-        if ( this.protoMasterStore.currentPage != 1 ) {
-            this.protoMasterStore.loadPage(1);
-        }
+		
+		this.protoMasterGrid.loadData( this.protoMasterGrid,  sFilter  )
+        // this.protoMasterStore.clearFilter();
+        // this.protoMasterStore.getProxy().extraParams.protoFilter = sFilter;
+// 
+//         
+        // // TODO: Cargar el sort, buscarlo en proxy.sorters o setear una var en la grilla 
+        // this.protoMasterStore.load();
+//         
+        // if ( this.protoMasterStore.currentPage != 1 ) {
+            // this.protoMasterStore.loadPage(1);
+        // }
 
     } 
     

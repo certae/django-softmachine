@@ -246,7 +246,7 @@ Ext.define('Ext.ux.form.HtmlEditor.SpecialCharacters', {
                         this.chars[i] = ['&#' + c + ';'];
                     }, this);
                 }
-                for (i = this.charRange[0]; i < this.charRange[1]; i++) {
+                for (var i = this.charRange[0]; i < this.charRange[1]; i++) {
                     this.chars.push(['&#' + i + ';']);
                 }
             }
