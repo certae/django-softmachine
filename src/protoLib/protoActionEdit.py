@@ -169,15 +169,14 @@ def setRegister( model,  rec, key,  data   ):
             exec( 'rec.' + keyId + ' =  ' + str( value ) )
             return 
 
-        elif  cName == 'DateField':     value = toDate( value  )
-        elif  cName == 'DateTimeField': value = toDateTime( value )
-        elif  cName == 'TimeField':     value = toTime( value )
+        elif cName == 'DateField':     value = toDate( value  )
+        elif cName == 'TimeField':     value = toTime( value )
+        elif cName == 'DateTimeField': value = toDateTime( value )
 
-        elif cName == 'IntegerField':   value = toInteger( value )
-        elif cName == 'DecimalField':   value = toDecimal( value )
-        elif cName == 'FloatField':     value = toFloat( value )
-
-        elif cName == 'BooleanField':   value = toBoolean( value )
+        elif cName == 'BooleanField':  value = toBoolean( value )
+        elif cName == 'IntegerField':  value = toInteger( value )
+        elif cName == 'DecimalField':  value = toDecimal( value )
+        elif cName == 'FloatField':    value = toFloat( value )
 
         setattr( rec, key, value  ) 
 

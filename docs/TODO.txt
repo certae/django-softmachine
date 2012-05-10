@@ -24,9 +24,9 @@ Tareas pendientes
 		Las vistas podran configurar si son zoomOnly para no aparecer en el menu 
 
 		@ZoomReturn 
-		no es nedd presentar los campos en el zoom para retornarlos, se deben configurar el el fkey q llama por q depende siemrpe 
+		se deben configurar el el fkey q llama por q depende siemrpe 
 		de la conf del objeto base, esto debe ser una llamada en el retorno del zoom, para buscar basado en la tabla foranea   		
-		
+		no es need presentar los campos en el zoom para retornarlos, 
 
 	Tablero de control 
 

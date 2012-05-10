@@ -31,7 +31,7 @@ Ext.define('ProtoUL.view.MenuTree', {
             if ( rec.get('leaf') ) {
                 // console.log( view, rec )
                 this.fireEvent('menuSelect', this, rec.data.id);
-                this.ownerCt.loadPci( rec.data.id );
+                this.ownerCt.loadPciFromMenu( rec.data.id );
 
             }
         }

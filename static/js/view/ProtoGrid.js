@@ -32,9 +32,11 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         var _pGrid = this; 
 
-        var modelClassName = _PConfig.clsBaseModel + this.protoConcept ; 
-        if  (! Ext.ClassManager.isCreated( modelClassName )){
-            //console.log ( this.protoConcept, ' ERROR Pci  not loaded ' );
+		if ( ! loadPci( this.protoConcept, false ) ) {
+        	Ext.Msg.show({
+               title: this.protoConcept ,
+               value: 'ERROR Pci  not loaded' 
+               });
             return; 
         }
 
@@ -51,7 +53,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 /* */
 
 		var storeDefinition =  {
-            model : modelClassName, 
+            modelName : this.protoConcept, 
             autoLoad: this.autoLoad || true, 
             pageSize: _PAGESIZE,
             sorters: myMeta.initialSort, 
@@ -381,7 +383,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         	Ext.Msg.show({
                title: title,
                multiline : true,   
-               width : 500, 
+               width : 600, 
+               height : 400, 
                value: Ext.encode( myConf ) 
                });
 

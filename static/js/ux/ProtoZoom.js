@@ -8,9 +8,22 @@ Ext.define('Ext.ux.protoZoom', {
     extend : 'Ext.form.field.Trigger',
     alias : 'widget.protoZoom',
     
-    // Boton del trigger
+    /**
+     * @private
+     * Zoom initialization
+     */
+	zoomModel: null, 
+
+
+    /**
+     * @private
+     * trigger button cls 
+     */
     triggerCls : Ext.baseCSSPrefix + 'form-search-trigger',
     
+    /* 
+     * 
+     */
     initComponent : function() {
         
         // referencia a la ventana modal

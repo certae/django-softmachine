@@ -41,7 +41,7 @@ Ext.define('ProtoUL.view.Viewport', {
         // Carga las PCI de autoload
         // TODO: Esto podria ser un llamado configurado por usuario  
         for (var autoPci in _AUTOLOAD_PCI) {
-            this.loadPci(_AUTOLOAD_PCI[autoPci]);
+            this.loadPciFromMenu(_AUTOLOAD_PCI[autoPci]);
         }
         
     },
@@ -117,7 +117,7 @@ Ext.define('ProtoUL.view.Viewport', {
     },
 
 
-    loadPci: function( menuOpt ){
+    loadPciFromMenu: function( menuOpt ){
         
         
         // *** El truco es q no se crea el modelo, solo se define
@@ -126,41 +126,58 @@ Ext.define('ProtoUL.view.Viewport', {
         
 //        console.log( protoConcept, ' Loading MasterPanel ...')
 
-        var modelClassName = _PConfig.clsBaseModel + protoConcept ; 
-        
-        if  (! Ext.ClassManager.isCreated( modelClassName )){
-//            console.log ( protoConcept, ' Loading  Pci ...  ' ); 
+		var options = {
+			scope: this, 
+            success: function (obj, result, request) { 
+                thisRef.protoTabContainer.addTabPanel( protoConcept );
+            },
+            failure: function ( obj, result, request) { 
+                return ;  
+            }
+		}
 
-            Ext.Ajax.request({
-                method: 'GET',
-                url: _PConfig.urlProtoDefinition,
-                params : { 
-                    protoConcept : protoConcept 
-                },
-                success: function (result, request) { 
-                    
-//                    console.log( protoConcept, ' Pci loaded ');
-                    var myResult = Ext.decode(result.responseText);
-
-                    // Colleccion de PCI, 
-                    _cllPCI[protoConcept]  = myResult.metaData  
-                    DefineProtoModel( myResult.metaData , modelClassName  );
-                    
-                    thisRef.protoTabContainer.addTabPanel( protoConcept );
-
-                },
-                failure: function ( result, request) { 
-                    // Se aborta la ejecucion 
-//                    console.log('Failed', result.responseText); 
-                }
-            });
-
-        }  else {
-
+        if (  loadPci( protoConcept, true, options ) ) {
             // El modelo ya ha sido cargado ( la cll meta es global )     
             this.protoTabContainer.addTabPanel(protoConcept );
-               
-        };
+        	
+        }   
+
+//  -------------------------------------------------------------------------
+        // var modelClassName = _PConfig.clsBaseModel + protoConcept ; 
+//         
+        // if  (! Ext.ClassManager.isCreated( modelClassName )){
+// //            console.log ( protoConcept, ' Loading  Pci ...  ' ); 
+// 
+            // Ext.Ajax.request({
+                // method: 'GET',
+                // url: _PConfig.urlProtoDefinition,
+                // params : { 
+                    // protoConcept : protoConcept 
+                // },
+                // success: function (result, request) { 
+//                     
+// //                    console.log( protoConcept, ' Pci loaded ');
+                    // var myResult = Ext.decode(result.responseText);
+// 
+                    // // Colleccion de PCI, 
+                    // _cllPCI[protoConcept]  = myResult.metaData  
+                    // DefineProtoModel( myResult.metaData , modelClassName  );
+//                     
+                    // thisRef.protoTabContainer.addTabPanel( protoConcept );
+// 
+                // },
+                // failure: function ( result, request) { 
+                    // // Se aborta la ejecucion 
+// //                    console.log('Failed', result.responseText); 
+                // }
+            // });
+// 
+        // }  else {
+// 
+            // // El modelo ya ha sido cargado ( la cll meta es global )     
+            // this.protoTabContainer.addTabPanel(protoConcept );
+//                
+        // };
         
     },   
 

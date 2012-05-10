@@ -172,41 +172,62 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 //      console.log( 'TbSelectDetail', ixActiveDetail, ' idM', idMasterGrid, _masterDetail.idMasterGrid )
         var tab =  this.getTab(_masterDetail, item.detailKey); 
         if (!tab) {
-        
-//          Sacar en una funcion comun con el view port  ( segun feedMvc/lib )   ***********************************
-            var modelClassName = _PConfig.clsBaseModel + item.detailKey ; 
-            
-            if  (! Ext.ClassManager.isCreated( modelClassName )){
-//              console.log ( protoConcept, ' Loading  Pci ...  ' ); 
-                Ext.Ajax.request({
-                    method: 'GET',
-                    url: _PConfig.urlProtoDefinition  ,
-                    params : { 
-                        protoConcept : item.detailKey 
-                        },
-                    success: function ( result, request ) { 
-                        
-//                      console.log( protoConcept, ' Pci loaded ');
-                        var myResult = Ext.decode( result.responseText );
-    
-                        // Colleccion de PCI, 
-                        _cllPCI[ item.detailKey ]  = myResult.metaData;  
-                        DefineProtoModel( myResult.metaData , modelClassName  );
-                    
-                        _masterDetail.createDetailGrid( _masterDetail, item  );
-    
-                    },
-                    failure: function ( result, request) { 
-                        return ;  
-                    }
-                });
 
-            }  else {
-    
+			var options = {
+				scope: this, 
+				success: function ( obj, result, request ) {
+	                _masterDetail.createDetailGrid( _masterDetail, item  );
+            	},
+                failure: function ( obj, result, request) { 
+                    return ;  
+                }
+            }
+                
+	        if (  loadPci( item.detailKey, true, options ) ) {
+
                 // El modelo ya ha sido cargado ( la cll meta es global )     
                 _masterDetail.createDetailGrid( _masterDetail, item );
-        
-            };
+	        	
+	        }   
+
+			
+// -----------------------------------------        
+//          TODO: Sacar en una funcion comun con el view port  ( segun feedMvc/lib )   ***********************************
+
+            // var modelClassName = _PConfig.clsBaseModel + item.detailKey ; 
+//             
+            // if  (! Ext.ClassManager.isCreated( modelClassName )){
+// 
+                // Ext.Ajax.request({
+                    // method: 'GET',
+                    // url: _PConfig.urlProtoDefinition  ,
+                    // params : { 
+                        // protoConcept : item.detailKey 
+                        // },
+                    // success: function ( result, request ) { 
+//                         
+                        // var myResult = Ext.decode( result.responseText );
+//     
+                        // _cllPCI[ item.detailKey ]  = myResult.metaData;  
+                        // DefineProtoModel( myResult.metaData , modelClassName  );
+//                     
+                        // _masterDetail.createDetailGrid( _masterDetail, item  );
+//     
+                    // },
+                    // failure: function ( result, request) { 
+                        // return ;  
+                    // }
+                // });
+// 
+            // }  else {
+//     
+                // // El modelo ya ha sido cargado ( la cll meta es global )     
+                // _masterDetail.createDetailGrid( _masterDetail, item );
+//         
+            // };
+
+// -----------------------------------------------
+
 
         } else {
 

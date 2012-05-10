@@ -95,8 +95,7 @@ def setFieldDict(protoFields ,  field ):
         
     elif  field.__class__.__name__ == 'ForeignKey':
 
-@@@@@@@@@@@@@@222   Verificar q pasa cuando existen dos ref al mismo maestro 
-
+#        Verificar q pasa cuando existen dos ref al mismo maestro 
 
         pField['type'] = 'foreigntext'
         pField['fkId'] = field.attname                              # Campo q contiene el ID 

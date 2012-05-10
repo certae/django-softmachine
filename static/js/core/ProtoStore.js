@@ -25,7 +25,8 @@ function getStoreDefinition(  storeDefinition  ){
 	var me = storeDefinition;
 	 
 	var myStore = Ext.create('Ext.data.Store', {
-        model : me.model, 
+        // model : me.model,
+        model: _PConfig.clsBaseModel + me.modelName,  
         autoLoad: me.autoLoad,
 	    pageSize: me.pageSize,
 	    sorters: me.sorters,    
@@ -329,9 +330,16 @@ function getColDefinition( vFld ) {
         'maxValue', 'maxText',  
 
 		// date, datime 
-        'disabledDays', 'disabledDaysText'  	// [0, 6]
+        'disabledDays', 'disabledDaysText',   	// [0, 6]
+        
+        
+        // Zoom
+        'zoomModel', 'zoomView', 'zoomReturn'
 		]
     editor = copyProps ( {},  vFld, true, lstProps )
+
+	//TODO: subType ( eMail, IpAdress, etc ... )
+    // editor.vtype = 'email'
 
 
 	// Determina el xType y otros parametros 
@@ -339,10 +347,11 @@ function getColDefinition( vFld ) {
 	switch( vFld.type )
 	{
 	case 'string':
-        // editor.vtype = 'email'
+        if ( ! colDefinition.flex  ) colDefinition.flex = 1 
 	  	break;
 
 	case 'text':
+        if ( ! colDefinition.flex  ) colDefinition.flex = 2 
 		colDefinition.renderer = columnWrap
 	  	break;
 
@@ -416,6 +425,7 @@ function getColDefinition( vFld ) {
 
 	case 'foreigntext': 
 		// El zoom se divide en 2 cols el texto ( _unicode ) y el ID ( foreignid )
+        if ( ! colDefinition.flex  ) colDefinition.flex = 1 
         editor.xtype = 'protoZoom'
 	  	break;
 
@@ -424,6 +434,7 @@ function getColDefinition( vFld ) {
        	colDefinition['hidden']= true
         editor.xtype = 'numberfield'
 	  	break;
+
 	}
 
 
@@ -436,24 +447,24 @@ function getColDefinition( vFld ) {
 	return colDefinition; 
 
 	//  
-  function columnWrap(value){
+	function columnWrap(value){
         return '<div style="white-space:normal; text-align:justify !important";>' + value + "</div>";
-  };
+  	};
 
-  function cellToolTip(value, metaData, record, rowIndex, colIndex, store, view ){
+  	function cellToolTip(value, metaData, record, rowIndex, colIndex, store, view ){
     	metaData.tdAttr = 'data-qtip="' + value + '"';
         return value;
 	}; 
 
-  function cellReadOnly(value, metaData, record, rowIndex, colIndex, store, view ){
+  	function cellReadOnly(value, metaData, record, rowIndex, colIndex, store, view ){
         return '<span style="color:grey;">' + value + '</span>';
 	}; 
 
-  function cellLink(value, metaData, record, rowIndex, colIndex, store, view ){
+  	function cellLink(value, metaData, record, rowIndex, colIndex, store, view ){
         return '<a href="#">'+value+'</a>';  	
   	}
 
-  function cellStopLight(value, metaData, record, rowIndex, colIndex, store, view ){
+  	function cellStopLight(value, metaData, record, rowIndex, colIndex, store, view ){
 	//TODO: Leer las propiedades stopLightRY y  stopLightYG  para comparar,  
 
     // subType stopLigth  Maneja el codigo de colores para un semaforo con 3 indicadores, 
@@ -482,7 +493,6 @@ function getColDefinition( vFld ) {
 
 
 
-
 }
 
 function getFormFieldDefinition( vFld ) {
@@ -505,6 +515,57 @@ function getFormFieldDefinition( vFld ) {
 
 	return formEditor; 
 	
+}
+
+
+function loadPci( modelName, loadIfNot, options) {
+
+        options = options || {};
+        
+        var modelClassName = _PConfig.clsBaseModel + modelName ; 
+        
+        if  ( Ext.ClassManager.isCreated( modelClassName )){
+
+			return true
+
+		} else { 
+			
+			// Solo retorna algo cuando se usa para evaluar 
+			if ( ! loadIfNot ) return false 
+
+	        // DGT: reemplazar las funciones  
+	        Ext.applyIf(options, {
+	            scope: this,
+	            success: Ext.emptyFn,
+	            failure: Ext.emptyFn
+	        });
+        
+        
+	        Ext.Ajax.request({
+                method: 'GET',
+                url: _PConfig.urlProtoDefinition  ,
+                params : { 
+                    protoConcept : modelName 
+                    },
+	            scope: this,
+	            success: function(result, request) {
+	            	
+	                var myResult = Ext.decode( result.responseText );
+	                _cllPCI[ modelName ]  = myResult.metaData;  
+	                DefineProtoModel( myResult.metaData , modelClassName  );
+
+                    options.success.call( options.scope, result, request);
+	            },
+	            failure: function(result, request) {
+	                options.failure.call(options.scope, result, request);
+	            }
+	        })
+	        
+	        // 
+	        return false 
+	        
+        }  
+        
 }
 
 
