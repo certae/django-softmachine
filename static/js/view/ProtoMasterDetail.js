@@ -173,6 +173,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         var tab =  this.getTab(_masterDetail, item.detailKey); 
         if (!tab) {
 
+			// Opciones del llamado AJAX 
 			var options = {
 				scope: this, 
 				success: function ( obj, result, request ) {
@@ -184,50 +185,10 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             }
                 
 	        if (  loadPci( item.detailKey, true, options ) ) {
-
                 // El modelo ya ha sido cargado ( la cll meta es global )     
                 _masterDetail.createDetailGrid( _masterDetail, item );
 	        	
 	        }   
-
-			
-// -----------------------------------------        
-//          TODO: Sacar en una funcion comun con el view port  ( segun feedMvc/lib )   ***********************************
-
-            // var modelClassName = _PConfig.clsBaseModel + item.detailKey ; 
-//             
-            // if  (! Ext.ClassManager.isCreated( modelClassName )){
-// 
-                // Ext.Ajax.request({
-                    // method: 'GET',
-                    // url: _PConfig.urlProtoDefinition  ,
-                    // params : { 
-                        // protoConcept : item.detailKey 
-                        // },
-                    // success: function ( result, request ) { 
-//                         
-                        // var myResult = Ext.decode( result.responseText );
-//     
-                        // _cllPCI[ item.detailKey ]  = myResult.metaData;  
-                        // DefineProtoModel( myResult.metaData , modelClassName  );
-//                     
-                        // _masterDetail.createDetailGrid( _masterDetail, item  );
-//     
-                    // },
-                    // failure: function ( result, request) { 
-                        // return ;  
-                    // }
-                // });
-// 
-            // }  else {
-//     
-                // // El modelo ya ha sido cargado ( la cll meta es global )     
-                // _masterDetail.createDetailGrid( _masterDetail, item );
-//         
-            // };
-
-// -----------------------------------------------
-
 
         } else {
 

@@ -5,7 +5,6 @@
  */
 
 //TODO: Revizar Allow Null, Listo el Blank en la grilla, falta la forma, falta en el modelo
-//TODO: agregar __str__ 
 
 Ext.define('ProtoUL.view.ProtoGrid' ,{
     extend: 'Ext.container.Container',
@@ -50,7 +49,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         //console.log (  this.protoConcept, ' Loading store ...  '  ); 
 
-/* */
 
 		var storeDefinition =  {
             modelName : this.protoConcept, 
@@ -543,7 +541,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 		
    },
 
-
+	/*
+	 * @private
+     * setDefaults for insert row 
+	 */
 	setDefaults: function() {
 
 		var vDefault = {}

@@ -99,7 +99,9 @@ def setFieldDict(protoFields ,  field ):
 
         pField['type'] = 'foreigntext'
         pField['fkId'] = field.attname                              # Campo q contiene el ID 
-        pField['zoomModel'] = field.rel.to.__name__                 # Nombre del modelo referenciado  
+        
+        # Nombre del modelo referenciado
+        pField['zoomModel'] = field.rel.to._meta.app_label + '.' + field.rel.to.__name__                   
         
         # Agrega la referencia al ID 
         fKey = { 
