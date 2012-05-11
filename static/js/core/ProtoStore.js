@@ -332,9 +332,18 @@ function getColDefinition( vFld ) {
 		// date, datime 
         'disabledDays', 'disabledDaysText',   	// [0, 6]
         
+        //@zoomModel : Contiene el modelo del FK, se carga automaticamente 
+        'zoomModel', 
         
-        // Zoom
-        'zoomModel', 'zoomView', 'zoomReturn'
+         // @zoomView : TODO: Contiene un GridView ( app.model.gridView ) utilizado para los campos del zoom  
+         // esto se pega al nombre la entidad para obtner la vista 
+        'zoomView', 
+
+        //@zoomFilter : TODO: Filtro de base fijo para el zoom ( puede venir definido en zoomView )
+        'zoomFilter', 
+
+        //@zoomReturn : TODO: Campos q sera heredados a la entidad base  
+        'zoomReturn'
 		]
     editor = copyProps ( {},  vFld, true, lstProps )
 

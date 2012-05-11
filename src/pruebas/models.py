@@ -13,7 +13,6 @@ class PruebaM(models.Model):
 
     class Meta:
         verbose_name = 'Maestro' 
-        
 
 
 class Prueba(models.Model):

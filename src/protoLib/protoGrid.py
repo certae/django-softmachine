@@ -46,8 +46,8 @@ class ProtoGridFactory(object):
             try: self.protoListDisplay.remove('action_checkbox')
             except ValueError:  pass
     
-            # Si solo queda el __str__ , lo elimina para q asuma todos los campos del modelo 
-            if self.protoListDisplay[0] == ('__str__'): self.protoListDisplay = []
+            # Si solo queda el __str__ , lo elimina para q asuma todos los campos del modelo
+            if (self.protoListDisplay[0] == '__str__'): self.protoListDisplay = []
         
         #Se leen los excluidos y se cargan en una sola coleccion 
         protoExclude = verifyList( self.protoAdmin.get( 'excludeFields', []) ) 
@@ -88,6 +88,11 @@ class ProtoGridFactory(object):
                 setFieldDict (  self.protoFields , field )
 
 
+        # Agrega el __str__ que sirve de base para los zooms
+        key = '__str__' 
+        if not self.protoFields.get( key , {}) :
+            self.protoFields[ key ] = { 'name' : key , 'header' : 'metaDescription'}         
+
         # Genera la lista de campos y agrega el nombre al diccionario 
         for key in self.protoFields:        
             fdict = self.protoFields[ key ]
@@ -101,7 +106,10 @@ class ProtoGridFactory(object):
                     field = self.model._meta.get_field( key )
                     setFieldDict ( self.protoFields , field )
                     fdict = self.protoFields[ key ]
-                except: pass 
+                except: 
+                    #Es posible q se puedan configuar propiedades no pertenecientes a la tabla como editables???
+                    fdict[ 'readOnly' ] = True
+                    pass 
 
             self.fields.append(fdict)
             self.storeFields +=  ',' + fdict['name'] 
@@ -211,7 +219,8 @@ def Q2Dict (  storeFields, pRows , cUDP ):
                 try: 
                     val = eval( 'item.__str__()'  )
                     val = verifyStr(val , '' )
-                except: val = 'fn?'
+                except: 
+                    val = 'Id#' + verifyStr(item.pk, '?')
 
             elif ( _PROTOFN_ in fName ):
                 try: 
@@ -224,7 +233,7 @@ def Q2Dict (  storeFields, pRows , cUDP ):
                 try: 
                     val = eval( 'item.' + fName.replace( '__', '.'))
                     val = verifyStr(val , '' )
-                except: val = 'fn?'
+                except: val = '__?'
 
             # Campo del modelo                 
             else:

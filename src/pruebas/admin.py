@@ -20,8 +20,8 @@ class PruebaMAdmin(django.contrib.admin.ModelAdmin):
     protoExt[ 'initialFilter' ] = {}
 
 
-admin.site.register(PruebaM, PruebaMAdmin)
-
+#admin.site.register(PruebaM, PruebaMAdmin)
+admin.site.register(PruebaM )
 
 
 
@@ -42,10 +42,10 @@ class PruebaAdmin(django.contrib.admin.ModelAdmin):
 
     protoExt[ 'hideRowNumbers' ] = True 
     protoExt[ 'protoMenuIx' ] = 2 
-    protoExt[ 'listDisplay' ] = ( 'id',  'prMaestro1',  'prCode','prMaestro1_id'  ) 
+    protoExt[ 'listDisplay' ] = ( 'id',  'prMaestro1',  'prCode','prMaestro1_id', '__str__' , 'prDescription') 
 
     protoExt[ 'protoFields' ] =  {        
-        'prMaestro': {'zoomFilter' : 'stopLight', 'stoplightRY': 33 ,  'stoplightYG': 67}
+#        'prInteger': {'subType' : 'stopLight', 'stoplightRY': 33 ,  'stoplightYG': 67}
      }
 
     protoExt[ 'protoViews' ] =  {        

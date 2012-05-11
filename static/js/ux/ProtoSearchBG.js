@@ -92,7 +92,8 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
 
 
 		Ext.apply(me, {
-			items:  [
+			items:  [  
+			// { xtype   : 'tbtext', text: '<b>Rechercher :<b>' }, 
             searchCr,
             comboOp,
             comboCols,

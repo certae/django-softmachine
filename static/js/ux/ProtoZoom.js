@@ -5,6 +5,17 @@
  * @author Dario Gomez 
  */
 
+/* 
+ * Para cargar la info en los campos relacionados en la grilla disparar un evento desde aqui,  al momento de aceptar 
+ * Cambiar el text del campo, 
+ * 
+ * 
+ * En la definicion del editor con el protozoom definir una coleccion de id's a los objetos zoom,  y seguir los eventos 
+ * 
+ * De esta forma en la grilla puedo saber el registro q se esta editando antes del commit y modificar los cmpos necesarios 
+ * directamente en el store ( record ) de la grilla 
+ * 
+ */
  
 Ext.define('Ext.ux.protoZoom', {
     extend : 'Ext.form.field.Trigger',
@@ -67,17 +78,25 @@ Ext.define('Ext.ux.protoZoom', {
 
         me.myMeta = _cllPCI[ me.zoomModel ] ; 
 
+        // Para identificar el StatusBar 
+        me.idStBar = Ext.id();
+
+		// contiene el registro seleccionado 
+		me.record;
+		
+		// Crea la grilla 
 		var zoomGrid = Ext.create('ProtoUL.view.ProtoGrid', { protoConcept : me.zoomModel }) ; 
 
         zoomGrid.on({
-            rowDblClick: {fn: function ( record, rowIndex ) {
-            	console.log('rowDblClick', record, rowIndex  )
+            rowClick: {fn: function ( rowModel, record, rowIndex,  eOpts ) {
+            	me.record = record 
+            	me.setStatusBar( rowIndex, record )
             }, scope: this }
         });
 
         zoomGrid.on({
-            rowClick: {fn: function ( rowModel, record, rowIndex,  eOpts ) {
-            	console.log('rowClick', record, rowIndex  )
+            rowDblClick: {fn: function ( record, rowIndex ) {
+            	console.log('rowDblClick', record, rowIndex  )
             }, scope: this }
         });
 
@@ -87,13 +106,21 @@ Ext.define('Ext.ux.protoZoom', {
 	               
         searchBG.on({
             loadData: {fn: function ( searchBG , sFilter, sTitle ) {
+
+				me.record = null 
+            	me.setStatusBar(  )
+            	
 		        zoomGrid.loadData( zoomGrid, sFilter, sTitle );
+
+
             }, scope: this }
         });                 
         
+
         // referencia a la ventana modal
         me.win  = Ext.widget('window', {
             title : 'Zoom : ' + me.myMeta.shortTitle,
+            iconCls: me.myMeta.protoIcon , 
             closeAction : 'hide',
             layout : 'fit',
             modal : true,
@@ -110,8 +137,10 @@ Ext.define('Ext.ux.protoZoom', {
 			    ui: 'footer',
 			    defaults: {minWidth: 75},
 			    items: [
+			    	{ xtype: 'tbtext', text: '', id: me.idStBar },
 			        { xtype: 'component', flex: 1 },
-			        { xtype: 'button', text: 'Button 1' }
+			        { xtype: 'button', text: 'Cancel' }, 
+			        { xtype: 'button', text: 'Ok' }
 			    ]
 			}]			
 
@@ -127,6 +156,14 @@ Ext.define('Ext.ux.protoZoom', {
     
     showZoomForm : function(me) {
         me.win.show();
+    }, 
+    
+    setStatusBar: function  ( rowIndex, record ) {
+		var stBar = Ext.getCmp( this.idStBar )
+		
+		if ( record ) 
+			stBar.setText( '[' + rowIndex.toString() + ']  ' + record.data.__str__ )
+		else stBar.setText('')   
     }
 
 });

@@ -310,6 +310,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 
 //------        
+
+		// TODO: Agregar un evento para el reload ( verificar refresh  ) de la grilla y afectar MasterDetail,  ZoomSelected 
         this.addEvents(
             'rowClick', 'rowDblClick', 'promoteDetail', 'selectionChange'
         );
