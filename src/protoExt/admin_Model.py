@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
 
+#El modelo tendra dos campos para seleccionar fichas, pues hay un nivel de ficha a nivel de modelo que no
+#coincide con el selector usado a nivel de elementods de datos ( properties )
+#
+#Categoria,       Modelo  
+#SubCategoria     Para los elmentos de datos 
+
 from models import *
 
 import django.contrib.admin          
@@ -33,10 +39,12 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
 
     
     protoExt = {'protoIcon' : 'model',  }
+
+#   Esta es la lista de cmapos visibles en la grilla      
     protoExt[ 'listDisplay' ] = ( 'code',  
         'udp__DescriptionModele', 
-        'udp__ActeurPrincipal',
-        'udp__AutresActeurs',
+#        'udp__ActeurPrincipal',
+#        'udp__AutresActeurs',
 #        'udp__IntrantsDeclencheurs'
         )
     
@@ -71,6 +79,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
          'detailTitlePattern': 'code'}, 
         ]
 
+#   Estos son todos los campos de mi modelo ( store ) 
     protoExt[ 'protoFields' ] =  {        
         'code': {'header' : 'Vues', 'type': 'CharField' ,  'width': 200, 'flex': 1 },  
         'category': {'storeOnly': True },
@@ -79,7 +88,9 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
         'udp__ActeurPrincipal': { 'header' : 'Acteur Princ', 'wordWrap': True , 'flex': 1  },
         'udp__AutresActeurs': { 'header' : 'Autres acteurs', 'cellToolTip' : True , 'flex': 1  },
         'udp__IntrantsDeclencheurs': { 'header' : 'Intrants Declan' , 'wordWrap': True , 'flex': 1 },
-          
+
+        'udp__Auteur ': { 'header' : 'Auteur' , 'flex': 1 },
+        'udp__Version ': { 'header' : 'Version' , 'flex': 1 },
      }
 
 
@@ -89,7 +100,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
 
     protoExt['protoFilters'] = []
     protoExt['protoFilters'].append ( 
-                { 'filterName': 'AT', 
+                { 'filterName': 'Vue AT', 
                   'filter': { 'code__istartswith': 'AT'}, 
                   }
         ) 

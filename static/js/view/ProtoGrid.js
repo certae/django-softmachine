@@ -262,7 +262,14 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 displayInfo: true,
                 items: itemDetail,
                 afterPageText : _gridBbOf  + ' {0}',
-                beforePageText : _gridBbPage,  
+                beforePageText : _gridBbPage, 
+                
+                firstText : _gridFirstText, 
+                nextText : _gridNextText, 
+                prevText : _gridPrevText, 
+                lastText : _gridLastText, 
+                refreshText : _gridRefreshText,  
+
                 displayMsg: _gridBbShow + ' : {0} - {1} ' + _gridBbOf +' {2}'
                 // emptyMsg: "No register to display"
             }

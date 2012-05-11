@@ -58,8 +58,9 @@ class PruebaAdmin(django.contrib.admin.ModelAdmin):
      }
 
 
+#admin.site.register(Prueba, PruebaAdmin)
 
-admin.site.register(Prueba, PruebaAdmin)
+admin.site.register(Prueba )
 
 
 

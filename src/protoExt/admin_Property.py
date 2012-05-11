@@ -73,6 +73,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         'udp__REQUISPAR': { 'fieldLabel' : 'Rquis par'  },
         'udp__TRANSMISSION': { 'fieldLabel' : 'Transmission'  },
         'udp__DESCRIPTIONCN': { 'fieldLabel' : 'Description CN'  }, 
+        'udp__STATUTELEMENTDEDONNEE': { 'fieldLabel' : 'Statut élément de donnée'  }, 
      }
 
 #    Al momento de cargar la finca verifico el campo @criteriaField@ y lo busco en las diferentes fichas, 
@@ -102,7 +103,8 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                             'udp__ENTREEENVIGUEUR',
                             'udp__DATEDERNIREMODIFICATION',
                             'udp__REQUISPAR',
-                            'udp__TRANSMISSION' 
+                            'udp__TRANSMISSION',
+                            'udp__STATUTELEMENTDEDONNEE'
                             )
 
 
@@ -131,9 +133,11 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     TEMPLATE += '<tr class="azul"><td class="negro">Validation: </td><td class="desc">{{udp__VALIDATION}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Requis par: </td><td class="desc">{{udp__REQUISPAR}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Transmission: </td><td class="desc">{{udp__TRANSMISSION}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Statut élément de donnée:</td><td class="desc">{{udp__STATUTELEMENTDEDONNEE}}</td></tr>'
     TEMPLATE += '</table>'
 
     TEMPLATE_CN = TEMPLATE 
+
 
     TEMPLATE = '<table class="ficha" cellpadding="3">'
     TEMPLATE += '<tr class="azul"><td class="negro">Nom de l\'élément de donnée: </td><td>{{code}}</td></tr>'
@@ -147,15 +151,32 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     TEMPLATE += '<tr class="blanco"><td class="negro">Valeur nulle possible (oui,non)</td><td class="desc">{{isNullable}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Gabarit: </td><td class="desc">{{udp__GABARIT}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Domaine de valeurs: </td><td class="desc">{{udp__DOMAINEDEVALEURS}}</td></tr>'
+    TEMPLATE += '<tr class="azul"><td class="negro">Statut élément de donnée:</td><td class="desc">{{udp__STATUTELEMENTDEDONNEE}}</td></tr>'
     TEMPLATE += '</table>'
 
     TEMPLATE_DEFAULT = TEMPLATE 
 
+
+    TEMPLATE = '<table class="ficha" cellpadding="3">'
+    TEMPLATE += '<tr class="azul"><td class="negro">Nom de l\'élément de donnée: </td><td>{{code}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro"> Nom de la vue de l\'élément de donnée:</td><td>{{concept__model__code}}</td></tr>'
+    TEMPLATE += '<tr class="azul"><td class="negro">Description: </td><td class="desc">{{description}}</td></tr>'
+    
+    TEMPLATE += '<tr class="blanco"><td class="negro">Domaine de valeurs: </td><td class="desc">{{udp__DOMAINEDEVALEURS}}</td></tr>'
+    TEMPLATE += '<tr class="azul"><td class="negro">Statut élément de donnée:</td><td class="desc">{{udp__STATUTELEMENTDEDONNEE}}</td></tr>'
+    TEMPLATE += '</table>'
+
+    TEMPLATE_AT = TEMPLATE 
+
     
     protoExt[ 'protoSheets' ] =  {        
           'DEFAULT' : {                        
-              'title'     : "Fiche descriptive de l'élément de donnée",                        
+              'title'   : "Fiche descriptive de l'élément de donnée",                        
               'template': TEMPLATE_DEFAULT  
+              },
+          'AT' : {                        
+              'title'   : "Fiche descriptive de l'élément de donnée - AT",                        
+              'template': TEMPLATE_AT  
               },
           'CN' : {                        
               'title'   : "Fiche descriptive de l'élément de donnée - Cadre Normatif",                        

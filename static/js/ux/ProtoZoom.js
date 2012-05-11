@@ -15,6 +15,11 @@
  * De esta forma en la grilla puedo saber el registro q se esta editando antes del commit y modificar los cmpos necesarios 
  * directamente en el store ( record ) de la grilla 
  * 
+ * 
+ * Otra posivble soluicion es guardar el Id y asociar la descripcion para luego renderizarla
+ * 
+ * Verificar si dinamicamente puedo pegar el registro del zoom en el campo para q pueda ser recuperado por el evento beforecommit 
+ *  
  */
  
 Ext.define('Ext.ux.protoZoom', {

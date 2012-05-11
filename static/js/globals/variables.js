@@ -19,6 +19,12 @@ _gridBbShow  = 'Résultats'
 _gridBbOf = 'de' 
 _gridBbPage = 'Page'
 
+_gridFirstText = 'Première page',  
+_gridNextText = 'Page suivante', 
+_gridPrevText = 'Page précédente', 
+_gridLastText = 'Dernière page', 
+_gridRefreshText = 'Actualiser',  
+	
 _tbSearchClearFilter = '<b>Supprimer les filtres<b>'
 	
 // Config Variables 
