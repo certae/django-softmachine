@@ -338,6 +338,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             	// }, scope: this }
         // });                 
 
+
         grid.on({
             select: {fn: function ( rowModel , record,  rowIndex,  eOpts ) {
             	// SelectionModel.rowSelected 
@@ -358,8 +359,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             }, scope: me }
         });                 
 
+// ---------------------------------------------------------------------------------------------- 
 
-		// grid.on('beforeedit', function( edPlugin, e, eOpts  ) {
+
+		// Fires before editing is triggered. ...
         grid.on({
         	beforeedit: {fn: function ( edPlugin, e, eOpts) {
 				if ( ! this.editMode )  return false;
@@ -376,8 +379,33 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             	
         });                 
 
+		// Fires when the user started editing but then cancelled the edit. ...
+        // grid.on('canceledit', function(editor, e, eOpts) {
+        	// console.log( 'canceledit' ) 
+        // });
 
-        grid.on('validateedit', function(editor, e) {
+
+		// Fires after editing, but before the value is set in the record. ...
+        grid.on('validateedit', function(editor, e, eOpts) {
+        	
+        	// e : Object 
+		    // grid - The grid
+		    // record - The record that was edited
+		    // field - The field name that was edited
+		    // value - The value being set
+		    // row - The grid table row
+		    // column - The grid Column defining the column that was edited.
+		    // rowIdx - The row index that was edited
+		    // colIdx - The column index that was edited
+		    // cancel - Set this to true to cancel the edit or return false from your handler. ( Validate )
+		    // originalValues - The original values for the field, before the edit (only when using RowEditing)
+		    // newValues - The new values being set (only when using RowEditing)
+		    // view - The grid view (only when using RowEditing)
+		    // store - The grid store (only when using RowEditing)
+        	
+        	// console.log( 'validateedit' ) 
+
+
         	// Resetea el status despues de la edicion 
 			if ( ! e.record.getId() ) {
 				e.record.phantom = true;   		        		
@@ -387,11 +415,33 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 			}
 			e.record.dirty = true;
 
-			// commit the changes right after editing finished
-    		// e.record.commit();
+			// Manejo del retorno del zoom 
+	        for (var ix in e.grid.columns ) {
+				var vFld = e.grid.columns[ix]
+				var initialConf = vFld.initialConfig 
+	            if (! initialConf.editor ) continue;
+	            if (  initialConf.editor.xtype != 'protoZoom' ) continue;
+	            
+	            var zoom = vFld.getEditor()
+	            
+	            // Actualiza el Id con el dato proveniente del zoom 
+	            if ( ! zoom.zoomRecord ) continue; 
+	            // TODO:  comparar e.record.data e.record.raw 
+	            if ( e.record.data[ initialConf.dataIndex ] == zoom.zoomRecord.data.__str__ ) continue  
+	            e.record.data[ initialConf.editor.fkId ] = zoom.zoomRecord.data.id 
+
+			}
+
         });
 
 
+		// Fires after a editing. ...
+        // grid.on('edit', function(editor, e, eOpts) {
+			// commit the changes right after editing finished
+    		// e.record.commit();
+        // });
+
+// ---------------------------------------------------------------------------------------------- 
         
         function showMetaConfig() {
         	var safeConf =  clone( myMeta , 0, exclude =['dict','gridDefinition', 'formDefinition'] )

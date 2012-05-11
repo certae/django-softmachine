@@ -335,6 +335,9 @@ function getColDefinition( vFld ) {
         //@zoomModel : Contiene el modelo del FK, se carga automaticamente 
         'zoomModel', 
         
+		//@fkId : Llave correspondiente al zoom          
+        'fkId', 
+        
          // @zoomView : TODO: Contiene un GridView ( app.model.gridView ) utilizado para los campos del zoom  
          // esto se pega al nombre la entidad para obtner la vista 
         'zoomView', 

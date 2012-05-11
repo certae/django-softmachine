@@ -87,22 +87,22 @@ Ext.define('Ext.ux.protoZoom', {
         me.idStBar = Ext.id();
 
 		// contiene el registro seleccionado 
-		me.record;
+		me.tmpRecord = null;
 		
 		// Crea la grilla 
 		var zoomGrid = Ext.create('ProtoUL.view.ProtoGrid', { protoConcept : me.zoomModel }) ; 
 
         zoomGrid.on({
             rowClick: {fn: function ( rowModel, record, rowIndex,  eOpts ) {
-            	me.record = record 
+            	me.tmpRecord = record 
             	me.setStatusBar( rowIndex, record )
             }, scope: this }
         });
 
         zoomGrid.on({
             rowDblClick: {fn: function ( record, rowIndex ) {
-            	console.log('rowDblClick', record, rowIndex  )
-            }, scope: this }
+				me.doReturn()
+            }, scope: me }
         });
 
         var searchBG = Ext.create('ProtoUL.ux.ProtoSearchBG', {
@@ -112,8 +112,8 @@ Ext.define('Ext.ux.protoZoom', {
         searchBG.on({
             loadData: {fn: function ( searchBG , sFilter, sTitle ) {
 
-				me.record = null 
-            	me.setStatusBar(  )
+				me.tmpRecord = null 
+            	me.setStatusBar( )
             	
 		        zoomGrid.loadData( zoomGrid, sFilter, sTitle );
 
@@ -144,8 +144,8 @@ Ext.define('Ext.ux.protoZoom', {
 			    items: [
 			    	{ xtype: 'tbtext', text: '', id: me.idStBar },
 			        { xtype: 'component', flex: 1 },
-			        { xtype: 'button', text: 'Cancel' }, 
-			        { xtype: 'button', text: 'Ok' }
+			        { xtype: 'button', text: 'Cancel', scope: me, handler: doCancel   }, 
+			        { xtype: 'button', text: 'Ok', scope: me, handler: me.doReturn }
 			    ]
 			}]			
 
@@ -153,13 +153,21 @@ Ext.define('Ext.ux.protoZoom', {
 
 		me.isLoaded = true; 
 		
+		function doCancel() {
+			me.zoomRecord = null 
+			me.win.hide()
+		}
+		
 	}, 
     
     onTriggerClick : function( obj ) {
+
         this.showZoomForm( this );
     },
     
     showZoomForm : function(me) {
+    	if ( ! me.isLoaded  ) return 
+
         me.win.show();
     }, 
     
@@ -169,6 +177,15 @@ Ext.define('Ext.ux.protoZoom', {
 		if ( record ) 
 			stBar.setText( '[' + rowIndex.toString() + ']  ' + record.data.__str__ )
 		else stBar.setText('')   
+    }, 
+    
+    doReturn: function() {
+    	if ( this.tmpRecord )  {
+	    	this.zoomRecord = this.tmpRecord; 
+	    	this.setValue( this.zoomRecord.data.__str__ ) 
+    	}
+    	this.win.hide()
+
     }
 
 });
