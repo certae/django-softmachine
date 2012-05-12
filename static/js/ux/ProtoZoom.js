@@ -32,6 +32,11 @@ Ext.define('Ext.ux.protoZoom', {
 	zoomModel: null, 
 
 
+	/**
+     * Zoom Record
+     */
+	zoomRecord: null, 
+
     /**
      * @private
      * trigger button cls 
@@ -86,38 +91,27 @@ Ext.define('Ext.ux.protoZoom', {
         // Para identificar el StatusBar 
         me.idStBar = Ext.id();
 
-		// contiene el registro seleccionado 
-		me.tmpRecord = null;
-		
 		// Crea la grilla 
 		var zoomGrid = Ext.create('ProtoUL.view.ProtoGrid', { protoConcept : me.zoomModel }) ; 
+        var searchBG = Ext.create('ProtoUL.ux.ProtoSearchBG', { protoMeta: me.myMeta })
 
         zoomGrid.on({
             rowClick: {fn: function ( rowModel, record, rowIndex,  eOpts ) {
-            	me.tmpRecord = record 
             	me.setStatusBar( rowIndex, record )
             }, scope: this }
         });
 
         zoomGrid.on({
             rowDblClick: {fn: function ( record, rowIndex ) {
+            	me.setStatusBar( rowIndex, record )
 				me.doReturn()
             }, scope: me }
         });
 
-        var searchBG = Ext.create('ProtoUL.ux.ProtoSearchBG', {
-	                 protoMeta: me.myMeta
-	               })
-	               
         searchBG.on({
             loadData: {fn: function ( searchBG , sFilter, sTitle ) {
-
-				me.tmpRecord = null 
-            	me.setStatusBar( )
-            	
+				me.resetZoom()            	
 		        zoomGrid.loadData( zoomGrid, sFilter, sTitle );
-
-
             }, scope: this }
         });                 
         
@@ -154,7 +148,7 @@ Ext.define('Ext.ux.protoZoom', {
 		me.isLoaded = true; 
 		
 		function doCancel() {
-			me.zoomRecord = null 
+			me.resetZoom() 
 			me.win.hide()
 		}
 		
@@ -167,25 +161,33 @@ Ext.define('Ext.ux.protoZoom', {
     
     showZoomForm : function(me) {
     	if ( ! me.isLoaded  ) return 
-
         me.win.show();
     }, 
     
     setStatusBar: function  ( rowIndex, record ) {
 		var stBar = Ext.getCmp( this.idStBar )
 		
-		if ( record ) 
+		if ( record ) {
+        	this.zoomRecord = record 
 			stBar.setText( '[' + rowIndex.toString() + ']  ' + record.data.__str__ )
-		else stBar.setText('')   
+		} 	else  {
+        	this.zoomRecord = null 
+			stBar.setText('')   
+		} 
+		
     }, 
     
     doReturn: function() {
-    	if ( this.tmpRecord )  {
-	    	this.zoomRecord = this.tmpRecord; 
+    	if ( this.zoomRecord )  {
 	    	this.setValue( this.zoomRecord.data.__str__ ) 
     	}
     	this.win.hide()
+    }, 
+    
+    resetZoom: function() {
 
+    	this.setStatusBar( )
+    	
     }
 
 });

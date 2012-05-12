@@ -367,6 +367,18 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         	beforeedit: {fn: function ( edPlugin, e, eOpts) {
 				if ( ! this.editMode )  return false;
 				
+				// Resetea el zoom 
+		        for (var ix in e.grid.columns ) {
+					var vFld = e.grid.columns[ix]
+					var initialConf = vFld.initialConfig 
+		            if (! initialConf.editor ) continue;
+		            if (  initialConf.editor.xtype != 'protoZoom' ) continue;
+		            
+		            var zoom = vFld.getEditor()
+		            zoom.resetZoom()
+				}
+				
+				
 				// TODO: Manejo de edicion condicional segun datos
 				// Parametros: una coleccion ( CampoCriterio, Condicion, Lista de campos habilidatos ) 
 			    // if (e.record.get('status') == "0")
@@ -391,15 +403,19 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         	// e : Object 
 		    // grid - The grid
 		    // record - The record that was edited
+
+		    // originalValues - ( Validate ) The original values for the field, before the edit (only when using RowEditing)
+		    // record.data  
+		    // record.raw   
+		    
 		    // field - The field name that was edited
 		    // value - The value being set
 		    // row - The grid table row
 		    // column - The grid Column defining the column that was edited.
 		    // rowIdx - The row index that was edited
 		    // colIdx - The column index that was edited
-		    // cancel - Set this to true to cancel the edit or return false from your handler. ( Validate )
-		    // originalValues - The original values for the field, before the edit (only when using RowEditing)
-		    // newValues - The new values being set (only when using RowEditing)
+		    // cancel - Set this to true to cancel the edit or return false from your handler. 
+		    // newValues - 		( formated ) The new values being set (only when using RowEditing)
 		    // view - The grid view (only when using RowEditing)
 		    // store - The grid store (only when using RowEditing)
         	
@@ -423,12 +439,16 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 	            if (  initialConf.editor.xtype != 'protoZoom' ) continue;
 	            
 	            var zoom = vFld.getEditor()
-	            
-	            // Actualiza el Id con el dato proveniente del zoom 
+				var idIndex = initialConf.editor.fkId 
+				            
 	            if ( ! zoom.zoomRecord ) continue; 
-	            // TODO:  comparar e.record.data e.record.raw 
-	            if ( e.record.data[ initialConf.dataIndex ] == zoom.zoomRecord.data.__str__ ) continue  
-	            e.record.data[ initialConf.editor.fkId ] = zoom.zoomRecord.data.id 
+
+	            // console.log( e , zoom.zoomRecord.data.__str__ )
+	            // Actualiza el Id con el dato proveniente del zoom 
+
+				// fix: en ocasiones la actualizacion del data o del raw independientemente no se refleja en la grilla	            
+	            e.record.raw[ idIndex ] = zoom.zoomRecord.data.id 
+	            e.record.data[ idIndex ] = zoom.zoomRecord.data.id 
 
 			}
 

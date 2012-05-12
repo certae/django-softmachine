@@ -446,7 +446,7 @@ function getColDefinition( vFld ) {
 
 	case 'foreignid':
 		// El zoom id debe estar oculto  
-       	colDefinition['hidden']= true
+       	// colDefinition['hidden']= true
         editor.xtype = 'numberfield'
 	  	break;
 

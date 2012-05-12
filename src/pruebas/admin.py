@@ -42,7 +42,7 @@ class PruebaAdmin(django.contrib.admin.ModelAdmin):
 
     protoExt[ 'hideRowNumbers' ] = True 
     protoExt[ 'protoMenuIx' ] = 2 
-    protoExt[ 'listDisplay' ] = ( 'id',  'prMaestro1',  'prCode','prMaestro1_id', '__str__' , 'prDescription') 
+    protoExt[ 'listDisplay' ] = ( 'id', 'prCode', 'prMaestro1','prMaestro1_id', 'prDescription') 
 
     protoExt[ 'protoFields' ] =  {        
 #        'prInteger': {'subType' : 'stopLight', 'stoplightRY': 33 ,  'stoplightYG': 67}
