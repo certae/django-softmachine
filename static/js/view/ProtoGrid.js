@@ -520,6 +520,11 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
                 var pKey = '{{' + vFld + '}}';
                 var pValue =  _pGrid.rowData[ vFld ];
+                
+                if ( vFld == 'metaDefinition' ) {
+                	pValue = FormatJsonStr( pValue )
+                }
+                
                 pTemplate = pTemplate.replace( pKey , pValue  ); 
 
             }

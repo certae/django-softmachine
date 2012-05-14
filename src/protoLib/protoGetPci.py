@@ -125,6 +125,7 @@ def protoGetPCI(request):
         # Guarda la Meta 
         protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})        
         protoDef.metaDefinition = json.dumps( protoMeta )
+        protoDef.description = pDescription 
         protoDef.save()
 
 

@@ -163,3 +163,83 @@ Ext.outils = function(){
 }();
 
 
+function FormatJsonStr( sData, sIndent) {
+
+	oData = Ext.decode( sData ) 
+	return FormatJSON( oData, sIndent )
+
+}
+
+function FormatJSON( oData, sIndent) {
+    if (! sIndent ) sIndent = "";
+    var sIndentStyle = "&nbsp; &nbsp; ";
+    var sDataType = typeOf(oData);
+
+    // open object
+    if (sDataType == "array") {
+        if (oData.length == 0) {
+            return "[]";
+        }
+        var sHTML = "[";
+    } else {
+        var iCount = 0;
+        for (var attr in oData) {
+            iCount++;
+            break;
+        };
+        if (iCount == 0) { // object is empty
+            return "{}";
+        }
+        var sHTML = "{";
+    }
+
+    // loop through items
+    var iCount = 0;
+
+    for (var sKey in oData) {
+    	vValue = oData[ sKey  ]
+        if (iCount > 0) {
+            sHTML += ",";
+        }
+        if (sDataType == "array") {
+            sHTML += ("<br>" + sIndent + sIndentStyle);
+        } else {
+            sHTML += ("<br>" + sIndent + sIndentStyle + "\"" + sKey + "\"" + ": ");
+        }
+
+        // display relevant data type
+        switch (typeOf(vValue)) {
+            case "array":
+            case "object":
+                sHTML += FormatJSON(vValue, (sIndent + sIndentStyle));
+                break;
+            case "boolean":
+            case "number":
+                sHTML += vValue.toString();
+                break;
+            case "null":
+                sHTML += "null";
+                break;
+            case "string":
+            	vValue = vValue.replace( '<', '&lt;')
+            	vValue = vValue.replace( '>', '&gt;')
+                sHTML += ("\"" + vValue + "\"");
+                break;
+            default:
+                sHTML += ("TYPEOF: " + typeof(vValue));
+        }
+
+        // loop
+        iCount++;
+    };
+
+    // close object
+    if (sDataType == "array") {
+        sHTML += ("<br>" + sIndent + "]");
+    } else {
+        sHTML += ("<br>" + sIndent + "}");
+    }
+
+    // return
+    return sHTML;
+}
