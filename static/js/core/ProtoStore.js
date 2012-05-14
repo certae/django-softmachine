@@ -548,7 +548,7 @@ function loadPci( modelName, loadIfNot, options) {
 			// Solo retorna algo cuando se usa para evaluar 
 			if ( ! loadIfNot ) return false 
 
-	        // DGT: reemplazar las funciones  
+	        // DGT: reemplaza las funciones en caso de no existir  
 	        Ext.applyIf(options, {
 	            scope: this,
 	            success: Ext.emptyFn,
@@ -566,8 +566,8 @@ function loadPci( modelName, loadIfNot, options) {
 	            success: function(result, request) {
 	            	
 	                var myResult = Ext.decode( result.responseText );
-	                _cllPCI[ modelName ]  = myResult.metaData;  
-	                DefineProtoModel( myResult.metaData , modelClassName  );
+	                _cllPCI[ modelName ]  = myResult.protoMeta;  
+	                DefineProtoModel( myResult.protoMeta , modelClassName  );
 
                     options.success.call( options.scope, result, request);
 	            },

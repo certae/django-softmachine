@@ -15,6 +15,7 @@ import django.utils.simplejson as json
 _PROTOFN_ = '_protoFn_'
 
 
+
 class JSONEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, ( datetime.date, datetime.time, datetime.datetime)):
@@ -302,4 +303,10 @@ def verifyUdpDefinition( pUDP ):
         cUDP.propertyPrefix    = ''
     
     return cUDP    
+
+
+def strNotNull(  sValue ):
+    if (sValue is None): 
+        return "_"
+    else: return sValue 
 

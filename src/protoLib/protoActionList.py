@@ -17,6 +17,7 @@ def protoList(request):
 #   Vista simple para cargar la informacion, 
     
     PAGESIZE = 50
+    message = ''
     
     if request.method == 'POST':
 
@@ -75,7 +76,7 @@ def protoList(request):
                 Qs = Qs.filter(reduce(operator.or_, or_queries))
 
         else:  
-            textFilter = 'Error: ' + textFilter
+            message = 'Error: ' + textFilter
             Qs = Qs.none()
 
 
@@ -102,7 +103,8 @@ def protoList(request):
     pList = Q2Dict(protostoreFields , pRows, cUDP )
 
     context = json.dumps({
-            "success": True,
+            'success': True,
+            'message': message,
             'totalCount': pRowsCount,
             'filter': protoFilter,
             'rows': pList,

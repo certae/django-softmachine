@@ -15,3 +15,13 @@ def getDjangoModel( modelName ):
                 break
     return model 
 
+
+class ProtoDefinition(models.Model):
+    code = models.CharField(unique=True, blank = False, null = False, max_length=200 )
+    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
+    metaDefinition = models.TextField( blank = True, null = True)
+    active = models.BooleanField( default = False )
+    
+    def __unicode__(self):
+        return self.code 
+

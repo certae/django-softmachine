@@ -22,7 +22,7 @@ from django.http import HttpResponse
 from protoGrid import getVisibleFields, getProtoViewName
 from protoLib import protoGrid
 from utilsBase import  verifyList 
-from models import getDjangoModel 
+from models import getDjangoModel, ProtoDefinition
 
 import django.utils.simplejson as json
 
@@ -34,8 +34,8 @@ def protoGetPCI(request):
     """
 
     if request.method == 'GET':
-        protoConcept = request.GET.get('protoConcept', '') 
-        protoConcept, view = getProtoViewName( protoConcept )
+        protoOption = request.GET.get('protoConcept', '') 
+        protoConcept, view = getProtoViewName( protoOption )
             
         model = getDjangoModel(protoConcept)
         grid = protoGrid.ProtoGridFactory( model, view  )        
@@ -86,48 +86,73 @@ def protoGetPCI(request):
 #       
         pTitle = grid.protoAdmin.get( 'title', grid.title) 
         pDescription = grid.protoAdmin.get( 'description', pTitle) 
-            
+
+
+        protoMeta = { 
+             'protoOption' : protoOption,           
+             'protoIcon': protoIcon,
+             'shortTitle': pTitle,
+             'description': pDescription,
+             'idProperty': id_field,
+    
+            # Valores iniciales 
+             'initialSort': sortInfo,
+             'initialFilter': initialFilter,
+    
+            # Campos definidos en  ProtoGridFactory
+             'fields': grid.fields, 
+             'storeFields': grid.storeFields, 
+             'listDisplay' : grid.protoListDisplay,  
+             'readOnlyFields' : grid.protoReadOnlyFields,
+    
+             'searchFields': pSearchFields, 
+             'sortFields': pSortFields, 
+             'hideRowNumbers' : hideRowNumbers,  
+    
+            # Propiedades extendidas   
+             'protoDetails': protoDetails, 
+             'protoFilters': protoFilters,
+             'protoFieldSet': protoFieldSet, 
+             'protoGridViews':protoGridViews ,     
+             
+            # sheet html asociada ( diccionario MSSSQ  )  
+             'protoSheetSelector': protoSheetSelector, 
+             'protoSheetProperties': protoSheetProperties, 
+             'protoSheets': protoSheets, 
+    
+             }
+
+        # Guarda la Meta 
+        protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})        
+        protoDef.metaDefinition = json.dumps( protoMeta )
+        protoDef.save()
+
+
         jsondict = {
-             'succes':True,
-             'metaData':{
-                 'root':'rows',
-                 'totalProperty':'totalCount',
-                 'successProperty':'success',
-                 
-                 'shortTitle': pTitle,
-                 'description': pDescription,
+            'succes':True,
+            'message': '',
+            'metaData':{
+                # The name of the property which contains the Array of row objects. ...
+                'root': 'rows',
 
-                # Campos leidos de la definicion  
-                 'searchFields': pSearchFields, 
-                 'sortFields': pSortFields, 
-                 'idProperty': id_field,
+                #Name of the property within a row object that contains a record identifier value. ...
+                'idProperty': id_field,
 
-                 'protoDetails': protoDetails, 
-                 'protoIcon': protoIcon,
-                 'hideRowNumbers' : hideRowNumbers,  
-                 'protoSheets': protoSheets, 
+                #Name of the property from which to retrieve the total number of records in t
+                'totalProperty':'totalCount',
 
-                 'protoFilters': protoFilters,
-                 'protoFieldSet': protoFieldSet, 
-                 'protoGridViews':protoGridViews ,     
-
-                # Campos definidos en  ProtoGridFactory
-                 'fields': grid.fields, 
-                 'storeFields': grid.storeFields, 
-                 'listDisplay' : grid.protoListDisplay,  
-                 'readOnlyFields' : grid.protoReadOnlyFields,
-                 
-                # sheet html asociada ( diccionario MSSSQ  )  
-                 'protoSheetSelector': protoSheetSelector, 
-                 'protoSheetProperties': protoSheetProperties, 
-
-                # Valores iniciales 
-                 'initialSort': sortInfo,
-                 'initialFilter': initialFilter,
-                 },
+                #Name of the property from which to retrieve the success attribute. ...
+                'successProperty':'success',
+                
+                #The name of the property which contains a response message. (optional)
+                'messageProperty': 'message', 
+                }, 
+            'protoMeta': protoMeta,
             'rows':[],
             'totalCount': 0, 
         }
+        
+        
         context = json.dumps( jsondict)
         return HttpResponse(context, mimetype="application/json")
 

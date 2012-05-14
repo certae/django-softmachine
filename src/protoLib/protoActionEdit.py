@@ -29,6 +29,8 @@ def protoDelete(request):
 
 def protoEdit(request, myAction ):
     
+    message = '' 
+    
     if request.method == 'POST':
         protoConcept = request.GET.get('protoConcept', '')
         protostoreFields = request.GET.get('storeFields', '')
@@ -101,10 +103,15 @@ def protoEdit(request, myAction ):
                 data['_ptStatus'] = data['_ptStatus'] +  getReadableError( e ) 
         
         pList.append( data )
+        
+        if data.get('_ptStatus', ''): 
+            message += data['_ptStatus']  + ';' 
+    
                 
 
     context = {
         'totalCount': pList.__len__(),
+        'message': message,
         'rows': pList,
         'success': True 
     }

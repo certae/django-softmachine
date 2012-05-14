@@ -4,19 +4,10 @@
 #     * Rearrange models' order
 
 from django.db import models
-from django.utils.encoding import force_unicode
-
 from django.contrib import admin
+#from django.utils.encoding import force_unicode
 
-#datamodel name="Relational Data Model" idmodel="1" idref="0">
-
-
-
-def strNotNull(  sValue ):
-    if (sValue is None): 
-        return "_"
-    else: return sValue 
-
+from protoLib.utilsBase import  strNotNull
 
 
 class MetaObj(models.Model):
@@ -42,6 +33,7 @@ class MetaObj(models.Model):
 
     class Meta:
         verbose_name = 'MetaObj' 
+
 
    
 class Domain(MetaObj):
