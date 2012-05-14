@@ -100,7 +100,6 @@ def protoGetPCI(request):
              'initialFilter': initialFilter,
     
             # Campos definidos en  ProtoGridFactory
-             'fields': grid.fields, 
              'storeFields': grid.storeFields, 
              'listDisplay' : grid.protoListDisplay,  
              'readOnlyFields' : grid.protoReadOnlyFields,
@@ -108,6 +107,7 @@ def protoGetPCI(request):
              'searchFields': pSearchFields, 
              'sortFields': pSortFields, 
              'hideRowNumbers' : hideRowNumbers,  
+             'fields': grid.fields, 
     
             # Propiedades extendidas   
              'protoDetails': protoDetails, 
