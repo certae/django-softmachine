@@ -33,11 +33,19 @@ def protoGetPCI(request):
         to be used in combination with protoExt.js
     """
 
-    if request.method == 'GET':
-        protoOption = request.GET.get('protoConcept', '') 
-        protoConcept, view = getProtoViewName( protoOption )
-            
-        model = getDjangoModel(protoConcept)
+    if request.method != 'GET':
+        return 
+    
+    protoOption = request.GET.get('protoConcept', '') 
+    protoConcept, view = getProtoViewName( protoOption )
+    model = getDjangoModel(protoConcept)
+
+    # created is a boolean specifying whether a new object was created.
+    protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
+    context = protoDef.metaDefinition
+    
+    if created or ( not protoDef.active   ) :
+
         grid = protoGrid.ProtoGridFactory( model, view  )        
 
 #       pRows = model.objects.filter(pk = 0)
@@ -87,7 +95,6 @@ def protoGetPCI(request):
         pTitle = grid.protoAdmin.get( 'title', grid.title) 
         pDescription = grid.protoAdmin.get( 'description', pTitle) 
 
-
         protoMeta = { 
              'protoOption' : protoOption,           
              'protoIcon': protoIcon,
@@ -122,26 +129,20 @@ def protoGetPCI(request):
     
              }
 
-        # Guarda la Meta 
-        protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})        
-        protoDef.metaDefinition = json.dumps( protoMeta )
-        protoDef.description = pDescription 
-        protoDef.save()
-
-
+    
         jsondict = {
             'succes':True,
             'message': '',
             'metaData':{
                 # The name of the property which contains the Array of row objects. ...
                 'root': 'rows',
-
+    
                 #Name of the property within a row object that contains a record identifier value. ...
-                'idProperty': id_field,
-
+                'idProperty': protoMeta['idProperty'],
+    
                 #Name of the property from which to retrieve the total number of records in t
                 'totalProperty':'totalCount',
-
+    
                 #Name of the property from which to retrieve the success attribute. ...
                 'successProperty':'success',
                 
@@ -152,10 +153,19 @@ def protoGetPCI(request):
             'rows':[],
             'totalCount': 0, 
         }
-        
-        
+    
+        # Codifica el mssage json 
         context = json.dumps( jsondict)
-        return HttpResponse(context, mimetype="application/json")
+
+        # Guarda la Meta si es nuevo o si se especifica overWrite
+        if  created or protoDef.overWrite: 
+            protoDef.metaDefinition = context 
+            protoDef.description = pDescription 
+            protoDef.save()
+
+    # EndIF  GetOrCreate ProtoDef  
+    
+    return HttpResponse(context, mimetype="application/json")
 
 # protoGetPCI ----------------------------
 

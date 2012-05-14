@@ -9,7 +9,7 @@ class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
 
     protoExt = {'title': 'proto Definition' }
     protoExt[ 'protoMenuIx' ] = 1 
-    protoExt[ 'listDisplay' ] = ( 'code', 'description', 'active')
+    protoExt[ 'listDisplay' ] = ( 'code', 'description', 'active', 'overWrite')
     protoExt[ 'readOnlyFields' ] = ( ) 
 
     protoExt[ 'searchFields' ] = ( 'code', 'description', 'metaDefinition' ) 
