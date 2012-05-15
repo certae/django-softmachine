@@ -40,9 +40,9 @@ def protoGetPCI(request):
     protoConcept, view = getProtoViewName( protoOption )
     model = getDjangoModel(protoConcept)
 
-    # created is a boolean specifying whether a new object was created.
+    # created : true  ( new ) is a boolean specifying whether a new object was created.
     protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
-    context = protoDef.metaDefinition
+    protoMeta = {} 
     
     if created or ( not protoDef.active   ) :
 
@@ -129,42 +129,46 @@ def protoGetPCI(request):
     
              }
 
-    
-        jsondict = {
-            'succes':True,
-            'message': '',
-            'metaData':{
-                # The name of the property which contains the Array of row objects. ...
-                'root': 'rows',
-    
-                #Name of the property within a row object that contains a record identifier value. ...
-                'idProperty': protoMeta['idProperty'],
-    
-                #Name of the property from which to retrieve the total number of records in t
-                'totalProperty':'totalCount',
-    
-                #Name of the property from which to retrieve the success attribute. ...
-                'successProperty':'success',
-                
-                #The name of the property which contains a response message. (optional)
-                'messageProperty': 'message', 
-                }, 
-            'protoMeta': protoMeta,
-            'rows':[],
-            'totalCount': 0, 
-        }
-    
-        # Codifica el mssage json 
-        context = json.dumps( jsondict)
-
         # Guarda la Meta si es nuevo o si se especifica overWrite
         if  created or protoDef.overWrite: 
-            protoDef.metaDefinition = context 
+            protoDef.metaDefinition = json.dumps( protoMeta ) 
             protoDef.description = pDescription 
             protoDef.save()
 
+
+    else:
+        protoMeta = json.loads( protoDef.metaDefinition ) 
+
+
     # EndIF  GetOrCreate ProtoDef  
     
+    
+    jsondict = {
+        'succes':True,
+        'message': '',
+        'metaData':{
+            # The name of the property which contains the Array of row objects. ...
+            'root': 'rows',
+
+            #Name of the property within a row object that contains a record identifier value. ...
+            'idProperty': protoMeta['idProperty'],
+
+            #Name of the property from which to retrieve the total number of records in t
+            'totalProperty':'totalCount',
+
+            #Name of the property from which to retrieve the success attribute. ...
+            'successProperty':'success',
+            
+            #The name of the property which contains a response message. (optional)
+            'messageProperty': 'message', 
+            }, 
+        'protoMeta': protoMeta,
+        'rows':[],
+        'totalCount': 0, 
+    }
+    
+    # Codifica el mssage json 
+    context = json.dumps( jsondict)
     return HttpResponse(context, mimetype="application/json")
 
 # protoGetPCI ----------------------------
