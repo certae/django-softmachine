@@ -4,7 +4,7 @@
  */
 
 
-function FormatMETA( oData, pName, pType, oBase, tBase  ) {
+function FormatMETA( oData, pName, pType   ) {
 
 	/* -----------------   FORMAT META for tree view	
 	 * @oData  	: Data a convertir

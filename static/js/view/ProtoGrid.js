@@ -202,8 +202,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 					} else { return '' }
 		        	
 		        }
-		   },
-           		    
+		   }
             
         }); 
 

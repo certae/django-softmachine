@@ -5,27 +5,7 @@ Ext.require([
 ]);
 
 Ext.onReady(function() {
-    //we want to setup a model and store instead of using dataUrl
-    Ext.define('Meta', {
-        extend: 'Ext.data.Model',
-        fields: [
-            {name: 'ptProperty', type: 'string'},
-            {name: 'ptType',  type: 'string'},
-            // {name: 'ptTitle', type: 'string'},
-            {name: 'ptValue', type: 'string'}
-        ]
-    });
 
-    var store = Ext.create('Ext.data.TreeStore', { 
-        folderSort: true, 
-        model: 'Meta',
-        root: treeData 
-        // proxy: {
-            // type: 'ajax',
-            // //the store will get the content from the .json file
-            // url: 'static/pruebas/treegrid.json'
-        // },
-    });
 
 
 	var i = 0; 
