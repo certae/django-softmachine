@@ -11,7 +11,7 @@ Ext.onReady(function() {
         fields: [
             {name: 'ptProperty', type: 'string'},
             {name: 'ptType',  type: 'string'},
-            {name: 'ptTitle', type: 'string'},
+            // {name: 'ptTitle', type: 'string'},
             {name: 'ptValue', type: 'string'}
         ]
     });
@@ -79,16 +79,14 @@ Ext.onReady(function() {
             flex: 2,
             sortable: true,
             dataIndex: 'ptProperty'
-        },{
-            text: 'ptTitle',
-            sortable: true,
-            dataIndex: 'ptTitle'
-
+        // },{
+            // text: 'ptTitle',
+            // sortable: true,
+            // dataIndex: 'ptTitle'
         },{
             text: 'ptType',
             sortable: true,
             dataIndex: 'ptType'
-
         },{
             text: 'ptValue',
             flex: 2,
