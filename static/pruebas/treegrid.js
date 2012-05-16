@@ -20,6 +20,8 @@ Ext.onReady(function() {
         useArrows: true,
         rootVisible: true,
         store: store,
+        rowLines : true, 
+        columnLines : true, 
 
 		// ------------------
 		

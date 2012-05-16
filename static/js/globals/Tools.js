@@ -254,10 +254,10 @@ function VerifyLast( sAux , sChar   ) {
 
 function FormatJsonStr( sData ) {
 
-	// var oData = Ext.decode( sData )
+	var oData = Ext.decode( sData )
 	// var tData = FormatMETA( oData,  'meta'  )
-	var sAux  = FormatJSON( sData )
-	return 	sAux 
+	var sAux  = FormatJSON( oData )
+	return 	sAux
 
 
 }

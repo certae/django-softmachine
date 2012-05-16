@@ -35,14 +35,15 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
     initComponent: function() {
         
 
-		var me = this;         
-        var _pGrid = this; 
-
 		if ( ! this.myMeta  ) {
         	Ext.Msg.show({ value: 'ERROR Pcl  not loaded'});
             return; 
         }
 
+		var me = this;         
+        var _pGrid = this; 
+		var myMeta = this.myMeta; 
+		
 	    Ext.define('MetaPCL', {
 	        extend: 'Ext.data.Model',
 	        fields: [
@@ -67,14 +68,15 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 	    // });
 
 		var grid = Ext.create('Ext.tree.Panel', {
-	        title: 'Core Team Projects',
+	        store: myStore,
 	        useArrows: true,
 	        rootVisible: true,
 	        multiSelect: false,
             stripeRows: true, 
 	        singleExpand: true,
-	        store: myStore,
-	
+	        rowLines : true, 
+	        columnLines : true, 
+
 			// TODO: Actions to create o destroy eltos  
 			tbar: [
 			  { xtype: 'button', 
@@ -162,7 +164,7 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
                     // id: this.IdeSheet, 
                  	// title: pSheetProps.title ,
                     collapsible: true,
-                    collapsed: false ,
+                    collapsed: true ,
                     split: true,
                     flex: 1,
                     layout: 'fit',

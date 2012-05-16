@@ -463,8 +463,29 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 // ---------------------------------------------------------------------------------------------- 
         
         function showMetaConfig() {
-        	var safeConf =  clone( myMeta , 0, exclude =['dict','gridDefinition', 'formDefinition'] )
-        	showConfig( 'MetaConfig', safeConf )
+
+			var myPcl = Ext.widget('protoPcl', {
+				myMeta : me.myMeta 
+			});
+
+	         var myWin  = Ext.widget('window', {
+	        	constrain: true, 
+				title : me.myMeta.description,
+	            closeAction: 'hide',
+	            width: 800,
+	            height: 600,
+	            minHeight: 400,
+	            minWidth: 400,
+	            layout: 'fit',
+	            resizable: true,
+	            modal: true,
+	            items: myPcl
+	        });
+        	
+        	myWin.show()
+        	
+        	// var safeConf =  clone( myMeta , 0, exclude =['dict','gridDefinition', 'formDefinition'] )
+        	// showConfig( 'MetaConfig', safeConf )
         }
 
         function showColsConfig() {
