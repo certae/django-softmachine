@@ -25,7 +25,7 @@ class ProtoDefinition(models.Model):
     active = models.BooleanField( default = False )
     
     # Elto de control para sobre escribir,  podria ser un error el solo hecho de inactivarlo
-    overWrite = models.BooleanField( default = False )
+    overWrite = models.BooleanField( default = True  )
     
     def __unicode__(self):
         return self.code 

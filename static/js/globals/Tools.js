@@ -163,14 +163,8 @@ Ext.outils = function(){
 }();
 
 
-function FormatJsonStr( sData, sIndent) {
 
-	oData = Ext.decode( sData ) 
-	return FormatJSON( oData, sIndent )
-
-}
-
-function FormatJSON( oData, sIndent) {
+function __FormatJSON___( oData, sIndent) {
     if (! sIndent ) sIndent = "";
     var sIndentStyle = "&nbsp; &nbsp; ";
     var sDataType = typeOf(oData);
@@ -197,7 +191,7 @@ function FormatJSON( oData, sIndent) {
     var iCount = 0;
 
     for (var sKey in oData) {
-    	vValue = oData[ sKey  ]
+    	var vValue = oData[ sKey  ]
         if (iCount > 0) {
             sHTML += ",";
         }
@@ -246,6 +240,7 @@ function FormatJSON( oData, sIndent) {
 
 
 
+
 function SortObject(oData) {
     var oNewData = {};
     var aSortArray = [];
@@ -272,3 +267,209 @@ function SortObject(oData) {
         return ((a < b) ? -1 : ((a > b) ? 1 : 0));
     }
 }
+
+function FormatJsonStr( sData ) {
+
+	var oData = Ext.decode( sData )
+	var sAux  = FormatMETA( oData, '', 'meta'  ) 
+	return 	VerifyColon( sAux )
+
+
+}
+
+function FormatMETA( oData,  sIndent, pName, pType  ) {
+	// FORMAT META for tree view  xxxxxxxxxx
+
+	var sHTML = ''
+    var sDataType = typeOf(oData);
+	var sI2 = sIndent + '' ;
+
+	// Solo deben entrar objetos o arrays 
+	if (! (sDataType == "object"  ||  sDataType == "array")) return ''
+
+	// El tipo solo viene cuando el padre es un array 
+	if (! pType )  pType = pName 
+
+	// formate la salida
+	sHTML += sIndent + "{" 
+	sHTML += sIndent + '"ptProperty": "' + pName + '",'
+	sHTML += sIndent + '"ptType": "' +  pType  + '",'
+
+	
+	if ( sDataType == "object" ) {
+
+		// Si es un objeto hay una propiedad q servira de titulo 
+		var pTitle = pName ; 
+		if ( oData['protoOption'] ) {
+			pTitle = oData.protoOption  
+		}
+
+		sHTML += sIndent + '"ptTitle": "' +  pTitle + '",'
+		sHTML += sIndent + '"children": [' +  FormatMetaItem( oData, sI2 )  
+		sHTML += sIndent + "]," 
+	} 
+
+
+	// Verifica si tiene hijos 
+	var bChilds = false 
+    for (var sKey in oData) {
+	    var typeItem = typeOf(  oData[sKey] );
+        if ( typeItem == "object"  || typeItem == "array" ) {
+        	bChilds = true;  
+        	break; 
+        }
+	}		
+
+	// Genera los hijos o cierra el objeto 
+	// Ya sean arrays u obejtos se deben manejar como hijos
+	if ( ! bChilds ) { 
+
+		// Es un array de eltos simples 		oData.toString()  oData.join(',')
+		if ( sDataType == "array" ) {
+			sHTML += sIndent + '"ptValue": "' +  oData.toString() + '",'  
+			sHTML += sIndent + '"children": []' 
+			
+		} else {
+			// sHTML += sIndent + '"leaf": true'
+		}		
+		
+	} else {
+
+		sHTML += sIndent + '"children" : ['
+
+
+	    for (var sKey in oData) {
+	    	var vValue = oData[ sKey  ]
+		    var typeItem = typeOf(vValue);
+
+			// Solo procesa objetos o arrays 
+ 			if (! (typeItem == "object"  ||  typeItem == "array")) continue 
+ 			
+			// PRegunta es por el objeto padre para enviar el tipo en los arrays  	
+	        if ( sDataType == "object" ) {
+
+                sHTML += FormatMETA(vValue, sI2, sKey  );
+
+	        } else if ( sDataType == "array" ) {
+	        	
+	        	var oTitle = pName + '.' + sKey 
+	        	
+	        	if ( pName == 'fields'  && vValue.name ) {
+	        		oTitle = vValue.name  
+        		} else if ( pName == 'protoFieldSet' ) {
+        			oTitle = vValue.style
+        		}
+	        	
+                sHTML += FormatMETA(vValue, sI2, oTitle, pName   );
+
+	        }  
+		}
+	
+		sHTML = VerifyColon( sHTML )
+		sHTML += sIndent + "],"
+		
+	}
+
+	sHTML = VerifyColon( sHTML )
+	sHTML += sIndent + "}," 
+
+    return sHTML;
+}
+
+
+function VerifyColon( sAux   ) {
+	
+	// Elimina la ultima coma en caso de existir
+	if ( sAux[sAux.length - 1] == ',' ) {
+ 		sAux = sAux.substring(0, sAux.length-1);
+	}
+	return sAux 
+}
+
+
+function FormatMetaItem( oData , sIndent  ) {
+	
+	// Carga los valores de las propiedades basicas
+
+	var sHTML = ''; 
+	var sI2 = sIndent + '' ;
+	
+    for (var sKey in oData) {
+
+    	var vValue = oData[ sKey  ]
+	    var sDataType = typeOf(vValue);
+
+        if (sDataType == "array"  || sDataType == "object" || sDataType == "null") continue 
+        if ( sHTML )  { sHTML += ","; }
+
+		sHTML += sIndent + "{"
+
+        if (sDataType == "string" ) { 
+        	vValue = '"' + vValue.replace( '<', '&lt;').replace( '>', '&gt;') + '"'  
+        }
+
+        sHTML +=  sI2 + '"ptProperty" :"' + sKey + '",' 
+        sHTML +=  sI2 + '"ptType" :"' + sDataType + '",'
+        sHTML +=  sI2 + '"ptValue" :' + vValue.toString() + ',' 
+		sHTML +=  sI2 + '"leaf": true'
+
+		sHTML += sIndent + "}"
+
+    };
+
+	return sHTML 
+}
+	
+
+    // var iCount = 0;
+    // for (var sKey in oData) {
+// 
+// 
+    	// vValue = oData[ sKey  ]
+        // if (iCount > 0) {
+            // sHTML += ",";
+        // }
+        // if (sDataType == "array") {
+            // sHTML += ("" +  sIndent);
+//             
+        // } else {
+//         	
+//         	
+            // sHTML += ("" +  sIndent + "ptProperty :'" + sKey + "'" + ": ");
+        // }
+// 
+        // // display relevant data ptType
+        // switch (typeOf(vValue)) {
+            // case "array":
+            // case "object":
+                // sHTML += FormatMETA(vValue, ( sIndent));
+        // }
+// 
+        // // loop
+        // iCount++;
+    // };
+
+
+    // open object
+    // if (sDataType == "array") {
+// 
+// 
+        // if (oData.length == 0) {
+            // return "children : [ {} ]";
+        // }
+        // sHTML += "children : [";
+//         
+// 
+    // } else   {    }
+// 
+// 
+    // // loop through items
+// 
+    // // close object
+    // if (sDataType == "array") {
+        // sHTML += ("" +  "]");
+    // } else {
+        // sHTML += ("" +  "}");
+    // }
+
+    // return

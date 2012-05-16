@@ -11,6 +11,8 @@ from protoGrid import getProtoViewObj
 
 import django.utils.simplejson as json
 
+from models import getDjangoModel, ProtoDefinition
+
 class cAux: pass 
 
 
@@ -95,6 +97,15 @@ def protoGetMenuData(request):
         app['children'].sort(key=lambda x: x['index'])
 
     context = json.dumps( app_list ) 
+
+
+    # Lo guarda  ( created : true  --> new
+    protoOption = '__menu'
+    protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
+    protoDef.metaDefinition = context  
+    protoDef.description = 'Menu' 
+    protoDef.save()
+    
 
     return HttpResponse( context, mimetype="application/json")
 

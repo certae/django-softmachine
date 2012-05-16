@@ -42,8 +42,14 @@ def protoGetPCI(request):
 
     # created : true  ( new ) is a boolean specifying whether a new object was created.
     protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
+    
+    # El default solo parece funcionar al insertar en la Db
+    if created: protoDef.overWrite = True
+    
+    # Inicializa la meta  
     protoMeta = {} 
     
+    # Si es nuevo o no esta activo lee Django 
     if created or ( not protoDef.active   ) :
 
         grid = protoGrid.ProtoGridFactory( model, view  )        
@@ -107,7 +113,6 @@ def protoGetPCI(request):
              'initialFilter': initialFilter,
     
             # Campos definidos en  ProtoGridFactory
-             'storeFields': grid.storeFields, 
              'listDisplay' : grid.protoListDisplay,  
              'readOnlyFields' : grid.protoReadOnlyFields,
     
@@ -126,6 +131,10 @@ def protoGetPCI(request):
              'protoSheetSelector': protoSheetSelector, 
              'protoSheetProperties': protoSheetProperties, 
              'protoSheets': protoSheets, 
+
+             # storeFields va y viene al frontEnd, permite recuperar todos campos necesarios.  
+             # TODO: Esto podria ser reconstruido cada vez, no es necesario guardarlo
+             'storeFields': grid.storeFields, 
     
              }
 
