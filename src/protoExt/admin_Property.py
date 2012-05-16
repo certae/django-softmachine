@@ -17,8 +17,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     
     protoExt = {'protoIcon': 'property' }
     protoExt[ 'title' ] = 'Éléments de données'
-    protoExt[ 'listDisplay' ] = ( 'code', 'concept__model__code' )
-
+    protoExt[ 'listDisplay' ] = ( 'code', 'concept__model__code')
 
 #   protoExt[ 'readOnlyFields' ] = ( 'code', 'concept__model__code' ) 
 
@@ -30,9 +29,14 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     protoExt[ 'initialSort' ] = ( 'code', 'concept__model__code', ) 
     protoExt[ 'initialFilter' ] = {}
     
-    protoExt[ 'protoDetails' ] = [ {}, 
-#        {'menuText': 'Propiétés d''élément de donnée', 'conceptDetail': 'protoExt.Udp', 'detailField': 'metaObj__pk', 'masterField': 'pk'}, 
+    protoExt[ 'protoDetails' ] = [
+         {'menuText': 'UDPs ', 
+          'conceptDetail': 'protoExt.Udp', 
+          'detailField': 'metaObj__pk', 
+          'masterField': 'pk'}, 
         ]
+
+
 
     # Define el manejo de propiedades extendidas ( User defined properties 'UDP'
     # Debe existir una FKey en la tabla UDP apuntando hacia la tabla de base 
@@ -46,9 +50,11 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
 
     protoExt[ 'protoFields' ] =  {        
         'code': {'header' : 'Éléments de données', 'type': 'CharField' ,  'minWidth': 200, 'flex': 1, 'fieldLabel' : 'Property' },
-        'concept__code': { 'storeOnly': True ,'header' : 'Concept', 'type': 'CharField' , 'minWidth': 200, 'flex': 1 , 'fieldLabel' : 'Entity' },
         'concept__model__code': {'header' : 'Vue', 'type': 'CharField' , 'minWidth': 200 , 'flex': 1, 'fieldLabel' : 'Vue', 'cellLink' : True },  
         'concept__model__category' : { 'fieldLabel' : 'Category' },                             
+
+        'description': { 'storeOnly': True ,'header' : 'Description', 'type': 'CharField' },
+        'concept__code': { 'storeOnly': True ,'header' : 'Concept', 'type': 'CharField' , 'minWidth': 200, 'flex': 1 , 'fieldLabel' : 'Entity' },
           
         'isNullable':{ 'header' : 'Is null' , 'type' : 'bool'},
         'isRequired':{ 'fieldLabel' : 'Is Required' , 'type' : 'bool'},
@@ -142,32 +148,20 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     TEMPLATE = '<table class="ficha" cellpadding="3">'
     TEMPLATE += '<tr class="azul"><td class="negro">Nom de l\'élément de donnée: </td><td>{{code}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro"> Nom de la vue de l\'élément de donnée:</td><td>{{concept__model__code}}</td></tr>'
-    TEMPLATE += '<tr class="azul"><td class="negro"> Document de référence: </td><td class="desc">{{udp__DOCUMENTDEREFERENCE}}</td></tr>'
-    TEMPLATE += '<tr class="blanco"><td class="negro">Description: </td><td class="desc">{{description}}</td></tr>'
-    
-    TEMPLATE += '<tr class="azul"><td class="negro">Alias: </td><td class="desc">{{alias}}</td></tr>'
-    TEMPLATE += '<tr class="blanco"><td class="negro">Type de donnée: </td><td class="desc">{{baseType}}</td></tr>'
-    TEMPLATE += '<tr class="azul"><td class="negro">Longueur: </td><td class="desc">{{prpLength}}</td></tr>'
-    TEMPLATE += '<tr class="blanco"><td class="negro">Valeur nulle possible (oui,non)</td><td class="desc">{{isNullable}}</td></tr>'
-    TEMPLATE += '<tr class="azul"><td class="negro">Gabarit: </td><td class="desc">{{udp__GABARIT}}</td></tr>'
-    TEMPLATE += '<tr class="blanco"><td class="negro">Domaine de valeurs: </td><td class="desc">{{udp__DOMAINEDEVALEURS}}</td></tr>'
-    TEMPLATE += '<tr class="azul"><td class="negro">Statut élément de donnée:</td><td class="desc">{{udp__STATUTELEMENTDEDONNEE}}</td></tr>'
+    TEMPLATE += '<tr class="azul"><td class="negro">Description: </td><td class="desc">{{description}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Statut élément de donnée:</td><td class="desc">{{udp__STATUTELEMENTDEDONNEE}}</td></tr>'
     TEMPLATE += '</table>'
 
     TEMPLATE_DEFAULT = TEMPLATE 
-
 
     TEMPLATE = '<table class="ficha" cellpadding="3">'
     TEMPLATE += '<tr class="azul"><td class="negro">Nom de l\'élément de donnée: </td><td>{{code}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro"> Nom de la vue de l\'élément de donnée:</td><td>{{concept__model__code}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Description: </td><td class="desc">{{description}}</td></tr>'
-    
-    TEMPLATE += '<tr class="blanco"><td class="negro">Domaine de valeurs: </td><td class="desc">{{udp__DOMAINEDEVALEURS}}</td></tr>'
-    TEMPLATE += '<tr class="azul"><td class="negro">Statut élément de donnée:</td><td class="desc">{{udp__STATUTELEMENTDEDONNEE}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Statut élément de donnée:</td><td class="desc">{{udp__STATUTELEMENTDEDONNEE}}</td></tr>'
     TEMPLATE += '</table>'
 
-    TEMPLATE_AT = TEMPLATE 
-
+    TEMPLATE_ATELEM = TEMPLATE
     
     protoExt[ 'protoSheets' ] =  {        
           'DEFAULT' : {                        
@@ -176,7 +170,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
               },
           'AT' : {                        
               'title'   : "Fiche descriptive de l'élément de donnée - AT",                        
-              'template': TEMPLATE_AT  
+              'template': TEMPLATE_ATELEM
               },
           'CN' : {                        
               'title'   : "Fiche descriptive de l'élément de donnée - Cadre Normatif",                        

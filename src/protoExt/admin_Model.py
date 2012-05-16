@@ -41,8 +41,8 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
     protoExt = {'protoIcon' : 'model',  }
 
 #   Esta es la lista de cmapos visibles en la grilla      
-    protoExt[ 'listDisplay' ] = ( 'code',  
-        'udp__DescriptionModele', 
+    protoExt[ 'listDisplay' ] = ( 'code',  'category', 
+        'udp__Descriptionmodele', 
 #        'udp__ActeurPrincipal',
 #        'udp__AutresActeurs',
 #        'udp__IntrantsDeclencheurs'
@@ -77,26 +77,96 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
          'masterField': 'pk', 
          'detailTitleLbl': ' ',
          'detailTitlePattern': 'code'}, 
+
+         {'menuText': 'UDPs ', 
+          'conceptDetail': 'protoExt.Udp', 
+          'detailField': 'metaObj__pk', 
+          'masterField': 'pk'}, 
         ]
 
 #   Estos son todos los campos de mi modelo ( store ) 
     protoExt[ 'protoFields' ] =  {        
         'code': {'header' : 'Vues', 'type': 'CharField' ,  'width': 200, 'flex': 1 },  
-        'category': {'storeOnly': True },
-
-        'udp__DescriptionModele': { 'header' : 'Description Modele', 'type': 'text' ,  'flex': 2 },
+        'udp__Descriptionmodele': { 'header' : 'Description Modele', 'type': 'text' ,  'flex': 2 },
         'udp__ActeurPrincipal': { 'header' : 'Acteur Princ', 'wordWrap': True , 'flex': 1  },
         'udp__AutresActeurs': { 'header' : 'Autres acteurs', 'cellToolTip' : True , 'flex': 1  },
         'udp__IntrantsDeclencheurs': { 'header' : 'Intrants Declan' , 'wordWrap': True , 'flex': 1 },
 
-        'udp__Auteur ': { 'header' : 'Auteur' , 'flex': 1 },
-        'udp__Version ': { 'header' : 'Version' , 'flex': 1 },
+        'udp__Auteurmodele' : { 'header' : 'Auteur' , 'flex': 1 },
+        'udp__Version': { 'header' : 'Version' , 'flex': 1 },
+
+        'udp__Categorie':     { 'header' : 'Catégorie' , 'flex': 1 },
+        'udp__Souscategorie': { 'header' : 'Sous-Catégorie' , 'flex': 1 },
      }
 
 
+#     ------------------------------------------------------------------------------------
 
+    TEMPLATE = '<table class="ficha" cellpadding="3">'
+    TEMPLATE += '<tr class="azul"><td class="negro">Nom de la vue: </td><td>{{code}}</td></tr>'
+    TEMPLATE += '<tr class="azul"><td class="negro">Catégorie: </td><td>{{udp__Categorie}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Sous-Catégorie:</td><td>{{udp__Souscategorie}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Auteur de la vue:</td><td>{{udp__Auteurmodele}}</td></tr>'
+    TEMPLATE += '<tr class="azul"><td class="negro">Version de la vue: </td><td>{{udp__Version}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Description: </td><td class="desc">{{udp__Descriptionmodele}}</td></tr>'
+    
+    TEMPLATE += '<tr class="azul"><td class="negro">Acteur principal: </td><td>{{udp__ActeurPrincipal}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Autres acteurs: </td><td>{{udp__AutresActeurs}}</td></tr>'
+    TEMPLATE += '<tr class="azul"><td class="negro">Intrants declencheurs: </td><td>{{udp__IntrantsDeclencheurs}}</td></tr>'
+    TEMPLATE += '</table>'
+    
+    TEMPLATE_AT = TEMPLATE
+    
+    TEMPLATE = '<table class="ficha" cellpadding="3">'
+    TEMPLATE += '<tr class="azul"><td class="negro">Nom de la vue: </td><td>{{code}}</td></tr>'
+    TEMPLATE += '<tr class="azul"><td class="negro">Catégorie: </td><td>{{udp__Categorie}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Sous-Catégorie:</td><td>{{udp__Souscategorie}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Auteur de la vue:</td><td>{{udp__Auteurmodele}}</td></tr>'
+    TEMPLATE += '<tr class="azul"><td class="negro">Version de la vue: </td><td>{{udp__Version}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Description: </td><td class="desc">{{udp__Descriptionmodele}}</td></tr>'
+    TEMPLATE += '</table>'
+    
+    TEMPLATE_corporative = TEMPLATE
+    
+    TEMPLATE = '<table class="ficha" cellpadding="3">'
+    TEMPLATE += '<tr class="azul"><td class="negro">Nom de la vue: </td><td>{{code}}</td></tr>'
+    TEMPLATE += '<tr class="azul"><td class="negro">Catégorie: </td><td>{{udp__Categorie}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Sous-Catégorie:</td><td>{{udp__Souscategorie}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Auteur de la vue:</td><td>{{udp__Auteurmodele}}</td></tr>'
+    TEMPLATE += '<tr class="azul"><td class="negro">Version de la vue: </td><td>{{udp__Version}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro">Description: </td><td class="desc">{{udp__Descriptionmodele}}</td></tr>'
+    TEMPLATE += '</table>'
+    
+    TEMPLATE_locale = TEMPLATE    
 
-#   -------------------------------------------------------------------------------------------------
+    protoExt[ 'protoSheetProperties' ] = (   'code',
+                            'udp__Categorie',
+                            'udp__Souscategorie',
+                            'udp__Auteurmodele',
+                            'udp__Version',
+                            'udp__Descriptionmodele',
+                            'udp__ActeurPrincipal', 
+                            'udp__AutresActeurs',
+                            'udp__IntrantsDeclencheurs',
+                            )
+
+    protoExt[ 'protoSheetSelector' ] = 'udp__Categorie'
+    protoExt[ 'protoSheets' ] =  {        
+          'DEFAULT' : {                        
+              'title'   : "Fiche descriptive des vues corporatives",                        
+              'template': TEMPLATE_corporative  
+              },
+          'AT' : {                        
+              'title'   : "Fiche descriptive des actions terraines",                        
+              'template': TEMPLATE_AT  
+              },
+          'locale' : {                        
+              'title'   : "Fiche descriptive des vues locales",                         
+              'template': TEMPLATE_locale  
+              }
+            } 
+
+#     -------------------------------------------------------------------------------------------------
 
     protoExt['protoFilters'] = []
     protoExt['protoFilters'].append ( 

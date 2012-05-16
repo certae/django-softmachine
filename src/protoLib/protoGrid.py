@@ -242,7 +242,10 @@ def Q2Dict (  storeFields, pRows , cUDP ):
                     if isinstance( val,models.Model): 
                         val = verifyStr(val , '' )
                 except: val = 'vr?'
-            
+                
+                # Evita el valor null en el el frontEnd 
+                if val is None: val = ''
+                
             rowdict[ fName ] = val
             
         

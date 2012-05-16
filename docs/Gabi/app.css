@@ -1,0 +1,231 @@
+
+.title {
+    font-family: Arial, sans-serif;
+    color: #596F8F;
+    font-size: 22px;
+    font-weight: 200;
+    padding: 20px 15px 30px 200px;
+    text-shadow: 0 1px 0 #fff;
+    background: url(../img/logo.gif) no-repeat 1px 16px ;
+}
+
+.subtitle {
+    font-size: 12px;
+    padding: 20px 15px 30px 200px;
+    color: #369;
+}
+
+.x-tree-selected {
+    font-weight: bold;
+}
+
+/*  Iconos del ToolBar */
+
+.icon-search24  { background-image: url(../img/protoImg/icon_search24.png ) !important; }
+.icon-filter24  { background-image: url(../img/protoImg/icon_filter24.png ) !important; }
+.icon-order24   { background-image: url(../img/protoImg/icon_order24.png ) !important;  }
+.icon-views24   { background-image: url(../img/protoImg/icon_views24.png ) !important;  }
+.icon-details24 { background-image: url(../img/protoImg/icon_details24.png ) !important;}
+.icon-print24   { background-image: url(../img/protoImg/icon_print24.png ) !important;}
+.icon-config24  { background-image: url(../img/protoImg/icon_config24.png ) !important;}
+.icon-edit24    { background-image: url(../img/protoImg/icon_edit24.png ) !important;}
+
+.icon-search     { background-image: url(../img/protoImg/icon_search16.png ) !important; }
+.icon-printGrid  { background-image: url(../img/protoImg/print_grid.png) !important;  }
+.icon-printSheet { background-image: url(../img/protoImg/print_sheet.png) !important; }
+
+.icon-promote { background-image: url(../img/protoImg/table_promote.png) !important; }
+
+/* Iconos Config - Edit */
+.icon-tableSheet        { background-image: url(../img/protoImg/print_sheet.png ) !important;}
+
+.icon-tableAutoSync     { background-image: url(../img/protoImg/edit_autosync.png ) !important;}
+.icon-tableSave         { background-image: url(../img/protoImg/edit_save.png ) !important;}
+.icon-tableCancel       { background-image: url(../img/protoImg/edit_cancel.png ) !important;}
+
+.icon-tableAdd          { background-image: url(../img/protoImg/table_row_insert.png ) !important;}
+.icon-tableDelete       { background-image: url(../img/protoImg/table_row_delete.png ) !important;}
+.icon-tableDuplicate    { background-image: url(../img/protoImg/table_row_copy.png ) !important;}
+.icon-tableEdit         { background-image: url(../img/protoImg/table_row_edit.png ) !important;}
+
+
+.icon-formAdd     	{ background-image: url(../img/protoImg/form_add.png ) !important;}
+.icon-formEdit      { background-image: url(../img/protoImg/form_edit.png ) !important;}
+.icon-formView      { background-image: url(../img/protoImg/form_view.png ) !important;}
+
+
+/*  Iconos Adv Sort  */
+.sort-desc { background-image: url(../img/protoImg/sort_desc.gif) !important; background-position: 4px 7px !important; }
+.sort-asc  { background-image: url(../img/protoImg/sort_asc.gif) !important; background-position: 4px 7px !important; }
+
+
+/*  Iconos Aplicacion  */
+.icon-model    { background-image: url(../img/app/model.png ) !important;}
+.icon-concept  { background-image: url(../img/app/concept.png ) !important;}
+.icon-property { background-image: url(../img/app/property.png ) !important;}
+
+
+
+/*  Iconos temporales */
+.icon-1 { background-image: url(../img/tmp/1.png ) !important; }
+.icon-2 { background-image: url(../img/tmp/2.png ) !important; }
+.icon-3 { background-image: url(../img/tmp/3.png ) !important; }
+.icon-4 { background-image: url(../img/tmp/4.png ) !important; }
+.icon-5 { background-image: url(../img/tmp/5.png ) !important; }
+.icon-6 { background-image: url(../img/tmp/6.png ) !important; }
+.icon-7 { background-image: url(../img/tmp/7.png ) !important; }
+
+
+/* Row Status  */
+.ROWST_NEW .x-grid-cell { background-color: #FFF98B !important; }
+.ROWST_ERR .x-grid-cell { background-color: #FFEAC9 !important; }
+
+
+/*Fiche */
+
+.negro {padding:5px;font-weight: bold; width:25%;vertical-align:top;}
+.desc {padding:5px;width:75%;text-align:justify;}
+.ficha {width:100%; border-style:none;} 
+
+/*.barra {width:100%;height:100%;overflow:auto;}*/
+
+.blanco{font:normal 12px tahoma, arial, verdana, sans-serif;background-color:white;border-color:#ededed;border-style:solid;border-width:1px 0;border-top-color:#fafafa}
+.azul  {font:normal 12px tahoma, arial, verdana, sans-serif;background-color:#fafafa;border-color:#ededed;border-style:solid;border-width:1px 0;border-top-color:white}
+
+
+/*.x-grid-row-alt .x-grid-cell,.x-grid-row-alt .x-grid-rowwrap-div{background-color:#fafafa}*/
+
+ul.cuadro {list-style-type:circle;font:normal 12px tahoma, arial, verdana, sans-serif; padding:0.5px;}
+.table_interieure{border-style: none;}
+.table_interieure th{
+	border-width:2px;
+	padding:3px;
+	border-style:solid;
+	border-bottom-color:gray;
+	border-top-color:#fafafa;
+	border-right-color:#fafafa;
+	border-left-color:#fafafa;
+	background-color:white;
+	font:normal 11px tahoma, arial, verdana, sans-serif;}
+
+.table_interieure td {border-width: thin;
+	padding:3px;
+	border-style:solid;
+	border-top-color:#fafafa;
+	border-right-color:#fafafa;
+	border-bottom-color:#ededed;
+	border-left-color:#fafafa;
+	background-color: white;
+	font:normal 11px tahoma, arial, verdana, sans-serif;text-align:justify;
+	vertical-align:top;}
+
+
+
+/*  CheckHeader.css */
+
+.x-grid-checkheader {
+    height: 14px;
+    background-image: url(../img/protoImg/unchecked.gif);
+    background-position: 50% -2px;
+    background-repeat: no-repeat;
+    background-color: transparent;
+}
+
+.x-grid-checkheader-checked { 
+    background-image: url(../img/protoImg/checked.gif);
+}
+
+.x-grid-checkheader-editor .x-form-cb-wrap {
+    text-align: center;
+}
+
+
+.x-grid-stopligth-red {
+    background-color:#FF7D7D ;
+}
+
+.x-grid-cell .x-grid-stopligth-yellow {
+	background-color:#FFE13D; 
+}
+
+.x-grid-stopligth-green {
+    background-color:#78FF78 ;
+}
+
+
+
+
+/*
+	These are examples of styles for the button icons (you must supply the icon files yourself)
+	
+	For nice icon sets, check out the following sites.
+	- http://www.famfamfam.com/
+	- http://code.google.com/p/fugue-icons/
+    - http://www.everaldo.com/crystal/
+    
+    See the notice.txt file in the images folder for possible licence conflicts with these images.
+    Some icons may be licenced under the Creative Commons licence - http://creativecommons.org/licenses/by/2.5/
+    
+    Some icons have been modified slightly from their source files, in which case the original authors license still applies.
+    
+*/
+.x-edit-wordpaste {background: url(../img/protoImg/edit-word-text.png) 0 0 no-repeat !important;}
+.x-edit-table {background: url(../img/protoImg/edit-table.png) 0 0 no-repeat !important;}
+.x-edit-hr {background: url(../img/protoImg/edit-rule.png) 0 0 no-repeat !important;}
+.x-edit-indent {background: url(../img/protoImg/edit-indent.png) 0 0 no-repeat !important;}
+.x-edit-char {background: url(../img/protoImg/edit-char.png) 0 0 no-repeat !important;}
+.x-edit-outdent {background: url(../img/protoImg/edit-outdent.png) 0 0 no-repeat !important;}
+.x-edit-subscript {background: url(../img/protoImg/edit-subscript.png) 0 0 no-repeat !important;}
+.x-edit-superscript {background: url(../img/protoImg/edit-superscript.png) 0 0 no-repeat !important;}
+.x-edit-removeFormat {background: url(../img/protoImg/edit-removeFormat.png) 0 0 no-repeat !important;}
+.x-edit-formatblock-h1 {background: url(../img/protoImg/edit-heading-h1.png) 0 0 no-repeat !important;}
+.x-edit-formatblock-h2 {background: url(../img/protoImg/edit-heading-h2.png) 0 0 no-repeat !important;}
+
+
+/*
+	These styles are used for the character map
+*/
+.char-item {
+	float: left; 
+	border: 1px solid #99BBE8; 
+	margin: 3px; 
+	text-align: center; 
+	vertical-align: middle; 
+	width: 20px; 
+	height: 20px; 
+	font-size: 14px;
+	color: #15428B;
+	cursor: pointer;
+}
+
+.char-item.x-item-selected {
+    background-color: #777;
+}
+
+.char-over {
+    border: 1px solid #15428B;
+    background-color:#d0def0;
+}
+
+
+/* Efecto visual de ReadOnly  DFE8F6  15428B FAFAD2  --------------- */
+
+.read-only{
+	background-color:#15428B !important; 
+}
+
+.x-item-disabled{
+/*  background: #DFE8F6;*/
+  opacity:1;
+  -moz-opacity:1;
+  filter: alpha(opacity=100);  
+}
+
+.x-protofield-readonly{
+  background: #DFE8F6 !important;
+  opacity:1 !important;
+  -moz-opacity:1 !important;
+  filter: alpha(opacity=100 !important);  
+}
+
+/*  --------------------------------------------------------------  */

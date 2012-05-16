@@ -166,7 +166,7 @@ INSTALLED_APPS = (
     'protoLib', 
     'protoExt', 
     'pruebas', 
-#    'django_qbe'
+    'django_qbe'
     # 'django.contrib.admindocs',
 )
 
