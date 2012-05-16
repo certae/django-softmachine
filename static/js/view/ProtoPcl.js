@@ -74,8 +74,9 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 	        multiSelect: false,
             stripeRows: true, 
 	        singleExpand: true,
+	        
 	        rowLines : true, 
-	        columnLines : true, 
+	        // columnLines : true, 
 
 			// TODO: Actions to create o destroy eltos  
 			tbar: [
@@ -96,7 +97,7 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 	        columns: [{
 	            xtype: 'treecolumn', //this is so we know which column will show the tree
 	            text: 'ptProperty',
-	            flex: 2,
+	            flex: 3,
 	            sortable: true,
 	            dataIndex: 'ptProperty'
 	        },{
@@ -146,7 +147,7 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 
         var panelItems =   [{
                 region: 'center',
-                flex: 1,
+                flex: 2,
                 layout: 'fit',
                 minSize: 50,
                 items: grid 
@@ -155,25 +156,57 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 
 
 		// TODO: Cargar la grilla de propiedades 	
-        var pSheetProps = myMeta.protoSheetProperties;
-        if (pSheetProps.length != 0 ) {
-            
-            this.IdeSheet = Ext.id();
-            panelItems.push( {
-                    region: 'east',
-                    // id: this.IdeSheet, 
-                 	// title: pSheetProps.title ,
-                    collapsible: true,
-                    collapsed: true ,
-                    split: true,
-                    flex: 1,
-                    layout: 'fit',
-                    minSize: 200,
-                    xtype: 'panel',
-                    autoScroll: true,
-                    border: false
+	    var propsGrid = Ext.create('Ext.grid.property.Grid', {
+	    	// Asigna los titulos a las propiedades 
+	        // propertyNames: { prop : 'title' }
+	        
+	        propertyNames: {
+	            tested: 'QA',
+	            borderWidth: 'Border Width'
+	        },
+	        source: {
+	            "(name)": "Properties Grid",
+	            "grouping": false,
+	            "autoFitColumns": true,
+	            "productionQuality": false,
+	            "created": Ext.Date.parse('10/15/2006', 'm/d/Y'),
+	            "tested": false,
+	            "version": 0.01,
+	            "borderWidth": 1
+	        }
+	        
+	    });		
+		
+        function setSource(){
+
+            propsGrid.setSource({
+                '(name)': 'Property Grid',
+                grouping: false,
+                autoFitColumns: true,
+                productionQuality: true,
+                created: new Date(),
+                tested: false,
+                version: 0.8,
+                borderWidth: 2
             });
-        } 
+        }
+    
+            
+        this.IdeSheet = Ext.id();
+        panelItems.push( {
+                region: 'east',
+                // id: this.IdeSheet, 
+             	// title: pSheetProps.title ,
+                collapsible: true,
+                collapsed: true ,
+                split: true,
+                flex: 1,
+                layout: 'fit',
+                minSize: 200,
+                items : propsGrid,
+                // autoScroll: true,
+                border: false
+        });
         
 //-----------        
 
@@ -271,6 +304,9 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 		
 			var tData = {}
 		    var sDataType = typeOf(oData);
+
+			// TODO: Id's para los objetos mas importantes 
+        	var idFields  = Ext.id();
 		
 		
 			// Solo deben entrar objetos o arrays 
@@ -281,7 +317,7 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 				tData['ptProperty']  =  pName    
 				tData['ptType'] =  pType 
 				tData['children'] =  [] 
-		
+
 				if ( sDataType == "object" ) {
 					// Si es un objeto hay una propiedad q servira de titulo 
 					if ( oData['protoOption'] ) {
