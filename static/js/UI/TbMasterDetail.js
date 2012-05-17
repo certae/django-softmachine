@@ -33,12 +33,14 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         var ideTbViews = Ext.id();
         var ideTbPrint = Ext.id();
         var ideTbEdit = Ext.id();
+        var ideTbConfig = Ext.id();
 
         // Id en la Barra principal 
         // var ideBtOrder = Ext.id();
         var ideBtDetails = Ext.id();
         var ideBtFilter = Ext.id();
         var ideBtViews = Ext.id();
+        var ideBtConfig = Ext.id();
 
         // Reorder obj 
         var reorderer = Ext.create('Ext.ux.BoxReorderer', {
@@ -95,6 +97,11 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 iconCls: 'icon-views24',
                 idTb2  : ideTbViews,
                 id     : ideBtViews
+            },'-',{
+                text: 'Config',
+                iconCls: 'icon-config24',
+                idTb2  : ideTbConfig,
+                id     : ideBtConfig
             }]
         
         });
@@ -124,6 +131,9 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                     xtype: 'buttongroup'
                 },{
                     id : ideTbViews, 
+                    xtype: 'buttongroup'
+                },{
+                    id : ideTbConfig, 
                     xtype: 'buttongroup'
                 }]
             });
@@ -521,6 +531,44 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
               __MasterDetail.protoMasterGrid.configureColumns(btn.protoView);
             
         }
+
+// ------------------------------------------------------------------------------------------------
+
+        var tbConfig = Ext.getCmp( ideTbConfig )
+        tbConfig.add({
+            xtype: 'tbtext',
+            iconCls : 'icon-config', 
+            text: '<b>Config :<b>'
+        }, {
+            iconCls : 'icon-configMeta', 
+            text:       'Meta',
+            handler:    onClickConfigMeta
+        }, {
+            iconCls : 'icon-configForm', 
+            text:       'Form',
+            handler:    onClickConfigForm
+        }, {
+            iconCls : 'icon-configFields', 
+            text:       'Fields',
+            handler:    onClickConfigFields
+        }); 
+
+
+        function onClickConfigMeta( btn ){
+    
+              __MasterDetail.protoMasterGrid.showMetaConfig();
+            
+        };
+
+        function onClickConfigForm( btn ){
+    
+        };
+
+        function onClickConfigFields( btn ){
+    
+        }
+        
+
 
 
 // ------------------------------------------------------------------------------------------------

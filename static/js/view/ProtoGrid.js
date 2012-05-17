@@ -167,7 +167,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 		        handler: this.saveChanges 
 		     },{
 		        type: 'gear',
-		        handler: showMetaConfig,
+				scope: this,
+		        handler: this.showMetaConfig,
 		        tooltip: 'Meta Config ... '
 		     },{
 		        type: 'gear',
@@ -462,31 +463,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 // ---------------------------------------------------------------------------------------------- 
         
-        function showMetaConfig() {
-
-			var myPcl = Ext.widget('protoPcl', {
-				myMeta : me.myMeta 
-			});
-
-	         var myWin  = Ext.widget('window', {
-	        	constrain: true, 
-				title : me.myMeta.description,
-	            closeAction: 'hide',
-	            width: 800,
-	            height: 600,
-	            minHeight: 400,
-	            minWidth: 400,
-	            layout: 'fit',
-	            resizable: true,
-	            modal: true,
-	            items: myPcl
-	        });
-        	
-        	myWin.show()
-        	
-        	// var safeConf =  clone( myMeta , 0, exclude =['dict','gridDefinition', 'formDefinition'] )
-        	// showConfig( 'MetaConfig', safeConf )
-        }
 
         function showColsConfig() {
         	var safeConf =  clone( myColumns )
@@ -765,6 +741,33 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 	        grid.store.loadPage(1);
 	    }
     	 
-	} 
+	},
+	
+    showMetaConfig: function() {
+
+		var myPcl = Ext.widget('protoPcl', {
+			myMeta : this.myMeta 
+		});
+
+         var myWin  = Ext.widget('window', {
+        	constrain: true, 
+			title : this.myMeta.description,
+            closeAction: 'hide',
+            width: 800,
+            height: 600,
+            minHeight: 400,
+            minWidth: 400,
+            layout: 'fit',
+            resizable: true,
+            modal: true,
+            items: myPcl
+        });
+    	
+    	myWin.show()
+    	
+    	// var safeConf =  clone( myMeta , 0, exclude =['dict','gridDefinition', 'formDefinition'] )
+    	// showConfig( 'MetaConfig', safeConf )
+    }
+	 
 
 });

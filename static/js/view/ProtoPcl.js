@@ -67,6 +67,12 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 	        // autoCancel: false
 	    // });
 
+
+	    var cellEditing = Ext.create('Ext.grid.plugin.CellEditing', {
+	        clicksToEdit: 2
+	    });
+
+
 		var grid = Ext.create('Ext.tree.Panel', {
 	        store: myStore,
 	        useArrows: true,
@@ -77,6 +83,10 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 	        
 	        rowLines : true, 
 	        // columnLines : true, 
+	       
+	        
+	        // TODO CellEditing 
+       		plugins: [cellEditing], 	        
 
 			// TODO: Actions to create o destroy eltos  
 			tbar: [
@@ -102,13 +112,15 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 	            dataIndex: 'ptProperty'
 	        },{
 	            text: 'ptType',
-	            sortable: true,
 	            dataIndex: 'ptType'
 	        },{
 	            text: 'ptValue',
 	            flex: 2,
 	            dataIndex: 'ptValue',
-	            sortable: true
+	            sortable: true, 
+	            editor: {
+		        	allowBlank: false
+	            }
 	        }], 
 
 
@@ -313,6 +325,13 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 			if (sDataType == "object"  ||  sDataType == "array")  {
 		
 				if ( ! pType  ) pType = sDataType
+				
+				
+				// La pcl debe abrirse 
+				if ( pName == 'pcl' ) {
+					tData['expanded'] = true 					
+				} 
+				
 				
 				tData['ptProperty']  =  pName    
 				tData['ptType'] =  pType 

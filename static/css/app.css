@@ -53,6 +53,10 @@
 .icon-formEdit      { background-image: url(../img/protoImg/form_edit.png ) !important;}
 .icon-formView      { background-image: url(../img/protoImg/form_view.png ) !important;}
 
+.icon-configMeta    { background-image: url(../img/protoImg/config_meta.png ) !important;}
+.icon-configForm    { background-image: url(../img/protoImg/config_form.png ) !important;}
+.icon-configFields  { background-image: url(../img/protoImg/config_fields.png ) !important;}
+
 
 /*  Iconos Adv Sort  */
 .sort-desc { background-image: url(../img/protoImg/sort_desc.gif) !important; background-position: 4px 7px !important; }
