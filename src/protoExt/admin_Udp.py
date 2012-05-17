@@ -8,7 +8,7 @@ class UdpAdmin(django.contrib.admin.ModelAdmin):
 
 #   N'est pas inclu dans le menu 
     protoExt = {}
-    protoExt[ 'protoMenuIx' ] = -1 
+#    protoExt[ 'protoMenuIx' ] = -1 
     protoExt[ 'description' ] = 'Esta es la description del concpeto concepto'
     
 
