@@ -14,7 +14,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
 
     protoExt[ 'searchFields' ] = ( 'code', 'concept__model__code' ) 
     protoExt[ 'sortFields' ] = ( 'code', 'concept__model__code' )
-    protoExt[ 'protoFilterBase' ] = { 'isForeign': False  }
+    protoExt[ 'baseFilter' ] = { 'isForeign': False  }
     
     # Valores iniciales ( initialFilter maneja el autoload )   
     protoExt[ 'initialSort' ] = ( 'code', 'concept__model__code', ) 
@@ -154,20 +154,20 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
 
     TEMPLATE_ATELEM = TEMPLATE
     
-    protoExt[ 'protoSheets' ] =  [        
-          {'code':'DEFAULT' ,                        
+    protoExt[ 'protoSheets' ] =  {        
+          'DEFAULT' : {                        
               'title'   : "Fiche descriptive de l'élément de donnée",                        
               'template': TEMPLATE_DEFAULT  
               },
-          {'code':'AT' ,                         
+          'AT' : {                        
               'title'   : "Fiche descriptive de l'élément de donnée - AT",                        
               'template': TEMPLATE_ATELEM
               },
-          {'code': 'CN',                         
+          'CN' : {                        
               'title'   : "Fiche descriptive de l'élément de donnée - Cadre Normatif",                        
               'template': TEMPLATE_CN  
               }
-            ] 
+            } 
 
 #    protoExt['listDisplaySet'] = [
 #            { 'viewName': 'default', 
@@ -178,17 +178,17 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
 #                        ]
 
 
-    protoExt['protoFilters'] = []
+    protoExt['filtersSet'] = []
     for nFiltre in ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']:
     
-        protoExt['protoFilters'].append ( 
+        protoExt['filtersSet'].append ( 
                 { 'filterName': nFiltre, 
                   'filter': { 'code__istartswith': nFiltre }, 
 #                 'icon' : 'icon-?'
                   }
         ) 
 
-    protoExt['protoFilters'].append ( 
+    protoExt['filtersSet'].append ( 
                 { 'filterName': ' Tous ', 
                   'filter': {}, 
                   }

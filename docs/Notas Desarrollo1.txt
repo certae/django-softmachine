@@ -1,37 +1,58 @@
 
-initialConfig 
+Lo q se guarda siempre es protoConcept,  
 
-	initialSort 
-	initialSearch 
-
-
-Eliminar store fields
+ProtoOption contiene todo,  el frontEnd se encarga de la vista,
 
 
-	getVisibleFields usa store fields 
-		No deberia, request debe traer searchFields, si no usa todos los campos del modelo. 
-
-		reemplazado por getSearcheableFields 
-
-
-Verificar la requete debe traer siempre searchFields 
-Cambiarlo en Q2
-
-En la carga de la requete verificar siempre la info en Db y verificar si deber cargar directamente de codigo Djnagi 
-
-
-------------------
-Q2Dict(protostoreFields , [rec], cUDP )[0]
-
-debe cambiar a : 
-Q2Dict(protoMeta , [rec]  )[0]
-
-baseFilter  Rvisar 
-
-hiddenFields 
-
-Conf de Cols y Vistas ??  cual es cual ?? 
 
 Relocalizacion de propiedades, 
 
+    protoMeta = { 
+         'protoOption' : protoOption,           
+         'idProperty': id_field,
+         'shortTitle': grid.protoAdmin.get( 'title', grid.title),
+         'description': pDescription ,
+         'protoIcon': protoIcon,
+         'helpPath': grid.protoAdmin.get( 'helpPath',''),
 
+         'fields': grid.fields, 
+
+        # Config de la grilla
+         'gridConfig' : {
+             'hideRowNumbers' : grid.protoAdmin.get( 'hideRowNumbers',False),  
+
+             'initialSort': sortInfo,
+
+             # Si no es autoload  -  '{"pk" : 0,}'            
+             'initialFilter': grid.protoAdmin.get( 'initialFilter', {}),
+             'baseFilter': grid.protoAdmin.get( 'baseFilter', {}),
+             'filtersSet': grid.protoAdmin.get( 'filtersSet', []),
+
+             'listDisplay' : grid.protoListDisplay,  
+             'listDisplaySet':grid.protoAdmin.get( 'listDisplaySet', []) ,     
+
+             # En las protoViews existiran tambien las propiedades de campos ( y formas ) 
+             'readOnlyFields' : grid.protoReadOnlyFields,
+             'searchFields': pSearchFields, 
+             'sortFields': pSortFields, 
+             
+             # TODO: Implementar  ( El listDisplay podra contener propiedades, hidden, flex, width,  ... 
+             'hiddenFields': grid.protoAdmin.get( 'hiddenFields', []),
+         },
+
+
+        # Propiedades extendidas   
+         'protoDetails': grid.get_details() , 
+         'protoForm': grid.getFieldSets(), 
+         'protoUdp': grid.protoAdmin.get( 'pUDP', {}), 
+
+        # Vistas heredadas del modelo base, zooms,  etc ... 
+         'protoViews': grid.protoAdmin.get( 'protoViews', {}), 
+         
+        # sheet html asociada ( diccionario MSSSQ  )  
+         'sheetsConfig' : {
+            'protoSheets' : grid.protoAdmin.get( 'protoSheets', {} ), 
+            'protoSheetSelector' : grid.protoAdmin.get( 'protoSheetSelector', ''), 
+            'protoSheetProperties' : grid.protoAdmin.get( 'protoSheetProperties', ()), 
+             }, 
+         }

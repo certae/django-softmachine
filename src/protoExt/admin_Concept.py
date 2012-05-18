@@ -69,17 +69,17 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
               'viewFields': ( 'model__code', 'code',  )},
                                 ]
 
-    protoExt['protoFilters'] = []
+    protoExt['filtersSet'] = []
     for nFiltre in ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']:
     
-        protoExt['protoFilters'].append ( 
+        protoExt['filtersSet'].append ( 
                 { 'filterName': nFiltre, 
                   'filter': { 'code__istartswith': nFiltre }, 
 #                 'icon' : 'icon-?'
                   }
         ) 
 
-    protoExt['protoFilters'].append ( 
+    protoExt['filtersSet'].append ( 
                 { 'filterName': ' Tous ', 
                   'filter': {}, 
                   }

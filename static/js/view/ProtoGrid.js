@@ -49,26 +49,31 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         // VErifica si el store viene como parametro ( Detail )
         var myFilter = '';
-        if (typeof this.protoFilterBase == 'undefined') {
-            // DGT: Agregar parametro Autoload  -  '{"pk" : 0,}'            
-            myFilter = myMeta.initialFilter;
+        
+        // if (typeof this.baseFilter == 'undefined') {
+        // FIX: Verificar q si lo hace bien 
+        if ( ! this.baseFilter ) {
+            myFilter = myMeta.gridConfig.initialFilter;
             myFilter = Ext.encode(myFilter);
         }   
         
         //console.log (  this.protoConcept, ' Loading store ...  '  ); 
 
-
+		// prepara la meta 
+		var excludeP = ['dict', 'protoForm', 'sheetsConfig', 'protoViews', 'protoDetails']
+    	var safeMeta =  clone( myMeta, 0, excludeP );
+    	
 		var storeDefinition =  {
             modelName : this.protoConcept, 
             autoLoad: this.autoLoad || true, 
             pageSize: _PAGESIZE,
-            sorters: myMeta.initialSort, 
+            sorters: myMeta.gridConfig.initialSort, 
 
         	//  proxy.extraParams = {
             protoConcept : this.protoConcept,
             protoFilter : myFilter,
-            protoFilterBase: this.protoFilterBase, 
-            searchFields  : Ext.encode( myMeta.searchFields ) 
+            baseFilter: this.baseFilter, 
+            sProtoMeta  : Ext.encode( safeMeta )    
         };
 
         me.store = getStoreDefinition( storeDefinition )
@@ -86,7 +91,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         var myColumns = [];
 
         // DGT adding RowNumberer  
-        if ( ! myMeta.hideRowNumbers ) {
+        if ( ! myMeta.gridConfig.hideRowNumbers ) {
         	// myColumns.push(Ext.create('Ext.grid.RowNumberer',{"width":37, "draggable":false}));
         	myColumns.push( this._getRowNumberDefinition() )
         }
@@ -106,7 +111,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         var gridColumns =  myColumns;
         
         // Vista por defecto
-        var myDefaultCols = myMeta.listDisplay;
+        var myDefaultCols = myMeta.gridConfig.listDisplay;
         if ( myDefaultCols.length > 0 ) {
             try {  gridColumns = this.getViewColumns( myDefaultCols ); 
             } catch(e) {}
@@ -284,7 +289,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 // --------------------------------------------------------------------------------
 
-        var pSheetProps = myMeta.protoSheetProperties;
+        var pSheetProps = myMeta.sheetsConfig.protoSheetProperties;
         if (pSheetProps.length != 0 ) {
             
             this.IdeSheet = Ext.id();
@@ -484,14 +489,14 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         function prepareSheet( ){
 
-            var pSheetProps = myMeta.protoSheetProperties;
+            var pSheetProps = myMeta.sheetsConfig.protoSheetProperties;
             if (pSheetProps.length == 0 ) {
               return;  
             }
 
-            var pSheets = myMeta.protoSheets;
+            var pSheets = myMeta.sheetsConfig.protoSheets;
             
-            var pSheetSelector = myMeta.protoSheetSelector;
+            var pSheetSelector = myMeta.sheetsConfig.protoSheetSelector;
             var pSheetCriteria = _pGrid.rowData[ pSheetSelector ] 
             var pSheet = undefined;  
             
@@ -543,7 +548,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         	
             __TabContainer.addTabPanel(
                    _pGrid.store.protoConcept , 
-                   _pGrid.store.getProxy().extraParams.protoFilterBase, 
+                   _pGrid.store.getProxy().extraParams.baseFilter, 
                    detailSubTitle 
                ); 
             
@@ -569,7 +574,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     getViewColumns: function (  viewCols  ) {
         
         var vColumns = [];
-        if ( ! this.myMeta.hideRowNumbers ) {
+        if ( ! this.myMeta.gridConfig.hideRowNumbers ) {
         	vColumns.push( this._getRowNumberDefinition());
         }; 
         
@@ -609,8 +614,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     	
     	if ( me.detailTitle ) {
     		gridTitle = '" ' + me.detailTitle + ' "' 
-    	} else if ((me.protoIsDetailGrid != true ) && ( me.protoFilterBase != undefined ) ) { 
-    		gridTitle = me.protoFilterBase  
+    	} else if ((me.protoIsDetailGrid != true ) && ( me.baseFilter != undefined ) ) { 
+    		gridTitle = me.baseFilter  
     	};
         
     	if ( me.protoLocalFilter ) {
@@ -745,8 +750,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 	
     showMetaConfig: function() {
 
+    	var safeMeta =  clone( this.myMeta, 0, [ 'dict' ] );
+
 		var myPcl = Ext.widget('protoPcl', {
-			myMeta : this.myMeta 
+			myMeta : safeMeta 
 		});
 
          var myWin  = Ext.widget('window', {

@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 
+#  ESTO MANEJARA  LA ACTUALIZACION DE LA PCL  Y LAS RUTINAS COMPLEMENTARIAS 
+#  CARGAR LA JERARQUIA DE CAMPOS  ( ARBOL EXPANDIENDO LOS FKEY ) 
+#  REGISTRAR LAS OPCIONES PARA PODER MANEJAR EL SITEMAP ( MENU )  
+
 # Importa el sitio con las collecciones admin ya definidas 
 from django.contrib.admin.sites import  site
 from django.conf import settings
 from django.http import HttpResponse
 
-from protoGrid import getProtoViewObj
+from protoGetPci import getProtoViewObj
 
 import django.utils.simplejson as json
 
@@ -79,7 +83,8 @@ def protoGetFields(request):
         getMenuItem( protoAdmin, model, menuNode )
          
         if protoViews: 
-            # si existen vistas,  carga una opcion de menu para cada una             
+            # si existen vistas,  carga una opcion de menu para cada una
+            # TODO: Cargarlas tambien de la Db              
             for view in protoViews: 
                 menuNode = model._meta.object_name + '.' + view
                 protoOpcion =  getProtoViewObj( protoAdmin, view   )

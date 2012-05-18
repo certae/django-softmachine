@@ -225,7 +225,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         function configureOrderTab (  ){
             for (var i = 0, len = myMeta.fields.length; i < len; i++) {
                 var c = myMeta.fields[i];
-                if ( c.name in oc( myMeta.sortFields)  ) { 
+                if ( c.name in oc( myMeta.gridConfig.sortFields)  ) { 
 
                     orderTbar.add(createSorterButtonConfig({
                         text: c.header,
@@ -497,7 +497,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             var bHide = true; 
 
             // Agrega la vista por defecto 
-            var myDefaultCols = myMeta.listDisplay;
+            var myDefaultCols = myMeta.gridConfig.listDisplay;
             if ( myDefaultCols.length > 0 ) {
                 tbViews.add({
                     text:       _defaultViewText,
@@ -507,7 +507,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 });
             }
             
-            var pViews = myMeta.listDisplaySet;
+            var pViews = myMeta.gridConfig.listDisplaySet;
             for (var vDet in pViews) {         
                 tbViews.add({
                     text:       pViews[vDet].viewName,
@@ -680,7 +680,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         function configureProtoFilter(){
 
             var bHide = true; 
-            var pFilters = myMeta.protoFilters;
+            var pFilters = myMeta.gridConfig.filtersSet;
             for (var vDet in pFilters) {         
                 tbFilter.add({
                     text:           pFilters[vDet].filterName,

@@ -117,7 +117,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
 
             for (var i = 0, len = myMeta.fields.length; i < len; i++) {
                 var c = myMeta.fields[i];
-                if ( c.name in oc( myMeta.searchFields)  ) { 
+                if ( c.name in oc( myMeta.gridConfig.searchFields)  ) { 
                     colData[j] = [c.name, c.header];
                     j += 1;
                 }    

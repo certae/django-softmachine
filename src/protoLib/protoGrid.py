@@ -28,8 +28,6 @@ class ProtoGridFactory(object):
         self.model_admin = site._registry.get( model )
 
         self.protoAdmin = getattr(self.model_admin, 'protoExt', {})
-        self.protoAdmin =  getProtoViewObj( self.protoAdmin, view   )
-        
         self.protoFields = self.protoAdmin.get( 'protoFields', {}) 
 
 
@@ -312,25 +310,4 @@ def getProtoViewName( protoConcept   ):
     
     return protoConcept, view 
 
-def getProtoViewObj( protoAdmin, view   ):
-#   Copia las propiedades de la vista en el protoAdmin 
-
-    protoView = {}
-    if view:
-        # intenta leer la definicion de la vista             
-        protoViews  = protoAdmin.get( 'protoViews', {})
-        if protoViews:  
-            protoView  = protoViews.get(  view, {})
-
-    if protoView:
-        protoCopy = protoAdmin.copy()
-        for key in protoView: 
-            # evitar recursividad en vistas 
-            if key == 'protoViews': continue 
-            protoCopy[ key ] = protoView[ key ]
-          
-        return protoCopy
-
-    else: 
-        return protoAdmin
 

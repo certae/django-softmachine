@@ -135,44 +135,44 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                             )
 
     protoExt[ 'protoSheetSelector' ] = 'udp__Categorie'
-    protoExt[ 'protoSheets' ] =  [        
-          {'code': 'DEFAULT', 
-           'title'   : "Fiche descriptive des vues corporatives",                        
-            'template': TEMPLATE_corporative  
-            },
-          {'code': 'AT',                         
-           'title'   : "Fiche descriptive des actions terraines",                        
-           'template': TEMPLATE_AT  
-           },
-          {'code': 'locale',                         
-           'title'   : "Fiche descriptive des vues locales",                         
-           'template': TEMPLATE_locale  
-           }
-    ]
+    protoExt[ 'protoSheets' ] =  {        
+          'DEFAULT' : {                        
+              'title'   : "Fiche descriptive des vues corporatives",                        
+              'template': TEMPLATE_corporative  
+              },
+          'AT' : {                        
+              'title'   : "Fiche descriptive des actions terraines",                        
+              'template': TEMPLATE_AT  
+              },
+          'locale' : {                        
+              'title'   : "Fiche descriptive des vues locales",                         
+              'template': TEMPLATE_locale  
+              }
+            } 
      
 
 #     -------------------------------------------------------------------------------------------------
 
-    protoExt['protoFilters'] = []
-    protoExt['protoFilters'].append ( 
+    protoExt['filtersSet'] = []
+    protoExt['filtersSet'].append ( 
                 { 'filterName': 'Vue AT', 
                   'filter': { 'code__istartswith': 'AT'}, 
                   }
         ) 
 
-    protoExt['protoFilters'].append ( 
+    protoExt['filtersSet'].append ( 
                 { 'filterName': 'Vue corportative', 
                   'filter': { 'code__istartswith': 'Vue Corporative'}, 
                   }
         ) 
 
-    protoExt['protoFilters'].append ( 
+    protoExt['filtersSet'].append ( 
                 { 'filterName': 'Vue locale', 
                   'filter': { 'code__istartswith': 'Vue locale'}, 
                   }
         ) 
 
-    protoExt['protoFilters'].append ( 
+    protoExt['filtersSet'].append ( 
                 { 'filterName': ' Tous ', 
                   'filter': {}, 
                   }

@@ -23,11 +23,11 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
         this.callParent();
     },
     
-    addTabPanel: function( protoConcept, protoFilterBase , detailTitle  ){
+    addTabPanel: function( protoConcept, baseFilter , detailTitle  ){
 
     	var myMeta = _cllPCI[ protoConcept ] ;
     	var title = myMeta.shortTitle ; 
-    	if ( protoFilterBase ) { title = '*' + title }
+    	if ( baseFilter ) { title = '*' + title }
 
         var tab = this.add({
             title: title ,
@@ -35,18 +35,18 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
             closable: true, 
             layout: 'fit',
             items: [
-                this.createProtoMasterDetail( protoConcept, protoFilterBase , detailTitle )
+                this.createProtoMasterDetail( protoConcept, baseFilter , detailTitle )
                 ]
         });
 
         this.setActiveTab( tab )
     },
 
-    createProtoMasterDetail: function( protoConcept, protoFilterBase, detailTitle ){
+    createProtoMasterDetail: function( protoConcept, baseFilter, detailTitle ){
 
         var MDPanel = Ext.create('widget.protoMasterDetail', {
             protoConcept : protoConcept,
-            protoFilterBase : protoFilterBase, 
+            baseFilter : baseFilter, 
             detailTitle : detailTitle 
         });
         return MDPanel;

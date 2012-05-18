@@ -31,13 +31,16 @@ def protoEdit(request, myAction ):
     
     message = '' 
     if request.method == 'POST':
-        protoMeta = request.GET.get('protoMeta', '')
+        protoMeta = request.POST.get('protoMeta', '')
     else: return 
 
 #   Decodifica los eltos 
     protoMeta = json.loads(protoMeta)
-    protoConcept = protoMeta.get('protoConcept', '')
     protoFields = protoMeta.get('protoFields', {})
+
+    #protoOption = protoMeta.get('protoOption', '')
+    protoConcept = protoMeta.get('protoConcept', '')
+    
 
 #   Carga el modelo
     model = getDjangoModel(protoConcept)

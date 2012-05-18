@@ -27,7 +27,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         // y la Guarda el store para efectos de eventos y referencias 
         var masterGrid = Ext.create('ProtoUL.view.ProtoGrid', {
             protoConcept : this.protoConcept,  
-            protoFilterBase : this.protoFilterBase, 
+            baseFilter : this.baseFilter, 
             detailTitle : this.detailTitle 
         }) ; 
         
@@ -143,8 +143,11 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             if ( idMasterGrid === 0  ) { tmpStore.protoMasterId = idMasterGrid; return; } 
             if (tmpStore.protoMasterId == idMasterGrid ) { return; }
     
+    		// El filtro del detalle debe tner en cuenta el filtro predefinido para la grilla???
+    		// TODO: En el vinculo debe existir un filtro predefinido,  no es necesariamente cierto q siempre deba ser 
+    		// el filtro de consulta de la grilla o q se deba siempre eliminar. 
             tmpStore.clearFilter();
-            tmpStore.getProxy().extraParams.protoFilterBase = '{"' + tmpStore.detailField + '" : ' + idMasterGrid + ',}';
+            tmpStore.getProxy().extraParams.baseFilter = '{"' + tmpStore.detailField + '" : ' + idMasterGrid + ',}';
             tmpStore.protoMasterId = idMasterGrid;
             tmpStore.load();
             
@@ -204,12 +207,13 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         var detailPanel = Ext.getCmp(_masterDetail.IDdetailPanel);
         if ( detailPanel.collapsed  ) { detailPanel.expand(); }
 
-        // Definicion grilla Detail  ============================================================================= 
+        // Definicion grilla Detail 
+        // TODO: Revisar la logica de baseFilter,  
         var detailGrid = Ext.create('ProtoUL.view.ProtoGrid', {
             protoConcept : item.detailKey,  
             protoIsDetailGrid : true, 
             autoLoad : false, 
-            protoFilterBase : '{"' + item.detailField + '" : ' +  _masterDetail.idMasterGrid + ',}',
+            baseFilter : '{"' + item.detailField + '" : ' +  _masterDetail.idMasterGrid + ',}',
 
             // Para saber de q linea del maestro  depende  
             _masterDetail: _masterDetail 

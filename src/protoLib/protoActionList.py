@@ -5,8 +5,9 @@ from django.contrib.admin.sites import  site
 from django.db import models
 from django.http import HttpResponse
 
-from protoGrid import Q2Dict, getSearcheableFields
-from utilsBase import construct_search, addFilter, JSONEncoder, verifyUdpDefinition 
+from protoGrid import Q2Dict, getSearcheableFields, getProtoViewName
+
+from utilsBase import construct_search, addFilter, JSONEncoder 
 from models import getDjangoModel 
 
 import django.utils.simplejson as json
@@ -21,9 +22,9 @@ def protoList(request):
     
     if request.method == 'POST':
 
-        protoMeta = request.GET.get('protoMeta', '')
+        protoMeta = request.POST.get('protoMeta', '')
         protoFilter = request.POST.get('protoFilter', '')
-        protoFilterBase = request.POST.get('protoFilterBase', '')
+        baseFilter = request.POST.get('baseFilter', '')
         
         start = int(request.POST.get('start', 0))
         page = int(request.POST.get('page', 1))
@@ -38,16 +39,23 @@ def protoList(request):
 
 #   Decodifica los eltos 
     protoMeta = json.loads(protoMeta)
+    
+    protoFields = protoMeta.get('fields', {})
+    gridConfig =  protoMeta.get('gridConfig', {})
+    
+    #protoOption = protoMeta.get('protoOption', '')
     protoConcept = protoMeta.get('protoConcept', '')
-    protoFields = protoMeta.get('protoFields', {})
     
 #   Carga la info
     model = getDjangoModel(protoConcept)
 
-#   QSEt 
-    protoFilterBase = protoMeta.get( 'protoFilterBase', {}) 
+#   QSEt
+
+    # TODO: baseFilter deberia sumar a los filtros q vienen definidos   
+    # baseFilter = protoMeta.get( 'baseFilter', {})
+     
     Qs = model.objects.select_related(depth=1)
-    Qs = addFilter( Qs, protoFilterBase )
+    Qs = addFilter( Qs, baseFilter )
 
 #   Order by 
     orderBy = []
@@ -59,13 +67,13 @@ def protoList(request):
     orderBy = tuple( orderBy )
 
 #   El filtro base viene en la configuracion MD 
-    textFilter = protoFilterBase
-    Qs = addFilter( Qs, protoFilterBase )
+    textFilter = baseFilter
+    Qs = addFilter( Qs, baseFilter )
 
 
 #   Busqueda Textual ( no viene con ningun tipo de formato solo el texto a buscar 
     if not protoFilter.startswith( '{' ) and (len( protoFilter) > 0) :
-        pSearchFields = protoMeta.get( 'searchFields', '') 
+        pSearchFields = gridConfig.get( 'searchFields', '') 
         if pSearchFields == '': pSearchFields = getSearcheableFields( model )
 
         if pSearchFields != '': 
