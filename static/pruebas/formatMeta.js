@@ -53,7 +53,7 @@ function FormatMETA( oData, pName, pType   ) {
 	        	
 	        	if ( pName == 'fields'  && vValue.name ) {
 	        		oTitle = vValue.name  
-        		} else if ( pName == 'protoFieldSet' ) {
+        		} else if ( pName == 'protoForm' ) {
         			oTitle = vValue.style
         		}
 

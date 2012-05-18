@@ -9,7 +9,7 @@ treeData =  {
             "ptValue": "protoExt.Model"
         },
         {
-            "ptProperty": "storeFields",
+            "ptProperty": "searchFields",
             "ptType": "string",
             "leaf": true,
             "ptValue": "category,code,udp__Version ,udp__Auteur ,udp__IntrantsDeclencheurs,udp__DescriptionModele,__str__,udp__ActeurPrincipal,udp__AutresActeurs"
@@ -339,12 +339,12 @@ treeData =  {
             ]
         },
         {
-            "ptProperty": "protoFieldSet",
+            "ptProperty": "protoForm",
             "ptType": "array",
             "children": [
                 {
                     "ptProperty": "Section",
-                    "ptType": "protoFieldSet",
+                    "ptType": "protoForm",
                     "children": [
                         {
                             "ptProperty": "autoScroll",

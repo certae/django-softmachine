@@ -30,18 +30,20 @@ def protoDelete(request):
 def protoEdit(request, myAction ):
     
     message = '' 
-    
     if request.method == 'POST':
-        protoConcept = request.GET.get('protoConcept', '')
-        protostoreFields = request.GET.get('storeFields', '')
+        protoMeta = request.GET.get('protoMeta', '')
     else: return 
 
-#   Carga la info
+#   Decodifica los eltos 
+    protoMeta = json.loads(protoMeta)
+    protoConcept = protoMeta.get('protoConcept', '')
+    protoFields = protoMeta.get('protoFields', {})
+
+#   Carga el modelo
     model = getDjangoModel(protoConcept)
-    model_admin = site._registry.get( model )
-    protoAdmin = getattr(model_admin, 'protoExt', {})
-    
-    pUDP = protoAdmin.get( 'protoUdp', {})
+
+#   Genera la clase UPD
+    pUDP = protoMeta.get('protoUdp', {})
     cUDP = verifyUdpDefinition( pUDP )
 
     # Verifica q sea una lista de registros, (no deberia pasar, ya desde Extjs se controla )  
@@ -87,7 +89,7 @@ def protoEdit(request, myAction ):
 
                 # -- Los tipos complejos ie. date, generan un error, es necesario hacerlo detalladamente 
                 # Convierte el registro en una lista y luego toma solo el primer elto de la lista resultado. 
-                data = Q2Dict(protostoreFields , [rec], cUDP )[0]
+                data = Q2Dict(protoFields , [rec] )[0]
 
 
             except Exception,  e:

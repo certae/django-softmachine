@@ -19,9 +19,8 @@
 #import sys, 
 
 from django.http import HttpResponse
-from protoGrid import getVisibleFields, getProtoViewName
+from protoGrid import getSearcheableFields, getProtoViewName
 from protoLib import protoGrid
-from utilsBase import  verifyList 
 from models import getDjangoModel, ProtoDefinition
 
 import django.utils.simplejson as json
@@ -54,35 +53,15 @@ def protoGetPCI(request):
 
         grid = protoGrid.ProtoGridFactory( model, view  )        
 
-#       pRows = model.objects.filter(pk = 0)
-        protoDetails = grid.get_details()
-        protoFieldSet = grid.getFieldSets()
-        
-        protoSheets = grid.protoAdmin.get( 'protoSheets', {})
-        protoSheetSelector = grid.protoAdmin.get( 'protoSheetSelector', '')
-        protoSheetProperties = grid.protoAdmin.get( 'protoSheetProperties', ())
-         
         protoIcon  = 'icon-%s' % grid.protoAdmin.get( 'protoIcon', '1') 
-        hideRowNumbers  = grid.protoAdmin.get( 'hideRowNumbers',False) 
-        
-        pSearchFields = grid.protoAdmin.get( 'searchFields', '') 
-        if pSearchFields == '': pSearchFields = getVisibleFields( grid.storeFields, model )
 
-        pSortFields = grid.protoAdmin.get( 'sortFields', '') 
+        pSearchFields = grid.protoAdmin.get( 'searchFields', []) 
+        if pSearchFields == '': pSearchFields = getSearcheableFields( model )
+
+        pSortFields = grid.protoAdmin.get( 'sortFields', []) 
         if pSortFields == '': pSortFields = pSearchFields
 
-        protoFilters = grid.protoAdmin.get( 'protoFilters', []) 
- 
-        # Diferentes configuraciones de columnas para una misma grilla 
-        protoGridViews = grid.protoAdmin.get( 'protoGridViews', []) 
-
-        # TODO: Este filtro deberia ser usado para la autocarga
-        # El filtro de base no se lee aqui, pues se cargara cada vez q se solicite la info. 
-        initialFilter = grid.protoAdmin.get( 'initialFilter', {})
-
-        # TODO: Sort Info  ( para guardarlo como sorter q despues sea cargado igual )
-        # Lista de campos precedidos con '-' para order desc
-        #   ( 'campo1' , '-campo2' ) 
+        # Lista de campos precedidos con '-' para order desc  ( 'campo1' , '-campo2' ) 
         initialSort = grid.protoAdmin.get( 'initialSort', ())
         sortInfo = []
         for sField in initialSort:
@@ -91,51 +70,56 @@ def protoGetPCI(request):
                 sortOrder =  'DESC'
                 sField = sField[1:]
             sortInfo.append({ 'property': sField, 'direction' : sortOrder })
+
+
+        pDescription = grid.protoAdmin.get( 'description', '')
+        if len(pDescription) == 0:  pDescription = grid.protoAdmin.get( 'title', grid.title)
         
 
-        #busca el id en la META
-#       id_field = model._meta.pk.name
+        #FIX: busca el id en la META  ( id_field = model._meta.pk.name ) 
         id_field = u'id'
 
-#       
-        pTitle = grid.protoAdmin.get( 'title', grid.title) 
-        pDescription = grid.protoAdmin.get( 'description', pTitle) 
 
         protoMeta = { 
              'protoOption' : protoOption,           
-             'protoIcon': protoIcon,
-             'shortTitle': pTitle,
-             'description': pDescription,
              'idProperty': id_field,
-    
-            # Valores iniciales 
-             'initialSort': sortInfo,
-             'initialFilter': initialFilter,
-    
-            # Campos definidos en  ProtoGridFactory
-             'listDisplay' : grid.protoListDisplay,  
-             'readOnlyFields' : grid.protoReadOnlyFields,
-    
-             'searchFields': pSearchFields, 
-             'sortFields': pSortFields, 
-             'hideRowNumbers' : hideRowNumbers,  
+             'shortTitle': grid.protoAdmin.get( 'title', grid.title),
+             'description': pDescription ,
+             'protoIcon': protoIcon,
+             'helpPath': grid.protoAdmin.get( 'helpPath',''),
+
              'fields': grid.fields, 
+
+            # Config de la grilla
+             'gridConfig' : {
+                 'initialSort': sortInfo,
+                 'initialFilter': grid.protoAdmin.get( 'initialFilter', {}),
+                 'hideRowNumbers' : grid.protoAdmin.get( 'hideRowNumbers',False),  
+
+                 'protoFilterBase': grid.protoAdmin.get( 'protoFilterBase', {}),
+                 'protoFilters': grid.protoAdmin.get( 'protoFilters', []),
+
+                 'listDisplay' : grid.protoListDisplay,  
+                 'listDisplaySet':grid.protoAdmin.get( 'listDisplaySet', []) ,     
+
+                 'readOnlyFields' : grid.protoReadOnlyFields,
+                 'hiddenFields': grid.protoAdmin.get( 'hiddenFields', []),
+                 'searchFields': pSearchFields, 
+                 'sortFields': pSortFields, 
+             },
+    
     
             # Propiedades extendidas   
-             'protoDetails': protoDetails, 
-             'protoFilters': protoFilters,
-             'protoFieldSet': protoFieldSet, 
-             'protoGridViews':protoGridViews ,     
+             'protoDetails': grid.get_details() , 
+             'protoForm': grid.getFieldSets(), 
+             'protoUdp': grid.protoAdmin.get( 'pUDP', {}), 
              
             # sheet html asociada ( diccionario MSSSQ  )  
-             'protoSheetSelector': protoSheetSelector, 
-             'protoSheetProperties': protoSheetProperties, 
-             'protoSheets': protoSheets, 
-
-             # storeFields va y viene al frontEnd, permite recuperar todos campos necesarios.  
-             # TODO: Esto podria ser reconstruido cada vez, no es necesario guardarlo
-             'storeFields': grid.storeFields, 
-    
+             'sheetsConfig' : {
+                'protoSheets' : grid.protoAdmin.get( 'protoSheets', []), 
+                'protoSheetSelector' : grid.protoAdmin.get( 'protoSheetSelector', ''), 
+                'protoSheetProperties' : grid.protoAdmin.get( 'protoSheetProperties', ()), 
+                 }, 
              }
 
         # Guarda la Meta si es nuevo o si se especifica overWrite

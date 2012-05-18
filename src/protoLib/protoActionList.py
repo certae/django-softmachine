@@ -5,7 +5,7 @@ from django.contrib.admin.sites import  site
 from django.db import models
 from django.http import HttpResponse
 
-from protoGrid import Q2Dict, getVisibleFields
+from protoGrid import Q2Dict, getSearcheableFields
 from utilsBase import construct_search, addFilter, JSONEncoder, verifyUdpDefinition 
 from models import getDjangoModel 
 
@@ -21,10 +21,9 @@ def protoList(request):
     
     if request.method == 'POST':
 
-        protoConcept = request.POST.get('protoConcept', '')
+        protoMeta = request.GET.get('protoMeta', '')
         protoFilter = request.POST.get('protoFilter', '')
         protoFilterBase = request.POST.get('protoFilterBase', '')
-        protostoreFields = request.POST.get('storeFields', '')
         
         start = int(request.POST.get('start', 0))
         page = int(request.POST.get('page', 1))
@@ -34,17 +33,21 @@ def protoList(request):
         
     else: return 
     
+    
+    message = '' 
+
+#   Decodifica los eltos 
+    protoMeta = json.loads(protoMeta)
+    protoConcept = protoMeta.get('protoConcept', '')
+    protoFields = protoMeta.get('protoFields', {})
+    
 #   Carga la info
     model = getDjangoModel(protoConcept)
 
-#   Carga las definiciones  
-    model_admin = site._registry.get( model )
-    protoAdmin = getattr(model_admin, 'protoExt', {})
-    
 #   QSEt 
-    baseFilter = protoAdmin.get( 'baseFilter', '') 
+    protoFilterBase = protoMeta.get( 'protoFilterBase', {}) 
     Qs = model.objects.select_related(depth=1)
-    Qs = addFilter( Qs, baseFilter )
+    Qs = addFilter( Qs, protoFilterBase )
 
 #   Order by 
     orderBy = []
@@ -62,8 +65,8 @@ def protoList(request):
 
 #   Busqueda Textual ( no viene con ningun tipo de formato solo el texto a buscar 
     if not protoFilter.startswith( '{' ) and (len( protoFilter) > 0) :
-        pSearchFields = protoAdmin.get( 'searchFields', '') 
-        if pSearchFields == '': pSearchFields = getVisibleFields( protostoreFields, model )
+        pSearchFields = protoMeta.get( 'searchFields', '') 
+        if pSearchFields == '': pSearchFields = getSearcheableFields( model )
 
         if pSearchFields != '': 
             textFilter +=  ' '.join(pSearchFields)  + ':' + protoFilter
@@ -98,9 +101,7 @@ def protoList(request):
 
 
 #   Prepara las cols del Query 
-    pUDP = protoAdmin.get( 'protoUdp', {}) 
-    cUDP = verifyUdpDefinition( pUDP )
-    pList = Q2Dict(protostoreFields , pRows, cUDP )
+    pList = Q2Dict(protoFields , pRows  )
 
     context = json.dumps({
             'success': True,

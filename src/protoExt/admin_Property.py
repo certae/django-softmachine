@@ -6,15 +6,6 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     list_display =( 'code', 'category', 'concept')
     search_fields = ( 'code', 'category', 'concept' )
 
-#    fieldsets = (
-#        (None, {
-#            'fields': ('code', 'category',  'description' )
-#        }),
-#        ('UDP', {
-#            'fields': ('udp__DOCUMENTDEREFERENCE', 'udp__GABARIT', 'udp__DOMAINEDEVALEURS' )
-#        }),
-#    )
-    
     protoExt = {'protoIcon': 'property' }
     protoExt[ 'title' ] = 'Éléments de données'
     protoExt[ 'listDisplay' ] = ( 'code', 'concept__model__code')
@@ -23,7 +14,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
 
     protoExt[ 'searchFields' ] = ( 'code', 'concept__model__code' ) 
     protoExt[ 'sortFields' ] = ( 'code', 'concept__model__code' )
-    protoExt[ 'baseFilter' ] = { 'isForeign': False  }
+    protoExt[ 'protoFilterBase' ] = { 'isForeign': False  }
     
     # Valores iniciales ( initialFilter maneja el autoload )   
     protoExt[ 'initialSort' ] = ( 'code', 'concept__model__code', ) 
@@ -163,22 +154,22 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
 
     TEMPLATE_ATELEM = TEMPLATE
     
-    protoExt[ 'protoSheets' ] =  {        
-          'DEFAULT' : {                        
+    protoExt[ 'protoSheets' ] =  [        
+          {'code':'DEFAULT' ,                        
               'title'   : "Fiche descriptive de l'élément de donnée",                        
               'template': TEMPLATE_DEFAULT  
               },
-          'AT' : {                        
+          {'code':'AT' ,                         
               'title'   : "Fiche descriptive de l'élément de donnée - AT",                        
               'template': TEMPLATE_ATELEM
               },
-          'CN' : {                        
+          {'code': 'CN',                         
               'title'   : "Fiche descriptive de l'élément de donnée - Cadre Normatif",                        
               'template': TEMPLATE_CN  
               }
-            } 
+            ] 
 
-#    protoExt['protoGridViews'] = [
+#    protoExt['listDisplaySet'] = [
 #            { 'viewName': 'default', 
 #              'viewFields': (  'code', 'concept__model__code',  ), 
 #              'icon' : 'icon-1'},
@@ -203,7 +194,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                   }
         ) 
 
-    protoExt['protoFieldSet'] = [{
+    protoExt['protoForm'] = [{
           "style" : 'VBox',
           "labelWidth" : 200,
           "items": [ 

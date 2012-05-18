@@ -23,19 +23,6 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
     list_filter =( 'code',  'category' )
     search_fields =('code',  'category' )
     
-#    fieldsets = (
-#        (None, {
-#            'fields': [('code', 'category', 'domain'),  ]
-#        }),
-#                        "udp__DescriptionModele",
-#                        "udp__ActeurPrincipal",
-#                        "udp__AutresActeurs",
-#                        "udp__IntrantsDeclencheurs",
-#    )
-#    inlines = [
-#        ConceptInline,
-#        ]
-
 
     
     protoExt = {'protoIcon' : 'model',  }
@@ -43,9 +30,6 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
 #   Esta es la lista de cmapos visibles en la grilla      
     protoExt[ 'listDisplay' ] = ( 'code',  'category', 
         'udp__Descriptionmodele', 
-#        'udp__ActeurPrincipal',
-#        'udp__AutresActeurs',
-#        'udp__IntrantsDeclencheurs'
         )
     
     protoExt[ 'excludeFields' ] = ( 'description', )           
@@ -151,20 +135,21 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                             )
 
     protoExt[ 'protoSheetSelector' ] = 'udp__Categorie'
-    protoExt[ 'protoSheets' ] =  {        
-          'DEFAULT' : {                        
-              'title'   : "Fiche descriptive des vues corporatives",                        
-              'template': TEMPLATE_corporative  
-              },
-          'AT' : {                        
-              'title'   : "Fiche descriptive des actions terraines",                        
-              'template': TEMPLATE_AT  
-              },
-          'locale' : {                        
-              'title'   : "Fiche descriptive des vues locales",                         
-              'template': TEMPLATE_locale  
-              }
-            } 
+    protoExt[ 'protoSheets' ] =  [        
+          {'code': 'DEFAULT', 
+           'title'   : "Fiche descriptive des vues corporatives",                        
+            'template': TEMPLATE_corporative  
+            },
+          {'code': 'AT',                         
+           'title'   : "Fiche descriptive des actions terraines",                        
+           'template': TEMPLATE_AT  
+           },
+          {'code': 'locale',                         
+           'title'   : "Fiche descriptive des vues locales",                         
+           'template': TEMPLATE_locale  
+           }
+    ]
+     
 
 #     -------------------------------------------------------------------------------------------------
 

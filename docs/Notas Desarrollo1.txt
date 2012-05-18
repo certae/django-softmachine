@@ -1,0 +1,37 @@
+
+initialConfig 
+
+	initialSort 
+	initialSearch 
+
+
+Eliminar store fields
+
+
+	getVisibleFields usa store fields 
+		No deberia, request debe traer searchFields, si no usa todos los campos del modelo. 
+
+		reemplazado por getSearcheableFields 
+
+
+Verificar la requete debe traer siempre searchFields 
+Cambiarlo en Q2
+
+En la carga de la requete verificar siempre la info en Db y verificar si deber cargar directamente de codigo Djnagi 
+
+
+------------------
+Q2Dict(protostoreFields , [rec], cUDP )[0]
+
+debe cambiar a : 
+Q2Dict(protoMeta , [rec]  )[0]
+
+baseFilter  Rvisar 
+
+hiddenFields 
+
+Conf de Cols y Vistas ??  cual es cual ?? 
+
+Relocalizacion de propiedades, 
+
+

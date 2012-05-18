@@ -22,8 +22,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
 	    var prFormLayout = [];
 	    
-	    for ( var ixV in myMeta.protoFieldSet) {
-	        var section = myMeta.protoFieldSet[ixV];
+	    for ( var ixV in myMeta.protoForm) {
+	        var section = myMeta.protoForm[ixV];
 	        
 	        var prItem = this.defineProtoFormItem({
 	            style : 'panel'

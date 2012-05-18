@@ -68,7 +68,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             protoConcept : this.protoConcept,
             protoFilter : myFilter,
             protoFilterBase: this.protoFilterBase, 
-            storeFields  : myMeta.storeFields.toString()
+            searchFields  : Ext.encode( myMeta.searchFields ) 
         };
 
         me.store = getStoreDefinition( storeDefinition )

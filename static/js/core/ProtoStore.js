@@ -65,7 +65,7 @@ function getStoreDefinition(  storeDefinition  ){
                 protoConcept : me.protoConcept,
                 protoFilter : me.protoFilter,
                 protoFilterBase: me.protoFilterBase, 
-                storeFields  : me.storeFields
+                searchFields  : me.searchFields
 			},	
 
 	        listeners: {

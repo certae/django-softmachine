@@ -34,8 +34,8 @@ class ProtoGridFactory(object):
 
 
         #UDPs para poder determinar el valor por defecto ROnly 
-        pUDP = self.protoAdmin.get( 'protoUdp', {}) 
-        cUDP = verifyUdpDefinition( pUDP )
+        self.pUDP = self.protoAdmin.get( 'protoUdp', {}) 
+        cUDP = verifyUdpDefinition( self.pUDP )
         
         # lista de campos para la presentacion en la grilla 
         self.protoListDisplay = verifyList( self.protoAdmin.get( 'listDisplay', []) )
@@ -78,7 +78,7 @@ class ProtoGridFactory(object):
                         self.protoFields[ fName ] = fdict
                         
                         # Si no es una UDP y no esta en diccionario debe ser ReadOnly 
-                        if not (pUDP and fName.startswith( cUDP.propertyPrefix + '__')):  
+                        if not (self.pUDP and fName.startswith( cUDP.propertyPrefix + '__')):  
                             fdict[ 'readOnly' ] = True
                 
         else:
@@ -112,17 +112,17 @@ class ProtoGridFactory(object):
                     pass 
 
             self.fields.append(fdict)
-            self.storeFields +=  ',' + fdict['name'] 
+#            self.storeFields +=  ',' + fdict['name'] 
             
         #Recorta la primera ','       
-        self.storeFields = self.storeFields[1:]
+#        self.storeFields = self.storeFields[1:]
 
 
     def getFieldSets(self):
         """ El field set determina la distribucion de los campos en la forma
         """ 
         
-        prFieldSet = self.protoAdmin.get( 'protoFieldSet', []) 
+        prFieldSet = self.protoAdmin.get( 'protoForm', []) 
 
         # Si no han sido definido genera por defecto  
         if (len( prFieldSet )  == 0 ):
@@ -192,24 +192,29 @@ class ProtoGridFactory(object):
 
 
 # Obtiene el diccionario basado en el Query Set 
-def Q2Dict (  storeFields, pRows , cUDP ):
+def Q2Dict (  protoMeta, pRows  ):
     """ 
         return the row list from given queryset  
     """
 
+    pUDP = protoMeta.get( 'protoUdp', {}) 
+    cUDP = verifyUdpDefinition( pUDP )
     rows = []
-    storeFields =  tuple(storeFields[:].split(','))
 
+    # Identifica las Udps para solo leer las definidas en la META
     if cUDP.udpTable :
         lsProperties =  []
-        for fName in storeFields:
+        for lField  in protoMeta['fields']:
+            fName = lField['name']
             if fName.startswith( cUDP.propertyPrefix + '__'): lsProperties.append(fName)
                 
 
 #   Esta forma permite agregar las funciones entre ellas el __unicode__
     for item in pRows:
         rowdict = {}
-        for fName in storeFields:
+        for lField  in protoMeta['fields']:
+            fName = lField['name']
+
             # UDP Se evaluan despues 
             if cUDP.udpTable and fName.startswith( cUDP.propertyPrefix + '__'): 
                 continue  
@@ -282,16 +287,13 @@ def Q2Dict (  storeFields, pRows , cUDP ):
     return rows
 
 
+def getSearcheableFields(  model ):
 # Obtiene los campos visibles del modelo base, se usa como valor por defecto para los searchFields 
-def getVisibleFields(  storeFields, model ):
 
     lFields = ''
-    for fName in storeFields.split(','):
-        try: field = model._meta.get_field(fName )
-        except: continue
-        
+    for field in model._meta._fields():
         if field.__class__.__name__ in ( 'CharField', 'TextField', 'IntegerField', ):
-            lFields = ',' + fName  
+            lFields = ',' + field.name  
 
     #Recorta la primera ','       
     return lFields[1:].split(',')

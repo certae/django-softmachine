@@ -64,7 +64,7 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
      }
 
 
-    protoExt['protoGridViews'] = [
+    protoExt['listDisplaySet'] = [
             { 'viewName': 'resume', 
               'viewFields': ( 'model__code', 'code',  )},
                                 ]
