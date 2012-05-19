@@ -1,9 +1,12 @@
 
-Lo q se guarda siempre es protoConcept,  
-
-ProtoOption contiene todo,  el frontEnd se encarga de la vista,
+Lo q se guarda siempre es protoConcept en la Db,  en el FEnd es protoOption 
 
 
+** ProtoOption contiene todo,  el BakcEnd remmplaza por la vista,
+
+modelNAme en storeDefinition ??
+
+cllPci   ProtoOption 
 
 Relocalizacion de propiedades, 
 

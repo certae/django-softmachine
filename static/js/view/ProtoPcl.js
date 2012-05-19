@@ -27,7 +27,7 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 
 	/* 
 	 * @Required 
-	 * protoConcept : Base Model 
+	 * myMeta  : Metadata   
 	 */
 	myMeta : null, 
 

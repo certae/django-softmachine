@@ -121,24 +121,24 @@ Ext.define('ProtoUL.view.Viewport', {
         
         
         // *** El truco es q no se crea el modelo, solo se define
-        var protoConcept = menuOpt ;  
+        var protoOption = menuOpt ;  
         var thisRef = this ;
         
-//        console.log( protoConcept, ' Loading MasterPanel ...')
+//        console.log( protoOption, ' Loading MasterPanel ...')
 
 		var options = {
 			scope: this, 
             success: function (obj, result, request) { 
-                thisRef.protoTabContainer.addTabPanel( protoConcept );
+                thisRef.protoTabContainer.addTabPanel( protoOption );
             },
             failure: function ( obj, result, request) { 
                 return ;  
             }
 		}
 
-        if (  loadPci( protoConcept, true, options ) ) {
+        if (  loadPci( protoOption, true, options ) ) {
             // El modelo ya ha sido cargado ( la cll meta es global )     
-            this.protoTabContainer.addTabPanel(protoConcept );
+            this.protoTabContainer.addTabPanel(protoOption );
         	
         }   
         

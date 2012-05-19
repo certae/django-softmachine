@@ -22,9 +22,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 	/* 
 	 * @Required 
-	 * protoConcept : Base Model 
+	 * protoOption : App.Model.View  
 	 */
-	protoConcept: null, 
+	protoOption: null, 
 
 
 
@@ -34,14 +34,14 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 		var me = this;         
 
         // Recupera la clase para obtener la meta ------------------------------------------
-        var myMeta = _cllPCI[ this.protoConcept ] ; 
+        var myMeta = _cllPCI[ this.protoOption ] ; 
         this.myMeta = myMeta;
 
         var _pGrid = this; 
 
-		if ( ! loadPci( this.protoConcept, false ) ) {
+		if ( ! loadPci( this.protoOption, false ) ) {
         	Ext.Msg.show({
-               title: this.protoConcept ,
+               title: this.protoOption ,
                value: 'ERROR Pci  not loaded' 
                });
             return; 
@@ -57,20 +57,19 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             myFilter = Ext.encode(myFilter);
         }   
         
-        //console.log (  this.protoConcept, ' Loading store ...  '  ); 
+        //console.log (  this.protoOption, ' Loading store ...  '  ); 
 
 		// prepara la meta 
-		var excludeP = ['dict', 'protoForm', 'sheetsConfig', 'protoViews', 'protoDetails']
+		var excludeP = ['dict', 'protoForm', 'sheetConfig', 'protoViews', 'protoDetails']
     	var safeMeta =  clone( myMeta, 0, excludeP );
     	
 		var storeDefinition =  {
-            modelName : this.protoConcept, 
+            protoOption : this.protoOption, 
             autoLoad: this.autoLoad || true, 
             pageSize: _PAGESIZE,
             sorters: myMeta.gridConfig.initialSort, 
 
-        	//  proxy.extraParams = {
-            protoConcept : this.protoConcept,
+        	// proxy.extraParams = {
             protoFilter : myFilter,
             baseFilter: this.baseFilter, 
             sProtoMeta  : Ext.encode( safeMeta )    
@@ -289,7 +288,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 // --------------------------------------------------------------------------------
 
-        var pSheetProps = myMeta.sheetsConfig.protoSheetProperties;
+        var pSheetProps = myMeta.sheetConfig.protoSheetProperties;
         if (pSheetProps.length != 0 ) {
             
             this.IdeSheet = Ext.id();
@@ -489,14 +488,14 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         function prepareSheet( ){
 
-            var pSheetProps = myMeta.sheetsConfig.protoSheetProperties;
+            var pSheetProps = myMeta.sheetConfig.protoSheetProperties;
             if (pSheetProps.length == 0 ) {
               return;  
             }
 
-            var pSheets = myMeta.sheetsConfig.protoSheets;
+            var pSheets = myMeta.sheetConfig.protoSheets;
             
-            var pSheetSelector = myMeta.sheetsConfig.protoSheetSelector;
+            var pSheetSelector = myMeta.sheetConfig.protoSheetSelector;
             var pSheetCriteria = _pGrid.rowData[ pSheetSelector ] 
             var pSheet = undefined;  
             
@@ -547,7 +546,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             }
         	
             __TabContainer.addTabPanel(
-                   _pGrid.store.protoConcept , 
+                   _pGrid.store.protoOption , 
                    _pGrid.store.getProxy().extraParams.baseFilter, 
                    detailSubTitle 
                ); 

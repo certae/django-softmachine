@@ -13,13 +13,12 @@ from protoField import  setFieldDict
 
 class ProtoGridFactory(object):
 
-    def __init__(self, model, view ):
+    def __init__(self, model  ):
             
         self.model = model              # the model to use as reference
         self.fields = []                # holds the extjs fields
         self.storeFields = ''           # holds the Query Fields
          
-        self.view  = view 
 
         # Obtiene el nombre de la entidad 
         self.title = self.model._meta.verbose_name.title()

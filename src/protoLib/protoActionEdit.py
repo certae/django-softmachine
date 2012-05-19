@@ -31,13 +31,11 @@ def protoEdit(request, myAction ):
     
     message = '' 
     if request.method == 'POST':
-        protoMeta = request.POST.get('protoMeta', '')
+        protoMeta = request.GET.get('protoMeta', '')
     else: return 
 
 #   Decodifica los eltos 
     protoMeta = json.loads(protoMeta)
-    protoFields = protoMeta.get('protoFields', {})
-
     #protoOption = protoMeta.get('protoOption', '')
     protoConcept = protoMeta.get('protoConcept', '')
     
@@ -92,7 +90,7 @@ def protoEdit(request, myAction ):
 
                 # -- Los tipos complejos ie. date, generan un error, es necesario hacerlo detalladamente 
                 # Convierte el registro en una lista y luego toma solo el primer elto de la lista resultado. 
-                data = Q2Dict(protoFields , [rec] )[0]
+                data = Q2Dict(protoMeta , [rec] )[0]
 
 
             except Exception,  e:

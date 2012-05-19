@@ -109,7 +109,7 @@ def protoList(request):
 
 
 #   Prepara las cols del Query 
-    pList = Q2Dict(protoFields , pRows  )
+    pList = Q2Dict(protoMeta , pRows  )
 
     context = json.dumps({
             'success': True,

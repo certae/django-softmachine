@@ -35,7 +35,7 @@ def protoGetPCI(request):
     if request.method != 'GET':
         return 
     
-    protoOption = request.GET.get('protoConcept', '') 
+    protoOption = request.GET.get('protoOption', '') 
     protoConcept, view = getProtoViewName( protoOption )
     model = getDjangoModel(protoConcept)
 
@@ -181,7 +181,7 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
          'protoViews': grid.protoAdmin.get( 'protoViews', {}), 
          
         # sheet html asociada ( diccionario MSSSQ  )  
-         'sheetsConfig' : {
+         'sheetConfig' : {
             'protoSheets' : grid.protoAdmin.get( 'protoSheets', {} ), 
             'protoSheetSelector' : grid.protoAdmin.get( 'protoSheetSelector', ''), 
             'protoSheetProperties' : grid.protoAdmin.get( 'protoSheetProperties', ()), 

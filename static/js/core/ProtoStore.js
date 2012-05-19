@@ -21,12 +21,18 @@ function getStoreDefinition(  storeDefinition  ){
         // me.fields = 
         // this.callParent(arguments);
     // }, 
-	
+
 	var me = storeDefinition;
-	 
+
+	// El modelName se forma a partir de protoOption  ( app.model  ) sin la vista 
+	var modelName = getModelName( me.protoOption  )
+	
 	var myStore = Ext.create('Ext.data.Store', {
         // model : me.model,
-        model: _PConfig.clsBaseModel + me.modelName,  
+
+        protoOption : me.protoOption,
+
+        model: _PConfig.clsBaseModel + modelName,  
         autoLoad: me.autoLoad,
 	    pageSize: me.pageSize,
 	    sorters: me.sorters,    
@@ -62,10 +68,10 @@ function getStoreDefinition(  storeDefinition  ){
 	        },
 
             extraParams : {
-                protoConcept : me.protoConcept,
+                protoOption : me.protoOption,
                 protoFilter : me.protoFilter,
                 baseFilter: me.baseFilter, 
-                protoMeta  : me.sProtoMeta
+                protoMeta  : me.sProtoMeta	// String 
 			},	
 
 	        listeners: {
@@ -533,10 +539,11 @@ function getFormFieldDefinition( vFld ) {
 }
 
 
-function loadPci( modelName, loadIfNot, options) {
+function loadPci( protoOption, loadIfNot, options) {
 
         options = options || {};
         
+        var modelName = getModelName( protoOption )
         var modelClassName = _PConfig.clsBaseModel + modelName ; 
         
         if  ( Ext.ClassManager.isCreated( modelClassName )){
@@ -560,13 +567,13 @@ function loadPci( modelName, loadIfNot, options) {
                 method: 'GET',
                 url: _PConfig.urlProtoDefinition  ,
                 params : { 
-                    protoConcept : modelName 
+                    protoOption : protoOption 
                     },
 	            scope: this,
 	            success: function(result, request) {
 	            	
 	                var myResult = Ext.decode( result.responseText );
-	                _cllPCI[ modelName ]  = myResult.protoMeta;  
+	                _cllPCI[ protoOption ]  = myResult.protoMeta;  
 	                DefineProtoModel( myResult.protoMeta , modelClassName  );
 
                     options.success.call( options.scope, result, request);
@@ -584,4 +591,16 @@ function loadPci( modelName, loadIfNot, options) {
 }
 
 
+function getModelName( protoOption  ) {
+
+	var modelName = protoOption; 
+	
+	// Cuenta los "."
+	if ( charCount( protoOption, ".")  > 2  ) {
+		var n = protoOption.split(".", 2) 		
+		modelName = n[0] + '.' + n[1]
+	}
+
+	return modelName 
+}
 

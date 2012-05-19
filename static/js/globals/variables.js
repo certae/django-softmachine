@@ -42,7 +42,7 @@ Ext.grid.RowEditor.prototype.saveBtnText = 'Enregistrer';
 Ext.grid.RowEditor.prototype.cancelBtnText = 'Canceler';
 
 
-// Collection of ProtoConcept Definition 
+// Collection of PCL's ( Proto Concept Definition )  
 
 _cllPCI = [];
 

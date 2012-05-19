@@ -262,4 +262,9 @@ function FormatJsonStr( sData ) {
 
 }
 
+function charCount(  sData,  sChar ) {
+	// Cuenta las ocurrencias de un caracter en una cadena  
+	return sData.split(sChar).length 
+	
+}
 

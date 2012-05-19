@@ -18,15 +18,15 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
     initComponent: function() {
 
-//        console.log ( this.protoConcept , ' masterPanel def'  ); 
+//        console.log ( this.protoOption , ' masterPanel def'  ); 
         // Recupera la meta   ------------------------------------------------------------ 
-        var myMeta = _cllPCI[ this.protoConcept ] ;                         
+        var myMeta = _cllPCI[ this.protoOption ] ;                         
         var _masterDetail  = this ;         
         
         // Master Grid    ========================================================== 
         // y la Guarda el store para efectos de eventos y referencias 
         var masterGrid = Ext.create('ProtoUL.view.ProtoGrid', {
-            protoConcept : this.protoConcept,  
+            protoOption : this.protoOption,  
             baseFilter : this.baseFilter, 
             detailTitle : this.detailTitle 
         }) ; 
@@ -210,7 +210,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         // Definicion grilla Detail 
         // TODO: Revisar la logica de baseFilter,  
         var detailGrid = Ext.create('ProtoUL.view.ProtoGrid', {
-            protoConcept : item.detailKey,  
+            protoOption : item.detailKey,  
             protoIsDetailGrid : true, 
             autoLoad : false, 
             baseFilter : '{"' + item.detailField + '" : ' +  _masterDetail.idMasterGrid + ',}',
@@ -222,7 +222,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         // guarda el store con el indice apropiado   
         detailGrid.store.detailField = item.detailField;
         detailGrid.store.masterField = item.masterField;
-        detailGrid.store.protoConcept = item.detailKey;
+        detailGrid.store.protoOption = item.detailKey;
 
         //DGT|:  Titulos del detalle 
         detailGrid.detailTitleLbl = item.detailTitleLbl;
@@ -245,7 +245,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
     setActiveDetail: function ( _masterDetail , detailKey ) {
 
-    	//DGT  La idea es cambiat la llave de los detalles por el protoConcept y pasar solo el contexto del MD y la llave. 
+    	//DGT  La idea es cambiat la llave de los detalles por el protoOption y pasar solo el contexto del MD y la llave. 
     	//El titulo, verificar si es un detalle y navegar al padre para obtner el registro activo, y el titulo  
         var tab =  _masterDetail.getTab( _masterDetail, detailKey); 
 
