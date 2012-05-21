@@ -26,6 +26,10 @@ class ProtoGridFactory(object):
         #DGT Siempre existe, la creacion del site la asigna por defecto 
         self.model_admin = site._registry.get( model )
 
+        # Si no esta registrado genera una definicion en blanco         
+        if not self.model_admin: 
+            self.model_admin = {} 
+
         self.protoAdmin = getattr(self.model_admin, 'protoExt', {})
         self.protoFields = self.protoAdmin.get( 'protoFields', {}) 
 
@@ -36,7 +40,7 @@ class ProtoGridFactory(object):
         
         # lista de campos para la presentacion en la grilla 
         self.protoListDisplay = verifyList( self.protoAdmin.get( 'listDisplay', []) )
-        if len( self.protoListDisplay ) == 0: 
+        if not self.protoListDisplay: 
             self.protoListDisplay = verifyList( getattr(self.model_admin , 'list_display', []))
 
             # Por defecto solo vienen  Chk, _str_
@@ -44,7 +48,8 @@ class ProtoGridFactory(object):
             except ValueError:  pass
     
             # Si solo queda el __str__ , lo elimina para q asuma todos los campos del modelo
-            if (self.protoListDisplay[0] == '__str__'): self.protoListDisplay = []
+            if self.protoListDisplay and (self.protoListDisplay[0] == '__str__'): 
+                self.protoListDisplay = []
         
         #Se leen los excluidos y se cargan en una sola coleccion 
         protoExclude = verifyList( self.protoAdmin.get( 'excludeFields', []) ) 

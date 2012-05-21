@@ -89,22 +89,22 @@ admin.site.register(UdpDefinition, UdpAdminDefinition)
 
 
 
-#class MetaObjAdmin(admin.ModelAdmin):
-#    list_display =( 'id', 'code', 'objType', 'description', 'category'  )
-#    readonly_fields = ('objType', )
-##    app_name = 'Meta'
-#
-#    #Add = False  
-#    def has_add_permission(self, request):
-#        return False
-#
-#    #Delete = False 
-#    def has_delete_permission(self, request, obj=None):
-#        return False
-#
-#    #Update = False 
-#    def has_change_permission(self, request, obj=None):
-#        return True
-#                
+class MetaObjAdmin(admin.ModelAdmin):
+    list_display =( 'id', 'code', 'objType', 'description', 'category'  )
+    readonly_fields = ('objType', )
+#    app_name = 'Meta'
+
+    #Add = False  
+    def has_add_permission(self, request):
+        return False
+
+    #Delete = False 
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    #Update = False 
+    def has_change_permission(self, request, obj=None):
+        return True
+                
 #admin.site.register(MetaObj, MetaObjAdmin)
 #admin.site.register(MetaObj)

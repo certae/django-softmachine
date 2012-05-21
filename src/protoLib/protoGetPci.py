@@ -22,6 +22,7 @@ from django.http import HttpResponse
 from protoGrid import getSearcheableFields, getProtoViewName
 from protoLib import protoGrid
 from models import getDjangoModel, ProtoDefinition
+from utilsBase import getReadableError
 
 import django.utils.simplejson as json
 
@@ -32,13 +33,20 @@ def protoGetPCI(request):
         to be used in combination with protoExt.js
     """
 
+    
     if request.method != 'GET':
         return 
     
     protoOption = request.GET.get('protoOption', '') 
     protoConcept, view = getProtoViewName( protoOption )
-    model = getDjangoModel(protoConcept)
-
+    
+    try: 
+        model = getDjangoModel(protoConcept)
+    except Exception,  e:
+        jsondict = { 'succes':False, 'message': getReadableError( e ) }
+        context = json.dumps( jsondict)
+        return HttpResponse(context, mimetype="application/json")
+    
     # created : true  ( new ) is a boolean specifying whether a new object was created.
     protoDef, created = ProtoDefinition.objects.get_or_create(code = protoConcept, defaults={'code': protoConcept})
     
