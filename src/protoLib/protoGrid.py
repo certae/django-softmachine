@@ -256,12 +256,12 @@ def Q2Dict (  protoMeta, pRows  ):
                 bAux = eval ( 'item.' + cUDP.udpTable + '_set.exists()' ) 
             except: bAux = False 
             if bAux: 
-                cllUpd = eval ( 'item.' + cUDP.udpTable + '_set.all()' ) 
+                cllUDP = eval ( 'item.' + cUDP.udpTable + '_set.all()' ) 
                 
-                for lUpd in cllUpd:
-                    prpGridName = cUDP.propertyPrefix + '__' + getattr( lUpd, cUDP.propertyName  , '') 
+                for lUDP in cllUDP:
+                    prpGridName = cUDP.propertyPrefix + '__' + getattr( lUDP, cUDP.propertyName  , '') 
                     if prpGridName in lsProperties:
-                        sAux = getattr( lUpd, cUDP.propertyValue, '' ).replace( '\n', '<br>').replace( '\r', '<br>')  
+                        sAux = getattr( lUDP, cUDP.propertyValue, '' ).replace( '\n', '<br>').replace( '\r', '<br>')  
                         sAux = sAux.replace( '<br><br>', '<br>')
                         sAux = sAux.replace( '<td><br>', '<td>').replace( '</td><br>', '</td>')
                         sAux = sAux.replace( '<th><br>', '<th>').replace( '</th><br>', '</th>')

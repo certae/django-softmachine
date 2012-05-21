@@ -175,7 +175,7 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
         # Propiedades extendidas   
          'protoDetails': grid.get_details() , 
          'protoForm': grid.getFieldSets(), 
-         'protoUdp': grid.protoAdmin.get( 'pUDP', {}), 
+         'protoUdp': grid.protoAdmin.get( 'protoUdp', {}), 
 
         # Vistas heredadas del modelo base, zooms,  etc ... 
          'protoViews': grid.protoAdmin.get( 'protoViews', {}), 

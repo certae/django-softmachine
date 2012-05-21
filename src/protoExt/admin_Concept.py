@@ -56,7 +56,6 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
 
     # Define la apariencia de los campos en la grilla,  
     # model__code es un campo proveniente de un FK, ( absorbido, join ) 
-    # upd__format es un campo proveniente de una propiedad personalizada ( UDP )  
     protoExt[ 'protoFields' ] =  {        
           'code': {'header' : 'Nom Éntite', 'type': 'CharField' , 'width': 200 },
           'model__code': {'header' : 'Vue', 'type': 'CharField' , 'width': 200 },  

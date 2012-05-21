@@ -343,7 +343,7 @@ class importXML():
         return {'state':self.OK, 'message': 'Ecriture effectuee base donnee'}
     
     def saveUdps(self, udps, idMetaObj ):
-        # Save Upds within de MetaObj 
+        # Save UDPs within de MetaObj 
         for key, value  in udps:
             dUdp = Udp()
             dUdp.metaObj = idMetaObj

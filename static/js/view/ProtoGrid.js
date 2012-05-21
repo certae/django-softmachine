@@ -450,9 +450,12 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 	            // console.log( e , zoom.zoomRecord.data.__str__ )
 	            // Actualiza el Id con el dato proveniente del zoom 
 
-				// fix: en ocasiones la actualizacion del data o del raw independientemente no se refleja en la grilla	            
-	            e.record.raw[ idIndex ] = zoom.zoomRecord.data.id 
-	            e.record.data[ idIndex ] = zoom.zoomRecord.data.id 
+				// fix: Agrega el modificado en caso de q no se encuentre 	    
+				if ( ! e.record.modified[ idIndex ]  ) {
+					e.record.modified[ idIndex ] = e.record.data[ idIndex ]  
+				}         
+            	  
+	            e.record.data[ idIndex ] = zoom.zoomRecord.data.id
 
 			}
 

@@ -31,11 +31,14 @@ def protoEdit(request, myAction ):
     
     message = '' 
     if request.method == 'POST':
-        protoMeta = request.GET.get('protoMeta', '')
+        protoMeta = request.POST.get('protoMeta', {})
+        rows = request.POST.get('rows', [])
     else: return 
 
 #   Decodifica los eltos 
-    protoMeta = json.loads(protoMeta)
+    protoMeta = json.loads( protoMeta )
+    rows = json.loads( rows )
+
     #protoOption = protoMeta.get('protoOption', '')
     protoConcept = protoMeta.get('protoConcept', '')
     
@@ -48,12 +51,11 @@ def protoEdit(request, myAction ):
     cUDP = verifyUdpDefinition( pUDP )
 
     # Verifica q sea una lista de registros, (no deberia pasar, ya desde Extjs se controla )  
-    dataList = json.loads(request.POST.keys()[0])['rows']
-    if type(dataList).__name__=='dict':
-        dataList = [dataList]
+    if type(rows).__name__=='dict':
+        rows = [rows]
         
     pList = []
-    for data in dataList: 
+    for data in rows: 
         
         data['_ptStatus'] =  ''
 

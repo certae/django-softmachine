@@ -14,7 +14,6 @@ class UdpAdmin(django.contrib.admin.ModelAdmin):
 
     # Define la apariencia de los campos en la grilla,  
     # model__code es un campo proveniente de un FK, ( absorbido, join ) 
-    # upd__format es un campo proveniente de una propiedad personalizada ( UDP )  
 #    protoExt[ 'excludeFields' ] = ( 'metaObj', )           
     protoExt[ 'protoFields' ] =  {        
           'code': {'header' : 'Udp', 'type': 'CharField' ,  'width': 300 },

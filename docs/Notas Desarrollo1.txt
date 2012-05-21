@@ -59,3 +59,4 @@ Relocalizacion de propiedades,
             'protoSheetProperties' : grid.protoAdmin.get( 'protoSheetProperties', ()), 
              }, 
          }
+

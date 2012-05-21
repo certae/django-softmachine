@@ -253,12 +253,18 @@ function VerifyLast( sAux , sChar   ) {
 
 
 function FormatJsonStr( sData ) {
+	var oData = {}; 
 
-	var oData = Ext.decode( sData )
-	// var tData = FormatMETA( oData,  'meta'  )
+	// Verifica q no venga vacion 
+	if ( ! sData ) return oData
+	
+	// Separado para debuguer 
+	try {
+		oData = Ext.decode( sData )   
+    } catch(e) {}
+	
 	var sAux  = FormatJSON( oData )
 	return 	sAux
-
 
 }
 

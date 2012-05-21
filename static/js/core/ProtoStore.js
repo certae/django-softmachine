@@ -49,8 +49,13 @@ function getStoreDefinition(  storeDefinition  ){
 	             create:  'protoExt/protoAdd/',
 	             update:  'protoExt/protoUpd/',
 	             destroy: 'protoExt/protoDel/'
-	         },
-	
+	        },
+			actionMethods: {
+			        create : 'POST',
+			        read   : 'POST',
+			        update : 'POST',
+			        destroy: 'POST'
+		    },	
 	        reader: {
 	            type: 'json',
 	            root: 'rows',
@@ -64,7 +69,8 @@ function getStoreDefinition(  storeDefinition  ){
 	            root: 'rows', 
 	            allowSingle: false, 
 	            writeAllFields: true,
-	            encode: false
+	            encode: true,			// Dgt:  Incluye los parametros en el post ( por defecto en el get )
+	            messageProperty: 'message'
 	        },
 
             extraParams : {
@@ -161,7 +167,7 @@ function getStoreDefinition(  storeDefinition  ){
 					if ( recResult ) {
 
 						if (operation.action == 'create') {
-			            	//Cuando son varios inserts, Extjs no es capaz hacer la actualizacion de los registros.
+			            	//Cuando son varios inserts, Extjs no es capaz hacer la actualizacion de los registros en la grilla.
 			            
 			            	// Copia la data resultado sobre la data de base 
 			            	// Tengo un campo para mandar el Id, para efectos de control, podria ser elimiando en la prox version  
@@ -190,7 +196,7 @@ function getStoreDefinition(  storeDefinition  ){
 
     })
         
-    myStore.proxy.actionMethods.read = 'POST';
+    // myStore.proxy.actionMethods.read = 'POST';
 	return myStore
 
 }
