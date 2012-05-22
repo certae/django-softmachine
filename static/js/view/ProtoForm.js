@@ -1,3 +1,7 @@
+/* 
+ * 
+ */
+
 Ext.define('ProtoUL.view.ProtoForm', {
 	extend : 'Ext.form.Panel',
 	alias : 'widget.protoform',
@@ -11,7 +15,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 		var myMeta = this.myMeta;
 		var _pForm = this;
 
-		// Definicion de Fields        ------------------------------------------
+		// Definicion de formFields        ------------------------------------------
 		// if (!vFld.header || vFld.storeOnly) {continue;}
 		// allowBlank : false,
 		// hidden : vFld.hidden
@@ -128,6 +132,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 			this.getForm().reset();
 		}
 	},
+	
 	onSave : function() {
 		var active = this.activeRecord
 		var form = this.getForm();
@@ -325,8 +330,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
 			if(prSection.labelStyle)
 				prLayout.fieldDefaults.labelStyle = prSection.labelStyle;
 
-			for(var ix in prSection.fields) {
-				var prVar = prSection.fields[ix];
+			for(var ix in prSection.formFields) {
+				var prVar = prSection.formFields[ix];
 				prFld = this.defineProtoFormField(prVar)
 				if(prFld)
 					prLayout.items.push(prFld);

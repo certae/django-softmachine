@@ -56,18 +56,16 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 		var treeData = FormatMETA( this.myMeta, 'pcl', 'pcl'  )
 	    var myStore = Ext.create('Ext.data.TreeStore', { 
 	        folderSort: true, 
+            sorters: [{
+		        property: 'ptProperty',
+		        direction: 'ASC'
+	      	}], 
 	        model: 'MetaPCL',
 	        root: treeData 
 	    });
 
 
-		// TODO: Start Cell Editing PlugIn
-	    // me.rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
-	        // clicksToMoveEditor: 1,
-	        // autoCancel: false
-	    // });
-
-
+		// Start Cell Editing PlugIn
 	    var cellEditing = Ext.create('Ext.grid.plugin.CellEditing', {
 	        clicksToEdit: 2
 	    });
@@ -78,18 +76,18 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 	        useArrows: true,
 	        rootVisible: true,
 	        multiSelect: false,
-            stripeRows: true, 
 	        singleExpand: true,
-	        
+
+            stripeRows: true, 
 	        rowLines : true, 
 	        // columnLines : true, 
 	       
 	        
-	        // TODO CellEditing 
+	        // CellEditing 
        		plugins: [cellEditing], 	        
 
 			// TODO: Actions to create o destroy eltos  
-			tbar: [
+			bbar: [
 			  { xtype: 'button', 
 			  	text: 'NewNode',
 	
@@ -238,11 +236,9 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 
         grid.on({
             select: {fn: function ( rowModel , record,  rowIndex,  eOpts ) {
-            	// SelectionModel.rowSelected 
                 _pGrid.rowData = record.data;
 
-                // this.fireEvent('rowClick', rowModel, record, rowIndex,  eOpts );
-                prepareSheet();
+                prepareProperties( );
 
             	}, scope: this }
         });                 
@@ -296,8 +292,61 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
         }
         
 
-        function prepareSheet( ){
+        function prepareProperties( ){
         	// Pepara la tabla de propiedades 
+
+			prp = {}
+			        	
+        	if ( _pGrid.rowData[ 'ptType'] == 'pcl' ) {
+	            prp = {
+					"description"	: myMeta.description,
+					"protoConcept"	: myMeta.protoConcept,
+					"protoIcon"		: myMeta.protoIcon ,
+					"helpPath"		: myMeta.helpPath,
+					"idProperty"	: myMeta.idProperty,
+					"protoOption"	: myMeta.protoOption,
+					"shortTitle"	: myMeta.shortTitle
+	            }
+        	} else if ( _pGrid.rowData[ 'ptType'] == 'fields' ) {
+
+	            prp = {
+					"allowBlank": false,
+					"cellLink": true,
+					"cellToolTip": true,
+					"choices": [],
+					"defaultValue": "Codigo",
+					"fieldLabel": "Alias",
+					"fkField": "prMaestro1",
+					"fkId": "metaObj_id",
+					"flex": 2,
+					"fromModel": true,
+					"header": "Acteur Princ",
+					"minWidth": 200,
+					"name": "valueUdp",
+					"readOnly": true,
+					"storeOnly": true,
+					"tooltip": "Codigo o Identificador principal del objeto",
+					"type": "autofield",
+					"type": "bool",
+					"type": "CharField",
+					"type": "choice",
+					"type": "date",
+					"type": "decimal",
+					"type": "foreignid",
+					"type": "foreigntext",
+					"type": "IntegerField",
+					"type": "string",
+					"type": "text",
+					"width": 200,
+					"wordWrap": true,
+					"zoomModel": "protoExt.MetaObj"
+	            }
+
+        	} 
+ 
+
+			propsGrid.setSource( prp )
+        	
 
         };
         

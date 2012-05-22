@@ -201,7 +201,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
               {"title" : 'Basicas ',
                    "style" : 'Section',
                     "collapsible" : False,
-                    "fields" : [
+                    "formFields" : [
                                  "code", 
                                  "baseType", "isNullable" , 
                                  "alias", "prpLength", 
@@ -211,7 +211,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
               {"title" : 'Hierarchie ',
                    "style" : 'Section',
                     "collapsible" : True,
-                    "fields" : [ 
+                    "formFields" : [ 
                                 "concept", 
                                 "concept__code", 
                                 "concept__model__code", 
@@ -221,7 +221,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
               {"title" : 'Udps ',
                    "style" : 'Section',
                     "collapsible" : True,
-                    "fields" : [ 
+                    "formFields" : [ 
                         "udp__DATEDERNIREMODIFICATION", 
                         "udp__DESCRIPTIONCN",
                         "udp__DOCUMENTDEREFERENCE",
