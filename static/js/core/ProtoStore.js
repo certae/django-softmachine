@@ -23,16 +23,12 @@ function getStoreDefinition(  storeDefinition  ){
     // }, 
 
 	var me = storeDefinition;
-
-	// El modelName se forma a partir de protoOption  ( app.model  ) sin la vista 
-	var modelName = getModelName( me.protoOption  )
-	
 	var myStore = Ext.create('Ext.data.Store', {
         // model : me.model,
 
         protoOption : me.protoOption,
 
-        model: _PConfig.clsBaseModel + modelName,  
+        model: getModelName( me.protoOption  ),  
         autoLoad: me.autoLoad,
 	    pageSize: me.pageSize,
 	    sorters: me.sorters,    
@@ -561,10 +557,7 @@ function loadPci( protoOption, loadIfNot, options) {
 
         options = options || {};
         
-        var modelName = getModelName( protoOption )
-        var modelClassName = _PConfig.clsBaseModel + modelName ; 
-        
-        if  ( Ext.ClassManager.isCreated( modelClassName )){
+        if  ( Ext.ClassManager.isCreated(  getModelName( protoOption )  )){
 
 			return true
 
@@ -591,8 +584,7 @@ function loadPci( protoOption, loadIfNot, options) {
 	            success: function(result, request) {
 	            	
 	                var myResult = Ext.decode( result.responseText );
-	                _cllPCI[ protoOption ]  = myResult.protoMeta;  
-	                DefineProtoModel( myResult.protoMeta , modelClassName  );
+	                savePclCache( protoOption, myResult.protoMeta )
 
                     options.success.call( options.scope, result, request);
 	            },
@@ -608,6 +600,14 @@ function loadPci( protoOption, loadIfNot, options) {
         
 }
 
+function savePclCache( protoOption, protoMeta ) {
+	// Guarda el cache de  pcl's 
+	
+	_cllPCI[ protoOption ]  = protoMeta;  
+	DefineProtoModel( protoMeta , getModelName( protoOption  )  );
+
+}
+
 
 function getModelName( protoOption  ) {
 
@@ -619,6 +619,7 @@ function getModelName( protoOption  ) {
 		modelName = n[0] + '.' + n[1]
 	}
 
-	return modelName 
+	return _PConfig.clsBaseModel + modelName 
+
 }
 

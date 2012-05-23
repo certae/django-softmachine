@@ -90,7 +90,7 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 		
 		var grid = Ext.create('Ext.tree.Panel', {
 	        store: myStore,
-	        title:  myMeta.shortTitle, 
+	        title:  _pGrid.safeMeta.shortTitle, 
 	        
 	        useArrows: true,
 	        rootVisible: true,
@@ -99,7 +99,12 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
             stripeRows: true, 
 	        rowLines : true, 
 	        // columnLines : true, 
-	       
+
+			getCellEditor: function (record, column) {
+				
+				if ( ! me.editMode ) return ; 
+
+			}, 	       
 	        
 	        // CellEditing 
        		plugins: [cellEditing], 	        
@@ -128,7 +133,7 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 	            dataIndex: 'ptProperty'
 	        },{
 	            text: 'Ix',
-	            dataIndex: 'ixTree'
+	            dataIndex: 'id'
 	        },{
 	            text: 'ptType',
 	            dataIndex: 'ptType'
@@ -154,13 +159,13 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 		    tools: [{
 		        itemId: 'toolCancelEdit',
 		        type: 'close',
-		        hidden: true,
+		        hidden: false,
 				scope: this,
 		        handler: this.cancelChanges 
 		     },{
 		        itemId: 'toolSave',
 		        type: 'save',
-		        hidden: true,
+		        hidden: false,
 				scope: this,
 		        handler: this.saveChanges 
 		     },{
@@ -310,45 +315,26 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
         this.callParent(arguments);
 
 
-        grid.on({
-            select: {fn: function ( rowModel , record,  rowIndex,  eOpts ) {
-                _pGrid.rowData = record.data;
-
-                prepareProperties( );
-
-            	}, scope: this }
-        });                 
-
-        grid.on({
-			// Evento DblClick para seleccionar en el zoom         
-            celldblclick: {fn: function ( tbl, el,  cellIndex, record, tr, rowIndex, e,  eOpts ) {
-            	// Si esta en modo edicion no dispara nada para permitir entrar al editor 
-            	if ( me.editMode ) return  
-            	// me.fireEvent('rowDblClick', record, rowIndex  );
-            }, scope: me }
-        });                 
-
 // ---------------------------------------------------------------------------------------------- 
 
-
-		// Fires before editing is triggered. ...
         grid.on({
-        	beforeedit: {fn: function ( edPlugin, e, eOpts) {
-				// console.log( 'beforeEdit')				 
-            	}, scope: this }
-        });                 
+            'select': {fn: function ( rowModel , record,  rowIndex,  eOpts ) {
+                _pGrid.treeRecord  = record;
+                prepareProperties( _pGrid  );
+				} , scope: _pGrid },
 
-		// Fires after editing, but before the value is set in the record. ...
-        grid.on('validateedit', function(editor, e, eOpts) {
-				// console.log( 'beforeEdit')				 
-        });
+        	'beforeedit': {fn: function ( editor, e, eOpts) {
+				// console.log( 'beforeEdit')			
+				}},
 
-		// Fires after a editing. ...
-        grid.on('edit', function(editor, e, eOpts) {
-			// commit the changes right after editing finished
-			// console.log( 'edit')				 
-    		// e.record.commit();
-        });
+        	'validateedit': {fn: function ( editor, e, eOpts) {
+				// console.log( 'validateEdit')				 
+				}},
+
+        	'edit': {fn: function ( editor, e, eOpts) {
+
+        	}}, scope: me }
+        );
 
 
 // ---------------------------------------------------------------------------------------------- 
@@ -358,102 +344,146 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 			// Fires before editing is triggered. ...
         	'beforeedit': {fn: function ( editor, e, eOpts) {
 				// console.log( 'beforeEdit')			
-				}},
+			}},
 
 			// Fires after editing, but before the value is set in the record. ...
         	'validateedit': {fn: function ( editor, e, eOpts) {
 				// console.log( 'validateEdit')				 
-				}},
+			}},
 
 			// Fires after a editing. ...
         	'edit': {fn: function ( editor, e, eOpts) {
 
-				// Nombre de la propiedad
-				var prpName = e.record.data.name 
-							
-				if ( e.value != e.originalValue ) {
-	
-					if (  propsGrid.prpType == 'pcl' ) {
-					
-						me.myMeta[ prpName ]  = e.value 
-						
-					} else if (  propsGrid.prpType == 'fields' ) {
-	
-						me.myMeta.dict[ propsGrid.prpIx ][ prpName ]  = e.value 
-					
-					}
-				} 
+				if ( e.value == e.originalValue ) return; 
 
-        	}}, scope: me }
+				var idTree = me.treeRecord.data.id 
+				var oData = me.refDict[ idTree ] 
+				var prpName = e.record.data.name
+
+				// ****  Solo llegan objetos, los Array se manejan en otro lado
+			    if ( typeOf(oData) !=  "object") {
+			    	console.log( 'Error de tipo' ); return 
+		    	}
+
+				// Asigna el valor a la propiedad 
+				oData[ prpName ]  = e.value 
+				tData = updTData( me.treeRecord, prpName, e.value )
+				
+				// Para actualizar el valor 
+				if ( me.treeRecord.isExpanded() ) grid.getView().refresh();
+
+        	}}, 
+        	scope: me }
         );
 
 
+		function updTData( treeRecord , prpName, prpValue ) {
+		
+			var tNode = {}, ixNode;
+			for ( ixNode in treeRecord.childNodes ) {
+				
+	    		tNode = treeRecord.childNodes[ ixNode  ]
+	    		if ( tNode.data.ptProperty == prpName ) {
+	    			tNode.data.ptValue = prpValue 
+	    			return;  
+    			}  
+			}
+
+			// No lo encontro, lo agrega
+			tNode = {}
+			tNode['ptProperty']  =  prpName    
+	        tNode['ptValue'] =  prpValue  
+			tNode['ptType'] =  typeOf( prpValue )  
+			tNode['leaf'] =  true  
+			
+			treeRecord.appendChild( tNode )
+		}
 
 // ---------------------------------------------------------------------------------------------- 
         
 
-        function prepareProperties( ){
+        function prepareProperties( _pGrid ){
         	// Pepara la tabla de propiedades 
 
 			var prp = {}
 			var prpTitle = ''
-			var prpIx = ''
+			var prpBase = ''
+
+			var idTree 	= 	_pGrid.treeRecord.data.id 
+			var oData 	= 	_pGrid.refDict[ idTree ] 
 			        	
-        	if ( _pGrid.rowData[ 'ptType'] == 'pcl' ) {
+        	if ( _pGrid.treeRecord.data[ 'ptType'] == 'pcl' ) {
 
         		prpTitle = 'pcl'
 	            prp = {
-					"shortTitle"	: myMeta.shortTitle,
-					"description"	: myMeta.description,
-					"protoIcon"		: myMeta.protoIcon ,
-					"helpPath"		: myMeta.helpPath
+					"shortTitle"	: oData.shortTitle,
+					"description"	: oData.description,
+					"protoIcon"		: oData.protoIcon ,
+					"helpPath"		: oData.helpPath
 					
-					// "idProperty"	: myMeta.idProperty,
-					// "protoOption"	: myMeta.protoOption,
-					// "protoConcept"	: myMeta.protoConcept,
+					// "idProperty"	: oData.idProperty,
+					// "protoOption"	: oData.protoOption,
+					// "protoConcept"	: oData.protoConcept,
 	            }
-        	} else if ( _pGrid.rowData[ 'ptType'] == 'fields' ) {
+        	} else if ( _pGrid.treeRecord.data[ 'ptType'] == 'fields' ) {
         		
-        		prpIx = _pGrid.rowData[ 'ptProperty']
-        		prpTitle = 'field.' + prpIx
-        		
-        		var field = me.myMeta.dict[ prpIx ]
-	            prp = {
-					"allowBlank": field.allowBlank || true,
-					"cellToolTip": field.cellToolTip || true,
-					"choices": field.choices ,
-					"defaultValue": field.defaultValue || 0,
-					"fieldLabel": field.fieldLabel || '',
-				    "format": field.format || '',
-					"flex": field.flex || 0,
-					"header": field.header || '',
-					"minWidth": field.minWidth || 0,
-					"name": field.name ,
-					"readOnly": field.readOnly || false ,
-					"storeOnly": field.storeOnly || false ,
-					"tooltip": field.tooltip || '',
-					"type":  field.type,
-					"width": field.width || 0,
-					"wordWrap": field.wordWrap || false,
+        		prpBase = _pGrid.treeRecord.data[ 'ptProperty']
+        		prpTitle = 'field.' + prpBase
 
-				    "allowDecimals": field.allowDecimals,
-				    "decimalPrecision": field.decimalPrecision,
+				var vrDefault = oData.defaultValue
+
+				if ( oData.type ==  'bool' ) {
+					vrDefault = vrDefault || false 
+				} else 	if ( oData.type in oc( [ 'int', 'decimal', 'float'])  ) {
+					vrDefault = vrDefault || 0 					
+				} else {
+					vrDefault = vrDefault || ''
+				}
+ 
+        		
+	            prp = {
+	            	
+					"allowBlank": oData.allowBlank || true,
+					"readOnly": oData.readOnly || false ,
+					"storeOnly": oData.storeOnly || false ,
+					"hidden": oData.hidden || false ,
+
+					"header": oData.header || '',
+					"fieldLabel": oData.fieldLabel || '',
+					"tooltip": oData.tooltip || '',
+					"defaultValue": vrDefault ,
+
+					"type":  oData.type,
+					"subType":  oData.subType,
+					
+					"flex": oData.flex || 0,
+					"width": oData.width || 0,
+					"minWidth": oData.minWidth || 0,
+					"wordWrap": oData.wordWrap || false,
+					"cellToolTip": oData.cellToolTip || false,
+
+				    "format": oData.format || '',
+				    "allowDecimals": oData.allowDecimals,
+				    "decimalPrecision": oData.decimalPrecision,
+
+					"choices": oData.choices ,
 
 				    // TODO: BackEnd, Grid, No 
-				    "sortable": field.sortable || false
+				    "sortable": oData.sortable || false
     
 				    // FIX:  Q es esto por q 3 propiedades q pueden ser las misma vaina  readOnly, editable   
 				    // "editable": false,
 				    // "editMode": false,
-
+				    
+					// "name": oData.name ,
 				    // "align": "right",
 				    // "draggable": false,
 
-					// "fromModel": field.fromModel,
-					// "zoomModel": field.zoomModel 
-					// "cellLink": field.cellLink ,
-					// "fkField":  field.fkField, 
-					// "fkId": field.fkId,
+					// "fromModel": oData.fromModel,
+					// "zoomModel": oData.zoomModel 
+					// "cellLink": oData.cellLink ,
+					// "fkField":  oData.fkField, 
+					// "fkId": oData.fkId,
 	            }
 
         	} 
@@ -463,8 +493,6 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 			panelPrps.setTitle( prpTitle )
 			propsGrid.setSource( prp )
 			
-			propsGrid.prpType = _pGrid.rowData[ 'ptType']
-			propsGrid.prpIx = prpIx
 
         };
         
@@ -508,10 +536,7 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 				var IxTree = Ext.id()
 				tData['id'] = IxTree
 				
-				me.refDict[ IxTree ] = { 
-					'tData' : tData, 
-					'mData' : oData   
-					 } 
+				me.refDict[ IxTree ] = oData
 				
 				if ( sDataType == "object" ) {
 					// Si es un objeto hay una propiedad q servira de titulo 
@@ -567,8 +592,7 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 		} 
 		
         function showMetaConfig() {
-        	var safeConf =  clone( myMeta , 0, exclude =['dict','gridDefinition', 'formDefinition'] )
-        	showConfig( 'MetaConfig', safeConf )
+        	showConfig( 'MetaConfig', _pGrid.safeMeta )
         }
 
         function showConfig( title , myConf ) {
@@ -597,48 +621,6 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 		
    	},
 
-	setDefaults: function() {
-	/*
-	 * @private
-     * setDefaults for insert row 
-	 */
-
-	}, 
-		
-	
-	addNewRecord: function() {
-		if ((! this._extGrid ) || ( ! this.editMode )) return; 
-
-        var rec = new this.store.model( this.setDefaults()  )
-        this.insertNewRecord ( rec  ) 
-	}, 
-	
-	duplicateRecord: function() {
-		if ((! this._extGrid ) || ( ! this.editMode )) return; 
-		
-        var rec =  this.selected
-        if ( rec )  this.insertNewRecord ( rec.copy()  ) 
-        	
-	}, 
-
-	insertNewRecord: function( rec ) {
-    	rec.data._ptStatus = _ROW_ST.NEWROW 
-    	rec.data._ptId = rec.internalId  
-    	rec.data.id = undefined 
-    	rec.phantom = true 
-    	this.store.insert(0, rec );
-
-	},
-
-	
-	deleteCurrentRecord: function() {
-		if ((! this._extGrid ) || ( ! this.editMode )) return; 
-
-	    var sm = this._extGrid.getSelectionModel();
-	    this.rowEditing.cancelEdit();
-        this.store.remove( sm.getSelection()  );
-
-	}, 
 
 	setEditionOff: function() {
 		
@@ -647,15 +629,13 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 		// Invocada desde el tool, debe cancelar la edicion y retroalimentar el toolbar 
 		this.setEditMode( false ) 
 		
-		// Reconfigura el toolBar 
-		if ( this._toolBar ) {
-			this._toolBar.toggleEditMode( false, true )
-		};   
 
 	}, 
     
     saveChanges: function(){
-        this.store.sync();
+    	
+		savePclCache( this.safeMeta.protoOption, this.safeMeta )     	
+        // this.store.sync();
     }, 
     
     cancelChanges: function() {
