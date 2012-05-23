@@ -752,15 +752,15 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 	
     showMetaConfig: function() {
 
-    	var safeMeta =  clone( this.myMeta, 0, [ 'dict' ] );
 
 		var myPcl = Ext.widget('protoPcl', {
-			myMeta : safeMeta 
+			myMeta : this.myMeta, 
+			editMode : true  
 		});
 
          var myWin  = Ext.widget('window', {
         	constrain: true, 
-			title : this.myMeta.description,
+			title : 'MetaDefinition [ ' + this.myMeta.protoOption + ' ]', 
             closeAction: 'hide',
             width: 800,
             height: 600,

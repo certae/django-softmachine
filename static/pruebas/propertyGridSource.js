@@ -3,16 +3,7 @@ Ext.define('Ext.grid.property.Grid', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.propertygrid',
     alternateClassName: 'Ext.grid.PropertyGrid',
-    uses: ['Ext.grid.plugin.CellEditing', 
-    	   'Ext.grid.property.Store', 
-           'Ext.grid.property.HeaderContainer', 
-           'Ext.XTemplate', 
-           'Ext.grid.CellEditor', 
-           'Ext.form.field.Date', 
-           'Ext.form.field.Text', 
-           'Ext.form.field.Number', 
-           'Ext.form.field.ComboBox'],
-           
+
 	// Setea directamente las propiedades de la grilla            
     valueField: 'value',
     nameField: 'name',
@@ -27,13 +18,16 @@ Ext.define('Ext.grid.property.Grid', {
     initComponent: function () {
         var me = this;
         me.addCls(Ext.baseCSSPrefix + 'property-grid');
+
         me.plugins = me.plugins || [];
+
         me.plugins.push(new Ext.grid.plugin.CellEditing({
             clicksToEdit: me.clicksToEdit,
             startEdit: function (record, column) {
                 return this.self.prototype.startEdit.call(this, record, me.headerCt.child('#' + me.valueField));
             }
         }));
+
         me.selModel = {
             selType: 'cellmodel',
             onCellSelect: function (position) {
@@ -85,6 +79,7 @@ Ext.define('Ext.grid.property.Grid', {
         };
         me.store.on('update', me.onUpdate, me);
     },
+    
     onUpdate: function (store, record, operation) {
         var me = this,
             v, oldValue;
@@ -141,6 +136,7 @@ Ext.define('Ext.grid.property.Grid', {
         editor.editorId = propName;
         return editor;
     },
+    
     beforeDestroy: function () {
         var me = this;
         me.callParent();

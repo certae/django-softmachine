@@ -32,6 +32,12 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 	myMeta : null, 
 
 
+	/*
+	 * editMode : False is ReadOnly 
+	 */
+	editMode : true, 
+	
+
     initComponent: function() {
         
 
@@ -41,19 +47,26 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
         }
 
 		var me = this;         
+
         var _pGrid = this; 
-		var myMeta = this.myMeta; 
+		var myMeta = this.myMeta;         
+    	this.safeMeta =  clone( myMeta, 0, [ 'dict' ] );
+
+		// Coleccion de referencia para relacionar safeMeta con myStore ( treeStore )
+		me.refDict = {}
+		
 		
 	    Ext.define('MetaPCL', {
 	        extend: 'Ext.data.Model',
 	        fields: [
 	            {name: 'ptProperty', type: 'string'},
+	            {name: 'id',  type: 'string'},
 	            {name: 'ptType',  type: 'string'},
 	            {name: 'ptValue', type: 'string'}
 	        ]
 	    });
 	
-		var treeData = FormatMETA( this.myMeta, 'pcl', 'pcl'  )
+		var treeData = FormatMETA( this.safeMeta, 'pcl', 'pcl'  )
 	    var myStore = Ext.create('Ext.data.TreeStore', { 
 	        folderSort: true, 
             sorters: [{
@@ -71,13 +84,18 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 	    });
 
 
+
+		//  --------------------------------------------------
+		
+		
 		var grid = Ext.create('Ext.tree.Panel', {
 	        store: myStore,
+	        title:  myMeta.shortTitle, 
+	        
 	        useArrows: true,
 	        rootVisible: true,
 	        multiSelect: false,
 	        singleExpand: true,
-
             stripeRows: true, 
 	        rowLines : true, 
 	        // columnLines : true, 
@@ -108,6 +126,9 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 	            flex: 3,
 	            sortable: true,
 	            dataIndex: 'ptProperty'
+	        },{
+	            text: 'Ix',
+	            dataIndex: 'ixTree'
 	        },{
 	            text: 'ptType',
 	            dataIndex: 'ptType'
@@ -153,71 +174,127 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
         this._extGrid = grid;
 
 
-//-----------
+//----- Tipos de base 
 
-        var panelItems =   [{
-                region: 'center',
-                flex: 2,
-                layout: 'fit',
-                minSize: 50,
-                items: grid 
-            }
-            ];
+        me.editors = {
+            'date': new Ext.grid.CellEditor({
+                field: new Ext.form.field.Date({
+                    selectOnFocus: true
+                })
+            }),
+            'string': new Ext.grid.CellEditor({
+                field: new Ext.form.field.Text({
+                    selectOnFocus: true
+                })
+            }),
+            'number': new Ext.grid.CellEditor({
+                field: new Ext.form.field.Number({
+                    selectOnFocus: true
+                })
+            }),
+            'boolean': new Ext.grid.CellEditor({
+                field: new Ext.form.field.ComboBox({
+                    editable: false,
+                    store: [
+                        [true, true],
+                        [false, false]
+                    ]
+                })
+            }), 
 
+//------ 	Tipos extendidos
+ 
+            'type': new Ext.grid.CellEditor({
+                field: new Ext.form.field.ComboBox({
+                    editable: false,
+                    store: [
+					    ["string", "string"],
+					    ["int", "int"],
+					    ["decimal", "decimal"],
+					    ["bool", "bool"],
+					    ["text", "text"],
+					    ["date", "date"],
+					    ["time", "time"],
+					    ["datetime", "datetime"],
+					    ["combo", "combo"],
+                    ]
+                })
+            }), 
+
+
+            
+        };
+
+
+		// ReadOnly Properties ( PCL )
+		// var readOnlyPrpts= [ 'idProperty', 'protoOption', 'protoConcept'  ]
 
 		// TODO: Cargar la grilla de propiedades 	
 	    var propsGrid = Ext.create('Ext.grid.property.Grid', {
 	    	// Asigna los titulos a las propiedades 
 	        // propertyNames: { prop : 'title' }
+
+			// source es obligatorio 
+	        source : {}, 
+			clicksToEdit : 2, 
 	        
-	        propertyNames: {
-	            tested: 'QA',
-	            borderWidth: 'Border Width'
-	        },
-	        source: {
-	            "(name)": "Properties Grid",
-	            "grouping": false,
-	            "autoFitColumns": true,
-	            "productionQuality": false,
-	            "created": Ext.Date.parse('10/15/2006', 'm/d/Y'),
-	            "tested": false,
-	            "version": 0.01,
-	            "borderWidth": 1
-	        }
-	        
+			getCellEditor: function (record, column) {
+				
+				if ( ! me.editMode ) return ; 
+				
+		        var pgrid = this
+		        var propName = record.get(pgrid.nameField)
+		        
+		        // Simplemente no se incluyen 
+				// if ( propName in oc( readOnlyPrpts )) return ; 
+
+		        var val = record.get(pgrid.valueField)
+				var editor; 
+
+		        if (propName == 'type') {
+		            editor = me.editors['type'];
+
+
+		        } else if (Ext.isDate(val)) {
+		            editor = me.editors.date;
+		        } else if (Ext.isNumber(val)) {
+		            editor = me.editors.number;
+		        } else if (Ext.isBoolean(val)) {
+		            editor = me.editors['boolean'];
+		        } else {
+		            editor = me.editors.string;
+		        }
+		        editor.editorId = propName;
+		        return editor ;
+	    	}
+	    		        
 	    });		
 		
-        function setSource(){
+		
+		
+//  ================================================================================================
 
-            propsGrid.setSource({
-                '(name)': 'Property Grid',
-                grouping: false,
-                autoFitColumns: true,
-                productionQuality: true,
-                created: new Date(),
-                tested: false,
-                version: 0.8,
-                borderWidth: 2
-            });
-        }
-    
-            
-        this.IdeSheet = Ext.id();
-        panelItems.push( {
+        var IdeSheet = Ext.id();
+        var panelItems =   [{
+                region: 'center',
+                flex: 3,
+                layout: 'fit',
+                minSize: 50,
+                items: grid 
+            }, {
                 region: 'east',
-                // id: this.IdeSheet, 
+                id: IdeSheet, 
              	// title: pSheetProps.title ,
                 collapsible: true,
-                collapsed: true ,
+                collapsed: false ,
                 split: true,
-                flex: 1,
+                flex: 2,
                 layout: 'fit',
                 minSize: 200,
                 items : propsGrid,
-                // autoScroll: true,
                 border: false
-        });
-        
+        }];
+
 //-----------        
 
         Ext.apply(this, {
@@ -228,7 +305,6 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
             },
             items: panelItems 
         });
-
 
         
         this.callParent(arguments);
@@ -258,95 +334,137 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 		// Fires before editing is triggered. ...
         grid.on({
         	beforeedit: {fn: function ( edPlugin, e, eOpts) {
-				 
+				// console.log( 'beforeEdit')				 
             	}, scope: this }
-            	
         });                 
 
 		// Fires after editing, but before the value is set in the record. ...
         grid.on('validateedit', function(editor, e, eOpts) {
-
+				// console.log( 'beforeEdit')				 
         });
 
 		// Fires after a editing. ...
-        // grid.on('edit', function(editor, e, eOpts) {
+        grid.on('edit', function(editor, e, eOpts) {
 			// commit the changes right after editing finished
+			// console.log( 'edit')				 
     		// e.record.commit();
-        // });
+        });
+
 
 // ---------------------------------------------------------------------------------------------- 
-        
-        function showMetaConfig() {
-        	var safeConf =  clone( myMeta , 0, exclude =['dict','gridDefinition', 'formDefinition'] )
-        	showConfig( 'MetaConfig', safeConf )
-        }
 
-        function showConfig( title , myConf ) {
-        	Ext.Msg.show({
-               title: title,
-               multiline : true,   
-               width : 600, 
-               height : 400, 
-               value: Ext.encode( myConf ) 
-               });
-        }
+
+        propsGrid.on({
+			// Fires before editing is triggered. ...
+        	'beforeedit': {fn: function ( editor, e, eOpts) {
+				// console.log( 'beforeEdit')			
+				}},
+
+			// Fires after editing, but before the value is set in the record. ...
+        	'validateedit': {fn: function ( editor, e, eOpts) {
+				// console.log( 'validateEdit')				 
+				}},
+
+			// Fires after a editing. ...
+        	'edit': {fn: function ( editor, e, eOpts) {
+
+				// Nombre de la propiedad
+				var prpName = e.record.data.name 
+							
+				if ( e.value != e.originalValue ) {
+	
+					if (  propsGrid.prpType == 'pcl' ) {
+					
+						me.myMeta[ prpName ]  = e.value 
+						
+					} else if (  propsGrid.prpType == 'fields' ) {
+	
+						me.myMeta.dict[ propsGrid.prpIx ][ prpName ]  = e.value 
+					
+					}
+				} 
+
+        	}}, scope: me }
+        );
+
+
+
+// ---------------------------------------------------------------------------------------------- 
         
 
         function prepareProperties( ){
         	// Pepara la tabla de propiedades 
 
-			prp = {}
+			var prp = {}
+			var prpTitle = ''
+			var prpIx = ''
 			        	
         	if ( _pGrid.rowData[ 'ptType'] == 'pcl' ) {
+
+        		prpTitle = 'pcl'
 	            prp = {
+					"shortTitle"	: myMeta.shortTitle,
 					"description"	: myMeta.description,
-					"protoConcept"	: myMeta.protoConcept,
 					"protoIcon"		: myMeta.protoIcon ,
-					"helpPath"		: myMeta.helpPath,
-					"idProperty"	: myMeta.idProperty,
-					"protoOption"	: myMeta.protoOption,
-					"shortTitle"	: myMeta.shortTitle
+					"helpPath"		: myMeta.helpPath
+					
+					// "idProperty"	: myMeta.idProperty,
+					// "protoOption"	: myMeta.protoOption,
+					// "protoConcept"	: myMeta.protoConcept,
 	            }
         	} else if ( _pGrid.rowData[ 'ptType'] == 'fields' ) {
-
+        		
+        		prpIx = _pGrid.rowData[ 'ptProperty']
+        		prpTitle = 'field.' + prpIx
+        		
+        		var field = me.myMeta.dict[ prpIx ]
 	            prp = {
-					"allowBlank": false,
-					"cellLink": true,
-					"cellToolTip": true,
-					"choices": [],
-					"defaultValue": "Codigo",
-					"fieldLabel": "Alias",
-					"fkField": "prMaestro1",
-					"fkId": "metaObj_id",
-					"flex": 2,
-					"fromModel": true,
-					"header": "Acteur Princ",
-					"minWidth": 200,
-					"name": "valueUdp",
-					"readOnly": true,
-					"storeOnly": true,
-					"tooltip": "Codigo o Identificador principal del objeto",
-					"type": "autofield",
-					"type": "bool",
-					"type": "CharField",
-					"type": "choice",
-					"type": "date",
-					"type": "decimal",
-					"type": "foreignid",
-					"type": "foreigntext",
-					"type": "IntegerField",
-					"type": "string",
-					"type": "text",
-					"width": 200,
-					"wordWrap": true,
-					"zoomModel": "protoExt.MetaObj"
+					"allowBlank": field.allowBlank || true,
+					"cellToolTip": field.cellToolTip || true,
+					"choices": field.choices ,
+					"defaultValue": field.defaultValue || 0,
+					"fieldLabel": field.fieldLabel || '',
+				    "format": field.format || '',
+					"flex": field.flex || 0,
+					"header": field.header || '',
+					"minWidth": field.minWidth || 0,
+					"name": field.name ,
+					"readOnly": field.readOnly || false ,
+					"storeOnly": field.storeOnly || false ,
+					"tooltip": field.tooltip || '',
+					"type":  field.type,
+					"width": field.width || 0,
+					"wordWrap": field.wordWrap || false,
+
+				    "allowDecimals": field.allowDecimals,
+				    "decimalPrecision": field.decimalPrecision,
+
+				    // TODO: BackEnd, Grid, No 
+				    "sortable": field.sortable || false
+    
+				    // FIX:  Q es esto por q 3 propiedades q pueden ser las misma vaina  readOnly, editable   
+				    // "editable": false,
+				    // "editMode": false,
+
+				    // "align": "right",
+				    // "draggable": false,
+
+					// "fromModel": field.fromModel,
+					// "zoomModel": field.zoomModel 
+					// "cellLink": field.cellLink ,
+					// "fkField":  field.fkField, 
+					// "fkId": field.fkId,
 	            }
 
         	} 
  
-
+ 			var panelPrps = Ext.getCmp( IdeSheet )
+ 			
+			panelPrps.setTitle( prpTitle )
 			propsGrid.setSource( prp )
-        	
+			
+			propsGrid.prpType = _pGrid.rowData[ 'ptType']
+			propsGrid.prpIx = prpIx
 
         };
         
@@ -386,6 +504,15 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 				tData['ptType'] =  pType 
 				tData['children'] =  [] 
 
+				// Obtiene un Id para hacer una referencia cruzada de la pcl con el arbol 
+				var IxTree = Ext.id()
+				tData['id'] = IxTree
+				
+				me.refDict[ IxTree ] = { 
+					'tData' : tData, 
+					'mData' : oData   
+					 } 
+				
 				if ( sDataType == "object" ) {
 					// Si es un objeto hay una propiedad q servira de titulo 
 					if ( oData['protoOption'] ) {
@@ -430,11 +557,30 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 				tData['leaf'] =  true  
 		        tData['ptValue'] =  oData.toString()  
 		
+				var IxTree = Ext.id()
+				tData['id'] = IxTree
+		
 			}
 		
 			return tData 
 		
-		}        
+		} 
+		
+        function showMetaConfig() {
+        	var safeConf =  clone( myMeta , 0, exclude =['dict','gridDefinition', 'formDefinition'] )
+        	showConfig( 'MetaConfig', safeConf )
+        }
+
+        function showConfig( title , myConf ) {
+        	Ext.Msg.show({
+               title: title,
+               multiline : true,   
+               width : 600, 
+               height : 400, 
+               value: Ext.encode( myConf ) 
+               });
+        }
+        
     },
 
     setEditMode: function( editMode ){

@@ -236,6 +236,15 @@ function DefineProtoModel ( myMeta , modelClassName ){
         };
 
 
+		// Tipos validos   
+		if ( ! vFld.type  in oc( [ 
+			'string', 'text',  'bool', 'int', 'decimal', 'combo',  
+			'date',  'datetime', 'time', 
+			'autofield', 'foreignid',  'foreigntext'  ] )) {
+				vFld.type = 'string'
+		}; 
+
+
 		// Determina el xType y otros parametros 
 		switch( vFld.type )
 		{
@@ -460,6 +469,9 @@ function getColDefinition( vFld ) {
 		// El zoom id debe estar oculto  
        	// colDefinition['hidden']= true
         editor.xtype = 'numberfield'
+	  	break;
+
+	case 'autofield':
 	  	break;
 
 	}

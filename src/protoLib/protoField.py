@@ -89,6 +89,7 @@ def setFieldDict(protoFields ,  field ):
 
     elif field.__class__.__name__ == 'TextField':
         pField['type'] = 'text'
+        pField['subType'] = 'plainText' # 'htmlText'
         if bDefault:                     
             setFieldProperty(  pField, 'defaultValue', '' , field, 'default', ''  )
 

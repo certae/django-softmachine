@@ -325,7 +325,8 @@ var propertyStore = new Ext.data.JsonStore({
                   origField=g.origFields.getByKey(c.id);//the default field configured on column 
               if (!currField) return true; 
                
-              var custField=(c.custFields && c.custFields[pos.row]) ? c.custFields[pos.row] : false;//overriden field for apropriate row in column 
+			  //overriden field for apropriate row in column               
+              var custField=(c.custFields && c.custFields[pos.row]) ? c.custFields[pos.row] : false; 
                
               if (custField) { 
                   if (!Ext.isDefined(custField.id) || (currField.id!=custField.id) )
@@ -346,17 +347,6 @@ var propertyStore = new Ext.data.JsonStore({
 
 //--  Remplzar el editor en  RowMode 
 
-<HTML>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-
-<link rel="stylesheet" type="text/css" href="ext4/resources/css/ext-all.css" />
-
-<script src='ext4/ext-all-debug.js'></script>
-<script src="ext4/bootstrap.js"></script>
-<script src="ux/Ext.ux.grid.plugin.RowEditing.js"></script>
-
-<script>
 
 Ext.onReady(winMain);
 function winMain()
@@ -485,9 +475,75 @@ Ext.override(Ext.grid.RowEditor,
     }
 });
 
-</script>
-</head>
-<body>
 
-</body>
-</html>
+//------------------------------------------------------------------
+
+
+
+// CSS para WorWrap
+// 
+// 
+// .x-property-grid .x-grid-row .x-grid-property-name .x-grid-cell-inner {
+    // white-space: normal;
+// }
+// 
+// .x-property-grid .x-grid-row .x-grid-property-name .x-grid-cell-inner,
+// .x-property-grid .x-grid-row-over .x-grid-property-name .x-grid-cell-inner {
+    // background-image: none;
+// }
+// 
+// .x-property-grid .x-grid-row .x-grid-property-name,
+// .x-property-grid .x-grid-row-over .x-grid-property-name
+// {
+    // background-position: -16px 1px;
+    // background-image: url("http://dev.sencha.com/deploy/ext-4.1.0-gpl/resources/themes/images/default/grid/property-cell-bg.gif");
+    // background-repeat: repeat-y;
+// }
+// 
+
+//  ---------------------------------------------
+
+
+ // Agregar un textArea 
+// http://jsfiddle.net/o_nix/pLYt3/2/
+
+Ext.require(['*']);
+
+Ext.onReady(function(){
+    var propsGrid = Ext.create('Ext.grid.property.Grid', {
+        hideHeaders: true,
+        width: 300,
+        tbar: [
+            '->',
+            {text: 'Edit', width: 75}
+        ],
+        sortableColumns: false,
+        source: {
+            "Title": "A Reason for Spelling (Level B): Teacher's Guidebook",
+            "grouping": false,
+            "autoFitColumns": true,
+            "productionQuality": false,
+            "created": Ext.Date.parse('10/15/2006', 'm/d/Y'),
+            "tested": false,
+            "version": 0.01,
+            "borderWidth": 1
+        },
+        customEditors: {
+            Title: Ext.create('Ext.form.field.TextArea', {
+                selectOnFocus: true,
+                height: 50
+            })
+        }
+    });
+    
+    var thePanel = Ext.create('Ext.panel.Panel', {
+        title: 'Record Details',
+        width: 800,
+        items: [propsGrid],
+        layout: {
+            type: 'hbox'
+        },
+        renderTo: Ext.getBody()
+    });
+});​
+

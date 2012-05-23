@@ -57,8 +57,8 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
     # Define la apariencia de los campos en la grilla,  
     # model__code es un campo proveniente de un FK, ( absorbido, join ) 
     protoExt[ 'protoFields' ] =  {        
-          'code': {'header' : 'Nom Éntite', 'type': 'CharField' , 'width': 200 },
-          'model__code': {'header' : 'Vue', 'type': 'CharField' , 'width': 200 },  
+          'code': {'header' : 'Nom Éntite', 'width': 200 },
+          'model__code': {'header' : 'Vue', 'width': 200 },  
           'description': { 'wordWrap': True, 'minWidth': 200, 'flex': 1 },
      }
 

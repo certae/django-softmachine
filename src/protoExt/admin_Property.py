@@ -40,20 +40,20 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
          }
 
     protoExt[ 'protoFields' ] =  {        
-        'code': {'header' : 'Éléments de données', 'type': 'CharField' ,  'minWidth': 200, 'flex': 1, 'fieldLabel' : 'Property' },
-        'concept__model__code': {'header' : 'Vue', 'type': 'CharField' , 'minWidth': 200 , 'flex': 1, 'fieldLabel' : 'Vue', 'cellLink' : True },  
+        'code': {'header' : 'Éléments de données',  'minWidth': 200, 'flex': 1, 'fieldLabel' : 'Property' },
+        'concept__model__code': {'header' : 'Vue',  'minWidth': 200 , 'flex': 1, 'fieldLabel' : 'Vue', 'cellLink' : True },  
         'concept__model__category' : { 'fieldLabel' : 'Category' },                             
 
-        'description': { 'storeOnly': True ,'header' : 'Description', 'type': 'CharField' },
-        'concept__code': { 'storeOnly': True ,'header' : 'Concept', 'type': 'CharField' , 'minWidth': 200, 'flex': 1 , 'fieldLabel' : 'Entity' },
+        'description': { 'storeOnly': True ,'header' : 'Description'  },
+        'concept__code': { 'storeOnly': True ,'header' : 'Concept', 'minWidth': 200, 'flex': 1 , 'fieldLabel' : 'Entity' },
           
-        'isNullable':{ 'header' : 'Is null' , 'type' : 'bool'},
-        'isRequired':{ 'fieldLabel' : 'Is Required' , 'type' : 'bool'},
+        'isNullable':{ 'header' : 'Is null'},
+        'isRequired':{ 'fieldLabel' : 'Is Required' },
         'alias':{ 'fieldLabel' : 'Alias' },
         'baseType' : { 'fieldLabel' : 'Type' }, 
-        'prpLength' : { 'fieldLabel' : 'Length', 'type' : 'decimal' },
+        'prpLength' : { 'fieldLabel' : 'Length'  },
          
-        'udp__GABARIT': { 'fieldLabel' : 'Gabarit', 'type' : 'choice', 'choices' : [[ '0', 'cero'], [ '1', 'uno']]  },
+        'udp__GABARIT': { 'fieldLabel' : 'Gabarit', 'type' : 'combo', 'choices' : [[ '0', 'cero'], [ '1', 'uno']]  },
         'udp__DOCUMENTDEREFERENCE' :{ 'fieldLabel' : 'Doc Reference'},
         'udp__DEFINITION': { 'fieldLabel' : 'Definition'  },
         'udp__PRECISIONS': { 'fieldLabel' : 'Precision' },

@@ -16,10 +16,10 @@ class UdpAdmin(django.contrib.admin.ModelAdmin):
     # model__code es un campo proveniente de un FK, ( absorbido, join ) 
 #    protoExt[ 'excludeFields' ] = ( 'metaObj', )           
     protoExt[ 'protoFields' ] =  {        
-          'code': {'header' : 'Udp', 'type': 'CharField' ,  'width': 300 },
-          'metaObj__code': {'header' : 'Poperty', 'type': 'CharField' ,  'width': 300 },  
-#         'metaObj__objType': {'header' : 'objType', 'type': 'CharField' , 'width': 300 },  
-          'metaObj__id': {'header' : 'metaObj Id', 'type': 'IntegerField' , },  
+          'code': {'header' : 'Udp',  'width': 300 },
+          'metaObj__code': {'header' : 'Poperty',   'width': 300 },  
+#         'metaObj__objType': {'header' : 'objType',  'width': 300 },  
+          'metaObj__id': {'header' : 'metaObj Id',  },  
      }
 
     #TODO: Implementar el manejo de las vistas 
