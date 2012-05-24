@@ -768,7 +768,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             minWidth: 400,
             layout: 'fit',
             resizable: true,
-            modal: true,
+
+            collapsible: true,
+            // modal: true,
             items: myPcl
         });
     	

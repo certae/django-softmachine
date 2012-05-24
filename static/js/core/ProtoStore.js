@@ -301,7 +301,8 @@ function getColDefinition( vFld ) {
 	//TODO:  Cargar las propiedades del modelo 
 
     if (!vFld.header ) vFld.header = vFld.name
-	colDefinition = {
+	
+	var colDefinition = {
             dataIndex: vFld.name,
             text: vFld.header 
 	}
@@ -365,7 +366,7 @@ function getColDefinition( vFld ) {
         //@zoomReturn : TODO: Campos q sera heredados a la entidad base  
         'zoomReturn'
 		]
-    editor = copyProps ( {},  vFld, true, lstProps )
+    var editor = copyProps ( {},  vFld, true, lstProps )
 
 	//TODO: subType ( eMail, IpAdress, etc ... )
     // editor.vtype = 'email'
@@ -533,9 +534,9 @@ function getColDefinition( vFld ) {
 function getFormFieldDefinition( vFld ) {
 
 	var colDefinition = getColDefinition( vFld );
+	var formEditor = { readOnly : true  }
 	
-	if ( colDefinition.editor ) var formEditor = colDefinition.editor;
-	else var formEditor = { readOnly : true  }
+	if ( colDefinition.editor )  formEditor = colDefinition.editor;
 	  
     formEditor.fieldLabel =  vFld.fieldLabel || vFld.header || vFld.name 
 	
@@ -576,7 +577,7 @@ function loadPci( protoOption, loadIfNot, options) {
         
 	        Ext.Ajax.request({
                 method: 'GET',
-                url: _PConfig.urlProtoDefinition  ,
+                url: _PConfig.urlSavePCI  ,
                 params : { 
                     protoOption : protoOption 
                     },
@@ -623,3 +624,55 @@ function getModelName( protoOption  ) {
 
 }
 
+
+function savePci( protoMeta,  options) {
+
+        options = options || {};
+        			
+        // DGT: reemplaza las funciones en caso de no existir  
+        Ext.applyIf(options, {
+            scope: this,
+            success: Ext.emptyFn,
+            failure: Ext.emptyFn
+        });
+    
+    	var protoOption = protoMeta.protoOption
+    	var sMeta = Ext.encode(  clone( protoMeta, 0, ['dict'] ) )
+    
+        Ext.Ajax.request({
+            method: 'POST',
+            url: _PConfig.urlSavePCI  ,
+            params : { 
+                protoOption : protoOption,  
+                protoMeta : sMeta  
+                },
+            
+            success: function(result, request) {
+                var myResult = Ext.decode( result.responseText );
+                if(myResult.success) {
+                	options.success.call( options.scope, result, request);
+                } else {
+                	options.failure.call(options.scope, result, request);
+                	errorMessage ( 'SavePCI Failed', myResult.message  )
+                }
+            },
+            failure: function(result, request) {
+            	errorMessage ( 'SavePCI Failed', result.status + ' ' + result.statusText )
+                options.failure.call(options.scope, result, request);
+            },
+            scope: this,
+            timeout: 30000
+        })
+        
+}
+
+function errorMessage(  errTitle,  errMsg ) {
+	
+	Ext.MessageBox.show({
+	    title: errTitle,
+	    msg: errMsg,
+	    icon: Ext.Msg.ERROR,
+	    buttons: Ext.Msg.OK
+	});
+	
+}

@@ -30,10 +30,10 @@ def protoDelete(request):
 def protoEdit(request, myAction ):
     
     message = '' 
-    if request.method == 'POST':
-        protoMeta = request.POST.get('protoMeta', {})
-        rows = request.POST.get('rows', [])
-    else: return 
+    if request.method != 'POST':  return
+
+    protoMeta = request.POST.get('protoMeta', '')
+    rows = request.POST.get('rows', [])
 
 #   Decodifica los eltos 
     protoMeta = json.loads( protoMeta )

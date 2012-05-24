@@ -30,7 +30,8 @@ _tbSearchClearFilter = '<b>Supprimer les filtres<b>'
 // Config Variables 
 _PConfig =  {
     urlMenu : 'protoExt/protoGetMenuData/', 
-    urlProtoDefinition : 'protoExt/protoGetPCI/', 
+    urlSavePCI : 'protoExt/protoGetPCI/', 
+    urlSavePCI : 'protoExt/protoSavePCI/', 
    
     clsBaseModel: 'ProtoUL.model.' 
 }; 

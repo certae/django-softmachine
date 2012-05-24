@@ -49,10 +49,9 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 		var me = this;         
 
         var _pGrid = this; 
-		var myMeta = this.myMeta;         
-    	this.safeMeta =  clone( myMeta, 0, [ 'dict' ] );
-
-		// Coleccion de referencia para relacionar safeMeta con myStore ( treeStore )
+		var myMeta = this.myMeta;
+		         
+		// Coleccion de referencia para relacionar myMeta con myStore ( treeStore )
 		me.refDict = {}
 		
 		
@@ -66,7 +65,7 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 	        ]
 	    });
 	
-		var treeData = FormatMETA( this.safeMeta, 'pcl', 'pcl'  )
+		var treeData = FormatMETA( this.myMeta, 'pcl', 'pcl'  )
 	    var myStore = Ext.create('Ext.data.TreeStore', { 
 	        folderSort: true, 
             sorters: [{
@@ -90,7 +89,7 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 		
 		var grid = Ext.create('Ext.tree.Panel', {
 	        store: myStore,
-	        title:  _pGrid.safeMeta.shortTitle, 
+	        title:  _pGrid.myMeta.shortTitle, 
 	        
 	        useArrows: true,
 	        rootVisible: true,
@@ -553,6 +552,8 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 					// PRegunta es por el objeto padre para enviar el tipo en los arrays  	
 			        if ( sDataType == "object" ) {
 		
+						if ( sKey == 'dict' ) continue;  
+		
 		                tData['children'].push(  FormatMETA(vValue, sKey  ) ) 
 		
 			        } else if ( sDataType == "array" ) {
@@ -592,7 +593,7 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
 		} 
 		
         function showMetaConfig() {
-        	showConfig( 'MetaConfig', _pGrid.safeMeta )
+        	showConfig( 'MetaConfig', _pGrid.myMeta )
         }
 
         function showConfig( title , myConf ) {
@@ -634,7 +635,7 @@ Ext.define('ProtoUL.view.ProtoPcl' ,{
     
     saveChanges: function(){
     	
-		savePclCache( this.safeMeta.protoOption, this.safeMeta )     	
+		savePci( this.myMeta )     	
         // this.store.sync();
     }, 
     

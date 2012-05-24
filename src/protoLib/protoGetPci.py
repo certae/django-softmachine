@@ -30,7 +30,6 @@ import django.utils.simplejson as json
 
 def protoGetPCI(request):
     """ return full metadata (columns, renderers, totalcount...)
-        to be used in combination with protoExt.js
     """
 
     
@@ -221,4 +220,47 @@ def getProtoViewObj( protoMeta, view   ):
     else: 
         return protoMeta
 
+
+# ------------------------------------------------------------------------
+
+
+def protoSavePCI(request):
+    """ Save full metadata
+    """
+
+    if request.method != 'POST':
+        return 
+    
+    protoOption = request.GET.get('protoOption', '') 
+    sMeta = request.POST.get('protoMeta', '')
+    protoMeta = json.loads( sMeta )
+    
+    protoConcept, view = getProtoViewName( protoOption )
+    
+    try: 
+        model = getDjangoModel(protoConcept)
+    except Exception,  e:
+        jsondict = { 'succes':False, 'message': getReadableError( e ) }
+        context = json.dumps( jsondict)
+        return HttpResponse(context, mimetype="application/json")
+    
+
+    # created : true  ( new ) is a boolean specifying whether a new object was created.
+    protoDef, created = ProtoDefinition.objects.get_or_create(code = protoConcept, defaults={'code': protoConcept})
+    
+    # El default solo parece funcionar al insertar en la Db
+    protoDef.active = True 
+    protoDef.overWrite = False 
+    protoDef.metaDefinition = sMeta 
+    protoDef.description = protoMeta['description'] 
+    protoDef.save()    
+
+    jsondict = {
+        'succes':True,
+        'message': 'Ok',
+    }
+    
+    # Codifica el mssage json 
+    context = json.dumps( jsondict)
+    return HttpResponse(context, mimetype="application/json")
 
