@@ -42,7 +42,7 @@ def protoGetPCI(request):
     try: 
         model = getDjangoModel(protoConcept)
     except Exception,  e:
-        jsondict = { 'succes':False, 'message': getReadableError( e ) }
+        jsondict = { 'success':False, 'message': getReadableError( e ) }
         context = json.dumps( jsondict)
         return HttpResponse(context, mimetype="application/json")
     
@@ -83,7 +83,7 @@ def protoGetPCI(request):
     
     
     jsondict = {
-        'succes':True,
+        'success':True,
         'message': '',
         'metaData':{
             # The name of the property which contains the Array of row objects. ...
@@ -228,10 +228,12 @@ def protoSavePCI(request):
     """ Save full metadata
     """
 
+    protoGetFieldTree ( request ) 
+
     if request.method != 'POST':
         return 
     
-    protoOption = request.GET.get('protoOption', '') 
+    protoOption = request.POST.get('protoOption', '') 
     sMeta = request.POST.get('protoMeta', '')
     protoMeta = json.loads( sMeta )
     
@@ -240,7 +242,7 @@ def protoSavePCI(request):
     try: 
         model = getDjangoModel(protoConcept)
     except Exception,  e:
-        jsondict = { 'succes':False, 'message': getReadableError( e ) }
+        jsondict = { 'success':False, 'message': getReadableError( e ) }
         context = json.dumps( jsondict)
         return HttpResponse(context, mimetype="application/json")
     
@@ -256,7 +258,7 @@ def protoSavePCI(request):
     protoDef.save()    
 
     jsondict = {
-        'succes':True,
+        'success':True,
         'message': 'Ok',
     }
     
@@ -264,3 +266,67 @@ def protoSavePCI(request):
     context = json.dumps( jsondict)
     return HttpResponse(context, mimetype="application/json")
 
+
+
+def protoGetFieldTree(request):
+    """ return full field tree 
+    """
+
+    if request.method != 'POST':
+        return 
+    
+    
+    protoOption = request.GET.get('protoOption', '') 
+    protoConcept, view = getProtoViewName( protoOption )
+    
+    try: 
+        model = getDjangoModel(protoConcept)
+    except Exception,  e:
+        jsondict = { 'success':False, 'message': getReadableError( e ) }
+        context = json.dumps( jsondict)
+        return HttpResponse(context, mimetype="application/json")
+    
+    
+    fieldList = []
+    
+    # Se crean los campos con base al modelo ( trae todos los campos del modelo 
+    for field in model._meta._fields():
+        addFiedToList( fieldList,  field , '' )
+        
+    jsondict = {
+        'success':True,
+        'root': fieldList 
+    }
+    
+    # Codifica el mssage json 
+    context = json.dumps( jsondict)
+    return HttpResponse(context, mimetype="application/json")
+
+
+
+def addFiedToList(  fieldList , field, fieldBase  ):
+    """ return parcial field tree  ( Called from protoGetFieldTree ) 
+    """
+
+    fieldId = fieldBase + field.name  
+    
+    menuField = { 
+        'id': fieldId , 
+        'text': field.name, 
+        'checked' : False  
+     }
+
+    if field.__class__.__name__ != 'ForeignKey':
+        menuField['leaf'] = True
+         
+    else:
+        
+        fieldModelName = field.rel.to._meta.app_label + '.' + field.rel.to.__name__
+        model = getDjangoModel( fieldModelName  )
+
+        fieldList= []
+        for field in model._meta._fields():
+            addFiedToList( fieldList,  field , fieldId + '__' )
+
+        menuField['children'] = fieldList
+    

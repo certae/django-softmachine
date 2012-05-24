@@ -283,7 +283,7 @@ function DefineProtoModel ( myMeta , modelClassName ){
     // myFields = [{"name":"id","type":"int","useNull":true},{"name":"first","type":"string"}]
     Ext.define(modelClassName, {
         extend: 'Ext.data.Model',
-            fields: myFields 
+        fields: myFields 
             
 		//TODO: Validation, Validaciones             
 		//    validations: [{
@@ -577,7 +577,7 @@ function loadPci( protoOption, loadIfNot, options) {
         
 	        Ext.Ajax.request({
                 method: 'GET',
-                url: _PConfig.urlSavePCI  ,
+                url: _PConfig.urlGetPCI  ,
                 params : { 
                     protoOption : protoOption 
                     },
@@ -675,4 +675,40 @@ function errorMessage(  errTitle,  errMsg ) {
 	    buttons: Ext.Msg.OK
 	});
 	
+}
+
+
+
+function loadFiedlTree( protoOption, options) {
+
+    options = options || {};
+    
+    // DGT: reemplaza las funciones en caso de no existir  
+    Ext.applyIf(options, {
+        scope: this,
+        success: Ext.emptyFn,
+        failure: Ext.emptyFn
+    });
+    
+    Ext.Ajax.request({
+        method: 'POST',
+        url: _PConfig.urlGetFieldTree  ,
+        params : { protoOption : protoOption },
+        scope: this,
+        success: function(result, request) {
+            var myResult = Ext.decode( result.responseText );
+            if(myResult.success) {
+            	options.success.call( options.scope, result, request);
+            } else {
+            	options.failure.call(options.scope, result, request);
+            	errorMessage ( 'SavePCI Failed', myResult.message  )
+            }
+        },
+        failure: function(result, request) {
+        	errorMessage ( 'SavePCI Failed', result.status + ' ' + result.statusText )
+            options.failure.call(options.scope, result, request);
+        }
+        
+    })
+    
 }

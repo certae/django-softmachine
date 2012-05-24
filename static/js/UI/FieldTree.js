@@ -1,18 +1,17 @@
-Ext.define('ProtoUL.view.MenuTree', {
+Ext.define('ProtoUL.UI.FieldTree', {
     extend: 'Ext.tree.Panel',
-    alias: 'widget.menuTree',
+    alias: 'widget.fieldTree',
     
-    rootVisible: false,
+    rootVisible: true,
     lines: false,
     minWidth: 200,
 
     initComponent: function() {
     	
-    	
-		Ext.define('ProtoUL.MenuModel', {
+		Ext.define('ProtoUL.FieldModel', {
 		    extend: 'Ext.data.Model',
 		    proxy: {
-		        method: 'GET',
+		        method: 'POST',
 		        type: 'ajax',
 		        url: _PConfig.urlMenu  
 		    }, 
