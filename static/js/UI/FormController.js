@@ -8,9 +8,9 @@
 
 /* 
  * Parameters 
-	
-	@myMeta 
-	 
+    
+    @myMeta 
+     
  */
 
 Ext.define('ProtoUL.UI.FormControler', {
@@ -19,18 +19,18 @@ Ext.define('ProtoUL.UI.FormControler', {
 
     initComponent: function( ) { 
 
-    	this.myForm = Ext.widget('protoform', {
-        	myMeta : this.myMeta  
+        this.myForm = Ext.widget('protoform', {
+            myMeta : this.myMeta  
         });  
 
         this.callParent();
- 	}, 
+     }, 
   
-	_newWindow: function () {
-		
+    _newWindow: function () {
+        
         this.myWin  = Ext.widget('window', {
-        	constrain: true, 
-			title : this.myMeta.description,
+            constrain: true, 
+            title : this.myMeta.description,
             closeAction: 'hide',
             width: 600,
             height: 400,
@@ -42,27 +42,27 @@ Ext.define('ProtoUL.UI.FormControler', {
             items: this.myForm
         });
 
-	},
+    },
 
-	newEditionForm: function ( myRecord, isReadOnly )   {
-		
-		this._newWindow(); 
+    newEditionForm: function ( myRecord, isReadOnly )   {
+        
+        this._newWindow(); 
 
-		// Verifica la edicion  
-		if ( myRecord   ) {
-			this.myForm.setActiveRecord( myRecord );
-		}
-		
-		if ( isReadOnly ) {
-			this.myForm.setReadOnly( true );
-		} else {
-			this.myForm.setReadOnly( true, this.myMeta.gridConfig.readOnlyFields );
-		}
-		
-		this.myWin.show();
-		
-	} 	 
-	 
-	  
+        // Verifica la edicion  
+        if ( myRecord   ) {
+            this.myForm.setActiveRecord( myRecord );
+        }
+        
+        if ( isReadOnly ) {
+            this.myForm.setReadOnly( true );
+        } else {
+            this.myForm.setReadOnly( true, this.myMeta.gridConfig.readOnlyFields );
+        }
+        
+        this.myWin.show();
+        
+    }      
+     
+      
  }
 )

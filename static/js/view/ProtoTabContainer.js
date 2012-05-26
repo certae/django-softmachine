@@ -7,8 +7,8 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
     
     listeners: {
         'tabchange': function(tabs, tab) {
-        	//DGT: Para arreglar un error reportado en ExtJs 4.0.7
-        	tab.down('gridpanel').view.refresh();
+            //DGT: Para arreglar un error reportado en ExtJs 4.0.7
+            tab.down('gridpanel').view.refresh();
         },
         scope: this 
     }, 
@@ -25,9 +25,9 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
     
     addTabPanel: function( protoOption, baseFilter , detailTitle  ){
 
-    	var myMeta = _cllPCI[ protoOption ] ;
-    	var title = myMeta.shortTitle ; 
-    	if ( baseFilter ) { title = '*' + title }
+        var myMeta = _cllPCI[ protoOption ] ;
+        var title = myMeta.shortTitle ; 
+        if ( baseFilter ) { title = '*' + title }
 
         var tab = this.add({
             title: title ,

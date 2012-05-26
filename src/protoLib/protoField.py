@@ -4,13 +4,29 @@ from utilsBase import _PROTOFN_ , verifyStr
 
 from django.db.models.fields import NOT_PROVIDED
 
+# Equivalencia de tipos 
+TypeEquivalence = { 
+        'BooleanField'  :'bool',
+        'CharField'     :'string',
+        'DateField'     :'date', 
+        'DateTimeField' :'datetime', 
+        'DecimalField'  :'decimal',
+        'FloatField'    :'decimal',
+        'ForeignKey'    :'foreigntext',
+        'IntegerField'  :'int',
+        'TextField'     :'text',
+        'TimeField'     :'time',
+        'AutoField'     :'autofield'
+    }
+
+
 def setFieldDict(protoFields ,  field ):
 
     #Verifico si existe en el diccionario 
     pField = protoFields.get( field.name, {} )
     
     pField['name'] = field.name 
-    pField['type'] = field.__class__.__name__
+    pField['type'] = TypeEquivalence.get( field.__class__.__name__, 'string')
     
     #Verifica si existe parametrizacion a nivel de modelo.campo 
     modelField = getattr(field , 'protoExt', {})
@@ -22,9 +38,8 @@ def setFieldDict(protoFields ,  field ):
     setFieldProperty(  pField, 'allowBlank',  True, field, 'blank', False   )
     setFieldProperty(  pField, 'tooltip',  '', field, 'help_text', ''  )
 
-    bDefault = (field.default is not None) and (field.default is not NOT_PROVIDED)
     
-#    Error msg es un dictionario con varios tipos de errores
+#    TODO: Error msg es un dictionario con varios tipos de errores
 #    my_default_errors = {
 #        'required': 'This field is required',
 #        'blank' : '',
@@ -48,57 +63,28 @@ def setFieldDict(protoFields ,  field ):
     if getattr( field, 'editable', False ) == False: 
         pField['readOnly'] = True   
 
-    if  field.__class__.__name__ == 'DateTimeField':
-#       pField['type'] = 'datetime'
-        pField['type'] = 'date'
-        pField['dateFormat'] = 'Y-m-d'
-
-
-    elif  field.__class__.__name__ == 'DateField':
-        pField['type'] = 'date'
-        pField['dateFormat'] = 'Y-m-d'
-
-    elif  field.__class__.__name__ == 'TimeField':
-        pField['type'] = 'time'
-        if bDefault:                     
-            setFieldProperty(  pField, 'defaultValue', '' , field, 'default', ''  )
-        
-    elif field.__class__.__name__ == 'IntegerField':
-        pField['type'] = 'int'
-        if bDefault:                     
+    # Defaults 
+    if (field.default is not None) and (field.default is not NOT_PROVIDED):                     
+        if pField['type'] == 'int' or pField['type'] == 'decimal':
             setFieldProperty(  pField, 'defaultValue', 0 , field, 'default', 0  )
         
-    elif field.__class__.__name__ == 'DecimalField':
-        pField['type'] = 'decimal'
-        if bDefault:                     
-            setFieldProperty(  pField, 'defaultValue', 0.0 , field, 'default', 0.0 )
-
-    elif field.__class__.__name__ == 'BooleanField':
-        pField['type'] = 'bool'
-        if bDefault:                     
+        elif pField['type'] == 'bool':
             setFieldProperty(  pField, 'defaultValue', False , field, 'default', False  )
 
-    elif field.__class__.__name__ == 'CharField':
-        pField['type'] = 'string'
-        if bDefault:                     
+        else:
             setFieldProperty(  pField, 'defaultValue', '' , field, 'default', ''  )
 
-        if field.choices:
-            pField['type'] = 'combo'
-            pField['choices'] = field.choices  
+
+    if field.__class__.__name__ == 'CharField' and field.choices:
+        pField['type'] = 'combo'
+        pField['choices'] = field.choices  
 
     elif field.__class__.__name__ == 'TextField':
-        pField['type'] = 'text'
         pField['subType'] = 'plainText' # 'htmlText'
-        if bDefault:                     
-            setFieldProperty(  pField, 'defaultValue', '' , field, 'default', ''  )
 
         
     elif  field.__class__.__name__ == 'ForeignKey':
-
-#        Verificar q pasa cuando existen dos ref al mismo maestro 
-
-        pField['type'] = 'foreigntext'
+#       Verificado ( q pasa cuando existen dos ref al mismo maestro )  
         pField['fkId'] = field.attname                              # Campo q contiene el ID 
         
         # Nombre del modelo referenciado
@@ -111,9 +97,6 @@ def setFieldDict(protoFields ,  field ):
              'type':  'foreignid',                                      # pseudo type ( hidden = true, etc.... ) 
              }
         protoFields[fKey['name']] = fKey 
-
-    elif  field.__class__.__name__ == 'AutoField':
-        pField['type'] = 'autofield'
 
     
     #Lo retorna al diccionario
@@ -137,3 +120,6 @@ def setFieldProperty( pField, pProperty, pDefault, field, fProperty, fpDefault )
 #        for c in field.choices:
 #            a[c[0]] = c[1]              //  Dict
 #            a.push ( [ c[0], c[1] ])    //  List
+
+
+

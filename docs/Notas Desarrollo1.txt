@@ -1,2 +1,11 @@
-
-protoGetFieldTree
+    typeEquivalence = { 
+        'BooleanField'  :'bool',
+        'CharField'     :'string',
+        'DateField'     :'date', 
+        'DateTimeField' :'datetime', 
+        'DecimalField'  :'decimal',
+        'ForeignKey'    :'foreigntext',
+        'IntegerField'  :'int',
+        'TextField'     :'text',
+        'TimeField'     :'time',
+    }

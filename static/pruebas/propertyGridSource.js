@@ -4,7 +4,7 @@ Ext.define('Ext.grid.property.Grid', {
     alias: 'widget.propertygrid',
     alternateClassName: 'Ext.grid.PropertyGrid',
 
-	// Setea directamente las propiedades de la grilla            
+    // Setea directamente las propiedades de la grilla            
     valueField: 'value',
     nameField: 'name',
     enableColumnMove: false,
@@ -14,7 +14,7 @@ Ext.define('Ext.grid.property.Grid', {
     clicksToEdit: 1,
     enableHdMenu: false,
 
-	
+    
     initComponent: function () {
         var me = this;
         me.addCls(Ext.baseCSSPrefix + 'property-grid');

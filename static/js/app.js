@@ -19,9 +19,9 @@ Ext.application({
         'Ext.toolbar.Paging', 
         'Ext.layout.container.Border',
         
-	    'Ext.ux.ToolbarDroppable',
-	    'Ext.ux.BoxReorderer',
-	    
+        'Ext.ux.ToolbarDroppable',
+        'Ext.ux.BoxReorderer',
+        
         'Ext.util.Cookies', 
         'Ext.Ajax',
         

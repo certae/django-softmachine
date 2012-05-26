@@ -49,9 +49,9 @@ Ext.define('ProtoUL.view.Viewport', {
 
     createHeaderPanel: function () {
 
-    	
+        
         var headerPanel = {
-			region:'north',            
+            region:'north',            
             margins:'0 0 0 0',
             split: false,
             collapsible: false,
@@ -60,7 +60,7 @@ Ext.define('ProtoUL.view.Viewport', {
                 align:'middle'
             },
             items:[{
-            	 margins:'5 5',
+                 margins:'5 5',
                  xtype: 'box',
                  html: '<span class="title">' + _siteTitle + '</span><br><span class="subtitle">' + _versionProto + '</span>', 
                  height: 56
@@ -69,7 +69,7 @@ Ext.define('ProtoUL.view.Viewport', {
             },{
                 xtype:'splitbutton',
                 scale: 'medium',
-           		margins:'5 5 5 5',
+                   margins:'5 5 5 5',
                 text: 'Login'
             }]
 
@@ -82,8 +82,8 @@ Ext.define('ProtoUL.view.Viewport', {
 
     createMenuPanel: function () {
 
-    	if (_MENU_COLLAPSED == undefined) {_MENU_COLLAPSED = false};
-    	
+        if (_MENU_COLLAPSED == undefined) {_MENU_COLLAPSED = false};
+        
         this.menuPanel = {
             region: 'west',
             width: 300,
@@ -126,20 +126,20 @@ Ext.define('ProtoUL.view.Viewport', {
         
 //        console.log( protoOption, ' Loading MasterPanel ...')
 
-		var options = {
-			scope: this, 
+        var options = {
+            scope: this, 
             success: function (obj, result, request) { 
                 thisRef.protoTabContainer.addTabPanel( protoOption );
             },
             failure: function ( obj, result, request) { 
                 return ;  
             }
-		}
+        }
 
         if (  loadPci( protoOption, true, options ) ) {
             // El modelo ya ha sido cargado ( la cll meta es global )     
             this.protoTabContainer.addTabPanel(protoOption );
-        	
+            
         }   
         
     },   

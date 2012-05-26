@@ -11,7 +11,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
      * @private
      * MetaData  initialization
      */
-	protoMeta: null, 
+    protoMeta: null, 
 
     /**
      * @private
@@ -19,8 +19,8 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
      */
     initComponent : function() {
 
-    	var me = this;
-    	var myMeta = this.protoMeta; 
+        var me = this;
+        var myMeta = this.protoMeta; 
 
         // Combo Columnas  
         var colStore = new Ext.data.ArrayStore({
@@ -44,9 +44,9 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
 
         // combo - operation 
         var opStore = new Ext.data.ArrayStore({ 
-        	fields: ['code', 'operation'], 
-        	data: _ComboFilterOp 
-    	}); 
+            fields: ['code', 'operation'], 
+            data: _ComboFilterOp 
+        }); 
         
         var comboOp = new Ext.form.ComboBox({
             emptyText: 'sélectionner opérator' ,
@@ -91,19 +91,19 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
         });
 
 
-		Ext.apply(me, {
-			items:  [  
-			// { xtype   : 'tbtext', text: '<b>Rechercher :<b>' }, 
+        Ext.apply(me, {
+            items:  [  
+            // { xtype   : 'tbtext', text: '<b>Rechercher :<b>' }, 
             searchCr,
             comboOp,
             comboCols,
             { xtype: 'tbseparator' },
             searchBtn    
             ]
-		});
+        });
 
         me.addEvents('loadData');
-		me.callParent();
+        me.callParent();
         
         // Inicializa Combos 
         clearCombos();     
@@ -149,7 +149,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
             
             me.fireEvent('loadData', me, sFilter, sTitle );
     
-    	};
+        };
     
         //BG 
         function onClickClearFilter (item ){
@@ -166,7 +166,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
             searchCr.setValue(''); 
         } 
     
-    }	// End Init
+    }    // End Init
 
 });
 

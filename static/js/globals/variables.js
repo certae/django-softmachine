@@ -5,16 +5,16 @@
 
 // Estados en cada fila de la grilla al iteractuar con el BackEnd  
 _ROW_ST = { 
-	ERROR 	: 'ROWST_ERR',
-	NEWROW 	: 'ROWST_NEW'
-	}
+    ERROR     : 'ROWST_ERR',
+    NEWROW     : 'ROWST_NEW'
+    }
 
 
 _siteTitle = 'Dictionnaire de données de la Santé et des Services sociaux'
 _versionProto = 'Version 0.93a'
 
-_detailViewNewTab 	= 'Voir dans un nouvel onglet'
-_gridBbPerPage 		= ' par page'
+_detailViewNewTab     = 'Voir dans un nouvel onglet'
+_gridBbPerPage         = ' par page'
 _gridBbShow  = 'Résultats' 
 _gridBbOf = 'de' 
 _gridBbPage = 'Page'
@@ -24,15 +24,15 @@ _gridNextText = 'Page suivante',
 _gridPrevText = 'Page précédente', 
 _gridLastText = 'Dernière page', 
 _gridRefreshText = 'Actualiser',  
-	
+    
 _tbSearchClearFilter = '<b>Supprimer les filtres<b>'
-	
+    
 // Config Variables 
 _PConfig =  {
 
-    urlMenu 		: 'protoExt/protoGetMenuData/', 
-    urlGetPCI 		: 'protoExt/protoGetPCI/', 
-    urlSavePCI 		: 'protoExt/protoSavePCI/', 
+    urlMenu         : 'protoExt/protoGetMenuData/', 
+    urlGetPCI         : 'protoExt/protoGetPCI/', 
+    urlSavePCI         : 'protoExt/protoSavePCI/', 
     urlGetFieldTree : 'protoExt/protoGetFieldTree/', 
    
     clsBaseModel: 'ProtoUL.model.' 

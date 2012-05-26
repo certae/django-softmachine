@@ -21,6 +21,7 @@
 from django.http import HttpResponse
 from protoGrid import getSearcheableFields, getProtoViewName
 from protoLib import protoGrid
+from protoField import TypeEquivalence
 from models import getDjangoModel, ProtoDefinition
 from utilsBase import getReadableError
 
@@ -228,8 +229,6 @@ def protoSavePCI(request):
     """ Save full metadata
     """
 
-    protoGetFieldTree ( request ) 
-
     if request.method != 'POST':
         return 
     
@@ -272,7 +271,7 @@ def protoGetFieldTree(request):
     """ return full field tree 
     """
 
-    if request.method != 'POST':
+    if request.method != 'GET':
         return 
     
     
@@ -291,20 +290,15 @@ def protoGetFieldTree(request):
     
     # Se crean los campos con base al modelo ( trae todos los campos del modelo 
     for field in model._meta._fields():
-        addFiedToList( fieldList,  field , '' )
+        addFiedToList( fieldList,  field , '', [] )
         
-    jsondict = {
-        'success':True,
-        'root': fieldList 
-    }
-    
     # Codifica el mssage json 
-    context = json.dumps( jsondict)
+    context = json.dumps( fieldList)
     return HttpResponse(context, mimetype="application/json")
 
 
 
-def addFiedToList(  fieldList , field, fieldBase  ):
+def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
     """ return parcial field tree  ( Called from protoGetFieldTree ) 
     """
 
@@ -313,20 +307,33 @@ def addFiedToList(  fieldList , field, fieldBase  ):
     menuField = { 
         'id': fieldId , 
         'text': field.name, 
-        'checked' : False  
+        'checked' : False, 
+        'fieldType' : TypeEquivalence.get( field.__class__.__name__, 'string')  
      }
 
     if field.__class__.__name__ != 'ForeignKey':
         menuField['leaf'] = True
-         
+
     else:
+
+        # Evita el mismo campo recursivo sobre si mismo.  
+        if fieldOcurrences.count( field.name ) > 0:
+            menuField['leaf'] = True
         
-        fieldModelName = field.rel.to._meta.app_label + '.' + field.rel.to.__name__
-        model = getDjangoModel( fieldModelName  )
+        # Evita demasiada recursividad 
+        elif len ( fieldOcurrences ) > 5:
+            menuField['leaf'] = True
+            
+        else: 
+            fieldOcurrences.append( field.name )
 
-        fieldList= []
-        for field in model._meta._fields():
-            addFiedToList( fieldList,  field , fieldId + '__' )
-
-        menuField['children'] = fieldList
+            fkFieldList= []
+            model = field.rel.to
+            for field in model._meta._fields():
+                addFiedToList( fkFieldList,  field , fieldId + '__' , fieldOcurrences)
     
+            menuField['leaf'] = False 
+            menuField['children'] = fkFieldList
+    
+
+    fieldList.append( menuField )

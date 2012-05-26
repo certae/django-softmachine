@@ -9,26 +9,26 @@ Ext.define('ProtoUL.ux.FieldHtmlEditor', {
     alias: 'widget.htmlfield',
 
     initComponent: function() {
-	    
-		Ext.apply(this, {
+        
+        Ext.apply(this, {
             plugins  : getPlugins(),
             // viewConfig: {
                 // plugins  : getPlugins()
-			// }
-		});
-		this.callParent();
+            // }
+        });
+        this.callParent();
 
-		function getPlugins(){
-		    return [
-		        new Ext.ux.form.HtmlEditor.Word(),
-		        new Ext.ux.form.HtmlEditor.Table(),
-		        new Ext.ux.form.HtmlEditor.HR(),
-		        new Ext.ux.form.HtmlEditor.SpecialCharacters(),
-		        new Ext.ux.form.HtmlEditor.MidasFormat()
-		    ];
-		};
+        function getPlugins(){
+            return [
+                new Ext.ux.form.HtmlEditor.Word(),
+                new Ext.ux.form.HtmlEditor.Table(),
+                new Ext.ux.form.HtmlEditor.HR(),
+                new Ext.ux.form.HtmlEditor.SpecialCharacters(),
+                new Ext.ux.form.HtmlEditor.MidasFormat()
+            ];
+        };
 
-	},
+    },
 
 });
 

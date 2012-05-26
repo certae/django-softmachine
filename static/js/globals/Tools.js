@@ -45,50 +45,50 @@ function typeOf(value) {
 }
 
 /*
- * @oBase 		: Base objet ( source )
- * @oRef 		: Ref object ( source )
- * @overWrite	: Overwrite Base with Ref 
- * @lstProps 	: Properties to copy 
+ * @oBase         : Base objet ( source )
+ * @oRef         : Ref object ( source )
+ * @overWrite    : Overwrite Base with Ref 
+ * @lstProps     : Properties to copy 
  */
 function copyProps(oBase, oRef, overWrite, lstProps )
 {
-	
-	if ( !overWrite ) overWrite = true; 
+    
+    if ( !overWrite ) overWrite = true; 
 
-	var oResult = clone( oBase ); 	
-	for(var i in oRef)
-	{
-		if (  overWrite ||  ! oBase[i]  ) {
-			if ( !lstProps ||  i in oc(lstProps) ) {
-				oResult[i] = oRef[i];
-			} 
-		}
-	}
-	return oResult;
+    var oResult = clone( oBase );     
+    for(var i in oRef)
+    {
+        if (  overWrite ||  ! oBase[i]  ) {
+            if ( !lstProps ||  i in oc(lstProps) ) {
+                oResult[i] = oRef[i];
+            } 
+        }
+    }
+    return oResult;
 }
 
 
 function clone(obj, auxRec, exclude ) {
-	// @exclude permite excluir propiedades de un diccionario 
-	
-	
-	// Verificacion de nivel de recursividad en la copia de objetos 
-	if ( auxRec ) 	{ 
-		auxRec = auxRec + 1 
-	} else { auxRec = 1 } 
+    // @exclude permite excluir propiedades de un diccionario 
+    
+    
+    // Verificacion de nivel de recursividad en la copia de objetos 
+    if ( auxRec )     { 
+        auxRec = auxRec + 1 
+    } else { auxRec = 1 } 
 
     if (null == obj || "object" != typeof obj) 
-    	// si es un tipo simple,
-    	return obj;
+        // si es un tipo simple,
+        return obj;
     
     if (obj instanceof Date) {
-    	// los objetos tipo date no son tipos de base 
+        // los objetos tipo date no son tipos de base 
         var copy = new Date();
         copy.setTime(obj.getTime());
         return copy;
     }
     else if (obj instanceof Array) {
-    	// Los array son copiados elto by elto.
+        // Los array son copiados elto by elto.
         var copy = [];
         var len = obj.length;
         for (var i = 0; i < len; ++i) {
@@ -97,40 +97,40 @@ function clone(obj, auxRec, exclude ) {
         return copy;
     }
     else if ( obj.$class ) {
-		// Si es una clase, solo copia el initialConfig y un nombre de clase 
+        // Si es una clase, solo copia el initialConfig y un nombre de clase 
         var copy = {};
         if (obj.hasOwnProperty('initialConfig')) {
-        	copy.initialConfig = clone( obj.initialConfig )
-    	} 
+            copy.initialConfig = clone( obj.initialConfig )
+        } 
         if (obj.__proto__.$className ) {
-        	copy.className = obj.__proto__.$className
-    	} 
-		return copy; 
-	}
-	
+            copy.className = obj.__proto__.$className
+        } 
+        return copy; 
+    }
+    
     else if (obj instanceof Object) {
-    	// Si es un objeto recorre las propiedades y las clona una a una 
+        // Si es un objeto recorre las propiedades y las clona una a una 
         var copy = {};
         for (var attr in obj) {
-        	if ( attr in oc( ['events', 'renderer'] )) continue; 
-        	if (( exclude ) && ( attr in oc( exclude ))) continue; 
+            if ( attr in oc( ['events', 'renderer'] )) continue; 
+            if (( exclude ) && ( attr in oc( exclude ))) continue; 
 
             if (obj.hasOwnProperty(attr)) {
-            	// console.log ( auxRec,  obj, attr, obj[attr] )
-            	copy[attr] = clone(obj[attr], auxRec, exclude);
+                // console.log ( auxRec,  obj, attr, obj[attr] )
+                copy[attr] = clone(obj[attr], auxRec, exclude);
             } 
         }
         return copy;
     }
-	else  {
-		// console.log ( 'N/A')
-	    // var copy = obj.constructor();
-	    // for (var attr in obj) {
-	        // if (obj.hasOwnProperty(attr))  copy[attr] = obj[attr];
-			// else copy[attr] = clone( obj[attr] );
-	    // }
-	    // return copy;
-	} 
+    else  {
+        // console.log ( 'N/A')
+        // var copy = obj.constructor();
+        // for (var attr in obj) {
+            // if (obj.hasOwnProperty(attr))  copy[attr] = obj[attr];
+            // else copy[attr] = clone( obj[attr] );
+        // }
+        // return copy;
+    } 
     
 }
 
@@ -138,7 +138,7 @@ function clone(obj, auxRec, exclude ) {
 
 
 Ext.outils = function(){
-	// Mensajes Style ExtJs Fix: Render position  
+    // Mensajes Style ExtJs Fix: Render position  
     var msgCt;
 
     function createBox(t, s){
@@ -165,8 +165,8 @@ Ext.outils = function(){
 
 
 function FormatJSON( oData, sIndent) {
-	// Indenta un string JSON 
-	
+    // Indenta un string JSON 
+    
     if (! sIndent ) sIndent = "";
     var sIndentStyle = "&nbsp; &nbsp; ";
     var sDataType = typeOf(oData);
@@ -193,7 +193,7 @@ function FormatJSON( oData, sIndent) {
     var iCount = 0;
 
     for (var sKey in oData) {
-    	var vValue = oData[ sKey  ]
+        var vValue = oData[ sKey  ]
         if (iCount > 0) {
             sHTML += ",";
         }
@@ -217,7 +217,7 @@ function FormatJSON( oData, sIndent) {
                 sHTML += "null";
                 break;
             case "string":
-            	vValue = vValue.replace( '<', '&lt;').replace( '>', '&gt;').replace( '"', '\'')
+                vValue = vValue.replace( '<', '&lt;').replace( '>', '&gt;').replace( '"', '\'')
                 sHTML += ("\"" + vValue + "\"");
                 break;
             default:
@@ -241,36 +241,36 @@ function FormatJSON( oData, sIndent) {
 
 
 function VerifyLast( sAux , sChar   ) {
-	
-	// Elimina condicionalmente el  ultima caracter
-	if ( ! sChar ) sChar = ','
-	if ( sAux[sAux.length - 1] == sChar ) {
- 		sAux = sAux.substring(0, sAux.length-1);
-	}
-	return sAux 
+    
+    // Elimina condicionalmente el  ultima caracter
+    if ( ! sChar ) sChar = ','
+    if ( sAux[sAux.length - 1] == sChar ) {
+         sAux = sAux.substring(0, sAux.length-1);
+    }
+    return sAux 
 }
 
 
 
 function FormatJsonStr( sData ) {
-	var oData = {}; 
+    var oData = {}; 
 
-	// Verifica q no venga vacion 
-	if ( ! sData ) return oData
-	
-	// Separado para debuguer 
-	try {
-		oData = Ext.decode( sData )   
+    // Verifica q no venga vacion 
+    if ( ! sData ) return oData
+    
+    // Separado para debuguer 
+    try {
+        oData = Ext.decode( sData )   
     } catch(e) {}
-	
-	var sAux  = FormatJSON( oData )
-	return 	sAux
+    
+    var sAux  = FormatJSON( oData )
+    return     sAux
 
 }
 
 function charCount(  sData,  sChar ) {
-	// Cuenta las ocurrencias de un caracter en una cadena  
-	return sData.split(sChar).length 
-	
+    // Cuenta las ocurrencias de un caracter en una cadena  
+    return sData.split(sChar).length 
+    
 }
 

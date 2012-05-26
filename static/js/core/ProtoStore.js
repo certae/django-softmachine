@@ -14,7 +14,7 @@ Ext.define('ProtoUL.core.ProtoStore', {
 
 function getStoreDefinition(  storeDefinition  ){ 
 
-	// En la definicion como clase 
+    // En la definicion como clase 
     // initComponent: function() {
         // this.sorters = me.sorters || [{ property: 'xx', direction: 'ASC' }]
         // this.idProperty = 
@@ -22,178 +22,178 @@ function getStoreDefinition(  storeDefinition  ){
         // this.callParent(arguments);
     // }, 
 
-	var me = storeDefinition;
-	var myStore = Ext.create('Ext.data.Store', {
+    var me = storeDefinition;
+    var myStore = Ext.create('Ext.data.Store', {
         // model : me.model,
 
         protoOption : me.protoOption,
 
         model: getModelName( me.protoOption  ),  
         autoLoad: me.autoLoad,
-	    pageSize: me.pageSize,
-	    sorters: me.sorters,    
+        pageSize: me.pageSize,
+        sorters: me.sorters,    
 
-	    remoteSort: true,
-	    autoSync: false, 
+        remoteSort: true,
+        autoSync: false, 
 
-	    proxy: {
-	        type: 'ajax',
-	        batchActions : true, 
-	        batchOrder : "create,update,destroy", 
-	        api: {
-	        	 read :   'protoExt/protoList/',
-	             create:  'protoExt/protoAdd/',
-	             update:  'protoExt/protoUpd/',
-	             destroy: 'protoExt/protoDel/'
-	        },
-			actionMethods: {
-			        create : 'POST',
-			        read   : 'POST',
-			        update : 'POST',
-			        destroy: 'POST'
-		    },	
-	        reader: {
-	            type: 'json',
-	            root: 'rows',
-	            successProperty: 'success',
-	            totalProperty: 'totalCount',
-	            messageProperty: 'message'
-	        },
+        proxy: {
+            type: 'ajax',
+            batchActions : true, 
+            batchOrder : "create,update,destroy", 
+            api: {
+                 read :   'protoExt/protoList/',
+                 create:  'protoExt/protoAdd/',
+                 update:  'protoExt/protoUpd/',
+                 destroy: 'protoExt/protoDel/'
+            },
+            actionMethods: {
+                    create : 'POST',
+                    read   : 'POST',
+                    update : 'POST',
+                    destroy: 'POST'
+            },    
+            reader: {
+                type: 'json',
+                root: 'rows',
+                successProperty: 'success',
+                totalProperty: 'totalCount',
+                messageProperty: 'message'
+            },
 
-	        writer: {
-	            type: 'json',
-	            root: 'rows', 
-	            allowSingle: false, 
-	            writeAllFields: true,
-	            encode: true,			// Dgt:  Incluye los parametros en el post ( por defecto en el get )
-	            messageProperty: 'message'
-	        },
+            writer: {
+                type: 'json',
+                root: 'rows', 
+                allowSingle: false, 
+                writeAllFields: true,
+                encode: true,            // Dgt:  Incluye los parametros en el post ( por defecto en el get )
+                messageProperty: 'message'
+            },
 
             extraParams : {
                 protoOption : me.protoOption,
                 protoFilter : me.protoFilter,
                 baseFilter: me.baseFilter, 
-                protoMeta  : me.sProtoMeta	// String 
-			},	
+                protoMeta  : me.sProtoMeta    // String 
+            },    
 
-	        listeners: {
-	            'load' :  function(store,records,options) {
-	            	this.loaded = true
-	            },
-	            'exception': function(proxy, response, operation){
-					var msg = operation.request.scope.reader.jsonData["message"] ;
-	            	var msg = operation.getError();
-					var title =   'REMOTE EXCEPTION'            	
-	            	Ext.outils.msg( title ,  msg ); 
-	            } 
-	        },
-	         
-	        afterRequest: function( request, success ){
-				var title =   'afterRequest ' +  success.toString();             	
-				var msg = request.method + '.' + request.action ;
-	    		var jsData = request.scope.reader.jsonData;
-	        	if ( jsData["message"] ) {
-	        		msg += '  :' + jsData["message"]
-	        	}
-	        	Ext.outils.msg( title ,  msg ); 
-	        } 
-	        
+            listeners: {
+                'load' :  function(store,records,options) {
+                    this.loaded = true
+                },
+                'exception': function(proxy, response, operation){
+                    var msg = operation.request.scope.reader.jsonData["message"] ;
+                    var msg = operation.getError();
+                    var title =   'REMOTE EXCEPTION'                
+                    Ext.outils.msg( title ,  msg ); 
+                } 
+            },
+             
+            afterRequest: function( request, success ){
+                var title =   'afterRequest ' +  success.toString();                 
+                var msg = request.method + '.' + request.action ;
+                var jsData = request.scope.reader.jsonData;
+                if ( jsData["message"] ) {
+                    msg += '  :' + jsData["message"]
+                }
+                Ext.outils.msg( title ,  msg ); 
+            } 
+            
         }, 
 
-    	listeners: {
-    	
-	 		// Fired when a Model instance has been added to this Store ...
-			add: function ( store, records,  index,  eOpts ) {
-				// var msg = 'add';
-			}, 
-	 
-			// Fires before a request is made for a new data object. ...
-			beforeload: function(  store,  operation,  eOpts ) {
-				// var msg = 'beforeload';
-			},
-	 
-			// Fired before a call to sync is executed. Return false from any listener to cancel the synv
-			beforesync: function(  options,  eOpts ) {
-				// var msg = 'beforesync';
-			},
-	
-			//  Fires before a prefetch occurs. Return false to cancel.
-			beforeprefetch: function ( store, operation, eOpts ) {
-				// var msg = 'beforesync';
-			}, 
-			
-			// Fires whenever records have been prefetched
-			prefetch: function ( store, records, successful, operation,  eOpts ) {
-				// var msg = 'beforesync';
-			}, 
-	
-			// Fired after the removeAll method is called. ...
-			clear: function ( store,  eOpts ) {
-				// var msg = 'clear';
-			},
-	 
-			// Fires whenever the records in the Store have changed in some way - this could include adding or removing records, or ...
-			datachanged: function( store,  eOpts ) {
-				// var msg = 'datachanged';
-			},
-			 
-			// Fires whenever the store reads data from a remote data source. ...
-			load: function ( store, records,  successful,  eOpts ) {
-				// var msg = 'load';
-			},
-			 
-			// Fired when a Model instance has been removed from this Store ...
-			remove: function (  store,  record,  index,  eOpts ) {
-				// var msg = 'remove';
-			},
-			 
-			// Fires when a Model instance has been updated ...\    	
-			update: function ( store,  record,  sOperation,  eOpts ) {
-				// var msg = 'update';		 
-			},  
-	    	
-	    	// Fires whenever a successful write has been made via the configured Proxy 
-	        write: function(store, operation, eOpts ){
+        listeners: {
+        
+             // Fired when a Model instance has been added to this Store ...
+            add: function ( store, records,  index,  eOpts ) {
+                // var msg = 'add';
+            }, 
+     
+            // Fires before a request is made for a new data object. ...
+            beforeload: function(  store,  operation,  eOpts ) {
+                // var msg = 'beforeload';
+            },
+     
+            // Fired before a call to sync is executed. Return false from any listener to cancel the synv
+            beforesync: function(  options,  eOpts ) {
+                // var msg = 'beforesync';
+            },
+    
+            //  Fires before a prefetch occurs. Return false to cancel.
+            beforeprefetch: function ( store, operation, eOpts ) {
+                // var msg = 'beforesync';
+            }, 
+            
+            // Fires whenever records have been prefetched
+            prefetch: function ( store, records, successful, operation,  eOpts ) {
+                // var msg = 'beforesync';
+            }, 
+    
+            // Fired after the removeAll method is called. ...
+            clear: function ( store,  eOpts ) {
+                // var msg = 'clear';
+            },
+     
+            // Fires whenever the records in the Store have changed in some way - this could include adding or removing records, or ...
+            datachanged: function( store,  eOpts ) {
+                // var msg = 'datachanged';
+            },
+             
+            // Fires whenever the store reads data from a remote data source. ...
+            load: function ( store, records,  successful,  eOpts ) {
+                // var msg = 'load';
+            },
+             
+            // Fired when a Model instance has been removed from this Store ...
+            remove: function (  store,  record,  index,  eOpts ) {
+                // var msg = 'remove';
+            },
+             
+            // Fires when a Model instance has been updated ...\        
+            update: function ( store,  record,  sOperation,  eOpts ) {
+                // var msg = 'update';         
+            },  
+            
+            // Fires whenever a successful write has been made via the configured Proxy 
+            write: function(store, operation, eOpts ){
 
-				for ( var ix in operation.records ) {
-					var recResult = operation.resultSet.records[ix]
-					var recOrigin = operation.records[ix]
-	
-					// Si existe un resultSet 
-					if ( recResult ) {
+                for ( var ix in operation.records ) {
+                    var recResult = operation.resultSet.records[ix]
+                    var recOrigin = operation.records[ix]
+    
+                    // Si existe un resultSet 
+                    if ( recResult ) {
 
-						if (operation.action == 'create') {
-			            	//Cuando son varios inserts, Extjs no es capaz hacer la actualizacion de los registros en la grilla.
-			            
-			            	// Copia la data resultado sobre la data de base 
-			            	// Tengo un campo para mandar el Id, para efectos de control, podria ser elimiando en la prox version  
-							recOrigin.data = recResult.data 
-	
-						} // End create  
-					
-						else if  (operation.action == 'destroy') {
-			            	//Dgt:  Restaura los registros q no pudieron ser borrados, ie Integridad referencial    
-							if ( recResult.data._ptStatus != '' ) store.insert(0, recResult);
-						} // En Delete
-										
-					} 
-				
-					// Marca los registros segun el estado 
-	        		var stRec = recOrigin.get('_ptStatus');
-					if ( stRec ) { 
-						recOrigin.dirty = true;
-						if ( ! recOrigin.getId()  ) recOrigin.phantom = true;
-					}   		        		
+                        if (operation.action == 'create') {
+                            //Cuando son varios inserts, Extjs no es capaz hacer la actualizacion de los registros en la grilla.
+                        
+                            // Copia la data resultado sobre la data de base 
+                            // Tengo un campo para mandar el Id, para efectos de control, podria ser elimiando en la prox version  
+                            recOrigin.data = recResult.data 
+    
+                        } // End create  
+                    
+                        else if  (operation.action == 'destroy') {
+                            //Dgt:  Restaura los registros q no pudieron ser borrados, ie Integridad referencial    
+                            if ( recResult.data._ptStatus != '' ) store.insert(0, recResult);
+                        } // En Delete
+                                        
+                    } 
+                
+                    // Marca los registros segun el estado 
+                    var stRec = recOrigin.get('_ptStatus');
+                    if ( stRec ) { 
+                        recOrigin.dirty = true;
+                        if ( ! recOrigin.getId()  ) recOrigin.phantom = true;
+                    }                           
 
-				} // End for
-	
-	        } // End Event 
-	    }
+                } // End for
+    
+            } // End Event 
+        }
 
     })
         
     // myStore.proxy.actionMethods.read = 'POST';
-	return myStore
+    return myStore
 
 }
         
@@ -209,19 +209,19 @@ function DefineProtoModel ( myMeta , modelClassName ){
 
     // useNull : vFld.allowNull,  ( solo para numeros, si no puede hacer la conversion )
     // defaultValue: vFld.defaultValue,
-    // persist: vFld.editPolicy,		( falso = NoUpdate )
+    // persist: vFld.editPolicy,        ( falso = NoUpdate )
     
     // type: 'hasMany',
     // autoLoad: true
     // convert :  Campo Virtual calculado,  Apunta a una funcion q  genera el valor 
     
-    var myFields = [];   		// model Fields 
-	var dict = {};		 		// For indexing fields
+    var myFields = [];           // model Fields 
+    var dict = {};                 // For indexing fields
 
     for (var ix in myMeta.fields ) {
 
         var vFld  =  myMeta.fields[ix];
-		if (!vFld.type )  vFld.type = 'string'
+        if (!vFld.type )  vFld.type = 'string'
         
         // modelField  
         var mField = {
@@ -232,47 +232,47 @@ function DefineProtoModel ( myMeta , modelClassName ){
         };
 
 
-		// Tipos validos   
-		if ( ! vFld.type  in oc( [ 
-			'string', 'text',  'bool', 'int', 'decimal', 'combo',  
-			'date',  'datetime', 'time', 
-			'autofield', 'foreignid',  'foreigntext'  ] )) {
-				vFld.type = 'string'
-		}; 
+        // Tipos validos   
+        if ( ! vFld.type  in oc( [ 
+            'string', 'text',  'bool', 'int', 'decimal', 'combo',  
+            'date',  'datetime', 'time', 
+            'autofield', 'foreignid',  'foreigntext'  ] )) {
+                vFld.type = 'string'
+        }; 
 
 
-		// Determina el xType y otros parametros 
-		switch( vFld.type )
-		{
-		case 'decimal':
-			mField.type = 'number';	        
-		  	break;
-		case 'date':
-			mField.type = 'date';	        
-			mField.dateFormat ='Y-m-d' 
-		  	break;
-		case 'datetime':
-			mField.type = 'date';	        
-			mField.dateFormat ='Y-m-d H:i:s'  // 'timestamp' 
-		  	break;
-		case 'time':
-			mField.type = 'date';	        
-			mField.dateFormat ='H:i:s'  
-		  	break;
-		}
+        // Determina el xType y otros parametros 
+        switch( vFld.type )
+        {
+        case 'decimal':
+            mField.type = 'number';            
+            break;
+        case 'date':
+            mField.type = 'date';            
+            mField.dateFormat ='Y-m-d' 
+            break;
+        case 'datetime':
+            mField.type = 'date';            
+            mField.dateFormat ='Y-m-d H:i:s'  // 'timestamp' 
+            break;
+        case 'time':
+            mField.type = 'date';            
+            mField.dateFormat ='H:i:s'  
+            break;
+        }
 
-		// Asigna el modelo y el diccionario 
+        // Asigna el modelo y el diccionario 
         myFields.push(mField);
-		dict[vFld.name] = vFld
+        dict[vFld.name] = vFld
 
     }
     
     
     // Asigna un diccionario con las llaves como clave  
-	myMeta.dict = dict
+    myMeta.dict = dict
 
-	
-	// Agrega el status y el interna ID 
+    
+    // Agrega el status y el interna ID 
     var mField = { name: '_ptStatus', type: 'string' };
     myFields.push(mField);
 
@@ -285,12 +285,12 @@ function DefineProtoModel ( myMeta , modelClassName ){
         extend: 'Ext.data.Model',
         fields: myFields 
             
-		//TODO: Validation, Validaciones             
-		//    validations: [{
-		//        type: 'length',
-		//        field: 'name',
-		//        min: 1
-		//    }]
+        //TODO: Validation, Validaciones             
+        //    validations: [{
+        //        type: 'length',
+        //        field: 'name',
+        //        min: 1
+        //    }]
 
         });
         
@@ -298,22 +298,22 @@ function DefineProtoModel ( myMeta , modelClassName ){
 
 
 function getColDefinition( vFld ) {
-	//TODO:  Cargar las propiedades del modelo 
+    //TODO:  Cargar las propiedades del modelo 
 
     if (!vFld.header ) vFld.header = vFld.name
-	
-	var colDefinition = {
+    
+    var colDefinition = {
             dataIndex: vFld.name,
             text: vFld.header 
-	}
+    }
 
-	var lstProps = ['flex',  'width', 'minWidth', 'sortable',
-					// 'hidden',  
-					'xtype', 'editMode', 'readOnly', 
-					'render', 'align', 'format', 'tooltip'
-					]
+    var lstProps = ['flex',  'width', 'minWidth', 'sortable',
+                    // 'hidden',  
+                    'xtype', 'editMode', 'readOnly', 
+                    'render', 'align', 'format', 'tooltip'
+                    ]
 
-	colDefinition = copyProps ( colDefinition,  vFld, true, lstProps )
+    colDefinition = copyProps ( colDefinition,  vFld, true, lstProps )
     if ( vFld.wordWrap == true ) colDefinition.renderer = columnWrap
     
     
@@ -325,35 +325,35 @@ function getColDefinition( vFld ) {
 
     // Maneja los subtipos 
     if ( vFld.subType ) {
-    	// subType stopLigth  Maneja el codigo de colores para un semaforo con 3 indicadores, 2 limites Red-Yellow; Yellow-Green   
-		if ( vFld.subType == 'stopLight' ) colDefinition.renderer = cellStopLight
+        // subType stopLigth  Maneja el codigo de colores para un semaforo con 3 indicadores, 2 limites Red-Yellow; Yellow-Green   
+        if ( vFld.subType == 'stopLight' ) colDefinition.renderer = cellStopLight
 
     } 
 
-	
-	// Copia las propiedades de base 
-	var lstProps = [
-		'defaultValue', 
-	
-		// string 
-		'allowBlank', 'readOnly', 
-		'minLength', 'minLengthText', 
-		'maxLength', 'maxLengthText', 
-		
-		// int, decimal
+    
+    // Copia las propiedades de base 
+    var lstProps = [
+        'defaultValue', 
+    
+        // string 
+        'allowBlank', 'readOnly', 
+        'minLength', 'minLengthText', 
+        'maxLength', 'maxLengthText', 
+        
+        // int, decimal
         'step', 
 
-		// int, decimal, date, datime, time  
+        // int, decimal, date, datime, time  
         'minValue', 'minText', 
         'maxValue', 'maxText',  
 
-		// date, datime 
-        'disabledDays', 'disabledDaysText',   	// [0, 6]
+        // date, datime 
+        'disabledDays', 'disabledDaysText',       // [0, 6]
         
         //@zoomModel : Contiene el modelo del FK, se carga automaticamente 
         'zoomModel', 
         
-		//@fkId : Llave correspondiente al zoom          
+        //@fkId : Llave correspondiente al zoom          
         'fkId', 
         
          // @zoomView : TODO: Contiene un GridView ( app.model.gridView ) utilizado para los campos del zoom  
@@ -365,85 +365,85 @@ function getColDefinition( vFld ) {
 
         //@zoomReturn : TODO: Campos q sera heredados a la entidad base  
         'zoomReturn'
-		]
+        ]
     var editor = copyProps ( {},  vFld, true, lstProps )
 
-	//TODO: subType ( eMail, IpAdress, etc ... )
+    //TODO: subType ( eMail, IpAdress, etc ... )
     // editor.vtype = 'email'
 
 
-	// Determina el xType y otros parametros 
-	if ( ! vFld.type )  vFld.type = 'string'
-	switch( vFld.type )
-	{
-	case 'string':
+    // Determina el xType y otros parametros 
+    if ( ! vFld.type )  vFld.type = 'string'
+    switch( vFld.type )
+    {
+    case 'string':
         if ( ! colDefinition.flex  ) colDefinition.flex = 1 
-	  	break;
+          break;
 
-	case 'text':
+    case 'text':
         if ( ! colDefinition.flex  ) colDefinition.flex = 2 
-		colDefinition.renderer = columnWrap
-	  	break;
+        colDefinition.renderer = columnWrap
+          break;
 
-	case 'int':
+    case 'int':
         colDefinition['xtype'] = 'numbercolumn'
-		colDefinition['align'] = 'right'
-		colDefinition['format'] = '0,000'
+        colDefinition['align'] = 'right'
+        colDefinition['format'] = '0,000'
 
-		editor.xtype = 'numberfield'
-		editor.format = colDefinition['format']
-		editor.allowDecimals = false
-	  	break;
+        editor.xtype = 'numberfield'
+        editor.format = colDefinition['format']
+        editor.allowDecimals = false
+          break;
 
-	case 'decimal':
+    case 'decimal':
         colDefinition['xtype'] = 'numbercolumn'
-		colDefinition['align'] = 'right'
-		colDefinition['format'] = '0,000.00'
+        colDefinition['align'] = 'right'
+        colDefinition['format'] = '0,000.00'
         // vFld['renderer'] = 'usMoney'
 
-		editor.xtype = 'numberfield'
-		editor.format = colDefinition['format']
-		editor.allowDecimals = true
+        editor.xtype = 'numberfield'
+        editor.format = colDefinition['format']
+        editor.allowDecimals = true
         editor.decimalPrecision = 2
-	  	break;
+          break;
 
-	
-	case 'date':
+    
+    case 'date':
         colDefinition['xtype'] = 'datecolumn' 
         colDefinition['format'] = 'Y/m/d'
 
-		editor.xtype = 'datefield'
-		editor.format = colDefinition['format']
-	  	break;
+        editor.xtype = 'datefield'
+        editor.format = colDefinition['format']
+          break;
 
-	case 'datetime':
+    case 'datetime':
         colDefinition['xtype'] = 'datecolumn' 
         colDefinition['format'] = 'Y/m/d H:i:s'
 
-		editor.xtype = 'datefield'
-		editor.format = 'Y/m/d'
+        editor.xtype = 'datefield'
+        editor.format = 'Y/m/d'
         editor.timeFormat = 'H:i'
-	  	break;
+          break;
 
-	case 'time':
-		//TODO:  En la edicion de grilla, al regresar cambia el formato 
+    case 'time':
+        //TODO:  En la edicion de grilla, al regresar cambia el formato 
         colDefinition['xtype'] = 'datecolumn' 
         colDefinition['format'] = 'H:i'  //  'H:i:s'
 
-		editor.xtype = 'timefield'
-		editor.format = colDefinition['format']  	
-	  	break;
-	  	
-	  	
-	case 'bool':
-		colDefinition['xtype'] = 'checkcolumnreadonly'      
+        editor.xtype = 'timefield'
+        editor.format = colDefinition['format']      
+          break;
+          
+          
+    case 'bool':
+        colDefinition['xtype'] = 'checkcolumnreadonly'      
         colDefinition['editMode'] = false 
 
         editor.xtype = 'checkbox'
         editor.cls = 'x-grid-checkheader-editor'
-	  	break;
-	  	
-	case 'combo':
+          break;
+          
+    case 'combo':
         editor.xtype = 'combobox'
         editor.typeAhead = true
         editor.triggerAction = 'all'
@@ -451,57 +451,57 @@ function getColDefinition( vFld ) {
         editor.store = vFld.choices
         editor.lazyRender = true
         editor.listClass = 'x-combo-list-small'
-	  	break;
+          break;
 
-	case 'foreigntext': 
-		// El zoom se divide en 2 cols el texto ( _unicode ) y el ID ( foreignid )
+    case 'foreigntext': 
+        // El zoom se divide en 2 cols el texto ( _unicode ) y el ID ( foreignid )
         if ( ! colDefinition.flex  ) colDefinition.flex = 1 
 
-		colDefinition.renderer = cellLink
+        colDefinition.renderer = cellLink
         editor.xtype = 'protoZoom'
         editor.editable  = false 
-	  	break;
+          break;
 
-	case 'foreignid':
-		// El zoom id debe estar oculto  
-       	// colDefinition['hidden']= true
+    case 'foreignid':
+        // El zoom id debe estar oculto  
+           // colDefinition['hidden']= true
         editor.xtype = 'numberfield'
-	  	break;
+          break;
 
-	case 'autofield':
-	  	break;
+    case 'autofield':
+          break;
 
-	}
+    }
 
 
-	// Asigna las coleccoiones de presentacion
-	// El foreignid puede ser editable directamente, 
-	if (  vFld.type in oc([ 'autofield' ]) || vFld.readOnly  ) 
-	 	colDefinition.renderer = cellReadOnly
-	else  colDefinition['editor'] = editor; 
+    // Asigna las coleccoiones de presentacion
+    // El foreignid puede ser editable directamente, 
+    if (  vFld.type in oc([ 'autofield' ]) || vFld.readOnly  ) 
+         colDefinition.renderer = cellReadOnly
+    else  colDefinition['editor'] = editor; 
 
-	return colDefinition; 
+    return colDefinition; 
 
-	//  
-	function columnWrap(value){
+    //  
+    function columnWrap(value){
         return '<div style="white-space:normal; text-align:justify !important";>' + value + "</div>";
-  	};
+      };
 
-  	function cellToolTip(value, metaData, record, rowIndex, colIndex, store, view ){
-    	metaData.tdAttr = 'data-qtip="' + value + '"';
+      function cellToolTip(value, metaData, record, rowIndex, colIndex, store, view ){
+        metaData.tdAttr = 'data-qtip="' + value + '"';
         return value;
-	}; 
+    }; 
 
-  	function cellReadOnly(value, metaData, record, rowIndex, colIndex, store, view ){
+      function cellReadOnly(value, metaData, record, rowIndex, colIndex, store, view ){
         return '<span style="color:grey;">' + value + '</span>';
-	}; 
+    }; 
 
-  	function cellLink(value, metaData, record, rowIndex, colIndex, store, view ){
-        return '<a href="#">'+value+'</a>';  	
-  	}
+      function cellLink(value, metaData, record, rowIndex, colIndex, store, view ){
+        return '<a href="#">'+value+'</a>';      
+      }
 
-  	function cellStopLight(value, metaData, record, rowIndex, colIndex, store, view ){
-	//TODO: Leer las propiedades stopLightRY y  stopLightYG  para comparar,  
+      function cellStopLight(value, metaData, record, rowIndex, colIndex, store, view ){
+    //TODO: Leer las propiedades stopLightRY y  stopLightYG  para comparar,  
 
     // subType stopLigth  Maneja el codigo de colores para un semaforo con 3 indicadores, 
     // stopLightRY : valor limite  de Rojo a Amarillo
@@ -509,7 +509,7 @@ function getColDefinition( vFld ) {
     // si el valor RY > YG se asume una secuencia inversa. 
     // los valores son comparados estrictamente mayor  X > RY -->  Y   
 
-	//
+    //
         var cssPrefix = Ext.baseCSSPrefix
         var cls = [];
 
@@ -521,11 +521,11 @@ function getColDefinition( vFld ) {
             cls.push(cssPrefix + 'grid-stopligth-red');
         }  
       
-		//TODO: Probar <span>  en vez de <div> 
+        //TODO: Probar <span>  en vez de <div> 
         // return '<span style="color:green;">' + val + '</span>';
         
         return '<div class="' + cls.join(' ')  + '">&#160;' +  value + '</div>';
-  	}
+      }
 
 
 
@@ -533,24 +533,24 @@ function getColDefinition( vFld ) {
 
 function getFormFieldDefinition( vFld ) {
 
-	var colDefinition = getColDefinition( vFld );
-	var formEditor = { readOnly : true  }
-	
-	if ( colDefinition.editor )  formEditor = colDefinition.editor;
-	  
+    var colDefinition = getColDefinition( vFld );
+    var formEditor = { readOnly : true  }
+    
+    if ( colDefinition.editor )  formEditor = colDefinition.editor;
+      
     formEditor.fieldLabel =  vFld.fieldLabel || vFld.header || vFld.name 
-	
-	switch( vFld.type )
-	{
-	case 'text':
-		formEditor.xtype = 'htmlfield'
-		formEditor.height = 200
-		formEditor.labelAlign = 'top'
-	  	break;
-	}
+    
+    switch( vFld.type )
+    {
+    case 'text':
+        formEditor.xtype = 'htmlfield'
+        formEditor.height = 200
+        formEditor.labelAlign = 'top'
+          break;
+    }
 
-	return formEditor; 
-	
+    return formEditor; 
+    
 }
 
 
@@ -560,67 +560,67 @@ function loadPci( protoOption, loadIfNot, options) {
         
         if  ( Ext.ClassManager.isCreated(  getModelName( protoOption )  )){
 
-			return true
+            return true
 
-		} else { 
-			
-			// Solo retorna algo cuando se usa para evaluar 
-			if ( ! loadIfNot ) return false 
+        } else { 
+            
+            // Solo retorna algo cuando se usa para evaluar 
+            if ( ! loadIfNot ) return false 
 
-	        // DGT: reemplaza las funciones en caso de no existir  
-	        Ext.applyIf(options, {
-	            scope: this,
-	            success: Ext.emptyFn,
-	            failure: Ext.emptyFn
-	        });
+            // DGT: reemplaza las funciones en caso de no existir  
+            Ext.applyIf(options, {
+                scope: this,
+                success: Ext.emptyFn,
+                failure: Ext.emptyFn
+            });
         
         
-	        Ext.Ajax.request({
+            Ext.Ajax.request({
                 method: 'GET',
                 url: _PConfig.urlGetPCI  ,
                 params : { 
                     protoOption : protoOption 
                     },
-	            scope: this,
-	            success: function(result, request) {
-	            	
-	                var myResult = Ext.decode( result.responseText );
-	                savePclCache( protoOption, myResult.protoMeta )
+                scope: this,
+                success: function(result, request) {
+                    
+                    var myResult = Ext.decode( result.responseText );
+                    savePclCache( protoOption, myResult.protoMeta )
 
                     options.success.call( options.scope, result, request);
-	            },
-	            failure: function(result, request) {
-	                options.failure.call(options.scope, result, request);
-	            }
-	        })
-	        
-	        // 
-	        return false 
-	        
+                },
+                failure: function(result, request) {
+                    options.failure.call(options.scope, result, request);
+                }
+            })
+            
+            // 
+            return false 
+            
         }  
         
 }
 
 function savePclCache( protoOption, protoMeta ) {
-	// Guarda el cache de  pcl's 
-	
-	_cllPCI[ protoOption ]  = protoMeta;  
-	DefineProtoModel( protoMeta , getModelName( protoOption  )  );
+    // Guarda el cache de  pcl's 
+    
+    _cllPCI[ protoOption ]  = protoMeta;  
+    DefineProtoModel( protoMeta , getModelName( protoOption  )  );
 
 }
 
 
 function getModelName( protoOption  ) {
 
-	var modelName = protoOption; 
-	
-	// Cuenta los "."
-	if ( charCount( protoOption, ".")  > 2  ) {
-		var n = protoOption.split(".", 2) 		
-		modelName = n[0] + '.' + n[1]
-	}
+    var modelName = protoOption; 
+    
+    // Cuenta los "."
+    if ( charCount( protoOption, ".")  > 2  ) {
+        var n = protoOption.split(".", 2)         
+        modelName = n[0] + '.' + n[1]
+    }
 
-	return _PConfig.clsBaseModel + modelName 
+    return _PConfig.clsBaseModel + modelName 
 
 }
 
@@ -628,7 +628,7 @@ function getModelName( protoOption  ) {
 function savePci( protoMeta,  options) {
 
         options = options || {};
-        			
+                    
         // DGT: reemplaza las funciones en caso de no existir  
         Ext.applyIf(options, {
             scope: this,
@@ -636,8 +636,8 @@ function savePci( protoMeta,  options) {
             failure: Ext.emptyFn
         });
     
-    	var protoOption = protoMeta.protoOption
-    	var sMeta = Ext.encode(  clone( protoMeta, 0, ['dict'] ) )
+        var protoOption = protoMeta.protoOption
+        var sMeta = Ext.encode(  clone( protoMeta, 0, ['dict'] ) )
     
         Ext.Ajax.request({
             method: 'POST',
@@ -650,14 +650,14 @@ function savePci( protoMeta,  options) {
             success: function(result, request) {
                 var myResult = Ext.decode( result.responseText );
                 if(myResult.success) {
-                	options.success.call( options.scope, result, request);
+                    options.success.call( options.scope, result, request);
                 } else {
-                	options.failure.call(options.scope, result, request);
-                	errorMessage ( 'SavePCI Failed', myResult.message  )
+                    options.failure.call(options.scope, result, request);
+                    errorMessage ( 'SavePCI Failed', myResult.message  )
                 }
             },
             failure: function(result, request) {
-            	errorMessage ( 'SavePCI Failed', result.status + ' ' + result.statusText )
+                errorMessage ( 'SavePCI Failed', result.status + ' ' + result.statusText )
                 options.failure.call(options.scope, result, request);
             },
             scope: this,
@@ -667,14 +667,14 @@ function savePci( protoMeta,  options) {
 }
 
 function errorMessage(  errTitle,  errMsg ) {
-	
-	Ext.MessageBox.show({
-	    title: errTitle,
-	    msg: errMsg,
-	    icon: Ext.Msg.ERROR,
-	    buttons: Ext.Msg.OK
-	});
-	
+    
+    Ext.MessageBox.show({
+        title: errTitle,
+        msg: errMsg,
+        icon: Ext.Msg.ERROR,
+        buttons: Ext.Msg.OK
+    });
+    
 }
 
 
@@ -698,14 +698,14 @@ function loadFiedlTree( protoOption, options) {
         success: function(result, request) {
             var myResult = Ext.decode( result.responseText );
             if(myResult.success) {
-            	options.success.call( options.scope, result, request);
+                options.success.call( options.scope, result, request);
             } else {
-            	options.failure.call(options.scope, result, request);
-            	errorMessage ( 'SavePCI Failed', myResult.message  )
+                options.failure.call(options.scope, result, request);
+                errorMessage ( 'SavePCI Failed', myResult.message  )
             }
         },
         failure: function(result, request) {
-        	errorMessage ( 'SavePCI Failed', result.status + ' ' + result.statusText )
+            errorMessage ( 'SavePCI Failed', result.status + ' ' + result.statusText )
             options.failure.call(options.scope, result, request);
         }
         

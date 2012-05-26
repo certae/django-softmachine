@@ -8,46 +8,46 @@
  * model, they will be used in creating the table. Override headerTpl and bodyTpl to change how the markup is generated
  */
 Ext.define("ProtoUL.ux.Printer", {
-	
-	requires: 'Ext.XTemplate',
+    
+    requires: 'Ext.XTemplate',
 
-	statics: {
-		/**
-		 * Prints the passed grid. Reflects on the grid's column model to build a table, and fills it using the store
-		 * @param {Ext.grid.Panel} grid The grid to print
-		 */
-		gridPrint: function(grid) {
-			//We generate an XTemplate here by using 2 intermediary XTemplates - one to create the header,
-			//the other to create the body (see the escaped {} below)
+    statics: {
+        /**
+         * Prints the passed grid. Reflects on the grid's column model to build a table, and fills it using the store
+         * @param {Ext.grid.Panel} grid The grid to print
+         */
+        gridPrint: function(grid) {
+            //We generate an XTemplate here by using 2 intermediary XTemplates - one to create the header,
+            //the other to create the body (see the escaped {} below)
 
             // Filtrar las columas de index y check en caso de q las halla
             var columns = this.getGridColumns( grid ) ;
     
-			//build a useable array of store data for the XTemplate
-			var data = this.getGridData( grid,  columns) ;
-			
-			//use the headerTpl and bodyTpl markups to create the main XTemplate below
-			var headings = Ext.create('Ext.XTemplate', this.headerTpl).apply(columns);
+            //build a useable array of store data for the XTemplate
+            var data = this.getGridData( grid,  columns) ;
+            
+            //use the headerTpl and bodyTpl markups to create the main XTemplate below
+            var headings = Ext.create('Ext.XTemplate', this.headerTpl).apply(columns);
 
-			var body     = Ext.create('Ext.XTemplate', this.bodyTpl).apply(columns);
+            var body     = Ext.create('Ext.XTemplate', this.bodyTpl).apply(columns);
             body = Ext.create('Ext.XTemplate', '<tpl for=".">' + body + '</tpl>').apply(data); 
             
-			
+            
             var html1 = this.htmlTpl.toString();
             html1 = html1.replace( /@gridTitle@/g, grid.title );
             html1 = html1.replace( /@siteTitle@/g, _siteTitle );
             html1 = html1.replace( '@headings@', headings );
             html1 = html1.replace( '@body@', body );
 
-			//open up a new printing window, write to it, print it and close
-			var win = window.open('', 'printgrid');
-			win.document.write(html1);
+            //open up a new printing window, write to it, print it and close
+            var win = window.open('', 'printgrid');
+            win.document.write(html1);
 
-			if (this.printAutomatically){
-				win.print();
-				// win.close();
-			}
-		},
+            if (this.printAutomatically){
+                win.print();
+                // win.close();
+            }
+        },
 
 
         sheetPrint: function(grid, sheetHtml ) {
@@ -114,43 +114,43 @@ Ext.define("ProtoUL.ux.Printer", {
             return columns 
         },  
 
-		
-		/**
-		 * @property printAutomatically
-		 * @type Boolean
-		 * True to open the print dialog automatically and close the window after printing. False to simply open the print version
-		 * of the grid (defaults to true)
-		 */
-		printAutomatically: true,
-		
-		/**
-		 * @property headerTpl
-		 * @type {Object/Array} values
-		 * The markup used to create the headings row. By default this just uses <th> elements, override to provide your own
-		 */
-		headerTpl: [ 
-			'<tr>',
-				'<tpl for=".">',
-					'<th>{text}</th>',
-				'</tpl>',
-			'</tr>',
+        
+        /**
+         * @property printAutomatically
+         * @type Boolean
+         * True to open the print dialog automatically and close the window after printing. False to simply open the print version
+         * of the grid (defaults to true)
+         */
+        printAutomatically: true,
+        
+        /**
+         * @property headerTpl
+         * @type {Object/Array} values
+         * The markup used to create the headings row. By default this just uses <th> elements, override to provide your own
+         */
+        headerTpl: [ 
+            '<tr>',
+                '<tpl for=".">',
+                    '<th>{text}</th>',
+                '</tpl>',
+            '</tr>',
             '</thead>'
-		],
+        ],
 
-		/**
-		 * @property bodyTpl
-		 * @type {Object/Array} values
-		 * The XTemplate used to create each row. This is used inside the 'print' function to build another XTemplate, to which the data
-		 * are then applied (see the escaped dataIndex attribute here - this ends up as "{dataIndex}")
-		 */
-		bodyTpl: [
-			'<tr>',
-				'<tpl for=".">',
-					'<td>\{{dataIndex}\}</td>',
-				'</tpl>',
-			'</tr>'
-		],  
-		
+        /**
+         * @property bodyTpl
+         * @type {Object/Array} values
+         * The XTemplate used to create each row. This is used inside the 'print' function to build another XTemplate, to which the data
+         * are then applied (see the escaped dataIndex attribute here - this ends up as "{dataIndex}")
+         */
+        bodyTpl: [
+            '<tr>',
+                '<tpl for=".">',
+                    '<td>\{{dataIndex}\}</td>',
+                '</tpl>',
+            '</tr>'
+        ],  
+        
         /**
          * @property htmlTpl  template
          * @type {Object/Array} vars  
@@ -176,5 +176,5 @@ Ext.define("ProtoUL.ux.Printer", {
                   '</body>' +
                 '</html>'           
 
-	}
+    }
 });

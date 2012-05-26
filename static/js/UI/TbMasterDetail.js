@@ -16,10 +16,10 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
     initComponent: function() {
 
-		var me = this; 
+        var me = this; 
 
-		me.autoSync = false; 
-		me.editMode = false; 
+        me.autoSync = false; 
+        me.editMode = false; 
 
         // Asigna una referencia al objeto 
         var myMeta = this.protoMeta; 
@@ -109,15 +109,15 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         //--------------------------------------------------------
         
         var searchBG = Ext.create('ProtoUL.ux.ProtoSearchBG', {
-                    id 		 : ideTbSearch , 
-	                protoMeta: myMeta
-	               })
+                    id          : ideTbSearch , 
+                    protoMeta: myMeta
+                   })
         
         var tbar2 = Ext.create('Ext.Toolbar', {
             dock: 'top',
             defaults: { scale: 'small', hidden : true },
             items: [ 
-            	searchBG, {
+                searchBG, {
                     id : ideTbFilter, 
                     xtype: 'buttongroup'
                 },{
@@ -140,17 +140,17 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         searchBG.on({
             loadData: {fn: function ( searchBG , sFilter, sTitle ) {
-            	
-	            __MasterDetail.onClickLoadData(sFilter);
-	
-	            __MasterDetail.protoMasterGrid.protoLocalFilter = sTitle; 
-	            __MasterDetail.protoMasterGrid.setGridTitle( __MasterDetail.protoMasterGrid ) 
-            	
-            	}, scope: this }
+                
+                __MasterDetail.onClickLoadData(sFilter);
+    
+                __MasterDetail.protoMasterGrid.protoLocalFilter = sTitle; 
+                __MasterDetail.protoMasterGrid.setGridTitle( __MasterDetail.protoMasterGrid ) 
+                
+                }, scope: this }
         });                 
             
-		// -----------------------------------------------------------
-		
+        // -----------------------------------------------------------
+        
             
 
         function toogleTb2( but  ) {
@@ -161,9 +161,9 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 tbar2.hide();
                 
             } else if ( but.idTb2 == ideTbEdit ) {
-				// Entra en modo edicion 
-				me.toggleEditMode( true )
-				            	
+                // Entra en modo edicion 
+                me.toggleEditMode( true )
+                                
                 configTbar.show();
                 orderTbar.hide();
                 tbar2.hide();
@@ -211,7 +211,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         // var orderTbar = Ext.getCmp( ideTbOrder );
         var orderTbar = Ext.create('Ext.toolbar.Toolbar', {
             id : ideTbOrder, 
-	        padding: '5 5 5 5',
+            padding: '5 5 5 5',
             items  : [{
                 iconCls : 'sort', 
                 xtype: 'tbtext',
@@ -259,157 +259,157 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         var configTbar = Ext.create('Ext.toolbar.Toolbar', {
             id : ideTbEdit, 
-       		// margins:'5 5 5 5',
+               // margins:'5 5 5 5',
             padding: '5 5 5 5',
             items  : [{
-	            xtype   : 'tbtext',
-	            text: '<b>Table Edit:<b>'
-	        }, {
-	            iconCls : 'icon-tableEdit', 
-	            itemId:     'edit',
-	            text:       'Edit',
-	            scope:    	this,
-	            handler:    toggleEditMode,
-	            hidden: 	this.editMode  
-	        }, {
-	            iconCls : 'icon-tableSave', 
-	            itemId:     'save',
-	            text:       'Save',
-	            handler:    onClickTableSave,
-	            hidden: 	! this.editMode  
-	        }, {
-	            iconCls : 'icon-tableAdd', 
-	            itemId:     'add',
-	            text:       'Add',
-	            handler:    onClickTableAdd,
-	            disabled: 	! this.editMode  
-	        }, {
-	            iconCls : 'icon-tableDuplicate', 
-	            itemId:     'copy',
-	            text:       'Duplicate',
-	            handler:    onClickTableDuplicate,
-	            disabled: 	! this.editMode  
-	        }, {
-	            iconCls : 'icon-tableDelete', 
-	            itemId:     'delete',
-	            text:       'Delete',
-	            handler:    onClickTableDelete,
-	            disabled: 	! this.editMode  
-	        },  { 
-	            iconCls : 'icon-tableCancel', 
-	            itemId:     'cancel',
-	            text:       'Cancel',
-	            scope:    	this,
-	            handler:    onClickTableCancelEdit,
-	            disabled: 	! this.editMode  
-	        }, '|',  {
-	            xtype   : 'tbtext',
-	            text: '<b>Form :<b>'
-	        }, {
-	            iconCls : 'icon-formAdd', 
-	            text:       'Add',
-	            toolBar: 	'Form Add Record',
-	            handler:    onClickFormAdd
-	        }, {
-	            iconCls : 'icon-formEdit', 
-	            text:       'Edit',
-	            toolBar: 	'Form Edit  Record',
-	            handler:    onClickFormEdit
-	        }, {
-	            iconCls : 'icon-formView', 
-	            text:       'View',
-	            toolBar: 	'Form View Read Only Mode',
-	            handler:    onClickFormView
-	        }, {
-	        	xtype: 'tbfill',   	        	//  ----------------------------------------------------
-	       	}, { 
-	            iconCls : 'icon-tableAutoSync', 
-	            itemId:     'autoSync',
-	            text:       'AutoSync',
-	            enableToggle: true, 
-	            pressed:	this.autoSync,   
-	            scope:    	this,
+                xtype   : 'tbtext',
+                text: '<b>Table Edit:<b>'
+            }, {
+                iconCls : 'icon-tableEdit', 
+                itemId:     'edit',
+                text:       'Edit',
+                scope:        this,
+                handler:    toggleEditMode,
+                hidden:     this.editMode  
+            }, {
+                iconCls : 'icon-tableSave', 
+                itemId:     'save',
+                text:       'Save',
+                handler:    onClickTableSave,
+                hidden:     ! this.editMode  
+            }, {
+                iconCls : 'icon-tableAdd', 
+                itemId:     'add',
+                text:       'Add',
+                handler:    onClickTableAdd,
+                disabled:     ! this.editMode  
+            }, {
+                iconCls : 'icon-tableDuplicate', 
+                itemId:     'copy',
+                text:       'Duplicate',
+                handler:    onClickTableDuplicate,
+                disabled:     ! this.editMode  
+            }, {
+                iconCls : 'icon-tableDelete', 
+                itemId:     'delete',
+                text:       'Delete',
+                handler:    onClickTableDelete,
+                disabled:     ! this.editMode  
+            },  { 
+                iconCls : 'icon-tableCancel', 
+                itemId:     'cancel',
+                text:       'Cancel',
+                scope:        this,
+                handler:    onClickTableCancelEdit,
+                disabled:     ! this.editMode  
+            }, '|',  {
+                xtype   : 'tbtext',
+                text: '<b>Form :<b>'
+            }, {
+                iconCls : 'icon-formAdd', 
+                text:       'Add',
+                toolBar:     'Form Add Record',
+                handler:    onClickFormAdd
+            }, {
+                iconCls : 'icon-formEdit', 
+                text:       'Edit',
+                toolBar:     'Form Edit  Record',
+                handler:    onClickFormEdit
+            }, {
+                iconCls : 'icon-formView', 
+                text:       'View',
+                toolBar:     'Form View Read Only Mode',
+                handler:    onClickFormView
+            }, {
+                xtype: 'tbfill',                   //  ----------------------------------------------------
+               }, { 
+                iconCls : 'icon-tableAutoSync', 
+                itemId:     'autoSync',
+                text:       'AutoSync',
+                enableToggle: true, 
+                pressed:    this.autoSync,   
+                scope:        this,
                 toggleHandler: onClickTableAutoSync,
-	            disabled: 	! (this.editMode )  
+                disabled:     ! (this.editMode )  
             }],  
             hidden : true
         });
 
-		this.configTbar = configTbar; 
+        this.configTbar = configTbar; 
 
         function onClickTableAutoSync( btn, pressed ){
 
-			this.autoSync = pressed ; 			
-			btn.ownerCt.getComponent('save').setDisabled(  this.autoSync  );
-			
-			if ( pressed ) __MasterDetail.protoMasterGrid.saveChanges()
-			__MasterDetail.protoMasterGrid.store.autoSync = pressed;
-			
+            this.autoSync = pressed ;             
+            btn.ownerCt.getComponent('save').setDisabled(  this.autoSync  );
+            
+            if ( pressed ) __MasterDetail.protoMasterGrid.saveChanges()
+            __MasterDetail.protoMasterGrid.store.autoSync = pressed;
+            
         }; 
 
 
 //  --------------------------------------------------------------------------
 
-		function initFormController(){
+        function initFormController(){
 
-        	var formController = Ext.create('ProtoUL.UI.FormControler', {
-            	myMeta : myMeta  
+            var formController = Ext.create('ProtoUL.UI.FormControler', {
+                myMeta : myMeta  
             });
-        	
-        	return formController
+            
+            return formController
 
-		}
+        }
 
         function onClickFormAdd( btn ){
-        	var formController = initFormController()
-        	formController.newEditionForm ()
+            var formController = initFormController()
+            formController.newEditionForm ()
         }; 
         
         function onClickFormEdit( btn ){
-        	var formController = initFormController()
-        	formController.newEditionForm ( __MasterDetail.protoMasterGrid.selected )
+            var formController = initFormController()
+            formController.newEditionForm ( __MasterDetail.protoMasterGrid.selected )
         }; 
 
         function onClickFormView( btn ){
-        	var formController = initFormController()
-        	formController.newEditionForm ( __MasterDetail.protoMasterGrid.selected, true  )
+            var formController = initFormController()
+            formController.newEditionForm ( __MasterDetail.protoMasterGrid.selected, true  )
         }; 
 
 //  --------------------------------------------------------------------------
 
-		function toggleEditMode( forceEdit ){
-			this.toggleEditMode( forceEdit )
-		}
+        function toggleEditMode( forceEdit ){
+            this.toggleEditMode( forceEdit )
+        }
 
         
         function onClickTableAdd( btn ){
-    		if ( __MasterDetail )  {
-    			__MasterDetail.protoMasterGrid.addNewRecord()
-    		} 
+            if ( __MasterDetail )  {
+                __MasterDetail.protoMasterGrid.addNewRecord()
+            } 
         }; 
         
         function onClickTableDelete( btn ){
-    		if ( __MasterDetail )  {
-    			__MasterDetail.protoMasterGrid.deleteCurrentRecord()
-    		} 
+            if ( __MasterDetail )  {
+                __MasterDetail.protoMasterGrid.deleteCurrentRecord()
+            } 
         }; 
 
         function onClickTableDuplicate( btn ){
-    		if ( __MasterDetail )  {
-    			__MasterDetail.protoMasterGrid.duplicateRecord()
-    		} 
+            if ( __MasterDetail )  {
+                __MasterDetail.protoMasterGrid.duplicateRecord()
+            } 
         }; 
 
         function onClickTableSave( btn ){
-    		if ( __MasterDetail )  {
-    			__MasterDetail.protoMasterGrid.saveChanges()
-    		} 
+            if ( __MasterDetail )  {
+                __MasterDetail.protoMasterGrid.saveChanges()
+            } 
         }; 
 
         function onClickTableCancelEdit( btn ){
-    		if ( __MasterDetail )  {
-    			__MasterDetail.protoMasterGrid.cancelChanges()
-    		} 
+            if ( __MasterDetail )  {
+                __MasterDetail.protoMasterGrid.cancelChanges()
+            } 
         }; 
 
 // ----------------------------------------------------------------------------------
@@ -565,6 +565,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         };
 
         function onClickConfigFields( btn ){
+
+              __MasterDetail.protoMasterGrid.showFieldTree();
     
         }
         
@@ -626,7 +628,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             var bDetails = false;               // Indica si tiene o no detalles
             for (var vDet in pDetails) {        // Recorre y agrega los detalles al menu 
 
-            	// console.log( pDetails[vTab] + " ");
+                // console.log( pDetails[vTab] + " ");
                 if (pDetails[vDet].menuText === undefined ) {
                     continue; 
                 } 
@@ -712,35 +714,35 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         configureProtoFilter(); 
 
 
-  	}, 
+      }, 
 
-	toggleEditMode: function ( forceEdit, tbOnly ) {
-		// tbOnly : is internal event fired from grid 
-		
-		if ( forceEdit ) this.editMode = forceEdit;  
-		else this.editMode = ! this.editMode ; 			
-		
-		if ( (!tbOnly ) && ( this.__MasterDetail ))  {
-			this.__MasterDetail.protoMasterGrid.setEditMode( this.editMode )
-		} 
-		
-		if ( this.configTbar ) {
+    toggleEditMode: function ( forceEdit, tbOnly ) {
+        // tbOnly : is internal event fired from grid 
+        
+        if ( forceEdit ) this.editMode = forceEdit;  
+        else this.editMode = ! this.editMode ;             
+        
+        if ( (!tbOnly ) && ( this.__MasterDetail ))  {
+            this.__MasterDetail.protoMasterGrid.setEditMode( this.editMode )
+        } 
+        
+        if ( this.configTbar ) {
 
-			this.configTbar.getComponent('edit').setVisible ( ! this.editMode );
-			this.configTbar.getComponent('save').setVisible( this.editMode  );
+            this.configTbar.getComponent('edit').setVisible ( ! this.editMode );
+            this.configTbar.getComponent('save').setVisible( this.editMode  );
 
-//			this.configTbar.getComponent('cancel').setVisible( this.editMode ); 
-			this.configTbar.getComponent('save').setDisabled( this.autoSync || (!this.editMode ));
+//            this.configTbar.getComponent('cancel').setVisible( this.editMode ); 
+            this.configTbar.getComponent('save').setDisabled( this.autoSync || (!this.editMode ));
 
-			this.configTbar.getComponent('add').setDisabled ( ! this.editMode );
-			this.configTbar.getComponent('copy').setDisabled ( ! this.editMode );
-			this.configTbar.getComponent('delete').setDisabled ( ! this.editMode );
-			this.configTbar.getComponent('cancel').setDisabled ( ! this.editMode );
-			
-			this.configTbar.getComponent('autoSync').setDisabled( ! this.editMode );
-		}; 
-		
-	}
+            this.configTbar.getComponent('add').setDisabled ( ! this.editMode );
+            this.configTbar.getComponent('copy').setDisabled ( ! this.editMode );
+            this.configTbar.getComponent('delete').setDisabled ( ! this.editMode );
+            this.configTbar.getComponent('cancel').setDisabled ( ! this.editMode );
+            
+            this.configTbar.getComponent('autoSync').setDisabled( ! this.editMode );
+        }; 
+        
+    }
   
 
 }); 

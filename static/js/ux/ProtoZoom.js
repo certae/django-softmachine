@@ -29,13 +29,13 @@ Ext.define('Ext.ux.protoZoom', {
     /**
      * Zoom initialization
      */
-	zoomModel: null, 
+    zoomModel: null, 
 
 
-	/**
+    /**
      * Zoom Record
      */
-	zoomRecord: null, 
+    zoomRecord: null, 
 
     /**
      * @private
@@ -55,21 +55,21 @@ Ext.define('Ext.ux.protoZoom', {
      */
     initComponent : function() {
 
-		var me = this; 
-		
-		// Opciones del llamado AJAX 
-		var options = {
-			scope: this, 
-			success: function ( obj, result, request ) {
-				me.createZoomWindow( me )
-        	},
+        var me = this; 
+        
+        // Opciones del llamado AJAX 
+        var options = {
+            scope: this, 
+            success: function ( obj, result, request ) {
+                me.createZoomWindow( me )
+            },
             failure: function ( obj, result, request) { 
                 return ;  
             }
         }
 
         if (  loadPci( me.zoomModel , true, options ) ) {
-			me.createZoomWindow( me )
+            me.createZoomWindow( me )
         }   
 
         this.callParent(arguments);
@@ -84,34 +84,34 @@ Ext.define('Ext.ux.protoZoom', {
         
     },
 
-	createZoomWindow:  function ( me  ){
+    createZoomWindow:  function ( me  ){
 
         me.myMeta = _cllPCI[ me.zoomModel ] ; 
 
         // Para identificar el StatusBar 
         me.idStBar = Ext.id();
 
-		// Crea la grilla 
-		var zoomGrid = Ext.create('ProtoUL.view.ProtoGrid', { protoOption : me.zoomModel }) ; 
+        // Crea la grilla 
+        var zoomGrid = Ext.create('ProtoUL.view.ProtoGrid', { protoOption : me.zoomModel }) ; 
         var searchBG = Ext.create('ProtoUL.ux.ProtoSearchBG', { protoMeta: me.myMeta })
 
         zoomGrid.on({
             rowClick: {fn: function ( rowModel, record, rowIndex,  eOpts ) {
-            	me.setStatusBar( rowIndex, record )
+                me.setStatusBar( rowIndex, record )
             }, scope: this }
         });
 
         zoomGrid.on({
             rowDblClick: {fn: function ( record, rowIndex ) {
-            	me.setStatusBar( rowIndex, record )
-				me.doReturn()
+                me.setStatusBar( rowIndex, record )
+                me.doReturn()
             }, scope: me }
         });
 
         searchBG.on({
             loadData: {fn: function ( searchBG , sFilter, sTitle ) {
-				me.resetZoom()            	
-		        zoomGrid.loadData( zoomGrid, sFilter, sTitle );
+                me.resetZoom()                
+                zoomGrid.loadData( zoomGrid, sFilter, sTitle );
             }, scope: this }
         });                 
         
@@ -123,36 +123,36 @@ Ext.define('Ext.ux.protoZoom', {
             closeAction : 'hide',
             layout : 'fit',
             modal : true,
-            width 	: 800, 	minWidth  : 400,
+            width     : 800,     minWidth  : 400,
             height  : 600,  minHeight : 400, 
             resizable : true,
 
-			tbar :  searchBG, 
-			items : zoomGrid, 
+            tbar :  searchBG, 
+            items : zoomGrid, 
 
-			dockedItems: [{
-			    xtype: 'toolbar',
-			    dock: 'bottom',
-			    ui: 'footer',
-			    defaults: {minWidth: 75},
-			    items: [
-			    	{ xtype: 'tbtext', text: '', id: me.idStBar },
-			        { xtype: 'component', flex: 1 },
-			        { xtype: 'button', text: 'Cancel', scope: me, handler: doCancel   }, 
-			        { xtype: 'button', text: 'Ok', scope: me, handler: me.doReturn }
-			    ]
-			}]			
+            dockedItems: [{
+                xtype: 'toolbar',
+                dock: 'bottom',
+                ui: 'footer',
+                defaults: {minWidth: 75},
+                items: [
+                    { xtype: 'tbtext', text: '', id: me.idStBar },
+                    { xtype: 'component', flex: 1 },
+                    { xtype: 'button', text: 'Cancel', scope: me, handler: doCancel   }, 
+                    { xtype: 'button', text: 'Ok', scope: me, handler: me.doReturn }
+                ]
+            }]            
 
         });
 
-		me.isLoaded = true; 
-		
-		function doCancel() {
-			me.resetZoom() 
-			me.win.hide()
-		}
-		
-	}, 
+        me.isLoaded = true; 
+        
+        function doCancel() {
+            me.resetZoom() 
+            me.win.hide()
+        }
+        
+    }, 
     
     onTriggerClick : function( obj ) {
 
@@ -160,34 +160,34 @@ Ext.define('Ext.ux.protoZoom', {
     },
     
     showZoomForm : function(me) {
-    	if ( ! me.isLoaded  ) return 
+        if ( ! me.isLoaded  ) return 
         me.win.show();
     }, 
     
     setStatusBar: function  ( rowIndex, record ) {
-		var stBar = Ext.getCmp( this.idStBar )
-		
-		if ( record ) {
-        	this.zoomRecord = record 
-			stBar.setText( '[' + rowIndex.toString() + ']  ' + record.data.__str__ )
-		} 	else  {
-        	this.zoomRecord = null 
-			stBar.setText('')   
-		} 
-		
+        var stBar = Ext.getCmp( this.idStBar )
+        
+        if ( record ) {
+            this.zoomRecord = record 
+            stBar.setText( '[' + rowIndex.toString() + ']  ' + record.data.__str__ )
+        }     else  {
+            this.zoomRecord = null 
+            stBar.setText('')   
+        } 
+        
     }, 
     
     doReturn: function() {
-    	if ( this.zoomRecord )  {
-	    	this.setValue( this.zoomRecord.data.__str__ ) 
-    	}
-    	this.win.hide()
+        if ( this.zoomRecord )  {
+            this.setValue( this.zoomRecord.data.__str__ ) 
+        }
+        this.win.hide()
     }, 
     
     resetZoom: function() {
 
-    	this.setStatusBar( )
-    	
+        this.setStatusBar( )
+        
     }
 
 });

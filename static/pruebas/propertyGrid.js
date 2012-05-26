@@ -67,15 +67,15 @@ var grid = new Ext.grid.property.Grid({
 
 Ext.onReady(function(){
     var comboCategory = new Ext.form.ComboBox({
-		fieldLabel    : 'Category',
-		name        : 'category',
-		allowBlank     : false,
-		store        : ['Business', 'Personal'],
-		typeAhead    : true,
-		mode        : 'local',
-		triggerAction    : 'all',
-		emptyText    :'-- Select category --',
-		selectOnFocus    :true
+        fieldLabel    : 'Category',
+        name        : 'category',
+        allowBlank     : false,
+        store        : ['Business', 'Personal'],
+        typeAhead    : true,
+        mode        : 'local',
+        triggerAction    : 'all',
+        emptyText    :'-- Select category --',
+        selectOnFocus    :true
    });
 
    var active = new Ext.form.Checkbox({
@@ -91,13 +91,13 @@ Ext.onReady(function(){
         width:300,
         autoHeight:true,
         viewConfig : {
-            forceFit:	true,
-            scrollOffset:	2 // the grid will never have scrollbars
+            forceFit:    true,
+            scrollOffset:    2 // the grid will never have scrollbars
         },
-		customEditors: {
-	        'Category': new Ext.grid.GridEditor(comboCategory),
-		    'Active'  : new Ext.grid.GridEditor(active)
-	    }
+        customEditors: {
+            'Category': new Ext.grid.GridEditor(comboCategory),
+            'Active'  : new Ext.grid.GridEditor(active)
+        }
     });
 
     propsGrid.render();
@@ -325,7 +325,7 @@ var propertyStore = new Ext.data.JsonStore({
                   origField=g.origFields.getByKey(c.id);//the default field configured on column 
               if (!currField) return true; 
                
-			  //overriden field for apropriate row in column               
+              //overriden field for apropriate row in column               
               var custField=(c.custFields && c.custFields[pos.row]) ? c.custFields[pos.row] : false; 
                
               if (custField) { 

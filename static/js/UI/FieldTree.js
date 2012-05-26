@@ -2,36 +2,74 @@ Ext.define('ProtoUL.UI.FieldTree', {
     extend: 'Ext.tree.Panel',
     alias: 'widget.fieldTree',
     
-    rootVisible: true,
+    rootVisible: false ,
     lines: false,
     minWidth: 200,
 
+/* 
+ * @protoOption   Required 
+ */
+
+	protoOption : null, 
+
+
+/* 
+ * @myMeta   Required 
+ */
+
+	myMeta : null, 
+
     initComponent: function() {
-    	
-		Ext.define('ProtoUL.FieldModel', {
-		    extend: 'Ext.data.Model',
-		    proxy: {
-		        method: 'POST',
-		        type: 'ajax',
-		        url: _PConfig.urlMenu  
-		    }, 
-		
-		    fields: [
-		        {name: 'id', type: 'string'},
-		        {name: 'text', type: 'string'},
-		        {name: 'leaf', type: 'boolean'}
-		    ]
-		    
-		});
-		    	
+        
+        me = this; 
+        
+        Ext.define('ProtoUL.FieldModel', {
+            extend: 'Ext.data.Model',
+            proxy: {
+                type: 'ajax',
+                method: 'GET',
+                url: _PConfig.urlGetFieldTree , 
+                
+                extraParams : {
+                    protoOption : me.protoOption
+                },    
+                
+            }, 
+        
+            fields: [
+                {name: 'id', type: 'string'},
+                {name: 'text', type: 'string'},  
+                {name: 'fieldType', type: 'string'},  
+                {name: 'checked', type: 'boolean'},
+                {name: 'leaf', type: 'boolean'}
+            ]
+            
+        });
+                
         
         this.store = Ext.create('Ext.data.TreeStore', {
-    		autoLoad: true,
-            model: 'ProtoUL.MenuModel',
+            autoLoad: true,
+            model: 'ProtoUL.FieldModel',
             root: {
-                text:'menu',
+                text:'fields',
                 expanded: true 
-            }            
+            }, 
+
+        	listeners: {
+	            // Fires whenever the store reads data from a remote data source. ...
+	            load: function ( store, records,  successful,  eOpts ) {
+	            	
+				    for (var ix in me.myMeta.fields ) {
+				        var vFld  =  me.myMeta.fields[ix];
+				        var vNode =  me.store.getNodeById( vFld.name ) 
+				        
+				        if ( vNode ) vNode.set( 'checked', true ) 
+
+					} 
+	            	
+	            }
+        	}
+             
         });
         
         this.callParent(arguments);
@@ -45,12 +83,10 @@ Ext.define('ProtoUL.UI.FieldTree', {
             if ( rec.get('leaf') ) {
                 // console.log( view, rec )
                 this.fireEvent('menuSelect', this, rec.data.id);
-                this.ownerCt.loadPciFromMenu( rec.data.id );
 
             }
         }
         
     }
-
 
 });

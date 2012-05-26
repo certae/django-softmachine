@@ -10,28 +10,28 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     extend: 'Ext.container.Container',
     alias : 'widget.protoGrid',
     requires: [
-	    'Ext.grid.*',
-	    'Ext.data.*',
-	    'Ext.util.*',
-	    'Ext.state.*',
-	    'Ext.form.*',
+        'Ext.grid.*',
+        'Ext.data.*',
+        'Ext.util.*',
+        'Ext.state.*',
+        'Ext.form.*',
         'Ext.toolbar.TextItem' 
      // 'Ext.selection.CheckboxModel',
     ],
     // iconCls: 'icon-grid',
 
-	/* 
-	 * @Required 
-	 * protoOption : App.Model.View  
-	 */
-	protoOption: null, 
+    /* 
+     * @Required 
+     * protoOption : App.Model.View  
+     */
+    protoOption: null, 
 
 
 
     initComponent: function() {
         
 
-		var me = this;         
+        var me = this;         
 
         // Recupera la clase para obtener la meta ------------------------------------------
         var myMeta = _cllPCI[ this.protoOption ] ; 
@@ -39,8 +39,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         var _pGrid = this; 
 
-		if ( ! loadPci( this.protoOption, false ) ) {
-        	Ext.Msg.show({
+        if ( ! loadPci( this.protoOption, false ) ) {
+            Ext.Msg.show({
                title: this.protoOption ,
                value: 'ERROR Pci  not loaded' 
                });
@@ -59,17 +59,17 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         //console.log (  this.protoOption, ' Loading store ...  '  ); 
 
-		// prepara la meta 
-		var excludeP = ['dict', 'protoForm', 'sheetConfig', 'protoViews', 'protoDetails']
-    	var safeMeta =  clone( myMeta, 0, excludeP );
-    	
-		var storeDefinition =  {
+        // prepara la meta 
+        var excludeP = ['dict', 'protoForm', 'sheetConfig', 'protoViews', 'protoDetails']
+        var safeMeta =  clone( myMeta, 0, excludeP );
+        
+        var storeDefinition =  {
             protoOption : this.protoOption, 
             autoLoad: this.autoLoad || true, 
             pageSize: _PAGESIZE,
             sorters: myMeta.gridConfig.initialSort, 
 
-        	// proxy.extraParams = {
+            // proxy.extraParams = {
             protoFilter : myFilter,
             baseFilter: this.baseFilter, 
             sProtoMeta  : Ext.encode( safeMeta )    
@@ -78,11 +78,11 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         me.store = getStoreDefinition( storeDefinition )
 
 
-		// Start Row Editing PlugIn
-	    me.rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
-	        clicksToMoveEditor: 1,
-	        autoCancel: false
-	    });
+        // Start Row Editing PlugIn
+        me.rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
+            clicksToMoveEditor: 1,
+            autoCancel: false
+        });
 
 
 
@@ -91,13 +91,13 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         // DGT adding RowNumberer  
         if ( ! myMeta.gridConfig.hideRowNumbers ) {
-        	// myColumns.push(Ext.create('Ext.grid.RowNumberer',{"width":37, "draggable":false}));
-        	myColumns.push( this._getRowNumberDefinition() )
+            // myColumns.push(Ext.create('Ext.grid.RowNumberer',{"width":37, "draggable":false}));
+            myColumns.push( this._getRowNumberDefinition() )
         }
        
         // DGT** Copia las columnas   
         for (var ix in myMeta.fields ) {
-			var vFld = myMeta.fields[ix] 
+            var vFld = myMeta.fields[ix] 
             if ( vFld.storeOnly ) continue;
 
             var col = getColDefinition( vFld  );
@@ -120,13 +120,13 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             // listeners: { selectionchange: function(sm, selections) {} }
         // });
 
-		this.editMode = false; 
+        this.editMode = false; 
         
         var grid = Ext.create('Ext.grid.Panel', {
-			plugins: [	'headertooltip',
-		        		this.rowEditing
-  					],            
-			// selModel: selModel,
+            plugins: [    'headertooltip',
+                        this.rowEditing
+                      ],            
+            // selModel: selModel,
             columns : gridColumns,   
             store : this.store,  
             stripeRows: true, 
@@ -134,80 +134,80 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             listeners: {
                 scope: this,
                 selectionchange: function(selModel, selected) {
-                	// Expone la fila seleccionada. 
-                	this.selected = selected[0] || null;
-                	
-                	// Si hay botones o eltos de la interface a modificar 
+                    // Expone la fila seleccionada. 
+                    this.selected = selected[0] || null;
+                    
+                    // Si hay botones o eltos de la interface a modificar 
                     // grid4.down('#removeButton').setDisabled(selections.length == 0);
                 }, 
                 
 
-	        itemmouseenter: function(view, record, item) {
-	        	// Esto maneja los tooltip en las las filas
-	        	var msg = record.get('_ptStatus')
-	        	if ( msg == _ROW_ST.NEWROW  ) msg = '';
+            itemmouseenter: function(view, record, item) {
+                // Esto maneja los tooltip en las las filas
+                var msg = record.get('_ptStatus')
+                if ( msg == _ROW_ST.NEWROW  ) msg = '';
 
-	        	// Asigna un tooltip a la fila, pero respeta los de cada celda y los de los Actiosn
-	        	Ext.fly(item).set({'data-qtip': msg });
-	            
-	            // Dgt :  Este tooltip evita las actions columns 
-		        // Ext.fly(item).select('.x-grid-cell:not(.x-action-col-cell)').set({'data-qtip': 'My tooltip: ' + record.get('name')});
+                // Asigna un tooltip a la fila, pero respeta los de cada celda y los de los Actiosn
+                Ext.fly(item).set({'data-qtip': msg });
+                
+                // Dgt :  Este tooltip evita las actions columns 
+                // Ext.fly(item).select('.x-grid-cell:not(.x-action-col-cell)').set({'data-qtip': 'My tooltip: ' + record.get('name')});
 
-        		}
+                }
                 
             }, 
             
-		    tools: [{
-		        itemId: 'toolCancelEdit',
-		        type: 'close',
-		        hidden: true,
-				scope: this,
-		        handler: this.cancelChanges 
-		     },{
-		        itemId: 'toolSave',
-		        type: 'save',
-		        hidden: true,
-				scope: this,
-		        handler: this.saveChanges 
-		     },{
-		        type: 'gear',
-				scope: this,
-		        handler: this.showMetaConfig,
-		        tooltip: 'Meta Config ... '
-		     },{
-		        type: 'gear',
-		        handler: showColsConfig,
-		        tooltip: 'ColsConfig ... '
-		    }], 
-		    
+            tools: [{
+                itemId: 'toolCancelEdit',
+                type: 'close',
+                hidden: true,
+                scope: this,
+                handler: this.cancelChanges 
+             },{
+                itemId: 'toolSave',
+                type: 'save',
+                hidden: true,
+                scope: this,
+                handler: this.saveChanges 
+             },{
+                type: 'gear',
+                scope: this,
+                handler: this.showMetaConfig,
+                tooltip: 'Meta Config ... '
+             },{
+                type: 'gear',
+                handler: showColsConfig,
+                tooltip: 'ColsConfig ... '
+            }], 
+            
  
-		   viewConfig: {
-			   
+           viewConfig: {
+               
                 listeners: {
                     cellclick: function (view, cell, cellIndex, record, row, rowIndex, e) {
-                    	// Esto maneja los vinculos en los campos 
+                        // Esto maneja los vinculos en los campos 
                         var linkClicked = (e.target.tagName == 'A');
                         var clickedDataIndex = view.panel.headerCt.getHeaderAtIndex(cellIndex).dataIndex;
                         if (linkClicked && clickedDataIndex ) {
                             alert(record.get('id'));
                         }
                     }
-                }, 			   
-			   
-		        getRowClass: function(record, rowIndex, rowParams, store){
-                	//	Esto permite marcar los registros despues de la actualizacion 
-		        	var stRec = record.get('_ptStatus');
-					if ( stRec ) { 
+                },                
+               
+                getRowClass: function(record, rowIndex, rowParams, store){
+                    //    Esto permite marcar los registros despues de la actualizacion 
+                    var stRec = record.get('_ptStatus');
+                    if ( stRec ) { 
 
-						if ( stRec == _ROW_ST.NEWROW ) {
-		            		return stRec;
-						} else {
-		            		return _ROW_ST.ERROR;
-						}
-					} else { return '' }
-		        	
-		        }
-		   }
+                        if ( stRec == _ROW_ST.NEWROW ) {
+                            return stRec;
+                        } else {
+                            return _ROW_ST.ERROR;
+                        }
+                    } else { return '' }
+                    
+                }
+           }
             
         }); 
 
@@ -322,7 +322,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 //------        
 
-		// TODO: Agregar un evento para el reload ( verificar refresh  ) de la grilla y afectar MasterDetail,  ZoomSelected 
+        // TODO: Agregar un evento para el reload ( verificar refresh  ) de la grilla y afectar MasterDetail,  ZoomSelected 
         this.addEvents(
             'rowClick', 'rowDblClick', 'promoteDetail', 'selectionChange'
         );
@@ -335,150 +335,150 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         // grid.on({
             // itemClick: {fn: function ( gView, record, item, rowIndex,  e,  eOpts ) {
-            	// // Table.itemClick 
+                // // Table.itemClick 
                 // _pGrid.rowData = record.data;
                 // this.fireEvent('rowClick', gView, record, item, rowIndex,  e,  eOpts );
                 // prepareSheet();
-            	// }, scope: this }
+                // }, scope: this }
         // });                 
 
 
         grid.on({
             select: {fn: function ( rowModel , record,  rowIndex,  eOpts ) {
-            	// SelectionModel.rowSelected 
+                // SelectionModel.rowSelected 
                 _pGrid.rowData = record.data;
 
                 this.fireEvent('rowClick', rowModel, record, rowIndex,  eOpts );
                 prepareSheet();
 
-            	}, scope: this }
+                }, scope: this }
         });                 
 
         grid.on({
-			// Evento DblClick para seleccionar en el zoom         
+            // Evento DblClick para seleccionar en el zoom         
             celldblclick: {fn: function ( tbl, el,  cellIndex, record, tr, rowIndex, e,  eOpts ) {
-            	// Si esta en modo edicion no dispara nada para permitir entrar al editor 
-            	if ( me.editMode ) return  
-            	me.fireEvent('rowDblClick', record, rowIndex  );
+                // Si esta en modo edicion no dispara nada para permitir entrar al editor 
+                if ( me.editMode ) return  
+                me.fireEvent('rowDblClick', record, rowIndex  );
             }, scope: me }
         });                 
 
 // ---------------------------------------------------------------------------------------------- 
 
 
-		// Fires before editing is triggered. ...
+        // Fires before editing is triggered. ...
         grid.on({
-        	beforeedit: {fn: function ( edPlugin, e, eOpts) {
-				if ( ! this.editMode )  return false;
-				
-				// Resetea el zoom 
-		        for (var ix in e.grid.columns ) {
-					var vFld = e.grid.columns[ix]
-					var initialConf = vFld.initialConfig 
-		            if (! initialConf.editor ) continue;
-		            if (  initialConf.editor.xtype != 'protoZoom' ) continue;
-		            
-		            var zoom = vFld.getEditor()
-		            zoom.resetZoom()
-				}
-				
-				
-				// TODO: Manejo de edicion condicional segun datos
-				// Parametros: una coleccion ( CampoCriterio, Condicion, Lista de campos habilidatos ) 
-			    // if (e.record.get('status') == "0")
-			        // grid.getPlugin('rowEditing').editor.form.findField('xx').disable();
-			    // else 
-			        // grid.getPlugin('rowEditing').editor.form.findField('xx').enable();
-				
-				 
-            	}, scope: this }
-            	
+            beforeedit: {fn: function ( edPlugin, e, eOpts) {
+                if ( ! this.editMode )  return false;
+                
+                // Resetea el zoom 
+                for (var ix in e.grid.columns ) {
+                    var vFld = e.grid.columns[ix]
+                    var initialConf = vFld.initialConfig 
+                    if (! initialConf.editor ) continue;
+                    if (  initialConf.editor.xtype != 'protoZoom' ) continue;
+                    
+                    var zoom = vFld.getEditor()
+                    zoom.resetZoom()
+                }
+                
+                
+                // TODO: Manejo de edicion condicional segun datos
+                // Parametros: una coleccion ( CampoCriterio, Condicion, Lista de campos habilidatos ) 
+                // if (e.record.get('status') == "0")
+                    // grid.getPlugin('rowEditing').editor.form.findField('xx').disable();
+                // else 
+                    // grid.getPlugin('rowEditing').editor.form.findField('xx').enable();
+                
+                 
+                }, scope: this }
+                
         });                 
 
-		// Fires when the user started editing but then cancelled the edit. ...
+        // Fires when the user started editing but then cancelled the edit. ...
         // grid.on('canceledit', function(editor, e, eOpts) {
-        	// console.log( 'canceledit' ) 
+            // console.log( 'canceledit' ) 
         // });
 
 
-		// Fires after editing, but before the value is set in the record. ...
+        // Fires after editing, but before the value is set in the record. ...
         grid.on('validateedit', function(editor, e, eOpts) {
-        	
-        	// e : Object 
-		    // grid - The grid
-		    // record - The record that was edited
+            
+            // e : Object 
+            // grid - The grid
+            // record - The record that was edited
 
-		    // originalValues - ( Validate ) The original values for the field, before the edit (only when using RowEditing)
-		    // record.data  
-		    // record.raw   
-		    
-		    // field - The field name that was edited
-		    // value - The value being set
-		    // row - The grid table row
-		    // column - The grid Column defining the column that was edited.
-		    // rowIdx - The row index that was edited
-		    // colIdx - The column index that was edited
-		    // cancel - Set this to true to cancel the edit or return false from your handler. 
-		    // newValues - 		( formated ) The new values being set (only when using RowEditing)
-		    // view - The grid view (only when using RowEditing)
-		    // store - The grid store (only when using RowEditing)
-        	
-        	// console.log( 'validateedit' ) 
+            // originalValues - ( Validate ) The original values for the field, before the edit (only when using RowEditing)
+            // record.data  
+            // record.raw   
+            
+            // field - The field name that was edited
+            // value - The value being set
+            // row - The grid table row
+            // column - The grid Column defining the column that was edited.
+            // rowIdx - The row index that was edited
+            // colIdx - The column index that was edited
+            // cancel - Set this to true to cancel the edit or return false from your handler. 
+            // newValues -         ( formated ) The new values being set (only when using RowEditing)
+            // view - The grid view (only when using RowEditing)
+            // store - The grid store (only when using RowEditing)
+            
+            // console.log( 'validateedit' ) 
 
 
-        	// Resetea el status despues de la edicion 
-			if ( ! e.record.getId() ) {
-				e.record.phantom = true;   		        		
-	        	e.record.data._ptStatus = _ROW_ST.NEWROW 
-			} else {
-	        	e.record.data._ptStatus = '' 
-			}
-			e.record.dirty = true;
+            // Resetea el status despues de la edicion 
+            if ( ! e.record.getId() ) {
+                e.record.phantom = true;                           
+                e.record.data._ptStatus = _ROW_ST.NEWROW 
+            } else {
+                e.record.data._ptStatus = '' 
+            }
+            e.record.dirty = true;
 
-			// Manejo del retorno del zoom 
-	        for (var ix in e.grid.columns ) {
-				var vFld = e.grid.columns[ix]
-				var initialConf = vFld.initialConfig 
-	            if (! initialConf.editor ) continue;
-	            if (  initialConf.editor.xtype != 'protoZoom' ) continue;
-	            
-	            var zoom = vFld.getEditor()
-				var idIndex = initialConf.editor.fkId 
-				            
-	            if ( ! zoom.zoomRecord ) continue; 
+            // Manejo del retorno del zoom 
+            for (var ix in e.grid.columns ) {
+                var vFld = e.grid.columns[ix]
+                var initialConf = vFld.initialConfig 
+                if (! initialConf.editor ) continue;
+                if (  initialConf.editor.xtype != 'protoZoom' ) continue;
+                
+                var zoom = vFld.getEditor()
+                var idIndex = initialConf.editor.fkId 
+                            
+                if ( ! zoom.zoomRecord ) continue; 
 
-	            // console.log( e , zoom.zoomRecord.data.__str__ )
-	            // Actualiza el Id con el dato proveniente del zoom 
+                // console.log( e , zoom.zoomRecord.data.__str__ )
+                // Actualiza el Id con el dato proveniente del zoom 
 
-				// fix: Agrega el modificado en caso de q no se encuentre 	    
-				if ( ! e.record.modified[ idIndex ]  ) {
-					e.record.modified[ idIndex ] = e.record.data[ idIndex ]  
-				}         
-            	  
-	            e.record.data[ idIndex ] = zoom.zoomRecord.data.id
+                // fix: Agrega el modificado en caso de q no se encuentre         
+                if ( ! e.record.modified[ idIndex ]  ) {
+                    e.record.modified[ idIndex ] = e.record.data[ idIndex ]  
+                }         
+                  
+                e.record.data[ idIndex ] = zoom.zoomRecord.data.id
 
-			}
+            }
 
         });
 
 
-		// Fires after a editing. ...
+        // Fires after a editing. ...
         // grid.on('edit', function(editor, e, eOpts) {
-			// commit the changes right after editing finished
-    		// e.record.commit();
+            // commit the changes right after editing finished
+            // e.record.commit();
         // });
 
 // ---------------------------------------------------------------------------------------------- 
         
 
         function showColsConfig() {
-        	var safeConf =  clone( myColumns )
-        	showConfig( 'ColsConfig' , safeConf  )
+            var safeConf =  clone( myColumns )
+            showConfig( 'ColsConfig' , safeConf  )
         }
         
         function showConfig( title , myConf ) {
 
-        	Ext.Msg.show({
+            Ext.Msg.show({
                title: title,
                multiline : true,   
                width : 600, 
@@ -503,14 +503,14 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             var pSheet = undefined;  
             
             for (var ix in pSheets  ) {
-            	
-            	if ( ix == 'DEFAULT' ) {
-                	pSheet =  pSheets[ix]  
-            	}; 
-            	
-            	if ( ix == pSheetCriteria ) { 
-            		pSheet =  pSheets[ix];
-            		break; 
+                
+                if ( ix == 'DEFAULT' ) {
+                    pSheet =  pSheets[ix]  
+                }; 
+                
+                if ( ix == pSheetCriteria ) { 
+                    pSheet =  pSheets[ix];
+                    break; 
                 }
             };
 
@@ -525,7 +525,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 var pValue =  _pGrid.rowData[ vFld ];
                 
                 if ( vFld == 'metaDefinition' ) {
-                	pValue = FormatJsonStr( pValue )
+                    pValue = FormatJsonStr( pValue )
                 }
                 
                 pTemplate = pTemplate.replace( pKey , pValue  ); 
@@ -544,10 +544,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         function onMenuPromoteDetail() {
 
             if ( _pGrid.detailTitlePattern ) {
-	            var detailSubTitle =  _pGrid._masterDetail.protoMasterGrid.rowData[ _pGrid.detailTitlePattern ];
-	            detailSubTitle = _pGrid.detailTitleLbl + ' ' + detailSubTitle
+                var detailSubTitle =  _pGrid._masterDetail.protoMasterGrid.rowData[ _pGrid.detailTitlePattern ];
+                detailSubTitle = _pGrid.detailTitleLbl + ' ' + detailSubTitle
             }
-        	
+            
             __TabContainer.addTabPanel(
                    _pGrid.store.protoOption , 
                    _pGrid.store.getProxy().extraParams.baseFilter, 
@@ -558,13 +558,13 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
     },
 
-	_getRowNumberDefinition: function () {
+    _getRowNumberDefinition: function () {
 
-		//FIX:  Cuando la columna es locked,  el headerCT va nulo y no puede asignar el tooltip 
-		
-		// var rowNumberCol = Ext.create('Ext.grid.RowNumberer',{"width":37, "draggable":false , "sortable": false})
-		var rowNumberCol = { xtype: 'rownumberer', width:37, draggable:false,  sortable: false } // locked: true, lockable: false }
-    	return 	rowNumberCol
+        //FIX:  Cuando la columna es locked,  el headerCT va nulo y no puede asignar el tooltip 
+        
+        // var rowNumberCol = Ext.create('Ext.grid.RowNumberer',{"width":37, "draggable":false , "sortable": false})
+        var rowNumberCol = { xtype: 'rownumberer', width:37, draggable:false,  sortable: false } // locked: true, lockable: false }
+        return     rowNumberCol
       },
     
 //    onItemClick: function (g, rowIndex, e) {
@@ -577,7 +577,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         var vColumns = [];
         if ( ! this.myMeta.gridConfig.hideRowNumbers ) {
-        	vColumns.push( this._getRowNumberDefinition());
+            vColumns.push( this._getRowNumberDefinition());
         }; 
         
         for (var ixV in viewCols  ) {
@@ -600,7 +600,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         var vColumns = this.getViewColumns( viewCols )
 
-		//Fix: hay un error la primera vez q pasa por aqui??? 
+        //Fix: hay un error la primera vez q pasa por aqui??? 
         this._extGrid.view.refresh();
 
         // Configurar columnas de la grilla
@@ -612,155 +612,155 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     }, 
     
     setGridTitle: function( me ){
-    	var gridTitle = ''; 
-    	
-    	if ( me.detailTitle ) {
-    		gridTitle = '" ' + me.detailTitle + ' "' 
-    	} else if ((me.protoIsDetailGrid != true ) && ( me.baseFilter != undefined ) ) { 
-    		gridTitle = me.baseFilter  
-    	};
+        var gridTitle = ''; 
         
-    	if ( me.protoLocalFilter ) {
-    		if ( gridTitle ) { gridTitle += ' ; '  };
-    		gridTitle +=  me.protoLocalFilter ; 
-    	} 
+        if ( me.detailTitle ) {
+            gridTitle = '" ' + me.detailTitle + ' "' 
+        } else if ((me.protoIsDetailGrid != true ) && ( me.baseFilter != undefined ) ) { 
+            gridTitle = me.baseFilter  
+        };
+        
+        if ( me.protoLocalFilter ) {
+            if ( gridTitle ) { gridTitle += ' ; '  };
+            gridTitle +=  me.protoLocalFilter ; 
+        } 
 
-		if ( gridTitle ) { gridTitle = ' filtrés par ' +  gridTitle + '' };
-    	
-    	var gridTitle = me.myMeta.shortTitle + gridTitle ; 
+        if ( gridTitle ) { gridTitle = ' filtrés par ' +  gridTitle + '' };
+        
+        var gridTitle = me.myMeta.shortTitle + gridTitle ; 
         me._extGrid.setTitle( gridTitle )  
     }, 
     
 
     setEditMode: function( editMode ){
 
-		this.editMode = editMode ;    	
+        this.editMode = editMode ;        
 
-		if (editMode ) {
-			this._extGrid.down('#toolSave').show();
-			this._extGrid.down('#toolCancelEdit').show();
-		} else {
-			this._extGrid.down('#toolSave').hide();
-			this._extGrid.down('#toolCancelEdit').hide();
-		}
-		
+        if (editMode ) {
+            this._extGrid.down('#toolSave').show();
+            this._extGrid.down('#toolCancelEdit').show();
+        } else {
+            this._extGrid.down('#toolSave').hide();
+            this._extGrid.down('#toolCancelEdit').hide();
+        }
+        
    },
 
-	/*
-	 * @private
+    /*
+     * @private
      * setDefaults for insert row 
-	 */
-	setDefaults: function() {
+     */
+    setDefaults: function() {
 
-		var vDefault = {}
+        var vDefault = {}
         for (var ix in this.myMeta.fields ) {
-			var vFld = this.myMeta.fields[ix] 
+            var vFld = this.myMeta.fields[ix] 
             if ( ! vFld['defaultValue'] ) continue;
             vDefault[ vFld.name  ]  = vFld['defaultValue'] ;
         };
         return vDefault
-	}, 
-		
-	
-	addNewRecord: function() {
-		if ((! this._extGrid ) || ( ! this.editMode )) return; 
+    }, 
+        
+    
+    addNewRecord: function() {
+        if ((! this._extGrid ) || ( ! this.editMode )) return; 
 
         var rec = new this.store.model( this.setDefaults()  )
         this.insertNewRecord ( rec  ) 
-	}, 
-	
-	duplicateRecord: function() {
-		if ((! this._extGrid ) || ( ! this.editMode )) return; 
-		
+    }, 
+    
+    duplicateRecord: function() {
+        if ((! this._extGrid ) || ( ! this.editMode )) return; 
+        
         var rec =  this.selected
         if ( rec )  this.insertNewRecord ( rec.copy()  ) 
-        	
-	}, 
+            
+    }, 
 
-	insertNewRecord: function( rec ) {
-    	rec.data._ptStatus = _ROW_ST.NEWROW 
-    	rec.data._ptId = rec.internalId  
-    	rec.data.id = undefined 
-    	rec.phantom = true 
-    	this.store.insert(0, rec );
+    insertNewRecord: function( rec ) {
+        rec.data._ptStatus = _ROW_ST.NEWROW 
+        rec.data._ptId = rec.internalId  
+        rec.data.id = undefined 
+        rec.phantom = true 
+        this.store.insert(0, rec );
 
-	},
+    },
 
 
-	getRowIndex: function() {
-		
-	    var sm = this._extGrid.getSelectionModel();
-		var rowIndex = this.store.indexOf( sm.getSelection()[0])
-		if ( rowIndex < 0 ) rowIndex = 0  
-		return rowIndex 
-		 
-	}, 
-	
-	deleteCurrentRecord: function() {
-		if ((! this._extGrid ) || ( ! this.editMode )) return; 
+    getRowIndex: function() {
+        
+        var sm = this._extGrid.getSelectionModel();
+        var rowIndex = this.store.indexOf( sm.getSelection()[0])
+        if ( rowIndex < 0 ) rowIndex = 0  
+        return rowIndex 
+         
+    }, 
+    
+    deleteCurrentRecord: function() {
+        if ((! this._extGrid ) || ( ! this.editMode )) return; 
 
-		var rowIndex = this.getRowIndex();  
+        var rowIndex = this.getRowIndex();  
 
-	    var sm = this._extGrid.getSelectionModel();
-	    this.rowEditing.cancelEdit();
+        var sm = this._extGrid.getSelectionModel();
+        this.rowEditing.cancelEdit();
         this.store.remove( sm.getSelection()  );
 
-		// this.grid.store.indexOf( this.selections.itemAt(0) );
-		if (this.store.getCount() <= rowIndex ) rowIndex = 0 
-	    if (this.store.getCount() > 0) {
-	        sm.select( rowIndex  );
-	    }        
-	    
-	}, 
+        // this.grid.store.indexOf( this.selections.itemAt(0) );
+        if (this.store.getCount() <= rowIndex ) rowIndex = 0 
+        if (this.store.getCount() > 0) {
+            sm.select( rowIndex  );
+        }        
+        
+    }, 
 
-	setEditionOff: function() {
-		
-		if ((! this._extGrid ) || ( ! this.editMode )) return; 
-		 
-		// Invocada desde el tool, debe cancelar la edicion y retroalimentar el toolbar 
-		this.setEditMode( false ) 
-		
-		// Reconfigura el toolBar 
-		if ( this._toolBar ) {
-			this._toolBar.toggleEditMode( false, true )
-		};   
+    setEditionOff: function() {
+        
+        if ((! this._extGrid ) || ( ! this.editMode )) return; 
+         
+        // Invocada desde el tool, debe cancelar la edicion y retroalimentar el toolbar 
+        this.setEditMode( false ) 
+        
+        // Reconfigura el toolBar 
+        if ( this._toolBar ) {
+            this._toolBar.toggleEditMode( false, true )
+        };   
 
-	}, 
+    }, 
     
     saveChanges: function(){
         this.store.sync();
     }, 
     
     cancelChanges: function() {
-    	this.setEditionOff()
+        this.setEditionOff()
         this.store.load(); 
     }, 
     
     loadData: function( grid,  sFilter, sTitle  ) {
-    	 
-	    grid.store.clearFilter();
-	    grid.store.getProxy().extraParams.protoFilter = sFilter;
-	
-	    // TODO: Cargar el sort, buscarlo en proxy.sorters o setear una var en la grilla 
-	    grid.store.load();
-	    
-	    if ( grid.store.currentPage != 1 ) {
-	        grid.store.loadPage(1);
-	    }
-    	 
-	},
-	
+         
+        grid.store.clearFilter();
+        grid.store.getProxy().extraParams.protoFilter = sFilter;
+    
+        // TODO: Cargar el sort, buscarlo en proxy.sorters o setear una var en la grilla 
+        grid.store.load();
+        
+        if ( grid.store.currentPage != 1 ) {
+            grid.store.loadPage(1);
+        }
+         
+    },
+    
     showMetaConfig: function() {
 
 
-		var myPcl = Ext.widget('protoPcl', {
-			myMeta : this.myMeta, 
-			editMode : true  
-		});
+        var myPcl = Ext.widget('protoPcl', {
+            myMeta : this.myMeta, 
+            editMode : true  
+        });
 
          var myWin  = Ext.widget('window', {
-        	constrain: true, 
-			title : 'MetaDefinition [ ' + this.myMeta.protoOption + ' ]', 
+            constrain: true, 
+            title : 'MetaDefinition [ ' + this.myMeta.protoOption + ' ]', 
             closeAction: 'hide',
             width: 800,
             height: 600,
@@ -773,12 +773,68 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             // modal: true,
             items: myPcl
         });
-    	
-    	myWin.show()
-    	
-    	// var safeConf =  clone( myMeta , 0, exclude =['dict','gridDefinition', 'formDefinition'] )
-    	// showConfig( 'MetaConfig', safeConf )
+        
+        myWin.show()
+        
+        // var safeConf =  clone( myMeta , 0, exclude =['dict','gridDefinition', 'formDefinition'] )
+        // showConfig( 'MetaConfig', safeConf )
+    }, 
+
+
+     
+    showFieldTree: function() {
+
+
+        var fieldsTree = Ext.widget('fieldTree', {
+            protoOption : this.myMeta.protoOption, 
+            myMeta : this.myMeta
+        });
+
+         var myWin  = Ext.widget('window', {
+            constrain: true, 
+            title : 'MetaDefinition [ ' + this.myMeta.protoOption + ' ]', 
+            closeAction: 'hide',
+            width: 800,
+            height: 600,
+            minHeight: 400,
+            minWidth: 400,
+            layout: 'fit',
+            resizable: true,
+
+            collapsible: true,
+            // modal: true,
+            items: fieldsTree, 
+            
+            dockedItems: [{
+                xtype: 'toolbar',
+                items: {
+                    text: 'Get checked nodes',
+                    scope : this, 
+                    handler: function(){
+                        var records = fieldsTree.getView().getChecked(),
+                            names = [];
+                        
+                        Ext.Array.each(records, function(rec){
+                            names.push(rec.get('id'));
+                        });
+                        
+                        Ext.MessageBox.show({
+                            title: 'Selected Nodes',
+                            msg: names.join('<br />'),
+                            icon: Ext.MessageBox.INFO
+                        });
+                    }
+                }
+            }]
+ 
+            
+        });
+        
+        myWin.show()
+        
+        // var safeConf =  clone( myMeta , 0, exclude =['dict','gridDefinition', 'formDefinition'] )
+        // showConfig( 'MetaConfig', safeConf )
     }
-	 
+     
 
 });

@@ -8,7 +8,7 @@ Ext.onReady(function() {
 
 
 
-	var i = 0; 
+    var i = 0; 
 
     //Ext.ux.tree.TreeGrid is no longer a Ux. You can simply use a tree.TreePanel
     var tree = Ext.create('Ext.tree.Panel', {
@@ -23,33 +23,33 @@ Ext.onReady(function() {
         rowLines : true, 
         columnLines : true, 
 
-		// ------------------
-		
-		
-		tbar: [
-		  { xtype: 'button', text: 'Button Tp' }
-		], 
+        // ------------------
+        
+        
+        tbar: [
+          { xtype: 'button', text: 'Button Tp' }
+        ], 
 
-		bbar: [
-		  { xtype: 'button', 
-		  	text: 'NewNode',
+        bbar: [
+          { xtype: 'button', 
+              text: 'NewNode',
 
             handler:function(){
-		        var node = store.getNodeById('node-2');
-		        var n = node.appendChild({
-		            task:'New Node ', //  + i++,
-		            leaf: true,
-		            checked: true
-		        	})  
-		  	 	}
-		  	}
-		], 
+                var node = store.getNodeById('node-2');
+                var n = node.appendChild({
+                    task:'New Node ', //  + i++,
+                    leaf: true,
+                    checked: true
+                    })  
+                   }
+              }
+        ], 
 
-		buttons: [
-		  { text: 'Button Bu' }
-		], 		
-		
-		//         
+        buttons: [
+          { text: 'Button Bu' }
+        ],         
+        
+        //         
         multiSelect: false,
 
         // singleExpand: true,
@@ -78,11 +78,11 @@ Ext.onReady(function() {
     });
     
 
-	// var newNode = new Ext.tree.TreeNode({id: "foo", text: "foo", leaf: true});
-	// myTree.selModel.selNode.parentNode.appendChild(newNode);
+    // var newNode = new Ext.tree.TreeNode({id: "foo", text: "foo", leaf: true});
+    // myTree.selModel.selNode.parentNode.appendChild(newNode);
 
-	// var delNode = myTree.selModel.selNode;
-	// myTree.selModel.selNode.parentNode.removeChild(delNode);    
+    // var delNode = myTree.selModel.selNode;
+    // myTree.selModel.selNode.parentNode.removeChild(delNode);    
     
     
 });

@@ -143,9 +143,9 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             if ( idMasterGrid === 0  ) { tmpStore.protoMasterId = idMasterGrid; return; } 
             if (tmpStore.protoMasterId == idMasterGrid ) { return; }
     
-    		// El filtro del detalle debe tner en cuenta el filtro predefinido para la grilla???
-    		// TODO: En el vinculo debe existir un filtro predefinido,  no es necesariamente cierto q siempre deba ser 
-    		// el filtro de consulta de la grilla o q se deba siempre eliminar. 
+            // El filtro del detalle debe tner en cuenta el filtro predefinido para la grilla???
+            // TODO: En el vinculo debe existir un filtro predefinido,  no es necesariamente cierto q siempre deba ser 
+            // el filtro de consulta de la grilla o q se deba siempre eliminar. 
             tmpStore.clearFilter();
             tmpStore.getProxy().extraParams.baseFilter = '{"' + tmpStore.detailField + '" : ' + idMasterGrid + ',}';
             tmpStore.protoMasterId = idMasterGrid;
@@ -176,27 +176,27 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         var tab =  this.getTab(_masterDetail, item.detailKey); 
         if (!tab) {
 
-			// Opciones del llamado AJAX 
-			var options = {
-				scope: this, 
-				success: function ( obj, result, request ) {
-	                _masterDetail.createDetailGrid( _masterDetail, item  );
-            	},
+            // Opciones del llamado AJAX 
+            var options = {
+                scope: this, 
+                success: function ( obj, result, request ) {
+                    _masterDetail.createDetailGrid( _masterDetail, item  );
+                },
                 failure: function ( obj, result, request) { 
                     return ;  
                 }
             }
                 
-	        if (  loadPci( item.detailKey, true, options ) ) {
+            if (  loadPci( item.detailKey, true, options ) ) {
                 // El modelo ya ha sido cargado ( la cll meta es global )     
                 _masterDetail.createDetailGrid( _masterDetail, item );
-	        	
-	        }   
+                
+            }   
 
         } else {
 
             //  Marca el tab activo ( es need hacerlo asi, pues el otro llamado es Async.   
-    		_masterDetail.setActiveDetail( _masterDetail, item.detailKey );
+            _masterDetail.setActiveDetail( _masterDetail, item.detailKey );
 
         };
     },
@@ -240,13 +240,13 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             ixDetail: item.ixDetail
         });
 
-		_masterDetail.setActiveDetail( _masterDetail, item.detailKey );
+        _masterDetail.setActiveDetail( _masterDetail, item.detailKey );
     },   
 
     setActiveDetail: function ( _masterDetail , detailKey ) {
 
-    	//DGT  La idea es cambiat la llave de los detalles por el protoOption y pasar solo el contexto del MD y la llave. 
-    	//El titulo, verificar si es un detalle y navegar al padre para obtner el registro activo, y el titulo  
+        //DGT  La idea es cambiat la llave de los detalles por el protoOption y pasar solo el contexto del MD y la llave. 
+        //El titulo, verificar si es un detalle y navegar al padre para obtner el registro activo, y el titulo  
         var tab =  _masterDetail.getTab( _masterDetail, detailKey); 
 
         _masterDetail.ixActiveDetail = tab.ixDetail;
@@ -257,8 +257,8 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
     
     onClickLoadData: function ( sFilter ) { 
-		
-		this.protoMasterGrid.loadData( this.protoMasterGrid,  sFilter  )
+        
+        this.protoMasterGrid.loadData( this.protoMasterGrid,  sFilter  )
         // this.protoMasterStore.clearFilter();
         // this.protoMasterStore.getProxy().extraParams.protoFilter = sFilter;
 // 

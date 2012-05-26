@@ -7,27 +7,27 @@ Ext.define('ProtoUL.view.MenuTree', {
     minWidth: 200,
 
     initComponent: function() {
-    	
-    	
-		Ext.define('ProtoUL.MenuModel', {
-		    extend: 'Ext.data.Model',
-		    proxy: {
-		        method: 'GET',
-		        type: 'ajax',
-		        url: _PConfig.urlMenu  
-		    }, 
-		
-		    fields: [
-		        {name: 'id', type: 'string'},
-		        {name: 'text', type: 'string'},
-		        {name: 'leaf', type: 'boolean'}
-		    ]
-		    
-		});
-		    	
+        
+        
+        Ext.define('ProtoUL.MenuModel', {
+            extend: 'Ext.data.Model',
+            proxy: {
+                method: 'GET',
+                type: 'ajax',
+                url: _PConfig.urlMenu  
+            }, 
+        
+            fields: [
+                {name: 'id', type: 'string'},
+                {name: 'text', type: 'string'},
+                {name: 'leaf', type: 'boolean'}
+            ]
+            
+        });
+                
         
         this.store = Ext.create('Ext.data.TreeStore', {
-    		autoLoad: true,
+            autoLoad: true,
             model: 'ProtoUL.MenuModel',
             root: {
                 text:'menu',
