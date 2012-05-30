@@ -28,11 +28,8 @@ Ext.define('ProtoUL.ux.ProtoDesigner', {
 		      items:[{
 		         title:"Tools",
 		         tooltip : "Design your ui by selecting elements from this tab", 
-	         	 xtype: 'treepanel',
-	             rootVisible: false,
-	             lines: false,
-	             useArrows: false,
-	             store: this.getTreeStore()		         
+            	 layout: 'fit',
+	             items	: this.getToolsTree()		         
 		       },{
 		         title:"Properties",
 		         tooltip : "Propiedades del elto seleccionado", 
@@ -51,9 +48,10 @@ Ext.define('ProtoUL.ux.ProtoDesigner', {
 		       }]
 		      },{
 		         region: 'south',
-		         xtype : "panel",
+            	 layout: 'fit',
+		         items : this.getFormTree(), 
 		         title: "Form",
-		         tooltip : "Tab with Codetree", 
+		         tooltip : "Tab with Components tree", 
 		         split: true,
 		         minHeight : 150,
 		         height: 170
@@ -147,7 +145,7 @@ Ext.define('ProtoUL.ux.ProtoDesigner', {
 	},
 
 
-    getTreeStore: function() {
+    getToolsTree: function() {
     	
 
 		var  toolsPanel =  [{
@@ -208,28 +206,12 @@ Ext.define('ProtoUL.ux.ProtoDesigner', {
 			  text : "Layouts",
 			  cls : "folder",
 			  children : [{
-			      text : "Fit Layout",
-			      qtip : "Layout containing only one element, fitted to container",
-			      config : {
-			        layout : "fit",
-			        title : "FitLayout Container"
-			      },
-			      leaf : true 
-			    },{
-			      text : "Card Layout",
+			      text : "Tab Panel",
 			      qtip : "Layout containing many elements, only one can be displayed at a time",
 			      config : {
 			        layout : "card",
 			        title : "CardLayout Container",
 			        activeItem : 0
-			      },
-			      leaf : true 
-			    },{
-			      text : "Anchor Layout",
-			      qtip : "Layout containing many elements, sized with \"anchor\" percentage values",
-			      config : {
-			        layout : "anchor",
-			        title : "AnchorLayout Container"
 			      },
 			      leaf : true 
 			    },{
@@ -241,7 +223,7 @@ Ext.define('ProtoUL.ux.ProtoDesigner', {
 			      },
 			      leaf : true 
 			    },{
-			      text : "Accordion Layout",
+			      text : "Accordion Panel",
 			      qtip : "Layout as accordion",
 			      wizard: "wizard/accordion-wiz.json",
 			      leaf : true 
@@ -258,7 +240,6 @@ Ext.define('ProtoUL.ux.ProtoDesigner', {
 			    }]
 			},{
 			  text : "Advanced",
-			  cls : "folder",
 			  children : [{
 			      text : "Grid",
 			      qtip : "A grid",
@@ -272,30 +253,6 @@ Ext.define('ProtoUL.ux.ProtoDesigner', {
 			        __JSON__cm : "new Ext.grid.ColumnModel([new Ext.grid.RowNumberer(),{header: 'Comment', width: 120, sortable: true, dataIndex: 'comment'}])"
 			      },
 			      leaf : true 
-			    },{
-			      text : "Tree Panel",
-			      qtip : "A tree panel",
-			      config : {
-			        xtype : "treepanel",
-			        animate : true,
-			        autoScroll : true,
-			        containerScroll : true,
-			        __JSON__root : "new Ext.tree.TreeNode({text:'Tree Root',draggable : false})",
-			        dropConfig : {
-			          appendOnly : true
-			        }
-			      },
-			      leaf : true 
-			    },{
-			      text : "JSON Panel",
-			      qtip : "A panel supporting JSON load",
-			      config : {
-			        xtype : "jsonpanel",
-			        title : "JSON Panel",
-			        layout : "fit",
-			        __JSON__autoLoad : "{url : 'json/myjson.json'}"
-			      },
-			      leaf : true 
 			    }]
 			}]
 	    	
@@ -307,8 +264,48 @@ Ext.define('ProtoUL.ux.ProtoDesigner', {
 		    }
 		});
 
-    	return treeStore 
-    }
+	    var toolsTree = Ext.create('Ext.tree.Panel', {
+	        // id: 'tree2',
+			store: treeStore,
+            rootVisible: true,
+            lines: false,
+            useArrows: false,
+	        viewConfig: {
+	            plugins: {
+	                ptype: 'treeviewdragdrop'
+	                // appendOnly: true
+	            }
+	        }
+	    });
+
+
+    	return toolsTree 
+    }, 
+
+	getFormTree: function() {
+
+		var treeStore  = Ext.create('Ext.data.TreeStore', {
+		    root: {
+		        expanded: true,
+		        children: []
+		    }
+		});
+	
+	    var formTree = Ext.create('Ext.tree.Panel', {
+	        // id: 'tree2',
+	        store: treeStore,
+            rootVisible: true,
+	        viewConfig: {
+	            plugins: {
+	                ptype: 'treeviewdragdrop'
+	                // appendOnly: true
+	            }
+	        }
+	    });
+		
+    	return formTree 
+		
+	}
 
 });
 
