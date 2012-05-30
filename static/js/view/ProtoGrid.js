@@ -803,29 +803,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
             collapsible: true,
             // modal: true,
-            items: fieldsTree, 
-            
-            dockedItems: [{
-                xtype: 'toolbar',
-                items: {
-                    text: 'Get checked nodes',
-                    scope : this, 
-                    handler: function(){
-                        var records = fieldsTree.getView().getChecked(),
-                            names = [];
-                        
-                        Ext.Array.each(records, function(rec){
-                            names.push(rec.get('id'));
-                        });
-                        
-                        Ext.MessageBox.show({
-                            title: 'Selected Nodes',
-                            msg: names.join('<br />'),
-                            icon: Ext.MessageBox.INFO
-                        });
-                    }
-                }
-            }]
+            items: fieldsTree 
  
             
         });
@@ -834,7 +812,37 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         // var safeConf =  clone( myMeta , 0, exclude =['dict','gridDefinition', 'formDefinition'] )
         // showConfig( 'MetaConfig', safeConf )
-    }
+    }, 
+    
      
+
+showProtoDesigner: function() {
+
+        var protoDesigner = Ext.widget('protoDesigner', {
+            protoOption : this.myMeta.protoOption 
+        });
+
+         var myWin  = Ext.widget('window', {
+            constrain: true, 
+            title : 'ProtoDesigner [ ' + this.myMeta.protoOption + ' ]', 
+            closeAction: 'hide',
+            width: 1000,
+            height: 600,
+            minHeight: 400,
+            minWidth: 400,
+            layout: 'fit',
+            resizable: true,
+
+            collapsible: true,
+            // modal: true,
+            items: protoDesigner 
+            
+        });
+        
+        myWin.show()
+        
+        // var safeConf =  clone( myMeta , 0, exclude =['dict','gridDefinition', 'formDefinition'] )
+        // showConfig( 'MetaConfig', safeConf )
+    }
 
 });

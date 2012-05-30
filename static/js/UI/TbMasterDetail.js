@@ -561,6 +561,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         };
 
         function onClickConfigForm( btn ){
+
+              __MasterDetail.protoMasterGrid.showProtoDesigner();
     
         };
 

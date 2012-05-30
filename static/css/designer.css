@@ -1,0 +1,37 @@
+
+.icon-add { background-image:url(../img/protoDesigner/add.png) !important; }
+.icon-addEl { background-image:url(../img/protoDesigner/application_add.png) !important; }
+.icon-delete { background-image:url(../img/protoDesigner/delete.png) !important; }
+.icon-deleteEl { background-image:url(../img/protoDesigner/application_delete.png) !important; }
+.icon-designcopy {background-image:url(../img/protoDesigner/cog_go.png) !important; }
+.icon-dupEl { background-image:url(../img/protoDesigner/application_double.png) !important; }
+.icon-editEl { background-image:url(../img/protoDesigner/application_edit.png) !important; }
+
+.icon-el { background-image:url(../img/protoDesigner/folder_explore.png) !important; }
+.icon-element-add .x-dd-drop-icon{background-image:url(../img/protoDesigner/element_new.png); }
+.icon-element-add-after .x-dd-drop-icon{background-image:url(../img/protoDesigner/element_new_after.png); }
+.icon-element-add-before .x-dd-drop-icon{background-image:url(../img/protoDesigner/element_new_before.png); }
+.icon-element-move .x-dd-drop-icon{background-image:url(../img/protoDesigner/element_copy.png);  }
+.icon-element-move-after .x-dd-drop-icon{background-image:url(../img/protoDesigner/element_next.png);  }
+.icon-element-move-before .x-dd-drop-icon{background-image:url(../img/protoDesigner/element_previous.png);  }
+
+.icon-error {background-image:url(../img/protoDesigner/error.png) !important; }
+.icon-filedelete {background-image:url(../img/protoDesigner/drive_delete.png) !important; }
+.icon-filerefresh {background-image:url(../img/protoDesigner/database_refresh.png) !important; }
+.icon-filerename {background-image:url(../img/protoDesigner/drive_edit.png) !important; }
+.icon-help { background-image:url(../img/protoDesigner/help.png) !important; }
+.icon-layoutEdit { background-image:url(../img/protoDesigner/layout_edit.png) !important; }
+.icon-left {background-image:url(../img/protoDesigner/arrow_left.png) !important; }
+.icon-options {background-image:url(../img/protoDesigner/control_equalizer.png) !important; }
+.icon-redo { background-image:url(../img/protoDesigner/arrow_redo.png) !important; }
+.icon-reload {background-image:url(../img/protoDesigner/drive_go.png) !important; }
+.icon-reset { background-image:url(../img/protoDesigner/broom.png) !important; }
+.icon-resize { background-image:url(../img/protoDesigner/arrow_inout.png) !important; }
+.icon-right {background-image:url(../img/protoDesigner/arrow_right.png) !important; }
+.icon-save {background-image:url(../img/protoDesigner/drive_disk.png) !important; }
+.icon-saveas {background-image:url(../img/protoDesigner/drive_add.png) !important; }
+.icon-show { background-image:url(../img/protoDesigner/pantalla.png) !important; }
+.icon-time { background-image:url(../img/protoDesigner/time.png) !important; }
+.icon-undo { background-image:url(../img/protoDesigner/arrow_undo.png) !important; }
+.icon-update { background-image:url(../img/protoDesigner/arrow_refresh.png) !important; }
+

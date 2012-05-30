@@ -1,11 +1,11 @@
+/* 
+ * 
+ */
+
 Ext.define('ProtoUL.UI.FieldTree', {
-    extend: 'Ext.tree.Panel',
+    extend: 'Ext.container.Container',
     alias: 'widget.fieldTree',
     
-    rootVisible: false ,
-    lines: false,
-    minWidth: 200,
-
 /* 
  * @protoOption   Required 
  */
@@ -47,6 +47,15 @@ Ext.define('ProtoUL.UI.FieldTree', {
         });
                 
         
+		var gridStore = Ext.create('Ext.data.Store', {
+		    // storeId:'fieldStore',
+		    fields:['id', 'Added','Removed'],
+		    data: []
+		});        
+
+        ///
+        
+        
         this.store = Ext.create('Ext.data.TreeStore', {
             autoLoad: true,
             model: 'ProtoUL.FieldModel',
@@ -62,7 +71,15 @@ Ext.define('ProtoUL.UI.FieldTree', {
 				    for (var ix in me.myMeta.fields ) {
 				        var vFld  =  me.myMeta.fields[ix];
 				        var vNode =  me.store.getNodeById( vFld.name ) 
-				        
+
+						// El string no es un campos configurable
+				        if ( vFld.name == '__str__' )  continue 
+
+						// Lo inserta en la grilla 
+	        	    	var idx = gridStore.getCount() + 1;
+				        insertNewRecord ( idx, vFld.name, null  ) 
+
+						// Lo marca									        
 				        if ( vNode ) vNode.set( 'checked', true ) 
 
 					} 
@@ -72,21 +89,92 @@ Ext.define('ProtoUL.UI.FieldTree', {
              
         });
         
+    	var tree = Ext.create('Ext.tree.Panel', {
+	        store: this.store,
+	        useArrows: true,
+	        // frame: true,
+		    rootVisible: false ,
+		    lines: false,
+		    minWidth: 200
+		   }
+		   )
+
+
+		tree.on({
+		    'checkchange': {fn: function (  node,  checked,  eOpts ) {
+				var idx = node.get( 'id' )
+				addOrRemove( idx, checked )
+		    }}, scope: me }
+		);
+
+        
+        var grid = Ext.create('Ext.grid.Panel', {
+            store : gridStore,
+            stripeRows: true , 
+            columns : [
+            	{header: 'fieldName',	dataIndex: 'id', flex : 1  },
+                {header: 'added',	dataIndex: 'added', xtype: 'checkcolumnreadonly'},
+                {header: 'removed',	dataIndex: 'removed', xtype: 'checkcolumnreadonly'}
+                ]
+   			}) 
+        
+
+        var panelItems =   [{
+                region: 'center',
+                flex: 1,
+                layout: 'fit',
+                minSize: 200,
+                items: tree 
+            }, {
+				region: 'east',
+			    collapsible: false,
+			    collapsed: false ,
+			    split: true,
+			    flex: 1,
+                layout: 'fit',
+                minSize: 200,
+                items: grid 
+			}]
+			
+        Ext.apply(this, {
+            layout: 'border',
+            items: panelItems 
+        });
+			
+                
         this.callParent(arguments);
         this.addEvents('menuSelect');
+        
+        
+	    function insertNewRecord( idx, fieldName,  added  ) {
+	    	/* 
+	    	 * Solo marca como insertados los nuevos registros 
+	    	 */
+	        var rec = new gridStore.model()
+	        rec.data.id = fieldName  
+	        rec.data.added = added 
+
+	        gridStore.insert(idx, rec );
+	    };
+	    
+	    function addOrRemove( idx, checked ) {
+	    	/* 
+	    	 * Marca los registros como adicionados o removidos, 
+	    	 * los registros de base no se deben remover, solo se marcan 
+	    	 */
+	    
+	    	var rec = gridStore.getById( idx  )
+	    	if ( ! rec  )  {
+	    		insertNewRecord( 0, idx,  true  )
+	    	} else {
+	    		if ( checked && rec.get( 'added') ) 
+    				rec.set( 'removed', false   )
+    			else rec.set( 'removed', ! checked   )
+	    	}
+	    	
+	    }
+        
     }, 
 
-    listeners: {
-        
-        // .view.View , .data.Model record, HTMLElement item, Number index, .EventObject e, Object eOpts
-        'itemclick': function( view, rec, item, index, evObj , eOpts ) {
-            if ( rec.get('leaf') ) {
-                // console.log( view, rec )
-                this.fireEvent('menuSelect', this, rec.data.id);
-
-            }
-        }
-        
-    }
 
 });
