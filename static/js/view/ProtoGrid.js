@@ -835,7 +835,7 @@ showProtoDesigner: function() {
 
             collapsible: true,
             // modal: true,
-        	maximizable: true,
+            maximizable: true,
             
             items: protoDesigner 
             

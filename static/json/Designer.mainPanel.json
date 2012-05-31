@@ -1,0 +1,63 @@
+{	"layout": "border",
+	"defaults": {
+		"layout": "fit",
+        "xtype": 'panel',
+		"collapsible": true,
+		"split": true,
+		"collapsed": false,
+		"flex": 1
+		}, 
+	"items": [{
+		"region": "center",
+		"minSize": 200
+	}, {
+		"layout": "border",
+		"region": "west",
+		"minSize": 200,
+		"items": [
+			{
+				"region": "center",
+				"minHeight": 150
+			}, {
+				"region": "south",
+				"title": "Form",
+				"tooltip": "Tab with Components tree",
+				"minHeight": 150,
+				"height": 170
+			}
+		]
+	}]
+}
+
+    width: 500,
+    height: 300,
+    title: 'Border Layout',
+    layout: 'border',
+    "defaults": {
+        "layout": "fit",
+        "collapsible": true,
+        "split": true,
+        "xtype": 'panel',
+        "collapsed": false,
+        "flex": 1
+        }, 
+        
+    items: [{
+        title: 'South Region is resizable',
+        region: 'south',     // position for region
+        xtype: 'panel',
+        height: 100,
+        margins: '0 5 5 5'
+    },{
+        // xtype: 'panel' implied by default
+        title: 'West Region is collapsible',
+        region:'west',
+        margins: '5 0 0 5',
+        width: 200,
+        id: 'west-region-container'
+    },{
+        title: 'Center Region',
+        region: 'center',     // center region is required, no width/height specified
+        layout: 'fit',
+        margins: '5 5 0 0'
+    }],

@@ -10,14 +10,14 @@ Ext.define('ProtoUL.UI.FieldTree', {
  * @protoOption   Required 
  */
 
-	protoOption : null, 
+    protoOption : null, 
 
 
 /* 
  * @myMeta   Required 
  */
 
-	myMeta : null, 
+    myMeta : null, 
 
     initComponent: function() {
         
@@ -47,11 +47,11 @@ Ext.define('ProtoUL.UI.FieldTree', {
         });
                 
         
-		var gridStore = Ext.create('Ext.data.Store', {
-		    // storeId:'fieldStore',
-		    fields:['id', 'Added','Removed'],
-		    data: []
-		});        
+        var gridStore = Ext.create('Ext.data.Store', {
+            // storeId:'fieldStore',
+            fields:['id', 'Added','Removed'],
+            data: []
+        });        
 
         ///
         
@@ -64,59 +64,59 @@ Ext.define('ProtoUL.UI.FieldTree', {
                 expanded: true 
             }, 
 
-        	listeners: {
-	            // Fires whenever the store reads data from a remote data source. ...
-	            load: function ( store, records,  successful,  eOpts ) {
-	            	
-				    for (var ix in me.myMeta.fields ) {
-				        var vFld  =  me.myMeta.fields[ix];
-				        var vNode =  me.store.getNodeById( vFld.name ) 
+            listeners: {
+                // Fires whenever the store reads data from a remote data source. ...
+                load: function ( store, records,  successful,  eOpts ) {
+                    
+                    for (var ix in me.myMeta.fields ) {
+                        var vFld  =  me.myMeta.fields[ix];
+                        var vNode =  me.store.getNodeById( vFld.name ) 
 
-						// El string no es un campos configurable
-				        if ( vFld.name == '__str__' )  continue 
+                        // El string no es un campos configurable
+                        if ( vFld.name == '__str__' )  continue 
 
-						// Lo inserta en la grilla 
-	        	    	var idx = gridStore.getCount() + 1;
-				        insertNewRecord ( idx, vFld.name, null  ) 
+                        // Lo inserta en la grilla 
+                        var idx = gridStore.getCount() + 1;
+                        insertNewRecord ( idx, vFld.name, null  ) 
 
-						// Lo marca									        
-				        if ( vNode ) vNode.set( 'checked', true ) 
+                        // Lo marca                                            
+                        if ( vNode ) vNode.set( 'checked', true ) 
 
-					} 
-	            	
-	            }
-        	}
+                    } 
+                    
+                }
+            }
              
         });
         
-    	var tree = Ext.create('Ext.tree.Panel', {
-	        store: this.store,
-	        useArrows: true,
-	        // frame: true,
-		    rootVisible: false ,
-		    lines: false,
-		    minWidth: 200
-		   }
-		   )
+        var tree = Ext.create('Ext.tree.Panel', {
+            store: this.store,
+            useArrows: true,
+            // frame: true,
+            rootVisible: false ,
+            lines: false,
+            minWidth: 200
+           }
+           )
 
 
-		tree.on({
-		    'checkchange': {fn: function (  node,  checked,  eOpts ) {
-				var idx = node.get( 'id' )
-				addOrRemove( idx, checked )
-		    }}, scope: me }
-		);
+        tree.on({
+            'checkchange': {fn: function (  node,  checked,  eOpts ) {
+                var idx = node.get( 'id' )
+                addOrRemove( idx, checked )
+            }}, scope: me }
+        );
 
         
         var grid = Ext.create('Ext.grid.Panel', {
             store : gridStore,
             stripeRows: true , 
             columns : [
-            	{header: 'fieldName',	dataIndex: 'id', flex : 1  },
-                {header: 'added',	dataIndex: 'added', xtype: 'checkcolumnreadonly'},
-                {header: 'removed',	dataIndex: 'removed', xtype: 'checkcolumnreadonly'}
+                {header: 'fieldName',    dataIndex: 'id', flex : 1  },
+                {header: 'added',    dataIndex: 'added', xtype: 'checkcolumnreadonly'},
+                {header: 'removed',    dataIndex: 'removed', xtype: 'checkcolumnreadonly'}
                 ]
-   			}) 
+               }) 
         
 
         var panelItems =   [{
@@ -126,53 +126,53 @@ Ext.define('ProtoUL.UI.FieldTree', {
                 minSize: 200,
                 items: tree 
             }, {
-				region: 'east',
-			    collapsible: false,
-			    collapsed: false ,
-			    split: true,
-			    flex: 1,
+                region: 'east',
+                collapsible: false,
+                collapsed: false ,
+                split: true,
+                flex: 1,
                 layout: 'fit',
                 minSize: 200,
                 items: grid 
-			}]
-			
+            }]
+            
         Ext.apply(this, {
             layout: 'border',
             items: panelItems 
         });
-			
+            
                 
         this.callParent(arguments);
         this.addEvents('menuSelect');
         
         
-	    function insertNewRecord( idx, fieldName,  added  ) {
-	    	/* 
-	    	 * Solo marca como insertados los nuevos registros 
-	    	 */
-	        var rec = new gridStore.model()
-	        rec.data.id = fieldName  
-	        rec.data.added = added 
+        function insertNewRecord( idx, fieldName,  added  ) {
+            /* 
+             * Solo marca como insertados los nuevos registros 
+             */
+            var rec = new gridStore.model()
+            rec.data.id = fieldName  
+            rec.data.added = added 
 
-	        gridStore.insert(idx, rec );
-	    };
-	    
-	    function addOrRemove( idx, checked ) {
-	    	/* 
-	    	 * Marca los registros como adicionados o removidos, 
-	    	 * los registros de base no se deben remover, solo se marcan 
-	    	 */
-	    
-	    	var rec = gridStore.getById( idx  )
-	    	if ( ! rec  )  {
-	    		insertNewRecord( 0, idx,  true  )
-	    	} else {
-	    		if ( checked && rec.get( 'added') ) 
-    				rec.set( 'removed', false   )
-    			else rec.set( 'removed', ! checked   )
-	    	}
-	    	
-	    }
+            gridStore.insert(idx, rec );
+        };
+        
+        function addOrRemove( idx, checked ) {
+            /* 
+             * Marca los registros como adicionados o removidos, 
+             * los registros de base no se deben remover, solo se marcan 
+             */
+        
+            var rec = gridStore.getById( idx  )
+            if ( ! rec  )  {
+                insertNewRecord( 0, idx,  true  )
+            } else {
+                if ( checked && rec.get( 'added') ) 
+                    rec.set( 'removed', false   )
+                else rec.set( 'removed', ! checked   )
+            }
+            
+        }
         
     }, 
 

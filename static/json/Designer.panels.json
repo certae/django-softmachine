@@ -1,0 +1,96 @@
+[
+	{
+		"region": "center",
+		"flex": 1,
+		"layout": "fit",
+		"minSize": 200
+	}, {
+		"region": "west",
+		"collapsible": false,
+		"collapsed": false,
+		"split": true,
+		"flex": 1,
+		"layout": "border",
+		"minSize": 200,
+		"tbar": [
+			{
+				"tooltip": "Clear designarea",
+				"iconCls": "icon-reset"
+			}, "-", {
+				"tooltip": "Copy JSON to clipboard",
+				"iconCls": "icon-designcopy"
+			}, {
+				"tooltip": "Edit the generated JSON",
+				"iconCls": "icon-editEl"
+			}, {
+				"iconCls": "icon-show",
+				"tooltip": "Show design in window"
+			}, "-", {
+				"iconCls": "icon-undo",
+				"tooltip": "Undo last change",
+				"disabled": true
+			}, {
+				"iconCls": "icon-redo",
+				"tooltip": "Redo last change",
+				"disabled": true
+			}, {
+				"iconCls": "icon-update",
+				"tooltip": "Redraw"
+			}, "->", {
+				"iconCls": "icon-error",
+				"tooltip": "Show or hide(clear) error tab",
+				"hidden": true,
+				"enableToggle": true,
+				"errors": [],
+				"errorCount": 0,
+				"maxErrors": 60
+			}, {
+				"iconCls": "icon-options",
+				"tooltip": "Show options"
+			}, {
+				"iconCls": "icon-help",
+				"tooltip": "Show help"
+			}
+		],
+		"items": [
+			{
+				"region": "center",
+				"xtype": "tabpanel",
+				"activeTab": 0,
+				"border": false,
+				"minHeight": 150,
+				"collapsed": false,
+				"items": [
+					{
+						"title": "Tools",
+						"tooltip": "Design your ui by selecting elements from this tab",
+						"layout": "fit"
+					}, {
+						"title": "Properties",
+						"tooltip": "Propiedades del elto seleccionado",
+						"xtype": "propertygrid",
+						"border": false,
+						"source": {
+							"type": "??",
+							"subType": "??",
+							"enabled": true,
+							"field": ""
+						}
+					}, {
+						"xtype": "panel",
+						"title": "Fields",
+						"tooltip": "Seleccione los campos a partir del modelo"
+					}
+				]
+			}, {
+				"region": "south",
+				"layout": "fit",
+				"title": "Form",
+				"tooltip": "Tab with Components tree",
+				"split": true,
+				"minHeight": 150,
+				"height": 170
+			}
+		]
+	}
+]

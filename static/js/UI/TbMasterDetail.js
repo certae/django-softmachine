@@ -569,6 +569,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         function onClickConfigFields( btn ){
 
               __MasterDetail.protoMasterGrid.showFieldTree();
+              
     
         }
         

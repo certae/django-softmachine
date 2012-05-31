@@ -679,7 +679,9 @@ function errorMessage(  errTitle,  errMsg ) {
 
 
 
-function loadFiedlTree( protoOption, options) {
+
+
+function loadJsonConfig( fileName, options) {
 
     options = options || {};
     
@@ -691,21 +693,14 @@ function loadFiedlTree( protoOption, options) {
     });
     
     Ext.Ajax.request({
-        method: 'POST',
-        url: _PConfig.urlGetFieldTree  ,
-        params : { protoOption : protoOption },
-        scope: this,
+        method: 'GET',
+        url: '/resources/' + fileName ,
+        scope: options.scope,
         success: function(result, request) {
-            var myResult = Ext.decode( result.responseText );
-            if(myResult.success) {
-                options.success.call( options.scope, result, request);
-            } else {
-                options.failure.call(options.scope, result, request);
-                errorMessage ( 'SavePCI Failed', myResult.message  )
-            }
+            options.success.call( options.scope, result, request);
         },
         failure: function(result, request) {
-            errorMessage ( 'SavePCI Failed', result.status + ' ' + result.statusText )
+            errorMessage ( 'LoadJsonConfig', result.status + ' ' + result.statusText )
             options.failure.call(options.scope, result, request);
         }
         
