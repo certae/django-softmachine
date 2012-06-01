@@ -1,96 +1,189 @@
-[
-	{
-		"region": "center",
-		"flex": 1,
-		"layout": "fit",
-		"minSize": 200
-	}, {
-		"region": "west",
-		"collapsible": false,
-		"collapsed": false,
-		"split": true,
-		"flex": 1,
-		"layout": "border",
-		"minSize": 200,
-		"tbar": [
-			{
-				"tooltip": "Clear designarea",
-				"iconCls": "icon-reset"
-			}, "-", {
-				"tooltip": "Copy JSON to clipboard",
-				"iconCls": "icon-designcopy"
-			}, {
-				"tooltip": "Edit the generated JSON",
-				"iconCls": "icon-editEl"
-			}, {
-				"iconCls": "icon-show",
-				"tooltip": "Show design in window"
-			}, "-", {
-				"iconCls": "icon-undo",
-				"tooltip": "Undo last change",
-				"disabled": true
-			}, {
-				"iconCls": "icon-redo",
-				"tooltip": "Redo last change",
-				"disabled": true
-			}, {
-				"iconCls": "icon-update",
-				"tooltip": "Redraw"
-			}, "->", {
-				"iconCls": "icon-error",
-				"tooltip": "Show or hide(clear) error tab",
-				"hidden": true,
-				"enableToggle": true,
-				"errors": [],
-				"errorCount": 0,
-				"maxErrors": 60
-			}, {
-				"iconCls": "icon-options",
-				"tooltip": "Show options"
-			}, {
-				"iconCls": "icon-help",
-				"tooltip": "Show help"
-			}
-		],
-		"items": [
-			{
-				"region": "center",
-				"xtype": "tabpanel",
-				"activeTab": 0,
-				"border": false,
-				"minHeight": 150,
-				"collapsed": false,
-				"items": [
-					{
-						"title": "Tools",
-						"tooltip": "Design your ui by selecting elements from this tab",
-						"layout": "fit"
-					}, {
-						"title": "Properties",
-						"tooltip": "Propiedades del elto seleccionado",
-						"xtype": "propertygrid",
-						"border": false,
-						"source": {
-							"type": "??",
-							"subType": "??",
-							"enabled": true,
-							"field": ""
-						}
-					}, {
-						"xtype": "panel",
-						"title": "Fields",
-						"tooltip": "Seleccione los campos a partir del modelo"
-					}
-				]
-			}, {
-				"region": "south",
-				"layout": "fit",
-				"title": "Form",
-				"tooltip": "Tab with Components tree",
-				"split": true,
-				"minHeight": 150,
-				"height": 170
-			}
-		]
-	}
-]
+{
+"tbar" : [{
+        "tooltip" : "Clear designarea",
+        "iconCls" : "icon-reset", 
+        "itemId" : "clear"
+    },
+    "-",{
+        "tooltip" : "Copy JSON to clipboard",
+        "iconCls" : "icon-designcopy",
+        "itemId" : "clipboard"
+    },
+    {
+        "tooltip" : "Edit the generated JSON",
+        "iconCls" : "icon-editEl",
+        "itemId" : "editJson"
+    },
+    {
+        "iconCls" : "icon-show",
+        "tooltip" : "Show design in window",
+        "itemId"  : "preview"
+    },
+    "-",{
+        "iconCls" : "icon-undo",
+        "tooltip" : "Undo last change",
+        "disabled" : true,
+        "itemId" : "undo"
+    },
+    {
+        "iconCls" : "icon-redo",
+        "tooltip" : "Redo last change",
+        "disabled" : true,
+        "itemId" : "redo"
+    },
+    {
+        "iconCls" : "icon-update",
+        "tooltip" : "Redraw",
+        "itemId" : "refresh"
+    },
+    "->",{
+        "iconCls" : "icon-error",
+        "tooltip" : "Show or hide(clear) error tab",
+        "itemId" : "error",
+        "hidden" : true,
+        "enableToggle" : true,
+        "errors" : [],
+        "errorCount" : 0,
+        "maxErrors" : 60
+    },
+    {
+        "iconCls" : "icon-options",
+        "itemId"  : "options",
+        "tooltip" : "Show options"
+    },
+    {
+        "iconCls" : "icon-help",
+        "itemId"  : "help",
+        "tooltip" : "Show help"
+    }],
+    
+"toolsTabs" : [{
+        "xtype" : "tabpanel",
+        "activeTab" : 0,
+        "border" : false,
+        "items" : [{
+            "title" : "Tools",
+            "itemId" : "toolsTree",
+            "tooltip" : "Design your ui by selecting elements from this tab",
+            "layout" : "fit"
+        },
+        {
+            "title" : "Properties",
+            "tooltip" : "Propiedades del elto seleccionado",
+            "xtype" : "propertygrid",
+            "itemId" : "properties",
+            "border" : false,
+            "source" : {
+                "type" : "",
+                "name" : ""
+            }
+        },
+        {
+            "xtype" : "panel",
+            "title" : "Fields",
+            "itemId" : "fields",
+            "tooltip" : "Seleccione los campos a partir del modelo"
+        }]
+    }], 
+    
+"toolsTree" : [
+    {
+        "text": "Fields",
+        "children": [
+            {
+                "text": "Field Set",
+                "qtip": "A Fieldset, containing other form elements",
+                "leaf": true,
+                "config": {
+                    "xtype": "fieldset",
+                    "title": "Legend",
+                    "autoHeight": true
+                }
+            }, {
+                "text": "Text Area",
+                "qtip": "A Text Area",
+                "leaf": true,
+                "config": {
+                    "xtype": "textarea",
+                    "fieldLabel": "Text",
+                    "name": "textarea"
+                }
+            }, {
+                "text": "Text Label",
+                "qtip": "A textlabel",
+                "leaf": true,
+                "config": {
+                    "xtype": "label",
+                    "text": "Label"
+                }
+            }, {
+                "text": "Button",
+                "qtip": "A button",
+                "leaf": true,
+                "config": {
+                    "xtype": "button",
+                    "text": "Ok"
+                }
+            }
+        ]
+    }, {
+        "text": "Containers",
+        "cls": "folder",
+        "children": [
+            {
+                "text": "Panel",
+                "qtip": "A simple panel with default layout",
+                "config": {
+                    "xtype": "panel",
+                    "title": "Panel"
+                }
+            }, {
+                "text": "Tab Panel",
+                "qtip": "A panel with many tabs",
+                "wizard": "wizard/tabpanel-wiz.json",
+                "config": {
+                    "layout": "card",
+                    "title": "CardLayout Container",
+                    "activeItem": 0
+                }
+            }, {
+                "text": "Absolute Layout",
+                "qtip": "Layout containing many elements, absolutely positionned with x/y values",
+                "config": {
+                    "layout": "absolute",
+                    "title": "AbsoluteLayout Container"
+                }
+            }, {
+                "text": "Accordion Panel",
+                "qtip": "Layout as accordion",
+                "wizard": "wizard/accordion-wiz.json"
+            }, {
+                "text": "Column Layout",
+                "qtip": "Layout of columns",
+                "wizard": "wizard/column-wiz.json"
+            }, {
+                "text": "Border Layout",
+                "qtip": "Layout with regions",
+                "wizard": "wizard/border-wiz.json"
+            }
+        ]
+    }, {
+        "text": "Grids",
+        "children": [
+            {
+                "text": "Grid",
+                "qtip": "A grid",
+                "config": {
+                    "xtype": "grid",
+                    "border": false,
+                    "viewConfig": {
+                        "forceFit": true
+                    },
+                    "__JSON__ds": "new Ext.data.Store({reader: new Ext.data.ArrayReader({}, [{name: 'comment'}]),data: [['Please set CM and DS properties']]})",
+                    "__JSON__cm": "new Ext.grid.ColumnModel([new Ext.grid.RowNumberer(),{header: 'Comment', width: 120, sortable: true, dataIndex: 'comment'}])"
+                },
+                "leaf": true
+            }
+        ]
+    }]    
+}
