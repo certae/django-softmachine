@@ -57,15 +57,21 @@
         "tooltip" : "Show help"
     }],
     
+    
+    // ----------------------------------------------------------------------------
+    
+    
 "toolsTabs" : [{
         "xtype" : "tabpanel",
         "activeTab" : 0,
         "border" : false,
+        "defaults": { "lauyout" : "fit" }, 
         "items" : [{
             "title" : "Tools",
             "itemId" : "toolsTree",
             "tooltip" : "Design your ui by selecting elements from this tab",
-            "layout" : "fit"
+            "layout" : "fit",
+            "autoScroll": true
         },
         {
             "title" : "Properties",
@@ -86,30 +92,126 @@
         }]
     }], 
     
+    
+// ----------------------------------------------------------------------------
+
+/* ********   Propiedades comunes 
+ 
+    maxHeight
+    minHeight
+    Height
+    
+    maxWidth
+    minWidth
+    width
+ */
+
+
 "toolsTree" : [
     {
         "text": "Fields",
+        "children": []
+    }, {
+        "text": "Containers",
         "children": [
             {
+
+/* 
+    FieldContainer implements the Labelable mixin. 
+    Varios campos son presentados con un label y un sitio comun para los mensajes de error 
+    A common use is for grouping a set of related fields under a single label in a form.
+    FieldContainer Inherit itself and  can pass fieldDefaults to any fields it may itself contain 
+    Otros:  Ext.form.CheckboxGroup or Ext.form.RadioGroup 
+    
+    hideFieldsLabel :  Oculta los labels de los campos   
+    combineErrors : true 
+    autoScroll : true 
+ */            
+ 
+                "text": "Field Container",
+                "qtip": "A Fieldset, containing field elements",
+                "qtitle": "fieldcontainer",
+                "pType": "fieldcontainer",
+                "children": [], 
+                "config": {
+                    "title": "Legend",
+                    "layout" : [ "hbox" , "vbox" ], 
+                    "labelWidth" : 100,
+                    "labelAlign" : [ "top", "left"],
+                    "hideLabels" : false,
+                    "autoHeight": true
+                }
+            }, {
+            
+            
                 "text": "Field Set",
                 "qtip": "A Fieldset, containing other form elements",
-                "leaf": true,
+                "children": [], 
                 "config": {
                     "xtype": "fieldset",
                     "title": "Legend",
                     "autoHeight": true
                 }
             }, {
-                "text": "Text Area",
-                "qtip": "A Text Area",
-                "leaf": true,
+                "text": "Panel",
+                "qtip": "A simple panel with default layout",
+                "children": [], 
                 "config": {
-                    "xtype": "textarea",
-                    "fieldLabel": "Text",
-                    "name": "textarea"
+                    "xtype": "panel",
+                    "title": "Panel"
                 }
             }, {
-                "text": "Text Label",
+                "text": "Tab Panel",
+                "qtip": "A panel with many tabs",
+                "wizard": "wizard/tabpanel-wiz.json",
+                "children": [], 
+                "config": {
+                    "layout": "card",
+                    "title": "CardLayout Container",
+                    "activeItem": 0
+                }
+            }, {
+                "text": "Absolute Layout",
+                "qtip": "Layout containing many elements, absolutely positionned with x/y values",
+                "children": [], 
+                "config": {
+                    "layout": "absolute",
+                    "title": "AbsoluteLayout Container"
+                }
+            }, {
+                "text": "Accordion Panel",
+                "qtip": "Layout as accordion",
+                "children": [], 
+                "wizard": "wizard/accordion-wiz.json"
+            }, {
+                "text": "Column Layout",
+                "qtip": "Layout of columns",
+                "children": [], 
+                "wizard": "wizard/column-wiz.json"
+            }, {
+                "text": "Border Layout",
+                "qtip": "Layout with regions",
+                "children": [], 
+                "wizard": "wizard/border-wiz.json"
+            }
+        ]
+    }, {
+        "text": "Details",
+        "children": [
+            {
+                "text": "Grid",
+                "qtip": "A grid",
+                "config": {
+                    "xtype": "grid"
+                },
+                "leaf": true
+            }
+        ]
+    }, {
+        "text": "Others",
+        "children": [
+            {
+                "text": "Label",
                 "qtip": "A textlabel",
                 "leaf": true,
                 "config": {
@@ -124,65 +226,6 @@
                     "xtype": "button",
                     "text": "Ok"
                 }
-            }
-        ]
-    }, {
-        "text": "Containers",
-        "cls": "folder",
-        "children": [
-            {
-                "text": "Panel",
-                "qtip": "A simple panel with default layout",
-                "config": {
-                    "xtype": "panel",
-                    "title": "Panel"
-                }
-            }, {
-                "text": "Tab Panel",
-                "qtip": "A panel with many tabs",
-                "wizard": "wizard/tabpanel-wiz.json",
-                "config": {
-                    "layout": "card",
-                    "title": "CardLayout Container",
-                    "activeItem": 0
-                }
-            }, {
-                "text": "Absolute Layout",
-                "qtip": "Layout containing many elements, absolutely positionned with x/y values",
-                "config": {
-                    "layout": "absolute",
-                    "title": "AbsoluteLayout Container"
-                }
-            }, {
-                "text": "Accordion Panel",
-                "qtip": "Layout as accordion",
-                "wizard": "wizard/accordion-wiz.json"
-            }, {
-                "text": "Column Layout",
-                "qtip": "Layout of columns",
-                "wizard": "wizard/column-wiz.json"
-            }, {
-                "text": "Border Layout",
-                "qtip": "Layout with regions",
-                "wizard": "wizard/border-wiz.json"
-            }
-        ]
-    }, {
-        "text": "Grids",
-        "children": [
-            {
-                "text": "Grid",
-                "qtip": "A grid",
-                "config": {
-                    "xtype": "grid",
-                    "border": false,
-                    "viewConfig": {
-                        "forceFit": true
-                    },
-                    "__JSON__ds": "new Ext.data.Store({reader: new Ext.data.ArrayReader({}, [{name: 'comment'}]),data: [['Please set CM and DS properties']]})",
-                    "__JSON__cm": "new Ext.grid.ColumnModel([new Ext.grid.RowNumberer(),{header: 'Comment', width: 120, sortable: true, dataIndex: 'comment'}])"
-                },
-                "leaf": true
             }
         ]
     }]    

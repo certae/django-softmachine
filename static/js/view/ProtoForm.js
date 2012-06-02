@@ -469,9 +469,6 @@ Ext.define('ProtoUL.view.ProtoForm', {
     });
       
     // Ext.Array.forEach(this.query('textfield'), function( obj ) {
-    // Ext.Array.forEach(this.query('htmlfield'), function( obj ) {
-    // Ext.Array.forEach(this.query('combobox'), function( obj ) {
-        
   }
     
     

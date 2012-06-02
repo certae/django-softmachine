@@ -15,7 +15,7 @@ Ext.require([
     'Ext.tree.*'
 ]);
 
-Ext.define('ProtoUL.view.ProtoPcl' ,{
+Ext.define('ProtoUL.proto.ProtoPcl' ,{
     extend: 'Ext.container.Container',
     alias : 'widget.protoPcl',
     requires: [

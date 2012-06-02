@@ -785,7 +785,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     showFieldTree: function() {
 
 
-        var fieldsTree = Ext.widget('fieldTree', {
+        var fieldsTree = Ext.widget('protoFieldTree', {
             protoOption : this.myMeta.protoOption, 
             myMeta : this.myMeta
         });

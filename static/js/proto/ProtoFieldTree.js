@@ -2,9 +2,9 @@
  * 
  */
 
-Ext.define('ProtoUL.UI.FieldTree', {
+Ext.define('ProtoUL.proto.ProtoFieldTree', {
     extend: 'Ext.container.Container',
-    alias: 'widget.fieldTree',
+    alias: 'widget.protoFieldTree',
     
 /* 
  * @protoOption   Required 
