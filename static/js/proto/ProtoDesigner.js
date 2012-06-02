@@ -42,15 +42,25 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         }
         loadJsonConfig('json/Designer.panels.json', options)
 
+
+        function onClickRedraw(myObj) {
+            console.log( 'this') 
+        } 
+
+
     },
+
+    onClickRedraw : function(myObj) {
+        console.log( 'this') 
+    }, 
     
     doFormatLayout : function(myObj) {
 
-        this.toolsPanel.addDocked({
+        this.tBar =  this.toolsPanel.addDocked({
             xtype : 'toolbar',
             dock : 'top',
             items : myObj.tbar
-        });
+        })[0];
 
         this.toolsTabs.add(myObj.toolsTabs);
         this.toolsTree = this.toolsTabs.down('#toolsTree')
@@ -99,7 +109,6 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                 var a = 1
                 } , scope: this }}
         );
-
 
         // ------------------------------------------------
 
@@ -168,7 +177,26 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
             }}, scope: this }
         );
 
+
+        // Para manejar los botones dinamicamente addListener 
+        
+        // EL wizzard utiliza Ext.element.loader para cargar dinamicamenta la definicion a partir de una URL
+        // la URL ya probe q puede ser un archivo json,  
+        
+        // revisar en el ejemplo como usar  jsonForm y jsonPropertyGrid   codepress  
+        var btRedraw = this.tBar.down( '#redraw');
+        btRedraw.on(
+            'click',
+            function(  btn , event,  eOpts) {
+                console.log('abc');
+            },this  );
+
+
     },
+    
+    
+    //  ==============================================================================
+    
     
     getPanelItems: function() {
 
@@ -188,14 +216,14 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                 },
                 items : [{
                     region : 'center',
-                    itemId : 'toolsTabs',
                     layout : 'fit',
+                    itemId : 'formTree',
                     autoScroll : true,
                     minHeight : 150
                 }, {
                     region : 'south',
                     layout : 'fit',
-                    itemId : 'formTree',
+                    itemId : 'toolsTabs',
                     collapsible : true,
                     split : true,
                     flex : 1,

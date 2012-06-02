@@ -1,40 +1,22 @@
 {
 "tbar" : [{
-        "tooltip" : "Clear designarea",
-        "iconCls" : "icon-reset", 
+        "tooltip" : "Update definition",
+        "iconCls" : "icon-save", 
+        "itemId" : "save"
+    },"-",{
+        "tooltip" : "Delete curren node",
+        "iconCls" : "icon-tableDelete", 
+        "disabled": true,
         "itemId" : "clear"
-    },
-    "-",{
-        "tooltip" : "Copy JSON to clipboard",
-        "iconCls" : "icon-designcopy",
-        "itemId" : "clipboard"
-    },
-    {
+    },"-",{
         "tooltip" : "Edit the generated JSON",
         "iconCls" : "icon-editEl",
         "itemId" : "editJson"
     },
-    {
-        "iconCls" : "icon-show",
-        "tooltip" : "Show design in window",
-        "itemId"  : "preview"
-    },
     "-",{
-        "iconCls" : "icon-undo",
-        "tooltip" : "Undo last change",
-        "disabled" : true,
-        "itemId" : "undo"
-    },
-    {
-        "iconCls" : "icon-redo",
-        "tooltip" : "Redo last change",
-        "disabled" : true,
-        "itemId" : "redo"
-    },
-    {
         "iconCls" : "icon-update",
         "tooltip" : "Redraw",
-        "itemId" : "refresh"
+        "itemId" : "redraw"
     },
     "->",{
         "iconCls" : "icon-error",
@@ -135,14 +117,16 @@
                 "children": [], 
                 "config": {
                     "title": "Legend",
-                    "layout" : [ "hbox" , "vbox" ], 
+                    "layout" : { 
+                        "choices" : [ "hbox" , "vbox" ],
+                        "value" : "hbox"
+                        },  
                     "labelWidth" : 100,
                     "labelAlign" : [ "top", "left"],
                     "hideLabels" : false,
                     "autoHeight": true
                 }
             }, {
-            
             
                 "text": "Field Set",
                 "qtip": "A Fieldset, containing other form elements",
@@ -156,19 +140,29 @@
                 "text": "Panel",
                 "qtip": "A simple panel with default layout",
                 "children": [], 
+                "pType": "panel",
                 "config": {
                     "xtype": "panel",
                     "title": "Panel"
                 }
             }, {
-                "text": "Tab Panel",
+                "text": "Tab Container",
                 "qtip": "A panel with many tabs",
-                "wizard": "wizard/tabpanel-wiz.json",
                 "children": [], 
+                "pType": "tabpanel",
                 "config": {
-                    "layout": "card",
-                    "title": "CardLayout Container",
+                    "layout": "fit",
+                    "title": "",
                     "activeItem": 0
+                }
+            }, {
+                "text": "Tab Panel",
+                "qtip": "A tab panel",
+                "children": [], 
+                "pType": "tab",
+                "config": {
+                    "layout": "fit",
+                    "title": ""
                 }
             }, {
                 "text": "Absolute Layout",
