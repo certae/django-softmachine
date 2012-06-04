@@ -9,10 +9,14 @@
 
  */
 
+
 Ext.define('ProtoUL.proto.ProtoDesigner', {
     // extend: 'Ext.panel.Panel',
     extend : 'Ext.container.Container',
     alias : 'widget.protoDesigner',
+
+    //@myMeta
+    myMeta : null,   
 
     initComponent : function() {
 
@@ -31,13 +35,19 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         this.toolsPanel = me.down('#toolsPanel')
         this.toolsTabs = me.down('#toolsTabs')
         this.formTree = me.down('#formTree')
+        this.formPreview = me.down('#formPreview')
 
         // Opciones del llamado AJAX
         var options = {
             scope : me,
             success : function(result, request) {
                 var myObj = Ext.decode(result.responseText);
-                this.doFormatLayout(myObj)
+                
+                // Defincion de los objetos del designer 
+                this.doFormatLayout(myObj);
+
+                // Definicion del arbol basado en la meta 
+                this.updateFormTree()
             }
         }
         loadJsonConfig('json/Designer.panels.json', options)
@@ -136,6 +146,8 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
 
         this.formTree.add([formTree]);
 
+
+
         // ------------------------------------------------
 
         var treeView = formTree.getView()
@@ -200,36 +212,45 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
     
     getPanelItems: function() {
 
-            return  [{
+        this.myForm = Ext.widget('protoform', {
+            myMeta : this.myMeta  
+        });  
+
+        return  [{
+            region : 'center',
+            layout : 'fit',
+            itemId : 'formPreview',
+            items : this.myForm, 
+            flex : 2,
+            autoScroll : true,
+            minSize : 200
+        }, {
+            region : 'west',
+            collapsible : true,
+            split : true,
+            flex : 1,
+            title : 'Tools',
+            itemId : 'toolsPanel',
+            layout : 'border',
+            defaults : {
+                lauyout : 'fit'
+            },
+            items : [{
                 region : 'center',
-                minSize : 200
+                layout : 'fit',
+                itemId : 'formTree',
+                autoScroll : true,
+                minHeight : 150
             }, {
-                region : 'west',
+                region : 'south',
+                layout : 'fit',
+                itemId : 'toolsTabs',
                 collapsible : true,
                 split : true,
                 flex : 1,
-                title : 'Tools',
-                itemId : 'toolsPanel',
-                layout : 'border',
-                defaults : {
-                    lauyout : 'fit'
-                },
-                items : [{
-                    region : 'center',
-                    layout : 'fit',
-                    itemId : 'formTree',
-                    autoScroll : true,
-                    minHeight : 150
-                }, {
-                    region : 'south',
-                    layout : 'fit',
-                    itemId : 'toolsTabs',
-                    collapsible : true,
-                    split : true,
-                    flex : 1,
-                    title : 'Form'
-                }]
+                title : 'Form'
             }]
+        }]
             
     }
 });

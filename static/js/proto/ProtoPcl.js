@@ -52,7 +52,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         var myMeta = this.myMeta;
                  
         // Coleccion de referencia para relacionar myMeta con myStore ( treeStore )
-        me.refDict = {}
+        // me.refDict = {}
         
         
         Ext.define('MetaPCL', {
@@ -61,6 +61,9 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                 {name: 'ptProperty', type: 'string'},
                 {name: 'id',  type: 'string'},
                 {name: 'ptType',  type: 'string'},
+
+                // Referencia al modelo de base 
+                {name: 'refBase' },
                 {name: 'ptValue', type: 'string'}
             ]
         });
@@ -87,7 +90,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         //  --------------------------------------------------
         
         
-        var grid = Ext.create('Ext.tree.Panel', {
+        var treeGrid = Ext.create('Ext.tree.Panel', {
             store: myStore,
             title:  _pGrid.myMeta.shortTitle, 
             
@@ -175,7 +178,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
              
         }); 
 
-        this._extGrid = grid;
+        this._extGrid = treeGrid;
 
 
 //----- Tipos de base 
@@ -284,7 +287,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                 flex: 3,
                 layout: 'fit',
                 minSize: 50,
-                items: grid 
+                items: treeGrid 
             }, {
                 region: 'east',
                 id: IdeSheet, 
@@ -316,7 +319,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
 // ---------------------------------------------------------------------------------------------- 
 
-        grid.on({
+        treeGrid.on({
             'select': {fn: function ( rowModel , record,  rowIndex,  eOpts ) {
                 _pGrid.treeRecord  = record;
                 prepareProperties( _pGrid  );
@@ -355,8 +358,9 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
                 if ( e.value == e.originalValue ) return; 
 
-                var idTree = me.treeRecord.data.id 
-                var oData = me.refDict[ idTree ] 
+                // var idTree = me.treeRecord.data.id 
+                // var oData = me.refDict[ idTree ]
+                var oData = me.treeRecord.data.refBase 
                 var prpName = e.record.data.name
 
                 // ****  Solo llegan objetos, los Array se manejan en otro lado
@@ -369,7 +373,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                 tData = updTData( me.treeRecord, prpName, e.value )
                 
                 // Para actualizar el valor 
-                if ( me.treeRecord.isExpanded() ) grid.getView().refresh();
+                if ( me.treeRecord.isExpanded() ) treeGrid.getView().refresh();
 
             }}, 
             scope: me }
@@ -408,8 +412,10 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             var prpTitle = ''
             var prpBase = ''
 
-            var idTree     =     _pGrid.treeRecord.data.id 
-            var oData     =     _pGrid.refDict[ idTree ] 
+            var idTree     =     _pGrid.treeRecord.data.id
+             
+            // var oData     =     _pGrid.refDict[ idTree ] 
+            var oData     =      _pGrid.treeRecord.data.refBase 
                         
             if ( _pGrid.treeRecord.data[ 'ptType'] == 'pcl' ) {
 
@@ -495,102 +501,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
         };
         
-        function FormatMETA( oData, pName, pType   ) {
-        
-            /* -----------------   FORMAT META for tree view    
-             * @oData      : Data a convertir
-             * @pName     : property Name ( iteraction en el objeto padre )
-             * @pType     : property Type ( Tipo del padre en caso de ser un array  )
-             *  
-             * @oBase    : Objeto padre 
-             * @tBase    : Objeto resultado hasta el momento  
-             * 
-             * @tData   treeData
-             */
-        
-            var tData = {}
-            var sDataType = typeOf(oData);
 
-            // TODO: Id's para los objetos mas importantes 
-            var idFields  = Ext.id();
-        
-        
-            // Solo deben entrar objetos o arrays 
-            if (sDataType == "object"  ||  sDataType == "array")  {
-        
-                if ( ! pType  ) pType = sDataType
-                
-                
-                // La pcl debe abrirse 
-                if ( pName == 'pcl' ) {
-                    tData['expanded'] = true                     
-                } 
-                
-                
-                tData['ptProperty']  =  pName    
-                tData['ptType'] =  pType 
-                tData['children'] =  [] 
-
-                // Obtiene un Id para hacer una referencia cruzada de la pcl con el arbol 
-                var IxTree = Ext.id()
-                tData['id'] = IxTree
-                
-                me.refDict[ IxTree ] = oData
-                
-                if ( sDataType == "object" ) {
-                    // Si es un objeto hay una propiedad q servira de titulo 
-                    if ( oData['protoOption'] ) {
-                        tData['ptValue']  = oData.protoOption  
-                    }
-                } 
-        
-                // Recorre las propiedades     
-                for (var sKey in oData) {
-                    var vValue = oData[ sKey  ]
-                    var typeItem = typeOf(vValue);
-        
-                    // PRegunta es por el objeto padre para enviar el tipo en los arrays      
-                    if ( sDataType == "object" ) {
-        
-                        if ( sKey == 'dict' ) continue;  
-        
-                        tData['children'].push(  FormatMETA(vValue, sKey  ) ) 
-        
-                    } else if ( sDataType == "array" ) {
-                        
-                        var oTitle = pName + '.' + sKey 
-                        
-                        if ( pName == 'fields'  && vValue.name ) {
-                            oTitle = vValue.name  
-                        } else if ( pName == 'protoForm' ) {
-                            oTitle = vValue.style
-                        }
-        
-                        tData['children'].push(  FormatMETA(vValue, oTitle , pName   ) ) 
-        
-                    }  
-                }
-                
-            } else { 
-                
-                // Enmascara tags HTML
-                if (sDataType == "string" ) { 
-                    oData =  oData.replace( '<', '&lt;').replace( '>', '&gt;').replace( '"', '\"')   
-                }
-        
-                tData['ptProperty']  =  pName    
-                tData['ptType'] =  sDataType  
-                tData['leaf'] =  true  
-                tData['ptValue'] =  oData.toString()  
-        
-                var IxTree = Ext.id()
-                tData['id'] = IxTree
-        
-            }
-        
-            return tData 
-        
-        } 
         
         function showMetaConfig() {
             showConfig( 'MetaConfig', _pGrid.myMeta )

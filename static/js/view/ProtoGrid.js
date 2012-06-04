@@ -819,8 +819,14 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 showProtoDesigner: function() {
 
         var protoDesigner = Ext.widget('protoDesigner', {
+            myMeta  : this.myMeta,  
             protoOption : this.myMeta.protoOption 
         });
+
+        // var protoDesigner = Ext.widget('jsonpanel', {
+            // autoLoad:'/resources/json/pruebaWiz.json' 
+        // });
+
 
          var myWin  = Ext.widget('window', {
             constrain: true, 

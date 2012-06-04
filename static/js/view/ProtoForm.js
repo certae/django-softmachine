@@ -1,5 +1,15 @@
-/* 
- * 
+/*  ---  ProtoForm  
+ 
+    Se llama genericamente forma, y corresponde a un panel que puede ser adosado a una ventana 
+    o a un contenedor cualquiera,
+ 
+    Forma dinamica,  puede ser alimentada con los datos de la meta,  
+    y produce un arbol de componentes que puede ser representado graficamente 
+    
+    El arbol de componentes tambien puede ser actualizado, generando una actualizacion 
+    en la meta que debe representarse en la forma 
+    
+ 
  */
 
 Ext.define('ProtoUL.view.ProtoForm', {
@@ -7,6 +17,16 @@ Ext.define('ProtoUL.view.ProtoForm', {
     alias : 'widget.protoform',
 
     requires : ['Ext.form.field.Text', 'Ext.form.*', 'Ext.data.*', 'Ext.tip.QuickTipManager'],
+    
+    //@myMeta   Base Definition  
+    myMeta : null, 
+
+    //@protoForm  Objeto correspondiente a la forma en la meta ( forma parte de la meta ) 
+    protoForm : null, 
+
+    //@prFormLayout  :  Componentes de la forma ( Itmems del arbol )   
+    prFormLayout : [], 
+
 
     initComponent : function() {
         this.addEvents('create');
@@ -23,8 +43,6 @@ Ext.define('ProtoUL.view.ProtoForm', {
         // minWidth: vFld.minWidth
         // renderer: this.formatDate,
 
-
-        var prFormLayout = [];
         
         for ( var ixV in myMeta.protoForm) {
             var section = myMeta.protoForm[ixV];
@@ -33,11 +51,11 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 style : 'panel'
             }, section)
             
-            prFormLayout.push(prItem);
+            this.prFormLayout.push(prItem);
         }
 
 
-        this.prFormLayout = prFormLayout;
+        // this.prFormLayout = prFormLayout;
 
         Ext.apply(this, {
 
@@ -59,7 +77,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 // xtype : 'textfield',
                 // labelAlign : 'right'
             // },
-            items : prFormLayout,
+            items : this.prFormLayout,
+            
             dockedItems : [{
                 xtype : 'toolbar',
                 dock : 'bottom',
@@ -72,11 +91,6 @@ Ext.define('ProtoUL.view.ProtoForm', {
                     scope : this,
                     handler : this.onSave
                 }, {
-                    iconCls : 'icon-user-add',
-                    text : 'Create',
-                    scope : this,
-                    handler : this.onCreate
-                }, {
                     iconCls : 'icon-reset',
                     text : 'Reset',
                     scope : this,
@@ -87,12 +101,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
             tools: [{
                 type: 'gear',
                 scope: this,
-                handler: this.showMetaConfig,
-                tooltip: 'Meta Config ... '
-             },{
-                type: 'gear',
-                scope: this,
-                handler: this.showColsConfig,
+                handler: this.showLayoutConfig,
                 tooltip: 'LayoutConfig ... '
             }]
             
@@ -100,15 +109,10 @@ Ext.define('ProtoUL.view.ProtoForm', {
         this.callParent();
     },
     
-    showMetaConfig: function () {
-        var safeConf =  clone( this.myMeta  );
-        delete safeConf.dict 
-        this._showConfig( 'MetaConfig', safeConf )
-       },
 
-    showColsConfig: function () {
+    showLayoutConfig: function () {
             var safeConf =  clone( this.prFormLayout  )
-            this._showConfig( 'ColsConfig' , safeConf   )
+            this._showConfig( 'LayoutConfig' , safeConf   )
        },
         
     _showConfig: function ( title , myConf ) {
@@ -160,6 +164,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
     },
     
     
+    //@defineProtoFormField  Private,  
     defineProtoFormField : function(prVar) {
         /*  ----------------------------------------------------------------------------------
          * Define la creacion de campos,  
