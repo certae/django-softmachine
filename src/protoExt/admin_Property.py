@@ -194,27 +194,30 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                   }
         ) 
 
+#    La definicion de la forma  tiene la siguiente interface 
+#    objeto  ( o array de objetos ) 
+#        - __ptType 
+#        - __ptConfig 
+#        - items u objetos 
+
     protoExt['protoForm'] = [{
-          "style" : 'VBox',
-          "labelWidth" : 200,
           "items": [ 
               {"title" : 'Basicas ',
-                   "ptType" : 'fieldset',
-                    "collapsible" : False,
-                    "code" :        { "ptType" : "formField"}, 
-                    "baseType" :    { "ptType" : "formField"} , 
-                    "isNullable" :  { "ptType" : "formField"}, 
-                    "alias" :       { "ptType" : "formField"}, 
-                    "prpLength" :   { "ptType" : "formField"}, 
-                    "description" : { "ptType" : "formField"},
+                   "__ptType" : 'fieldset',
+                   "code" :        { "__ptType" : "formField"}, 
+                   "baseType" :    { "__ptType" : "formField"} , 
+                   "isNullable" :  { "__ptType" : "formField"}, 
+                   "alias" :       { "__ptType" : "formField"}, 
+                   "prpLength" :   { "__ptType" : "formField"}, 
+                   "description" : { "__ptType" : "formField"},
                },
               {"title" : 'Hierarchie ',
-                   "ptType" : 'fieldset',
-                    "collapsible" : True,
-                    "concept"               : { "ptType" : "formField"}, 
-                    "concept__code"         : { "ptType" : "formField"}, 
-                    "concept__model__code"  : { "ptType" : "formField"}, 
-                    },
+                   "__ptType" : 'fieldset',
+                   "__ptConfig" :      { "collapsible" : True, }, 
+                   "concept"               : { "__ptType" : "formField"}, 
+                   "concept__code"         : { "__ptType" : "formField"}, 
+                   "concept__model__code"  : { "__ptType" : "formField"}, 
+                   },
                   ]
               }] 
                     

@@ -32,7 +32,7 @@ function FormatMETA( oData, pName, ptType   ) {
         
         
         tData['text']  =  pName    
-        tData['ptType'] =  ptType 
+        tData['__ptType'] =  ptType 
         tData['children'] =  [] 
 
         // Obtiene un Id y genera  una referencia cruzada de la pcl con el arbol 
@@ -41,7 +41,7 @@ function FormatMETA( oData, pName, ptType   ) {
         tData['id'] = IxTree
         
         // me.refDict[ IxTree ] = oData
-        tData[ 'config' ] = oData
+        tData[ '__ptConfig' ] = oData
         
         // // Si es un objeto hay una propiedad q servira de titulo 
         // if ( sDataType == "object" ) {
@@ -84,11 +84,11 @@ function FormatMETA( oData, pName, ptType   ) {
                 if ( pName == 'formFields' && typeItem == 'string' )  {
 
                     var nData = {
-                        'ptType' : 'formField', 
+                        '__ptType' : 'formField', 
                         'text' : vValue,  
                         'leaf':  true,  
                         'id' : Ext.id(), 
-                        'config' : {}
+                        '__ptConfig' : {}
                     }
                     
                     tData['children'].push(  nData  )
@@ -110,10 +110,15 @@ function FormatMETA( oData, pName, ptType   ) {
             oData =  oData.replace( '<', '&lt;').replace( '>', '&gt;').replace( '"', '\"')   
         }
 
+        try {
+            var ptValue = oData.toString()   
+        } catch(e) {}
+
+
         tData['text']  =  pName    
-        tData['ptType'] =  sDataType  
+        tData['__ptType'] =  sDataType  
         tData['leaf'] =  true  
-        tData['ptValue'] =  oData.toString()  
+        tData['ptValue'] =  ptValue  
 
         var IxTree = Ext.id()
         tData['id'] = IxTree
@@ -125,4 +130,26 @@ function FormatMETA( oData, pName, ptType   ) {
 } ; 
 
 
+/* 
+ * Genera la configuracion por defecto para el tipo de campo 
+ * TODO:  esto debe venir de un json, q deberia ser cargado al iniciar, y luego mantenido en una coleccion publica 
+ * 
+ * @ptType  : tipo de objeto 
+ */
+function  getExtConfig(  ptType ) {
 
+    var __ptConfig = {}
+    var extType = ptType
+    if ( ptType == 'formField' ) {
+        extType = 'textfield'
+        
+    } else if ( extType = 'fieldset' ) {
+        __ptConfig.defaults = {anchor: '100%'},
+        __ptConfig.layout = 'anchor'
+    }
+
+    __ptConfig.xtype = extType
+           
+    return  __ptConfig 
+    
+}

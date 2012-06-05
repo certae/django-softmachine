@@ -715,14 +715,14 @@ function defineProtoPclTreeModel() {
     Ext.define('Proto.PclTreeNode', {
         extend: 'Ext.data.Model',
         fields: [
+            {name: '__ptType',  type: 'string'},
             {name: 'text', type: 'string'},
             {name: 'id',  type: 'string'},
-            {name: 'ptType',  type: 'string'},
             {name: 'ptValue', type: 'string'}, 
             {name: 'iconCls', type: 'string', defaultValue: null, persist: false }, 
             
             // Referencia al modelo de base 
-            {name: 'config' }
+            {name: '__ptConfig' }
         ]
     });
     

@@ -113,9 +113,9 @@
                 "text": "Field Container",
                 "qtip": "A Fieldset, containing field elements",
                 "qtitle": "fieldcontainer",
-                "ptType": "fieldcontainer",
+                "__ptType": "fieldcontainer",
                 "children": [], 
-                "config": {
+                "__ptConfig": {
                     "title": "Legend",
                     "layout" : { 
                         "choices" : [ "hbox" , "vbox" ],
@@ -131,7 +131,7 @@
                 "text": "Field Set",
                 "qtip": "A Fieldset, containing other form elements",
                 "children": [], 
-                "config": {
+                "__ptConfig": {
                     "xtype": "fieldset",
                     "title": "Legend",
                     "autoHeight": true
@@ -140,8 +140,8 @@
                 "text": "Panel",
                 "qtip": "A simple panel with default layout",
                 "children": [], 
-                "ptType": "panel",
-                "config": {
+                "__ptType": "panel",
+                "__ptConfig": {
                     "xtype": "panel",
                     "title": "Panel"
                 }
@@ -149,8 +149,8 @@
                 "text": "Tab Container",
                 "qtip": "A panel with many tabs",
                 "children": [], 
-                "ptType": "tabpanel",
-                "config": {
+                "__ptType": "tabpanel",
+                "__ptConfig": {
                     "layout": "fit",
                     "title": "",
                     "activeItem": 0
@@ -159,8 +159,8 @@
                 "text": "Tab Panel",
                 "qtip": "A tab panel",
                 "children": [], 
-                "ptType": "tab",
-                "config": {
+                "__ptType": "tab",
+                "__ptConfig": {
                     "layout": "fit",
                     "title": ""
                 }
@@ -168,7 +168,7 @@
                 "text": "Absolute Layout",
                 "qtip": "Layout containing many elements, absolutely positionned with x/y values",
                 "children": [], 
-                "config": {
+                "__ptConfig": {
                     "layout": "absolute",
                     "title": "AbsoluteLayout Container"
                 }
@@ -195,7 +195,7 @@
             {
                 "text": "Grid",
                 "qtip": "A grid",
-                "config": {
+                "__ptConfig": {
                     "xtype": "grid"
                 },
                 "leaf": true
@@ -208,7 +208,7 @@
                 "text": "Label",
                 "qtip": "A textlabel",
                 "leaf": true,
-                "config": {
+                "__ptConfig": {
                     "xtype": "label",
                     "text": "Label"
                 }
@@ -216,7 +216,7 @@
                 "text": "Button",
                 "qtip": "A button",
                 "leaf": true,
-                "config": {
+                "__ptConfig": {
                     "xtype": "button",
                     "text": "Ok"
                 }

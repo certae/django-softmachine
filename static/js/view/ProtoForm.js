@@ -73,7 +73,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
             
             // Envia el contenedor y el objeto   
             var prItem = this.defineProtoFormItem({
-                ptType : 'panel'
+                __ptType : 'panel'
             }, lObj )
             
             this.prFormLayout.push(prItem);
@@ -83,49 +83,58 @@ Ext.define('ProtoUL.view.ProtoForm', {
         Ext.apply(this, {
             frame      : true,
             autoScroll : true,
+            bodyStyle: 'padding:5px 5px 0',
             // bodyPadding: 10,
-            layout : 'fit',
             defaults : {
                 anchor : '100%'
             },
             activeRecord : null,
             
             items : this.prFormLayout,
-            dockedItems : this.getDockedItems(),
+            dockedItems : this.getDockedItems()
 
-            tools: [{
-                type: 'gear',
-                scope: this,
-                handler: this.showLayoutConfig,
-                tooltip: 'LayoutConfig ... '
-            }]
+            // tools: [{
+                // type: 'gear',
+                // scope: this,
+                // handler: this.showLayoutConfig,
+                // tooltip: 'LayoutConfig ... '
+            // }]
             
         });
         this.callParent();
     },
     
 
-    defineProtoFormItem : function(parent, protoObj) {
+    defineProtoFormItem : function(parent, protoObj, protoIx) {
 
         var prLayout = {}
 
         var sDataType = typeOf(protoObj);
         if (sDataType == "object" ) { 
 
-            if ( protoObj == 'formField'  ) {
+            // Configura el objeto
+            // TODO : cambiar el __ptConfig por ____ptConfig 
+            // TODO : Hacer el __str__  readOnly y hidden  
+            if ( ! protoObj.__ptConfig )  protoObj.__ptConfig = {}
+            if ( protoIx ) protoObj.__ptConfig.name = protoIx 
+            
+            var __ptConfig = Ext.applyIf( protoObj.__ptConfig , getExtConfig ( protoObj.__ptType ) ) 
+
+            if ( protoObj.__ptType == 'formField'  ) {
                 
-                prLayout =  this.defineProtoFormField( protoObj )
+                prLayout =  Ext.applyIf( this.defineProtoFormField( protoObj, protoIx ), __ptConfig ) 
                 
             } else {
-                
-                // Configura el objeto  
-                prLayout =  copyProps( prLayout, protoObj, [], ['items'] )
+                  
+                prLayout =  __ptConfig 
     
                 // Agrega los items 
                 prLayout.items = []
-                for(var ix in protoObj.items) {
-                    var prVar = protoObj.items[ix];
-                    var prFld = this.defineProtoFormItem( prVar )
+                for(var ix in protoObj ) {
+                    if ( ix in oc( ['__ptConfig', '__ptType'] )) continue 
+
+                    var prVar = protoObj[ix];
+                    var prFld = this.defineProtoFormItem( protoObj, prVar, ix )
                     if(prFld) prLayout.items.push(prFld);
                 }
             }
@@ -135,8 +144,10 @@ Ext.define('ProtoUL.view.ProtoForm', {
             prLayout = []
             for(var ix in protoObj ) {
                 var prVar = protoObj[ix];
-                var prFld = this.defineProtoFormItem( prVar )
-                if(prFld) prLayout.items.push(prFld);
+                
+                // Si es un array el padre es ../..
+                var prFld = this.defineProtoFormItem( parent, prVar , ix)
+                if(prFld) prLayout.push(prFld);
             }
     
         }
@@ -148,7 +159,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
     
     //@defineProtoFormField  Private,  
-    defineProtoFormField : function(prVar) {
+    defineProtoFormField : function(prVar, protoIx ) {
         /*  ----------------------------------------------------------------------------------
          * Define la creacion de campos,  
          * utiliza los valores por defecto,  
@@ -172,12 +183,12 @@ Ext.define('ProtoUL.view.ProtoForm', {
         } else if(typeOf(prVar) == 'object') {
             // if ( !prVar.name ) console.log( prVar ) 
 
-            var vFld = this.getProtoField ( this.myMeta, prVar.name  )
+            var vFld = this.getProtoField ( this.myMeta, protoIx  )
 
             prFld = getFormFieldDefinition ( vFld ) ;
             if ( ! prFld ) prFld = { readOnly : true }
 
-            prFld = copyProps( prFld, prVar, false ) ;
+            prFld = Ext.applyIf( prFld, prVar.__ptConfig  ) ;
             
             // if(prVar.width) prFld.width = prVar.width;
             // if(prVar.anchor) prFld.anchor = prVar.anchor;
@@ -201,7 +212,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
             for(var ix in prVar) {
                 var prVar2 = prVar[ix];
-                var prFld2 = this.defineProtoFormField(prVar2)
+                var prFld2 = this.defineProtoFormField(prVar2, ix)
                 if(prFld2) {
                     if(ix < (prVar.length - 1)) {
                         prFld2.margins = '0 10 0 0'

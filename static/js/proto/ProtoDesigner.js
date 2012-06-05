@@ -32,11 +32,6 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
 
         me.callParent(arguments);
 
-        this.toolsPanel = me.down('#toolsPanel')
-        this.toolsTabs = me.down('#toolsTabs')
-        this.formTree = me.down('#formTree')
-        this.formPreview = me.down('#formPreview')
-
         // Opciones del llamado AJAX
         var options = {
             scope : me,
@@ -77,6 +72,19 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
     
     doFormatLayout : function(myObj) {
 
+        var me = this
+
+        this.toolsPanel = me.down('#toolsPanel')
+        this.toolsTabs = me.down('#toolsTabs')
+        this.formTree = me.down('#formTree')
+        this.formPreview = me.down('#formPreview')
+        
+        this.formPreview.add({
+            xtype : 'protoform',
+            myMeta : this.myMeta
+            } 
+        )
+        
         this.tBar =  this.toolsPanel.addDocked({
             xtype : 'toolbar',
             dock : 'top',
@@ -215,15 +223,15 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
     
     getPanelItems: function() {
 
-        this.myForm = Ext.widget('protoform', {
-            myMeta : this.myMeta  
-        });  
+        // this.myForm = Ext.widget('protoform', {
+            // myMeta : this.myMeta  
+        // });  
 
         return  [{
             region : 'center',
             layout : 'fit',
             itemId : 'formPreview',
-            items : this.myForm, 
+            // items : this.myForm, 
             flex : 2,
             autoScroll : true,
             minSize : 200

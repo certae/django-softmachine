@@ -1,5 +1,5 @@
 
-    defineProtoFormItem : function(parent, protoObj) {
+    OLD     defineProtoFormItem : function(parent, protoObj) {
         /* ---------------------------------------------------------------------
          * Se asegura de un tipo de section valida, La section es la unica que tiene
          * campos definidos Las cajas solo pueden contener otras sectiones

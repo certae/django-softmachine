@@ -125,8 +125,8 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                 text: 'Ix',
                 dataIndex: 'id'
             },{
-                text: 'ptType',
-                dataIndex: 'ptType'
+                text: '__ptType',
+                dataIndex: '__ptType'
             },{
                 text: 'ptValue',
                 flex: 2,
@@ -348,7 +348,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
                 // var idTree = me.treeRecord.data.id 
                 // var oData = me.refDict[ idTree ]
-                var oData = me.treeRecord.data.config 
+                var oData = me.treeRecord.data.__ptConfig 
                 var prpName = e.record.data.name
 
                 // ****  Solo llegan objetos, los Array se manejan en otro lado
@@ -384,7 +384,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             tNode = {}
             tNode['text']  =  prpName    
             tNode['ptValue'] =  prpValue  
-            tNode['ptType'] =  typeOf( prpValue )  
+            tNode['__ptType'] =  typeOf( prpValue )  
             tNode['leaf'] =  true  
             
             treeRecord.appendChild( tNode )
@@ -403,9 +403,9 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             var idTree     =     _pGrid.treeRecord.data.id
              
             // var oData     =     _pGrid.refDict[ idTree ] 
-            var oData     =      _pGrid.treeRecord.data.config 
+            var oData     =      _pGrid.treeRecord.data.__ptConfig 
                         
-            if ( _pGrid.treeRecord.data[ 'ptType'] == 'pcl' ) {
+            if ( _pGrid.treeRecord.data[ '__ptType'] == 'pcl' ) {
 
                 prpTitle = 'pcl'
                 prp = {
