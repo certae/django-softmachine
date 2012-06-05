@@ -1,13 +1,14 @@
 
 
-function FormatMETA( oData, pName, pType   ) {
+
+function FormatMETA( oData, pName, ptType   ) {
     /* -----------------   FORMAT META ( for tree view ) 
      * 
      * Convierte una estructurea 
      *  
      * @oData     : Data a convertir
      * @pName     : property Name ( iteraction en el objeto padre )
-     * @pType     : property Type ( Tipo del padre en caso de ser un array  )
+     * @ptType    : property Type ( Tipo del padre en caso de ser un array  )
      *  
      * @oBase    : Objeto padre 
      * @tBase    : Objeto resultado hasta el momento  
@@ -18,14 +19,10 @@ function FormatMETA( oData, pName, pType   ) {
     var tData = {}
     var sDataType = typeOf(oData);
 
-    // TODO: Id's para los objetos mas importantes 
-    var idFields  = Ext.id();
-
-
     // Solo deben entrar objetos o arrays 
     if (sDataType == "object"  ||  sDataType == "array")  {
 
-        if ( ! pType  ) pType = sDataType
+        if ( ! ptType  ) ptType = sDataType
         
         
         // La pcl debe abrirse 
@@ -34,8 +31,8 @@ function FormatMETA( oData, pName, pType   ) {
         } 
         
         
-        tData['ptProperty']  =  pName    
-        tData['ptType'] =  pType 
+        tData['text']  =  pName    
+        tData['ptType'] =  ptType 
         tData['children'] =  [] 
 
         // Obtiene un Id y genera  una referencia cruzada de la pcl con el arbol 
@@ -44,14 +41,14 @@ function FormatMETA( oData, pName, pType   ) {
         tData['id'] = IxTree
         
         // me.refDict[ IxTree ] = oData
-        tData[ 'refBase' ] = oData
+        tData[ 'config' ] = oData
         
-        if ( sDataType == "object" ) {
-            // Si es un objeto hay una propiedad q servira de titulo 
-            if ( oData['protoOption'] ) {
-                tData['ptValue']  = oData.protoOption  
-            }
-        } 
+        // // Si es un objeto hay una propiedad q servira de titulo 
+        // if ( sDataType == "object" ) {
+            // if ( oData['protoOption'] ) {
+                // tData['ptValue']  = oData.protoOption  
+            // }
+        // } 
 
         // Recorre las propiedades     
         for (var sKey in oData) {
@@ -60,10 +57,17 @@ function FormatMETA( oData, pName, pType   ) {
 
             // PRegunta es por el objeto padre para enviar el tipo en los arrays      
             if ( sDataType == "object" ) {
+                if ( sKey == 'dict' ) continue
+                                
+                if ( !( typeItem in oc( [ 'boolean', 'number', 'string' ]) )) {
 
-                if ( sKey == 'dict' ) continue;  
-
-                tData['children'].push(  FormatMETA(vValue, sKey  ) ) 
+                    var nBase = pName
+                    // Todos los contenedores del protoForm son manejados como protoForm 
+                    if ( ptType == 'protoForm' ) nBase = ptType    
+                    
+                    tData['children'].push(  FormatMETA(vValue, sKey , nBase ) ) 
+                    
+                } 
 
             } else if ( sDataType == "array" ) {
                 
@@ -72,10 +76,29 @@ function FormatMETA( oData, pName, pType   ) {
                 if ( pName == 'fields'  && vValue.name ) {
                     oTitle = vValue.name  
                 } else if ( pName == 'protoForm' ) {
+                   
                     oTitle = vValue.style
+                   
                 }
 
-                tData['children'].push(  FormatMETA(vValue, oTitle , pName   ) ) 
+                if ( pName == 'formFields' && typeItem == 'string' )  {
+
+                    var nData = {
+                        'ptType' : 'formField', 
+                        'text' : vValue,  
+                        'leaf':  true,  
+                        'id' : Ext.id(), 
+                        'config' : {}
+                    }
+                    
+                    tData['children'].push(  nData  )
+                    
+                } else {
+
+                    tData['children'].push(  FormatMETA(vValue, oTitle , pName   ) ) 
+                    
+                }
+
 
             }  
         }
@@ -87,7 +110,7 @@ function FormatMETA( oData, pName, pType   ) {
             oData =  oData.replace( '<', '&lt;').replace( '>', '&gt;').replace( '"', '\"')   
         }
 
-        tData['ptProperty']  =  pName    
+        tData['text']  =  pName    
         tData['ptType'] =  sDataType  
         tData['leaf'] =  true  
         tData['ptValue'] =  oData.toString()  
@@ -99,4 +122,7 @@ function FormatMETA( oData, pName, pType   ) {
 
     return tData 
 
-} 
+} ; 
+
+
+

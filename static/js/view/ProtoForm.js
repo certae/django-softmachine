@@ -9,6 +9,19 @@
     El arbol de componentes tambien puede ser actualizado, generando una actualizacion 
     en la meta que debe representarse en la forma 
     
+    
+    La forma se divide en secciones,  las secciones son de un tipo particular correspondiente 
+    a los diferentes contenedores,  las secciones por defecto son simplemente fieldset
+    
+    El el arbol solo se encontraran 
+    
+        Secciones 
+            Secciones 
+                .... 
+                    Campos  
+
+    no deberia mezclarse en el diseno campos y secciones dentro del mismo contenedor   
+    ** dos tipos de secciones, las q manejan campos y las q manejan subsecciones ( contenedores )
  
  */
 
@@ -43,7 +56,9 @@ Ext.define('ProtoUL.view.ProtoForm', {
         // minWidth: vFld.minWidth
         // renderer: this.formatDate,
 
-        
+
+        this.prFormLayout = [];
+
         for ( var ixV in myMeta.protoForm) {
             var section = myMeta.protoForm[ixV];
             
@@ -55,7 +70,6 @@ Ext.define('ProtoUL.view.ProtoForm', {
         }
 
 
-        // this.prFormLayout = prFormLayout;
 
         Ext.apply(this, {
 
@@ -347,7 +361,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
             // Se requiere un contenedor para poder incluir secciones en Tabs o Accordions
             prLayout.xtype = 'container';
             prLayout.layout = 'anchor';
-            prLayout.anchor = '100%';
+            prLayout.anchor = '90%';
             prLayout.defaults = {
                 anchor : '100%'
             }

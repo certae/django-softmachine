@@ -57,10 +57,10 @@ Ext.onReady(function() {
         //the 'columns' property is now 'headers'
         columns: [{
             xtype: 'treecolumn', //this is so we know which column will show the tree
-            text: 'ptProperty',
+            text: 'text',
             flex: 2,
             sortable: true,
-            dataIndex: 'ptProperty'
+            dataIndex: 'text'
         // },{
             // text: 'ptTitle',
             // sortable: true,

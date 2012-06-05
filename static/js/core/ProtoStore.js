@@ -707,3 +707,23 @@ function loadJsonConfig( fileName, options) {
     })
     
 }
+
+
+function defineProtoPclTreeModel() {
+// Definicion del modelo para los arboles de la PCL 
+
+    Ext.define('Proto.PclTreeNode', {
+        extend: 'Ext.data.Model',
+        fields: [
+            {name: 'text', type: 'string'},
+            {name: 'id',  type: 'string'},
+            {name: 'ptType',  type: 'string'},
+            {name: 'ptValue', type: 'string'}, 
+            {name: 'iconCls', type: 'string', defaultValue: null, persist: false }, 
+            
+            // Referencia al modelo de base 
+            {name: 'config' }
+        ]
+    });
+    
+}

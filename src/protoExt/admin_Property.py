@@ -201,46 +201,20 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
               {"title" : 'Basicas ',
                    "style" : 'Section',
                     "collapsible" : False,
-                    "formFields" : [
-                                 "code", 
-                                 "baseType", "isNullable" , 
-                                 "alias", "prpLength", 
-                                 "description",
-                        ]
+                    "code" :        { "ptType" : "formField"}, 
+                    "baseType" :    { "ptType" : "formField"} , 
+                    "isNullable" :  { "ptType" : "formField"}, 
+                    "alias" :       { "ptType" : "formField"}, 
+                    "prpLength" :   { "ptType" : "formField"}, 
+                    "description" : { "ptType" : "formField"},
                },
               {"title" : 'Hierarchie ',
                    "style" : 'Section',
                     "collapsible" : True,
-                    "formFields" : [ 
-                                "concept", 
-                                "concept__code", 
-                                "concept__model__code", 
-                                "concept__model__category" , 
-                        ]
+                    "concept"               : { "ptType" : "formField"}, 
+                    "concept__code"         : { "ptType" : "formField"}, 
+                    "concept__model__code"  : { "ptType" : "formField"}, 
                     },
-              {"title" : 'Udps ',
-                   "style" : 'Section',
-                    "collapsible" : True,
-                    "formFields" : [ 
-                        "udp__DATEDERNIREMODIFICATION", 
-                        "udp__DESCRIPTIONCN",
-                        "udp__DOCUMENTDEREFERENCE",
-                        "udp__DOMAINEDEVALEURS",
-                        "udp__ELEMENTTRANSMIS",
-                        "udp__ENTREEENVIGUEUR",
-                        "udp__GABARIT",
-                        "udp__PRECISIONS",
-                        "udp__REQUISPAR",
-                        "udp__SOURCEDEDONNEESEXTERNES",
-                        "udp__TRANSMISSION",
-                        "udp__VALIDATION",
-                        "udp__VALIDATION_INTER-ENREGISTREMENT",
-                        "udp__VALIDATIONSINTERELEMENT",
-                        "udp__VALIDATIONSSURELEMENT",
-                        "udp__DEFINITION",
-                        "udp__ELEMENTTRANSFORME",
-                        ]
-                    }
                   ]
               }] 
                     

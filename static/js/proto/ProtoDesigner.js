@@ -48,6 +48,8 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
 
                 // Definicion del arbol basado en la meta 
                 this.updateFormTree()
+                
+ 
             }
         }
         loadJsonConfig('json/Designer.panels.json', options)
@@ -59,6 +61,15 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
 
 
     },
+
+    updateFormTree : function() {
+        // Genera el arbol a partir de la meta 
+        
+        var treeData = FormatMETA( this.myMeta.protoForm, 'protoForm', 'protoForm'  )
+
+        this.formTree.getStore().setRootNode( treeData ) 
+
+    }, 
 
     onClickRedraw : function(myObj) {
         console.log( 'this') 
@@ -79,18 +90,10 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
          * antes de crear el componente. 
          */
 
-        Ext.define('MetaDesigner', {
-            extend: 'Ext.data.Model',
-            fields: [
-                {name: 'text', type: 'string'},
-                {name: 'pType',  type: 'string'},
-                {name: 'config'}
-            ]
-        });
-
+        defineProtoPclTreeModel()
 
         var treeStore = Ext.create('Ext.data.TreeStore', {
-            model : 'MetaDesigner', 
+            model : 'Proto.PclTreeNode', 
             root : {
                 expanded : true,
                 children : myObj.toolsTree
@@ -112,9 +115,10 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         });
 
         this.toolsTree.add(toolsTree);
+        this.toolsTree = toolsTree;
 
 
-        toolsTree.on({
+        this.toolsTree.on({
             'select': {fn: function ( rowModel , record,  rowIndex,  eOpts ) {
                 var a = 1
                 } , scope: this }}
@@ -123,7 +127,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         // ------------------------------------------------
 
         var treeStore = Ext.create('Ext.data.TreeStore', {
-            model : 'MetaDesigner', 
+            model : 'Proto.PclTreeNode', 
             root : {
                 expanded : true,
                 text : 'RootPanel',
@@ -133,7 +137,6 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
 
         var formTree = Ext.create('Ext.tree.Panel', {
             layout : 'fit',
-            itemId : 'formTree',
             store : treeStore,
             autoScroll : true,
             rootVisible : true,
@@ -144,13 +147,13 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
             }
         });
 
-        this.formTree.add([formTree]);
-
+        this.formTree.add( formTree );
+        this.formTree = formTree;
 
 
         // ------------------------------------------------
 
-        var treeView = formTree.getView()
+        var treeView = this.formTree.getView()
         this.formTreeViewId = treeView.id
 
         treeView.on({
@@ -169,7 +172,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         });
 
 
-        formTree.on({
+        this.formTree.on({
             'select': {fn: function ( rowModel , record,  rowIndex,  eOpts ) {
                 var a = 1
                 // _pGrid.treeRecord  = record;

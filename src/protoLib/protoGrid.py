@@ -131,26 +131,25 @@ class ProtoGridFactory(object):
             
             if (len( baseFieldSet )  == 0 ):        
                 # Genera la lista de campos y agrega el nombre al diccionario
-#                prSection = { 'style' : 'Section', 'frame': True, 'autoScroll': True, 'formFields' : [] }
-                prSection = { 'style' : 'Section', 'autoScroll': True, 'formFields' : [] }
+                prSection = { 'style' : 'fieldset',  }
                 
                 for key in self.protoFields:
                     vFld = self.protoFields.get( key , {})
-                    if ( vFld.get( 'storeOnly', False )): continue        
-                    prSection['formFields'].append(key)
+                    if ( vFld.get( 'storeOnly', False )): continue
+                            
+                    prSection[ key ] = { 'ptType' : 'formField'}
 
                 prFieldSet.append ( prSection )
             
             # si existe un fieldset convierte la estructura                      
             else: 
                 for name, opts in baseFieldSet:
-#                    prSection = { 'style' : 'Section', 'frame': True, 'autoScroll': True, 'formFields' : [] }
-                    prSection = { 'style' : 'Section', 'autoScroll': True, 'formFields' : [] }
+                    prSection = { 'style' : 'Section',  }
                     
                     if ( name != None ): prSection.title = name  
                     for formField in opts['fields']:
-#                        if type(formField) == tuple:
-                        prSection['formFields'].append(formField)
+#                       if type(formField) == tuple:
+                        prSection[ formField ] = { 'ptType' : 'formField' }
 
                     classes = getattr( opts, 'classes', [] )
                     if ( 'collapse' in classes ): prSection['collapsible'] = True 

@@ -54,28 +54,16 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         // Coleccion de referencia para relacionar myMeta con myStore ( treeStore )
         // me.refDict = {}
         
+        defineProtoPclTreeModel()
         
-        Ext.define('MetaPCL', {
-            extend: 'Ext.data.Model',
-            fields: [
-                {name: 'ptProperty', type: 'string'},
-                {name: 'id',  type: 'string'},
-                {name: 'ptType',  type: 'string'},
-
-                // Referencia al modelo de base 
-                {name: 'refBase' },
-                {name: 'ptValue', type: 'string'}
-            ]
-        });
-    
         var treeData = FormatMETA( this.myMeta, 'pcl', 'pcl'  )
         var myStore = Ext.create('Ext.data.TreeStore', { 
             folderSort: true, 
             sorters: [{
-                property: 'ptProperty',
+                property: 'text',
                 direction: 'ASC'
               }], 
-            model: 'MetaPCL',
+            model: 'Proto.PclTreeNode',
             root: treeData 
         });
 
@@ -129,10 +117,10 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
     
             columns: [{
                 xtype: 'treecolumn', //this is so we know which column will show the tree
-                text: 'ptProperty',
+                text: 'text',
                 flex: 3,
                 sortable: true,
-                dataIndex: 'ptProperty'
+                dataIndex: 'text'
             },{
                 text: 'Ix',
                 dataIndex: 'id'
@@ -360,7 +348,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
                 // var idTree = me.treeRecord.data.id 
                 // var oData = me.refDict[ idTree ]
-                var oData = me.treeRecord.data.refBase 
+                var oData = me.treeRecord.data.config 
                 var prpName = e.record.data.name
 
                 // ****  Solo llegan objetos, los Array se manejan en otro lado
@@ -386,7 +374,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             for ( ixNode in treeRecord.childNodes ) {
                 
                 tNode = treeRecord.childNodes[ ixNode  ]
-                if ( tNode.data.ptProperty == prpName ) {
+                if ( tNode.data.text == prpName ) {
                     tNode.data.ptValue = prpValue 
                     return;  
                 }  
@@ -394,7 +382,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
             // No lo encontro, lo agrega
             tNode = {}
-            tNode['ptProperty']  =  prpName    
+            tNode['text']  =  prpName    
             tNode['ptValue'] =  prpValue  
             tNode['ptType'] =  typeOf( prpValue )  
             tNode['leaf'] =  true  
@@ -415,7 +403,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             var idTree     =     _pGrid.treeRecord.data.id
              
             // var oData     =     _pGrid.refDict[ idTree ] 
-            var oData     =      _pGrid.treeRecord.data.refBase 
+            var oData     =      _pGrid.treeRecord.data.config 
                         
             if ( _pGrid.treeRecord.data[ 'ptType'] == 'pcl' ) {
 
@@ -432,7 +420,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                 }
             } else if ( _pGrid.treeRecord.data[ 'ptType'] == 'fields' ) {
                 
-                prpBase = _pGrid.treeRecord.data[ 'ptProperty']
+                prpBase = _pGrid.treeRecord.data[ 'text']
                 prpTitle = 'field.' + prpBase
 
                 var vrDefault = oData.defaultValue

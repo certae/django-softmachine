@@ -113,7 +113,7 @@
                 "text": "Field Container",
                 "qtip": "A Fieldset, containing field elements",
                 "qtitle": "fieldcontainer",
-                "pType": "fieldcontainer",
+                "ptType": "fieldcontainer",
                 "children": [], 
                 "config": {
                     "title": "Legend",
@@ -140,7 +140,7 @@
                 "text": "Panel",
                 "qtip": "A simple panel with default layout",
                 "children": [], 
-                "pType": "panel",
+                "ptType": "panel",
                 "config": {
                     "xtype": "panel",
                     "title": "Panel"
@@ -149,7 +149,7 @@
                 "text": "Tab Container",
                 "qtip": "A panel with many tabs",
                 "children": [], 
-                "pType": "tabpanel",
+                "ptType": "tabpanel",
                 "config": {
                     "layout": "fit",
                     "title": "",
@@ -159,7 +159,7 @@
                 "text": "Tab Panel",
                 "qtip": "A tab panel",
                 "children": [], 
-                "pType": "tab",
+                "ptType": "tab",
                 "config": {
                     "layout": "fit",
                     "title": ""
