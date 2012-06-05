@@ -22,6 +22,24 @@
 
     no deberia mezclarse en el diseno campos y secciones dentro del mismo contenedor   
     ** dos tipos de secciones, las q manejan campos y las q manejan subsecciones ( contenedores )
+
+
+        Definicion de formFields        ------------------------------------------
+        if (!vFld.header || vFld.storeOnly) {continue;}
+        allowBlank : false,
+        hidden : vFld.hidden
+        width: vFld.width ,
+        minWidth: vFld.minWidth
+        renderer: this.formatDate,
+ 
+             // defaultType : 'textfield',
+            // bodyPadding : 5,
+            // fieldDefaults : {
+                // anchor : '100%',
+                // xtype : 'textfield',
+                // labelAlign : 'right'
+            // },
+
  
  */
 
@@ -48,69 +66,32 @@ Ext.define('ProtoUL.view.ProtoForm', {
         var myMeta = this.myMeta;
         var _pForm = this;
 
-        // Definicion de formFields        ------------------------------------------
-        // if (!vFld.header || vFld.storeOnly) {continue;}
-        // allowBlank : false,
-        // hidden : vFld.hidden
-        // width: vFld.width ,
-        // minWidth: vFld.minWidth
-        // renderer: this.formatDate,
-
-
         this.prFormLayout = [];
 
         for ( var ixV in myMeta.protoForm) {
-            var section = myMeta.protoForm[ixV];
+            var lObj = myMeta.protoForm[ixV];
             
+            // Envia el contenedor y el objeto   
             var prItem = this.defineProtoFormItem({
-                style : 'panel'
-            }, section)
+                ptType : 'panel'
+            }, lObj )
             
             this.prFormLayout.push(prItem);
         }
 
 
-
         Ext.apply(this, {
-
-            frame : true,
+            frame      : true,
             autoScroll : true,
             // bodyPadding: 10,
-            xtype : 'container',
             layout : 'fit',
             defaults : {
                 anchor : '100%'
             },
             activeRecord : null,
-            iconCls : 'icon-user',
             
-            // defaultType : 'textfield',
-            // bodyPadding : 5,
-            // fieldDefaults : {
-                // anchor : '100%',
-                // xtype : 'textfield',
-                // labelAlign : 'right'
-            // },
             items : this.prFormLayout,
-            
-            dockedItems : [{
-                xtype : 'toolbar',
-                dock : 'bottom',
-                ui : 'footer',
-                items : ['->', {
-                    iconCls : 'icon-save',
-                    itemId : 'save',
-                    text : 'Save',
-                    disabled : true,
-                    scope : this,
-                    handler : this.onSave
-                }, {
-                    iconCls : 'icon-reset',
-                    text : 'Reset',
-                    scope : this,
-                    handler : this.onReset
-                }]
-            }],
+            dockedItems : this.getDockedItems(),
 
             tools: [{
                 type: 'gear',
@@ -124,59 +105,47 @@ Ext.define('ProtoUL.view.ProtoForm', {
     },
     
 
-    showLayoutConfig: function () {
-            var safeConf =  clone( this.prFormLayout  )
-            this._showConfig( 'LayoutConfig' , safeConf   )
-       },
+    defineProtoFormItem : function(parent, protoObj) {
+
+        var prLayout = {}
+
+        var sDataType = typeOf(protoObj);
+        if (sDataType == "object" ) { 
+
+            if ( protoObj == 'formField'  ) {
+                
+                prLayout =  this.defineProtoFormField( protoObj )
+                
+            } else {
+                
+                // Configura el objeto  
+                prLayout =  copyProps( prLayout, protoObj, [], ['items'] )
+    
+                // Agrega los items 
+                prLayout.items = []
+                for(var ix in protoObj.items) {
+                    var prVar = protoObj.items[ix];
+                    var prFld = this.defineProtoFormItem( prVar )
+                    if(prFld) prLayout.items.push(prFld);
+                }
+            }
         
-    _showConfig: function ( title , myConf ) {
-
-            Ext.Msg.show({
-               title: title,
-               multiline : true,   
-               width : 500, 
-               value: Ext.encode( myConf ) 
-               });
-
-       },
+        } else if ( sDataType == "array")  {
+        
+            prLayout = []
+            for(var ix in protoObj ) {
+                var prVar = protoObj[ix];
+                var prFld = this.defineProtoFormItem( prVar )
+                if(prFld) prLayout.items.push(prFld);
+            }
     
-    setActiveRecord : function(record) {
-        this.activeRecord = record;
-        if(record) {
-            this.down('#save').enable();
-            this.getForm().loadRecord(record);
-        } else {
-            this.down('#save').disable();
-            this.getForm().reset();
         }
-    },
+
+        return prLayout         
+    }, 
     
-    onSave : function() {
-        var active = this.activeRecord
-        var form = this.getForm();
 
-        if(!active) {
-            return;
-        }
-        if(form.isValid()) {
-            form.updateRecord(active);
-            this.onReset();
-        }
-    },
-    onCreate : function() {
-        var form = this.getForm();
 
-        if(form.isValid()) {
-            this.fireEvent('create', this, form.getValues());
-            form.reset();
-        }
-
-    },
-    onReset : function() {
-        this.setActiveRecord(null);
-        this.getForm().reset();
-    },
-    
     
     //@defineProtoFormField  Private,  
     defineProtoFormField : function(prVar) {
@@ -187,7 +156,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
          * --------------------------------------------------------------------------------- */
 
         // Indicador de campo requerido 
-         var required = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
+        var required = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
          
         var _labelWidth = 150;
         var prFld = {}
@@ -259,216 +228,61 @@ Ext.define('ProtoUL.view.ProtoForm', {
         return dict[fldName]
     },
     
+
+    showLayoutConfig: function () {
+            var safeConf =  clone( this.prFormLayout  )
+            this._showConfig( 'LayoutConfig' , safeConf   )
+       },
+        
+    _showConfig: function ( title , myConf ) {
+
+            Ext.Msg.show({
+               title: title,
+               multiline : true,   
+               width : 500, 
+               value: Ext.encode( myConf ) 
+               });
+
+       },
     
-    defineProtoFormItem : function(parent, prSection) {
-        /* ---------------------------------------------------------------------
-         * Se asegura de un tipo de section valida, La section es la unica que tiene
-         * campos definidos Las cajas solo pueden contener otras sectiones
-         * -----------------------------------------------------------------         */
+    setActiveRecord : function(record) {
+        this.activeRecord = record;
+        if(record) {
+            this.down('#save').enable();
+            this.getForm().loadRecord(record);
+        } else {
+            this.down('#save').disable();
+            this.getForm().reset();
+        }
+    },
+    
+    onSave : function() {
+        var active = this.activeRecord
+        var form = this.getForm();
 
-        var prBox; 
-        var prLayout = {
-            items : []
-        };
+        if(!active) {
+            return;
+        }
+        if(form.isValid()) {
+            form.updateRecord(active);
+            this.onReset();
+        }
+    },
+    onCreate : function() {
+        var form = this.getForm();
 
-        if(!(prSection.style in oc(['Section', 'HBox', 'Tab', 'VBox', 'Accordion', 'Grid']))) {
-            prSection.style = 'Section'
-            if(prSection.items)
-                prSection.style = 'HBox'
+        if(form.isValid()) {
+            this.fireEvent('create', this, form.getValues());
+            form.reset();
         }
 
-        if(parent.style == 'HBox') {
-            // Las cajas al interior de un box no pueden estar collapsadas
-            if(prSection.collapsed)
-                prSection.collapsed = undefined;
-        };
+    },
+    onReset : function() {
+        this.setActiveRecord(null);
+        this.getForm().reset();
+    },
+        
 
-        // Define los campos
-        if(prSection.style == 'Section') {
-
-            prLayout.xtype = 'container';
-            prLayout.frame = true;
-            // prLayout.border = 10;
-            prLayout.margins = '10 10 0';
-            prLayout.layout = 'anchor';
-            prLayout.defaultType = 'textfield';
-            prLayout.anchor = '100%';
-            prLayout.defaults = {
-                flex : 1,
-                anchor : '100%', 
-                xtype : 'textfield', 
-                msgTarget : 'side',
-                margins: '10 10 0', 
-                allowBlank : false,
-                readOnly : false
-            };
-            prLayout.fieldDefaults = {
-                labelAlign: 'left',
-                labelWidth: 100
-                // labelStyle: 'font-weight:bold;padding:0',
-                // hideLabel: true
-            };
- 
-            if(prSection.title || prSection.collapsible || prSection.frame) {
-                prLayout.xtype = 'fieldset';
-                prLayout.padding = 5;
-
-                if(prSection.title)
-                    prLayout.title = prSection.title;
-                if(prSection.collapsible)
-                    prLayout.collapsible = prSection.collapsible;
-                if(prSection.collapsed)
-                    prLayout.collapsed = prSection.collapsed;
-                if(prSection.checkField)
-                    prLayout.checkboxToggle = true;
-            }
-
-            if(parent.style == 'Accordion') {
-                prLayout.xtype = 'panel';
-                prLayout.margins = '2';
-                prLayout.frame = true;
-                prLayout.bodyBorder = true;
-            }
-
-            if(prSection.autoScroll) {
-                prLayout.autoScroll = true;
-                prLayout.xtype = 'panel';
-            }
-
-            // TRBL, TB RL, T RL B
-            // if(prSection.margins)
-                // prLayout.defaults.margins = prSection.margins;
-            // if(prSection.padding)
-                // prLayout.defaults.padding = prSection.padding;
-
-            prLayout.fieldDefaults = {};
-            if(prSection.labelAlign)
-                prLayout.fieldDefaults.labelAlign = prSection.labelAlign;
-            if(prSection.labelWidth)
-                prLayout.fieldDefaults.labelWidth = prSection.labelWidth;
-            if(prSection.labelStyle)
-                prLayout.fieldDefaults.labelStyle = prSection.labelStyle;
-
-            for(var ix in prSection.formFields) {
-                var prVar = prSection.formFields[ix];
-                prFld = this.defineProtoFormField(prVar)
-                if(prFld)
-                    prLayout.items.push(prFld);
-            }
-
-        } else if(prSection.style == 'VBox') {
-
-            // Se requiere un contenedor para poder incluir secciones en Tabs o Accordions
-            prLayout.xtype = 'container';
-            prLayout.layout = 'anchor';
-            prLayout.anchor = '90%';
-            prLayout.defaults = {
-                anchor : '100%'
-            }
-
-            if(prSection.height)
-                prLayout.height = prSection.height;
-            if(prSection.frame)
-                prLayout.frame = prSection.frame;
-
-            if(prSection.title || prSection.collapsible) {
-                prLayout.xtype = 'panel';
-                if(prSection.title)
-                    prLayout.title = prSection.title;
-                if(prSection.collapsible)
-                    prLayout.collapsible = prSection.collapsible;
-                if(prSection.collaped)
-                    prLayout.collapsed = prSection.collapsed;
-            }
-
-            for(var ix in prSection.items) {
-                var section = prSection.items[ix];
-                prBox = this.defineProtoFormItem(prSection, section);
-                if(prBox) {
-                    prLayout.items.push(prBox);
-                }
-            }
-            if(parent.style in                     oc(['Tab', 'Accordion'])) {
-                prLayout.xtype = 'panel';
-                prLayout.autoScroll = true;
-            }
-
-        } else if(prSection.style == 'HBox') {
-
-            prLayout.xtype = 'container';
-            prLayout.layout = 'hbox';
-            prLayout.defaultType = 'textfield';
-            prLayout.anchor = '100%';
-
-            if(prSection.height)
-                prLayout.height = prSection.height;
-
-            if(prSection.title || prSection.collapsible) {
-                prLayout.xtype = 'fieldset';
-                if(prSection.title)
-                    prLayout.title = prSection.title;
-                if(prSection.collapsible)
-                    prLayout.collapsible = prSection.collapsible;
-                if(prSection.collaped)
-                    prLayout.collapsed = prSection.collapsed;
-            }
-
-            for(var ix in prSection.items) {
-                var section = prSection.items[ix];
-                prBox = this.defineProtoFormItem(prSection, section);
-                if(prBox) {
-                    prBox.flex = 1;
-                    if(ix < (prSection.items.length - 1)) {
-                        prBox.margins = '0 5 0 0'
-                    } else
-                        prBox.margins = '0 0 0 0'
-                    prLayout.items.push(prBox);
-
-                }
-            }
-
-        } else if(prSection.style in oc(['Tab', 'Accordion'])) {
-
-            if(prSection.height)
-                prLayout.height = prSection.height;
-
-            for(var ix in prSection.items) {
-                var section = prSection.items[ix];
-                prBox = this.defineProtoFormItem(prSection, section);
-                if(prBox) {
-                    prBox.title = section.title;
-                    if(prSection.style == 'Accordion')
-                        prBox.title = '<b>' + section.title + '<b>';
-                    prBox.autoScroll = true;
-                    prLayout.items.push(prBox);
-                }
-            }
-
-            if(prSection.style == 'Tab') {
-                prLayout.xtype = 'tabpanel';
-                prLayout.activeTab = 0;
-            }
-            if(prSection.style == 'Accordion') {
-                prLayout.layout = 'accordion';
-                if(!prSection.height)
-                    prLayout.height = 200;
-
-                if(parent.style == 'HBox') {
-                    // Contenedor q soporte el box
-                    var prAux = {
-                        xtype : 'panel',
-                        margins : '0'
-                    }
-                    prAux.items = [prLayout];
-                    prLayout = prAux;
-                }
-            }
-
-        }
-        return prLayout;
-
-    }, 
-    
   setReadOnly: function( bReadOnly , readOnlyFields ){
       
       var readOnlyCls = '.x-protofield-readonly'
@@ -488,7 +302,31 @@ Ext.define('ProtoUL.view.ProtoForm', {
     });
       
     // Ext.Array.forEach(this.query('textfield'), function( obj ) {
-  }
+  },
+   
+  getDockedItems: function() {
+      
+      return     [{
+        xtype : 'toolbar',
+        dock : 'bottom',
+        ui : 'footer',
+        items : ['->', {
+            iconCls : 'icon-save',
+            itemId : 'save',
+            text : 'Save',
+            disabled : true,
+            scope : this,
+            handler : this.onSave
+        }, {
+            iconCls : 'icon-reset',
+            text : 'Reset',
+            scope : this,
+            handler : this.onReset
+        }]
+    }]
+ 
+  } 
+    
     
     
 });

@@ -48,18 +48,18 @@ function typeOf(value) {
  * @oBase         : Base objet ( source )
  * @oRef         : Ref object ( source )
  * @overWrite    : Overwrite Base with Ref 
- * @lstProps     : Properties to copy 
+ * @lstInclude     : Properties to copy 
  */
-function copyProps(oBase, oRef, overWrite, lstProps )
+function copyProps(oBase, oRef, overWrite, lstInclude, lstExclude )
 {
     
     if ( !overWrite ) overWrite = true; 
 
-    var oResult = clone( oBase );     
+    var oResult = clone( oBase , 0, lstExclude );     
     for(var i in oRef)
     {
         if (  overWrite ||  ! oBase[i]  ) {
-            if ( !lstProps ||  i in oc(lstProps) ) {
+            if ( !lstInclude ||  i in oc(lstInclude) ) {
                 oResult[i] = oRef[i];
             } 
         }
@@ -67,18 +67,19 @@ function copyProps(oBase, oRef, overWrite, lstProps )
     return oResult;
 }
 
-
+/* 
+ * @obj     : obj to clone 
+ * @auxRec  : Control de recursividad  ( no debe pasar de un max de nivles ie 5 )
+ * @exclude : permite excluir propiedades de un diccionario
+ */
 function clone(obj, auxRec, exclude ) {
-    // @exclude permite excluir propiedades de un diccionario 
-    
     
     // Verificacion de nivel de recursividad en la copia de objetos 
-    if ( auxRec )     { 
-        auxRec = auxRec + 1 
-    } else { auxRec = 1 } 
+    if ( auxRec )  {  auxRec = auxRec + 1 } else { auxRec = 1 } 
+    if ( auxRec > 5 )  return obj  
 
+    // si es un tipo simple,
     if (null == obj || "object" != typeof obj) 
-        // si es un tipo simple,
         return obj;
     
     if (obj instanceof Date) {

@@ -131,7 +131,7 @@ class ProtoGridFactory(object):
             
             if (len( baseFieldSet )  == 0 ):        
                 # Genera la lista de campos y agrega el nombre al diccionario
-                prSection = { 'style' : 'fieldset',  }
+                prSection = { 'ptType' : 'fieldset',  }
                 
                 for key in self.protoFields:
                     vFld = self.protoFields.get( key , {})
@@ -144,7 +144,7 @@ class ProtoGridFactory(object):
             # si existe un fieldset convierte la estructura                      
             else: 
                 for name, opts in baseFieldSet:
-                    prSection = { 'style' : 'Section',  }
+                    prSection = { 'ptType' : 'fieldset',  }
                     
                     if ( name != None ): prSection.title = name  
                     for formField in opts['fields']:

@@ -199,7 +199,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
           "labelWidth" : 200,
           "items": [ 
               {"title" : 'Basicas ',
-                   "style" : 'Section',
+                   "ptType" : 'fieldset',
                     "collapsible" : False,
                     "code" :        { "ptType" : "formField"}, 
                     "baseType" :    { "ptType" : "formField"} , 
@@ -209,7 +209,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                     "description" : { "ptType" : "formField"},
                },
               {"title" : 'Hierarchie ',
-                   "style" : 'Section',
+                   "ptType" : 'fieldset',
                     "collapsible" : True,
                     "concept"               : { "ptType" : "formField"}, 
                     "concept__code"         : { "ptType" : "formField"}, 
