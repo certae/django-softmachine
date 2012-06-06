@@ -25,7 +25,7 @@ _gridPrevText = 'Page précédente',
 _gridLastText = 'Dernière page', 
 _gridRefreshText = 'Actualiser',  
     
-_tbSearchClearFilter = '<b>Supprimer les filtres<b>'
+_tbSearchClearFilter = 'Supprimer les filtres'
     
 // Config Variables 
 _PConfig =  {
@@ -37,6 +37,8 @@ _PConfig =  {
    
     clsBaseModel: 'ProtoUL.model.' 
 }; 
+
+_HELPURL = '/resources/help/index.html'
 
 
 // Globally changing the text of Cancel and Save buttons;

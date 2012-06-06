@@ -57,6 +57,8 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         defineProtoPclTreeModel()
         
         var treeData = FormatMETA( this.myMeta, 'pcl', 'pcl'  )
+        treeData.expanded = true
+        
         var myStore = Ext.create('Ext.data.TreeStore', { 
             folderSort: true, 
             sorters: [{

@@ -61,6 +61,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         // Genera el arbol a partir de la meta 
         
         var treeData = FormatMETA( this.myMeta.protoForm, 'protoForm', 'protoForm'  )
+        treeData.expanded = true
 
         this.formTree.getStore().setRootNode( treeData ) 
 

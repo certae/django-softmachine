@@ -61,22 +61,26 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
         });
 
         // Load Data button 
-        var searchBtn = new Ext.button.Split({
+        // var searchBtn = new Ext.button.Split({
+        var searchBtn = new Ext.button.Button({
             text: 'Rechercher',
             handler: onClickLoadData,
             pressed: true,
             iconCls: 'icon-search',
-            menu: {
-                items: [{
-                    text: _tbSearchClearFilter ,
-                    handler: onClickClearFilter 
-                // }, {
-                    // text: 'add filter',
-                    // handler: __MasterDetail.onClickFilter
-                }]
-            }
+//            menu: {
+//                items: [{
+//                    text: _tbSearchClearFilter ,
+//                    handler: onClickClearFilter 
+//                }]
+//            }
         });
 
+        var clearBtn = new Ext.button.Button({
+            text: _tbSearchClearFilter,
+            handler: onClickClearFilter,
+            iconCls: 'icon-clearsearch',
+        });
+        
         // Criteria 
         var searchCr = new Ext.form.TextField({
             emptyText: 'mots-clés recherchés ..',
@@ -98,7 +102,8 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
             comboOp,
             comboCols,
             { xtype: 'tbseparator' },
-            searchBtn    
+            searchBtn, 
+            clearBtn
             ]
         });
 

@@ -36,6 +36,7 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
 
     protoExt = {'protoIcon': 'concept', }
     protoExt[ 'title' ] = 'Éntite'
+    protoExt[ 'helpUrl' ] = '/resourses/help/index.html'
     protoExt[ 'listDisplay' ] = ('model__code', 'code',  'description'  )   
     protoExt[ 'description' ] = 'Concept, Table, Entity'
     protoExt[ 'menu_index' ] = 1

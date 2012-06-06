@@ -283,6 +283,11 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         comboPageSize.on('select', function(combo, record) {
             this.store.pageSize = parseInt( combo.getValue(), 10);
             this.store.load(); 
+            if ( this.store.currentPage != 1 ) {
+            	this.store.loadPage(1);
+            }
+
+            
         }, this);            
         
 

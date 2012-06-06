@@ -70,7 +70,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 iconCls: 'icon-search24',
                 idTb2  : ideTbSearch
             },'-',{
-                text: 'Ordonner',
+                text: 'Classer',
                 iconCls: 'icon-order24',
                 idTb2  : ideTbOrder, 
                 // id     : ideBtOrder 
@@ -102,6 +102,12 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 iconCls: 'icon-config24',
                 idTb2  : ideTbConfig,
                 id     : ideBtConfig
+            },'->',{
+                text: 'Aide',
+                iconCls: 'icon-help24',
+                toggleGroup: 'tb2' , 
+                handler: tbHelp,  
+                itemId : 'tbHelp'
             }]
         
         });
@@ -151,7 +157,13 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             
         // -----------------------------------------------------------
         
-            
+
+        function tbHelp( but  ) {
+        	window.open( _HELPURL ,'protoHelp',
+        	'left=50,top=20,width=1000,height=600,resizable=0')
+        	
+        }
+       
 
         function toogleTb2( but  ) {
 
@@ -215,7 +227,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             items  : [{
                 iconCls : 'sort', 
                 xtype: 'tbtext',
-                text: '<b>Ordonner par :</b>',
+                text: '<b>Classer par :</b>',
                 reorderable: false 
                 }],  
             plugins: [reorderer],
