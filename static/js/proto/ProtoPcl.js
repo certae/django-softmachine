@@ -311,8 +311,11 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
         treeGrid.on({
             'select': {fn: function ( rowModel , record,  rowIndex,  eOpts ) {
+                // Asigna el current Record 
                 _pGrid.treeRecord  = record;
+                
                 prepareProperties( _pGrid  );
+                
                 } , scope: _pGrid },
 
             'beforeedit': {fn: function ( editor, e, eOpts) {
@@ -420,7 +423,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                     // "protoOption"    : oData.protoOption,
                     // "protoConcept"    : oData.protoConcept,
                 }
-            } else if ( _pGrid.treeRecord.data[ 'ptType'] == 'fields' ) {
+            } else if ( _pGrid.treeRecord.data[ '__ptType'] == 'fields' ) {
                 
                 prpBase = _pGrid.treeRecord.data[ 'text']
                 prpTitle = 'field.' + prpBase

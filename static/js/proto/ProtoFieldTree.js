@@ -1,5 +1,14 @@
 /* 
+ * Este objeto va a ser dual:
+ *    
+ * 1.  Puede presentar el arbol de campos para seleccionar los fields  ( Solo en la configuracion de fields )
  * 
+ * 2.  Puede presentar los campos disponibles como una lista de campos a seleccionar, por ejemplo, en listDiplay, 
+ *     order by,  etc, 
+ * 
+ * Debera tener en cuenta si permite o no los campos UDP y las funciones ( por ejemplo __str__ ) 
+ * pude ser un mensaje si se le da un parametro 
+ *  
  */
 
 Ext.define('ProtoUL.proto.ProtoFieldTree', {
@@ -51,12 +60,12 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
             // storeId:'fieldStore',
             fields:['id', 'Added','Removed'],
             data: []
-        });        
-
+        });
+                
         ///
         
         
-        this.store = Ext.create('Ext.data.TreeStore', {
+        this.treeStore = Ext.create('Ext.data.TreeStore', {
             autoLoad: true,
             model: 'ProtoUL.FieldModel',
             root: {
@@ -65,32 +74,21 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
             }, 
 
             listeners: {
-                // Fires whenever the store reads data from a remote data source. ...
-                load: function ( store, records,  successful,  eOpts ) {
-                    
-                    for (var ix in me.myMeta.fields ) {
-                        var vFld  =  me.myMeta.fields[ix];
-                        var vNode =  me.store.getNodeById( vFld.name ) 
+                // Fires whenever the treeStore reads data from a remote data source. ...
+                load: function ( treeStore, records,  successful,  eOpts ) {
 
-                        // El string no es un campos configurable
-                        if ( vFld.name == '__str__' )  continue 
+                    // Debe ser llamado aqui, para poder marcar los campos seleccionados 
+                    configureCurrentFields()
 
-                        // Lo inserta en la grilla 
-                        var idx = gridStore.getCount() + 1;
-                        insertNewRecord ( idx, vFld.name, null  ) 
-
-                        // Lo marca                                            
-                        if ( vNode ) vNode.set( 'checked', true ) 
-
-                    } 
-                    
                 }
             }
              
         });
+
+
         
         var tree = Ext.create('Ext.tree.Panel', {
-            store: this.store,
+            store: this.treeStore,
             useArrows: true,
             // frame: true,
             rootVisible: false ,
@@ -146,7 +144,27 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
         this.addEvents('menuSelect');
         
         
-        function insertNewRecord( idx, fieldName,  added  ) {
+        function configureCurrentFields() {
+
+            // Crea los campos activos en la grilla 
+            for (var ix in me.myMeta.fields ) {
+                var vFld  =  me.myMeta.fields[ix];
+                var vNode =  me.treeStore.getNodeById( vFld.name ) 
+
+                // El string no es un campos configurable
+                if ( vFld.name == '__str__' )  continue 
+
+                // Lo inserta en la grilla 
+                var idx = gridStore.getCount() + 1;
+                insertGridRecord ( idx, vFld.name, null  ) 
+
+                // Lo marca                                            
+                if ( vNode ) vNode.set( 'checked', true ) 
+
+            } 
+        }
+        
+        function insertGridRecord( idx, fieldName,  added  ) {
             /* 
              * Solo marca como insertados los nuevos registros 
              */
@@ -165,7 +183,7 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
         
             var rec = gridStore.getById( idx  )
             if ( ! rec  )  {
-                insertNewRecord( 0, idx,  true  )
+                insertGridRecord( 0, idx,  true  )
             } else {
                 if ( checked && rec.get( 'added') ) 
                     rec.set( 'removed', false   )
