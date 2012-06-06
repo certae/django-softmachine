@@ -131,7 +131,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 // Agrega los items 
                 prLayout.items = []
                 for(var ix in protoObj ) {
-                    if ( ix in oc( ['__ptConfig', '__ptType'] )) continue 
+                    if ( ix.indexOf( "__pt" )  == 0 ) continue 
 
                     var prVar = protoObj[ix];
                     var prFld = this.defineProtoFormItem( protoObj, prVar, ix )
@@ -234,9 +234,9 @@ Ext.define('ProtoUL.view.ProtoForm', {
     },
     
     getProtoField : function(myMeta, fldName) {
-        var dict = myMeta.dict; 
-        if ( ! dict[fldName] ) dict[fldName] = {}     
-        return dict[fldName]
+        var __ptDict = myMeta.__ptDict; 
+        if ( ! __ptDict[fldName] ) __ptDict[fldName] = {}     
+        return __ptDict[fldName]
     },
     
 

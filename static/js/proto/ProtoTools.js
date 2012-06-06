@@ -24,32 +24,22 @@ function FormatMETA( oData, pName, ptType   ) {
 
         if ( ! ptType  ) ptType = sDataType
         
-        
-        // La pcl debe abrirse 
-        if ( pName == 'pcl' ) {
-            tData['expanded'] = true                     
-        } 
-        
-        
-        tData['text']  =  pName    
-        tData['__ptType'] =  ptType 
-        tData['children'] =  [] 
-
         // Obtiene un Id y genera  una referencia cruzada de la pcl con el arbol 
         // El modelo debe crear la referencia a la data o se perdera en el treeStore 
         var IxTree = Ext.id()
         tData['id'] = IxTree
-        
-        // me.refDict[ IxTree ] = oData
+        tData['text']  =  pName    
+        tData['__ptType'] =  ptType 
         tData[ '__ptConfig' ] = oData
-        
-        // // Si es un objeto hay una propiedad q servira de titulo 
-        // if ( sDataType == "object" ) {
-            // if ( oData['protoOption'] ) {
-                // tData['ptValue']  = oData.protoOption  
-            // }
-        // } 
 
+        if ( ptType == 'fields' ||  ptType  == 'formFields' )  {
+            // Los fields no deben abrirse 
+            tData['leaf'] =  true  
+            return tData 
+        }
+
+        tData['children'] =  [] 
+        
         // Recorre las propiedades     
         for (var sKey in oData) {
             var vValue = oData[ sKey  ]
@@ -57,14 +47,18 @@ function FormatMETA( oData, pName, ptType   ) {
 
             // PRegunta es por el objeto padre para enviar el tipo en los arrays      
             if ( sDataType == "object" ) {
-                if ( sKey == 'dict' ) continue
+                if ( sKey.indexOf( "__pt" ) == 0 ) continue
                                 
                 if ( !( typeItem in oc( [ 'boolean', 'number', 'string' ]) )) {
 
                     var nBase = pName
                     // Todos los contenedores del protoForm son manejados como protoForm 
-                    if ( ptType == 'protoForm' ) nBase = ptType    
-                    
+                    if ( ptType == 'protoForm' ) {
+                        nBase = ptType    
+                        if ( vValue.__ptType && ( vValue.__ptType  == 'formField' )) {
+                            nBase = 'formFields'                             
+                        } 
+                    }
                     tData['children'].push(  FormatMETA(vValue, sKey , nBase ) ) 
                     
                 } 
@@ -72,33 +66,36 @@ function FormatMETA( oData, pName, ptType   ) {
             } else if ( sDataType == "array" ) {
                 
                 var oTitle = pName + '.' + sKey 
+
+                if ( vValue.__ptType && vValue.title ) {
+                    oTitle = vValue.__ptType + ' [' +  vValue.title + ']'
+
+                } else if ( vValue.__ptType && vValue.name ) {
+                    oTitle = vValue.__ptType + ' [' +  vValue.name + ']'
                 
-                if ( pName == 'fields'  && vValue.name ) {
-                    oTitle = vValue.name  
-                } else if ( pName == 'protoForm' ) {
-                   
-                    oTitle = vValue.style
-                   
-                }
-
-                if ( pName == 'formFields' && typeItem == 'string' )  {
-
+                } else if ( vValue.name ) {
+                    oTitle = vValue.name
+                      
+                } else if ( vValue.__ptType ) {
+                    oTitle = vValue.__ptType
+                    
+                } else if ( typeItem == 'string' ) {
+                    
+                    oTitle = vValue
                     var nData = {
-                        '__ptType' : 'formField', 
-                        'text' : vValue,  
+                        '__ptType' : pName, 
+                        'text' : oTitle,  
                         'leaf':  true,  
                         'id' : Ext.id(), 
                         '__ptConfig' : {}
                     }
                     
                     tData['children'].push(  nData  )
-                    
-                } else {
-
-                    tData['children'].push(  FormatMETA(vValue, oTitle , pName   ) ) 
-                    
+                    continue
                 }
 
+
+                tData['children'].push(  FormatMETA(vValue, oTitle , pName   ) ) 
 
             }  
         }

@@ -216,7 +216,7 @@ function DefineProtoModel ( myMeta , modelClassName ){
     // convert :  Campo Virtual calculado,  Apunta a una funcion q  genera el valor 
     
     var myFields = [];           // model Fields 
-    var dict = {};                 // For indexing fields
+    var __ptDict = {};                 // For indexing fields
 
     for (var ix in myMeta.fields ) {
 
@@ -263,13 +263,13 @@ function DefineProtoModel ( myMeta , modelClassName ){
 
         // Asigna el modelo y el diccionario 
         myFields.push(mField);
-        dict[vFld.name] = vFld
+        __ptDict[vFld.name] = vFld
 
     }
     
     
     // Asigna un diccionario con las llaves como clave  
-    myMeta.dict = dict
+    myMeta.__ptDict = __ptDict
 
     
     // Agrega el status y el interna ID 
@@ -637,7 +637,7 @@ function savePci( protoMeta,  options) {
         });
     
         var protoOption = protoMeta.protoOption
-        var sMeta = Ext.encode(  clone( protoMeta, 0, ['dict'] ) )
+        var sMeta = Ext.encode(  clone( protoMeta, 0, ['__ptDict'] ) )
     
         Ext.Ajax.request({
             method: 'POST',

@@ -200,8 +200,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
 #        - __ptConfig 
 #        - items u objetos 
 
-    protoExt['protoForm'] = [{
-          "items": [ 
+    protoExt['protoForm'] = [
               {"title" : 'Basicas ',
                    "__ptType" : 'fieldset',
                    "code" :        { "__ptType" : "formField"}, 
@@ -218,6 +217,4 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                    "concept__code"         : { "__ptType" : "formField"}, 
                    "concept__model__code"  : { "__ptType" : "formField"}, 
                    },
-                  ]
-              }] 
-                    
+              ]

@@ -60,7 +60,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         //console.log (  this.protoOption, ' Loading store ...  '  ); 
 
         // prepara la meta 
-        var excludeP = ['dict', 'protoForm', 'sheetConfig', 'protoViews', 'protoDetails']
+        var excludeP = ['__ptDict', 'protoForm', 'sheetConfig', 'protoViews', 'protoDetails']
         var safeMeta =  clone( myMeta, 0, excludeP );
         
         var storeDefinition =  {
@@ -776,7 +776,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         myWin.show()
         
-        // var safeConf =  clone( myMeta , 0, exclude =['dict','gridDefinition', 'formDefinition'] )
+        // var safeConf =  clone( myMeta , 0, exclude =['__ptDict','gridDefinition', 'formDefinition'] )
         // showConfig( 'MetaConfig', safeConf )
     }, 
 
@@ -810,7 +810,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         myWin.show()
         
-        // var safeConf =  clone( myMeta , 0, exclude =['dict','gridDefinition', 'formDefinition'] )
+        // var safeConf =  clone( myMeta , 0, exclude =['__ptDict','gridDefinition', 'formDefinition'] )
         // showConfig( 'MetaConfig', safeConf )
     }, 
     
@@ -849,7 +849,7 @@ showProtoDesigner: function() {
         
         myWin.show()
         
-        // var safeConf =  clone( myMeta , 0, exclude =['dict','gridDefinition', 'formDefinition'] )
+        // var safeConf =  clone( myMeta , 0, exclude =['__ptDict','gridDefinition', 'formDefinition'] )
         // showConfig( 'MetaConfig', safeConf )
     }
 
