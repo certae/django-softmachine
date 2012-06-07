@@ -8,6 +8,9 @@
  * 
  * Debera tener en cuenta si permite o no los campos UDP y las funciones ( por ejemplo __str__ ) 
  * pude ser un mensaje si se le da un parametro 
+ * 
+ * TODO:  Ocultar el control de sort y hide/show cols en los header,
+ * TODO:  Separar el objeto  protoList, manejar eventos de seleccion y un metodo getSelected() manejar todo con arrays   
  *  
  */
 
@@ -18,7 +21,6 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
 /* 
  * @protoOption   Required 
  */
-
     protoOption : null, 
 
 
@@ -55,14 +57,6 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
             
         });
                 
-        
-        var gridStore = Ext.create('Ext.data.Store', {
-            // storeId:'fieldStore',
-            fields:['id', 'Added','Removed'],
-            data: []
-        });
-                
-        ///
         
         
         this.treeStore = Ext.create('Ext.data.TreeStore', {
@@ -105,17 +99,39 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
             }}, scope: me }
         );
 
-        
+
+//  ----------------------------------------------------------------
+
+        var gridStore = Ext.create('Ext.data.Store', {
+            fields:['id', 'fAdded','fRemoved', 'fChecked'],
+            data: []
+        });
+ 
+
+
         var grid = Ext.create('Ext.grid.Panel', {
             store : gridStore,
             stripeRows: true , 
+            viewConfig: {
+                plugins: {
+                    ptype: 'gridviewdragdrop',
+                    dragText: 'Drag and drop to reorganize'
+                }
+            },
             columns : [
+                {width: 33,  dataIndex: 'fChecked', xtype: 'checkcolumn',
+                listeners: {
+                    'checkchange': function( record, recordIndex, checked ){ 
+                        var idx = record.get( 'id' )
+                        }
+                    } 
+                },
                 {header: 'fieldName',    dataIndex: 'id', flex : 1  },
-                {header: 'added',    dataIndex: 'added', xtype: 'checkcolumnreadonly'},
-                {header: 'removed',    dataIndex: 'removed', xtype: 'checkcolumnreadonly'}
-                ]
+                {header: 'added',    dataIndex: 'fAdded', xtype: 'checkcolumnreadonly'},
+                {header: 'removed',    dataIndex: 'fRemoved', xtype: 'checkcolumnreadonly'}
+                ] 
                }) 
-        
+
 
         var panelItems =   [{
                 region: 'center',
@@ -170,7 +186,7 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
              */
             var rec = new gridStore.model()
             rec.data.id = fieldName  
-            rec.data.added = added 
+            rec.data.fAdded = added 
 
             gridStore.insert(idx, rec );
         };
@@ -185,9 +201,10 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
             if ( ! rec  )  {
                 insertGridRecord( 0, idx,  true  )
             } else {
-                if ( checked && rec.get( 'added') ) 
-                    rec.set( 'removed', false   )
-                else rec.set( 'removed', ! checked   )
+                gridStore.remove( rec )
+                // if ( checked && rec.get( 'added') ) 
+                    // rec.set( 'fRemoved', false   )
+                // else rec.set( 'fRemoved', ! checked   )
             }
             
         }

@@ -91,7 +91,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         // DGT adding RowNumberer  
         if ( ! myMeta.gridConfig.hideRowNumbers ) {
-            // myColumns.push(Ext.create('Ext.grid.RowNumberer',{"width":37, "draggable":false}));
             myColumns.push( this._getRowNumberDefinition() )
         }
        
