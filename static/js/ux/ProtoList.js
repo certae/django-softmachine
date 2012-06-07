@@ -1,7 +1,11 @@
 /*
- *   Lista ordenable y seleccionable 
+ *  @Author : Dario Gomez T.  /  Certae Universite Laval Quebec  
+ *   
+ * Lista ordenable y seleccionable 
+ * 
+ *      Por ahora solo trabaja con un campo Id, 
+ *      TODO:  Ampliar con varias columnas 
  */
-
 
 Ext.define('ProtoUL.ux.ProtoList' ,{
     extend: 'Ext.grid.Panel',
@@ -20,17 +24,23 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
     // @dataSelected : Campos seleccionados ( solo la llave )     
     dataSelected : [], 
 
+    // @idTitle
+    idTitle : '', 
 
     initComponent: function() {
+
+        var me = this 
+        me.addEvents('checked', 'reorder');
 
         var myColumns = clone( this.columnList )
         myColumns.push( '__Checked' )
                 
         // Se sirve de la definicion de columnas para el store 
+        // TODO: El modelo automatico tomar el idProperty ?? 
         this.gridStore = Ext.create('Ext.data.Store', {
             fields: myColumns,
             idProperty : this.idColumn, 
-            data: this.dataList 
+            data: [] 
         });
 
         // Inicializac con el checkBox   
@@ -41,123 +51,111 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
                 width: 33,  
                 listeners: {
                     'checkchange': function( record, recordIndex, checked ){
-                        onCheckChange( record, recordIndex, checked ) 
-                        }
+                        me.fireEvent('checked', record, recordIndex, checked );
                     } 
-                }
+                }, scope : me
+            }
         ];
 
         // DGT** Copia las columnas   
         for (var ix in this.columnList ) {
             var vFld = this.columnList[ix] 
-
             var col = {
-                menuDisabled : true, 
-                header: vFld,    
+                menuDisabled : true, flex : 1, text : this.idTitle,   
                 dataIndex: vFld 
                 };
-                
             myGridColumns.push( col  );
             
         }
 
-        var myGrid = Ext.apply(this, {
+
+        var grid = Ext.apply(this, {
             store : this.gridStore,
             stripeRows: true ,
-            columns : myGridColumns,  
+            columns : myGridColumns,
+  
             viewConfig: {
                 plugins: {
                     ptype: 'gridviewdragdrop',
                     ddGroup : Ext.id(), 
                     dragText: 'Drag and drop to reorganize'
-                }},
-           }) 
+                },
+
+                listeners: {
+                    drop: function(node, data, overModel, dropPosition,  eOpts) {
+                        me.fireEvent('reorder' );
+                    }, scope : me
+                }                
+                 
+            }
+        }); 
+
      
 
-        // TODO: Agregar  evento  check con el Id, checked  
-        // TODO: Agregar  evento  drop reorder   
-        this.addEvents(
-            'rowClick', 'rowDblClick', 'promoteDetail', 'selectionChange'
-        );
-
-        
         this.callParent(arguments);
 
-
         grid.on({
-            select: {fn: function ( rowModel , record,  rowIndex,  eOpts ) {
-
-            }, scope: this }, 
-
-            celldblclick: {fn: function ( tbl, el,  cellIndex, record, tr, rowIndex, e,  eOpts ) {
-
-            }, scope: this }
-                
-        });
-        
-        function onCheckChange( record, recordIndex, checked ) {
+            sortchange : function (  ct,  column,  direction,  eOpts ) {
+                 me.fireEvent('reorder' );
+            },scope : me}
+        );
             
-        }
-        
         // -----------------
-        
-        this.setSelected( this.dataSelected )                     
+        // Agrega los campos seleccionados 
+        this.addDataSet( this.dataList, false )                     
+        this.addDataSet( this.dataSelected, true )                     
+
+        // E V E N T O S 
+        function onCheckChange( record, recordIndex, checked ) {
+        }
         
     }, 
     
     
-    setSelected:  function( dSelected  ) {
+    addDataSet:  function( dSelected, checked  ) {
         // Selecciona los registros de una lista dada  
         
         for (var ix in dSelected ) {
-            var vFld  =  dSelected[ix];
-            var vNode =  this.gridStore.getNodeById( vFld  ) 
-
-            // Lo marca                                            
-            if ( vNode ) vNode.set( '__Checked', true ) 
-
+            var data  =  dSelected[ix];
+            this.setChecked( data, checked )
         } 
         
     }, 
 
-    setChecked: function ( idRec, check  ) {
-        // Cambia el estado de seleccion de un registro 
-         
-    },
-    
-    addOrRemove: function ( idRec, add  ) {
-        // adiciona o lo remueve un registro especifico
-        
-        function insertGridRecord( idx, fieldName,  added  ) {
-            /* 
-             * Solo marca como insertados los nuevos registros 
-             */
-            var rec = new gridStore.model()
-            rec.data.id = fieldName  
-            // rec.data.fAdded = added 
+    setChecked: function ( data, checked  ) {
+        // Cambia el estado de seleccion de un registro
+        // Que hace si no existe y es check? Lo crea por q es posible q se inserten dos colecciones base y selected   
 
-            gridStore.insert(idx, rec );
-        };
+        var vNode =  this.gridStore.getById( data  ) 
+        if ( vNode ) {
+            vNode.set( '__Checked', checked )
+        } else { 
+            this.addData( data, checked  ) 
+        } 
+    }, 
+    
+    addData:  function ( data,  checked  ) {
+        // TODO: Por ahora solo maneja un campo Verificar el modelo, por q no se definio con modelo  
+        // var rec = new this.gridStore.model()
+        // rec.data[id] = data  
+        this.gridStore.add( { id: data, '__Checked': checked } );
+    }, 
+
+    removeAll:  function () {
+        this.gridStore.removeAll( true );
+    }, 
+
+    
+    getChecked: function () {
+
+        var chkList = []
+        this.gridStore.each(function(record){
+            if ( record.get('__Checked')  )  
+              chkList.push( record.get( 'id' ))
+         })
         
-        function addOrRemove( idx, checked ) {
-            /* 
-             * Marca los registros como adicionados o removidos, 
-             * los registros de base no se deben remover, solo se marcan 
-             */
-        
-            var rec = gridStore.getById( idx  )
-            if ( ! rec  )  {
-                insertGridRecord( 0, idx,  true  )
-            } else {
-                gridStore.remove( rec )
-                // if ( checked && rec.get( 'added') ) 
-                    // rec.set( 'fRemoved', false   )
-                // else rec.set( 'fRemoved', ! checked   )
-            }
-            
-        }
-        
-        
+        return chkList
     }
+    
 
 });

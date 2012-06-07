@@ -23,7 +23,6 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
  */
     protoOption : null, 
 
-
 /* 
  * @myMeta   Required 
  */
@@ -103,7 +102,6 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
 //  ----------------------------------------------------------------
 
         var gridStore = Ext.create('Ext.data.Store', {
-            // fields:['id', 'fAdded','fRemoved', 'fChecked'],
             fields:['id',  'fChecked'],
             data: []
         });

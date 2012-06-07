@@ -102,55 +102,35 @@ function getStoreDefinition(  storeDefinition  ){
 
         listeners: {
         
-             // Fired when a Model instance has been added to this Store ...
-            add: function ( store, records,  index,  eOpts ) {
-                // var msg = 'add';
-            }, 
-     
+            // Fired when a Model instance has been added to this Store ...
+            // add: function ( store, records,  index,  eOpts ) {
+
             // Fires before a request is made for a new data object. ...
-            beforeload: function(  store,  operation,  eOpts ) {
-                // var msg = 'beforeload';
-            },
+            // beforeload: function(  store,  operation,  eOpts ) {
      
             // Fired before a call to sync is executed. Return false from any listener to cancel the synv
-            beforesync: function(  options,  eOpts ) {
-                // var msg = 'beforesync';
-            },
+            // beforesync: function(  options,  eOpts ) {
     
             //  Fires before a prefetch occurs. Return false to cancel.
-            beforeprefetch: function ( store, operation, eOpts ) {
-                // var msg = 'beforesync';
-            }, 
+            // beforeprefetch: function ( store, operation, eOpts ) {
             
             // Fires whenever records have been prefetched
-            prefetch: function ( store, records, successful, operation,  eOpts ) {
-                // var msg = 'beforesync';
-            }, 
+            // prefetch: function ( store, records, successful, operation,  eOpts ) {
     
             // Fired after the removeAll method is called. ...
-            clear: function ( store,  eOpts ) {
-                // var msg = 'clear';
-            },
+            // clear: function ( store,  eOpts ) {
      
             // Fires whenever the records in the Store have changed in some way - this could include adding or removing records, or ...
-            datachanged: function( store,  eOpts ) {
-                // var msg = 'datachanged';
-            },
+            // datachanged: function( store,  eOpts ) {
              
             // Fires whenever the store reads data from a remote data source. ...
-            load: function ( store, records,  successful,  eOpts ) {
-                // var msg = 'load';
-            },
+            // load: function ( store, records,  successful,  eOpts ) {
              
             // Fired when a Model instance has been removed from this Store ...
-            remove: function (  store,  record,  index,  eOpts ) {
-                // var msg = 'remove';
-            },
+            // remove: function (  store,  record,  index,  eOpts ) {
              
             // Fires when a Model instance has been updated ...\        
-            update: function ( store,  record,  sOperation,  eOpts ) {
-                // var msg = 'update';         
-            },  
+            // update: function ( store,  record,  sOperation,  eOpts ) {
             
             // Fires whenever a successful write has been made via the configured Proxy 
             write: function(store, operation, eOpts ){
