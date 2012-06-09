@@ -1,7 +1,6 @@
 
 
-
-function FormatMETA( oData, pName, ptType   ) {
+function Meta2Tree( oData, pName, ptType   ) {
     /* -----------------   FORMAT META ( for tree view ) 
      * 
      * Convierte una estructurea 
@@ -30,7 +29,7 @@ function FormatMETA( oData, pName, ptType   ) {
         tData['id'] = IxTree
         tData['text']  =  pName    
         tData['__ptType'] =  ptType 
-        tData[ '__ptConfig' ] = oData
+        tData['__ptConfig' ] = get_ptConfig( oData ) 
 
         if ( ptType == 'fields' ||  ptType  == 'formFields' )  {
             // Los fields no deben abrirse 
@@ -59,7 +58,7 @@ function FormatMETA( oData, pName, ptType   ) {
                             nBase = 'formFields'                             
                         } 
                     }
-                    tData['children'].push(  FormatMETA(vValue, sKey , nBase ) ) 
+                    tData['children'].push(  Meta2Tree(vValue, sKey , nBase ) ) 
                     
                 } 
 
@@ -95,12 +94,14 @@ function FormatMETA( oData, pName, ptType   ) {
                 }
 
 
-                tData['children'].push(  FormatMETA(vValue, oTitle , pName   ) ) 
+                tData['children'].push(  Meta2Tree(vValue, oTitle , pName   ) ) 
 
             }  
         }
         
     } else { 
+        
+        console.log (  'm2t objeto plano??? ')
         
         // Enmascara tags HTML
         if (sDataType == "string" ) { 
@@ -140,7 +141,7 @@ function  getExtConfig(  ptType ) {
     if ( ptType == 'formField' ) {
         extType = 'textfield'
         
-    } else if ( extType = 'fieldset' ) {
+    } else if ( extType == 'fieldset' ) {
         __ptConfig.defaults = {anchor: '100%'},
         __ptConfig.layout = 'anchor'
     }
@@ -150,3 +151,80 @@ function  getExtConfig(  ptType ) {
     return  __ptConfig 
     
 }
+
+
+function Tree2Meta( tNode  ) {
+    // Dada la informacion del arbol genera la meta correspondiente 
+    
+    console.log( 't2meta' , tNode  )
+
+
+    // Para poder leer de la treeData o del TreeStore ( requiere data )   
+    // En la data solo necesito el __ptType,  text  y el __ptConfig
+    if (  tNode.data ) {
+        var tData = tNode.data 
+        var tChilds =  tNode.childNodes
+    }  else {
+        var tData = tNode 
+        var tChilds =  tNode.children
+    }
+
+    var __ptConfig, __ptType, sType 
+    var __ptText   = tData.text
+    
+    if  ( tData.__ptConfig )  __ptConfig = tData.__ptConfig 
+    if  ( tData.__ptType )    __ptType   = tData.__ptType  
+
+    var mData = {  '__ptType' :  __ptType , '__ptText' :  __ptText }
+
+    if ( __ptConfig )  { 
+
+        sType = typeOf( __ptConfig )
+          
+        if ( sType == 'object' ) {
+
+            // El __ptConfig corresponde a la conf basica del node
+            Ext.apply (  mData, get_ptConfig( __ptConfig  ) )
+            
+        } else if ( sType == 'array' )  {
+
+            // Si es un array, el objeto de base es un array  
+            mData[ __ptText ] =  []  
+            
+        } 
+
+    }; 
+
+    // Agrega los childs dependiendo de q sea el objeto 
+
+    for (var ix in tChilds ) {
+        nChildData = Tree2Meta( tChilds[ ix ]  )
+
+        if ( sType == 'object' ) {
+            mData[ nChildData.__ptText  ] = nChildData 
+        } else if ( sType == 'array' )  {
+            mData[ __ptText ].push( nChildData )
+        }
+
+    }
+
+    return mData 
+    
+}
+
+function get_ptConfig( ptConfig   ) {
+    
+    var cData = {}
+    for (var lKey in ptConfig ) {
+        var cValue = ptConfig[ lKey  ]
+
+        // Los objetos o arrays son la imagen del arbol y no deben ser tenidos en cuenta, 
+        // generarian recursividad infinita                 
+        if  ( typeOf( cValue  ) in oc([ 'object', 'array' ])) continue   
+        cData[ lKey  ] = cValue  
+    }
+
+    return cData 
+
+}             
+

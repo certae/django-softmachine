@@ -60,7 +60,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
     updateFormTree : function() {
         // Genera el arbol a partir de la meta 
         
-        var treeData = FormatMETA( this.myMeta.protoForm, 'protoForm', 'protoForm'  )
+        var treeData = Meta2Tree( this.myMeta.protoForm, 'protoForm', 'protoForm'  )
         treeData.expanded = true
 
         this.formTree.getStore().setRootNode( treeData ) 
@@ -212,8 +212,13 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         btRedraw.on(
             'click',
             function(  btn , event,  eOpts) {
-                console.log('abc');
-            },this  );
+                
+                
+                var formMeta =  Tree2Meta( this.formTree.store.getRootNode() )
+                // this.redrawForm( formMeta )
+                
+                
+            },me   );
 
 
     },

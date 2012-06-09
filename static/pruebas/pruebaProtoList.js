@@ -1,17 +1,6 @@
 
 Ext.Loader.setConfig({enabled: true});
 
-// Ext.require([
-    // 'Ext.data.*',
-    // 'Ext.grid.*',
-    // 'Ext.tree.*',
-    // 'Ext.util.*',
-    // 'Ext.state.*', 
-    // 'ProtoUL.ux.ProtoList',
-    // 'ProtoUL.ux.GridCheckColumn'
-// ]);
-// 
-
 Ext.onReady(function() {
 
 

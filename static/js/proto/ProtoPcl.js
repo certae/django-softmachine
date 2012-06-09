@@ -1,7 +1,7 @@
 /*
  *  Proto Code Library    ( PCL )
  * 
- *     Edicion de la plc
+ *  Edicion de la plc
  *  Esta forma sera invocada desde la pcl o desde el respositorio de pcls ( ProtoLib.ProtoDefinition )
  *    Por lo tanto la Pcl ya viene dada,  
  * 
@@ -9,22 +9,10 @@
  *     
  */
 
-Ext.require([
-    'Ext.data.*',
-    'Ext.grid.*',
-    'Ext.tree.*'
-]);
 
 Ext.define('ProtoUL.proto.ProtoPcl' ,{
     extend: 'Ext.container.Container',
     alias : 'widget.protoPcl',
-    requires: [
-        'Ext.util.*',
-        'Ext.state.*',
-        'Ext.form.*',
-        'Ext.toolbar.TextItem' 
-    ],
-
     /* 
      * @Required 
      * myMeta  : Metadata   
@@ -56,7 +44,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         
         defineProtoPclTreeModel()
         
-        var treeData = FormatMETA( this.myMeta, 'pcl', 'pcl'  )
+        var treeData = Meta2Tree( this.myMeta, 'pcl', 'pcl'  )
         treeData.expanded = true
         
         var myStore = Ext.create('Ext.data.TreeStore', { 
@@ -129,14 +117,6 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             },{
                 text: '__ptType',
                 dataIndex: '__ptType'
-            },{
-                text: 'ptValue',
-                flex: 2,
-                dataIndex: 'ptValue',
-                sortable: true, 
-                editor: {
-                    allowBlank: false
-                }
             }], 
 
 
@@ -171,104 +151,9 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         this._extGrid = treeGrid;
 
 
-//----- Tipos de base 
-
-        me.editors = {
-            'date': new Ext.grid.CellEditor({
-                field: new Ext.form.field.Date({
-                    selectOnFocus: true
-                })
-            }),
-            'string': new Ext.grid.CellEditor({
-                field: new Ext.form.field.Text({
-                    selectOnFocus: true
-                })
-            }),
-            'number': new Ext.grid.CellEditor({
-                field: new Ext.form.field.Number({
-                    selectOnFocus: true
-                })
-            }),
-            'boolean': new Ext.grid.CellEditor({
-                field: new Ext.form.field.ComboBox({
-                    editable: false,
-                    store: [
-                        [true, true],
-                        [false, false]
-                    ]
-                })
-            }), 
-
-//------     Tipos extendidos
- 
-            'type': new Ext.grid.CellEditor({
-                field: new Ext.form.field.ComboBox({
-                    editable: false,
-                    store: [
-                        ["string", "string"],
-                        ["int", "int"],
-                        ["decimal", "decimal"],
-                        ["bool", "bool"],
-                        ["text", "text"],
-                        ["date", "date"],
-                        ["time", "time"],
-                        ["datetime", "datetime"],
-                        ["combo", "combo"],
-                    ]
-                })
-            }), 
-
-
-            
-        };
-
-
-        // ReadOnly Properties ( PCL )
-        // var readOnlyPrpts= [ 'idProperty', 'protoOption', 'protoConcept'  ]
-
-        // TODO: Cargar la grilla de propiedades     
-        var propsGrid = Ext.create('Ext.grid.property.Grid', {
-            // Asigna los titulos a las propiedades 
-            // propertyNames: { prop : 'title' }
-
-            // source es obligatorio 
-            source : {}, 
-            clicksToEdit : 2, 
-            
-            getCellEditor: function (record, column) {
-                
-                if ( ! me.editMode ) return ; 
-                
-                var pgrid = this
-                var propName = record.get(pgrid.nameField)
-                
-                // Simplemente no se incluyen 
-                // if ( propName in oc( readOnlyPrpts )) return ; 
-
-                var val = record.get(pgrid.valueField)
-                var editor; 
-
-                if (propName == 'type') {
-                    editor = me.editors['type'];
-
-
-                } else if (Ext.isDate(val)) {
-                    editor = me.editors.date;
-                } else if (Ext.isNumber(val)) {
-                    editor = me.editors.number;
-                } else if (Ext.isBoolean(val)) {
-                    editor = me.editors['boolean'];
-                } else {
-                    editor = me.editors.string;
-                }
-                editor.editorId = propName;
-                return editor ;
-            }
-                        
-        });        
+        var propsGrid = Ext.create('ProtoUL.ux.ProtoProperty', {});
         
-        
-        
+
 //  ================================================================================================
 
         var IdeSheet = Ext.id();
@@ -310,25 +195,11 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 // ---------------------------------------------------------------------------------------------- 
 
         treeGrid.on({
-            'select': {fn: function ( rowModel , record,  rowIndex,  eOpts ) {
+            'select': function ( rowModel , record,  rowIndex,  eOpts ) {
                 // Asigna el current Record 
                 _pGrid.treeRecord  = record;
-                
                 prepareProperties( _pGrid  );
-                
-                } , scope: _pGrid },
-
-            'beforeedit': {fn: function ( editor, e, eOpts) {
-                // console.log( 'beforeEdit')            
-                }},
-
-            'validateedit': {fn: function ( editor, e, eOpts) {
-                // console.log( 'validateEdit')                 
-                }},
-
-            'edit': {fn: function ( editor, e, eOpts) {
-
-            }}, scope: me }
+            }, scope: me }
         );
 
 
@@ -336,14 +207,8 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
 
         propsGrid.on({
-            // Fires before editing is triggered. ...
             'beforeedit': {fn: function ( editor, e, eOpts) {
-                // console.log( 'beforeEdit')            
-            }},
-
-            // Fires after editing, but before the value is set in the record. ...
-            'validateedit': {fn: function ( editor, e, eOpts) {
-                // console.log( 'validateEdit')                 
+                if ( me.editMode == false ) return false 
             }},
 
             // Fires after a editing. ...
@@ -351,8 +216,6 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
                 if ( e.value == e.originalValue ) return; 
 
-                // var idTree = me.treeRecord.data.id 
-                // var oData = me.refDict[ idTree ]
                 var oData = me.treeRecord.data.__ptConfig 
                 var prpName = e.record.data.name
 
@@ -374,7 +237,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
 
         function updTData( treeRecord , prpName, prpValue ) {
-        
+            // TODO ???         
             var tNode = {}, ixNode;
             for ( ixNode in treeRecord.childNodes ) {
                 

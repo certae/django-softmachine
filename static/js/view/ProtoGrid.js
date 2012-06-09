@@ -171,10 +171,11 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
              },{
                 type: 'gear',
                 scope: this,
-                handler: this.showMetaConfig,
+                handler: showMetaConfig,
                 tooltip: 'Meta Config ... '
              },{
                 type: 'gear',
+                scope: this,
                 handler: showColsConfig,
                 tooltip: 'ColsConfig ... '
             }], 
@@ -473,10 +474,24 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         // });
 
 // ---------------------------------------------------------------------------------------------- 
+
+        function showMetaConfig() {
+            
+            var safeConf =  clone( this.myMeta , 0, exclude =['__ptDict'] )
+            showConfig( 'MetaConfig', safeConf )
+            
+        }
         
 
         function showColsConfig() {
-            var safeConf =  clone( myColumns )
+            
+            // var safeConf =  clone( myColumns )
+
+            var safeConf =  clone( this.myMeta , 0, exclude =['__ptDict'] )
+
+            safeConf = Meta2Tree( safeConf, 'pcl' , 'pcl' ) 
+            safeConf = Tree2Meta( safeConf ) 
+
             showConfig( 'ColsConfig' , safeConf  )
         }
         
@@ -780,8 +795,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         myWin.show()
         
-        // var safeConf =  clone( myMeta , 0, exclude =['__ptDict','gridDefinition', 'formDefinition'] )
-        // showConfig( 'MetaConfig', safeConf )
     }, 
 
 

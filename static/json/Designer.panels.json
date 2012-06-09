@@ -94,9 +94,7 @@
         "text": "Fields",
         "children": []
     }, {
-        "text": "Containers",
-        "children": [
-            {
+
 
 /* 
     FieldContainer implements the Labelable mixin. 
@@ -109,27 +107,31 @@
     combineErrors : true 
     autoScroll : true 
  */            
- 
-                "text": "Field Container",
+
+        "text": "Containers",
+        "children": [
+            {
+                "text": "fieldcontainer",
                 "qtip": "A Fieldset, containing field elements",
-                "qtitle": "fieldcontainer",
                 "__ptType": "fieldcontainer",
                 "children": [], 
                 "__ptConfig": {
                     "title": "Legend",
-                    "layout" : { 
-                        "choices" : [ "hbox" , "vbox" ],
-                        "value" : "hbox"
-                        },  
+                    "layout" : "hbox", 
                     "labelWidth" : 100,
-                    "labelAlign" : [ "top", "left"],
+                    "labelAlign" : "left",
                     "hideLabels" : false,
                     "autoHeight": true
-                }
+                    }, 
+                "__ptCombos" : {
+                    "layout" : [ "hbox" , "vbox" ],
+                    "labelAlign" : [ "top", "left"]
+                    },
             }, {
             
-                "text": "Field Set",
+                "text": "fieldset",
                 "qtip": "A Fieldset, containing other form elements",
+                "__ptType": "fieldset",
                 "children": [], 
                 "__ptConfig": {
                     "xtype": "fieldset",

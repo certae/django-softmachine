@@ -68,8 +68,10 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         this.prFormLayout = [];
 
-        for ( var ixV in myMeta.protoForm) {
-            var lObj = myMeta.protoForm[ixV];
+        var myFormDefinition = clone( myMeta.protoForm )
+
+        for ( var ixV in myFormDefinition) {
+            var lObj = myFormDefinition[ixV];
             
             // Envia el contenedor y el objeto   
             var prItem = this.defineProtoFormItem({
@@ -113,7 +115,6 @@ Ext.define('ProtoUL.view.ProtoForm', {
         if (sDataType == "object" ) { 
 
             // Configura el objeto
-            // TODO : cambiar el __ptConfig por ____ptConfig 
             // TODO : Hacer el __str__  readOnly y hidden  
             if ( ! protoObj.__ptConfig )  protoObj.__ptConfig = {}
             if ( protoIx ) protoObj.__ptConfig.name = protoIx 
@@ -160,6 +161,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
     
     //@defineProtoFormField  Private,  
     defineProtoFormField : function(prVar, protoIx ) {
+        // TODO:  Rehacer,  Con el cambio de la meta,  hay muchas cosas q ahora ya no tienen sentido  DGT 1206
+        
         /*  ----------------------------------------------------------------------------------
          * Define la creacion de campos,  
          * utiliza los valores por defecto,  

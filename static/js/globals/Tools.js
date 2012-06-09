@@ -275,3 +275,16 @@ function charCount(  sData,  sChar ) {
     
 }
 
+
+function getComboChoices(  l1 ) {
+    // Los valores vienen como una lista simple, el combo necesita una lista doble  ( ya no !! )
+    
+    var l2 = []
+    for (var ix in l1) {
+        var vlr = l1[ix]
+        l2.push( [ vlr , vlr ])
+    }
+    
+    return l2     
+    
+}
