@@ -213,8 +213,16 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
             'click',
             function(  btn , event,  eOpts) {
                 
+                this.formPreview.removeAll( true )
                 
                 var formMeta =  Tree2Meta( this.formTree.store.getRootNode() )
+                this.myMeta.protoForm = formMeta
+                 
+                this.formPreview.add({
+                    xtype : 'protoform',
+                    myMeta : this.myMeta
+                    } 
+                )
                 // this.redrawForm( formMeta )
                 
                 
