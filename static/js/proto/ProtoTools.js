@@ -154,9 +154,9 @@ function  getExtConfig(  ptType ) {
 
 
 function Tree2Meta( tNode  ) {
+
     // Dada la informacion del arbol genera la meta correspondiente 
-    
-    console.log( 't2meta' , tNode  )
+    // console.log( 't2meta' , tNode  )
 
 
     // Para poder leer de la treeData o del TreeStore ( requiere data )   
@@ -169,41 +169,50 @@ function Tree2Meta( tNode  ) {
         var tChilds =  tNode.children
     }
 
-    var __ptConfig, __ptType, sType 
+    var __ptConfig, __ptType, sType, mData  
     var __ptText   = tData.text
     
     if  ( tData.__ptConfig )  __ptConfig = tData.__ptConfig 
-    if  ( tData.__ptType )    __ptType   = tData.__ptType  
-
-    var mData = {  '__ptType' :  __ptType , '__ptText' :  __ptText }
+    // if  ( tData.__ptType )    __ptType   = tData.__ptType  
 
     if ( __ptConfig )  { 
 
         sType = typeOf( __ptConfig )
           
         if ( sType == 'object' ) {
-
             // El __ptConfig corresponde a la conf basica del node
-            Ext.apply (  mData, get_ptConfig( __ptConfig  ) )
+            mData = Ext.apply ( {}, get_ptConfig( __ptConfig  ) )
             
         } else if ( sType == 'array' )  {
-
             // Si es un array, el objeto de base es un array  
-            mData[ __ptText ] =  []  
-            
-        } 
+            mData =  []  
+
+        } else  {
+            console.log ('t2m Error de tipo', sType  )
+            return {}
+
+        }
+        
+        // Lo necesita por q  es leida del child   
+        mData.__ptText = __ptText  
 
     }; 
 
     // Agrega los childs dependiendo de q sea el objeto 
 
     for (var ix in tChilds ) {
-        nChildData = Tree2Meta( tChilds[ ix ]  )
+        var nChildData = Tree2Meta( tChilds[ ix ]  )
+        var sText = nChildData.__ptText
+
+        delete nChildData.__ptText 
 
         if ( sType == 'object' ) {
-            mData[ nChildData.__ptText  ] = nChildData 
+            mData[ sText  ] = nChildData 
+
         } else if ( sType == 'array' )  {
-            mData[ __ptText ].push( nChildData )
+
+            if ( Ext.encode( nChildData ) === Ext.encode({}) ) nChildData = sText 
+            mData.push( nChildData )
         }
 
     }
@@ -214,17 +223,19 @@ function Tree2Meta( tNode  ) {
 
 function get_ptConfig( ptConfig   ) {
     
-    var cData = {}
-    for (var lKey in ptConfig ) {
-        var cValue = ptConfig[ lKey  ]
-
-        // Los objetos o arrays son la imagen del arbol y no deben ser tenidos en cuenta, 
-        // generarian recursividad infinita                 
-        if  ( typeOf( cValue  ) in oc([ 'object', 'array' ])) continue   
-        cData[ lKey  ] = cValue  
+    if ( typeOf( ptConfig )  == 'array' ) {
+        return []
+    } else {  
+        var cData = {}
+        for (var lKey in ptConfig ) {
+            var cValue = ptConfig[ lKey  ]
+    
+            // Los objetos o arrays son la imagen del arbol y no deben ser tenidos en cuenta, 
+            // generarian recursividad infinita                 
+            if  ( typeOf( cValue  ) in oc([ 'object', 'array' ])) continue   
+            cData[ lKey  ] = cValue  
+        }
+        return cData 
     }
-
-    return cData 
-
 }             
 

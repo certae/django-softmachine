@@ -67,7 +67,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             protoOption : this.protoOption, 
             autoLoad: this.autoLoad || true, 
             pageSize: _PAGESIZE,
-            sorters: myMeta.gridConfig.initialSort, 
+            sorters: clone(  myMeta.gridConfig.initialSort ), 
 
             // proxy.extraParams = {
             protoFilter : myFilter,
@@ -486,6 +486,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         function showColsConfig() {
             
             // var safeConf =  clone( myColumns )
+            // var safeConf = { a : { a1 : 1, a2: 2}, b : [ 'b1', 'b2']}
+            // var safeConf = { a : { a1 : ['1'], a2: []} }
 
             var safeConf =  clone( this.myMeta , 0, exclude =['__ptDict'] )
 
