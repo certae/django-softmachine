@@ -57,20 +57,9 @@
         },
         {
             "title" : "Properties",
-            "tooltip" : "Propiedades del elto seleccionado",
-            "xtype" : "propertygrid",
+            "tooltip" : "Object properties",
             "itemId" : "properties",
-            "border" : false,
-            "source" : {
-                "type" : "",
-                "name" : ""
-            }
-        },
-        {
-            "xtype" : "panel",
-            "title" : "Fields",
-            "itemId" : "fields",
-            "tooltip" : "Seleccione los campos a partir del modelo"
+            "border" : false
         }]
     }], 
     

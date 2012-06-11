@@ -94,6 +94,15 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
 
         this.toolsTabs.add(myObj.toolsTabs);
         this.toolsTree = this.toolsTabs.down('#toolsTree')
+        
+
+        // *******************   Properties 
+                
+        var propsGrid = Ext.create('ProtoUL.ux.ProtoProperty', {});
+        this.properties = this.toolsTabs.down('#properties')
+        this.properties.add( propsGrid ) 
+        this.properties = propsGrid
+
 
         /* Se podrian cargar directamente desde el json, dejando un hook en el store y asignandolo
          * antes de crear el componente. 
@@ -162,10 +171,10 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
 
         // ------------------------------------------------
 
-        var treeView = this.formTree.getView()
-        this.formTreeViewId = treeView.id
+        var formTreeView = this.formTree.getView()
+        this.formTreeViewId = formTreeView.id
 
-        treeView.on({
+        formTreeView.on({
             'beforedrop' : {
                 fn : function(node, data, overModel, dropPosition, dropHandler, eOpts) {
                     if(data.view.id != this.formTreeViewId) {
@@ -182,23 +191,14 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
 
 
         this.formTree.on({
-            'select': {fn: function ( rowModel , record,  rowIndex,  eOpts ) {
-                var a = 1
-                // _pGrid.treeRecord  = record;
-                // prepareProperties( _pGrid  );
-                } , scope: this },
-
-            'beforeedit': {fn: function ( editor, e, eOpts) {
-                // console.log( 'beforeEdit')            
-                }},
-
-            'validateedit': {fn: function ( editor, e, eOpts) {
-                // console.log( 'validateEdit')                 
-                }},
-
-            'edit': {fn: function ( editor, e, eOpts) {
-
-            }}, scope: this }
+            'select': function ( rowModel , record,  rowIndex,  eOpts ) {
+                // Guarda el registro actico, para actualizarlo mas tarde 
+                me.treeRecord  = record;
+                
+                // prepara las propiedades corresponidnetes, 
+                // debe cpia las props por defecto de la pcl 
+                prepareProperties( record , me.myMeta,  me.properties  );
+                } , scope: me }
         );
 
 
