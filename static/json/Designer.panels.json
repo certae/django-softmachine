@@ -59,6 +59,7 @@
             "title" : "Properties",
             "tooltip" : "Object properties",
             "itemId" : "properties",
+            "autoScroll": true,
             "border" : false
         }]
     }], 

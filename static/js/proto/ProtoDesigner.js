@@ -254,7 +254,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
             collapsible : true,
             split : true,
             flex : 1,
-            title : 'Tools',
+            title : 'Form',
             itemId : 'toolsPanel',
             layout : 'border',
             defaults : {
@@ -273,7 +273,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                 collapsible : true,
                 split : true,
                 flex : 1,
-                title : 'Form'
+                title : 'Tools'
             }]
         }]
             

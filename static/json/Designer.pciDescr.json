@@ -1,4 +1,5 @@
-
+{
+    
     "form/FieldSet.js": {
         checkboxToggle: {
             type: "Boolean",
@@ -700,7 +701,9 @@
             type: "String",
             desc: "The default CSS class to use for text items (defaults to \"x-menu-text\")"
         }
-    },
+    }
+    
+}
 
 
 

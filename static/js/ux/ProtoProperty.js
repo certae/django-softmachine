@@ -1,23 +1,57 @@
 /*
  *  @Author : Dario Gomez T.  /  Certae Universite Laval Quebec  
  *   
- *  Manejo de combos definidos en las propiedades  
- * 
+ *  Enhanced PopertyGrid,  
+ *      comboProperties  
+ *      editMode   ( True/ False )
+ *      QTips 
   */
 
 Ext.define('ProtoUL.ux.ProtoProperty' ,{
     extend: 'Ext.grid.property.Grid',
     alias : 'widget.protoProperty',
 
+    //@source
+    source : {}, 
+    
+    //@ 
+    readOnlyProps : [],   
+
+    //@  True / False 
+    editMode : true,   
+
+
+    //@ definition {  prpName : '' , ...  } ;
+    //@ TODO:  definition {  prpName : { qTitle : '', qTip : '', 'type' : 'overwirte default type!! ' }, ...  }   
+    sourceInfo : {}, 
+
     initComponent: function() {
+        
+        var me = this
         
         Ext.apply(this, {
             stripeRows: true ,
             clicksToEdit : 2, 
-            source : {}
+            source : this.source, 
+            listeners: {
+                'beforeedit': function(  editor,  e,  eOpts ){
+                    if ( (! me.editMode ) || e.record.data.name in oc( me.readOnlyProps ))  {
+                        return false; 
+                    } 
+                },
+                'itemmouseenter': function(view, record, item) {
+                    var prpName = record.get( 'name' )
+                    var msg =  me.sourceInfo[ prpName ]
+                    if ( prpName && prpName  in oc( me.readOnlyProps ) ) prpName += ' [RO]' 
+                    if ( msg ) {
+                        Ext.fly(item).set({'data-qtip': msg, 'data-qtitle': prpName }); 
+                    } 
+              }, scope : me 
+            }
         });        
         
         this.callParent(arguments);
+        
         
     }, 
     

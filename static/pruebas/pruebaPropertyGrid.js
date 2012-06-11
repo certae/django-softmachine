@@ -11,6 +11,8 @@ Ext.require([
 Ext.onReady(function() {
 
 
+    Ext.QuickTips.init();
+
     //Ext.ux.tree.TreeGrid is no longer a Ux. You can simply use a tree.TreePanel
     var objPrueba = Ext.create('ProtoUL.ux.ProtoProperty', {
         renderTo: Ext.getBody(),
@@ -30,15 +32,23 @@ Ext.onReady(function() {
             }
         );
         
+    objPrueba.readOnlyProps = [ 'title', 'autoHeight' ]        
+        
     objPrueba.setCombos( {
             "layout" : [ "hbox" , "vbox" ],
             "labelAlign" : [ "top", "left"]
             }
         );
 
+    objPrueba.sourceInfo = { "layout" : "Las opciones son Hbox, vBox" }
+
+
     objPrueba.on({
         'edit':  function ( editor, e, eOpts) {
-            console.log( e )
+            
+            objPrueba.editMode = false; 
+            console.log( 'EditMode --> false' )
+            
         }, scope : this 
     }) 
     
