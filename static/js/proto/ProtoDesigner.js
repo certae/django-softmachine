@@ -104,6 +104,24 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         this.properties = propsGrid
 
 
+        propsGrid.on({
+            'edit': function ( editor, e, eOpts) {
+
+                if ( e.value == e.originalValue ) return; 
+
+                var oData = me.treeRecord.data.__ptConfig 
+                var prpName = e.record.data.name
+
+                // ****  Solo llegan objetos, los Array se manejan en otro lado
+                if ( typeOf(oData) ==  "object") 
+                    oData[ prpName ]  = e.value 
+
+            }, 
+            scope: me }
+        );
+
+
+
         /* Se podrian cargar directamente desde el json, dejando un hook en el store y asignandolo
          * antes de crear el componente. 
          */

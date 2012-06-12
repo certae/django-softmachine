@@ -93,9 +93,14 @@ Ext.define('ProtoUL.view.ProtoForm', {
             if ( ! protoObj.__ptConfig )  protoObj.__ptConfig = {}
             if ( protoIx ) protoObj.__ptConfig.name = protoIx 
             
-            __ptType = protoObj.__ptType
+            __ptType = protoObj.__ptConfig.__ptType || protoObj.__ptType
+            
+            if ( ! __ptType   ) {
+                
+                console.log( 'El objeto no tiene tipo definido' , protoObj )
+                return {}
 
-            if ( __ptType == 'formField'  ) {
+            } else if ( __ptType == 'formField'  ) {
 
                 // protoIx es el field Name 
                 template = getTemplate( __ptType, true,  this.myMeta.__ptDict[ protoIx ] )
@@ -118,6 +123,33 @@ Ext.define('ProtoUL.view.ProtoForm', {
                     if(prFld) prLayout.items.push(prFld);
                 }
             }
+            
+
+            // Establece el layout             
+            var sAux= prLayout[ 'fsLayout' ]
+            if ( sAux ) {
+
+                prLayout.defaultType = 'textfield'
+                prLayout.layout =  'column'
+                prLayout.defaults = { padding: '2 2' }
+                
+                if ( sAux == "1col"  )  
+                    prLayout.defaults.columnWidth = 1
+                else if ( sAux == "2col"  )  
+                    prLayout.defaults.columnWidth = 0.5
+                else if ( sAux == "3col"  )  
+                    prLayout.defaults.columnWidth = 0.33
+
+                delete prLayout.fsLayout 
+
+                // Parametros de labels
+                prLayout.fieldDefaults = {}
+                setFieldDefaults(  prLayout, 'labelAlign' )
+                setFieldDefaults(  prLayout, 'labelWidth' )
+                setFieldDefaults(  prLayout, 'hideLabel' )
+
+            }
+            
         
         } else if ( sDataType == "array")  {
 
@@ -132,7 +164,16 @@ Ext.define('ProtoUL.view.ProtoForm', {
     
         }
 
-        return prLayout         
+        return prLayout 
+        
+        function setFieldDefaults(  prLayout, key ) {
+            // Asigna los fieldDefaults q vienen en los contenedores 
+            var saux = prLayout[ key ]
+            if  ( saux  ) 
+                prLayout.fieldDefaults[ key ] = sAux
+            
+        }
+                
     }, 
     
 

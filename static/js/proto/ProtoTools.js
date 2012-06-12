@@ -157,7 +157,8 @@ function Tree2Meta( tNode  ) {
           
         if ( sType == 'object' ) {
             // El __ptConfig corresponde a la conf basica del node
-            mData = Ext.apply ( {}, get_ptConfig( __ptConfig  ) )
+            // mData = Ext.apply ( {}, get_ptConfig( __ptConfig  ) ) ???
+            mData = { '__ptConfig' : get_ptConfig( __ptConfig  ) } 
             
         } else if ( sType == 'array' )  {
             // Si es un array, el objeto de base es un array  

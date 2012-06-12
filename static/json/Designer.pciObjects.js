@@ -9,7 +9,7 @@
 //  El layout column permite un manejo flexible 
 //  fluid:  Si no se especifica el "columnWidth"  es flexible 
 //  xCol :Dependiendo el numero de columnas el "columnWidth"  puede ser 1, 0.5, 0.33
-//  fix  : Se especifica el "width"   
+//  fix  : Se especifica el "width"  ( si se especifica el width prima sobre la definicion ) 
 
 
 DesignerProperties =  {
@@ -31,7 +31,7 @@ DesignerProperties =  {
     "fieldLabel.help": "label en la forma",
     "format.help": "mascara del campo ( automatico para las fechas, horas y numeros )",
     "fsLayout": "fluid",
-    "fsLayout.choices": ["fluid", "1col", "2col", "3col", "fix"],
+    "fsLayout.choices": ["fluid", "1col", "2col", "3col" ],
     "fsLayout.help": "distribucion de los campos en el contenedor",
     "height.help": "The height value in pixels",
     "helpPath.help": "se define como : /help/xxxx.html  esta en: /static/help",
