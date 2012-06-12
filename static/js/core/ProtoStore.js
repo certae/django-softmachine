@@ -420,7 +420,7 @@ function getColDefinition( vFld ) {
         colDefinition['editMode'] = false 
 
         editor.xtype = 'checkbox'
-        editor.cls = 'x-grid-checkheader-editor'
+        // editor.cls = 'x-grid-checkheader-editor'
           break;
           
     case 'combo':
@@ -519,6 +519,10 @@ function getFormFieldDefinition( vFld ) {
     if ( colDefinition.editor )  formEditor = colDefinition.editor;
       
     formEditor.fieldLabel =  vFld.fieldLabel || vFld.header || vFld.name 
+
+    // Todo: Verificar la propiedad required para agregar el indicador 
+    // var required = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
+    // afterLabelTextTpl: required,
     
     switch( vFld.type )
     {
@@ -529,6 +533,9 @@ function getFormFieldDefinition( vFld ) {
         formEditor.labelAlign = 'top'
           break;
     }
+
+    if ( ! formEditor.xtype )  
+        formEditor.xtype = 'textfield'
 
     return formEditor; 
     

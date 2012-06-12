@@ -156,9 +156,10 @@ function Tree2Meta( tNode  ) {
         sType = typeOf( __ptConfig )
           
         if ( sType == 'object' ) {
+
             // El __ptConfig corresponde a la conf basica del node
-            // mData = Ext.apply ( {}, get_ptConfig( __ptConfig  ) ) ???
-            mData = { '__ptConfig' : get_ptConfig( __ptConfig  ) } 
+            mData = { '__ptConfig' : get_ptConfig( __ptConfig  ) }
+            if ( ! mData.__ptConfig.name ) mData.__ptConfig.name = __ptText    
             
         } else if ( sType == 'array' )  {
             // Si es un array, el objeto de base es un array  
@@ -188,6 +189,7 @@ function Tree2Meta( tNode  ) {
 
         } else if ( sType == 'array' )  {
 
+            // si solo viene  nombre del campo lo crea como un objeto 
             if ( Ext.encode( nChildData ) === Ext.encode({}) ) nChildData = sText 
             mData.push( nChildData )
         }

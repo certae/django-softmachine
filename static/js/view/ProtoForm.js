@@ -73,8 +73,13 @@ Ext.define('ProtoUL.view.ProtoForm', {
             tools: [{
                 type: 'gear',
                 scope: this,
+                handler: this.showFormConfig,
+                tooltip: 'Form Config ... ' }
+            , { 
+                type: 'gear',
+                scope: this,
                 handler: this.showLayoutConfig,
-                tooltip: 'LayoutConfig ... '
+                tooltip: 'LayoutConfig ... '                    
             }]
             
         });
@@ -102,11 +107,14 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
             } else if ( __ptType == 'formField'  ) {
 
-                // protoIx es el field Name 
-                template = getTemplate( __ptType, true,  this.myMeta.__ptDict[ protoIx ] )
-                template = Ext.apply( template.__ptConfig , protoObj.__ptConfig  ) 
+                // protoIx es el field Name, si no viene debe buscarlo en __ptConfig [ name ]
+                var myFld =  this.myMeta.__ptDict[ protoIx ] 
+                if ( ! myFld ) {
+                    myFld =  this.myMeta.__ptDict[ protoObj.__ptConfig.name  ]   
+                }
                 
-                prLayout =  Ext.applyIf( this.defineProtoFormField( protoObj, protoIx ), template ) 
+                template = getTemplate( __ptType, true,  myFld  )
+                prLayout = Ext.apply( template.__ptConfig , protoObj.__ptConfig  )
                 
             } else {
                   
@@ -122,6 +130,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
                     var prFld = this.defineProtoFormItem( protoObj, prVar, ix )
                     if(prFld) prLayout.items.push(prFld);
                 }
+                
             }
             
 
@@ -150,6 +159,18 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
             }
             
+            
+            // El fieldContainer requiere!!  el defaultType 
+            // prFld.xtype = 'fieldcontainer';
+            // prFld.defaultType = 'textfield'
+            // prFld.combineErrors = true;
+            // prFld.layout = 'hbox';
+            // prFld.margins = 0;
+            // prFld.pad = 0;
+            // prFld.frame = false;
+            // prFld.defaults = {flex : 1}
+            
+            
         
         } else if ( sDataType == "array")  {
 
@@ -177,91 +198,10 @@ Ext.define('ProtoUL.view.ProtoForm', {
     }, 
     
 
-    
-    //@defineProtoFormField  Private,  
-
-    defineProtoFormField : function(prVar, protoIx ) {
-        // TODO:  Rehacer,  Con el cambio de la meta,  hay muchas cosas q ahora ya no tienen sentido  DGT 1206
-        
-        /*  ----------------------------------------------------------------------------------
-         * Define la creacion de campos,  
-         * utiliza los valores por defecto,  
-         * crea agrupaciones fieldContainer 
-         * --------------------------------------------------------------------------------- */
-
-        // Indicador de campo requerido 
-        var required = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
-         
-        var _labelWidth = 150;
-        var prFld = {}
-
-        if( typeof (prVar) == 'string') {
-
-            var vFld = this.getProtoField ( this.myMeta, prVar )
-
-            prFld = getFormFieldDefinition ( vFld ) ;
-            if ( ! prFld ) prFld = { readOnly : true }
-            prFld.name = prVar;
-
-        } else if(typeOf(prVar) == 'object') {
-            // if ( !prVar.name ) console.log( prVar ) 
-
-            var vFld = this.getProtoField ( this.myMeta, protoIx  )
-
-            prFld = getFormFieldDefinition ( vFld ) ;
-            if ( ! prFld ) prFld = { readOnly : true }
-
-            prFld = Ext.applyIf( prFld, prVar.__ptConfig  ) ;
-            
-            // if(prVar.width) prFld.width = prVar.width;
-            // if(prVar.anchor) prFld.anchor = prVar.anchor;
-            // if(prVar.flex)     prFld.flex = prVar.flex;
-            // if(prVar.labelWidth) prFld.labelWidth = pVar.labelWidth;
-
-        } else if(typeOf(prVar) == 'array') {
-
-            // El fieldContainer requiere!!  el defaultType 
-            prFld.xtype = 'fieldcontainer';
-            prFld.defaultType = 'textfield'
-            prFld.combineErrors = true;
-            prFld.layout = 'hbox';
-            prFld.margins = 0;
-            prFld.pad = 0;
-            prFld.frame = false;
-            prFld.defaults = {
-                flex : 1
-            };
-            prFld.items = [];
-
-            for(var ix in prVar) {
-                var prVar2 = prVar[ix];
-                var prFld2 = this.defineProtoFormField(prVar2, ix)
-                if(prFld2) {
-                    if(ix < (prVar.length - 1)) {
-                        prFld2.margins = '0 10 0 0'
-                    } else
-                        prFld2.margins = '0 0 0 0'
-                    prFld2.frame = false;
-                    prFld.items.push(prFld2);
-                }
-            }
-
-        } else {
-            return
-        }
-
-        //Todo: Verificar la propiedad required para agregar el indicador 
-         // afterLabelTextTpl: required,
-                
-        return prFld;
-    },
-    
-    getProtoField : function(myMeta, fldName) {
-        var __ptDict = myMeta.__ptDict; 
-        if ( ! __ptDict[fldName] ) __ptDict[fldName] = {}     
-        return __ptDict[fldName]
-    },
-    
+    showFormConfig: function () {
+            var safeConf =  clone( this.myMeta.protoForm )
+            this._showConfig( 'Form Config' , safeConf   )
+       },
 
     showLayoutConfig: function () {
             var safeConf =  clone( this.prFormLayout  )
