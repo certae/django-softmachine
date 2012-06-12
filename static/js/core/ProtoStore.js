@@ -523,7 +523,8 @@ function getFormFieldDefinition( vFld ) {
     switch( vFld.type )
     {
     case 'text':
-        formEditor.xtype = 'htmlfield'
+        formEditor.xtype = 'textarea'
+        formEditor.subtype = 'htmlfield'
         formEditor.height = 200
         formEditor.labelAlign = 'top'
           break;

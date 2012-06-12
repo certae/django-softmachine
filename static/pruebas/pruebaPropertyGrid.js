@@ -32,7 +32,6 @@ Ext.onReady(function() {
             }
         );
         
-    objPrueba.readOnlyProps = [ 'title', 'autoHeight' ]        
         
     objPrueba.setCombos( {
             "layout" : [ "hbox" , "vbox" ],
@@ -40,6 +39,7 @@ Ext.onReady(function() {
             }
         );
 
+    objPrueba.readOnlyProps = [ 'title', 'autoHeight' ]        
     objPrueba.sourceInfo = { "layout" : "Las opciones son Hbox, vBox" }
 
 
