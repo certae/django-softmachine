@@ -101,41 +101,28 @@
         "text": "Containers",
         "children": [
             {
-                "text": "fieldcontainer",
-                "qtip": "A Fieldset, containing field elements",
-                "__ptType": "fieldcontainer",
-                "children": [], 
-                "__ptConfig": {
-                    "title": "Legend",
-                    "layout" : "hbox", 
-                    "labelWidth" : 100,
-                    "labelAlign" : "left",
-                    "hideLabels" : false,
-                    "autoHeight": true
-                    }, 
-                "__ptCombos" : {
-                    "layout" : [ "hbox" , "vbox" ],
-                    "labelAlign" : [ "top", "left"]
-                    },
-            }, {
             
                 "text": "fieldset",
                 "qtip": "A Fieldset, containing other form elements",
                 "__ptType": "fieldset",
                 "children": [], 
                 "__ptConfig": {
-                    "xtype": "fieldset",
-                    "title": "Legend",
-                    "autoHeight": true
+                    "__ptType": "fieldset"
                 }
+            }, {
+                "text": "fieldcontainer",
+                "qtip": "A Fieldset, containing field elements",
+                "__ptType": "fieldcontainer",
+                "children": [], 
+                "__ptConfig": {
+                    "__ptType": "fieldcontainer"
+                    } 
             }, {
                 "text": "Panel",
                 "qtip": "A simple panel with default layout",
                 "children": [], 
-                "__ptType": "panel",
                 "__ptConfig": {
-                    "xtype": "panel",
-                    "title": "Panel"
+                    "xtype": "panel"
                 }
             }, {
                 "text": "Tab Container",

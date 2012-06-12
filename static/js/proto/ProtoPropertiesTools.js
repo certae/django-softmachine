@@ -10,49 +10,58 @@
 function prepareProperties( record , myMeta,  propPanel  ){
     // Pepara la tabla de propiedades 
 
-    var prp = {}, template = {}, parentType = '' 
-    if ( record.parentNode )   parentType  =  record.parentNode.data.__ptType 
+    var template = {}, parentType = '' 
+    if ( record.parentNode )   
+        parentType  =  record.parentNode.data.text 
 
     // La data configurada
-    var __ptConfig    =  clone( record.data.__ptConfig ) 
+    var __ptConfig  =  clone( record.data.__ptConfig ) 
     var __ptType = record.data.__ptType   
     var __ptText = record.data.text
 
 
-    if ( __ptType  == 'formFields' ) {
+    if ( __ptType  == 'formField' ) {
 
         // Default Data ( aplica los defaults a la pcl y luego a la definicion del campo )
-        template = getTemplate( __ptType, DesignerObjects[ __ptType ] , myMeta.__ptDict[ __ptText  ] )
-        template[ '__ptParent' ]  = parentType 
+        template = getTemplate( __ptType, false, myMeta.__ptDict[ __ptText  ] )
+        __ptConfig[ 'name' ]  = __ptText 
+        __ptConfig[ '__ptParent' ]  = parentType 
 
     }  else {
 
+        // En los contenedores el text es el tipo 
+        __ptType = __ptText
+
         // Default Data ( El nombre del nodo es el tipo de datos real ) 
-        template = getTemplate( __ptText, DesignerObjects[ __ptText ] )
-        
+        template = getTemplate( __ptText , false  )
     } 
  
     // Default Data ( aplica los defaults a la definicion del campo )
-    prp = Ext.applyIf( __ptConfig, template.__ptConfig   ) 
+    __ptConfig[ '__ptType' ]  = __ptType 
+    __ptConfig = Ext.apply(  template.__ptConfig, __ptConfig   ) 
 
-    propPanel.setSource( prp )
+    propPanel.setSource( __ptConfig )
     propPanel.setCombos( template.__ptChoices )
-    propPanel.readOnlyProps = [ '__ptType', '__ptParent' ]        
+    propPanel.readOnlyProps = [ '__ptType', '__ptParent', 'xtype', 'name' ]        
     propPanel.sourceInfo = template.__ptHelp
 
 };
 
 
-function getTemplate( ptType, objConfig , metaDict  )  {
+function getTemplate( ptType, forForm,  metaDict  )  {
+    //@forForm boolean for Form Definition 
     
-    var prps = { '__ptType' : ptType }, qtips = {}, choices = {}
+    var prps = {}, qtips = {}, choices = {}
     var prpName, prpValue, prpHelp, prpChoices, prpDict
+
+    // Lee la plantilla de la variable publica 
+    var objConfig = DesignerObjects[ ptType ]
 
     // Recorre el vector de propieades    
     // puede ser solo el nombre o la tupla name, value 
     // [ 'x' , { 'name' : 'xxx' , 'value' : '' }]  
     for (var ix in objConfig.properties  ) {
-        var prp  = objConfig.properties[ix]
+        var prp  = objConfig.properties[ ix ]
         
         // Trae los valores directamente   
         if ( typeOf( prp ) == 'object' ) {
@@ -64,24 +73,29 @@ function getTemplate( ptType, objConfig , metaDict  )  {
         }
 
 
-        prpHelp =  DesignerProperties[ prpName + '.help'] || null             
-        prpChoices =  DesignerProperties[ prpName + '.choices'] || null             
+        prpHelp =  DesignerProperties[ prpName + '.help']             
+        prpChoices =  DesignerProperties[ prpName + '.choices']          
 
-        prps[ prpName ] = prpValue || ''
-        qtips[ prpName ] = prpHelp
-        if ( prpChoices )   choices[ prpName ] = prpChoices
+        if (forForm) {
+            if ( prpValue )  prps[ prpName ] = prpValue
+            
+        } else {
+            prps[ prpName ] = prpValue || ''
+            qtips[ prpName ] = prpHelp
+            if ( prpChoices )   choices[ prpName ] = prpChoices
+        } 
+        
     
     }
 
     // Si es un campo obtiene los defaults de fields 
     if ( metaDict ) {
         prpDict = getFormFieldDefinition( metaDict )
-        prps = Ext.apply( prps, prpDict   ) 
+        prps = Ext.apply( prps, prpDict   )
+        prps.xtype = 'textfield'
+    } else {
+        prps.xtype = ptType 
     }
-
-
-
-
 
     return { '__ptConfig' : prps, '__ptHelp' : qtips, '__ptChoices' : choices  }     
     

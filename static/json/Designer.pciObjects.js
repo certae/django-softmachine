@@ -81,7 +81,7 @@ DesignerObjects =  {
         ]
     },
 
-    "formFields": {
+    "formField": {
         "description": "A field element",
         "properties": [
             "tooltip", 

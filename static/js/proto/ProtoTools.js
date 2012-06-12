@@ -31,7 +31,7 @@ function Meta2Tree( oData, pName, ptType   ) {
         tData['__ptType'] =  ptType 
         tData['__ptConfig' ] = get_ptConfig( oData ) 
 
-        if ( ptType == 'fields' ||  ptType  == 'formFields' )  {
+        if ( ptType == 'fields' ||  ptType  == 'formField' )  {
             // Los fields no deben abrirse 
             tData['leaf'] =  true  
             return tData 
@@ -55,7 +55,7 @@ function Meta2Tree( oData, pName, ptType   ) {
                     if ( ptType == 'protoForm' ) {
                         nBase = ptType    
                         if ( vValue.__ptType && ( vValue.__ptType  == 'formField' )) {
-                            nBase = 'formFields'                             
+                            nBase = 'formField'                             
                         } 
                     }
                     tData['children'].push(  Meta2Tree(vValue, sKey , nBase ) ) 
@@ -127,30 +127,6 @@ function Meta2Tree( oData, pName, ptType   ) {
 
 } ; 
 
-
-/* 
- * Genera la configuracion por defecto para el tipo de campo 
- * TODO:  esto debe venir de un json, q deberia ser cargado al iniciar, y luego mantenido en una coleccion publica 
- * 
- * @ptType  : tipo de objeto 
- */
-function  getExtConfig(  ptType ) {
-
-    var __ptConfig = {}
-    var extType = ptType
-    if ( ptType == 'formField' ) {
-        extType = 'textfield'
-        
-    } else if ( extType == 'fieldset' ) {
-        __ptConfig.defaults = {anchor: '100%'},
-        __ptConfig.layout = 'anchor'
-    }
-
-    __ptConfig.xtype = extType
-           
-    return  __ptConfig 
-    
-}
 
 
 function Tree2Meta( tNode  ) {

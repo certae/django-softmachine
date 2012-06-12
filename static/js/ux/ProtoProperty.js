@@ -5,6 +5,9 @@
  *      comboProperties  
  *      editMode   ( True/ False )
  *      QTips 
+ * 
+ *  TODO:  Type when there is not default value 
+ *         utiliser les editor, ajouter la reference aux editor deja configure par type 
   */
 
 Ext.define('ProtoUL.ux.ProtoProperty' ,{

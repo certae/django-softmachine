@@ -3,13 +3,6 @@
     Se llama genericamente forma, y corresponde a un panel que puede ser adosado a una ventana 
     o a un contenedor cualquiera,
  
-    Forma dinamica,  puede ser alimentada con los datos de la meta,  
-    y produce un arbol de componentes que puede ser representado graficamente 
-    
-    El arbol de componentes tambien puede ser actualizado, generando una actualizacion 
-    en la meta que debe representarse en la forma 
-    
-    
     La forma se divide en secciones,  las secciones son de un tipo particular correspondiente 
     a los diferentes contenedores,  las secciones por defecto son simplemente fieldset
     
@@ -17,30 +10,14 @@
     
         Secciones 
             Secciones 
-                .... 
-                    Campos  
+                ....
+                    fieldset  
+                        Campos  
 
-    no deberia mezclarse en el diseno campos y secciones dentro del mismo contenedor   
-    ** dos tipos de secciones, las q manejan campos y las q manejan subsecciones ( contenedores )
+    no deberia mezclarse en el diseno campos y secciones dentro del mismo contenedor
+    los field set son los contenedores de campos, los demas solo pueden contener otros contenedores    
 
-
-        Definicion de formFields        ------------------------------------------
-        if (!vFld.header || vFld.storeOnly) {continue;}
-        allowBlank : false,
-        hidden : vFld.hidden
-        width: vFld.width ,
-        minWidth: vFld.minWidth
-        renderer: this.formatDate,
- 
-             // defaultType : 'textfield',
-            // bodyPadding : 5,
-            // fieldDefaults : {
-                // anchor : '100%',
-                // xtype : 'textfield',
-                // labelAlign : 'right'
-            // },
-
- 
+    renderer: this.formatDate,
  */
 
 Ext.define('ProtoUL.view.ProtoForm', {
@@ -85,49 +62,51 @@ Ext.define('ProtoUL.view.ProtoForm', {
         Ext.apply(this, {
             frame      : true,
             autoScroll : true,
-            bodyStyle: 'padding:5px 5px 0',
-            // bodyPadding: 10,
-            defaults : {
-                anchor : '100%'
-            },
+            
+            bodyStyle: 'padding:5px 5px',
+            bodyPadding: 10,
             activeRecord : null,
             
             items : this.prFormLayout,
-            dockedItems : this.getDockedItems()
+            dockedItems : this.getDockedItems(), 
 
-            // tools: [{
-                // type: 'gear',
-                // scope: this,
-                // handler: this.showLayoutConfig,
-                // tooltip: 'LayoutConfig ... '
-            // }]
+            tools: [{
+                type: 'gear',
+                scope: this,
+                handler: this.showLayoutConfig,
+                tooltip: 'LayoutConfig ... '
+            }]
             
         });
         this.callParent();
     },
     
 
-    defineProtoFormItem : function(parent, protoObj, protoIx) {
+    defineProtoFormItem : function( parent, protoObj, protoIx) {
 
-        var prLayout = {}
-
+        var prLayout , template, __ptType 
         var sDataType = typeOf(protoObj);
+
         if (sDataType == "object" ) { 
 
             // Configura el objeto
-            // TODO : Hacer el __str__  readOnly y hidden  
             if ( ! protoObj.__ptConfig )  protoObj.__ptConfig = {}
             if ( protoIx ) protoObj.__ptConfig.name = protoIx 
             
-            var __ptConfig = Ext.applyIf( protoObj.__ptConfig , getExtConfig ( protoObj.__ptType ) ) 
+            __ptType = protoObj.__ptType
 
-            if ( protoObj.__ptType == 'formField'  ) {
+            if ( __ptType == 'formField'  ) {
+
+                // protoIx es el field Name 
+                template = getTemplate( __ptType, true,  this.myMeta.__ptDict[ protoIx ] )
+                template = Ext.apply( template.__ptConfig , protoObj.__ptConfig  ) 
                 
-                prLayout =  Ext.applyIf( this.defineProtoFormField( protoObj, protoIx ), __ptConfig ) 
+                prLayout =  Ext.applyIf( this.defineProtoFormField( protoObj, protoIx ), template ) 
                 
             } else {
                   
-                prLayout =  __ptConfig 
+                template = getTemplate( __ptType  , true  )
+                prLayout = Ext.apply( template.__ptConfig , protoObj.__ptConfig  ) 
     
                 // Agrega los items 
                 prLayout.items = []
@@ -141,7 +120,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
             }
         
         } else if ( sDataType == "array")  {
-        
+
             prLayout = []
             for(var ix in protoObj ) {
                 var prVar = protoObj[ix];
@@ -157,9 +136,9 @@ Ext.define('ProtoUL.view.ProtoForm', {
     }, 
     
 
-
     
     //@defineProtoFormField  Private,  
+
     defineProtoFormField : function(prVar, protoIx ) {
         // TODO:  Rehacer,  Con el cambio de la meta,  hay muchas cosas q ahora ya no tienen sentido  DGT 1206
         

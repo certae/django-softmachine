@@ -246,8 +246,8 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
             layout : 'fit',
             itemId : 'formPreview',
             // items : this.myForm, 
+            // autoScroll : true,
             flex : 2,
-            autoScroll : true,
             minSize : 200
         }, {
             region : 'west',
