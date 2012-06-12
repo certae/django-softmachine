@@ -80,11 +80,15 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         this.formTree = me.down('#formTree')
         this.formPreview = me.down('#formPreview')
         
-        this.formPreview.add({
-            xtype : 'protoform',
-            myMeta : this.myMeta
-            } 
-        )
+        try {
+            
+            this.formPreview.add({
+                xtype : 'protoform',
+                myMeta : this.myMeta
+                } 
+            )
+            
+        } catch ( e ) {}            
         
         this.tBar =  this.toolsPanel.addDocked({
             xtype : 'toolbar',
