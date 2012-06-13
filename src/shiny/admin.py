@@ -1,5 +1,5 @@
 from models import *  
-import django.contrib.admin
+from django.contrib  import admin           
 
 admin.site.register( Client )
 admin.site.register( Commande )

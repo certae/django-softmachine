@@ -29,7 +29,7 @@ function prepareProperties( record , myMeta,  propPanel  ){
 
     }  else {
 
-        // En los contenedores el text es el tipo  ?? 
+        // En los contenedores el text es el tipo  
         __ptType = __ptText
 
         // Default Data ( El nombre del nodo es el tipo de datos real ) 
