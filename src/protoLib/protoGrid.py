@@ -148,8 +148,7 @@ class ProtoGridFactory(object):
                     
                     if ( name != None ): prSection.title = name  
                     for formField in opts['fields']:
-#                       if type(formField) == tuple:
-                        prSection[ formField ] = { '__ptType' : 'formField' }
+                        getFieldsInSet( prSection, formField  )
 
                     classes = getattr( opts, 'classes', [] )
                     if ( 'collapse' in classes ): 
@@ -158,7 +157,7 @@ class ProtoGridFactory(object):
                     prFieldSet.append( prSection )
             
         return prFieldSet 
-            
+        
 
     def get_details(self):  
 
@@ -310,4 +309,12 @@ def getProtoViewName( protoConcept   ):
     
     return protoConcept, view 
 
+
+def getFieldsInSet( prSection, formFields ):
+    # Al recorrer el fieldset pueden venir tuplas o arrays anidados, se manejan en una unica lista 
+    for formField in formFields:
+        if type(formField).__name__ in [ type(()).__name__,  type([]).__name__]:
+            getFieldsInSet( prSection, formField  )
+        else: 
+            prSection[ formField ] = { '__ptType' : 'formField' }
 

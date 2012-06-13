@@ -6,8 +6,8 @@ import django.contrib.admin
 #---------------
 
 
-#from admin_Domain import DomainAdmin 
-#admin.site.register(Domain, DomainAdmin)
+from admin_Domain import DomainAdmin 
+admin.site.register(Domain, DomainAdmin)
 
 #---------------
 
