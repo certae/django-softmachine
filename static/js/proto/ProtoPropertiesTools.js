@@ -92,11 +92,13 @@ function getTemplate( ptType, forForm,  metaDict  )  {
     if ( metaDict ) {
         prpDict = getFormFieldDefinition( metaDict )
         prps = Ext.apply( prps, prpDict   )
-        
-            
     } else {
         prps.xtype = ptType 
     }
+
+    // Garantiza q no venga una definicion generica 
+    if ( prps.xtype == 'formField' ) prps.xtype = 'textfield' 
+ 
 
     return { '__ptConfig' : prps, '__ptHelp' : qtips, '__ptChoices' : choices  }     
     

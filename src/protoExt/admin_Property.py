@@ -200,21 +200,4 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
 #        - __ptConfig 
 #        - items u objetos 
 
-    protoExt['protoForm'] = [
-              {"title" : 'Basicas ',
-                   "__ptType" : 'fieldset',
-                   "code" :        { "__ptType" : "formField"}, 
-                   "baseType" :    { "__ptType" : "formField"} , 
-                   "isNullable" :  { "__ptType" : "formField"}, 
-                   "alias" :       { "__ptType" : "formField"}, 
-                   "prpLength" :   { "__ptType" : "formField"}, 
-                   "description" : { "__ptType" : "formField"},
-               },
-              {"title" : 'Hierarchie ',
-                   "__ptType" : 'fieldset',
-                   "__ptConfig" :      { "collapsible" : True, }, 
-                   "concept"               : { "__ptType" : "formField"}, 
-                   "concept__code"         : { "__ptType" : "formField"}, 
-                   "concept__model__code"  : { "__ptType" : "formField"}, 
-                   },
-              ]
+
