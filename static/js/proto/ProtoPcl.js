@@ -310,13 +310,11 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
     }, 
     
     saveChanges: function(){
-        
         savePci( this.myMeta )         
-        // this.store.sync();
     }, 
     
     cancelChanges: function() {
-        this.setEditionOff()
+        //TODO: Verificar si hace un reload 
         this.store.load(); 
     } 
     

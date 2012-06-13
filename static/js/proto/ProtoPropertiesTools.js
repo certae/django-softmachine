@@ -29,8 +29,8 @@ function prepareProperties( record , myMeta,  propPanel  ){
 
     }  else {
 
-        // En los contenedores el text es el tipo  
-        __ptType = __ptText
+        // TODO: En los contenedores el text es el tipo ( Esto es un error el tipo debe ser el tipo, y el titulo solo otro atributo mas )  
+        // __ptType = __ptText
 
         // Default Data ( El nombre del nodo es el tipo de datos real ) 
         template = getTemplate( __ptText , false  )

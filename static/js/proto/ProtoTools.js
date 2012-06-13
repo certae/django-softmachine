@@ -15,21 +15,24 @@ function Meta2Tree( oData, pName, ptType   ) {
      * @tData   treeData
      */
 
-    var tData = {}
+    var tData = {}, __ptConfig 
     var sDataType = typeOf(oData);
 
     // Solo deben entrar objetos o arrays 
     if (sDataType == "object"  ||  sDataType == "array")  {
-
-        if ( ! ptType  ) ptType = sDataType
         
+        __ptConfig = get_ptConfig( oData )
+        if ( __ptConfig.__ptType ) ptType = __ptConfig.__ptType
+        if ( ! ptType  )  ptType = sDataType    
+             
         // Obtiene un Id y genera  una referencia cruzada de la pcl con el arbol 
         // El modelo debe crear la referencia a la data o se perdera en el treeStore 
         var IxTree = Ext.id()
         tData['id'] = IxTree
         tData['text']  =  pName    
         tData['__ptType'] =  ptType 
-        tData['__ptConfig' ] = get_ptConfig( oData ) 
+        tData['__ptConfig' ] = __ptConfig
+        
 
         if ( ptType == 'fields' ||  ptType  == 'formField' )  {
             // Los fields no deben abrirse 
@@ -51,7 +54,7 @@ function Meta2Tree( oData, pName, ptType   ) {
                 if ( !( typeItem in oc( [ 'boolean', 'number', 'string' ]) )) {
 
                     var nBase = pName
-                    // Todos los contenedores del protoForm son manejados como protoForm 
+                    // TODO: Todos los contenedores del protoForm son manejados como protoForm???  PorQ? 
                     if ( ptType == 'protoForm' ) {
                         nBase = ptType    
                         if ( vValue.__ptType && ( vValue.__ptType  == 'formField' )) {
@@ -64,34 +67,40 @@ function Meta2Tree( oData, pName, ptType   ) {
 
             } else if ( sDataType == "array" ) {
                 
-                var oTitle = pName + '.' + sKey 
+                var oTitle = null  
 
-                if ( vValue.__ptType && vValue.title ) {
-                    oTitle = vValue.__ptType + ' [' +  vValue.title + ']'
+                // if ( vValue.__ptType && vValue.title ) {
+                    // oTitle = vValue.__ptType + ' [' +  vValue.title + ']'
+                // } else if ( vValue.__ptType && vValue.name ) {
+                    // oTitle = vValue.__ptType + ' [' +  vValue.name + ']'
+                // } else if ( vValue.__ptType ) {
 
-                } else if ( vValue.__ptType && vValue.name ) {
-                    oTitle = vValue.__ptType + ' [' +  vValue.name + ']'
-                
+                if ( vValue.__ptType ) {
+                    oTitle = vValue.__ptType
+                } else if ( vValue.__ptConfig ) {
+                    oTitle = vValue.__ptConfig.__ptType
                 } else if ( vValue.name ) {
                     oTitle = vValue.name
-                      
-                } else if ( vValue.__ptType ) {
-                    oTitle = vValue.__ptType
-                    
+
                 } else if ( typeItem == 'string' ) {
                     
                     oTitle = vValue
                     var nData = {
-                        '__ptType' : pName, 
                         'text' : oTitle,  
                         'leaf':  true,  
                         'id' : Ext.id(), 
-                        '__ptConfig' : {}
+                        '__ptConfig' : { '__ptType' : pName }
                     }
                     
                     tData['children'].push(  nData  )
                     continue
+                    
+                } else {
+                    // TODO Verificar por q llegan objetos sin config                     
+                    console.log( 'El objeto no tiene config?? ', vValue )
                 }
+                    
+                
 
 
                 tData['children'].push(  Meta2Tree(vValue, oTitle , pName   ) ) 
@@ -101,7 +110,8 @@ function Meta2Tree( oData, pName, ptType   ) {
         
     } else { 
         
-        console.log (  'm2t objeto plano??? ')
+        // TODO m2t objeto plano???  Conversion de
+        console.log (  'TODO FIX :  m2t objeto plano???  Aqui no dbee llegar nunca ')
         
         // Enmascara tags HTML
         if (sDataType == "string" ) { 
@@ -200,14 +210,19 @@ function Tree2Meta( tNode  ) {
     
 }
 
-function get_ptConfig( ptConfig   ) {
+function get_ptConfig( oData   ) {
     
-    if ( typeOf( ptConfig )  == 'array' ) {
+    if ( typeOf( oData )  == 'array' ) {
         return []
+
+    } else if ( oData.__ptConfig )  {
+        return oData.__ptConfig 
+
     } else {  
+        
         var cData = {}
-        for (var lKey in ptConfig ) {
-            var cValue = ptConfig[ lKey  ]
+        for (var lKey in oData ) {
+            var cValue = oData[ lKey  ]
     
             // Los objetos o arrays son la imagen del arbol y no deben ser tenidos en cuenta, 
             // generarian recursividad infinita                 
@@ -217,7 +232,3 @@ function get_ptConfig( ptConfig   ) {
         return cData 
     }
 }             
-
-
-
-

@@ -231,8 +231,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         
         // revisar en el ejemplo como usar  jsonForm y jsonPropertyGrid   codepress  
         var btRedraw = this.tBar.down( '#redraw');
-        btRedraw.on(
-            'click',
+        btRedraw.on('click',
             function(  btn , event,  eOpts) {
                 
                 this.formPreview.removeAll( true )
@@ -250,6 +249,12 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                 
             },me   );
 
+
+        var btSave = this.tBar.down( '#save');
+        btSave.on('click',
+            function(  btn , event,  eOpts) {
+                savePci( this.myMeta )         
+            },me   );
 
     },
     
@@ -300,4 +305,6 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         }]
             
     }
+    
+    
 });
