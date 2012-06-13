@@ -263,8 +263,6 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         function prepareProperties( _pGrid ){
         };
         
-
-
         
 
         

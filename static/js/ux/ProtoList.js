@@ -105,9 +105,6 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         this.addDataSet( this.dataList, false )                     
         this.addDataSet( this.dataSelected, true )                     
 
-        // E V E N T O S 
-        function onCheckChange( record, recordIndex, checked ) {
-        }
         
     }, 
     

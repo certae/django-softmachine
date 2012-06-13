@@ -715,3 +715,32 @@ function defineProtoPclTreeModel() {
     });
     
 }
+
+
+function definieProtoFieldSelctionModel() {
+    // Modelo usado en la lista de campos con la jerarquia completa de los de zoom ( detalle de fk ) 
+    
+    Ext.define('Proto.FieldSelectionModel', {
+        extend: 'Ext.data.Model',
+        proxy: {
+            type: 'ajax',
+            method: 'GET',
+            url: _PConfig.urlGetFieldTree , 
+            extraParams : {
+                protoOption : me.protoOption
+            },    
+            
+        }, 
+    
+        fields: [
+            {name: 'id', type: 'string'},
+            {name: 'text', type: 'string'},  
+            {name: 'fieldType', type: 'string'},  
+            {name: 'checked', type: 'boolean'},
+            {name: 'leaf', type: 'boolean'}
+        ]
+        
+    });
+            
+    
+}
