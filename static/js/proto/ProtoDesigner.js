@@ -158,12 +158,6 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         this.toolsTree = toolsTree;
 
 
-        this.toolsTree.on({
-            'select': {fn: function ( rowModel , record,  rowIndex,  eOpts ) {
-                var a = 1
-                } , scope: this }}
-        );
-
         // ------------------------------------------------
 
         var treeStore = Ext.create('Ext.data.TreeStore', {

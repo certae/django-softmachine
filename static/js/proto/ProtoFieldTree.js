@@ -46,30 +46,28 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
             store: this.treeStore,
             useArrows: true,
             rootVisible: false ,
-            minWidth: 200 
+            minWidth: 200, 
 
-/*          
-            //-- Prueba para obtener los items              
-            title : 'Fields', 
-            dockedItems: [{
-                xtype: 'toolbar',
-                items: {
-                    text: 'Get checked nodes',
-                    scope : me, 
-                    handler: function(){
-                        var names = this.getCheckedList();
-                        Ext.MessageBox.show({msg: names.join('<br />')});
-                    }
-                }
-            }]
-*/
+            columns: [{
+                xtype: 'treecolumn', //this is so we know which column will show the tree
+                text: 'text',
+                flex: 3,
+                sortable: true,
+                dataIndex: 'text'
+            },{
+                text: 'Ix',
+                dataIndex: 'id'
+            },{
+                text: 'fieldType',
+                dataIndex: 'fieldType'
+            }] 
+             
         })
 
 
         this.callParent(arguments);
         
         function configureCurrentFields() {
-
             // Crea los campos activos en la grilla 
             for (var ix in me.myMeta.fields ) {
                 var vFld  =  me.myMeta.fields[ix];
