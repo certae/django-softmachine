@@ -19,10 +19,6 @@ class cAux: pass
 
 
 def protoGetFields(request):
-    """
-    Displays the main admin index page, which lists all of the installed
-    apps that have been registered in this site.
-    """
 
     app_dict = {}
     

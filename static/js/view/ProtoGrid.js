@@ -804,16 +804,18 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     showFieldTree: function() {
 
 
-        var fieldsTree = Ext.widget('protoFieldTree', {
+        var fieldsTree = Ext.create('ProtoUL.proto.ProtoFieldSelector', {
+        // var fieldsTree = Ext.create('ProtoUL.proto.ProtoFieldTree', {
             protoOption : this.myMeta.protoOption, 
             myMeta : this.myMeta
         });
+
 
          var myWin  = Ext.widget('window', {
             constrain: true, 
             title : 'MetaDefinition [ ' + this.myMeta.protoOption + ' ]', 
             closeAction: 'hide',
-            width: 800,
+            width: 1000,
             height: 600,
             minHeight: 400,
             minWidth: 400,

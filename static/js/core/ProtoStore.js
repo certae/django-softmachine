@@ -81,7 +81,7 @@ function getStoreDefinition(  storeDefinition  ){
                     this.loaded = true
                 },
                 'exception': function(proxy, response, operation){
-                    var msg = operation.request.scope.reader.jsonData["message"] ;
+                    // var msg = operation.request.scope.reader.jsonData["message"] ;
                     var msg = operation.getError();
                     var title =   'REMOTE EXCEPTION'                
                     Ext.outils.msg( title ,  msg ); 
@@ -717,7 +717,7 @@ function defineProtoPclTreeModel() {
 }
 
 
-function definieProtoFieldSelctionModel() {
+function definieProtoFieldSelctionModel( protoOption ) {
     // Modelo usado en la lista de campos con la jerarquia completa de los de zoom ( detalle de fk ) 
     
     Ext.define('Proto.FieldSelectionModel', {
@@ -727,7 +727,7 @@ function definieProtoFieldSelctionModel() {
             method: 'GET',
             url: _PConfig.urlGetFieldTree , 
             extraParams : {
-                protoOption : me.protoOption
+                protoOption : protoOption 
             },    
             
         }, 
@@ -737,8 +737,15 @@ function definieProtoFieldSelctionModel() {
             {name: 'text', type: 'string'},  
             {name: 'fieldType', type: 'string'},  
             {name: 'checked', type: 'boolean'},
+
+            {name: 'readOnly', type: 'boolean'},
+            {name: 'allowBlank', type: 'boolean'},
+            {name: 'tooltip', type: 'string'},  
+            {name: 'header', type: 'string'},  
+
             {name: 'leaf', type: 'boolean'}
         ]
+        
         
     });
             

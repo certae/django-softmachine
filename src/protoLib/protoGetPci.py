@@ -16,6 +16,7 @@
 #from django.template.loader import get_template
 #from django.utils.translation import gettext as __
 #from protoLib import utilsBase, utilsWeb
+#from utilsBase import _PROTOFN_ , verifyStr, verifyList, , verifyUdpDefinition, addFilter 
 #import sys, 
 
 from django.http import HttpResponse
@@ -23,7 +24,7 @@ from protoGrid import getSearcheableFields, getProtoViewName
 from protoLib import protoGrid
 from protoField import TypeEquivalence
 from models import getDjangoModel, ProtoDefinition
-from utilsBase import getReadableError
+from utilsBase import getReadableError, verifyStr
 
 import django.utils.simplejson as json
 
@@ -274,8 +275,10 @@ def protoGetFieldTree(request):
     if request.method != 'GET':
         return 
     
-    
     protoOption = request.GET.get('protoOption', '') 
+#    protoUdp = request.GET.get('protoUpd', {})
+#    cUDP = verifyUdpDefinition( protoUdp )
+     
     protoConcept, view = getProtoViewName( protoOption )
     
     try: 
@@ -292,6 +295,12 @@ def protoGetFieldTree(request):
     for field in model._meta._fields():
         addFiedToList( fieldList,  field , '', [] )
         
+
+    # Agrega las Udps
+    # Las udps se agregan manualmente, pues habria q crear una tabla para manejar la dependecia con cada tabla  
+    #    addUpdToList( fieldList,  cUDP )
+    
+        
     # Codifica el mssage json 
     context = json.dumps( fieldList)
     return HttpResponse(context, mimetype="application/json")
@@ -302,13 +311,27 @@ def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
     """ return parcial field tree  ( Called from protoGetFieldTree ) 
     """
 
-    fieldId = fieldBase + field.name  
+    fieldId = fieldBase + field.name
+    pType = TypeEquivalence.get( field.__class__.__name__, 'string')
+      
+    if fieldBase == '': 
+        readOnly = ( not getattr( field, 'editable', True ) ) or ( pType == 'autofield') 
+        allowBlank =  getattr( field, 'blank', True  )
+    else:
+        readOnly = True 
+        allowBlank =  True 
+        
     
+    #TODO :  Choices armar un string y descomponer al otro lado 
     menuField = { 
         'id': fieldId , 
-        'text': field.name, 
-        'checked' : False, 
-        'fieldType' : TypeEquivalence.get( field.__class__.__name__, 'string')  
+        'text'       : field.name, 
+        'checked'    : False, 
+        'readOnly'   : readOnly,
+        'allowBlank' : allowBlank,  
+        'tooltip'    : getattr( field, 'help_text', ''  ),  
+        'header'     : verifyStr( field.verbose_name,  field.name ),   
+        'fieldType'  : pType  
      }
 
     if field.__class__.__name__ != 'ForeignKey':
@@ -317,10 +340,11 @@ def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
     else:
 
         # Evita el mismo campo recursivo sobre si mismo.  
-        if fieldOcurrences.count( field.name ) > 0:
+        # TODO:  Un mimsmo objeto puede ser refecenciado varias veces, ie  ciudad, etc, la solucion seria solo cortar la recurividad?? 
+        if fieldOcurrences.count( field.name ) > 1:
             menuField['leaf'] = True
         
-        # Evita demasiada recursividad 
+        # Evita demasiada recursividad ( 5 niveles debe ser mas q suficiente ) 
         elif len ( fieldOcurrences ) > 5:
             menuField['leaf'] = True
             
@@ -337,3 +361,5 @@ def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
     
 
     fieldList.append( menuField )
+    
+    

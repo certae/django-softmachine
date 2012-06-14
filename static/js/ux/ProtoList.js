@@ -26,6 +26,8 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
 
     // @idTitle
     idTitle : '', 
+    
+    checkStyle : true, 
 
     initComponent: function() {
 
@@ -43,19 +45,22 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
             data: [] 
         });
 
-        // Inicializac con el checkBox   
-        var myGridColumns = [ {
-                xtype: 'checkcolumn',
-                dataIndex: '__Checked', 
-                menuDisabled : true, 
-                width: 33,  
-                listeners: {
-                    'checkchange': function( record, recordIndex, checked ){
-                        me.fireEvent('checked', record, recordIndex, checked );
-                    } 
-                }, scope : me
-            }
-        ];
+        // Inicializac con el checkBox
+        var myGridColumns = []
+        if ( me.checkStyle ) {
+            myGridColumns = [ {
+                    xtype: 'checkcolumn',
+                    dataIndex: '__Checked', 
+                    menuDisabled : true, 
+                    width: 33,  
+                    listeners: {
+                        'checkchange': function( record, recordIndex, checked ){
+                            me.fireEvent('checked', record, recordIndex, checked );
+                        } 
+                    }, scope : me
+                }
+            ];
+        }   
 
         // DGT** Copia las columnas   
         for (var ix in this.columnList ) {
@@ -119,17 +124,6 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         
     }, 
 
-    setChecked: function ( data, checked  ) {
-        // Cambia el estado de seleccion de un registro
-        // Que hace si no existe y es check? Lo crea por q es posible q se inserten dos colecciones base y selected   
-
-        var vNode =  this.gridStore.getById( data  ) 
-        if ( vNode ) {
-            vNode.set( '__Checked', checked )
-        } else { 
-            this.addData( data, checked  ) 
-        } 
-    }, 
     
     addData:  function ( data,  checked  ) {
         // TODO: Por ahora solo maneja un campo Verificar el modelo, por q no se definio con modelo  
@@ -152,6 +146,31 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
          })
         
         return chkList
+    }, 
+
+    setChecked: function ( data, checked  ) {
+        // Cambia el estado de seleccion de un registro
+        // Que hace si no existe y es check? Lo crea por q es posible q se inserten dos colecciones base y selected   
+
+        var vNode =  this.gridStore.getById( data  ) 
+        if ( vNode ) {
+            vNode.set( '__Checked', checked )
+        } else { 
+            this.addData( data, checked  ) 
+        } 
+    }, 
+
+    addOrRemove: function( idx, checked ) {
+        // Permite agregar o elimar un registro dependiendo del estado   
+        
+        if ( checked )  {
+            this.setChecked(  idx,  true  )
+        } else {
+            var vNode = this.gridStore.getById( idx  )
+            if (  vNode  )   {
+                this.gridStore.remove( vNode )
+            }
+        }
     }
     
 

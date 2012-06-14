@@ -22,8 +22,9 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
     initComponent: function() {
         
         me = this; 
+        me.addEvents('checkModif', 'loadComplete');
         
-        definieProtoFieldSelctionModel()
+        definieProtoFieldSelctionModel( me.protoOption  )
         
         this.treeStore = Ext.create('Ext.data.TreeStore', {
             autoLoad: true,
@@ -35,8 +36,8 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
 
             listeners: {
                 load: function ( treeStore, records,  successful,  eOpts ) {
-                    // Debe ser llamado aqui, para poder marcar los campos seleccionados 
                     configureCurrentFields()
+                    me.fireEvent('loadComplete', treeStore, records,  successful,  eOpts );
                 }
             }
              
@@ -46,35 +47,59 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
             store: this.treeStore,
             useArrows: true,
             rootVisible: false ,
-            minWidth: 200, 
+            minWidth: 400, 
 
             columns: [{
                 xtype: 'treecolumn', //this is so we know which column will show the tree
                 text: 'text',
-                flex: 3,
+                flex: 2,
                 sortable: true,
+                minWidth: 200,
                 dataIndex: 'text'
+            // },{
+                // text: 'header',
+                // dataIndex: 'header'
+            // },{
+                // text: 'tooltip',
+                // dataIndex: 'tooltip'
             },{
-                text: 'Ix',
-                dataIndex: 'id'
+                xtype: 'booleancolumn', 
+                trueText: '',
+                falseText: 'req', 
+                width: 50,
+                text: 'req',
+                dataIndex: 'allowBlank'
+            },{
+                xtype: 'booleancolumn', 
+                trueText: 'rOnly',
+                width: 50,
+                falseText: '', 
+                text: 'rOnly',
+                dataIndex: 'readOnly'
             },{
                 text: 'fieldType',
                 dataIndex: 'fieldType'
+            },{
+                text: 'Ix',
+                flex: 2,
+                dataIndex: 'id'
             }] 
              
         })
 
+        tree.on({
+            'checkchange': {fn: function (  node,  checked,  eOpts ) {
+                me.fireEvent('checkModif', node,  checked,  eOpts );
+            }}, scope: me }
+        );
 
-        this.callParent(arguments);
+        me.callParent(arguments);
         
         function configureCurrentFields() {
             // Crea los campos activos en la grilla 
             for (var ix in me.myMeta.fields ) {
                 var vFld  =  me.myMeta.fields[ix];
                 var vNode =  me.treeStore.getNodeById( vFld.name ) 
-
-                // El string no es un campos configurable
-                if ( vFld.name == '__str__' )  continue 
 
                 // Lo marca                                            
                 if ( vNode ) vNode.set( 'checked', true ) 

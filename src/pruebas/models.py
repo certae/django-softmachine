@@ -21,8 +21,8 @@ class Prueba(models.Model):
     prCode = models.CharField(verbose_name=u'Codigo',blank = True, null = True, max_length=200 , default = 'Codigo', unique = True )
     prDescription = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
     prInteger = models.IntegerField(blank = True, null = True)
+    prChoice = models.CharField(max_length=50, choices= OBJTYPE)
     
-#    prChoice = models.CharField(max_length=50, choices= OBJTYPE)
 #    prBoolean = models.BooleanField(verbose_name=u'Active', default = True)
 #    prDate  = models.DateField(blank = True, null = True)
 #    prTime  = models.TimeField(blank = True, null = True, default = '06:00')

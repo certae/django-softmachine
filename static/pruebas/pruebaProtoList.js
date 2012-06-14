@@ -9,7 +9,7 @@ Ext.onReady(function() {
         renderTo: Ext.getBody(),
 
         width: 600,
-        height: 600,
+        height: 600, 
         idTitle: 'xx', 
 
         dataList : ['A', 'B', 'C'], 

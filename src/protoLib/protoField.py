@@ -60,7 +60,7 @@ def setFieldDict(protoFields ,  field ):
         pField['header'] = verifyStr( field.verbose_name,  field.name ) 
 
     # Otras propiedades a mapear 
-    if getattr( field, 'editable', False ) == False: 
+    if ( getattr( field, 'editable', False ) == False ) or (  pField['type'] == 'autofield'): 
         pField['readOnly'] = True   
 
     # Defaults 
