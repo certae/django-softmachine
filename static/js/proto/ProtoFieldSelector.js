@@ -10,7 +10,7 @@
  */
 
 Ext.define('ProtoUL.proto.ProtoFieldSelector', {
-    extend: 'Ext.container.Container',
+    extend: 'Ext.panel.Panel',
     alias: 'widget.protoFieldSelector',
     
  // @protoOption   Required 
@@ -44,6 +44,8 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
             scope: me }
         );
 
+        var tBar =  Ext.create( 'ProtoUL.proto.ProtoToolBar', {dock : 'top'})
+
         var panelItems =   [{
                 region: 'center',
                 layout: 'fit',
@@ -63,8 +65,13 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
             
         Ext.apply(this, {
             layout: 'border',
-            items: panelItems 
+            items: panelItems, 
+            dockedItems: [ tBar ] 
         });
+          
+                
+  
+        this.addDocked                         
                 
         this.callParent(arguments);
         
