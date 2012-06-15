@@ -27,28 +27,22 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
     
 
     initComponent: function() {
-        
+
+        var me = this;         
         if ( ! this.myMeta  ) {
             Ext.Msg.show({ value: 'ERROR Pcl  not loaded'});
             return; 
         }
 
-        var me = this;         
-        var myMeta = this.myMeta;
-
         defineProtoPclTreeModel()
 
         var tBar =  Ext.create( 'ProtoUL.proto.ProtoToolBar', {dock : 'top'})
-
-        var treeData = Meta2Tree( this.myMeta, 'pcl', 'pcl'  )
+        var treeData = Meta2Tree( me.myMeta, 'pcl', 'pcl' )
         treeData.expanded = true
 
         var treeGridStore = Ext.create('Ext.data.TreeStore', { 
             folderSort: true, 
-            sorters: [{
-                property: 'text',
-                direction: 'ASC'
-              }], 
+            sorters: [{ property: 'text', direction: 'ASC' }], 
             model: 'Proto.PclTreeNode',
             root: treeData 
         });
@@ -147,7 +141,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             'select': function ( rowModel , record,  rowIndex,  eOpts ) {
                 // Asigna el current Record 
                 me.treeRecord  = record;
-                prepareProperties();
+                preparePropertiesPCL( record );
             }, scope: me }
         );
 
@@ -208,30 +202,20 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         }
 
 
+        function preparePropertiesPCL( record ){
 
-        function prepareProperties(  ){
-            var prp = {}
-            var prpTitle = ''
-            var prpBase = ''
+        	var oData      =    me.treeRecord.data
+        	 
+        	if ( oData[ '__ptType'] == 'pcl' ) {
 
-            var oData      =    me.treeRecord.data 
-            var idTree     =    oData.id
-            var __ptConfig =    oData.__ptConfig 
-                        
-            if ( oData[ '__ptType'] == 'pcl' ) {
+	            if ( oData.text in oc([ 'fields'])) {
+	                propsGrid.hide()
+	                fieldList.show()
+	            } else {
+	                propsGrid.show()
+	                fieldList.hide()
+	            } 
 
-
-                prpTitle = 'pcl'
-                prp = {
-                    "shortTitle"    : oData.shortTitle,
-                    "description"    : oData.description,
-                    "protoIcon"        : oData.protoIcon ,
-                    "helpPath"        : oData.helpPath
-                    
-                    // "idProperty"    : oData.idProperty,
-                    // "protoOption"    : oData.protoOption,
-                    // "protoConcept"    : oData.protoConcept,
-                }
 
             } else if ( me.treeRecord.data[ '__ptType'] == 'fields' ) {
                 
@@ -300,13 +284,6 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             // panelPrps.setTitle( prpTitle )
             propsGrid.setSource( __ptConfig )
 
-            if ( oData.text == 'fields' ) {
-                propsGrid.hide()
-                fieldList.show()
-            } else {
-                propsGrid.show()
-                fieldList.hide()
-            } 
                         
             
         };

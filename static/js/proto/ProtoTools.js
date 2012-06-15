@@ -33,9 +33,8 @@ function Meta2Tree( oData, pName, ptType   ) {
         tData['__ptType'] =  ptType 
         tData['__ptConfig' ] = __ptConfig
         
-
-        if ( ptType == 'fields' ||  ptType  == 'formField' )  {
-            // Los fields no deben abrirse 
+        // Ramas que no deben abrirse 
+        if ( (sDataType == "object" ) && ( ptType in oc([ 'fields', 'formField' ]) ))  {
             tData['leaf'] =  true  
             return tData 
         }
