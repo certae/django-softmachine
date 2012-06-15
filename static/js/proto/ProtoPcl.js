@@ -81,7 +81,9 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
         me._extGrid = treeGrid;
 
-        var propsGrid = Ext.create('ProtoUL.ux.ProtoProperty', {});
+        var propsGrid = Ext.create('ProtoUL.ux.ProtoProperty', {
+            source : { name : '' }
+        });
         var fieldList = Ext.create('ProtoUL.ux.ProtoList', {
             idTitle: 'SelectedFields' 
         })
@@ -207,7 +209,106 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
 
 
-        function prepareProperties( me ){
+        function prepareProperties(  ){
+            var prp = {}
+            var prpTitle = ''
+            var prpBase = ''
+
+            var oData      =    me.treeRecord.data 
+            var idTree     =    oData.id
+            var __ptConfig =    oData.__ptConfig 
+                        
+            if ( oData[ '__ptType'] == 'pcl' ) {
+
+
+                prpTitle = 'pcl'
+                prp = {
+                    "shortTitle"    : oData.shortTitle,
+                    "description"    : oData.description,
+                    "protoIcon"        : oData.protoIcon ,
+                    "helpPath"        : oData.helpPath
+                    
+                    // "idProperty"    : oData.idProperty,
+                    // "protoOption"    : oData.protoOption,
+                    // "protoConcept"    : oData.protoConcept,
+                }
+
+            } else if ( me.treeRecord.data[ '__ptType'] == 'fields' ) {
+                
+                prpBase = me.treeRecord.data[ 'text']
+                prpTitle = 'field.' + prpBase
+
+                var vrDefault = oData.defaultValue
+
+                if ( oData.type ==  'bool' ) {
+                    vrDefault = vrDefault || false 
+                } else     if ( oData.type in oc( [ 'int', 'decimal', 'float'])  ) {
+                    vrDefault = vrDefault || 0                     
+                } else {
+                    vrDefault = vrDefault || ''
+                }
+ 
+                
+                prp = {
+                    
+                    "allowBlank": oData.allowBlank || true,
+                    "readOnly": oData.readOnly || false ,
+                    "storeOnly": oData.storeOnly || false ,
+                    "hidden": oData.hidden || false ,
+
+                    "header": oData.header || '',
+                    "fieldLabel": oData.fieldLabel || '',
+                    "tooltip": oData.tooltip || '',
+                    "defaultValue": vrDefault ,
+
+                    "type":  oData.type,
+                    "subType":  oData.subType,
+                    
+                    "flex": oData.flex || 0,
+                    "width": oData.width || 0,
+                    "minWidth": oData.minWidth || 0,
+                    "wordWrap": oData.wordWrap || false,
+                    "cellToolTip": oData.cellToolTip || false,
+
+                    "format": oData.format || '',
+                    "allowDecimals": oData.allowDecimals,
+                    "decimalPrecision": oData.decimalPrecision,
+
+                    "choices": oData.choices ,
+
+                    // TODO: BackEnd, Grid, No 
+                    "sortable": oData.sortable || false
+    
+                    // FIX:  Q es esto por q 3 propiedades q pueden ser las misma vaina  readOnly, editable   
+                    // "editable": false,
+                    // "editMode": false,
+                    
+                    // "name": oData.name ,
+                    // "align": "right",
+                    // "draggable": false,
+
+                    // "fromModel": oData.fromModel,
+                    // "zoomModel": oData.zoomModel 
+                    // "cellLink": oData.cellLink ,
+                    // "fkField":  oData.fkField, 
+                    // "fkId": oData.fkId,
+                }
+
+            } 
+ 
+            // var panelPrps = Ext.getCmp( IdeSheet )
+            // panelPrps.setTitle( prpTitle )
+            propsGrid.setSource( __ptConfig )
+
+            if ( oData.text == 'fields' ) {
+                propsGrid.hide()
+                fieldList.show()
+            } else {
+                propsGrid.show()
+                fieldList.hide()
+            } 
+                        
+            
         };
         
 
