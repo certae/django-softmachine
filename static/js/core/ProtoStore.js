@@ -706,7 +706,7 @@ function defineProtoPclTreeModel() {
             {name: '__ptType',  type: 'string'},
             {name: 'text', type: 'string'},
             {name: 'id',  type: 'string'},
-            {name: 'iconCls', type: 'string', defaultValue: null, persist: false }, 
+            // {name: 'iconCls', type: 'string', defaultValue: null, persist: false }, 
             // {name: 'ptValue', type: 'string'}, 
             
             // Referencia al modelo de base 

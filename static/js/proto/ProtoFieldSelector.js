@@ -23,23 +23,23 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
         
         me = this; 
         
-        var tree = Ext.create('ProtoUL.proto.ProtoFieldTree', {
+        var fieldTree = Ext.create('ProtoUL.proto.ProtoFieldTree', {
             protoOption : me.protoOption, 
             myMeta : me.myMeta 
            })
 
-        var grid = Ext.create('ProtoUL.ux.ProtoList', {
+        var fieldList = Ext.create('ProtoUL.ux.ProtoList', {
             checkStyle : false, 
             idTitle: 'SelectedFields' 
         })
 
-        tree.on({
+        fieldTree.on({
             'loadComplete': function (  treeStore, records,  successful,  eOpts ) {
                 configureCurrentFields()
             }, 
             'checkModif': function (  node,  checked,  eOpts ) {
                 var idx = node.get( 'id' )
-                grid.addOrRemove ( idx, checked  ) 
+                fieldList.addOrRemove ( idx, checked  ) 
             }, 
             scope: me }
         );
@@ -50,8 +50,9 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
                 region: 'center',
                 layout: 'fit',
                 minSize: 200,
-                items: tree, 
-                flex: 3
+                items: fieldTree, 
+                border: false,
+                flex: 5
             }, {
                 region: 'east',
                 // collapsible: true,
@@ -59,8 +60,9 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
                 split: true,
                 layout: 'fit',
                 minSize: 200,
-                items: grid, 
-                flex: 1
+                items: fieldList, 
+                border: false,
+                flex: 2
             }]
             
         Ext.apply(this, {
@@ -69,10 +71,6 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
             dockedItems: [ tBar ] 
         });
           
-                
-  
-        this.addDocked                         
-                
         this.callParent(arguments);
         
         
@@ -85,9 +83,7 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
                 // El string no es un campos configurable
                 if ( vFld.name == '__str__' )  continue 
 
-                // Lo inserta en la grilla 
-                grid.addData ( vFld.name, true  ) 
-
+                fieldList.addData ( vFld.name, true  ) 
             } 
         }
         
