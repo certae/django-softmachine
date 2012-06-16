@@ -64,10 +64,11 @@ DesignerProperties =  {
     "tooltip.help": "microayuda del componente ",
  
     "type" : "string",    
-    "type.help" : "data type [string,text,bool,int,decimal,combo,date,datetime,time,autofield,foreignid,foreigntext]", 
+    "type.help" : "data type [string, text, bool, int, decimal, combo, date, datetime, time, autofield, foreignid, foreigntext]", 
     "type.choices" : [ "string", "text", "bool", "int", "decimal", "combo", "date",  "datetime", "time", "autofield", "foreignid",  "foreigntext"  ],             
     
     "width.help": "The width value in pixels",
     "wordWrap": false,
     "wordWrap.help": "ver el contenido en mas de una linea"
+    
     }

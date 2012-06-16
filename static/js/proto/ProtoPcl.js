@@ -94,7 +94,8 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         })
 
         var jsonText = Ext.create('Ext.form.TextArea', {
-            autoScroll : true 
+            autoScroll : true, 
+            labelAlign : 'top'
         })        
 
 //  ================================================================================================
@@ -207,48 +208,26 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                 fieldList.hide()
                 
                 jsonText.setRawValue( __ptConfig.__ptValue )
-                jsonText.__ptConfig = __ptConfig 
-                jsonText.show()
+                jsonText.__ptConfig = __ptConfig
                 
+                jsonText.setFieldLabel( oData.text ) 
+                jsonText.show()
+
             } else if ( template.__ptType == "colList") {
                 jsonText.hide()
                 propsGrid.hide()
                 fieldList.show()
 
             } else {
+
                 jsonText.hide()
                 propsGrid.show()
                 fieldList.hide()
+
+                prepareProperties( record , me.myMeta,  propsGrid  )
                 
             } 
         	 
-        	if ( oData[ '__ptType'] == 'pcl' ) {
-
-	            if ( oData.text in oc([ 'fields'])) {
-	            } else {
-	            } 
-
-
-            } else if ( me.treeRecord.data[ '__ptType'] == 'fields' ) {
-                
-                prpBase = me.treeRecord.data[ 'text']
-                prpTitle = 'field.' + prpBase
-
-                var vrDefault = oData.defaultValue
-
-                if ( oData.type ==  'bool' ) {
-                    vrDefault = vrDefault || false 
-                } else     if ( oData.type in oc( [ 'int', 'decimal', 'float'])  ) {
-                    vrDefault = vrDefault || 0                     
-                } else {
-                    vrDefault = vrDefault || ''
-                }
- 
-                
-
-            } 
- 
-            prepareProperties( record , me.myMeta,  propsGrid  )
             
         };
         
