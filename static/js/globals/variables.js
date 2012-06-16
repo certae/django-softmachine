@@ -38,7 +38,7 @@ _PConfig =  {
     clsBaseModel: 'ProtoUL.model.' 
 }; 
 
-_HELPURL = '/resources/help/index.html'
+__HELPpath = '/resources/help/index.html'
 
 
 // Globally changing the text of Cancel and Save buttons;

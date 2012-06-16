@@ -159,7 +159,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         
 
         function tbHelp( but  ) {
-        	window.open( _HELPURL ,'protoHelp',
+        	window.open( __HELPpath ,'protoHelp',
         	'left=50,top=20,width=1000,height=600,resizable=0')
         	
         }

@@ -70,7 +70,18 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             },{
                 text: '__ptType',
                 dataIndex: '__ptType'
-            }]
+            }], 
+            listeners: {
+                'itemmouseenter': function(view, record, item) {
+                    var msg =  DesignerObjects[ record.data.text ] || {}
+                    if ( msg.description ) {
+                        Ext.fly(item).set({'data-qtip': msg.description, 'data-qtitle': record.data.text }); 
+                    } 
+              }, scope : me 
+            }
+            
+            
+            
         }); 
 
         me._extGrid = treeGrid;
@@ -81,7 +92,10 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         var fieldList = Ext.create('ProtoUL.ux.ProtoList', {
             idTitle: 'SelectedFields' 
         })
-        
+
+        var jsonText = Ext.create('Ext.form.TextArea', {
+            autoScroll : true 
+        })        
 
 //  ================================================================================================
 
@@ -99,7 +113,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                 flex: 2,
                 layout: 'fit',
                 minSize: 200,
-                items : [propsGrid, fieldList], 
+                items : [propsGrid, fieldList, jsonText], 
                 border: false
         }];
 
@@ -113,6 +127,8 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         
         this.callParent(arguments);
 
+        fieldList.hide()
+        jsonText.hide()
 
 // ---------------------------------------------------------------------------------------------- 
 
@@ -139,7 +155,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
         treeGrid.on({
             'select': function ( rowModel , record,  rowIndex,  eOpts ) {
-                // Asigna el current Record 
+                saveJsonText()
                 me.treeRecord  = record;
                 preparePropertiesPCL( record );
             }, scope: me }
@@ -153,68 +169,63 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
             // Fires after a editing. ...
             'edit': {fn: function ( editor, e, eOpts) {
-
                 if ( e.value == e.originalValue ) return; 
 
                 var oData = me.treeRecord.data.__ptConfig 
                 var prpName = e.record.data.name
 
                 // ****  Solo llegan objetos, los Array se manejan en otro lado
-                if ( typeOf(oData) !=  "object") {
-                    console.log( 'Error de tipo' ); return 
-                }
+                if ( typeOf(oData) !=  "object") { console.log( 'Error onEdit', oData  ); return }
 
                 // Asigna el valor a la propiedad 
                 oData[ prpName ]  = e.value 
-                tData = updTData( me.treeRecord, prpName, e.value )
                 
-                // Para actualizar el valor 
-                if ( me.treeRecord.isExpanded() ) treeGrid.getView().refresh();
-
             }}, 
             scope: me }
         );
 
 
-// ---------------------------------------------------------------------------------------------- 
-
-
-        function updTData( treeRecord , prpName, prpValue ) {
-            // TODO ???         
-            var tNode = {}, ixNode;
-            for ( ixNode in treeRecord.childNodes ) {
-                
-                tNode = treeRecord.childNodes[ ixNode  ]
-                if ( tNode.data.text == prpName ) {
-                    tNode.data.ptValue = prpValue 
-                    return;  
-                }  
+        // jsonText.on({'deactivate': function ( obj ,  eOpts ) {
+        function saveJsonText() {
+            if ( jsonText.isVisible()) {
+                jsonText.__ptConfig.__ptValue  = jsonText.getRawValue()
             }
-
-            // No lo encontro, lo agrega
-            tNode = {}
-            tNode['text']  =  prpName    
-            tNode['ptValue'] =  prpValue  
-            tNode['__ptType'] =  typeOf( prpValue )  
-            tNode['leaf'] =  true  
-            
-            treeRecord.appendChild( tNode )
         }
+
+// ---------------------------------------------------------------------------------------------- 
 
 
         function preparePropertiesPCL( record ){
 
-        	var oData      = me.treeRecord.data
-        	var __ptConfig = oData.__ptConfig
+            var oData      = me.treeRecord.data
+            var __ptConfig = oData.__ptConfig || {}
+
+    	    var template = DesignerObjects[ oData.__ptType ] || {}
+
+            if ( template.__ptType == "jsonText") {
+                propsGrid.hide()
+                fieldList.hide()
+                
+                jsonText.setRawValue( __ptConfig.__ptValue )
+                jsonText.__ptConfig = __ptConfig 
+                jsonText.show()
+                
+            } else if ( template.__ptType == "colList") {
+                jsonText.hide()
+                propsGrid.hide()
+                fieldList.show()
+
+            } else {
+                jsonText.hide()
+                propsGrid.show()
+                fieldList.hide()
+                
+            } 
         	 
         	if ( oData[ '__ptType'] == 'pcl' ) {
 
 	            if ( oData.text in oc([ 'fields'])) {
-	                propsGrid.hide()
-	                fieldList.show()
 	            } else {
-	                propsGrid.show()
-	                fieldList.hide()
 	            } 
 
 
@@ -234,58 +245,10 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                 }
  
                 
-                prp = {
-                    
-                    "allowBlank": oData.allowBlank || true,
-                    "readOnly": oData.readOnly || false ,
-                    "storeOnly": oData.storeOnly || false ,
-                    "hidden": oData.hidden || false ,
-
-                    "header": oData.header || '',
-                    "fieldLabel": oData.fieldLabel || '',
-                    "tooltip": oData.tooltip || '',
-                    "defaultValue": vrDefault ,
-
-                    "type":  oData.type,
-                    "subType":  oData.subType,
-                    
-                    "flex": oData.flex || 0,
-                    "width": oData.width || 0,
-                    "minWidth": oData.minWidth || 0,
-                    "wordWrap": oData.wordWrap || false,
-                    "cellToolTip": oData.cellToolTip || false,
-
-                    "format": oData.format || '',
-                    "allowDecimals": oData.allowDecimals,
-                    "decimalPrecision": oData.decimalPrecision,
-
-                    "choices": oData.choices ,
-
-                    // TODO: BackEnd, Grid, No 
-                    "sortable": oData.sortable || false
-    
-                    // FIX:  Q es esto por q 3 propiedades q pueden ser las misma vaina  readOnly, editable   
-                    // "editable": false,
-                    // "editMode": false,
-                    
-                    // "name": oData.name ,
-                    // "align": "right",
-                    // "draggable": false,
-
-                    // "fromModel": oData.fromModel,
-                    // "zoomModel": oData.zoomModel 
-                    // "cellLink": oData.cellLink ,
-                    // "fkField":  oData.fkField, 
-                    // "fkId": oData.fkId,
-                }
 
             } 
  
-            // var panelPrps = Ext.getCmp( IdeSheet )
-            // panelPrps.setTitle( prpTitle )
-            propsGrid.setSource( __ptConfig )
-
-                        
+            prepareProperties( record , me.myMeta,  propsGrid  )
             
         };
         
