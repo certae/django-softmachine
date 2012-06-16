@@ -22,8 +22,14 @@ function Meta2Tree( oData, pName, ptType   ) {
     if (sDataType == "object"  ||  sDataType == "array")  {
         
         __ptConfig = get_ptConfig( oData )
+
         if ( __ptConfig.__ptType ) ptType = __ptConfig.__ptType
         if ( ! ptType  )  ptType = sDataType    
+        
+        if (  ptType  == "fields" )   ptType = 'field' 
+        if (  ptType  in oc([ 'pcl', 'gridConfig']) )   ptType = pName 
+
+        if ((  ptType == 'filtersSet') && ( pName != ptType ))  ptType = 'filterDef'                        
              
         // Obtiene un Id y genera  una referencia cruzada de la pcl con el arbol 
         // El modelo debe crear la referencia a la data o se perdera en el treeStore 
@@ -34,10 +40,19 @@ function Meta2Tree( oData, pName, ptType   ) {
         tData['__ptConfig' ] = __ptConfig
         
         // Ramas que no deben abrirse 
-        if ( (sDataType == "object" ) && ( ptType in oc([ 'fields', 'formField' ]) ))  {
+        if ( (sDataType == "object" ) && ( ptType in oc([ 'field', 'formField' ]) ))  {
             tData['leaf'] =  true  
             return tData 
         }
+
+
+        // Los campos q son presentados en text 
+        if ( ptType in oc([ 'baseFilter','initialFilter','initialSort','filterDef'])) {
+            tData['__ptConfig' ] = { '__ptValue' :  Ext.encode( oData  ) }
+            tData['children'] =  [] 
+            return tData 
+        }   
+
 
         tData['children'] =  [] 
         
@@ -53,7 +68,6 @@ function Meta2Tree( oData, pName, ptType   ) {
                 if ( !( typeItem in oc( [ 'boolean', 'number', 'string' ]) )) {
 
                     var nBase = pName
-                    // TODO: Todos los contenedores del protoForm son manejados como protoForm???  PorQ? 
                     if ( ptType == 'protoForm' ) {
                         nBase = ptType    
                         if ( vValue.__ptType && ( vValue.__ptType  == 'formField' )) {
@@ -68,18 +82,18 @@ function Meta2Tree( oData, pName, ptType   ) {
                 
                 var oTitle = null  
 
-                // if ( vValue.__ptType && vValue.title ) {
-                    // oTitle = vValue.__ptType + ' [' +  vValue.title + ']'
-                // } else if ( vValue.__ptType && vValue.name ) {
-                    // oTitle = vValue.__ptType + ' [' +  vValue.name + ']'
-                // } else if ( vValue.__ptType ) {
-
                 if ( vValue.__ptType ) {
                     oTitle = vValue.__ptType
+
                 } else if ( vValue.__ptConfig ) {
                     oTitle = vValue.__ptConfig.__ptType
+
                 } else if ( vValue.name ) {
                     oTitle = vValue.name
+
+                } else if ( vValue.menuText ) {
+                    oTitle = vValue.menuText
+
 
                 } else if ( typeItem == 'string' ) {
                     

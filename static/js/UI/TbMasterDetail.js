@@ -700,7 +700,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             var pFilters = myMeta.gridConfig.filtersSet;
             for (var vDet in pFilters) {         
                 tbFilter.add({
-                    text:           pFilters[vDet].filterName,
+                    text:           pFilters[vDet].name,
                     iconCls :       pFilters[vDet].icon, 
                     protoFilter:    Ext.encode( pFilters[vDet].filter ),
                     handler: onClickProtoFilter

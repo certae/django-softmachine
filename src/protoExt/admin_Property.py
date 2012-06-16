@@ -178,18 +178,19 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
 #                        ]
 
 
+    # Podrian ser objetos, pero pierden el orden y es importante para el filtro alfabetico 
     protoExt['filtersSet'] = []
     for nFiltre in ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']:
     
         protoExt['filtersSet'].append ( 
-                { 'filterName': nFiltre, 
+                { 'name': nFiltre, 
                   'filter': { 'code__istartswith': nFiltre }, 
 #                 'icon' : 'icon-?'
                   }
         ) 
 
     protoExt['filtersSet'].append ( 
-                { 'filterName': ' Tous ', 
+                { 'name': ' Tous ', 
                   'filter': {}, 
                   }
         ) 

@@ -204,7 +204,8 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
         function preparePropertiesPCL( record ){
 
-        	var oData      =    me.treeRecord.data
+        	var oData      = me.treeRecord.data
+        	var __ptConfig = oData.__ptConfig
         	 
         	if ( oData[ '__ptType'] == 'pcl' ) {
 

@@ -155,25 +155,25 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
 
     protoExt['filtersSet'] = []
     protoExt['filtersSet'].append ( 
-                { 'filterName': 'Vue AT', 
+                { 'name': 'Vue AT', 
                   'filter': { 'code__istartswith': 'AT'}, 
                   }
         ) 
 
     protoExt['filtersSet'].append ( 
-                { 'filterName': 'Vue corportative', 
+                { 'name': 'Vue corportative', 
                   'filter': { 'code__istartswith': 'Vue Corporative'}, 
                   }
         ) 
 
     protoExt['filtersSet'].append ( 
-                { 'filterName': 'Vue locale', 
+                { 'name': 'Vue locale', 
                   'filter': { 'code__istartswith': 'Vue locale'}, 
                   }
         ) 
 
     protoExt['filtersSet'].append ( 
-                { 'filterName': ' Tous ', 
+                { 'name': ' Tous ', 
                   'filter': {}, 
                   }
         ) 
