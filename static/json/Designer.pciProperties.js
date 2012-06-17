@@ -23,8 +23,18 @@ DesignerProperties =  {
     
     "collapsed": false,
     "collapsed.help": "t/f aparece contraido",
+
     "collapsible": false,
     "collapsible.help": "t/f",
+    "collapsible.type": "boolean",
+
+    "cellToolTip.help": "Presenta contenido del campo como micro ayuda",
+    "cellToolTip.type": "boolean",
+
+    "cellLink.help": "Presenta contenido del campo como micro ayuda",
+
+    "fromModel.help" : "Pertenece al modelo de base",  
+    "xtype" : "Tipo de objeto en el frontEnd ( puede ser manipulado con el vType)",
     
     "decimalPrecision": 0,
     "decimalPrecision.help": "Cantidad de decimales permitidos ( 0 para enteros 2 para decimales )",
@@ -37,7 +47,6 @@ DesignerProperties =  {
     "fsLayout.help": "distribucion de los campos en el contenedor",
 
     "header.help" : "Encabezado de la collumna en modo grilla ( default para fieldLabel ) " ,
-
 
     "height.help": "The height value in pixels",
     "helpPath.help": "se define como : /help/xxxx.html  esta en: /static/help",

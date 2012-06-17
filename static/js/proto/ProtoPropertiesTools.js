@@ -38,7 +38,10 @@ function prepareProperties( record , myMeta,  propPanel  ){
     __ptConfig = Ext.apply(  template.__ptConfig, __ptConfig   ) 
 
     propPanel.setSource( __ptConfig )
-    propPanel.setCombos( template.__ptChoices )
+
+    propPanel.setCombos( template.__ppChoices )
+    propPanel.setTypes( template.__ppTypes )
+    
     propPanel.readOnlyProps = ['__ptType', 'xtype', 'name'].concat ( template.__roProperties )         
     propPanel.sourceInfo = template.__ptHelp
 
@@ -48,8 +51,8 @@ function prepareProperties( record , myMeta,  propPanel  ){
 function getTemplate( ptType, forForm,  metaDict  )  {
     //@forForm boolean for Form Definition 
     
-    var prps = {}, qtips = {}, choices = {}
-    var prpName, prpValue, prpHelp, prpChoices, prpDict
+    var prps = {}, qtips = {}, choices = {}, ppTypes = {}
+    var prpName, prpValue, prpHelp, prpChoices, prpDict, prpType
 
     // Lee la plantilla de la variable publica 
     var objConfig = DesignerObjects[ ptType ] || {}
@@ -72,7 +75,9 @@ function getTemplate( ptType, forForm,  metaDict  )  {
 
         prpHelp =  DesignerProperties[ prpName + '.help']             
         prpChoices =  DesignerProperties[ prpName + '.choices']          
+        prpType =  DesignerProperties[ prpName + '.type']          
 
+        // Para presentacion en la forma o en las propiedades 
         if (forForm) {
             if ( prpValue )  prps[ prpName ] = prpValue
             
@@ -80,6 +85,7 @@ function getTemplate( ptType, forForm,  metaDict  )  {
             prps[ prpName ] = prpValue || ''
             qtips[ prpName ] = prpHelp
             if ( prpChoices )   choices[ prpName ] = prpChoices
+            if ( prpType )   ppTypes[ prpName ] = prpType
         } 
         
     
@@ -97,7 +103,8 @@ function getTemplate( ptType, forForm,  metaDict  )  {
 
     return {'__ptConfig' : prps, 
             '__ptHelp' : qtips, 
-            '__ptChoices' : choices, 
+            '__ppChoices' : choices, 
+            '__ppTypes' : ppTypes, 
             '__roProperties' : objConfig.roProperties || []  }     
     
 }

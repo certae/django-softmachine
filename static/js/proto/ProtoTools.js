@@ -46,9 +46,16 @@ function Meta2Tree( oData, pName, ptType   ) {
         }
 
 
-        // Los campos q son presentados en text 
+        // Los tipos q son presentados en text 
         if ( ptType in oc([ 'baseFilter','initialFilter','initialSort','filterDef'])) {
             tData['__ptConfig' ] = { '__ptValue' :  Ext.encode( oData  ) }
+            tData['children'] =  [] 
+            return tData 
+        }   
+
+        // Los tipos q son presentados en listas 
+        if ( ptType in oc([ 'listDisplay','hiddenFields','readOnlyFields','searchFields'])) {
+            tData['__ptConfig' ] = { '__ptList' :  Ext.encode( oData  ) }
             tData['children'] =  [] 
             return tData 
         }   

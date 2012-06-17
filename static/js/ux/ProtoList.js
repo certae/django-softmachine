@@ -114,22 +114,33 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
     }, 
     
     
-    addDataSet:  function( dSelected, checked  ) {
+    addDataSet:  function( dataSet, checked  ) {
         // Selecciona los registros de una lista dada  
         
-        for (var ix in dSelected ) {
-            var data  =  dSelected[ix];
-            this.setChecked( data, checked )
+        for (var ix in dataSet ) {
+            var data  =  dataSet[ix];
+            this.addDataItem( data, checked )
         } 
         
     }, 
 
     
-    addData:  function ( data,  checked  ) {
+    addDataItem:  function ( data,  checked  ) {
         // TODO: Por ahora solo maneja un campo Verificar el modelo, por q no se definio con modelo  
         // var rec = new this.gridStore.model()
-        // rec.data[id] = data  
-        this.gridStore.add( { id: data, '__Checked': checked } );
+        // rec.data[id] = data
+
+        var vNode =  this.gridStore.getById( data  ) 
+        if ( ! vNode ) {
+            if ( checked == true || checked == false  ) {
+                this.gridStore.add( { id: data, '__Checked': checked } );
+            } else {
+                this.gridStore.add( { id: data  } );
+            }
+        }  else {
+            vNode.set( '__Checked', checked )
+        }        
+
     }, 
 
     removeAll:  function () {
@@ -156,7 +167,7 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         if ( vNode ) {
             vNode.set( '__Checked', checked )
         } else { 
-            this.addData( data, checked  ) 
+            this.gridStore.add( { id: data, '__Checked': checked } );
         } 
     }, 
 

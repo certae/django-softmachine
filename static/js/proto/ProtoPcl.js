@@ -218,7 +218,8 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             } else if ( template.__ptType == "colList") {
                 jsonText.hide()
                 propsGrid.hide()
-                fieldList.show()
+                
+                prepareColList( oData )
 
             } else {
 
@@ -232,6 +233,26 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         	 
             
         };
+        
+        var fList
+        function prepareColList( oData ) {
+            
+            if ( ! fList )  {
+                // Crea los campos del store
+                fList= []
+                for (var ix in me.myMeta.fields ) {
+                    var vFld  =  me.myMeta.fields[ix];
+                    fList.push( vFld.name ) 
+                } 
+            }                        
+
+            var fSelected = Ext.decode( oData.__ptConfig.__ptList )
+
+            fieldList.removeAll()
+            fieldList.addDataSet( fSelected, true  )
+            fieldList.addDataSet( fList )
+            fieldList.show()
+        } 
         
 
         

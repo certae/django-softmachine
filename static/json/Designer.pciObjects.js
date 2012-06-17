@@ -55,10 +55,11 @@ DesignerObjects =  {
             "storeOnly", 
             "cellLink",  
             "wordWrap",
+            "fromModel",  "xtype",
             "type", 
             "vType" 
             ],
-        "roProperties": [ "type" ]  
+        "roProperties": [ "type", "fromModel" ]  
     },
 
     "gridConfig": {
@@ -73,6 +74,26 @@ DesignerObjects =  {
         "__ptType": "jsonText" 
     },
 
+
+    "filtersSet": {
+        "description": "Conjunto de filtros predefinidos ( Aparecen bajo el icono 'Filter' de la barra principal )",
+        "properties": [ { 'name': '__ptType' , 'value': 'filterSet'} ] 
+    },
+
+    "filterDef": {
+        "description": "Filtro predefinido definido ",
+        "__ptType": "jsonText" 
+    },
+
+    "hiddenFields": {
+        "description": "Lista de campos ocultos  ( TODO: hidden = true or not at all? )",
+        "__ptType": "colList" 
+    },
+
+    "listDisplay": {
+        "description": "Lista de campos a desplegar en la grilla",
+        "__ptType": "colList" 
+    },
 
     "protoForm": {
         "description": "definicion de formas",
