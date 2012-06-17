@@ -27,7 +27,7 @@ Ext.onReady(function() {
             "layout" : "hbox", 
             "labelWidth" : 100,
             "labelAlign" : "left",
-            "hideLabels" : false,
+            "hideLabels" : '',
             "autoHeight": true
             }
         );
@@ -39,6 +39,12 @@ Ext.onReady(function() {
             }
         );
 
+    objPrueba.setTypes( {
+            "hideLabels" : 'boolean'
+            }
+        );
+
+
     objPrueba.readOnlyProps = [ 'title', 'autoHeight' ]        
     objPrueba.sourceInfo = { "layout" : "Las opciones son Hbox, vBox" }
 
@@ -46,8 +52,8 @@ Ext.onReady(function() {
     objPrueba.on({
         'edit':  function ( editor, e, eOpts) {
             
-            objPrueba.editMode = false; 
-            console.log( 'EditMode --> false' )
+            // objPrueba.editMode = false; 
+            // console.log( 'EditMode --> false' )
             
         }, scope : this 
     }) 

@@ -4,10 +4,10 @@
  *  Enhanced PopertyGrid,  
  *      comboProperties  
  *      editMode   ( True/ False )
- *      QTips 
+ *      QTips
+ *      Types  
  * 
- *  TODO:  Type when there is not default value 
- *         utiliser les editor, ajouter la reference aux editor deja configure par type 
+ *  TODO:  OnKey Delete  borrar el valor de la propiedad  
   */
 
 Ext.define('ProtoUL.ux.ProtoProperty' ,{
@@ -23,9 +23,7 @@ Ext.define('ProtoUL.ux.ProtoProperty' ,{
     //@  True / False 
     editMode : true,   
 
-
-    //@ definition {  prpName : '' , ...  } ;
-    //@ TODO:  definition {  prpName : { qTitle : '', qTip : '', 'type' : 'overwirte default type!! ' }, ...  }   
+    //@ sourceInfo {  prpName : '' , ...  } ;
     sourceInfo : {}, 
 
     initComponent: function() {
@@ -60,25 +58,48 @@ Ext.define('ProtoUL.ux.ProtoProperty' ,{
     
     setCombos: function( __ptCombos ) {
         if ( ! __ptCombos ) return 
-        
-        var customEditors = {}
-        
+
         // Recorre los objetos y busca la definicion de combos 
         for (var prp in __ptCombos ) {
+            
+            // Si ya existe continua ( los objetos no deben tener el mismo nombre )
+            if ( this.customEditors[ prp ] ) continue 
+            
             var l1 = __ptCombos[prp]
             if ( typeOf( l1 ) == 'array' ) {
 
-                customEditors[ prp ] =  new Ext.grid.CellEditor({
+                this.customEditors[ prp ] =  new Ext.grid.CellEditor({
                     field: new Ext.form.field.ComboBox({
                     editable: false,
                     store: l1  
                     })
                 })
             } 
-            
         }
         
-        this.customEditors = customEditors;
+    }, 
+
+    
+    setTypes: function( __ptTypes ) {
+        //  _pTypes = { 'attr1' : 'boolean',  'attr2' : 'number' , ... }
+        if ( ! __ptTypes ) return 
+
+        // La idea es generar un customEditor para los campos definidos, 
+        // copiando el editor que define por defecto el objeto 
+        // Debe definirse despues de los combos pues la definicion de combo resetea customEditor
+   
+        // Recorre los objetos y busca la definicion de typo 
+        for (var prp in __ptTypes ) {
+
+            // Si ya existe continua              
+            if ( this.customEditors[ prp ] ) continue 
+
+            // Los tipos definidos son :  'date','string', 'number', 'boolean'
+            var myType = __ptTypes[ prp ]
+            var myEditor  = this.editors[ myType ]
+            if ( myEditor ) this.customEditors[ prp ] =  myEditor
+        }
     } 
+     
     
 })

@@ -71,7 +71,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
 #   Estos son todos los campos de mi modelo ( store ) 
     protoExt[ 'protoFields' ] =  {        
         'code': {'header' : 'Vues', 'type': 'CharField' ,  'width': 200, 'flex': 1 },  
-        'udp__Descriptionmodele': { 'header' : 'Description Modele', 'type': 'text' , 'subType': 'htmlText' , 'flex': 2 },
+        'udp__Descriptionmodele': { 'header' : 'Description Modele', 'type': 'text' , 'vType': 'htmlText' , 'flex': 2 },
         'udp__ActeurPrincipal': { 'header' : 'Acteur Princ', 'type': 'text', 'wordWrap': True , 'flex': 1  },
         'udp__AutresActeurs': { 'header' : 'Autres acteurs', 'type': 'text', 'cellToolTip' : True , 'flex': 1  },
         'udp__IntrantsDeclencheurs': { 'header' : 'Intrants Declan', 'type': 'text' , 'wordWrap': True , 'flex': 1 },

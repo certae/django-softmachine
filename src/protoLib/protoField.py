@@ -80,7 +80,7 @@ def setFieldDict(protoFields ,  field ):
         pField['choices'] = field.choices  
 
     elif field.__class__.__name__ == 'TextField':
-        pField['subType'] = 'plainText' # 'htmlText'
+        pField['vType'] = 'plainText' # 'htmlText'
 
         
     elif  field.__class__.__name__ == 'ForeignKey':

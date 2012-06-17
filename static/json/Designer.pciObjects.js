@@ -43,15 +43,20 @@ DesignerObjects =  {
             "fieldLabel",
             "format",
             "header" ,
+            "flex", 
             "height","maxHeight","minHeight",
             "width", "maxWidth","minWidth",
             "hidden",
             "hideLabel",
-            "labelAlign",
-            "labelWidth",
+            "labelAlign","labelWidth",
             "readOnly",
             "tooltip", 
-            "type" 
+            "cellToolTip",
+            "storeOnly", 
+            "cellLink",  
+            "wordWrap",
+            "type", 
+            "vType" 
             ],
         "roProperties": [ "type" ]  
     },

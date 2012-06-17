@@ -45,7 +45,7 @@ class PruebaAdmin(django.contrib.admin.ModelAdmin):
     protoExt[ 'listDisplay' ] = ( 'id', 'prCode', 'prMaestro1','prMaestro1_id', 'prDescription') 
 
     protoExt[ 'protoFields' ] =  {        
-#        'prInteger': {'subType' : 'stopLight', 'stoplightRY': 33 ,  'stoplightYG': 67}
+#        'prInteger': {'vType' : 'stopLight', 'stoplightRY': 33 ,  'stoplightYG': 67}
      }
 
     protoExt[ 'protoViews' ] =  {        

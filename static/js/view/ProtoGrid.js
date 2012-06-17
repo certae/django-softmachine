@@ -489,12 +489,11 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             // var safeConf = { a : { a1 : 1, a2: 2}, b : [ 'b1', 'b2']}
             // var safeConf = { a : { a1 : ['1'], a2: []} }
 
-            var safeConf =  clone( this.myMeta , 0, exclude =['__ptDict'] )
+            var safeConf = clone( this.myMeta , 0, exclude =['__ptDict', 'protoViews'] )
+            var treeData = Meta2Tree( safeConf, 'pcl' , 'pcl' ) 
+            safeConf = Tree2Meta( treeData ) 
 
-            safeConf = Meta2Tree( safeConf, 'pcl' , 'pcl' ) 
-            safeConf = Tree2Meta( safeConf ) 
-
-            showConfig( 'ColsConfig' , safeConf  )
+            showConfig( 'm2t t2m' , safeConf  )
         }
         
         function showConfig( title , myConf ) {

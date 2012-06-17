@@ -304,9 +304,9 @@ function getColDefinition( vFld ) {
     if ( vFld.cellLink ) colDefinition.renderer = cellLink
 
     // Maneja los subtipos 
-    if ( vFld.subType ) {
-        // subType stopLigth  Maneja el codigo de colores para un semaforo con 3 indicadores, 2 limites Red-Yellow; Yellow-Green   
-        if ( vFld.subType == 'stopLight' ) colDefinition.renderer = cellStopLight
+    if ( vFld.vType ) {
+        // vType stopLigth  Maneja el codigo de colores para un semaforo con 3 indicadores, 2 limites Red-Yellow; Yellow-Green   
+        if ( vFld.vType == 'stopLight' ) colDefinition.renderer = cellStopLight
 
     } 
 
@@ -348,7 +348,7 @@ function getColDefinition( vFld ) {
         ]
     var editor = copyProps ( {},  vFld, true, lstProps )
 
-    //TODO: subType ( eMail, IpAdress, etc ... )
+    //TODO: vType ( eMail, IpAdress, etc ... )
     // editor.vtype = 'email'
 
 
@@ -483,7 +483,7 @@ function getColDefinition( vFld ) {
       function cellStopLight(value, metaData, record, rowIndex, colIndex, store, view ){
     //TODO: Leer las propiedades stopLightRY y  stopLightYG  para comparar,  
 
-    // subType stopLigth  Maneja el codigo de colores para un semaforo con 3 indicadores, 
+    // vType stopLigth  Maneja el codigo de colores para un semaforo con 3 indicadores, 
     // stopLightRY : valor limite  de Rojo a Amarillo
     // stopLightYG : valor limite  de Amarillo a Verde
     // si el valor RY > YG se asume una secuencia inversa. 

@@ -9,7 +9,7 @@ Ext.define('ProtoUL.view.MenuTree', {
     initComponent: function() {
         
         
-        Ext.define('ProtoUL.MenuModel', {
+        Ext.define('Proto.MenuModel', {
             extend: 'Ext.data.Model',
             proxy: {
                 method: 'GET',
@@ -28,7 +28,7 @@ Ext.define('ProtoUL.view.MenuTree', {
         
         this.store = Ext.create('Ext.data.TreeStore', {
             autoLoad: true,
-            model: 'ProtoUL.MenuModel',
+            model: 'Proto.MenuModel',
             root: {
                 text:'menu',
                 expanded: true 

@@ -1,4 +1,7 @@
 
+// La defincion de tipos es   xxx.type = [ 'boolean' | 'date' | 'string' | 'number' ] 
+
+
 DesignerProperties =  {
 // PCI
     "protoConcept.help" : "Opcion de base de la pci (apunta directamente al modelo Django  app.modelo)",
@@ -64,8 +67,11 @@ DesignerProperties =  {
     "tooltip.help": "microayuda del componente ",
  
     "type" : "string",    
-    "type.help" : "data type [string, text, bool, int, decimal, combo, date, datetime, time, autofield, foreignid, foreigntext]", 
+    "type.help" : "Tipo de dato de la Db ", 
     "type.choices" : [ "string", "text", "bool", "int", "decimal", "combo", "date",  "datetime", "time", "autofield", "foreignid",  "foreigntext"  ],             
+
+    "vType.help" : "Tipo de dato de presentacion ( por defecto igual a 'type') ", 
+    "vType.choices" : [ "string", "text", "bool", "int", "decimal", "combo", "date",  "datetime", "time", "autofield", "foreignid",  "foreigntext"  ],             
     
     "width.help": "The width value in pixels",
     "wordWrap": false,

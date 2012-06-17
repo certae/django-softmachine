@@ -37,7 +37,9 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         defineProtoPclTreeModel()
 
         var tBar =  Ext.create( 'ProtoUL.proto.ProtoToolBar', {dock : 'top'})
-        var treeData = Meta2Tree( me.myMeta, 'pcl', 'pcl' )
+        
+        var safeConf =  clone( this.myMeta , 0, exclude =['__ptDict', 'protoViews'] )
+        var treeData = Meta2Tree( safeConf, 'pcl', 'pcl' )
         treeData.expanded = true
 
         var treeGridStore = Ext.create('Ext.data.TreeStore', { 
