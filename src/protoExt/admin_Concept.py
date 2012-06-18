@@ -64,10 +64,8 @@ class Concept_Admin(django.contrib.admin.ModelAdmin):
      }
 
 
-    protoExt['listDisplaySet'] = [
-            { 'viewName': 'resume', 
-              'viewFields': ( 'model__code', 'code',  )},
-                                ]
+    protoExt['listDisplaySet'] =  { 'xxxx' : [ 'model__code', 'code' ] }
+
 
     protoExt['filtersSet'] = []
     for nFiltre in ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']:

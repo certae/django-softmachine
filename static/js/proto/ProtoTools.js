@@ -30,6 +30,7 @@ function Meta2Tree( oData, pName, ptType   ) {
         if (  ptType  in oc([ 'pcl', 'gridConfig']) )   ptType = pName 
 
         if ((  ptType == 'filtersSet') && ( pName != ptType ))  ptType = 'filterDef'                        
+        if ((  ptType == 'listDisplaySet') && ( pName != ptType ))  ptType = 'listDisplay'                        
              
         // Obtiene un Id y genera  una referencia cruzada de la pcl con el arbol 
         // El modelo debe crear la referencia a la data o se perdera en el treeStore 
@@ -54,7 +55,7 @@ function Meta2Tree( oData, pName, ptType   ) {
         }   
 
         // Los tipos q son presentados en listas 
-        if ( ptType in oc([ 'listDisplay','hiddenFields','readOnlyFields','searchFields'])) {
+        if ( ptType in oc([ 'listDisplay','hiddenFields','readOnlyFields','searchFields', 'sortFields'])) {
             tData['__ptConfig' ] = { '__ptList' :  Ext.encode( oData  ) }
             tData['children'] =  [] 
             return tData 

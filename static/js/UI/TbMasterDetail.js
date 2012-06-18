@@ -513,7 +513,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             if ( myDefaultCols.length > 0 ) {
                 tbViews.add({
                     text:       _defaultViewText,
-                    iconCls :   _defaultViewIcon, 
                     protoView:  myDefaultCols ,
                     handler:    onClickChangeView
                 });
@@ -522,9 +521,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             var pViews = myMeta.gridConfig.listDisplaySet;
             for (var vDet in pViews) {         
                 tbViews.add({
-                    text:       pViews[vDet].viewName,
-                    iconCls :   pViews[vDet].icon, 
-                    protoView:  pViews[vDet].viewFields,
+                    text:       vDet ,
+                    protoView:  pViews[vDet] ,
                     handler:    onClickChangeView
                 });
                 bHide = false; 

@@ -196,7 +196,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             var __ptConfig = record.data.__ptConfig || {}
 
             if (  ptType == 'filtersSet' ) {
-                
+
                 Ext.Msg.prompt('filterSet', 'Please enter the name for your filter::', function(btn, pName){
                     if (btn != 'ok') return 
 
@@ -208,25 +208,37 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                     record.appendChild( tNode )
                 });
                 
-            } 
+            } else if (  ptType == 'listDisplaySet' ) {
+
+                Ext.Msg.prompt('filterSet', 'Please enter the name for your alternative listDisplay::', function(btn, pName){
+                    if (btn != 'ok') return 
+
+                    var tNode = {'text' :  pName , __ptType : 'listDisplay' }
+                    tNode['__ptConfig'] =  { __ptType : 'listDisplay' }  
+                    tNode['children'] =  []  
+                    
+                    record.appendChild( tNode )
+                });
+
+            }
+ 
 
         }
 
         function delTreeNode ( record ) {
 
             var ptType = record.data.__ptType
-            if (  ptType == 'filterDef' ) {
-                var parent = record.parentNode 
+            var parent = record.parentNode 
+
+            if (  ptType in oc( [ 'filterDef', 'listDisplay' ])  ) {
                 record.remove( )
-                
                 resetPanelInterface()
+
                 if ( parent ) {
                     var view = me.treeGrid.getView();
                     view.select( parent );
-                }  
- 
+                }
             }
-            
         }
 
 // ---------------------------------------------------------------------------------------------- 
@@ -292,16 +304,22 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             } 
         
             // Prepara el menu 
-            if ( ptType in oc( [ 'filtersSet'] )) {
-
+            if ( ptType == 'filtersSet' ) {
                 //  .setButton( key  , show, enbl, toolTip , def  )
                 tBar.setButton( 'add', true, true, 'Add  filterDef', record  )
-                
-
             } else if ( ptType in oc( [ 'filterDef'] )) {
-
                 tBar.setButton( 'del', true, true, 'Delete current filterDef [' + oData.text + ']', record  )
                 
+            } else if ( ptType == 'listDisplaySet' ) {
+                tBar.setButton( 'add', true, true, 'Add alternative ListDisplay', record  )
+
+            } else if ( ptType in oc( [ 'listDisplay'] )) {
+
+                var parent = record.parentNode
+                if ( parent && parent.data.__ptType == 'listDisplaySet' ) {
+                    tBar.setButton( 'del', true, true, 'Delete alternative listDisplay [' + oData.text + ']', record  )    
+                }
+
             }
             
         };

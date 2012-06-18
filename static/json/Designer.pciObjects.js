@@ -77,11 +77,21 @@ DesignerObjects =  {
 
     "filtersSet": {
         "description": "Conjunto de filtros predefinidos ( Aparecen bajo el icono 'Filter' de la barra principal )",
-        "properties": [ { 'name': '__ptType' , 'value': 'filterSet'} ] 
+        "properties": [ { 'name': '__ptType' , 'value': 'filtersSet'} ] 
     },
 
     "filterDef": {
         "description": "Filtro predefinido definido ",
+        "__ptType": "jsonText" 
+    },
+
+    "initialFilter": {
+        "description": "Filtro inicial, reescribible al seleccionar otro filtro  Ej: { \"status__exact\":\"0\" } ",
+        "__ptType": "jsonText" 
+    },
+
+    "initialSort": {
+        "description": "Ordenamiento por defecto  Ej: [{\"direction\":\"ASC\",\"property\":\"code\"}, ... ] ",
         "__ptType": "jsonText" 
     },
 
@@ -92,6 +102,27 @@ DesignerObjects =  {
 
     "listDisplay": {
         "description": "Lista de campos a desplegar en la grilla",
+        "__ptType": "colList" 
+    },
+
+    "listDisplaySet": {
+        "description": "Configuraciones alternativas para la grialla  ( Aparecen bajo el icono 'ViewCols' de la barra principal )",
+        "properties": [ { 'name': '__ptType' , 'value': 'listDisplaySet'} ] 
+    },
+
+    "readOnlyFields": {
+        "description": "Lista de campos a marcar como readOnly ( tambien se puede utilzar la prop ReadOnly es igual )",
+        "__ptType": "colList" 
+    },
+
+
+    "searchFields": {
+        "description": "Campos habilitados para busqueda",
+        "__ptType": "colList" 
+    },
+
+    "sortFields": {
+        "description": "Campos habilitados para ordenamiento",
         "__ptType": "colList" 
     },
 

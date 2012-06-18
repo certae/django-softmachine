@@ -169,14 +169,6 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
               }
             } 
 
-#    protoExt['listDisplaySet'] = [
-#            { 'viewName': 'default', 
-#              'viewFields': (  'code', 'concept__model__code',  ), 
-#              'icon' : 'icon-1'},
-#            { 'viewName': 'all', 
-#              'viewFields': ( 'code', 'concept__code', 'concept__model__code' )},
-#                        ]
-
 
     # Podrian ser objetos, pero pierden el orden y es importante para el filtro alfabetico 
     protoExt['filtersSet'] = []

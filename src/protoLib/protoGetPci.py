@@ -169,7 +169,7 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
              'filtersSet': grid.protoAdmin.get( 'filtersSet', []),
 
              'listDisplay' : grid.protoListDisplay,  
-             'listDisplaySet':grid.protoAdmin.get( 'listDisplaySet', []) ,     
+             'listDisplaySet':grid.protoAdmin.get( 'listDisplaySet', {}) ,     
 
              # En las protoViews existiran tambien las propiedades de campos ( y formas ) 
              'readOnlyFields' : grid.protoReadOnlyFields,
