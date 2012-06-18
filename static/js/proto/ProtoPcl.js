@@ -36,7 +36,8 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
         defineProtoPclTreeModel()
 
-        var tBar =  Ext.create( 'ProtoUL.proto.ProtoToolBar', {dock : 'top'})
+        var tBar =  Ext.create('ProtoUL.proto.ProtoToolBar', {dock : 'top'})
+        var sbar = Ext.create('Ext.form.Label', { text : 'Meta edition tool'})        
         
         var safeConf =  clone( this.myMeta , 0, exclude =['__ptDict', 'protoViews'] )
         var treeData = Meta2Tree( safeConf, 'pcl', 'pcl' )
@@ -75,10 +76,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             }], 
             listeners: {
                 'itemmouseenter': function(view, record, item) {
-                    var msg =  DesignerObjects[ record.data.text ] || {}
-                    if ( msg.description ) {
-                        Ext.fly(item).set({'data-qtip': msg.description, 'data-qtitle': record.data.text }); 
-                    } 
+                    Ext.fly(item).set({'data-qtip': getAttrMsg( record.data.text ), 'data-qtitle': record.data.text }); 
               }, scope : me 
             }
             
@@ -124,7 +122,8 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         Ext.apply(this, {
             layout: 'border',
             items: panelItems, 
-            dockedItems: [ tBar ] 
+            dockedItems: [ tBar ], 
+            bbar: [ sbar ]
         });
 
         
@@ -158,7 +157,11 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
         treeGrid.on({
             'select': function ( rowModel , record,  rowIndex,  eOpts ) {
+                sbar.setText( '<B>' + record.data.text + '</B> : ' +  getAttrMsg( record.data.text ), false )
+                 
                 saveJsonText()
+                saveFieldList()
+                
                 me.treeRecord  = record;
                 preparePropertiesPCL( record );
             }, scope: me }
@@ -188,10 +191,21 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         );
 
 
+        function getAttrMsg( attrName ) {
+            var msg =  DesignerObjects[ attrName ] || {}
+            return msg.description || ''
+        }
+
         // jsonText.on({'deactivate': function ( obj ,  eOpts ) {
         function saveJsonText() {
             if ( jsonText.isVisible()) {
                 jsonText.__ptConfig.__ptValue  = jsonText.getRawValue()
+            }
+        }
+
+        function saveFieldList() {
+            if ( fieldList.isVisible()) {
+                fieldList.__ptConfig.__ptList  = Ext.encode( fieldList.getChecked() ) 
             }
         }
 
@@ -218,7 +232,9 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             } else if ( template.__ptType == "colList") {
                 jsonText.hide()
                 propsGrid.hide()
+                fieldList.show()
                 
+                fieldList.__ptConfig = __ptConfig
                 prepareColList( oData )
 
             } else {
@@ -251,7 +267,6 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             fieldList.removeAll()
             fieldList.addDataSet( fSelected, true  )
             fieldList.addDataSet( fList )
-            fieldList.show()
         } 
         
 

@@ -12,10 +12,10 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
     alias : 'widget.protoList',
 
     // @columnList : Header de las columnas,  Si no viene ninguna por defecto 'id'  
-    columnList : ['id'], 
+    columnList : ['data'], 
 
     // @idColumn : Llave unica del registro, ( id )
-    idColumn : 'id',       
+    // idColumn : 'id',       
 
     // @myList : Lista con los datos iniciales
     // [ 'x', 'y']  o [ [ 'x1', 'y1'], [ 'x2', 'y2'] ]   
@@ -130,21 +130,21 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         // var rec = new this.gridStore.model()
         // rec.data[id] = data
 
-        var vNode =  this.gridStore.getById( data  ) 
+        var vNode =  this.gridStore.findRecord( 'data', data  ) 
         if ( ! vNode ) {
             if ( checked == true || checked == false  ) {
-                this.gridStore.add( { id: data, '__Checked': checked } );
+                this.gridStore.add( { 'data': data, '__Checked': checked } );
             } else {
-                this.gridStore.add( { id: data  } );
+                this.gridStore.add( { 'data': data  } );
             }
-        }  else {
+        }  else if ( checked ){
             vNode.set( '__Checked', checked )
         }        
 
     }, 
 
     removeAll:  function () {
-        this.gridStore.removeAll( true );
+        this.gridStore.removeAll(  );
     }, 
 
     
@@ -153,7 +153,7 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         var chkList = []
         this.gridStore.each(function(record){
             if ( record.get('__Checked')  )  
-              chkList.push( record.get( 'id' ))
+              chkList.push( record.get( 'data' ))
          })
         
         return chkList
@@ -163,21 +163,21 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         // Cambia el estado de seleccion de un registro
         // Que hace si no existe y es check? Lo crea por q es posible q se inserten dos colecciones base y selected   
 
-        var vNode =  this.gridStore.getById( data  ) 
+        var vNode =  this.gridStore.findRecord( 'data', data  ) 
         if ( vNode ) {
             vNode.set( '__Checked', checked )
         } else { 
-            this.gridStore.add( { id: data, '__Checked': checked } );
+            this.gridStore.add( { 'data': data, '__Checked': checked } );
         } 
     }, 
 
-    addOrRemove: function( idx, checked ) {
+    addOrRemove: function( data, checked ) {
         // Permite agregar o elimar un registro dependiendo del estado   
         
         if ( checked )  {
-            this.setChecked(  idx,  true  )
+            this.setChecked(  data,  true  )
         } else {
-            var vNode = this.gridStore.getById( idx  )
+            var vNode = this.gridStore.findRecord( 'data', data  )
             if (  vNode  )   {
                 this.gridStore.remove( vNode )
             }
