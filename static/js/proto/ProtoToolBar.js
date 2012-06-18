@@ -11,7 +11,7 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
     initComponent : function() {
 
         var me = this
-        me.addEvents('save', 'cancel', 'addField');
+        me.addEvents('save', 'cancel', 'add', 'del');
 
         Ext.apply(this, {
             items : [{
@@ -28,12 +28,23 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
                 itemId  : "cancel"
             },"-",{
                 tooltip : "Add field ( Udp's )",
-                iconCls : "icon-tableAdd",
-                itemId  : "addField"
-            },"-",{
+                iconCls : "icon-nodeInsert",
+                hidden : true, 
+                itemId  : "add",
+                scope   : this,
+                handler : function( btn ) {  
+                    me.fireEvent('add', btn.oData ) 
+                    }
+            }," ",{
                 tooltip : "Delet current field",
-                iconCls : "icon-tableDelete",
-                itemId  : "deleteField"
+                iconCls : "icon-nodeDelete",
+                hidden : true, 
+                itemId  : "del", 
+                scope   : this,
+                handler : function( btn ) {  
+                    me.fireEvent('del', btn.oData ) 
+                    }
+                
             },"-",{
                 tooltip : "Show Meta (JSON)",
                 iconCls : "icon-script_gear",
@@ -51,5 +62,15 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
 
     },
 
+  setButton: function( key, bVisible, bEnabled, toolTip , oData ) {
+     
+    var btn = this.getComponent( key )
+    
+    btn.setVisible( bVisible )
+    btn.setDisabled( ! bEnabled  )
+    btn.setTooltip( toolTip  )
+    btn.oData = oData 
+      
+  }   
     
 });

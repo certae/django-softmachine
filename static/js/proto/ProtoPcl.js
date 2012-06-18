@@ -80,11 +80,10 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
               }, scope : me 
             }
             
-            
-            
         }); 
 
-        me._extGrid = treeGrid;
+        this.treeGrid = treeGrid 
+
 
         var propsGrid = Ext.create('ProtoUL.ux.ProtoProperty', {
             source : { name : '' }
@@ -135,24 +134,21 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 // ---------------------------------------------------------------------------------------------- 
 
         tBar.on({
-            'cancel': function ( rowModel , record,  rowIndex,  eOpts ) {
-                // handler: this.cancelChanges
-            }, 
             'save': function ( rowModel , record,  rowIndex,  eOpts ) {
-                // handler: this.saveChanges
+
             }, 
             'showMeta': function ( rowModel , record,  rowIndex,  eOpts ) {
-                // handler: showMetaConfig,
+
             }, 
-            'addNode': function ( rowModel , record,  rowIndex,  eOpts ) {
-                // var node = store.getNodeById('node-2');
-                // var n = node.appendChild({
-                    // task:'New Node ', //  + i++,
-                    // leaf: true,
-                    // checked: true
-                    // })  
+            'add': function ( record ) {
+                addTreeNode ( record )
             }, 
-            
+            'del': function ( record ) {
+                delTreeNode ( record )
+            }, 
+            'cancel': function (  ) {
+            }, 
+            scope : this
         })
 
         treeGrid.on({
@@ -191,6 +187,51 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         );
 
 
+// ---------------------------------------------------------------------------------------------- 
+
+                
+        function addTreeNode ( record ) {
+
+            var ptType = record.data.__ptType
+            var __ptConfig = record.data.__ptConfig || {}
+
+            if (  ptType == 'filtersSet' ) {
+                
+                Ext.Msg.prompt('filterSet', 'Please enter the name for your filter::', function(btn, pName){
+                    if (btn != 'ok') return 
+
+                    var pJText = "{\"filter\":{},\"name\": \"" + pName + "\"}" 
+                    var tNode = {'text' :  pName,     '__ptType' :  'filterDef'   }
+                    tNode['__ptConfig'] =  { __ptValue : pJText }  
+                    tNode['children'] =  []  
+                    
+                    record.appendChild( tNode )
+                });
+                
+            } 
+
+        }
+
+        function delTreeNode ( record ) {
+
+            var ptType = record.data.__ptType
+            if (  ptType == 'filterDef' ) {
+                var parent = record.parentNode 
+                record.remove( )
+                
+                resetPanelInterface()
+                if ( parent ) {
+                    var view = me.treeGrid.getView();
+                    view.select( parent );
+                }  
+ 
+            }
+            
+        }
+
+// ---------------------------------------------------------------------------------------------- 
+
+
         function getAttrMsg( attrName ) {
             var msg =  DesignerObjects[ attrName ] || {}
             return msg.description || ''
@@ -209,46 +250,63 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             }
         }
 
+
 // ---------------------------------------------------------------------------------------------- 
 
+        function resetPanelInterface() {
+            jsonText.hide()
+            propsGrid.hide()
+            fieldList.hide()
+            resetButtons()
+        }
+
+        function resetButtons() {
+            tBar.setButton( 'add', bVisible = false, true )
+            tBar.setButton( 'del', bVisible = false, true )
+        }
 
         function preparePropertiesPCL( record ){
 
-            var oData      = me.treeRecord.data
+            var oData      = record.data
+            var ptType = oData.__ptType
             var __ptConfig = oData.__ptConfig || {}
 
-    	    var template = DesignerObjects[ oData.__ptType ] || {}
+    	    var template = DesignerObjects[ ptType ] || {}
+
+            resetPanelInterface()
 
             if ( template.__ptType == "jsonText") {
-                propsGrid.hide()
-                fieldList.hide()
-                
                 jsonText.setRawValue( __ptConfig.__ptValue )
                 jsonText.__ptConfig = __ptConfig
-                
                 jsonText.setFieldLabel( oData.text ) 
                 jsonText.show()
 
             } else if ( template.__ptType == "colList") {
-                jsonText.hide()
-                propsGrid.hide()
                 fieldList.show()
-                
                 fieldList.__ptConfig = __ptConfig
                 prepareColList( oData )
 
             } else {
-
-                jsonText.hide()
                 propsGrid.show()
-                fieldList.hide()
-
                 prepareProperties( record , me.myMeta,  propsGrid  )
-                
             } 
-        	 
+        
+            // Prepara el menu 
+            if ( ptType in oc( [ 'filtersSet'] )) {
+
+                //  .setButton( key  , show, enbl, toolTip , def  )
+                tBar.setButton( 'add', true, true, 'Add  filterDef', record  )
+                
+
+            } else if ( ptType in oc( [ 'filterDef'] )) {
+
+                tBar.setButton( 'del', true, true, 'Delete current filterDef [' + oData.text + ']', record  )
+                
+            }
             
         };
+
+
         
         var fList
         function prepareColList( oData ) {
