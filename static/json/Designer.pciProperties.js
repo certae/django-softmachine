@@ -36,8 +36,9 @@ DesignerProperties =  {
 
 // sheets
 
-    "protoSheetSelector": "Campo de criterio para seleccionar el template",
-
+    "protoSheetSelector.help": "Campo de criterio para seleccionar el template, vacio para una unica plantilla por defecto DEFAULT",
+    "template.help": "Definicion de la plantilla", 
+    
 
 // 
     "allowBlank": true,

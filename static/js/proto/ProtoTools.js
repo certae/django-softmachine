@@ -32,6 +32,14 @@ function Meta2Tree( oData, pName, ptType   ) {
         if ((  ptType == 'filtersSet') && ( pName != ptType ))  ptType = 'filterDef'                        
         if ((  ptType == 'listDisplaySet') && ( pName != ptType ))  ptType = 'listDisplay'                        
         if ((  ptType == 'protoDetails') && ( pName != ptType ))  ptType = 'protoDetail'                        
+        if ((  ptType == 'protoSheets') && ( pName != ptType ))  ptType = 'protoSheet'                        
+
+        // Nombre de tipos q se propagaron 
+        if (( ptType == 'sheetConfig' ) 
+            && ( pName in oc([ 'protoSheetProperties', 'protoSheets']))) {
+                ptType = pName
+        }
+
              
         // Obtiene un Id y genera  una referencia cruzada de la pcl con el arbol 
         // El modelo debe crear la referencia a la data o se perdera en el treeStore 
@@ -40,6 +48,7 @@ function Meta2Tree( oData, pName, ptType   ) {
         tData['text']  =  pName    
         tData['__ptType'] =  ptType 
         tData['__ptConfig' ] = __ptConfig
+        
         
         // Ramas que no deben abrirse 
         if ( (sDataType == "object" ) && ( ptType in oc([ 'field', 'formField' ]) ))  {
@@ -56,7 +65,10 @@ function Meta2Tree( oData, pName, ptType   ) {
         }   
 
         // Los tipos q son presentados en listas 
-        if ( ptType in oc([ 'listDisplay','hiddenFields','readOnlyFields','searchFields', 'sortFields'])) {
+        if ( ptType in oc([ 'listDisplay',
+                        'readOnlyFields', 'hiddenFields',
+                        'searchFields', 'sortFields', 
+                        'protoSheetProperties'])) {
             tData['__ptConfig' ] = { '__ptList' :  Ext.encode( oData  ) }
             tData['children'] =  [] 
             return tData 
@@ -121,9 +133,6 @@ function Meta2Tree( oData, pName, ptType   ) {
                     // TODO Verificar por q llegan objetos sin config                     
                     console.log( 'El objeto no tiene config?? ', vValue )
                 }
-                    
-                
-
 
                 tData['children'].push(  Meta2Tree(vValue, oTitle , pName   ) ) 
 
@@ -132,27 +141,8 @@ function Meta2Tree( oData, pName, ptType   ) {
         
     } else { 
         
-        // TODO m2t objeto plano???  Conversion de
+        // TODO m2t objeto plano???  Conversion 
         console.log (  'TODO FIX :  m2t objeto plano???  Aqui no dbee llegar nunca ')
-        
-        // Enmascara tags HTML
-        if (sDataType == "string" ) { 
-            oData =  oData.replace( '<', '&lt;').replace( '>', '&gt;').replace( '"', '\"')   
-        }
-
-        try {
-            var ptValue = oData.toString()   
-        } catch(e) {}
-
-
-        tData['text']  =  pName    
-        tData['__ptType'] =  sDataType  
-        tData['leaf'] =  true  
-        tData['ptValue'] =  ptValue  
-
-        var IxTree = Ext.id()
-        tData['id'] = IxTree
-
     }
 
     return tData 

@@ -27,7 +27,7 @@ function prepareProperties( record , myMeta,  propPanel  ){
         template = getTemplate( __ptType, false, myMeta.__ptDict[ __ptText  ] )
         __ptConfig[ 'name' ]  = __ptText 
 
-    } else if ( __ptType  in oc( [ 'protoDetail' ]) ) {
+    } else if ( __ptType  in oc( [ 'protoDetail', 'protoSheet' ]) ) {
         template = getTemplate( __ptType, false  )
 
     }  else {

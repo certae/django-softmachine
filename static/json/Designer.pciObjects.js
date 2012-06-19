@@ -173,8 +173,11 @@ DesignerObjects =  {
     },
 
     "protoSheet": {
-        "description": "Plantilla",
-        "properties": [ { 'name': '__ptType' , 'value': 'protoSheets'} ] 
+        "description": "Plantilla ( el nombre corresponde al selector )",
+        "properties": [
+            "template", 
+            "title" 
+        ]
     },
 
 

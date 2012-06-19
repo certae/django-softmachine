@@ -236,6 +236,19 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                     record.appendChild( tNode )
                 });
 
+            } else if (  ptType == 'protoSheets' ) {
+
+                msg = 'Please enter the name for your sheet:'
+                Ext.Msg.prompt(ptType, msg, function(btn, pName){
+                    if (btn != 'ok') return 
+
+                    var tNode = {'text' :  pName , __ptType : 'protoSheet' }
+                    tNode['__ptConfig'] =  { __ptType : 'protoSheet', 'title' :  pName }  
+
+                    tNode['children'] =  []  
+                    record.appendChild( tNode )
+                });
+
             }
  
 
@@ -246,7 +259,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             var ptType = record.data.__ptType
             var parent = record.parentNode 
 
-            if (  ptType in oc( [ 'filterDef', 'listDisplay', 'protoDetail' ])  ) {
+            if (  ptType in oc( [ 'filterDef', 'listDisplay', 'protoDetail', 'protoSheet' ])  ) {
                 record.remove( )
                 resetPanelInterface()
 
@@ -329,10 +342,10 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             // Prepara el menu 
             //  .setButton( key  , show, enbl, toolTip , def  )
 
-            if ( ptType in oc([ 'filtersSet', 'protoDetails', 'listDisplaySet'])  ) {
+            if ( ptType in oc([ 'filtersSet', 'protoDetails', 'listDisplaySet', 'protoSheets'])  ) {
                 tBar.setButton( 'add', true, true, 'Add instance of ' +  ptType, record  )
 
-            } else if ( ptType in oc( [ 'filterDef', 'protoDetail'] )) {
+            } else if ( ptType in oc( [ 'filterDef', 'protoDetail', , 'protoSheet'] )) {
                 tBar.setButton( 'del', true, true, 'Delete current ' + ptType + ' [' + oData.text + ']', record  )
 
 
