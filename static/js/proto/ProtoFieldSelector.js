@@ -83,7 +83,7 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
                 // El string no es un campos configurable
                 if ( vFld.name == '__str__' )  continue 
 
-                fieldList.addData ( vFld.name, true  ) 
+                fieldList.addDataItem ( vFld.name, true  ) 
             } 
         }
         

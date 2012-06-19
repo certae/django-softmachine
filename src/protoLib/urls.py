@@ -2,6 +2,8 @@ from django.conf.urls.defaults import patterns, url
 
 from protoLib.protoMenu import protoGetMenuData
 from protoLib.protoGetPci import protoGetPCI, protoSavePCI, protoGetFieldTree
+from protoLib.protoGetDetails import protoGetDetailsTree
+
 
 from protoLib.protoActionList import protoList
 from protoLib.protoActionEdit  import protoCreate, protoUpdate, protoDelete 
@@ -18,5 +20,6 @@ urlpatterns = patterns('',
     url('protoGetPCI/$', protoGetPCI ),
     url('protoSavePCI/$', protoSavePCI ),
     url('protoGetFieldTree/$', protoGetFieldTree ),
+    url('protoGetDetailsTree/$', protoGetDetailsTree ),
 
 )

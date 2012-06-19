@@ -801,15 +801,15 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
      
     showFieldTree: function() {
-
-
+    
+    
         var fieldsTree = Ext.create('ProtoUL.proto.ProtoFieldSelector', {
         // var fieldsTree = Ext.create('ProtoUL.proto.ProtoFieldTree', {
             protoOption : this.myMeta.protoOption, 
             myMeta : this.myMeta
         });
-
-
+    
+    
          var myWin  = Ext.widget('window', {
             constrain: true, 
             title : 'MetaDefinition [ ' + this.myMeta.protoOption + ' ]', 
@@ -820,23 +820,23 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             minWidth: 400,
             layout: 'fit',
             resizable: true,
-
+    
             collapsible: true,
             // modal: true,
-            items: fieldsTree 
- 
+                items: fieldsTree 
+     
+                
+            });
             
-        });
-        
-        myWin.show()
-        
+            myWin.show()
+            
         // var safeConf =  clone( myMeta , 0, exclude =['__ptDict','gridDefinition', 'formDefinition'] )
         // showConfig( 'MetaConfig', safeConf )
     }, 
     
-     
-
-showProtoDesigner: function() {
+         
+    
+    showProtoDesigner: function() {
 
         var protoDesigner = Ext.widget('protoDesigner', {
             myMeta  : this.myMeta,  
@@ -871,6 +871,40 @@ showProtoDesigner: function() {
         
         // var safeConf =  clone( myMeta , 0, exclude =['__ptDict','gridDefinition', 'formDefinition'] )
         // showConfig( 'MetaConfig', safeConf )
-    }
+    }, 
+    
+
+    showDetailsTree: function() {
+
+
+        var detailsTree = Ext.create('ProtoUL.proto.ProtoDetailSelector', {
+            protoOption : this.myMeta.protoOption, 
+            myMeta : this.myMeta
+        });
+    
+    
+         var myWin  = Ext.widget('window', {
+            constrain: true, 
+            title : 'Detalles [ ' + this.myMeta.protoOption + ' ]', 
+            closeAction: 'hide',
+            width: 900,
+            height: 600,
+            minHeight: 400,
+            minWidth: 400,
+            layout: 'fit',
+            resizable: true,
+    
+            collapsible: true,
+            // modal: true,
+            items: detailsTree 
+                
+            });
+        
+        myWin.show()
+        
+}, 
+
+    
+    
 
 });

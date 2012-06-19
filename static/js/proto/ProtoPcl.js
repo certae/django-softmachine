@@ -153,7 +153,6 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
         treeGrid.on({
             'select': function ( rowModel , record,  rowIndex,  eOpts ) {
-                sbar.setText( '<B>' + record.data.text + '</B> : ' +  getAttrMsg( record.data.text ), false )
                  
                 saveJsonText()
                 saveFieldList()
@@ -285,6 +284,13 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
     	    var template = DesignerObjects[ ptType ] || {}
 
+            // Status Bar 
+            var sMsg = getAttrMsg( record.data.text )
+            if ( sMsg ) sMsg = '<B>' + record.data.text + '</B> : ' +  sMsg
+            else  sMsg = '<B>' + ptType  + '</B>  [ ' +  record.data.text  + ' ]' 
+            sbar.setText( sMsg , false )
+
+            // Clear 
             resetPanelInterface()
 
             if ( template.__ptType == "jsonText") {

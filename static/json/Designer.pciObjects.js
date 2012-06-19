@@ -126,6 +126,26 @@ DesignerObjects =  {
         "__ptType": "colList" 
     },
 
+
+    "protoDetails": {
+        "description": "Detalles en una relacion Master-Detail",
+        "properties": [ { 'name': '__ptType' , 'value': 'protoDetails'} ] 
+    },
+
+
+    "protoDetail": {
+        "description": "Detalle en una relacion Master-Detail",
+        "properties": [
+            "menuText", 
+            "conceptDetail",
+            "masterField",
+            "detail_field", 
+            "detailTitleLbl", 
+            "detailTitlePattern"
+        ]
+    },
+
+
     "protoForm": {
         "description": "definicion de formas",
         "properties": [

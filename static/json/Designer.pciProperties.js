@@ -15,6 +15,18 @@ DesignerProperties =  {
     "pciStyle.help" : "Presentacion de la pci [ form,  grid]", 
     "pciStyle.choices": ["grid", "form"],
 
+// Detalles 
+
+    "masterField" : "pk",
+
+    "menuText.help" : "titulo en el menu ( toolbar )", 
+    "conceptDetail.help" : "Entidad detalle de la relacion ( App.Model App.Model.View? )",
+    "masterField.help" : "Campo q gobierna el filtro del detalle, por ahora solo el ID (Pk)",
+    "detail_field.help" : "", 
+    "detailTitleLbl":"", 
+    "detailTitlePattern":"", 
+
+
     "allowBlank": true,
     "allowBlank.help": "permite blancos en la forma, es diferente al nulo de la Db",
     "allowDecimals.help": "NO USAR : si permite o no decimales, si decimalPReciosion = 0 implica falso",

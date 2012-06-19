@@ -1,10 +1,5 @@
 /* 
- * Este objeto va a ser dual:
- *    
- * Arbol de campos para seleccionar los fields  ( Solo en la configuracion de fields )
- * 
- * Debera tener en cuenta si permite o no los campos UDP y las funciones ( por ejemplo __str__ ) 
- * pude ser un mensaje si se le da un parametro 
+ * Lectura del arbol de campos ( todos los lockup )
  * 
  */
 

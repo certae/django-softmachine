@@ -22,8 +22,7 @@ class PruebaMAdmin(django.contrib.admin.ModelAdmin):
 
 #admin.site.register(PruebaM, PruebaMAdmin)
 admin.site.register(PruebaM )
-
-
+admin.site.register(Papa )
 
 
 

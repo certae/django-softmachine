@@ -162,7 +162,7 @@ class ProtoGridFactory(object):
     def get_details(self):  
 
         # TODO: Agregar y probar m2m
-        # TODO: Configuar el master, cuando es una tabla heredada, hay q buscar el parent oMeta.get_parent_list()  ( y si hay multi herencia ) 
+        # TODO: Configuar el master, cuando es una tabla heredada, hay q buscar el parent oMeta.get_parent_list()  ( y si hay multi herencia?? ) 
         
         # Inicializa con los valores definidos,   
         details = self.protoAdmin.get( 'protoDetails', []) 

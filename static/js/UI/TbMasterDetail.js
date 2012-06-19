@@ -561,6 +561,10 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             iconCls : 'icon-configFields', 
             text:       'Fields',
             handler:    onClickConfigFields
+        }, {
+            iconCls : 'icon-configDetails', 
+            text:       'Details',
+            handler:    onClickConfigDetails
         }); 
 
 
@@ -580,8 +584,15 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
               __MasterDetail.protoMasterGrid.showFieldTree();
               
+        }; 
+        
+        function onClickConfigDetails( btn ){
+
+              __MasterDetail.protoMasterGrid.showDetailsTree();
+              
     
         }
+        
         
 
 

@@ -63,6 +63,8 @@
 .icon-configMeta    { background-image: url(../img/protoImg/config_meta.png ) !important;}
 .icon-configForm    { background-image: url(../img/protoImg/config_form.png ) !important;}
 .icon-configFields  { background-image: url(../img/protoImg/config_fields.png ) !important;}
+.icon-configDetails { background-image: url(../img/protoImg/config_details.png ) !important;}
+
 
 .icon-nodeInsert  { background-image: url(../img/protoImg/node-insert.png ) !important;}
 .icon-nodeDelete  { background-image: url(../img/protoImg/node-delete.png ) !important;}
