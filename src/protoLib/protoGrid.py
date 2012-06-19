@@ -181,8 +181,8 @@ class ProtoGridFactory(object):
                     })
     
             # Lo imprime en el debuger para poder copiarlo a la definicion 
-            if settings.DEBUG: 
-                print opts.object_name, details 
+#            if settings.DEBUG: 
+#                print opts.object_name, details 
             
         return details 
 

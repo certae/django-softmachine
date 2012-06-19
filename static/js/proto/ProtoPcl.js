@@ -193,29 +193,46 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
             var ptType = record.data.__ptType
             var __ptConfig = record.data.__ptConfig || {}
+            var msg = ''
 
+            // TODO: Cambiar por un template y hacer rutina generica 
             if (  ptType == 'filtersSet' ) {
 
-                Ext.Msg.prompt('filterSet', 'Please enter the name for your filter::', function(btn, pName){
+                msg = 'Please enter the name for your filter:'
+                Ext.Msg.prompt(ptType, msg, function(btn, pName){
                     if (btn != 'ok') return 
 
                     var pJText = "{\"filter\":{},\"name\": \"" + pName + "\"}" 
                     var tNode = {'text' :  pName,     '__ptType' :  'filterDef'   }
                     tNode['__ptConfig'] =  { __ptValue : pJText }  
+
                     tNode['children'] =  []  
-                    
                     record.appendChild( tNode )
                 });
                 
             } else if (  ptType == 'listDisplaySet' ) {
 
-                Ext.Msg.prompt('filterSet', 'Please enter the name for your alternative listDisplay::', function(btn, pName){
+                msg =  'Please enter the name for your alternative listDisplay:'
+                Ext.Msg.prompt(ptType, msg, function(btn, pName){
                     if (btn != 'ok') return 
 
                     var tNode = {'text' :  pName , __ptType : 'listDisplay' }
                     tNode['__ptConfig'] =  { __ptType : 'listDisplay' }  
+
                     tNode['children'] =  []  
-                    
+                    record.appendChild( tNode )
+                });
+
+            } else if (  ptType == 'protoDetails' ) {
+
+                msg = 'Please enter the name for your detail:'
+                Ext.Msg.prompt(ptType, msg, function(btn, pName){
+                    if (btn != 'ok') return 
+
+                    var tNode = {'text' :  pName , __ptType : 'protoDetail' }
+                    tNode['__ptConfig'] =  { __ptType : 'protoDetail', 'menuText' :  pName }  
+
+                    tNode['children'] =  []  
                     record.appendChild( tNode )
                 });
 
@@ -229,7 +246,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             var ptType = record.data.__ptType
             var parent = record.parentNode 
 
-            if (  ptType in oc( [ 'filterDef', 'listDisplay' ])  ) {
+            if (  ptType in oc( [ 'filterDef', 'listDisplay', 'protoDetail' ])  ) {
                 record.remove( )
                 resetPanelInterface()
 
@@ -310,18 +327,18 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             } 
         
             // Prepara el menu 
-            if ( ptType == 'filtersSet' ) {
-                //  .setButton( key  , show, enbl, toolTip , def  )
-                tBar.setButton( 'add', true, true, 'Add  filterDef', record  )
-            } else if ( ptType in oc( [ 'filterDef'] )) {
-                tBar.setButton( 'del', true, true, 'Delete current filterDef [' + oData.text + ']', record  )
-                
-            } else if ( ptType == 'listDisplaySet' ) {
-                tBar.setButton( 'add', true, true, 'Add alternative ListDisplay', record  )
+            //  .setButton( key  , show, enbl, toolTip , def  )
+
+            if ( ptType in oc([ 'filtersSet', 'protoDetails', 'listDisplaySet'])  ) {
+                tBar.setButton( 'add', true, true, 'Add instance of ' +  ptType, record  )
+
+            } else if ( ptType in oc( [ 'filterDef', 'protoDetail'] )) {
+                tBar.setButton( 'del', true, true, 'Delete current ' + ptType + ' [' + oData.text + ']', record  )
+
 
             } else if ( ptType in oc( [ 'listDisplay'] )) {
-
                 var parent = record.parentNode
+
                 if ( parent && parent.data.__ptType == 'listDisplaySet' ) {
                     tBar.setButton( 'del', true, true, 'Delete alternative listDisplay [' + oData.text + ']', record  )    
                 }

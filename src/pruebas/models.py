@@ -11,13 +11,14 @@ class Papa(models.Model):
         return self.prCode 
 
     class Meta:
-        verbose_name = 'Maestro' 
+        verbose_name = 'Papa' 
 
 class PruebaM(models.Model):
     # Maestro para pruebas 
     prCode = models.CharField(verbose_name=u'Codigo',blank = True, null = True, max_length=200 , default = 'Codigo', unique = True )
     prDescription = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
-    prPapa = models.ForeignKey('Papa', verbose_name=u'Papa')
+    prPapa1 = models.ForeignKey('Papa', related_name = 'papa1')
+    prPapa2 = models.ForeignKey('Papa', related_name = 'papa2')
 
     def __unicode__(self):
         return self.prCode + '-' + self.prDescription

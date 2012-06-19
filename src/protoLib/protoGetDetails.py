@@ -36,7 +36,7 @@ def protoGetDetailsTree(request):
         # debe ser el nombre del fk q corresponde + pk para apuntar al ix del maestro 
         # si los nombres del modelo padre y del fk no corresponde q pasa? 
         detailField =  detail.field.attname
-        addDetailToList( detailList,  detail , detailField  )
+        addDetailToList( detailList,  detail , detailField, ''  )
 
         
     # Codifica el mssage json 
@@ -45,7 +45,7 @@ def protoGetDetailsTree(request):
 
 
 
-def addDetailToList(  detailList , detail, detailField   ):
+def addDetailToList(  detailList , detail, detailField, detailPath   ):
     """ return parcial detail tree  ( Called from protoGetFieldTree ) 
     """
 
@@ -53,13 +53,15 @@ def addDetailToList(  detailList , detail, detailField   ):
     oMeta = model._meta 
     modelName = oMeta.app_label + '.' + oMeta.object_name
 
+    if len( detailPath ) > 0: detailPath += '.'  
+    detailPath +=  oMeta.object_name.capitalize() + ':' + detail.field.name
+
     # Agrega el campo solicitado
     menuDetail = {
-        "menuText"      : oMeta.verbose_name.title() + '.' + detail.field.name , 
+        "id"      : detailPath ,  
         "conceptDetail" : modelName, 
-        "id"            : modelName + '.' + detailField , 
         "detailField"   : detailField,                    
-        "masterField"   : 'pk',                                                #  oMeta.pk.name ,
+        "masterField"   : 'pk',                 #  oMeta.pk.name ,
         "leaf"          : True 
         }
     
@@ -75,7 +77,7 @@ def addDetailToList(  detailList , detail, detailField   ):
     
         for sDetail in model._meta.get_all_related_objects(): 
             sDetailField = sDetail.field.name + '__' + detailField 
-            addDetailToList( detailChild,  sDetail , sDetailField  )
+            addDetailToList( detailChild,  sDetail , sDetailField, detailPath  )
     
         # Si el modelo de base es el modelo de trabajo, no entro al loop 
         if len( detailChild ) > 0:  

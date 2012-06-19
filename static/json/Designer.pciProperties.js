@@ -19,14 +19,27 @@ DesignerProperties =  {
 
     "masterField" : "pk",
 
-    "menuText.help" : "titulo en el menu ( toolbar )", 
-    "conceptDetail.help" : "Entidad detalle de la relacion ( App.Model App.Model.View? )",
-    "masterField.help" : "Campo q gobierna el filtro del detalle, por ahora solo el ID (Pk)",
-    "detail_field.help" : "", 
-    "detailTitleLbl":"", 
-    "detailTitlePattern":"", 
+    "menuText.help"         : "titulo en el menu ( toolbar )", 
+    "conceptDetail.help"    : "Entidad detalle de la relacion ( App.Model App.Model.View? )",
+    "masterField.help"      : "Campo en el maestro para q sirve de criterio para el filtro del detalle, por ahora solo el ID (Pk)",
+    "detailField.help"      : "Campo del detalle para hacer el filtro", 
+    "detailTitleLbl.help"   : "Titulo en el detalle para indicar el filtro actual", 
+    "detailTitlePattern.help" : "Campo en el maestro que se utiliza para construir el titulo de la vista filtrada en el detalle", 
+
+//  Udps 
+    "propertyPrefix" : "udp", 
+    "propertyPrefix.help" : "prefijo de las propiedades definidas por el usuario ( en el nombre del campo aparencen upd__xxxxx)", 
+    "propertyName.help" : "En la tabla de udps el nombre del campo que contiene la llave de la propiedad",
+    "propertyValue.help" : "En la tabla de udps el nombre del campo que contiene el valor",
+    "udpTable.help" : "Tabla que contiene las upds", 
 
 
+// sheets
+
+    "protoSheetSelector": "Campo de criterio para seleccionar el template",
+
+
+// 
     "allowBlank": true,
     "allowBlank.help": "permite blancos en la forma, es diferente al nulo de la Db",
     "allowDecimals.help": "NO USAR : si permite o no decimales, si decimalPReciosion = 0 implica falso",

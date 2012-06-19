@@ -27,9 +27,10 @@ function prepareProperties( record , myMeta,  propPanel  ){
         template = getTemplate( __ptType, false, myMeta.__ptDict[ __ptText  ] )
         __ptConfig[ 'name' ]  = __ptText 
 
+    } else if ( __ptType  in oc( [ 'protoDetail' ]) ) {
+        template = getTemplate( __ptType, false  )
+
     }  else {
-
-
         // Default Data ( El nombre del nodo es el tipo de datos real ) 
         template = getTemplate( __ptText , false  )
     } 

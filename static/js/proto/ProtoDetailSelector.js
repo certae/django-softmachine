@@ -8,8 +8,10 @@
 Ext.define('ProtoUL.proto.ProtoDetailSelector', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.protoDetailSelector',
+
+// Contenedor para probar el arbol de detalles 
     
- // @protoOption   Required 
+// @protoOption   Required 
     protoOption : null, 
 
  // @myMeta   Required 
@@ -24,62 +26,26 @@ Ext.define('ProtoUL.proto.ProtoDetailSelector', {
             myMeta : me.myMeta 
            })
 
-        var detailList = Ext.create('ProtoUL.ux.ProtoList', {
-            checkStyle : false, 
-            idTitle: 'SelectedDetails' 
-        })
 
         detailTree.on({
             'loadComplete': function (  treeStore, records,  successful,  eOpts ) {
-                configureCurrentDetails()
+                // configureCurrentDetails()
             }, 
             'checkModif': function (  node,  checked,  eOpts ) {
-                var idx = node.get( 'id' )
-                detailList.addOrRemove ( idx, checked  ) 
+                // var idx = node.get( 'id' )
             }, 
             scope: me }
         );
 
         var tBar =  Ext.create( 'ProtoUL.proto.ProtoToolBar', {dock : 'top'})
 
-        var panelItems =   [{
-                region: 'center',
-                layout: 'fit',
-                minSize: 200,
-                items: detailTree, 
-                border: false,
-                // flex: 5
-            // }, {
-                // region: 'east',
-                // // collapsible: true,
-                // collapsed: false ,
-                // split: true,
-                // layout: 'fit',
-                // minSize: 200,
-                // items: detailList, 
-                // border: false,
-                // flex: 1
-            }]
-            
         Ext.apply(this, {
-            layout: 'border',
-            items: panelItems, 
+            layout: 'fit',
+            items: detailTree, 
             dockedItems: [ tBar ] 
         });
           
         this.callParent(arguments);
-        
-        
-        function configureCurrentDetails() {
-
-            // Crea los campos activos en la grilla 
-            for (var ix in me.myMeta.protoDetails ) {
-                // var vFld  =  me.myMeta.fields[ix];
-                // // El string no es un campos configurable
-                // if ( vFld.name == '__str__' )  continue 
-                // fieldList.addDataItem ( vFld.name, true  ) 
-            } 
-        }
         
     } 
 
@@ -138,22 +104,16 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
             columns: [{
                 xtype: 'treecolumn', //this is so we know which column will show the tree
                 text: 'text',
-                flex: 1,
+                flex: 2,
                 sortable: true,
                 minWidth: 200,
-                dataIndex: 'menuText'
-            // },{
-                // text: 'masterField',
-                // dataIndex: 'masterField'
-            },{
-                flex: 1,
-                text: 'Ix',
                 dataIndex: 'id'
             },{
-                flex: 1,
+                flex: 2,
                 text: 'detailField',
                 dataIndex: 'detailField'
             },{
+                flex: 1,
                 text: 'conceptDetail',
                 dataIndex: 'conceptDetail'
             }] 

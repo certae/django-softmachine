@@ -31,6 +31,7 @@ function Meta2Tree( oData, pName, ptType   ) {
 
         if ((  ptType == 'filtersSet') && ( pName != ptType ))  ptType = 'filterDef'                        
         if ((  ptType == 'listDisplaySet') && ( pName != ptType ))  ptType = 'listDisplay'                        
+        if ((  ptType == 'protoDetails') && ( pName != ptType ))  ptType = 'protoDetail'                        
              
         // Obtiene un Id y genera  una referencia cruzada de la pcl con el arbol 
         // El modelo debe crear la referencia a la data o se perdera en el treeStore 

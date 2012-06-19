@@ -139,10 +139,42 @@ DesignerObjects =  {
             "menuText", 
             "conceptDetail",
             "masterField",
-            "detail_field", 
+            "detailField", 
             "detailTitleLbl", 
             "detailTitlePattern"
         ]
+    },
+
+    "protoUdp": {
+        "description": "User defined properties ( se utilizan como campos y son creados por usr a voluntad, no participan en search, sort)",
+        "properties": [
+            "propertyPrefix", 
+            "propertyName",
+            "propertyValue",
+            "udpTable" 
+        ]
+    },
+
+    "sheetConfig": {
+        "description": "Plantillas de info html que son alimentadas por los datos de la Db",
+        "properties": [
+            "protoSheetSelector" 
+        ]
+    },
+
+    "protoSheetProperties": {
+        "description": "Lista de campos utilizados en las plantillas",
+        "__ptType": "colList" 
+    },
+
+    "protoSheets": {
+        "description": "Lista de plantillas",
+        "properties": [ { 'name': '__ptType' , 'value': 'protoSheets'} ] 
+    },
+
+    "protoSheet": {
+        "description": "Plantilla",
+        "properties": [ { 'name': '__ptType' , 'value': 'protoSheets'} ] 
     },
 
 
