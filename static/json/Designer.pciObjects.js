@@ -71,7 +71,7 @@ DesignerObjects =  {
 
     "baseFilter": {
         "description": "Filtro de base adicional a cualquier filtro definido, no modificable por el usuario Ej: { \"status__exact\":\"0\" } ",
-        "__ptType": "jsonText" 
+        "__ptStyle": "jsonText" 
     },
 
 
@@ -82,27 +82,27 @@ DesignerObjects =  {
 
     "filterDef": {
         "description": "Filtro predefinido definido ",
-        "__ptType": "jsonText" 
+        "__ptStyle": "jsonText" 
     },
 
     "initialFilter": {
         "description": "Filtro inicial, reescribible al seleccionar otro filtro  Ej: { \"status__exact\":\"0\" } ",
-        "__ptType": "jsonText" 
+        "__ptStyle": "jsonText" 
     },
 
     "initialSort": {
         "description": "Ordenamiento por defecto  Ej: [{\"direction\":\"ASC\",\"property\":\"code\"}, ... ] ",
-        "__ptType": "jsonText" 
+        "__ptStyle": "jsonText" 
     },
 
     "hiddenFields": {
         "description": "Lista de campos ocultos  ( TODO: hidden = true or not at all? )",
-        "__ptType": "colList" 
+        "__ptStyle": "colList" 
     },
 
     "listDisplay": {
         "description": "Lista de campos a desplegar en la grilla",
-        "__ptType": "colList" 
+        "__ptStyle": "colList" 
     },
 
     "listDisplaySet": {
@@ -112,18 +112,18 @@ DesignerObjects =  {
 
     "readOnlyFields": {
         "description": "Lista de campos a marcar como readOnly ( tambien se puede utilzar la prop ReadOnly es igual )",
-        "__ptType": "colList" 
+        "__ptStyle": "colList" 
     },
 
 
     "searchFields": {
         "description": "Campos habilitados para busqueda",
-        "__ptType": "colList" 
+        "__ptStyle": "colList" 
     },
 
     "sortFields": {
         "description": "Campos habilitados para ordenamiento",
-        "__ptType": "colList" 
+        "__ptStyle": "colList" 
     },
 
 
@@ -164,7 +164,7 @@ DesignerObjects =  {
 
     "protoSheetProperties": {
         "description": "Lista de campos utilizados en las plantillas",
-        "__ptType": "colList" 
+        "__ptStyle": "colList" 
     },
 
     "protoSheets": {

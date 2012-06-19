@@ -200,24 +200,14 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
     showFormConfig: function () {
             var safeConf =  clone( this.myMeta.protoForm )
-            this._showConfig( 'Form Config' , safeConf   )
+            showConfig( 'Form Config' , safeConf   )
        },
 
     showLayoutConfig: function () {
             var safeConf =  clone( this.prFormLayout  )
-            this._showConfig( 'LayoutConfig' , safeConf   )
+            showConfig( 'LayoutConfig' , safeConf   )
        },
         
-    _showConfig: function ( title , myConf ) {
-
-            Ext.Msg.show({
-               title: title,
-               multiline : true,   
-               width : 500, 
-               value: Ext.encode( myConf ) 
-               });
-
-       },
     
     setActiveRecord : function(record) {
         this.activeRecord = record;

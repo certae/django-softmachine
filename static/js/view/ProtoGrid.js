@@ -496,18 +496,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             showConfig( 'm2t t2m' , safeConf  )
         }
         
-        function showConfig( title , myConf ) {
-
-            Ext.Msg.show({
-               title: title,
-               multiline : true,   
-               width : 600, 
-               height : 400, 
-               value: Ext.encode( myConf ) 
-               });
-
-        }
-        
 
         function prepareSheet( ){
 

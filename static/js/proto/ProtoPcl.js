@@ -43,6 +43,8 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         var treeData = Meta2Tree( safeConf, 'pcl', 'pcl' )
         treeData.expanded = true
 
+        this.treeData = clone( treeData )
+
         var treeGridStore = Ext.create('Ext.data.TreeStore', { 
             folderSort: true, 
             sorters: [{ property: 'text', direction: 'ASC' }], 
@@ -50,6 +52,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             root: treeData 
         });
 
+        this.treeGridStore = treeGridStore
         
         var treeGrid = Ext.create('Ext.tree.Panel', {
             store: treeGridStore,
@@ -134,10 +137,24 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 // ---------------------------------------------------------------------------------------------- 
 
         tBar.on({
-            'save': function ( rowModel , record,  rowIndex,  eOpts ) {
+            'save': function ( ) {
+
+                newMeta =  Tree2Meta( me.treeGridStore.getRootNode() )
 
             }, 
-            'showMeta': function ( rowModel , record,  rowIndex,  eOpts ) {
+            'cancel': function (  ) {
+                me.cancelChanges()
+            }, 
+            'show1': function (  ) {
+
+                var safeConf = clone( me.myMeta , 0, exclude =['__ptDict', 'protoViews'] )
+                showConfig( 'Original' , safeConf  )
+            }, 
+            'show2': function (  ) {
+
+                var safeConf =  me.treeGridStore.getRootNode()
+                safeConf =  Tree2Meta( safeConf )
+                showConfig( 'Edited' , safeConf  )
 
             }, 
             'add': function ( record ) {
@@ -145,8 +162,6 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             }, 
             'del': function ( record ) {
                 delTreeNode ( record )
-            }, 
-            'cancel': function (  ) {
             }, 
             scope : this
         })
@@ -323,13 +338,13 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             // Clear 
             resetPanelInterface()
 
-            if ( template.__ptType == "jsonText") {
+            if ( template.__ptStyle == "jsonText") {
                 jsonText.setRawValue( __ptConfig.__ptValue )
                 jsonText.__ptConfig = __ptConfig
                 jsonText.setFieldLabel( oData.text ) 
                 jsonText.show()
 
-            } else if ( template.__ptType == "colList") {
+            } else if ( template.__ptStyle == "colList") {
                 fieldList.show()
                 fieldList.__ptConfig = __ptConfig
                 prepareColList( oData )
@@ -381,21 +396,6 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             fieldList.addDataSet( fList )
         } 
         
-
-        
-        function showMetaConfig() {
-            showConfig( 'MetaConfig', me.myMeta )
-        }
-
-        function showConfig( title , myConf ) {
-            Ext.Msg.show({
-               title: title,
-               multiline : true,   
-               width : 600, 
-               height : 400, 
-               value: Ext.encode( myConf ) 
-               });
-        }
         
     },
 
@@ -407,7 +407,8 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
     
     cancelChanges: function() {
         //TODO: Verificar si hace un reload 
-        this.store.load(); 
+        // this.treeGridStore.getRootNode().removeAll();
+        // this.treeGridStore.setRootNode( this.treeData ) 
     } 
     
 });

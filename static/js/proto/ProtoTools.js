@@ -244,3 +244,14 @@ function get_ptConfig( oData   ) {
         return cData 
     }
 }             
+
+
+function showConfig( title , myConf ) {
+    Ext.Msg.show({
+       title: title,
+       multiline : true,   
+       width : 800, 
+       height : 600, 
+       value: Ext.encode( myConf ) 
+       });
+}
