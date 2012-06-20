@@ -35,7 +35,7 @@ def protoGetDetailsTree(request):
         # Este es el campo por el que voy a filtrar el modelo, 
         # debe ser el nombre del fk q corresponde + pk para apuntar al ix del maestro 
         # si los nombres del modelo padre y del fk no corresponde q pasa? 
-        detailField =  detail.field.attname
+        detailField =  detail.field.name + '__pk'
         addDetailToList( detailList,  detail , detailField, ''  )
 
         

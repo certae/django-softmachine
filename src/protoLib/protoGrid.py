@@ -93,7 +93,7 @@ class ProtoGridFactory(object):
         # Agrega el __str__ que sirve de base para los zooms
         key = '__str__' 
         if not self.protoFields.get( key , {}) :
-            self.protoFields[ key ] = { 'name' : key , 'header' : 'metaDescription'}         
+            self.protoFields[ key ] = { 'name' : key , 'header' : 'metaDescription' }         
 
         # Genera la lista de campos y agrega el nombre al diccionario 
         for key in self.protoFields:        
@@ -181,7 +181,7 @@ class ProtoGridFactory(object):
                 details.append({
                     "menuText"      : oMeta.object_name.capitalize() + ':' + detail.field.name, 
                     "conceptDetail" : oMeta.app_label + '.' + oMeta.object_name, 
-                    "detailField"   : detail.field.attname,
+                    "detailField"   : detail.field.name + '__pk',
                     "masterField"   : 'pk',                                         #  oMeta.pk.name ,
                     })
     

@@ -177,7 +177,7 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
              'sortFields': pSortFields, 
              
              # TODO: Implementar  ( El listDisplay podra contener propiedades, hidden, flex, width,  ... 
-             'hiddenFields': grid.protoAdmin.get( 'hiddenFields', []),
+             'hiddenFields': grid.protoAdmin.get( 'hiddenFields', [ '__str__', 'id']),
          },
 
 

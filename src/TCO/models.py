@@ -23,6 +23,7 @@ class TypeLogiciel(models.Model):
         unique_together= (("typeLogiciel", ),)
         verbose_name = 'Type Logiciel'
         verbose_name_plural = 'Type Logiciel'
+        
 
 class Famille(models.Model):
     """

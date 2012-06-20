@@ -221,6 +221,17 @@ function DefineProtoModel ( myMeta , modelClassName ){
         }; 
 
 
+        // 
+        if ( vFld.name in oc( myMeta.gridConfig.hiddenFields )) {
+            mField.hidden = true ;
+            vFld.hidden = true ;
+        }
+
+        if ( vFld.name in oc( myMeta.gridConfig.readOnlyFields )) {
+            mField.readOnly = true ;
+            vFld.readOnly = true ;
+        }
+
         // Determina el xType y otros parametros 
         switch( vFld.type )
         {
@@ -288,7 +299,7 @@ function getColDefinition( vFld ) {
     }
 
     var lstProps = ['flex',  'width', 'minWidth', 'sortable',
-                    // 'hidden',  
+                    'hidden',  
                     'xtype', 'editMode', 'readOnly', 
                     'render', 'align', 'format', 'tooltip'
                     ]

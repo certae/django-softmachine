@@ -134,7 +134,10 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                     xtype: 'buttongroup'
                 },{
                     id : ideTbDetails, 
-                    xtype: 'buttongroup'
+                    xtype: 'buttongroup', 
+                    defaults : {
+                        witdth : 100, maxWidth : 100  
+                    }
                 },{
                     id : ideTbViews, 
                     xtype: 'buttongroup'
@@ -664,6 +667,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 
                 var item = menuDetail.add({
                     text: pDetails[vDet].menuText,
+                    tooltip : pDetails[vDet].menuText,
                     detailKey: pDetails[vDet].conceptDetail,
                     detailField: pDetails[vDet].detailField,
                     masterField: pDetails[vDet].masterField,
