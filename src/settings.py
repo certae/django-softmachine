@@ -165,8 +165,9 @@ INSTALLED_APPS = (
 #    'django_extensions',
     'protoLib', 
     'protoExt', 
-    'pruebas', 
-    'shiny', 'baq'
+#    'pruebas', 
+#    'shiny', 
+    'TCO'
 #    'django_qbe'
     # 'django.contrib.admindocs',
 )

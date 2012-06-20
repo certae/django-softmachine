@@ -236,6 +236,10 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             detailKey : item.detailKey ,
             layout: 'fit',
             closable: true, 
+            tabConfig: {
+                tooltip : item.text, 
+                width : 120 
+            },
             items: detailGrid,
             ixDetail: item.ixDetail
         });

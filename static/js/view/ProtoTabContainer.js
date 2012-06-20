@@ -31,6 +31,10 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
 
         var tab = this.add({
             title: title ,
+            tabConfig: {
+                tooltip : title, 
+                width : 120 
+            },
             iconCls: myMeta.protoIcon , 
             closable: true, 
             layout: 'fit',
