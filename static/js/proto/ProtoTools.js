@@ -24,15 +24,18 @@ function Meta2Tree( oData, pName, ptType   ) {
         __ptConfig = get_ptConfig( oData )
 
         if ( __ptConfig.__ptType ) ptType = __ptConfig.__ptType
+        if ( __ptConfig.name ) pName = __ptConfig.name
+
         if ( ! ptType  )  ptType = sDataType    
         
         if (  ptType  == "fields" )   ptType = 'field' 
         if (  ptType  in oc([ 'pcl', 'gridConfig']) )   ptType = pName 
 
-        if ((  ptType == 'filtersSet') && ( pName != ptType ))  ptType = 'filterDef'                        
-        if ((  ptType == 'listDisplaySet') && ( pName != ptType ))  ptType = 'listDisplay'                        
-        if ((  ptType == 'protoDetails') && ( pName != ptType ))  ptType = 'protoDetail'                        
-        if ((  ptType == 'protoSheets') && ( pName != ptType ))  ptType = 'protoSheet'                        
+        if (( ptType == 'filtersSet') && ( pName != ptType ))  ptType = 'filterDef'                        
+        if (( ptType == 'listDisplaySet') && ( pName != ptType ))  ptType = 'listDisplay'                        
+        if (( ptType == 'protoDetails') && ( pName != ptType ))  ptType = 'protoDetail'                        
+        if (( ptType == 'protoSheets') && ( pName != ptType ))  ptType = 'protoSheet'                        
+        if (( ptType == 'fieldset') && ( pName == 'items'))  ptType = 'items'                         
 
         // Nombre de tipos q se propagaron 
         if (( ptType == 'sheetConfig' ) 
@@ -167,59 +170,88 @@ function Tree2Meta( tNode  ) {
         var tChilds =  tNode.children
     }
 
-    var __ptConfig, __ptType, sType, mData  
+    var __ptConfig, __ptType, sType, mData   
     var __ptText   = tData.text
     
-    if  ( tData.__ptConfig )  __ptConfig = tData.__ptConfig 
-    // if  ( tData.__ptType )    __ptType   = tData.__ptType  
+    if  ( tData.__ptConfig )  __ptConfig = tData.__ptConfig
+     
+    __ptType  = getPtType( tData ) 
+    if ( __ptType in oc([ 'protoForm', 'fieldset'])) {
+        console.log( __ptType , tNode )
+    }  
 
     if ( __ptConfig )  { 
 
         sType = typeOf( __ptConfig )
-          
         if ( sType == 'object' ) {
 
             // El __ptConfig corresponde a la conf basica del node
-            mData = { '__ptConfig' : get_ptConfig( __ptConfig  ) }
-            if ( ! mData.__ptConfig.name ) mData.__ptConfig.name = __ptText    
+            mData =  get_ptConfig( __ptConfig  ) 
+            // if ( ! mData.name ) mData.name = __ptText    
+            getChilds( tData, tChilds , mData )
             
         } else if ( sType == 'array' )  {
             // Si es un array, el objeto de base es un array  
             mData =  []  
+            getChilds( tData, tChilds , mData )
 
         } else  {
             console.log ('t2m Error de tipo', sType  )
             return {}
-
         }
-        
         // Lo necesita por q  es leida del child   
-        mData.__ptText = __ptText  
+        // mData.__ptText = __ptText  
 
-    }; 
+    } else {
 
-    // Agrega los childs dependiendo de q sea el objeto 
-
-    for (var ix in tChilds ) {
-        var nChildData = Tree2Meta( tChilds[ ix ]  )
-        var sText = nChildData.__ptText
-
-        delete nChildData.__ptText 
-
-        if ( sType == 'object' ) {
-            mData[ sText  ] = nChildData 
-
-        } else if ( sType == 'array' )  {
-
-            // si solo viene  nombre del campo lo crea como un objeto 
-            if ( Ext.encode( nChildData ) === Ext.encode({}) ) nChildData = sText 
-            mData.push( nChildData )
-        }
-
+        console.log ('t2m Error ptConfig no definido', tNode  )
+        return {}
+        
     }
+
 
     return mData 
     
+
+    // -----------------------------------------------------------------------------
+
+    function getChilds( tData, tChilds, mData ) {
+    
+        var sType = typeOf( mData )
+           
+        for (var ix in tChilds ) {
+            var lNode = tChilds[ ix ]
+            var __ptType = getPtType( lNode  )
+    
+            var nChildData = Tree2Meta( lNode   )
+            // delete nChildData.__ptText 
+    
+            if ( sType == 'object' ) {
+                mData[ __ptType  ] = nChildData 
+    
+            } else if ( sType == 'array' )  {
+                // si solo viene  nombre del campo lo crea como un objeto 
+                if ( Ext.encode( nChildData ) === Ext.encode({}) ) nChildData = sText 
+                mData.push( nChildData )
+            }
+    
+        }
+        
+    }
+    
+    function getPtType( lNode  ) {
+    
+        if  ( lNode.__ptType ) {
+            return lNode.__ptType  
+        } else if ( lNode.data && lNode.data.__ptType ) {
+            return lNode.data.__ptType  
+        }     
+    
+        console.log ( 'Tipo de dato??' , lNode )                
+        
+    }
+
+
 }
 
 function get_ptConfig( oData   ) {
@@ -235,11 +267,21 @@ function get_ptConfig( oData   ) {
         var cData = {}
         for (var lKey in oData ) {
             var cValue = oData[ lKey  ]
-    
-            // Los objetos o arrays son la imagen del arbol y no deben ser tenidos en cuenta, 
-            // generarian recursividad infinita                 
+
+            // Los objetos o arrays son la imagen del arbol y no deben ser tenidos en cuenta, generarian recursividad infinita 
             if  ( typeOf( cValue  ) in oc([ 'object', 'array' ])) continue   
-            cData[ lKey  ] = cValue  
+
+            // __ptValue es un encodage 
+            if ( lKey in oc( [ '__ptValue', '__ptList' ])  )  {
+                try {
+                    cData = Ext.decode( cValue )    
+                } catch (e) {  
+                    console.log( "Error de encodage", cValue )
+                }
+            } else {
+                cData[ lKey  ] = cValue  
+            } 
+
         }
         return cData 
     }

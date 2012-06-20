@@ -58,7 +58,7 @@ def addDetailToList(  detailList , detail, detailField, detailPath   ):
 
     # Agrega el campo solicitado
     menuDetail = {
-        "id"      : detailPath ,  
+        "id"            : detailPath ,  
         "conceptDetail" : modelName, 
         "detailField"   : detailField,                    
         "masterField"   : 'pk',                 #  oMeta.pk.name ,

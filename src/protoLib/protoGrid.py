@@ -128,32 +128,36 @@ class ProtoGridFactory(object):
             # Toma la lista del field set si no existe lo crea de base, 
             baseFieldSet = verifyList( getattr(self.model_admin , 'fieldsets', []))
             
-            
             if (len( baseFieldSet )  == 0 ):        
                 # Genera la lista de campos y agrega el nombre al diccionario
-                prSection = { '__ptType' : 'fieldset',  }
-                
+
+                prItems = []                
                 for key in self.protoFields:
                     vFld = self.protoFields.get( key , {})
                     if ( vFld.get( 'storeOnly', False )): continue
-                            
-                    prSection[ key ] = { '__ptType' : 'formField'}
+                    prItems.append( { 'name' : key  , '__ptType' : 'formField'} ) 
+
+                prSection = { '__ptType' : 'fieldset', 'items' : prItems  }
 
                 prFieldSet.append ( prSection )
             
             # si existe un fieldset convierte la estructura                      
             else: 
                 for name, opts in baseFieldSet:
+
                     prSection = { '__ptType' : 'fieldset',  }
-                    
-                    if ( name != None ): prSection.title = name  
-                    for formField in opts['fields']:
-                        getFieldsInSet( prSection, formField  )
+                    if ( name != None ): 
+                        prSection[ 'title' ]  = name  
 
                     classes = getattr( opts, 'classes', [] )
                     if ( 'collapse' in classes ): 
-                        prSection['__ptConfig'] = { "collapsible" :  True }  
+                        prSection['collapsible'] =  True   
 
+                    prItems = []
+                    for formField in opts['fields']:
+                        getFieldsInSet( prItems, formField  )
+                        
+                    prSection['items'] =  prItems   
                     prFieldSet.append( prSection )
             
         return prFieldSet 
@@ -171,19 +175,16 @@ class ProtoGridFactory(object):
         if (len( details )  == 0 ):        
             opts = self.model._meta
 
-            for rel in opts.get_all_related_objects(): # + opts.get_all_related_many_to_many_objects():
-                oMeta = rel.model._meta         
+            for detail in opts.get_all_related_objects(): # + opts.get_all_related_many_to_many_objects():
+                oMeta = detail.model._meta
+                         
                 details.append({
-                    "menuText"      : oMeta.verbose_name.title(), 
+                    "menuText"      : oMeta.object_name.capitalize() + ':' + detail.field.name, 
                     "conceptDetail" : oMeta.app_label + '.' + oMeta.object_name, 
-                    "detailField"   : opts.module_name + '__pk',                    # rel.field.attname,
+                    "detailField"   : detail.field.attname,
                     "masterField"   : 'pk',                                         #  oMeta.pk.name ,
                     })
     
-            # Lo imprime en el debuger para poder copiarlo a la definicion 
-#            if settings.DEBUG: 
-#                print opts.object_name, details 
-            
         return details 
 
 
@@ -310,11 +311,11 @@ def getProtoViewName( protoConcept   ):
     return protoConcept, view 
 
 
-def getFieldsInSet( prSection, formFields ):
+def getFieldsInSet( prItems, formFields ):
     # Al recorrer el fieldset pueden venir tuplas o arrays anidados, se manejan en una unica lista 
     for formField in formFields:
         if type(formField).__name__ in [ type(()).__name__,  type([]).__name__]:
-            getFieldsInSet( prSection, formField  )
+            getFieldsInSet( prItems, formField  )
         else: 
-            prSection[ formField ] = { '__ptType' : 'formField' }
+            prItems.append ( { 'name' : formField, '__ptType' : 'formField' } ) 
 
