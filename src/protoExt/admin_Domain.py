@@ -12,7 +12,6 @@ class ModelInline(django.contrib.admin.TabularInline):
 
 
 class DomainAdmin(django.contrib.admin.ModelAdmin):
-    app_name = 'Dictionnaire de donnees'
     list_display =( 'code', 'description', )
     fieldsets = (
         (None, {

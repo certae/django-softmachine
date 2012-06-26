@@ -35,7 +35,9 @@ def protoGetMenuData(request):
         if ixModAux < 0: return 
     
         appCode = model._meta.app_label
-        menuLabel = protoAdmin.get('app_name', appCode )
+        
+        # Define la rama del menu 
+        menuLabel = protoAdmin.get('protoMenuOpt', appCode )
         
         pTitle = protoAdmin.get('title', model._meta.verbose_name.title() )
     

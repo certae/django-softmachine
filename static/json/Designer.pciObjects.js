@@ -19,6 +19,8 @@ DesignerObjects =  {
             "protoOption", 
             "description" ,
             "protoConcept" , 
+            "protoMenuOpt",  
+            "protoMenuIx",  
             "protoIcon",
             "shortTitle" ,
             "helpPath", 

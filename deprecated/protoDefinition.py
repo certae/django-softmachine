@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+#  @Original : /src/protoLib/protoDefinition.py
+
 #  ESTO MANEJARA  LA ACTUALIZACION DE LA PCL  Y LAS RUTINAS COMPLEMENTARIAS 
 #  CARGAR LA JERARQUIA DE CAMPOS  ( ARBOL EXPANDIENDO LOS FKEY ) 
 #  REGISTRAR LAS OPCIONES PARA PODER MANEJAR EL SITEMAP ( MENU )  
@@ -33,7 +35,7 @@ def protoGetFields(request):
         if ixModAux < 0: return 
     
         appCode = model._meta.app_label
-        menuLabel = protoAdmin.get('app_name', appCode )
+        menuLabel = protoAdmin.get('protoMenuOpt', appCode )
         
         pTitle = protoAdmin.get('title', model._meta.verbose_name.title() )
     

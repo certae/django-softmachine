@@ -149,7 +149,7 @@ TEMPLATE_DIRS = (
     PPATH + '/templates',          
     
 #    '/home/dario/data/PyDjango/protoExt/src/django_qbe/templates',
-#    'D:/data/PyDjango/protoExt/src/django_qbe/templates',
+#    'D:/data/PyDjango/protoExt/src/django_qbe   /templates',
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -210,7 +210,14 @@ PROTO_APP = {}
 PROTO_APP['app_menu'] = {
     'auth' : { 'hidden': True, },  
     'admin': { 'hidden': True, },
-    'protoExt' : { 'hidden': False, 'title': 'Dictionnaire des données MSSS', 'expanded':True, }
+    'Base':  { 'title': 'Base de connaissances', 'expanded':True, 'menu_index' : 2  },
+    'Param':  { 'title': 'Paramètres', 'expanded':False, 'menu_index' : 2  },
+
+    'TCO':   { 'title': 'Coût total de possession - TCO', 'expanded':False, 'menu_index' : 9  },
+
+    
+    'protoExt' : { 'hidden': False, 'title': 'Dictionnaire des données MSSS', 'expanded':False, 'menu_index' : 98  }, 
+    'protoLib': { 'hidden': False, 'title': 'Métadonnée', 'expanded':False, 'menu_index' : 99  },
     } 
 
 

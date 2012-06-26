@@ -3,21 +3,35 @@ from django.contrib  import admin
 
 
 class ReferenceAdmin(admin.ModelAdmin):
-    list_display = ('etiquette', 'description',)
+    list_display = ('etiquette', 'commentaire',)
     fieldsets = [
         (None, 
-            {'fields': [('etiquette', 'description', ),
+            {'fields': [('etiquette', 'commentaire', ),
                         ('enregistrementBibTex')
                         ]
              }),
                  ]
-    app_name = 'Base'
+    protoExt = { 
+                'protoMenuIx': 3, 
+                'protoMenuOpt' : 'Base' 
+    }
+    
 
 class FamilleAdmin(admin.ModelAdmin):
-    app_name = 'Base'
+    protoExt = { 
+                'protoMenuIx': 1, 
+                'protoMenuOpt' : 'Param' 
+    }
+
 
 class TypeLogicielAdmin(admin.ModelAdmin):
-    app_name = 'Base'
+    protoExt = { 
+                'protoMenuIx': 2, 
+                'protoMenuOpt' : 'Param' 
+    }
 
 class NiveauAdmin(admin.ModelAdmin):
-    app_name = 'Base'
+    protoExt = { 
+                'protoMenuIx': 3, 
+                'protoMenuOpt' : 'Param' 
+    }

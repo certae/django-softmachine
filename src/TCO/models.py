@@ -69,8 +69,9 @@ class Reference(models.Model):
     prevoir un module bibtex pour la saisie et la visualisation
     """
     etiquette = models.CharField(verbose_name=u'Etiquette',max_length=50, blank=True, null=True, db_index=True)
-    description = models.CharField(verbose_name=u'description',max_length=500 , blank=True, null=True,)
+    commentaire = models.CharField(verbose_name=u'Commentaire',max_length=500 , blank=True, null=True,)
     enregistrementBibTex = models.TextField(verbose_name=u'Enregistrement BibTex')
+    
     def __unicode__(self):
         return force_unicode(self.etiquette)
     class Meta: 
@@ -140,23 +141,6 @@ class CoutAnnuel(models.Model):
         verbose_name_plural = 'Cout Annuel'
 
 
-class CoutAdherance(models.Model):
-    """
-    tableau (logiciel initial, coßt Øvolution, coßt substitution, niveau (petit, moyen, ØlevØ)
-    """
-    logiciel = models.ForeignKey('Logiciel')
-    logicielRef = models.ForeignKey('Logiciel', related_name='logicielRef' )
-    niveau = models.ForeignKey('Niveau')
-    coutEvolution = models.DecimalField(verbose_name=u'Cout evolution',max_digits=20, decimal_places=2,null=True, db_index=True, default = 0)
-    coutSubstitution = models.DecimalField(verbose_name=u'Cout substitution',max_digits=20, decimal_places=2,null=True, db_index=True, default = 0)
-    
-    def __unicode__(self):
-        return force_unicode(self.logiciel) + ' ' + force_unicode(self.logicielRef) + ' ' +force_unicode(self.niveau)
-    class Meta: 
-        unique_together= (("logiciel", "logicielRef", "niveau", ),)
-
-        verbose_name = 'Cout Adherance'
-        verbose_name_plural = 'Cout Adherance'
 
 #------------------------------------------------------------------------------------------------
         
@@ -335,4 +319,56 @@ class TCO(models.Model):
 
 
 
+
+class Equivalence(models.Model):
+    logiciel = models.ForeignKey('Logiciel')
+    logicielRef = models.ForeignKey('Logiciel', related_name='+')
+   
+    def famille(self):
+        return self.logiciel.famille 
+    famille.admin_order_field = 'logiciel__famille'
+   
+    def __unicode__(self):
+        return force_unicode(self.logiciel) + '-' + force_unicode(self.logicielRef)
+    class Meta: 
+        unique_together= (("logiciel","logicielRef" ),)
+
+
+
+class CoutAdherance(models.Model):
+    """
+    tableau (logiciel initial, coßt Øvolution, coßt substitution, niveau (petit, moyen, ØlevØ)
+    """
+    equivalence = models.ForeignKey('Equivalence')
+    niveau = models.ForeignKey('Niveau')
+    coutEvolution = models.DecimalField(verbose_name=u'Cout evolution',max_digits=20, decimal_places=2,null=True, db_index=True, default = 0)
+    coutSubstitution = models.DecimalField(verbose_name=u'Cout substitution',max_digits=20, decimal_places=2,null=True, db_index=True, default = 0)
+    
+    def __unicode__(self):
+        return force_unicode(self.equivalence) + ' ' + force_unicode(self.niveau)
+    class Meta: 
+        unique_together= (("equivalence", "niveau", ),)
+
+        verbose_name = 'Cout Adherance'
+        verbose_name_plural = 'Cout Adherance'
+
+#class EquivalencesInline(admin.TabularInline):
+#    model = Equivalence
+#    fk_name = 'logiciel'
+#    extra = 1
+#
+#    readonly_fields = ('famille',)
+#    fields = ('logicielRef', 'famille')
+#   
+#
+#    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
+#       field = super(EquivalencesInline, self).formfield_for_foreignkey(db_field, request, **kwargs)
+#
+#       if db_field.name == 'logicielRef':
+#           if request._obj_ is not None:
+#               _famille = request._obj_.famille
+#               field.queryset = Logiciel.objects.filter(famille = _famille ).exclude( pk = request._obj_.id )   
+#           else:
+#               field.queryset = field.queryset.none()
+#       return field
 

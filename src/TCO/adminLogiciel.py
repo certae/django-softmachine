@@ -9,23 +9,23 @@ class CoutAnnuelInline(admin.TabularInline):
     extra = 1
 
 
-class CoutAdheranceInline(admin.TabularInline):
-    model = CoutAdherance
-    fk_name = 'logiciel'
-    extra = 1
-    fields = ('logicielRef', 'niveau', 'coutEvolution', 'coutSubstitution')
-    
-
-    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
-        field = super(CoutAdheranceInline, self).formfield_for_foreignkey(db_field, request, **kwargs)
-
-        if db_field.name == 'logicielRef':
-            if request._obj_ is not None:
-                _famille = request._obj_.famille
-                field.queryset = Logiciel.objects.filter(famille = _famille ).exclude( pk = request._obj_.id )  
-            else:
-                field.queryset = field.queryset.none()
-        return field
+#class CoutAdheranceInline(admin.TabularInline):
+#    model = CoutAdherance
+#    fk_name = 'logiciel'
+#    extra = 1
+#    fields = ('logicielRef', 'niveau', 'coutEvolution', 'coutSubstitution')
+#    
+#
+#    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
+#        field = super(CoutAdheranceInline, self).formfield_for_foreignkey(db_field, request, **kwargs)
+#
+#        if db_field.name == 'logicielRef':
+#            if request._obj_ is not None:
+#                _famille = request._obj_.famille
+#                field.queryset = Logiciel.objects.filter(famille = _famille ).exclude( pk = request._obj_.id )  
+#            else:
+#                field.queryset = field.queryset.none()
+#        return field
     
 
 class DiscussionLogicielInline(admin.TabularInline):
@@ -66,12 +66,17 @@ class LogicielAdmin(admin.ModelAdmin):
                  ]
     inlines = [
         CoutAnnuelInline,
-        CoutAdheranceInline,
+#        CoutAdheranceInline,
         DiscussionLogicielInline, 
         SourceslInline, 
         # On peut voir les equivalences sur la fiche CoutAdhereance 
         #EquivalencesInline,
         ]
+
+    protoExt = { 
+                'protoMenuIx': 1, 
+                'protoMenuOpt' : 'Base' 
+    }
 
 
     def get_form(self, request, obj=None, **kwargs):

@@ -27,3 +27,8 @@ class ImageAdmin(admin.ModelAdmin):
         CompositionImageline,
         DiscussionImageInline, 
         ]
+
+    protoExt = { 
+                'protoMenuIx': 2, 
+                'protoMenuOpt' : 'Base' 
+    }

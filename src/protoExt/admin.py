@@ -52,7 +52,7 @@ class MetaLinkAdmin(django.contrib.admin.ModelAdmin):
     search_fields = ( 'code', 'alias', 'destinationText', 'sourceCol', 'destinationCol')
 
     protoExt = { 'protoMenuIx': -1 }
-    protoExt[ 'app_name' ] = 'Liens'
+    protoExt[ 'protoMenuOpt' ] = 'Liens'
     protoExt[ 'menu_index' ] = 2
 
 
@@ -66,7 +66,7 @@ class MetaLinkModelAdmin(django.contrib.admin.ModelAdmin):
 #    search_fields = ( 'code', 'alias', 'destinationText', 'sourceCol', 'destinationCol')
 
     protoExt = { 'protoMenuIx': -1 }
-    protoExt[ 'app_name' ] = 'Liens'
+    protoExt[ 'protoMenuOpt' ] = 'Liens'
     protoExt[ 'menu_index' ] = 1
     
 
@@ -92,7 +92,6 @@ admin.site.register(UdpDefinition, UdpAdminDefinition)
 class MetaObjAdmin(admin.ModelAdmin):
     list_display =( 'id', 'code', 'objType', 'description', 'category'  )
     readonly_fields = ('objType', )
-#    app_name = 'Meta'
 
     #Add = False  
     def has_add_permission(self, request):

@@ -15,6 +15,10 @@ DesignerProperties =  {
     "pciStyle.help" : "Presentacion de la pci [ form,  grid]", 
     "pciStyle.choices": ["grid", "form"],
 
+    "protoMenuOpt.help" : "Rama de menu en la que aparece", 
+    "protoMenuIx.help" : "Index de la opcion en la Rama de menu", 
+    "protoMenuIx.type" : "number", 
+
 // Detalles 
 
     "masterField" : "pk",
