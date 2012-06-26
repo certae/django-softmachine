@@ -87,7 +87,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
     },
     
 
-    defineProtoFormItem : function( parent, protoObj, protoIx) {
+    defineProtoFormItem : function( parent, protoObj, protoIx ) {
 
         var prLayout , template, __ptType 
         var sDataType = typeOf(protoObj);
@@ -95,8 +95,12 @@ Ext.define('ProtoUL.view.ProtoForm', {
         if (sDataType == "object" ) { 
 
             // Configura el objeto
-            if ( ! protoObj.__ptConfig )  protoObj.__ptConfig = {}
-            if ( protoIx ) protoObj.__ptConfig.name = protoIx 
+            if ( ! protoObj.__ptConfig )  
+                protoObj.__ptConfig = get_ptConfig( protoObj )
+                
+            if ( protoIx ) 
+                protoObj.__ptConfig.name = protoIx 
+            
             
             __ptType = protoObj.__ptConfig.__ptType || protoObj.__ptType
             
@@ -108,9 +112,12 @@ Ext.define('ProtoUL.view.ProtoForm', {
             } else if ( __ptType == 'formField'  ) {
 
                 // protoIx es el field Name, si no viene debe buscarlo en __ptConfig [ name ]
+                protoIx = protoObj.name || protoObj.__ptConfig.name 
+                
                 var myFld =  this.myMeta.__ptDict[ protoIx ] 
                 if ( ! myFld ) {
-                    myFld =  this.myMeta.__ptDict[ protoObj.__ptConfig.name  ]   
+                    console.log( 'formField sans name :' , protoObj )
+                    // myFld =  this.myMeta.__ptDict[ protoObj.__ptConfig.name  ]   
                 }
                 
                 template = getTemplate( __ptType, true,  myFld  )
@@ -123,10 +130,11 @@ Ext.define('ProtoUL.view.ProtoForm', {
     
                 // Agrega los items 
                 prLayout.items = []
-                for(var ix in protoObj ) {
+                var prItems = protoObj.items
+                for(var ix in prItems ) {
                     if ( ix.indexOf( "__pt" )  == 0 ) continue 
 
-                    var prVar = protoObj[ix];
+                    var prVar = prItems[ix];
                     var prFld = this.defineProtoFormItem( protoObj, prVar, ix )
                     if(prFld) prLayout.items.push(prFld);
                 }
