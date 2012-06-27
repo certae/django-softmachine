@@ -170,12 +170,12 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                 "leaf": true, 
                 "__ptConfig": {
                     "menuText" : vFld.menuText, 
-                    "conceptDetail" : vFld.conceptDetail ,
+                    "protoOption" : vFld.conceptDetail ,
                     "masterField" : vFld.masterField,
                     "detailField" : vFld.detailField, 
                     "detailTitleLbl" : vFld.detailTitleLbl, 
                     "detailTitlePattern" : vFld.detailTitlePattern, 
-                    "xtype": "gridpanel",
+                    "xtype": "protoGrid",
                     "__ptType": "protoGrid"
                 }
             }

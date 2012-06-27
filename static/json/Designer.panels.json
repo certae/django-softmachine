@@ -119,9 +119,12 @@
             }, {
                 "text": "Panel",
                 "qtip": "A simple panel with default layout",
+                "__ptType" : "panel", 
                 "children": [], 
                 "__ptConfig": {
-                    "xtype": "panel"
+                    "layout": "fit",
+                    "xtype": "panel", 
+                    "__ptType" : "panel"
                 }
             }, {
                 "text": "Tab Container",

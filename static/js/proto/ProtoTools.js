@@ -54,7 +54,7 @@ function Meta2Tree( oData, pName, ptType   ) {
         
         
         // Ramas que no deben abrirse 
-        if ( (sDataType == "object" ) && ( ptType in oc([ 'field', 'formField' ]) ))  {
+        if ( (sDataType == "object" ) && ( ptType in oc([ 'field', 'formField', 'protoGrid'  ]) ))  {
             tData['leaf'] =  true  
             return tData 
         }

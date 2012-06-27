@@ -217,17 +217,8 @@ DesignerObjects =  {
             "format",
             "decimalPrecision"
             ]
-    }, 
-
-    "panel": {
-        "description": "A field element",
-        "properties": [
-            "title",
-            "height","maxHeight","minHeight","width", "maxWidth","minWidth"
-            ]
+        }
     }
-    
-};
 
 
 
