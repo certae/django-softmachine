@@ -101,7 +101,6 @@
         "text": "Containers",
         "children": [
             {
-            
                 "text": "fieldset",
                 "qtip": "A Fieldset, containing other form elements",
                 "__ptType": "fieldset",
@@ -170,16 +169,7 @@
         ]
     }, {
         "text": "Details",
-        "children": [
-            {
-                "text": "Grid",
-                "qtip": "A grid",
-                "__ptConfig": {
-                    "xtype": "grid"
-                },
-                "leaf": true
-            }
-        ]
+        "children": []
     }, {
         "text": "Others",
         "children": [

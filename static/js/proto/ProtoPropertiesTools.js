@@ -99,6 +99,7 @@ function getTemplate( ptType, forForm,  metaDict  )  {
     }
 
     // Garantiza q no venga una definicion generica 
+    if ( ! prps.xtype  ) prps.xtype = ptType 
     if ( prps.xtype == 'formField' ) prps.xtype = 'textfield' 
  
 

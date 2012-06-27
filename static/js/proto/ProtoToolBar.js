@@ -11,10 +11,18 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
     initComponent : function() {
 
         var me = this
-        me.addEvents('save', 'cancel', 'add', 'del', 'help', 'show1', 'show2');
+        me.addEvents('save', 'preview', 'add', 'del', 'help', 'show1', 'show2');
 
         Ext.apply(this, {
             items : [{
+                tooltip : "Save preview",
+                iconCls : "icon-configPreview", 
+                itemId  : "preview", 
+                scope   : this,
+                handler : function() {  
+                    me.fireEvent('preview') 
+                    }
+            }," ",{
                 tooltip : "Update definition",
                 iconCls : "icon-save", 
                 itemId : "save", 
@@ -22,15 +30,6 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
                 handler : function() {  
                     me.fireEvent('save') 
                     }
-            // }," ",{
-                // tooltip : "Cancel updata",
-                // iconCls : "icon-cancel", 
-                // itemId  : "cancel", 
-                // scope   : this,
-                // handler : function() {  
-                    // me.fireEvent('cancel') 
-                    // }
-                
             },"-",{
                 tooltip : "Add field ( Udp's )",
                 iconCls : "icon-nodeInsert",
