@@ -153,7 +153,11 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
          'shortTitle': grid.protoAdmin.get( 'title', grid.title),
          'description': pDescription ,
          'protoIcon': protoIcon,
+
          'helpPath': grid.protoAdmin.get( 'helpPath',''),
+
+         'protoMenuOpt': grid.protoAdmin.get( 'protoMenuOpt',''),
+         'protoMenuIx':  grid.protoAdmin.get( 'protoMenuIx',''),
 
          'fields': grid.fields, 
 

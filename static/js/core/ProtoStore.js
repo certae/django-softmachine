@@ -525,7 +525,9 @@ function getColDefinition( vFld ) {
 function getFormFieldDefinition( vFld ) {
 
     var colDefinition = getColDefinition( vFld );
-    var formEditor = { readOnly : true  }
+    
+    // Se inicializa ro, en caso de q no se encuentre en el dict  
+    var formEditor = {  readOnly : true  }
     
     if ( colDefinition.editor )  formEditor = colDefinition.editor;
       
@@ -545,9 +547,11 @@ function getFormFieldDefinition( vFld ) {
           break;
     }
 
-    if ( ! formEditor.xtype )  
-        formEditor.xtype = 'textfield'
+    // Inicializa los tipos 
+    formEditor.__ptType = 'formField'
+    if ( ! formEditor.xtype )  formEditor.xtype = 'textfield'
 
+    
     return formEditor; 
     
 }

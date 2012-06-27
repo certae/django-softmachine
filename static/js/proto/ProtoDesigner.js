@@ -126,18 +126,68 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         );
 
 
-
         /* Se podrian cargar directamente desde el json, dejando un hook en el store y asignandolo
          * antes de crear el componente. 
          */
 
         defineProtoPclTreeModel()
+        
+        var treeData = clone ( myObj.toolsTree )
 
+
+        function getTreeNodeByText( treeData, textKey ) {
+            // recupera un nodo del arbol segun su texto, para los fields y los details  
+            for (var ix in treeData ) {
+                var vNod  =  treeData[ix];
+                if ( vNod.text == textKey ) return vNod 
+            }
+            // No deberia nunca llegar aqui 
+            return {}
+        }
+
+        // Agrega los campos de la pci particular 
+        var treeNodAux = getTreeNodeByText( treeData,  'Fields' )  
+        for (var ix in this.myMeta.fields ) {
+            var vFld  =  this.myMeta.fields[ix];
+            var treeNodAuxData = {
+                "text": vFld.name ,
+                "qtip": vFld.cellToolTip,
+                "__ptType": "formField",
+                "leaf": true, 
+                "__ptConfig": getFormFieldDefinition( vFld )
+            }
+            treeNodAux.children.push( treeNodAuxData )
+        }
+
+        // Agrega los detalles 
+        var treeNodAux = getTreeNodeByText( treeData,  'Details' )  
+        for (var ix in this.myMeta.protoDetails ) {
+            var vFld  =  this.myMeta.protoDetails[ix];
+            var treeNodAuxData = {
+                "text": vFld.menuText ,
+                "qtip": vFld.toolTip,
+                "__ptType": "protoGrid",
+                "leaf": true, 
+                "__ptConfig": {
+                    "menuText" : vFld.menuText, 
+                    "conceptDetail" : vFld.conceptDetail ,
+                    "masterField" : vFld.masterField,
+                    "detailField" : vFld.detailField, 
+                    "detailTitleLbl" : vFld.detailTitleLbl, 
+                    "detailTitlePattern" : vFld.detailTitlePattern, 
+                    "xtype": "gridpanel",
+                    "__ptType": "protoGrid"
+                }
+            }
+            treeNodAux.children.push( treeNodAuxData )
+        }
+
+        // Crea el store 
         var treeStore = Ext.create('Ext.data.TreeStore', {
             model : 'Proto.PclTreeNode', 
             root : {
                 expanded : true,
-                children : myObj.toolsTree
+                children : treeData
             }
         });
 
@@ -239,8 +289,6 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                     myMeta : this.myMeta
                     } 
                 )
-                // this.redrawForm( formMeta )
-                
                 
             },me   );
 
@@ -248,6 +296,11 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         var btSave = this.tBar.down( '#save');
         btSave.on('click',
             function(  btn , event,  eOpts) {
+
+                var formMeta =  Tree2Meta( this.formTree.store.getRootNode() )
+                this.myMeta.protoForm = formMeta
+
+                savePclCache( this.myMeta.protoOption, this.myMeta )
                 savePci( this.myMeta )         
             },me   );
 

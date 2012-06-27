@@ -6,6 +6,10 @@ Tareas pendientes
     Discretas 
         Implementar manejo de variables discretas, 
         
+    Icono
+        GetMenu debe traer el icono tambien de la definicion guardada si existe, 
+        ahora lo trae solamente de la metadirecta 
+        
     Redefinir meta2tree 
         HAcerlo de manera jerarquica y no recursiva,  separar por lo menos en rutinas independientes el m2t de la forma y 
         del list displayset
@@ -13,7 +17,6 @@ Tareas pendientes
     Detalles, 
         la llave del detalle no permite actalmente montar dos referencias a partir de la misma tabla ( maestro1, maestro2 )
         redefinir la llave.  
-    
         
     DiplaySet 
         q puede contener tambien un set  HiddenFields, ReadOnlyFields,  Los titulos y el resto de la 
@@ -29,19 +32,19 @@ Tareas pendientes
         
     Copiar una pci 
         Tener la posibilidad de copiar una pci, ( obviamente una vista dependiente de la entidad )
-        
        
     Seguridad 
         implementar     
     
-            
      
+    Barra de estado,
+        Campo actual,  actividades, etc   
+	   
+    Login 
+        en la barra de estado y no en la parte superior 
 
-	Barra de estado,  
-	Login en la barra de estado y no en la parte superior 
 
 	Zoom 
-
 		@ZoomModel 	
 		El valor del zoom por defecto solo necesita la entidad base, este attr es automatico  
 		

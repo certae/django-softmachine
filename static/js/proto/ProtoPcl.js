@@ -137,10 +137,14 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 // ---------------------------------------------------------------------------------------------- 
 
         tBar.on({
+            'preview': function ( ) {
+                var newMeta =  Tree2Meta( me.treeGridStore.getRootNode() )
+                savePclCache( newMeta.protoOption, newMeta )
+            }, 
             'save': function ( ) {
-
-                newMeta =  Tree2Meta( me.treeGridStore.getRootNode() )
-
+                var newMeta =  Tree2Meta( me.treeGridStore.getRootNode() )
+                savePclCache( newMeta.protoOption, newMeta )
+                savePci( newMeta )         
             }, 
             'cancel': function (  ) {
                 me.cancelChanges()
@@ -400,11 +404,6 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
     },
 
 
-    
-    saveChanges: function(){
-        savePci( this.myMeta )         
-    }, 
-    
     cancelChanges: function() {
         //TODO: Verificar si hace un reload 
         // this.treeGridStore.getRootNode().removeAll();
