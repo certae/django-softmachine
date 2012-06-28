@@ -677,6 +677,9 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                     ixDetail: detailCount
                 });
                 
+                // PreCarga los detalles  ( DGT: Esto puede ser optimizado en la carga asincrona de la pcl, por ahora lo need para la forma )
+                loadPci( pDetails[vDet].conceptDetail, true )                 
+                
                 // Agrego el handler q activara el tab a partir del menu
                 bDetails = true;
                 item.on({

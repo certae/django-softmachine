@@ -308,6 +308,22 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                 savePci( this.myMeta )         
             },me   );
 
+
+        var btDel = this.tBar.down( '#delete');
+        btDel.on('click',
+            function(  btn , event,  eOpts) {
+
+                var ptType = me.treeRecord.data.__ptType
+                var parent = me.treeRecord.parentNode 
+    
+                me.treeRecord.remove( )
+                if ( parent ) {
+                    var view = me.treeGrid.getView();
+                    view.select( parent );
+                }
+
+            },me   );
+
     },
     
     

@@ -10,8 +10,8 @@ _ROW_ST = {
     }
 
 
-_siteTitle = 'Dictionnaire de données de la Santé et des Services sociaux'
-_versionProto = 'Version 0.93a'
+_siteTitle = 'ART Atelier de Référentiel pour Togaf'
+_versionProto = 'Version 0.13k'
 
 _detailViewNewTab     = 'Voir dans un nouvel onglet'
 _gridBbPerPage         = ' par page'

@@ -196,6 +196,7 @@ DesignerObjects =  {
             "title", 
             "fsLayout",
             "autoscroll",
+            "labelWidth",
             "collapsible", "collapsed", 
             "height","maxHeight","minHeight","width", "maxWidth","minWidth"
         ]
