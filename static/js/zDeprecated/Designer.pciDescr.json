@@ -1,0 +1,709 @@
+{
+    
+    "form/FieldSet.js": {
+        checkboxToggle: {
+            type: "Boolean",
+            desc: "True to render a checkbox into the fieldset frame just in front of the legend (defaults to false). The fieldset will be expanded or collapsed when the checkbox is toggled."
+        },
+        checkboxName: {
+            type: "String",
+            desc: "The name to assign to the fieldset's checkbox if {@link #checkboxToggle} = true (defaults to '[checkbox id]-checkbox')."
+        },
+        labelWidth: {
+            type: "Number",
+            desc: "The width of labels. This property cascades to child containers."
+        },
+        itemCls: {
+            type: "String",
+            desc: "A css class to apply to the x-form-item of fields. This property cascades to child containers."
+        },
+        baseCls: {
+            type: "String",
+            desc: "The base CSS class applied to the fieldset (defaults to 'x-fieldset')."
+        },
+        layout: {
+            type: "String",
+            desc: "The {@link Ext.Container#layout} to use inside the fieldset (defaults to 'form')."
+        }
+    },
+
+    "form/HtmlEditor.js": {
+        enableFormat: {
+            type: "Boolean",
+            desc: "Enable the bold, italic and underline buttons (defaults to true)"
+        },
+        enableFontSize: {
+            type: "Boolean",
+            desc: "Enable the increase/decrease font size buttons (defaults to true)"
+        },
+        enableColors: {
+            type: "Boolean",
+            desc: "Enable the fore/highlight color buttons (defaults to true)"
+        },
+        enableAlignments: {
+            type: "Boolean",
+            desc: "Enable the left, center, right alignment buttons (defaults to true)"
+        },
+        enableLists: {
+            type: "Boolean",
+            desc: "Enable the bullet and numbered list buttons. Not available in Safari. (defaults to true)"
+        },
+        enableSourceEdit: {
+            type: "Boolean",
+            desc: "Enable the switch to source edit button. Not available in Safari. (defaults to true)"
+        },
+        enableLinks: {
+            type: "Boolean",
+            desc: "Enable the create link button. Not available in Safari. (defaults to true)"
+        },
+        enableFont: {
+            type: "Boolean",
+            desc: "Enable font selection. Not available in Safari. (defaults to true)"
+        },
+        createLinkText: {
+            type: "String",
+            desc: "The default text for the create link prompt"
+        },
+        defaultLinkValue: {
+            type: "String",
+            desc: "The default value for the create link prompt (defaults to http:/ /)"
+        },
+        fontFamilies: {
+            type: "Array",
+            desc: "An array of available font families"
+        }
+    },
+
+
+
+    "form/NumberField.js": {
+        fieldClass: {
+            type: "String",
+            desc: "The default CSS class for the field (defaults to \"x-form-field x-form-num-field\")"
+        },
+        allowDecimals: {
+            type: "Boolean",
+            desc: "False to disallow decimal values (defaults to true)"
+        },
+        decimalSeparator: {
+            type: "String",
+            desc: "Character(s) to allow as the decimal separator (defaults to '.')"
+        },
+        decimalPrecision: {
+            type: "Number",
+            desc: "The maximum precision to display after the decimal separator (defaults to 2)"
+        },
+        allowNegative: {
+            type: "Boolean",
+            desc: "False to prevent entering a negative sign (defaults to true)"
+        },
+        minValue: {
+            type: "Number",
+            desc: "The minimum allowed value (defaults to Number.NEGATIVE_INFINITY)"
+        },
+        maxValue: {
+            type: "Number",
+            desc: "The maximum allowed value (defaults to Number.MAX_VALUE)"
+        },
+        minText: {
+            type: "String",
+            desc: "Error text to display if the minimum value validation fails (defaults to \"The minimum value for this field is {minValue}\")"
+        },
+        maxText: {
+            type: "String",
+            desc: "Error text to display if the maximum value validation fails (defaults to \"The maximum value for this field is {maxValue}\")"
+        },
+        nanText: {
+            type: "String",
+            desc: "Error text to display if the value is not a valid number. For example, this can happen if a valid character like '.' or '-' is left in the field with no number (defaults to \"{value} is not a valid number\")"
+        }
+    },
+    
+    
+    
+    "form/TextArea.js": {
+        growMin: {
+            type: "Number",
+            desc: "The minimum height to allow when grow = true (defaults to 60)"
+        },
+        growMax: {
+            type: "Number",
+            desc: "The maximum height to allow when grow = true (defaults to 1000)"
+        },
+        preventScrollbars: {
+            type: "Boolean",
+            desc: "True to prevent scrollbars from appearing regardless of how much text is in the field (equivalent to setting overflow: hidden, defaults to false)"
+        },
+        autoCreate: {
+            type: "String/Object",
+            desc: "A DomHelper element spec, or true for a default element spec (defaults to {tag: \"textarea\", style: \"width:100px;height:60px;\", autocomplete: \"off\"})"
+        }
+    },
+
+
+    "form/TextField.js": {
+        grow: {
+            type: "Boolean",
+            desc: "True if this field should automatically grow and shrink to its content"
+        },
+        growMin: {
+            type: "Number",
+            desc: "The minimum width to allow when grow = true (defaults to 30)"
+        },
+        growMax: {
+            type: "Number",
+            desc: "The maximum width to allow when grow = true (defaults to 800)"
+        },
+        vtype: {
+            type: "String",
+            desc: "A validation type name as defined in {@link Ext.form.VTypes} (defaults to null)"
+        },
+        maskRe: {
+            type: "String",
+            desc: "An input mask regular expression that will be used to filter keystrokes that don't match (defaults to null)"
+        },
+        disableKeyFilter: {
+            type: "Boolean",
+            desc: "True to disable input keystroke filtering (defaults to false)"
+        },
+        allowBlank: {
+            type: "Boolean",
+            desc: "False to validate that the value length > 0 (defaults to true)"
+        },
+        minLength: {
+            type: "Number",
+            desc: "Minimum input field length required (defaults to 0)"
+        },
+        maxLength: {
+            type: "Number",
+            desc: "Maximum input field length allowed (defaults to Number.MAX_VALUE)"
+        },
+        minLengthText: {
+            type: "String",
+            desc: "Error text to display if the minimum length validation fails (defaults to \"The minimum length for this field is {minLength}\")"
+        },
+        maxLengthText: {
+            type: "String",
+            desc: "Error text to display if the maximum length validation fails (defaults to \"The maximum length for this field is {maxLength}\")"
+        },
+        selectOnFocus: {
+            type: "Boolean",
+            desc: "True to automatically select any existing field text when the field receives input focus (defaults to false)"
+        },
+        blankText: {
+            type: "String",
+            desc: "Error text to display if the allow blank validation fails (defaults to \"This field is required\")"
+        },
+        validator: {
+            type: "Function",
+            desc: "A custom validation function to be called during field validation (defaults to null). If available, this function will be called only after the basic validators all return true, and will be passed the current field value and expected to return boolean true if the value is valid or a string error message if invalid."
+        },
+        regex: {
+            type: "RegExp",
+            desc: "A JavaScript RegExp object to be tested against the field value during validation (defaults to null). If available, this regex will be evaluated only after the basic validators all return true, and will be passed the current field value. If the test fails, the field will be marked invalid using {@link #regexText}."
+        },
+        regexText: {
+            type: "String",
+            desc: "The error text to display if {@link #regex} is used and the test fails during validation (defaults to \"\")"
+        },
+        emptyText: {
+            type: "String",
+            desc: "The default text to display in an empty field (defaults to null)."
+        },
+        emptyClass: {
+            type: "String",
+            desc: "The CSS class to apply to an empty field to style the {@link #emptyText} (defaults to 'x-form-empty-field'). This class is automatically added and removed as needed depending on the current field value."
+        }
+    },
+
+
+    "form/TimeField.js": {
+        minValue: {
+            type: "Date/String",
+            desc: "The minimum allowed time. Can be either a Javascript date object or a string date in a valid format (defaults to null)."
+        },
+        maxValue: {
+            type: "Date/String",
+            desc: "The maximum allowed time. Can be either a Javascript date object or a string date in a valid format (defaults to null)."
+        },
+        minText: {
+            type: "String",
+            desc: "The error text to display when the date in the cell is before minValue (defaults to 'The time in this field must be equal to or after {0}')."
+        },
+        maxText: {
+            type: "String",
+            desc: "The error text to display when the time is after maxValue (defaults to 'The time in this field must be equal to or before {0}')."
+        },
+        invalidText: {
+            type: "String",
+            desc: "The error text to display when the time in the field is invalid (defaults to '{value} is not a valid time - it must be in the format {format}')."
+        },
+        format: {
+            type: "String",
+            desc: "The default date format string which can be overriden for localization support. The format must be valid according to {@link Date#parseDate} (defaults to 'm/d/y')."
+        },
+        altFormats: {
+            type: "String",
+            desc: "Multiple date formats separated by \"|\" to try when parsing a user input value and it doesn't match the defined format (defaults to 'm/d/Y|m-d-y|m-d-Y|m/d|m-d|d')."
+        },
+        increment: {
+            type: "Number",
+            desc: "The number of minutes between each time value in the list (defaults to 15)."
+        }
+    },
+
+
+   "grid/ColumnModel.js": {
+        id: {
+            type: "String",
+            desc: "(Optional) Defaults to the column's initial ordinal position. A name which identifies this column. The id is used to create a CSS class which is applied to all table cells in that column of the form <pre>x-grid-td-<b>id<b></pre> <br><br> The {@link Ext.grid.Grid#autoExpandColumn} grid config option references the column via this identifier."
+        },
+        header: {
+            type: "String",
+            desc: "The header text to display in the Grid view."
+        },
+        dataIndex: {
+            type: "String",
+            desc: "(Optional) The name of the field in the grid's {@link Ext.data.Store}'s {@link Ext.data.Record} definition from which to draw the column's value. If not specified, the column's index is used as an index into the Record's data Array."
+        },
+        width: {
+            type: "Number",
+            desc: "(Optional) The initial width in pixels of the column. Using this instead of {@link Ext.grid.Grid#autoSizeColumns} is more efficient."
+        },
+        sortable: {
+            type: "Boolean",
+            desc: "(Optional) True if sorting is to be allowed on this column. Defaults to the value of the {@link #defaultSortable} property. Whether local/remote sorting is used is specified in {@link Ext.data.Store#remoteSort}."
+        },
+        locked: {
+            type: "Boolean",
+            desc: "(Optional) True to lock the column in place while scrolling the Grid. Defaults to false."
+        },
+        fixed: {
+            type: "Boolean",
+            desc: "(Optional) True if the column width cannot be changed. Defaults to false."
+        },
+        resizable: {
+            type: "Boolean",
+            desc: "(Optional) False to disable column resizing. Defaults to true."
+        },
+        hidden: {
+            type: "Boolean",
+            desc: "(Optional) True to hide the column. Defaults to false."
+        },
+        renderer: {
+            type: "Function",
+            desc: "(Optional) A function used to generate HTML markup for a cell given the cell's data value. See {@link #setRenderer}. If not specified, the default renderer uses the raw data value."
+        },
+        align: {
+            type: "String",
+            desc: "(Optional) Set the CSS text-align property of the column. Defaults to undefined."
+        }
+    },
+
+
+
+    "grid/GridPanel.js": {
+        columns: {
+            type: "Array",
+            desc: "An array of columns to auto create a ColumnModel"
+        },
+        store: {
+            type: "Store",
+            desc: "The Ext.data.Store the grid should use as it's data source"
+        },
+        cm: {
+            type: "Store",
+            desc: "An Ext.grid.ColumnModel for this grid"
+        },
+        sm: {
+            type: "Object",
+            desc: "The SelectionModel the grid should use to handle selections (shortcut of selModel)"
+        },
+        selModel: {
+            type: "Object",
+            desc: "The SelectionModel the grid should use to handle selections"
+        },
+        columns: {
+            type: "Array",
+            desc: "An array of columns to auto create a ColumnModel"
+        },
+        columns: {
+            type: "Array",
+            desc: "An array of columns to auto create a ColumnModel"
+        },
+        minColumnWidth: {
+            type: "Number",
+            desc: "The minimum width a column can be resized to. Defaults to 25."
+        },
+        monitorWindowResize: {
+            type: "Boolean",
+            desc: "True to autoSize the grid when the window resizes. Defaults to true."
+        },
+        maxRowsToMeasure: {
+            type: "Boolean",
+            desc: "If autoSizeColumns is on, maxRowsToMeasure can be used to limit the number of rows measured to get a columns size - defaults to 0 (all rows)."
+        },
+        trackMouseOver: {
+            type: "Boolean",
+            desc: "True to highlight rows when the mouse is over. Default is false."
+        },
+        enableDragDrop: {
+            type: "Boolean",
+            desc: "True to enable drag and drop of rows."
+        },
+        enableColumnMove: {
+            type: "Boolean",
+            desc: "True to enable drag and drop reorder of columns."
+        },
+        enableColumnHide: {
+            type: "Boolean",
+            desc: "True to enable hiding of columns with the header context menu."
+        },
+        enableHdMenu: {
+            type: "Boolean",
+            desc: "True to enable the drop down button for menu in the headers."
+        },
+        enableRowHeightSync: {
+            type: "Boolean",
+            desc: "True to manually sync row heights across locked and not locked rows."
+        },
+        stripeRows: {
+            type: "Boolean",
+            desc: "True to stripe the rows. Default is true."
+        },
+        autoExpandColumn: {
+            type: "String",
+            desc: "The id of a column in this grid that should expand to fill unused space. This id can not be 0."
+        },
+        autoExpandMin: {
+            type: "Number",
+            desc: "The minimum width the autoExpandColumn can have (if enabled). defaults to 50."
+        },
+        autoExpandMax: {
+            type: "Number",
+            desc: "The maximum width the autoExpandColumn can have (if enabled). Defaults to 1000."
+        },
+        view: {
+            type: "Object",
+            desc: "The {@link Ext.grid.GridView} used by the grid. This can be set before a call to render()."
+        },
+        loadMask: {
+            type: "Object",
+            desc: "An {@link Ext.LoadMask} config or true to mask the grid while loading (defaults to false)."
+        },
+        disableSelection: {
+            type: "Boolean",
+            desc: "(defaults to false)."
+        },
+        maxHeight: {
+            type: "Number",
+            desc: "Sets the maximum height of the grid - ignored if autoHeight is not on."
+        }
+    },
+
+
+
+    "grid/RowNumberer.js": {
+        header: {
+            type: "String",
+            desc: "Any valid text or HTML fragment to display in the header cell for the row number column (defaults to '')."
+        },
+        width: {
+            type: "Number",
+            desc: "The default width in pixels of the row number column (defaults to 23)."
+        },
+        sortable: {
+            type: "Boolean",
+            desc: "True if the row number column is sortable (defaults to false)."
+        }
+    },
+
+
+    "grid/RowSelectionModel.js": {
+        singleSelect: {
+            type: "Boolean",
+            desc: "True to allow selection of only one row at a time (defaults to false)"
+        }
+    },
+    
+    
+       "layout/AccordianLayout.js": {
+        fill: {
+            type: "Boolean",
+            desc: "True to adjust the active item's height to fill the available space in the container, false to use the item's current height, or auto height if not explicitly set (defaults to true)."
+        },
+        autoWidth: {
+            type: "Boolean",
+            desc: "True to set each contained item's width to 'auto', false to use the item's current width (defaults to true)."
+        },
+        titleCollapse: {
+            type: "Boolean",
+            desc: "True to allow expand/collapse of each contained panel by clicking anywhere on the title bar, false to allow expand/collapse only when the toggle tool button is clicked (defaults to true). When set to false, {@link #hideCollapseTool} should be false also."
+        },
+        hideCollapseTool: {
+            type: "Boolean",
+            desc: "True to hide the contained panels' collapse/expand toggle buttons, false to display them (defaults to false). When set to true, {@link #titleCollapse} should be true also."
+        },
+        collapseFirst: {
+            type: "Boolean",
+            desc: "True to make sure the collapse/expand toggle button always renders first (to the left of) any other tools in the contained panels' title bars, false to render it last (defaults to false)."
+        },
+        animate: {
+            type: "Boolean",
+            desc: "True to slide the contained panels open and closed during expand/collapse using animation, false to open and close directly with no animation (defaults to false). Note: to defer to the specific config setting of each contained panel for this property, set this to undefined at the layout level."
+        },
+        activeOnTop: {
+            type: "Boolean",
+            desc: "True to swap the position of each panel as it is expanded so that it becomes the first item in the container, false to keep the panels in the rendered order (defaults to false)."
+        }
+    },
+
+
+    "layout/AnchorLayout.js": {},
+
+
+    "layout/BorderLayout.js": {
+        animFloat: {
+            type: "Boolean",
+            desc: "When a collapsed region's bar is clicked, the region's panel will be displayed as a floated panel that will close again once the user mouses out of that panel (or clicks out if autoHide = false). Setting animFloat to false will prevent the open and close of these floated panels from being animated (defaults to true)."
+        },
+        autoHide: {
+            type: "Boolean",
+            desc: "When a collapsed region's bar is clicked, the region's panel will be displayed as a floated panel. If autoHide is true, the panel will automatically hide after the user mouses out of the panel. If autoHide is false, the panel will continue to display until the user clicks outside of the panel (defaults to true)."
+        },
+        collapseMode: {
+            type: "String",
+            desc: "By default, collapsible regions are collapsed by clicking the expand/collapse tool button that renders into the region's title bar. Optionally, when collapseMode is set to 'mini' the region's split bar will also display a small collapse button in the center of the bar. In 'mini' mode the region will collapse to a thinner bar than in normal mode. By default collapseMode is undefined, and the only two supported values are undefined and 'mini'. Note that if a collapsible region does not have a title bar, then collapseMode must be set to 'mini' in order for the region to be collapsible by the user as the tool button will not be rendered."
+        },
+        margins: {
+            type: "Object",
+            desc: "An object containing margins to apply to the region in the format {left: (left margin), top: (top margin), right: (right margin), bottom: (bottom margin)}"
+        },
+        cmargins: {
+            type: "Object",
+            desc: "An object containing margins to apply to the region's collapsed element in the format {left: (left margin), top: (top margin), right: (right margin), bottom: (bottom margin)}"
+        },
+        collapsible: {
+            type: "Boolean",
+            desc: "True to allow the user to collapse this region (defaults to false). If true, an expand/collapse tool button will automatically be rendered into the title bar of the region, otherwise the button will not be shown. Note that a title bar is required to display the toggle button -- if no region title is specified, the region will only be collapsible if {@link #collapseMode} is set to 'mini'."
+        },
+        split: {
+            type: "Boolean",
+            desc: "True to display a {@link Ext.SplitBar} between this region and its neighbor, allowing the user to resize the regions dynamically (defaults to false). When split = true, it is common to specify a {@link #minSize} and {@link #maxSize} for the region."
+        },
+        floatable: {
+            type: "Boolean",
+            desc: "True to allow clicking a collapsed region's bar to display the region's panel floated above the layout, false to force the user to fully expand a collapsed region by clicking the expand button to see it again (defaults to true)."
+        },
+        minWidth: {
+            type: "Number",
+            desc: "The minimum allowable width in pixels for this region (defaults to 50)"
+        },
+        minHeight: {
+            type: "Number",
+            desc: "The minimum allowable height in pixels for this region (defaults to 50)"
+        },
+        splitTip: {
+            type: "String",
+            desc: "The tooltip to display when the user hovers over a non-collapsible region's split bar (defaults to \"Drag to resize.\"). Only applies if {@link #useSplitTips} = true."
+        },
+        collapsibleSplitTip: {
+            type: "String",
+            desc: "The tooltip to display when the user hovers over a collapsible region's split bar (defaults to \"Drag to resize. Double click to hide.\"). Only applies if {@link #useSplitTips} = true."
+        },
+        useSplitTips: {
+            type: "Boolean",
+            desc: "True to display a tooltip when the user hovers over a region's split bar (defaults to false). The tooltip text will be the value of either {@link #splitTip} or {@link #collapsibleSplitTip} as appropriate."
+        }
+    },
+
+
+    "layout/CardLayout.js": {
+        deferredRender: {
+            type: "Boolean",
+            desc: "True to render each contained item at the time it becomes active, false to render all contained items as soon as the layout is rendered (defaults to false). If there is a significant amount of content or a lot of heavy controls being rendered into panels that are not displayed by default, setting this to true might improve performance."
+        }
+    },
+
+
+    "layout/ColumnLayout.js": {},
+
+
+    "layout/ContainerLayout.js": {
+        extraCls: {
+            type: "String",
+            desc: "An optional extra CSS class that will be added to the container (defaults to ''). This can be useful for adding customized styles to the container or any of its children using standard CSS rules."
+        },
+        renderHidden: {
+            type: "Boolean",
+            desc: "True to hide each contained item on render (defaults to false)."
+        }
+    },
+
+
+    "layout/FitLayout.js": {},
+
+
+    "layout/FormLayout.js": {
+        labelStyle: {
+            type: "String",
+            desc: "A CSS style specification string to add to each field label in this layout (defaults to '')."
+        },
+        elementStyle: {
+            type: "String",
+            desc: "A CSS style specification string to add to each field element in this layout (defaults to '')."
+        },
+        labelSeparator: {
+            type: "String",
+            desc: "The standard separator to display after the text of each form label (defaults to a colon ':'). To turn off separators completely specify empty string ''."
+        }
+    },
+
+
+    "layout/TableLayout.js": {
+        columns: {
+            type: "Number",
+            desc: "The total number of columns to create in the table for this layout. If not specified, all panels added to this layout will be rendered into a single row using a column per panel."
+        }
+    },
+    
+    
+        "menu/BaseItem.js": {
+        handler: {
+            type: "Function",
+            desc: "A function that will handle the click event of this menu item (defaults to undefined)"
+        },
+        canActivate: {
+            type: "Boolean",
+            desc: "True if this item can be visually activated (defaults to false)"
+        },
+        activeClass: {
+            type: "String",
+            desc: "The CSS class to use when the item becomes activated (defaults to \"x-menu-item-active\")"
+        },
+        hideOnClick: {
+            type: "Boolean",
+            desc: "True to hide the containing menu after this item is clicked (defaults to true)"
+        },
+        hideDelay: {
+            type: "Number",
+            desc: "Length of time in milliseconds to wait before hiding after a click (defaults to 100)"
+        }
+    },
+
+
+    "menu/CheckItem.js": {
+        group: {
+            type: "String",
+            desc: "All check items with the same group name will automatically be grouped into a single-select radio button group (defaults to '')"
+        },
+        itemCls: {
+            type: "String",
+            desc: "The default CSS class to use for check items (defaults to \"x-menu-item x-menu-check-item\")"
+        },
+        groupClass: {
+            type: "String",
+            desc: "The default CSS class to use for radio group check items (defaults to \"x-menu-group-item\")"
+        },
+        checked: {
+            type: "Boolean",
+            desc: "True to initialize this checkbox as checked (defaults to false). Note that if this checkbox is part of a radio group (group = true) only the last item in the group that is initialized with checked = true will be rendered as checked."
+        }
+    },
+
+
+
+    "menu/Item.js": {
+        icon: {
+            type: "String",
+            desc: "The path to an icon to display in this menu item (defaults to Ext.BLANK_IMAGE_URL)"
+        },
+        text: {
+            type: "String",
+            desc: "The text to display for this item (defaults to '')"
+        },
+        iconCls: {
+            type: "String",
+            desc: "A CSS class which sets a background image to be used as the icon for this item (defaults to '')"
+        },
+        itemCls: {
+            type: "String",
+            desc: "The default CSS class to use for menu items (defaults to 'x-menu-item')"
+        },
+        canActivate: {
+            type: "Boolean",
+            desc: "True if this item can be visually activated (defaults to true)"
+        },
+        showDelay: {
+            type: "Number",
+            desc: "Length of time in milliseconds to wait before showing this item (defaults to 200)"
+        }
+    },
+
+
+    "menu/Menu.js": {
+        defaults: {
+            type: "Object",
+            desc: "A config object that will be applied to all items added to this container either via the {@link #items} config or via the {@link #add} method. The defaults config can contain any number of name/value property pairs to be added to each item, and should be valid for the types of items being added to the menu."
+        },
+        items: {
+            type: "Mixed",
+            desc: "An array of items to be added to this menu. See {@link #add} for a list of valid item types."
+        },
+        minWidth: {
+            type: "Number",
+            desc: "The minimum width of the menu in pixels (defaults to 120)"
+        },
+        shadow: {
+            type: "Boolean/String",
+            desc: "True or \"sides\" for the default effect, \"frame\" for 4-way shadow, and \"drop\" for bottom-right shadow (defaults to \"sides\")"
+        },
+        subMenuAlign: {
+            type: "String",
+            desc: "The {@link Ext.Element#alignTo} anchor position value to use for submenus of this menu (defaults to \"tl-tr?\")"
+        },
+        defaultAlign: {
+            type: "String",
+            desc: "The default {@link Ext.Element#alignTo) anchor position value for this menu relative to its element of origin (defaults to \"tl-bl?\")"
+        },
+        allowOtherMenus: {
+            type: "Boolean",
+            desc: "True to allow multiple menus to be displayed at the same time (defaults to false)"
+        }
+    },
+
+
+    "menu/MenuMgr.js": {},
+
+
+    "menu/Separator.js": {
+        itemCls: {
+            type: "String",
+            desc: "The default CSS class to use for separators (defaults to \"x-menu-sep\")"
+        },
+        hideOnClick: {
+            type: "Boolean",
+            desc: "True to hide the containing menu after this item is clicked (defaults to false)"
+        }
+    },
+
+
+    "menu/TextItem.js": {
+        text: {
+            type: "String",
+            desc: "The text to display for this item (defaults to '')"
+        },
+        hideOnClick: {
+            type: "Boolean",
+            desc: "True to hide the containing menu after this item is clicked (defaults to false)"
+        },
+        itemCls: {
+            type: "String",
+            desc: "The default CSS class to use for text items (defaults to \"x-menu-text\")"
+        }
+    }
+    
+}
+
+
+

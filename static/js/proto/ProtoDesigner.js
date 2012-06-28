@@ -182,6 +182,8 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
             treeNodAux.children.push( treeNodAuxData )
         }
 
+
+        //  -----------------------------------
         // Crea el store 
         var treeStore = Ext.create('Ext.data.TreeStore', {
             model : 'Proto.PclTreeNode', 
@@ -244,6 +246,8 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         formTreeView.on({
             'beforedrop' : {
                 fn : function(node, data, overModel, dropPosition, dropHandler, eOpts) {
+                    
+                    // Verifica q el objeto sea valido ( no puede copiar las categorias ni los items  )
                     if(data.view.id != this.formTreeViewId) {
                         var rec = data.records[0]
                         if(rec.get('text') in  oc(['Fields', 'Containers', 'Grids']))

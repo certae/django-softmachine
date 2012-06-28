@@ -122,6 +122,13 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 
                 template = getTemplate( __ptType, true,  myFld  )
                 prLayout = Ext.apply( template.__ptConfig , protoObj.__ptConfig  )
+
+            } else if ( __ptType == 'protoGrid'  ) {
+                
+                template = getTemplate( __ptType  , true  )
+                prLayout = Ext.apply( template.__ptConfig , protoObj.__ptConfig  ) 
+
+                delete protoObj.__ptConfig.name 
                 
             } else {
                   
