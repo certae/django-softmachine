@@ -217,8 +217,26 @@ DesignerObjects =  {
             "format",
             "decimalPrecision"
             ]
-        }
+    }, 
+
+    "protoGrid": {
+        "description": "A detail grid",
+        "properties": [
+            "protoOption",  
+            "height","maxHeight","minHeight","width", "maxWidth","minWidth"
+            ]
+    }, 
+
+
+    "panel": {
+        "description": "A simple panel with fit layout",
+        "properties": [
+            "title",
+            "height","maxHeight","minHeight","width", "maxWidth","minWidth"
+            ]
     }
+    
+};
 
 
 
@@ -275,15 +293,6 @@ DesignerObjects =  {
             "xtype": "fieldset",
             "title": "Legend",
             "autoHeight": true
-        }
-    }, {
-        "text": "Panel",
-        "qtip": "A simple panel with default layout",
-        "children": [], 
-        "__ptType": "panel",
-        "__ptConfig": {
-            "xtype": "panel",
-            "title": "Panel"
         }
     }, {
         "text": "Tab Container",

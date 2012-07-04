@@ -109,19 +109,14 @@
                     "__ptType": "fieldset"
                 }
             }, {
-                "text": "fieldcontainer",
-                "qtip": "A Fieldset, containing field elements",
-                "__ptType": "fieldcontainer",
-                "children": [], 
-                "__ptConfig": {
-                    "__ptType": "fieldcontainer"
-                    } 
-            }, {
                 "text": "Panel",
                 "qtip": "A simple panel with default layout",
+                "__ptType" : "panel", 
                 "children": [], 
                 "__ptConfig": {
-                    "xtype": "panel"
+                    "layout": "fit",
+                    "xtype": "panel", 
+                    "__ptType" : "panel"
                 }
             }, {
                 "text": "Tab Container",
@@ -143,28 +138,24 @@
                     "title": ""
                 }
             }, {
-                "text": "Absolute Layout",
-                "qtip": "Layout containing many elements, absolutely positionned with x/y values",
+                "text": "Items",
+                "qtip": "Items for container",
                 "children": [], 
-                "__ptConfig": {
-                    "layout": "absolute",
-                    "title": "AbsoluteLayout Container"
-                }
+                "__ptConfig": [],
+                "__ptType": "items"
             }, {
                 "text": "Accordion Panel",
                 "qtip": "Layout as accordion",
                 "children": [], 
                 "wizard": "wizard/accordion-wiz.json"
             }, {
-                "text": "Column Layout",
-                "qtip": "Layout of columns",
+                "text": "fieldcontainer",
+                "qtip": "A Fieldset, containing field elements",
+                "__ptType": "fieldcontainer",
                 "children": [], 
-                "wizard": "wizard/column-wiz.json"
-            }, {
-                "text": "Border Layout",
-                "qtip": "Layout with regions",
-                "children": [], 
-                "wizard": "wizard/border-wiz.json"
+                "__ptConfig": {
+                    "__ptType": "fieldcontainer"
+                    } 
             }
         ]
     }, {
@@ -193,3 +184,22 @@
         ]
     }]    
 }
+
+/*  ----------------------------------------------------------
+
+            }, {
+                "text": "Absolute Layout",
+                "qtip": "Layout containing many elements, absolutely positionned with x/y values",
+                "children": [], 
+                "__ptConfig": {
+                    "layout": "absolute",
+                    "title": "AbsoluteLayout Container"
+                }
+            }, {
+                "text": "Border Layout",
+                "qtip": "Layout with regions",
+                "children": [], 
+                "wizard": "wizard/border-wiz.json"
+ 
+ */
+

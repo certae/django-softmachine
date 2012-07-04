@@ -97,9 +97,19 @@ DesignerProperties =  {
 
     "maxHeight.help": "The max value in pixels",
     "maxWidth.help": "The max value in pixels",
+
+    "maxHeight.type": "number",
+    "maxWidth.type": "number",
+
     "minHeight.help": "The minimum value in pixels",
     "minWidth.help": "The minimum value in pixels", 
-    "protoIcon.help": "icono de la opcion, correponde a los iconos definidos en app.cs",
+
+    "minHeight.type": "number",
+    "minWidth.type": "number", 
+
+    "height.type": "number",
+    "width.type": "number", 
+
     "readOnly": false,
     "readOnly.help": "campo de solo lectura",
     "title.help": "Titulo del componente",
@@ -116,4 +126,4 @@ DesignerProperties =  {
     "wordWrap": false,
     "wordWrap.help": "ver el contenido en mas de una linea"
     
-    }
+};

@@ -34,7 +34,8 @@ function Meta2Tree( oData, pName, ptType   ) {
         if (( ptType == 'filtersSet') && ( pName != ptType ))  ptType = 'filterDef'                        
         if (( ptType == 'listDisplaySet') && ( pName != ptType ))  ptType = 'listDisplay'                        
         if (( ptType == 'protoDetails') && ( pName != ptType ))  ptType = 'protoDetail'                        
-        if (( ptType == 'protoSheets') && ( pName != ptType ))  ptType = 'protoSheet'                        
+        if (( ptType == 'protoSheets') && ( pName != ptType ))  ptType = 'protoSheet'     
+                           
         if (( ptType == 'fieldset') && ( pName == 'items'))  ptType = 'items'                         
 
         // Nombre de tipos q se propagaron 
@@ -54,7 +55,7 @@ function Meta2Tree( oData, pName, ptType   ) {
         
         
         // Ramas que no deben abrirse 
-        if ( (sDataType == "object" ) && ( ptType in oc([ 'field', 'formField' ]) ))  {
+        if ( (sDataType == "object" ) && ( ptType in oc([ 'field', 'formField', 'protoGrid'  ]) ))  {
             tData['leaf'] =  true  
             return tData 
         }
@@ -176,9 +177,7 @@ function Tree2Meta( tNode  ) {
     if  ( tData.__ptConfig )  __ptConfig = tData.__ptConfig
      
     __ptType  = getPtType( tData ) 
-    if ( __ptType in oc([ 'protoForm', 'fieldset'])) {
-        console.log( __ptType , tNode )
-    }  
+    // if ( __ptType in oc([ 'protoForm', 'fieldset'])) {console.log( __ptType , tNode )}  
 
     if ( __ptConfig )  { 
 
