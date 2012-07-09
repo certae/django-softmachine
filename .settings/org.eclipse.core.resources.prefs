@@ -1,6 +1,8 @@
+#Mon Jul 09 11:59:52 EDT 2012
 eclipse.preferences.version=1
 encoding//Pruebas/fieldSets.py=utf-8
 encoding//Pruebas/jsonDump.py=utf-8
+encoding//db/protoMeta.db=UTF-8
 encoding//deprecated/protoDefinition.py=utf-8
 encoding//src/TCO/models.py=utf-8
 encoding//src/protoExt/admin_Concept.py=utf-8
