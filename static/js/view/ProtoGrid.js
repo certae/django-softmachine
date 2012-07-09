@@ -26,26 +26,25 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
      */
     protoOption: null, 
 
-
-
+ 
     initComponent: function() {
-        
+
 
         var me = this;         
 
         // Recupera la clase para obtener la meta ------------------------------------------
-        var myMeta = _cllPCI[ this.protoOption ] ; 
+        var myMeta = _cllPCI[ this.protoOption ] ;
         this.myMeta = myMeta;
-
+            
         var _pGrid = this; 
 
         if ( ! loadPci( this.protoOption, false ) ) {
-            Ext.Msg.show({
+                    Ext.Msg.show({
                title: this.protoOption ,
                value: 'ERROR Pci  not loaded' 
-               });
-            return; 
-        }
+                       });
+                    return; 
+                }
 
         // VErifica si el store viene como parametro ( Detail )
         var myFilter = '';

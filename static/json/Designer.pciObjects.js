@@ -197,6 +197,7 @@ DesignerObjects =  {
             "fsLayout",
             "autoscroll",
             "collapsible", "collapsed", 
+            "labelWidth","labelAlign","hideLabel",
             "height","maxHeight","minHeight","width", "maxWidth","minWidth"
         ]
     },
@@ -206,9 +207,7 @@ DesignerObjects =  {
         "properties": [
             "tooltip", 
             "fieldLabel",
-            "labelWidth",
-            "labelAlign",
-            "hideLabel",
+            "labelWidth","labelAlign","hideLabel",
             "allowBlank",
             "readOnly",
             "hidden",
@@ -234,7 +233,32 @@ DesignerObjects =  {
             "title",
             "height","maxHeight","minHeight","width", "maxWidth","minWidth"
             ]
-    }
+    }, 
+    
+    
+
+  "tabpanel": { 
+        "description": "A Tab Container with many tabs",
+        "properties": [
+            "layout", "activeItem", 
+            "height","maxHeight","minHeight","width", "maxWidth","minWidth"
+            ]
+    }, 
+    }, {
+        "text": "Tab Panel",
+        "qtip": "A tab panel",
+        "children": [], 
+        "__ptType": "tab",
+        "__ptConfig": {
+            "layout": "fit",
+            "title": ""
+        }
+    
+    
+    
+    
+    
+    
     
 };
 
@@ -293,25 +317,6 @@ DesignerObjects =  {
             "xtype": "fieldset",
             "title": "Legend",
             "autoHeight": true
-        }
-    }, {
-        "text": "Tab Container",
-        "qtip": "A panel with many tabs",
-        "children": [], 
-        "__ptType": "tabpanel",
-        "__ptConfig": {
-            "layout": "fit",
-            "title": "",
-            "activeItem": 0
-        }
-    }, {
-        "text": "Tab Panel",
-        "qtip": "A tab panel",
-        "children": [], 
-        "__ptType": "tab",
-        "__ptConfig": {
-            "layout": "fit",
-            "title": ""
         }
     }, {
         "text": "Absolute Layout",

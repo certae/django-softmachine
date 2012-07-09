@@ -6,8 +6,8 @@
     },"-",{
         "tooltip" : "Delete curren node",
         "iconCls" : "icon-tableDelete", 
-        "disabled": true,
-        "itemId" : "clear"
+        "disabled": false,
+        "itemId" : "delete"
     },"-",{
         "tooltip" : "Edit the generated JSON",
         "iconCls" : "icon-editEl",
@@ -121,9 +121,10 @@
             }, {
                 "text": "Tab Container",
                 "qtip": "A panel with many tabs",
-                "children": [], 
                 "__ptType": "tabpanel",
+                "children": [], 
                 "__ptConfig": {
+                    "__ptType" : "tabpanel", 
                     "layout": "fit",
                     "title": "",
                     "activeItem": 0
@@ -131,9 +132,10 @@
             }, {
                 "text": "Tab Panel",
                 "qtip": "A tab panel",
-                "children": [], 
                 "__ptType": "tab",
+                "children": [], 
                 "__ptConfig": {
+                    "__ptType": "tab",
                     "layout": "fit",
                     "title": ""
                 }
@@ -143,11 +145,7 @@
                 "children": [], 
                 "__ptConfig": [],
                 "__ptType": "items"
-            }, {
-                "text": "Accordion Panel",
-                "qtip": "Layout as accordion",
-                "children": [], 
-                "wizard": "wizard/accordion-wiz.json"
+
             }, {
                 "text": "fieldcontainer",
                 "qtip": "A Fieldset, containing field elements",
@@ -200,6 +198,18 @@
                 "qtip": "Layout with regions",
                 "children": [], 
                 "wizard": "wizard/border-wiz.json"
+
+
+            }, {
+                "text": "Accordion Panel",
+                "qtip": "Layout as accordion",
+                "__ptType": "tab",
+                "children": [], 
+                "__ptConfig": {
+                    "layout": "fit",
+                    "title": ""
+                }
+
  
  */
 

@@ -678,6 +678,9 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 });
                 
                 // Agrego el handler q activara el tab a partir del menu
+                loadPci( pDetails[vDet].conceptDetail, true )                 
+                
+                // Agrego el handler q activara el tab a partir del menu
                 bDetails = true;
                 item.on({
                     click: { fn: __MasterDetail.onTbSelectDetail,scope: __MasterDetail  }
