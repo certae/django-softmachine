@@ -149,12 +149,14 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         var treeNodAux = getTreeNodeByText( treeData,  'Fields' )  
         for (var ix in this.myMeta.fields ) {
             var vFld  =  this.myMeta.fields[ix];
+            var ptConfig =  getFormFieldDefinition( vFld )
+            ptConfig['name']  = vFld.name
             var treeNodAuxData = {
                 "text": vFld.name ,
                 "qtip": vFld.cellToolTip,
                 "__ptType": "formField",
                 "leaf": true, 
-                "__ptConfig": getFormFieldDefinition( vFld )
+                "__ptConfig": ptConfig 
             }
             treeNodAux.children.push( treeNodAuxData )
         }
@@ -250,8 +252,26 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                     // Verifica q el objeto sea valido ( no puede copiar las categorias ni los items  )
                     if(data.view.id != this.formTreeViewId) {
                         var rec = data.records[0]
-                        if(rec.get('text') in  oc(['Fields', 'Containers', 'Grids']))
+                        var ptType = rec.get('text') 
+                        if ( ptType in  oc(['Fields', 'Containers', 'Grids']))
                             return false
+
+                        if ( ptType in oc( ['fieldset'])) {
+
+                            // Obtiene el padre y el ix
+                            var nParent = overModel.store.getById( overModel.data.parentId )
+                            var nIndex = overModel.data.index
+                            if ( dropPosition == 'after' ) nIndex += 1 
+                            
+                            dropHandler.cancelDrop()
+
+                            // Crea un nodo 
+                            var tNode = getNodeBase( ptType, ptType, { '__ptType' : ptType } )
+                            nParent.insertChild( nIndex, tNode )                            
+                            
+                        }
+
+                        // El drop genera una copia del mismo registro siempre                             
                         data.copy = true
                     }
 
@@ -312,16 +332,8 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         var btDel = this.tBar.down( '#delete');
         btDel.on('click',
             function(  btn , event,  eOpts) {
-
-                var ptType = me.treeRecord.data.__ptType
-                var parent = me.treeRecord.parentNode 
-    
+                // var ptType = me.treeRecord.data.__ptType
                 me.treeRecord.remove( )
-                if ( parent ) {
-                    var view = me.treeGrid.getView();
-                    view.select( parent );
-                }
-
             },me   );
 
     },

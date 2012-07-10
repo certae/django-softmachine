@@ -243,21 +243,7 @@ DesignerObjects =  {
             "layout", "activeItem", 
             "height","maxHeight","minHeight","width", "maxWidth","minWidth"
             ]
-    }, 
-    }, {
-        "text": "Tab Panel",
-        "qtip": "A tab panel",
-        "children": [], 
-        "__ptType": "tab",
-        "__ptConfig": {
-            "layout": "fit",
-            "title": ""
-        }
-    
-    
-    
-    
-    
+    }
     
     
 };

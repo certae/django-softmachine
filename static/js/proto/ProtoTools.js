@@ -1,30 +1,39 @@
 
 
 function Meta2Tree( oData, pName, ptType   ) {
-    /* -----------------   FORMAT META ( for tree view ) 
+    /* Convierte la meta en Arbol  
      * 
-     * Convierte una estructurea 
-     *  
+     * Input    --------------------------------- 
      * @oData     : Data a convertir
      * @pName     : property Name ( iteraction en el objeto padre )
      * @ptType    : property Type ( Tipo del padre en caso de ser un array  )
      *  
-     * @oBase    : Objeto padre 
-     * @tBase    : Objeto resultado hasta el momento  
-     * 
+     * Return   -------------------------------
      * @tData   treeData
+     * 
      */
 
-    var tData = {}, __ptConfig 
+    var  __ptConfig 
     var sDataType = typeOf(oData);
 
     // Solo deben entrar objetos o arrays 
     if (sDataType == "object"  ||  sDataType == "array")  {
         
         __ptConfig = get_ptConfig( oData )
+        
+        // El __ptConfig puede redefinirlas 
+        if ( __ptConfig.__ptType )  ptType = __ptConfig.__ptType
+        if ( __ptConfig.name )      pName  = __ptConfig.name
 
-        if ( __ptConfig.__ptType ) ptType = __ptConfig.__ptType
-        if ( __ptConfig.name ) pName = __ptConfig.name
+
+        // Form 
+        if ( ptType in oc([ 'fieldset','tabpanel','accordeon','panel'])) {
+            var tData = getNodeBase( pName, ptType, __ptConfig  )
+            tData['children'] = formContainer2Tree( oData.items )
+            return tData 
+        }  
+
+
 
         if ( ! ptType  )  ptType = sDataType    
         
@@ -36,7 +45,6 @@ function Meta2Tree( oData, pName, ptType   ) {
         if (( ptType == 'protoDetails') && ( pName != ptType ))  ptType = 'protoDetail'                        
         if (( ptType == 'protoSheets') && ( pName != ptType ))  ptType = 'protoSheet'     
                            
-        if (( ptType == 'fieldset') && ( pName == 'items'))  ptType = 'items'                         
 
         // Nombre de tipos q se propagaron 
         if (( ptType == 'sheetConfig' ) 
@@ -44,18 +52,11 @@ function Meta2Tree( oData, pName, ptType   ) {
                 ptType = pName
         }
 
-             
-        // Obtiene un Id y genera  una referencia cruzada de la pcl con el arbol 
-        // El modelo debe crear la referencia a la data o se perdera en el treeStore 
-        var IxTree = Ext.id()
-        tData['id'] = IxTree
-        tData['text']  =  pName    
-        tData['__ptType'] =  ptType 
-        tData['__ptConfig' ] = __ptConfig
-        
+        // Genera la info del nodo base 
+        var tData = getNodeBase( pName, ptType, __ptConfig  )
         
         // Ramas que no deben abrirse 
-        if ( (sDataType == "object" ) && ( ptType in oc([ 'field', 'formField', 'protoGrid'  ]) ))  {
+        if ( (sDataType == "object" ) && ( ptType in oc([ 'field',  'protoGrid'  ]) ))  {
             tData['leaf'] =  true  
             return tData 
         }
@@ -64,7 +65,6 @@ function Meta2Tree( oData, pName, ptType   ) {
         // Los tipos q son presentados en text 
         if ( ptType in oc([ 'baseFilter','initialFilter','initialSort','filterDef'])) {
             tData['__ptConfig' ] = { '__ptValue' :  Ext.encode( oData  ) }
-            tData['children'] =  [] 
             return tData 
         }   
 
@@ -74,9 +74,9 @@ function Meta2Tree( oData, pName, ptType   ) {
                         'searchFields', 'sortFields', 
                         'protoSheetProperties'])) {
             tData['__ptConfig' ] = { '__ptList' :  Ext.encode( oData  ) }
-            tData['children'] =  [] 
             return tData 
         }   
+
 
 
         tData['children'] =  [] 
@@ -151,6 +151,9 @@ function Meta2Tree( oData, pName, ptType   ) {
 
     return tData 
 
+    
+ 
+
 } ; 
 
 
@@ -217,6 +220,13 @@ function Tree2Meta( tNode  ) {
     function getChilds( tData, tChilds, mData ) {
     
         var sType = typeOf( mData )
+
+        // If protoForm then add items ( Se eliminaron en el arbol para facilidad de usuario )            
+        if ( mData.__ptType in oc([ 'fieldset','tabpanel','accordeon','panel'])) {
+            mData['items']  = []
+            sType = 'protoForm'
+        }
+                
            
         for (var ix in tChilds ) {
             var lNode = tChilds[ ix ]
@@ -232,6 +242,11 @@ function Tree2Meta( tNode  ) {
                 // si solo viene  nombre del campo lo crea como un objeto 
                 if ( Ext.encode( nChildData ) === Ext.encode({}) ) nChildData = sText 
                 mData.push( nChildData )
+
+            } else if ( sType == 'protoForm' )  {
+
+                mData.items.push( nChildData )
+
             }
     
         }
@@ -295,4 +310,60 @@ function showConfig( title , myConf ) {
        height : 600, 
        value: Ext.encode( myConf ) 
        });
+}
+
+
+
+
+function getNodeBase( pName, ptType, __ptConfig  ) {
+    // Obtiene un Id y genera  una referencia cruzada de la pcl con el arbol 
+    // El modelo debe crear la referencia a la data o se perdera en el treeStore
+
+    return  { 
+        'id'            :  Ext.id(),
+        'text'          :  pName, 
+        '__ptType'      :  ptType, 
+        '__ptConfig'    :  __ptConfig,
+        'children'      :  [] 
+    }
+
+}
+
+
+function formContainer2Tree( items ) {
+    // Aqui solo llegan los contenedores de la forma,
+    // se procesan los items en t2m y/o otros contenedores 
+
+    var tItems = []
+
+    for (var sKey in items ) {
+
+        var oData = items[ sKey  ],  t2Data 
+        var __ptConfig = get_ptConfig( oData )
+        var ptType = __ptConfig.__ptType
+        
+        //  contenedores de la forma 
+        if ( ptType in oc([ 'fieldset','tabpanel','accordeon','panel'])) {
+
+            t2Data = getNodeBase(  ptType, ptType, __ptConfig  )
+            t2Data['children'] = formContainer2Tree( oData.items )
+
+                tItems.push(  t2Data ) 
+ 
+            }  else if ( ptType in oc([ 'formField' ])) {  
+
+            t2Data = getNodeBase(  __ptConfig.name, ptType, __ptConfig  )
+            t2Data['leaf'] =  true
+              
+            tItems.push(  t2Data ) 
+
+        } else {
+            
+            console.log( "Error formContainer2Tree", oData )
+        } 
+
+    
+    }
+    
+    return tItems 
 }

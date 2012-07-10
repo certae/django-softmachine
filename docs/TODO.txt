@@ -1,5 +1,15 @@
 
+Forma 
 
+    ** Contenedores e items
+    
+    Para un manejo claro, un objeto no deberia mezclar arrays con propiedades,  o es un array o es un objeto. 
+    El manejo en el arbol de la pcl puede ser distinto,  se asocia el array con un determinado nombre a un hijo del objeto 
+    como si fuera un grupo de propiedades 
+    
+    No se pueden manejar los arrays como propieades pues se pierde el orden,  
+    
+    
 
 Tareas pendientes
 

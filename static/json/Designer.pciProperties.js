@@ -53,6 +53,7 @@ DesignerProperties =  {
     
     "collapsed": false,
     "collapsed.help": "t/f aparece contraido",
+    "collapsed.type": "boolean",
 
     "collapsible": false,
     "collapsible.help": "t/f",

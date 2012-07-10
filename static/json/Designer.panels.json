@@ -139,13 +139,19 @@
                     "layout": "fit",
                     "title": ""
                 }
-            }, {
-                "text": "Items",
-                "qtip": "Items for container",
-                "children": [], 
-                "__ptConfig": [],
-                "__ptType": "items"
 
+            }, {
+                "text": "Accordion Panel",
+                "qtip": "Layout as accordion",
+                "__ptType": "accordion",
+                "children": [], 
+                "__ptConfig": {
+                    "__ptType" : "accordion", 
+                    "layout": "fit",
+                    "title": "",
+                    "activeItem": 0
+                }
+                
             }, {
                 "text": "fieldcontainer",
                 "qtip": "A Fieldset, containing field elements",
@@ -193,13 +199,6 @@
                     "layout": "absolute",
                     "title": "AbsoluteLayout Container"
                 }
-            }, {
-                "text": "Border Layout",
-                "qtip": "Layout with regions",
-                "children": [], 
-                "wizard": "wizard/border-wiz.json"
-
-
             }, {
                 "text": "Accordion Panel",
                 "qtip": "Layout as accordion",
