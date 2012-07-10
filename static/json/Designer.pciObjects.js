@@ -243,13 +243,7 @@ DesignerObjects =  {
             "layout", "activeItem", 
             "height","maxHeight","minHeight","width", "maxWidth","minWidth"
             ]
-<<<<<<< HEAD
     }
-=======
-    } 
-    
-    
->>>>>>> e808f4cd50a18a119c53e396d9f0ea5f87cdd7f7
     
     
 };
