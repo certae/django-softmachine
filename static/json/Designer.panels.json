@@ -18,6 +18,87 @@
         "tooltip" : "Redraw",
         "itemId" : "redraw"
     },
+
+// --------------
+        {
+            "text": "Fields",
+            "menu": {
+                "items": []
+            }
+        },     
+    
+{
+
+        "text": "Containers",
+            "menu": {
+            "items": [
+            {
+                "text": "fieldset",
+                "qtip": "A Fieldset, containing other form elements",
+                "__ptType": "fieldset",
+                "children": [], 
+                "__ptConfig": {
+                    "__ptType": "fieldset"
+                }
+            }, {
+                "text": "Panel",
+                "qtip": "A simple panel with default layout",
+                "__ptType" : "panel", 
+                "children": [], 
+                "__ptConfig": {
+                    "layout": "fit",
+                    "xtype": "panel", 
+                    "__ptType" : "panel"
+                }
+            }, {
+                "text": "Tab Container",
+                "qtip": "A panel with many tabs",
+                "__ptType": "tabpanel",
+                "children": [], 
+                "__ptConfig": {
+                    "__ptType" : "tabpanel", 
+                    "layout": "fit",
+                    "title": "",
+                    "activeItem": 0
+                }
+            }, {
+                "text": "Tab Panel",
+                "qtip": "A tab panel",
+                "__ptType": "tab",
+                "children": [], 
+                "__ptConfig": {
+                    "__ptType": "tab",
+                    "layout": "fit",
+                    "title": ""
+                }
+
+            }, {
+                "text": "Accordion Panel",
+                "qtip": "Layout as accordion",
+                "__ptType": "accordion",
+                "children": [], 
+                "__ptConfig": {
+                    "__ptType" : "accordion", 
+                    "layout": "fit",
+                    "title": "",
+                    "activeItem": 0
+                }
+                
+            }, {
+                "text": "fieldcontainer",
+                "qtip": "A Fieldset, containing field elements",
+                "__ptType": "fieldcontainer",
+                "children": [], 
+                "__ptConfig": {
+                    "__ptType": "fieldcontainer"
+                    } 
+            }
+        ]}
+    }  ,  
+
+// --------------
+    
+    
     "->",{
         "iconCls" : "icon-error",
         "tooltip" : "Show or hide(clear) error tab",
@@ -80,10 +161,6 @@
 
 
 "toolsTree" : [
-    {
-        "text": "Fields",
-        "children": []
-    }, {
 
 
 /* 
@@ -97,6 +174,10 @@
     combineErrors : true 
     autoScroll : true 
  */            
+        {
+            "text": "Fields",
+            "children": []
+        }, {
 
         "text": "Containers",
         "children": [
