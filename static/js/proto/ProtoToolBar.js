@@ -31,7 +31,7 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
                     me.fireEvent('save') 
                     }
             },"-",{
-                tooltip : "Add field ( Udp's )",
+                tooltip : "Add node ",
                 iconCls : "icon-nodeInsert",
                 hidden : true, 
                 itemId  : "add",

@@ -21,15 +21,15 @@
 
 /*  Iconos del ToolBar */
 
-.icon-search24  { background-image: url(../img/protoImg/icon_search24.png ) !important; }
-.icon-filter24  { background-image: url(../img/protoImg/icon_filter24.png ) !important; }
-.icon-order24   { background-image: url(../img/protoImg/icon_order24.png ) !important;  }
-.icon-views24   { background-image: url(../img/protoImg/icon_views24.png ) !important;  }
-.icon-details24 { background-image: url(../img/protoImg/icon_details24.png ) !important;}
-.icon-print24   { background-image: url(../img/protoImg/icon_print24.png ) !important;}
-.icon-config24  { background-image: url(../img/protoImg/icon_config24.png ) !important;}
-.icon-edit24    { background-image: url(../img/protoImg/icon_edit24.png ) !important;}
-.icon-help24    { background-image: url(../img/protoImg/icon_help24.png ) !important;}
+.icon-search24  { background-image: url(../img/protoImg24/icon24_search.png ) !important; }
+.icon-filter24  { background-image: url(../img/protoImg24/icon24_filter.png ) !important; }
+.icon-order24   { background-image: url(../img/protoImg24/icon24_order.png ) !important;  }
+.icon-views24   { background-image: url(../img/protoImg24/icon24_views.png ) !important;  }
+.icon-details24 { background-image: url(../img/protoImg24/icon24_details.png ) !important;}
+.icon-print24   { background-image: url(../img/protoImg24/icon24_print.png ) !important;}
+.icon-config24  { background-image: url(../img/protoImg24/icon24_config.png ) !important;}
+.icon-edit24    { background-image: url(../img/protoImg24/icon24_edit.png ) !important;}
+.icon-help24    { background-image: url(../img/protoImg24/icon24_help.png ) !important;}
 
 .icon-search     { background-image: url(../img/protoImg/icon_search16.png ) !important; }
 .icon-clearsearch { background-image: url(../img/protoImg/icon_searchclear.png ) !important; }

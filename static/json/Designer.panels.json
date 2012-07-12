@@ -3,9 +3,14 @@
         "tooltip" : "Update definition",
         "iconCls" : "icon-save", 
         "itemId" : "save"
+    },{
+        "iconCls" : "icon-update",
+        "tooltip" : "Redraw",
+        "itemId" : "redraw"
+
     },"-",{
         "tooltip" : "Delete curren node",
-        "iconCls" : "icon-tableDelete", 
+        "iconCls" : "icon-nodeDelete",
         "disabled": false,
         "itemId" : "delete"
     },"-",{
@@ -13,24 +18,23 @@
         "iconCls" : "icon-editEl",
         "itemId" : "editJson"
     },
-    "-",{
-        "iconCls" : "icon-update",
-        "tooltip" : "Redraw",
-        "itemId" : "redraw"
-    },
 
 // --------------
-        {
-            "text": "Fields",
-            "menu": {
-                "items": []
-            }
-        },     
-    
-{
+    {
+        "text": "Fields",
+        "itemId" : "fields",
+        "menu": {
+            "items": []
+        }
+    },     
 
-        "text": "Containers",
-            "menu": {
+    {
+
+        "text"    : "Containers",
+        "itemId"  : "containers",
+        "tooltip" : "Save preview",
+        "iconCls" : "icon-configPreview", 
+        "menu": {
             "items": [
             {
                 "text": "fieldset",

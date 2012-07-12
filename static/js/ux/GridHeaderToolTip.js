@@ -40,3 +40,41 @@ Ext.define('ProtoUL.ux.GridHeaderToolTip', {
 
 
 
+// MEnu con toolTips 
+
+Ext.define('ProtoUL.ux.protoMenu', {
+    extend: 'Ext.menu.Menu',
+    alias: 'widget.protoMenu',
+
+    afterRender: function() {
+        this.superclass.afterRender.apply(this, arguments);
+
+        var menu = this;
+        this.tip = new Ext.ToolTip({
+            target: this.getEl().getAttribute('id'),
+            renderTo: document.body,
+            trackMouse: true,
+            delegate: '.x-menu-item',
+            title: '',
+            listeners: {
+                beforeshow: function(tip) {
+                    var c = menu.activeItem.initialConfig; 
+                    if ( c  && c.tooltip)
+                        tip.update(c.tooltip);
+                        // tip.setTitle(c.qtitle);
+
+                        // tip.body.dom.innerHTML = mi.qtip;
+                        // tip.header.dom.firstChild.innerHTML = mi.qtitle;;
+
+                    else
+                        // Este return causa q si entra por elto q no tiene ttip 
+                        // de ahi en adelante no se muestran hasta volver a entrar al elto  Dgt12/06
+                          
+                        return false ;
+                }
+                
+            }
+        });
+    }
+});
+
