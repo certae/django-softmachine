@@ -272,8 +272,30 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
     },
     onReset : function() {
-        this.setActiveRecord(null);
-        this.getForm().reset();
+        
+        /**
+         *      this.activeRecord  es la copia de mi registro, 
+         *      
+         *      this.getForm().getValues()  Obtiene una copia de los campos presentes en la forma, 
+         *          para actualizarlos en el registro se deben recorrer uno a uno,  
+         *          es una coleccion estandar
+
+         *      this.getForm().setValues()  permite mostrar valores sobre los campos presentes
+         *          si el campo no existe, no hace nada 
+         *   
+         *      La actualizacion de campos debe hacerse sobre el activeRecord y con setValues, 
+         *      de esta forma no hay necesidad de incluir campos ocultos, al momento de guardar la forma 
+         *      se traeran los campos visibles  (  getValues  ) y se actualizan uno a uno, sobre activeRecord  
+         *      se guarda siempre el activeRecord 
+         * 
+         *      La actualizacion BackEnd se puede hacer con  submit ( action.submit )
+         *      o trabajando directamente con el modelo mediante  updateRecord 
+         */
+        
+        
+        console.log ( this.activeRecord  ) 
+        // this.setActiveRecord(null);
+        // this.getForm().reset();
     },
         
 
