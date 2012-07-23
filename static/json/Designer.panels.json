@@ -13,28 +13,25 @@
         "iconCls" : "icon-nodeDelete",
         "disabled": false,
         "itemId" : "delete"
-    },"-",{
-        "tooltip" : "Edit the generated JSON",
-        "iconCls" : "icon-editEl",
-        "itemId" : "editJson"
-    },
 
-// --------------
-    {
-        "text": "Fields",
+    },"-",{
+
+        // "text": "Fields",
+        "tooltip" : "add fields",
         "itemId" : "fields",
+        "iconCls" : "icon-pclFields", 
         "menu": {
+            "xtype": 'protoMenu', 
             "items": []
         }
-    },     
+    }, {
 
-    {
-
-        "text"    : "Containers",
+        // "text"    : "Containers",
         "itemId"  : "containers",
-        "tooltip" : "Save preview",
-        "iconCls" : "icon-configPreview", 
+        "tooltip" : "add containers",
+        "iconCls" : "icon-pclContainers", 
         "menu": {
+            "xtype": 'protoMenu', 
             "items": [
             {
                 "text": "fieldset",
@@ -98,7 +95,44 @@
                     } 
             }
         ]}
-    }  ,  
+
+
+    }, {
+        // "text": "Details",
+        "tooltip" : "add details",
+        "itemId" : "details",
+        "iconCls" : "icon-pclDetails", 
+        "menu": {
+            "xtype": 'protoMenu', 
+            "items": []
+        }
+    }, {
+        // "text": "Others",
+        "tooltip" : "add others",
+        "itemId" : "others",
+        "iconCls" : "icon-pclOthers", 
+        "menu": {
+            "xtype": 'protoMenu', 
+            "items": [
+            {
+                "text": "Label",
+                "qtip": "A textlabel",
+                "leaf": true,
+                "__ptConfig": {
+                    "xtype": "label",
+                    "text": "Label"
+                }
+            }, {
+                "text": "Button",
+                "qtip": "A button",
+                "leaf": true,
+                "__ptConfig": {
+                    "xtype": "button",
+                    "text": "Ok"
+                }
+            }
+        ]}
+    },    
 
 // --------------
     

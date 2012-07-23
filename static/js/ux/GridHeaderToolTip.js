@@ -59,18 +59,18 @@ Ext.define('ProtoUL.ux.protoMenu', {
             listeners: {
                 beforeshow: function(tip) {
                     var c = menu.activeItem.initialConfig; 
-                    if ( c  && c.tooltip)
-                        tip.update(c.tooltip);
-                        // tip.setTitle(c.qtitle);
-
+                    if ( c  && c.qtip) {
+                        tip.setTitle(c.text);
+                        tip.update(c.qtip);
                         // tip.body.dom.innerHTML = mi.qtip;
                         // tip.header.dom.firstChild.innerHTML = mi.qtitle;;
-
-                    else
+                    } else {
+                        tip.update(c.text);
                         // Este return causa q si entra por elto q no tiene ttip 
                         // de ahi en adelante no se muestran hasta volver a entrar al elto  Dgt12/06
-                          
-                        return false ;
+                        // return false ;
+                    }
+                    
                 }
                 
             }

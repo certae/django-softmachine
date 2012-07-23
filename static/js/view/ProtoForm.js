@@ -98,7 +98,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
             if ( ! protoObj.__ptConfig )  
                 protoObj.__ptConfig = get_ptConfig( protoObj )
                 
-            if ( protoIx ) 
+            if ( ! protoObj.__ptConfig.name ) 
                 protoObj.__ptConfig.name = protoIx 
             
             
@@ -149,7 +149,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
             }
             
 
-            // Establece el layout             
+            // Establece el layout  ( Columns )             
             var sAux= prLayout[ 'fsLayout' ]
             if ( sAux ) {
 
@@ -174,6 +174,21 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
             }
             
+
+            // Tooltip
+            if ( prLayout[ 'tooltip' ]) {
+                
+                prLayout['listeners'] = {
+                    render: function(c) {
+                        Ext.create('Ext.tip.ToolTip', {
+                        target: c.getEl(),
+                        trackMouse: true, 
+                        html: prLayout[ 'tooltip' ]
+                      });
+                    }
+                }
+
+            }
             
             // El fieldContainer requiere!!  el defaultType 
             // prFld.xtype = 'fieldcontainer';
@@ -227,10 +242,10 @@ Ext.define('ProtoUL.view.ProtoForm', {
     setActiveRecord : function(record) {
         this.activeRecord = record;
         if(record) {
-            this.down('#save').enable();
+            // this.down('#save').enable();
             this.getForm().loadRecord(record);
         } else {
-            this.down('#save').disable();
+            // this.down('#save').disable();
             this.getForm().reset();
         }
     },

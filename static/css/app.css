@@ -70,6 +70,11 @@
 .icon-nodeInsert  { background-image: url(../img/protoImg/node-insert.png ) !important;}
 .icon-nodeDelete  { background-image: url(../img/protoImg/node-delete.png ) !important;}
 
+.icon-pclFields     { background-image: url(../img/protoImg/d_add_form.png ) !important;}
+.icon-pclContainers { background-image: url(../img/protoImg/d_add_folder.png ) !important;}
+.icon-pclDetails    { background-image: url(../img/protoImg/d_add_detail.png ) !important;}
+.icon-pclOthers     { background-image: url(../img/protoImg/d_add_plugin.png ) !important;}
+
 
 /*  Iconos Adv Sort  */
 .sort-desc { background-image: url(../img/protoImg/sort_desc.gif) !important; background-position: 4px 7px !important; }
