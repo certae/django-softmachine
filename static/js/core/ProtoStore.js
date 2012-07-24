@@ -298,9 +298,10 @@ function getColDefinition( vFld ) {
             text: vFld.header 
     }
 
+    // TODO: La propiedad EditMode debe ser reemplazada por readOnly ( negado )
     var lstProps = ['flex',  'width', 'minWidth', 'sortable',
                     'hidden',  
-                    'xtype', 'editMode', 'readOnly', 
+                    'xtype',  'readOnly', 
                     'render', 'align', 'format', 'tooltip'
                     ]
 
@@ -428,7 +429,7 @@ function getColDefinition( vFld ) {
           
     case 'bool':
         colDefinition['xtype'] = 'checkcolumnreadonly'      
-        colDefinition['editMode'] = false 
+        colDefinition['editable'] = false 
 
         editor.xtype = 'checkbox'
         // editor.cls = 'x-grid-checkheader-editor'

@@ -21,9 +21,9 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
 
     /*
-     * editMode : False is ReadOnly 
+     * editable : False is ReadOnly 
      */
-    editMode : true, 
+    editable : true, 
     
 
     initComponent: function() {
@@ -184,7 +184,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
         propsGrid.on({
             'beforeedit': {fn: function ( editor, e, eOpts) {
-                if ( me.editMode == false ) return false 
+                if ( me.editable == false ) return false 
             }},
 
             // Fires after a editing. ...

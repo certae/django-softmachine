@@ -278,7 +278,6 @@ DesignerObjects =  {
 
         // FIX:  Q es esto por q 3 propiedades q pueden ser las misma vaina  readOnly, editable   
         // "editable": false,
-        // "editMode": false,
         
         // "name": oData.name ,
         // "zoomModel": oData.zoomModel 

@@ -3,7 +3,7 @@
  *   
  *  Enhanced PopertyGrid,  
  *      comboProperties  
- *      editMode   ( True/ False )
+ *      editable   ( True/ False )
  *      QTips
  *      Types  
  * 
@@ -21,7 +21,7 @@ Ext.define('ProtoUL.ux.ProtoProperty' ,{
     readOnlyProps : [],   
 
     //@  True / False 
-    editMode : true,   
+    editable : true,   
 
     //@ sourceInfo {  prpName : '' , ...  } ;
     sourceInfo : {}, 
@@ -36,7 +36,7 @@ Ext.define('ProtoUL.ux.ProtoProperty' ,{
             source : this.source, 
             listeners: {
                 'beforeedit': function(  editor,  e,  eOpts ){
-                    if ( (! me.editMode ) || e.record.data.name in oc( me.readOnlyProps ))  {
+                    if ( (! me.editable ) || e.record.data.name in oc( me.readOnlyProps ))  {
                         return false; 
                     } 
                 },

@@ -238,6 +238,7 @@
 	background-color:#15428B !important; 
 }
 
+
 .x-item-disabled{
 /*  background: #DFE8F6;*/
   opacity:1;
@@ -245,11 +246,24 @@
   filter: alpha(opacity=100);  
 }
 
-.x-protofield-readonly{
+
+
+/* 
+.protofield-readonly{
   background: #DFE8F6 !important;
   opacity:1 !important;
   -moz-opacity:1 !important;
   filter: alpha(opacity=100 !important);  
 }
+
+*/
+
+.protofield-readonly input, .protofield-readonly textarea, .protofield-readonly div{
+color: black !important;
+background-image: none !important;
+background-color: #E0E0E0 !important;
+}
+
+
 
 /*  --------------------------------------------------------------  */

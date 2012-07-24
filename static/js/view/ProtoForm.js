@@ -123,6 +123,10 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 template = getTemplate( __ptType, true,  myFld  )
                 prLayout = Ext.apply( template.__ptConfig , protoObj.__ptConfig  )
 
+                // ReadOnlyCls
+                prLayout[ 'readOnlyCls' ] = 'protofield-readonly'
+
+
             } else if ( __ptType == 'protoGrid'  ) {
                 
                 template = getTemplate( __ptType  , true  )
@@ -189,6 +193,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 }
 
             }
+            
+            
             
             // El fieldContainer requiere!!  el defaultType 
             // prFld.xtype = 'fieldcontainer';
@@ -299,28 +305,37 @@ Ext.define('ProtoUL.view.ProtoForm', {
     },
         
 
-  setReadOnly: function( bReadOnly , readOnlyFields ){
-      
-      var readOnlyCls = '.x-protofield-readonly'
-      var myFields = this.getForm().getFields();
+    setFormReadOnly: function( bDisable ){
+        
+        // Fix : Error ExtJs ??? dice q el obj no tiene metodo isXType 
+        // this.setDisabled( bDisable )
+        
+        this.setReadOnlyFields( bDisable )
+    }, 
 
 
-    Ext.Array.forEach( myFields.items , function( obj ) {
-
-        if ( ! readOnlyFields  || ( obj.name in oc( readOnlyFields )  )  ) {
-
-            obj.setReadOnly( bReadOnly );
-            // obj[bReadOnly ? 'addCls' : 'removeCls']( readOnlyCls );
-            if ( obj.xtype != 'htmlfield' ) obj.setDisabled( bReadOnly );
-            
-        }
-
-    });
-      
-    // Ext.Array.forEach(this.query('textfield'), function( obj ) {
-  },
-   
-  getDockedItems: function() {
+    setReadOnlyFields: function( bReadOnly , readOnlyFields ){
+          
+        // var readOnlyCls = 'protofield-readonly'
+        var myFields = this.getForm().getFields();
+    
+        Ext.Array.forEach( myFields.items , function( obj ) {
+        
+            if ( obj.readOnly ) {
+                obj.setReadOnly( true );
+                // obj[bReadOnly ? 'addCls' : 'removeCls']( readOnlyCls );
+                // if ( obj.xtype != 'htmlfield' ) obj.setDisabled( true  );
+                
+            } else if ( ! readOnlyFields  || ( obj.name in oc( readOnlyFields )  )  ) {
+                obj.setReadOnly( bReadOnly );
+                
+            }; 
+        
+        });
+          
+      },
+       
+    getDockedItems: function() {
       
       return     [{
         xtype : 'toolbar',

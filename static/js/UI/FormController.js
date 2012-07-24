@@ -54,9 +54,9 @@ Ext.define('ProtoUL.UI.FormControler', {
         }
         
         if ( isReadOnly ) {
-            this.myForm.setReadOnly( true );
+            this.myForm.setFormReadOnly( true );
         } else {
-            this.myForm.setReadOnly( true, this.myMeta.gridConfig.readOnlyFields );
+            this.myForm.setReadOnlyFields( true, this.myMeta.gridConfig.readOnlyFields );
         }
         
         this.myWin.show();

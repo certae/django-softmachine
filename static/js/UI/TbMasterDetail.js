@@ -19,7 +19,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         var me = this; 
 
         me.autoSync = false; 
-        me.editMode = false; 
+        me.editable = false; 
 
         // Asigna una referencia al objeto 
         var myMeta = this.protoMeta; 
@@ -285,38 +285,38 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 text:       'Edit',
                 scope:        this,
                 handler:    toggleEditMode,
-                hidden:     this.editMode  
+                hidden:     this.editable  
             }, {
                 iconCls : 'icon-tableSave', 
                 itemId:     'save',
                 text:       'Save',
                 handler:    onClickTableSave,
-                hidden:     ! this.editMode  
+                hidden:     ! this.editable  
             }, {
                 iconCls : 'icon-tableAdd', 
                 itemId:     'add',
                 text:       'Add',
                 handler:    onClickTableAdd,
-                disabled:     ! this.editMode  
+                disabled:     ! this.editable  
             }, {
                 iconCls : 'icon-tableDuplicate', 
                 itemId:     'copy',
                 text:       'Duplicate',
                 handler:    onClickTableDuplicate,
-                disabled:     ! this.editMode  
+                disabled:     ! this.editable  
             }, {
                 iconCls : 'icon-tableDelete', 
                 itemId:     'delete',
                 text:       'Delete',
                 handler:    onClickTableDelete,
-                disabled:     ! this.editMode  
+                disabled:     ! this.editable  
             },  { 
                 iconCls : 'icon-tableCancel', 
                 itemId:     'cancel',
                 text:       'Cancel',
                 scope:        this,
                 handler:    onClickTableCancelEdit,
-                disabled:     ! this.editMode  
+                disabled:     ! this.editable  
             }, '|',  {
                 xtype   : 'tbtext',
                 text: '<b>Form :<b>'
@@ -345,7 +345,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 pressed:    this.autoSync,   
                 scope:        this,
                 toggleHandler: onClickTableAutoSync,
-                disabled:     ! (this.editMode )  
+                disabled:     ! (this.editable )  
             }],  
             hidden : true
         });
@@ -750,27 +750,27 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
     toggleEditMode: function ( forceEdit, tbOnly ) {
         // tbOnly : is internal event fired from grid 
         
-        if ( forceEdit ) this.editMode = forceEdit;  
-        else this.editMode = ! this.editMode ;             
+        if ( forceEdit ) this.editable = forceEdit;  
+        else this.editable = ! this.editable ;             
         
         if ( (!tbOnly ) && ( this.__MasterDetail ))  {
-            this.__MasterDetail.protoMasterGrid.setEditMode( this.editMode )
+            this.__MasterDetail.protoMasterGrid.setEditMode( this.editable )
         } 
         
         if ( this.configTbar ) {
 
-            this.configTbar.getComponent('edit').setVisible ( ! this.editMode );
-            this.configTbar.getComponent('save').setVisible( this.editMode  );
+            this.configTbar.getComponent('edit').setVisible ( ! this.editable );
+            this.configTbar.getComponent('save').setVisible( this.editable  );
 
-//            this.configTbar.getComponent('cancel').setVisible( this.editMode ); 
-            this.configTbar.getComponent('save').setDisabled( this.autoSync || (!this.editMode ));
+//            this.configTbar.getComponent('cancel').setVisible( this.editable ); 
+            this.configTbar.getComponent('save').setDisabled( this.autoSync || (!this.editable ));
 
-            this.configTbar.getComponent('add').setDisabled ( ! this.editMode );
-            this.configTbar.getComponent('copy').setDisabled ( ! this.editMode );
-            this.configTbar.getComponent('delete').setDisabled ( ! this.editMode );
-            this.configTbar.getComponent('cancel').setDisabled ( ! this.editMode );
+            this.configTbar.getComponent('add').setDisabled ( ! this.editable );
+            this.configTbar.getComponent('copy').setDisabled ( ! this.editable );
+            this.configTbar.getComponent('delete').setDisabled ( ! this.editable );
+            this.configTbar.getComponent('cancel').setDisabled ( ! this.editable );
             
-            this.configTbar.getComponent('autoSync').setDisabled( ! this.editMode );
+            this.configTbar.getComponent('autoSync').setDisabled( ! this.editable );
         }; 
         
     }

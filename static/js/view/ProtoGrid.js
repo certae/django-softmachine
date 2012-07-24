@@ -118,7 +118,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             // listeners: { selectionchange: function(sm, selections) {} }
         // });
 
-        this.editMode = false; 
+        this.editable = false; 
         
         var grid = Ext.create('Ext.grid.Panel', {
             plugins: [    'headertooltip',
@@ -362,7 +362,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             // Evento DblClick para seleccionar en el zoom         
             celldblclick: {fn: function ( tbl, el,  cellIndex, record, tr, rowIndex, e,  eOpts ) {
                 // Si esta en modo edicion no dispara nada para permitir entrar al editor 
-                if ( me.editMode ) return  
+                if ( me.editable ) return  
                 me.fireEvent('rowDblClick', record, rowIndex  );
             }, scope: me }
         });                 
@@ -373,7 +373,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         // Fires before editing is triggered. ...
         grid.on({
             beforeedit: {fn: function ( edPlugin, e, eOpts) {
-                if ( ! this.editMode )  return false;
+                if ( ! this.editable )  return false;
                 
                 // Resetea el zoom 
                 for (var ix in e.grid.columns ) {
@@ -639,11 +639,11 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     }, 
     
 
-    setEditMode: function( editMode ){
+    setEditMode: function( editable ){
 
-        this.editMode = editMode ;        
+        this.editable = editable ;        
 
-        if (editMode ) {
+        if (editable ) {
             this._extGrid.down('#toolSave').show();
             this._extGrid.down('#toolCancelEdit').show();
         } else {
@@ -670,14 +670,14 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
     
     addNewRecord: function() {
-        if ((! this._extGrid ) || ( ! this.editMode )) return; 
+        if ((! this._extGrid ) || ( ! this.editable )) return; 
 
         var rec = new this.store.model( this.setDefaults()  )
         this.insertNewRecord ( rec  ) 
     }, 
     
     duplicateRecord: function() {
-        if ((! this._extGrid ) || ( ! this.editMode )) return; 
+        if ((! this._extGrid ) || ( ! this.editable )) return; 
         
         var rec =  this.selected
         if ( rec )  this.insertNewRecord ( rec.copy()  ) 
@@ -704,7 +704,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     }, 
     
     deleteCurrentRecord: function() {
-        if ((! this._extGrid ) || ( ! this.editMode )) return; 
+        if ((! this._extGrid ) || ( ! this.editable )) return; 
 
         var rowIndex = this.getRowIndex();  
 
@@ -722,7 +722,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
     setEditionOff: function() {
         
-        if ((! this._extGrid ) || ( ! this.editMode )) return; 
+        if ((! this._extGrid ) || ( ! this.editable )) return; 
          
         // Invocada desde el tool, debe cancelar la edicion y retroalimentar el toolbar 
         this.setEditMode( false ) 
@@ -762,7 +762,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         var myPcl = Ext.widget('protoPcl', {
             myMeta : this.myMeta, 
-            editMode : true  
+            editable : true  
         });
 
          var myWin  = Ext.widget('window', {
