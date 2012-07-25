@@ -1,8 +1,4 @@
 
-PCL 
-
-    Guardado, no agrega las propiedades. 
-
 
 Forma 
 
@@ -142,6 +138,8 @@ Tareas pendientes
 
 
 ---------------  ---------------------------------------------------------------------------------------------------------- 
+
+    Ok PCL Guardado, no agrega las propiedades. 
 
 Edicion 
 	** MAnejo de un evento afer edito para marcar el registro como dirty y ademas quitarle es status, 

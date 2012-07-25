@@ -187,8 +187,6 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
             }
             
-            
-            
             // El fieldContainer requiere!!  el defaultType 
             // prFld.xtype = 'fieldcontainer';
             // prFld.defaultType = 'textfield'
@@ -277,10 +275,49 @@ Ext.define('ProtoUL.view.ProtoForm', {
         var form = this.getForm();
         if( ! form.isValid())  return; 
 
+        //
+        this.updateZoomIds()
+
         form.updateRecord( active );
         // this.onReset();
 
     },
+
+    updateZoomIds:  function() {
+
+        var lFields = this.getForm().getFields().items 
+       
+        // Manejo del retorno del zoom 
+        for (var ix in lFields  ) {
+            var vFld = lFields[ix]
+            if (  vFld.xtype != 'protoZoom' ) continue;
+            
+            var idIndex = vFld.fkId 
+                        
+            if ( ! vFld.zoomRecord ) continue; 
+
+            // Actualiza el Id con el dato proveniente del zoom 
+            this.updateField(  idIndex, vFld.zoomRecord.data.id ) 
+
+        }
+       
+        
+    }, 
+
+    updateField: function (  fldName, fldValue ) {
+
+        var lRec = {}
+        lRec[ fldName ] = fldValue
+        this.getForm().setValues( lRec ) 
+        
+        var lRec = this.activeRecord 
+        lRec.data[ fldName ] = fldValue
+        if ( ! lRec.modified[ fldName ]  ) {
+            lRec.modified[ fldName ] = lRec.data[ fldName ]  
+        }         
+          
+    }, 
+
 
     onCreate : function() {
         var form = this.getForm();
