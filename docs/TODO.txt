@@ -1,5 +1,13 @@
 
+PCL 
+
+    Guardado, no agrega las propiedades. 
+
+
 Forma 
+
+    Retorno del zoom.  debe actualizar el activeRecord y la forma para evitar campos invisibles. 
+    
 
     ** Contenedores e items
     

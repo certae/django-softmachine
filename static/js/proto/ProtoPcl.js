@@ -205,6 +205,16 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         );
 
 
+        fieldList.on({
+            'checked' : {fn: function ( record, recordIndex, checked ) {
+                saveFieldList()
+            }}, 
+            'reorder' : {fn: function () {
+                saveFieldList()
+            }}, 
+            scope: me }
+        );
+
 // ---------------------------------------------------------------------------------------------- 
 
                 
@@ -306,6 +316,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
         function saveFieldList() {
             if ( fieldList.isVisible()) {
+                // __ptConfig guarda la ref al obj de base 
                 fieldList.__ptConfig.__ptList  = Ext.encode( fieldList.getChecked() ) 
             }
         }
