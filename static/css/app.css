@@ -249,6 +249,7 @@
 
 
 /* 
+
 .protofield-readonly{
   background: #DFE8F6 !important;
   opacity:1 !important;
@@ -265,5 +266,9 @@ background-color: #E0E0E0 !important;
 }
 
 
+
+.x-tool-readOnly{
+    background-image: url('../img/protoImg/lock.png') !important;
+}
 
 /*  --------------------------------------------------------------  */

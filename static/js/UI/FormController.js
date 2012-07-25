@@ -39,7 +39,7 @@ Ext.define('ProtoUL.UI.FormControler', {
             layout: 'fit',
             resizable: true,
             modal: true,
-            items: this.myForm
+            items: this.myForm 
         });
 
     },
@@ -55,8 +55,17 @@ Ext.define('ProtoUL.UI.FormControler', {
         
         if ( isReadOnly ) {
             this.myForm.setFormReadOnly( true );
+            this.myWin.tools = [{
+                type: 'readOnly',
+                tooltip: 'readOnly' 
+            }] 
+            this.myWin.addTools()
+
+            
         } else {
             this.myForm.setReadOnlyFields( true, this.myMeta.gridConfig.readOnlyFields );
+            
+            
         }
         
         this.myWin.show();

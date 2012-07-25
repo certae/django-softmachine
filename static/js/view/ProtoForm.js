@@ -68,19 +68,12 @@ Ext.define('ProtoUL.view.ProtoForm', {
             activeRecord : null,
             
             items : this.prFormLayout,
-            dockedItems : this.getDockedItems(), 
+            dockedItems : this.getDockedItems() 
 
-            tools: [{
-                type: 'gear',
-                scope: this,
-                handler: this.showFormConfig,
-                tooltip: 'Form Config ... ' }
-            , { 
-                type: 'gear',
-                scope: this,
-                handler: this.showLayoutConfig,
-                tooltip: 'LayoutConfig ... '                    
-            }]
+            // tools: [{
+            // handler: this.showFormConfig,
+            // handler: this.showLayoutConfig,
+            // }]
             
         });
         this.callParent();
@@ -257,28 +250,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
     },
     
     onSave : function() {
-        var active = this.activeRecord
-        var form = this.getForm();
 
-        if(!active) {
-            return;
-        }
-        if(form.isValid()) {
-            form.updateRecord(active);
-            this.onReset();
-        }
-    },
-    onCreate : function() {
-        var form = this.getForm();
-
-        if(form.isValid()) {
-            this.fireEvent('create', this, form.getValues());
-            form.reset();
-        }
-
-    },
-    onReset : function() {
-        
         /**
          *      this.activeRecord  es la copia de mi registro, 
          *      
@@ -298,10 +270,30 @@ Ext.define('ProtoUL.view.ProtoForm', {
          *      o trabajando directamente con el modelo mediante  updateRecord 
          */
         
-        
-        console.log ( this.activeRecord  ) 
-        // this.setActiveRecord(null);
-        // this.getForm().reset();
+
+        var active = this.activeRecord
+        if(!active) return;
+
+        var form = this.getForm();
+        if( ! form.isValid())  return; 
+
+        form.updateRecord( active );
+        // this.onReset();
+
+    },
+
+    onCreate : function() {
+        var form = this.getForm();
+
+        if(form.isValid()) {
+            this.fireEvent('create', this, form.getValues());
+            form.reset();
+        }
+
+    },
+    onReset : function() {
+        this.setActiveRecord(null);
+        this.getForm().reset();
     },
         
 
@@ -345,7 +337,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
             iconCls : 'icon-save',
             itemId : 'save',
             text : 'Save',
-            disabled : true,
+            // disabled : true,
             scope : this,
             handler : this.onSave
         }, {
