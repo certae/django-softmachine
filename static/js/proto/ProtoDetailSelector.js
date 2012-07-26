@@ -20,12 +20,15 @@ Ext.define('ProtoUL.proto.ProtoDetailSelector', {
     initComponent: function() {
         
         me = this; 
+
+        var tBar =  Ext.create( 'ProtoUL.proto.ProtoToolBar', {dock : 'top'})
         
         var detailTree = Ext.create('ProtoUL.proto.ProtoDetailTree', {
             protoOption : me.protoOption, 
             myMeta : me.myMeta 
            })
 
+        // ----------------------------------------------------------------------------
 
         detailTree.on({
             'loadComplete': function (  treeStore, records,  successful,  eOpts ) {
@@ -37,7 +40,16 @@ Ext.define('ProtoUL.proto.ProtoDetailSelector', {
             scope: me }
         );
 
-        var tBar =  Ext.create( 'ProtoUL.proto.ProtoToolBar', {dock : 'top'})
+
+        tBar.on({
+            'preview': function () {
+                savePreview()
+            }, 
+            scope: me }
+        );
+
+
+        // ----------------------------------------------------------------------------
 
         Ext.apply(this, {
             layout: 'fit',
@@ -46,6 +58,15 @@ Ext.define('ProtoUL.proto.ProtoDetailSelector', {
         });
           
         this.callParent(arguments);
+        
+        
+        function savePreview() {
+            
+            var names = detailTree.getCheckedList()
+
+            
+        }
+        
         
     } 
 
@@ -130,12 +151,32 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
         me.callParent(arguments);
         
         function configureCurrentDetails() {
-            // Crea los campos activos en la grilla 
-            for (var ix in me.myMeta.protoDetails ) {
-                var vFld  =  me.myMeta.protoDetails[ix];
-                // var vNode =  me.treeStore.getNodeById( vFld.name ) 
-                // if ( vNode ) vNode.set( 'checked', true ) 
-            } 
+            
+        
+            // Recorre el store y marca los campos activos
+            me.getView().getStore().each(function(record){
+                
+                console.log( record )
+                var lRec = { 
+                    'conceptDetail'  : record.get('conceptDetail' ), 
+                    'detailField' : record.get('detailField' )
+                    }
+
+                // Crea los campos activos en la grilla 
+                for (var ix in me.myMeta.protoDetails ) {
+                    var vFld  =  me.myMeta.protoDetails[ix];
+                    
+                    if (( vFld.conceptDetail == lRec.conceptDetail ) && ( vFld.detailField == lRec.detailField )) {
+
+                        record.set( 'checked', true ) 
+
+                    }
+                } 
+                
+                 
+             })
+        
+            
         }
         
         
@@ -143,12 +184,24 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
 
     getCheckedList: function () {
 
-        var records = this.getView().getChecked(),
-            names = [];
+        var lView =  this.getView()
+        var records = lView.getChecked()
+        var names = [];
         
-        Ext.Array.each(records, function(rec){
-            names.push(rec.get('id'));
+        Ext.Array.each(records, function(rDetail){
+            
+            var rDet = {}
+            
+            rDet[ "menuText"  ]     =  rDetail.get( 'id' ) 
+            rDet[ "conceptDetail" ] =  rDetail.get( 'conceptDetail' ) 
+            rDet[ "masterField" ]   =  "pk" 
+            rDet[ "detailField" ]   =  rDetail.get( 'detailField' )  
+            // rDet[ "detailTitleLbl"] =  rDetail.get( 'detailTitleLbl' )  
+            // rDet[ "detailTitlePattern"] = rDetail.get( 'detailTitlePattern' )  
+            
+            names.push( rDet);
         });
+        
         
         return names 
 

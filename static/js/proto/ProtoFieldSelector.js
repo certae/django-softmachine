@@ -22,6 +22,12 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
     initComponent: function() {
         
         me = this; 
+
+        var tBar =  Ext.create( 'ProtoUL.proto.ProtoToolBar', {dock : 'top'})
+        
+        
+        tBar.setButton( 'add', true, true, 'add UDP' ) 
+        
         
         var fieldTree = Ext.create('ProtoUL.proto.ProtoFieldTree', {
             protoOption : me.protoOption, 
@@ -32,6 +38,9 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
             checkStyle : false, 
             idTitle: 'SelectedFields' 
         })
+
+
+//      --------------------------------------------------
 
         fieldTree.on({
             'loadComplete': function (  treeStore, records,  successful,  eOpts ) {
@@ -44,8 +53,25 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
             scope: me }
         );
 
-        var tBar =  Ext.create( 'ProtoUL.proto.ProtoToolBar', {dock : 'top'})
 
+        tBar.on({
+            'preview': function () {
+                var a 
+            }, 
+            'save': function () {
+                var a 
+
+            }, 
+            'add': function () {
+                var a 
+
+            }, 
+            scope: me }
+        );
+
+
+
+//      ----------------------------------------------------
         var panelItems =   [{
                 region: 'center',
                 layout: 'fit',
