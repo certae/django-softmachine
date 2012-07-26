@@ -147,6 +147,16 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         this.gridStore.removeAll(  );
     }, 
 
+
+    getList: function () {
+
+        var myList = []
+        this.gridStore.each(function(record){
+          myList.push( record.get( 'data' ))
+         })
+        
+        return myList
+    }, 
     
     getChecked: function () {
 

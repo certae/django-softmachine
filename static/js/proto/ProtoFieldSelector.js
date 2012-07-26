@@ -2,7 +2,6 @@
  * ProtoFieldSelector,  Primer paso para crear la pcl, seleccionar loscampos 
  *    
  * 1.  presentar el arbol de campos para seleccionar los fields  ( Solo en la configuracion de fields )
- * 
  * 2.  presentar los campos disponibles como una lista de campos a seleccionar, por ejemplo, en listDiplay, order by,  etc, 
  * 
  * Los campos UDP se agregan directamente a la lista(2).  
@@ -24,17 +23,15 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
         me = this; 
 
         var tBar =  Ext.create( 'ProtoUL.proto.ProtoToolBar', {dock : 'top'})
-        
-        
         tBar.setButton( 'add', true, true, 'add UDP' ) 
         
         
-        var fieldTree = Ext.create('ProtoUL.proto.ProtoFieldTree', {
+        var elemTree = Ext.create('ProtoUL.proto.ProtoFieldTree', {
             protoOption : me.protoOption, 
             myMeta : me.myMeta 
            })
 
-        var fieldList = Ext.create('ProtoUL.ux.ProtoList', {
+        var elemList = Ext.create('ProtoUL.ux.ProtoList', {
             checkStyle : false, 
             idTitle: 'SelectedFields' 
         })
@@ -42,13 +39,13 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
 
 //      --------------------------------------------------
 
-        fieldTree.on({
+        elemTree.on({
             'loadComplete': function (  treeStore, records,  successful,  eOpts ) {
                 configureCurrentFields()
             }, 
             'checkModif': function (  node,  checked,  eOpts ) {
                 var idx = node.get( 'id' )
-                fieldList.addOrRemove ( idx, checked  ) 
+                elemList.addOrRemove ( idx, checked  ) 
             }, 
             scope: me }
         );
@@ -72,24 +69,8 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
 
 
 //      ----------------------------------------------------
-        var panelItems =   [{
-                region: 'center',
-                layout: 'fit',
-                minSize: 200,
-                items: fieldTree, 
-                border: false,
-                flex: 5
-            }, {
-                region: 'east',
-                // collapsible: true,
-                collapsed: false ,
-                split: true,
-                layout: 'fit',
-                minSize: 200,
-                items: fieldList, 
-                border: false,
-                flex: 2
-            }]
+
+        var panelItems = getSelectorsPanels( elemTree, elemList  )
             
         Ext.apply(this, {
             layout: 'border',
@@ -109,11 +90,130 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
                 // El string no es un campos configurable
                 if ( vFld.name == '__str__' )  continue 
 
-                fieldList.addDataItem ( vFld.name, true  ) 
+                elemList.addDataItem ( vFld.name, true  ) 
             } 
         }
         
     } 
+
+
+});
+
+
+/* 
+ * Lectura del arbol de campos ( todos los lockup )
+ * 
+ */
+
+Ext.define('ProtoUL.proto.ProtoFieldTree', {
+    extend: 'Ext.tree.Panel',
+    alias: 'widget.protoFieldTree',
+    
+
+ // @protoOption   Required 
+    protoOption : null, 
+
+//  @myMeta   Required 
+    myMeta : null, 
+
+    initComponent: function() {
+        
+        me = this; 
+        me.addEvents('checkModif', 'loadComplete');
+        
+        definieProtoFieldSelctionModel( me.protoOption  )
+        
+        this.treeStore = Ext.create('Ext.data.TreeStore', {
+            autoLoad: true,
+            model: 'Proto.FieldSelectionModel',
+            root: {
+                text:'fields',
+                expanded: true 
+            }, 
+
+            listeners: {
+                load: function ( treeStore, records,  successful,  eOpts ) {
+                    configureCurrentFields()
+                    me.fireEvent('loadComplete', treeStore, records,  successful,  eOpts );
+                }
+            }
+             
+        });
+
+        var tree = Ext.apply(this, {
+            store: this.treeStore,
+            useArrows: true,
+            rootVisible: false ,
+            minWidth: 400, 
+
+            columns: [{
+                xtype: 'treecolumn', //this is so we know which column will show the tree
+                text: 'text',
+                flex: 2,
+                sortable: true,
+                minWidth: 200,
+                dataIndex: 'text'
+            // },{
+                // text: 'header',
+                // dataIndex: 'header'
+            // },{
+                // text: 'tooltip',
+                // dataIndex: 'tooltip'
+            },{
+                xtype: 'booleancolumn', 
+                trueText: '',
+                falseText: 'req', 
+                width: 50,
+                text: 'req',
+                dataIndex: 'allowBlank'
+            },{
+                xtype: 'booleancolumn', 
+                trueText: 'rOnly',
+                width: 50,
+                falseText: '', 
+                text: 'rOnly',
+                dataIndex: 'readOnly'
+            },{
+                text: 'fieldType',
+                dataIndex: 'fieldType'
+            },{
+                text: 'Ix',
+                flex: 2,
+                dataIndex: 'id'
+            }] 
+             
+        })
+
+        tree.on({
+            'checkchange': {fn: function (  node,  checked,  eOpts ) {
+                me.fireEvent('checkModif', node,  checked,  eOpts );
+            }}, scope: me }
+        );
+
+        me.callParent(arguments);
+        
+        function configureCurrentFields() {
+            // Crea los campos activos en la grilla 
+            for (var ix in me.myMeta.fields ) {
+                var vFld  =  me.myMeta.fields[ix];
+                var vNode =  me.treeStore.getNodeById( vFld.name ) 
+
+                // Lo marca                                            
+                if ( vNode ) vNode.set( 'checked', true ) 
+            } 
+        }
+        
+        
+    } 
+
+    // getCheckedList: function () {
+        // var records = this.getView().getChecked(),
+            // names = [];
+        // Ext.Array.each(records, function(rec){
+            // names.push(rec.get('id'));
+        // });
+        // return names 
+    // }
 
 
 });

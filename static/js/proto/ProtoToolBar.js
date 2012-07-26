@@ -93,3 +93,27 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
   }   
     
 });
+
+
+function  getSelectorsPanels( elemTree, fieldList  ) {
+    
+    return   [{
+            region: 'center',
+            layout: 'fit',
+            minSize: 200,
+            items: elemTree, 
+            border: false,
+            flex: 5
+        }, {
+            region: 'east',
+            collapsible: true,
+            collapsed: false ,
+            split: true,
+            layout: 'fit',
+            minSize: 200,
+            items: fieldList, 
+            border: false,
+            flex: 2
+        }]
+    
+}

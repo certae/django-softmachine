@@ -33,6 +33,13 @@ function Meta2Tree( oData, pName, ptType   ) {
             return tData 
         }  
 
+        // Details 
+        if (( ptType == 'protoDetails') && ( pName != ptType )) {
+            ptType = 'protoDetail'                        
+            var tData = getNodeBase( pName, ptType, __ptConfig  )
+            tData['leaf'] =  true  
+            return tData 
+        }  
 
 
         if ( ! ptType  )  ptType = sDataType    
@@ -42,7 +49,7 @@ function Meta2Tree( oData, pName, ptType   ) {
 
         if (( ptType == 'filtersSet') && ( pName != ptType ))  ptType = 'filterDef'                        
         if (( ptType == 'listDisplaySet') && ( pName != ptType ))  ptType = 'listDisplay'                        
-        if (( ptType == 'protoDetails') && ( pName != ptType ))  ptType = 'protoDetail'                        
+
         if (( ptType == 'protoSheets') && ( pName != ptType ))  ptType = 'protoSheet'     
                            
 
@@ -85,6 +92,8 @@ function Meta2Tree( oData, pName, ptType   ) {
         for (var sKey in oData) {
             var vValue = oData[ sKey  ]
             var typeItem = typeOf(vValue);
+
+            if ( typeItem  ==  undefined ) continue  
 
             // PRegunta es por el objeto padre para enviar el tipo en los arrays      
             if ( sDataType == "object" ) {
@@ -146,13 +155,10 @@ function Meta2Tree( oData, pName, ptType   ) {
     } else { 
         
         // TODO m2t objeto plano???  Conversion 
-        console.log (  'TODO FIX :  m2t objeto plano???  Aqui no dbee llegar nunca ')
+        console.log (  'TODO FIX :  m2t objeto plano???  Aqui no dbee llegar nunca', oData, pName, ptType)
     }
 
     return tData 
-
-    
- 
 
 } ; 
 

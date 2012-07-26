@@ -59,7 +59,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
          'detailTitleLbl': 'Vue :',
          'detailTitlePattern': 'code'}, 
         {'menuText': 'Éléments de Données', 
-         'conceptDetail': 'protoExt.property', 
+         'conceptDetail': 'protoExt.Property', 
          'detailField': 'concept__model__pk', 
          'masterField': 'pk', 
          'detailTitleLbl': ' ',

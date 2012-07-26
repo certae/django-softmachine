@@ -23,19 +23,27 @@ Ext.define('ProtoUL.proto.ProtoDetailSelector', {
 
         var tBar =  Ext.create( 'ProtoUL.proto.ProtoToolBar', {dock : 'top'})
         
-        var detailTree = Ext.create('ProtoUL.proto.ProtoDetailTree', {
+        var elemTree = Ext.create('ProtoUL.proto.ProtoDetailTree', {
             protoOption : me.protoOption, 
             myMeta : me.myMeta 
            })
 
+
+        var elemList = Ext.create('ProtoUL.ux.ProtoList', {
+            checkStyle : false, 
+            idTitle: 'SelectedFields' 
+        })
+
+
         // ----------------------------------------------------------------------------
 
-        detailTree.on({
+        elemTree.on({
             'loadComplete': function (  treeStore, records,  successful,  eOpts ) {
-                // configureCurrentDetails()
+                configureCurrentDetails()
             }, 
             'checkModif': function (  node,  checked,  eOpts ) {
-                // var idx = node.get( 'id' )
+                var idx = node.get( 'id' )
+                elemList.addOrRemove ( idx, checked  ) 
             }, 
             scope: me }
         );
@@ -45,35 +53,89 @@ Ext.define('ProtoUL.proto.ProtoDetailSelector', {
             'preview': function () {
                 savePreview()
             }, 
+            'save': function () {
+                savePreview(); 
+                savePci( me.myMeta )         
+            }, 
             scope: me }
         );
 
 
         // ----------------------------------------------------------------------------
 
+        var panelItems = getSelectorsPanels( elemTree, elemList  )
+
         Ext.apply(this, {
-            layout: 'fit',
-            items: detailTree, 
+            layout: 'border',
+            items: panelItems, 
             dockedItems: [ tBar ] 
         });
           
         this.callParent(arguments);
         
+        function configureCurrentDetails() {
+
+            // Crea los campos activos en la grilla 
+            for (var ix in me.myMeta.protoDetails ) {
+                var vFld  =  me.myMeta.protoDetails[ix];
+
+                elemList.addDataItem ( vFld.menuText, true  ) 
+            } 
+        };
+        
         
         function savePreview() {
             
-            var names = detailTree.getCheckedList()
-
+            var names = elemList.getList(),
+                detail = {},  
+                details = []
+                
+            for (var ix in names  ) {
+                
+                detail = getExistingDetail( names[ix] )
+                if ( ! detail ) {
+                    detail = getDefaultDetail( names[ix] )
+                }
+                if ( detail ) {
+                    details.push( detail )   
+                } else { 
+                    console.log( "Detalle no encontrado", names[ix]  )
+                } 
+                
+            } 
             
-        }
-        
+            // Actualiza los nuevos detalles 
+            me.myMeta.protoDetails = details 
+            
+            function getExistingDetail( name  ) {
+                for (var ix in me.myMeta.protoDetails ) {
+                    var vFld  =  me.myMeta.protoDetails[ix];
+                    if ( vFld.menuText == name ) {
+                        return vFld 
+                        break ; 
+                    }
+                } 
+            }
+            
+            function getDefaultDetail( name  ) {
+                
+                var rec =  elemTree.treeStore.getNodeById( name ) 
+                return  {
+                    menuText : rec.get( 'id' ), 
+                    conceptDetail :  rec.get( 'conceptDetail' ), 
+                    masterField :  "pk" ,
+                    detailField :  rec.get( 'detailField' )
+                    // detailTitleLbl :   rec.get( 'detailTitleLbl' ),  
+                    // detailTitlePattern :  rec.get( 'detailTitlePattern' )
+                }  
+            }
+            
+        }; 
         
     } 
 
 
 });
-
-
 
 
 /* 
@@ -130,15 +192,22 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
                 minWidth: 200,
                 dataIndex: 'id'
             },{
-                flex: 2,
-                text: 'detailField',
-                dataIndex: 'detailField'
-            },{
                 flex: 1,
                 text: 'conceptDetail',
                 dataIndex: 'conceptDetail'
+            },{
+                flex: 2,
+                text: 'detailField',
+                dataIndex: 'detailField'
+            // },{
+                // hidden: true,
+                // text: 'detailTitleLbl',
+                // dataIndex: 'detailTitleLbl'
+            // },{
+                // hidden: true,
+                // text: 'detailTitlePattern',
+                // dataIndex: 'detailTitlePattern'
             }] 
-
              
         })
 
@@ -154,24 +223,33 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
             
         
             // Recorre el store y marca los campos activos
-            me.getView().getStore().each(function(record){
+            // me.getView().getStore().each(function(record){
+            me.getRootNode().cascadeBy(function(record){
                 
-                console.log( record )
                 var lRec = { 
                     'conceptDetail'  : record.get('conceptDetail' ), 
                     'detailField' : record.get('detailField' )
                     }
 
-                // Crea los campos activos en la grilla 
-                for (var ix in me.myMeta.protoDetails ) {
-                    var vFld  =  me.myMeta.protoDetails[ix];
+                // Evita iterar en el root 
+                if ( lRec.conceptDetail )  {
                     
-                    if (( vFld.conceptDetail == lRec.conceptDetail ) && ( vFld.detailField == lRec.detailField )) {
-
-                        record.set( 'checked', true ) 
-
-                    }
-                } 
+                    // Marca los campos activos en la grilla
+                    for (var ix in me.myMeta.protoDetails ) {
+                        var vFld  =  me.myMeta.protoDetails[ix];
+                        
+                        if (( vFld.conceptDetail == lRec.conceptDetail ) && ( vFld.detailField == lRec.detailField )) {
+                            record.set( 'checked', true )
+                            
+                            // Agrega los campos personalisados 
+                            record.set( 'id', vFld.menuText )  
+                            // record.set( 'detailTitleLbl', vFld.detailTitleLbl ) 
+                            // record.set( 'detailTitlePattern', vFld.detailTitlePattern )
+                             
+                            break ; 
+                        }
+                    } 
+                }
                 
                  
              })
@@ -180,32 +258,25 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
         }
         
         
-    }, 
+    } 
 
-    getCheckedList: function () {
-
-        var lView =  this.getView()
-        var records = lView.getChecked()
-        var names = [];
-        
-        Ext.Array.each(records, function(rDetail){
+    // getCheckedList: function () {
+        // var names = [];
+        // var lView =  this.getView()
+        // var records = lView.getChecked()
+        // Ext.Array.each(records, function(rec){
+            // var rDet = {}
+            // rDet[ "menuText"  ]     =  rec.get( 'id' ) 
+            // rDet[ "conceptDetail" ] =  rec.get( 'conceptDetail' ) 
+            // rDet[ "masterField" ]   =  "pk" 
+            // rDet[ "detailField" ]   =  rec.get( 'detailField' )  
+            // rDet[ "detailTitleLbl"] =  rec.get( 'detailTitleLbl' )  
+            // rDet[ "detailTitlePattern"] = rec.get( 'detailTitlePattern' )  
             
-            var rDet = {}
-            
-            rDet[ "menuText"  ]     =  rDetail.get( 'id' ) 
-            rDet[ "conceptDetail" ] =  rDetail.get( 'conceptDetail' ) 
-            rDet[ "masterField" ]   =  "pk" 
-            rDet[ "detailField" ]   =  rDetail.get( 'detailField' )  
-            // rDet[ "detailTitleLbl"] =  rDetail.get( 'detailTitleLbl' )  
-            // rDet[ "detailTitlePattern"] = rDetail.get( 'detailTitlePattern' )  
-            
-            names.push( rDet);
-        });
-        
-        
-        return names 
-
-    }
+            // names.push( rDet);
+        // });
+        // return names 
+    // }
 
 
 });
