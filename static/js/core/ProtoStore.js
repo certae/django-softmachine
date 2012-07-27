@@ -752,13 +752,20 @@ function definieProtoFieldSelctionModel( protoOption ) {
             {name: 'id', type: 'string'},
             {name: 'text', type: 'string'},  
             {name: 'fieldType', type: 'string'},  
-            {name: 'checked', type: 'boolean'},
 
             {name: 'readOnly', type: 'boolean'},
             {name: 'allowBlank', type: 'boolean'},
             {name: 'tooltip', type: 'string'},  
             {name: 'header', type: 'string'},  
 
+            {name: 'zoomModel', type: 'string'},  
+            {name: 'fkField', type: 'string'},  
+            {name: 'fkId', type: 'string'},  
+            {name: 'vType', type: 'string'},  
+            {name: 'defaultValue', type: 'string'},  
+            {name: 'choices', type: 'string'},  
+
+            {name: 'checked', type: 'boolean'},
             {name: 'leaf', type: 'boolean'}
         ]
         

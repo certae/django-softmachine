@@ -53,11 +53,11 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
 
         tBar.on({
             'preview': function () {
-                var a 
+                savePreview()
             }, 
             'save': function () {
-                var a 
-
+                savePreview(); 
+                savePci( me.myMeta )         
             }, 
             'add': function () {
                 var a 
@@ -92,9 +92,58 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
 
                 elemList.addDataItem ( vFld.name, true  ) 
             } 
-        }
+        }; 
+        
+        function savePreview() {
+            
+            var names = elemList.getList(),
+                field = {},  
+                fields = []
+                
+            for (var ix in names  ) {
+                
+                field = getExistingField( names[ix] )
+                if ( ! field ) {
+                    field = getDefaultField( names[ix] )
+                }
+                if ( field ) {
+                    fields.push( field )   
+                } else { 
+                    console.log( "Field no encontrado", names[ix]  )
+                } 
+                
+            } 
+            
+            // Actualiza los nuevos detalles 
+            me.myMeta.fields = fields 
+            
+            function getExistingField( name  ) {
+                for (var ix in me.myMeta.fields ) {
+                    var vFld  =  me.myMeta.fields[ix];
+                    if ( vFld.menuText == name ) {
+                        return vFld 
+                        break ; 
+                    }
+                } 
+            }
+            
+            function getDefaultField( name  ) {
+                
+                var rec =  elemTree.treeStore.getNodeById( name ) 
+                return  {
+                    menuText : rec.get( 'id' ), 
+                    conceptField :  rec.get( 'conceptField' ), 
+                    masterField :  "pk" ,
+                    fieldField :  rec.get( 'fieldField' )
+                }  
+            }
+            
+        }; 
+        
         
     } 
+    
+     
 
 
 });
@@ -153,12 +202,6 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
                 sortable: true,
                 minWidth: 200,
                 dataIndex: 'text'
-            // },{
-                // text: 'header',
-                // dataIndex: 'header'
-            // },{
-                // text: 'tooltip',
-                // dataIndex: 'tooltip'
             },{
                 xtype: 'booleancolumn', 
                 trueText: '',
@@ -177,9 +220,39 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
                 text: 'fieldType',
                 dataIndex: 'fieldType'
             },{
-                text: 'Ix',
+                text: 'zoomModel',
+                dataIndex: 'zoomModel'
+            },{
+                text: 'fkField',
+                dataIndex: 'fkField'
+            },{
+                text: 'fkId',
+                dataIndex: 'fkId'
+            },{
                 flex: 2,
+                hidden : true, 
+                text: 'Ix',
                 dataIndex: 'id'
+            },{
+                hidden : true, 
+                text: 'header',
+                dataIndex: 'header'
+            },{
+                hidden : true, 
+                text: 'tooltip',
+                dataIndex: 'tooltip'
+            },{
+                hidden : true, 
+                text: 'defaultValue',
+                dataIndex: 'defaultValue'
+            },{
+                hidden : true, 
+                text: 'vType',
+                dataIndex: 'vType'
+            },{
+                hidden : true, 
+                text: 'choices',
+                dataIndex: 'choices'
             }] 
              
         })
@@ -198,9 +271,30 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
                 var vFld  =  me.myMeta.fields[ix];
                 var vNode =  me.treeStore.getNodeById( vFld.name ) 
 
-                // Lo marca                                            
-                if ( vNode ) vNode.set( 'checked', true ) 
+                // Lo marca o lo adiciona como UDP                                             
+                if ( vNode ) {
+                    vNode.set( 'checked', true )
+                } else {
+                    addUdpField( vFld )
+                }
+                     
             } 
+        }
+        
+        function addUdpField( vFld ) {
+            
+              // No lo encontro, lo agrega
+            tNode = {
+                'id' : vFld.name, 
+                'text' : vFld.name, 
+                'fieldType' : 'udp', 
+                'checked' : true, 
+                'allowBlank' : true, 
+                'leaf' : true 
+            }
+            
+            me.getRootNode().appendChild( tNode )
+
         }
         
         

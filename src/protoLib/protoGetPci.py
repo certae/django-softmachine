@@ -22,7 +22,7 @@
 from django.http import HttpResponse
 from protoGrid import getSearcheableFields, getProtoViewName
 from protoLib import protoGrid
-from protoField import TypeEquivalence
+from protoField import TypeEquivalence, setFieldDict
 from models import getDjangoModel, ProtoDefinition
 from utilsBase import getReadableError, verifyStr
 
@@ -306,7 +306,7 @@ def protoGetFieldTree(request):
     
         
     # Codifica el mssage json 
-    context = json.dumps( fieldList)
+    context = json.dumps( fieldList )
     return HttpResponse(context, mimetype="application/json")
 
 
@@ -316,41 +316,70 @@ def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
     """
 
     fieldId = fieldBase + field.name
-    pType = TypeEquivalence.get( field.__class__.__name__, 'string')
-      
-    if fieldBase == '': 
-        readOnly = ( not getattr( field, 'editable', True ) ) or ( pType == 'autofield') 
-        allowBlank =  getattr( field, 'blank', True  )
-    else:
-        readOnly = True 
-        allowBlank =  True 
+
+    # DEfinicion proveniente del dict ( setFieldDict )  
+    protoFields = {}
+    setFieldDict ( protoFields , field )
+    pField = protoFields[ field.name ]
+    
+    # fieldBase indica campos de llaves foraneas       
+    if fieldBase != '': 
+        pField[ 'readOnly' ] = True 
         
     
     #TODO :  Choices armar un string y descomponer al otro lado 
-    menuField = { 
-        'id': fieldId , 
+    myField = { 
+        'id'         : fieldId , 
         'text'       : field.name, 
         'checked'    : False, 
-        'readOnly'   : readOnly,
-        'allowBlank' : allowBlank,  
-        'tooltip'    : getattr( field, 'help_text', ''  ),  
-        'header'     : verifyStr( field.verbose_name,  field.name ),   
-        'fieldType'  : pType  
+        'readOnly'   : pField.get( 'readOnly' , False ) , 
+        'allowBlank' : pField.get( 'allowBlank' , True  ),  
+        'tooltip'    : pField.get( 'tooltip', ''  ),  
+        'header'     : pField.get( 'header',  field.name  ),   
+        'fieldType'  : pField['type']  
      }
 
-    if field.__class__.__name__ != 'ForeignKey':
-        menuField['leaf'] = True
+    # Atributos adicionales de edicion 
+    if fieldBase == '': 
+
+        if hasattr( pField, 'defaultValue' ): 
+            myField['defaultValue'] = pField['defaultValue'] 
+
+        if hasattr( pField, 'vType'): 
+            myField['vType'] = pField['vType'] 
+
+#        if pField['type'] == 'combo':
+#            myField['choices'] = pField['choices'] 
+
+    # Recursividad Fk 
+    if pField['type'] != 'foreigntext':
+        myField['leaf'] = True
 
     else:
+
+        if fieldBase == '': 
+            myField['fkId'] = pField['fkId'] 
+            myField['zoomModel'] = pField['zoomModel']                    
+
+            myFieldId = protoFields[ pField['fkId'] ]
+            myFieldId['id' ] = pField['fkId']
+            myFieldId['leaf'] = True
+            myFieldId['readOnly'] = True
+            myFieldId['checked'] = False
+            myFieldId['text'] =  pField['fkId']  
+            myFieldId['fieldType'] =  myFieldId['type']  
+
+            del myFieldId['type']
+            fieldList.append( myFieldId )
 
         # Evita el mismo campo recursivo sobre si mismo.  
         # TODO:  Un mimsmo objeto puede ser refecenciado varias veces, ie  ciudad, etc, la solucion seria solo cortar la recurividad?? 
         if fieldOcurrences.count( field.name ) > 1:
-            menuField['leaf'] = True
+            myField['leaf'] = True
         
         # Evita demasiada recursividad ( 5 niveles debe ser mas q suficiente ) 
         elif len ( fieldOcurrences ) > 5:
-            menuField['leaf'] = True
+            myField['leaf'] = True
             
         else: 
             fieldOcurrences.append( field.name )
@@ -360,11 +389,11 @@ def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
             for field in model._meta._fields():
                 addFiedToList( fkFieldList,  field , fieldId + '__' , fieldOcurrences)
     
-            menuField['leaf'] = False 
-            menuField['children'] = fkFieldList
+            myField['leaf'] = False 
+            myField['children'] = fkFieldList
     
 
-    fieldList.append( menuField )
+    fieldList.append( myField )
     
     
 # --------------------------------------------------------------------------
