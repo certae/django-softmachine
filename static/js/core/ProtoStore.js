@@ -562,7 +562,12 @@ function loadPci( protoOption, loadIfNot, options) {
 
         options = options || {};
         
-        if  ( Ext.ClassManager.isCreated(  getModelName( protoOption )  )){
+        // Verificar si la opcion esta creada 
+        var myMeta = _cllPCI[ protoOption ]
+        
+        
+        // Verifica modelo 
+        if  ( myMeta && Ext.ClassManager.isCreated(  getModelName( protoOption )  )){
 
             return true
 

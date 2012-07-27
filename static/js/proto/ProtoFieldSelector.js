@@ -87,12 +87,19 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
             for (var ix in me.myMeta.fields ) {
                 var vFld  =  me.myMeta.fields[ix];
 
-                // El string no es un campos configurable???
-                // if ( vFld.name == '__str__' )  continue 
-
                 elemList.addDataItem ( vFld.name, true  ) 
+
+                // Lo marca o lo adiciona como UDP                                             
+                var vNode =  elemTree.treeStore.getNodeById( vFld.name ) 
+                if ( vNode ) {
+                    vNode.set( 'checked', true )
+                } else {
+                    elemTree.addUdpField( vFld )
+                }
+
             } 
         }; 
+        
         
         function savePreview() {
             
@@ -182,7 +189,6 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
 
             listeners: {
                 load: function ( treeStore, records,  successful,  eOpts ) {
-                    configureCurrentFields()
                     me.fireEvent('loadComplete', treeStore, records,  successful,  eOpts );
                 }
             }
@@ -265,40 +271,25 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
 
         me.callParent(arguments);
         
-        function configureCurrentFields() {
-            // Crea los campos activos en la grilla 
-            for (var ix in me.myMeta.fields ) {
-                var vFld  =  me.myMeta.fields[ix];
-                var vNode =  me.treeStore.getNodeById( vFld.name ) 
-
-                // Lo marca o lo adiciona como UDP                                             
-                if ( vNode ) {
-                    vNode.set( 'checked', true )
-                } else {
-                    addUdpField( vFld )
-                }
-                     
-            } 
+    }, 
+    
+    
+    addUdpField:  function( vFld ) {
+        
+          // No lo encontro, lo agrega
+        tNode = {
+            'id'         : vFld.name, 
+            'text'       : vFld.name, 
+            'fieldType'  : 'udp', 
+            'checked'    : true, 
+            'allowBlank' : true, 
+            'leaf'       : true 
         }
         
-        function addUdpField( vFld ) {
-            
-              // No lo encontro, lo agrega
-            tNode = {
-                'id' : vFld.name, 
-                'text' : vFld.name, 
-                'fieldType' : 'udp', 
-                'checked' : true, 
-                'allowBlank' : true, 
-                'leaf' : true 
-            }
-            
-            me.getRootNode().appendChild( tNode )
+        this.getRootNode().appendChild( tNode )
 
-        }
-        
-        
-    } 
+    }
+     
 
     // getCheckedList: function () {
         // var records = this.getView().getChecked(),

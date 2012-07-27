@@ -307,6 +307,7 @@ def protoGetFieldTree(request):
         'checked'    : False, 
         'leaf'       : True, 
         'readOnly'   : True , 
+        'allowBlank' : True, 
         'header'     : protoOption ,   
         'fieldType'  : 'string'  
      }
@@ -384,6 +385,7 @@ def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
             myFieldId['readOnly'] = True
             myFieldId['checked'] = False
             myFieldId['text'] =  pField['fkId']  
+            myFieldId['allowBlank'] = myField['allowBlank']  
             myFieldId['fieldType'] =  myFieldId['type']  
 
             del myFieldId['type']
