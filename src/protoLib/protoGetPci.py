@@ -300,6 +300,19 @@ def protoGetFieldTree(request):
         addFiedToList( fieldList,  field , '', [] )
         
 
+    # Add __str__ 
+    myField = { 
+        'id'         : '__str__' , 
+        'text'       : '__str__' , 
+        'checked'    : False, 
+        'leaf'       : True, 
+        'readOnly'   : True , 
+        'header'     : protoOption ,   
+        'fieldType'  : 'string'  
+     }
+    
+    fieldList.append( myField )
+
     # Agrega las Udps
     # Las udps se agregan manualmente, pues habria q crear una tabla para manejar la dependecia con cada tabla  
     #    addUpdToList( fieldList,  cUDP )
@@ -325,6 +338,10 @@ def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
     # fieldBase indica campos de llaves foraneas       
     if fieldBase != '': 
         pField[ 'readOnly' ] = True 
+        pField[ 'allowBlank' ] = True 
+
+        if pField['type'] == 'autofield':
+            pField['type'] = 'int'
         
     
     #TODO :  Choices armar un string y descomponer al otro lado 
@@ -341,7 +358,6 @@ def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
 
     # Atributos adicionales de edicion 
     if fieldBase == '': 
-
         if hasattr( pField, 'defaultValue' ): 
             myField['defaultValue'] = pField['defaultValue'] 
 
@@ -357,6 +373,7 @@ def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
 
     else:
 
+        # Agrega los eltos del zoom ademas del FkId
         if fieldBase == '': 
             myField['fkId'] = pField['fkId'] 
             myField['zoomModel'] = pField['zoomModel']                    

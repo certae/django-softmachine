@@ -87,8 +87,8 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
             for (var ix in me.myMeta.fields ) {
                 var vFld  =  me.myMeta.fields[ix];
 
-                // El string no es un campos configurable
-                if ( vFld.name == '__str__' )  continue 
+                // El string no es un campos configurable???
+                // if ( vFld.name == '__str__' )  continue 
 
                 elemList.addDataItem ( vFld.name, true  ) 
             } 
