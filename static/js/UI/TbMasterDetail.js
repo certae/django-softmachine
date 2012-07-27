@@ -568,6 +568,10 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             iconCls : 'icon-configDetails', 
             text:       'Details',
             handler:    onClickConfigDetails
+        }, {
+            iconCls : 'icon-configReset', 
+            text:       'Reset',
+            handler:    onClickConfigReset 
         }); 
 
 
@@ -596,6 +600,12 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
     
         }
         
+        function onClickConfigReset( btn ){
+
+            // TODO: La verificacion se hace contra la creacion de modelos, verificar esto. 
+            _cllPCI = [];
+    
+        }
         
 
 
