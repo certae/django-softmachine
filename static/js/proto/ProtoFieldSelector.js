@@ -107,7 +107,7 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
                     field = getDefaultField( names[ix] )
                 }
                 if ( field ) {
-                    fields.push( field )   
+                    fields.push( clearProps( field ))   
                 } else { 
                     console.log( "Field no encontrado", names[ix]  )
                 } 
@@ -120,7 +120,7 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
             function getExistingField( name  ) {
                 for (var ix in me.myMeta.fields ) {
                     var vFld  =  me.myMeta.fields[ix];
-                    if ( vFld.menuText == name ) {
+                    if ( vFld.name == name ) {
                         return vFld 
                         break ; 
                     }
@@ -131,10 +131,26 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
                 
                 var rec =  elemTree.treeStore.getNodeById( name ) 
                 return  {
-                    menuText : rec.get( 'id' ), 
+                    name : rec.get( 'id' ), 
                     conceptField :  rec.get( 'conceptField' ), 
                     masterField :  "pk" ,
-                    fieldField :  rec.get( 'fieldField' )
+                    fieldField :  rec.get( 'fieldField' ),
+                    
+                    fieldType :  rec.get( 'fieldType' ),  
+                    readOnly :  rec.get( 'readOnly' ), 
+                    allowBlank :  rec.get( 'allowBlank' ),
+                    tooltip :  rec.get( 'tooltip' ),  
+
+                    // header :  rec.get( 'text' ),   
+                    header :  rec.get( 'header' ),   
+
+                    zoomModel :  rec.get( 'zoomModel' ),   
+                    fkField :  rec.get( 'fkField' ),  
+                    fkId :  rec.get( 'fkId' ), 
+                    vType :  rec.get( 'vType' ),   
+                    defaultValue :  rec.get( 'defaultValue' ),  
+                    choices :  rec.get( 'choices' )  
+                    
                 }  
             }
             
@@ -155,8 +171,8 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
  */
 
 Ext.define('ProtoUL.proto.ProtoFieldTree', {
-    extend: 'Ext.tree.Panel',
-    alias: 'widget.protoFieldTree',
+    extend :  'Ext.tree.Panel',
+    alias:    'widget.protoFieldTree',
     
 
  // @protoOption   Required 
@@ -230,7 +246,7 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
                 dataIndex: 'fkId'
             },{
                 flex: 2,
-                hidden : true, 
+                // hidden : true, 
                 text: 'Ix',
                 dataIndex: 'id'
             },{

@@ -288,3 +288,19 @@ function getComboChoices(  l1 ) {
     return l2     
     
 }
+
+
+function clearProps(  obj ) {
+    // Borra las propiedades con valores nulos no definidos o blancos 
+    
+    for (var ix in obj) {
+        if ( ! obj[ix] &&  obj[ix] != false) {
+            delete obj[ix]
+        } else if ( typeOf(obj[ix])  == 'string'  && obj[ix].trim() == '' ) {
+            delete obj[ix]
+        }  
+    }
+    
+    return obj     
+    
+}

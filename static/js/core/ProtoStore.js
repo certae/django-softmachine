@@ -749,7 +749,10 @@ function definieProtoFieldSelctionModel( protoOption ) {
         }, 
     
         fields: [
+//         Contiene el nombre en notacion objeto ( django )
             {name: 'id', type: 'string'},
+            
+//         Contiene el nombre del campo dentro del modelo 
             {name: 'text', type: 'string'},  
             {name: 'fieldType', type: 'string'},  
 
