@@ -34,16 +34,12 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             return; 
         }
 
-        defineProtoPclTreeModel()
+        defineProtoPclTreeModel();
 
-        var tBar =  Ext.create('ProtoUL.proto.ProtoToolBar', {dock : 'top'})
-        var sbar = Ext.create('Ext.form.Label', { text : 'Meta edition tool'})        
+        var tBar =  Ext.create('ProtoUL.proto.ProtoToolBar', {dock : 'top'});
+        var sbar = Ext.create('Ext.form.Label', { text : 'Meta edition tool'});        
         
-        var safeConf =  clone( this.myMeta , 0, exclude =['__ptDict', 'protoViews'] )
-        var treeData = Meta2Tree( safeConf, 'pcl', 'pcl' )
-        treeData.expanded = true
-
-        this.treeData = clone( treeData )
+        var treeData = getTreeData( me );
 
         var treeGridStore = Ext.create('Ext.data.TreeStore', { 
             folderSort: true, 
@@ -52,7 +48,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             root: treeData 
         });
 
-        this.treeGridStore = treeGridStore
+        this.treeGridStore = treeGridStore;
         
         var treeGrid = Ext.create('Ext.tree.Panel', {
             store: treeGridStore,
@@ -146,6 +142,9 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                 savePclCache( newMeta.protoOption, newMeta )
                 savePci( newMeta )         
             }, 
+            'reload': function ( ) {
+
+            }, 
             'cancel': function (  ) {
                 me.cancelChanges()
             }, 
@@ -217,6 +216,17 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
 // ---------------------------------------------------------------------------------------------- 
 
+        function getTreeData( me ) {
+          
+            var safeConf =  clone( me.myMeta , 0, exclude =['__ptDict', 'protoViews'] );
+            var treeData = Meta2Tree( safeConf, 'pcl', 'pcl' );
+            treeData.expanded = true;
+    
+            // Para guardar las dos definiciones ( la data se modifica al generar el store )
+            me.treeData = clone( treeData );
+
+            return treeData 
+        }
                 
         function addTreeNode ( record ) {
 
@@ -394,7 +404,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         
         var fList
         function prepareColList( oData ) {
-            
+
             if ( ! fList )  {
                 // Crea los campos del store
                 fList= []
@@ -404,8 +414,17 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                 } 
             }                        
 
-            var fSelected = Ext.decode( oData.__ptConfig.__ptList )
+            // Copia solo los campos contenidos en fields  
+            var tmpList = Ext.decode( oData.__ptConfig.__ptList  )
+            var fSelected = []  
+            for (var ix in tmpList  ) {
+                var vFld  =  tmpList[ix];
+                if ( vFld in oc( fList )) {
+                   fSelected.push( vFld )    
+                }
+            } 
 
+            
             fieldList.removeAll()
             fieldList.addDataSet( fSelected, true  )
             fieldList.addDataSet( fList )

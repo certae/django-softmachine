@@ -30,6 +30,14 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
                 handler : function() {  
                     me.fireEvent('save') 
                     }
+            }," ",{
+                tooltip : "reload",
+                iconCls : "icon-configReload", 
+                itemId : "reload", 
+                scope   : this,
+                handler : function() {  
+                    me.fireEvent('reload') 
+                    }
             },"-",{
                 tooltip : "Add node ",
                 iconCls : "icon-nodeInsert",

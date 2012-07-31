@@ -67,6 +67,7 @@
 .icon-configDetails { background-image: url(../img/protoImg/config_details.png ) !important;}
 .icon-configPreview { background-image: url(../img/protoImg/config_preview.png ) !important;}
 .icon-configReset   { background-image: url(../img/protoImg/config_reset.png ) !important;}
+.icon-configReload  { background-image: url(../img/protoImg/config_reload.png ) !important;}
 
 .icon-nodeInsert  { background-image: url(../img/protoImg/node-insert.png ) !important;}
 .icon-nodeDelete  { background-image: url(../img/protoImg/node-delete.png ) !important;}
