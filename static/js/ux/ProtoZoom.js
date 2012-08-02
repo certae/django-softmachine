@@ -179,7 +179,7 @@ Ext.define('Ext.ux.protoZoom', {
     
     doReturn: function() {
         if ( this.zoomRecord )  {
-            this.setValue( this.zoomRecord.data.__str__ ) 
+            this.setValue( this.zoomRecord.data.__str__ || this.myMeta.protoOption + '.__str__ not found' ) 
         }
         this.win.hide()
     }, 

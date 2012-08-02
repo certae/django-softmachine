@@ -63,6 +63,7 @@ DesignerProperties =  {
     "cellToolTip.type": "boolean",
 
     "cellLink.help": "Presenta contenido del campo como micro ayuda",
+    "cellLink.type": "boolean",
 
     "fromModel.help" : "Pertenece al modelo de base",  
     "xtype" : "Tipo de objeto en el frontEnd ( puede ser manipulado con el vType)",

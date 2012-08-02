@@ -32,19 +32,18 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         var me = this;         
 
+        if ( ! loadPci( this.protoOption, false ) ) {
+            Ext.Msg.show({
+               title: this.protoOption ,
+               value: 'ERROR Pci  not loaded' 
+            });
+            return; 
+        }
+
         // Recupera la clase para obtener la meta ------------------------------------------
         var myMeta = _cllPCI[ this.protoOption ] ;
         this.myMeta = myMeta;
             
-        var _pGrid = this; 
-
-        if ( ! loadPci( this.protoOption, false ) ) {
-                    Ext.Msg.show({
-               title: this.protoOption ,
-               value: 'ERROR Pci  not loaded' 
-                       });
-                    return; 
-                }
 
         // VErifica si el store viene como parametro ( Detail )
         var myFilter = '';
@@ -187,12 +186,14 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                         if (linkClicked && clickedDataIndex ) {
                             
                             var myZField = me.myMeta.__ptDict[ clickedDataIndex ] 
-                            if ( myZField  || myZField.fkId ) {
+                            if ( myZField &&  myZField.zoomModel && myZField.fkId ) {
                                 var formController = Ext.create('ProtoUL.UI.FormControler', {});
                                 
-                                @@@ Aqui voy 
-                                // formController.openZoomForm( myZField.zoomModel , record.get( myZField.fkId ) )
-                            } else alert(record.get('id')); 
+                                // Redefine el scope  
+                                formController.openZoomForm.call( formController, myZField.zoomModel , record.get( myZField.fkId ) )
+                            } else {
+                                console.log( 'Zoom definition error :' +  clickedDataIndex, myZField )
+                            }; 
                             
                         }
                     }
@@ -345,7 +346,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         // grid.on({
             // itemClick: {fn: function ( gView, record, item, rowIndex,  e,  eOpts ) {
                 // // Table.itemClick 
-                // _pGrid.rowData = record.data;
+                // me.rowData = record.data;
                 // this.fireEvent('rowClick', gView, record, item, rowIndex,  e,  eOpts );
                 // prepareSheet();
                 // }, scope: this }
@@ -355,7 +356,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         grid.on({
             select: {fn: function ( rowModel , record,  rowIndex,  eOpts ) {
                 // SelectionModel.rowSelected 
-                _pGrid.rowData = record.data;
+                me.rowData = record.data;
 
                 this.fireEvent('rowClick', rowModel, record, rowIndex,  eOpts );
                 prepareSheet();
@@ -511,7 +512,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             var pSheets = myMeta.sheetConfig.protoSheets;
             
             var pSheetSelector = myMeta.sheetConfig.protoSheetSelector;
-            var pSheetCriteria = _pGrid.rowData[ pSheetSelector ] 
+            var pSheetCriteria = me.rowData[ pSheetSelector ] 
             var pSheet = undefined;  
             
             for (var ix in pSheets  ) {
@@ -534,7 +535,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 var vFld  =  pSheetProps[ix]; 
 
                 var pKey = '{{' + vFld + '}}';
-                var pValue =  _pGrid.rowData[ vFld ];
+                var pValue =  me.rowData[ vFld ];
                 
                 if ( vFld == 'metaDefinition' ) {
                     pValue = FormatJsonStr( pValue )
@@ -544,25 +545,25 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
             }
 
-            var sheet = Ext.getCmp( _pGrid.IdeSheet );
+            var sheet = Ext.getCmp( me.IdeSheet );
             sheet.setTitle( pSheet.title );
             sheet.update( pTemplate );
 
             // Expone el template 
-            _pGrid.sheetHtml = pTemplate ;             
+            me.sheetHtml = pTemplate ;             
 
         };
         
         function onMenuPromoteDetail() {
 
-            if ( _pGrid.detailTitlePattern ) {
-                var detailSubTitle =  _pGrid._masterDetail.protoMasterGrid.rowData[ _pGrid.detailTitlePattern ];
-                detailSubTitle = _pGrid.detailTitleLbl + ' ' + detailSubTitle
+            if ( me.detailTitlePattern ) {
+                var detailSubTitle =  me._masterDetail.protoMasterGrid.rowData[ me.detailTitlePattern ];
+                detailSubTitle = me.detailTitleLbl + ' ' + detailSubTitle
             }
             
             __TabContainer.addTabPanel(
-                   _pGrid.store.protoOption , 
-                   _pGrid.store.getProxy().extraParams.baseFilter, 
+                   me.store.protoOption , 
+                   me.store.getProxy().extraParams.baseFilter, 
                    detailSubTitle 
                ); 
             

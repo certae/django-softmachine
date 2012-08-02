@@ -308,6 +308,7 @@ def protoGetFieldTree(request):
         'leaf'       : True, 
         'readOnly'   : True , 
         'allowBlank' : True, 
+        'cellLink'   : True, 
         'header'     : protoOption ,   
         'fieldType'  : 'string'  
      }
@@ -374,22 +375,34 @@ def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
 
     else:
 
-        # Agrega los eltos del zoom ademas del FkId
-        if fieldBase == '': 
-            myField['fkId'] = pField['fkId'] 
-            myField['zoomModel'] = pField['zoomModel']                    
+        # Crea el Id para el fk 
+        myFieldId = protoFields[ pField['fkId'] ]
 
-            myFieldId = protoFields[ pField['fkId'] ]
-            myFieldId['id' ] = pField['fkId']
+        # Agrega los eltos particulares  
+        if ( fieldBase == '') :  
+            myField['fkId'] = pField['fkId']
+
+        else:      
+            myField['fkId'] = fieldBase + pField['fkId'] 
+            myFieldId['fkField']  = myField['id']                    
+
+        # Agrega los eltos del zoom ademas del FkId ( No importa si es base ) 
+        if ( True or fieldBase == '') :  
+            myField['zoomModel'] = pField['zoomModel']                    
+    
+            myFieldId['id' ]        = myField['fkId']
+            myFieldId['zoomModel']  = myField['zoomModel']                    
             myFieldId['leaf'] = True
             myFieldId['readOnly'] = True
             myFieldId['checked'] = False
             myFieldId['text'] =  pField['fkId']  
             myFieldId['allowBlank'] = myField['allowBlank']  
             myFieldId['fieldType'] =  myFieldId['type']  
-
+    
             del myFieldId['type']
             fieldList.append( myFieldId )
+
+
 
         # Evita el mismo campo recursivo sobre si mismo.  
         # TODO:  Un mimsmo objeto puede ser refecenciado varias veces, ie  ciudad, etc, la solucion seria solo cortar la recurividad?? 

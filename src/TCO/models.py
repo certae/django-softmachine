@@ -114,6 +114,7 @@ class Logiciel(models.Model):
  
     def __unicode__(self):
         return force_unicode(self.nom)
+    
     class Meta: 
         unique_together= (("nom", ),)
 #        managed = False
@@ -208,8 +209,8 @@ class CompositionImage(models.Model):
         return force_unicode(self.image) + ' ' + force_unicode(self.logiciel)
     class Meta: 
         unique_together= (("image", "logiciel", ),)
-        verbose_name = 'Image'
-        verbose_name_plural = 'Image'
+        verbose_name = 'Image Detail'
+        verbose_name_plural = 'Image Detail'
 
         
 class DiscussionImage(models.Model):

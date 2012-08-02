@@ -20,6 +20,11 @@ Ext.define('ProtoUL.UI.FormControler', {
     // Required if linked,  optional if zoom 
     myMeta : null, 
 
+    initComponent: function() {
+        var me = this
+        this.callParent(arguments);
+    }, 
+
 
     _newWindow: function () {
 
@@ -67,13 +72,14 @@ Ext.define('ProtoUL.UI.FormControler', {
             
         }
         
-        this.myForm.linked = true; 
         this.myWin.show();
         
     }, 
     
 
-    openZoomForm: function ( myZoomModel, myRecordId , me )   {
+    openZoomForm: function ( myZoomModel, myRecordId  )   {
+
+        var me  = this 
 
         if ( ! getFormDefinition( myZoomModel ) ) {
             errorMessage( 'Form', myZoomModel + ': protoDefinition not found')
@@ -81,10 +87,28 @@ Ext.define('ProtoUL.UI.FormControler', {
 
         function getFormDefinition( myZoomModel ) {
              
-            me.protoOption = myZoomModel             
+            me.protoOption = myZoomModel
+            
+            // Opciones del llamado AJAX 
+            var options = {
+                scope: me, 
+                success: function ( obj, result, request ) {
+                    loadZoomData()
+                },
+                failure: function ( obj, result, request) { 
+                    return false;  
+                }
+            }
+
+            if (  loadPci( me.protoOption , true, options ) ) {
+                    loadZoomData()
+            }
+            
+            return true                    
+        }; 
+        
+        function loadZoomData() {
             me.myMeta = _cllPCI[ me.protoOption ] ;
-                
-            if ( ! loadPci( me.protoOption, false ) ) return false 
 
             // Filter 
             var myFilter = '{"pk" : ' +  myRecordId + ',}'
@@ -93,7 +117,7 @@ Ext.define('ProtoUL.UI.FormControler', {
                 protoOption : me.protoOption, 
                 autoLoad: true, 
                 baseFilter: myFilter, 
-                sProtoMeta  : getSafeMeta( myMeta )    
+                sProtoMeta  : getSafeMeta( me.myMeta )    
             };
     
             var myStore = getStoreDefinition( storeDefinition )
@@ -102,21 +126,17 @@ Ext.define('ProtoUL.UI.FormControler', {
             myStore.on({
                 'load' :  function(store,records, successful, options) {
 
-                    me._newWindow();    
-                    me.myForm.setActiveRecord( records[0] );
-                    me.myForm.setReadOnlyFields( true, me.myMeta.gridConfig.readOnlyFields );            
+                    // Fix:  Esta entrando dos veces  porq????
+                    if ( me.myWin ) return 
+
+                    // The form is now linked to  store  
+                    me.openLinkedForm( records[0], true  )
                 }, 
                 scope: me }
             );
-
-
-            return true                    
-        }
-
-
+        }; 
+        
     }      
-          
-     
       
  }
 )

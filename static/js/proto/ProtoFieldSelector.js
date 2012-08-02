@@ -139,10 +139,7 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
                 var rec =  elemTree.treeStore.getNodeById( name ) 
                 return  {
                     name : rec.get( 'id' ), 
-                    conceptField :  rec.get( 'conceptField' ), 
-                    masterField :  "pk" ,
-                    fieldField :  rec.get( 'fieldField' ),
-                    
+
                     fieldType :  rec.get( 'fieldType' ),  
                     readOnly :  rec.get( 'readOnly' ), 
                     allowBlank :  rec.get( 'allowBlank' ),

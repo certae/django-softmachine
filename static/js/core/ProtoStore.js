@@ -201,7 +201,10 @@ function DefineProtoModel ( myMeta , modelClassName ){
     for (var ix in myMeta.fields ) {
 
         var vFld  =  myMeta.fields[ix];
-        if (!vFld.type )  vFld.type = 'string'
+        
+        //FIX: Dejar un solo campo para el tipo, en este momento vienen type y fieldType 
+        if ((!vFld.type) && vFld.fieldType )  vFld.type = vFld.fieldType
+        if ( !vFld.type )  vFld.type = 'string'
         
         // modelField  
         var mField = {
@@ -306,21 +309,7 @@ function getColDefinition( vFld ) {
                     ]
 
     colDefinition = copyProps ( colDefinition,  vFld, true, lstProps )
-    if ( vFld.wordWrap == true ) colDefinition.renderer = columnWrap
-    
-    
-    // Agrega un tool tip con el contenido de la celda
-    if ( vFld.cellToolTip ) colDefinition.renderer = cellToolTip
 
-    // Formatea el contenido como un hiperLink, TODO: la logica debe estar en otra propiedad
-    if ( vFld.cellLink ) colDefinition.renderer = cellLink
-
-    // Maneja los subtipos 
-    if ( vFld.vType ) {
-        // vType stopLigth  Maneja el codigo de colores para un semaforo con 3 indicadores, 2 limites Red-Yellow; Yellow-Green   
-        if ( vFld.vType == 'stopLight' ) colDefinition.renderer = cellStopLight
-
-    } 
 
     
     // Copia las propiedades de base 
@@ -449,10 +438,10 @@ function getColDefinition( vFld ) {
         // El zoom se divide en 2 cols el texto ( _unicode ) y el ID ( foreignid )
         if ( ! colDefinition.flex  ) colDefinition.flex = 1 
 
-        colDefinition.renderer = cellLink
+        vFld.cellLink = true
         editor.xtype = 'protoZoom'
         editor.editable  = false 
-          break;
+        break;
 
     case 'foreignid':
         // El zoom id debe estar oculto  
@@ -472,27 +461,43 @@ function getColDefinition( vFld ) {
          colDefinition.renderer = cellReadOnly
     else  colDefinition['editor'] = editor; 
 
+    // WordWrap
+    if ( vFld.wordWrap == true ) colDefinition.renderer = columnWrap
+    
+    // Agrega un tool tip con el contenido de la celda
+    if ( vFld.cellToolTip ) colDefinition.renderer = cellToolTip
+
+    // Formatea el contenido como un hiperLink, TODO: la logica debe estar en otra propiedad
+    if ( vFld.cellLink ) colDefinition.renderer = cellLink
+
+    // Maneja los subtipos 
+    if ( vFld.vType ) {
+        // vType stopLigth  Maneja el codigo de colores para un semaforo con 3 indicadores, 2 limites Red-Yellow; Yellow-Green   
+        if ( vFld.vType == 'stopLight' ) colDefinition.renderer = cellStopLight
+
+    } 
+
     return colDefinition; 
 
     //  
     function columnWrap(value){
         return '<div style="white-space:normal; text-align:justify !important";>' + value + "</div>";
-      };
+    };
 
-      function cellToolTip(value, metaData, record, rowIndex, colIndex, store, view ){
+    function cellToolTip(value, metaData, record, rowIndex, colIndex, store, view ){
         metaData.tdAttr = 'data-qtip="' + value + '"';
         return value;
     }; 
 
-      function cellReadOnly(value, metaData, record, rowIndex, colIndex, store, view ){
+    function cellReadOnly(value, metaData, record, rowIndex, colIndex, store, view ){
         return '<span style="color:grey;">' + value + '</span>';
     }; 
 
-      function cellLink(value, metaData, record, rowIndex, colIndex, store, view ){
+    function cellLink(value, metaData, record, rowIndex, colIndex, store, view ){
         return '<a href="#">'+value+'</a>';      
-      }
+    };
 
-      function cellStopLight(value, metaData, record, rowIndex, colIndex, store, view ){
+    function cellStopLight(value, metaData, record, rowIndex, colIndex, store, view ){
     //TODO: Leer las propiedades stopLightRY y  stopLightYG  para comparar,  
 
     // vType stopLigth  Maneja el codigo de colores para un semaforo con 3 indicadores, 
@@ -564,8 +569,7 @@ function loadPci( protoOption, loadIfNot, options) {
         
         // Verificar si la opcion esta creada 
         var myMeta = _cllPCI[ protoOption ]
-        
-        
+                
         // Verifica modelo 
         if  ( myMeta && Ext.ClassManager.isCreated(  getModelName( protoOption )  )){
 
@@ -620,6 +624,10 @@ function savePclCache( protoOption, protoMeta ) {
 
 
 function getModelName( protoOption  ) {
+
+    if ( ! protoOption ) {
+        console.log( 'undefined model??')
+    }
 
     var modelName = protoOption; 
     

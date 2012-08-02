@@ -166,7 +166,7 @@ INSTALLED_APPS = (
     'protoLib', 
     'protoExt', 
     'pruebas', 
-#    'shiny', 
+    'shiny', 
     'TCO'
 #    'django_qbe'
     # 'django.contrib.admindocs',
@@ -212,7 +212,7 @@ PROTO_APP['app_menu'] = {
     'admin': { 'hidden': True, },
     'Base':  { 'title': 'TCO - Base de connaissances', 'expanded':True, 'menu_index' : 2  },
     'Param': { 'title': 'TCO - Paramètres', 'expanded':False, 'menu_index' : 2  },
-    'TCO':   { 'title': 'TCO - Coût total de possession', 'expanded':False, 'menu_index' : 9  },
+    'TCO':   { 'title': 'TCO - Coût total de possession', 'expanded':True, 'menu_index' : 9  },
     
     'protoExt' : { 'hidden': False, 'title': 'Dictionnaire des données MSSS', 'expanded':False, 'menu_index' : 98  }, 
     'protoLib': { 'hidden': False, 'title': 'Métadonnée', 'expanded':False, 'menu_index' : 99  },

@@ -26,15 +26,18 @@ admin.site.register(Famille, FamilleAdmin)
 from adminBase import TypeLogicielAdmin
 admin.site.register(TypeLogiciel, TypeLogicielAdmin)
 
+
 from adminBase import NiveauAdmin
 admin.site.register(Niveau, NiveauAdmin)
 
 
 #===============================================================================
 
-# admin.site.register(Scenario)
-# admin.site.register(CompositionScenario)
+admin.site.register(CompositionImage)
+admin.site.register(Scenario)
+admin.site.register(CompositionScenario)
+admin.site.register(SpecificationLogiciel)
+
 # admin.site.register(TCO)
-# admin.site.register(SpecificationLogiciel)
 
 
