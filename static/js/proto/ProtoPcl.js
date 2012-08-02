@@ -419,7 +419,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             var fSelected = []  
             for (var ix in tmpList  ) {
                 var vFld  =  tmpList[ix];
-                if ( vFld in oc( fList )) {
+                if ( me.myMeta.__ptDict[vFld] ) {
                    fSelected.push( vFld )    
                 }
             } 

@@ -377,18 +377,34 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         function onClickFormAdd( btn ){
             var formController = initFormController()
-            formController.newEditionForm ()
+            formController.openLinkedForm ()
         }; 
         
         function onClickFormEdit( btn ){
             var formController = initFormController()
-            formController.newEditionForm ( __MasterDetail.protoMasterGrid.selected )
+            if ( validaSelected( __MasterDetail.protoMasterGrid.selected )) {
+                 formController.openLinkedForm ( __MasterDetail.protoMasterGrid.selected    )
+            } 
+                
         }; 
 
         function onClickFormView( btn ){
             var formController = initFormController()
-            formController.newEditionForm ( __MasterDetail.protoMasterGrid.selected, true  )
+            if ( validaSelected( __MasterDetail.protoMasterGrid.selected )) {
+                 formController.openLinkedForm ( __MasterDetail.protoMasterGrid.selected , true   )
+            } 
         }; 
+
+        function validaSelected( myReg )  {
+            
+            if ( myReg ) {
+                return true 
+            } else {
+                errorMessage( 'Form', 'No record selected')
+                return false 
+            }
+            
+        }
 
 //  --------------------------------------------------------------------------
 

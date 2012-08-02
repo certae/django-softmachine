@@ -108,16 +108,32 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 protoIx = protoObj.name || protoObj.__ptConfig.name 
                 
                 var myFld =  this.myMeta.__ptDict[ protoIx ] 
-                if ( ! myFld ) {
-                    console.log( 'formField sans name :' , protoObj )
-                    // myFld =  this.myMeta.__ptDict[ protoObj.__ptConfig.name  ]   
+                if ( myFld ) {
+
+                    template = getTemplate( __ptType, true,  myFld  )
+                    prLayout = Ext.apply( template.__ptConfig , protoObj.__ptConfig  )
+    
+                    // ReadOnlyCls
+                    prLayout[ 'readOnlyCls' ] = 'protofield-readonly'
+
+                }  else {
+
+                    // El campo no existe en la definicion:  es un label
+                    // Incluso los campos calculados deben existir en la definicion  
+                    // console.log( 'invalid formField,name  :' , protoObj )
+                    prLayout =   {
+                        text:   protoIx,
+                        xtype: 'label', margin: '4', padding: '4', border: 1,
+                        tooltip : 'field definition not found', 
+                        style: {
+                            borderColor: 'red',
+                            borderStyle: 'solid', 
+                            bodyStyle:';border-right:none;border-left:none;border-top:none;'
+                        }       
+                    }
+                    
                 }
                 
-                template = getTemplate( __ptType, true,  myFld  )
-                prLayout = Ext.apply( template.__ptConfig , protoObj.__ptConfig  )
-
-                // ReadOnlyCls
-                prLayout[ 'readOnlyCls' ] = 'protofield-readonly'
 
 
             } else if ( __ptType == 'protoGrid'  ) {

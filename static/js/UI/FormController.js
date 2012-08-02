@@ -16,17 +16,17 @@
 Ext.define('ProtoUL.UI.FormControler', {
     extend: 'Ext.Component',
     // requires: [ 'ProtoUL.view.ProtoForm' ],
+    
+    // Required if linked,  optional if zoom 
+    myMeta : null, 
 
-    initComponent: function( ) { 
+
+    _newWindow: function () {
 
         this.myForm = Ext.widget('protoform', {
             myMeta : this.myMeta  
         });  
 
-        this.callParent();
-     }, 
-  
-    _newWindow: function () {
         
         this.myWin  = Ext.widget('window', {
             constrain: true, 
@@ -44,7 +44,7 @@ Ext.define('ProtoUL.UI.FormControler', {
 
     },
 
-    newEditionForm: function ( myRecord, isReadOnly )   {
+    openLinkedForm: function ( myRecord, isReadOnly )   {
         
         this._newWindow(); 
 
@@ -63,14 +63,59 @@ Ext.define('ProtoUL.UI.FormControler', {
 
             
         } else {
-            this.myForm.setReadOnlyFields( true, this.myMeta.gridConfig.readOnlyFields );
-            
+            this.myForm.setReadOnlyFields( true, this.myMeta.gridConfig.readOnlyFields );            
             
         }
         
+        this.myForm.linked = true; 
         this.myWin.show();
         
+    }, 
+    
+
+    openZoomForm: function ( myZoomModel, myRecordId , me )   {
+
+        if ( ! getFormDefinition( myZoomModel ) ) {
+            errorMessage( 'Form', myZoomModel + ': protoDefinition not found')
+        }
+
+        function getFormDefinition( myZoomModel ) {
+             
+            me.protoOption = myZoomModel             
+            me.myMeta = _cllPCI[ me.protoOption ] ;
+                
+            if ( ! loadPci( me.protoOption, false ) ) return false 
+
+            // Filter 
+            var myFilter = '{"pk" : ' +  myRecordId + ',}'
+    
+            var storeDefinition =  {
+                protoOption : me.protoOption, 
+                autoLoad: true, 
+                baseFilter: myFilter, 
+                sProtoMeta  : getSafeMeta( myMeta )    
+            };
+    
+            var myStore = getStoreDefinition( storeDefinition )
+            myStore.load();
+            
+            myStore.on({
+                'load' :  function(store,records, successful, options) {
+
+                    me._newWindow();    
+                    me.myForm.setActiveRecord( records[0] );
+                    me.myForm.setReadOnlyFields( true, me.myMeta.gridConfig.readOnlyFields );            
+                }, 
+                scope: me }
+            );
+
+
+            return true                    
+        }
+
+
     }      
+          
      
       
  }

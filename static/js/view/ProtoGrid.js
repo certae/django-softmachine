@@ -58,9 +58,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         //console.log (  this.protoOption, ' Loading store ...  '  ); 
 
-        // prepara la meta 
-        var excludeP = ['__ptDict', 'protoForm', 'sheetConfig', 'protoViews', 'protoDetails']
-        var safeMeta =  clone( myMeta, 0, excludeP );
         
         var storeDefinition =  {
             protoOption : this.protoOption, 
@@ -71,7 +68,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             // proxy.extraParams = {
             protoFilter : myFilter,
             baseFilter: this.baseFilter, 
-            sProtoMeta  : Ext.encode( safeMeta )    
+            sProtoMeta  : getSafeMeta( myMeta )    
         };
 
         me.store = getStoreDefinition( storeDefinition )
@@ -188,7 +185,15 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                         var linkClicked = (e.target.tagName == 'A');
                         var clickedDataIndex = view.panel.headerCt.getHeaderAtIndex(cellIndex).dataIndex;
                         if (linkClicked && clickedDataIndex ) {
-                            alert(record.get('id'));
+                            
+                            var myZField = me.myMeta.__ptDict[ clickedDataIndex ] 
+                            if ( myZField  || myZField.fkId ) {
+                                var formController = Ext.create('ProtoUL.UI.FormControler', {});
+                                
+                                @@@ Aqui voy 
+                                // formController.openZoomForm( myZField.zoomModel , record.get( myZField.fkId ) )
+                            } else alert(record.get('id')); 
+                            
                         }
                     }
                 },                

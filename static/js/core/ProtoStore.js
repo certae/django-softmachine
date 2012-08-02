@@ -812,3 +812,14 @@ function definieProtoDetailsTreeModel( protoOption ) {
     });
     
 }
+
+
+function getSafeMeta( myMeta ) {
+    
+    // prepara la meta 
+    var excludeP = ['__ptDict', 'protoForm', 'sheetConfig', 'protoViews', 'protoDetails']
+    var safeMeta =  clone( myMeta, 0, excludeP );
+    
+    return Ext.encode( safeMeta )
+    
+}
