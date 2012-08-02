@@ -310,7 +310,7 @@ def protoGetFieldTree(request):
         'allowBlank' : True, 
         'cellLink'   : True, 
         'header'     : protoOption ,   
-        'fieldType'  : 'string'  
+        'type'       : 'string'  
      }
     
     fieldList.append( myField )
@@ -355,7 +355,7 @@ def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
         'allowBlank' : pField.get( 'allowBlank' , True  ),  
         'tooltip'    : pField.get( 'tooltip', ''  ),  
         'header'     : pField.get( 'header',  field.name  ),   
-        'fieldType'  : pField['type']  
+        'type'       : pField.get( 'type',  'string'  )  
      }
 
     # Atributos adicionales de edicion 
@@ -397,11 +397,9 @@ def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
             myFieldId['checked'] = False
             myFieldId['text'] =  pField['fkId']  
             myFieldId['allowBlank'] = myField['allowBlank']  
-            myFieldId['fieldType'] =  myFieldId['type']  
+            myFieldId['type'] =  myFieldId['type']  
     
-            del myFieldId['type']
             fieldList.append( myFieldId )
-
 
 
         # Evita el mismo campo recursivo sobre si mismo.  

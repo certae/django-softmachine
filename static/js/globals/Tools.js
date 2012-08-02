@@ -306,3 +306,13 @@ function clearProps(  obj ) {
     return obj     
     
 }
+
+
+function getRecord( myStore, fieldName, value  )  {
+
+    var ix =  myStore.findExact( fieldName, value  )
+    if ( ix == -1 ) return 
+    
+    return myStore.getAt(ix  ) 
+    
+}

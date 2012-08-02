@@ -140,7 +140,7 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
                 return  {
                     name : rec.get( 'id' ), 
 
-                    fieldType :  rec.get( 'fieldType' ),  
+                    type :  rec.get( 'type' ),  
                     readOnly :  rec.get( 'readOnly' ), 
                     allowBlank :  rec.get( 'allowBlank' ),
                     tooltip :  rec.get( 'tooltip' ),  
@@ -237,7 +237,7 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
                 dataIndex: 'readOnly'
             },{
                 text: 'fieldType',
-                dataIndex: 'fieldType'
+                dataIndex: 'type'
             },{
                 text: 'zoomModel',
                 dataIndex: 'zoomModel'
@@ -293,7 +293,7 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
         tNode = {
             'id'         : vFld.name, 
             'text'       : vFld.name, 
-            'fieldType'  : 'udp', 
+            'type'       : 'udp', 
             'checked'    : true, 
             'allowBlank' : true, 
             'leaf'       : true 

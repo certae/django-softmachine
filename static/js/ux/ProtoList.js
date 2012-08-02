@@ -130,7 +130,7 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         // var rec = new this.gridStore.model()
         // rec.data[id] = data
 
-        var vNode =  this.gridStore.findRecord( 'data', data  ) 
+        var vNode =  getRecord( this.gridStore,  'data', data  ) 
         if ( ! vNode ) {
             if ( checked == true || checked == false  ) {
                 this.gridStore.add( { 'data': data, '__Checked': checked } );
@@ -173,7 +173,7 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         // Cambia el estado de seleccion de un registro
         // Que hace si no existe y es check? Lo crea por q es posible q se inserten dos colecciones base y selected   
 
-        var vNode =  this.gridStore.findRecord( 'data', data  ) 
+        var vNode =  getRecord( this.gridStore,  'data', data  ) 
         if ( vNode ) {
             vNode.set( '__Checked', checked )
         } else { 
@@ -187,7 +187,7 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         if ( checked )  {
             this.setChecked(  data,  true  )
         } else {
-            var vNode = this.gridStore.findRecord( 'data', data  )
+            var vNode =  getRecord( this.gridStore,  'data', data  ) 
             if (  vNode  )   {
                 this.gridStore.remove( vNode )
             }
@@ -196,3 +196,5 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
     
 
 });
+
+

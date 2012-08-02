@@ -202,8 +202,6 @@ function DefineProtoModel ( myMeta , modelClassName ){
 
         var vFld  =  myMeta.fields[ix];
         
-        //FIX: Dejar un solo campo para el tipo, en este momento vienen type y fieldType 
-        if ((!vFld.type) && vFld.fieldType )  vFld.type = vFld.fieldType
         if ( !vFld.type )  vFld.type = 'string'
         
         // modelField  
@@ -767,7 +765,7 @@ function definieProtoFieldSelctionModel( protoOption ) {
             
 //         Contiene el nombre del campo dentro del modelo 
             {name: 'text', type: 'string'},  
-            {name: 'fieldType', type: 'string'},  
+            {name: 'type', type: 'string'},  
 
             {name: 'readOnly', type: 'boolean'},
             {name: 'allowBlank', type: 'boolean'},
