@@ -681,18 +681,6 @@ function savePci( protoMeta,  options) {
         
 }
 
-function errorMessage(  errTitle,  errMsg ) {
-    
-    Ext.MessageBox.show({
-        title: errTitle,
-        msg: errMsg,
-        icon: Ext.Msg.ERROR,
-        buttons: Ext.Msg.OK
-    });
-    
-}
-
-
 
 
 

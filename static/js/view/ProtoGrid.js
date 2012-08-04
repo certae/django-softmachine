@@ -192,7 +192,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                                 // Redefine el scope  
                                 formController.openZoomForm.call( formController, myZField.zoomModel , record.get( myZField.fkId ) )
                             } else {
-                                console.log( 'Zoom definition error :' +  clickedDataIndex, myZField )
+                                errorMessage( 'LinkedForm definition error : ' +  clickedDataIndex, 
+                                              'zoomModel : ' + myZField.zoomModel + '<br>' +
+                                              'fkId : ' + myZField.fkId  
+                                               )
                             }; 
                             
                         }

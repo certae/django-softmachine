@@ -8,16 +8,16 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
 
     protoExt = {'protoIcon': 'property' }
     protoExt[ 'title' ] = 'Éléments de données'
-    protoExt[ 'listDisplay' ] = ( 'code', 'concept__model__code')
+    protoExt[ 'listDisplay' ] = ( 'code', 'concept__model')
 
-#   protoExt[ 'readOnlyFields' ] = ( 'code', 'concept__model__code' ) 
+#   protoExt[ 'readOnlyFields' ] = ( 'code', 'concept__model' ) 
 
-    protoExt[ 'searchFields' ] = ( 'code', 'concept__model__code' ) 
-    protoExt[ 'sortFields' ] = ( 'code', 'concept__model__code' )
+    protoExt[ 'searchFields' ] = ( 'code', 'concept__model' ) 
+    protoExt[ 'sortFields' ] = ( 'code', 'concept__model' )
     protoExt[ 'baseFilter' ] = { 'isForeign': False  }
     
     # Valores iniciales ( initialFilter maneja el autoload )   
-    protoExt[ 'initialSort' ] = ( 'code', 'concept__model__code', ) 
+    protoExt[ 'initialSort' ] = ( 'code', 'concept__model', ) 
     protoExt[ 'initialFilter' ] = {}
     
     protoExt[ 'protoDetails' ] = [
@@ -41,7 +41,8 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
 
     protoExt[ 'protoFields' ] =  {        
         'code': {'header' : 'Éléments de données',  'minWidth': 200, 'flex': 1, 'fieldLabel' : 'Property' },
-        'concept__model__code': {'header' : 'Vue',  'minWidth': 200 , 'flex': 1, 'fieldLabel' : 'Vue', 'cellLink' : True },  
+        'concept__model': {'header' : 'Vue',  'minWidth': 200 , 'flex': 1, 'cellLink' : True, 'zoomModel' : 'protoExt.Model', 'fkId' : 'concept__model_id' },  
+        'concept__model_id': {'header' : 'VueId', },  
         'concept__model__category' : { 'fieldLabel' : 'Category' },                             
 
         'description': { 'storeOnly': True ,'header' : 'Description'  },
@@ -78,7 +79,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
 
     protoExt[ 'protoSheetSelector' ] = 'concept__model__category'
     protoExt[ 'protoSheetProperties' ] = (   'code',
-                            'concept__model__code',
+                            'concept__model',
                             'isNullable',
                             'alias',
                             'baseType',
@@ -107,7 +108,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
 
     TEMPLATE = '<table class="ficha" cellpadding="3">'
     TEMPLATE += '<tr class="azul"><td class="negro">Nom de l\'élément de donnée: </td><td>{{code}}</td></tr>'
-    TEMPLATE += '<tr class="blanco"><td class="negro"> Nom de la vue de l\'élément de donnée:</td><td>{{concept__model__code}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro"> Nom de la vue de l\'élément de donnée:</td><td>{{concept__model}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro"> Document de référence: </td><td class="desc">{{udp__DOCUMENTDEREFERENCE}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Numéro de l\'élément de donnée au CN: </td><td class="desc">{{alias}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Type de donnée: </td><td class="desc">{{baseType}}</td></tr>'
@@ -138,7 +139,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
 
     TEMPLATE = '<table class="ficha" cellpadding="3">'
     TEMPLATE += '<tr class="azul"><td class="negro">Nom de l\'élément de donnée: </td><td>{{code}}</td></tr>'
-    TEMPLATE += '<tr class="blanco"><td class="negro"> Nom de la vue de l\'élément de donnée:</td><td>{{concept__model__code}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro"> Nom de la vue de l\'élément de donnée:</td><td>{{concept__model}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Description: </td><td class="desc">{{description}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Statut élément de donnée:</td><td class="desc">{{udp__STATUTELEMENTDEDONNEE}}</td></tr>'
     TEMPLATE += '</table>'
@@ -147,7 +148,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
 
     TEMPLATE = '<table class="ficha" cellpadding="3">'
     TEMPLATE += '<tr class="azul"><td class="negro">Nom de l\'élément de donnée: </td><td>{{code}}</td></tr>'
-    TEMPLATE += '<tr class="blanco"><td class="negro"> Nom de la vue de l\'élément de donnée:</td><td>{{concept__model__code}}</td></tr>'
+    TEMPLATE += '<tr class="blanco"><td class="negro"> Nom de la vue de l\'élément de donnée:</td><td>{{concept__model}}</td></tr>'
     TEMPLATE += '<tr class="azul"><td class="negro">Description: </td><td class="desc">{{description}}</td></tr>'
     TEMPLATE += '<tr class="blanco"><td class="negro">Statut élément de donnée:</td><td class="desc">{{udp__STATUTELEMENTDEDONNEE}}</td></tr>'
     TEMPLATE += '</table>'

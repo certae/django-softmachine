@@ -316,3 +316,17 @@ function getRecord( myStore, fieldName, value  )  {
     return myStore.getAt(ix  ) 
     
 }
+
+
+function errorMessage(  errTitle,  errMsg ) {
+    
+    Ext.MessageBox.show({
+        title: errTitle,
+        msg: errMsg,
+        icon: Ext.Msg.ERROR,
+        buttons: Ext.Msg.OK
+    });
+    
+}
+
+

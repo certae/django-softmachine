@@ -48,8 +48,7 @@ class ProtoGridFactory(object):
             except ValueError:  pass
     
             # Si solo queda el __str__ , lo elimina para q asuma todos los campos del modelo
-            if self.protoListDisplay and (self.protoListDisplay[0] == '__str__'): 
-                self.protoListDisplay = []
+            # if self.protoListDisplay and (self.protoListDisplay[0] == '__str__'): self.protoListDisplay = []
         
         #Se leen los excluidos y se cargan en una sola coleccion 
         protoExclude = verifyList( self.protoAdmin.get( 'excludeFields', []) ) 
@@ -78,7 +77,10 @@ class ProtoGridFactory(object):
                     if not fdict: 
                         fdict['name'] = fName
                         self.protoFields[ fName ] = fdict
-                        
+
+                        if fName == '__str__':
+                            setDefaultField( fdict, self.model  )
+                                                        
                         # Si no es una UDP y no esta en diccionario debe ser ReadOnly 
                         if not (self.pUDP and fName.startswith( cUDP.propertyPrefix + '__')):  
                             fdict[ 'readOnly' ] = True
@@ -91,9 +93,14 @@ class ProtoGridFactory(object):
 
 
         # Agrega el __str__ que sirve de base para los zooms
-        key = '__str__' 
-        if not self.protoFields.get( key , {}) :
-            self.protoFields[ key ] = { 'name' : key , 'header' : 'metaDescription' }         
+        fName = '__str__' 
+        fdict = self.protoFields.get( fName , {}) 
+        if not fdict: 
+            fdict['name'] = fName
+            self.protoFields[ fName ] = fdict
+            
+            setDefaultField ( fdict, self.model  )
+             
 
         # Genera la lista de campos y agrega el nombre al diccionario 
         for key in self.protoFields:        
@@ -131,21 +138,32 @@ class ProtoGridFactory(object):
             if (len( baseFieldSet )  == 0 ):        
                 # Genera la lista de campos y agrega el nombre al diccionario
 
+
                 prItems = []                
+                prTexts = []
+                                
                 for key in self.protoFields:
                     vFld = self.protoFields.get( key , {})
                     if ( vFld.get( 'storeOnly', False )): continue
-                    prItems.append( { 'name' : key  , '__ptType' : 'formField'} ) 
+                    if ( vFld.get( 'type', 'string' ) != 'text') :
+                        prItems.append( { 'name' : key  , '__ptType' : 'formField'} ) 
+                    else:  
+                        prTexts.append( { 'name' : key  , '__ptType' : 'formField'} ) 
 
-                prSection = { '__ptType' : 'fieldset', 'items' : prItems  }
-
+                prSection = { '__ptType' : 'fieldset','fsLayout' : '2Col'  }
+                prSection['items'] = prItems 
                 prFieldSet.append ( prSection )
+
+                if prTexts : 
+                    prSection = { '__ptType' : 'fieldset','fsLayout' : '1Col'  }
+                    prSection['items'] = prTexts 
+                    prFieldSet.append ( prSection )
             
             # si existe un fieldset convierte la estructura                      
             else: 
                 for name, opts in baseFieldSet:
 
-                    prSection = { '__ptType' : 'fieldset',  }
+                    prSection = { '__ptType' : 'fieldset', 'fsLayout' : '2Col' }
                     if ( name != None ): 
                         prSection[ 'title' ]  = name  
 
@@ -187,6 +205,19 @@ class ProtoGridFactory(object):
     
         return details 
 
+
+def setDefaultField ( fdict, model  ): 
+    """ 
+        set __str__ properties   
+    """
+    fdict['header'] = model._meta.verbose_name.title() 
+    fdict['type'] =  'string'   
+    fdict['readOnly']  = True        
+    fdict['allowBlank']  = True        
+    fdict['flex']      = 1        
+    fdict['cellLink']  = True 
+    fdict['zoomModel'] = model._meta.app_label + '.' + model._meta.object_name
+    fdict['fkId']      =  'id'  
 
 
 # Obtiene el diccionario basado en el Query Set 

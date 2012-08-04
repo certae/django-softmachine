@@ -20,11 +20,11 @@
 #import sys, 
 
 from django.http import HttpResponse
-from protoGrid import getSearcheableFields, getProtoViewName
+from protoGrid import getSearcheableFields, getProtoViewName, setDefaultField
 from protoLib import protoGrid
-from protoField import TypeEquivalence, setFieldDict
+from protoField import  setFieldDict
 from models import getDjangoModel, ProtoDefinition
-from utilsBase import getReadableError, verifyStr
+from utilsBase import getReadableError 
 
 import django.utils.simplejson as json
 
@@ -181,7 +181,7 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
              'sortFields': pSortFields, 
              
              # TODO: Implementar  ( El listDisplay podra contener propiedades, hidden, flex, width,  ... 
-             'hiddenFields': grid.protoAdmin.get( 'hiddenFields', [ '__str__', 'id']),
+             'hiddenFields': grid.protoAdmin.get( 'hiddenFields', ['id', ]),
          },
 
 
@@ -299,26 +299,26 @@ def protoGetFieldTree(request):
     for field in model._meta._fields():
         addFiedToList( fieldList,  field , '', [] )
         
-
     # Add __str__ 
     myField = { 
-        'id'         : '__str__' , 
-        'text'       : '__str__' , 
-        'checked'    : False, 
-        'leaf'       : True, 
-        'readOnly'   : True , 
-        'allowBlank' : True, 
-        'cellLink'   : True, 
-        'header'     : protoOption ,   
-        'type'       : 'string'  
+        'id'        : '__str__' ,  
+        'text'      : protoConcept , 
+        'checked'   : False,       
+        'leaf'      : True 
      }
+    
+    # Defaults values
+    setDefaultField( myField, model )
+    
+    # FormLink redefinition to original view 
+    myField['zoomModel'] =  protoOption  
+
     
     fieldList.append( myField )
 
-    # Agrega las Udps
     # Las udps se agregan manualmente, pues habria q crear una tabla para manejar la dependecia con cada tabla  
-    #    addUpdToList( fieldList,  cUDP )
-    
+    # addUpdToList( fieldList,  cUDP )
+
         
     # Codifica el mssage json 
     context = json.dumps( fieldList )

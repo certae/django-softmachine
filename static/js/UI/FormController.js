@@ -81,8 +81,17 @@ Ext.define('ProtoUL.UI.FormControler', {
 
         var me  = this 
 
+        if ( ! myRecordId ) {
+
+            errorMessage( 'LinkedForm Error : ' +  myZoomModel, 
+                          'not fkId field definition found' 
+                           )
+            return 
+            
+        }
+
         if ( ! getFormDefinition( myZoomModel ) ) {
-            errorMessage( 'Form', myZoomModel + ': protoDefinition not found')
+            errorMessage( 'ProtoDefinition Error :', myZoomModel + ': protoDefinition not found')
         }
 
         function getFormDefinition( myZoomModel ) {
