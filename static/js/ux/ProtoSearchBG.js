@@ -63,7 +63,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
         // Load Data button 
         // var searchBtn = new Ext.button.Split({
         var searchBtn = new Ext.button.Button({
-            text: 'Rechercher',
+            tooltip: 'Rechercher',
             handler: onClickLoadData,
             pressed: true,
             iconCls: 'icon-search',
@@ -76,7 +76,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
         });
 
         var clearBtn = new Ext.button.Button({
-            text: _tbSearchClearFilter,
+            tooltip: _tbSearchClearFilter,
             handler: onClickClearFilter,
             iconCls: 'icon-clearsearch',
         });
@@ -101,7 +101,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
             searchCr,
             comboOp,
             comboCols,
-            { xtype: 'tbseparator' },
+            { xtype: 'tbseparator' },  
             searchBtn, 
             clearBtn
             ]

@@ -94,7 +94,8 @@ def setFieldDict(protoFields ,  field ):
         fKey = { 
              'name':       field.attname, 
              'fkField':    field.name ,                                 # Campo de base a mostrar 
-             'type':  'foreignid',                                      # pseudo type ( hidden = true, etc.... ) 
+             'hidden':     True,  
+             'type':  'foreignid',
              }
         protoFields[fKey['name']] = fKey 
 

@@ -29,7 +29,6 @@ _tbSearchClearFilter = 'Supprimer les filtres'
     
 // Config Variables 
 _PConfig =  {
-
     urlMenu         : 'protoExt/protoGetMenuData/', 
     urlGetPCI         : 'protoExt/protoGetPCI/', 
     urlSavePCI         : 'protoExt/protoSavePCI/', 
@@ -55,10 +54,11 @@ _cllPCI = [];
 
 // Define los tipos para el manejo de edicion  (type => xtype)
 _gridTypeEditor = {
-    'int' : 'numberfield',
-    'float' : 'numberfield',
+    'int'   : 'numberfield',
+    'float'  : 'numberfield',
     'string' : 'textfield',
-    'date' : 'datefield',
+    'text'   : 'textarea',
+    'date'  : 'datefield',
     'boolean' : 'checkbox'
 };
 

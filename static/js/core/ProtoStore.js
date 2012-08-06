@@ -444,7 +444,8 @@ function getColDefinition( vFld ) {
     case 'foreignid':
         // El zoom id debe estar oculto  
            // colDefinition['hidden']= true
-        editor.xtype = 'numberfield'
+          editor.xtype = 'numberfield'
+          editor.hidden  = true
           break;
 
     case 'autofield':
@@ -545,8 +546,8 @@ function getFormFieldDefinition( vFld ) {
     {
     case 'text':
         formEditor.xtype = 'textarea'
-        formEditor.subtype = 'htmlfield'
-        formEditor.height = 200
+        // formEditor.xtype = 'htmlfield'
+        formEditor.height = 100
         formEditor.labelAlign = 'top'
           break;
     }

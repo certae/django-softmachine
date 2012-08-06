@@ -47,7 +47,6 @@ class ProtoGridFactory(object):
             try: self.protoListDisplay.remove('action_checkbox')
             except ValueError:  pass
     
-            # Si solo queda el __str__ , lo elimina para q asuma todos los campos del modelo
             # if self.protoListDisplay and (self.protoListDisplay[0] == '__str__'): self.protoListDisplay = []
         
         #Se leen los excluidos y se cargan en una sola coleccion 
@@ -63,8 +62,17 @@ class ProtoGridFactory(object):
 #       idName = model._meta.pk.name   
         
         
-        # La lista de campos del admin sirve de base, pues puede haber muchos mas campos en proto q en admin 
-        if len( self.protoListDisplay ) > 0 :   
+        # La lista de campos del admin sirve de base, pues puede haber muchos mas campos en proto q en admin
+        # Si solo queda el __str__ , asume todos los campos del modelo
+            
+        iCount = len( self.protoListDisplay )  
+        if ( iCount == 0  ) or ( iCount == 1 and (self.protoListDisplay[0] == '__str__')) :
+            # Se crean los campos con base al modelo ( trae todos los campos del modelo )
+            for field in self.model._meta._fields():
+                if field.name in protoExclude: continue
+                setFieldDict (  self.protoFields , field )
+
+        else : 
             for fName in self.protoListDisplay:
                 if fName in protoExclude: continue
                 try:
@@ -85,11 +93,6 @@ class ProtoGridFactory(object):
                         if not (self.pUDP and fName.startswith( cUDP.propertyPrefix + '__')):  
                             fdict[ 'readOnly' ] = True
                 
-        else:
-            # Se crean los campos con base al modelo ( trae todos los campos del modelo 
-            for field in self.model._meta._fields():
-                if field.name in protoExclude: continue
-                setFieldDict (  self.protoFields , field )
 
 
         # Agrega el __str__ que sirve de base para los zooms
@@ -138,26 +141,41 @@ class ProtoGridFactory(object):
             if (len( baseFieldSet )  == 0 ):        
                 # Genera la lista de campos y agrega el nombre al diccionario
 
-
                 prItems = []                
                 prTexts = []
+                prIds = []
                                 
                 for key in self.protoFields:
                     vFld = self.protoFields.get( key , {})
                     if ( vFld.get( 'storeOnly', False )): continue
-                    if ( vFld.get( 'type', 'string' ) != 'text') :
-                        prItems.append( { 'name' : key  , '__ptType' : 'formField'} ) 
-                    else:  
+                    
+                    if ( vFld.get( 'type', 'string' ) == 'text') :
                         prTexts.append( { 'name' : key  , '__ptType' : 'formField'} ) 
+                         
+                    elif ( vFld.get( 'type', 'string' ) in ['autofield', 'foreignid'] ) :
+                        prIds.append( { 'name' : key  , '__ptType' : 'formField'} )
 
-                prSection = { '__ptType' : 'fieldset','fsLayout' : '2Col'  }
-                prSection['items'] = prItems 
-                prFieldSet.append ( prSection )
+                    elif ( vFld.get( 'name', '' )  == '__str__' ) :
+                        prTexts.insert( 0, { 'name' : key  , '__ptType' : 'formField'} )
+                         
+                    else:  
+                        prItems.append( { 'name' : key  , '__ptType' : 'formField'} )
+
+                if prItems : 
+                    prSection = { '__ptType' : 'fieldset','fsLayout' : '2col'  }
+                    prSection['items'] = prItems 
+                    prFieldSet.append ( prSection )
 
                 if prTexts : 
-                    prSection = { '__ptType' : 'fieldset','fsLayout' : '1Col'  }
+                    prSection = { '__ptType' : 'fieldset','fsLayout' : '1col'  }
                     prSection['items'] = prTexts 
                     prFieldSet.append ( prSection )
+
+                if prIds : 
+                    prSection = { '__ptType' : 'fieldset','fsLayout' : '2col'  }
+                    prSection['items'] = prIds 
+                    prFieldSet.append ( prSection )
+
             
             # si existe un fieldset convierte la estructura                      
             else: 

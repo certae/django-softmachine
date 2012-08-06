@@ -161,7 +161,7 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
 
          'fields': grid.fields, 
 
-        # Config de la grilla
+         # Config de la grilla
          'gridConfig' : {
              'hideRowNumbers' : grid.protoAdmin.get( 'hideRowNumbers',False),  
 

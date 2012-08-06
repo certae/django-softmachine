@@ -32,6 +32,7 @@ Ext.define('ProtoUL.UI.FormControler', {
             myMeta : this.myMeta  
         });  
 
+
         
         this.myWin  = Ext.widget('window', {
             constrain: true, 
@@ -46,6 +47,18 @@ Ext.define('ProtoUL.UI.FormControler', {
             modal: true,
             items: this.myForm 
         });
+
+
+        this.myForm.on({
+            'close' :  function() {
+                this.myWin.close()
+            }, 
+            'hide' :  function() {
+                this.myWin.hide()
+            }, 
+            scope: this }
+        );
+
 
     },
 

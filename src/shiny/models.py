@@ -33,7 +33,7 @@ class Facture(models.Model):
 
 class Famille(models.Model):
     code  = models.CharField(max_length=200)
-    description = models.CharField(max_length=200, null = True)
+    description = models.TextField(max_length=200, null = True)
     def __unicode__(self):
         return self.code + ' ' + self.description
 
@@ -78,7 +78,7 @@ class LigneCommande(models.Model):
 class OrdreProduction(models.Model):
     numero = models.IntegerField()
     dateOrdre = models.DateField(blank=True, null=True)
-    remarque = models.CharField(max_length=200)
+    remarque = models.TextField(max_length=200)
     def __unicode__(self):
         return format( self.numero, '05d') + ' ' + self.remarque  
 

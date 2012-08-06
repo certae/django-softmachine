@@ -37,7 +37,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
 
     initComponent : function() {
-        this.addEvents('create');
+        this.addEvents('create', 'close', 'hide');
 
         // Recupera la clase para obtener la meta ------------------------------------------
         var myMeta = this.myMeta;
@@ -296,8 +296,17 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         form.updateRecord( active );
         // this.onReset();
+        
+        this.fireEvent('close', this );
 
     },
+
+    onReset : function() {
+        this.setActiveRecord(null);
+        this.getForm().reset();
+        this.fireEvent('close', this );
+    },
+        
 
     updateZoomIds:  function() {
 
@@ -344,11 +353,6 @@ Ext.define('ProtoUL.view.ProtoForm', {
         }
 
     },
-    onReset : function() {
-        this.setActiveRecord(null);
-        this.getForm().reset();
-    },
-        
 
     setFormReadOnly: function( bDisable ){
         
