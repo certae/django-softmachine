@@ -48,6 +48,11 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         // VErifica si el store viene como parametro ( Detail )
         var myFilter = '';
         
+        // Agrega  filtro nulo si la grilla es detalle 
+        if ( this.initialFilter ) {
+            myMeta.gridConfig.initialFilter = this.initialFilter 
+        }
+        
         // if (typeof this.baseFilter == 'undefined') {
         // FIX: Verificar q si lo hace bien 
         if ( ! this.baseFilter ) {
