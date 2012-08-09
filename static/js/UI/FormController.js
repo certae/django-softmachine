@@ -38,8 +38,8 @@ Ext.define('ProtoUL.UI.FormControler', {
             constrain: true, 
             title : this.myMeta.description,
             closeAction: 'hide',
-            width: 600,
-            height: 400,
+            width: 620,
+            height: 460,
             minHeight: 400,
             minWidth: 400,
             layout: 'fit',
@@ -73,6 +73,7 @@ Ext.define('ProtoUL.UI.FormControler', {
         
         if ( isReadOnly ) {
             this.myForm.setFormReadOnly( true );
+            
             this.myWin.tools = [{
                 type: 'readOnly',
                 tooltip: 'readOnly' 

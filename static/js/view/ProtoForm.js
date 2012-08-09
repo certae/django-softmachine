@@ -93,7 +93,10 @@ Ext.define('ProtoUL.view.ProtoForm', {
                     lObj.protoDetailInfo = lDet 
                 }
             }
-        }
+        }; 
+        
+        
+        this.doLayout()
 
     },
     
@@ -171,15 +174,19 @@ Ext.define('ProtoUL.view.ProtoForm', {
          *      La actualizacion BackEnd se puede hacer con  submit ( action.submit )
          *      o trabajando directamente con el modelo mediante  updateRecord 
          */
-        
+
+
+        this.updateZoomIds()
+
+        var form = this.getForm();
+        if( ! form.isValid()) {
+            errorMessage( 'Validate Form', 'Is not valid')
+            return;  
+        }  
 
         var active = this.activeRecord
         if(!active) return;
 
-        var form = this.getForm();
-        if( ! form.isValid())  return; 
-
-        this.updateZoomIds()
 
         form.updateRecord( active );
         // this.onReset();

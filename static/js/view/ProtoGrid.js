@@ -307,7 +307,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 // --------------------------------------------------------------------------------
 
         var pSheetProps = myMeta.sheetConfig.protoSheetProperties;
-        if (pSheetProps.length != 0 ) {
+        
+        // Los zooms ( initialConfig ) no deben manejar sheets
+        if ( !( me.initialConfig.hideSheet || myMeta.gridConfig.hideSheet ) && ( pSheetProps.length > 0 )) {
             
             this.IdeSheet = Ext.id();
             panelItems.push( {
@@ -512,10 +514,16 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         function prepareSheet( ){
 
+            // Los zooms ( initialConfig ) no deben manejar sheets
+            if ( me.initialConfig.hideSheet || myMeta.gridConfig.hideSheet ) {
+                return 
+            }
+
             var pSheetProps = myMeta.sheetConfig.protoSheetProperties;
-            if (pSheetProps.length == 0 ) {
+            if ( !pSheetProps ) {
               return;  
             }
+
 
             var pSheets = myMeta.sheetConfig.protoSheets;
             

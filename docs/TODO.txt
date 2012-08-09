@@ -1,6 +1,8 @@
 
 
+Pendiente reg nuevo, creacion desde el zoom 
 
+parametrizacion de displaylust para el zoom y los detalles 
 
 Forma 
 

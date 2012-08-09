@@ -67,7 +67,8 @@ DesignerObjects =  {
     "gridConfig": {
         "description": "Propiedades de configuracion de la grilla",
         "properties": [ 
-            'hideRowNumbers' 
+            'hideRowNumbers', 
+            'hideSheet'
              ] 
     },
 

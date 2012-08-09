@@ -92,7 +92,13 @@ Ext.define('Ext.ux.protoZoom', {
         me.idStBar = Ext.id();
 
         // Crea la grilla 
-        var zoomGrid = Ext.create('ProtoUL.view.ProtoGrid', { protoOption : me.zoomModel }) ; 
+        var zoomGrid = Ext.create('ProtoUL.view.ProtoGrid', { 
+            protoOption  : me.zoomModel,
+            hideSheet    : true, 
+            listDisplay  : '__str__'   
+         }) ; 
+             
+             
         var searchBG = Ext.create('ProtoUL.ux.ProtoSearchBG', { protoMeta: me.myMeta })
 
         zoomGrid.on({

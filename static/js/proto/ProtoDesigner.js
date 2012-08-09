@@ -261,6 +261,8 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                             // Obtiene el padre y el ix
                             var nParent = overModel.store.getById( overModel.data.parentId )
                             var nIndex = overModel.data.index
+
+                            if ( !nParent ) nParent = overModel 
                             if ( dropPosition == 'after' ) nIndex += 1 
                             
                             dropHandler.cancelDrop()
