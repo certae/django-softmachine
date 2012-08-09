@@ -32,6 +32,10 @@ Ext.define('ProtoUL.view.ProtoForm', {
     //@protoForm  Objeto correspondiente a la forma en la meta ( forma parte de la meta ) 
     protoForm : null, 
 
+    
+    //@ Store asociado al registro de entrada linked o independiente
+    store : null, 
+
     //@prFormLayout  :  Componentes de la forma ( Itmems del arbol )   
     prFormLayout : [], 
 
@@ -96,6 +100,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
         }; 
         
         
+        // FIX:  las 2 cols no se marcan bien 
         this.doLayout()
 
     },
@@ -190,8 +195,25 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         form.updateRecord( active );
         // this.onReset();
-        
-        this.fireEvent('close', this );
+
+        // DGT:  Save
+        var me = this; 
+         
+        this.store.sync({
+            success: function(result, request) {
+                var myResult = Ext.decode( result.responseText );
+                if(myResult.success) {
+                    me.fireEvent('close', me );
+                } else {
+                    errorMessage ( 'SavePCI Failed', myResult.message  )
+                }
+            },
+            failure: function(result, request) {
+                errorMessage ( 'SavePCI Failed', result.status + ' ' + result.statusText )
+            }
+        });
+
+        // this.fireEvent('close', this );
 
     },
 

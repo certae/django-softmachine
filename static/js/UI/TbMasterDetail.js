@@ -376,8 +376,10 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         }
 
         function onClickFormAdd( btn ){
-            var formController = initFormController()
-            formController.openLinkedForm ()
+            onClickTableAdd()
+            onClickFormEdit()
+            // var formController = initFormController()
+            // formController.openLinkedForm ()
         }; 
         
         function onClickFormEdit( btn ){

@@ -698,12 +698,12 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         this.insertNewRecord ( rec  ) 
     }, 
     
+
     duplicateRecord: function() {
         if ((! this._extGrid ) || ( ! this.editable )) return; 
         
         var rec =  this.selected
         if ( rec )  this.insertNewRecord ( rec.copy()  ) 
-            
     }, 
 
     insertNewRecord: function( rec ) {
@@ -712,7 +712,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         rec.data.id = undefined 
         rec.phantom = true 
         this.store.insert(0, rec );
-
+        
+        // Selecciona el registro adicionado
+        var sm = this._extGrid.getSelectionModel()
+        sm.select( 0 )
     },
 
 

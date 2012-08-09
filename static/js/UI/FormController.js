@@ -67,9 +67,13 @@ Ext.define('ProtoUL.UI.FormControler', {
         this._newWindow(); 
 
         // Verifica la edicion  
-        if ( myRecord   ) {
-            this.myForm.setActiveRecord( myRecord );
+        if ( ! myRecord   ) {
+            errorMessage( 'Form Error', 'no se definio registrode entrada')
+            return 
         }
+
+        this.myForm.setActiveRecord( myRecord );
+        this.myForm.store = myRecord.store 
         
         if ( isReadOnly ) {
             this.myForm.setFormReadOnly( true );
