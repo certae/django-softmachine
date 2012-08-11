@@ -127,6 +127,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
             // this.down('#save').enable();
             this.getForm().loadRecord(record);
             this.linkDetail( record )
+            this.updateZoomIds()
             
         } else {
             // this.down('#save').disable();
@@ -246,19 +247,28 @@ Ext.define('ProtoUL.view.ProtoForm', {
             var vFld = lFields[ix]
             if (  vFld.xtype != 'protoZoom' ) continue;
             
-            var idIndex = vFld.fkId 
+             // Actualiza el fkId en el zoom para poder hacer los vinculos 
+            this.updateFkId(  vFld,   vFld.fkId ) 
+             
                         
             if ( ! vFld.zoomRecord ) continue; 
 
             // Actualiza el Id con el dato proveniente del zoom 
-            this.updateField(  idIndex, vFld.zoomRecord.data.id ) 
+            this.updateFormField(  vFld.fkId, vFld.zoomRecord.data.id ) 
 
         }
        
         
     }, 
 
-    updateField: function (  fldName, fldValue ) {
+    updateFkId: function (  zoomField, fkId ) {
+        // Actualiza el IdValue en el zoom para hacer los vinculos  
+
+        zoomField.fkIdValue  = this.activeRecord.get( fkId ) 
+          
+    }, 
+
+    updateFormField: function (  fldName, fldValue ) {
 
         var lRec = {}
         lRec[ fldName ] = fldValue

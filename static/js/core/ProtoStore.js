@@ -492,7 +492,7 @@ function getColDefinition( vFld ) {
         return '<span style="color:grey;">' + value + '</span>';
     }; 
 
-    function cellLink(value, metaData, record, rowIndex, colIndex, store, view ){
+    function cellLink(value  ){
         return '<a href="#">'+value+'</a>';      
     };
 

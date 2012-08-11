@@ -46,16 +46,18 @@ Ext.define('Ext.ux.protoZoom', {
 
     /**
      * @private
-     * Indica si todos los atributos de configuracion fueron cargados 
+     * Indica si todos los atributos de configuracion fueron cargados, permitiria reutilizar la forma solo cambiando el filtro 
      */
     isLoaded : false,
-    
+
     /* 
      * 
      */
+    
     initComponent : function() {
 
         var me = this; 
+        
         
         // Opciones del llamado AJAX 
         var options = {
@@ -75,14 +77,32 @@ Ext.define('Ext.ux.protoZoom', {
         this.callParent(arguments);
         
         // Para activar el evento con ENTER 
-        this.on('specialkey', function(f, e) {
-            if (e.getKey() == e.ENTER) {
-                this.onTriggerClick( );
-            }
-        }, this);
+        this.on(
+            'specialkey', function(f, e) {
+                if (e.getKey() == e.ENTER) {
+                    this.onTriggerClick( );
+                }
+            }, 
+        this);
 
         
     },
+    
+    handleMouseEvents: true,
+    listeners: {
+        'render': function( cmp1 ) { 
+            cmp1.getEl().on('click', this.onClickLink, this );}
+    }, 
+    
+    onClickLink: function () {
+
+        // La funcion Link solo se activa si es readOly 
+        if ( ! this.readOnly  ) return 
+        
+        var formController = Ext.create('ProtoUL.UI.FormControler', {});
+        formController.openZoomForm.call( formController, this.zoomModel, this.fkIdValue   ) 
+
+    }, 
 
     createZoomWindow:  function ( me  ){
 
