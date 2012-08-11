@@ -330,3 +330,11 @@ function errorMessage(  errTitle,  errMsg ) {
 }
 
 
+function updateWinPosition( myWidth, myHeight ) {
+
+    _winX += 40; _winY += 20;
+    if ( ( _winX + myWidth ) > _mainWin.width  || ( _winY + myHeight ) > _mainWin.height  ) {
+        _winX = 10; _winY = 10;
+    }    
+    
+}

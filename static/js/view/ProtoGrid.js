@@ -691,8 +691,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     }, 
         
     
-    addNewRecord: function() {
-        if ((! this._extGrid ) || ( ! this.editable )) return; 
+    addNewRecord: function( zoomForm ) {
+        if ( !(  this.editable  ||  zoomForm )) return; 
 
         var rec = new this.store.model( this.setDefaults()  )
         this.insertNewRecord ( rec  ) 

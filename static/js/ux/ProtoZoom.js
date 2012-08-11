@@ -122,6 +122,7 @@ Ext.define('Ext.ux.protoZoom', {
         });                 
         
 
+
         // referencia a la ventana modal
         me.win  = Ext.widget('window', {
             title : 'Zoom : ' + me.myMeta.shortTitle,
@@ -145,7 +146,8 @@ Ext.define('Ext.ux.protoZoom', {
                     { xtype: 'tbtext', text: '', id: me.idStBar },
                     { xtype: 'component', flex: 1 },
                     { xtype: 'button', text: 'Cancel', scope: me, handler: doCancel   }, 
-                    { xtype: 'button', text: 'Ok', scope: me, handler: me.doReturn }
+                    { xtype: 'button', text: 'Ok', scope: me, handler: me.doReturn }, 
+                    { xtype: 'button', text: 'New', scope: me, handler: doNew   }, 
                 ]
             }]            
 
@@ -157,6 +159,18 @@ Ext.define('Ext.ux.protoZoom', {
             me.resetZoom() 
             me.win.hide()
         }
+
+
+        function doNew() {
+            
+            zoomGrid.addNewRecord( true ) 
+            var formController = Ext.create('ProtoUL.UI.FormControler', { 
+                myMeta : me.myMeta 
+            });
+
+            formController.openLinkedForm ( zoomGrid.selected    )
+        }
+
         
     }, 
     

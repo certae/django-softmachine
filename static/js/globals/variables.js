@@ -109,7 +109,13 @@ _ComboFilterOp = [
 _defaultViewText = 'Default';
 _defaultViewIcon = 'default_view' 
  
+
+// Windows Position
+
+_mainWin = null
  
+_winX = 10
+_winY = 10  
  
   // *  Configuracion del metodo por defecto  
   // Ext.data.Connection.prototype.method = 'GET';

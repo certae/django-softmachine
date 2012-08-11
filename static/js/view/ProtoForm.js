@@ -39,6 +39,9 @@ Ext.define('ProtoUL.view.ProtoForm', {
     //@prFormLayout  :  Componentes de la forma ( Itmems del arbol )   
     prFormLayout : [], 
 
+    // Mantiene el IdMaster para las operaciones maestro detalle  
+    idMaster : null,
+      
 
     initComponent : function() {
         this.addEvents('create', 'close', 'hide');
@@ -135,14 +138,17 @@ Ext.define('ProtoUL.view.ProtoForm', {
         // Refresca las grillas de detalle 
     linkDetail: function( record ) {
     
-        var idMasterGrid = -1
-        if ( record ) {
-            var idMasterGrid = record.internalId;
+        this.idMaster = -1
+        
+        if ( record && !record.phantom ) {
+            this.idMaster = record.internalId;
         }
 
         for ( var ixDet in this.cllStoreDet ) {
             var tmpStore = this.cllStoreDet[ixDet];
-            var detField = tmpStore.protoDetailInfo.detailField
+            var detField = tmpStore.protoDetailInfo.detailField, myFilter = {} 
+
+            myFilter[ detField ] = this.idMaster
 
             // El filtro del detalle debe tner en cuenta el filtro predefinido para la grilla???
             // TODO: En el vinculo debe existir un filtro predefinido,  no es necesariamente cierto q siempre deba ser 
@@ -150,8 +156,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
             tmpStore.clearFilter();
 
             tmpStore.getProxy().extraParams.protoFilter = '';
-            tmpStore.getProxy().extraParams.baseFilter = '{"' + detField  + '" : ' + idMasterGrid + ',}';
-            tmpStore.protoMasterId = idMasterGrid;
+            tmpStore.getProxy().extraParams.baseFilter = Ext.encode( myFilter ) 
+            tmpStore.protoMasterId = this.idMaster;
             tmpStore.load();
 
         }
@@ -200,16 +206,19 @@ Ext.define('ProtoUL.view.ProtoForm', {
         var me = this; 
          
         this.store.sync({
-            success: function(result, request) {
-                var myResult = Ext.decode( result.responseText );
-                if(myResult.success) {
-                    me.fireEvent('close', me );
-                } else {
+            success: function(result, request ) {
+
+                var myReponse = result.operations[0].response 
+
+                var myResult = Ext.decode( myReponse.responseText );
+                if( myResult.message ) {
                     errorMessage ( 'SavePCI Failed', myResult.message  )
+                } else {
+                    me.fireEvent('close', me );
                 }
             },
             failure: function(result, request) {
-                errorMessage ( 'SavePCI Failed', result.status + ' ' + result.statusText )
+                errorMessage ( 'SavePCI Failed', 'Operation failure' )
             }
         });
 

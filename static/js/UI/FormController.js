@@ -3,28 +3,33 @@
  * @author  Dario Gomez 
 
  * Helper class for intancing ProtoForm 
- */
 
-
-/* 
- * Parameters 
-    
-    @myMeta 
-     
  */
 
 Ext.define('ProtoUL.UI.FormControler', {
     extend: 'Ext.Component',
     // requires: [ 'ProtoUL.view.ProtoForm' ],
     
-    // Required if linked,  optional if zoom 
+    // Required if linked,  retrived if zoom 
     myMeta : null, 
+
+    // Entry point if zoom 
+    protoOption : null, 
+
+    // if ReadOnly 
+    isReadOnly : false, 
+
+    // Si la forma fue cargada correctamente  
+    formLoaded : false, 
+    
+    // Win dimension 
+    myWidth : 620, 
+    myHeight : 460, 
 
     initComponent: function() {
         var me = this
         this.callParent(arguments);
     }, 
-
 
     _newWindow: function () {
 
@@ -32,14 +37,17 @@ Ext.define('ProtoUL.UI.FormControler', {
             myMeta : this.myMeta  
         });  
 
+        updateWinPosition( this.myWidth, this.myHeight )
 
         
         this.myWin  = Ext.widget('window', {
-            constrain: true, 
+            // constrain: true, 
             title : this.myMeta.description,
             closeAction: 'hide',
-            width: 620,
-            height: 460,
+            width: this.myWidth,
+            height: this.myHeight,
+            x : _winX, 
+            y : _winY, 
             minHeight: 400,
             minWidth: 400,
             layout: 'fit',
@@ -63,7 +71,8 @@ Ext.define('ProtoUL.UI.FormControler', {
     },
 
     openLinkedForm: function ( myRecord, isReadOnly )   {
-        
+
+        this.isReadOnly  = isReadOnly
         this._newWindow(); 
 
         // Verifica la edicion  
@@ -97,54 +106,59 @@ Ext.define('ProtoUL.UI.FormControler', {
 
     openZoomForm: function ( myZoomModel, myRecordId  )   {
 
-        var me  = this 
+        this.protoOption = myZoomModel
 
         if ( ! myRecordId ) {
-
-            errorMessage( 'LinkedForm Error : ' +  myZoomModel, 
-                          'not fkId field definition found' 
-                           )
+            errorMessage( 'LinkedForm Error : ' +  myZoomModel, 'not fkId field definition found' )
             return 
-            
         }
 
-        if ( ! getFormDefinition( myZoomModel ) ) {
-            errorMessage( 'ProtoDefinition Error :', myZoomModel + ': protoDefinition not found')
-        }
+        this._getFormDefinition( myRecordId) 
 
-        function getFormDefinition( myZoomModel ) {
-             
-            me.protoOption = myZoomModel
-            
-            // Opciones del llamado AJAX 
-            var options = {
-                scope: me, 
-                success: function ( obj, result, request ) {
-                    loadZoomData()
-                },
-                failure: function ( obj, result, request) { 
-                    return false;  
-                }
-            }
-
-            if (  loadPci( me.protoOption , true, options ) ) {
-                    loadZoomData()
-            }
-            
-            return true                    
-        }; 
         
-        function loadZoomData() {
-            me.myMeta = _cllPCI[ me.protoOption ] ;
+    }, 
+
+    
+    _getFormDefinition: function (  myRecordId ) {
+        
+        // Opciones del llamado AJAX 
+        var options = {
+            scope: this, 
+            success: function ( obj, result, request ) {
+                this.myMeta = _cllPCI[ this.protoOption ] ;
+                this.formLoaded = true;
+                this._loadFormData( myRecordId )
+            },
+            failure: function ( obj, result, request) { 
+                errorMessage( 'ProtoDefinition Error :', myZoomModel + ': protoDefinition not found')
+            }
+        }
+
+        if (  loadPci( this.protoOption , true, options ) ) {
+                this.myMeta = _cllPCI[ this.protoOption ] ;
+                this.formLoaded = true; 
+                this._loadFormData( myRecordId )
+        }
+
+    }, 
+
+        
+    _loadFormData: function ( myRecordId ) {
+
+        if ( ! this.formLoaded ) {
+            console.log( 'FormController:  Form is not ready')
+        }  
+
+        if ( myRecordId ) {
 
             // Filter 
             var myFilter = '{"pk" : ' +  myRecordId + ',}'
     
             var storeDefinition =  {
-                protoOption : me.protoOption, 
+                protoOption : this.protoOption, 
                 autoLoad: true, 
                 baseFilter: myFilter, 
-                sProtoMeta  : getSafeMeta( me.myMeta )    
+                sProtoMeta  : getSafeMeta( this.myMeta )    
             };
     
             var myStore = getStoreDefinition( storeDefinition )
@@ -152,18 +166,21 @@ Ext.define('ProtoUL.UI.FormControler', {
             
             myStore.on({
                 'load' :  function(store,records, successful, options) {
-
+    
                     // Fix:  Esta entrando dos veces  porq????
-                    if ( me.myWin ) return 
-
+                    if ( this.myWin ) return 
+    
                     // The form is now linked to  store  
-                    me.openLinkedForm( records[0], true  )
+                    this.openLinkedForm( records[0], true  )
                 }, 
-                scope: me }
-            );
-        }; 
-        
-    }      
+                scope: this }
+            )
+
+        } else  {
+             // SetDefaults 
+        } 
+         
+    }
+
       
- }
-)
+})

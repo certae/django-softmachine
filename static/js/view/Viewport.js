@@ -43,7 +43,10 @@ Ext.define('ProtoUL.view.Viewport', {
         for (var autoPci in _AUTOLOAD_PCI) {
             this.loadPciFromMenu(_AUTOLOAD_PCI[autoPci]);
         }
-        
+
+        // Referencia a la ventana del viewPort 
+        _mainWin = this
+                 
     },
     
 
