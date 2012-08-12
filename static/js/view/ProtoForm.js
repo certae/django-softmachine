@@ -265,7 +265,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
         // Actualiza el IdValue en el zoom para hacer los vinculos  
 
         zoomField.fkIdValue  = this.activeRecord.get( fkId ) 
-          
+
     }, 
 
     updateFormField: function (  fldName, fldValue ) {
@@ -302,6 +302,10 @@ Ext.define('ProtoUL.view.ProtoForm', {
     }, 
 
 
+    /* 
+     * @bReadOnly indica q toda la forma es readOnly, podria servir para prender y apagar el readOnly
+     * FIX: Una mascara seria mejor  
+     */
     setReadOnlyFields: function( bReadOnly , readOnlyFields ){
           
         // var readOnlyCls = 'protofield-readonly'
@@ -315,6 +319,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 // if ( obj.xtype != 'htmlfield' ) obj.setDisabled( true  );
                 
             } else if ( ! readOnlyFields  || ( obj.name in oc( readOnlyFields )  )  ) {
+                // El obj no es readOnly pero la forma si,  
+                // FIX: poner una mascara, pero q pasa con el zoom  
                 obj.setReadOnly( bReadOnly );
                 
             }; 

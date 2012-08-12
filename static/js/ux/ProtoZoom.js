@@ -50,10 +50,15 @@ Ext.define('Ext.ux.protoZoom', {
      */
     isLoaded : false,
 
+    /*  Formato de Link
+    fieldStyle: 'color: -webkit-link !important;text-decoration: underline !important;cursor: auto !important;', 
+    fieldCls: 'protoLink',
+     */
+
+
     /* 
      * 
-     */
-    
+     */     
     initComponent : function() {
 
         var me = this; 
@@ -94,10 +99,12 @@ Ext.define('Ext.ux.protoZoom', {
             cmp1.getEl().on('click', this.onClickLink, this );}
     }, 
     
-    onClickLink: function () {
+    onClickLink: function ( ev, nd ) {
 
         // La funcion Link solo se activa si es readOly 
         if ( ! this.readOnly  ) return 
+        if ( nd.nodeName == "LABEL" ) return 
+        // console.log( ev, nd  )
         
         var formController = Ext.create('ProtoUL.UI.FormControler', {});
         formController.openZoomForm.call( formController, this.zoomModel, this.fkIdValue   ) 
@@ -167,6 +174,7 @@ Ext.define('Ext.ux.protoZoom', {
                     { xtype: 'component', flex: 1 },
                     { xtype: 'button', text: 'Cancel', scope: me, handler: doCancel   }, 
                     { xtype: 'button', text: 'Ok', scope: me, handler: me.doReturn }, 
+                    { xtype: 'button', text: 'Edit', scope: me, handler: doEdit  }, 
                     { xtype: 'button', text: 'New', scope: me, handler: doNew   }, 
                 ]
             }]            
@@ -190,6 +198,22 @@ Ext.define('Ext.ux.protoZoom', {
 
             formController.openLinkedForm ( zoomGrid.selected    )
         }
+
+
+        function doEdit() {
+            
+            if ( ! zoomGrid.selected ) {
+                errorMessage( 'Form', 'No record selected')
+                return 
+            }
+            
+            var formController = Ext.create('ProtoUL.UI.FormControler', { 
+                myMeta : me.myMeta 
+            });
+
+            formController.openLinkedForm ( zoomGrid.selected    )
+        }
+
 
         
     }, 
@@ -228,6 +252,21 @@ Ext.define('Ext.ux.protoZoom', {
 
         this.setStatusBar( )
         
+    }, 
+    
+    setReadOnly: function(readOnly) {
+        if (readOnly != this.readOnly) {
+            this.readOnly = readOnly;
+            
+            if ( readOnly ) {
+                this.fieldCls = 'protoLink'
+                // this.addCls( 'protoLink' ) 
+            } else if ( hasCls( 'protoLink' )) {
+                this.removeCls( 'protoLink' ) 
+            }
+            
+            this.updateLayout();
+        }
     }
 
 });

@@ -15,6 +15,8 @@
     color: #369;
 }
 
+
+
 .x-tree-selected {
     font-weight: bold;
 }
@@ -262,9 +264,8 @@
 */
 
 .protofield-readonly input, .protofield-readonly textarea, .protofield-readonly div{
-color: black !important;
-background-image: none !important;
-background-color: #E0E0E0 !important;
+	background-image: none !important;
+	background-color: #E0E0E0 !important;
 }
 
 
@@ -272,5 +273,10 @@ background-color: #E0E0E0 !important;
 .x-tool-readOnly{
     background-image: url('../img/protoImg/lock.png') !important;
 }
+
+.protoLink {
+    color: -webkit-link !important; text-decoration: underline !important;,  
+}
+
 
 /*  --------------------------------------------------------------  */
