@@ -167,17 +167,42 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 type: 'save',
                 hidden: true,
                 scope: this,
-                handler: this.saveChanges 
-             },{
-                type: 'gear',
-                scope: this,
-                handler: showMetaConfig,
-                tooltip: 'Meta Config ... '
-             },{
-                type: 'gear',
-                scope: this,
-                handler: showColsConfig,
-                tooltip: 'ColsConfig ... '
+                handler: this.saveChanges
+                
+            }, {
+                type: 'formView',
+                width : 20, 
+                // hidden: true,
+                tooltip: 'formView' 
+            }, {
+                type: 'formAdd',
+                width : 20, 
+                // hidden: true,
+                tooltip: 'formAdd' 
+            }, {
+                type: 'rowCopy',
+                // hidden: true,
+                width : 20, 
+                tooltip: 'rowCopy' 
+            }, {
+                type: 'formUpd',
+                width : 20, 
+                tooltip: 'formUpd' 
+            }, {
+                type: 'rowDel',
+                width : 20, 
+                tooltip: 'rowDel' 
+                 
+             // },{
+                // type: 'gear',
+                // scope: this,
+                // handler: showMetaConfig,
+                // tooltip: 'Meta Config ... '
+             // },{
+                // type: 'gear',
+                // scope: this,
+                // handler: showColsConfig,
+                // tooltip: 'ColsConfig ... '
             }], 
             
  

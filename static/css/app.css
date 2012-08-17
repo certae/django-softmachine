@@ -270,9 +270,13 @@
 
 
 
-.x-tool-readOnly{
-    background-image: url('../img/protoImg/lock.png') !important;
-}
+.x-tool-readOnly { background-image: url('../img/protoImg/lock.png') !important; }
+.x-tool-formAdd  { background-image: url('../img/protoImg/edit_add.png') !important; }
+.x-tool-rowCopy  { background-image: url('../img/protoImg/edit_duplicate.png') !important; }
+.x-tool-formUpd  { background-image: url('../img/protoImg/edit.png') !important; }
+.x-tool-rowDel   { background-image: url('../img/protoImg/edit_delete.png') !important; }
+.x-tool-formView { background-image: url('../img/protoImg/form_view.png') !important; }
+
 
 .protoLink {
     color: -webkit-link !important; text-decoration: underline !important;,  
