@@ -26,6 +26,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
      */
     protoOption: null, 
 
+
  
     initComponent: function() {
 
@@ -130,6 +131,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             store : this.store,  
             stripeRows: true, 
             
+             // Tools  ( necesario para AddTools )
+            tools: [], 
+            
             listeners: {
                 scope: this,
                 selectionchange: function(selModel, selected) {
@@ -156,57 +160,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 
             }, 
             
-            tools: [{
-                itemId: 'toolCancelEdit',
-                type: 'close',
-                hidden: true,
-                scope: this,
-                handler: this.cancelChanges 
-             },{
-                itemId: 'toolSave',
-                type: 'save',
-                hidden: true,
-                scope: this,
-                handler: this.saveChanges
-                
-            }, {
-                type: 'formView',
-                width : 20, 
-                // hidden: true,
-                tooltip: 'formView' 
-            }, {
-                type: 'formAdd',
-                width : 20, 
-                // hidden: true,
-                tooltip: 'formAdd' 
-            }, {
-                type: 'rowCopy',
-                // hidden: true,
-                width : 20, 
-                tooltip: 'rowCopy' 
-            }, {
-                type: 'formUpd',
-                width : 20, 
-                tooltip: 'formUpd' 
-            }, {
-                type: 'rowDel',
-                width : 20, 
-                tooltip: 'rowDel' 
-                 
-             // },{
-                // type: 'gear',
-                // scope: this,
-                // handler: showMetaConfig,
-                // tooltip: 'Meta Config ... '
-             // },{
-                // type: 'gear',
-                // scope: this,
-                // handler: showColsConfig,
-                // tooltip: 'ColsConfig ... '
-            }], 
-            
  
-           viewConfig: {
+            viewConfig: {
                
                 listeners: {
                     cellclick: function (view, cell, cellIndex, record, row, rowIndex, e) {
@@ -251,6 +206,27 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         this._extGrid = grid;
         this.setGridTitle( this ) ;
+
+
+
+// ---- GridController
+
+        if ( this.gridControler ) {
+
+            this.gridController.myGrid = this
+            this.gridController.store = this.store
+            
+        } else {
+
+            this.gridController = Ext.create('ProtoUL.UI.GridControler', {
+                myMeta: myMeta, 
+                myGrid : this, 
+                store : this.store  
+            }); 
+            
+        }
+
+        this.gridController.addGridTools()
 
 
 //----------
@@ -697,7 +673,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             this._extGrid.down('#toolSave').hide();
             this._extGrid.down('#toolCancelEdit').hide();
         }
-        
+
    },
 
     /*
@@ -910,6 +886,12 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     }, 
     
 
+    addTools: function( myTools ) { 
+        
+        this._extGrid.addTool( myTools )
+        
+    }, 
+
     showDetailsTree: function() {
 
 
@@ -938,9 +920,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         myWin.show()
         
-}, 
+    } 
 
-    
-    
 
 });

@@ -7,9 +7,9 @@
  */
 
 Ext.define('ProtoUL.UI.FormControler', {
-    extend: 'Ext.Component',
+    extend: 'Ext.Base',
+
     // requires: [ 'ProtoUL.view.ProtoForm' ],
-    
     // Required if linked,  retrived if zoom 
     myMeta : null, 
 
@@ -26,11 +26,14 @@ Ext.define('ProtoUL.UI.FormControler', {
     myWidth : 620, 
     myHeight : 460, 
 
-    initComponent: function() {
-        var me = this
-        this.callParent(arguments);
-    }, 
+    // initComponent: function() {
+        // this.callParent(arguments);
+    // }, 
 
+    constructor: function (config) {
+        Ext.apply(this, config || {});
+    },
+    
     _newWindow: function () {
 
         this.myForm = Ext.widget('protoform', {

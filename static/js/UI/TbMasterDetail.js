@@ -367,9 +367,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         function initFormController(){
 
-            var formController = Ext.create('ProtoUL.UI.FormControler', {
-                myMeta : myMeta  
-            });
+            var formController = Ext.create('ProtoUL.UI.FormControler', { myMeta: myMeta}); 
+            // formController.myMeta = myMeta 
             
             return formController
 
