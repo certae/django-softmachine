@@ -119,6 +119,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                     protoMeta: myMeta
                    })
         
+        // LA barra q contiene los grupos 
         var tbar2 = Ext.create('Ext.Toolbar', {
             dock: 'top',
             defaults: { scale: 'small', hidden : true },
@@ -172,14 +173,14 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
             if ( but.idTb2 == ideTbOrder ) {
                 orderTbar.show();
-                configTbar.hide();
+                editTBar.hide();
                 tbar2.hide();
                 
             } else if ( but.idTb2 == ideTbEdit ) {
                 // Entra en modo edicion 
                 me.toggleEditMode( true )
                                 
-                configTbar.show();
+                editTBar.show();
                 orderTbar.hide();
                 tbar2.hide();
                 
@@ -191,7 +192,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 var tb2 = Ext.getCmp(but.idTb2);
                 tb2.show();
                 tbar2.show();
-                configTbar.hide();
+                editTBar.hide();
                 orderTbar.hide();
             }             
         } 
@@ -272,7 +273,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 // ------------------------------------------------------------------------------------------------
 
 
-        var configTbar = Ext.create('Ext.toolbar.Toolbar', {
+        var editTBar = Ext.create('Ext.toolbar.Toolbar', {
             id : ideTbEdit, 
                // margins:'5 5 5 5',
             padding: '5 5 5 5',
@@ -323,17 +324,17 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             }, {
                 iconCls : 'icon-formAdd', 
                 text:       'Add',
-                toolBar:     'Form Add Record',
+                tooltip:     'Form Add Record',
                 handler:    onClickFormAdd
             }, {
                 iconCls : 'icon-formEdit', 
                 text:       'Edit',
-                toolBar:     'Form Edit  Record',
+                tooltip:     'Form Edit  Record',
                 handler:    onClickFormEdit
             }, {
                 iconCls : 'icon-formView', 
                 text:       'View',
-                toolBar:     'Form View Read Only Mode',
+                tooltip:     'Form View Read Only Mode',
                 handler:    onClickFormView
             }, {
                 xtype: 'tbfill',                   //  ----------------------------------------------------
@@ -350,7 +351,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             hidden : true
         });
 
-        this.configTbar = configTbar; 
+        this.editTBar = editTBar; 
 
         function onClickTableAutoSync( btn, pressed ){
 
@@ -453,7 +454,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 align: 'stretchmax'
             },
             dockedItems: [
-                tbar1,  orderTbar, configTbar, tbar2 
+                tbar1,  orderTbar, editTBar, tbar2 
             ]
         });
         // panel.add(tool1);  ...
@@ -737,6 +738,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             // },{  xtype: 'menuseparator'
         });
 
+
         function configureProtoFilter(){
 
             var bHide = true; 
@@ -784,20 +786,20 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             this.__MasterDetail.protoMasterGrid.setEditMode( this.editable )
         } 
         
-        if ( this.configTbar ) {
+        if ( this.editTBar ) {
 
-            this.configTbar.getComponent('edit').setVisible ( ! this.editable );
-            this.configTbar.getComponent('save').setVisible( this.editable  );
+            this.editTBar.getComponent('edit').setVisible ( ! this.editable );
+            this.editTBar.getComponent('save').setVisible( this.editable  );
 
-//            this.configTbar.getComponent('cancel').setVisible( this.editable ); 
-            this.configTbar.getComponent('save').setDisabled( this.autoSync || (!this.editable ));
+//            this.editTBar.getComponent('cancel').setVisible( this.editable ); 
+            this.editTBar.getComponent('save').setDisabled( this.autoSync || (!this.editable ));
 
-            this.configTbar.getComponent('add').setDisabled ( ! this.editable );
-            this.configTbar.getComponent('copy').setDisabled ( ! this.editable );
-            this.configTbar.getComponent('delete').setDisabled ( ! this.editable );
-            this.configTbar.getComponent('cancel').setDisabled ( ! this.editable );
+            this.editTBar.getComponent('add').setDisabled ( ! this.editable );
+            this.editTBar.getComponent('copy').setDisabled ( ! this.editable );
+            this.editTBar.getComponent('delete').setDisabled ( ! this.editable );
+            this.editTBar.getComponent('cancel').setDisabled ( ! this.editable );
             
-            this.configTbar.getComponent('autoSync').setDisabled( ! this.editable );
+            this.editTBar.getComponent('autoSync').setDisabled( ! this.editable );
         }; 
         
     }

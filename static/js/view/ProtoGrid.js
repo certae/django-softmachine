@@ -4,10 +4,14 @@
  * -  - model ( reader )  *** 
  */
 
+
+
 //TODO: Revizar Allow Null, Listo el Blank en la grilla, falta la forma, falta en el modelo
 
 Ext.define('ProtoUL.view.ProtoGrid' ,{
-    extend: 'Ext.container.Container',
+    // extend: 'Ext.container.Container',
+    // Se requiere un panel para soportar el Docking de las barras 
+    extend: 'Ext.Panel',                                
     alias : 'widget.protoGrid',
     requires: [
         'Ext.grid.*',
@@ -227,6 +231,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         }
 
         this.gridController.addGridTools()
+
 
 
 //----------

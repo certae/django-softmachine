@@ -222,6 +222,8 @@ Ext.define('ProtoUL.UI.GridControler', {
     onClickTableCancelEdit:  function (){
         this.myGrid.cancelChanges()
     } 
+    
+    
      
     
 })

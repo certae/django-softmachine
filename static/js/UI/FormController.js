@@ -100,25 +100,6 @@ Ext.define('ProtoUL.UI.FormControler', {
             
             this.myForm.setReadOnlyFields( true, this.myMeta.gridConfig.readOnlyFields );            
 
-            this.myWin.tools = [{
-                type: 'formAdd',
-                width : 20, 
-                tooltip: 'formAdd' 
-            }, {
-                type: 'formUpd',
-                width : 20, 
-                tooltip: 'formUpd' 
-            }, {
-                type: 'rowDel',
-                width : 20, 
-                tooltip: 'rowDel' 
-            }, {
-                type: 'rowCopy',
-                width : 20, 
-                tooltip: 'rowCopy' 
-            }] 
-            this.myWin.addTools()
-
             
         }
         

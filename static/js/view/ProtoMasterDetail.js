@@ -20,7 +20,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
 //        console.log ( this.protoOption , ' masterPanel def'  ); 
         // Recupera la meta   ------------------------------------------------------------ 
-        var myMeta = _cllPCI[ this.protoOption ] ;                         
+        this.myMeta = _cllPCI[ this.protoOption ] ;                         
         var _masterDetail  = this ;         
         
         // Master Grid    ========================================================== 
@@ -35,9 +35,10 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         this.protoMasterStore = masterGrid.store ;  
 
 
+
         // Necesaria para poder agregar cosas dinamicamente   --------------------------------------------------
         var tb = Ext.create('ProtoUL.UI.TbMasterDetail', {
-            protoMeta : myMeta, 
+            protoMeta : this.myMeta, 
             __MasterDetail : this  
         });
         tb.doLayout();
@@ -98,9 +99,14 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         this.idMasterGrid = idMasterGrid; 
 
         this.cllStoreDet = cllStoreDet ;
-        this.protoTabs = protoTabs;
 
+        this.protoTabs = protoTabs;
+        
+        this.getDetailsTBar()
+        this.getFilterSetBar()
+        
         this.callParent();
+
 
         //  ****************************************************************
         //  Eventos de los objetos internos para el manejo Master-Detail   
@@ -172,6 +178,8 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         var ixActiveDetail = this.ixActiveDetail;
         var idMasterGrid = this.idMasterGrid;
 
+        this.showDetailPanel()
+        
 //      console.log( 'TbSelectDetail', ixActiveDetail, ' idM', idMasterGrid, _masterDetail.idMasterGrid )
         var tab =  this.getTab(_masterDetail, item.detailKey); 
         if (!tab) {
@@ -200,12 +208,16 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
         };
     },
+    
+    showDetailPanel: function() {
+        
+        var detailPanel = Ext.getCmp( this.IDdetailPanel);
+        if ( detailPanel.collapsed  ) { detailPanel.expand(); }
+
+    }, 
 
 //  Sacar en una funcion comun con el view port  ( segun feedMvc/lib )   ***********************************
     createDetailGrid: function( _masterDetail, item ) {
-        
-        var detailPanel = Ext.getCmp(_masterDetail.IDdetailPanel);
-        if ( detailPanel.collapsed  ) { detailPanel.expand(); }
 
         // Definicion grilla Detail 
         // TODO: Revisar la logica de baseFilter,  
@@ -235,7 +247,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             title: item.text ,
             detailKey : item.detailKey ,
             layout: 'fit',
-            closable: true, 
+            // closable: true, 
             tabConfig: {
                 tooltip : item.text, 
                 width : 120 
@@ -274,6 +286,113 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             // this.protoMasterStore.loadPage(1);
         // }
 
+    },
+    
+    getDetailsTBar: function() {
+        
+        var me = this; 
+        var myDetails = []                  // Cll para guardar la definicion de detalles q luego se agregara al tBar  
+
+        for (var vDet in this.myMeta.protoDetails) {        // Recorre y agrega los detalles al menu 
+
+            var pDetails = this.myMeta.protoDetails[ vDet ]
+            if ( pDetails.menuText === undefined ) continue; 
+
+            myDetails.push (
+                new Ext.Action({
+                    text: pDetails.menuText,
+                    scope:    me,                     
+                    handler:  me.onTbSelectDetail,
+                    tooltip : pDetails.menuText,
+                    detailKey: pDetails.conceptDetail,
+                    detailField: pDetails.detailField,
+                    masterField: pDetails.masterField,
+                    
+                    detailTitleLbl: pDetails.detailTitleLbl,
+                    detailTitlePattern: pDetails.detailTitlePattern,
+                    
+                    ixDetail: myDetails.length       // Agrega un numero secuencia para marcar los tabs
+                }));
+                
+            // PreCarga los detalles  
+            loadPci( pDetails.conceptDetail, true )                 
+            
+        };
+
+        if ( myDetails.length > 0  ) {
+
+            // toolBar de base para los items 
+            this.tbDetails = Ext.create('Ext.toolbar.Toolbar', {
+                dock: 'bottom',
+                enableOverflow : true, 
+                defaults : {
+                    witdth : 100, maxWidth : 100  
+                }, 
+                items: [
+                    {
+                    xtype   : 'tbtext',
+                    text: '<b>Détails :<b>'
+                    }
+                ]
+            });
+         
+            this.myDetails = myDetails
+            this.tbDetails.add ( myDetails )
+            this.protoTabs.addDocked( this.tbDetails )
+            
+            return true 
+        } else {
+            return false 
+        }
+        
+    }, 
+    
+    getFilterSetBar: function() {
+        
+        var me = this; 
+        var myFilters = []  
+        for (var vDet in this.myMeta.gridConfig.filtersSet) {       
+
+            var pFilters = this.myMeta.gridConfig.filtersSet[ vDet ]
+            myFilters.push (
+                new Ext.Action({
+                    text:           pFilters.name,
+                    iconCls :       pFilters.icon, 
+                    protoFilter:    Ext.encode( pFilters.filter ),
+                    scope:          me,                     
+                    handler:        onClickProtoFilter
+                }));
+
+        };
+
+        if ( myFilters.length > 0  ) {
+
+            this.tbFilters = Ext.create('Ext.toolbar.Toolbar', {
+                dock: 'top',
+                enableOverflow : true, 
+                defaults : { witdth : 100, maxWidth : 100  }, 
+                items: [
+                    {
+                    xtype   : 'tbtext',
+                    iconCls : 'icon-filter', 
+                    text: '<b>Filtrer par :<b>'
+                    }
+                ]
+            });
+
+            this.tbFilters.add ( myFilters )
+            this.myFilters = myFilters
+            this.protoMasterGrid.addDocked( this.tbFilters )
+            return true 
+        } else {
+            return false 
+        }; 
+        
+        function onClickProtoFilter( btn ){
+            this.protoMasterGrid.protoLocalFilter = ' " ' +  btn.text + ' "'; 
+            this.protoMasterGrid.setGridTitle( this.protoMasterGrid ) 
+            this.onClickLoadData( btn.protoFilter );
+        }
     } 
     
 
