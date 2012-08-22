@@ -122,6 +122,10 @@ DesignerProperties =  {
     "title.help": "Titulo del componente",
     "tooltip.help": "microayuda del componente ",
  
+    "sortable.help": "t/f",
+    "sortable.type": "boolean",
+
+ 
     "type" : "string",    
     "type.help" : "Tipo de dato de la Db ", 
     "type.choices" : [ "string", "text", "bool", "int", "decimal", "combo", "date",  "datetime", "time", "autofield", "foreignid",  "foreigntext"  ],             

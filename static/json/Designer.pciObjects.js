@@ -45,6 +45,7 @@ DesignerObjects =  {
             "fieldLabel",
             "format",
             "header" ,
+            "sortable", 
             "flex", 
             "height","maxHeight","minHeight",
             "width", "maxWidth","minWidth",
