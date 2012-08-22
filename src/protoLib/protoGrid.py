@@ -361,7 +361,12 @@ def getProtoViewName( protoConcept   ):
 
 
 def getFieldsInSet( prItems, formFields ):
-    # Al recorrer el fieldset pueden venir tuplas o arrays anidados, se manejan en una unica lista 
+    # Al recorrer el fieldset pueden venir tuplas o arrays anidados, se manejan en una unica lista
+    
+    if type(formFields).__name__ == 'str':
+        prItems.append ( { 'name' : formFields, '__ptType' : 'formField' } )
+        return 
+             
     for formField in formFields:
         if type(formField).__name__ in [ type(()).__name__,  type([]).__name__]:
             getFieldsInSet( prItems, formField  )

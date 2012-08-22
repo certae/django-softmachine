@@ -124,27 +124,20 @@ Ext.define('ProtoUL.UI.GridControler', {
 
         
         // if ( forceEdit ) this.editable = forceEdit;  
-//         
         // if ( (!tbOnly ) && ( this.__MasterDetail ))  {
             // this.__MasterDetail.protoMasterGrid.setEditMode( this.editable )
         // } 
-//         
         // if ( this.configTbar ) {
-// 
             // this.configTbar.getComponent('edit').setVisible ( ! this.editable );
             // this.configTbar.getComponent('save').setVisible( this.editable  );
-// 
-// //            this.configTbar.getComponent('cancel').setVisible( this.editable ); 
+            // this.configTbar.getComponent('cancel').setVisible( this.editable ); 
             // this.configTbar.getComponent('save').setDisabled( this.autoSync || (!this.editable ));
-// 
             // this.configTbar.getComponent('add').setDisabled ( ! this.editable );
             // this.configTbar.getComponent('copy').setDisabled ( ! this.editable );
             // this.configTbar.getComponent('delete').setDisabled ( ! this.editable );
             // this.configTbar.getComponent('cancel').setDisabled ( ! this.editable );
-//             
             // this.configTbar.getComponent('autoSync').setDisabled( ! this.editable );
         // }; 
-//         
     }, 
     
     
