@@ -182,6 +182,8 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
              
              # TODO: Implementar  ( El listDisplay podra contener propiedades, hidden, flex, width,  ... 
              'hiddenFields': grid.protoAdmin.get( 'hiddenFields', ['id', ]),
+
+             'filterSetABC': grid.protoAdmin.get( 'filterSetABC', ''),
          },
 
 

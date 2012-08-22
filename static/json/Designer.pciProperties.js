@@ -88,8 +88,13 @@ DesignerProperties =  {
     "hideLabel": false,
     "hideLabel.help": "presenta los campos sin label, util cuando se configura grupos como firstName, lastName",
 
+    "hideSheet" : false, 
+    "hideSheet.help" : "Oculta la ficha descriptiva", 
+
     "hideRowNumbers" : false, 
     "hideRowNumbers.help" : "Oculta la columna que numera los campos", 
+
+    "filterSetABC.help" : "Genera automaticamente filtro alfabetico sobre la columna seleccionada", 
 
     "labelAlign": "left",
     "labelAlign.choices": ["left", "top"],

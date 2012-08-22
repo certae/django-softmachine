@@ -476,6 +476,10 @@ function getColDefinition( vFld ) {
 
     } 
 
+    // Sortable 
+    colDefinition['sortable']  = vFld['fromModel'] || false   
+
+
     return colDefinition; 
 
     //  

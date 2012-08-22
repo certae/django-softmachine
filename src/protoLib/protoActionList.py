@@ -7,7 +7,7 @@ from django.http import HttpResponse
 
 from protoGrid import Q2Dict, getSearcheableFields, getProtoViewName
 
-from utilsBase import construct_search, addFilter, JSONEncoder 
+from utilsBase import construct_search, addFilter, JSONEncoder, getReadableError 
 from models import getDjangoModel 
 
 import django.utils.simplejson as json
@@ -62,6 +62,7 @@ def protoList(request):
     if sort:
         sort = eval ( sort ) 
         for sField in sort: 
+            # FIX:  @@@  Verificar que el campo de sort haga parte de los campos del modelo   
             if sField['direction'] == 'DESC': sField['property'] = '-' + sField['property']  
             orderBy.append( sField['property'] )
     orderBy = tuple( orderBy )
@@ -109,10 +110,17 @@ def protoList(request):
 
 
 #   Prepara las cols del Query 
-    pList = Q2Dict(protoMeta , pRows  )
+    try:
+        pList = Q2Dict(protoMeta , pRows  )
+        bResult = True 
+    except Exception,  e:
+        message = getReadableError( e ) 
+        bResult = False  
+        pList = []
+
 
     context = json.dumps({
-            'success': True,
+            'success': bResult,
             'message': message,
             'totalCount': pRowsCount,
             'filter': protoFilter,

@@ -171,22 +171,10 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
             } 
 
 
-    # Podrian ser objetos, pero pierden el orden y es importante para el filtro alfabetico 
-    protoExt['filtersSet'] = []
-    for nFiltre in ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']:
-    
-        protoExt['filtersSet'].append ( 
-                { 'name': nFiltre, 
-                  'filter': { 'code__istartswith': nFiltre }, 
-#                 'icon' : 'icon-?'
-                  }
-        ) 
-
-    protoExt['filtersSet'].append ( 
-                { 'name': ' Tous ', 
-                  'filter': {}, 
-                  }
-        ) 
+    # Fix: Permitira implementar el list_filter de admin
+    # Los tipos podran ser 'ABC' para alfabetico, 'Date', ''   
+    # ie.   [{ 'field' : 'code', 'type' : 'ABC' }]
+    protoExt['filterSetABC'] = ['code'] 
 
 #    La definicion de la forma  tiene la siguiente interface 
 #    objeto  ( o array de objetos ) 

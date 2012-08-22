@@ -351,9 +351,25 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         
         var me = this; 
         var myFilters = []  
-        for (var vDet in this.myMeta.gridConfig.filtersSet) {       
+        var tmpFilters = [] 
 
-            var pFilters = this.myMeta.gridConfig.filtersSet[ vDet ]
+        // Si no hay filtros definidos pero existe un filterAlph, 
+        if ((this.myMeta.gridConfig.filtersSet.length == 0)  &&  this.myMeta.gridConfig.filterSetABC  ) {
+
+            for (var nFiltre in oc(['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'])) {
+                var tmpF1 = {}
+                tmpF1[ this.myMeta.gridConfig.filterSetABC + '__istartswith' ] =  nFiltre 
+                tmpFilters.push ({ name: nFiltre,  filter: tmpF1 }) 
+            }
+            tmpFilters.push ({ name: ' *', filter: {} })
+             
+        } else {
+          tmpFilters = this.myMeta.gridConfig.filtersSet  
+        }  
+
+        for (var vDet in tmpFilters ) {       
+
+            var pFilters = tmpFilters[ vDet ]
             myFilters.push (
                 new Ext.Action({
                     text:           pFilters.name,
@@ -364,6 +380,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
                 }));
 
         };
+
 
         if ( myFilters.length > 0  ) {
 
@@ -383,8 +400,8 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             this.tbFilters.add ( myFilters )
             this.myFilters = myFilters
             this.protoMasterGrid.addDocked( this.tbFilters )
-            return true 
         } else {
+
             return false 
         }; 
         
