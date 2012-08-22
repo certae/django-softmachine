@@ -3,7 +3,7 @@ from django.contrib  import admin
 
 
 class ReferenceAdmin(admin.ModelAdmin):
-    list_display = ('etiquette', 'commentaire',)
+    list_display = ('etiquette', 'commentaire', 'enregistrementBibTex')
     fieldsets = [
         (None, 
             {'fields': [('etiquette', 'commentaire', ),
