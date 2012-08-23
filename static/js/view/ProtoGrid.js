@@ -127,9 +127,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         this.editable = false; 
         
         var grid = Ext.create('Ext.grid.Panel', {
-            plugins: [    'headertooltip',
-                        this.rowEditing
-                      ],            
+            border : false, 
+            plugins: [    'headertooltip', this.rowEditing ],            
             // selModel: selModel,
             columns : gridColumns,   
             store : this.store,  
@@ -579,7 +578,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         function onMenuPromoteDetail() {
 
             if ( me.detailTitlePattern ) {
-                var detailSubTitle =  me._masterDetail.protoMasterGrid.rowData[ me.detailTitlePattern ];
+                var detailSubTitle =  me._MasterDetail.protoMasterGrid.rowData[ me.detailTitlePattern ];
                 detailSubTitle = me.detailTitleLbl + ' ' + detailSubTitle
             }
             

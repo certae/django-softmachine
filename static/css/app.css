@@ -84,6 +84,9 @@
 .sort-desc { background-image: url(../img/protoImg/sort_desc.gif) !important; background-position: 4px 7px !important; }
 .sort-asc  { background-image: url(../img/protoImg/sort_asc.gif) !important; background-position: 4px 7px !important; }
 
+.icon-panelDown  { background-image: url(../img/protoImg/panelDown.png) !important }
+.icon-panelUp    { background-image: url(../img/protoImg/panelUp.png) !important }
+
 
 /*  Iconos Aplicacion  */
 .icon-model    { background-image: url(../img/app/model.png ) !important;}

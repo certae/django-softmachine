@@ -21,43 +21,46 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 //        console.log ( this.protoOption , ' masterPanel def'  ); 
         // Recupera la meta   ------------------------------------------------------------ 
         this.myMeta = _cllPCI[ this.protoOption ] ;                         
-        var _masterDetail  = this ;         
+        var me  = this ;         
         
         // Master Grid    ========================================================== 
         // y la Guarda el store para efectos de eventos y referencias 
-        var masterGrid = Ext.create('ProtoUL.view.ProtoGrid', {
+        this.protoMasterGrid = Ext.create('ProtoUL.view.ProtoGrid', {
+            border : false, 
             protoOption : this.protoOption,  
             baseFilter : this.baseFilter, 
             detailTitle : this.detailTitle 
         }) ; 
         
-        this.protoMasterGrid = masterGrid ; 
-        this.protoMasterStore = masterGrid.store ;  
+        this.protoMasterStore = this.protoMasterGrid.store ;  
 
 
 
         // Necesaria para poder agregar cosas dinamicamente   --------------------------------------------------
         var tb = Ext.create('ProtoUL.UI.TbMasterDetail', {
             protoMeta : this.myMeta, 
-            __MasterDetail : this  
+            __MasterDetail : me  
         });
         tb.doLayout();
         
         // Asigna el tab de control a la grilla 
-        masterGrid._toolBar = tb 
+        this.protoMasterGrid._toolBar = tb 
         
         
         // Panel de detalles ==================================================================================
         var IDprotoTabs = Ext.id();
-        var protoTabs = new Ext.TabPanel({
-            id: IDprotoTabs
+        this.protoTabs = Ext.create('Ext.panel.Panel', {
+            layout: 'card',
+            id: IDprotoTabs 
         });
+
         
         this.IDdetailPanel = Ext.id();
         Ext.apply(this, {
             layout: 'border',
             defaults: {
                 collapsible: true,
+                border : false, 
                 split: true
             },
             items: [{
@@ -73,219 +76,92 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
                 flex: 1,
                 layout: 'fit',
                 collapsible: false,
-                items: masterGrid 
+                items: this.protoMasterGrid 
             }, {
                 id: this.IDdetailPanel, 
-                title: 'Détails',
+                // title: 'Détails',
+                collapseMode : 'mini', 
+                hideCollapseTool :  true, 
                 region: 'south',
+                header : false, 
                 flex: 1,
                 collapsed: true,
                 layout: 'fit',
                 minSize: 75,
-                defaults: { border: false, activeTab: 0 },
-                items: protoTabs 
+                defaults: { border: false  },
+                items: this.protoTabs 
             }]
         });
 
 
-        // Variables del enclosure 
-        var ixActiveDetail = -1;
-        var idMasterGrid = 0; 
-        var cllStoreDet = [];  
-        var currentRow = [];
-
         // coleccion con los store de los detalles  y su indice  =============================================  
-        this.ixActiveDetail = ixActiveDetail;
-        this.idMasterGrid = idMasterGrid; 
+        this.ixActiveDetail = -1;
+        this.idMasterGrid = -1; 
 
-        this.cllStoreDet = cllStoreDet ;
-
-        this.protoTabs = protoTabs;
-        
+        this.cllStoreDet = [] ;
         this.getDetailsTBar()
         this.getFilterSetBar()
         
         this.callParent();
 
-
         //  ****************************************************************
         //  Eventos de los objetos internos para el manejo Master-Detail   
                 
-        masterGrid.on({
+        this.protoMasterGrid.on({
             rowClick: {fn: function ( gView, record, item, rowIndex,  e,  eOpts ) {
-                
-                idMasterGrid = record.internalId;
-                this.idMasterGrid = idMasterGrid;
-                linkDetail();
+                this.idMasterGrid = record.internalId;
+                this.linkDetail();
                 }, 
-            scope: _masterDetail }
+            scope: me }
         });                 
-
-    
-        protoTabs.on({
-            tabchange: { fn: function (tabPanel, tab) {
-                ixActiveDetail = tab.ixDetail;
-                this.ixActiveDetail = ixActiveDetail;
-                linkDetail();
-            }, 
-            scope: _masterDetail }
-        });                 
-    
-    
-        // Refresca las grillas de detalle 
-        function linkDetail() {
-    
-            var ixActiveDetail =  _masterDetail.ixActiveDetail;
-            //console.log( '_ LinkDetail tab', ixActiveDetail,  _masterDetail.ixActiveDetail, ' idM', idMasterGrid,  _masterDetail.idMasterGrid )
-            
-            // Verifica q halla un tab activo y q no hallan sido borrados  
-            if (ixActiveDetail < 0) { return; }
-            if (protoTabs.items.length === 0) { return; }
-    
-            // carga el store 
-            var tmpStore = cllStoreDet[ixActiveDetail];
-    
-            // Verifica si la llave cambio
-            if ( idMasterGrid === 0  ) { tmpStore.protoMasterId = idMasterGrid; return; } 
-            if (tmpStore.protoMasterId == idMasterGrid ) { return; }
-    
-            // El filtro del detalle debe tner en cuenta el filtro predefinido para la grilla???
-            // TODO: En el vinculo debe existir un filtro predefinido,  no es necesariamente cierto q siempre deba ser 
-            // el filtro de consulta de la grilla o q se deba siempre eliminar. 
-            tmpStore.clearFilter();
-            tmpStore.getProxy().extraParams.baseFilter = '{"' + tmpStore.detailField + '" : ' + idMasterGrid + ',}';
-            tmpStore.protoMasterId = idMasterGrid;
-            tmpStore.load();
-            
-        }
 
 
     },
 
-    getTab: function ( _masterDetail, detailKey) {
-        var tab = _masterDetail.protoTabs.items.findBy(function (i) {
-            return i.detailKey === detailKey;
-        });
-        return tab; 
+    
+    
+    linkDetail: function () {
+    // Refresca las grillas de detalle 
+
+        var me = this
+        
+        // Verifica q halla un tab activo y q no hallan sido borrados  
+        if (me.ixActiveDetail < 0) { return; }
+        if (me.protoTabs.items.length === 0) { return; }
+
+        // carga el store 
+        var tmpStore = me.cllStoreDet[ me.ixActiveDetail ];
+
+        // Verifica si la llave cambio
+        if ( me.idMasterGrid === 0  ) { tmpStore.protoMasterId = me.idMasterGrid; return; } 
+        if (tmpStore.protoMasterId == me.idMasterGrid ) { return; }
+
+        // El filtro del detalle debe tner en cuenta el filtro predefinido para la grilla???
+        // TODO: En el vinculo debe existir un filtro predefinido,  no es necesariamente cierto q siempre deba ser 
+        // el filtro de consulta de la grilla o q se deba siempre eliminar. 
+        tmpStore.clearFilter();
+        tmpStore.getProxy().extraParams.baseFilter = '{"' + tmpStore.detailField + '" : ' + me.idMasterGrid + ',}';
+        tmpStore.protoMasterId = me.idMasterGrid;
+        tmpStore.load();
+        
     }, 
     
-    onTbSelectDetail: function (item) {
 
-        var _masterDetail  = this ;         
-        var protoTabs = this.protoTabs;
-        var cllStoreDet = this.cllStoreDet;  
-
-        var ixActiveDetail = this.ixActiveDetail;
-        var idMasterGrid = this.idMasterGrid;
-
-        this.showDetailPanel()
-        
-//      console.log( 'TbSelectDetail', ixActiveDetail, ' idM', idMasterGrid, _masterDetail.idMasterGrid )
-        var tab =  this.getTab(_masterDetail, item.detailKey); 
-        if (!tab) {
-
-            // Opciones del llamado AJAX 
-            var options = {
-                scope: this, 
-                success: function ( obj, result, request ) {
-                    _masterDetail.createDetailGrid( _masterDetail, item  );
-                },
-                failure: function ( obj, result, request) { 
-                    return ;  
-                }
-            }
-                
-            if (  loadPci( item.detailKey, true, options ) ) {
-                // El modelo ya ha sido cargado ( la cll meta es global )     
-                _masterDetail.createDetailGrid( _masterDetail, item );
-                
-            }   
-
-        } else {
-
-            //  Marca el tab activo ( es need hacerlo asi, pues el otro llamado es Async.   
-            _masterDetail.setActiveDetail( _masterDetail, item.detailKey );
-
-        };
-    },
-    
-    showDetailPanel: function() {
-        
-        var detailPanel = Ext.getCmp( this.IDdetailPanel);
-        if ( detailPanel.collapsed  ) { detailPanel.expand(); }
-
-    }, 
-
-//  Sacar en una funcion comun con el view port  ( segun feedMvc/lib )   ***********************************
-    createDetailGrid: function( _masterDetail, item ) {
-
-        // Definicion grilla Detail 
-        // TODO: Revisar la logica de baseFilter,  
-        var detailGrid = Ext.create('ProtoUL.view.ProtoGrid', {
-            protoOption : item.detailKey,  
-            protoIsDetailGrid : true, 
-            autoLoad : false, 
-            baseFilter : '{"' + item.detailField + '" : ' +  _masterDetail.idMasterGrid + ',}',
-
-            // Para saber de q linea del maestro  depende  
-            _masterDetail: _masterDetail 
-        }) ; 
-
-        // guarda el store con el indice apropiado   
-        detailGrid.store.detailField = item.detailField;
-        detailGrid.store.masterField = item.masterField;
-        detailGrid.store.protoOption = item.detailKey;
-
-        //DGT|:  Titulos del detalle 
-        detailGrid.detailTitleLbl = item.detailTitleLbl;
-        detailGrid.detailTitlePattern = item.detailTitlePattern;
-        
-        
-        _masterDetail.cllStoreDet[item.ixDetail] = detailGrid.store ;
-
-        var tab = _masterDetail.protoTabs.add({
-            title: item.text ,
-            detailKey : item.detailKey ,
-            layout: 'fit',
-            // closable: true, 
-            tabConfig: {
-                tooltip : item.text, 
-                width : 120 
-            },
-            items: detailGrid,
-            ixDetail: item.ixDetail
-        });
-
-        _masterDetail.setActiveDetail( _masterDetail, item.detailKey );
-    },   
-
-    setActiveDetail: function ( _masterDetail , detailKey ) {
-
-        //DGT  La idea es cambiat la llave de los detalles por el protoOption y pasar solo el contexto del MD y la llave. 
-        //El titulo, verificar si es un detalle y navegar al padre para obtner el registro activo, y el titulo  
-        var tab =  _masterDetail.getTab( _masterDetail, detailKey); 
-
-        _masterDetail.ixActiveDetail = tab.ixDetail;
-        _masterDetail.protoTabs.setActiveTab( tab );
-
-        // console.log( '< stActiveDetail', ixActiveDetail, _masterDetail.ixActiveDetail, _masterDetail.IDdetailPanel  )
-    }, 
-
-    
     onClickLoadData: function ( sFilter ) { 
-        
         this.protoMasterGrid.loadData( this.protoMasterGrid,  sFilter  )
-        // this.protoMasterStore.clearFilter();
-        // this.protoMasterStore.getProxy().extraParams.protoFilter = sFilter;
-// 
-//         
-        // // TODO: Cargar el sort, buscarlo en proxy.sorters o setear una var en la grilla 
-        // this.protoMasterStore.load();
-//         
-        // if ( this.protoMasterStore.currentPage != 1 ) {
-            // this.protoMasterStore.loadPage(1);
-        // }
+    },
+    
+    showDetailPanel: function( bHide ) {
+        var detailPanel = Ext.getCmp( this.IDdetailPanel);
+        if ( bHide ) { 
+            detailPanel.collapse(); 
+        }  else if ( detailPanel.collapsed  ) { 
+            detailPanel.expand(); 
+        }
+    }, 
 
+    hideDetailPanel: function( btn ) {
+        this.showDetailPanel( true ) 
     },
     
     getDetailsTBar: function() {
@@ -298,24 +174,28 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             var pDetails = this.myMeta.protoDetails[ vDet ]
             if ( pDetails.menuText === undefined ) continue; 
 
-            myDetails.push (
-                new Ext.Action({
-                    text: pDetails.menuText,
-                    scope:    me,                     
-                    handler:  me.onTbSelectDetail,
-                    tooltip : pDetails.menuText,
-                    detailKey: pDetails.conceptDetail,
-                    detailField: pDetails.detailField,
-                    masterField: pDetails.masterField,
-                    
-                    detailTitleLbl: pDetails.detailTitleLbl,
-                    detailTitlePattern: pDetails.detailTitlePattern,
-                    
-                    ixDetail: myDetails.length       // Agrega un numero secuencia para marcar los tabs
-                }));
+            var myAction = new Ext.Action({
+                text: pDetails.menuText,
+                hidden : true, 
+                enableToggle: true,
+                toggleGroup: 'detail',   
+
+                scope:    me,                     
+                handler:  onActionSelectDetail,
+
+                detailKey: pDetails.conceptDetail,
+                detailField: pDetails.detailField,
+                masterField: pDetails.masterField,
                 
-            // PreCarga los detalles  
-            loadPci( pDetails.conceptDetail, true )                 
+                detailTitleLbl: pDetails.detailTitleLbl,
+                detailTitlePattern: pDetails.detailTitlePattern,
+                
+                // El numero secuencia para marcar los detalles,   es asigngado dinamicamente al carga el item 
+                // ixDetail: ixDetail        
+            })
+            
+            myDetails.push ( myAction  );
+            loadDetailDefinition( myAction.initialConfig , myAction  )                
             
         };
 
@@ -325,25 +205,110 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             this.tbDetails = Ext.create('Ext.toolbar.Toolbar', {
                 dock: 'bottom',
                 enableOverflow : true, 
-                defaults : {
-                    witdth : 100, maxWidth : 100  
-                }, 
                 items: [
                     {
-                    xtype   : 'tbtext',
-                    text: '<b>Détails :<b>'
+                    text    : '<b>Détails :<b>', 
+                    iconCls : 'icon-panelDown',  
+                    scope   :  me,                     
+                    enableToggle : false ,
+                    handler:  me.hideDetailPanel 
                     }
                 ]
             });
          
             this.myDetails = myDetails
             this.tbDetails.add ( myDetails )
-            this.protoTabs.addDocked( this.tbDetails )
-            
-            return true 
-        } else {
-            return false 
+            this.protoMasterGrid.addDocked( this.tbDetails )
+        } 
+        
+        
+        function loadDetailDefinition( item , myAction ) {
+
+            // Opciones del llamado AJAX para precargar los detalles  
+            var options = {
+                scope: this, 
+                success: function ( obj, result, request ) {
+                    createDetailGrid( item , myAction  );
+                },
+                failure: function ( obj, result, request) { 
+                    createDummyPanel( item , myAction  );
+                }
+            }
+                
+            // PreCarga los detalles  
+            if (  loadPci( pDetails.conceptDetail, true, options ) ) {
+                // El modelo ya ha sido cargado ( la cll meta es global )     
+                createDetailGrid(  item , myAction );
+            }         
+                  
+        };
+        
+
+        function createDummyPanel(  item , myAction  ) {
+            // Si hubo error en la creacion del detalle 
+            me.protoTabs.add( { html: 'Error loading :'  + item.detailKey, ixDetail : me.protoTabs.items.length } )
+            myAction.show()
         }
+    
+
+        function createDetailGrid (  item , myAction ) {
+    
+            // Definicion grilla Detail 
+            var detailGrid = Ext.create('ProtoUL.view.ProtoGrid', {
+                border : false, 
+                protoOption : item.detailKey,  
+                protoIsDetailGrid : true, 
+                autoLoad : false, 
+                baseFilter : '{"' + item.detailField + '" : -1}',
+    
+                // Para saber de q linea del maestro  depende  
+                _MasterDetail: me 
+            }) ; 
+    
+            // guarda el store con el indice apropiado   
+            detailGrid.store.detailField = item.detailField;
+            detailGrid.store.masterField = item.masterField;
+            detailGrid.store.protoOption = item.detailKey;
+
+            // Asigna el Ix 
+            item.ixDetail = me.protoTabs.items.length
+            me.protoTabs.add( detailGrid )
+    
+            //Titulos del detalle 
+            detailGrid.ixDetail = item.ixDetail;
+            detailGrid.detailTitleLbl = item.detailTitleLbl;
+            detailGrid.detailTitlePattern = item.detailTitlePattern;
+            
+            // Asigna el store y lo agrega a los tabs 
+            me.cllStoreDet[item.ixDetail] = detailGrid.store ;
+            
+            // Configura el panel 
+            var myMeta = detailGrid.myMeta
+            
+            setActionPrp('text', 'setText',  myMeta.shortTitle );
+            setActionPrp('tooltip', 'setTooltip', myMeta.description );
+            setActionPrp('iconCls', 'setIconCls', myMeta.protoIcon );
+            setActionPrp('width', 'setWidth', 100 );
+
+            myAction.show()
+            
+            function setActionPrp( prp, meth , value ) {
+                myAction.initialConfig[ prp ] = value 
+                myAction.callEach( meth, [ value ] )
+            }
+             
+        };   
+
+        function onActionSelectDetail( item ) {
+            this.ixActiveDetail = item.baseAction.initialConfig.ixDetail ;
+    
+            this.protoTabs.getLayout().setActiveItem( this.ixActiveDetail );
+            this.linkDetail();        
+            this.showDetailPanel()
+            
+            item.toggle( true )            
+        }
+
         
     }, 
     
@@ -391,7 +356,6 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
                 items: [
                     {
                     xtype   : 'tbtext',
-                    iconCls : 'icon-filter', 
                     text: '<b>Filtrer par :<b>'
                     }
                 ]
