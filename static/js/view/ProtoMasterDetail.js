@@ -41,7 +41,6 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             protoMeta : this.myMeta, 
             __MasterDetail : me  
         });
-        tb.doLayout();
         
         // Asigna el tab de control a la grilla 
         this.protoMasterGrid._toolBar = tb 
@@ -101,6 +100,9 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         this.cllStoreDet = [] ;
         this.getDetailsTBar()
         this.getFilterSetBar()
+        
+        // Agrega los botones de actions 
+        tb.addActions()
         
         this.callParent();
 
@@ -306,7 +308,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             this.linkDetail();        
             this.showDetailPanel()
             
-            item.toggle( true )            
+            if ( item.hasOwnProperty( 'toggle' ) ) item.toggle( true )            
         }
 
         

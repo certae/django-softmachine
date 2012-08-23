@@ -27,9 +27,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         // Barras internas 
         var ideTbSearch = Ext.id();
-        var ideTbDetails = Ext.id();
         var ideTbOrder = Ext.id();
-        var ideTbFilter = Ext.id();
         var ideTbViews = Ext.id();
         var ideTbPrint = Ext.id();
         var ideTbEdit = Ext.id();
@@ -37,8 +35,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         // Id en la Barra principal 
         // var ideBtOrder = Ext.id();
-        var ideBtDetails = Ext.id();
-        var ideBtFilter = Ext.id();
         var ideBtViews = Ext.id();
         var ideBtConfig = Ext.id();
 
@@ -56,56 +52,83 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         //--------------------------------------------------------
 
 
-        var tbar1 = Ext.create('Ext.Toolbar', {
+        this.tbar1 = Ext.create('Ext.Toolbar', {
             dock: 'top',
-            defaults: { 
-                    scale: 'medium',
-                    enableToggle: true,
-                    toggleGroup: 'tb1' , 
-                    handler: toogleTb2 
-                },
+            defaults: { scale: 'medium' }, 
             items: [{
                 pressed: true,
                 text: 'Rechercher',
                 iconCls: 'icon-search24',
-                idTb2  : ideTbSearch
+                idTb2  : ideTbSearch, 
+
+                enableToggle: true,
+                toggleGroup: 'tb1' , 
+                handler: toogleTb2 
             },'-',{
                 text: 'Classer',
                 iconCls: 'icon-order24',
                 idTb2  : ideTbOrder, 
-                // id     : ideBtOrder 
-            },'-',{
-                text: 'Filtrer',
-                iconCls: 'icon-filter24',
-                idTb2  : ideTbFilter, 
-                id     : ideBtFilter 
+
+                enableToggle: true,
+                toggleGroup: 'tb1' , 
+                handler: toogleTb2 
+
             },'-',{
                 text: 'Editer',
                 iconCls: 'icon-edit24',
-                idTb2  : ideTbEdit
-            },'-',{
-                text: 'Imprimer',
-                iconCls: 'icon-print24',
-                idTb2  : ideTbPrint
-            },'-',{
-                text: 'Voir détails',
-                iconCls: 'icon-details24',
-                idTb2  : ideTbDetails,
-                id     : ideBtDetails
+                idTb2  : ideTbEdit, 
+
+                enableToggle: true,
+                toggleGroup: 'tb1' , 
+                handler: toogleTb2 
+
             },'-',{
                 text: 'Group de colonnes',
                 iconCls: 'icon-views24',
                 idTb2  : ideTbViews,
-                id     : ideBtViews
+                id     : ideBtViews, 
+
+                enableToggle: true,
+                toggleGroup: 'tb1' , 
+                handler: toogleTb2 
+                
+            },'-',{
+                text: 'Imprimer',
+                iconCls: 'icon-print24',
+                idTb2  : ideTbPrint, 
+                
+                enableToggle: true,
+                toggleGroup: 'tb1' , 
+                handler: toogleTb2 
+                
+            },'-',{
+                xtype: 'splitbutton', 
+                text: 'Filtrer',
+                iconCls: 'icon-filter24',
+                hidden : true,
+                itemId : 'filters', 
+                menu :  Ext.create( 'Ext.menu.Menu', {}) 
+
+            },'-',{
+                xtype: 'splitbutton', 
+                text: 'Voir détails',
+                iconCls: 'icon-details24', 
+                hidden : true,
+                itemId : 'details', 
+                menu :  Ext.create( 'Ext.menu.Menu', {}) 
+
             },'-',{
                 text: 'Config',
                 iconCls: 'icon-config24',
                 idTb2  : ideTbConfig,
-                id     : ideBtConfig
+                id     : ideBtConfig, 
+
+                enableToggle: true,
+                toggleGroup: 'tb1' , 
+                handler: toogleTb2 
             },'->',{
                 text: 'Aide',
                 iconCls: 'icon-help24',
-                toggleGroup: 'tb2' , 
                 handler: tbHelp,  
                 itemId : 'tbHelp'
             }]
@@ -125,20 +148,11 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             defaults: { scale: 'small', hidden : true },
             items: [ 
                 searchBG, {
-                    id : ideTbFilter, 
-                    xtype: 'buttongroup'
-                },{
                     id : ideTbEdit, 
                     xtype: 'buttongroup'
                 },{
                     id : ideTbPrint, 
                     xtype: 'buttongroup'
-                },{
-                    id : ideTbDetails, 
-                    xtype: 'buttongroup', 
-                    defaults : {
-                        witdth : 100, maxWidth : 100  
-                    }
                 },{
                     id : ideTbViews, 
                     xtype: 'buttongroup'
@@ -454,7 +468,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 align: 'stretchmax'
             },
             dockedItems: [
-                tbar1,  orderTbar, editTBar, tbar2 
+                this.tbar1,  orderTbar, editTBar, tbar2 
             ]
         });
         // panel.add(tool1);  ...
@@ -669,111 +683,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 // ------------------------------------------------------------------------------------------------
 
 
-        // Menu Detail 
-        var menuDetail = Ext.getCmp( ideTbDetails );
-        menuDetail.add({
-            xtype   : 'tbtext',
-            text: '<b>Détails :<b>'
-        });
-        
-        function configureMenuDetail(){
-            
-            var pDetails = myMeta.protoDetails;
-            var detailCount = 0;                     // Agrega un numero secuencia para marcar los tabs
-            var bDetails = false;               // Indica si tiene o no detalles
-            for (var vDet in pDetails) {        // Recorre y agrega los detalles al menu 
-
-                // console.log( pDetails[vTab] + " ");
-                if (pDetails[vDet].menuText === undefined ) {
-                    continue; 
-                } 
-
-                if (pDetails[vDet].menuText == '-') { 
-                    var item = menuDetail.add({ xtype: 'menuseparator' });
-                    continue;
-                }
-                
-                var item = menuDetail.add({
-                    text: pDetails[vDet].menuText,
-                    tooltip : pDetails[vDet].menuText,
-                    detailKey: pDetails[vDet].conceptDetail,
-                    detailField: pDetails[vDet].detailField,
-                    masterField: pDetails[vDet].masterField,
-                    
-                    detailTitleLbl: pDetails[vDet].detailTitleLbl,
-                    detailTitlePattern: pDetails[vDet].detailTitlePattern,
-                    ixDetail: detailCount
-                });
-                
-                // PreCarga los detalles  ( DGT: Esto puede ser optimizado en la carga asincrona de la pcl, por ahora lo need para la forma )
-                loadPci( pDetails[vDet].conceptDetail, true )                 
-                
-                // Agrego el handler q activara el tab a partir del menu
-                bDetails = true;
-                item.on({
-                    click: { fn: __MasterDetail.onTbSelectDetail,scope: __MasterDetail  }
-                });                 
-                detailCount += 1;
-            };
-
-            if ( ! bDetails) {
-                var btAux = Ext.getCmp( ideBtDetails );
-                btAux.hidden = true
-            }
-
-    
-        };
-        
-        configureMenuDetail(); 
-
-
-// ------------------------------------------------------------------------------------------------
-
-
-        var tbFilter = Ext.getCmp( ideTbFilter )
-        tbFilter.add({
-            xtype: 'tbtext',
-            iconCls : 'icon-filter', 
-            text: '<b>Filtrer par :<b>'
-            // },{  xtype: 'menuseparator'
-        });
-
-
-        function configureProtoFilter(){
-
-            var bHide = true; 
-            var pFilters = myMeta.gridConfig.filtersSet;
-            for (var vDet in pFilters) {         
-                tbFilter.add({
-                    text:           pFilters[vDet].name,
-                    iconCls :       pFilters[vDet].icon, 
-                    protoFilter:    Ext.encode( pFilters[vDet].filter ),
-                    handler: onClickProtoFilter
-                }); 
-                
-                bHide = false;
-            };
-
-            if ( bHide) {
-                var btAux = Ext.getCmp( ideBtFilter );
-                btAux.hidden = true
-            }
-            
-        };
-        
-        function onClickProtoFilter( btn ){
-              
-            __MasterDetail.protoMasterGrid.protoLocalFilter = ' " ' +  btn.text + ' "'; 
-            __MasterDetail.protoMasterGrid.setGridTitle( __MasterDetail.protoMasterGrid ) 
-
-            __MasterDetail.onClickLoadData( btn.protoFilter );
-    
-
-        }
-              
-        configureProtoFilter(); 
-
-
       }, 
 
     toggleEditMode: function ( forceEdit, tbOnly ) {
@@ -801,6 +710,26 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             
             this.editTBar.getComponent('autoSync').setDisabled( ! this.editable );
         }; 
+        
+    }, 
+    
+    
+    addActions:  function () {
+     
+        if ( this.__MasterDetail.myDetails ) {
+
+            var bt = this.tbar1.getComponent('details')
+            bt.menu.add(  this.__MasterDetail.myDetails )
+            bt.show()            
+        }
+
+        if ( this.__MasterDetail.myFilters ) {
+
+            var bt = this.tbar1.getComponent('filters')
+            bt.menu.add(  this.__MasterDetail.myFilters )
+            bt.show()            
+            
+        }
         
     }
   
