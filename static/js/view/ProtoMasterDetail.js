@@ -390,15 +390,13 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         } 
         
         // Toma todos los campos por default en caso de no venir nada ( no toma el Id )
-        if ( mySortCols.length == 0 ) { 
-            for (var i = 0, len = me.myMeta.fields.length; i < len; i++) {
-                var c = me.myMeta.fields[i];
-                
-                // sort by textFields ??
-                if (!(c.fromModel == true ) || (c.type == 'autofield')) continue
-                mySortCols.push( { name : c.name, header : c.header } ) 
-            }
-        } 
+        // if ( mySortCols.length == 0 ) { 
+            // for (var i = 0, len = me.myMeta.fields.length; i < len; i++) {
+                // var c = me.myMeta.fields[i];
+                // if (!(c.fromModel == true ) || (c.type == 'autofield')) continue
+                // mySortCols.push( { name : c.name, header : c.header } ) 
+            // }
+        // } 
 
         // Crea la tabla  
         if ( mySortCols.length > 0 ) { 
@@ -432,6 +430,8 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
                 var c =  mySortCols[ix]
                 me.tbOrderCols.add(createSorterButtonConfig({
                     text: c.header,
+                    tooltip : c.header,
+                    maxWidth : 100, 
                     sortData: {
                         property: c.name,
                         direction: 'ASC'
@@ -460,7 +460,6 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
                 },
                 iconCls: 'sort-' + config.sortData.direction.toLowerCase(),
                 reorderable: true,
-                maxWidth : 100, 
                 xtype: 'button'
             });
             return config;
@@ -501,7 +500,8 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
                 sorters.push(button.sortData);
             }, me);
 
-            return sorters
+            // Solo orderna por los 4 primeros criterios 
+            return sorters.slice(0,3)
         }
         
         

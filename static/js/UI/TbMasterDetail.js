@@ -47,7 +47,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             defaults: { scale: 'medium' }, 
             items: [{
                 pressed: true,
-                text: 'Rechercher',
+                text: 'Filtrer',
                 iconCls: 'icon-search24',
                 idTb2  : ideTbSearch, 
 
@@ -128,8 +128,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         //--------------------------------------------------------
         
         var searchBG = Ext.create('ProtoUL.ux.ProtoSearchBG', {
-                    id          : ideTbSearch , 
-                    protoMeta: myMeta
+                    id    : ideTbSearch , 
+                    myMeta: myMeta
                    })
         
         // LA barra q contiene los grupos 
@@ -202,9 +202,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         } 
 
 
-
-
-// ----------------------------------------------------------------------------------
 
 
 

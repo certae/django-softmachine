@@ -75,9 +75,16 @@ def protoList(request):
 #   Busqueda Textual ( no viene con ningun tipo de formato solo el texto a buscar 
     if not protoFilter.startswith( '{' ) and (len( protoFilter) > 0) :
         pSearchFields = gridConfig.get( 'searchFields', '') 
-        if pSearchFields == '': pSearchFields = getSearcheableFields( model )
 
-        if pSearchFields != '': 
+        if type( pSearchFields ).__name__ == 'list': 
+            pSearchFields = ','.join( pSearchFields  )
+
+        if type( pSearchFields ).__name__ == 'str' and pSearchFields == '': 
+            pSearchFields = getSearcheableFields( model )
+        else: pSearchFields = ''
+
+        if  pSearchFields != '': 
+ 
             textFilter +=  ' '.join(pSearchFields)  + ':' + protoFilter
             orm_lookups = [construct_search(str(search_field))
                            for search_field in pSearchFields]

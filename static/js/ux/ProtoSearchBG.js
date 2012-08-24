@@ -11,7 +11,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
      * @private
      * MetaData  initialization
      */
-    protoMeta: null, 
+    myMeta: null, 
 
     /**
      * @private
@@ -20,7 +20,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
     initComponent : function() {
 
         var me = this;
-        var myMeta = this.protoMeta; 
+        var myMeta = this.myMeta; 
 
         // Combo Columnas  
         var colStore = new Ext.data.ArrayStore({
@@ -63,13 +63,14 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
         // Load Data button 
         // var searchBtn = new Ext.button.Split({
         var searchBtn = new Ext.button.Button({
-            tooltip: 'Rechercher',
+            tooltip: 'Filtrer',
             handler: onClickLoadData,
             pressed: true,
-            iconCls: 'icon-search',
+            iconCls: 'icon-filter',
 //            menu: {
 //                items: [{
 //                    text: _tbSearchClearFilter ,
+//                    iconCls: 'icon-filterdelete'
 //                    handler: onClickClearFilter 
 //                }]
 //            }
@@ -78,7 +79,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
         var clearBtn = new Ext.button.Button({
             tooltip: _tbSearchClearFilter,
             handler: onClickClearFilter,
-            iconCls: 'icon-clearsearch',
+            iconCls: 'icon-filterdelete'
         });
         
         // Criteria 
@@ -97,7 +98,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
 
         Ext.apply(me, {
             items:  [  
-            // { xtype   : 'tbtext', text: '<b>Rechercher :<b>' }, 
+            // { xtype   : 'tbtext', text: '<b>Filtrer :<b>' }, 
             searchCr,
             comboOp,
             comboCols,
@@ -117,17 +118,29 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
         function configureComboColumns ( tb ){
             // Columnas para el Query del tipo :  newColData = [['idx', 'Id Reg'],['code', 'Code Reg']];
             var colData = [];
-            colData[0] = ['', ''];
-            j = 1;
-
-            for (var i = 0, len = myMeta.fields.length; i < len; i++) {
-                var c = myMeta.fields[i];
-                if ( c.name in oc( myMeta.gridConfig.searchFields)  ) { 
-                    colData[j] = [c.name, c.header];
-                    j += 1;
-                }    
-            }
             
+
+            // REcorre los q llegan y genera el obj  header, name         
+            for ( var ix in me.myMeta.gridConfig.searchFields ) {
+                var name = me.myMeta.gridConfig.searchFields[ix]
+                var c = me.myMeta.__ptDict[name]
+                if ( ! c ) { 
+                    var c = { name : name, header : name }
+                }
+                colData.push( [c.name, c.header] ) 
+            } 
+
+            // Si no llego nada toma los campos del modelo 
+            // if ( colData.length == 0 ) { 
+                // for (var i = 0, len = me.myMeta.fields.length; i < len; i++) {
+                    // var c = me.myMeta.fields[i];
+                    // if (!(c.fromModel == true ) || (c.type in oc( 'string', 'text'))) continue
+                    // colData.push( [c.name, c.header] ) 
+                // }
+            // } 
+
+            // Para tomar todos los campos 
+            colData.unshift( ['', ''] ) 
             return colData ; 
         }; 
 

@@ -339,8 +339,8 @@ def getSearcheableFields(  model ):
 
     lFields = ''
     for field in model._meta._fields():
-        if field.__class__.__name__ in ( 'CharField', 'TextField', 'IntegerField', ):
-            lFields = ',' + field.name  
+#       if field.__class__.__name__ in ( 'CharField', 'TextField', 'IntegerField', 'DecimalField', 'FloatField' ):
+        lFields += ',' + field.name  
 
     #Recorta la primera ','       
     return lFields[1:].split(',')
