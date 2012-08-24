@@ -100,6 +100,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         this.cllStoreDet = [] ;
         this.getDetailsTBar()
         this.getFilterSetBar()
+        this.getOrderColsBar()
         
         // Agrega los botones de actions 
         tb.addActions()
@@ -341,6 +342,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
                 new Ext.Action({
                     text:           pFilters.name,
                     iconCls :       pFilters.icon, 
+                    maxWidth :      100, 
                     protoFilter:    Ext.encode( pFilters.filter ),
                     scope:          me,                     
                     handler:        onClickProtoFilter
@@ -354,7 +356,6 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             this.tbFilters = Ext.create('Ext.toolbar.Toolbar', {
                 dock: 'top',
                 enableOverflow : true, 
-                defaults : { witdth : 100, maxWidth : 100  }, 
                 items: [
                     {
                     xtype   : 'tbtext',
@@ -366,9 +367,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             this.tbFilters.add ( myFilters )
             this.myFilters = myFilters
             this.protoMasterGrid.addDocked( this.tbFilters )
-        } else {
 
-            return false 
         }; 
         
         function onClickProtoFilter( btn ){
@@ -376,7 +375,137 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             this.protoMasterGrid.setGridTitle( this.protoMasterGrid ) 
             this.onClickLoadData( btn.protoFilter );
         }
-    } 
+    }, 
+    
+    getOrderColsBar:  function(){
+        
+        var me = this
+        var mySortCols = []
+
+        // REcorre los q llegan y genera el obj  header, name         
+        for ( var ix in me.myMeta.gridConfig.sortFields ) {
+            var name = me.myMeta.gridConfig.sortFields[ix]
+            var c = me.myMeta.__ptDict[name]
+            mySortCols.push( { name : c.name, header : c.header } ) 
+        } 
+        
+        // Toma todos los campos por default en caso de no venir nada ( no toma el Id )
+        if ( mySortCols.length == 0 ) { 
+            for (var i = 0, len = me.myMeta.fields.length; i < len; i++) {
+                var c = me.myMeta.fields[i];
+                
+                // sort by textFields ??
+                if (!(c.fromModel == true ) || (c.type == 'autofield')) continue
+                mySortCols.push( { name : c.name, header : c.header } ) 
+            }
+        } 
+
+        // Crea la tabla  
+        if ( mySortCols.length > 0 ) { 
+
+            // Reorder obj 
+            var reorderer = Ext.create('Ext.ux.BoxReorderer', {
+                listeners: {
+                    scope: me,
+                    Drop: function(r, c, button) { //update sort direction when button is dropped
+                        changeSortDirection(button, false);
+                    }
+                }
+            });
+    
+
+            me.tbOrderCols = Ext.create('Ext.toolbar.Toolbar', {
+                // id : ideTbOrder, 
+                // padding: '5 5 5 5',
+                dock: 'top',
+                items  : [{
+                    iconCls : 'sort', 
+                    xtype: 'tbtext',
+                    text: '<b>Classer par :</b>',
+                    reorderable: false 
+                    }],  
+                plugins: [reorderer]
+            });
+
+
+            for ( var ix in mySortCols ) {
+                var c =  mySortCols[ix]
+                me.tbOrderCols.add(createSorterButtonConfig({
+                    text: c.header,
+                    sortData: {
+                        property: c.name,
+                        direction: 'ASC'
+                    }
+                }));
+            }
+
+            me.protoMasterGrid.addDocked( me.tbOrderCols  )
+
+        }
+        
+
+
+        /**
+         * Convenience function for creating Toolbar Buttons that are tied to sorters
+         * @param {Object} config Optional config object
+         * @return {Object} The new Button configuration
+         */
+        function createSorterButtonConfig(config) {
+            config = config || {};
+            Ext.applyIf(config, {
+                listeners: {
+                    click: function(button, e) {
+                        changeSortDirection(button, true);
+                    }
+                },
+                iconCls: 'sort-' + config.sortData.direction.toLowerCase(),
+                reorderable: true,
+                maxWidth : 100, 
+                xtype: 'button'
+            });
+            return config;
+        }
+
+        /**
+         * Callback handler used when a sorter button is clicked or reordered
+         * @param {Ext.Button} button The button that was clicked
+         * @param {Boolean} changeDirection True to change direction (default). Set to false for reorder
+         * operations as we wish to preserve ordering there
+         */
+        function changeSortDirection(button, changeDirection) {
+            var sortData = button.sortData,
+                iconCls  = button.iconCls;
+            
+            if (sortData) {
+                if (changeDirection !== false) {
+                    button.sortData.direction = Ext.String.toggle(button.sortData.direction, "ASC", "DESC");
+                    button.setIconCls(Ext.String.toggle(iconCls, "sort-asc", "sort-desc"));
+                }
+                me.protoMasterStore.clearFilter();
+                doSort();
+            }
+        }
+    
+        function doSort() {
+            me.protoMasterStore.sort( getSorters() );
+        }
+    
+        /**
+         * Returns an array of sortData from the sorter buttons
+         * @return {Array} Ordered sort data from each of the sorter buttons
+         */
+        function getSorters() {
+
+            var sorters = [];
+            Ext.each(me.tbOrderCols.query('button'), function(button) {
+                sorters.push(button.sortData);
+            }, me);
+
+            return sorters
+        }
+        
+        
+    }
     
 
 });
