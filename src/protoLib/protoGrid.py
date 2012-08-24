@@ -337,14 +337,13 @@ def Q2Dict (  protoMeta, pRows  ):
 def getSearcheableFields(  model ):
 # Obtiene los campos visibles del modelo base, se usa como valor por defecto para los searchFields 
 
-    lFields = ''
+    lFields = []
     for field in model._meta._fields():
-#       if field.__class__.__name__ in ( 'CharField', 'TextField', 'IntegerField', 'DecimalField', 'FloatField' ):
-        lFields += ',' + field.name  
+        if field.__class__.__name__ in ( 'CharField', 'TextField', 'IntegerField', 'DecimalField', 'FloatField' ):
+            lFields.append( field.name )   
 
-    #Recorta la primera ','       
-    return lFields[1:].split(',')
-
+    #Recorta la primera ',' y lo convierte en una lista ( sFields[1:].split(',')  ) 
+    return lFields 
 
     
 def getProtoViewName( protoConcept   ):

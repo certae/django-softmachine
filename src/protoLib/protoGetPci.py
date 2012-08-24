@@ -122,7 +122,7 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
     protoIcon  = 'icon-%s' % grid.protoAdmin.get( 'protoIcon', '1') 
 
     pSearchFields = grid.protoAdmin.get( 'searchFields', []) 
-    if pSearchFields == '': pSearchFields = getSearcheableFields( model )
+    if pSearchFields == []: pSearchFields = getSearcheableFields( model )
 
     pSortFields = grid.protoAdmin.get( 'sortFields', []) 
     if pSortFields == '': pSortFields = pSearchFields

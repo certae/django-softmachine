@@ -89,13 +89,23 @@ function getStoreDefinition(  storeDefinition  ){
             },
              
             afterRequest: function( request, success ){
-                var title =   'afterRequest ' +  success.toString();                 
-                var msg = request.method + '.' + request.action ;
-                var jsData = request.scope.reader.jsonData;
-                if ( jsData["message"] ) {
-                    msg += '  :' + jsData["message"]
-                }
-                Ext.outils.msg( title ,  msg ); 
+
+                var title =   'afterRequest :' + request.method + '.' + request.action,                     
+                    msg = ''
+
+                // console.log( request  )
+                // try {
+                    // if ( request.operation.response.status != 200 ) {
+                        // if ( 'jsonData' in request.scope.reader ) { 
+                            // var jsData = request.scope.reader.jsonData;
+                            // msg = request.scope.reader.getMessage()
+                        // }
+                    // }                    
+                // } catch(e) {
+                    // msg = e.message
+                // }
+                // Ext.outils.msg( title ,  msg ); 
+
             } 
             
         }, 

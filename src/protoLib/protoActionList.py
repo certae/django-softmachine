@@ -72,38 +72,41 @@ def protoList(request):
     Qs = addFilter( Qs, baseFilter )
 
 
-#   Busqueda Textual ( no viene con ningun tipo de formato solo el texto a buscar 
-    if not protoFilter.startswith( '{' ) and (len( protoFilter) > 0) :
-        pSearchFields = gridConfig.get( 'searchFields', '') 
-
-        if type( pSearchFields ).__name__ == 'list': 
-            pSearchFields = ','.join( pSearchFields  )
-
-        if type( pSearchFields ).__name__ == 'str' and pSearchFields == '': 
-            pSearchFields = getSearcheableFields( model )
-        else: pSearchFields = ''
-
-        if  pSearchFields != '': 
- 
-            textFilter +=  ' '.join(pSearchFields)  + ':' + protoFilter
-            orm_lookups = [construct_search(str(search_field))
-                           for search_field in pSearchFields]
+#   Busqueda Textual ( no viene con ningun tipo de formato solo el texto a buscar
+#   Si no trae nada deja el Qs con el filtro de base
+#   Si trae algo y comienza por  "{" trae la estructura del filtro   
+    if  (len( protoFilter) > 0): 
         
-            for bit in protoFilter.split():
-                or_queries = [models.Q(**{orm_lookup: bit})
-                              for orm_lookup in orm_lookups]
-                Qs = Qs.filter(reduce(operator.or_, or_queries))
+        #  Convierte el filtro en un diccionario 
+        if (  protoFilter.startswith( '{' ) ) :
+            Qs = addFilter( Qs, protoFilter )
+            textFilter +=  ' ' + protoFilter
 
-        else:  
-            message = 'Error: ' + textFilter
-            Qs = Qs.none()
-
-
-#   Convierte el filtro en un diccionario 
-    elif (len (protoFilter) > 0 ):
-        Qs = addFilter( Qs, protoFilter )
-        textFilter +=  ' ' + protoFilter
-
+        #  Solo tra el texto y hay q crear el filtro sobre  la lista de campos 
+        else: 
+        
+            pSearchFields = gridConfig.get( 'searchFields', []) 
+    
+            # Si solo viene el texto, se podria tomar la "lista" de campos "mostrados"
+            # ya los campos q veo deben coincidir con el criterio, q pasa con los __str__ ?? 
+            # Se busca sobre los campos del combo ( filtrables  )    
+            if len( pSearchFields )  == 0: 
+                pSearchFields = getSearcheableFields( model )
+    
+            if len( pSearchFields )  > 0: 
+                textFilter +=  ' '.join(pSearchFields)  + ':' + protoFilter
+                orm_lookups = [construct_search(str(search_field))
+                               for search_field in pSearchFields]
+            
+                for bit in protoFilter.split():
+                    or_queries = [models.Q(**{orm_lookup: bit})
+                                  for orm_lookup in orm_lookups]
+                    Qs = Qs.filter(reduce(operator.or_, or_queries))
+    
+            else:  
+                message = 'Error: ' + textFilter
+                Qs = Qs.none()
+    
 #   Obtiene las filas del modelo 
 #   valiues, No permite llamar los metodos del modelo
     pRowsCount = Qs.count()
