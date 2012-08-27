@@ -386,6 +386,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         for ( var ix in me.myMeta.gridConfig.sortFields ) {
             var name = me.myMeta.gridConfig.sortFields[ix]
             var c = me.myMeta.__ptDict[name]
+            if ( ! c ) c = { name : name , header : name }
             mySortCols.push( { name : c.name, header : c.header } ) 
         } 
         

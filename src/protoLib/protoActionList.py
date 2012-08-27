@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 
+#from django.contrib.admin.sites import  site
+#from protoGrid import Q2Dict,  getProtoViewName
 
-from django.contrib.admin.sites import  site
 from django.db import models
 from django.http import HttpResponse
 
-from protoGrid import Q2Dict, getSearcheableFields, getProtoViewName
+from django.contrib.admin.util import  get_fields_from_path
+
+from protoGrid import Q2Dict, getSearcheableFields
 
 from utilsBase import construct_search, addFilter, JSONEncoder, getReadableError 
 from models import getDjangoModel 
@@ -35,8 +38,6 @@ def protoList(request):
     else: return 
     
     
-    message = '' 
-
 #   Decodifica los eltos 
     protoMeta = json.loads(protoMeta)
     
@@ -89,14 +90,33 @@ def protoList(request):
     
             # Si solo viene el texto, se podria tomar la "lista" de campos "mostrados"
             # ya los campos q veo deben coincidir con el criterio, q pasa con los __str__ ?? 
-            # Se busca sobre los campos del combo ( filtrables  )    
+            # Se busca sobre los campos del combo ( filtrables  )
+            
             if len( pSearchFields )  == 0: 
-                pSearchFields = getSearcheableFields( model )
+                pSearchFields = getSearcheableFields( model  )
     
             if len( pSearchFields )  > 0: 
-                textFilter +=  ' '.join(pSearchFields)  + ':' + protoFilter
+
+                # Se permite marcar todo tipo de campo como filtrable, pero solo se hace textSearch sobre 
+                # los campos con tipos validos     
+                
+                textSearchFlds = []
+                textFilterTypes  = [ 'CharField', 'TextField', 'IntegerField', 'DecimalField', 'FloatField',  ]
+                for fName  in pSearchFields:
+                    try: 
+                        field = get_fields_from_path( model, fName)[-1]
+
+                        #field = model._meta.get_field( fName )
+                        #model = field.rel.to
+                        #model.famille.field.related.parent_model
+                    except: continue  
+
+                    if field.__class__.__name__ in textFilterTypes:
+                        textSearchFlds.append( fName )   
+                
+                textFilter +=  ' '.join(textSearchFlds)  + ':' + protoFilter
                 orm_lookups = [construct_search(str(search_field))
-                               for search_field in pSearchFields]
+                               for search_field in textSearchFlds]
             
                 for bit in protoFilter.split():
                     or_queries = [models.Q(**{orm_lookup: bit})

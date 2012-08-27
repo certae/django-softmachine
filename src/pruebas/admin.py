@@ -39,22 +39,22 @@ class PruebaAdmin(django.contrib.admin.ModelAdmin):
     protoExt = {'protoIcon': 'property' }
     protoExt[ 'title' ] = 'Tableu de test'
 
-    protoExt[ 'hideRowNumbers' ] = True 
+#    protoExt[ 'hideRowNumbers' ] = True 
     protoExt[ 'protoMenuIx' ] = 2 
     protoExt[ 'listDisplay' ] = ( 'id', 'prCode', 'prMaestro1','prMaestro1_id', 'prDescription') 
 
-    protoExt[ 'protoFields' ] =  {        
+#    protoExt[ 'protoFields' ] =  {        
 #        'prInteger': {'vType' : 'stopLight', 'stoplightRY': 33 ,  'stoplightYG': 67}
-     }
+#     }
 
-    protoExt[ 'protoViews' ] =  {        
-        'prueba2': {
-            'title' : 'Tableu de test (resume)', 
-            'description' : 'Esta es la description del concpeto concepto', 
-            'listDisplay' : ( 'prChoice', 'prInteger' ), 
-            'protoMenuIx' : 3
-            }
-     }
+#    protoExt[ 'protoViews' ] =  {        
+#        'prueba2': {
+#            'title' : 'Tableu de test (resume)', 
+#            'description' : 'Esta es la description del concpeto concepto', 
+#            'listDisplay' : ( 'prChoice', 'prInteger' ), 
+#            'protoMenuIx' : 3
+#            }
+#     }
 
 
 admin.site.register(Prueba, PruebaAdmin)

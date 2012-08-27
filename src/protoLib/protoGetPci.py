@@ -122,10 +122,10 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
     protoIcon  = 'icon-%s' % grid.protoAdmin.get( 'protoIcon', '1') 
 
     pSearchFields = grid.protoAdmin.get( 'searchFields', []) 
-    if pSearchFields == []: pSearchFields = getSearcheableFields( model )
+    if len( pSearchFields ) == 0: pSearchFields = getSearcheableFields( model  )
 
     pSortFields = grid.protoAdmin.get( 'sortFields', []) 
-    if pSortFields == '': pSortFields = pSearchFields
+    if len( pSortFields )  ==  0: pSortFields = getSearcheableFields( model  )
 
     # Lista de campos precedidos con '-' para order desc  ( 'campo1' , '-campo2' ) 
     initialSort = grid.protoAdmin.get( 'initialSort', ())
@@ -429,4 +429,3 @@ def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
     
     
 # --------------------------------------------------------------------------
-

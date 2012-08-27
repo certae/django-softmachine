@@ -2,11 +2,11 @@
 
 #import sys 
 #from django.forms.models import model_to_dict
+#from django.conf import settings
 
 from django.db import models
 from django.contrib.admin.sites import  site
 
-from django.conf import settings
 
 from utilsBase import _PROTOFN_ , verifyStr, verifyList, verifyUdpDefinition
 from protoField import  setFieldDict
@@ -334,15 +334,18 @@ def Q2Dict (  protoMeta, pRows  ):
     return rows
 
 
-def getSearcheableFields(  model ):
+def getSearcheableFields(  model  ):
 # Obtiene los campos visibles del modelo base, se usa como valor por defecto para los searchFields 
 
     lFields = []
+    
+    filterableTypes = [ 'CharField', 'TextField', 'IntegerField', 'DecimalField', 'FloatField',  ]
+    filterableTypes.extend( [ 'DateField', 'TimeField', 'DateTimeField', 'BooleanField' ])
+        
     for field in model._meta._fields():
-        if field.__class__.__name__ in ( 'CharField', 'TextField', 'IntegerField', 'DecimalField', 'FloatField' ):
+        if field.__class__.__name__ in filterableTypes:
             lFields.append( field.name )   
 
-    #Recorta la primera ',' y lo convierte en una lista ( sFields[1:].split(',')  ) 
     return lFields 
 
     
