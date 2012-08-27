@@ -27,7 +27,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         // Barras internas 
         var ideTbSearch = Ext.id();
-        var ideTbOrder = Ext.id();
         var ideTbViews = Ext.id();
         var ideTbPrint = Ext.id();
         var ideTbEdit = Ext.id();
@@ -57,12 +56,11 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             },'-',{
                 text: 'Classer',
                 iconCls: 'icon-order24',
-                idTb2  : ideTbOrder, 
-
+                itemId : 'sorters', 
+                hidden : true,
+                pressed : true, 
                 enableToggle: true,
-                toggleGroup: 'tb1' , 
                 handler: toogleTb2 
-
             },'-',{
                 text: 'Editer',
                 iconCls: 'icon-edit24',
@@ -173,10 +171,10 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         function toogleTb2( but  ) {
 
-            if ( but.idTb2 == ideTbOrder ) {
-                // orderTbar.show();
-                editTBar.hide();
-                tbar2.hide();
+            if ( but.itemId == 'sorters' ) {
+                if ( __MasterDetail.tbOrderCols ) {
+                    __MasterDetail.tbOrderCols.setVisible( but.pressed  )
+                }
                 
             } else if ( but.idTb2 == ideTbEdit ) {
                 // Entra en modo edicion 
@@ -397,11 +395,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         this.callParent();
 
 
-
-// ------------------------------------------------------------------------------------------------
-
-
-
 // ------------------------------------------------------------------------------------------------
 
         var tbViews = Ext.getCmp( ideTbViews )
@@ -522,18 +515,20 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
     addActions:  function () {
      
         if ( this.__MasterDetail.myDetails ) {
-
             var bt = this.tbar1.getComponent('details')
             bt.menu.add(  this.__MasterDetail.myDetails )
             bt.show()            
         }
 
         if ( this.__MasterDetail.myFilters ) {
-
             var bt = this.tbar1.getComponent('filters')
             bt.menu.add(  this.__MasterDetail.myFilters )
             bt.show()            
-            
+        }
+
+        if ( this.__MasterDetail.tbOrderCols ) {
+            var bt = this.tbar1.getComponent('sorters')
+            bt.show()            
         }
         
     }

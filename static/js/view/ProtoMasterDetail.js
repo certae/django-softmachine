@@ -448,6 +448,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             }
 
             me.protoMasterGrid.addDocked( me.tbOrderCols  )
+            this.mySortCols = mySortCols
 
         }
         
