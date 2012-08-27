@@ -107,20 +107,18 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 itemId : 'details', 
                 menu :  Ext.create( 'Ext.menu.Menu', {}) 
 
-            },'-',{
-                text: 'Config',
-                iconCls: 'icon-config24',
-                idTb2  : ideTbConfig,
-                id     : ideBtConfig, 
-
-                enableToggle: true,
-                toggleGroup: 'tb1' , 
-                handler: toogleTb2 
             },'->',{
                 text: 'Aide',
                 iconCls: 'icon-help24',
                 handler: tbHelp,  
                 itemId : 'tbHelp'
+            },{
+                xtype: 'splitbutton', 
+                menu :  this.configCtrl.getActions(),
+                text : 'Config',
+                iconCls: 'icon-config24',
+                id     : ideBtConfig 
+                // handler: toogleTb2 
             }]
         
         });
@@ -304,7 +302,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         function initFormController(){
 
-            var formController = Ext.create('ProtoUL.UI.FormControler', { myMeta: myMeta}); 
+            var formController = Ext.create('ProtoUL.UI.FormController', { myMeta: myMeta}); 
             // formController.myMeta = myMeta 
             
             return formController
@@ -454,71 +452,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
 // ------------------------------------------------------------------------------------------------
 
-        var tbConfig = Ext.getCmp( ideTbConfig )
-        tbConfig.add({
-            xtype: 'tbtext',
-            iconCls : 'icon-config', 
-            text: '<b>Config :<b>'
-        }, {
-            iconCls : 'icon-configMeta', 
-            text:       'Meta',
-            handler:    onClickConfigMeta
-        }, {
-            iconCls : 'icon-configForm', 
-            text:       'Form',
-            handler:    onClickConfigForm
-        }, {
-            iconCls : 'icon-configFields', 
-            text:       'Fields',
-            handler:    onClickConfigFields
-        }, {
-            iconCls : 'icon-configDetails', 
-            text:       'Details',
-            handler:    onClickConfigDetails
-        }, {
-            iconCls : 'icon-configReset', 
-            text:       'Reset',
-            handler:    onClickConfigReset 
-        }); 
-
-
-        function onClickConfigMeta( btn ){
-    
-              __MasterDetail.protoMasterGrid.showMetaConfig();
-            
-        };
-
-        function onClickConfigForm( btn ){
-
-              __MasterDetail.protoMasterGrid.showProtoDesigner();
-    
-        };
-
-        function onClickConfigFields( btn ){
-
-              __MasterDetail.protoMasterGrid.showFieldTree();
-              
-        }; 
-        
-        function onClickConfigDetails( btn ){
-
-              __MasterDetail.protoMasterGrid.showDetailsTree();
-              
-    
-        }
-        
-        function onClickConfigReset( btn ){
-
-            // TODO: La verificacion se hace contra la creacion de modelos, verificar esto. 
-            _cllPCI = [];
-    
-        }
-        
-
-
-
-// ------------------------------------------------------------------------------------------------
-
 
         var tbPrint = Ext.getCmp( ideTbPrint )
         tbPrint.add({
@@ -553,9 +486,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             prn.sheetPrint( pGrid._extGrid, pGrid.sheetHtml  )
             
         }
-
-
-// ------------------------------------------------------------------------------------------------
 
 
       }, 

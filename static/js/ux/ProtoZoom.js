@@ -106,7 +106,7 @@ Ext.define('Ext.ux.protoZoom', {
         if ( nd.nodeName == "LABEL" ) return 
         // console.log( ev, nd  )
         
-        var formController = Ext.create('ProtoUL.UI.FormControler', {});
+        var formController = Ext.create('ProtoUL.UI.FormController', {});
         formController.openZoomForm.call( formController, this.zoomModel, this.fkIdValue   ) 
 
     }, 
@@ -192,7 +192,7 @@ Ext.define('Ext.ux.protoZoom', {
         function doNew() {
             
             zoomGrid.addNewRecord( true ) 
-            var formController = Ext.create('ProtoUL.UI.FormControler', { 
+            var formController = Ext.create('ProtoUL.UI.FormController', { 
                 myMeta : me.myMeta 
             });
 
@@ -207,7 +207,7 @@ Ext.define('Ext.ux.protoZoom', {
                 return 
             }
             
-            var formController = Ext.create('ProtoUL.UI.FormControler', { 
+            var formController = Ext.create('ProtoUL.UI.FormController', { 
                 myMeta : me.myMeta 
             });
 

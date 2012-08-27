@@ -6,7 +6,7 @@
 
  */
 
-Ext.define('ProtoUL.UI.FormControler', {
+Ext.define('ProtoUL.UI.FormController', {
     extend: 'Ext.Base',
 
     // requires: [ 'ProtoUL.view.ProtoForm' ],

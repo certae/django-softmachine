@@ -308,18 +308,6 @@ function get_ptConfig( oData   ) {
 }             
 
 
-function showConfig( title , myConf ) {
-    Ext.Msg.show({
-       title: title,
-       multiline : true,   
-       width : 800, 
-       height : 600, 
-       value: Ext.encode( myConf ) 
-       });
-}
-
-
-
 
 function getNodeBase( pName, ptType, __ptConfig  ) {
     // Obtiene un Id y genera  una referencia cruzada de la pcl con el arbol 

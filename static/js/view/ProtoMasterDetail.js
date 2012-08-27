@@ -35,10 +35,17 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         this.protoMasterStore = this.protoMasterGrid.store ;  
 
 
+        // config Controller 
+        var configCtrl = Ext.create('ProtoUL.UI.ConfigController', {
+            myMeta : this.myMeta, 
+            __MasterDetail : me  
+        });
+
 
         // Necesaria para poder agregar cosas dinamicamente   --------------------------------------------------
         var tb = Ext.create('ProtoUL.UI.TbMasterDetail', {
-            protoMeta : this.myMeta, 
+            protoMeta : this.myMeta,
+            configCtrl : configCtrl,  
             __MasterDetail : me  
         });
         

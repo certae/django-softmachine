@@ -1,6 +1,6 @@
 //
 
-Ext.define('ProtoUL.UI.GridControler', {
+Ext.define('ProtoUL.UI.GridController', {
     extend: 'Ext.Base',
 
     myMeta : null, 
@@ -155,7 +155,7 @@ Ext.define('ProtoUL.UI.GridControler', {
 //  --------------------------------------------------------------------------
 
     initFormController: function (){
-        this.formController = Ext.create('ProtoUL.UI.FormControler', { myMeta: this.myMeta}); 
+        this.formController = Ext.create('ProtoUL.UI.FormController', { myMeta: this.myMeta}); 
     }, 
 
     onClickFormAdd: function (){

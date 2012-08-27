@@ -175,7 +175,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                             
                             var myZField = me.myMeta.__ptDict[ clickedDataIndex ] 
                             if ( myZField &&  myZField.zoomModel && myZField.fkId ) {
-                                var formController = Ext.create('ProtoUL.UI.FormControler', {});
+                                var formController = Ext.create('ProtoUL.UI.FormController', {});
                                 
                                 // Redefine el scope  
                                 formController.openZoomForm.call( formController, myZField.zoomModel , record.get( myZField.fkId ) )
@@ -214,14 +214,14 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 // ---- GridController
 
-        if ( this.gridControler ) {
+        if ( this.gridController ) {
 
             this.gridController.myGrid = this
             this.gridController.store = this.store
             
         } else {
 
-            this.gridController = Ext.create('ProtoUL.UI.GridControler', {
+            this.gridController = Ext.create('ProtoUL.UI.GridController', {
                 myMeta: myMeta, 
                 myGrid : this, 
                 store : this.store  
@@ -495,27 +495,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 // ---------------------------------------------------------------------------------------------- 
 
-        function showMetaConfig() {
-            
-            var safeConf =  clone( this.myMeta , 0, exclude =['__ptDict'] )
-            showConfig( 'MetaConfig', safeConf )
-            
-        }
-        
-
-        function showColsConfig() {
-            
-            // var safeConf =  clone( myColumns )
-            // var safeConf = { a : { a1 : 1, a2: 2}, b : [ 'b1', 'b2']}
-            // var safeConf = { a : { a1 : ['1'], a2: []} }
-
-            var safeConf = clone( this.myMeta , 0, exclude =['__ptDict', 'protoViews'] )
-            var treeData = Meta2Tree( safeConf, 'pcl' , 'pcl' ) 
-            safeConf = Tree2Meta( treeData ) 
-
-            showConfig( 'm2t t2m' , safeConf  )
-        }
-        
 
         function prepareSheet( ){
 
@@ -787,142 +766,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
          
     },
     
-    showMetaConfig: function() {
-
-
-        var myPcl = Ext.widget('protoPcl', {
-            myMeta : this.myMeta, 
-            editable : true  
-        });
-
-         var myWin  = Ext.widget('window', {
-            constrain: true, 
-            title : 'MetaDefinition [ ' + this.myMeta.protoOption + ' ]', 
-            closeAction: 'hide',
-            width: 900,
-            height: 600,
-            minHeight: 400,
-            minWidth: 400,
-            layout: 'fit',
-            resizable: true,
-
-            collapsible: true,
-            // modal: true,
-            items: myPcl
-        });
-        
-        myWin.show()
-        
-    }, 
-
-
-     
-    showFieldTree: function() {
-    
-    
-        var fieldsTree = Ext.create('ProtoUL.proto.ProtoFieldSelector', {
-            protoOption : this.myMeta.protoOption, 
-            myMeta : this.myMeta
-        });
-    
-    
-         var myWin  = Ext.widget('window', {
-            constrain: true, 
-            title : 'MetaDefinition [ ' + this.myMeta.protoOption + ' ]', 
-            closeAction: 'hide',
-            width: 900,
-            height: 600,
-            minHeight: 400,
-            minWidth: 400,
-            layout: 'fit',
-            resizable: true,
-    
-            collapsible: true,
-            // modal: true,
-                items: fieldsTree 
-     
-                
-            });
-            
-            myWin.show()
-            
-        // var safeConf =  clone( myMeta , 0, exclude =['__ptDict','gridDefinition', 'formDefinition'] )
-        // showConfig( 'MetaConfig', safeConf )
-    }, 
-    
-         
-    
-    showProtoDesigner: function() {
-
-        var protoDesigner = Ext.widget('protoDesigner', {
-            myMeta  : this.myMeta,  
-            protoOption : this.myMeta.protoOption 
-        });
-
-        // var protoDesigner = Ext.widget('jsonpanel', {
-            // autoLoad:'/resources/json/pruebaWiz.json' 
-        // });
-
-
-         var myWin  = Ext.widget('window', {
-            constrain: true, 
-            title : 'ProtoDesigner [ ' + this.myMeta.protoOption + ' ]', 
-            closeAction: 'hide',
-            width: 900,
-            height: 600,
-            minHeight: 400,
-            minWidth: 400,
-            layout: 'fit',
-            resizable: true,
-
-            collapsible: true,
-            // modal: true,
-            maximizable: true,
-            
-            items: protoDesigner 
-            
-        });
-        
-        myWin.show()
-        
-        // var safeConf =  clone( myMeta , 0, exclude =['__ptDict','gridDefinition', 'formDefinition'] )
-        // showConfig( 'MetaConfig', safeConf )
-    }, 
-    
 
     addTools: function( myTools ) { 
         
         this._extGrid.addTool( myTools )
-        
-    }, 
-
-    showDetailsTree: function() {
-
-
-        var detailsTree = Ext.create('ProtoUL.proto.ProtoDetailSelector', {
-            protoOption : this.myMeta.protoOption, 
-            myMeta : this.myMeta
-        });
-    
-    
-         var myWin  = Ext.widget('window', {
-            constrain: true, 
-            title : 'Detalles [ ' + this.myMeta.protoOption + ' ]', 
-            closeAction: 'hide',
-            width: 900,
-            height: 600,
-            minHeight: 400,
-            minWidth: 400,
-            layout: 'fit',
-            resizable: true,
-    
-            collapsible: true,
-            // modal: true,
-            items: detailsTree 
-                
-            });
-        
-        myWin.show()
         
     } 
 
