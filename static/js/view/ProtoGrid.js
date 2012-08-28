@@ -650,11 +650,11 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         this.editable = editable ;        
 
         if (editable ) {
-            this._extGrid.down('#toolSave').show();
-            this._extGrid.down('#toolCancelEdit').show();
+            // this._extGrid.down('#toolSave').show();
+            // this._extGrid.down('#toolCancelEdit').show();
         } else {
-            this._extGrid.down('#toolSave').hide();
-            this._extGrid.down('#toolCancelEdit').hide();
+            // this._extGrid.down('#toolSave').hide();
+            // this._extGrid.down('#toolCancelEdit').hide();
         }
 
    },

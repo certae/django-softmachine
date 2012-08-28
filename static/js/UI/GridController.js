@@ -24,70 +24,53 @@ Ext.define('ProtoUL.UI.GridController', {
     addGridTools : function()  {
     
         var editTools =    [{
-                itemId: 'toolCancelEdit',
-                tooltip: 'cancelEdit',  
-                type: 'close',
-                hidden: true,
-                scope: this,
-                handler: this.onClickTableCancelEdit 
-             },{
-                itemId: 'toolSave',
-                tooltip: 'save',  
-                type: 'save',
-                hidden: true,
-                scope: this,
-                handler: this.onClickTableSave
-            }, {
-                itemId: 'toolFormView',
-                tooltip: 'formView',  
-                type: 'formView',
+                itemId: 'toolRowAdd',
+                tooltip: 'rowAdd',  
+                type: 'rowAdd',
+                // hidden: true,
                 width : 20, 
-                hidden: true,
                 scope: this,
-                handler: this.onClickFormView
+                handler: this.onClickTableDuplicate
+            }, {
+                itemId: 'toolRowCopy',
+                tooltip: 'rowCopy',  
+                type: 'rowCopy',
+                // hidden: true,
+                width : 20, 
+                scope: this,
+                handler: this.onClickTableDuplicate
+            }, {
+                itemId: 'toolRowDel',
+                type: 'rowDel',
+                tooltip: 'rowDel',  
+                // hidden: true,
+                width : 30, 
+                scope: this,
+                handler: this.onClickTableDelete
             }, {
                 itemId: 'toolFormAdd',
                 tooltip: 'formAdd',  
                 type: 'formAdd',
                 width : 20, 
-                hidden: true,
+                // hidden: true,
                 scope: this,
                 handler: this.onClickFormAdd
             }, {
-                itemId: 'toolRowCopy',
-                tooltip: 'rowCopy',  
-                type: 'rowCopy',
-                hidden: true,
-                width : 20, 
-                scope: this,
-                handler: this.onClickTableDuplicate
-            }, {
                 itemId: 'toolFormUpd',
                 tooltip: 'formUpd',  
-                hidden: true,
+                // hidden: true,
                 type: 'formUpd',
                 width : 20, 
                 scope: this,
                 handler: this.onClickFormEdit
             }, {
-                itemId: 'toolRowDel',
-                type: 'rowDel',
-                tooltip: 'rowDel',  
-                hidden: true,
+                itemId: 'toolFormView',
+                tooltip: 'formView',  
+                type: 'formView',
                 width : 20, 
+                // hidden: true,
                 scope: this,
-                handler: this.onClickTableDelete
-
-             // },{
-                // type: 'gear',
-                // scope: this,
-                // handler: showMetaConfig,
-                // tooltip: 'Meta Config ... '
-             // },{
-                // type: 'gear',
-                // scope: this,
-                // handler: showColsConfig,
-                // tooltip: 'ColsConfig ... '
+                handler: this.onClickFormView
             }]
         
         
@@ -105,21 +88,22 @@ Ext.define('ProtoUL.UI.GridController', {
         this._extGrid = this.myGrid._extGrid    
 
         if ( true  ) {
-            this._extGrid.down('#toolSave').show();
-            this._extGrid.down('#toolCancelEdit').show();
+            // this._extGrid.down('#toolSave').show();
+            // this._extGrid.down('#toolCancelEdit').show();
 
-            this._extGrid.down('#toolCancelEdit').show();
             this._extGrid.down('#toolFormAdd').show();
             this._extGrid.down('#toolFormUpd').show();
             this._extGrid.down('#toolFormView').show();
             this._extGrid.down('#toolRowCopy').show();
             this._extGrid.down('#toolRowDel').show();
-            this._extGrid.down('#toolSave').show();
+
+            // this._extGrid.down('#toolSave').show();
+            // this._extGrid.down('#toolCancelEdit').show();
 
 
         } else {
-            this._extGrid.down('#toolSave').hide();
-            this._extGrid.down('#toolCancelEdit').hide();
+            // this._extGrid.down('#toolSave').hide();
+            // this._extGrid.down('#toolCancelEdit').hide();
         }
 
         

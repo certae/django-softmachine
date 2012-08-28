@@ -159,6 +159,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
     
 
     onClickLoadData: function ( sFilter ) { 
+        // Refresh 
         this.protoMasterGrid.loadData( this.protoMasterGrid,  sFilter  )
     },
     

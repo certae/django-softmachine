@@ -39,8 +39,10 @@
 .icon-clearsearch { background-image: url(../img/protoImg/icon_searchclear.png ) !important; }
 .icon-cancel      { background-image: url(../img/protoImg/edit_cancel.png ) !important;}
 
-.icon-filter     { background-image: url(../img/protoImg/filter.png ) !important; }
-.icon-filterdelete { background-image: url(../img/protoImg/filter_delete.png ) !important; }
+.icon-filter     { background-image: url(../img/protoImg24/funnel.png ) !important; }
+.icon-filterdelete { background-image: url(../img/protoImg24/funnel_delete.png ) !important; }
+.icon-filterqbe  { background-image: url(../img/protoImg24/funnel_star.png ) !important; }
+
 
 .icon-script_gear      { background-image: url(../img/protoImg/script_gear.png ) !important;}
 .icon-script_edit      { background-image: url(../img/protoImg/script_edit.png ) !important;}
@@ -277,7 +279,13 @@
 }
 
 
+.protoLink {
+    color: -webkit-link !important; text-decoration: underline !important;,  
+}
 
+
+
+/* 
 .x-tool-readOnly { background-image: url('../img/protoImg/lock.png') !important; }
 .x-tool-formAdd  { background-image: url('../img/protoImg/edit_add.png') !important; }
 .x-tool-rowCopy  { background-image: url('../img/protoImg/edit_duplicate.png') !important; }
@@ -285,10 +293,18 @@
 .x-tool-rowDel   { background-image: url('../img/protoImg/edit_delete.png') !important; }
 .x-tool-formView { background-image: url('../img/protoImg/form_view.png') !important; }
 
+*/ 
 
-.protoLink {
-    color: -webkit-link !important; text-decoration: underline !important;,  
-}
+.x-tool-readOnly  { background-image: url('../img/protoImg/lock.png') !important; }
+.x-tool-separator { background-image: url('../img/protoImg/separator2.png') !important; }
+
+.x-tool-rowAdd   { background-image: url('../img/protoImg/table_row_insert.png') !important; }
+.x-tool-rowCopy  { background-image: url('../img/protoImg/table_row_copy.png') !important; }
+.x-tool-rowDel   { background-image: url('../img/protoImg/table_row_delete.png') !important; }
+
+.x-tool-formUpd  { background-image: url('../img/protoImg/form_edit.png') !important; }
+.x-tool-formView { background-image: url('../img/protoImg/form_view.png') !important; }
+.x-tool-formAdd  { background-image: url('../img/protoImg/form_add.png' ) !important;} 
 
 
 /*  --------------------------------------------------------------  */

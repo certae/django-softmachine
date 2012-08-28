@@ -4,7 +4,7 @@
 
 
 Ext.define('ProtoUL.ux.ProtoSearchBG', {
-    extend : 'Ext.container.ButtonGroup',
+    extend : 'Ext.toolbar.Toolbar',
     alias :  'widget.protoSearch',
 
     /**
@@ -22,6 +22,92 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
         var me = this;
         var myMeta = this.myMeta; 
 
+
+        // Load Data button 
+        var searchBtn = new Ext.button.Split({
+            // scale: 'medium', 
+            tooltip: 'Filtrer',
+            handler: onClickLoadData,
+            pressed: true,
+            iconCls: 'icon-filter',
+            // menu: {
+               // items: [{
+                   // text: 'Advanced filter QBE' ,
+                   // iconCls: 'icon-filterqbe',
+                   // // handler: onClickClearFilter 
+               // }]
+            // }
+        });
+
+        var clearBtn = new Ext.button.Button({
+            // scale: 'medium', 
+            tooltip: _tbSearchClearFilter,
+            handler: onClickClearFilter,
+            iconCls: 'icon-filterdelete'
+        });
+        
+        // Criteria 
+        var searchCr = new Ext.form.TextField({
+            emptyText: 'mots-clés recherchés ..',
+            enableKeyEvents : true,  
+            width: 200, 
+            listeners: {
+                keydown: function( me, e ) { 
+                    if (e.getKey() == e.ENTER ) {
+                        onClickLoadData ( searchBtn  )
+                       }
+                }}
+        });
+
+
+        Ext.apply(me, {
+            border : false, 
+            items:  [  
+                searchCr,
+                clearBtn, 
+                searchBtn 
+            ]
+        });
+
+        me.addEvents('loadData');
+        me.callParent();
+        
+        // Inicializa Combos 
+        clearCombos();     
+
+        function onClickLoadData ( btn ) { 
+
+            var sFilter = searchCr.getValue();
+            var sTitle = ' " ' + searchCr.getValue() + ' "';
+            
+            me.fireEvent('loadData', me, sFilter, sTitle );
+
+        }
+    
+        //BG 
+        function onClickClearFilter (item ){
+            // TODO: Manejara los filtros compuestos ( QBE )
+            clearCombos()
+            onClickLoadData( {} );
+    
+        } 
+
+        //BG
+        function clearCombos ( ){
+            // comboCols.setValue('');
+            // comboOp.setValue(''); 
+            searchCr.setValue(''); 
+        } 
+    
+    }, 
+    
+    
+    // =========================================================================================================
+    
+    
+    qbeFilter: function() {
+        // Abre una forma de QBE con cada campo, sus opciones de busqueda y el criterio 
+        
         // Combo Columnas  
         var colStore = new Ext.data.ArrayStore({
             fields: ['colPhysique', 'colName'],
@@ -60,59 +146,6 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
             editable: false
         });
 
-        // Load Data button 
-        // var searchBtn = new Ext.button.Split({
-        var searchBtn = new Ext.button.Button({
-            tooltip: 'Filtrer',
-            handler: onClickLoadData,
-            pressed: true,
-            iconCls: 'icon-filter',
-//            menu: {
-//                items: [{
-//                    text: _tbSearchClearFilter ,
-//                    iconCls: 'icon-filterdelete'
-//                    handler: onClickClearFilter 
-//                }]
-//            }
-        });
-
-        var clearBtn = new Ext.button.Button({
-            tooltip: _tbSearchClearFilter,
-            handler: onClickClearFilter,
-            iconCls: 'icon-filterdelete'
-        });
-        
-        // Criteria 
-        var searchCr = new Ext.form.TextField({
-            emptyText: 'mots-clés recherchés ..',
-            enableKeyEvents : true,  
-            width: 200, 
-            listeners: {
-                keydown: function( me, e ) { 
-                    if (e.getKey() == e.ENTER ) {
-                        onClickLoadData ( searchBtn  )
-                       }
-                }}
-        });
-
-
-        Ext.apply(me, {
-            items:  [  
-            // { xtype   : 'tbtext', text: '<b>Filtrer :<b>' }, 
-            searchCr,
-            comboOp,
-            comboCols,
-            { xtype: 'tbseparator' },  
-            searchBtn, 
-            clearBtn
-            ]
-        });
-
-        me.addEvents('loadData');
-        me.callParent();
-        
-        // Inicializa Combos 
-        clearCombos();     
 
 
         function configureComboColumns ( tb ){
@@ -144,7 +177,8 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
             return colData ; 
         }; 
 
-        function onClickLoadData ( btn ) { 
+
+        function onClickQbe( btn ) { 
     
             var sFilter = '';
             var sTitle =  ''; 
@@ -168,23 +202,10 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
             me.fireEvent('loadData', me, sFilter, sTitle );
     
         };
+        
+        
+    }
     
-        //BG 
-        function onClickClearFilter (item ){
-            // TODO: Manejara los filtros compuestos ( QBE )
-            clearCombos()
-            onClickLoadData( {} );
-    
-        } 
-
-        //BG
-        function clearCombos ( ){
-            comboCols.setValue('');
-            comboOp.setValue(''); 
-            searchCr.setValue(''); 
-        } 
-    
-    }    // End Init
 
 });
 

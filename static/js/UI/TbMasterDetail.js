@@ -6,9 +6,7 @@
 
 
 Ext.define('ProtoUL.UI.TbMasterDetail', {
-    // extend: 'Ext.Toolbar',
-    // extend: 'Ext.container.Container',
-    extend: 'Ext.Panel',
+    extend: 'Ext.Toolbar',
     alias: 'widget.tbMasterDetail',
     
     // isToolbar: true,
@@ -18,51 +16,66 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         var me = this; 
 
-        me.autoSync = false; 
-        me.editable = false; 
-
         // Asigna una referencia al objeto 
         var myMeta = this.protoMeta; 
         var __MasterDetail = this.__MasterDetail; 
 
-        // Barras internas 
-        var ideTbSearch = Ext.id();
-        var ideTbViews = Ext.id();
-        var ideTbPrint = Ext.id();
-        var ideTbEdit = Ext.id();
-        var ideTbConfig = Ext.id();
-
-        // Id en la Barra principal 
-        var ideBtConfig = Ext.id();
+        // Estados iniciales 
+        me.autoSync = false; 
+        me.editable = false; 
 
 
         //--------------------------------------------------------
 
+        this.searchBG = Ext.create('ProtoUL.ux.ProtoSearchBG', { myMeta: myMeta })
 
-        this.tbar1 = Ext.create('Ext.Toolbar', {
+
+        Ext.apply(this, {
             dock: 'top',
-            defaults: { scale: 'medium' }, 
-            items: [{
-                pressed: true,
-                tooltip: 'Filtrer',
-                iconCls: 'icon-search24',
-                idTb2  : ideTbSearch, 
+            // defaults: { scale: 'medium' }, 
+            items: [
+                this.searchBG, { 
 
-                enableToggle: true,
-                toggleGroup: 'tb1' , 
-                handler: toogleTb2 
-            },'-',{
-                
                 // La edicion se hara sobre el master si los detalles estan apagados, 
                 // si los detalles estan abiertos,  se bloqua el master y se editan detalles 
-                
                 tooltip: 'Editer',
                 iconCls: 'icon-edit24',
-                idTb2  : ideTbEdit, 
+                itemId : 'edit', 
 
                 enableToggle: true,
                 toggleGroup: 'tb1' , 
                 handler: toogleTb2 
+
+            },{
+
+                iconCls : 'icon-tableEdit', 
+                itemId:     'edit',
+                text:       'Edit',
+                scope:        this,
+                handler:    toggleEditMode,
+                hidden:     this.editable  
+            }, {
+                iconCls : 'icon-tableSave', 
+                itemId:     'save',
+                text:       'Save',
+                handler:    onClickTableSave,
+                hidden:     ! this.editable  
+            },  { 
+                iconCls : 'icon-tableCancel', 
+                itemId:     'cancel',
+                text:       'Cancel',
+                scope:        this,
+                handler:    onClickTableCancelEdit,
+                disabled:     ! this.editable  
+            }, '|',  {
+                iconCls : 'icon-tableAutoSync', 
+                itemId:     'autoSync',
+                text:       'AutoSync',
+                enableToggle: true, 
+                pressed:    this.autoSync,   
+                scope:        this,
+                toggleHandler: onClickTableAutoSync,
+                disabled:     ! (this.editable )  
 
                 
             },{
@@ -111,42 +124,18 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 // text : 'Config',
                 xtype: 'splitbutton', 
                 menu :  this.configCtrl.getActions(),
-                iconCls: 'icon-config24',
-                id     : ideBtConfig 
-                // handler: toogleTb2 
+                iconCls: 'icon-config24'
             }]
         
         });
+
+        this.callParent();
         
         //--------------------------------------------------------
         
-        var searchBG = Ext.create('ProtoUL.ux.ProtoSearchBG', {
-                    id    : ideTbSearch , 
-                    myMeta: myMeta
-                   })
         
-        // LA barra q contiene los grupos 
-        var tbar2 = Ext.create('Ext.Toolbar', {
-            dock: 'top',
-            defaults: { scale: 'small', hidden : true },
-            items: [ 
-                searchBG, {
-                    id : ideTbEdit, 
-                    xtype: 'buttongroup'
-                },{
-                    id : ideTbPrint, 
-                    xtype: 'buttongroup'
-                },{
-                    id : ideTbViews, 
-                    xtype: 'buttongroup'
-                },{
-                    id : ideTbConfig, 
-                    xtype: 'buttongroup'
-                }]
-            });
-
-        searchBG.on({
-            loadData: {fn: function ( searchBG , sFilter, sTitle ) {
+        this.searchBG.on({
+            loadData: {fn: function ( tbar , sFilter, sTitle ) {
                 
                 __MasterDetail.onClickLoadData(sFilter);
     
@@ -162,7 +151,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         function tbHelp( but  ) {
         	window.open( __HELPpath ,'protoHelp',
         	'left=50,top=20,width=1000,height=600,resizable=0')
-        	
         }
        
 
@@ -183,119 +171,26 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                     __MasterDetail.tbPrinterOpts.setVisible( but.pressed  )
                 }
 
-
             } else if ( but.itemId == 'details' ) {
                 if ( __MasterDetail.tbDetails ) {
                     __MasterDetail.showDetailPanel( ! but.pressed )
                 }
                 
-            } else if ( but.idTb2 == ideTbEdit ) {
+            } else if ( but.itemId == 'edit' ) {
                 // Entra en modo edicion 
                 me.toggleEditMode( true )
                 editTBar.show();
                 // orderTbar.hide();
                 tbar2.hide();
                 
-            } else {
-                Ext.each(tbar2.query('buttongroup'), function(buttonGr) {
-                    buttonGr.hide();
-                }, this);
-                
-                var tb2 = Ext.getCmp(but.idTb2);
-                tb2.show();
-                tbar2.show();
-                editTBar.hide();
-                // orderTbar.hide();
             }             
         } 
-
-
-
-
 
 
 // ------------------------------------------------------------------------------------------------
 
 
-        var editTBar = Ext.create('Ext.toolbar.Toolbar', {
-            id : ideTbEdit, 
-               // margins:'5 5 5 5',
-            padding: '5 5 5 5',
-            items  : [{
-                xtype   : 'tbtext',
-                text: '<b>Table Edit:<b>'
-            }, {
-                iconCls : 'icon-tableEdit', 
-                itemId:     'edit',
-                text:       'Edit',
-                scope:        this,
-                handler:    toggleEditMode,
-                hidden:     this.editable  
-            }, {
-                iconCls : 'icon-tableSave', 
-                itemId:     'save',
-                text:       'Save',
-                handler:    onClickTableSave,
-                hidden:     ! this.editable  
-            }, {
-                iconCls : 'icon-tableAdd', 
-                itemId:     'add',
-                text:       'Add',
-                handler:    onClickTableAdd,
-                disabled:     ! this.editable  
-            }, {
-                iconCls : 'icon-tableDuplicate', 
-                itemId:     'copy',
-                text:       'Duplicate',
-                handler:    onClickTableDuplicate,
-                disabled:     ! this.editable  
-            }, {
-                iconCls : 'icon-tableDelete', 
-                itemId:     'delete',
-                text:       'Delete',
-                handler:    onClickTableDelete,
-                disabled:     ! this.editable  
-            },  { 
-                iconCls : 'icon-tableCancel', 
-                itemId:     'cancel',
-                text:       'Cancel',
-                scope:        this,
-                handler:    onClickTableCancelEdit,
-                disabled:     ! this.editable  
-            }, '|',  {
-                xtype   : 'tbtext',
-                text: '<b>Form :<b>'
-            }, {
-                iconCls : 'icon-formAdd', 
-                text:       'Add',
-                tooltip:     'Form Add Record',
-                handler:    onClickFormAdd
-            }, {
-                iconCls : 'icon-formEdit', 
-                text:       'Edit',
-                tooltip:     'Form Edit  Record',
-                handler:    onClickFormEdit
-            }, {
-                iconCls : 'icon-formView', 
-                text:       'View',
-                tooltip:     'Form View Read Only Mode',
-                handler:    onClickFormView
-            }, {
-                xtype: 'tbfill',                   //  ----------------------------------------------------
-               }, { 
-                iconCls : 'icon-tableAutoSync', 
-                itemId:     'autoSync',
-                text:       'AutoSync',
-                enableToggle: true, 
-                pressed:    this.autoSync,   
-                scope:        this,
-                toggleHandler: onClickTableAutoSync,
-                disabled:     ! (this.editable )  
-            }],  
-            hidden : true
-        });
 
-        this.editTBar = editTBar; 
 
         function onClickTableAutoSync( btn, pressed ){
 
@@ -311,12 +206,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 //  --------------------------------------------------------------------------
 
         function initFormController(){
-
             var formController = Ext.create('ProtoUL.UI.FormController', { myMeta: myMeta}); 
-            // formController.myMeta = myMeta 
-            
             return formController
-
         }
 
         function onClickFormAdd( btn ){
@@ -391,63 +282,48 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
 // ----------------------------------------------------------------------------------
 
-        Ext.apply(this, {
-            layout: {
-                type: 'vbox',
-                border: false, 
-                align: 'stretchmax'
-            },
-            dockedItems: [
-                // this.tbar1,  orderTbar, editTBar, tbar2 
-                this.tbar1,  editTBar, tbar2 
-            ]
-        });
-        // panel.add(tool1);  ...
-        
-        this.callParent();
-
 
 // ------------------------------------------------------------------------------------------------
-
-        var tbViews = Ext.getCmp( ideTbViews )
-        tbViews.add({
-            xtype: 'tbtext',
-            iconCls : 'icon-views', 
-            text: '<b>Group de colonnes :<b>'
-            // },{  xtype: 'menuseparator'
-        });
-
-        function configurelistDisplaySet(){
-
-            var bHide = true; 
-
-            // Agrega la vista por defecto 
-            var myDefaultCols = myMeta.gridConfig.listDisplay;
-            if ( myDefaultCols.length > 0 ) {
-                tbViews.add({
-                    text:       _defaultViewText,
-                    protoView:  myDefaultCols ,
-                    handler:    onClickChangeView
-                });
-            }
-            
-            var pViews = myMeta.gridConfig.listDisplaySet;
-            for (var vDet in pViews) {         
-                tbViews.add({
-                    text:       vDet ,
-                    protoView:  pViews[vDet] ,
-                    handler:    onClickChangeView
-                });
-                bHide = false; 
-            }
-            
-            // if ( bHide) {
-                // var btViews = Ext.getCmp( ideBtViews );
-                // btViews.hidden = true
+// 
+        // var tbViews = Ext.getCmp( ideTbViews )
+        // tbViews.add({
+            // xtype: 'tbtext',
+            // iconCls : 'icon-views', 
+            // text: '<b>Group de colonnes :<b>'
+            // // },{  xtype: 'menuseparator'
+        // });
+// 
+        // function configurelistDisplaySet(){
+// 
+            // var bHide = true; 
+// 
+            // // Agrega la vista por defecto 
+            // var myDefaultCols = myMeta.gridConfig.listDisplay;
+            // if ( myDefaultCols.length > 0 ) {
+                // tbViews.add({
+                    // text:       _defaultViewText,
+                    // protoView:  myDefaultCols ,
+                    // handler:    onClickChangeView
+                // });
             // }
-        }
-    
-        configurelistDisplaySet(); 
+//             
+            // var pViews = myMeta.gridConfig.listDisplaySet;
+            // for (var vDet in pViews) {         
+                // tbViews.add({
+                    // text:       vDet ,
+                    // protoView:  pViews[vDet] ,
+                    // handler:    onClickChangeView
+                // });
+                // bHide = false; 
+            // }
+//             
+            // // if ( bHide) {
+                // // var btViews = Ext.getCmp( ideBtViews );
+                // // btViews.hidden = true
+            // // }
+        // }
+//     
+        // configurelistDisplaySet(); 
 
         function onClickChangeView( btn ){
 
@@ -489,25 +365,25 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
     addActions:  function () {
      
         if ( this.__MasterDetail.myDetails ) {
-            var bt = this.tbar1.getComponent('details')
+            var bt = this.getComponent('details')
             bt.menu.add(  this.__MasterDetail.myDetails )
             bt.show()            
         }
 
         if ( this.__MasterDetail.myFilters ) {
-            var bt = this.tbar1.getComponent('favorites')
+            var bt = this.getComponent('favorites')
             bt.menu.add(  this.__MasterDetail.myFilters )
             bt.show()            
         }
 
         if ( this.__MasterDetail.myPrinterOpts ) {
-            var bt = this.tbar1.getComponent('printerOpts')
+            var bt = this.getComponent('printerOpts')
             bt.menu.add(  this.__MasterDetail.myPrinterOpts )
             bt.show()            
         }
 
         if ( this.__MasterDetail.tbSorters ) {
-            var bt = this.tbar1.getComponent('sorters')
+            var bt = this.getComponent('sorters')
             bt.show()            
         }
         
