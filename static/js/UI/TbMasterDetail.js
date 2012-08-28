@@ -33,8 +33,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         var ideTbConfig = Ext.id();
 
         // Id en la Barra principal 
-        // var ideBtOrder = Ext.id();
-        var ideBtViews = Ext.id();
         var ideBtConfig = Ext.id();
 
 
@@ -46,7 +44,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             defaults: { scale: 'medium' }, 
             items: [{
                 pressed: true,
-                text: 'Filtrer',
+                tooltip: 'Filtrer',
                 iconCls: 'icon-search24',
                 idTb2  : ideTbSearch, 
 
@@ -54,15 +52,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 toggleGroup: 'tb1' , 
                 handler: toogleTb2 
             },'-',{
-                text: 'Classer',
-                iconCls: 'icon-order24',
-                itemId : 'sorters', 
-                hidden : true,
-                pressed : true, 
-                enableToggle: true,
-                handler: toogleTb2 
-            },'-',{
-                text: 'Editer',
+                tooltip: 'Editer',
                 iconCls: 'icon-edit24',
                 idTb2  : ideTbEdit, 
 
@@ -70,50 +60,53 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 toggleGroup: 'tb1' , 
                 handler: toogleTb2 
 
-            },'-',{
-                text: 'Group de colonnes',
-                iconCls: 'icon-views24',
-                idTb2  : ideTbViews,
-                id     : ideBtViews, 
-
-                enableToggle: true,
-                toggleGroup: 'tb1' , 
-                handler: toogleTb2 
                 
-            },'-',{
-                text: 'Imprimer',
-                iconCls: 'icon-print24',
-                idTb2  : ideTbPrint, 
-                
-                enableToggle: true,
-                toggleGroup: 'tb1' , 
-                handler: toogleTb2 
-                
-            },'-',{
-                xtype: 'splitbutton', 
-                text: 'Filtrer',
-                iconCls: 'icon-filter24',
+            },{
+                tooltip: 'Classer',
+                iconCls: 'icon-order24',
+                itemId : 'sorters', 
                 hidden : true,
-                itemId : 'filters', 
+                enableToggle: true,
+                handler: toogleTb2 
+
+            },{
+                xtype: 'splitbutton', 
+                tooltip: 'Imprimer',
+                iconCls: 'icon-print24',
+                itemId : 'printerOpts', 
+                hidden : true,
+                enableToggle: true,
+                handler: toogleTb2,  
                 menu :  Ext.create( 'Ext.menu.Menu', {}) 
 
-            },'-',{
+            }, {
                 xtype: 'splitbutton', 
-                text: 'Voir détails',
-                iconCls: 'icon-details24', 
+                tooltip: 'Favorites',
+                iconCls: 'icon-star24',
+                itemId : 'favorites', 
                 hidden : true,
+                enableToggle: true,
+                handler: toogleTb2,  
+                menu :  Ext.create( 'Ext.menu.Menu', {}) 
+
+            }, {
+                xtype: 'splitbutton', 
+                tooltip: 'Voir détails',
+                iconCls: 'icon-details24', 
                 itemId : 'details', 
+                hidden : true,
+                handler: toogleTb2,  
                 menu :  Ext.create( 'Ext.menu.Menu', {}) 
 
             },'->',{
-                text: 'Aide',
+                // text: 'Aide',
                 iconCls: 'icon-help24',
                 handler: tbHelp,  
                 itemId : 'tbHelp'
             },{
+                // text : 'Config',
                 xtype: 'splitbutton', 
                 menu :  this.configCtrl.getActions(),
-                text : 'Config',
                 iconCls: 'icon-config24',
                 id     : ideBtConfig 
                 // handler: toogleTb2 
@@ -172,14 +165,29 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         function toogleTb2( but  ) {
 
             if ( but.itemId == 'sorters' ) {
-                if ( __MasterDetail.tbOrderCols ) {
-                    __MasterDetail.tbOrderCols.setVisible( but.pressed  )
+                if ( __MasterDetail.tbSorters ) {
+                    __MasterDetail.tbSorters.setVisible( but.pressed  )
+                }
+
+            } else if ( but.itemId == 'favorites' ) {
+                if ( __MasterDetail.tbFilters ) {
+                    __MasterDetail.tbFilters.setVisible( but.pressed  )
+                }
+
+            } else if ( but.itemId == 'printerOpts' ) {
+                if ( __MasterDetail.tbPrinterOpts ) {
+                    __MasterDetail.tbPrinterOpts.setVisible( but.pressed  )
+                }
+
+
+            } else if ( but.itemId == 'details' ) {
+                if ( __MasterDetail.tbDetails ) {
+                    __MasterDetail.showDetailPanel()
                 }
                 
             } else if ( but.idTb2 == ideTbEdit ) {
                 // Entra en modo edicion 
                 me.toggleEditMode( true )
-                                
                 editTBar.show();
                 // orderTbar.hide();
                 tbar2.hide();
@@ -429,10 +437,10 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 bHide = false; 
             }
             
-            if ( bHide) {
-                var btViews = Ext.getCmp( ideBtViews );
-                btViews.hidden = true
-            }
+            // if ( bHide) {
+                // var btViews = Ext.getCmp( ideBtViews );
+                // btViews.hidden = true
+            // }
         }
     
         configurelistDisplaySet(); 
@@ -442,44 +450,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
               __MasterDetail.protoMasterGrid.configureColumns(btn.protoView);
             
         }
-
-// ------------------------------------------------------------------------------------------------
-
-
-        var tbPrint = Ext.getCmp( ideTbPrint )
-        tbPrint.add({
-            xtype   : 'tbtext',
-            text: '<b>Imprimer :<b>'
-        }, {
-            iconCls : 'icon-printGrid', 
-            text:       'Grille',
-            handler:    onClickPrintGrid
-        }); 
-
-        if ( __MasterDetail.protoMasterGrid.IdeSheet != undefined ) {
-            tbPrint.add({
-                iconCls : 'icon-printSheet', 
-                text:       'Fiche',
-                handler:    onClickPrintSheet
-                }
-            );
-        };
-
-        function onClickPrintGrid( btn ){
-    
-            var prn = ProtoUL.ux.Printer
-            prn.gridPrint( __MasterDetail.protoMasterGrid._extGrid )
-            
-        };
-
-        function onClickPrintSheet( btn ){
-    
-            var prn = ProtoUL.ux.Printer ;
-            var pGrid = __MasterDetail.protoMasterGrid ;
-            prn.sheetPrint( pGrid._extGrid, pGrid.sheetHtml  )
-            
-        }
-
 
       }, 
 
@@ -521,12 +491,18 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         }
 
         if ( this.__MasterDetail.myFilters ) {
-            var bt = this.tbar1.getComponent('filters')
+            var bt = this.tbar1.getComponent('favorites')
             bt.menu.add(  this.__MasterDetail.myFilters )
             bt.show()            
         }
 
-        if ( this.__MasterDetail.tbOrderCols ) {
+        if ( this.__MasterDetail.myPrinterOpts ) {
+            var bt = this.tbar1.getComponent('printerOpts')
+            bt.menu.add(  this.__MasterDetail.myPrinterOpts )
+            bt.show()            
+        }
+
+        if ( this.__MasterDetail.tbSorters ) {
             var bt = this.tbar1.getComponent('sorters')
             bt.show()            
         }

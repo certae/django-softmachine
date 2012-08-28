@@ -107,7 +107,8 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         this.cllStoreDet = [] ;
         this.getDetailsTBar()
         this.getFilterSetBar()
-        this.getOrderColsBar()
+        this.getSortersBar()
+        this.getPrinterOptsBar()
         
         // Agrega los botones de actions 
         tb.addActions()
@@ -362,6 +363,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
             this.tbFilters = Ext.create('Ext.toolbar.Toolbar', {
                 dock: 'top',
+                hidden : true,
                 enableOverflow : true, 
                 items: [
                     {
@@ -384,7 +386,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         }
     }, 
     
-    getOrderColsBar:  function(){
+    getSortersBar:  function(){
         
         var me = this
         var mySortCols = []
@@ -420,10 +422,9 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             });
     
 
-            me.tbOrderCols = Ext.create('Ext.toolbar.Toolbar', {
-                // id : ideTbOrder, 
-                // padding: '5 5 5 5',
+            me.tbSorters = Ext.create('Ext.toolbar.Toolbar', {
                 dock: 'top',
+                hidden : true,
                 items  : [{
                     iconCls : 'sort', 
                     xtype: 'tbtext',
@@ -436,7 +437,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
             for ( var ix in mySortCols ) {
                 var c =  mySortCols[ix]
-                me.tbOrderCols.add(createSorterButtonConfig({
+                me.tbSorters.add(createSorterButtonConfig({
                     text: c.header,
                     tooltip : c.header,
                     maxWidth : 100, 
@@ -447,7 +448,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
                 }));
             }
 
-            me.protoMasterGrid.addDocked( me.tbOrderCols  )
+            me.protoMasterGrid.addDocked( me.tbSorters  )
             this.mySortCols = mySortCols
 
         }
@@ -505,7 +506,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         function getSorters() {
 
             var sorters = [];
-            Ext.each(me.tbOrderCols.query('button'), function(button) {
+            Ext.each(me.tbSorters.query('button'), function(button) {
                 sorters.push(button.sortData);
             }, me);
 
@@ -514,7 +515,81 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         }
         
         
-    }
+    }, 
     
+    getPrinterOptsBar: function() {
+
+        var me = this; 
+        var myPrinterOpts = []  
+        var tmpPrinterOpts = [] 
+
+        if ( ! this.myMeta.gridConfig.denyAutoPrint  ) {
+            myPrinterOpts.push (
+                new Ext.Action({
+                    text:       'Grille',
+                    iconCls :   'icon-printGrid', 
+                    scope:          me,                     
+                    handler:    onClickPrintGrid
+                }));
+
+            if ( this.protoMasterGrid.IdeSheet != undefined ) {
+                myPrinterOpts.push (
+                    new Ext.Action({
+                        text:       'Fiche',
+                        iconCls : 'icon-printSheet', 
+                        scope:          me,                     
+                        handler:    onClickPrintSheet
+                    }));
+            };
+        } 
+
+
+        // TODO: Los diferentes formatos definidos para cada grilla, definiria impresion en maestro deltalle usando templates y las relaciones definidas.  
+        for (var vDet in tmpPrinterOpts ) {       
+            var pPrinterOpts = tmpPrinterOpts[ vDet ]
+            myPrinterOpts.push (
+                new Ext.Action({
+                    text:           pPrinterOpts.name,
+                    iconCls :       pPrinterOpts.icon, 
+                    maxWidth :      100, 
+                    printerOpt:     Ext.encode( pPrinterOpts.filter ),
+                    scope:          me,                     
+                    handler:        onClickProtoPrinterOpt
+                }));
+        };
+
+
+        if ( myPrinterOpts.length > 0  ) {
+
+            this.tbPrinterOpts = Ext.create('Ext.toolbar.Toolbar', {
+                dock: 'top',
+                hidden : true,
+                enableOverflow : true, 
+                items: [{
+                    xtype   : 'tbtext',
+                    text: '<b>Imprimer :<b>'
+                }]
+            });
+
+            this.tbPrinterOpts.add ( myPrinterOpts )
+            this.myPrinterOpts = myPrinterOpts
+            this.protoMasterGrid.addDocked( this.tbPrinterOpts )
+
+        }; 
+        
+        function onClickProtoPrinterOpt( btn ){
+        };
+
+        function onClickPrintGrid( btn ){
+            var prn = ProtoUL.ux.Printer
+            prn.gridPrint( this.protoMasterGrid._extGrid )
+        };
+
+        function onClickPrintSheet( btn ){
+            var prn = ProtoUL.ux.Printer ;
+            prn.sheetPrint( this.protoMasterGrid._extGrid, pGrid.sheetHtml  )
+        };
+        
+    }    
 
 });
