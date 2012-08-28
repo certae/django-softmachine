@@ -52,6 +52,10 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 toggleGroup: 'tb1' , 
                 handler: toogleTb2 
             },'-',{
+                
+                // La edicion se hara sobre el master si los detalles estan apagados, 
+                // si los detalles estan abiertos,  se bloqua el master y se editan detalles 
+                
                 tooltip: 'Editer',
                 iconCls: 'icon-edit24',
                 idTb2  : ideTbEdit, 
@@ -81,6 +85,16 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
             }, {
                 xtype: 'splitbutton', 
+                tooltip: 'Voir détails',
+                iconCls: 'icon-details24', 
+                itemId : 'details', 
+                hidden : true,
+                enableToggle: true,
+                handler: toogleTb2,  
+                menu :  Ext.create( 'Ext.menu.Menu', {}) 
+
+            },'->',{
+                xtype: 'splitbutton', 
                 tooltip: 'Favorites',
                 iconCls: 'icon-star24',
                 itemId : 'favorites', 
@@ -88,17 +102,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 enableToggle: true,
                 handler: toogleTb2,  
                 menu :  Ext.create( 'Ext.menu.Menu', {}) 
-
             }, {
-                xtype: 'splitbutton', 
-                tooltip: 'Voir détails',
-                iconCls: 'icon-details24', 
-                itemId : 'details', 
-                hidden : true,
-                handler: toogleTb2,  
-                menu :  Ext.create( 'Ext.menu.Menu', {}) 
-
-            },'->',{
                 // text: 'Aide',
                 iconCls: 'icon-help24',
                 handler: tbHelp,  
@@ -182,7 +186,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
             } else if ( but.itemId == 'details' ) {
                 if ( __MasterDetail.tbDetails ) {
-                    __MasterDetail.showDetailPanel()
+                    __MasterDetail.showDetailPanel( ! but.pressed )
                 }
                 
             } else if ( but.idTb2 == ideTbEdit ) {

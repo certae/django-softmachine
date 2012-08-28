@@ -165,8 +165,15 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
     showDetailPanel: function( bHide ) {
         var detailPanel = Ext.getCmp( this.IDdetailPanel);
         if ( bHide ) { 
+
+            this.ixInactiveDetail = this.ixActiveDetail
+            this.ixActiveDetail =  -1
             detailPanel.collapse(); 
+
         }  else if ( detailPanel.collapsed  ) { 
+            
+            if (this.ixActiveDetail < 0) { this.ixActiveDetail = this.ixInactiveDetail || 0; }
+            this.linkDetail()
             detailPanel.expand(); 
         }
     }, 
@@ -188,7 +195,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             var myAction = new Ext.Action({
                 text: pDetails.menuText,
                 hidden : true, 
-                enableToggle: true,
+                // enableToggle: true,
                 toggleGroup: 'detail',   
 
                 scope:    me,                     
