@@ -11,14 +11,12 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         'ProtoUL.UI.TbMasterDetail'
     ],
 
-    /**
-     * @private
-     * search value initialization
-     */
+    // Estados iniciales 
+    editable : false, 
+    autoSync : true, 
 
     initComponent: function() {
 
-//        console.log ( this.protoOption , ' masterPanel def'  ); 
         // Recupera la meta   ------------------------------------------------------------ 
         this.myMeta = _cllPCI[ this.protoOption ] ;                         
         var me  = this ;         
@@ -140,7 +138,6 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
 
     },
-
     
     
     linkDetail: function () {
@@ -196,8 +193,11 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
     },
     
 
-    
     setEditMode: function( bEdit ) {
+        
+        
+        __MasterDetail.editable = bEdit
+
         
         this.editTBar.getComponent('add').setDisabled ( ! this.editable );
         this.editTBar.getComponent('copy').setDisabled ( ! this.editable );

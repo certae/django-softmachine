@@ -20,10 +20,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         var myMeta = this.protoMeta; 
         var __MasterDetail = this.__MasterDetail; 
 
-        // Estados iniciales 
-        me.editable = false; 
-        me.autoSync = true
-
         //--------------------------------------------------------
 
         this.searchBG = Ext.create('ProtoUL.ux.ProtoSearchBG', { myMeta: myMeta })
@@ -86,8 +82,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 itemId:     'cancel',
                 text:       'Cancel',
                 tooltip:    'Cancel EditMode',
-                handler:    editOpts,
-                disabled:  ! me.editable  
+                hidden : true,
+                handler:    editOpts
 
             },  {
                 iconCls : 'icon-tableAutoSync', 
@@ -173,32 +169,38 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         function editOpts( but, pressed ) {
             // 'edit', 'autoSync','cancel','save',
 
+            var editable = __MasterDetail.editable
+            var autoSync = __MasterDetail.autoSync
+
             if ( but.itemId == 'edit' ) {
-
-                this.editable = true
-                this.__MasterDetail.setEditMode( this.editable, this.autoSync  )
-
+                setEditMode( true )
 
             } else if ( but.itemId == 'autoSync' ) {
 
-                this.
-
-                btn.ownerCt.getComponent('save').setDisabled(  this.autoSync  );
-                if ( pressed ) __MasterDetail.protoMasterGrid.saveChanges()
                 __MasterDetail.autoSync = pressed ;             
-                __MasterDetail.protoMasterGrid.store.autoSync = pressed;
+
+                btn.ownerCt.getComponent('save').setDisabled(  pressed  );
+                if ( pressed ) {
+                    __MasterDetail.saveChanges()
+                }   
                 
             } else if ( but.itemId == 'save' ) {
 
-                __MasterDetail.protoMasterGrid.saveChanges()
+                __MasterDetail.saveChanges()
 
             } else if ( but.itemId == 'cancel' ) {
 
-                __MasterDetail.protoMasterGrid.cancelChanges()
+                __MasterDetail.cancelChanges()
 
             }
             
             function setEditMode() {
+
+                this.__MasterDetail.setEditMode( true    )
+
+                editable = __MasterDetail.editable
+                autoSync = __MasterDetail.autoSync
+
                 this.editTBar.getComponent('edit').setVisible ( ! this.editable );
                 this.editTBar.getComponent('cancel').setVisible( this.editable );
                  
