@@ -4,7 +4,7 @@
  *  -   -   Grid 
  */
 Ext.define('ProtoUL.view.ProtoMasterDetail', {
-    extend: 'Ext.container.Container',
+    extend: 'Ext.Panel',                                
     alias: 'widget.protoMasterDetail',
     requires: [
         'ProtoUL.view.ProtoGrid',
@@ -42,7 +42,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         });
 
 
-        // Necesaria para poder agregar cosas dinamicamente   --------------------------------------------------
+        // Barra MD 
         var tb = Ext.create('ProtoUL.UI.TbMasterDetail', {
             protoMeta : this.myMeta,
             configCtrl : configCtrl,  
@@ -69,15 +69,8 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
                 border : false, 
                 split: true
             },
+            tbar: tb,
             items: [{
-                region:'north',
-                height: 70,
-                collapsible: false,
-                split: false,
-                items: tb 
-            
-            }, {
-                // tbar: tb,
                 region: 'center',
                 flex: 1,
                 layout: 'fit',
@@ -103,17 +96,36 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         // coleccion con los store de los detalles  y su indice  =============================================  
         this.ixActiveDetail = -1;
         this.idMasterGrid = -1; 
-
         this.cllStoreDet = [] ;
-        this.getDetailsTBar()
-        this.getFilterSetBar()
-        this.getSortersBar()
-        this.getPrinterOptsBar()
+
+        this.callParent();
+
+
+        // 
+        var mdDetailsCtrl = Ext.create('ProtoUL.UI.MDDetailsController', {
+            myMeta : this.myMeta,  
+            __MasterDetail : me  
+        });
+
+        var mdCustomOptsCtrl = Ext.create('ProtoUL.UI.MDCstmOptsController', {
+            myMeta : this.myMeta,  
+            __MasterDetail : me  
+        });
+
+        var mdCustomOptsCtrl = Ext.create('ProtoUL.UI.MDSortersController', {
+            myMeta : this.myMeta,  
+            __MasterDetail : me  
+        });
+
+        var mdCustomOptsCtrl = Ext.create('ProtoUL.UI.MDPrintOptsController', {
+            myMeta : this.myMeta,  
+            __MasterDetail : me  
+        });
+
         
         // Agrega los botones de actions 
         tb.addActions()
         
-        this.callParent();
 
         //  ****************************************************************
         //  Eventos de los objetos internos para el manejo Master-Detail   
@@ -183,421 +195,15 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         this.showDetailPanel( true ) 
     },
     
-    getDetailsTBar: function() {
-        
-        var me = this; 
-        var myDetails = []                  // Cll para guardar la definicion de detalles q luego se agregara al tBar  
 
-        for (var vDet in this.myMeta.protoDetails) {        // Recorre y agrega los detalles al menu 
-
-            var pDetails = this.myMeta.protoDetails[ vDet ]
-            if ( pDetails.menuText === undefined ) continue; 
-
-            var myAction = new Ext.Action({
-                text: pDetails.menuText,
-                hidden : true, 
-                // enableToggle: true,
-                toggleGroup: 'detail',   
-
-                scope:    me,                     
-                handler:  onActionSelectDetail,
-
-                detailKey: pDetails.conceptDetail,
-                detailField: pDetails.detailField,
-                masterField: pDetails.masterField,
-                
-                detailTitleLbl: pDetails.detailTitleLbl,
-                detailTitlePattern: pDetails.detailTitlePattern,
-                
-                // El numero secuencia para marcar los detalles,   es asigngado dinamicamente al carga el item 
-                // ixDetail: ixDetail        
-            })
-            
-            myDetails.push ( myAction  );
-            loadDetailDefinition( myAction.initialConfig , myAction  )                
-            
-        };
-
-        if ( myDetails.length > 0  ) {
-
-            // toolBar de base para los items 
-            this.tbDetails = Ext.create('Ext.toolbar.Toolbar', {
-                dock: 'bottom',
-                enableOverflow : true, 
-                items: [
-                    {
-                    text    : '<b>Détails :<b>', 
-                    iconCls : 'icon-panelDown',  
-                    scope   :  me,                     
-                    enableToggle : false ,
-                    handler:  me.hideDetailPanel 
-                    }
-                ]
-            });
-         
-            this.myDetails = myDetails
-            this.tbDetails.add ( myDetails )
-            this.protoMasterGrid.addDocked( this.tbDetails )
-        } 
-        
-        
-        function loadDetailDefinition( item , myAction ) {
-
-            // Opciones del llamado AJAX para precargar los detalles  
-            var options = {
-                scope: this, 
-                success: function ( obj, result, request ) {
-                    createDetailGrid( item , myAction  );
-                },
-                failure: function ( obj, result, request) { 
-                    createDummyPanel( item , myAction  );
-                }
-            }
-                
-            // PreCarga los detalles  
-            if (  loadPci( pDetails.conceptDetail, true, options ) ) {
-                // El modelo ya ha sido cargado ( la cll meta es global )     
-                createDetailGrid(  item , myAction );
-            }         
-                  
-        };
-        
-
-        function createDummyPanel(  item , myAction  ) {
-            // Si hubo error en la creacion del detalle 
-            me.protoTabs.add( { html: 'Error loading :'  + item.detailKey, ixDetail : me.protoTabs.items.length } )
-            myAction.show()
-        }
     
-
-        function createDetailGrid (  item , myAction ) {
-    
-            // Definicion grilla Detail 
-            var detailGrid = Ext.create('ProtoUL.view.ProtoGrid', {
-                border : false, 
-                protoOption : item.detailKey,  
-                protoIsDetailGrid : true, 
-                autoLoad : false, 
-                baseFilter : '{"' + item.detailField + '" : -1}',
-    
-                // Para saber de q linea del maestro  depende  
-                _MasterDetail: me 
-            }) ; 
-    
-            // guarda el store con el indice apropiado   
-            detailGrid.store.detailField = item.detailField;
-            detailGrid.store.masterField = item.masterField;
-            detailGrid.store.protoOption = item.detailKey;
-
-            // Asigna el Ix 
-            item.ixDetail = me.protoTabs.items.length
-            me.protoTabs.add( detailGrid )
-    
-            //Titulos del detalle 
-            detailGrid.ixDetail = item.ixDetail;
-            detailGrid.detailTitleLbl = item.detailTitleLbl;
-            detailGrid.detailTitlePattern = item.detailTitlePattern;
-            
-            // Asigna el store y lo agrega a los tabs 
-            me.cllStoreDet[item.ixDetail] = detailGrid.store ;
-            
-            // Configura el panel 
-            var myMeta = detailGrid.myMeta
-            
-            setActionPrp('text', 'setText',  myMeta.shortTitle );
-            setActionPrp('tooltip', 'setTooltip', myMeta.description );
-            setActionPrp('iconCls', 'setIconCls', myMeta.protoIcon );
-            setActionPrp('width', 'setWidth', 100 );
-
-            myAction.show()
-            
-            function setActionPrp( prp, meth , value ) {
-                myAction.initialConfig[ prp ] = value 
-                myAction.callEach( meth, [ value ] )
-            }
-             
-        };   
-
-        function onActionSelectDetail( item ) {
-            this.ixActiveDetail = item.baseAction.initialConfig.ixDetail ;
-    
-            this.protoTabs.getLayout().setActiveItem( this.ixActiveDetail );
-            this.linkDetail();        
-            this.showDetailPanel()
-            
-            if ( item.hasOwnProperty( 'toggle' ) ) item.toggle( true )            
-        }
-
+    setEditMode: function( bEdit ) {
         
-    }, 
-    
-    getFilterSetBar: function() {
+        this.editTBar.getComponent('add').setDisabled ( ! this.editable );
+        this.editTBar.getComponent('copy').setDisabled ( ! this.editable );
+        this.editTBar.getComponent('delete').setDisabled ( ! this.editable );
+        this.editTBar.getComponent('cancel').setDisabled ( ! this.editable );
         
-        var me = this; 
-        var myFilters = []  
-        var tmpFilters = [] 
-
-        // Si no hay filtros definidos pero existe un filterAlph, 
-        if ((this.myMeta.gridConfig.filtersSet.length == 0)  &&  this.myMeta.gridConfig.filterSetABC  ) {
-
-            for (var nFiltre in oc(['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'])) {
-                var tmpF1 = {}
-                tmpF1[ this.myMeta.gridConfig.filterSetABC + '__istartswith' ] =  nFiltre 
-                tmpFilters.push ({ name: nFiltre,  filter: tmpF1 }) 
-            }
-            tmpFilters.push ({ name: ' *', filter: {} })
-             
-        } else {
-          tmpFilters = this.myMeta.gridConfig.filtersSet  
-        }  
-
-        for (var vDet in tmpFilters ) {       
-
-            var pFilters = tmpFilters[ vDet ]
-            myFilters.push (
-                new Ext.Action({
-                    text:           pFilters.name,
-                    iconCls :       pFilters.icon, 
-                    maxWidth :      100, 
-                    protoFilter:    Ext.encode( pFilters.filter ),
-                    scope:          me,                     
-                    handler:        onClickProtoFilter
-                }));
-
-        };
-
-
-        if ( myFilters.length > 0  ) {
-
-            this.tbFilters = Ext.create('Ext.toolbar.Toolbar', {
-                dock: 'top',
-                hidden : true,
-                enableOverflow : true, 
-                items: [
-                    {
-                    xtype   : 'tbtext',
-                    text: '<b>Filtrer par :<b>'
-                    }
-                ]
-            });
-
-            this.tbFilters.add ( myFilters )
-            this.myFilters = myFilters
-            this.protoMasterGrid.addDocked( this.tbFilters )
-
-        }; 
-        
-        function onClickProtoFilter( btn ){
-            this.protoMasterGrid.protoLocalFilter = ' " ' +  btn.text + ' "'; 
-            this.protoMasterGrid.setGridTitle( this.protoMasterGrid ) 
-            this.onClickLoadData( btn.protoFilter );
-        }
-    }, 
-    
-    getSortersBar:  function(){
-        
-        var me = this
-        var mySortCols = []
-
-        // REcorre los q llegan y genera el obj  header, name         
-        for ( var ix in me.myMeta.gridConfig.sortFields ) {
-            var name = me.myMeta.gridConfig.sortFields[ix]
-            var c = me.myMeta.__ptDict[name]
-            if ( ! c ) c = { name : name , header : name }
-            mySortCols.push( { name : c.name, header : c.header } ) 
-        } 
-        
-        // Toma todos los campos por default en caso de no venir nada ( no toma el Id )
-        // if ( mySortCols.length == 0 ) { 
-            // for (var i = 0, len = me.myMeta.fields.length; i < len; i++) {
-                // var c = me.myMeta.fields[i];
-                // if (!(c.fromModel == true ) || (c.type == 'autofield')) continue
-                // mySortCols.push( { name : c.name, header : c.header } ) 
-            // }
-        // } 
-
-        // Crea la tabla  
-        if ( mySortCols.length > 0 ) { 
-
-            // Reorder obj 
-            var reorderer = Ext.create('Ext.ux.BoxReorderer', {
-                listeners: {
-                    scope: me,
-                    Drop: function(r, c, button) { //update sort direction when button is dropped
-                        changeSortDirection(button, false);
-                    }
-                }
-            });
-    
-
-            me.tbSorters = Ext.create('Ext.toolbar.Toolbar', {
-                dock: 'top',
-                hidden : true,
-                items  : [{
-                    iconCls : 'sort', 
-                    xtype: 'tbtext',
-                    text: '<b>Classer par :</b>',
-                    reorderable: false 
-                    }],  
-                plugins: [reorderer]
-            });
-
-
-            for ( var ix in mySortCols ) {
-                var c =  mySortCols[ix]
-                me.tbSorters.add(createSorterButtonConfig({
-                    text: c.header,
-                    tooltip : c.header,
-                    maxWidth : 100, 
-                    sortData: {
-                        property: c.name,
-                        direction: 'ASC'
-                    }
-                }));
-            }
-
-            me.protoMasterGrid.addDocked( me.tbSorters  )
-            this.mySortCols = mySortCols
-
-        }
-        
-
-
-        /**
-         * Convenience function for creating Toolbar Buttons that are tied to sorters
-         * @param {Object} config Optional config object
-         * @return {Object} The new Button configuration
-         */
-        function createSorterButtonConfig(config) {
-            config = config || {};
-            Ext.applyIf(config, {
-                listeners: {
-                    click: function(button, e) {
-                        changeSortDirection(button, true);
-                    }
-                },
-                iconCls: 'sort-' + config.sortData.direction.toLowerCase(),
-                reorderable: true,
-                xtype: 'button'
-            });
-            return config;
-        }
-
-        /**
-         * Callback handler used when a sorter button is clicked or reordered
-         * @param {Ext.Button} button The button that was clicked
-         * @param {Boolean} changeDirection True to change direction (default). Set to false for reorder
-         * operations as we wish to preserve ordering there
-         */
-        function changeSortDirection(button, changeDirection) {
-            var sortData = button.sortData,
-                iconCls  = button.iconCls;
-            
-            if (sortData) {
-                if (changeDirection !== false) {
-                    button.sortData.direction = Ext.String.toggle(button.sortData.direction, "ASC", "DESC");
-                    button.setIconCls(Ext.String.toggle(iconCls, "sort-asc", "sort-desc"));
-                }
-                me.protoMasterStore.clearFilter();
-                doSort();
-            }
-        }
-    
-        function doSort() {
-            me.protoMasterStore.sort( getSorters() );
-        }
-    
-        /**
-         * Returns an array of sortData from the sorter buttons
-         * @return {Array} Ordered sort data from each of the sorter buttons
-         */
-        function getSorters() {
-
-            var sorters = [];
-            Ext.each(me.tbSorters.query('button'), function(button) {
-                sorters.push(button.sortData);
-            }, me);
-
-            // Solo orderna por los 4 primeros criterios 
-            return sorters.slice(0,3)
-        }
-        
-        
-    }, 
-    
-    getPrinterOptsBar: function() {
-
-        var me = this; 
-        var myPrinterOpts = []  
-        var tmpPrinterOpts = [] 
-
-        if ( ! this.myMeta.gridConfig.denyAutoPrint  ) {
-            myPrinterOpts.push (
-                new Ext.Action({
-                    text:       'Grille',
-                    iconCls :   'icon-printGrid', 
-                    scope:          me,                     
-                    handler:    onClickPrintGrid
-                }));
-
-            if ( this.protoMasterGrid.IdeSheet != undefined ) {
-                myPrinterOpts.push (
-                    new Ext.Action({
-                        text:       'Fiche',
-                        iconCls : 'icon-printSheet', 
-                        scope:          me,                     
-                        handler:    onClickPrintSheet
-                    }));
-            };
-        } 
-
-
-        // TODO: Los diferentes formatos definidos para cada grilla, definiria impresion en maestro deltalle usando templates y las relaciones definidas.  
-        for (var vDet in tmpPrinterOpts ) {       
-            var pPrinterOpts = tmpPrinterOpts[ vDet ]
-            myPrinterOpts.push (
-                new Ext.Action({
-                    text:           pPrinterOpts.name,
-                    iconCls :       pPrinterOpts.icon, 
-                    maxWidth :      100, 
-                    printerOpt:     Ext.encode( pPrinterOpts.filter ),
-                    scope:          me,                     
-                    handler:        onClickProtoPrinterOpt
-                }));
-        };
-
-
-        if ( myPrinterOpts.length > 0  ) {
-
-            this.tbPrinterOpts = Ext.create('Ext.toolbar.Toolbar', {
-                dock: 'top',
-                hidden : true,
-                enableOverflow : true, 
-                items: [{
-                    xtype   : 'tbtext',
-                    text: '<b>Imprimer :<b>'
-                }]
-            });
-
-            this.tbPrinterOpts.add ( myPrinterOpts )
-            this.myPrinterOpts = myPrinterOpts
-            this.protoMasterGrid.addDocked( this.tbPrinterOpts )
-
-        }; 
-        
-        function onClickProtoPrinterOpt( btn ){
-        };
-
-        function onClickPrintGrid( btn ){
-            var prn = ProtoUL.ux.Printer
-            prn.gridPrint( this.protoMasterGrid._extGrid )
-        };
-
-        function onClickPrintSheet( btn ){
-            var prn = ProtoUL.ux.Printer ;
-            prn.sheetPrint( this.protoMasterGrid._extGrid, pGrid.sheetHtml  )
-        };
-        
-    }    
+    }
 
 });

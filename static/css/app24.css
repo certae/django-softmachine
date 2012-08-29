@@ -1,0 +1,20 @@
+
+
+/*  Iconos del ToolBar */
+
+.icon-search24  { background-image: url(../img/protoImg24/icon24_search.png ) !important; }
+.icon-order24   { background-image: url(../img/protoImg24/icon24_order.png ) !important;  }
+.icon-views24   { background-image: url(../img/protoImg24/icon24_views.png ) !important;  }
+.icon-print24   { background-image: url(../img/protoImg24/icon24_print.png ) !important;}
+.icon-config24  { background-image: url(../img/protoImg24/icon24_config.png ) !important;}
+.icon-edit24    { background-image: url(../img/protoImg24/icon24_edit.png ) !important;}
+.icon-help24    { background-image: url(../img/protoImg24/icon24_help.png ) !important;}
+.icon-star24    { background-image: url(../img/protoImg24/star.png ) !important;}
+.icon-details24 { background-image: url(../img/protoImg24/tree.png ) !important;}
+.icon-filter24  { background-image: url(../img/protoImg24/funnel_star.png ) !important; }
+
+
+.icon-filter     { background-image: url(../img/protoImg24/funnel.png ) !important; }
+.icon-filterdelete { background-image: url(../img/protoImg24/funnel_delete.png ) !important; }
+.icon-filterqbe  { background-image: url(../img/protoImg24/funnel_star.png ) !important; }
+
