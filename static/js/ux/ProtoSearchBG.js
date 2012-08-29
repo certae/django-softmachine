@@ -59,15 +59,18 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
                 }}
         });
 
+        me.protoEnable =  ( me.myMeta.gridConfig.searchFields.length > 0  ) 
 
         Ext.apply(me, {
-            border : false, 
+            border : false,
+            disabled : ! me.protoEnable,
             items:  [  
                 searchCr,
                 clearBtn, 
                 searchBtn 
             ]
         });
+
 
         me.addEvents('loadData');
         me.callParent();

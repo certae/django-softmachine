@@ -47,16 +47,9 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             __MasterDetail : me  
         });
         
-        // Asigna el tab de control a la grilla 
+        // Asigna el tab de control a la grilla y el panel de detalles  
         this.protoMasterGrid._toolBar = tb 
-        
-        
-        // Panel de detalles ==================================================================================
-        var IDprotoTabs = Ext.id();
-        this.protoTabs = Ext.create('Ext.panel.Panel', {
-            layout: 'card',
-            id: IDprotoTabs 
-        });
+        this.protoTabs = Ext.create('Ext.panel.Panel', { layout: 'card' });
 
         
         this.IDdetailPanel = Ext.id();
@@ -100,30 +93,14 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
 
         // 
-        var mdDetailsCtrl = Ext.create('ProtoUL.UI.MDDetailsController', {
-            myMeta : this.myMeta,  
-            __MasterDetail : me  
-        });
-
-        var mdCustomOptsCtrl = Ext.create('ProtoUL.UI.MDCstmOptsController', {
-            myMeta : this.myMeta,  
-            __MasterDetail : me  
-        });
-
-        var mdCustomOptsCtrl = Ext.create('ProtoUL.UI.MDSortersController', {
-            myMeta : this.myMeta,  
-            __MasterDetail : me  
-        });
-
-        var mdCustomOptsCtrl = Ext.create('ProtoUL.UI.MDPrintOptsController', {
-            myMeta : this.myMeta,  
-            __MasterDetail : me  
-        });
+        Ext.create('ProtoUL.UI.MDDetailsController',   { __MasterDetail : me  });
+        Ext.create('ProtoUL.UI.MDCstmOptsController',  { myMeta : this.myMeta, __MasterDetail : me });
+        Ext.create('ProtoUL.UI.MDSortersController',   { myMeta : this.myMeta, __MasterDetail : me });
+        Ext.create('ProtoUL.UI.MDPrintOptsController', { myMeta : this.myMeta, __MasterDetail : me });
 
         
         // Agrega los botones de actions 
         tb.addActions()
-        
 
         //  ****************************************************************
         //  Eventos de los objetos internos para el manejo Master-Detail   
@@ -194,16 +171,34 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
     
 
     setEditMode: function( bEdit ) {
-        
-        
-        __MasterDetail.editable = bEdit
 
+        var detailPanel = Ext.getCmp( this.IDdetailPanel);
         
-        this.editTBar.getComponent('add').setDisabled ( ! this.editable );
-        this.editTBar.getComponent('copy').setDisabled ( ! this.editable );
-        this.editTBar.getComponent('delete').setDisabled ( ! this.editable );
-        this.editTBar.getComponent('cancel').setDisabled ( ! this.editable );
+        //TODO: Apagar las barras 
         
+        if ( detailPanel.collapsed  ) {
+            setGridEditMode( this.protoMasterGrid, bEdit )
+
+        } else {
+            
+            //TODO: Recorrer las grillas y cambiar el modo
+            
+        }
+        
+        function setGridEditMode( myGrid, bEdit ) {
+            myGrid.gridController.setEditMode( bEdit )
+        } 
+        
+    }, 
+    
+    setAutoSync: function( bMode ) {
+        this.autoSync = bMode 
+        // if ( bMode )  __MasterDetail.saveChanges()
+
+    }, 
+    
+    saveChanges: function() {
+        // TODO: 
     }
 
 });

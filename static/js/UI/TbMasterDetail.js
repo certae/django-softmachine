@@ -112,7 +112,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 xtype: 'splitbutton', 
                 menu :  this.configCtrl.getActions(),
                 handler:    toogleTb2,
-                iconCls: 'icon-config'
+                iconCls: 'icon-config', 
+                itemId : 'config'
             }]
         
         });
@@ -135,7 +136,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         
 
 
-        function toogleTb2( but, pressed ) {
+        function toogleTb2( but ) {
             // 'details', 'printerOpts', 'sorters', 'tbHelp', 'custom',  
 
             if ( but.itemId == 'sorters' ) {
@@ -166,77 +167,91 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
 // ------------------------------------------------------------------------------------------------
 
-        function editOpts( but, pressed ) {
+        function editOpts( but  ) {
             // 'edit', 'autoSync','cancel','save',
 
-            var editable = __MasterDetail.editable
-            var autoSync = __MasterDetail.autoSync
 
             if ( but.itemId == 'edit' ) {
-                setEditMode( true )
+                me.setEditMode( true )
 
-            } else if ( but.itemId == 'autoSync' ) {
-
-                __MasterDetail.autoSync = pressed ;             
-
-                btn.ownerCt.getComponent('save').setDisabled(  pressed  );
-                if ( pressed ) {
-                    __MasterDetail.saveChanges()
-                }   
-                
             } else if ( but.itemId == 'save' ) {
-
                 __MasterDetail.saveChanges()
 
             } else if ( but.itemId == 'cancel' ) {
+                me.setEditMode( false  )
 
-                __MasterDetail.cancelChanges()
-
+            } else if ( but.itemId == 'autoSync' ) {
+                __MasterDetail.setAutoSync ( but.pressed );
+                me.setEditMode( true )
             }
-            
-            function setEditMode() {
-
-                this.__MasterDetail.setEditMode( true    )
-
-                editable = __MasterDetail.editable
-                autoSync = __MasterDetail.autoSync
-
-                this.editTBar.getComponent('edit').setVisible ( ! this.editable );
-                this.editTBar.getComponent('cancel').setVisible( this.editable );
-                 
-                this.editTBar.getComponent('save').setVisible( this.editable  );
-                this.editTBar.getComponent('save').setDisabled( this.autoSync || (!this.editable ));
-    
-                this.editTBar.getComponent('autoSync').setDisabled( ! this.editable );
-            } 
-             
         } 
     }, 
     
+
+    setEditMode: function( bEdit ) {
+        
+        // En modoEdicion los botones de accion son desactivados 
+        // En modoAction los botones de edicion son apagados 
+
+        // 'edit', 'cancel', 'save', 'autoSync'
+
+        var autoSync = this.__MasterDetail.autoSync
+        this.__MasterDetail.setEditMode(  bEdit   )
+    
+        this.getComponent('edit').setVisible ( ! bEdit );
+        this.getComponent('cancel').setVisible( bEdit );
+        this.getComponent('save').setVisible( bEdit  );
+        this.getComponent('autoSync').setVisible( bEdit );
+        this.getComponent('config').setVisible( !bEdit );
+
+        this.getComponent('save').setDisabled( autoSync || (!bEdit ));
+        this.getComponent('autoSync').toggle( autoSync, true  );
+
+
+        // 'details', 'printerOpts', 'sorters', 'tbHelp', 'custom',
+        setEditMode( this, 'details', bEdit );
+        setEditMode( this, 'printerOpts', bEdit );
+        setEditMode( this, 'sorters', bEdit  );
+        setEditMode( this, 'custom', bEdit );
+        
+        function setEditMode( me, btId, bEdit ) {
+            var bt = me.getComponent( btId )
+            bt.setVisible ( (! bEdit ) && ( bt.protoEnable ));
+        }; 
+
+        this.searchBG.setDisabled( bEdit || ( ! this.searchBG.protoEnable ))
+
+    },  
     
     addActions:  function () {
-        // Permite agregar las acciones despues de haber configurado el MD 
+
+        // Permite agregar las acciones despues de haber configurado el MD
+        // bt.protoEnable  indica si el boton es valido en esta instancia 
      
         if ( this.__MasterDetail.myDetails ) {
             var bt = this.getComponent('details')
             bt.menu.add(  this.__MasterDetail.myDetails )
+            bt.protoEnable = true 
             bt.show()            
         }
 
         if ( this.__MasterDetail.myFilters ) {
             var bt = this.getComponent('custom')
             bt.menu.add(  this.__MasterDetail.myFilters )
+            bt.protoEnable = true 
             bt.show()            
         }
 
         if ( this.__MasterDetail.myPrinterOpts ) {
             var bt = this.getComponent('printerOpts')
             bt.menu.add(  this.__MasterDetail.myPrinterOpts )
+            bt.protoEnable = true 
             bt.show()            
         }
 
         if ( this.__MasterDetail.tbSorters ) {
             var bt = this.getComponent('sorters')
+            bt.protoEnable = true 
             bt.show()            
         }
         

@@ -11,12 +11,13 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
     getDetailsTBar: function() {
         
         var me = this; 
+        var mDet = me.__MasterDetail
+        
         var myDetails = []                  
-        var __MasterDetail = me.__MasterDetail
 
-        for (var vDet in me.myMeta.protoDetails) {        // Recorre y agrega los detalles al menu 
+        for (var vDet in mDet.myMeta.protoDetails) {        // Recorre y agrega los detalles al menu 
 
-            var pDetails = me.myMeta.protoDetails[ vDet ]
+            var pDetails = mDet.myMeta.protoDetails[ vDet ]
             if ( pDetails.menuText === undefined ) continue; 
 
             var myAction = new Ext.Action({
@@ -42,23 +43,23 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
         if ( myDetails.length > 0  ) {
 
             // toolBar de base para los items 
-            __MasterDetail.tbDetails = Ext.create('Ext.toolbar.Toolbar', {
+            mDet.tbDetails = Ext.create('Ext.toolbar.Toolbar', {
                 dock: 'bottom',
                 enableOverflow : true, 
                 items: [
                     {
                     text    : '<b>Détails :<b>', 
                     iconCls : 'icon-panelDown',  
-                    scope   :  me,                     
                     enableToggle : false ,
-                    handler:  __MasterDetail.hideDetailPanel 
+                    scope   :  mDet,                     
+                    handler:  mDet.hideDetailPanel 
                     }
                 ]
             });
          
-            __MasterDetail.myDetails = myDetails
-            __MasterDetail.tbDetails.add ( myDetails )
-            __MasterDetail.protoMasterGrid.addDocked( __MasterDetail.tbDetails )
+            mDet.myDetails = myDetails
+            mDet.tbDetails.add ( myDetails )
+            mDet.protoMasterGrid.addDocked( mDet.tbDetails )
         } 
         
         
@@ -66,7 +67,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
 
             // Opciones del llamado AJAX para precargar los detalles  
             var options = {
-                scope: this, 
+                scope: me, 
                 success: function ( obj, result, request ) {
                     createDetailGrid( item , myAction  );
                 },
@@ -86,9 +87,9 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
 
         function createDummyPanel(  item , myAction  ) {
             // Si hubo error en la creacion del detalle 
-            __MasterDetail.protoTabs.add( { 
+            mDet.protoTabs.add( { 
                 html: 'Error loading :'  + item.detailKey, 
-                ixDetail : __MasterDetail.protoTabs.items.length 
+                ixDetail : mDet.protoTabs.items.length 
             } )
             myAction.show()
         }
@@ -105,7 +106,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
                 baseFilter : '{"' + item.detailField + '" : -1}',
     
                 // Para saber de q linea del maestro  depende  
-                _MasterDetail: me 
+                _MasterDetail: mDet 
             }) ; 
     
             // guarda el store con el indice apropiado   
@@ -114,8 +115,8 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
             detailGrid.store.protoOption = item.detailKey;
 
             // Asigna el Ix 
-            item.ixDetail = __MasterDetail.protoTabs.items.length
-            __MasterDetail.protoTabs.add( detailGrid )
+            item.ixDetail = mDet.protoTabs.items.length
+            mDet.protoTabs.add( detailGrid )
     
             //Titulos del detalle 
             detailGrid.ixDetail = item.ixDetail;
@@ -123,7 +124,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
             detailGrid.detailTitlePattern = item.detailTitlePattern;
             
             // Asigna el store y lo agrega a los tabs 
-            __MasterDetail.cllStoreDet[item.ixDetail] = detailGrid.store ;
+            mDet.cllStoreDet[item.ixDetail] = detailGrid.store ;
             
             // Configura el panel 
             var myMeta = detailGrid.myMeta
@@ -143,11 +144,11 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
         };   
 
         function onActionSelectDetail( item ) {
-            __MasterDetail.ixActiveDetail = item.baseAction.initialConfig.ixDetail ;
+            mDet.ixActiveDetail = item.baseAction.initialConfig.ixDetail ;
     
-            __MasterDetail.protoTabs.getLayout().setActiveItem( __MasterDetail.ixActiveDetail );
-            __MasterDetail.linkDetail();        
-            __MasterDetail.showDetailPanel()
+            mDet.protoTabs.getLayout().setActiveItem( mDet.ixActiveDetail );
+            mDet.linkDetail();        
+            mDet.showDetailPanel()
             
             if ( item.hasOwnProperty( 'toggle' ) ) item.toggle( true )            
         }

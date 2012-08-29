@@ -4,21 +4,8 @@ Ext.define('ProtoUL.UI.GridController', {
     extend: 'Ext.Base',
 
     myMeta : null, 
-
-    // Entry point if zoom 
-    protoOption : null, 
-
-    // if ReadOnly 
-    isReadOnly : false, 
-    
-    
-    isZoomForm : false, 
-
-    
     constructor: function (config) {
-
         Ext.apply(this, config || {});
-
     }, 
     
     addGridTools : function()  {
@@ -27,7 +14,7 @@ Ext.define('ProtoUL.UI.GridController', {
                 itemId: 'toolRowAdd',
                 tooltip: 'rowAdd',  
                 type: 'rowAdd',
-                // hidden: true,
+                hidden: true,
                 width : 20, 
                 scope: this,
                 handler: this.onClickTableDuplicate
@@ -35,7 +22,7 @@ Ext.define('ProtoUL.UI.GridController', {
                 itemId: 'toolRowCopy',
                 tooltip: 'rowCopy',  
                 type: 'rowCopy',
-                // hidden: true,
+                hidden: true,
                 width : 20, 
                 scope: this,
                 handler: this.onClickTableDuplicate
@@ -43,7 +30,7 @@ Ext.define('ProtoUL.UI.GridController', {
                 itemId: 'toolRowDel',
                 type: 'rowDel',
                 tooltip: 'rowDel',  
-                // hidden: true,
+                hidden: true,
                 width : 30, 
                 scope: this,
                 handler: this.onClickTableDelete
@@ -52,13 +39,13 @@ Ext.define('ProtoUL.UI.GridController', {
                 tooltip: 'formAdd',  
                 type: 'formAdd',
                 width : 20, 
-                // hidden: true,
+                hidden: true,
                 scope: this,
                 handler: this.onClickFormAdd
             }, {
                 itemId: 'toolFormUpd',
                 tooltip: 'formUpd',  
-                // hidden: true,
+                hidden: true,
                 type: 'formUpd',
                 width : 20, 
                 scope: this,
@@ -68,74 +55,40 @@ Ext.define('ProtoUL.UI.GridController', {
                 tooltip: 'formView',  
                 type: 'formView',
                 width : 20, 
-                // hidden: true,
                 scope: this,
                 handler: this.onClickFormView
             }]
         
         
             this.myGrid.addTools( editTools )
-            this.toggleMode()
-        
+            this.setEditMode( false )
         
     }, 
     
-    toggleMode: function (  ) {
+    setEditMode: function ( bEdit  ) {
         // tbOnly : is internal event fired from grid 
 
-        this.myGrid.editable = true
-        
-        this._extGrid = this.myGrid._extGrid    
+        this.myGrid.editable = bEdit
+        var myExtGrid = this.myGrid._extGrid    
 
-        if ( true  ) {
-            // this._extGrid.down('#toolSave').show();
-            // this._extGrid.down('#toolCancelEdit').show();
+        setToolMode ( myExtGrid, '#toolRowAdd', bEdit )
+        setToolMode ( myExtGrid, '#toolRowCopy', bEdit )
+        setToolMode ( myExtGrid, '#toolRowDel', bEdit )
 
-            this._extGrid.down('#toolFormAdd').show();
-            this._extGrid.down('#toolFormUpd').show();
-            this._extGrid.down('#toolFormView').show();
-            this._extGrid.down('#toolRowCopy').show();
-            this._extGrid.down('#toolRowDel').show();
+        setToolMode ( myExtGrid, '#toolFormAdd', bEdit ) 
+        setToolMode ( myExtGrid, '#toolFormUpd', bEdit )
+        setToolMode ( myExtGrid, '#toolFormView', !bEdit )
 
-            // this._extGrid.down('#toolSave').show();
-            // this._extGrid.down('#toolCancelEdit').show();
+        function setToolMode( myExtGrid, myToolBt, bEdit ) {
 
-
-        } else {
-            // this._extGrid.down('#toolSave').hide();
-            // this._extGrid.down('#toolCancelEdit').hide();
+            if ( bEdit ) myExtGrid.down( myToolBt ).show();
+            else  myExtGrid.down( myToolBt ).hide();
+            
         }
 
-        
-        // if ( forceEdit ) this.editable = forceEdit;  
-        // if ( (!tbOnly ) && ( this.__MasterDetail ))  {
-            // this.__MasterDetail.protoMasterGrid.setEditMode( this.editable )
-        // } 
-        // if ( this.configTbar ) {
-            // this.configTbar.getComponent('edit').setVisible ( ! this.editable );
-            // this.configTbar.getComponent('save').setVisible( this.editable  );
-            // this.configTbar.getComponent('cancel').setVisible( this.editable ); 
-            // this.configTbar.getComponent('save').setDisabled( this.autoSync || (!this.editable ));
-            // this.configTbar.getComponent('add').setDisabled ( ! this.editable );
-            // this.configTbar.getComponent('copy').setDisabled ( ! this.editable );
-            // this.configTbar.getComponent('delete').setDisabled ( ! this.editable );
-            // this.configTbar.getComponent('cancel').setDisabled ( ! this.editable );
-            // this.configTbar.getComponent('autoSync').setDisabled( ! this.editable );
-        // }; 
     }, 
     
     
-    onClickTableAutoSync: function ( pressed ){
-
-        this.autoSync = pressed ;             
-        // btn.ownerCt.getComponent('save').setDisabled(  this.autoSync  );
-        
-        if ( pressed ) this.myGrid.saveChanges()
-        this.myGrid.store.autoSync = pressed;
-        
-    }, 
-
-
 //  --------------------------------------------------------------------------
 
     initFormController: function (){
@@ -173,12 +126,6 @@ Ext.define('ProtoUL.UI.GridController', {
         
     },
 
-//  --------------------------------------------------------------------------
-
-    // function toggleEditMode( forceEdit ){
-        // this.toggleEditMode( forceEdit )
-    // }
-
     
     onClickTableAdd: function (){
         this.myGrid.addNewRecord()
@@ -199,7 +146,6 @@ Ext.define('ProtoUL.UI.GridController', {
     onClickTableCancelEdit:  function (){
         this.myGrid.cancelChanges()
     } 
-    
     
      
     
