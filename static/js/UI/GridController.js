@@ -1,11 +1,99 @@
-//
-
 Ext.define('ProtoUL.UI.GridController', {
     extend: 'Ext.Base',
 
+    // Parametros de entrada 
     myMeta : null, 
+    myGrid : null, 
+    store : null,   
+    
     constructor: function (config) {
         Ext.apply(this, config || {});
+    }, 
+    
+    
+    addNavigationPanel: function() {
+        /*
+         * Configuracion del NavigationPanel, tiene en cuenta el manejo de detalles
+         * y agrega el maximo del almacenamiento local.
+         * 
+         */  
+
+        var me = this.myGrid; 
+        var navPanel = ['-']; 
+
+        var comboPageSize = new Ext.form.ComboBox({
+            name : 'perpage',
+            width: 60,
+            store: new Ext.data.ArrayStore({
+                fields: ['id'],
+                data  : _ComboPageSize
+            }),
+            mode : 'local',
+            value: '50',
+            listWidth     : 60,
+            triggerAction : 'all',
+            displayField  : 'id',
+            valueField    : 'id',
+            editable      : false,
+            forceSelection: true
+        });
+
+        comboPageSize.on('select', function(combo, record) {
+            me.store.pageSize = parseInt( combo.getValue(), 10);
+            me.store.load(); 
+            if ( me.store.currentPage != 1 ) {
+                me.store.loadPage(1);
+            }
+        }, me );            
+
+        // Extraccion de grilla detalle        
+        if ( me.protoIsDetailGrid ) {
+            navPanel.push ({
+                text: _detailViewNewTab,
+                iconCls : 'icon-promote',
+                handler : onMenuPromoteDetail
+            })  
+        } 
+
+        navPanel.push( comboPageSize, _gridBbPerPage );
+        
+        var myNavPanel =   {
+                xtype: 'pagingtoolbar',
+                dock: 'bottom',
+                store: me.store,
+                displayInfo: true,
+                items: navPanel,
+                afterPageText : _gridBbOf  + ' {0}',
+                beforePageText : _gridBbPage, 
+                
+                firstText : _gridFirstText, 
+                nextText : _gridNextText, 
+                prevText : _gridPrevText, 
+                lastText : _gridLastText, 
+                refreshText : _gridRefreshText,  
+
+                displayMsg: _gridBbShow + ' : {0} - {1} ' + _gridBbOf +' {2}'
+                // emptyMsg: "No register to display"
+            }
+
+        me.addDocked( myNavPanel, 0 )
+
+        function onMenuPromoteDetail() {
+
+            if ( me.detailTitlePattern ) {
+                var detailSubTitle =  me._MasterDetail.protoMasterGrid.rowData[ me.detailTitlePattern ];
+                detailSubTitle = me.detailTitleLbl + ' ' + detailSubTitle
+            }
+            
+            __TabContainer.addTabPanel(
+                   me.store.protoOption , 
+                   me.store.getProxy().extraParams.baseFilter, 
+                   detailSubTitle 
+               ); 
+            
+        };
+
+
     }, 
     
     addGridTools : function()  {
@@ -17,7 +105,7 @@ Ext.define('ProtoUL.UI.GridController', {
                 hidden: true,
                 width : 20, 
                 scope: this,
-                handler: this.onClickTableDuplicate
+                handler: this.onEditAction
             }, {
                 itemId: 'toolRowCopy',
                 tooltip: 'rowCopy',  
@@ -25,7 +113,7 @@ Ext.define('ProtoUL.UI.GridController', {
                 hidden: true,
                 width : 20, 
                 scope: this,
-                handler: this.onClickTableDuplicate
+                handler: this.onEditAction
             }, {
                 itemId: 'toolRowDel',
                 type: 'rowDel',
@@ -33,7 +121,7 @@ Ext.define('ProtoUL.UI.GridController', {
                 hidden: true,
                 width : 30, 
                 scope: this,
-                handler: this.onClickTableDelete
+                handler: this.onEditAction
             }, {
                 itemId: 'toolFormAdd',
                 tooltip: 'formAdd',  
@@ -41,7 +129,7 @@ Ext.define('ProtoUL.UI.GridController', {
                 width : 20, 
                 hidden: true,
                 scope: this,
-                handler: this.onClickFormAdd
+                handler: this.onEditAction
             }, {
                 itemId: 'toolFormUpd',
                 tooltip: 'formUpd',  
@@ -49,16 +137,15 @@ Ext.define('ProtoUL.UI.GridController', {
                 type: 'formUpd',
                 width : 20, 
                 scope: this,
-                handler: this.onClickFormEdit
+                handler: this.onEditAction
             }, {
                 itemId: 'toolFormView',
                 tooltip: 'formView',  
                 type: 'formView',
                 width : 20, 
                 scope: this,
-                handler: this.onClickFormView
+                handler: this.onEditAction
             }]
-        
         
             this.myGrid.addTools( editTools )
             this.setEditMode( false )
@@ -80,9 +167,8 @@ Ext.define('ProtoUL.UI.GridController', {
         setToolMode ( myExtGrid, '#toolFormView', !bEdit )
 
         function setToolMode( myExtGrid, myToolBt, bEdit ) {
-
-            if ( bEdit ) myExtGrid.down( myToolBt ).show();
-            else  myExtGrid.down( myToolBt ).hide();
+            if ( bEdit ) { myExtGrid.down( myToolBt ).show(); }
+            else  { myExtGrid.down( myToolBt ).hide(); }
             
         }
 
@@ -91,63 +177,55 @@ Ext.define('ProtoUL.UI.GridController', {
     
 //  --------------------------------------------------------------------------
 
-    initFormController: function (){
-        this.formController = Ext.create('ProtoUL.UI.FormController', { myMeta: this.myMeta}); 
-    }, 
 
-    onClickFormAdd: function (){
-        this.onClickTableAdd()
-        this.onClickFormEdit()
-    }, 
-    
-    onClickFormEdit: function (){
-        if (!this.formController ) this.initFormController()
-        if ( this.validaSelected( this.myGrid.selected )) {
-             this.formController.openLinkedForm ( this.myGrid.selected    )
-        } 
-            
-    },  
+    onEditAction: function ( ev, obj, head, btn   ){
 
-    onClickFormView: function (){
-        if (!this.formController ) this.initFormController()
-        if ( this.validaSelected( this.myGrid.selected )) {
-             this.formController.openLinkedForm ( this.myGrid.selected , true   )
-        } 
-    },  
+        if ( ! this.formController  ) {
+            this.formController = Ext.create('ProtoUL.UI.FormController', { myMeta: this.myMeta});
+        }  
 
-    validaSelected: function ( myReg )  {
-        
-        if ( myReg ) {
+        // 'toolFormAdd', 'toolFormUpd', 'toolFormView', 'toolRowAdd', 'toolRowCopy', 'toolRowDel',
+        switch( btn.itemId ){ 
+            case 'toolFormAdd' :
+                this.myGrid.addNewRecord()
+                this.formController.openLinkedForm ( this.myGrid.selected    )
+                break;
+
+            case 'toolFormUpd' : 
+                if ( validaSelected( this.myGrid.selected )) {
+                     this.formController.openLinkedForm ( this.myGrid.selected    )
+                } 
+                break;
+
+            case 'toolFormView' : 
+                if ( validaSelected( this.myGrid.selected )) {
+                     this.formController.openLinkedForm ( this.myGrid.selected , true   )
+                } 
+                break;
+
+            case 'toolRowAdd' : 
+                this.myGrid.addNewRecord()
+                break;
+
+            case 'toolRowCopy' :
+                this.myGrid.duplicateRecord()
+                break;
+
+            case 'toolRowDel' :         
+                this.myGrid.deleteCurrentRecord()
+                break;
+        }        
+
+        function validaSelected( myReg )  {
+            if ( ! myReg ) {
+                errorMessage( 'Form', 'No record selected')
+                return false 
+            }
             return true 
-        } else {
-            errorMessage( 'Form', 'No record selected')
-            return false 
         }
         
-    },
-
-    
-    onClickTableAdd: function (){
-        this.myGrid.addNewRecord()
-    },  
-    
-    onClickTableDelete: function() {
-        this.myGrid.deleteCurrentRecord()
-    },  
-
-    onClickTableDuplicate: function () {
-        this.myGrid.duplicateRecord()
-    }, 
-
-    onClickTableSave: function (){
-        this.myGrid.saveChanges()
-    }, 
-
-    onClickTableCancelEdit:  function (){
-        this.myGrid.cancelChanges()
     } 
     
-     
     
 })
 

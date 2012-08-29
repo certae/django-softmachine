@@ -173,9 +173,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
     setEditMode: function( bEdit ) {
 
         var detailPanel = Ext.getCmp( this.IDdetailPanel);
-        
         //TODO: Apagar las barras 
-        
         if ( detailPanel.collapsed  ) {
             setGridEditMode( this.protoMasterGrid, bEdit )
 

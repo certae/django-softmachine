@@ -1,16 +1,7 @@
-/*
- *  grid
- * -  store  ( proxy )   
- * -  - model ( reader )  *** 
- */
-
-
 
 //TODO: Revizar Allow Null, Listo el Blank en la grilla, falta la forma, falta en el modelo
 
 Ext.define('ProtoUL.view.ProtoGrid' ,{
-    // extend: 'Ext.container.Container',
-    // Se requiere un panel para soportar el Docking de las barras 
     extend: 'Ext.Panel',                                
     alias : 'widget.protoGrid',
     requires: [
@@ -29,11 +20,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
      * protoOption : App.Model.View  
      */
     protoOption: null, 
-
-
  
     initComponent: function() {
-
 
         var me = this;         
 
@@ -65,9 +53,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             myFilter = Ext.encode(myFilter);
         }   
         
-        //console.log (  this.protoOption, ' Loading store ...  '  ); 
-
-        
         var storeDefinition =  {
             protoOption : this.protoOption, 
             autoLoad: this.autoLoad || true, 
@@ -88,7 +73,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             clicksToMoveEditor: 1,
             autoCancel: false
         });
-
 
 
         // Definicion de Columnas y Fields        ------------------------------------------
@@ -147,7 +131,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                     // grid4.down('#removeButton').setDisabled(selections.length == 0);
                 }, 
                 
-
             itemmouseenter: function(view, record, item) {
                 // Esto maneja los tooltip en las las filas
                 var msg = record.get('_ptStatus')
@@ -158,13 +141,12 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 
                 // Dgt :  Este tooltip evita las actions columns 
                 // Ext.fly(item).select('.x-grid-cell:not(.x-action-col-cell)').set({'data-qtip': 'My tooltip: ' + record.get('name')});
-
                 }
                 
             }, 
-            
  
             viewConfig: {
+                // Manejo de rows y cells  
                
                 listeners: {
                     cellclick: function (view, cell, cellIndex, record, row, rowIndex, e) {
@@ -194,12 +176,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                     //    Esto permite marcar los registros despues de la actualizacion 
                     var stRec = record.get('_ptStatus');
                     if ( stRec ) { 
-
-                        if ( stRec == _ROW_ST.NEWROW ) {
-                            return stRec;
-                        } else {
-                            return _ROW_ST.ERROR;
-                        }
+                        if ( stRec == _ROW_ST.NEWROW ) { return stRec; } 
+                        else { return _ROW_ST.ERROR; }
                     } else { return '' }
                     
                 }
@@ -211,170 +189,65 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         this.setGridTitle( this ) ;
 
 
-
-// ---- GridController
+// ---- GridControllers
 
         if ( this.gridController ) {
-
             this.gridController.myGrid = this
             this.gridController.store = this.store
-            
         } else {
-
             this.gridController = Ext.create('ProtoUL.UI.GridController', {
                 myMeta: myMeta, 
                 myGrid : this, 
                 store : this.store  
             }); 
-            
         }
-
         this.gridController.addGridTools()
 
-
-
-//----------
-
-
-        var comboPageSize = new Ext.form.ComboBox({
-          name : 'perpage',
-          width: 60,
-          store: new Ext.data.ArrayStore({
-            fields: ['id'],
-            data  : _ComboPageSize
-          }),
-          mode : 'local',
-          value: '50',
-
-          listWidth     : 60,
-          triggerAction : 'all',
-          displayField  : 'id',
-          valueField    : 'id',
-          editable      : false,
-          forceSelection: true
-        });
-        
-        
-        //         ---------------------------------------------------
-
-        var itemDetail = ['-']; 
-
-        if ( this.protoIsDetailGrid ) {
-            itemDetail.push ({
-                    text: _detailViewNewTab,
-                    iconCls : 'icon-promote',
-                    handler : onMenuPromoteDetail
-                })  
-        } 
-
-        itemDetail.push( comboPageSize, _gridBbPerPage );
-        
-//-----------
-
-        var panelItems =   [{
-                region: 'center',
-                flex: 1,
-                layout: 'fit',
-                minSize: 50,
-                items: grid 
-            }, {
-                xtype: 'pagingtoolbar',
-                region: 'south',
-                store: this.store,
-                displayInfo: true,
-                items: itemDetail,
-                afterPageText : _gridBbOf  + ' {0}',
-                beforePageText : _gridBbPage, 
-                
-                firstText : _gridFirstText, 
-                nextText : _gridNextText, 
-                prevText : _gridPrevText, 
-                lastText : _gridLastText, 
-                refreshText : _gridRefreshText,  
-
-                displayMsg: _gridBbShow + ' : {0} - {1} ' + _gridBbOf +' {2}'
-                // emptyMsg: "No register to display"
-            }
-            ];
-
-
-        comboPageSize.on('select', function(combo, record) {
-            this.store.pageSize = parseInt( combo.getValue(), 10);
-            this.store.load(); 
-            if ( this.store.currentPage != 1 ) {
-            	this.store.loadPage(1);
-            }
-
-            
-        }, this);            
+        var sheetCrl = Ext.create('ProtoUL.UI.GridSheetController', { myGrid : this }); 
         
 
 // --------------------------------------------------------------------------------
 
-        var pSheetProps = myMeta.sheetConfig.protoSheetProperties;
-        
-        // Los zooms ( initialConfig ) no deben manejar sheets
-        if ( !( me.initialConfig.hideSheet || myMeta.gridConfig.hideSheet ) && ( pSheetProps.length > 0 )) {
-            
-            this.IdeSheet = Ext.id();
-            panelItems.push( {
-                    region: 'east',
-                    id: this.IdeSheet, 
-//                  title: pSheetProps.title ,
-                    collapsible: true,
-                    collapsed: false ,
-                    split: true,
-                    flex: 1,
-                    layout: 'fit',
-                    minSize: 50,
-                    xtype: 'panel',
-                    autoScroll: true,
-                    border: false
-            });
-        } 
-        
-//-----------        
 
-        Ext.apply(this, {
-            layout: 'border',
-            defaults: {
-                collapsible: false,
-                split: false
-            },
-            items: panelItems 
-        });
-
-
-//------        
 
         // TODO: Agregar un evento para el reload ( verificar refresh  ) de la grilla y afectar MasterDetail,  ZoomSelected 
         this.addEvents(
             'rowClick', 'rowDblClick', 'promoteDetail', 'selectionChange'
         );
 
-        
+//------        
+
+        Ext.apply(this, {
+            layout: 'border',
+            defaults: { collapsible: false, split: false },
+            items: [{
+                region: 'center',
+                flex: 1,
+                layout: 'fit',
+                minSize: 50,
+                items: grid 
+            }, 
+                sheetCrl.getSheetConfig() 
+            ]
+             
+        });
+
         this.callParent(arguments);
+        this.gridController.addNavigationPanel(); 
 
-        //  Datos en el Store this.store.getAt(index)
-        // var data = grid_company.getSelectionModel().selected.items[0].data;
         
-        // grid.on({
-            // itemClick: {fn: function ( gView, record, item, rowIndex,  e,  eOpts ) {
-                // // Table.itemClick 
-                // me.rowData = record.data;
-                // this.fireEvent('rowClick', gView, record, item, rowIndex,  e,  eOpts );
-                // prepareSheet();
-                // }, scope: this }
-        // });                 
-
+        // Datos en el Store this.store.getAt(index)
+        // var data = grid.getSelectionModel().selected.items[0].data;
+        
+        // grid.on({ itemClick: {fn: function ( gView, record, item, rowIndex,  e,  eOpts ) {
 
         grid.on({
             select: {fn: function ( rowModel , record,  rowIndex,  eOpts ) {
                 // SelectionModel.rowSelected 
                 me.rowData = record.data;
-
                 this.fireEvent('rowClick', rowModel, record, rowIndex,  eOpts );
-                prepareSheet();
+                
+                if ( me.IdeSheet ) { sheetCrl.prepareSheet(); }
 
                 }, scope: this }
         });                 
@@ -388,11 +261,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             }, scope: me }
         });                 
 
-// ---------------------------------------------------------------------------------------------- 
 
-
-        // Fires before editing is triggered. ...
         grid.on({
+        // Fires before editing is triggered. ...
             beforeedit: {fn: function ( edPlugin, e, eOpts) {
                 if ( ! this.editable )  return false;
                 
@@ -407,7 +278,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                     zoom.resetZoom()
                 }
                 
-                
                 // TODO: Manejo de edicion condicional segun datos
                 // Parametros: una coleccion ( CampoCriterio, Condicion, Lista de campos habilidatos ) 
                 // if (e.record.get('status') == "0")
@@ -415,7 +285,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 // else 
                     // grid.getPlugin('rowEditing').editor.form.findField('xx').enable();
                 
-                 
                 }, scope: this }
                 
         });                 
@@ -429,28 +298,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         // Fires after editing, but before the value is set in the record. ...
         grid.on('validateedit', function(editor, e, eOpts) {
             
-            // e : Object 
-            // grid - The grid
-            // record - The record that was edited
-
-            // originalValues - ( Validate ) The original values for the field, before the edit (only when using RowEditing)
-            // record.data  
-            // record.raw   
-            
-            // field - The field name that was edited
-            // value - The value being set
-            // row - The grid table row
-            // column - The grid Column defining the column that was edited.
-            // rowIdx - The row index that was edited
-            // colIdx - The column index that was edited
-            // cancel - Set this to true to cancel the edit or return false from your handler. 
-            // newValues -         ( formated ) The new values being set (only when using RowEditing)
-            // view - The grid view (only when using RowEditing)
-            // store - The grid store (only when using RowEditing)
-            
-            // console.log( 'validateedit' ) 
-
-
             // Resetea el status despues de la edicion 
             if ( ! e.record.getId() ) {
                 e.record.phantom = true;                           
@@ -493,81 +340,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             // e.record.commit();
         // });
 
-// ---------------------------------------------------------------------------------------------- 
 
-
-        function prepareSheet( ){
-
-            // Los zooms ( initialConfig ) no deben manejar sheets
-            if ( me.initialConfig.hideSheet || myMeta.gridConfig.hideSheet ) {
-                return 
-            }
-
-            var pSheetProps = myMeta.sheetConfig.protoSheetProperties;
-            if ( !pSheetProps ) {
-              return;  
-            }
-
-
-            var pSheets = myMeta.sheetConfig.protoSheets;
-            
-            var pSheetSelector = myMeta.sheetConfig.protoSheetSelector;
-            var pSheetCriteria = me.rowData[ pSheetSelector ] 
-            var pSheet = undefined;  
-            
-            for (var ix in pSheets  ) {
-                
-                if ( ix == 'DEFAULT' ) {
-                    pSheet =  pSheets[ix]  
-                }; 
-                
-                if ( ix == pSheetCriteria ) { 
-                    pSheet =  pSheets[ix];
-                    break; 
-                }
-            };
-
-           if (  pSheet == undefined ) { return }; 
-            
-           var pTemplate = pSheet.template ; 
-
-           for (var ix in pSheetProps) {
-                var vFld  =  pSheetProps[ix]; 
-
-                var pKey = '{{' + vFld + '}}';
-                var pValue =  me.rowData[ vFld ];
-                
-                if ( vFld == 'metaDefinition' ) {
-                    pValue = FormatJsonStr( pValue )
-                }
-                
-                pTemplate = pTemplate.replace( pKey , pValue  ); 
-
-            }
-
-            var sheet = Ext.getCmp( me.IdeSheet );
-            sheet.setTitle( pSheet.title );
-            sheet.update( pTemplate );
-
-            // Expone el template 
-            me.sheetHtml = pTemplate ;             
-
-        };
-        
-        function onMenuPromoteDetail() {
-
-            if ( me.detailTitlePattern ) {
-                var detailSubTitle =  me._MasterDetail.protoMasterGrid.rowData[ me.detailTitlePattern ];
-                detailSubTitle = me.detailTitleLbl + ' ' + detailSubTitle
-            }
-            
-            __TabContainer.addTabPanel(
-                   me.store.protoOption , 
-                   me.store.getProxy().extraParams.baseFilter, 
-                   detailSubTitle 
-               ); 
-            
-        };
         
     },
 
@@ -580,12 +353,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         return     rowNumberCol
       },
     
-//    onItemClick: function (g, rowIndex, e) {
-//        this.rowData = rowIndex.data;
-//        prepareSheet();
-//        this.fireEvent('rowClick', g, rowIndex, e);
-//    },  
-
     getViewColumns: function (  viewCols  ) {
         
         var vColumns = [];
@@ -766,11 +533,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
          
     },
     
-
     addTools: function( myTools ) { 
-        
         this._extGrid.addTool( myTools )
-        
     } 
 
 

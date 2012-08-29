@@ -59,7 +59,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
          
             mDet.myDetails = myDetails
             mDet.tbDetails.add ( myDetails )
-            mDet.protoMasterGrid.addDocked( mDet.tbDetails )
+            mDet.addDocked( mDet.tbDetails )
         } 
         
         
