@@ -46,6 +46,13 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 tooltip:    'Save',
                 handler:    editOpts,
                 hidden:     true  
+            },  {
+                iconCls : 'icon-tableAutoSync', 
+                itemId:     'autoSync',
+                text:       'AutoSync',
+                enableToggle: true, 
+                handler:      editOpts, 
+                hidden : true
             },{
                 text: 'Classer',
                 tooltip: 'Options de classement',
@@ -85,15 +92,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 hidden : true,
                 handler:    editOpts
 
-            },  {
-                iconCls : 'icon-tableAutoSync', 
-                itemId:     'autoSync',
-                text:       'AutoSync',
-                enableToggle: true, 
-                handler:      editOpts, 
-                hidden : true
             },  { 
-
                 xtype: 'splitbutton', 
                 tooltip: 'Personalisatios',
                 iconCls: 'icon-custom',
@@ -219,7 +218,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             bt.setVisible ( (! bEdit ) && ( bt.protoEnable ));
         }; 
 
-        this.searchBG.setDisabled( bEdit || ( ! this.searchBG.protoEnable ))
+        this.searchBG.setVisible( ! bEdit )
 
     },  
     

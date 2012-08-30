@@ -78,7 +78,6 @@ Ext.define('ProtoUL.proto.ProtoDetailSelector', {
             // Crea los campos activos en la grilla 
             for (var ix in me.myMeta.protoDetails ) {
                 var vFld  =  me.myMeta.protoDetails[ix];
-
                 elemList.addDataItem ( vFld.menuText, true  ) 
             } 
         };

@@ -146,7 +146,8 @@ DesignerObjects =  {
             "masterField",
             "detailField", 
             "detailTitleLbl", 
-            "detailTitlePattern"
+            "masterTitleField", 
+            "detailTitleField"
         ]
     },
 

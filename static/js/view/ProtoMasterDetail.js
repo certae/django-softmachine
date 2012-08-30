@@ -27,6 +27,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             border : false, 
             protoOption : this.protoOption,  
             baseFilter : this.baseFilter, 
+            // detFilter : this.detFilter, 
             detailTitle : this.detailTitle 
         }) ; 
         
@@ -118,28 +119,40 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
     
     
     linkDetail: function () {
-    // Refresca las grillas de detalle 
-
+        // Refresca las grillas de detalle 
         var me = this
         
         // Verifica q halla un tab activo y q no hallan sido borrados  
         if (me.ixActiveDetail < 0) { return; }
         if (me.protoTabs.items.length === 0) { return; }
 
+
         // carga el store 
         var tmpStore = me.cllStoreDet[ me.ixActiveDetail ];
+        var pDetail = tmpStore.detailDefinition 
 
         // Verifica si la llave cambio
         if ( me.idMasterGrid === 0  ) { tmpStore.protoMasterId = me.idMasterGrid; return; } 
         if (tmpStore.protoMasterId == me.idMasterGrid ) { return; }
 
-        // El filtro del detalle debe tner en cuenta el filtro predefinido para la grilla???
-        // TODO: En el vinculo debe existir un filtro predefinido,  no es necesariamente cierto q siempre deba ser 
-        // el filtro de consulta de la grilla o q se deba siempre eliminar. 
+        // Filtro de base 
+        var baseFilter = '{"' + pDetail.detailField + '" : ' + me.idMasterGrid + ',}';
+         
+        // TODO: El filtro del detalle debe tner en cuenta el filtro predefinido para la grilla???
+        // TODO: En el vinculo debe existir un filtro predefinido, no es necesariamente cierto q sea solo el Id 
         tmpStore.clearFilter();
-        tmpStore.getProxy().extraParams.baseFilter = '{"' + tmpStore.detailField + '" : ' + me.idMasterGrid + ',}';
+        tmpStore.getProxy().extraParams.baseFilter = baseFilter 
         tmpStore.protoMasterId = me.idMasterGrid;
         tmpStore.load();
+
+        // Obtiene la grilla y le da un titulo  
+        var myDetGrid = me.protoTabs.items.items[ me.ixActiveDetail ]
+        var masterTitleField = pDetail.masterTitleField || '__str__' 
+        var rowData = me.protoMasterGrid.rowData
+        
+        if ( rowData )  myDetGrid.detailTitle = rowData[ masterTitleField ]
+        myDetGrid.baseFilter = baseFilter 
+        myDetGrid.setGridTitle( myDetGrid  )
         
     }, 
     
@@ -172,25 +185,54 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
     setEditMode: function( bEdit ) {
 
-        var detailPanel = Ext.getCmp( this.IDdetailPanel);
+        var me = this
+        var detailPanel = Ext.getCmp( me.IDdetailPanel);
         
         // Apagar las barras 
-        setTbMode( this.tbDetails )
-        setTbMode( this.tbFilters )
-        setTbMode( this.tbPrinterOpts )
-        setTbMode( this.tbSorters )
+        setDisabled( me.tbFilters )
+        setDisabled( me.tbPrinterOpts )
+        setDisabled( me.tbSorters )
 
-        
+        // Cambia el control de las grillas correspondientes 
         if ( detailPanel.collapsed  ) {
  
-            setGridEditMode( this.protoMasterGrid, bEdit )
+            setGridEditMode( me.protoMasterGrid, bEdit )
+            setDisabled( me.tbDetails )
 
         } else {
             
+            setDisabled( me.protoMasterGrid  )
+            setDisabled( me.tbDetails, false  )
+
+            //Recorrer las grillas, cambiar el modo, TODO: heredados ( Default,  RO )
+            var detGrids = me.protoTabs.items.items
+            for (var ix in detGrids ) {
+                var myDetGrid = detGrids[ix]
+                setGridEditMode( myDetGrid , bEdit )
+                if ( bEdit ) setDetDefaults( myDetGrid )
+            }
             
-            //TODO: Recorrer las grillas y cambiar el modo
-            // deshabilitar master ( iluminar row?? ) 
         }
+        
+        function setDetDefaults( myDetGrid ) {
+            var pDetail = myDetGrid.detailDefinition 
+            var nField = pDetail.detailField.replace( /__pk$/, '_id' ) 
+                 
+            var myDetField = myDetGrid.myMeta.__ptDict[ nField ]
+            myDetField['defaultValue'] = me.idMasterGrid
+                        
+            nField = pDetail.masterTitleField || myDetField.fkField 
+            if ( nField ) var myTitleField = myDetGrid.myMeta.__ptDict[ nField ]
+            if ( myTitleField ) { 
+                var rowData = me.protoMasterGrid.rowData
+                if ( rowData )  {
+                    var masterTitleField = pDetail.masterTitleField || '__str__' 
+                    myTitleField['defaultValue'] = rowData[ masterTitleField ]
+                } 
+
+            } 
+        }
+        
         
         function setGridEditMode( myGrid, bEdit ) {
             // Deshabilita cualquier operacion al server
@@ -198,8 +240,10 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             myGrid.gridController.setEditMode( bEdit )
         } 
 
-        function setTbMode( tbar ) {
-            if ( tbar ) tbar.setDisabled( bEdit )
+        function setDisabled( tbar, bDisable ) {
+            // Por defecto es el edit mode
+            if ( bDisable === undefined  ) bDisable = bEdit 
+            if ( tbar ) tbar.setDisabled( bDisable )
         }
         
     }, 

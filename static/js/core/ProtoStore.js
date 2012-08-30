@@ -838,3 +838,11 @@ function getSafeMeta( myMeta ) {
     return Ext.encode( safeMeta )
     
 }
+
+function getGridColumn( myGrid, dataIndex  ) {
+    for ( var ix in myGrid.myColumns ) {
+        var myCol = myGrid.myColumns[ix]
+        if ( myCol.dataIndex == dataIndex )  return myCol    
+    }
+}
+

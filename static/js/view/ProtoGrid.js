@@ -15,12 +15,12 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     ],
     // iconCls: 'icon-grid',
 
-    /* 
-     * @Required 
-     * protoOption : App.Model.View  
-     */
-    protoOption: null, 
- 
+    protoOption: null,
+    
+    // Internals 
+    myMeta : null,  
+    initialFilter : null, 
+    
     initComponent: function() {
 
         var me = this;         
@@ -80,13 +80,25 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         if ( ! myMeta.gridConfig.hideRowNumbers ) {
             myColumns.push( this._getRowNumberDefinition() )
         }
-       
+
+        // Columnas heredadas en caso de ser un detalle 
+        if ( me.detailDefinition ) {
+            var nDetId = me.detailDefinition.detailField.replace( /__pk$/, '_id' ) 
+            var vFld = me.myMeta.__ptDict[ nDetId ]
+            var nDetTitle = me.detailDefinition.masterTitleField || vFld.fkField 
+        } 
+        
         // DGT** Copia las columnas   
         for (var ix in myMeta.fields ) {
             var vFld = myMeta.fields[ix] 
             if ( vFld.storeOnly ) continue;
 
             var col = getColDefinition( vFld  );
+            if ( col.dataIndex in oc([nDetId , nDetTitle])  ) { 
+                col['readOnly'] = true  
+                delete col['editor']
+            }
+
             myColumns.push( col  );
         }
         
@@ -381,7 +393,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         this._extGrid.headerCt.removeAll()
         this._extGrid.headerCt.add( vColumns );
         this._extGrid.view.refresh();
-        
 
     }, 
     
@@ -390,7 +401,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         if ( me.detailTitle ) {
             gridTitle = '" ' + me.detailTitle + ' "' 
-        } else if ((me.protoIsDetailGrid != true ) && ( me.baseFilter != undefined ) ) { 
+        // } else if (( ! me.protoIsDetailGrid ) && ( me.baseFilter != undefined ) ) { 
+        } else if ( me.baseFilter != undefined )  { 
             gridTitle = me.baseFilter  
         };
         

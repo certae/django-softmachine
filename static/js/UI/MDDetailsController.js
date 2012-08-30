@@ -17,22 +17,24 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
 
         for (var vDet in mDet.myMeta.protoDetails) {        // Recorre y agrega los detalles al menu 
 
-            var pDetails = mDet.myMeta.protoDetails[ vDet ]
-            if ( pDetails.menuText === undefined ) continue; 
+            var pDetail = mDet.myMeta.protoDetails[ vDet ]
+            if ( pDetail.menuText === undefined ) continue; 
 
             var myAction = new Ext.Action({
-                text: pDetails.menuText,
+                text: pDetail.menuText,
                 hidden : true, 
                 // enableToggle: true,
                 // toggleGroup: 'detail',   
                 scope:    me,                     
                 handler:  onActionSelectDetail,
+                detailKey: pDetail.conceptDetail,
+                detailDefinition : pDetail
 
-                detailKey: pDetails.conceptDetail,
-                detailField: pDetails.detailField,
-                masterField: pDetails.masterField,
-                detailTitleLbl: pDetails.detailTitleLbl,
-                detailTitlePattern: pDetails.detailTitlePattern
+                // detailField: pDetail.detailField,
+                // masterField: pDetail.masterField,
+                // detailTitleLbl: pDetail.detailTitleLbl,
+                // masterTitleField: pDetail.masterTitleField,
+                // detailTitleField: pDetail.detailTitleField
             })
             
             myDetails.push ( myAction  );
@@ -78,7 +80,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
             }
                 
             // PreCarga los detalles  
-            if (  loadPci( pDetails.conceptDetail, true, options ) ) {
+            if (  loadPci( item.detailDefinition.conceptDetail, true, options ) ) {
                 // El modelo ya ha sido cargado ( la cll meta es global )     
                 createDetailGrid(  item , myAction );
             }         
@@ -98,31 +100,39 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
 
         function createDetailGrid (  item , myAction ) {
     
+            //
+            var pDetail = item.detailDefinition 
+    
             // Definicion grilla Detail 
             var detailGrid = Ext.create('ProtoUL.view.ProtoGrid', {
                 border : false, 
-                protoOption : item.detailKey,  
-                protoIsDetailGrid : true, 
+                protoOption : pDetail.conceptDetail,  
+                protoIsDetailGrid : true,
+                detailDefinition : pDetail,  
                 autoLoad : false, 
-                baseFilter : '{"' + item.detailField + '" : -1}',
+                baseFilter : '{"' + pDetail.detailField + '" : -1}',
     
                 // Para saber de q linea del maestro  depende  
                 _MasterDetail: mDet 
             }) ; 
     
             // guarda el store con el indice apropiado   
-            detailGrid.store.detailField = item.detailField;
-            detailGrid.store.masterField = item.masterField;
-            detailGrid.store.protoOption = item.detailKey;
+            detailGrid.store.detailDefinition = pDetail
+            // detailGrid.store.detailField = item.detailField;
+            // detailGrid.store.masterField = item.masterField;
+            // detailGrid.store.protoOption = item.detailKey;
 
             // Asigna el Ix 
             item.ixDetail = mDet.protoTabs.items.length
             mDet.protoTabs.add( detailGrid )
     
-            //Titulos del detalle 
+            //Definicion del detalle TODO: pasarlo a una clase 
+
             detailGrid.ixDetail = item.ixDetail;
-            detailGrid.detailTitleLbl = item.detailTitleLbl;
-            detailGrid.detailTitlePattern = item.detailTitlePattern;
+                
+            // detailGrid.detailTitleLbl = item.detailTitleLbl;
+            // detailGrid.detailTitleField = item.detailTitleField;
+            // detailGrid.masterTitleField = item.masterTitleField;
             
             // Asigna el store y lo agrega a los tabs 
             mDet.cllStoreDet[item.ixDetail] = detailGrid.store ;

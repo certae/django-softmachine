@@ -81,9 +81,11 @@ Ext.define('ProtoUL.UI.GridController', {
 
         function onMenuPromoteDetail() {
 
-            if ( me.detailTitlePattern ) {
-                var detailSubTitle =  me._MasterDetail.protoMasterGrid.rowData[ me.detailTitlePattern ];
-                detailSubTitle = me.detailTitleLbl + ' ' + detailSubTitle
+            var detDef = me.detailDefinition 
+
+            if ( detDef.masterTitleField ) {
+                var detailSubTitle =  me._MasterDetail.protoMasterGrid.rowData[ detDef.masterTitleField ];
+                detailSubTitle = detDef.detailTitleLbl + ' ' + detailSubTitle
             }
             
             __TabContainer.addTabPanel(

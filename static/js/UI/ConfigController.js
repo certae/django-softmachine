@@ -27,7 +27,7 @@ Ext.define('ProtoUL.UI.ConfigController', {
         return myActions   
 
         function myActionConfig( name, icon ) {
-            myAction = Ext.create ( 'Ext.Action', {
+            var myAction = Ext.create ( 'Ext.Action', {
                 text:         name,
                 iconCls :     icon, 
                 prCfgAction : name,
@@ -67,12 +67,9 @@ Ext.define('ProtoUL.UI.ConfigController', {
     }, 
         
     showMetaConfig: function () {
-            
         var safeConf =  clone( this.myMeta , 0, exclude =['__ptDict'] )
         this.showConfig( 'MetaConfig', safeConf )
-            
     }, 
-        
 
     showColsConfig: function() {
             

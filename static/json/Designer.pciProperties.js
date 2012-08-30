@@ -28,7 +28,9 @@ DesignerProperties =  {
     "masterField.help"      : "Campo en el maestro para q sirve de criterio para el filtro del detalle, por ahora solo el ID (Pk)",
     "detailField.help"      : "Campo del detalle para hacer el filtro", 
     "detailTitleLbl.help"   : "Titulo en el detalle para indicar el filtro actual", 
-    "detailTitlePattern.help" : "Campo en el maestro que se utiliza para construir el titulo de la vista filtrada en el detalle", 
+
+    "masterTitleField.help" : "Campo en el maestro que se utiliza para construir el titulo de la vista filtrada en el detalle", 
+    "detailTitleField.help" : "Campo en el detalle donde se copia el valor del titulo del maestro ( default de la llave padre en la edicion )", 
 
 //  Udps 
     "propertyPrefix" : "udp", 

@@ -176,7 +176,8 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                     "masterField" : vFld.masterField,
                     "detailField" : vFld.detailField, 
                     "detailTitleLbl" : vFld.detailTitleLbl, 
-                    "detailTitlePattern" : vFld.detailTitlePattern, 
+                    "detailTitleField" : vFld.detailTitleField, 
+                    "masterTitleField" : vFld.masterTitleField, 
                     "xtype": "protoGrid",
                     "__ptType": "protoGrid"
                 }

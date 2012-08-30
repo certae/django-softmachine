@@ -97,7 +97,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
             for ( var ixD in this.myMeta.protoDetails ) {
                 var lDet = this.myMeta.protoDetails[ ixD ];
                 if ( lObj.protoOption == lDet.conceptDetail ) {
-                    lObj.protoDetailInfo = lDet 
+                    lObj.detailDefinition = lDet 
                 }
             }
         }; 
@@ -147,7 +147,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         for ( var ixDet in this.cllStoreDet ) {
             var tmpStore = this.cllStoreDet[ixDet];
-            var detField = tmpStore.protoDetailInfo.detailField, myFilter = {} 
+            var detField = tmpStore.detailDefinition.detailField, myFilter = {} 
 
             myFilter[ detField ] = this.idMaster
 
