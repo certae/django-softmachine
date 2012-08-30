@@ -173,19 +173,34 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
     setEditMode: function( bEdit ) {
 
         var detailPanel = Ext.getCmp( this.IDdetailPanel);
-        //TODO: Apagar las barras 
+        
+        // Apagar las barras 
+        setTbMode( this.tbDetails )
+        setTbMode( this.tbFilters )
+        setTbMode( this.tbPrinterOpts )
+        setTbMode( this.tbSorters )
+
+        
         if ( detailPanel.collapsed  ) {
+ 
             setGridEditMode( this.protoMasterGrid, bEdit )
 
         } else {
             
-            //TODO: Recorrer las grillas y cambiar el modo
             
+            //TODO: Recorrer las grillas y cambiar el modo
+            // deshabilitar master ( iluminar row?? ) 
         }
         
         function setGridEditMode( myGrid, bEdit ) {
+            // Deshabilita cualquier operacion al server
+            myGrid.store.editMode = bEdit 
             myGrid.gridController.setEditMode( bEdit )
         } 
+
+        function setTbMode( tbar ) {
+            if ( tbar ) tbar.setDisabled( bEdit )
+        }
         
     }, 
     

@@ -246,8 +246,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 me.rowData = record.data;
                 this.fireEvent('rowClick', rowModel, record, rowIndex,  eOpts );
                 if ( me.IdeSheet ) { sheetCrl.prepareSheet(); }
-
-                }, scope: this }, 
+            }, scope: this }, 
 
             celldblclick: {fn: function ( tbl, el,  cellIndex, record, tr, rowIndex, e,  eOpts ) {
                 // para seleccionar en el zoom         
@@ -269,7 +268,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                     var zoom = vFld.getEditor()
                     zoom.resetZoom()
                 }
-            }, scope: this }
+            }, scope: me }
                 
         });                 
 
@@ -317,6 +316,17 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         });
 
+        // var header = grid.down('.headercontainer')
+        // header.on({
+            // headerclick : {fn : function( ct, col,  ev,  elt, eOpts ) {
+            // console.log('headerClick',  ct, col,  ev,  elt, eOpts);
+            // return false 
+        // }, scope: this },
+        // sortchange : { fn :function( a, b, c, d ) {
+            // console.log( 'sort', a, b, c, d);
+            // // return false 
+        // }, scope : this } 
+        // });
 
         // Fires after a editing. ...
         // grid.on('edit', function(editor, e, eOpts) {

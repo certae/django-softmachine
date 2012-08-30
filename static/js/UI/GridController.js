@@ -1,3 +1,4 @@
+
 Ext.define('ProtoUL.UI.GridController', {
     extend: 'Ext.Base',
 
@@ -89,7 +90,7 @@ Ext.define('ProtoUL.UI.GridController', {
                    me.store.protoOption , 
                    me.store.getProxy().extraParams.baseFilter, 
                    detailSubTitle 
-               ); 
+           ); 
             
         };
 

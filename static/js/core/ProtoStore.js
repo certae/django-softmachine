@@ -12,26 +12,25 @@ Ext.define('ProtoUL.core.ProtoStore', {
  * 
  */
 
-function getStoreDefinition(  storeDefinition  ){ 
+function getStoreDefinition(  stDef  ){ 
 
     // En la definicion como clase 
     // initComponent: function() {
-        // this.sorters = me.sorters || [{ property: 'xx', direction: 'ASC' }]
+        // this.sorters = stDef.sorters || [{ property: 'xx', direction: 'ASC' }]
         // this.idProperty = 
-        // me.fields = 
+        // stDef.fields = 
         // this.callParent(arguments);
     // }, 
 
-    var me = storeDefinition;
     var myStore = Ext.create('Ext.data.Store', {
-        // model : me.model,
+        // model : stDef.model,
 
-        protoOption : me.protoOption,
+        protoOption : stDef.protoOption,
 
-        model: getModelName( me.protoOption  ),  
-        autoLoad: me.autoLoad,
-        pageSize: me.pageSize,
-        sorters: me.sorters,    
+        model: getModelName( stDef.protoOption  ),  
+        autoLoad: stDef.autoLoad,
+        pageSize: stDef.pageSize,
+        sorters: stDef.sorters,    
 
         remoteSort: true,
         autoSync: false, 
@@ -70,10 +69,10 @@ function getStoreDefinition(  storeDefinition  ){
             },
 
             extraParams : {
-                protoOption : me.protoOption,
-                protoFilter : me.protoFilter,
-                baseFilter: me.baseFilter, 
-                protoMeta  : me.sProtoMeta    // String 
+                protoOption : stDef.protoOption,
+                protoFilter : stDef.protoFilter,
+                baseFilter: stDef.baseFilter, 
+                protoMeta  : stDef.sProtoMeta    // String 
             },    
 
             listeners: {
@@ -109,14 +108,19 @@ function getStoreDefinition(  storeDefinition  ){
             } 
             
         }, 
+        
+        // sort: function ( sorters ) {
+        // }, 
 
         listeners: {
-        
+
             // Fired when a Model instance has been added to this Store ...
             // add: function ( store, records,  index,  eOpts ) {
 
             // Fires before a request is made for a new data object. ...
             // beforeload: function(  store,  operation,  eOpts ) {
+                // if ( this.editMode  )  { return false }
+            // },
      
             // Fired before a call to sync is executed. Return false from any listener to cancel the synv
             // beforesync: function(  options,  eOpts ) {
