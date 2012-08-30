@@ -45,6 +45,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
             // toolBar de base para los items 
             mDet.tbDetails = Ext.create('Ext.toolbar.Toolbar', {
                 dock: 'bottom',
+                border : false, 
                 enableOverflow : true, 
                 items: [
                     {
@@ -59,7 +60,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
          
             mDet.myDetails = myDetails
             mDet.tbDetails.add ( myDetails )
-            mDet.addDocked( mDet.tbDetails )
+            mDet.protoMasterGrid.ownerCt.addDocked( mDet.tbDetails )
         } 
         
         

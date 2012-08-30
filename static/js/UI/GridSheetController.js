@@ -29,8 +29,6 @@ Ext.define('ProtoUL.UI.GridSheetController', {
                     autoScroll: true,
                     border: false
             }
-        } else { 
-            return  { region: 'east', hideen : true }
         } 
         
     }, 

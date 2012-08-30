@@ -117,6 +117,17 @@ Tareas pendientes
 		 
 
 
+        // TODO: Manejo de edicion condicional segun datos
+        // Parametros: una coleccion ( CampoCriterio, Condicion, Lista de campos habilidatos ) 
+        // if (e.record.get('status') == "0")
+            // grid.getPlugin('rowEditing').editor.form.findField('xx').disable();
+        // else 
+            // grid.getPlugin('rowEditing').editor.form.findField('xx').enable();
+                
+
+
+
+
     Reportes
 --------------
     Para la impresion de la grilla se hace una unica tabla, se puede agregar dos columnas cerradas 

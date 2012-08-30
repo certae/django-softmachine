@@ -46,8 +46,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             myMeta.gridConfig.initialFilter = this.initialFilter 
         }
         
-        // if (typeof this.baseFilter == 'undefined') {
-        // FIX: Verificar q si lo hace bien 
         if ( ! this.baseFilter ) {
             myFilter = myMeta.gridConfig.initialFilter;
             myFilter = Ext.encode(myFilter);
@@ -185,6 +183,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             
         }); 
 
+
         this._extGrid = grid;
         this.setGridTitle( this ) ;
 
@@ -206,31 +205,31 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         var sheetCrl = Ext.create('ProtoUL.UI.GridSheetController', { myGrid : this }); 
         
 
-// --------------------------------------------------------------------------------
+// ---
 
+        var myItems = [{
+            region: 'center',
+            flex: 1,
+            layout: 'fit',
+            minSize: 50,
+            items: grid 
+            }, 
+        ]
 
+        var mySheet = sheetCrl.getSheetConfig()
+        if ( mySheet ) myItems.push( mySheet )  
 
-        // TODO: Agregar un evento para el reload ( verificar refresh  ) de la grilla y afectar MasterDetail,  ZoomSelected 
-        this.addEvents(
-            'rowClick', 'rowDblClick', 'promoteDetail', 'selectionChange'
-        );
-
-//------        
 
         Ext.apply(this, {
             layout: 'border',
+            border : false, 
             defaults: { collapsible: false, split: false },
-            items: [{
-                region: 'center',
-                flex: 1,
-                layout: 'fit',
-                minSize: 50,
-                items: grid 
-            }, 
-                sheetCrl.getSheetConfig() 
-            ]
-             
+            items: myItems
         });
+
+        this.addEvents(
+            'rowClick', 'rowDblClick', 'promoteDetail', 'selectionChange'
+        );
 
         this.callParent(arguments);
         this.gridController.addNavigationPanel(); 
@@ -246,27 +245,20 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 // SelectionModel.rowSelected 
                 me.rowData = record.data;
                 this.fireEvent('rowClick', rowModel, record, rowIndex,  eOpts );
-                
                 if ( me.IdeSheet ) { sheetCrl.prepareSheet(); }
 
-                }, scope: this }
-        });                 
+                }, scope: this }, 
 
-        grid.on({
-            // Evento DblClick para seleccionar en el zoom         
             celldblclick: {fn: function ( tbl, el,  cellIndex, record, tr, rowIndex, e,  eOpts ) {
+                // para seleccionar en el zoom         
                 // Si esta en modo edicion no dispara nada para permitir entrar al editor 
                 if ( me.editable ) return  
                 me.fireEvent('rowDblClick', record, rowIndex  );
-            }, scope: me }
-        });                 
+            }, scope: me }, 
 
 
-        grid.on({
-        // Fires before editing is triggered. ...
             beforeedit: {fn: function ( edPlugin, e, eOpts) {
                 if ( ! this.editable )  return false;
-                
                 // Resetea el zoom 
                 for (var ix in e.grid.columns ) {
                     var vFld = e.grid.columns[ix]
@@ -277,15 +269,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                     var zoom = vFld.getEditor()
                     zoom.resetZoom()
                 }
-                
-                // TODO: Manejo de edicion condicional segun datos
-                // Parametros: una coleccion ( CampoCriterio, Condicion, Lista de campos habilidatos ) 
-                // if (e.record.get('status') == "0")
-                    // grid.getPlugin('rowEditing').editor.form.findField('xx').disable();
-                // else 
-                    // grid.getPlugin('rowEditing').editor.form.findField('xx').enable();
-                
-                }, scope: this }
+            }, scope: this }
                 
         });                 
 
