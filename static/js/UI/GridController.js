@@ -83,15 +83,10 @@ Ext.define('ProtoUL.UI.GridController', {
 
             var detDef = me.detailDefinition 
 
-            if ( detDef.masterTitleField ) {
-                var detailSubTitle =  me._MasterDetail.protoMasterGrid.rowData[ detDef.masterTitleField ];
-                detailSubTitle = detDef.detailTitleLbl + ' ' + detailSubTitle
-            }
-            
             __TabContainer.addTabPanel(
                    me.store.protoOption , 
                    me.store.getProxy().extraParams.baseFilter, 
-                   detailSubTitle 
+                   me.detailTitle 
            ); 
             
         };

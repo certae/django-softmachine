@@ -218,7 +218,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             var pDetail = myDetGrid.detailDefinition 
             var nField = pDetail.detailField.replace( /__pk$/, '_id' ) 
                  
-            var myDetField = myDetGrid.myMeta.__ptDict[ nField ]
+            var myDetField = myDetGrid.myFieldDict[ nField ]
             if ( ! myDetField ) {
                 setGridEditMode( myDetGrid , false )
                 return 
@@ -226,7 +226,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
             myDetField['defaultValue'] = me.idMasterGrid
             nField = pDetail.masterTitleField || myDetField.fkField 
-            if ( nField ) var myTitleField = myDetGrid.myMeta.__ptDict[ nField ]
+            if ( nField ) var myTitleField = myDetGrid.myFieldDict[ nField ]
             if ( myTitleField ) { 
                 var rowData = me.protoMasterGrid.rowData
                 if ( rowData )  {

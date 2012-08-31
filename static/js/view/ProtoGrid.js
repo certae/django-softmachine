@@ -34,9 +34,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         }
 
         // Recupera la clase para obtener la meta ------------------------------------------
-        var myMeta = _cllPCI[ this.protoOption ] ;
+        var myMeta = clone( _cllPCI[ this.protoOption ] );
         this.myMeta = myMeta;
-            
+        this.myFieldDict = getFieldDict( myMeta )            
 
         // VErifica si el store viene como parametro ( Detail )
         var myFilter = '';
@@ -55,7 +55,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             protoOption : this.protoOption, 
             autoLoad: this.autoLoad || true, 
             pageSize: _PAGESIZE,
-            sorters: clone(  myMeta.gridConfig.initialSort ), 
+            sorters: myMeta.gridConfig.initialSort , 
 
             // proxy.extraParams = {
             protoFilter : myFilter,
@@ -84,7 +84,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         // Columnas heredadas en caso de ser un detalle 
         if ( me.detailDefinition ) {
             var nDetId = me.detailDefinition.detailField.replace( /__pk$/, '_id' ) 
-            var vFld = me.myMeta.__ptDict[ nDetId ]
+            var vFld = me.myFieldDict[ nDetId ]
             var nDetTitle = me.detailDefinition.masterTitleField || vFld.fkField 
         } 
         
@@ -165,7 +165,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                         var clickedDataIndex = view.panel.headerCt.getHeaderAtIndex(cellIndex).dataIndex;
                         if (linkClicked && clickedDataIndex ) {
                             
-                            var myZField = me.myMeta.__ptDict[ clickedDataIndex ] 
+                            var myZField = me.myFieldDict[ clickedDataIndex ] 
                             if ( myZField &&  myZField.zoomModel && myZField.fkId ) {
                                 var formController = Ext.create('ProtoUL.UI.FormController', {});
                                 

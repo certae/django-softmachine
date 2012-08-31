@@ -13,10 +13,12 @@ Ext.define('ProtoUL.UI.MDSortersController', {
         var mySortCols = []
         var __MasterDetail = me.__MasterDetail
 
+        me.myFieldDict = __MasterDetail.protoMasterGrid.myFieldDict 
+
         // REcorre los q llegan y genera el obj  header, name         
         for ( var ix in me.myMeta.gridConfig.sortFields ) {
             var name = me.myMeta.gridConfig.sortFields[ix]
-            var c = me.myMeta.__ptDict[name]
+            var c = me.myFieldDict[name]
             if ( ! c ) c = { name : name , header : name }
             mySortCols.push( { name : c.name, header : c.header } ) 
         } 

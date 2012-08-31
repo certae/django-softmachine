@@ -18,7 +18,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
      * myMeta  : Metadata   
      */
     myMeta : null, 
-
+    myFieldDict : null, 
 
     /*
      * editable : False is ReadOnly 
@@ -33,6 +33,8 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             Ext.Msg.show({ value: 'ERROR Pcl  not loaded'});
             return; 
         }
+
+        this.myFieldDict = getFieldDict( this.myMeta )
 
         defineProtoPclTreeModel();
 
@@ -150,7 +152,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             }, 
             'show1': function (  ) {
 
-                var safeConf = clone( me.myMeta , 0, exclude =['__ptDict', 'protoViews'] )
+                var safeConf = clone( me.myMeta , 0, exclude =[ 'protoViews'] )
                 showConfig( 'Original' , safeConf  )
             }, 
             'show2': function (  ) {
@@ -218,7 +220,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
         function getTreeData( me ) {
           
-            var safeConf =  clone( me.myMeta , 0, exclude =['__ptDict', 'protoViews'] );
+            var safeConf =  clone( me.myMeta , 0, exclude =[ 'protoViews'] );
             var treeData = Meta2Tree( safeConf, 'pcl', 'pcl' );
             treeData.expanded = true;
     
@@ -419,7 +421,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             var fSelected = []  
             for (var ix in tmpList  ) {
                 var vFld  =  tmpList[ix];
-                if ( me.myMeta.__ptDict[vFld] ) {
+                if ( me.myFieldDict[vFld] ) {
                    fSelected.push( vFld )    
                 }
             } 

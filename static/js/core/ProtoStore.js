@@ -210,8 +210,6 @@ function DefineProtoModel ( myMeta , modelClassName ){
     // convert :  Campo Virtual calculado,  Apunta a una funcion q  genera el valor 
     
     var myFields = [];           // model Fields 
-    var __ptDict = {};                 // For indexing fields
-
     for (var ix in myMeta.fields ) {
 
         var vFld  =  myMeta.fields[ix];
@@ -269,14 +267,8 @@ function DefineProtoModel ( myMeta , modelClassName ){
 
         // Asigna el modelo y el diccionario 
         myFields.push(mField);
-        __ptDict[vFld.name] = vFld
 
     }
-    
-    
-    // Asigna un diccionario con las llaves como clave  
-    myMeta.__ptDict = __ptDict
-
     
     // Agrega el status y el interna ID 
     var mField = { name: '_ptStatus', type: 'string' };
@@ -284,7 +276,6 @@ function DefineProtoModel ( myMeta , modelClassName ){
 
     var mField = { name: '_ptId', type: 'string' };
     myFields.push(mField);
-
 
     // myFields = [{"name":"id","type":"int","useNull":true},{"name":"first","type":"string"}]
     Ext.define(modelClassName, {
@@ -302,6 +293,17 @@ function DefineProtoModel ( myMeta , modelClassName ){
         
 }
 
+
+function getFieldDict( myMeta ) {
+    // For indexing fields    
+    var ptDict = {};                 
+    for (var ix in myMeta.fields ) {
+        var vFld = myMeta.fields[ix]
+        ptDict[vFld.name] = vFld;
+    }
+    return ptDict
+}
+    
 
 function getColDefinition( vFld ) {
     //TODO:  Cargar las propiedades del modelo 
@@ -673,7 +675,7 @@ function savePci( protoMeta,  options) {
         });
     
         var protoOption = protoMeta.protoOption
-        var sMeta = Ext.encode(  clone( protoMeta, 0, ['__ptDict'] ) )
+        var sMeta = Ext.encode(  clone( protoMeta, 0  ) )
     
         Ext.Ajax.request({
             method: 'POST',
@@ -832,7 +834,7 @@ function definieProtoDetailsTreeModel( protoOption ) {
 function getSafeMeta( myMeta ) {
     
     // prepara la meta 
-    var excludeP = ['__ptDict', 'protoForm', 'sheetConfig', 'protoViews', 'protoDetails']
+    var excludeP = [ 'protoForm', 'sheetConfig', 'protoViews', 'protoDetails']
     var safeMeta =  clone( myMeta, 0, excludeP );
     
     return Ext.encode( safeMeta )

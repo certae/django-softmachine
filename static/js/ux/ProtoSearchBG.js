@@ -154,12 +154,12 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
         function configureComboColumns ( tb ){
             // Columnas para el Query del tipo :  newColData = [['idx', 'Id Reg'],['code', 'Code Reg']];
             var colData = [];
-            
+            var myFieldDict = getFieldDict( me.myMeta )
 
             // REcorre los q llegan y genera el obj  header, name         
             for ( var ix in me.myMeta.gridConfig.searchFields ) {
                 var name = me.myMeta.gridConfig.searchFields[ix]
-                var c = me.myMeta.__ptDict[name]
+                var c = myFieldDict[name]
                 if ( ! c ) { 
                     var c = { name : name, header : name }
                 }

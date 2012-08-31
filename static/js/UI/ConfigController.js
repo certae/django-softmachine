@@ -67,7 +67,7 @@ Ext.define('ProtoUL.UI.ConfigController', {
     }, 
         
     showMetaConfig: function () {
-        var safeConf =  clone( this.myMeta , 0, exclude =['__ptDict'] )
+        var safeConf =  clone( this.myMeta , 0 )
         this.showConfig( 'MetaConfig', safeConf )
     }, 
 
@@ -77,7 +77,7 @@ Ext.define('ProtoUL.UI.ConfigController', {
         // var safeConf = { a : { a1 : 1, a2: 2}, b : [ 'b1', 'b2']}
         // var safeConf = { a : { a1 : ['1'], a2: []} }
 
-        var safeConf = clone( this.myMeta , 0, exclude =['__ptDict', 'protoViews'] )
+        var safeConf = clone( this.myMeta , 0, exclude =['protoViews'] )
         var treeData = Meta2Tree( safeConf, 'pcl' , 'pcl' ) 
         safeConf = Tree2Meta( treeData ) 
 

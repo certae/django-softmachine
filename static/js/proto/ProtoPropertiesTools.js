@@ -20,11 +20,12 @@ function prepareProperties( record , myMeta,  propPanel  ){
     var __ptType = record.data.__ptType   
     var __ptText = record.data.text
 
-
+    var myFieldDict = getFieldDict( myMeta )
+ 
     if ( __ptType  in oc( [ 'field', 'formField' ]) ) {
 
         // Default Data ( aplica los defaults a la pcl y luego a la definicion del campo )
-        template = getTemplate( __ptType, false, myMeta.__ptDict[ __ptText  ] )
+        template = getTemplate( __ptType, false, myFieldDict[ __ptText  ] )
         __ptConfig[ 'name' ]  = __ptText 
 
     // } else if ( __ptType  in oc( [ 'protoDetail', 'protoSheet' ]) ) {
@@ -116,6 +117,7 @@ function defineProtoFormItem( myMeta, parent, protoObj, protoIx ) {
 
     var prLayout , template, __ptType 
     var sDataType = typeOf(protoObj);
+    var myFieldDict = getFieldDict( myMeta )
 
     if (sDataType == "object" ) { 
 
@@ -139,7 +141,7 @@ function defineProtoFormItem( myMeta, parent, protoObj, protoIx ) {
             // protoIx es el field Name, si no viene debe buscarlo en __ptConfig [ name ]
             protoIx = protoObj.name || protoObj.__ptConfig.name 
             
-            var myFld =  myMeta.__ptDict[ protoIx ] 
+            var myFld =  myFieldDict[ protoIx ] 
             if ( myFld ) {
 
                 template = getTemplate( __ptType, true,  myFld  )

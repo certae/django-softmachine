@@ -4,7 +4,7 @@
  * Lista ordenable y seleccionable 
  * 
  *      Por ahora solo trabaja con un campo Id, 
- *      TODO:  Ampliar con varias columnas 
+ *      V+:  Ampliar con varias columnas 
  */
 
 Ext.define('ProtoUL.ux.ProtoList' ,{
