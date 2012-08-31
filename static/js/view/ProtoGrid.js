@@ -122,6 +122,12 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         var grid = Ext.create('Ext.grid.Panel', {
             border : false, 
+            region: 'center',
+            flex: 1,
+            layout: 'fit',
+            minSize: 50,
+            
+            
             plugins: [    'headertooltip', this.rowEditing ],            
             // selModel: selModel,
             columns : gridColumns,   
@@ -219,13 +225,14 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 // ---
 
-        var myItems = [{
-            region: 'center',
-            flex: 1,
-            layout: 'fit',
-            minSize: 50,
-            items: grid 
-            }, 
+        var myItems = [ grid 
+        // {
+            // region: 'center',
+            // flex: 1,
+            // layout: 'fit',
+            // minSize: 50,
+            // items: grid 
+            // } 
         ]
 
         var mySheet = sheetCrl.getSheetConfig()

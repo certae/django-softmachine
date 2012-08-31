@@ -14,7 +14,6 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
     // Estados iniciales 
     editable : false, 
     autoSync : true, 
-
     initComponent: function() {
 
         // Recupera la meta   ------------------------------------------------------------ 
@@ -28,7 +27,12 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             protoOption : this.protoOption,  
             baseFilter : this.baseFilter, 
             // detFilter : this.detFilter, 
-            detailTitle : this.detailTitle 
+            detailTitle : this.detailTitle, 
+            
+            region: 'center',
+            flex: 1,
+            layout: 'fit',
+            collapsible: false
         }) ; 
         
         this.protoMasterStore = this.protoMasterGrid.store ;  
@@ -50,7 +54,22 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         
         // Asigna el tab de control a la grilla y el panel de detalles  
         this.protoMasterGrid._toolBar = tb 
-        this.protoTabs = Ext.create('Ext.panel.Panel', { layout: 'card' });
+        this.protoTabs = Ext.create('Ext.panel.Panel', { 
+            layout: 'card' 
+            
+            // id: this.IDdetailPanel, 
+            // region: 'south',
+            // collapseMode : 'mini', 
+            // hideCollapseTool :  true, 
+            // header : false, 
+            // border : false, 
+            // flex: 1,
+            // collapsed: false,
+            // layout: 'fit',
+            // minSize: 75,
+            // defaults: { border: false  },
+            // // items: this.protoTabs 
+        });
 
         
         this.IDdetailPanel = Ext.id();
@@ -62,19 +81,23 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
                 split: true
             },
             tbar: tb,
-            items: [{
-                region: 'center',
-                flex: 1,
-                layout: 'fit',
-                collapsible: false,
-                items: this.protoMasterGrid 
-            }, {
+            items: [  this.protoMasterGrid, {
+            
+            // {   region: 'center',
+                // flex: 1,
+                // layout: 'fit',
+                // collapsible: false,
+                // border : false, 
+                // items: this.protoMasterGrid 
+            // },  {
+            // }, this.protoTabs ]
+                
                 id: this.IDdetailPanel, 
-                // title: 'Détails',
                 collapseMode : 'mini', 
                 hideCollapseTool :  true, 
                 region: 'south',
                 header : false, 
+                border : false, 
                 flex: 1,
                 collapsed: true,
                 layout: 'fit',

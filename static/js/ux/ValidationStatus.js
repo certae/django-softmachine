@@ -1,4 +1,4 @@
-/**
+/**  TODO:  Verificar y poner en funcionamiento con la forma 
  * A {@link Ext.ux.statusbar.StatusBar} plugin that provides automatic error
  * notification when the associated form contains validation errors.
  */

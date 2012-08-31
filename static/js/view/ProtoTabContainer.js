@@ -12,6 +12,7 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
         },
         scope: this 
     }, 
+    border : false, 
     
     initComponent: function() {
         
@@ -33,6 +34,7 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
 
         var tab = this.add({
             title: title ,
+            border : false, 
             tabConfig: {
                 tooltip : title, 
                 width : 120 

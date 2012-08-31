@@ -77,7 +77,7 @@ Ext.define('ProtoUL.UI.GridController', {
                 // emptyMsg: "No register to display"
             }
 
-        me.addDocked( myNavPanel, 0 )
+        me.addDocked( myNavPanel  )
 
         function onMenuPromoteDetail() {
 

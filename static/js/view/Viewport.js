@@ -22,17 +22,43 @@ Ext.define('ProtoUL.view.Viewport', {
             items: [
                 this.createHeaderPanel(),
                 this.createMenuPanel(),
-                this.createProtoTabContainer()
-                // this.createPropertyPanel(),
-                // this.createHeaderPanel(),
-                // this.createFooterPanel(),
-            ]
+                this.createProtoTabContainer(),
+                this.createFooterPanel()
+            ] 
+            
         });
 
         this.callParent(arguments);
         
         
     },
+
+    createFooterPanel: function() {
+
+        return  Ext.create('Ext.ux.StatusBar', {
+                id: 'my-status',
+                region:'south', 
+                border : false, 
+                margins:'0 0 0 0',
+                split: false,
+                collapsible: false,
+                           
+                // defaults to use when the status is cleared:
+                defaultText: 'Default status text',
+                defaultIconCls: 'default-icon',
+        
+                // values to set initially:
+                text: 'Ready',
+                iconCls: 'ready-icon',
+        
+                // any standard Toolbar items:
+                items: [{
+                    text: 'A Button'
+                }, '-', 'Plain Text']
+            })            
+        
+    }, 
+
 
     // Eventos despues de cargado el panel 
     afterRender: function () {
@@ -56,6 +82,7 @@ Ext.define('ProtoUL.view.Viewport', {
         var headerPanel = {
             region:'north',            
             margins:'0 0 0 0',
+            // border : false, 
             split: false,
             collapsible: false,
             layout: {
@@ -72,7 +99,7 @@ Ext.define('ProtoUL.view.Viewport', {
             },{
                 xtype:'splitbutton',
                 scale: 'medium',
-                   margins:'5 5 5 5',
+                margins:'5 5 5 5',
                 text: 'Login'
             }]
 
@@ -92,6 +119,7 @@ Ext.define('ProtoUL.view.Viewport', {
             width: 300,
             title : 'Composants du Dictionnaire',
             collapsible: true,
+            // border : false, 
             collapsed: _MENU_COLLAPSED,
             
             // Solo en el panel de menus
@@ -150,23 +178,8 @@ Ext.define('ProtoUL.view.Viewport', {
     createProtoTabContainer: function(){
        this.protoTabContainer = Ext.create('widget.protoTabContainer', {
             region: 'center',
-            minWidth: 300, 
-            bbar: Ext.create('Ext.ux.StatusBar', {
-                    id: 'my-status',
-            
-                    // defaults to use when the status is cleared:
-                    defaultText: 'Default status text',
-                    defaultIconCls: 'default-icon',
-            
-                    // values to set initially:
-                    text: 'Ready',
-                    iconCls: 'ready-icon',
-            
-                    // any standard Toolbar items:
-                    items: [{
-                        text: 'A Button'
-                    }, '-', 'Plain Text']
-                })            
+            border : false, 
+            minWidth: 300 
         }); 
         return this.protoTabContainer;
     }

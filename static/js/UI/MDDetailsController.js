@@ -62,7 +62,8 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
          
             mDet.myDetails = myDetails
             mDet.tbDetails.add ( myDetails )
-            mDet.protoMasterGrid.ownerCt.addDocked( mDet.tbDetails )
+            mDet.protoMasterGrid.addDocked( mDet.tbDetails, 0 )
+            // mDet.protoMasterGrid.ownerCt.addDocked( mDet.tbDetails )
         } 
         
         
@@ -156,8 +157,10 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
 
         function onActionSelectDetail( item ) {
             mDet.ixActiveDetail = item.baseAction.initialConfig.ixDetail ;
-    
+
+            // Si se carga directamente el Card Layout en el BorderLayout no permite el activeItem     
             mDet.protoTabs.getLayout().setActiveItem( mDet.ixActiveDetail );
+            
             mDet.linkDetail();        
             mDet.showDetailPanel()
             
