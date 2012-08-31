@@ -25,6 +25,8 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
     
     addTabPanel: function( protoOption, baseFilter , detailTitle  ){
 
+        Ext.suspendLayouts();
+        
         var myMeta = _cllPCI[ protoOption ] ;
         var title = myMeta.shortTitle ; 
         if ( baseFilter ) { title = '*' + title }
@@ -44,6 +46,9 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
         });
 
         this.setActiveTab( tab )
+        
+        Ext.resumeLayouts(true);
+
     },
 
     createProtoMasterDetail: function( protoOption, baseFilter, detailTitle ){

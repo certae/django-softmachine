@@ -192,11 +192,9 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         // En modoEdicion los botones de accion son desactivados 
         // En modoAction los botones de edicion son apagados 
 
-        // 'edit', 'cancel', 'save', 'autoSync'
-
-        var autoSync = this.__MasterDetail.autoSync
-        this.__MasterDetail.setEditMode(  bEdit   )
+        Ext.suspendLayouts();
     
+        // 'edit', 'cancel', 'save', 'autoSync'
         this.getComponent('edit').setVisible ( ! bEdit );
         this.getComponent('cancel').setVisible( bEdit );
         this.getComponent('save').setVisible( bEdit  );
@@ -205,6 +203,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         this.getComponent('save').setDisabled( autoSync || (!bEdit ));
         this.getComponent('autoSync').toggle( autoSync, true  );
+        this.searchBG.setVisible( ! bEdit )
 
 
         // 'details', 'printerOpts', 'sorters', 'tbHelp', 'custom',
@@ -212,13 +211,17 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         setEditMode( this, 'printerOpts', bEdit );
         setEditMode( this, 'sorters', bEdit  );
         setEditMode( this, 'custom', bEdit );
+
+        var autoSync = this.__MasterDetail.autoSync
+        this.__MasterDetail.setEditMode(  bEdit   )
+
         
         function setEditMode( me, btId, bEdit ) {
             var bt = me.getComponent( btId )
             bt.setVisible ( (! bEdit ) && ( bt.protoEnable ));
         }; 
 
-        this.searchBG.setVisible( ! bEdit )
+        Ext.resumeLayouts(true);
 
     },  
     
