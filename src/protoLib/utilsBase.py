@@ -273,8 +273,11 @@ class cAux: pass
 
 def getReadableError( e ):
     sAux = '<b>ErrType:</b> ' + type( e ).__name__ + '<br>'
-    sAux += e.message 
-    if len( e.args ) > 1: sAux += '<br>' +  '; '.join( e.args )
+    if len( e.message ) > 0:
+        sAux += e.message
+    else:  sAux += e.text 
+    
+#    if len( e.args ) > 1: sAux += '<br>' +  str( '; '.join( e.args ))
     return sAux + '<br>'
 
 

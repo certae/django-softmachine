@@ -150,7 +150,23 @@ Ext.define('ProtoUL.view.Viewport', {
     createProtoTabContainer: function(){
        this.protoTabContainer = Ext.create('widget.protoTabContainer', {
             region: 'center',
-            minWidth: 300
+            minWidth: 300, 
+            bbar: Ext.create('Ext.ux.StatusBar', {
+                    id: 'my-status',
+            
+                    // defaults to use when the status is cleared:
+                    defaultText: 'Default status text',
+                    defaultIconCls: 'default-icon',
+            
+                    // values to set initially:
+                    text: 'Ready',
+                    iconCls: 'ready-icon',
+            
+                    // any standard Toolbar items:
+                    items: [{
+                        text: 'A Button'
+                    }, '-', 'Plain Text']
+                })            
         }); 
         return this.protoTabContainer;
     }

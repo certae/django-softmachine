@@ -1,5 +1,5 @@
 
-//TODO: Revizar Allow Null, Listo el Blank en la grilla, falta la forma, falta en el modelo
+//TODO: Revizar Allow Null, Listo el Blank en la grilla 
 
 Ext.define('ProtoUL.view.ProtoGrid' ,{
     extend: 'Ext.Panel',                                
@@ -332,11 +332,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         // header.on({
             // headerclick : {fn : function( ct, col,  ev,  elt, eOpts ) {
             // console.log('headerClick',  ct, col,  ev,  elt, eOpts);
-            // return false 
         // }, scope: this },
         // sortchange : { fn :function( a, b, c, d ) {
             // console.log( 'sort', a, b, c, d);
-            // // return false 
         // }, scope : this } 
         // });
 
@@ -346,17 +344,12 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             // e.record.commit();
         // });
 
-
         
     },
 
     _getRowNumberDefinition: function () {
-
-        //FIX:  Cuando la columna es locked,  el headerCT va nulo y no puede asignar el tooltip 
-        
-        // var rowNumberCol = Ext.create('Ext.grid.RowNumberer',{"width":37, "draggable":false , "sortable": false})
         var rowNumberCol = { xtype: 'rownumberer', width:37, draggable:false,  sortable: false } // locked: true, lockable: false }
-        return     rowNumberCol
+        return rowNumberCol
       },
     
     getViewColumns: function (  viewCols  ) {
@@ -417,20 +410,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         me._extGrid.setTitle( gridTitle )  
     }, 
     
-
-    setEditMode: function( editable ){
-
-        this.editable = editable ;        
-
-        if (editable ) {
-            // this._extGrid.down('#toolSave').show();
-            // this._extGrid.down('#toolCancelEdit').show();
-        } else {
-            // this._extGrid.down('#toolSave').hide();
-            // this._extGrid.down('#toolCancelEdit').hide();
-        }
-
-   },
 
     /*
      * @private
@@ -502,44 +481,32 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
     }, 
 
-    setEditionOff: function() {
-        
-        if ((! this._extGrid ) || ( ! this.editable )) return; 
-         
-        // Invocada desde el tool, debe cancelar la edicion y retroalimentar el toolbar 
-        this.setEditMode( false ) 
-        
-        // Reconfigura el toolBar 
-        if ( this._toolBar ) {
-            this._toolBar.toggleEditMode( false, true )
-        };   
+    setEditMode: function(  bEdit ) {
+        // Deshabilita cualquier operacion al server
+        this.store.editMode = bEdit 
+        this.gridController.setEditMode( bEdit )
+    },  
 
-    }, 
-    
-    saveChanges: function(){
+    saveChanges: function( autoSync ){
         this.store.sync();
+        if ( autoSync != undefined )  this.store.autoSync = autoSync  
     }, 
     
     cancelChanges: function() {
-        this.setEditionOff()
         this.store.load(); 
     }, 
     
     loadData: function( grid,  sFilter, sTitle  ) {
-         
         grid.store.clearFilter();
         grid.store.getProxy().extraParams.protoFilter = sFilter;
-    
-        // TODO: Cargar el sort, buscarlo en proxy.sorters o setear una var en la grilla 
         grid.store.load();
         
-        if ( grid.store.currentPage != 1 ) {
-            grid.store.loadPage(1);
-        }
-         
+        // Para evitar q al filtrar se quede en una pagina vacia 
+        if ( grid.store.currentPage != 1 )  grid.store.loadPage(1);
     },
     
-    addTools: function( myTools ) { 
+    addTools: function( myTools ) {
+        // Controles de edicion en el panel de titulo de la grilla 
         this._extGrid.addTool( myTools )
     } 
 

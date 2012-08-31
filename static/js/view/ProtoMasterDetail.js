@@ -165,13 +165,11 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
     showDetailPanel: function( bHide ) {
         var detailPanel = Ext.getCmp( this.IDdetailPanel);
         if ( bHide ) { 
-
             this.ixInactiveDetail = this.ixActiveDetail
             this.ixActiveDetail =  -1
             detailPanel.collapse(); 
 
         }  else if ( detailPanel.collapsed  ) { 
-            
             if (this.ixActiveDetail < 0) { this.ixActiveDetail = this.ixInactiveDetail || 0; }
             this.linkDetail()
             detailPanel.expand(); 
@@ -196,7 +194,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         // Cambia el control de las grillas correspondientes 
         if ( detailPanel.collapsed  ) {
  
-            setGridEditMode( me.protoMasterGrid, bEdit )
+            me.protoMasterGrid.setEditMode(  bEdit )
             setDisabled( me.tbDetails )
 
         } else {
@@ -208,7 +206,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             var detGrids = me.protoTabs.items.items
             for (var ix in detGrids ) {
                 var myDetGrid = detGrids[ix]
-                setGridEditMode( myDetGrid , bEdit )
+                myDetGrid.setEditMode( bEdit )
                 if ( bEdit ) setDetDefaults( myDetGrid )
             }
             
@@ -218,13 +216,17 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             var pDetail = myDetGrid.detailDefinition 
             var nField = pDetail.detailField.replace( /__pk$/, '_id' ) 
                  
+            // Obtiene el campo de filtro ( heredado )                  
             var myDetField = myDetGrid.myFieldDict[ nField ]
             if ( ! myDetField ) {
-                setGridEditMode( myDetGrid , false )
+                // Si no hereda la llave, cancela la edicion 
+                myDetGrid.setEditMode( false )
                 return 
             } 
 
             myDetField['defaultValue'] = me.idMasterGrid
+
+            // Obtiene el titulo del filtro para heredarlo
             nField = pDetail.masterTitleField || myDetField.fkField 
             if ( nField ) var myTitleField = myDetGrid.myFieldDict[ nField ]
             if ( myTitleField ) { 
@@ -237,12 +239,6 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             } 
         }
         
-        
-        function setGridEditMode( myGrid, bEdit ) {
-            // Deshabilita cualquier operacion al server
-            myGrid.store.editMode = bEdit 
-            myGrid.gridController.setEditMode( bEdit )
-        } 
 
         function setDisabled( tbar, bDisable ) {
             // Por defecto es el edit mode
@@ -254,12 +250,37 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
     
     setAutoSync: function( bMode ) {
         this.autoSync = bMode 
-        // if ( bMode )  __MasterDetail.saveChanges()
-
+        this.saveChanges( bMode )
     }, 
     
-    saveChanges: function() {
-        // TODO: 
+    saveChanges: function( autoSync ) {
+        var me = this
+        var detailPanel = Ext.getCmp( me.IDdetailPanel);
+        
+        if ( detailPanel.collapsed  ) {
+            me.protoMasterGrid.saveChanges( autoSync )
+        } else {
+            var detGrids = me.protoTabs.items.items
+            for (var ix in detGrids ) {
+                var myDetGrid = detGrids[ix]
+                myDetGrid.saveChanges( autoSync )
+            }
+        }
+    }, 
+    
+    cancelChanges: function() {
+        var me = this
+        var detailPanel = Ext.getCmp( me.IDdetailPanel);
+        
+        if ( detailPanel.collapsed  ) {
+            me.protoMasterGrid.cancelChanges()
+        } else {
+            var detGrids = me.protoTabs.items.items
+            for (var ix in detGrids ) {
+                var myDetGrid = detGrids[ix]
+                myDetGrid.cancelChanges()
+            }
+        }
     }
 
 });

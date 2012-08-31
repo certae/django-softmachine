@@ -169,7 +169,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         function editOpts( but  ) {
             // 'edit', 'autoSync','cancel','save',
 
-
             if ( but.itemId == 'edit' ) {
                 me.setEditMode( true )
 
@@ -177,15 +176,20 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 __MasterDetail.saveChanges()
 
             } else if ( but.itemId == 'cancel' ) {
+                __MasterDetail.cancelChanges()
                 me.setEditMode( false  )
 
             } else if ( but.itemId == 'autoSync' ) {
-                __MasterDetail.setAutoSync ( but.pressed );
-                me.setEditMode( true )
+                me.setAutoSync( but.pressed )
             }
         } 
     }, 
     
+
+    setAutoSync: function( autoSync ) {
+        this.getComponent('save').setDisabled( autoSync );
+        this.__MasterDetail.setAutoSync ( autoSync );
+    }, 
 
     setEditMode: function( bEdit ) {
         
@@ -201,10 +205,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         this.getComponent('autoSync').setVisible( bEdit );
         this.getComponent('config').setVisible( !bEdit );
 
-        this.getComponent('save').setDisabled( autoSync || (!bEdit ));
-        this.getComponent('autoSync').toggle( autoSync, true  );
         this.searchBG.setVisible( ! bEdit )
-
+        this.setAutoSync( this.__MasterDetail.autoSync )
 
         // 'details', 'printerOpts', 'sorters', 'tbHelp', 'custom',
         setEditMode( this, 'details', bEdit );

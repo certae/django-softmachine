@@ -33,7 +33,7 @@ function getStoreDefinition(  stDef  ){
         sorters: stDef.sorters,    
 
         remoteSort: true,
-        autoSync: false, 
+        autoSync: true, 
 
         proxy: {
             type: 'ajax',

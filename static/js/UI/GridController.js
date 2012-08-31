@@ -151,7 +151,6 @@ Ext.define('ProtoUL.UI.GridController', {
     }, 
     
     setEditMode: function ( bEdit  ) {
-        // tbOnly : is internal event fired from grid 
 
         this.myGrid.editable = bEdit
         var myExtGrid = this.myGrid._extGrid    
