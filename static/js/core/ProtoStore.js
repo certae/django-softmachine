@@ -306,7 +306,6 @@ function getFieldDict( myMeta ) {
     
 
 function getColDefinition( vFld ) {
-    //TODO:  Cargar las propiedades del modelo 
 
     if (!vFld.header ) vFld.header = vFld.name
     
@@ -586,6 +585,8 @@ function getFormFieldDefinition( vFld ) {
 
 function loadPci( protoOption, loadIfNot, options) {
 
+        // __StBar.showBusy()
+        
         options = options || {};
         
         // Verificar si la opcion esta creada 
@@ -622,6 +623,7 @@ function loadPci( protoOption, loadIfNot, options) {
                     savePclCache( protoOption, myResult.protoMeta )
 
                     options.success.call( options.scope, result, request);
+
                 },
                 failure: function(result, request) {
                     options.failure.call(options.scope, result, request);

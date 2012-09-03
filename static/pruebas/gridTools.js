@@ -24,3 +24,20 @@
                 // scope: this,
                 // handler: showColsConfig,
                 // tooltip: 'ColsConfig ... '
+
+
+        // var header = grid.down('.headercontainer')
+        // header.on({
+            // headerclick : {fn : function( ct, col,  ev,  elt, eOpts ) {
+            // console.log('headerClick',  ct, col,  ev,  elt, eOpts);
+        // }, scope: this },
+        // sortchange : { fn :function( a, b, c, d ) {
+            // console.log( 'sort', a, b, c, d);
+        // }, scope : this } 
+        // });
+
+        // Fires after a editing. ...
+        // grid.on('edit', function(editor, e, eOpts) {
+            // commit the changes right after editing finished
+            // e.record.commit();
+        // });

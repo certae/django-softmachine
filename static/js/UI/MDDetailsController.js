@@ -24,17 +24,11 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
                 text: pDetail.menuText,
                 hidden : true, 
                 // enableToggle: true,
-                // toggleGroup: 'detail',   
                 scope:    me,                     
                 handler:  onActionSelectDetail,
                 detailKey: pDetail.conceptDetail,
                 detailDefinition : pDetail
 
-                // detailField: pDetail.detailField,
-                // masterField: pDetail.masterField,
-                // detailTitleLbl: pDetail.detailTitleLbl,
-                // masterTitleField: pDetail.masterTitleField,
-                // detailTitleField: pDetail.detailTitleField
             })
             
             myDetails.push ( myAction  );
@@ -119,9 +113,6 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
     
             // guarda el store con el indice apropiado   
             detailGrid.store.detailDefinition = pDetail
-            // detailGrid.store.detailField = item.detailField;
-            // detailGrid.store.masterField = item.masterField;
-            // detailGrid.store.protoOption = item.detailKey;
 
             // Asigna el Ix 
             item.ixDetail = mDet.protoTabs.items.length
@@ -131,10 +122,6 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
 
             detailGrid.ixDetail = item.ixDetail;
                 
-            // detailGrid.detailTitleLbl = item.detailTitleLbl;
-            // detailGrid.detailTitleField = item.detailTitleField;
-            // detailGrid.masterTitleField = item.masterTitleField;
-            
             // Asigna el store y lo agrega a los tabs 
             mDet.cllStoreDet[item.ixDetail] = detailGrid.store ;
             

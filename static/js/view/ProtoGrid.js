@@ -225,19 +225,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 // ---
 
-        var myItems = [ grid 
-        // {
-            // region: 'center',
-            // flex: 1,
-            // layout: 'fit',
-            // minSize: 50,
-            // items: grid 
-            // } 
-        ]
-
+        var myItems = [ grid ]
         var mySheet = sheetCrl.getSheetConfig()
         if ( mySheet ) myItems.push( mySheet )  
-
 
         Ext.apply(this, {
             layout: 'border',
@@ -335,21 +325,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         });
 
-        // var header = grid.down('.headercontainer')
-        // header.on({
-            // headerclick : {fn : function( ct, col,  ev,  elt, eOpts ) {
-            // console.log('headerClick',  ct, col,  ev,  elt, eOpts);
-        // }, scope: this },
-        // sortchange : { fn :function( a, b, c, d ) {
-            // console.log( 'sort', a, b, c, d);
-        // }, scope : this } 
-        // });
-
-        // Fires after a editing. ...
-        // grid.on('edit', function(editor, e, eOpts) {
-            // commit the changes right after editing finished
-            // e.record.commit();
-        // });
 
         
     },

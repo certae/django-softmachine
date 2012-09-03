@@ -43,9 +43,16 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 iconCls : 'icon-tableSave', 
                 itemId:     'save',
                 text:       'Save',
-                tooltip:    'Save',
+                tooltip:    'Save and exit edition mode',
                 handler:    editOpts,
                 hidden:     true  
+            }, {
+                iconCls : 'icon-saveDraft', 
+                itemId:     'saveDraft',
+                text:       'Continue',
+                tooltip:    'Save and continue',
+                handler:    editOpts,
+                hidden:     true   
             },  {
                 iconCls : 'icon-tableAutoSync', 
                 itemId:     'autoSync',
@@ -118,7 +125,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         });
 
         this.callParent();
-        
+        this.setEditMode( false ); 
 
         //--------------------------------------------------------
         
@@ -174,12 +181,17 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
             } else if ( but.itemId == 'save' ) {
                 __MasterDetail.saveChanges()
+                me.setEditMode( false  )
+
+            } else if ( but.itemId == 'saveDraft' ) {
+                __MasterDetail.saveChanges()
 
             } else if ( but.itemId == 'cancel' ) {
                 __MasterDetail.cancelChanges()
                 me.setEditMode( false  )
 
             } else if ( but.itemId == 'autoSync' ) {
+                __MasterDetail.saveChanges()
                 me.setAutoSync( but.pressed )
             }
         } 
@@ -187,7 +199,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
     
 
     setAutoSync: function( autoSync ) {
-        this.getComponent('save').setDisabled( autoSync );
+        this.getComponent('saveDraft').setDisabled( autoSync );
+        this.getComponent('autoSync').toggle( autoSync, true  );
         this.__MasterDetail.setAutoSync ( autoSync );
     }, 
 
@@ -202,6 +215,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         this.getComponent('edit').setVisible ( ! bEdit );
         this.getComponent('cancel').setVisible( bEdit );
         this.getComponent('save').setVisible( bEdit  );
+        this.getComponent('saveDraft').setVisible( bEdit  );
         this.getComponent('autoSync').setVisible( bEdit );
         this.getComponent('config').setVisible( !bEdit );
 

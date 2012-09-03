@@ -6,7 +6,6 @@ Ext.define('ProtoUL.view.Viewport', {
 
     requires: [
         'ProtoUL.view.MenuTree',
-     // 'ProtoUL.view.ProtoProperties',
         'ProtoUL.view.ProtoTabContainer'
     ],
 
@@ -35,7 +34,9 @@ Ext.define('ProtoUL.view.Viewport', {
 
     createFooterPanel: function() {
 
-        return  Ext.create('Ext.ux.StatusBar', {
+        // Sb Global 
+        
+        __StBar = Ext.create('Ext.ux.StatusBar', {
                 id: 'my-status',
                 region:'south', 
                 border : false, 
@@ -49,13 +50,15 @@ Ext.define('ProtoUL.view.Viewport', {
         
                 // values to set initially:
                 text: 'Ready',
-                iconCls: 'ready-icon',
+                iconCls: 'ready-icon'
         
                 // any standard Toolbar items:
-                items: [{
-                    text: 'A Button'
-                }, '-', 'Plain Text']
-            })            
+                // items: [{
+                    // text: 'A Button'
+                // }, '-', 'Plain Text']
+            }) 
+            
+        return __StBar           
         
     }, 
 
@@ -77,7 +80,6 @@ Ext.define('ProtoUL.view.Viewport', {
     
 
     createHeaderPanel: function () {
-
         
         var headerPanel = {
             region:'north',            

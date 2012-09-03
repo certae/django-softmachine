@@ -54,6 +54,7 @@
 .icon-tableAutoSync     { background-image: url(../img/protoImg/edit_autosync.png ) !important;}
 .icon-tableSave         { background-image: url(../img/protoImg/edit_save.png ) !important;}
 .icon-tableCancel       { background-image: url(../img/protoImg/edit_cancel.png ) !important;}
+.icon-saveDraft         { background-image: url(../img/protoImg/edit_draft.png ) !important;}
 
 .icon-tableAdd          { background-image: url(../img/protoImg/table_row_insert.png ) !important;}
 .icon-tableDelete       { background-image: url(../img/protoImg/table_row_delete.png ) !important;}

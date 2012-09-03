@@ -56,19 +56,6 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         this.protoMasterGrid._toolBar = tb 
         this.protoTabs = Ext.create('Ext.panel.Panel', { 
             layout: 'card' 
-            
-            // id: this.IDdetailPanel, 
-            // region: 'south',
-            // collapseMode : 'mini', 
-            // hideCollapseTool :  true, 
-            // header : false, 
-            // border : false, 
-            // flex: 1,
-            // collapsed: false,
-            // layout: 'fit',
-            // minSize: 75,
-            // defaults: { border: false  },
-            // // items: this.protoTabs 
         });
 
         
@@ -82,15 +69,9 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             },
             tbar: tb,
             items: [  this.protoMasterGrid, {
-            
-            // {   region: 'center',
-                // flex: 1,
-                // layout: 'fit',
-                // collapsible: false,
-                // border : false, 
-                // items: this.protoMasterGrid 
-            // },  {
-            // }, this.protoTabs ]
+
+            // Extjs 4.1.1 Genera error al mezclar layout "region"  &  "card",
+            // }, this.protoTabs ]   
                 
                 id: this.IDdetailPanel, 
                 collapseMode : 'mini', 
@@ -208,11 +189,15 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
         var me = this
         var detailPanel = Ext.getCmp( me.IDdetailPanel);
+
+        // Solo el estado inicial 
+        if ( ! detailPanel   )  return 
         
         // Apagar las barras 
         setDisabled( me.tbFilters )
         setDisabled( me.tbPrinterOpts )
         setDisabled( me.tbSorters )
+
 
         // Cambia el control de las grillas correspondientes 
         if ( detailPanel.collapsed  ) {
@@ -273,7 +258,6 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
     
     setAutoSync: function( bMode ) {
         this.autoSync = bMode 
-        this.saveChanges( bMode )
     }, 
     
     saveChanges: function( autoSync ) {
