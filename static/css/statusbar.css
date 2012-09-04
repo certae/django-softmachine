@@ -39,7 +39,7 @@
 .x-statusbar .x-status-error {
     cursor: pointer;
     padding-left: 25px !important;
-    background: transparent no-repeat 3px 0;
+    background: transparent no-repeat ;
 }
 
 .x-statusbar .x-status-warning {

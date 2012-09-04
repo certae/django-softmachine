@@ -76,21 +76,17 @@ function getStoreDefinition(  stDef  ){
             },    
 
             listeners: {
-                'load' :  function(store,records,options) {
-                    this.loaded = true
-                },
+
+                // 'load' :  function(store,records,options) { this.loaded = true }
                 'exception': function(proxy, response, operation){
                     // var msg = operation.request.scope.reader.jsonData["message"] ;
                     var msg = 'REMOTE EXCEPTION: ' + operation.getError();
-                    __StBar.showError( msg ); 
+                    __StBar.showError( msg , 'storeException'); 
                 } 
-            },
+            }
              
-            afterRequest: function( request, success ){
-
-                var title = 'afterRequest :' + request.method + '.' + request.action,                     
-                    msg = ''
-
+            // afterRequest: function( request, success ){
+                // var title = 'afterRequest :' + request.method + '.' + request.action, msg = ''
                 // try {
                     // if ( request.operation.response.status != 200 ) {
                         // if ( 'jsonData' in request.scope.reader ) { 
@@ -101,12 +97,14 @@ function getStoreDefinition(  stDef  ){
                 // } catch(e) {
                     // msg = e.message
                 // }
-                // __StBar.showError( msg ); 
-            } 
+            // } 
             
         }, 
         
+        // Redefinicion de metodos 
+        
         // sort: function ( sorters ) {
+            // Redefine el metodo, siempre pasa por aqui 
         // }, 
 
         listeners: {
@@ -115,12 +113,14 @@ function getStoreDefinition(  stDef  ){
             // add: function ( store, records,  index,  eOpts ) {
 
             // Fires before a request is made for a new data object. ...
-            // beforeload: function(  store,  operation,  eOpts ) {
-                // if ( this.editMode  )  { return false }
-            // },
+            beforeload: function(  store,  operation,  eOpts ) {
+                __StBar.showBusy( 'loading ..' + store.protoOption, 'beforeLoad' ); 
+            },
      
-            // Fired before a call to sync is executed. Return false from any listener to cancel the synv
-            // beforesync: function(  options,  eOpts ) {
+            // Fired before a call to sync is executed. Return false from any listener to cancel the sync
+            beforesync: function ( options, eOpts ) {
+                __StBar.showBusy( 'sync ..' + this.protoOption, 'beforeSync'  );
+            },  
     
             //  Fires before a prefetch occurs. Return false to cancel.
             // beforeprefetch: function ( store, operation, eOpts ) {
@@ -132,7 +132,9 @@ function getStoreDefinition(  stDef  ){
             // clear: function ( store,  eOpts ) {
      
             // Fires whenever the records in the Store have changed in some way - this could include adding or removing records, or ...
-            // datachanged: function( store,  eOpts ) {
+            datachanged: function( store,  eOpts ) {
+                __StBar.clear( store.protoOption , 'dataChanged' ); 
+            }, 
              
             // Fires whenever the store reads data from a remote data source. ...
             // load: function ( store, records,  successful,  eOpts ) {
@@ -582,8 +584,6 @@ function getFormFieldDefinition( vFld ) {
 
 function loadPci( protoOption, loadIfNot, options) {
 
-        // __StBar.showBusy()
-        
         options = options || {};
         
         // Verificar si la opcion esta creada 

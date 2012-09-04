@@ -35,31 +35,11 @@ Ext.define('ProtoUL.view.Viewport', {
 
     createFooterPanel: function() {
 
-        // Sb Global 
-        
+        // StatusBar Global 
         __StBar = Ext.create('Ext.ux.StatusBar', {
-                id: 'my-status',
                 region:'south', 
-                // border : false, 
-                margins:'0 0 0 0',
                 split: false,
-                collapsible: false,
-                           
-                // defaults to use when the status is cleared:
-                defaultText: 'Ok',
-                defaultIconCls: 'x-status-valid',
-        
-                // values to set initially:
-                text: 'Ready',
-                iconCls: 'ready-icon', 
-        
-                // any standard Toolbar items:
-                items: [{
-                // xtype:'tbfill'
-            // },{
-                    xtype:'splitbutton',
-                    text: 'Login'
-                }]
+                collapsible: false
             }) 
             
         return __StBar           
@@ -71,7 +51,7 @@ Ext.define('ProtoUL.view.Viewport', {
     afterRender: function () {
         this.callParent(arguments);
 
-        __StBar.showBusy( 'loading ... ', 3000)            
+        __StBar.showBusy( 'loading ... ', 'vPort', 3000)            
 
         // Carga las PCI de autoload
         // TODO: Esto podria ser un llamado configurado por usuario  
@@ -82,8 +62,6 @@ Ext.define('ProtoUL.view.Viewport', {
         // Referencia a la ventana del viewPort 
         _mainWin = this
 
-        // __StBar.showError( '!@#@$ ... ')            
-        // __StBar.showWarning( 'mmm ... ')            
                  
     },
     

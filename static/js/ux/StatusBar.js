@@ -6,7 +6,6 @@
  *      showBusy  -->  showBusyI  ( internal )
  *      showBusy ( text ,  clearTemp  ) para autolimpiar el status 
  * 
- * 
  */
 
 Ext.define('ProtoUL.ux.StatusBar', {
@@ -21,8 +20,21 @@ Ext.define('ProtoUL.ux.StatusBar', {
     autoClear: 5000,
     emptyText: '&#160;',
     activeThreadId: 0,
+
+    // defaults to use when the status is cleared:
+    defaultText: 'Ok',
+    defaultIconCls: 'x-status-valid',
+
+    // values to set initially:
+    text: 'Ready',
+    iconCls: 'ready-icon', 
+
+
+    // Para manejar las cargas de datos del servidor     
+    busyCount : 0, 
     
     initComponent: function () {
+        
         var right = this.statusAlign === 'right';
         this.callParent(arguments);
         this.currIconCls = this.iconCls || this.defaultIconCls;
@@ -37,8 +49,34 @@ Ext.define('ProtoUL.ux.StatusBar', {
         } else {
             this.insert(0, this.statusEl);
             this.insert(1, '->');
-        }
+        }; 
+        
+        // any standard Toolbar items:
+        this.add( [{
+                itemId : 'errBt', 
+                xtype: 'button',
+                text: 'clear',
+                
+                // hidden: true,
+                scope: this,
+                iconCls: 'x-status-error',
+                handler: this.clearErrCount
+            },{
+                xtype:'splitbutton',
+                text: 'Login'
+            }])
+
+        // TODO: Boton q permita clear del sb y guarde en el tooltip la informacion de errores 
+        this.errBt = this.getComponent( 'errBt' )
+        
     },
+
+    clearErrCount: function () {
+        this.errBt.hide()
+        this.errBt.tooltip = ''
+        this.busyCount = 0; 
+        this.clearStatus( { useDefaults: true} )    
+    }, 
     
     setStatus: function (o) {
         var me = this;
@@ -123,9 +161,11 @@ Ext.define('ProtoUL.ux.StatusBar', {
         }
         return me;
     },
+    
     getText: function () {
         return this.text;
     },
+    
     setIcon: function (cls) {
         var me = this;
         me.activeThreadId++;
@@ -159,7 +199,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
         return this.setStatus(o);
     }, 
     
-    showBusy: function ( text, clear ) {
+    showBusy: function ( text, origin, clear ) {
 
         this.showBusyI( text ); 
         
@@ -167,10 +207,17 @@ Ext.define('ProtoUL.ux.StatusBar', {
             Ext.defer(function(){
                 this.clearStatus({useDefaults:true});
             }, clear, this);
+        } else { 
+            // console.log( 'busy: ' + origin,  text, this.busyCount )
+            this.busyCount ++;     
         }
     }, 
 
-    showError: function ( text   ) {
+    showError: function ( text, origin  ) {
+
+        // console.log( 'error :' + origin  ,  text )
+
+        
 
         this.setStatus({
             text: 'Oops! ' + text ,
@@ -180,7 +227,9 @@ Ext.define('ProtoUL.ux.StatusBar', {
 
     }, 
 
-    showWarning: function ( text  ) {
+    showWarning: function ( text, origin   ) {
+
+        console.log( 'warning :' + origin, text )
 
         this.setStatus({
             text: text ,
@@ -190,10 +239,16 @@ Ext.define('ProtoUL.ux.StatusBar', {
 
     },
 
-    clear: function () {
+    clear: function ( text, origin ) {
+        
+        // console.log( 'clear:' + origin,  text, this.busyCount ); 
+        this.busyCount --; 
         // wrapper
-        this.clearStatus()
+        if ( this.busyCount <= 0 ) {
+            this.busyCount = 0; 
+            this.clearStatus( { useDefaults: true} )    
+        }
+        
     } 
-
     
 });

@@ -294,7 +294,7 @@ function getRecord( myStore, fieldName, value  )  {
 function errorMessage(  errTitle,  errMsg ) {
 
     // TODO: Log de errores, ya sea en stBar o en un panel del menu, habilitar un clear . 
-    __StBar.showError( errTitle + ': ' +  errMsg )
+    __StBar.showError( errMsg , errTitle )
     
     // Ext.MessageBox.show({
         // title: errTitle,

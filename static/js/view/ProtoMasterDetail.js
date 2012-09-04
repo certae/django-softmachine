@@ -20,7 +20,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         this.myMeta = _cllPCI[ this.protoOption ] ;                         
         var me  = this ;         
         
-        __StBar.showBusy( 'loading ' + this.protoOption + '...', 2000)
+        __StBar.showBusy( 'loading ' + this.protoOption + '...', 'prMD.init',  2000)
         
         // Master Grid    ========================================================== 
         // y la Guarda el store para efectos de eventos y referencias 
@@ -99,9 +99,6 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
         this.callParent();
 
-
-        // 
-        __StBar.showBusy( 'loading ' + this.protoOption + ' adds ...', 2000)
         
         Ext.create('ProtoUL.UI.MDDetailsController',   { __MasterDetail : me  });
         Ext.create('ProtoUL.UI.MDCstmOptsController',  { myMeta : this.myMeta, __MasterDetail : me });

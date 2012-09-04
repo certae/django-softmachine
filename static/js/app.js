@@ -47,10 +47,9 @@ Ext.application({
         // 
         Ext.QuickTips.init();
         
-        this.showLogin()
+        // this.showLogin()
         
-        
-        // var app = new ProtoUL.view.Viewport();
+        var app = new ProtoUL.view.Viewport();
         
     }, 
     

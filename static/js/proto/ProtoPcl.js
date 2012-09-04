@@ -30,7 +30,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
         var me = this;         
         if ( ! this.myMeta  ) {
-            __StBar.showError( 'PCL not loaded' );
+            __StBar.showError( 'not loaded???', 'protoPcl.init' );
             return; 
         }
 
