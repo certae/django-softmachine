@@ -20,6 +20,8 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         this.myMeta = _cllPCI[ this.protoOption ] ;                         
         var me  = this ;         
         
+        __StBar.showBusy( 'loading ' + this.protoOption + '...', 2000)
+        
         // Master Grid    ========================================================== 
         // y la Guarda el store para efectos de eventos y referencias 
         this.protoMasterGrid = Ext.create('ProtoUL.view.ProtoGrid', {
@@ -62,7 +64,8 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         this.IDdetailPanel = Ext.id();
         Ext.apply(this, {
             layout: 'border',
-            defaults: {
+                border : false, 
+                defaults: {
                 collapsible: true,
                 border : false, 
                 split: true
@@ -98,10 +101,13 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
 
         // 
+        __StBar.showBusy( 'loading ' + this.protoOption + ' adds ...', 2000)
+        
         Ext.create('ProtoUL.UI.MDDetailsController',   { __MasterDetail : me  });
         Ext.create('ProtoUL.UI.MDCstmOptsController',  { myMeta : this.myMeta, __MasterDetail : me });
         Ext.create('ProtoUL.UI.MDSortersController',   { myMeta : this.myMeta, __MasterDetail : me });
         Ext.create('ProtoUL.UI.MDPrintOptsController', { myMeta : this.myMeta, __MasterDetail : me });
+
 
         
         // Agrega los botones de actions 

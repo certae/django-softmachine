@@ -81,18 +81,16 @@ function getStoreDefinition(  stDef  ){
                 },
                 'exception': function(proxy, response, operation){
                     // var msg = operation.request.scope.reader.jsonData["message"] ;
-                    var msg = operation.getError();
-                    var title =   'REMOTE EXCEPTION'                
-                    Ext.outils.msg( title ,  msg ); 
+                    var msg = 'REMOTE EXCEPTION: ' + operation.getError();
+                    __StBar.showError( msg ); 
                 } 
             },
              
             afterRequest: function( request, success ){
 
-                var title =   'afterRequest :' + request.method + '.' + request.action,                     
+                var title = 'afterRequest :' + request.method + '.' + request.action,                     
                     msg = ''
 
-                // console.log( request  )
                 // try {
                     // if ( request.operation.response.status != 200 ) {
                         // if ( 'jsonData' in request.scope.reader ) { 
@@ -103,8 +101,7 @@ function getStoreDefinition(  stDef  ){
                 // } catch(e) {
                     // msg = e.message
                 // }
-                // Ext.outils.msg( title ,  msg ); 
-
+                // __StBar.showError( msg ); 
             } 
             
         }, 

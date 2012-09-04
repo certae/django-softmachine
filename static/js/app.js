@@ -47,9 +47,32 @@ Ext.application({
         // 
         Ext.QuickTips.init();
         
-        var app = new ProtoUL.view.Viewport();
+        this.showLogin()
         
-    }
+        
+        // var app = new ProtoUL.view.Viewport();
+        
+    }, 
+    
+    showLogin: function(  ) {
+        
+         var myWin  = Ext.widget('window', {
+            constrain: true, 
+            title : 'Login', 
+            // closeAction: 'hide',
+            width: 400,
+            height: 200,
+            layout: 'fit',
+            // resizable: true,
+            modal: true,
+            items: [ { xtype: 'protoLogin' }]
+        });
+        
+        
+        myWin.show()
+
+    }, 
+    
     
     
 });

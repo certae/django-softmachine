@@ -60,6 +60,7 @@ Ext.define('ProtoUL.UI.GridController', {
         
         var myNavPanel =   {
                 xtype: 'pagingtoolbar',
+                border : false, 
                 dock: 'bottom',
                 store: me.store,
                 displayInfo: true,

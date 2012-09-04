@@ -1,12 +1,8 @@
 /* StatusBar - structure */
 .x-statusbar .x-status-text {
     cursor: default;
-/*
-    height: 21px;
-    line-height: 21px;
-    padding: 0 4px;
-*/
 }
+
 .x-statusbar .x-status-busy {
     padding-left: 25px !important;
     background: transparent no-repeat 3px 0;
@@ -45,6 +41,12 @@
     padding-left: 25px !important;
     background: transparent no-repeat 3px 0;
 }
+
+.x-statusbar .x-status-warning {
+    padding-left: 25px !important;
+    background: transparent no-repeat 3px 0;
+}
+
 .x-statusbar .x-status-valid {
     padding-left: 25px !important;
     background: transparent no-repeat 3px 0;
@@ -107,6 +109,11 @@
 .x-statusbar .x-status-valid {
     background-image: url(../img/protoImg/st-accept.png);
 }
+
+.x-statusbar .x-status-warning {
+    background-image: url(../img/protoImg/st-warning.png);
+}
+
 .x-status-error-list {
     border-color: #C33;
     background: white;

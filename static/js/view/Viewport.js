@@ -27,6 +27,7 @@ Ext.define('ProtoUL.view.Viewport', {
             
         });
 
+
         this.callParent(arguments);
         
         
@@ -39,33 +40,38 @@ Ext.define('ProtoUL.view.Viewport', {
         __StBar = Ext.create('Ext.ux.StatusBar', {
                 id: 'my-status',
                 region:'south', 
-                border : false, 
+                // border : false, 
                 margins:'0 0 0 0',
                 split: false,
                 collapsible: false,
                            
                 // defaults to use when the status is cleared:
-                defaultText: 'Default status text',
-                defaultIconCls: 'default-icon',
+                defaultText: 'Ok',
+                defaultIconCls: 'x-status-valid',
         
                 // values to set initially:
                 text: 'Ready',
-                iconCls: 'ready-icon'
+                iconCls: 'ready-icon', 
         
                 // any standard Toolbar items:
-                // items: [{
-                    // text: 'A Button'
-                // }, '-', 'Plain Text']
+                items: [{
+                // xtype:'tbfill'
+            // },{
+                    xtype:'splitbutton',
+                    text: 'Login'
+                }]
             }) 
             
         return __StBar           
-        
+
     }, 
 
 
     // Eventos despues de cargado el panel 
     afterRender: function () {
         this.callParent(arguments);
+
+        __StBar.showBusy( 'loading ... ', 3000)            
 
         // Carga las PCI de autoload
         // TODO: Esto podria ser un llamado configurado por usuario  
@@ -75,8 +81,12 @@ Ext.define('ProtoUL.view.Viewport', {
 
         // Referencia a la ventana del viewPort 
         _mainWin = this
+
+        // __StBar.showError( '!@#@$ ... ')            
+        // __StBar.showWarning( 'mmm ... ')            
                  
     },
+    
     
 
     createHeaderPanel: function () {
@@ -96,13 +106,6 @@ Ext.define('ProtoUL.view.Viewport', {
                  xtype: 'box',
                  html: '<span class="title">' + _siteTitle + '</span><br><span class="subtitle">' + _versionProto + '</span>', 
                  height: 56
-            },{
-                xtype:'tbfill'
-            },{
-                xtype:'splitbutton',
-                scale: 'medium',
-                margins:'5 5 5 5',
-                text: 'Login'
             }]
 
         }

@@ -41,7 +41,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
             // toolBar de base para los items 
             mDet.tbDetails = Ext.create('Ext.toolbar.Toolbar', {
                 dock: 'bottom',
-                border : false, 
+                border : true, 
                 enableOverflow : true, 
                 items: [
                     {
