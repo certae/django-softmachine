@@ -22,8 +22,8 @@ Ext.define('ProtoUL.ux.StatusBar', {
     activeThreadId: 0,
 
     // defaults to use when the status is cleared:
-    defaultText: 'Ok',
-    defaultIconCls: 'x-status-valid',
+    defaultText: '',
+    // defaultIconCls: 'x-status-valid',
 
     // values to set initially:
     text: 'Ready',
@@ -217,8 +217,6 @@ Ext.define('ProtoUL.ux.StatusBar', {
 
         // console.log( 'error :' + origin  ,  text )
 
-        
-
         this.setStatus({
             text: 'Oops! ' + text ,
             iconCls: 'x-status-error',
@@ -229,7 +227,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
 
     showWarning: function ( text, origin   ) {
 
-        console.log( 'warning :' + origin, text )
+        // console.log( 'warning :' + origin, text )
 
         this.setStatus({
             text: text ,
@@ -243,7 +241,6 @@ Ext.define('ProtoUL.ux.StatusBar', {
         
         // console.log( 'clear:' + origin,  text, this.busyCount ); 
         this.busyCount --; 
-        // wrapper
         if ( this.busyCount <= 0 ) {
             this.busyCount = 0; 
             this.clearStatus( { useDefaults: true} )    

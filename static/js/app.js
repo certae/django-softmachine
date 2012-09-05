@@ -47,28 +47,41 @@ Ext.application({
         // 
         Ext.QuickTips.init();
         
-        // this.showLogin()
+        this.showLogin()
         
-        var app = new ProtoUL.view.Viewport();
+        // var app = new ProtoUL.view.Viewport();
         
     }, 
     
     showLogin: function(  ) {
+
+        var me = this 
+
+        var options = {
+            scope: me, 
+            success: function ( obj, result, request ) {
+                this.formLoaded = true;
+                myWin.hide()
+                var app = new ProtoUL.view.Viewport();
+            }
+            // failure: function ( obj, result, request) { 
+                // errorMessage( 'ProtoDefinition Error :', myZoomModel + ': protoDefinition not found')
+            // }
+        }
         
-         var myWin  = Ext.widget('window', {
+        var myWin  = Ext.widget('window', {
             constrain: true, 
             iconCls: 'st-user-who',
             title: 'Identification',
             layout: 'fit',
             
-            width: 300,
+            width: 360,
             height: 135,
             // frame: true,
             
             modal: true,
-            items: [ { xtype: 'protoLogin' }]
+            items: [ { xtype: 'protoLogin', options : options  }]
         });
-        
         
         myWin.show()
 

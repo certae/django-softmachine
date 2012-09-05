@@ -34,6 +34,7 @@ _PConfig =  {
     urlSavePCI         : 'protoExt/protoSavePCI/', 
     urlGetFieldTree : 'protoExt/protoGetFieldTree/', 
     urlGetDetailsTree : 'protoExt/protoGetDetailsTree/', 
+    urlGetUserRights : 'protoExt/protoGetUserRights/', 
    
     clsBaseModel: 'ProtoUL.model.' 
 }; 

@@ -819,11 +819,9 @@ function getUserRights( usr, pwd , options ) {
 
     
         Ext.Ajax.request({
-            method: 'GET',
-            url: _PConfig.urlGetPCI  ,
-            params : { 
-                protoOption : protoOption 
-                },
+            method: 'POST',
+            url: _PConfig.urlGetUserRights  ,
+            params : { user : usr,  pwd : pwd },
             scope: this,
             success: function(result, request) {
                 

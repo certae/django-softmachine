@@ -29,7 +29,7 @@ Ext.define('ProtoUL.ux.Login', {
             handler: this.resetPassword
         });
 
-        this.buttons = [this.submitButton, this.resetButton];
+        // this.buttons = [this.submitButton, this.resetButton];
 
 
         Ext.apply(this, {
@@ -49,11 +49,22 @@ Ext.define('ProtoUL.ux.Login', {
                     scope: this,
                     keydown: this.onKeyEnter
                 }
+            }], 
+            dockedItems: [{
+                xtype: 'toolbar',
+                dock: 'bottom',
+                ui: 'footer',
+                items: [
+                    { xtype: 'tbtext', flex: 1, itemId : 'stLogin' },
+                    this.submitButton, this.resetButton
+                ]
             }]
+            
         });
 
         this.callParent(arguments);
-
+        this.stLogin = this.dockedItems.items[0].getComponent( 'stLogin' ) 
+        
         this.on('afterlayout', function () {
             if (this.username == '') {
                 this.getForm().findField('login').focus();
@@ -72,38 +83,64 @@ Ext.define('ProtoUL.ux.Login', {
 
     submitLogin: function (btn) {
         btn.disable();
-        var form = this.getForm();
+        var form = this.getForm(), 
+            me = this
+
+        Ext.applyIf(this.options, {
+            scope: this,
+            success: Ext.emptyFn,
+            failure: Ext.emptyFn
+        });
+        
+        
         if (form.isValid()) {
             btn.setIconCls("st-loading");
             form.submit({
                 method: 'POST',
-                url: "contact/login/",
-                scope: this,
-
-                success: this.submitLoginCallback,
-                failure: this.submitLoginCallback
+                waitTitle:'Connecting', 
+                waitMsg:'Sending data...',
+             
+                url: _PConfig.urlGetUserRights ,
+                scope: me,
+                // success: this.submitLoginCallback,
+                // failure: this.submitLoginCallback, 
+                success: function(result, request) {
+                    me.options.success.call( me.options.scope, result, request);
+                },
+                failure: function(result, request) {
+                    me.options.failure.call( me.options.scope, result, request);
+                    me.error(result, request);
+                }
             });
         } else {
            this.submitButton.enable();
         }
     },
 
-    submitLoginCallback: function (form, action) {
-        var json = Ext.decode(action.response.responseText);
-        json.redirect = 'writer'
-        if (json.success === true) window.location = json.redirect;
-        else this.error(form, json);
-    },
+    // submitLoginCallback: function (result, request) {
+        // var json = Ext.decode(action.response.responseText);
+        // // json.redirect = 'writer'
+        // if (json.success === true) {
+            // // window.location = json.redirect;
+//             
+        // }  else {
+            // this.error(result, request);
+        // } 
+//             
+    // },
 
     error: function (form, json) {
-        Ext.Msg.show({
-            buttons: Ext.Msg.OK,
-            animEl: 'elId',
-            title: 'erreur',
-            msg: 'Mauvais utilisateur ou mot de passe',
-            icon: Ext.MessageBox.ERROR
+        // Ext.Msg.show({
+            // buttons: Ext.Msg.OK,
+            // animEl: 'elId',
+            // title: 'erreur',
+            // msg: 'Mauvais utilisateur ou mot de passe',
+            // icon: Ext.MessageBox.ERROR
+// 
+        // });
 
-        });
+        
+        this.stLogin.setText( 'Error ... ' ); 
         this.submitButton.enable();
         this.submitButton.setIconCls("icon-ok");
         this.getForm().findField('login').focus();
