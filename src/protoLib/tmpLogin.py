@@ -207,56 +207,55 @@ def view_login(request):
 
 
 def main(request):
-   section = 'accueil'
+    section = 'accueil'
     
-   response = before_execute_view(request)
-   if not response == True:
+    response = before_execute_view(request)
+    if not response == True:
         return response
     
-   #user = User.objects.create_user('test_user', 'lennon@thebeatles.com', '123456')
+    #user = User.objects.create_user('test_user', 'lennon@thebeatles.com', '123456')
     
     #user = User.objects.filter(username='pgrimard')
     #user.is_superuser = True
-   #user.save()
+    #user.save()
     
     
-    
-   #user = User.objects.get(username__exact='pgrimard')
-   #user.is_superuser = True
-   #user.save() 
+    #user = User.objects.get(username__exact='pgrimard')
+    #user.is_superuser = True
+    #user.save() 
    
-   template = get_template('pages/default.html');
-   cfg = template_config(request)
-   cfg.section = section
+    template = get_template('pages/default.html');
+    cfg = template_config(request)
+    cfg.section = section
    
-   variables = RequestContext( request,
-     {
-        'cfg': cfg
-     }                  
-   )
+    variables = RequestContext( request,
+      {
+         'cfg': cfg
+      }                  
+    )
    
-   output = template.render(variables);
-   return HttpResponse(output)
+    output = template.render(variables);
+    return HttpResponse(output)
 
 #------------------------------------------------------------------------------
 
 def invalid_right(request):
-   #user = User.objects.get(username__exact='pgrimard')
-   #user.is_superuser = True
-   #user.save() 
+    #user = User.objects.get(username__exact='pgrimard')
+    #user.is_superuser = True
+    #user.save() 
    
-   template = get_template('pages/invalid_right.html');
-   cfg = template_config(request)
-   cfg.section = 'a'
+    template = get_template('pages/invalid_right.html');
+    cfg = template_config(request)
+    cfg.section = 'a'
    
-   variables = RequestContext( request,
-     {
+    variables = RequestContext( request,
+      {
         'cfg': cfg
      }                  
-   )
+    )
    
-   output = template.render(variables);
-   return HttpResponse(output)
+    output = template.render(variables);
+    return HttpResponse(output)
 
    
 def view_logout(request):

@@ -581,6 +581,8 @@ function getFormFieldDefinition( vFld ) {
     
 }
 
+// *********************************************************
+
 
 function loadPci( protoOption, loadIfNot, options) {
 
@@ -634,32 +636,6 @@ function loadPci( protoOption, loadIfNot, options) {
         
 }
 
-function savePclCache( protoOption, protoMeta ) {
-    // Guarda el cache de  pcl's 
-    
-    _cllPCI[ protoOption ]  = protoMeta;  
-    DefineProtoModel( protoMeta , getModelName( protoOption  )  );
-
-}
-
-
-function getModelName( protoOption  ) {
-
-    if ( ! protoOption ) {
-        console.log( 'undefined model??')
-    }
-
-    var modelName = protoOption; 
-    
-    // Cuenta los "."
-    if ( charCount( protoOption, ".")  > 2  ) {
-        var n = protoOption.split(".", 2)         
-        modelName = n[0] + '.' + n[1]
-    }
-
-    return _PConfig.clsBaseModel + modelName 
-
-}
 
 
 function savePci( protoMeta,  options) {
@@ -830,20 +806,38 @@ function definieProtoDetailsTreeModel( protoOption ) {
 }
 
 
-function getSafeMeta( myMeta ) {
-    
-    // prepara la meta 
-    var excludeP = [ 'protoForm', 'sheetConfig', 'protoViews', 'protoDetails']
-    var safeMeta =  clone( myMeta, 0, excludeP );
-    
-    return Ext.encode( safeMeta )
-    
-}
+function getUserRights( usr, pwd , options ) {
 
-function getGridColumn( myGrid, dataIndex  ) {
-    for ( var ix in myGrid.myColumns ) {
-        var myCol = myGrid.myColumns[ix]
-        if ( myCol.dataIndex == dataIndex )  return myCol    
-    }
+        options = options || {};
+        
+        // DGT: reemplaza las funciones en caso de no existir  
+        Ext.applyIf(options, {
+            scope: this,
+            success: Ext.emptyFn,
+            failure: Ext.emptyFn
+        });
+
+    
+        Ext.Ajax.request({
+            method: 'GET',
+            url: _PConfig.urlGetPCI  ,
+            params : { 
+                protoOption : protoOption 
+                },
+            scope: this,
+            success: function(result, request) {
+                
+                var myResult = Ext.decode( result.responseText );
+                savePclCache( protoOption, myResult.protoMeta )
+
+                options.success.call( options.scope, result, request);
+
+            },
+            failure: function(result, request) {
+                options.failure.call(options.scope, result, request);
+            }
+        })
+            
+        
 }
 

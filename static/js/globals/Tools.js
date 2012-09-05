@@ -314,3 +314,52 @@ function updateWinPosition( myWidth, myHeight ) {
     }    
     
 }
+
+// **********************************************************
+
+function savePclCache( protoOption, protoMeta ) {
+    // Guarda el cache de  pcl's 
+    
+    _cllPCI[ protoOption ]  = protoMeta;  
+    DefineProtoModel( protoMeta , getModelName( protoOption  )  );
+
+}
+
+
+function getModelName( protoOption  ) {
+
+    if ( ! protoOption ) {
+        console.log( 'undefined model??')
+    }
+
+    var modelName = protoOption; 
+    
+    // Cuenta los "."
+    if ( charCount( protoOption, ".")  > 2  ) {
+        var n = protoOption.split(".", 2)         
+        modelName = n[0] + '.' + n[1]
+    }
+
+    return _PConfig.clsBaseModel + modelName 
+
+}
+
+
+
+function getSafeMeta( myMeta ) {
+    
+    // prepara la meta 
+    var excludeP = [ 'protoForm', 'sheetConfig', 'protoViews', 'protoDetails']
+    var safeMeta =  clone( myMeta, 0, excludeP );
+    
+    return Ext.encode( safeMeta )
+    
+}
+
+function getGridColumn( myGrid, dataIndex  ) {
+    for ( var ix in myGrid.myColumns ) {
+        var myCol = myGrid.myColumns[ix]
+        if ( myCol.dataIndex == dataIndex )  return myCol    
+    }
+}
+

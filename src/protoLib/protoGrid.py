@@ -183,7 +183,7 @@ class ProtoGridFactory(object):
 
                     prSection = { '__ptType' : 'fieldset', 'fsLayout' : '2Col' }
                     if ( name != None ): 
-                        prSection[ 'title' ]  = name  
+                        prSection[ 'title' ]  = name.capitalize()  
 
                     classes = getattr( opts, 'classes', [] )
                     if ( 'collapse' in classes ): 
