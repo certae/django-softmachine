@@ -1,14 +1,8 @@
 Ext.define('ProtoUL.ux.Login', {
     extend: 'Ext.form.Panel',
     alias: 'widget.protoLogin',
-
-    iconCls: 'icon-key',
-    width: 300,
-    height: 135,
-    frame: true,
-    // title: 'Identification',
-    bodyStyle: "padding:5px 5px 5px 5px",
-    labelWidth: 100,
+    bodyStyle: "padding:10px",
+    labelWidth: 120,
     labelAlign: 'right',
     redirectUrl: false,
     username: '',
@@ -22,15 +16,15 @@ Ext.define('ProtoUL.ux.Login', {
     initComponent: function () {
 
         this.submitButton = new Ext.Button({
-            text: "v&eacute;rifier",
-            iconCls: "icon-ok",
+            text: "vérifier",
+            iconCls: "st-user-go",
             scope: this,
             handler: this.submitLogin
         });
 
         this.resetButton = new Ext.Button({
             text: "mot de passe perdu",
-            iconCls: "icon-question",
+            iconCls: "st-key-go",
             scope: this,
             handler: this.resetPassword
         });
@@ -77,24 +71,20 @@ Ext.define('ProtoUL.ux.Login', {
     },
 
     submitLogin: function (btn) {
-
-        //        btn.disable();
-        //        var next = window.location.search ? Ext.urlDecode(window.location.search.substring(1)).next : '';
-
+        btn.disable();
         var form = this.getForm();
         if (form.isValid()) {
-            //            btn.setIconCls("icon-loading");
+            btn.setIconCls("st-loading");
             form.submit({
                 method: 'POST',
-                //              url:"/login?next=" + next,
                 url: "contact/login/",
                 scope: this,
 
                 success: this.submitLoginCallback,
                 failure: this.submitLoginCallback
             });
-            //        } else {
-            //            this.submitButton.enable();
+        } else {
+           this.submitButton.enable();
         }
     },
 

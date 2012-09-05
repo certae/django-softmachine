@@ -57,12 +57,14 @@ Ext.application({
         
          var myWin  = Ext.widget('window', {
             constrain: true, 
-            title : 'Login', 
-            // closeAction: 'hide',
-            width: 400,
-            height: 200,
+            iconCls: 'st-user-who',
+            title: 'Identification',
             layout: 'fit',
-            // resizable: true,
+            
+            width: 300,
+            height: 135,
+            // frame: true,
+            
             modal: true,
             items: [ { xtype: 'protoLogin' }]
         });

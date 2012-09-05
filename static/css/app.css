@@ -96,6 +96,12 @@
 .icon-concept  { background-image: url(../img/app/concept.png ) !important;}
 .icon-property { background-image: url(../img/app/property.png ) !important;}
 
+/* login */
+.st-user-who   { background-image: url(../img/protoImg/st-user-who.png ) !important;}
+.st-user-go    { background-image: url(../img/protoImg/st-user-go.png ) !important;}
+.st-key-go     { background-image: url(../img/protoImg/st-key-go.png ) !important;}
+.st-loading    { background-image: url(../img/protoImg/st-loading.gif )!important;}
+.st-exit       { background-image: url(../img/protoImg/st-exit.png ) !important;}
 
 
 /*  Iconos temporales */

@@ -208,8 +208,8 @@ PROTO_APP = {}
 
 # app_menu se usa para ordenar la pre
 PROTO_APP['app_menu'] = {
-    'auth' : { 'hidden': True, },  
-    'admin': { 'hidden': True, },
+#    'auth' : { 'hidden': True, },  
+#    'admin': { 'hidden': True, },
     'Base':  { 'title': 'TCO - Base de connaissances', 'expanded':True, 'menu_index' : 2  },
     'Param': { 'title': 'TCO - Paramètres', 'expanded':False, 'menu_index' : 2  },
     'TCO':   { 'title': 'TCO - Coût total de possession', 'expanded':True, 'menu_index' : 9  },
