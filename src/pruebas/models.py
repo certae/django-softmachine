@@ -51,3 +51,50 @@ class Prueba(models.Model):
         verbose_name = 'Detalle' 
 #        unique_together = ('prDecimal', 'prInteger',)
 
+
+
+# ********************************* ManyToMany N2N 
+#https://docs.djangoproject.com/en/1.4/topics/db/examples/many_to_many/
+
+class Publication(models.Model):
+    title = models.CharField(max_length=30)
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta:
+        ordering = ('title',)
+
+class Article(models.Model):
+    headline = models.CharField(max_length=100)
+    publications = models.ManyToManyField(Publication)
+
+    def __unicode__(self):
+        return self.headline
+
+    class Meta:
+        ordering = ('headline',)
+        
+        
+
+# https://docs.djangoproject.com/en/1.4/topics/db/models/#intermediary-manytomany
+
+
+class Person(models.Model):
+    name = models.CharField(max_length=128)
+
+    def __unicode__(self):
+        return self.name
+
+class Group(models.Model):
+    name = models.CharField(max_length=128)
+    members = models.ManyToManyField(Person, through='Membership')
+
+    def __unicode__(self):
+        return self.name
+
+class Membership(models.Model):
+    person = models.ForeignKey(Person)
+    group = models.ForeignKey(Group)
+    date_joined = models.DateField()
+    invite_reason = models.CharField(max_length=64)

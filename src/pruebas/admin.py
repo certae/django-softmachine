@@ -62,8 +62,11 @@ admin.site.register(Prueba, PruebaAdmin)
 #admin.site.register(Prueba )
 
 
+admin.site.register(Article)
+admin.site.register(Group)
 
-
-
+admin.site.register(Membership)
+admin.site.register(Person)
+admin.site.register(Publication)
 
                     

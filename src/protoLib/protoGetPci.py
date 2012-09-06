@@ -145,6 +145,9 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
     #FIX: busca el id en la META  ( id_field = model._meta.pk.name ) 
     id_field = u'id'
 
+    #La forma tambien agrega campos a fields 
+    protoForm = grid.getFieldSets(); 
+
 
     protoMeta = { 
          'protoOption' : protoOption,           
@@ -189,7 +192,7 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
 
         # Propiedades extendidas   
          'protoDetails': grid.get_details() , 
-         'protoForm': grid.getFieldSets(), 
+         'protoForm': protoForm,  
          'protoUdp': grid.protoAdmin.get( 'protoUdp', {}), 
 
         # Vistas heredadas del modelo base, zooms,  etc ... 
@@ -362,8 +365,8 @@ def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
 
     # Atributos adicionales de edicion 
     if fieldBase == '': 
-        if hasattr( pField, 'defaultValue' ): 
-            myField['defaultValue'] = pField['defaultValue'] 
+#        if hasattr( pField, 'defaultValue' ):   FIX:  trae un proxy
+#            myField['defaultValue'] = pField['defaultValue'] 
 
         if hasattr( pField, 'vType'): 
             myField['vType'] = pField['vType'] 

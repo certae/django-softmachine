@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 
 from utilsBase import _PROTOFN_ , verifyStr
-
 from django.db.models.fields import NOT_PROVIDED
 
 # Equivalencia de tipos 
@@ -16,7 +15,8 @@ TypeEquivalence = {
         'IntegerField'  :'int',
         'TextField'     :'text',
         'TimeField'     :'time',
-        'AutoField'     :'autofield'
+        'AutoField'     :'autofield',
+        'ManyToManyField' : 'protoN2N'
     }
 
 
@@ -67,22 +67,31 @@ def setFieldDict(protoFields ,  field ):
     if (field.default is not None) and (field.default is not NOT_PROVIDED):                     
         if pField['type'] == 'int' or pField['type'] == 'decimal':
             setFieldProperty(  pField, 'defaultValue', 0 , field, 'default', 0  )
-        
-        elif pField['type'] == 'bool':
-            setFieldProperty(  pField, 'defaultValue', False , field, 'default', False  )
+  
+#        elif pField['type'] == 'bool':  FIX:  ( trae un proxy )
+#            setFieldProperty(  pField, 'defaultValue', False , field, 'default', False  )
+#        else:
+#            setFieldProperty(  pField, 'defaultValue', '' , field, 'default', ''  )
 
-        else:
-            setFieldProperty(  pField, 'defaultValue', '' , field, 'default', ''  )
 
-
-    if field.__class__.__name__ == 'CharField' and field.choices:
-        pField['type'] = 'combo'
+    if  field.choices:
+        pField['vType'] = 'combo'
         pField['choices'] = field.choices  
 
     elif field.__class__.__name__ == 'TextField':
         pField['vType'] = 'plainText' # 'htmlText'
 
+    elif field.__class__.__name__ == 'ManyToManyField':
+        tmpTable = field.rel.through._meta
+        relTable =  field.related.parent_model._meta
+
+        pField['vType'] = 'protoN2N'
+        pField['conceptDetail'] = tmpTable.app_label + '.' + tmpTable.object_name 
+        pField['relatedN2N'] = relTable.app_label + '.' + relTable.object_name
+        pField['detailField'] = field.related.var_name  + '__pk'
+        pField['masterField'] = 'pk'                                     
         
+
     elif  field.__class__.__name__ == 'ForeignKey':
 #       Verificado ( q pasa cuando existen dos ref al mismo maestro )  
         pField['fkId'] = field.attname                              # Campo q contiene el ID 

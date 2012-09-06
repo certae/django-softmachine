@@ -9,7 +9,7 @@ def getDjangoModel( modelName ):
     if modelName.count('.') == 1: 
         model = models.get_model( *modelName.split('.') )
     elif modelName.count('.') == 0:
-        for m in models.get_models():
+        for m in models.get_models( include_auto_created = True ):
             if m._meta.object_name.lower() == modelName.lower():
                 model = m
                 break

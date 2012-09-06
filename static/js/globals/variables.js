@@ -76,8 +76,8 @@ _ComboPageSize = [
 
 
 // Autoload entites
-//_AUTOLOAD_PCI = ['protoExt.Model', 'protoExt.Property' , 'pruebas.Prueba', 'protoLib.ProtoDefinition'   ]
-_AUTOLOAD_PCI = [ 'TCO.Logiciel' ]
+//_AUTOLOAD_PCI = ['protoExt.Model', 'protoExt.Property' , 'pruebas.Prueba', 'protoLib.ProtoDefinition' , 'TCO.Logiciel'  ]
+_AUTOLOAD_PCI = [ ]
 _MENU_COLLAPSED = false 
 
 // ProtoUL.view.ProtoMasterDetail 

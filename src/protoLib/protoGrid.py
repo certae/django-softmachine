@@ -72,6 +72,10 @@ class ProtoGridFactory(object):
                 if field.name in protoExclude: continue
                 setFieldDict (  self.protoFields , field )
 
+            for field in self.model._meta._many_to_many():
+                if field.name in protoExclude: continue
+                setFieldDict (  self.protoFields , field )
+
         else : 
             for fName in self.protoListDisplay:
                 if fName in protoExclude: continue
@@ -191,13 +195,14 @@ class ProtoGridFactory(object):
 
                     prItems = []
                     for formField in opts['fields']:
-                        getFieldsInSet( prItems, formField  )
+                        getFieldsInSet( self, prItems, formField  )
                         
                     prSection['items'] =  prItems   
                     prFieldSet.append( prSection )
             
         return prFieldSet 
         
+
 
     def get_details(self):  
 
@@ -211,15 +216,40 @@ class ProtoGridFactory(object):
         if (len( details )  == 0 ):        
             opts = self.model._meta
 
-            for detail in opts.get_all_related_objects(): # + opts.get_all_related_many_to_many_objects():
+            for detail in opts.get_all_related_objects():
                 oMeta = detail.model._meta
-                         
                 details.append({
                     "menuText"      : oMeta.object_name.capitalize() + ':' + detail.field.name, 
                     "conceptDetail" : oMeta.app_label + '.' + oMeta.object_name, 
                     "detailField"   : detail.field.name + '__pk',
-                    "masterField"   : 'pk',                                         #  oMeta.pk.name ,
+                    "masterField"   : 'pk',                                         
                     })
+
+            # Tabla referenciada en N2N
+            for detail in opts.get_all_related_many_to_many_objects():
+                tmpTable = detail.field.rel.through._meta
+                relTable =  detail.model._meta        
+                details.append({
+                    "menuText"      : tmpTable.object_name.capitalize(), 
+                    "conceptDetail" : tmpTable.app_label + '.' + tmpTable.object_name, 
+                    "relatedN2N"    : relTable.app_label + '.' + relTable.object_name,
+                    "detailField"   : detail.parent_model._meta.module_name + '__pk',    # ??? 
+                    "masterField"   : 'pk',                                     
+                    })
+    
+            #Campos N2N
+            for field in opts._many_to_many():
+                tmpTable = field.rel.through._meta
+                relTable =  field.related.parent_model._meta
+
+                details.append({
+                    "menuText"      : tmpTable.object_name.capitalize(), 
+                    "conceptDetail" : tmpTable.app_label + '.' + tmpTable.object_name, 
+                    "relatedN2N"    : relTable.app_label + '.' + relTable.object_name,
+                    "detailField"   : field.related.var_name  + '__pk',  
+                    "masterField"   : 'pk',                                     
+                    })
+        
     
         return details 
 
@@ -286,6 +316,12 @@ def Q2Dict (  protoMeta, pRows  ):
                     val = eval( 'item.' + fName.replace( '__', '.'))
                     val = verifyStr(val , '' )
                 except: val = '__?'
+
+            # N2N
+            elif ( lField['type'] == 'protoN2N' ):
+                try: 
+                    val = list( item.__getattribute__( fName  ).values_list()) 
+                except: val = '[]'
 
             # Campo del modelo                 
             else:
@@ -362,16 +398,29 @@ def getProtoViewName( protoConcept   ):
     return protoConcept, view 
 
 
-def getFieldsInSet( prItems, formFields ):
+def getFieldsInSet( self, prItems, formFields ):
     # Al recorrer el fieldset pueden venir tuplas o arrays anidados, se manejan en una unica lista
     
     if type(formFields).__name__ == 'str':
-        prItems.append ( { 'name' : formFields, '__ptType' : 'formField' } )
+        if verifyField( self, formFields ):
+            prItems.append ( { 'name' : formFields, '__ptType' : 'formField' } )
         return 
              
     for formField in formFields:
         if type(formField).__name__ in [ type(()).__name__,  type([]).__name__]:
-            getFieldsInSet( prItems, formField  )
-        else: 
+            getFieldsInSet( self, prItems, formField  )
+        elif verifyField( self, formField ):
             prItems.append ( { 'name' : formField, '__ptType' : 'formField' } ) 
 
+
+def verifyField( self, fName ):
+    try:
+        # Recibe los parametros de los campos del modelo  
+        field = self.model._meta.get_field(fName )
+        setFieldDict (  self.protoFields , field )
+        fdict = self.protoFields[ fName ]
+        self.fields.append(fdict)
+        return True 
+    except: 
+        return False 
+    
