@@ -36,7 +36,6 @@ Ext.define('ProtoUL.UI.FormController', {
     
     _newWindow: function () {
 
-        this.N2Nfields = []
         this.defineFormLayout()
 
         this.myForm = Ext.widget('protoform', {
@@ -198,7 +197,7 @@ Ext.define('ProtoUL.UI.FormController', {
         var myMeta = this.myMeta
         
         me.prFormLayout = [];
-
+        me.N2Nfields = []
 
         for ( var ixV in myFormDefinition) {
             var lObj = myFormDefinition[ixV];
@@ -244,8 +243,9 @@ Ext.define('ProtoUL.UI.FormController', {
                         // ReadOnlyCls
                         prLayout[ 'readOnlyCls' ] = 'protofield-readonly'
         
-                        if ( myFld.xtype == 'protoList') { 
-                            me.N2Nfields.push( myfld.name )
+                        if ( myFld.type == 'protoN2N') { 
+                            prLayout[ 'id' ] = Ext.id()
+                            me.N2Nfields.push( { name : myFld.name, id: prLayout[ 'id' ] } )
                         }
         
                     }  else {

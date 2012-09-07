@@ -125,6 +125,16 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
     loadN2N: function( record ) {
 
+        var myN2N = this.myFormController.N2Nfields 
+        if ( ! myN2N )  return 
+        
+        for ( var ixV in myN2N ) {
+            var lObj = myN2N[ixV];
+            var prList = Ext.getCmp( lObj.id )
+            if ( ! prList )  { continue } 
+            prList.addDataSet( record.get(  lObj.name  ) )
+        }
+
 
     },
 
