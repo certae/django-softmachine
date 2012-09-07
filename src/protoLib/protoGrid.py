@@ -147,17 +147,27 @@ class ProtoGridFactory(object):
 
                 prItems = []                
                 prTexts = []
+                prChecks = []
+                prN2N = []
                 prIds = []
                                 
                 for key in self.protoFields:
                     vFld = self.protoFields.get( key , {})
+                    fType = vFld.get( 'type', 'string' )
+                    
                     if ( vFld.get( 'storeOnly', False )): continue
                     
-                    if ( vFld.get( 'type', 'string' ) == 'text') :
+                    if ( fType == 'text') :
                         prTexts.append( { 'name' : key  , '__ptType' : 'formField'} ) 
                          
-                    elif ( vFld.get( 'type', 'string' ) in ['autofield', 'foreignid'] ) :
+                    elif ( fType in ['autofield', 'foreignid'] ) :
                         prIds.append( { 'name' : key  , '__ptType' : 'formField'} )
+
+                    elif ( fType  == 'bool' ) :
+                        prChecks.append( { 'name' : key  , '__ptType' : 'formField'} )
+
+                    elif ( fType == 'protoN2N' ) :
+                        prN2N.append( { 'name' : key  , '__ptType' : 'formField'} )
 
                     elif ( vFld.get( 'name', '' )  == '__str__' ) :
                         prTexts.insert( 0, { 'name' : key  , '__ptType' : 'formField'} )
@@ -165,14 +175,24 @@ class ProtoGridFactory(object):
                     else:  
                         prItems.append( { 'name' : key  , '__ptType' : 'formField'} )
 
+                if prTexts : 
+                    prSection = { '__ptType' : 'fieldset','fsLayout' : '1col'  }
+                    prSection['items'] = prTexts 
+                    prFieldSet.append ( prSection )
+
                 if prItems : 
                     prSection = { '__ptType' : 'fieldset','fsLayout' : '2col'  }
                     prSection['items'] = prItems 
                     prFieldSet.append ( prSection )
 
-                if prTexts : 
+                if prChecks : 
+                    prSection = { '__ptType' : 'fieldset','fsLayout' : '2col'  }
+                    prSection['items'] = prChecks 
+                    prFieldSet.append ( prSection )
+
+                if prN2N : 
                     prSection = { '__ptType' : 'fieldset','fsLayout' : '1col'  }
-                    prSection['items'] = prTexts 
+                    prSection['items'] = prN2N 
                     prFieldSet.append ( prSection )
 
                 if prIds : 
@@ -206,8 +226,8 @@ class ProtoGridFactory(object):
 
     def get_details(self):  
 
-        # TODO: Agregar y probar m2m
-        # TODO: Configuar el master, cuando es una tabla heredada, hay q buscar el parent oMeta.get_parent_list()  ( y si hay multi herencia?? ) 
+        # TODO: Configuar el master, cuando es una tabla heredada, 
+        # hay q buscar el parent oMeta.get_parent_list()  y si hay multi herencia?? ) 
         
         # Inicializa con los valores definidos,   
         details = self.protoAdmin.get( 'protoDetails', []) 
@@ -225,9 +245,11 @@ class ProtoGridFactory(object):
                     "masterField"   : 'pk',                                         
                     })
 
-            # Tabla referenciada en N2N
+            # Tabla intermedia referenciada en N2N
             for detail in opts.get_all_related_many_to_many_objects():
                 tmpTable = detail.field.rel.through._meta
+                if not tmpTable.auto_created:  continue
+
                 relTable =  detail.model._meta        
                 details.append({
                     "menuText"      : tmpTable.object_name.capitalize(), 
@@ -240,8 +262,9 @@ class ProtoGridFactory(object):
             #Campos N2N
             for field in opts._many_to_many():
                 tmpTable = field.rel.through._meta
-                relTable =  field.related.parent_model._meta
+                if not tmpTable.auto_created:  continue
 
+                relTable =  field.related.parent_model._meta
                 details.append({
                     "menuText"      : tmpTable.object_name.capitalize(), 
                     "conceptDetail" : tmpTable.app_label + '.' + tmpTable.object_name, 

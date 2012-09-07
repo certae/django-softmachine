@@ -228,7 +228,7 @@ function DefineProtoModel ( myMeta , modelClassName ){
         if ( ! vFld.type  in oc( [ 
             'string', 'text',  'bool', 'int', 'decimal', 'combo',  
             'date',  'datetime', 'time', 
-            'autofield', 'foreignid',  'foreigntext'  ] )) {
+            'autofield', 'foreignid',  'foreigntext', 'protoN2N'  ] )) {
                 vFld.type = 'string'
         }; 
 
@@ -249,6 +249,9 @@ function DefineProtoModel ( myMeta , modelClassName ){
         {
         case 'decimal':
             mField.type = 'number';            
+            break;
+        case 'protoN2N':
+            mField.type = 'list';            
             break;
         case 'date':
             mField.type = 'date';            
