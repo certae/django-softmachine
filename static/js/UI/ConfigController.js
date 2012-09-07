@@ -18,11 +18,11 @@ Ext.define('ProtoUL.UI.ConfigController', {
         var me = this;         
         var myActions = [];
 
-        myActions.push( myActionConfig( 'Meta', 'icon-configMeta' ))
-        myActions.push( myActionConfig( 'Form', 'icon-configForm' ))
-        myActions.push( myActionConfig( 'Fields', 'icon-configFields' ))
-        myActions.push( myActionConfig( 'Details', 'icon-configDetails' ))
-        myActions.push( myActionConfig( 'Reset', 'icon-configReset' ))
+        myActions.push( myActionConfig( 'Meta Config', 'icon-configMeta' ))
+        myActions.push( myActionConfig( 'Form Config', 'icon-configForm' ))
+        myActions.push( myActionConfig( 'Add Fields', 'icon-configFields' ))
+        myActions.push( myActionConfig( 'Add Details', 'icon-configDetails' ))
+        myActions.push( myActionConfig( 'Reset loaded meta', 'icon-configReset' ))
 
         return myActions   
 

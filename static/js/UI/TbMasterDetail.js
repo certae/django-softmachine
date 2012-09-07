@@ -110,16 +110,15 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 menu :  Ext.create( 'Ext.menu.Menu', {}) 
             }, {
                 // text: 'Aide',
+                xtype: 'splitbutton', 
+                menu :  this.configCtrl.getActions(),
                 iconCls: 'icon-help',
                 handler: toogleTb2,
                 itemId : 'tbHelp'
-            },{
-                // text : 'Config',
-                xtype: 'splitbutton', 
-                menu :  this.configCtrl.getActions(),
-                handler:    toogleTb2,
-                iconCls: 'icon-config', 
-                itemId : 'config'
+            // },{
+                // handler:    toogleTb2,
+                // iconCls: 'icon-config', 
+                // itemId : 'config'
             }]
         
         });
@@ -164,6 +163,10 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 if ( __MasterDetail.tbDetails ) {
                     __MasterDetail.showDetailPanel( ! but.pressed )
                 }
+
+            // } else if ( but.itemId == 'config' ) {
+                // this.configCtrl.showMetaConfig()
+
             } else if ( but.itemId == 'tbHelp' ) {
                 window.open( __HELPpath ,'protoHelp','left=50,top=20,width=1000,height=600,resizable=0')
             }
@@ -217,7 +220,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         this.getComponent('save').setVisible( bEdit  );
         this.getComponent('saveDraft').setVisible( bEdit  );
         this.getComponent('autoSync').setVisible( bEdit );
-        this.getComponent('config').setVisible( !bEdit );
+        // this.getComponent('config').setVisible( !bEdit );
 
         this.searchBG.setVisible( ! bEdit )
         this.setAutoSync( this.__MasterDetail.autoSync )

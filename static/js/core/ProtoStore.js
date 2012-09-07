@@ -251,6 +251,7 @@ function DefineProtoModel ( myMeta , modelClassName ){
             mField.type = 'number';            
             break;
         case 'protoN2N':
+            mField.readOnly = true;            
             mField.type = 'list';            
             break;
         case 'date':
@@ -379,7 +380,7 @@ function getColDefinition( vFld ) {
     case 'text':
         if ( ! colDefinition.flex  ) colDefinition.flex = 2 
         colDefinition.renderer = columnWrap
-          break;
+        break;
 
     case 'int':
         colDefinition['xtype'] = 'numbercolumn'
@@ -389,7 +390,7 @@ function getColDefinition( vFld ) {
         editor.xtype = 'numberfield'
         editor.format = colDefinition['format']
         editor.allowDecimals = false
-          break;
+        break;
 
     case 'decimal':
         colDefinition['xtype'] = 'numbercolumn'
@@ -401,7 +402,7 @@ function getColDefinition( vFld ) {
         editor.format = colDefinition['format']
         editor.allowDecimals = true
         editor.decimalPrecision = 2
-          break;
+        break;
 
     
     case 'date':
@@ -419,7 +420,7 @@ function getColDefinition( vFld ) {
         editor.xtype = 'datefield'
         editor.format = 'Y/m/d'
         editor.timeFormat = 'H:i'
-          break;
+        break;
 
     case 'time':
         //TODO:  En la edicion de grilla, al regresar cambia el formato 
@@ -428,8 +429,7 @@ function getColDefinition( vFld ) {
 
         editor.xtype = 'timefield'
         editor.format = colDefinition['format']      
-          break;
-          
+        break;
           
     case 'bool':
         colDefinition['xtype'] = 'checkcolumnreadonly'      
@@ -437,7 +437,7 @@ function getColDefinition( vFld ) {
 
         editor.xtype = 'checkbox'
         // editor.cls = 'x-grid-checkheader-editor'
-          break;
+        break;
           
     case 'combo':
         editor.xtype = 'combobox'
@@ -447,7 +447,7 @@ function getColDefinition( vFld ) {
         editor.store = vFld.choices
         editor.lazyRender = true
         editor.listClass = 'x-combo-list-small'
-          break;
+        break;
 
     case 'foreigntext': 
         // El zoom se divide en 2 cols el texto ( _unicode ) y el ID ( foreignid )
@@ -572,7 +572,15 @@ function getFormFieldDefinition( vFld ) {
         // formEditor.xtype = 'htmlfield'
         formEditor.height = 100
         formEditor.labelAlign = 'top'
-          break;
+        break;
+        
+    case 'protoN2N':
+        formEditor.xtype = 'protoList'
+        formEditor.idTitle = formEditor.fieldLabel
+        formEditor.checkStyle = false 
+        formEditor.height = 100
+        formEditor.labelAlign = 'top'
+        break;
     }
 
     // Inicializa los tipos 

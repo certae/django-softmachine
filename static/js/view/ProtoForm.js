@@ -52,21 +52,6 @@ Ext.define('ProtoUL.view.ProtoForm', {
         var myMeta = this.myMeta;
         var _pForm = this;
 
-        this.prFormLayout = [];
-
-        var myFormDefinition = clone( myMeta.protoForm )
-
-        for ( var ixV in myFormDefinition) {
-            var lObj = myFormDefinition[ixV];
-            
-            // Envia el contenedor y el objeto   
-            var prItem = defineProtoFormItem( myMeta, {
-                __ptType : 'panel'
-            }, lObj )
-            
-            this.prFormLayout.push(prItem);
-        }
-
 
         Ext.apply(this, {
             frame      : true,
@@ -127,6 +112,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
             // this.down('#save').enable();
             this.getForm().loadRecord(record);
             this.linkDetail( record )
+            this.loadN2N( record )
             this.updateZoomIds()
             
         } else {
@@ -134,6 +120,12 @@ Ext.define('ProtoUL.view.ProtoForm', {
             this.getForm().reset();
             this.linkDetail( )
         }
+
+    },
+
+    loadN2N: function( record ) {
+
+
     },
 
         // Refresca las grillas de detalle 

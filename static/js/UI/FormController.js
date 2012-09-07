@@ -36,12 +36,16 @@ Ext.define('ProtoUL.UI.FormController', {
     
     _newWindow: function () {
 
+        this.N2Nfields = []
+        this.defineFormLayout()
+
         this.myForm = Ext.widget('protoform', {
-            myMeta : this.myMeta  
+            myMeta : this.myMeta, 
+            myFormController : this, 
+            prFormLayout : this.prFormLayout 
         });  
 
         updateWinPosition( this.myWidth, this.myHeight )
-
         
         this.myWin  = Ext.widget('window', {
             // constrain: true, 
@@ -184,7 +188,189 @@ Ext.define('ProtoUL.UI.FormController', {
              // SetDefaults 
         } 
          
-    }
+    }, 
+    
+
+    defineFormLayout: function( ){
+        
+        var me = this
+        var myFormDefinition = clone( this.myMeta.protoForm )
+        var myMeta = this.myMeta
+        
+        me.prFormLayout = [];
+
+
+        for ( var ixV in myFormDefinition) {
+            var lObj = myFormDefinition[ixV];
+            
+            // Envia el contenedor y el objeto   
+            var prItem = defineProtoFormItem( {__ptType : 'panel'}, lObj )
+            me.prFormLayout.push(prItem);
+        }
+        
+        function defineProtoFormItem ( parent, protoObj, protoIx ) {
+        
+            var prLayout , template, __ptType 
+            var sDataType = typeOf(protoObj);
+            var myFieldDict = getFieldDict( myMeta )
+        
+            if (sDataType == "object" ) { 
+        
+                // Configura el objeto
+                if ( ! protoObj.__ptConfig )  
+                    protoObj.__ptConfig = get_ptConfig( protoObj )
+                    
+                if ( ! protoObj.__ptConfig.name ) 
+                    protoObj.__ptConfig.name = protoIx 
+                
+                
+                __ptType = protoObj.__ptConfig.__ptType || protoObj.__ptType
+                
+                if ( ! __ptType   ) {
+                    console.log( 'El objeto no tiene tipo definido' , protoObj )
+                    return {}
+
+                } else if ( __ptType == 'formField'  ) {
+        
+                    // protoIx es el field Name, si no viene debe buscarlo en __ptConfig [ name ]
+                    protoIx = protoObj.name || protoObj.__ptConfig.name 
+                    
+                    var myFld =  myFieldDict[ protoIx ] 
+                    if ( myFld ) {
+        
+                        template = getTemplate( __ptType, true,  myFld  )
+                        prLayout = Ext.apply( template.__ptConfig , protoObj.__ptConfig  )
+        
+                        // ReadOnlyCls
+                        prLayout[ 'readOnlyCls' ] = 'protofield-readonly'
+        
+                        if ( myFld.xtype == 'protoList') { 
+                            me.N2Nfields.push( myfld.name )
+                        }
+        
+                    }  else {
+        
+                        // El campo no existe en la definicion:  es un label
+                        // Incluso los campos calculados deben existir en la definicion  
+                        // console.log( 'invalid formField,name  :' , protoObj )
+                        prLayout =   {
+                            text:   protoIx,
+                            xtype: 'label', margin: '4', padding: '4', border: 1,
+                            tooltip : 'field definition not found', 
+                            style: {
+                                borderColor: 'red',
+                                borderStyle: 'solid', 
+                                bodyStyle:';border-right:none;border-left:none;border-top:none;'
+                            }       
+                        }
+                    }
+        
+        
+                } else if ( __ptType == 'protoGrid'  ) {
+                    
+                    template = getTemplate( __ptType  , true  )
+                    prLayout = Ext.apply( template.__ptConfig , protoObj.__ptConfig  ) 
+                    
+                    // Inicia la grilla sin datos 
+                    prLayout.initialFilter = { 'pk': -1 }
+        
+                    delete protoObj.__ptConfig.name 
+                    
+                } else {
+                      
+                    template = getTemplate( __ptType  , true  )
+                    prLayout = Ext.apply( template.__ptConfig , protoObj.__ptConfig  ) 
+        
+                    // Agrega los items 
+                    prLayout.items = []
+                    var prItems = protoObj.items
+                    for(var ix in prItems ) {
+                        if ( ix.indexOf( "__pt" )  == 0 ) continue 
+        
+                        var prVar = prItems[ix];
+                        var prFld = defineProtoFormItem(  protoObj, prVar, ix )
+                        if(prFld) prLayout.items.push(prFld);
+                    }
+                    
+                }
+                
+        
+                // Establece el layout  ( Columns )             
+                var sAux= prLayout[ 'fsLayout' ]
+                if ( sAux ) {
+        
+                    prLayout.defaultType = 'textfield'
+                    prLayout.layout =  'column'
+                    prLayout.defaults = { padding: '2 2' }
+                    
+                    if ( sAux == "1col"  )  
+                        prLayout.defaults.columnWidth = 1
+                    else if ( sAux == "2col"  )  
+                        prLayout.defaults.columnWidth = 0.5
+                    else if ( sAux == "3col"  )  
+                        prLayout.defaults.columnWidth = 0.33
+        
+                    delete prLayout.fsLayout 
+        
+                    // Parametros de labels
+                    prLayout.fieldDefaults = {}
+                    setFieldDefaults(  prLayout, 'labelAlign' )
+                    setFieldDefaults(  prLayout, 'labelWidth' )
+                    setFieldDefaults(  prLayout, 'hideLabel' )
+        
+                }
+                
+        
+                // Tooltip
+                if ( prLayout[ 'tooltip' ]) {
+                    
+                    prLayout['listeners'] = {
+                        render: function(c) {
+                            Ext.create('Ext.tip.ToolTip', {
+                            target: c.getEl(),
+                            trackMouse: true, 
+                            html: prLayout[ 'tooltip' ]
+                          });
+                        }
+                    }
+        
+                }
+                
+                // El fieldContainer requiere!!  el defaultType 
+                // prFld.xtype = 'fieldcontainer';
+                // prFld.defaultType = 'textfield'
+                // prFld.combineErrors = true;
+                // prFld.layout = 'hbox';
+                // prFld.margins = 0;
+                // prFld.pad = 0;
+                // prFld.frame = false;
+                // prFld.defaults = {flex : 1}
+                
+            
+            } else if ( sDataType == "array")  {
+        
+                prLayout = []
+                for(var ix in protoObj ) {
+                    var prVar = protoObj[ix];
+                    
+                    // Si es un array el padre es ../..
+                    var prFld = defineProtoFormItem(  parent, prVar , ix)
+                    if(prFld) prLayout.push(prFld);
+                }
+        
+            }
+        
+            return prLayout 
+            
+            function setFieldDefaults(  prLayout, key ) {
+                // Asigna los fieldDefaults q vienen en los contenedores 
+                var saux = prLayout[ key ]
+                if  ( saux  )  prLayout.fieldDefaults[ key ] = sAux
+            }
+        } 
+    
+    } 
+
 
       
 })

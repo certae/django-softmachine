@@ -41,10 +41,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
 
         // config Controller 
-        var configCtrl = Ext.create('ProtoUL.UI.ConfigController', {
-            myMeta : this.myMeta, 
-            __MasterDetail : me  
-        });
+        var configCtrl = Ext.create('ProtoUL.UI.ConfigController', { myMeta : this.myMeta });
 
 
         // Barra MD 
