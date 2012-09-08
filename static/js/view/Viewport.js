@@ -11,6 +11,10 @@ Ext.define('ProtoUL.view.Viewport', {
 
     initComponent: function () {
 
+
+        // Global ref to VPort  
+        mainVP = this 
+
         Ext.apply(this, {
             layout: 'border',
             autoRender: true, 

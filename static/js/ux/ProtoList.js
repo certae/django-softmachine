@@ -11,11 +11,11 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
     extend: 'Ext.grid.Panel',
     alias : 'widget.protoList',
 
-    // @columnList : Header de las columnas,  Si no viene ninguna por defecto 'id'  
+    // @columnList : { dataIndex: ,  hidden : ,  text : [title]  },  Si no viene ninguna por defecto 'data'  
     columnList : ['data'], 
 
     // @idColumn : Llave unica del registro, ( id )
-    // idColumn : 'id',       
+    idColumn : 'id',       
 
     // @myList : Lista con los datos iniciales
     // [ 'x', 'y']  o [ [ 'x1', 'y1'], [ 'x2', 'y2'] ]   
@@ -34,11 +34,17 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         var me = this 
         me.addEvents('checked', 'reorder');
 
-        var myColumns = clone( this.columnList )
-        myColumns.push( '__Checked' )
+        var myColumns = [ '__Checked' ]
+        for (var ix in this.columnList ) {
+            var vFld = this.columnList[ix] 
+            if ( typeOf( vFld ) == 'string' ) {
+                myColumns.push( vFld  )
+            }  else if ( vFld.dataIndex ) {
+                myColumns.push( vFld.dataIndex  )
+            }       
+        } 
                 
         // Se sirve de la definicion de columnas para el store 
-        // TODO: El modelo automatico tomar el idProperty ?? 
         this.gridStore = Ext.create('Ext.data.Store', {
             fields: myColumns,
             idProperty : this.idColumn, 
@@ -48,27 +54,30 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         // Inicializac con el checkBox
         var myGridColumns = []
         if ( me.checkStyle ) {
-            myGridColumns = [ {
-                    xtype: 'checkcolumn',
-                    dataIndex: '__Checked', 
-                    menuDisabled : true, 
-                    width: 33,  
-                    listeners: {
-                        'checkchange': function( record, recordIndex, checked ){
-                            me.fireEvent('checked', record, recordIndex, checked );
-                        } 
-                    }, scope : me
-                }
-            ];
+            myGridColumns = [{
+                xtype: 'checkcolumn',
+                dataIndex: '__Checked', 
+                menuDisabled : true, 
+                width: 33,  
+                listeners: {
+                    'checkchange': function( record, recordIndex, checked ){
+                        me.fireEvent('checked', record, recordIndex, checked );
+                    } 
+                }, scope : me
+            }];
         }   
 
         // DGT** Copia las columnas   
         for (var ix in this.columnList ) {
-            var vFld = this.columnList[ix] 
-            var col = {
-                menuDisabled : true, flex : 1, text : this.idTitle,   
-                dataIndex: vFld 
-                };
+            var vFld = this.columnList[ix]
+            if ( typeOf( vFld ) == 'string' ) {
+                var col = {
+                    menuDisabled : true, flex : 1, text : this.idTitle,   
+                    dataIndex: vFld 
+                    };
+            }  else if ( vFld.dataIndex ) {
+                var col = Ext.apply( vFld, { menuDisabled : true } )                
+            }
             myGridColumns.push( col  );
             
         }
@@ -129,14 +138,46 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         // TODO: Por ahora solo maneja un campo Verificar el modelo, por q no se definio con modelo  
         // var rec = new this.gridStore.model()
         // rec.data[id] = data
+    
+        var dataIx = 'data',  
+            dataValue = data, 
+            dataRec = {} 
 
-        var vNode =  getRecord( this.gridStore,  'data', data  ) 
+        // Toma el Id positional ( el primero es )
+        if ( typeOf( data ) == 'array' ) {
+            dataValue = data[0]
+        
+            // Verifica el 1er elto debe ser el Id 
+            vFld = this.columnList[0]
+            if ( typeOf( vFld ) == 'string' ) {
+                dataIx = vFld 
+            }  else if ( vFld.dataIndex ) {
+                dataIx = vFld.dataIndex
+            }  else return       
+        }
+
+
+        var vNode =  getRecordByDataIx( this.gridStore, dataIx, dataValue  ) 
         if ( ! vNode ) {
-            if ( checked == true || checked == false  ) {
-                this.gridStore.add( { 'data': data, '__Checked': checked } );
+            
+            if ( typeOf( data ) == 'string' ) {
+                dataRec = { 'data': data  }
             } else {
-                this.gridStore.add( { 'data': data  } );
+
+                for (var ix in this.columnList ) {
+                    var vFld = this.columnList[ix] 
+                    if ( typeOf( vFld ) == 'string' ) {
+                        dataRec[ vFld ] = data[ ix ] 
+                    }  else if ( vFld.dataIndex ) {
+                        dataRec[ vFld.dataIndex ] = data[ ix ]
+                    }       
+                } 
+                
             }
+            
+            if ( checked == true || checked == false  ) {  dataRec [ '__Checked' ] = checked } 
+            this.gridStore.add( dataRec );
+            
         }  else if ( checked ){
             vNode.set( '__Checked', checked )
         }        
@@ -173,7 +214,7 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         // Cambia el estado de seleccion de un registro
         // Que hace si no existe y es check? Lo crea por q es posible q se inserten dos colecciones base y selected   
 
-        var vNode =  getRecord( this.gridStore,  'data', data  ) 
+        var vNode =  getRecordByDataIx( this.gridStore, 'data', data  ) 
         if ( vNode ) {
             vNode.set( '__Checked', checked )
         } else { 
@@ -187,7 +228,7 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         if ( checked )  {
             this.setChecked(  data,  true  )
         } else {
-            var vNode =  getRecord( this.gridStore,  'data', data  ) 
+            var vNode =  getRecordByDataIx( this.gridStore, 'data', data  ) 
             if (  vNode  )   {
                 this.gridStore.remove( vNode )
             }

@@ -245,7 +245,10 @@ Ext.define('ProtoUL.UI.FormController', {
         
                         if ( myFld.type == 'protoN2N') { 
                             prLayout[ 'id' ] = Ext.id()
-                            me.N2Nfields.push( { name : myFld.name, id: prLayout[ 'id' ] } )
+                            me.N2Nfields.push( { 
+                                name : myFld.name, 
+                                id: prLayout[ 'id' ] 
+                            } )
                         }
         
                     }  else {

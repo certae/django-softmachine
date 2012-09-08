@@ -18,7 +18,11 @@ class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
     protoExt[ 'initialSort' ] = () 
     protoExt[ 'initialFilter' ] = {}
 
-    protoExt[ 'protoFields' ] =  { 'metaDefinition' : {} }       
+    protoExt[ 'protoFields' ] =  { 
+      'metaDefinition' : {},  
+      'code': {'cellLink' : True,  'zoomModel' : '@cellValue' },
+      }       
+    
     protoExt[ 'protoSheetProperties' ] = (  'metaDefinition', )
 
     protoExt[ 'protoSheets' ] =   {        
@@ -27,6 +31,7 @@ class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
               'template': '{{metaDefinition}}'  
               },
             } 
+
 
 admin.site.register(ProtoDefinition, protoDefinitionAdmin)
 

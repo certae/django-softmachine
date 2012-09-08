@@ -18,19 +18,19 @@ Ext.define('ProtoUL.UI.ConfigController', {
         var me = this;         
         var myActions = [];
 
-        myActions.push( myActionConfig( 'Meta Config', 'icon-configMeta' ))
-        myActions.push( myActionConfig( 'Form Config', 'icon-configForm' ))
-        myActions.push( myActionConfig( 'Add Fields', 'icon-configFields' ))
-        myActions.push( myActionConfig( 'Add Details', 'icon-configDetails' ))
-        myActions.push( myActionConfig( 'Reset loaded meta', 'icon-configReset' ))
+        myActions.push( myActionConfig( 'Meta', 'Meta Config', 'icon-configMeta' ))
+        myActions.push( myActionConfig( 'Form', 'Form Config', 'icon-configForm' ))
+        myActions.push( myActionConfig( 'Fields', 'Add Fields', 'icon-configFields' ))
+        myActions.push( myActionConfig( 'Details', 'Add Details', 'icon-configDetails' ))
+        myActions.push( myActionConfig( 'Reset', 'Reset loaded meta', 'icon-configReset' ))
 
         return myActions   
 
-        function myActionConfig( name, icon ) {
+        function myActionConfig( action, name, icon ) {
             var myAction = Ext.create ( 'Ext.Action', {
                 text:         name,
                 iconCls :     icon, 
-                prCfgAction : name,
+                prCfgAction : action,
                 scope:        me,                     
                 handler:      onClickConfigAction
             })

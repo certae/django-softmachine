@@ -107,6 +107,8 @@ function getStoreDefinition(  stDef  ){
             // Redefine el metodo, siempre pasa por aqui 
         // }, 
 
+
+
         listeners: {
 
             // Fired when a Model instance has been added to this Store ...
@@ -190,6 +192,14 @@ function getStoreDefinition(  stDef  ){
 
 }
         
+
+function getRecordByDataIx( myStore, fieldName, value  )  {
+    var ix =  myStore.findExact( fieldName, value  )
+    if ( ix == -1 ) return 
+    
+    return myStore.getAt( ix  ) 
+    
+}; 
 
 
     
@@ -576,10 +586,13 @@ function getFormFieldDefinition( vFld ) {
         
     case 'protoN2N':
         formEditor.xtype = 'protoList'
-        formEditor.idTitle = formEditor.fieldLabel
-        formEditor.checkStyle = false 
+        formEditor.checkStyle = false
+        formEditor.columnList = [ 
+            { dataIndex : 'id' , hidden : false }, 
+            { dataIndex : 'data', text : formEditor.fieldLabel , flex : 1 } 
+            ] 
         formEditor.height = 100
-        formEditor.labelAlign = 'top'
+        // formEditor.labelAlign = 'top'
         break;
     }
 

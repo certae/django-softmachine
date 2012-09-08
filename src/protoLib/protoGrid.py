@@ -205,7 +205,7 @@ class ProtoGridFactory(object):
             else: 
                 for name, opts in baseFieldSet:
 
-                    prSection = { '__ptType' : 'fieldset', 'fsLayout' : '2Col' }
+                    prSection = { '__ptType' : 'fieldset', 'fsLayout' : '2col' }
                     if ( name != None ): 
                         prSection[ 'title' ]  = name.capitalize()  
 

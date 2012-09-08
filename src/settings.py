@@ -208,11 +208,13 @@ PROTO_APP = {}
 
 # app_menu se usa para ordenar la pre
 PROTO_APP['app_menu'] = {
-#    'auth' : { 'hidden': True, },  
-#    'admin': { 'hidden': True, },
-    'Base':  { 'title': 'TCO - Base de connaissances', 'expanded':True, 'menu_index' : 2  },
+    'pruebas':  { 'title': 'Pruebas', 'expanded':True, 'menu_index' : 0  },
+    'auth' : { 'hidden': False, 'menu_index' : 1},  
+    'admin': { 'hidden': False, 'menu_index' : 2},
+    'shiny':  { 'title': 'Shiny', 'expanded':False, 'menu_index' : 9  },
+    'Base':  { 'title': 'TCO - Base de connaissances', 'expanded':False, 'menu_index' : 2  },
     'Param': { 'title': 'TCO - Paramètres', 'expanded':False, 'menu_index' : 2  },
-    'TCO':   { 'title': 'TCO - Coût total de possession', 'expanded':True, 'menu_index' : 9  },
+    'TCO':   { 'title': 'TCO - Coût total de possession', 'expanded':False, 'menu_index' : 9  },
     
     'protoExt' : { 'hidden': False, 'title': 'Dictionnaire des données MSSS', 'expanded':False, 'menu_index' : 98  }, 
     'protoLib': { 'hidden': False, 'title': 'Métadonnée', 'expanded':False, 'menu_index' : 99  },
