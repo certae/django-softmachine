@@ -34,16 +34,22 @@ Ext.define('ProtoUL.UI.FormController', {
         Ext.apply(this, config || {});
     },
     
-    _newWindow: function () {
+    newForm: function () {
 
         this.defineFormLayout()
-
         this.myForm = Ext.widget('protoform', {
             myMeta : this.myMeta, 
             myFormController : this, 
             prFormLayout : this.prFormLayout 
         });  
 
+        return this.myForm
+
+    },
+    
+    _newWindow: function () {
+
+        this.newForm()
         updateWinPosition( this.myWidth, this.myHeight )
         
         this.myWin  = Ext.widget('window', {
@@ -62,17 +68,12 @@ Ext.define('ProtoUL.UI.FormController', {
             items: this.myForm 
         });
 
-
+        // Los eventos controlan la ventana
         this.myForm.on({
-            'close' :  function() {
-                this.myWin.close()
-            }, 
-            'hide' :  function() {
-                this.myWin.hide()
-            }, 
+            'close' :  function() { this.myWin.close() }, 
+            'hide' :  function() { this.myWin.hide() }, 
             scope: this }
         );
-
 
     },
 

@@ -85,7 +85,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         if ( me.detailDefinition ) {
             var nDetId = me.detailDefinition.detailField.replace( /__pk$/, '_id' ) 
             var vFld = me.myFieldDict[ nDetId ]
-            var nDetTitle = me.detailDefinition.masterTitleField || vFld.fkField 
+            
+            // Asigna el titulo 
+            var nDetTitle =  nDetId 
+            if ( vFld )  nDetTitle = me.detailDefinition.masterTitleField || vFld.fkField 
         } 
         
         // DGT** Copia las columnas   
@@ -147,18 +150,24 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                     // grid4.down('#removeButton').setDisabled(selections.length == 0);
                 }, 
                 
-            itemmouseenter: function(view, record, item) {
-                // Esto maneja los tooltip en las las filas
-                var msg = record.get('_ptStatus')
-                if ( msg == _ROW_ST.NEWROW  ) msg = '';
-
-                // Asigna un tooltip a la fila, pero respeta los de cada celda y los de los Actiosn
-                Ext.fly(item).set({'data-qtip': msg });
-                
-                // Dgt :  Este tooltip evita las actions columns 
-                // Ext.fly(item).select('.x-grid-cell:not(.x-action-col-cell)').set({'data-qtip': 'My tooltip: ' + record.get('name')});
+                itemmouseenter: function(view, record, item) {
+                    // Esto maneja los tooltip en las las filas
+                    var msg = record.get('_ptStatus')
+                    if ( msg == _ROW_ST.NEWROW  ) msg = '';
+    
+                    // Asigna un tooltip a la fila, pero respeta los de cada celda y los de los Actiosn
+                    Ext.fly(item).set({'data-qtip': msg });
+                    
+                    // Dgt :  Este tooltip evita las actions columns 
+                    // Ext.fly(item).select('.x-grid-cell:not(.x-action-col-cell)').set({'data-qtip': 'My tooltip: ' + record.get('name')});
                 }
                 
+            }, 
+
+            processEvent: function(type, view, cell, recordIndex, cellIndex, e) {
+                if ( type == 'keydown' ) { 
+                    console.log( view, cell, recordIndex, cellIndex, e )
+                } 
             }, 
  
             viewConfig: {
@@ -207,6 +216,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
            }
             
         }); 
+
 
 
         this._extGrid = grid;

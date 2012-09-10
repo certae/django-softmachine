@@ -190,31 +190,20 @@ Ext.define('Ext.ux.protoZoom', {
 
 
         function doNew() {
-            
             zoomGrid.addNewRecord( true ) 
-            var formController = Ext.create('ProtoUL.UI.FormController', { 
-                myMeta : me.myMeta 
-            });
-
+            var formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });
             formController.openLinkedForm ( zoomGrid.selected    )
         }
 
 
         function doEdit() {
-            
             if ( ! zoomGrid.selected ) {
                 errorMessage( 'Form', 'No record selected')
                 return 
             }
-            
-            var formController = Ext.create('ProtoUL.UI.FormController', { 
-                myMeta : me.myMeta 
-            });
-
+            var formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });
             formController.openLinkedForm ( zoomGrid.selected    )
         }
-
-
         
     }, 
     

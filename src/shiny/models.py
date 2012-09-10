@@ -19,7 +19,7 @@ class Client(models.Model):
     dateCreation = models.DateField( blank=True, null=True)
     active = models.BooleanField( )
     def __unicode__(self):
-        return self.nom_client
+        return self.nom
 
 
 class Facture(models.Model):
@@ -69,7 +69,7 @@ class LigneCommande(models.Model):
     produit = models.ForeignKey(Produit)
     commande = models.ForeignKey(Commande) 
     def __unicode__(self):
-        return format( self.ligne, '04d') + ' ' + str(self.produit) 
+        return str( self.commande ) + ' ' + format( self.ligne, '04d') + ' ' + str(self.produit) 
     
     class Meta:
         verbose_name_plural = "Lignes de Commande"
@@ -93,7 +93,6 @@ class EntreeStock(models.Model):
     ordreProduction = models.ForeignKey(OrdreProduction)
     def __unicode__(self):
         return format( self.ligne, '05d') + ' ' + str(self.produit) 
-
 
     class Meta:
         verbose_name_plural = "Entrees stock"
