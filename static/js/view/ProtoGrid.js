@@ -148,6 +148,11 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                     
                     // Si hay botones o eltos de la interface a modificar 
                     // grid4.down('#removeButton').setDisabled(selections.length == 0);
+
+                }, 
+                
+                keydown: function(a,b,c,d,e,f) {
+                    console.log(a,b,c,d,e,f) 
                 }, 
                 
                 itemmouseenter: function(view, record, item) {
@@ -201,7 +206,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                             }; 
                             
                         }
-                    }
+                    }, 
+                    
                 },                
                
                 getRowClass: function(record, rowIndex, rowParams, store){

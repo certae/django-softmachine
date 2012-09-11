@@ -76,8 +76,15 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
         };
 
         function onClickPrintSheet( btn ){
-            var prn = ProtoUL.ux.Printer ;
-            prn.sheetPrint( __MasterDetail.protoMasterGrid._extGrid, pGrid.sheetHtml  )
+            var prn = ProtoUL.ux.Printer, 
+                pGrid = __MasterDetail.protoMasterGrid ;
+            
+            if ( (! pGrid) || (! pGrid.sheetHtml )) {
+                __StBar.showWarning( 'no record selected', 'MdPrintOptsController')
+                return 
+            }
+            
+            prn.sheetPrint( pGrid._extGrid, pGrid.sheetHtml  )
         };
         
     }

@@ -3,13 +3,14 @@
 from django.db import models 
 #import datetime 
 
+
 class Client(models.Model):
     code = models.CharField(max_length=200)
     nom  = models.CharField(max_length=200)
     typeClient  = models.CharField(max_length=10)
     limiteCredit = models.DecimalField(max_digits=20,decimal_places=2)
     solde = models.DecimalField(max_digits=20,decimal_places=2)
-    rue = models.CharField(max_length=200)
+    address = models.CharField(max_length=200)
     ville = models.CharField(max_length=200)
     province = models.CharField(max_length=200)
     codePostal = models.CharField(max_length=200)
@@ -22,18 +23,11 @@ class Client(models.Model):
         return self.nom
 
 
-class Facture(models.Model):
-    numero = models.IntegerField()
-    dateFacture = models.DateField()
-    totalFacture = models.DecimalField(max_digits=20,decimal_places=2)
-    client = models.ForeignKey(Client)
-    def __unicode__(self):
-        return str( self.client) + ' ' + format(self.numero, '05d') 
-
-
+# La familia puede ser recursiva TODO: el manejo de consulta seria un arbol 
 class Famille(models.Model):
     code  = models.CharField(max_length=200)
     description = models.TextField(max_length=200, null = True)
+    parentfamille = models.ForeignKey('Famille', null = True, blank = True)
     def __unicode__(self):
         return self.code + ' ' + self.description
 
@@ -48,6 +42,16 @@ class Produit(models.Model):
     famille = models.ForeignKey(Famille)
     def __unicode__(self):
         return self.code + ' ' + self.nom 
+
+
+# El sistema funciona con base en comandas q luego se reunen en una factura 
+class Facture(models.Model):
+    numero = models.IntegerField()
+    dateFacture = models.DateField()
+    totalFacture = models.DecimalField(max_digits=20,decimal_places=2)
+    client = models.ForeignKey(Client)
+    def __unicode__(self):
+        return str( self.client) + ' ' + format(self.numero, '05d') 
 
 
 class Commande(models.Model):
@@ -75,6 +79,7 @@ class LigneCommande(models.Model):
         verbose_name_plural = "Lignes de Commande"
     
 
+# Es una fabrica y las entradas van siempre en una Orden de produccion   
 class OrdreProduction(models.Model):
     numero = models.IntegerField()
     dateOrdre = models.DateField(blank=True, null=True)

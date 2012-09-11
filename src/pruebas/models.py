@@ -65,9 +65,17 @@ class Publication(models.Model):
     class Meta:
         ordering = ('title',)
 
+class Author(models.Model):
+    name = models.CharField(max_length=128)
+
+    def __unicode__(self):
+        return self.name
+
+
 class Article(models.Model):
     headline = models.CharField(max_length=100)
     publications = models.ManyToManyField(Publication)
+    author = models.ForeignKey(Author)
 
     def __unicode__(self):
         return self.headline
