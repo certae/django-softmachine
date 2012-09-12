@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models 
+from protoLib.models import ProtoModel
+
 #import datetime 
 
 
-class Client(models.Model):
+class Client(ProtoModel):
     code = models.CharField(max_length=200)
     nom  = models.CharField(max_length=200)
     typeClient  = models.CharField(max_length=10)
@@ -24,7 +26,7 @@ class Client(models.Model):
 
 
 # La familia puede ser recursiva TODO: el manejo de consulta seria un arbol 
-class Famille(models.Model):
+class Famille(ProtoModel):
     code  = models.CharField(max_length=200)
     description = models.TextField(max_length=200, null = True)
     parentfamille = models.ForeignKey('Famille', null = True, blank = True)
@@ -32,7 +34,7 @@ class Famille(models.Model):
         return self.code + ' ' + self.description
 
 
-class Produit(models.Model):
+class Produit(ProtoModel):
     code = models.CharField(max_length=200)
     nom  = models.CharField(max_length=200)
     prix  = models.DecimalField('prix produit',max_digits=20,decimal_places=2)
@@ -45,7 +47,7 @@ class Produit(models.Model):
 
 
 # El sistema funciona con base en comandas q luego se reunen en una factura 
-class Facture(models.Model):
+class Facture(ProtoModel):
     numero = models.IntegerField()
     dateFacture = models.DateField()
     totalFacture = models.DecimalField(max_digits=20,decimal_places=2)
@@ -54,7 +56,7 @@ class Facture(models.Model):
         return str( self.client) + ' ' + format(self.numero, '05d') 
 
 
-class Commande(models.Model):
+class Commande(ProtoModel):
     numero = models.IntegerField()
     dateCommande = models.DateField( blank=True, null=True)
     dateExpedition = models.DateField(blank=True, null=True)
@@ -66,7 +68,7 @@ class Commande(models.Model):
         return str( self.client) + ' ' + format(self.numero, '05d') 
     
 
-class LigneCommande(models.Model):
+class LigneCommande(ProtoModel):
     ligne = models.IntegerField()
     prixVente = models.DecimalField(max_digits=20,decimal_places=2)
     qteVendue = models.DecimalField(max_digits=20,decimal_places=2)
@@ -80,7 +82,7 @@ class LigneCommande(models.Model):
     
 
 # Es una fabrica y las entradas van siempre en una Orden de produccion   
-class OrdreProduction(models.Model):
+class OrdreProduction(ProtoModel):
     numero = models.IntegerField()
     dateOrdre = models.DateField(blank=True, null=True)
     remarque = models.TextField(max_length=200)
@@ -91,7 +93,7 @@ class OrdreProduction(models.Model):
         verbose_name_plural = "Ordres Production"
 
 
-class EntreeStock(models.Model):
+class EntreeStock(ProtoModel):
     ligne  = models.IntegerField()
     qteEntree = models.DecimalField(max_digits=20,decimal_places=2)
     produit = models.ForeignKey(Produit)

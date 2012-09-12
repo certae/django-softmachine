@@ -2,81 +2,98 @@
 
 #TODO: Django’s comments system (django.contrib.comments) uses it to “attach” comments to any installed model.
 
+from datetime import datetime
+
 from django.db import models
 from django.contrib.auth.models import User, Group, Permission 
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
+from django.contrib.sites.models import Site
+
+from protoLib.utilsBase import  strNotNull
 
 
-class MetaObj(models.Model):
-    objType = models.CharField(max_length=50)
-    def __unicode__(self):
-        return self.code 
-
-    class Meta:
-        abstract = True
-
-
-class Udp(models.Model):
+#Las UDP's usan relaciones genericas para poder conectarse a cualquier modelo definido
+#Las UDP's deben ser unicas pues se presentan como columnas de la tabla  
+class ProtoUdp(models.Model):
     content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField()
+    content_object = generic.GenericForeignKey('content_type', 'object_id')
+
     code = models.CharField(max_length=50)
     valueUdp = models.TextField(blank = True, null = True, max_length=200)
     indexUdp = models.IntegerField(blank = True, null = True)
 
     def __unicode__(self):
-        return (strNotNull(self.code) + '.' + strNotNull(self.code))
+        return (strNotNull(self.content_type) + '.' + strNotNull(self.code) + ': ' + strNotNull(self.valueUdp))
 
     class Meta:
-        unique_together = ('metaObj', 'code',)
+        unique_together = ('content_type', 'object_id', 'code',)
 
 
-class TaggedItem(models.Model):
-    tag = models.SlugField()
-    content_type = models.ForeignKey(ContentType)
-    object_id = models.PositiveIntegerField()
-    content_object = generic.GenericForeignKey('content_type', 'object_id')
-
-    def __unicode__(self):
-        return self.tag
 
 # Esta tabla tiene un unico registro equivalente una serie de parametros comunes a la org
-class Organization(models.Model):
-    name = models.CharField(unique=True, blank = False, null = False, max_length=200 )
+class ProtoSite(Site):
+#   name = Site.name 
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
-    calemdarCode = models.CharField(_null = True, blank = True)
+    calemdarCode =  models.CharField( max_length=50,  null = True, blank = True)
 
-    baseCurrencyCode  = models.CharField(_null = True, blank = True)    
-    baseLanguajeCode  = models.CharField(_null = True, blank = True)
+    baseCurrencyCode  =  models.CharField( max_length=50,  null = True, blank = True)    
+    baseLanguajeCode  =  models.CharField( max_length=50,  null = True, blank = True)
 
-    fiscalPeriodType  = models.CharField(_null = True, blank = True)
-    fiscalCurrentYear  = models.CharField(_null = True, blank = True)
+    fiscalPeriodType  =  models.CharField( max_length=50,  null = True, blank = True)
+    fiscalCurrentYear  =  models.CharField( max_length=50,  null = True, blank = True)
 
-    createdOn = models.DateTimeField(_default=datetime.datetime.now )
+    createdOn = models.DateTimeField( default=datetime.now )
+
+    def __unicode__(self):
+        return self.name 
 
 
-class BussinesUnit(models.Model):
+#Es la base de la seguridad por registro
+class ProtoBussinesUnit(models.Model):
     code = models.CharField(unique=True, blank = False, null = False, max_length=200 )
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
-    bussinesUnit = models.ForeignKey( 'BussinesUnit' )
+    parentBUnit = models.ForeignKey( 'ProtoBussinesUnit', blank = True, null = True )
+    protoSite = models.ForeignKey( 'ProtoSite' )
 
-    
-class UserExt(User):
-    bussinesUnit = models.ForeignKey( BussinesUnit )
-    
-    
+    def __unicode__(self):
+        return self.code
+
+
+#Es necesario inlcuir el ususario en BUnit     
+class ProtoUser(User):
+#   username = User.username
+    bussinesUnit = models.ManyToManyField( ProtoBussinesUnit )
+    protoSite = models.ManyToManyField( 'ProtoSite' )
+
+
+#Es necesario inlcuir el ususario en BUnit, ademas los grupos son recursivos      
+class ProtoGroup(Group):
+#   name = Group.name
+    bussinesUnit = models.ManyToManyField( ProtoBussinesUnit )
+    parentGroup = models.ForeignKey( 'ProtoSite', blank = True, null = True )
+
+
+#Tabla modelo para la creacion de entidades de usuario     
+#related_name="%(app_label)s_%(class)s
 class ProtoModel(models.Model):
-    owningUser = models.ForeignKey( UserExt )
-    owningBUnit = models.ForeignKey( BussinesUnit )
-    createdBy = models.ForeignKey( UserExt )
-    modifiedBy = models.ForeignKey( UserExt )
-    wflowStatus = models.CharField(_null = True, blank=True)
-    regStatus = models.CharField(_null = True, blank=True)
-    createdOn = models.DateTimeField(_default=datetime.datetime.now )
-    modifiedOn = models.DateTimeField(_default=datetime.datetime.now )
-    
+    owningUser = models.ForeignKey( ProtoUser, related_name='+')
+    owningBUnit = models.ForeignKey( ProtoBussinesUnit, related_name='+')
+
+    createdBy = models.ForeignKey( ProtoUser, related_name='+')
+    modifiedBy = models.ForeignKey( ProtoUser, related_name='+')
+    wflowStatus =  models.CharField( max_length=50,  null = True, blank=True)
+    regStatus =  models.CharField( max_length=50,  null = True, blank=True)
+    createdOn = models.DateTimeField( default= datetime.now )
+    modifiedOn = models.DateTimeField( default= datetime.now)
+
+    ProtoObj = True 
+
+    class Meta:
+        abstract = True
 
 # -------------------------------------------
-
 
 
 class ProtoDefinition(models.Model):

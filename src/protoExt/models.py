@@ -9,7 +9,6 @@ from django.contrib import admin
 
 from protoLib.utilsBase import  strNotNull
 
-
 class MetaObj(models.Model):
     #OBJTYPE  = (('Domain', 'Domain'),('Model', 'Model'),('Concept', 'Concept'),('Property', 'Porperty'),('?', 'Unknown'),)
     code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )

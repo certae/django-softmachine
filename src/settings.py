@@ -162,14 +162,15 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.auth',
     'django.contrib.admin',
+    'django.contrib.admindocs',
+    'django.contrib.sites',
 #    'django_extensions',
     'protoLib', 
     'protoExt', 
     'pruebas', 
     'shiny', 
-    'TCO'
+#    'TCO'
 #    'django_qbe'
-    # 'django.contrib.admindocs',
 )
 
 # A sample logging configuration. The only tangible logging

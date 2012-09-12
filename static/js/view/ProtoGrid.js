@@ -169,11 +169,11 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 
             }, 
 
-            processEvent: function(type, view, cell, recordIndex, cellIndex, e) {
-                if ( type == 'keydown' ) { 
-                    console.log( view, cell, recordIndex, cellIndex, e )
-                } 
-            }, 
+            // processEvent: function(type, view, cell, recordIndex, cellIndex, e) {
+                // if ( type == 'keydown' ) { 
+                    // console.log( view, cell, recordIndex, cellIndex, e )
+                // } 
+            // }, 
  
             viewConfig: {
                 // Manejo de rows y cells  
