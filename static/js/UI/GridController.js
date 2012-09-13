@@ -202,8 +202,7 @@ Ext.define('ProtoUL.UI.GridController', {
         // 'toolFormAdd', 'toolFormUpd', 'toolFormView', 'toolRowAdd', 'toolRowCopy', 'toolRowDel',
         switch( btn.itemId ){ 
             case 'toolFormAdd' :
-                this.myGrid.addNewRecord()
-                this.formController.openLinkedForm ( this.myGrid.selected    )
+                this.formController.openNewForm (  this.myGrid.store )
                 break;
 
             case 'toolFormUpd' : 

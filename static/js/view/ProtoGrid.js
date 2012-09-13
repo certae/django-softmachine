@@ -415,28 +415,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         me._extGrid.setTitle( gridTitle )  
     }, 
     
-
-    /*
-     * @private
-     * setDefaults for insert row 
-     */
-    setDefaults: function() {
-
-        var vDefault = {}
-        for (var ix in this.myMeta.fields ) {
-            var vFld = this.myMeta.fields[ix] 
-            if ( ! vFld['defaultValue'] ) continue;
-            vDefault[ vFld.name  ]  = vFld['defaultValue'] ;
-        };
-        return vDefault
-    }, 
-        
     
     addNewRecord: function( zoomForm ) {
         if ( !(  this.editable  ||  zoomForm )) return; 
-
-        var rec = new this.store.model( this.setDefaults()  )
-        this.insertNewRecord ( rec  ) 
+        this.insertNewRecord ( getNewRecord( this.myMeta, this.store )  ) 
     }, 
     
 
@@ -448,6 +430,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     }, 
 
     insertNewRecord: function( rec ) {
+        
         rec.data._ptStatus = _ROW_ST.NEWROW 
         rec.data._ptId = rec.internalId  
         rec.data.id = undefined 

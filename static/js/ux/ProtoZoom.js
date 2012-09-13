@@ -190,9 +190,8 @@ Ext.define('Ext.ux.protoZoom', {
 
 
         function doNew() {
-            zoomGrid.addNewRecord( true ) 
             var formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });
-            formController.openLinkedForm ( zoomGrid.selected    )
+            formController.openNewForm ( zoomGrid.store   )
         }
 
 

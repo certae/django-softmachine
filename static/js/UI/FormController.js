@@ -34,7 +34,7 @@ Ext.define('ProtoUL.UI.FormController', {
         Ext.apply(this, config || {});
     },
     
-    newForm: function () {
+    newProtoForm: function () {
 
         this.defineFormLayout()
         this.myForm = Ext.widget('protoform', {
@@ -47,17 +47,17 @@ Ext.define('ProtoUL.UI.FormController', {
 
     },
     
-    _newWindow: function () {
+    newWindow: function ( me ) {
 
-        this.newForm()
-        updateWinPosition( this.myWidth, this.myHeight )
+        me.newProtoForm()
+        updateWinPosition( me.myWidth, me.myHeight )
         
-        this.myWin  = Ext.widget('window', {
+        me.myWin  = Ext.widget('window', {
             // constrain: true, 
-            title : this.myMeta.description,
+            title : me.myMeta.description,
             closeAction: 'hide',
-            width: this.myWidth,
-            height: this.myHeight,
+            width: me.myWidth,
+            height: me.myHeight,
             x : _winX, 
             y : _winY, 
             minHeight: 400,
@@ -65,22 +65,44 @@ Ext.define('ProtoUL.UI.FormController', {
             layout: 'fit',
             resizable: true,
             modal: true,
-            items: this.myForm 
+            items: me.myForm 
         });
 
         // Los eventos controlan la ventana
-        this.myForm.on({
-            'close' :  function() { this.myWin.close() }, 
-            'hide' :  function() { this.myWin.hide() }, 
-            scope: this }
+        me.myForm.on({
+            'close' :  function() { me.myWin.close() }, 
+            'hide' :  function() { me.myWin.hide() }, 
+            scope: me }
         );
 
     },
 
-    openLinkedForm: function ( myRecord, isReadOnly )   {
+    openNewForm: function (  myStore )   {
+        
+        this.isReadOnly  = false 
+        this.newForm = true    
 
+        var myRecord = getNewRecord( this.myMeta, myStore );
+
+        // // Agrega los datos de control para la grilla 
+        // myRecord.data._ptStatus = _ROW_ST.NEWROW 
+        // myRecord.data._ptId = myRecord.internalId  
+        // myRecord.data.id = undefined 
+        // // Lo marca como nuevo 
+        // myRecord.phantom = true 
+        
+        this.openForm( myRecord )
+    },
+
+    openLinkedForm: function ( myRecord, isReadOnly )   {
+        this.newForm = false     
         this.isReadOnly  = isReadOnly
-        this._newWindow(); 
+        this.openForm( myRecord )
+    },
+
+
+    openForm: function ( myRecord )   {
+
 
         // Verifica la edicion  
         if ( ! myRecord   ) {
@@ -88,10 +110,11 @@ Ext.define('ProtoUL.UI.FormController', {
             return 
         }
 
+        this.newWindow( this ); 
         this.myForm.setActiveRecord( myRecord );
         this.myForm.store = myRecord.store 
         
-        if ( isReadOnly ) {
+        if ( this.isReadOnly ) {
             this.myForm.setFormReadOnly( true );
             
             this.myWin.tools = [{
@@ -101,10 +124,7 @@ Ext.define('ProtoUL.UI.FormController', {
             this.myWin.addTools()
             
         } else {
-            
             this.myForm.setReadOnlyFields( true, this.myMeta.gridConfig.readOnlyFields );            
-
-            
         }
         
         this.myWin.show();
@@ -121,8 +141,8 @@ Ext.define('ProtoUL.UI.FormController', {
             return 
         }
 
+        // Obtiene la meta ( async )
         this._getFormDefinition( myRecordId) 
-
         
     }, 
 

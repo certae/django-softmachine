@@ -19,7 +19,7 @@ class Client(ProtoModel):
     pays = models.CharField(max_length=200)
     telephone = models.CharField(max_length=200)
     fax = models.CharField(max_length=200)
-    dateCreation = models.DateField( blank=True, null=True)
+    dateCreation = models.DateField( blank=True, null=True) 
     active = models.BooleanField( )
     def __unicode__(self):
         return self.nom

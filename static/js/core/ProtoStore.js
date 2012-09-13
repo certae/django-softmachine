@@ -191,6 +191,32 @@ function getStoreDefinition(  stDef  ){
     return myStore
 
 }
+
+function getNewRecord( myMeta, myStore )  { 
+
+    var myRecord = new myStore.model( setDefaults()  ) 
+    
+    // Lo asocia al store 
+    myRecord.store = myStore
+    
+    return myRecord 
+
+    function setDefaults()  {
+
+        var vDefault = {};
+        for (var ix in myMeta.fields ) {
+            var vFld = myMeta.fields[ix]; 
+            if ( ! vFld.defaultValue  ) { 
+                continue ; 
+            }
+            vDefault[ vFld.name  ]  = vFld.defaultValue ;
+        }
+        return vDefault; 
+    } 
+
+} 
+
+        
         
 
 function getRecordByDataIx( myStore, fieldName, value  )  {

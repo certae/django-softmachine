@@ -207,25 +207,33 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         // DGT:  Save
         var me = this; 
+       
+        // Si es nuevo 
+        if ( this.myFormController.newForm ) {
+            this.store.add( active ); 
+        }
          
-        this.store.sync({
-            success: function(result, request ) {
+        if ( this.store.autoSync != true   ) { 
 
-                var myReponse = result.operations[0].response 
-
-                var myResult = Ext.decode( myReponse.responseText );
-                if( myResult.message ) {
-                    errorMessage ( 'SavePCI Failed', myResult.message  )
-                } else {
-                    me.fireEvent('close', me );
+            this.store.sync({
+                success: function(result, request ) {
+    
+                    var myReponse = result.operations[0].response 
+    
+                    var myResult = Ext.decode( myReponse.responseText );
+                    if( myResult.message ) {
+                        errorMessage ( 'SavePCI Failed', myResult.message  )
+                    } else {
+                        me.fireEvent('close', me );
+                    }
+                },
+                failure: function(result, request) {
+                    errorMessage ( 'SavePCI Failed', 'Operation failure' )
                 }
-            },
-            failure: function(result, request) {
-                errorMessage ( 'SavePCI Failed', 'Operation failure' )
-            }
-        });
+            });
+        } 
 
-        // this.fireEvent('close', this );
+        this.fireEvent('close', this );
 
     },
 
