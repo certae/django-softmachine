@@ -81,8 +81,8 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         this.formTree = me.down('#formTree')
         this.formPreview = me.down('#formPreview')
         
-        var formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });
-        this.formPreview.add( formController.newForm() )  
+        this.formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });
+        this.formPreview.add( this.formController.newForm() )  
 
         this.tBar =  this.toolsPanel.addDocked({
             xtype : 'toolbar',
@@ -303,12 +303,9 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                 
                 var formMeta =  Tree2Meta( this.formTree.store.getRootNode() )
                 this.myMeta.protoForm = formMeta
+                this.formController.myMeta.protoForm = formMeta  
                  
-                this.formPreview.add({
-                    xtype : 'protoform',
-                    myMeta : this.myMeta
-                    } 
-                )
+                this.formPreview.add( this.formController.newForm()  )
                 
             },me   );
 
