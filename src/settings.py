@@ -169,6 +169,7 @@ INSTALLED_APPS = (
     'protoExt', 
     'pruebas', 
     'shiny', 
+    'CategoryCle', 
 #    'TCO'
 #    'django_qbe'
 )

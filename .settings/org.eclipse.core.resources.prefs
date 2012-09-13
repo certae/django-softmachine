@@ -2,6 +2,7 @@ eclipse.preferences.version=1
 encoding//Pruebas/deprecated/protoDefinition.py=utf-8
 encoding//Pruebas/fieldSets.py=utf-8
 encoding//Pruebas/jsonDump.py=utf-8
+encoding//src/CategoryCle/models.py=utf-8
 encoding//src/TCO/models.py=utf-8
 encoding//src/protoExt/admin_Concept.py=utf-8
 encoding//src/protoExt/admin_Model.py=utf-8
