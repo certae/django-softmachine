@@ -160,3 +160,16 @@ def getDjangoModel( modelName ):
                 model = m
                 break
     return model 
+
+
+
+def getFullPath( record, parentField,  codeField, pathFunction  ):
+    "Returns the full hierarchy path."
+
+    pRec  = record.__getattribute__(  parentField )
+    if pRec   : 
+        return pRec.__getattribute__( pathFunction  ) + '.' + record.__getattribute__(  codeField  ) 
+    else: 
+        return record.__getattribute__(  codeField )
+
+

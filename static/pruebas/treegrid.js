@@ -10,7 +10,6 @@ Ext.onReady(function() {
 
     var i = 0; 
 
-    //Ext.ux.tree.TreeGrid is no longer a Ux. You can simply use a tree.TreePanel
     var tree = Ext.create('Ext.tree.Panel', {
         title: 'Core Team Projects',
         width: 600,

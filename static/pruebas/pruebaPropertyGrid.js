@@ -12,8 +12,6 @@ Ext.onReady(function() {
 
 
     Ext.QuickTips.init();
-
-    //Ext.ux.tree.TreeGrid is no longer a Ux. You can simply use a tree.TreePanel
     var objPrueba = Ext.create('ProtoUL.ux.ProtoProperty', {
         renderTo: Ext.getBody(),
 

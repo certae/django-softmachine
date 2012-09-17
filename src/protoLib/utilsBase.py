@@ -313,3 +313,10 @@ def strNotNull(  sValue ):
         return "_"
     else: return sValue 
 
+
+def copyProps ( objBase, objNew ):
+    "Adiciona las propiedades a un objeto base igual q Ext.apply "
+    for mProp in objNew:
+        objBase[ mProp ] = objNew[ mProp ] 
+
+    return objBase 

@@ -73,8 +73,7 @@ class Model(MetaObj):
     class Meta:
         verbose_name = 'Modèle'
 
-    protoExt = {}
-    protoExt[ 'description' ] = 'Esta es la description del model'
+    protoExt = { 'description' : 'Esta es la description del modelo ( vue para el prototypeur' }
 
 
 class Concept(MetaObj):
@@ -94,8 +93,7 @@ class Concept(MetaObj):
     class Meta:
         verbose_name = 'Éntite'
 
-    protoExt = {}
-    protoExt[ 'description' ] = 'Esta es la description del  concepto'
+    protoExt = { 'description' : 'Esta es la description del  concepto' }
 
 
 class Property(MetaObj):

@@ -4,8 +4,6 @@
  *  Edicion de la plc
  *  Esta forma sera invocada desde la pcl o desde el respositorio de pcls ( ProtoLib.ProtoDefinition )
  *    Por lo tanto la Pcl ya viene dada,  
- * 
- * TODO:  Function  para guardar la pcl en la Db,  poner active = true   
  *     
  */
 

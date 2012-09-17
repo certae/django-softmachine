@@ -8,7 +8,7 @@ from django.db import models
 from django.contrib.admin.sites import  site
 
 
-from utilsBase import _PROTOFN_ , verifyStr, verifyList, verifyUdpDefinition
+from utilsBase import _PROTOFN_ , verifyStr, verifyList, verifyUdpDefinition, copyProps 
 from protoField import  setFieldDict
 
 class ProtoGridFactory(object):
@@ -30,7 +30,9 @@ class ProtoGridFactory(object):
         if not self.model_admin: 
             self.model_admin = {} 
 
-        self.protoAdmin = getattr(self.model_admin, 'protoExt', {})
+        self.protoAdmin = getattr(self.model, 'protoExt', {})
+        self.protoAdmin = copyProps( self.protoAdmin, getattr(self.model_admin, 'protoExt', {}) ) 
+        
         self.protoFields = self.protoAdmin.get( 'protoFields', {}) 
 
 
