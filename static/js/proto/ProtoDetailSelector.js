@@ -249,14 +249,8 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
                         }
                     } 
                 }
-                
-                 
              })
-        
-            
         }
-        
-        
     } 
 
     // getCheckedList: function () {
@@ -279,3 +273,34 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
 
 
 });
+
+
+
+function definieProtoDetailsTreeModel( protoOption ) {
+    // Modelo usado en la lista de campos con la jerarquia completa de los de zoom ( detalle de fk ) 
+    
+    Ext.define('Proto.DetailsTreeModel', {
+        extend: 'Ext.data.Model',
+        proxy: {
+            type: 'ajax',
+            method: 'GET',
+            url: _PConfig.urlGetDetailsTree , 
+            extraParams : {
+                protoOption : protoOption 
+            },    
+        }, 
+    
+        fields: [
+            {name: 'id', type: 'string'},  
+            {name: 'menuText', type: 'string'},  
+            {name: 'masterField', type: 'string'},  
+            {name: 'detailField', type: 'string'},  
+            {name: 'conceptDetail', type: 'string'},  
+
+            {name: 'checked', type: 'boolean'},
+            {name: 'leaf', type: 'boolean'}
+        ]
+        
+    });
+    
+}
