@@ -33,7 +33,6 @@ import django.utils.simplejson as json
 def protoGetPCI(request):
     """ return full metadata (columns, renderers, totalcount...)
     """
-
     
     if request.method != 'GET':
         return 
@@ -49,7 +48,7 @@ def protoGetPCI(request):
         return HttpResponse(context, mimetype="application/json")
     
     # created : true  ( new ) is a boolean specifying whether a new object was created.
-    protoDef, created = ProtoDefinition.objects.get_or_create(code = protoConcept, defaults={'code': protoConcept})
+    protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
     
     # El default solo parece funcionar al insertar en la Db
     if created: protoDef.overWrite = True
@@ -167,16 +166,18 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
          # Config de la grilla
          'gridConfig' : {
              'hideRowNumbers' : grid.protoAdmin.get( 'hideRowNumbers',False),  
+             'filterSetABC': grid.protoAdmin.get( 'filterSetABC', ''),
 
              'initialSort': sortInfo,
 
              # Si no es autoload  -  '{"pk" : 0,}'            
              'initialFilter': grid.protoAdmin.get( 'initialFilter', {}),
              'baseFilter': grid.protoAdmin.get( 'baseFilter', {}),
-             'filtersSet': grid.protoAdmin.get( 'filtersSet', []),
+
+#            'filtersSet': grid.protoAdmin.get( 'filtersSet', []),
+#            'listDisplaySet':grid.protoAdmin.get( 'listDisplaySet', {}) ,     
 
              'listDisplay' : grid.protoListDisplay,  
-             'listDisplaySet':grid.protoAdmin.get( 'listDisplaySet', {}) ,     
 
              # En las protoViews existiran tambien las propiedades de campos ( y formas ) 
              'readOnlyFields' : grid.protoReadOnlyFields,
@@ -186,7 +187,6 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
              # TODO: Implementar  ( El listDisplay podra contener propiedades, hidden, flex, width,  ... 
              'hiddenFields': grid.protoAdmin.get( 'hiddenFields', ['id', ]),
 
-             'filterSetABC': grid.protoAdmin.get( 'filterSetABC', ''),
          },
 
 

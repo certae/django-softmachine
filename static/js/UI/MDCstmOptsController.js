@@ -11,6 +11,11 @@ Ext.define('ProtoUL.UI.MDCstmOptsController', {
         var myFilters = []  
         var tmpFilters = [] 
         var __MasterDetail = this.__MasterDetail
+
+        
+        if ( ! this.myMeta.gridConfig.filtersSet ) {
+            this.myMeta.gridConfig.filtersSet = []
+        }
         
         // Si no hay filtros definidos pero existe un filterAlph, 
         if ((this.myMeta.gridConfig.filtersSet.length == 0)  &&  this.myMeta.gridConfig.filterSetABC  ) {

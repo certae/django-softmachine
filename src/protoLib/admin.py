@@ -36,8 +36,8 @@ class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
 admin.site.register(ProtoDefinition, protoDefinitionAdmin)
 
 
-admin.site.register(ProtoBussinesUnit)
-admin.site.register(ProtoGroup)
-admin.site.register(ProtoSite)
-admin.site.register(ProtoUdp)
-admin.site.register(ProtoUser)
+#admin.site.register(ProtoBussinesUnit)
+#admin.site.register(ProtoGroup)
+#admin.site.register(ProtoSite)
+#admin.site.register(ProtoUdp)
+#admin.site.register(ProtoUser)

@@ -166,10 +166,10 @@ INSTALLED_APPS = (
     'django.contrib.sites',
 #    'django_extensions',
     'protoLib', 
-    'protoExt', 
-    'pruebas', 
+#    'protoExt', 
+#    'pruebas', 
     'shiny', 
-    'CategoryCle', 
+#    'CategoryCle', 
 #    'TCO'
 #    'django_qbe'
 )
@@ -210,10 +210,11 @@ PROTO_APP = {}
 
 # app_menu se usa para ordenar la pre
 PROTO_APP['app_menu'] = {
-    'pruebas':  { 'title': 'Pruebas', 'expanded':True, 'menu_index' : 0  },
-    'auth' : { 'hidden': False, 'menu_index' : 1},  
-    'admin': { 'hidden': False, 'menu_index' : 2},
-    'shiny':  { 'title': 'Shiny', 'expanded':False, 'menu_index' : 9  },
+    'pruebas':  { 'title': 'Pruebas', 'expanded':True, 'menu_index' : 0 , 'expanded':False },
+    'auth' : { 'hidden': True, 'menu_index' : 1},  
+    'sites' : { 'hidden': True, 'menu_index' : 1},  
+    'admin': { 'hidden': True, 'menu_index' : 2},
+    'shiny':  { 'title': 'Shiny Composants', 'expanded':False, 'menu_index' : 9  },
     'Base':  { 'title': 'TCO - Base de connaissances', 'expanded':False, 'menu_index' : 2  },
     'Param': { 'title': 'TCO - Paramètres', 'expanded':False, 'menu_index' : 2  },
     'TCO':   { 'title': 'TCO - Coût total de possession', 'expanded':False, 'menu_index' : 9  },

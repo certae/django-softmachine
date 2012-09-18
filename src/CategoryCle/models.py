@@ -15,9 +15,6 @@ class Category(models.Model):
     def __unicode__(self):
         return self.fullPath
 
-#    protoExt = { 'protoFields' : { 
-#          'fullPath': {'readOnly' : True},
-#     }}
 
 
 
@@ -49,4 +46,5 @@ class MotCle(models.Model):
     def __unicode__(self):
         return self.mot 
 
+        
         
