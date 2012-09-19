@@ -28,7 +28,7 @@ admin.site.register(Commande, CommandeAdmin)
 
 class LigneCommandeAdmin(admin.ModelAdmin):
     protoExt =  { 'protoViews' : {        
-        'Ligne Commande2': {
+        'LigneCommande2': {
             'title' : 'LineCommande Form Commande' 
             }
      }}

@@ -222,13 +222,13 @@ Ext.define('ProtoUL.view.ProtoForm', {
     
                     var myResult = Ext.decode( myReponse.responseText );
                     if( myResult.message ) {
-                        errorMessage ( 'SavePCI Failed', myResult.message  )
+                        errorMessage ( 'Save form Failed', myResult.message  )
                     } else {
                         me.fireEvent('close', me );
                     }
                 },
                 failure: function(result, request) {
-                    errorMessage ( 'SavePCI Failed', 'Operation failure' )
+                    errorMessage ( 'Save form Failed', 'Operation failure' )
                 }
             });
         } 

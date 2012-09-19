@@ -257,7 +257,7 @@ def protoSavePCI(request):
     
 
     # created : true  ( new ) is a boolean specifying whether a new object was created.
-    protoDef, created = ProtoDefinition.objects.get_or_create(code = protoConcept, defaults={'code': protoConcept})
+    protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
     
     # El default solo parece funcionar al insertar en la Db
     protoDef.active = True 
