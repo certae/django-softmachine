@@ -1,19 +1,11 @@
 
-
-Pendiente reg nuevo, creacion desde el zoom 
-
 parametrizacion de displaylust para el zoom y los detalles 
 
 Forma 
-
     Filtrar los campos existentes en el fields 
-
     Retorno del zoom.  debe actualizar el activeRecord y la forma para evitar campos invisibles. 
-
     Manejo de contenedores,  manejo de detalles 
-
     Actualizacion de details seleccionar y guardar 
-
 
 Tareas pendientes
 
@@ -21,8 +13,7 @@ Tareas pendientes
         Implementar manejo de variables discretas, 
         
     Icono
-        GetMenu debe traer el icono tambien de la definicion guardada si existe, 
-        ahora lo trae solamente de la metadirecta 
+        GetMenu debe traer el icono tambien de la definicion guardada si existe,  ahora lo trae solamente de la metadirecta 
         
     Redefinir meta2tree 
         HAcerlo de manera jerarquica y no recursiva,  separar por lo menos en rutinas independientes el m2t de la forma y 
@@ -49,14 +40,12 @@ Tareas pendientes
        
     Seguridad 
         implementar     
-    
      
     Barra de estado,
         Campo actual,  actividades, etc   
 	   
     Login 
         en la barra de estado y no en la parte superior 
-
 
 	Zoom 
 		@ZoomModel 	
@@ -152,6 +141,8 @@ Tareas pendientes
 ---------------  ---------------------------------------------------------------------------------------------------------- 
 
     Ok PCL Guardado, no agrega las propiedades. 
+
+** Pendiente reg nuevo, creacion desde el zoom 
 
 
 ** Contenedores e items

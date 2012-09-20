@@ -75,6 +75,13 @@ Ext.define('ProtoUL.UI.FormController', {
             scope: me }
         );
 
+        // // Tools 
+        // this.myWin.tools = [{
+            // type: 'readOnly',
+            // tooltip: 'readOnly' 
+        // }] 
+        // this.myWin.addTools()
+
     },
 
     openNewForm: function (  myStore )   {
@@ -83,14 +90,6 @@ Ext.define('ProtoUL.UI.FormController', {
         this.newForm = true    
 
         var myRecord = getNewRecord( this.myMeta, myStore );
-
-        // // Agrega los datos de control para la grilla 
-        // myRecord.data._ptStatus = _ROW_ST.NEWROW 
-        // myRecord.data._ptId = myRecord.get( 'id' )   
-        // myRecord.data.id = undefined 
-        // // Lo marca como nuevo 
-        // myRecord.phantom = true 
-        
         this.openForm( myRecord )
     },
 
@@ -132,7 +131,7 @@ Ext.define('ProtoUL.UI.FormController', {
     }, 
     
 
-    openZoomForm: function ( myZoomModel, myRecordId  )   {
+    openProtoForm: function ( myZoomModel, myRecordId  )   {
 
         this.protoOption = myZoomModel
 
@@ -147,29 +146,32 @@ Ext.define('ProtoUL.UI.FormController', {
     }, 
 
     
-    _getFormDefinition: function (  myRecordId ) {
+    _getFormDefinition: function (  myRecordId  ) {
         
         // Opciones del llamado AJAX 
         var options = {
             scope: this, 
             success: function ( obj, result, request ) {
-                this.myMeta = _cllPCI[ this.protoOption ] ;
-                this.formLoaded = true;
-                this._loadFormData( myRecordId )
+                this._openAndLoad( this.protoOption, myRecordId )
             },
             failure: function ( obj, result, request) { 
                 errorMessage( 'ProtoDefinition Error :', myZoomModel + ': protoDefinition not found')
             }
         }
-
         if (  loadPci( this.protoOption , true, options ) ) {
-                this.myMeta = _cllPCI[ this.protoOption ] ;
-                this.formLoaded = true; 
-                this._loadFormData( myRecordId )
+                this._openAndLoad( this.protoOption, myRecordId )
         }
 
     }, 
 
+    _openAndLoad: function ( protoOption, myRecordId ) { 
+
+        this.myMeta = _cllPCI[ protoOption ] ;
+        this.formLoaded = true;
+        this._loadFormData( myRecordId ) 
+
+    }, 
+    
         
     _loadFormData: function ( myRecordId ) {
 
@@ -177,21 +179,19 @@ Ext.define('ProtoUL.UI.FormController', {
             console.log( 'FormController:  Form is not ready')
         }  
 
-        if ( myRecordId ) {
+        // Filter 
+        var myFilter = '{"pk" : ' +  myRecordId + ',}'
+        var storeDefinition =  {
+            protoOption : this.protoOption, 
+            autoLoad: true, 
+            baseFilter: myFilter, 
+            sProtoMeta  : getSafeMeta( this.myMeta )    
+        };
 
-            // Filter 
-            var myFilter = '{"pk" : ' +  myRecordId + ',}'
-    
-            var storeDefinition =  {
-                protoOption : this.protoOption, 
-                autoLoad: true, 
-                baseFilter: myFilter, 
-                sProtoMeta  : getSafeMeta( this.myMeta )    
-            };
-    
-            var myStore = getStoreDefinition( storeDefinition )
+        var myStore = getStoreDefinition( storeDefinition )
+
+        if ( myRecordId >= 0  ) {
             myStore.load();
-            
             myStore.on({
                 'load' :  function(store,records, successful, options) {
     
@@ -205,7 +205,10 @@ Ext.define('ProtoUL.UI.FormController', {
             )
 
         } else  {
-             // SetDefaults 
+
+            var myRecord = getNewRecord( this.myMeta, myStore );
+            this.openForm( myRecord )
+
         } 
          
     }, 

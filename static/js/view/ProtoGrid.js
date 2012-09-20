@@ -190,7 +190,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                                 var formController = Ext.create('ProtoUL.UI.FormController', {});
                                 
                                 // Redefine el scope  
-                                formController.openZoomForm.call( formController, myZField.zoomModel , record.get( myZField.fkId ) )
+                                formController.openProtoForm.call( formController, myZField.zoomModel , record.get( myZField.fkId ) )
 
                             } else if ( myZField &&  ( myZField.zoomModel == '@cellValue')) {
                                 // Podria usarse con @FieldName para indicar de donde tomar el modelo o la funcion  

@@ -43,8 +43,6 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
 
                 // Definicion del arbol basado en la meta 
                 this.updateFormTree()
-                
- 
             }
         }
         loadJsonConfig('json/Designer.panels.json', options)

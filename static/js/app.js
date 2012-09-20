@@ -25,7 +25,9 @@ Ext.application({
         'Ext.util.Cookies', 
         'Ext.Ajax',
         
-        'ProtoUL.view.Viewport',
+        'ProtoUL.view.MenuTree', 
+        'ProtoUL.view.ProtoTabContainer',          'ProtoUL.view.Viewport',
+
         'ProtoUL.ux.Printer',
         'ProtoUL.ux.GridHeaderToolTip',
         'ProtoUL.ux.GridCheckColumn'

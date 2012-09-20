@@ -4,10 +4,10 @@
 Ext.define('ProtoUL.view.Viewport', {
     extend: 'Ext.container.Viewport',
 
-    requires: [
-        'ProtoUL.view.MenuTree',
-        'ProtoUL.view.ProtoTabContainer'
-    ],
+    // requires: [
+        // 'ProtoUL.view.MenuTree',
+        // 'ProtoUL.view.ProtoTabContainer'
+    // ],
 
     initComponent: function () {
 
@@ -140,14 +140,16 @@ Ext.define('ProtoUL.view.Viewport', {
         
         // *** El truco es q no se crea el modelo, solo se define
         var protoOption = menuOpt ;  
-        var thisRef = this ;
+        var me = this ;
         
 //        console.log( protoOption, ' Loading MasterPanel ...')
 
         var options = {
             scope: this, 
-            success: function (obj, result, request) { 
-                thisRef.protoTabContainer.addTabPanel( protoOption );
+            success: function (obj, result, request) {
+
+                me.openProtoOption( protoOption )                
+                 
             },
             failure: function ( obj, result, request) { 
                 return ;  
@@ -156,9 +158,23 @@ Ext.define('ProtoUL.view.Viewport', {
 
         if (  loadPci( protoOption, true, options ) ) {
             // El modelo ya ha sido cargado ( la cll meta es global )     
-            this.protoTabContainer.addTabPanel(protoOption );
+            me.openProtoOption( protoOption )                
             
         }   
+
+    },   
+
+    openProtoOption: function( protoOption ){
+
+        var me = this ;
+        var myMeta = _cllPCI[ protoOption ] ;
+
+        if ( myMeta.pciStyle == 'form' ) {
+            var formController = Ext.create('ProtoUL.UI.FormController', {});
+            formController.openProtoForm.call( formController, protoOption, -1  ) 
+        } else {
+            me.protoTabContainer.addTabPanel( protoOption );
+        }                
         
     },   
 
