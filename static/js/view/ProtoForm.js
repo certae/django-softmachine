@@ -144,7 +144,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
         this.idMaster = -1
         
         if ( record && !record.phantom ) {
-            this.idMaster = record.internalId;
+            this.idMaster = record.get('id' ) ;
         }
 
         for ( var ixDet in this.cllStoreDet ) {

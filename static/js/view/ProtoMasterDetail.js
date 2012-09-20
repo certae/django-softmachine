@@ -112,7 +112,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
                 
         this.protoMasterGrid.on({
             rowClick: {fn: function ( gView, record, item, rowIndex,  e,  eOpts ) {
-                this.idMasterGrid = record.internalId;
+                this.idMasterGrid = record.get('id') ;
                 this.linkDetail();
                 }, 
             scope: me }

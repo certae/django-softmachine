@@ -128,11 +128,12 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
             // Configura el panel 
             var myMeta = detailGrid.myMeta
             
-            setActionPrp('text', 'setText',  myMeta.shortTitle );
-            setActionPrp('tooltip', 'setTooltip', myMeta.description );
+            // setActionPrp('text', 'setText',  myMeta.shortTitle );
+            // setActionPrp('tooltip', 'setTooltip', myMeta.description );
+            setActionPrp('tooltip', 'setTooltip', pDetail.menuText  );
+
             setActionPrp('iconCls', 'setIconCls', myMeta.protoIcon );
             setActionPrp('width', 'setWidth', 100 );
-
             myAction.show()
             
             function setActionPrp( prp, meth , value ) {

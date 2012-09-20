@@ -146,6 +146,7 @@ Ext.define('ProtoUL.UI.ConfigController', {
             minWidth: 400,
             layout: 'fit',
             resizable: true,
+            maximizable: true, 
 
             collapsible: true,
             // modal: true,

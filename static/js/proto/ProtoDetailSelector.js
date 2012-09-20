@@ -31,7 +31,7 @@ Ext.define('ProtoUL.proto.ProtoDetailSelector', {
 
         var elemList = Ext.create('ProtoUL.ux.ProtoList', {
             checkStyle : false, 
-            idTitle: 'SelectedFields' 
+            idTitle: 'SelectedDetails' 
         })
 
 
@@ -191,21 +191,12 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
                 minWidth: 200,
                 dataIndex: 'id'
             },{
-                flex: 1,
                 text: 'conceptDetail',
                 dataIndex: 'conceptDetail'
             },{
                 flex: 2,
                 text: 'detailField',
                 dataIndex: 'detailField'
-            // },{
-                // hidden: true,
-                // text: 'detailTitleLbl',
-                // dataIndex: 'detailTitleLbl'
-            // },{
-                // hidden: true,
-                // text: 'detailTitlePattern',
-                // dataIndex: 'detailTitlePattern'
             }] 
              
         })

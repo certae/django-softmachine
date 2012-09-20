@@ -229,55 +229,64 @@ class ProtoGridFactory(object):
 
     def get_details(self):  
 
-        # TODO: Configuar el master, cuando es una tabla heredada, 
-        # hay q buscar el parent oMeta.get_parent_list()  y si hay multi herencia?? ) 
-        
         # Inicializa con los valores definidos,   
         details = self.protoAdmin.get( 'protoDetails', []) 
 
+
         # Si no han sido definido genera por defecto  
         if (len( details )  == 0 ):        
-            opts = self.model._meta
-
-            for detail in opts.get_all_related_objects():
-                oMeta = detail.model._meta
-                details.append({
-                    "menuText"      : oMeta.object_name.capitalize() + ':' + detail.field.name, 
-                    "conceptDetail" : oMeta.app_label + '.' + oMeta.object_name, 
-                    "detailField"   : detail.field.name + '__pk',
-                    "masterField"   : 'pk',                                         
-                    })
-
-            # Tabla intermedia referenciada en N2N
-            for detail in opts.get_all_related_many_to_many_objects():
-                tmpTable = detail.field.rel.through._meta
-                if not tmpTable.auto_created:  continue
-
-                relTable =  detail.model._meta        
-                details.append({
-                    "menuText"      : tmpTable.object_name.capitalize(), 
-                    "conceptDetail" : tmpTable.app_label + '.' + tmpTable.object_name, 
-                    "relatedN2N"    : relTable.app_label + '.' + relTable.object_name,
-                    "detailField"   : detail.parent_model._meta.module_name + '__pk',    # ??? 
-                    "masterField"   : 'pk',                                     
-                    })
-    
-            #Campos N2N
-            for field in opts._many_to_many():
-                tmpTable = field.rel.through._meta
-                if not tmpTable.auto_created:  continue
-
-                relTable =  field.related.parent_model._meta
-                details.append({
-                    "menuText"      : tmpTable.object_name.capitalize(), 
-                    "conceptDetail" : tmpTable.app_label + '.' + tmpTable.object_name, 
-                    "relatedN2N"    : relTable.app_label + '.' + relTable.object_name,
-                    "detailField"   : field.related.var_name  + '__pk',  
-                    "masterField"   : 'pk',                                     
-                    })
-        
-    
+            details  =  getModelDetails( self.model )
+            
         return details 
+
+
+def getModelDetails( model ):
+
+    details = []
+    opts = model._meta
+    
+    for detail in opts.get_all_related_objects():
+        oMeta = detail.model._meta
+        details.append({
+            "menuText"      : oMeta.object_name.capitalize() + '.' + detail.field.name, 
+            "conceptDetail" : oMeta.app_label + '.' + oMeta.object_name, 
+            "detailField"   : detail.field.name + '__pk',
+            "detailName"    : detail.field.name,
+            "masterField"   : 'pk',                                         
+            })
+    
+    # Tabla intermedia referenciada en N2N
+    for detail in opts.get_all_related_many_to_many_objects():
+        tmpTable = detail.field.rel.through._meta
+        if not tmpTable.auto_created:  continue
+    
+        relTable =  detail.model._meta        
+        details.append({
+            "menuText"      : tmpTable.object_name, 
+            "conceptDetail" : tmpTable.app_label + '.' + tmpTable.object_name, 
+            "relatedN2N"    : relTable.app_label + '.' + relTable.object_name,
+            "detailField"   : detail.parent_model._meta.module_name + '__pk',    # ??? 
+            "detailName"    : detail.parent_model._meta.module_name,  
+            "masterField"   : 'pk',                                     
+            })
+    
+    #Campos N2N
+    for field in opts._many_to_many():
+        tmpTable = field.rel.through._meta
+        if not tmpTable.auto_created:  continue
+    
+        relTable =  field.related.parent_model._meta
+        details.append({
+            "menuText"      : tmpTable.object_name, 
+            "conceptDetail" : tmpTable.app_label + '.' + tmpTable.object_name, 
+            "relatedN2N"    : relTable.app_label + '.' + relTable.object_name,
+            "detailField"   : field.related.var_name  + '__pk',  
+            "detailName"    : field.related.var_name,   
+            "masterField"   : 'pk',                                     
+            })
+    
+    
+    return details     
 
 
 def setDefaultField ( fdict, model  ): 

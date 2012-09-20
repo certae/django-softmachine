@@ -86,7 +86,7 @@ Ext.define('ProtoUL.UI.FormController', {
 
         // // Agrega los datos de control para la grilla 
         // myRecord.data._ptStatus = _ROW_ST.NEWROW 
-        // myRecord.data._ptId = myRecord.internalId  
+        // myRecord.data._ptId = myRecord.get( 'id' )   
         // myRecord.data.id = undefined 
         // // Lo marca como nuevo 
         // myRecord.phantom = true 

@@ -432,7 +432,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     insertNewRecord: function( rec ) {
         
         rec.data._ptStatus = _ROW_ST.NEWROW 
-        rec.data._ptId = rec.internalId  
+        rec.data._ptId = rec.get( 'id' )   
         rec.data.id = undefined 
         rec.phantom = true 
         this.store.insert(0, rec );
