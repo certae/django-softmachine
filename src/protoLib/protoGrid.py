@@ -13,8 +13,9 @@ from protoField import  setFieldDict
 
 class ProtoGridFactory(object):
 
-    def __init__(self, model  ):
+    def __init__(self, model, protoOption  ):
             
+        self.protoOption = protoOption  
         self.model = model              # the model to use as reference
         self.fields = []                # holds the extjs fields
         self.storeFields = ''           # holds the Query Fields
@@ -93,7 +94,7 @@ class ProtoGridFactory(object):
                         self.protoFields[ fName ] = fdict
 
                         if fName == '__str__':
-                            setDefaultField( fdict, self.model  )
+                            setDefaultField( fdict, self.model , self.protoOption  )
                                                         
                         # Si no es una UDP y no esta en diccionario debe ser ReadOnly 
                         if not (self.pUDP and fName.startswith( cUDP.propertyPrefix + '__')):  
@@ -108,7 +109,7 @@ class ProtoGridFactory(object):
             fdict['name'] = fName
             self.protoFields[ fName ] = fdict
             
-            setDefaultField ( fdict, self.model  )
+            setDefaultField ( fdict, self.model, self.protoOption )
              
 
         # Genera la lista de campos y agrega el nombre al diccionario 
@@ -289,7 +290,7 @@ def getModelDetails( model ):
     return details     
 
 
-def setDefaultField ( fdict, model  ): 
+def setDefaultField ( fdict, model, protoOption ): 
     """ 
         set __str__ properties   
     """
@@ -299,7 +300,8 @@ def setDefaultField ( fdict, model  ):
     fdict['allowBlank']  = True        
     fdict['flex']      = 1        
     fdict['cellLink']  = True 
-    fdict['zoomModel'] = model._meta.app_label + '.' + model._meta.object_name
+#   fdict['zoomModel'] = model._meta.app_label + '.' + model._meta.object_name
+    fdict['zoomModel'] = protoOption
     fdict['fkId']      =  'id'  
 
 
@@ -420,17 +422,17 @@ def getSearcheableFields(  model  ):
     return lFields 
 
     
-def getProtoViewName( protoConcept   ):
+def getProtoViewName( protoOption   ):
 #    Verifica si es una instancia del modelo ( vista )
 #    Concept Format :    app.model.view 
 #    Return :  app.model ,  view 
 
-    if protoConcept.count(".") == 2:
-        app, model, view = protoConcept.split(".")
-        protoConcept = app + '.' +  model
+    if protoOption.count(".") == 2:
+        app, model, view = protoOption.split(".")
+        protoOption = app + '.' +  model
     else: view = ''
     
-    return protoConcept, view 
+    return protoOption, view 
 
 
 def getFieldsInSet( self, prItems, formFields ):

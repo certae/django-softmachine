@@ -60,7 +60,7 @@ def protoGetPCI(request):
     if created or ( not protoDef.active   ) :
 
         # Verifica si existe una propiedad ProtoMeta es la copia de la meta cargada a la Db,
-        grid = protoGrid.ProtoGridFactory( model   )
+        grid = protoGrid.ProtoGridFactory( model, protoOption   )
         protoMeta = grid.protoAdmin.get( 'protoMeta', {} )
         
         if ( not protoMeta ): 
@@ -313,10 +313,10 @@ def protoGetFieldTree(request):
      }
     
     # Defaults values
-    setDefaultField( myField, model )
+    setDefaultField( myField, model , protoOption)
     
     # FormLink redefinition to original view 
-    myField['zoomModel'] =  protoOption  
+    # myField['zoomModel'] =  protoOption  
 
     
     fieldList.append( myField )

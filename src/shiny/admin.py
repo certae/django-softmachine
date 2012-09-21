@@ -16,9 +16,9 @@ class CommandeAdmin(admin.ModelAdmin):
     protoExt = {}
     protoExt[ 'protoViews' ] =  {        
         'Commandex': {
+            'protoMenuOpt' : 'ShinyProto',  
             'title' : 'Commande proto', 
             'description' : 'Cest le commande proto', 
-            'protoMenuOpt' : 'ShinyProto',  
             'protoMenuIx' : 1
             }
      }
@@ -29,6 +29,7 @@ admin.site.register(Commande, CommandeAdmin)
 class LigneCommandeAdmin(admin.ModelAdmin):
     protoExt =  { 'protoViews' : {        
         'LigneCommande2': {
+            'protoMenuOpt' : 'ShinyComposants',  
             'title' : 'LineCommande Form Commande' 
             }
      }}

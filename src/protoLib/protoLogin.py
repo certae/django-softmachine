@@ -1,10 +1,5 @@
 
 from django.http import HttpResponse
-from protoGrid import getSearcheableFields, getProtoViewName, setDefaultField
-from protoLib import protoGrid
-from protoField import  setFieldDict
-from models import getDjangoModel, ProtoDefinition
-from utilsBase import getReadableError 
 
 import django.utils.simplejson as json
 
