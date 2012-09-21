@@ -167,6 +167,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
 #    'django_extensions',
     'protoLib', 
+    'protoFace', 
 #    'protoExt', 
 #    'pruebas', 
     'shiny', 
