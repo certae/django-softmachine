@@ -62,7 +62,7 @@ DesignerObjects =  {
             "type", 
             "vType" 
             ],
-        "roProperties": [ "type", "fromModel" ]  
+        "roProperties": [ "fromModel" ]  
     },
 
     "gridConfig": {
@@ -190,7 +190,9 @@ DesignerObjects =  {
     "protoForm": {
         "description": "definicion de formas",
         "properties": [
-            "title", "tooltip",
+            "title", "tooltip", 
+            "height","maxHeight","minHeight",
+            "width", "maxWidth","minWidth",
             "protoIcon","helpPath" ]
         },
     

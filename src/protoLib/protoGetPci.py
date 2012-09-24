@@ -174,7 +174,7 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
              'initialFilter': grid.protoAdmin.get( 'initialFilter', {}),
              'baseFilter': grid.protoAdmin.get( 'baseFilter', {}),
 
-#            'filtersSet': grid.protoAdmin.get( 'filtersSet', []),
+             'filtersSet': grid.protoAdmin.get( 'filtersSet', []),
 #            'listDisplaySet':grid.protoAdmin.get( 'listDisplaySet', {}) ,     
 
              'listDisplay' : grid.protoListDisplay,  

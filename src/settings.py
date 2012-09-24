@@ -167,10 +167,10 @@ INSTALLED_APPS = (
     'django.contrib.sites',
 #    'django_extensions',
     'protoLib', 
-    'protoFace', 
-#    'protoExt', 
+#    'protoFace', 
+    'protoExt', 
 #    'pruebas', 
-    'shiny', 
+#    'shiny', 
 #    'CategoryCle', 
 #    'TCO'
 #    'django_qbe'
@@ -218,13 +218,13 @@ PROTO_APP['app_menu'] = {
     'admin': { 'hidden': True, 'menu_index' : 2},
     'Base':  { 'title': 'TCO - Base de connaissances', 'expanded':False, 'menu_index' : 2  },
     'Param': { 'title': 'TCO - Paramètres', 'expanded':False, 'menu_index' : 2  },
-    'TCO':   { 'title': 'TCO - Coût total de possession', 'expanded':False, 'menu_index' : 9  },
+#    'TCO':   { 'title': 'TCO - Coût total de possession', 'expanded':False, 'menu_index' : 9  },
 
-    'shinyProto':  { 'title': 'Shiny Prototype', 'expanded':True, 'menu_index' : 1  },
-    'ShinyComposants':  { 'title': 'Shiny Composants', 'expanded':True, 'menu_index' : 9  },
-    'shiny':  { 'title': 'Shiny Bd', 'expanded':True, 'menu_index' : 3  },
+#    'shinyProto':  { 'title': 'Shiny Prototype', 'expanded':True, 'menu_index' : 1  },
+#    'ShinyComposants':  { 'title': 'Shiny Composants', 'expanded':True, 'menu_index' : 9  },
+#    'shiny':  { 'title': 'Shiny Bd', 'expanded':True, 'menu_index' : 3  },
     
-    'protoExt' : { 'hidden': False, 'title': 'Dictionnaire des données MSSS', 'expanded':False, 'menu_index' : 98  }, 
+    'protoExt' : { 'hidden': False, 'title': 'Dictionnaire des données MSSS', 'expanded':True, 'menu_index' : 1  }, 
     'protoLib': { 'hidden': False, 'title': 'Métadonnée', 'expanded':False, 'menu_index' : 99  },
     } 
 

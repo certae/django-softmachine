@@ -264,7 +264,7 @@ function DefineProtoModel ( myMeta , modelClassName ){
         if ( ! vFld.type  in oc( [ 
             'string', 'text',  'bool', 'int', 'decimal', 'combo',  
             'date',  'datetime', 'time', 
-            'autofield', 'foreignid',  'foreigntext', 'protoN2N'  ] )) {
+            'autofield', 'foreignid',  'foreigntext', 'protoN2N', 'html'  ] )) {
                 vFld.type = 'string'
         }; 
 
@@ -604,8 +604,12 @@ function getFormFieldDefinition( vFld ) {
     switch( vFld.type )
     {
     case 'text':
-        formEditor.xtype = 'textarea'
-        // formEditor.xtype = 'htmlfield'
+        formEditor.xtype = 'textarea'        formEditor.height = 100
+        formEditor.labelAlign = 'top'
+        break;
+
+    case 'html':
+        formEditor.xtype = 'htmlfield'
         formEditor.height = 100
         formEditor.labelAlign = 'top'
         break;

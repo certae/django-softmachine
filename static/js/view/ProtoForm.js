@@ -327,7 +327,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 obj.setReadOnly( true );
                 // obj[bReadOnly ? 'addCls' : 'removeCls']( readOnlyCls );
                 // if ( obj.xtype != 'htmlfield' ) obj.setDisabled( true  );
-                
+                
             } else if ( ! readOnlyFields  || ( obj.name in oc( readOnlyFields )  )  ) {
                 // El obj no es readOnly pero la forma si,  
                 // FIX: poner una mascara, pero q pasa con el zoom  

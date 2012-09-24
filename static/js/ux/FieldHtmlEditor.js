@@ -4,6 +4,7 @@ Control que recoje todos los plugins necesarios para el htmleditor
 
 */
 
+
 Ext.define('ProtoUL.ux.FieldHtmlEditor', {
     extend: 'Ext.form.HtmlEditor',
     alias: 'widget.htmlfield',
@@ -18,17 +19,28 @@ Ext.define('ProtoUL.ux.FieldHtmlEditor', {
         });
         this.callParent();
 
+
+
         function getPlugins(){
             return [
-                new Ext.ux.form.HtmlEditor.Word(),
-                new Ext.ux.form.HtmlEditor.Table(),
-                new Ext.ux.form.HtmlEditor.HR(),
-                new Ext.ux.form.HtmlEditor.SpecialCharacters(),
-                new Ext.ux.form.HtmlEditor.MidasFormat()
+                new ProtoUL.ux.HtmlEditor.Word(),
+                new ProtoUL.ux.HtmlEditor.Table(),
+                new ProtoUL.ux.HtmlEditor.HR(),
+                new ProtoUL.ux.HtmlEditor.SpecialCharacters(),
+                new ProtoUL.ux.HtmlEditor.MidasFormat()
             ];
         };
 
-    },
+    }, 
+    
+    setReadOnly: function (readOnly) {
+        var me = this
+        if ( me.initialized && readOnly != undefined ) {
+            var tb = me.getToolbar();
+            // tb.setVisible(! readOnly );
+        }
+        me.superclass.setReadOnly( readOnly );  
+    }
 
 });
 
@@ -37,13 +49,13 @@ Ext.define('ProtoUL.ux.FieldHtmlEditor', {
 
 /**
  * @author Shea Frederick - http://www.vinylfox.com
- * @class Ext.ux.form.HtmlEditor.HR
+ * @class ProtoUL.ux.HtmlEditor.HR
  * @extends Ext.util.Observable
  * <p>A plugin that creates a button on the HtmlEditor for inserting a horizontal rule.</p>
  *
  * ExtJS4 adaptation by René Bartholomay <rene.bartholomay@gmx.de>
  */
-Ext.define('Ext.ux.form.HtmlEditor.HR', {
+Ext.define('ProtoUL.ux.HtmlEditor.HR', {
     extend: 'Ext.util.Observable',
 
     // HR language text
@@ -190,13 +202,13 @@ Ext.define('Ext.ux.form.HtmlEditor.HR', {
 
 /**
  * @author Shea Frederick - http://www.vinylfox.com
- * @class Ext.ux.form.HtmlEditor.SpecialCharacters
+ * @class ProtoUL.ux.HtmlEditor.SpecialCharacters
  * @extends Ext.util.Observable
  * <p>A plugin that creates a button on the HtmlEditor for inserting special characters.</p>
  *
  * ExtJS4 adaptation by René Bartholomay <rene.bartholomay@gmx.de>
  */
-Ext.define('Ext.ux.form.HtmlEditor.SpecialCharacters', {
+Ext.define('ProtoUL.ux.HtmlEditor.SpecialCharacters', {
     extend: 'Ext.util.Observable',
 
     // SpecialCharacters language text
@@ -313,13 +325,13 @@ Ext.define('Ext.ux.form.HtmlEditor.SpecialCharacters', {
 
 /**
  * @author Shea Frederick - http://www.vinylfox.com
- * @class Ext.ux.form.HtmlEditor.Table
+ * @class ProtoUL.ux.HtmlEditor.Table
  * @extends Ext.util.Observable
  * <p>A plugin that creates a button on the HtmlEditor for making simple tables.</p>
  *
  * ExtJS4 adaptation by René Bartholomay <rene.bartholomay@gmx.de>
  */
-Ext.define('Ext.ux.form.HtmlEditor.Table', {
+Ext.define('ProtoUL.ux.HtmlEditor.Table', {
     extend: 'Ext.util.Observable',
 
     // Table language text
@@ -485,13 +497,13 @@ Ext.define('Ext.ux.form.HtmlEditor.Table', {
 
 /**
  * @author Shea Frederick - http://www.vinylfox.com
- * @class Ext.ux.form.HtmlEditor.Word
+ * @class ProtoUL.ux.HtmlEditor.Word
  * @extends Ext.util.Observable
  * <p>A plugin that creates a button on the HtmlEditor for pasting text from Word without all the jibberish html.</p>
  *
  * ExtJS4 adaptation by René Bartholomay <rene.bartholomay@gmx.de>
  */
-Ext.define('Ext.ux.form.HtmlEditor.Word', {
+Ext.define('ProtoUL.ux.HtmlEditor.Word', {
     extend: 'Ext.util.Observable',
 
     // Word language text
@@ -612,7 +624,7 @@ Ext.define('Ext.ux.form.HtmlEditor.Word', {
 
 /**
  * @author Shea Frederick - http://www.vinylfox.com
- * @class Ext.ux.form.HtmlEditor.MidasCommand
+ * @class ProtoUL.ux.HtmlEditor.MidasCommand
  * @extends Ext.util.Observable
  * <p>A base plugin for extending to create standard Midas command buttons.</p>
  * http://msdn.microsoft.com/en-us/library/ms533049%28v=VS.85%29.aspx
@@ -621,7 +633,7 @@ Ext.define('Ext.ux.form.HtmlEditor.Word', {
  * ExtJS4 adaptation by René Bartholomay <rene.bartholomay@gmx.de>
  */
 
-Ext.define('Ext.ux.form.HtmlEditor.MidasCommand', {
+Ext.define('ProtoUL.ux.HtmlEditor.MidasCommand', {
     extend: 'Ext.util.Observable',
     // private
     init: function(cmp){
@@ -703,14 +715,14 @@ Ext.define('Ext.ux.form.HtmlEditor.MidasCommand', {
 
 /**
  * @author Shea Frederick - http://www.vinylfox.com
- * @class Ext.ux.form.HtmlEditor.IndentOutdent
- * @extends Ext.ux.form.HtmlEditor.MidasCommand
+ * @class ProtoUL.ux.HtmlEditor.IndentOutdent
+ * @extends ProtoUL.ux.HtmlEditor.MidasCommand
  * <p>A plugin that creates two buttons on the HtmlEditor for indenting and outdenting of selected text.</p>
  *
  * ExtJS4 adaptation by René Bartholomay <rene.bartholomay@gmx.de>
  */
-Ext.define('Ext.ux.form.HtmlEditor.MidasFormat', {
-    extend: 'Ext.ux.form.HtmlEditor.MidasCommand',
+Ext.define('ProtoUL.ux.HtmlEditor.MidasFormat', {
+    extend: 'ProtoUL.ux.HtmlEditor.MidasCommand',
 
     // private
     midasBtns: ['|', {

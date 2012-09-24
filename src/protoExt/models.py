@@ -129,7 +129,7 @@ class Property(MetaObj):
     concept.protoExt[ 'query_code' ] = 'concept__code' 
 
     protoExt = {}
-    protoExt[ 'description' ] = 'Esta es la description de property'
+    protoExt[ 'description' ] = 'Éléments de données'
 
 
     def model_concept(self):
