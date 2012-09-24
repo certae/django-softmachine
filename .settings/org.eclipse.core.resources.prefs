@@ -1,3 +1,4 @@
+#Sun Sep 23 12:56:24 EDT 2012
 eclipse.preferences.version=1
 encoding//Pruebas/deprecated/protoDefinition.py=utf-8
 encoding//Pruebas/fieldSets.py=utf-8
@@ -22,6 +23,7 @@ encoding//src/protoLib/protoMenu.py=utf-8
 encoding//src/protoLib/utilsBase.py=utf-8
 encoding//src/protoLib/utilsConvert.py=utf-8
 encoding//src/protoLib/utilsWeb.py=utf-8
+encoding//src/protoOrganizer/models.py=utf-8
 encoding//src/pruebas/admin.py=utf-8
 encoding//src/pruebas/models.py=utf-8
 encoding//src/settings.py=utf-8
