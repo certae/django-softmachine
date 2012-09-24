@@ -37,7 +37,7 @@ Ext.define('ProtoUL.ux.FieldHtmlEditor', {
         var me = this
         if ( me.initialized && readOnly != undefined ) {
             var tb = me.getToolbar();
-            // tb.setVisible(! readOnly );
+            tb.setVisible(! readOnly );
         }
         me.superclass.setReadOnly( readOnly );  
     }
