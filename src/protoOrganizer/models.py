@@ -14,8 +14,7 @@ class Config(models.Model):
 class List(models.Model):
     name  = models.CharField( max_length = 200  ) 
     leaf = models.BooleanField()
-    lft = models.IntegerField(blank = True, null = True  )
-    rgt = models.IntegerField(blank = True, null = True  )
+    parentList = models.ForeignKey( 'List' )
 
     def __unicode__(self):
         return self.name  
@@ -23,7 +22,7 @@ class List(models.Model):
 
 class Task(models.Model):
     title  = models.CharField( max_length = 200, unique = True ) 
-    taskList = models.ForeignKey( 'List' )
+    activityList = models.ForeignKey( 'List' )
     due = models.DateField(blank = True, null = True) 
     reminder = models.DateField(blank = True, null = True) 
     done = models.BooleanField() 
