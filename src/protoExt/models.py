@@ -231,7 +231,12 @@ class MetaLinkModel(models.Model):
     code = models.CharField(max_length=50)
     source = models.CharField(max_length=50)
     destination = models.CharField(max_length=50)
+
+    sourceRef = models.ForeignKey('Model', blank = True, null = True, related_name = 'sourceModel')
+    destinationRef = models.ForeignKey('Model', blank = True, null = True, related_name = 'destModel')
+
     domain = models.ForeignKey('Domain')
+
 
     def __unicode__(self):
         return self.code 
@@ -242,6 +247,9 @@ class MetaLink(models.Model):
     destinationText = models.CharField(max_length=50)
     sourceCol = models.CharField(max_length=50)
     destinationCol = models.CharField(max_length=50)
+
+    sourceColRef = models.ForeignKey('Property', blank = True, null = True, related_name = 'sourceCol')
+    destinationColRef = models.ForeignKey('Property', blank = True, null = True, related_name = 'destCol')
 
     metaLinkModel = models.ForeignKey('MetaLinkModel')
     

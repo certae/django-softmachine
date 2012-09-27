@@ -1,7 +1,9 @@
 # This is an auto-generated model module by CeRTAE OMS PlugIn
 # for project : "Modelibra.py" >
 
-from models import *  
+
+from models import Concept, Domain, MetaLink, MetaLinkModel, MetaObj, Model, Property, Relationship, Udp, UdpDefinition
+from django.contrib import admin
 import django.contrib.admin
 #---------------
 
@@ -51,9 +53,9 @@ class MetaLinkAdmin(django.contrib.admin.ModelAdmin):
     list_filter = ( 'metaLinkModel' , )
     search_fields = ( 'code', 'alias', 'destinationText', 'sourceCol', 'destinationCol')
 
-    protoExt = { 'protoMenuIx': -1 }
+#   protoExt = { 'protoMenuIx': -1 }
+    protoExt = {}
     protoExt[ 'protoMenuOpt' ] = 'Liens'
-    protoExt[ 'menu_index' ] = 2
 
 
 admin.site.register(MetaLink, MetaLinkAdmin)
@@ -65,7 +67,8 @@ class MetaLinkModelAdmin(django.contrib.admin.ModelAdmin):
 #    list_filter = ( 'metaLinkModel' , )
 #    search_fields = ( 'code', 'alias', 'destinationText', 'sourceCol', 'destinationCol')
 
-    protoExt = { 'protoMenuIx': -1 }
+#   protoExt = { 'protoMenuIx': -1 }
+    protoExt = {}
     protoExt[ 'protoMenuOpt' ] = 'Liens'
     protoExt[ 'menu_index' ] = 1
     

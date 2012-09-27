@@ -298,9 +298,17 @@ class importXML():
                         if child.tag in fdsLinkModel:
                             setattr( dLinkModel, child.tag, child.text ) 
                             
+                    #Obtiene las refs
+                    oAux = getModelRef( lDomain, dLinkModel.source )
+                    if oAux:  dLinkModel.sourceRef = oAux  
+
+                    oAux = getModelRef( lDomain, dLinkModel.destination )
+                    if oAux:  dLinkModel.destinationRef = oAux  
+                            
                     try:
                         dLinkModel.save()
-                    except: pass
+                    except: 
+                        pass
                     
                     self.__logger.info("LinkModel..."  + dLinkModel.code)
 
@@ -312,10 +320,18 @@ class importXML():
                         for child in xLink:
                             if child.tag in fdsLink:
                                 setattr( dLink, child.tag, child.text)
+
+                        #Obtiene las refs
+                        oAux = getColRef( dLinkModel.sourceRef, dLink.sourceCol )
+                        if oAux:  dLink.sourceColRef = oAux  
+    
+                        oAux = getColRef( dLinkModel.destinationRef, dLink.destinationCol )
+                        if oAux:  dLink.destinationColRef = oAux  
                                         
                         try:
                             dLink.save()
-                        except: pass
+                        except: 
+                            pass
 
                     
 
@@ -334,6 +350,7 @@ class importXML():
         
         return {'state':self.OK, 'message': 'Ecriture effectuee'}
     
+        
     def writeDatabase(self): 
         # We write in the database
         dictWrite = self.__write()
@@ -353,3 +370,12 @@ class importXML():
                 dUdp.save()
             except: pass
 
+def getModelRef( lDomain, modelName  ):
+    mAux = Model.objects.filter( domain = lDomain ).filter( code = modelName )
+    if mAux: 
+        return mAux[0] 
+
+def getColRef( baseModel , propName  ):
+    mAux = Property.objects.filter( concept__model = baseModel ).filter( code = propName  )
+    if mAux: 
+        return mAux[0] 
