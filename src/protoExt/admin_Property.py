@@ -54,27 +54,27 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         'baseType' : { 'fieldLabel' : 'Type' }, 
         'prpLength' : { 'fieldLabel' : 'Length'  },
          
-        'udp__GABARIT': { 'fieldLabel' : 'Gabarit', 'type' : 'combo', 'choices' : [[ '0', 'cero'], [ '1', 'uno']]  },
-        'udp__DOCUMENTDEREFERENCE' :{ 'fieldLabel' : 'Doc Reference'},
-
-        'udp__VALIDATION': { 'fieldLabel' : 'Validation' , 'type': 'html'   },
-        'udp__VALIDATIONSSURELEMENT': { 'fieldLabel' : 'Validation Elto' , 'type': 'html'  },
-        'udp__VALIDATIONSINTERELEMENT': { 'fieldLabel' : 'Validation Reg' , 'type': 'html'  },
-        'udp__VALIDATION_INTER-ENREGISTREMENT': { 'fieldLabel' : 'Validation Entt' , 'type': 'html'  },
-
-        'udp__DEFINITION': { 'fieldLabel' : 'Definition' , 'type': 'html' },
-        'udp__PRECISIONS': { 'fieldLabel' : 'Precision' , 'type': 'html' },
-        'udp__DOMAINEDEVALEURS': { 'fieldLabel' : 'Domain Valuers', 'type': 'html' },
-        'udp__DESCRIPTIONCN': { 'fieldLabel' : 'Description CN', 'type': 'html'  }, 
-        
-        'udp__SOURCEDEDONNEESEXTERNES': { 'fieldLabel' : 'Source Donnes'  },
-        'udp__ELEMENTTRANSFORME': { 'fieldLabel' : 'Elto transforme'  },
-        'udp__ELEMENTTRANSMIS': { 'fieldLabel' : 'Elto Transmis'  },
-        'udp__ENTREEENVIGUEUR': { 'fieldLabel' : 'Entree en viguer'  },
-        'udp__DATEDERNIREMODIFICATION': { 'fieldLabel' : 'Dt derniere modif' , 'type' : 'date' },
-        'udp__REQUISPAR': { 'fieldLabel' : 'Rquis par'  },
-        'udp__TRANSMISSION': { 'fieldLabel' : 'Transmission'  },
-        'udp__STATUTELEMENTDEDONNEE': { 'fieldLabel' : 'Statut élément de donnée'  }, 
+#        'udp__GABARIT': { 'fieldLabel' : 'Gabarit', 'type' : 'combo', 'choices' : [[ '0', 'cero'], [ '1', 'uno']]  },
+#        'udp__DOCUMENTDEREFERENCE' :{ 'fieldLabel' : 'Doc Reference'},
+#
+#        'udp__VALIDATION': { 'fieldLabel' : 'Validation' , 'type': 'html'   },
+#        'udp__VALIDATIONSSURELEMENT': { 'fieldLabel' : 'Validation Elto' , 'type': 'html'  },
+#        'udp__VALIDATIONSINTERELEMENT': { 'fieldLabel' : 'Validation Reg' , 'type': 'html'  },
+#        'udp__VALIDATION_INTER-ENREGISTREMENT': { 'fieldLabel' : 'Validation Entt' , 'type': 'html'  },
+#
+#        'udp__DEFINITION': { 'fieldLabel' : 'Definition' , 'type': 'html' },
+#        'udp__PRECISIONS': { 'fieldLabel' : 'Precision' , 'type': 'html' },
+#        'udp__DOMAINEDEVALEURS': { 'fieldLabel' : 'Domain Valuers', 'type': 'html' },
+#        'udp__DESCRIPTIONCN': { 'fieldLabel' : 'Description CN', 'type': 'html'  }, 
+#        
+#        'udp__SOURCEDEDONNEESEXTERNES': { 'fieldLabel' : 'Source Donnes'  },
+#        'udp__ELEMENTTRANSFORME': { 'fieldLabel' : 'Elto transforme'  },
+#        'udp__ELEMENTTRANSMIS': { 'fieldLabel' : 'Elto Transmis'  },
+#        'udp__ENTREEENVIGUEUR': { 'fieldLabel' : 'Entree en viguer'  },
+#        'udp__DATEDERNIREMODIFICATION': { 'fieldLabel' : 'Dt derniere modif' , 'type' : 'date' },
+#        'udp__REQUISPAR': { 'fieldLabel' : 'Rquis par'  },
+#        'udp__TRANSMISSION': { 'fieldLabel' : 'Transmission'  },
+#        'udp__STATUTELEMENTDEDONNEE': { 'fieldLabel' : 'Statut élément de donnée'  }, 
      }
 
 #    Al momento de cargar la finca verifico el campo @criteriaField@ y lo busco en las diferentes fichas, 
@@ -88,24 +88,24 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                             'baseType',
                             'prpLength',
                             'description', 
-                            'udp__DOCUMENTDEREFERENCE',
-                            'udp__GABARIT',
-                            'udp__DEFINITION',
-                            'udp__DESCRIPTIONCN',
-                            'udp__PRECISIONS',
-                            'udp__VALIDATION',
-                            'udp__VALIDATIONSSURELEMENT',
-                            'udp__VALIDATIONSINTERELEMENT',
-                            'udp__VALIDATION_INTER-ENREGISTREMENT',
-                            'udp__SOURCEDEDONNEESEXTERNES',
-                            'udp__ELEMENTTRANSFORME',
-                            'udp__ELEMENTTRANSMIS',
-                            'udp__DOMAINEDEVALEURS',
-                            'udp__ENTREEENVIGUEUR',
-                            'udp__DATEDERNIREMODIFICATION',
-                            'udp__REQUISPAR',
-                            'udp__TRANSMISSION',
-                            'udp__STATUTELEMENTDEDONNEE'
+#                            'udp__DOCUMENTDEREFERENCE',
+#                            'udp__GABARIT',
+#                            'udp__DEFINITION',
+#                            'udp__DESCRIPTIONCN',
+#                            'udp__PRECISIONS',
+#                            'udp__VALIDATION',
+#                            'udp__VALIDATIONSSURELEMENT',
+#                            'udp__VALIDATIONSINTERELEMENT',
+#                            'udp__VALIDATION_INTER-ENREGISTREMENT',
+#                            'udp__SOURCEDEDONNEESEXTERNES',
+#                            'udp__ELEMENTTRANSFORME',
+#                            'udp__ELEMENTTRANSMIS',
+#                            'udp__DOMAINEDEVALEURS',
+#                            'udp__ENTREEENVIGUEUR',
+#                            'udp__DATEDERNIREMODIFICATION',
+#                            'udp__REQUISPAR',
+#                            'udp__TRANSMISSION',
+#                            'udp__STATUTELEMENTDEDONNEE'
                             )
 
 
@@ -180,139 +180,139 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     protoExt['filterSetABC'] = ['code'] 
     
 
-    protoExt['protoForm'] =  [{
-            "fsLayout": "2col",
-            "__ptType": "fieldset",
-            "title": "Fiche descriptive de l'élement de données",
-            "items": [
-                {
-                    "fieldLabel": "Nom",
-                    "name": "code",
-                    "__ptType": "formField"
-                },
-                {
-                    "name": "concept__model",
-                    "__ptType": "formField"
-                },
-                {
-                    "name": "udp__DOCUMENTDEREFERENCE",
-                    "__ptType": "formField"
-                },
-                {
-                    "name": "alias",
-                    "__ptType": "formField"
-                },
-                {
-                    "name": "baseType",
-                    "__ptType": "formField"
-                },
-                {
-                    "name": "prpLength",
-                    "__ptType": "formField"
-                },
-                {
-                    "name": "udp__GABARIT",
-                    "__ptType": "formField"
-                },
-                {
-                    "name": "isNullable",
-                    "__ptType": "formField"
-                }
-            ]
-        },
-        {
-            "collapsible": False,
-            "title": "",
-            "collapsed": False,
-            "fsLayout": "1col",
-            "__ptType": "fieldset",
-            "items": [
-                {
-                    "name": "udp__DEFINITION",
-                    "__ptType": "formField"
-                },
-                {
-                    "name": "udp__DESCRIPTIONCN",
-                    "__ptType": "formField"
-                },
-                {
-                    "name": "udp__PRECISIONS",
-                    "__ptType": "formField"
-                },
-                {
-                    "name": "udp__DOMAINEDEVALEURS",
-                    "__ptType": "formField"
-                }
-            ]
-        },
-        {
-            "fsLayout": "2col",
-            "__ptType": "fieldset",
-            "title": "Validations",
-            "items": [
-                {
-                    "name": "udp__VALIDATIONSSURELEMENT",
-                    "__ptType": "formField"
-                },
-                {
-                    "name": "udp__VALIDATIONSINTERELEMENT",
-                    "__ptType": "formField"
-                },
-                {
-                    "name": "udp__VALIDATION_INTER-ENREGISTREMENT",
-                    "__ptType": "formField"
-                },
-                {
-                    "name": "udp__VALIDATION",
-                    "__ptType": "formField"
-                }
-            ]
-        },
-        {
-            "fsLayout": "1col",
-            "__ptType": "fieldset",
-            "items": [
-                {
-                    "name": "udp__SOURCEDEDONNEESEXTERNES",
-                    "__ptType": "formField"
-                },
-                {
-                    "name": "udp__ELEMENTTRANSFORME",
-                    "__ptType": "formField"
-                },
-                {
-                    "name": "udp__ELEMENTTRANSMIS",
-                    "__ptType": "formField"
-                },
-                {
-                    "name": "udp__ENTREEENVIGUEUR",
-                    "__ptType": "formField"
-                }
-            ]
-        },
-        {
-            "fsLayout": "1col",
-            "__ptType": "fieldset",
-            "items": [
-                {
-                    "name": "udp__REQUISPAR",
-                    "__ptType": "formField"
-                },
-                {
-                    "name": "udp__TRANSMISSION",
-                    "__ptType": "formField"
-                },
-                {
-                    "name": "udp__STATUTELEMENTDEDONNEE",
-                    "__ptType": "formField"
-                },
-                {
-                    "name": "udp__DATEDERNIREMODIFICATION",
-                    "__ptType": "formField"
-                }
-            ]
-        }
-    ]
+#    protoExt['protoForm'] =  [{
+#            "fsLayout": "2col",
+#            "__ptType": "fieldset",
+#            "title": "Fiche descriptive de l'élement de données",
+#            "items": [
+#                {
+#                    "fieldLabel": "Nom",
+#                    "name": "code",
+#                    "__ptType": "formField"
+#                },
+#                {
+#                    "name": "concept__model",
+#                    "__ptType": "formField"
+#                },
+#                {
+#                    "name": "udp__DOCUMENTDEREFERENCE",
+#                    "__ptType": "formField"
+#                },
+#                {
+#                    "name": "alias",
+#                    "__ptType": "formField"
+#                },
+#                {
+#                    "name": "baseType",
+#                    "__ptType": "formField"
+#                },
+#                {
+#                    "name": "prpLength",
+#                    "__ptType": "formField"
+#                },
+#                {
+#                    "name": "udp__GABARIT",
+#                    "__ptType": "formField"
+#                },
+#                {
+#                    "name": "isNullable",
+#                    "__ptType": "formField"
+#                }
+#            ]
+#        },
+#        {
+#            "collapsible": False,
+#            "title": "",
+#            "collapsed": False,
+#            "fsLayout": "1col",
+#            "__ptType": "fieldset",
+#            "items": [
+#                {
+#                    "name": "udp__DEFINITION",
+#                    "__ptType": "formField"
+#                },
+#                {
+#                    "name": "udp__DESCRIPTIONCN",
+#                    "__ptType": "formField"
+#                },
+#                {
+#                    "name": "udp__PRECISIONS",
+#                    "__ptType": "formField"
+#                },
+#                {
+#                    "name": "udp__DOMAINEDEVALEURS",
+#                    "__ptType": "formField"
+#                }
+#            ]
+#        },
+#        {
+#            "fsLayout": "2col",
+#            "__ptType": "fieldset",
+#            "title": "Validations",
+#            "items": [
+#                {
+#                    "name": "udp__VALIDATIONSSURELEMENT",
+#                    "__ptType": "formField"
+#                },
+#                {
+#                    "name": "udp__VALIDATIONSINTERELEMENT",
+#                    "__ptType": "formField"
+#                },
+#                {
+#                    "name": "udp__VALIDATION_INTER-ENREGISTREMENT",
+#                    "__ptType": "formField"
+#                },
+#                {
+#                    "name": "udp__VALIDATION",
+#                    "__ptType": "formField"
+#                }
+#            ]
+#        },
+#        {
+#            "fsLayout": "1col",
+#            "__ptType": "fieldset",
+#            "items": [
+#                {
+#                    "name": "udp__SOURCEDEDONNEESEXTERNES",
+#                    "__ptType": "formField"
+#                },
+#                {
+#                    "name": "udp__ELEMENTTRANSFORME",
+#                    "__ptType": "formField"
+#                },
+#                {
+#                    "name": "udp__ELEMENTTRANSMIS",
+#                    "__ptType": "formField"
+#                },
+#                {
+#                    "name": "udp__ENTREEENVIGUEUR",
+#                    "__ptType": "formField"
+#                }
+#            ]
+#        },
+#        {
+#            "fsLayout": "1col",
+#            "__ptType": "fieldset",
+#            "items": [
+#                {
+#                    "name": "udp__REQUISPAR",
+#                    "__ptType": "formField"
+#                },
+#                {
+#                    "name": "udp__TRANSMISSION",
+#                    "__ptType": "formField"
+#                },
+#                {
+#                    "name": "udp__STATUTELEMENTDEDONNEE",
+#                    "__ptType": "formField"
+#                },
+#                {
+#                    "name": "udp__DATEDERNIREMODIFICATION",
+#                    "__ptType": "formField"
+#                }
+#            ]
+#        }
+#    ]
     
     
     
