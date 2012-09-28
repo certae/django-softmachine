@@ -1,6 +1,8 @@
 /*
  * Row styles
  */
+
+
 .tasks-completed-task .x-grid-cell {
     text-decoration: line-through;
     color: gray;

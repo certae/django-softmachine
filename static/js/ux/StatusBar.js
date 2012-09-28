@@ -62,6 +62,15 @@ Ext.define('ProtoUL.ux.StatusBar', {
                 iconCls: 'x-status-error',
                 handler: this.clearErrCount
             },{
+                itemId : 'openTaskForm', 
+                xtype: 'button',
+                text: 'task',
+                
+                // hidden: true,
+                scope: this,
+                iconCls: 'taskManager',
+                handler: this.openTaskForm
+            },{
                 xtype:'splitbutton',
                 text: 'Login'
             }])
@@ -245,6 +254,14 @@ Ext.define('ProtoUL.ux.StatusBar', {
             this.clearStatus( { useDefaults: true} )    
         }
         
-    } 
+    }, 
+    
+    openTaskForm: function( ) {
+    
+        var taskCont = Ext.create( 'ProtoUL.protoOrg.tasks.TaskController' )
+        taskCont.openTaskForm()
+         
+    }
+        
     
 });
