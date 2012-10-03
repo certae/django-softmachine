@@ -23,7 +23,8 @@ Ext.define('ProtoUL.view.MenuTree', {
             proxy: {
                 method: 'GET',
                 type: 'ajax',
-                url: _PConfig.urlMenu  
+                url: _PConfig.urlMenu , 
+                extraParams : { forceDefault : 0 }
             }, 
         
             fields: [
@@ -68,6 +69,13 @@ Ext.define('ProtoUL.view.MenuTree', {
                             tooltip: 'New option'
                         },
                         {
+                            id: 'editNode',
+                            scope: this,
+                            handler: this.editNode,
+                            iconCls: 'icon-nodeEdit',
+                            tooltip: 'Edit node'
+                        },
+                        {
                             id: 'deleteNode',
                             scope: this,
                             handler: this.deleteNode,
@@ -105,13 +113,13 @@ Ext.define('ProtoUL.view.MenuTree', {
         this.callParent(arguments);
         this.addEvents('menuSelect');
 
-
     }, 
 
     listeners: {
         
         // .view.View , .data.Model record, HTMLElement item, Number index, .EventObject e, Object eOpts
         'itemclick': function( view, rec, item, index, evObj , eOpts ) {
+            this.treeRecord  = rec;
             if ( rec.get('leaf') ) {
                 var protoOption = rec.data.protoOption || rec.data.id
                 this.fireEvent('menuSelect', this, protoOption );
@@ -121,22 +129,69 @@ Ext.define('ProtoUL.view.MenuTree', {
         
     }, 
 
-    deleteNode: function( btn ) {
-        // Verifica si hay un item activo, confirma y lo borra 
+    editNode: function( btn ) {
+        // Verifica si hay un item activo y lo edita
+        if ( this.treeRecord ) {
+            var me = this,
+                msg = 'Please enter the folder name'
+            Ext.Msg.prompt( 'Add menu', msg, function(btn, pName){
+                if (btn != 'ok') return 
+                me.treeRecord.set( 'text' ,  pName ) 
+            }, me, false , me.treeRecord.get( 'text' ));
+
+        }  
     }, 
+
+    deleteNode: function( btn ) {
+        // Verifica si hay un item activo, confirma y lo borra
+        if ( this.treeRecord ) {
+            this.treeRecord.remove( )
+        }  
+    }, 
+
     newFolder: function( btn ) {
         // prompt por el nombre del menu y lo crea en el arbol 
+        if ( this.treeRecord && this.treeRecord.get( 'leaf' )  ) {
+            errorMessage( 'AddMenuOption', 'Not selected node' )
+            return 
+        }
+            
+        var me = this,
+            msg = 'Please enter the folder name'
+        Ext.Msg.prompt( 'Add menu', msg, function(btn, pName){
+            if (btn != 'ok') return 
+            var record = me.treeRecord || me.store.getRootNode()
+            var tNode = {'text' :  pName, 'children': [] }
+            record.appendChild( tNode )
+        }, me, false );
+
+        
     }, 
     newOption: function( btn ) {
         // abre forma para creacion de opcion, la forma se encarga de la creacion 
+        if ( ! this.treeRecord || this.treeRecord.get( 'leaf' )  ) {
+            errorMessage( 'AddMenuOption', 'Not selected node' )
+            return 
+        }
+
+        var myWin  = Ext.widget('menuOption', {
+            treeRecord : this.treeRecord, 
+            title: 'Add menu option'
+        });
+        myWin.show()
+        
     }, 
     
     reloadMenu: function( btn ) {
         // recarga el menu guardado 
+        this.store.getProxy().extraParams.forceDefault = 0 ;
         this.store.load()
     }, 
+
     resetMenu: function( btn ) {
         // borra el menu guardado y recarga el menu default basado en modelos  
+        this.store.getProxy().extraParams.forceDefault = 1 ;
+        this.store.load()
     }, 
     saveMenu: function( btn ) {
         // guarda el menu actual
@@ -145,3 +200,117 @@ Ext.define('ProtoUL.view.MenuTree', {
     } 
 
 });
+
+
+Ext.define('ProtoUL.view.form.MenuOption', {
+    extend: 'Ext.window.Window',
+    alias: 'widget.menuOption',
+
+    constructor: function (config) {
+
+        var formPanelCfg = {
+            xtype: 'form',
+            frame: true,
+            constrain: true, 
+            bodyPadding: '5 5 0',
+            width: 400,
+
+            fieldDefaults: {
+                msgTarget: 'side',
+                labelWidth: 75
+            },
+            defaults: {
+                anchor: '100%'
+            },
+    
+            items: [{
+                xtype:'fieldset',
+                title: 'Basic Information',
+                defaultType: 'textfield',
+                layout: 'anchor',
+                defaults: {
+                    anchor: '100%'
+                },
+                items :[{
+                    fieldLabel: 'text',
+                    afterLabelTextTpl: _requiredField,
+                    name: 'text',
+                    allowBlank:false
+                },{
+                    fieldLabel: 'option',
+                    afterLabelTextTpl: _requiredField,
+                    name: 'protoOption', 
+                    allowBlank:false, 
+                    
+                    __ptType: "formField",
+                    editable: true, 
+                    xtype: "protoZoom", 
+                    zoomModel: "protoLib.ProtoDefinition"                    
+                }]
+            },{
+                xtype:'fieldset',
+                defaultType: 'textfield',
+                layout: 'anchor',
+                defaults: {
+                    anchor: '100%'
+                },
+                items :[{
+                    fieldLabel: 'iconCls',
+                    name: 'iconCls'
+                }, {
+                    fieldLabel: 'qtip',
+                    name: 'qtip'
+                }, {
+                    fieldLabel: 'qtitle',
+                    name: 'qtitle'
+                }]
+            }],
+    
+            buttons: [{
+                text: 'Cancel', 
+                scope : this, 
+                handler : this.onCancel 
+            },{
+                text: 'Save', 
+                scope : this, 
+                handler : this.onSave 
+            }]
+        };
+        
+        this.callParent([Ext.apply({
+            titleTextAdd: 'Add Event',
+            titleTextEdit: 'Edit Event',
+            width: 600,
+            autocreate: true,
+            border: true,
+            closeAction: 'hide',
+            modal: false,
+            resizable: false,
+            buttonAlign: 'left',
+            savingMessage: 'Saving changes...',
+            deletingMessage: 'Deleting event...',
+            layout: 'fit',
+            items: formPanelCfg
+        }, config)]);
+    },
+
+    initComponent: function () {
+        this.callParent();
+        this.formPanel = this.items.items[0];
+    },
+
+    onCancel: function () {
+        this.close() 
+    },
+
+
+    onSave: function () {
+        if (!this.formPanel.form.isValid()) { return; }
+        var tNode = this.formPanel.getForm().getValues()
+        tNode.leaf = true
+        this.treeRecord.appendChild( tNode )
+        this.close() 
+    }
+
+});
+

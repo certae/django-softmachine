@@ -9,6 +9,9 @@ _ROW_ST = {
     NEWROW     : 'ROWST_NEW'
     }
 
+// afterLabelTextTpl: _requiredField,
+_requiredField = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
+
 
 _siteTitle = 'ART Atelier de Référentiel pour Togaf'
 _versionProto = 'Version 0.13k'
@@ -24,6 +27,7 @@ _gridNextText = 'Page suivante',
 _gridPrevText = 'Page précédente', 
 _gridLastText = 'Dernière page', 
 _gridRefreshText = 'Actualiser',  
+
     
 _tbSearchClearFilter = 'Supprimer les filtres'
     

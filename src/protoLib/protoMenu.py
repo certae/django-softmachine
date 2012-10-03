@@ -75,11 +75,13 @@ def protoGetMenuData(request):
 
 #-- Lectura de la Db ------------------------------------------------------------- 
 
+    forceDefault = request.GET.get('forceDefault', '') 
+
     protoOption = '__menu'
     protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'active': False })
     
     # El default solo parece funcionar al insertar en la Db
-    if protoDef.active:  
+    if protoDef.active and ( forceDefault == '0') :  
         context = protoDef.metaDefinition 
 
     else:

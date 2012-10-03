@@ -277,12 +277,12 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
 
         this.formTree.on({
             'select': function ( rowModel , record,  rowIndex,  eOpts ) {
-                // Guarda el registro actico, para actualizarlo mas tarde 
-                me.treeRecord  = record;
-                
-                // prepara las propiedades corresponidnetes, 
-                // debe cpia las props por defecto de la pcl 
-                prepareProperties( record , me.myMeta,  me.properties  );
+                    // Guarda el registro actico, para actualizarlo mas tarde 
+                    me.treeRecord  = record;
+                    
+                    // prepara las propiedades corresponidnetes, 
+                    // debe cpia las props por defecto de la pcl 
+                    prepareProperties( record , me.myMeta,  me.properties  );
                 } , scope: me }
         );
 
