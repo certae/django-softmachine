@@ -72,41 +72,49 @@ def protoGetMenuData(request):
              
         appAux.ixMod += 1 
     
-     
-#---user = request.user
-    for model, model_admin in site._registry.items():
-        
-        protoAdmin = getattr(model_admin, 'protoExt', {}) 
-        protoViews = protoAdmin.get( 'protoViews' )
 
-        menuNode = model._meta.object_name
-        getMenuItem( protoAdmin, model, menuNode )
-         
-        if protoViews: 
-            # si existen vistas,  carga una opcion de menu para cada una             
-            for view in protoViews: 
-                menuNode = model._meta.object_name + '.' + view
-                protoOpcion =  getProtoViewObj( protoAdmin, view   )
-                getMenuItem( protoOpcion, model, menuNode )
+#-- Lectura de la Db ------------------------------------------------------------- 
 
-
-    # Sort the apps alphabetically.
-    app_list = app_dict.values()
-    app_list.sort(key=lambda x: x['index'])
-
-    # Sort the models alphabetically within each app.
-    for app in app_list:
-        app['children'].sort(key=lambda x: x['index'])
-
-    context = json.dumps( app_list ) 
-
-
-    # Lo guarda  ( created : true  --> new
     protoOption = '__menu'
-    protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
-    protoDef.metaDefinition = context  
-    protoDef.description = 'Menu' 
-    protoDef.save()
+    protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'active': False })
+    
+    # El default solo parece funcionar al insertar en la Db
+    if protoDef.active:  
+        context = protoDef.metaDefinition 
+
+    else:
+
+        for model, model_admin in site._registry.items():
+            
+            protoAdmin = getattr(model_admin, 'protoExt', {}) 
+            protoViews = protoAdmin.get( 'protoViews' )
+    
+            menuNode = model._meta.object_name
+            getMenuItem( protoAdmin, model, menuNode )
+             
+            if protoViews: 
+                # si existen vistas,  carga una opcion de menu para cada una             
+                for view in protoViews: 
+                    menuNode = model._meta.object_name + '.' + view
+                    protoOpcion =  getProtoViewObj( protoAdmin, view   )
+                    getMenuItem( protoOpcion, model, menuNode )
+    
+    
+        # Sort the apps alphabetically.
+        app_list = app_dict.values()
+        app_list.sort(key=lambda x: x['index'])
+    
+        # Sort the models alphabetically within each app.
+        for app in app_list:
+            app['children'].sort(key=lambda x: x['index'])
+
+        context = json.dumps( app_list ) 
+
+        # Lo guarda  ( created : true  --> new
+        protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
+        protoDef.metaDefinition = context  
+        protoDef.description = 'Menu' 
+        protoDef.save()
     
 
     return HttpResponse( context, mimetype="application/json")

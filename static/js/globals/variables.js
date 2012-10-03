@@ -29,12 +29,12 @@ _tbSearchClearFilter = 'Supprimer les filtres'
     
 // Config Variables 
 _PConfig =  {
-    urlMenu         : 'protoExt/protoGetMenuData/', 
-    urlGetPCI         : 'protoExt/protoGetPCI/', 
-    urlSavePCI         : 'protoExt/protoSavePCI/', 
-    urlGetFieldTree : 'protoExt/protoGetFieldTree/', 
-    urlGetDetailsTree : 'protoExt/protoGetDetailsTree/', 
-    urlGetUserRights : 'protoExt/protoGetUserRights/', 
+    urlMenu         : 'protoLib/protoGetMenuData/', 
+    urlGetPCI         : 'protoLib/protoGetPCI/', 
+    urlSavePCI         : 'protoLib/protoSavePCI/', 
+    urlGetFieldTree : 'protoLib/protoGetFieldTree/', 
+    urlGetDetailsTree : 'protoLib/protoGetDetailsTree/', 
+    urlGetUserRights : 'protoLib/protoGetUserRights/', 
    
     clsBaseModel: 'ProtoUL.model.' 
 }; 

@@ -246,16 +246,6 @@ def protoSavePCI(request):
     sMeta = request.POST.get('protoMeta', '')
     protoMeta = json.loads( sMeta )
     
-    protoConcept, view = getProtoViewName( protoOption )
-    
-    try: 
-        model = getDjangoModel(protoConcept)
-    except Exception,  e:
-        jsondict = { 'success':False, 'message': getReadableError( e ) }
-        context = json.dumps( jsondict)
-        return HttpResponse(context, mimetype="application/json")
-    
-
     # created : true  ( new ) is a boolean specifying whether a new object was created.
     protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
     
@@ -263,7 +253,12 @@ def protoSavePCI(request):
     protoDef.active = True 
     protoDef.overWrite = False 
     protoDef.metaDefinition = sMeta 
-    protoDef.description = protoMeta['description'] 
+
+    if protoOption == '__menu' :
+        protoDef.description = 'Menu'
+    else: 
+        protoDef.description = protoMeta['description']
+     
     protoDef.save()    
 
     jsondict = {

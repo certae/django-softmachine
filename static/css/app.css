@@ -48,6 +48,14 @@
 
 .icon-promote { background-image: url(../img/protoImg/table_promote.png) !important; }
 
+.menu_new_folder { background-image: url(../img/protoImg/menu_new_folder.png) !important; }
+.menu_new_option { background-image: url(../img/protoImg/menu_new_option.png) !important; }
+
+.menu_reset  { background-image: url(../img/protoImg/page_reset.png) !important; }
+.menu_save   { background-image: url(../img/protoImg/page_save.png) !important; }
+.menu_reload { background-image: url(../img/protoImg/page_refresh.png) !important; }
+
+
 /* Iconos Config - Edit */
 .icon-tableSheet        { background-image: url(../img/protoImg/print_sheet.png ) !important;}
 

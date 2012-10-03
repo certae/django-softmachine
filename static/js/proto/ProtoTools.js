@@ -361,3 +361,58 @@ function formContainer2Tree( items ) {
     
     return tItems 
 }
+
+//
+
+function Tree2Menu( tNode  ) {
+
+    // Para poder leer de la treeData o del TreeStore ( requiere data )
+    var tData = tNode.data,  
+        tChilds =  tNode.childNodes, 
+        mData = {}
+
+    if ( tData.root ) {
+        mData = getMenuChilds(  tChilds  )
+    } else { 
+
+        mData = {
+                "text": tData.text ,
+                "qtip": tData.qtip, 
+                "qtitle": tData.qtitle, 
+                "iconCls": tData.iconCls ,
+                "id":  'protoMenu-' + Ext.id() ,
+                "index": tData.index, 
+            }
+   
+        // Es un menu 
+        if ( tChilds.length > 0 ) {
+             mData.expanded = tData.expanded
+             mData.children = getMenuChilds(  tChilds  )
+        } else {
+             mData.leaf = true 
+             mData.protoOption =  tData.protoOption ||  tData.id 
+        }
+                   
+    } 
+
+    return mData 
+
+
+    function getMenuChilds( tChilds  ) {
+
+        var mChilds = []    
+           
+        for (var ix in tChilds ) {
+            var lNode = tChilds[ ix ]
+            var nChildData = Tree2Menu( lNode   ) 
+    
+            mChilds.push( nChildData )
+
+        }
+        
+        return mChilds
+        
+    }
+    
+}
+

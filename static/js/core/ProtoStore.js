@@ -20,10 +20,10 @@ function getProxyDefinition( stDef )  {
             batchActions : true, 
             batchOrder : "create,update,destroy", 
             api: {
-                 read :   'protoExt/protoList/',
-                 create:  'protoExt/protoAdd/',
-                 update:  'protoExt/protoUpd/',
-                 destroy: 'protoExt/protoDel/'
+                 read :   'protoLib/protoList/',
+                 create:  'protoLib/protoAdd/',
+                 update:  'protoLib/protoUpd/',
+                 destroy: 'protoLib/protoDel/'
             },
             actionMethods: {
                     create : 'POST',
@@ -742,12 +742,21 @@ function loadPci( protoOption, loadIfNot, options) {
             return false 
             
         }  
+
+}
+
+
+function savePci( protoMeta,  options) {
+
+    var protoOption = protoMeta.protoOption
+    var sMeta = Ext.encode(  clone( protoMeta, 0  ) )
+
+    saveProtoObj( protoOption, sMeta ,  options)
         
 }
 
 
-
-function savePci( protoMeta,  options) {
+function saveProtoObj( protoOption, sMeta ,  options) {
 
         options = options || {};
                     
@@ -758,8 +767,6 @@ function savePci( protoMeta,  options) {
             failure: Ext.emptyFn
         });
     
-        var protoOption = protoMeta.protoOption
-        var sMeta = Ext.encode(  clone( protoMeta, 0  ) )
     
         Ext.Ajax.request({
             method: 'POST',
@@ -787,8 +794,6 @@ function savePci( protoMeta,  options) {
         })
         
 }
-
-
 
 
 function loadJsonConfig( fileName, options) {

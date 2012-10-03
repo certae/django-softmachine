@@ -13,7 +13,7 @@ urlpatterns = patterns('',
 #    url(r'^qbe/', include('django_qbe.urls')),
 
     url(r'^protoExt$', direct_to_template, { 'template': 'protoExt.html' }),
-    url(r'^protoExt/', include('protoLib.urls')),
+    url(r'^protoLib/', include('protoLib.urls')),
 
     url(r'^prueba$', direct_to_template, { 'template': 'prueba.html' }),
 
