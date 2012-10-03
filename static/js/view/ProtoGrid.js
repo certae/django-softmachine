@@ -63,7 +63,13 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             sProtoMeta  : getSafeMeta( myMeta )    
         };
 
-        me.store = getStoreDefinition( storeDefinition )
+    
+        if ( myMeta.pclStyle == 'tree' ) {
+            me.store = getTreeStoreDefinition( storeDefinition )
+        } else { 
+            me.store = getStoreDefinition( storeDefinition )
+        }
+
 
 
         // Start Row Editing PlugIn
@@ -102,16 +108,22 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 delete col['editor']
             }
 
+            if ( vFld.storeOnly ) continue;
+            
+            if (( myMeta.pclStyle == 'tree' ) && ( vFld.treeColumn == vFld.name  )) {
+                col.xtype = 'treecolumn'
+            };  
+
             myColumns.push( col  );
         }
         
         this.myColumns = myColumns; 
         
         //   gridColumns: Es un subconjuto para poder manejar diferentes conf de columnas  
-        var gridColumns =  myColumns;
-        
-        // Vista por defecto
-        var myDefaultCols = myMeta.gridConfig.listDisplay;
+        var grid, 
+            gridColumns =  myColumns, 
+            myDefaultCols = myMeta.gridConfig.listDisplay;
+            
         if ( myDefaultCols.length > 0 ) {
             try {  gridColumns = this.getViewColumns( myDefaultCols ); 
             } catch(e) {}
@@ -123,7 +135,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         this.editable = false; 
         
-        var grid = Ext.create('Ext.grid.Panel', {
+        grid = Ext.create('Ext.grid.Panel', {
             border : false, 
             region: 'center',
             flex: 1,
@@ -454,11 +466,12 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     
     deleteCurrentRecord: function() {
         if ((! this._extGrid ) || ( ! this.editable )) return; 
+        if ( this.rowEditing ) { this.rowEditing.cancelEdit(); }
+
 
         var rowIndex = this.getRowIndex();  
 
         var sm = this._extGrid.getSelectionModel();
-        this.rowEditing.cancelEdit();
         this.store.remove( sm.getSelection()  );
 
         // this.grid.store.indexOf( this.selections.itemAt(0) );

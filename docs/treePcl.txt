@@ -1,0 +1,31 @@
+Definir una pcl de tipo arbol 
+
+pcl.style = 'tree'
+pcl.treeColumn  = 'ColName'
+
+?? 	Como hacer para q la carga sea dinamica por niveles, 
+   	Cuando el children es indefinido hay otro llamado para 
+   	cargar la rama faltante del arbol, cual es la llave q 
+   	se envia para recargar en nuevo root ??
+
+http://docs.sencha.com/ext-js/4-1/#!/guide/tree #LoadingData
+
+reenvia  [prexy.readURL] ? node=[id]
+**  En el nodo 
+
+	- href - used to specify a url that the node should be a link to. Override to be persistent if desired.
+	- hrefTarget - used to specify the target for the href. Override to be persistent if desired.
+
+
+For all non-leaf nodes that do not have children (for example, Person with name Sue above), the server response MUST set the loaded property to true.
+
+
+El list debe ser cargado en forma recursiva, 
+Se verificaran los llaves q apuntan a la entidad ( sets )
+** y se cargan los por llave los registros correspondientes 
+** o se se cargan solo las refencias del arbol y al recibir la orden de expandir el nodo se cargan los datos de base, 
+
+Esto puede ser tambien una orden en el arbol,  recorrer toda 
+la estructura y cargarla  o esperar la demanda de cada nodo,  
+debe existir una lista de hijos q se puedan cargar o un parametro general de autoLoadTree. 
+

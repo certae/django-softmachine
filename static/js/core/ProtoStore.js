@@ -12,30 +12,10 @@ Ext.define('ProtoUL.core.ProtoStore', {
  * 
  */
 
-function getStoreDefinition(  stDef  ){ 
 
-    // En la definicion como clase 
-    // initComponent: function() {
-        // this.sorters = stDef.sorters || [{ property: 'xx', direction: 'ASC' }]
-        // this.idProperty = 
-        // stDef.fields = 
-        // this.callParent(arguments);
-    // }, 
+function getProxyDefinition( stDef )  {
 
-    var myStore = Ext.create('Ext.data.Store', {
-        // model : stDef.model,
-
-        protoOption : stDef.protoOption,
-
-        model: getModelName( stDef.protoOption  ),  
-        autoLoad: stDef.autoLoad,
-        pageSize: stDef.pageSize,
-        sorters: stDef.sorters,    
-
-        remoteSort: true,
-        autoSync: true, 
-
-        proxy: {
+    return {
             type: 'ajax',
             batchActions : true, 
             batchOrder : "create,update,destroy", 
@@ -99,7 +79,34 @@ function getStoreDefinition(  stDef  ){
                 // }
             // } 
             
-        }, 
+        }    
+    
+}; 
+
+function getStoreDefinition(  stDef  ){ 
+
+    // En la definicion como clase 
+    // initComponent: function() {
+        // this.sorters = stDef.sorters || [{ property: 'xx', direction: 'ASC' }]
+        // this.idProperty = 
+        // stDef.fields = 
+        // this.callParent(arguments);
+    // }, 
+
+    var myStore = Ext.create('Ext.data.Store', {
+        // model : stDef.model,
+
+        protoOption : stDef.protoOption,
+
+        model: getModelName( stDef.protoOption  ),  
+        autoLoad: stDef.autoLoad,
+        pageSize: stDef.pageSize,
+        sorters: stDef.sorters,    
+
+        remoteSort: true,
+        autoSync: true, 
+
+        proxy: getProxyDefinition( stDef ), 
         
         // Redefinicion de metodos 
         
@@ -108,11 +115,7 @@ function getStoreDefinition(  stDef  ){
         // }, 
 
 
-
         listeners: {
-
-            // Fired when a Model instance has been added to this Store ...
-            // add: function ( store, records,  index,  eOpts ) {
 
             // Fires before a request is made for a new data object. ...
             beforeload: function(  store,  operation,  eOpts ) {
@@ -124,6 +127,14 @@ function getStoreDefinition(  stDef  ){
                 __StBar.showBusy( 'sync ..' + this.protoOption, 'beforeSync'  );
             },  
     
+            // Fires whenever the records in the Store have changed in some way - this could include adding or removing records, or ...
+            datachanged: function( store,  eOpts ) {
+                __StBar.clear( store.protoOption , 'dataChanged' ); 
+            }, 
+
+            // Fired when a Model instance has been added to this Store ...
+            // add: function ( store, records,  index,  eOpts ) {
+
             //  Fires before a prefetch occurs. Return false to cancel.
             // beforeprefetch: function ( store, operation, eOpts ) {
             
@@ -133,10 +144,6 @@ function getStoreDefinition(  stDef  ){
             // Fired after the removeAll method is called. ...
             // clear: function ( store,  eOpts ) {
      
-            // Fires whenever the records in the Store have changed in some way - this could include adding or removing records, or ...
-            datachanged: function( store,  eOpts ) {
-                __StBar.clear( store.protoOption , 'dataChanged' ); 
-            }, 
              
             // Fires whenever the store reads data from a remote data source. ...
             // load: function ( store, records,  successful,  eOpts ) {
@@ -180,17 +187,66 @@ function getStoreDefinition(  stDef  ){
                         if ( ! recOrigin.getId()  ) recOrigin.phantom = true;
                     }                           
 
-                } // End for
+                } 
     
-            } // End Event 
+            }  
         }
 
     })
         
-    // myStore.proxy.actionMethods.read = 'POST';
     return myStore
 
 }
+
+
+function getTreeStoreDefinition(  stDef  ){ 
+
+
+    var myStore = Ext.create('Ext.data.TreeStore', {
+
+        protoOption : stDef.protoOption,
+
+        model: getModelName( stDef.protoOption  ),  
+        autoLoad: stDef.autoLoad,
+        pageSize: stDef.pageSize,
+        sorters: stDef.sorters,    
+
+        remoteSort: true,
+        autoSync: true, 
+
+        proxy: getProxyDefinition( stDef ), 
+
+        model : 'Proto.PclTreeNode', 
+        root : {
+            // text:'details', 
+            expanded : true
+        }, 
+
+        listeners: {
+
+            // Fires before a request is made for a new data object. ...
+            beforeload: function(  store,  operation,  eOpts ) {
+                __StBar.showBusy( 'loading ..' + store.protoOption, 'beforeLoad' ); 
+            },
+     
+            // Fired before a call to sync is executed. Return false from any listener to cancel the sync
+            beforesync: function ( options, eOpts ) {
+                __StBar.showBusy( 'sync ..' + this.protoOption, 'beforeSync'  );
+            },  
+    
+            // Fires whenever the records in the Store have changed in some way - this could include adding or removing records, or ...
+            datachanged: function( store,  eOpts ) {
+                __StBar.clear( store.protoOption , 'dataChanged' ); 
+            } 
+             
+        }
+
+    })
+        
+    return myStore
+
+}; 
+
 
 function getNewRecord( myMeta, myStore )  { 
 
@@ -231,8 +287,6 @@ function getRecordByDataIx( myStore, fieldName, value  )  {
     
 function DefineProtoModel ( myMeta , modelClassName ){
         
-//    console.log ( 'Loading ' + modelClassName + '...' );
-
     // dateFormat: 'Y-m-d'
     // type: 'date', 'float', 'int', 'number'
 
@@ -279,6 +333,7 @@ function DefineProtoModel ( myMeta , modelClassName ){
             mField.readOnly = true ;
             vFld.readOnly = true ;
         }
+
 
         // Determina el xType y otros parametros 
         switch( vFld.type )
