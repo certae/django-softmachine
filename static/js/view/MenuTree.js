@@ -45,7 +45,14 @@ Ext.define('ProtoUL.view.MenuTree', {
             root: {
                 text:'menu',
                 expanded: true 
-            }            
+            }, 
+            listeners: {
+                'datachanged': function( store,  eOpts ) {
+                    this.treeRecord  = undefined;
+                } 
+                
+            } 
+                        
         });
 
         Ext.apply(this, {
@@ -125,7 +132,7 @@ Ext.define('ProtoUL.view.MenuTree', {
                 this.fireEvent('menuSelect', this, protoOption );
                 this.ownerCt.loadPciFromMenu( protoOption );
             }
-        }
+        } 
         
     }, 
 
@@ -146,13 +153,14 @@ Ext.define('ProtoUL.view.MenuTree', {
         // Verifica si hay un item activo, confirma y lo borra
         if ( this.treeRecord ) {
             this.treeRecord.remove( )
+            this.treeRecord  = undefined;
         }  
     }, 
 
     newFolder: function( btn ) {
         // prompt por el nombre del menu y lo crea en el arbol 
         if ( this.treeRecord && this.treeRecord.get( 'leaf' )  ) {
-            errorMessage( 'AddMenuOption', 'Not selected node' )
+            errorMessage( 'AddMenuOption', 'Not selected folder' )
             return 
         }
             
@@ -170,7 +178,7 @@ Ext.define('ProtoUL.view.MenuTree', {
     newOption: function( btn ) {
         // abre forma para creacion de opcion, la forma se encarga de la creacion 
         if ( ! this.treeRecord || this.treeRecord.get( 'leaf' )  ) {
-            errorMessage( 'AddMenuOption', 'Not selected node' )
+            errorMessage( 'AddMenuOption', 'Not selected folder' )
             return 
         }
 
