@@ -311,6 +311,7 @@ def Q2Dict (  protoMeta, pRows  ):
         return the row list from given queryset  
     """
 
+    pStyle = protoMeta.get( 'pciStyle', '')        
     pUDP = protoMeta.get( 'protoUdp', {}) 
     cUDP = verifyUdpDefinition( pUDP )
     rows = []
@@ -398,9 +399,16 @@ def Q2Dict (  protoMeta, pRows  ):
                         rowdict[ prpGridName ] =  sAux 
                 
 
-        # Agrega la fila al diccionario
-        #Agrega el Id Siempre como idInterno ( no representa una col, idProperty ) 
+        if pStyle == 'tree':
+            rowdict[ 'protoView' ] = protoMeta.get('protoOption', '')
+            rowdict[ 'leaf' ] = False 
+            rowdict[ 'children' ] = []
+
+
+        # Agrega el Id Siempre como idInterno ( no representa una col, idProperty ) 
         rowdict[ 'id'] = item.pk 
+
+        # Agrega la fila al diccionario
         rows.append(rowdict)
 
 

@@ -203,43 +203,35 @@ function getTreeStoreDefinition(  stDef  ){
 
 
     var myStore = Ext.create('Ext.data.TreeStore', {
-
         protoOption : stDef.protoOption,
-
         model: getModelName( stDef.protoOption  ),  
         autoLoad: stDef.autoLoad,
         pageSize: stDef.pageSize,
         sorters: stDef.sorters,    
+        proxy: getProxyDefinition( stDef ), 
 
         remoteSort: true,
         autoSync: true, 
 
-        proxy: getProxyDefinition( stDef ), 
-
-        model : 'Proto.PclTreeNode', 
         root : {
             // text:'details', 
             expanded : true
-        }, 
+        } 
 
-        listeners: {
-
-            // Fires before a request is made for a new data object. ...
-            beforeload: function(  store,  operation,  eOpts ) {
-                __StBar.showBusy( 'loading ..' + store.protoOption, 'beforeLoad' ); 
-            },
-     
-            // Fired before a call to sync is executed. Return false from any listener to cancel the sync
-            beforesync: function ( options, eOpts ) {
-                __StBar.showBusy( 'sync ..' + this.protoOption, 'beforeSync'  );
-            },  
-    
-            // Fires whenever the records in the Store have changed in some way - this could include adding or removing records, or ...
-            datachanged: function( store,  eOpts ) {
-                __StBar.clear( store.protoOption , 'dataChanged' ); 
-            } 
-             
-        }
+        // listeners: {
+            // // Fires before a request is made for a new data object. ...
+            // beforeload: function(  store,  operation,  eOpts ) {
+                // __StBar.showBusy( 'loading ..' + store.protoOption, 'beforeLoad' ); 
+            // },
+            // // Fired before a call to sync is executed. Return false from any listener to cancel the sync
+            // beforesync: function ( options, eOpts ) {
+                // __StBar.showBusy( 'sync ..' + this.protoOption, 'beforeSync'  );
+            // },  
+            // // Fires whenever the records in the Store have changed in some way - this could include adding or removing records, or ...
+            // datachanged: function( store,  eOpts ) {
+                // __StBar.clear( store.protoOption , 'dataChanged' ); 
+            // } 
+        // }
 
     })
         

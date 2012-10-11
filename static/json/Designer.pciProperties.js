@@ -12,8 +12,8 @@ DesignerProperties =  {
     "idProperty.help" : "Campo q sirve como Id en el modelo, Django definie por defecto un Id, no es necesario definirlo explitamente",
      
     "pciStyle" : "grid", 
-    "pciStyle.help" : "Presentacion de la pci [ form,  grid]", 
-    "pciStyle.choices": ["grid", "form"],
+    "pciStyle.help" : "Presentacion de la pci [ form,  grid, tree]", 
+    "pciStyle.choices": ["grid", "form", "tree"],
 
     "protoMenuOpt.help" : "Rama de menu en la que aparece", 
     "protoMenuIx.help" : "Index de la opcion en la Rama de menu", 

@@ -37,7 +37,11 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             collapsible: false
         }) ; 
         
+        // 
         this.protoMasterStore = this.protoMasterGrid.store ;  
+
+        // Manejo de arbol 
+        this.pciStyle = this.protoMasterGrid.myMeta.pciStyle || 'grid'; 
 
 
         // config Controller 

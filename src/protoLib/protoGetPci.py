@@ -47,7 +47,7 @@ def protoGetPCI(request):
         context = json.dumps( jsondict)
         return HttpResponse(context, mimetype="application/json")
     
-    # created : true  ( new ) is a boolean specifying whether a new object was created.
+    # created : True  ( new ) is a boolean specifying whether a new object was created.
     protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
     
     # El default solo parece funcionar al insertar en la Db
@@ -82,6 +82,25 @@ def protoGetPCI(request):
     if view: 
         protoMeta = getProtoViewObj( protoMeta, view )    
     
+    # La definicion del arbol es fija, pues las cols deben ser siempre uniformes sin importar el tipo de modelo.
+    pStyle = protoMeta.get( 'pciStyle', '')      
+    if pStyle == 'tree':
+        # Los campos base minimos son :   
+        #     Id          : id del registro  ( automatico ) 
+        #     __str__     : valor semantico del registro   
+        #     protoView   : permite redefinir el panel de detalles y la navegacion 
+    
+        #    El arbol se defina a medida q el usuario haga drill-down en cada detalle, 
+        #    la construccion del arbol es responsabilidad del frontEnd 
+
+        pFields = protoMeta['fields'] 
+        if not isFieldDefined( pFields , 'protoView' ): 
+            pFields.append ( { "name": "protoView","type": "string"} )
+
+        if not isFieldDefined( pFields , '__str__' ): 
+            pFields.append ( { "name": "__str__","type": "string", "header": protoOption, "flex": 1} )
+    
+
     
     jsondict = {
         'success':True,
@@ -246,7 +265,7 @@ def protoSavePCI(request):
     sMeta = request.POST.get('protoMeta', '')
     protoMeta = json.loads( sMeta )
     
-    # created : true  ( new ) is a boolean specifying whether a new object was created.
+    # created : True  ( new ) is a boolean specifying whether a new object was created.
     protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
     
     # El default solo parece funcionar al insertar en la Db
@@ -346,7 +365,7 @@ def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
             pField['type'] = 'int'
         
     
-    #TODO :  Choices armar un string y descomponer al otro lado 
+    #DGT :  Choices armar un string y descomponer al otro lado 
     myField = { 
         'id'         : fieldId , 
         'text'       : field.name, 
@@ -427,3 +446,11 @@ def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
     
     
 # --------------------------------------------------------------------------
+
+def isFieldDefined( pFields , fName ):
+    # Verifica si un campo esta en la lista 
+    for pField  in pFields:
+        if pField.get( 'name' ) == fName: 
+            return True 
+    return False 
+

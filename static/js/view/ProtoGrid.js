@@ -1,6 +1,4 @@
 
-//TODO: Revizar Allow Null, Listo el Blank en la grilla 
-
 Ext.define('ProtoUL.view.ProtoGrid' ,{
     extend: 'Ext.Panel',                                
     alias : 'widget.protoGrid',
@@ -64,13 +62,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         };
 
     
-        if ( myMeta.pclStyle == 'tree' ) {
-            me.store = getTreeStoreDefinition( storeDefinition )
-        } else { 
-            me.store = getStoreDefinition( storeDefinition )
-        }
-
-
 
         // Start Row Editing PlugIn
         me.rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
@@ -83,19 +74,32 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         var myColumns = [];
 
         // DGT adding RowNumberer  
-        if ( ! myMeta.gridConfig.hideRowNumbers ) {
-            myColumns.push( this._getRowNumberDefinition() )
+        if (( ! myMeta.gridConfig.hideRowNumbers ) && ( myMeta.pciStyle == 'grid' )) {
+            myColumns.push( this._getRowNumberDefinition() ); 
         }
 
-        // Columnas heredadas en caso de ser un detalle 
+
         if ( me.detailDefinition ) {
-            var nDetId = me.detailDefinition.detailField.replace( /__pk$/, '_id' ) 
-            var vFld = me.myFieldDict[ nDetId ]
+
+            // El estilo de los detalles es siemrpe grid             
+            myMeta.pciStyle = 'grid';             
+            
+            // Columnas heredadas en caso de ser un detalle 
+            var nDetId = me.detailDefinition.detailField.replace( /__pk$/, '_id' ); 
+            var vFld = me.myFieldDict[ nDetId ];
             
             // Asigna el titulo 
-            var nDetTitle =  nDetId 
-            if ( vFld )  nDetTitle = me.detailDefinition.masterTitleField || vFld.fkField 
+            var nDetTitle =  nDetId;
+            if ( vFld ) { nDetTitle = me.detailDefinition.masterTitleField || vFld.fkField; }  
         } 
+
+
+        if ( myMeta.pciStyle == 'tree' ) {
+            me.store = getTreeStoreDefinition( storeDefinition )
+        } else { 
+            me.store = getStoreDefinition( storeDefinition )
+        }
+
         
         // DGT** Copia las columnas   
         for (var ix in myMeta.fields ) {
@@ -110,7 +114,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
             if ( vFld.storeOnly ) continue;
             
-            if (( myMeta.pclStyle == 'tree' ) && ( vFld.treeColumn == vFld.name  )) {
+            if (( myMeta.pciStyle == 'tree' ) && ( vFld.treeColumn == vFld.name  )) {
                 col.xtype = 'treecolumn'
             };  
 
@@ -134,108 +138,173 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         // });
 
         this.editable = false; 
-        
-        grid = Ext.create('Ext.grid.Panel', {
-            border : false, 
-            region: 'center',
-            flex: 1,
-            layout: 'fit',
-            minSize: 50,
-            
-            
-            plugins: [    'headertooltip', this.rowEditing ],            
-            // selModel: selModel,
-            columns : gridColumns,   
-            store : this.store,  
-            stripeRows: true, 
-            
-             // Tools  ( necesario para AddTools )
-            tools: [], 
-            
-            listeners: {
-                scope: this,
-                selectionchange: function(selModel, selected) {
-                    // Expone la fila seleccionada. 
-                    this.selected = selected[0] || null;
-                    
-                    // Si hay botones o eltos de la interface a modificar 
-                    // grid4.down('#removeButton').setDisabled(selections.length == 0);
 
-                }, 
-                
-                keydown: function(a,b,c,d,e,f) {
-                    console.log(a,b,c,d,e,f) 
-                }, 
-                
-                itemmouseenter: function(view, record, item) {
-                    // Esto maneja los tooltip en las las filas
-                    var msg = record.get('_ptStatus')
-                    if ( msg == _ROW_ST.NEWROW  ) msg = '';
-    
-                    // Asigna un tooltip a la fila, pero respeta los de cada celda y los de los Actiosn
-                    Ext.fly(item).set({'data-qtip': msg });
-                    
-                    // Dgt :  Este tooltip evita las actions columns 
-                    // Ext.fly(item).select('.x-grid-cell:not(.x-action-col-cell)').set({'data-qtip': 'My tooltip: ' + record.get('name')});
-                }
-                
-            }, 
+        if ( myMeta.pciStyle == 'tree' ) {
 
-            // processEvent: function(type, view, cell, recordIndex, cellIndex, e) {
-                // if ( type == 'keydown' ) { 
-                    // console.log( view, cell, recordIndex, cellIndex, e )
-                // } 
-            // }, 
- 
-            viewConfig: {
-                // Manejo de rows y cells  
-               
+            grid = Ext.create('Ext.tree.Panel', {
+                border : false, 
+                region: 'center',
+                flex: 1,
+                layout: 'fit',
+                minSize: 50,
+                // plugins: [ 'headertooltip'],                            columns : gridColumns,   
+                store : this.store,  
+                stripeRows: true, 
+                
+                 // Tools  ( necesario para AddTools )
+                tools: [], 
+                
                 listeners: {
-                    cellclick: function (view, cell, cellIndex, record, row, rowIndex, e) {
-                        // Esto maneja los vinculos en los campos 
-                        var linkClicked = (e.target.tagName == 'A');
-                        var clickedDataIndex = view.panel.headerCt.getHeaderAtIndex(cellIndex).dataIndex;
-                        if (linkClicked && clickedDataIndex ) {
-                            
-                            var myZField = me.myFieldDict[ clickedDataIndex ] 
-                            if ( myZField &&  myZField.zoomModel && myZField.fkId ) {
-                                var formController = Ext.create('ProtoUL.UI.FormController', {});
+                    scope: this,
+                    selectionchange: function(selModel, selected) {
+                        // Expone la fila seleccionada. 
+                        this.selected = selected[0] || null;
+                    } 
+                    
+                }, 
+    
+                viewConfig: {
+                    // Manejo de rows y cells  
+                   
+                    listeners: {
+                        cellclick: function (view, cell, cellIndex, record, row, rowIndex, e) {
+                            // Esto maneja los vinculos en los campos 
+                            var linkClicked = (e.target.tagName == 'A');
+                            var clickedDataIndex = view.panel.headerCt.getHeaderAtIndex(cellIndex).dataIndex;
+                            if (linkClicked && clickedDataIndex ) {
                                 
-                                // Redefine el scope  
-                                formController.openProtoForm.call( formController, myZField.zoomModel , record.get( myZField.fkId ) )
+                                var myZField = me.myFieldDict[ clickedDataIndex ] 
+                                if ( myZField &&  myZField.zoomModel && myZField.fkId ) {
+                                    var formController = Ext.create('ProtoUL.UI.FormController', {});
+                                    
+                                    // Redefine el scope  
+                                    formController.openProtoForm.call( formController, myZField.zoomModel , record.get( myZField.fkId ) )
+    
+                                } else if ( myZField &&  ( myZField.zoomModel == '@cellValue')) {
+                                    // Podria usarse con @FieldName para indicar de donde tomar el modelo o la funcion  
+    
+                                    var pModel  =  record.get( myZField.name ) 
+                                    mainVP.loadPciFromMenu( pModel ) 
+    
+                                } else {
+                                    errorMessage( 'LinkedForm definition error : ' +  clickedDataIndex, 
+                                                  'zoomModel : ' + myZField.zoomModel + '<br>' +
+                                                  'fkId : ' + myZField.fkId  
+                                                   )
+                                }; 
+                                
+                            }
+                        }, 
+                        
+                    }
+               }
+                
+            }); 
 
-                            } else if ( myZField &&  ( myZField.zoomModel == '@cellValue')) {
-                                // Podria usarse con @FieldName para indicar de donde tomar el modelo o la funcion  
 
-                                var pModel  =  record.get( myZField.name ) 
-                                mainVP.loadPciFromMenu( pModel ) 
-
-                            } else {
-                                errorMessage( 'LinkedForm definition error : ' +  clickedDataIndex, 
-                                              'zoomModel : ' + myZField.zoomModel + '<br>' +
-                                              'fkId : ' + myZField.fkId  
-                                               )
-                            }; 
-                            
-                        }
+        } else { 
+                
+            grid = Ext.create('Ext.grid.Panel', {
+                border : false, 
+                region: 'center',
+                flex: 1,
+                layout: 'fit',
+                minSize: 50,
+                
+                
+                plugins: [    'headertooltip', this.rowEditing ],            
+                // selModel: selModel,
+                columns : gridColumns,   
+                store : this.store,  
+                stripeRows: true, 
+                
+                 // Tools  ( necesario para AddTools )
+                tools: [], 
+                
+                listeners: {
+                    scope: this,
+                    selectionchange: function(selModel, selected) {
+                        // Expone la fila seleccionada. 
+                        this.selected = selected[0] || null;
+                        
+                        // Si hay botones o eltos de la interface a modificar 
+                        // grid4.down('#removeButton').setDisabled(selections.length == 0);
+    
                     }, 
                     
-                },                
-               
-                getRowClass: function(record, rowIndex, rowParams, store){
-                    //    Esto permite marcar los registros despues de la actualizacion 
-                    var stRec = record.get('_ptStatus');
-                    if ( stRec ) { 
-                        if ( stRec == _ROW_ST.NEWROW ) { return stRec; } 
-                        else { return _ROW_ST.ERROR; }
-                    } else { return '' }
+                    keydown: function(a,b,c,d,e,f) {
+                        console.log(a,b,c,d,e,f) 
+                    }, 
                     
-                }
-           }
-            
-        }); 
+                    itemmouseenter: function(view, record, item) {
+                        // Esto maneja los tooltip en las las filas
+                        var msg = record.get('_ptStatus')
+                        if ( msg == _ROW_ST.NEWROW  ) msg = '';
+        
+                        // Asigna un tooltip a la fila, pero respeta los de cada celda y los de los Actiosn
+                        Ext.fly(item).set({'data-qtip': msg });
+                        
+                        // Dgt :  Este tooltip evita las actions columns 
+                        // Ext.fly(item).select('.x-grid-cell:not(.x-action-col-cell)').set({'data-qtip': 'My tooltip: ' + record.get('name')});
+                    }
+                    
+                }, 
+    
+                // processEvent: function(type, view, cell, recordIndex, cellIndex, e) {
+                    // if ( type == 'keydown' ) { 
+                        // console.log( view, cell, recordIndex, cellIndex, e )
+                    // } 
+                // }, 
+     
+                viewConfig: {
+                    // Manejo de rows y cells  
+                   
+                    listeners: {
+                        cellclick: function (view, cell, cellIndex, record, row, rowIndex, e) {
+                            // Esto maneja los vinculos en los campos 
+                            var linkClicked = (e.target.tagName == 'A');
+                            var clickedDataIndex = view.panel.headerCt.getHeaderAtIndex(cellIndex).dataIndex;
+                            if (linkClicked && clickedDataIndex ) {
+                                
+                                var myZField = me.myFieldDict[ clickedDataIndex ] 
+                                if ( myZField &&  myZField.zoomModel && myZField.fkId ) {
+                                    var formController = Ext.create('ProtoUL.UI.FormController', {});
+                                    
+                                    // Redefine el scope  
+                                    formController.openProtoForm.call( formController, myZField.zoomModel , record.get( myZField.fkId ) )
+    
+                                } else if ( myZField &&  ( myZField.zoomModel == '@cellValue')) {
+                                    // Podria usarse con @FieldName para indicar de donde tomar el modelo o la funcion  
+    
+                                    var pModel  =  record.get( myZField.name ) 
+                                    mainVP.loadPciFromMenu( pModel ) 
+    
+                                } else {
+                                    errorMessage( 'LinkedForm definition error : ' +  clickedDataIndex, 
+                                                  'zoomModel : ' + myZField.zoomModel + '<br>' +
+                                                  'fkId : ' + myZField.fkId  
+                                                   )
+                                }; 
+                                
+                            }
+                        }, 
+                        
+                    },                
+                   
+                    getRowClass: function(record, rowIndex, rowParams, store){
+                        //    Esto permite marcar los registros despues de la actualizacion 
+                        var stRec = record.get('_ptStatus');
+                        if ( stRec ) { 
+                            if ( stRec == _ROW_ST.NEWROW ) { return stRec; } 
+                            else { return _ROW_ST.ERROR; }
+                        } else { return '' }
+                        
+                    }
+               }
+                
+            }); 
 
-
+        }
 
         this._extGrid = grid;
         this.setGridTitle( this ) ;
