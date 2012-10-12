@@ -139,7 +139,10 @@ function clone(obj, auxRec, exclude ) {
 
 
 function FormatJSON( oData, sIndent) {
-    // Indenta un string JSON 
+    // Indenta un string JSON no formateado
+    // Tools.FormatJSon  CERTAE U. Laval 2012/02  
+    // @oData    :  Unformated JSon string 
+    // @sIndent  :  Optional spaces string  or  [&nbsp;  ] 
     
     if (! sIndent ) sIndent = "";
     var sIndentStyle = "&nbsp; &nbsp; ";
@@ -318,6 +321,9 @@ function savePclCache( protoOption, protoMeta ) {
 
 
 function getModelName( protoOption  ) {
+    // En principio traia un modelo de base q servia para todas las vistas construidas 
+    // con el nuevo esquema de creacion dinamica, es mejor q el modelo corresponda a la 
+    // opcion, pues las definiciones pueden ser totalmente diferentes. 
 
     if ( ! protoOption ) {
         console.log( 'undefined model??')
@@ -326,10 +332,10 @@ function getModelName( protoOption  ) {
     var modelName = protoOption; 
     
     // Cuenta los "."
-    if ( charCount( protoOption, ".")  > 2  ) {
-        var n = protoOption.split(".", 2)         
-        modelName = n[0] + '.' + n[1]
-    }
+    // if ( charCount( protoOption, ".")  > 2  ) {
+        // var n = protoOption.split(".", 2)         
+        // modelName = n[0] + '.' + n[1]
+    // }
 
     return _PConfig.clsBaseModel + modelName 
 

@@ -114,7 +114,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
             if ( vFld.storeOnly ) continue;
             
-            if (( myMeta.pciStyle == 'tree' ) && ( vFld.treeColumn == vFld.name  )) {
+            if (( myMeta.pciStyle == 'tree' ) && ( col.dataIndex  == '__str__' )) {
                 col.xtype = 'treecolumn'
             };  
 

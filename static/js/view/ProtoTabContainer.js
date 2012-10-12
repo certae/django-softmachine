@@ -44,7 +44,23 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
             closable: true, 
             layout: 'fit',
             items: [
-                this.createProtoMasterDetail( protoOption, baseFilter , detailTitle )
+                // FIX: 
+                  
+                // this.createProtoMasterDetail( protoOption, baseFilter , detailTitle )
+                this.protoMasterGrid = Ext.create('ProtoUL.view.ProtoGrid', {
+                    border : false, 
+                    protoOption : protoOption,  
+                    baseFilter : baseFilter, 
+                    // detFilter : this.detFilter, 
+                    detailTitle : detailTitle, 
+                    
+                    region: 'center',
+                    flex: 1,
+                    layout: 'fit',
+                    collapsible: false
+                }) 
+                
+                
                 ]
         });
 
