@@ -86,6 +86,11 @@ PCL Jerarquica :
 	La pcl de base se define solo con los campos ( id, __str__,  modelName ) 
 
 	El model Name es importante para redefinir el panel de detalles, y saber a q se refiere el registro activo. 
+	El modelName sirve tambien para definir un Id Unico en el store,  o sea q el Id real del store es de la forma: 
+
+	[modelName]@[id]
+
+	Ej 
 
 
 

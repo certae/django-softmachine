@@ -93,13 +93,14 @@ def protoGetPCI(request):
         #    El arbol se defina a medida q el usuario haga drill-down en cada detalle, 
         #    la construccion del arbol es responsabilidad del frontEnd 
 
-        pFields = protoMeta['fields'] 
-        if not isFieldDefined( pFields , 'protoView' ): 
-            pFields.append ( { "name": "protoView","type": "string"} )
-
-        if not isFieldDefined( pFields , '__str__' ): 
-            pFields.append ( { "name": "__str__","type": "string", "header": protoOption, "flex": 1} )
+        pFields =  []
+        pFields.append ( { "name": "__str__","type": "string"} )
+        pFields.append ( { "name": "protoView","type": "string"} )
+        pFields.append ( { "name":"id", "type":"autofield","fromModel":True} )
     
+        protoMeta['fields'] = pFields 
+        protoMeta['hiddenFields'] = ["id"]
+        protoMeta['listDisplay'] = ["__str__", "protoView"]
 
     
     jsondict = {

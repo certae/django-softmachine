@@ -5,13 +5,11 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
     alias: 'widget.protoTabContainer',
 //    requires: ['ProtoUL.view.ProtoMasterDetail' ],
     
-    listeners: {
-        'tabchange': function(tabs, tab) {
-            //DGT: Para arreglar un error reportado en ExtJs 4.0.7
-            tab.down('gridpanel').view.refresh();
-        },
-        scope: this 
-    }, 
+    // listeners: {
+        // //DGT: Para arreglar un error reportado en ExtJs 4.0.7
+        // 'tabchange': function(tabs, tab) { tab.down('gridpanel').view.refresh(); },
+        // scope: this 
+    // }, 
     border : false, 
     
     initComponent: function() {

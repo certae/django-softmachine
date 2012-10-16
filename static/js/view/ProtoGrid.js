@@ -49,19 +49,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             myFilter = Ext.encode(myFilter);
         }   
         
-        var storeDefinition =  {
-            protoOption : this.protoOption, 
-            autoLoad: this.autoLoad || true, 
-            pageSize: _PAGESIZE,
-            sorters: myMeta.gridConfig.initialSort , 
-
-            // proxy.extraParams = {
-            protoFilter : myFilter,
-            baseFilter: this.baseFilter, 
-            sProtoMeta  : getSafeMeta( myMeta )    
-        };
-
-    
 
         // Start Row Editing PlugIn
         me.rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
@@ -94,13 +81,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         } 
 
 
-        if ( myMeta.pciStyle == 'tree' ) {
-            me.store = getTreeStoreDefinition( storeDefinition )
-        } else { 
-            me.store = getStoreDefinition( storeDefinition )
-        }
-
-        
         // DGT** Copia las columnas   
         for (var ix in myMeta.fields ) {
             var vFld = myMeta.fields[ix] 
@@ -114,9 +94,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
             if ( vFld.storeOnly ) continue;
             
-            if (( myMeta.pciStyle == 'tree' ) && ( col.dataIndex  == '__str__' )) {
-                col.xtype = 'treecolumn'
-            };  
+            // DGT: No se necesita, la definicion viene automatica  
+            // if (( myMeta.pciStyle == 'tree' ) && ( col.dataIndex  == '__str__' )) { col.xtype = 'treecolumn' };  
 
             myColumns.push( col  );
         }
@@ -139,7 +118,22 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         this.editable = false; 
 
+        var storeDefinition =  {
+            protoOption : this.protoOption, 
+            autoLoad: this.autoLoad || true, 
+            pageSize: _PAGESIZE,
+            sorters: myMeta.gridConfig.initialSort , 
+
+            // proxy.extraParams = {
+            protoFilter : myFilter,
+            baseFilter: this.baseFilter, 
+            sProtoMeta  : getSafeMeta( myMeta )    
+        };
+
+    
         if ( myMeta.pciStyle == 'tree' ) {
+
+            me.store = getTreeStoreDefinition( storeDefinition )
 
             grid = Ext.create('Ext.tree.Panel', {
                 border : false, 
@@ -147,62 +141,47 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 flex: 1,
                 layout: 'fit',
                 minSize: 50,
-                // plugins: [ 'headertooltip'],                            columns : gridColumns,   
-                store : this.store,  
                 stripeRows: true, 
-                
-                 // Tools  ( necesario para AddTools )
                 tools: [], 
                 
-                listeners: {
-                    scope: this,
-                    selectionchange: function(selModel, selected) {
-                        // Expone la fila seleccionada. 
-                        this.selected = selected[0] || null;
-                    } 
-                    
-                }, 
+                useArrows: true,
+                rootVisible: false,
+                multiSelect: false,
+                singleExpand: true,
+                stripeRows: true, 
+                rowLines : true, 
     
-                viewConfig: {
-                    // Manejo de rows y cells  
-                   
-                    listeners: {
-                        cellclick: function (view, cell, cellIndex, record, row, rowIndex, e) {
-                            // Esto maneja los vinculos en los campos 
-                            var linkClicked = (e.target.tagName == 'A');
-                            var clickedDataIndex = view.panel.headerCt.getHeaderAtIndex(cellIndex).dataIndex;
-                            if (linkClicked && clickedDataIndex ) {
-                                
-                                var myZField = me.myFieldDict[ clickedDataIndex ] 
-                                if ( myZField &&  myZField.zoomModel && myZField.fkId ) {
-                                    var formController = Ext.create('ProtoUL.UI.FormController', {});
-                                    
-                                    // Redefine el scope  
-                                    formController.openProtoForm.call( formController, myZField.zoomModel , record.get( myZField.fkId ) )
-    
-                                } else if ( myZField &&  ( myZField.zoomModel == '@cellValue')) {
-                                    // Podria usarse con @FieldName para indicar de donde tomar el modelo o la funcion  
-    
-                                    var pModel  =  record.get( myZField.name ) 
-                                    mainVP.loadPciFromMenu( pModel ) 
-    
-                                } else {
-                                    errorMessage( 'LinkedForm definition error : ' +  clickedDataIndex, 
-                                                  'zoomModel : ' + myZField.zoomModel + '<br>' +
-                                                  'fkId : ' + myZField.fkId  
-                                                   )
-                                }; 
-                                
-                            }
-                        }, 
-                        
-                    }
-               }
-                
+                store: me.store,
+
+                columns: [{
+                    xtype: 'treecolumn', text: myMeta.shortTitle, flex: 3, dataIndex: '__str__'
+                },{
+                    text: 'protoView', dataIndex: 'protoView'
+                },{
+                    text: 'id', dataIndex: 'id' 
+                }] 
+                // listeners: {
+                    // 'itemmouseenter': function(view, record, item) {
+                        // Ext.fly(item).set({'data-qtip': getAttrMsg( record.data.text ), 'data-qtitle': record.data.text }); 
+                  // }, scope : me 
+                // }
             }); 
+
+            // grid = Ext.create('Ext.tree.Panel', {
+                // // plugins: [ 'headertooltip'],
+                // listeners: {
+                    // scope: this,
+                    // selectionchange: function(selModel, selected) {
+                        // // Expone la fila seleccionada. 
+                        // this.selected = selected[0] || null;
+                    // } 
+                // } 
+            // }); 
 
 
         } else { 
+
+            me.store = getStoreDefinition( storeDefinition )
                 
             grid = Ext.create('Ext.grid.Panel', {
                 border : false, 
