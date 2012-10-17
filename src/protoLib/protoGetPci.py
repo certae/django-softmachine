@@ -215,8 +215,9 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
          'protoForm': protoForm,  
          'protoUdp': grid.protoAdmin.get( 'protoUdp', {}), 
 
-        # Vistas heredadas del modelo base, zooms,  etc ... 
-         'protoViews': grid.protoAdmin.get( 'protoViews', {}), 
+        # DGT: Vistas heredadas del modelo base, zooms,  etc ...
+        # Ya no se requieren pues el menu se maneja directamente en el FrontEnd           
+        # 'protoViews': grid.protoAdmin.get( 'protoViews', {}), 
          
         # sheet html asociada ( diccionario MSSSQ  )  
          'sheetConfig' : {
@@ -250,7 +251,6 @@ def getProtoViewObj( protoMeta, view   ):
 
     else: 
         return protoMeta
-
 
 # ------------------------------------------------------------------------
 

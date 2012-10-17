@@ -54,27 +54,27 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         'baseType' : { 'fieldLabel' : 'Type' }, 
         'prpLength' : { 'fieldLabel' : 'Length'  },
          
-#        'udp__GABARIT': { 'fieldLabel' : 'Gabarit', 'type' : 'combo', 'choices' : [[ '0', 'cero'], [ '1', 'uno']]  },
-#        'udp__DOCUMENTDEREFERENCE' :{ 'fieldLabel' : 'Doc Reference'},
-#
-#        'udp__VALIDATION': { 'fieldLabel' : 'Validation' , 'type': 'html'   },
-#        'udp__VALIDATIONSSURELEMENT': { 'fieldLabel' : 'Validation Elto' , 'type': 'html'  },
-#        'udp__VALIDATIONSINTERELEMENT': { 'fieldLabel' : 'Validation Reg' , 'type': 'html'  },
-#        'udp__VALIDATION_INTER-ENREGISTREMENT': { 'fieldLabel' : 'Validation Entt' , 'type': 'html'  },
-#
-#        'udp__DEFINITION': { 'fieldLabel' : 'Definition' , 'type': 'html' },
-#        'udp__PRECISIONS': { 'fieldLabel' : 'Precision' , 'type': 'html' },
-#        'udp__DOMAINEDEVALEURS': { 'fieldLabel' : 'Domain Valuers', 'type': 'html' },
-#        'udp__DESCRIPTIONCN': { 'fieldLabel' : 'Description CN', 'type': 'html'  }, 
-#        
-#        'udp__SOURCEDEDONNEESEXTERNES': { 'fieldLabel' : 'Source Donnes'  },
-#        'udp__ELEMENTTRANSFORME': { 'fieldLabel' : 'Elto transforme'  },
-#        'udp__ELEMENTTRANSMIS': { 'fieldLabel' : 'Elto Transmis'  },
-#        'udp__ENTREEENVIGUEUR': { 'fieldLabel' : 'Entree en viguer'  },
-#        'udp__DATEDERNIREMODIFICATION': { 'fieldLabel' : 'Dt derniere modif' , 'type' : 'date' },
-#        'udp__REQUISPAR': { 'fieldLabel' : 'Rquis par'  },
-#        'udp__TRANSMISSION': { 'fieldLabel' : 'Transmission'  },
-#        'udp__STATUTELEMENTDEDONNEE': { 'fieldLabel' : 'Statut élément de donnée'  }, 
+        'udp__GABARIT': { 'fieldLabel' : 'Gabarit', 'type' : 'combo', 'choices' : [[ '0', 'cero'], [ '1', 'uno']]  },
+        'udp__DOCUMENTDEREFERENCE' :{ 'fieldLabel' : 'Doc Reference'},
+
+        'udp__VALIDATION': { 'fieldLabel' : 'Validation' , 'type': 'html'   },
+        'udp__VALIDATIONSSURELEMENT': { 'fieldLabel' : 'Validation Elto' , 'type': 'html'  },
+        'udp__VALIDATIONSINTERELEMENT': { 'fieldLabel' : 'Validation Reg' , 'type': 'html'  },
+        'udp__VALIDATION_INTER-ENREGISTREMENT': { 'fieldLabel' : 'Validation Entt' , 'type': 'html'  },
+
+        'udp__DEFINITION': { 'fieldLabel' : 'Definition' , 'type': 'html' },
+        'udp__PRECISIONS': { 'fieldLabel' : 'Precision' , 'type': 'html' },
+        'udp__DOMAINEDEVALEURS': { 'fieldLabel' : 'Domain Valuers', 'type': 'html' },
+        'udp__DESCRIPTIONCN': { 'fieldLabel' : 'Description CN', 'type': 'html'  }, 
+        
+        'udp__SOURCEDEDONNEESEXTERNES': { 'fieldLabel' : 'Source Donnes'  },
+        'udp__ELEMENTTRANSFORME': { 'fieldLabel' : 'Elto transforme'  },
+        'udp__ELEMENTTRANSMIS': { 'fieldLabel' : 'Elto Transmis'  },
+        'udp__ENTREEENVIGUEUR': { 'fieldLabel' : 'Entree en viguer'  },
+        'udp__DATEDERNIREMODIFICATION': { 'fieldLabel' : 'Dt derniere modif' , 'type' : 'date' },
+        'udp__REQUISPAR': { 'fieldLabel' : 'Rquis par'  },
+        'udp__TRANSMISSION': { 'fieldLabel' : 'Transmission'  },
+        'udp__STATUTELEMENTDEDONNEE': { 'fieldLabel' : 'Statut élément de donnée'  }, 
      }
 
 #    Al momento de cargar la finca verifico el campo @criteriaField@ y lo busco en las diferentes fichas, 
@@ -88,24 +88,24 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                             'baseType',
                             'prpLength',
                             'description', 
-#                            'udp__DOCUMENTDEREFERENCE',
-#                            'udp__GABARIT',
-#                            'udp__DEFINITION',
-#                            'udp__DESCRIPTIONCN',
-#                            'udp__PRECISIONS',
-#                            'udp__VALIDATION',
-#                            'udp__VALIDATIONSSURELEMENT',
-#                            'udp__VALIDATIONSINTERELEMENT',
-#                            'udp__VALIDATION_INTER-ENREGISTREMENT',
-#                            'udp__SOURCEDEDONNEESEXTERNES',
-#                            'udp__ELEMENTTRANSFORME',
-#                            'udp__ELEMENTTRANSMIS',
-#                            'udp__DOMAINEDEVALEURS',
-#                            'udp__ENTREEENVIGUEUR',
-#                            'udp__DATEDERNIREMODIFICATION',
-#                            'udp__REQUISPAR',
-#                            'udp__TRANSMISSION',
-#                            'udp__STATUTELEMENTDEDONNEE'
+                            'udp__DOCUMENTDEREFERENCE',
+                            'udp__GABARIT',
+                            'udp__DEFINITION',
+                            'udp__DESCRIPTIONCN',
+                            'udp__PRECISIONS',
+                            'udp__VALIDATION',
+                            'udp__VALIDATIONSSURELEMENT',
+                            'udp__VALIDATIONSINTERELEMENT',
+                            'udp__VALIDATION_INTER-ENREGISTREMENT',
+                            'udp__SOURCEDEDONNEESEXTERNES',
+                            'udp__ELEMENTTRANSFORME',
+                            'udp__ELEMENTTRANSMIS',
+                            'udp__DOMAINEDEVALEURS',
+                            'udp__ENTREEENVIGUEUR',
+                            'udp__DATEDERNIREMODIFICATION',
+                            'udp__REQUISPAR',
+                            'udp__TRANSMISSION',
+                            'udp__STATUTELEMENTDEDONNEE'
                             )
 
 
@@ -179,6 +179,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     # ie.   [{ 'field' : 'code', 'type' : 'ABC' }]
     protoExt['filterSetABC'] = ['code'] 
     
+
 
 #    protoExt['protoForm'] =  [{
 #            "fsLayout": "2col",

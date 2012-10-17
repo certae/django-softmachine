@@ -44,21 +44,18 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
             items: [
                 // FIX: 
                   
-                // this.createProtoMasterDetail( protoOption, baseFilter , detailTitle )
-                this.protoMasterGrid = Ext.create('ProtoUL.view.ProtoGrid', {
-                    border : false, 
-                    protoOption : protoOption,  
-                    baseFilter : baseFilter, 
-                    // detFilter : this.detFilter, 
-                    detailTitle : detailTitle, 
-                    
-                    region: 'center',
-                    flex: 1,
-                    layout: 'fit',
-                    collapsible: false
-                }) 
-                
-                
+                this.createProtoMasterDetail( protoOption, baseFilter , detailTitle )
+                // this.protoMasterGrid = Ext.create('ProtoUL.view.ProtoGrid', {
+                    // border : false, 
+                    // protoOption : protoOption,  
+                    // baseFilter : baseFilter, 
+                    // // detFilter : this.detFilter, 
+                    // detailTitle : detailTitle, 
+                    // region: 'center',
+                    // flex: 1,
+                    // layout: 'fit',
+                    // collapsible: false
+                // }) 
                 ]
         });
 
