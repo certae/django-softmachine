@@ -221,7 +221,7 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
          
         # sheet html asociada ( diccionario MSSSQ  )  
          'sheetConfig' : {
-            'protoSheets' : grid.protoAdmin.get( 'protoSheets', {} ), 
+            'protoSheets' : grid.protoAdmin.get( 'protoSheets', [] ), 
             'protoSheetSelector' : grid.protoAdmin.get( 'protoSheetSelector', ''), 
             'protoSheetProperties' : grid.protoAdmin.get( 'protoSheetProperties', ()), 
              }, 

@@ -137,20 +137,23 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                             )
 
     protoExt[ 'protoSheetSelector' ] = 'udp__Categorie'
-    protoExt[ 'protoSheets' ] =  {        
-          'DEFAULT' : {                        
+    protoExt[ 'protoSheets' ] =  [        
+           {
+              'name' : 'DEFAULT',                         
               'title'   : "Fiche descriptive des vues corporatives",                        
               'template': TEMPLATE_corporative  
               },
-          'AT' : {                        
+           {
+              'name' : 'AT',                         
               'title'   : "Fiche descriptive des actions terraines",                        
               'template': TEMPLATE_AT  
               },
-          'locale' : {                        
+          {
+              'name' : 'locale',                         
               'title'   : "Fiche descriptive des vues locales",                         
               'template': TEMPLATE_locale  
               }
-            } 
+            ]
      
 
 #     -------------------------------------------------------------------------------------------------

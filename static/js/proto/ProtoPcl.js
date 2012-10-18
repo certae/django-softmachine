@@ -282,7 +282,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                     if (btn != 'ok') return 
 
                     var tNode = {'text' :  pName , __ptType : 'protoSheet' }
-                    tNode['__ptConfig'] =  { __ptType : 'protoSheet', 'title' :  pName }  
+                    tNode['__ptConfig'] =  { 'title' :  pName , 'name' : pName }  
 
                     tNode['children'] =  []  
                     record.appendChild( tNode )

@@ -54,14 +54,15 @@ Ext.define('ProtoUL.UI.GridSheetController', {
         var pSheetCriteria = me.rowData[ pSheetSelector ] 
         var pSheet = undefined;  
         
-        for (var ix in pSheets  ) {
+        for ( var ix in pSheets  ) {
+            var vFld  =  pSheets[ix]; 
             
-            if ( ix == 'DEFAULT' ) {
-                pSheet =  pSheets[ix]  
+            if ( vFld.name == 'DEFAULT' ) {
+                pSheet =  vFld   
             }; 
             
-            if ( ix == pSheetCriteria ) { 
-                pSheet =  pSheets[ix];
+            if ( vFld.name == pSheetCriteria ) { 
+                pSheet =  vFld;
                 break; 
             }
         };

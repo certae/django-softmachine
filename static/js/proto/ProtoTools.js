@@ -184,7 +184,7 @@ function Tree2Meta( tNode  ) {
     var __ptText   = tData.text
     
     if  ( tData.__ptConfig )  __ptConfig = tData.__ptConfig
-     
+    
     __ptType  = getPtType( tData ) 
     // if ( __ptType in oc([ 'protoForm', 'fieldset'])) {console.log( __ptType , tNode )}  
 

@@ -25,12 +25,13 @@ class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
     
     protoExt[ 'protoSheetProperties' ] = (  'metaDefinition', )
 
-    protoExt[ 'protoSheets' ] =   {        
-          'DEFAULT' : {                        
+    protoExt[ 'protoSheets' ] =   [        
+            {
+              'name'    : 'DEFAULT' ,                         
               'title'   : "meta",                        
               'template': '{{metaDefinition}}'  
               },
-            } 
+            ] 
 
 
 admin.site.register(ProtoDefinition, protoDefinitionAdmin)
