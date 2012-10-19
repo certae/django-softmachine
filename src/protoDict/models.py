@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from django.contrib import admin
 
 from protoLib.utilsBase import  strNotNull
 
@@ -38,7 +37,7 @@ class Model(MetaObj):
     def __unicode__(self):
         return self.code 
 
-    protoExt = { 'udpTable' : 'UdpModel' }
+    protoExt = { 'protoUdp' : { 'udpTable' : 'UdpModel' }}
 
 
 class UdpModel(models.Model):
@@ -47,7 +46,7 @@ class UdpModel(models.Model):
     model = models.ForeignKey('Model')
 
     def __unicode__(self):
-        return strNotNull(self.model.code) + '.' + strNotNull(self.code)   
+        return self.model.code  + '.' + self.code   
 
     class Meta:
         unique_together = ('model', 'code',)
@@ -73,7 +72,7 @@ class PropertyDom(MetaObj):
     def __unicode__(self):
         return strNotNull(self.code)    
 
-    protoExt = { 'udpTable' : 'UdpPropertyDom' }
+    protoExt = { 'protoUdp' : { 'udpTable' : 'UdpPropertyDom' }}
 
 
 class UdpPropertyDom(models.Model):
@@ -136,36 +135,14 @@ class Relationship(MetaObj):
 
 
 
-class MetaLinkModel(models.Model):
-    code = models.CharField(max_length=50)
-    source = models.CharField(max_length=50)
-    destination = models.CharField(max_length=50)
-
-    sourceRef = models.ForeignKey('Model', blank = True, null = True, related_name = 'sourceModel')
-    destinationRef = models.ForeignKey('Model', blank = True, null = True, related_name = 'destModel')
-
-    domain = models.ForeignKey('Domain')
-
-
-    def __unicode__(self):
-        return self.code 
-
 class MetaLink(models.Model):
-    code = models.CharField(max_length=50)
-    alias = models.CharField(max_length=50)
-    destinationText = models.CharField(max_length=50)
-    sourceCol = models.CharField(max_length=50)
-    destinationCol = models.CharField(max_length=50)
-
-    sourceColRef = models.ForeignKey('Property', blank = True, null = True, related_name = 'sourceCol')
-    destinationColRef = models.ForeignKey('Property', blank = True, null = True, related_name = 'destCol')
-
-    metaLinkModel = models.ForeignKey('MetaLinkModel')
-    
+    tag = models.CharField(blank = True, null = True, max_length=50)
+    domain = models.ForeignKey('Domain')
+    sourceProperty = models.ForeignKey('PropertyDom', blank = True, null = True, related_name = 'sourcePrp')
+    targetProperty = models.ForeignKey('PropertyDom', blank = True, null = True, related_name = 'targetPrp')
 
     def __unicode__(self):
-        return self.code 
+        return self.sourceProperty.code + '.' + self.targetProperty.code   
 
     class Meta:
-        verbose_name = 'Modeles de liens'
-
+        unique_together = ('sourceProperty', 'targetProperty',  )

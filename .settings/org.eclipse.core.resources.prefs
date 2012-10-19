@@ -1,11 +1,9 @@
-#Thu Oct 18 18:15:45 EDT 2012
 eclipse.preferences.version=1
 encoding//db/protoMeta\ Ej.db=UTF-8
+encoding//docs/django/fieldSets.py.txt=utf-8
+encoding//docs/django/jsonDump.py.txt=utf-8
 encoding//src/CategoryCle/models.py=utf-8
 encoding//src/TCO/models.py=utf-8
-encoding//src/ZPruebas/deprecated/protoDefinition.py=utf-8
-encoding//src/ZPruebas/fieldSets.py=utf-8
-encoding//src/ZPruebas/jsonDump.py=utf-8
 encoding//src/protoDict/models.py=utf-8
 encoding//src/protoExt/admin_Concept.py=utf-8
 encoding//src/protoExt/admin_Model.py=utf-8

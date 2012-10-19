@@ -74,9 +74,6 @@ class LogicielAdmin(admin.ModelAdmin):
         ]
 
     protoExt = { 
-        'protoMenuIx': 1, 
-        'protoMenuOpt' : 'Base' , 
-
         'protoFields' : {        
             'description': {},
             'description':{},

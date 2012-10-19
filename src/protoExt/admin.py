@@ -53,9 +53,9 @@ class MetaLinkAdmin(django.contrib.admin.ModelAdmin):
     list_filter = ( 'metaLinkModel' , )
     search_fields = ( 'code', 'alias', 'destinationText', 'sourceCol', 'destinationCol')
 
-#   protoExt = { 'protoMenuIx': -1 }
-    protoExt = {}
-    protoExt[ 'protoMenuOpt' ] = 'Liens'
+#    protoExt = {}
+#    protoExt = { 'protoMenuIx': -1 }
+#    protoExt[ 'protoMenuOpt' ] = 'Liens'
 
 
 admin.site.register(MetaLink, MetaLinkAdmin)
@@ -67,11 +67,6 @@ class MetaLinkModelAdmin(django.contrib.admin.ModelAdmin):
 #    list_filter = ( 'metaLinkModel' , )
 #    search_fields = ( 'code', 'alias', 'destinationText', 'sourceCol', 'destinationCol')
 
-#   protoExt = { 'protoMenuIx': -1 }
-    protoExt = {}
-    protoExt[ 'protoMenuOpt' ] = 'Liens'
-    protoExt[ 'menu_index' ] = 1
-    
 
 admin.site.register(MetaLinkModel, MetaLinkModelAdmin)
 

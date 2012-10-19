@@ -1,15 +1,8 @@
-121018  Udp genericas a un modelo abstracto 
-    **  Ver si se puede pegar una UDP generica ( considerando el contenttype ) un modelo abstracto ( meta: asbtrat = true ) 
-        No se puede, genera un error indicando q el modelo no existe o q es abstracto. 
+Generacion de dictionartio, 
+    Las entidades tendran una funcion de generacion de su esquema Django de base, 
+    El modelo recogera todas las propieades y presentara el esquema. 
 
-    **  La solucion es crear una tabla de Udps cuando sea necesario 'UdpXyz' al crear la definicion el systema verificara si existe 
-        un modelo con el nombre 'UdpXyz' donde Xyz es el nombre de la tabla base y agregara los parametros necesarios para manejar las UDP 
-
-    **  otra solucion es crear en protoLib un modelo con relaciones genericas, el problema de esto es que la info quedaria en la db de config 
-        y no en la db de produccion, la informacion de produccion no debe ir nunca a la definicion. 
-
-
-
+----
 parametrizacion de displaylust para el zoom y los detalles 
 
 Organizador 

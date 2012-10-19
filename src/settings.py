@@ -169,8 +169,8 @@ INSTALLED_APPS = (
     'protoLib', 
     'protoDict', 
     'protoExt', 
-    'shiny', 
-    'CategoryCle', 
+#    'shiny', 
+#    'CategoryCle', 
 #    'TCO'
 #    'django_qbe'
 )
@@ -211,25 +211,11 @@ PROTO_APP = {}
 
 # app_menu se usa para ordenar la pre
 PROTO_APP['app_menu'] = {
-
-    'shinyProto':  { 'title': 'Shiny Prototype', 'expanded':True, 'menu_index' : 1  },
-    'shiny':  { 'title': 'Shiny Bd', 'expanded':False, 'menu_index' : 2  },
-    'ShinyComposants':  { 'title': 'Shiny Composants', 'expanded':True, 'menu_index' : 3  },
-
-    'Base':  { 'title': 'TCO - Base de connaissances', 'expanded':False, 'menu_index' : 22  },
-    'Param': { 'title': 'TCO - Paramètres', 'expanded':False, 'menu_index' : 23  },
-    'TCO':   { 'title': 'TCO - Coût total de possession', 'expanded':False, 'menu_index' : 24  },
-
-    'pruebas':  { 'title': 'Pruebas', 'expanded':True, 'menu_index' : 80 , 'expanded':False },
-
-    'auth' : { 'hidden': True, 'menu_index' : 91},  
-    'sites' : { 'hidden': True, 'menu_index' : 91},  
-    'admin': { 'hidden': True, 'menu_index' : 92},
-    
-    'protoExt' : { 'hidden': False, 'title': 'Dictionnaire', 'expanded':False , 'menu_index' : 30  }, 
-    'Liens' : { 'hidden': False, 'title': 'Dictionnaire Liens', 'expanded':False  , 'menu_index' : 31  },
-     
-    'protoLib': { 'hidden': False, 'title': 'Métadonnée', 'expanded':False, 'menu_index' : 99  },
+    'auth' : { 'hidden': True, },  
+    'sites' : { 'hidden': True },  
+#    'admin': { 'hidden': True },
+#    'protoExt' : { 'hidden': False, 'title': 'Dictionnaire', 'expanded':False , 'menu_index' : 30  }, 
+#    'protoLib': { 'hidden': False, 'title': 'Métadonnée', 'expanded':False, 'menu_index' : 99  },
     } 
 
 

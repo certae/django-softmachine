@@ -11,27 +11,14 @@ class ReferenceAdmin(admin.ModelAdmin):
                         ]
              }),
                  ]
-    protoExt = { 
-                'protoMenuIx': 3, 
-                'protoMenuOpt' : 'Base' 
-    }
     
 
 class FamilleAdmin(admin.ModelAdmin):
-    protoExt = { 
-                'protoMenuIx': 1, 
-                'protoMenuOpt' : 'Param' 
-    }
+    protoExt = {}
 
 
 class TypeLogicielAdmin(admin.ModelAdmin):
-    protoExt = { 
-                'protoMenuIx': 2, 
-                'protoMenuOpt' : 'Param' 
-    }
+    protoExt = {}
 
 class NiveauAdmin(admin.ModelAdmin):
-    protoExt = { 
-                'protoMenuIx': 3, 
-                'protoMenuOpt' : 'Param' 
-    }
+    protoExt = {}
