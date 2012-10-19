@@ -1,0 +1,19 @@
+Manejo de seguridad 
+
+    Para el manejo de seguridad se hereda la seguridad de Django y se extiende para poder manejar 
+    BussinesUnits ( BUnits ) q corresponde a una jerarquia organizacional de permisos 
+    
+    
+    BUnits es un modelo autoreferenciado ( jerarquico )
+
+    Cada registro se conecta a un usuario y un businesUnit q es tomado tambien del usuario, 
+    cada usuario esta inscrito en un Bunit 
+
+    Al verificar los permisos para el registro por BUnit se tiene acceso a toda la jerarquia descendente 
+    quiere decir q si X esta asignado al Bunit q es superrior en jerarquia q el BUnit de Y,  X podra ver todos 
+    los registros de Y
+
+
+**  ejemplos en /u/VMW/WinXPSP2/  
+    SqlServer, 
+        Bases de datos de SoftMachine y crm 

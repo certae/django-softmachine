@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from models import ProtoDefinition, ProtoBussinesUnit, ProtoGroup, ProtoSite, ProtoUdp, ProtoUser
+from models import ProtoDefinition, ProtoBussinesUnit, ProtoGroup, ProtoSite, ProtoUser
 from django.contrib  import admin           
 
 import django.contrib.admin
@@ -37,8 +37,7 @@ class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
 admin.site.register(ProtoDefinition, protoDefinitionAdmin)
 
 
-#admin.site.register(ProtoBussinesUnit)
-#admin.site.register(ProtoGroup)
-#admin.site.register(ProtoSite)
-#admin.site.register(ProtoUdp)
-#admin.site.register(ProtoUser)
+admin.site.register(ProtoBussinesUnit)
+admin.site.register(ProtoGroup)
+admin.site.register(ProtoSite)
+admin.site.register(ProtoUser)

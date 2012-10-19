@@ -6,35 +6,12 @@ from datetime import datetime
 
 from django.db import models
 from django.contrib.auth.models import User, Group, Permission 
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes import generic
 from django.contrib.sites.models import Site
 
-from protoLib.utilsBase import  strNotNull
 
-
-#Las UDP's usan relaciones genericas para poder conectarse a cualquier modelo definido
-#Las UDP's deben ser unicas pues se presentan como columnas de la tabla  
-class ProtoUdp(models.Model):
-    content_type = models.ForeignKey(ContentType)
-    object_id = models.PositiveIntegerField()
-    content_object = generic.GenericForeignKey('content_type', 'object_id')
-
-    code = models.CharField(max_length=50)
-    valueUdp = models.TextField(blank = True, null = True, max_length=200)
-    indexUdp = models.IntegerField(blank = True, null = True)
-
-    def __unicode__(self):
-        return (strNotNull(self.content_type) + '.' + strNotNull(self.code) + ': ' + strNotNull(self.valueUdp))
-
-    class Meta:
-        unique_together = ('content_type', 'object_id', 'code',)
-
-
-
-# Esta tabla tiene un unico registro equivalente una serie de parametros comunes a la org
 class ProtoSite(Site):
-#   name = Site.name 
+# Esta tabla tiene un unico registro equivalente una serie de parametros comunes a la org
+#   name = Site.name   ( viene del modelo base 'Site' ) 
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
     calemdarCode =  models.CharField( max_length=50,  null = True, blank = True)
 
@@ -50,8 +27,10 @@ class ProtoSite(Site):
         return self.name 
 
 
-#Es la base de la seguridad por registro
 class ProtoBussinesUnit(models.Model):
+# Los BUnit representan la jerarquia funcional ( de seguridad ) de la app     
+# Es la base de la seguridad por registro
+
     code = models.CharField(unique=True, blank = False, null = False, max_length=200 )
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
     parentBUnit = models.ForeignKey( 'ProtoBussinesUnit', blank = True, null = True )
@@ -61,16 +40,19 @@ class ProtoBussinesUnit(models.Model):
         return self.code
 
 
-#Es necesario inlcuir el ususario en BUnit     
+     
 class ProtoUser(User):
-#   username = User.username
-    bussinesUnit = models.ManyToManyField( ProtoBussinesUnit )
+#Es necesario inlcuir el ususario en un BUnit, cada registro copiara el Bunit 
+#del usuario para dar permisos tambien a la jerarquia ( ascendente )
+   
+#   username = User.username ( viene del modelo base 'User' )
+    bussinesUnit = models.ForeignKey( ProtoBussinesUnit )
     protoSite = models.ManyToManyField( 'ProtoSite' )
 
 
 #Es necesario inlcuir el ususario en BUnit, ademas los grupos son recursivos      
 class ProtoGroup(Group):
-#   name = Group.name
+#   name = Group.name  ( viene del modelo base 'Group' )
     bussinesUnit = models.ManyToManyField( ProtoBussinesUnit )
     parentGroup = models.ForeignKey( 'ProtoSite', blank = True, null = True )
 
@@ -93,15 +75,19 @@ class ProtoModel(models.Model):
     class Meta:
         abstract = True
 
+
 # -------------------------------------------
 
 
 class ProtoDefinition(models.Model):
+    # Esta tabla guarda las definiciones de las pcls y del menu,
+    # es un contenedor generico para manejar documentos json modificados de lo q 
+    # en principio es la definicion de base de los modelos Django. 
     code = models.CharField(unique=True, blank = False, null = False, max_length=200 )
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
     metaDefinition = models.TextField( blank = True, null = True)
     
-    # Si esta activo toma la definicion de la Db 
+    # Si esta activo toma la definicion de la Db, si no esta activa usa la definicion por defecto  
     active = models.BooleanField( default = False )
     
     # Elto de control para sobre escribir,  podria ser un error el solo hecho de inactivarlo
@@ -109,44 +95,6 @@ class ProtoDefinition(models.Model):
     
     def __unicode__(self):
         return self.code 
-
-
-# *** Model inheritance 
-
-#  There are three styles of inheritance that are possible in Django.
-#
-#  Often, you will just want to use the parent class to hold information that you don't want to have 
-#  to type out for each child model. This class isn't going to ever be used in isolation, so 
-#  ---->  Abstract  base classes are what you're after.
-
-#  If you're subclassing an existing model (perhaps something from another application entirely) and
-#  want each model to have its own database table, ----->  Multi-table inheritance is the way to go.
- 
-#  Finally, if you only want to modify the Python-level behavior of a model, without changing the models
-#  fields in any way, you can use Proxy models.
-
-
-# *** ForeignKey.on_delete¶
-
-#   The possible values for on_delete are found in django.db.models:
-
-#   CASCADE: Cascade deletes; the default.
-#   PROTECT: Prevent deletion of the referenced object by raising django.db.models.ProtectedError, a subclass of django.db.IntegrityError.
-#   SET_NULL: Set the ForeignKey null; this is only possible if null is True.
-#   SET_DEFAULT: Set the ForeignKey to its default value; a default for the ForeignKey must be set.
-#   SET(): Set the ForeignKey to the value passed to SET(), or if a callable is passed in, the result of calling it. In most cases, passing a callable will be necessary to avoid executing queries at the time your models.py is imported:
-#   
-#   --- Ej1
-#   user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
-#   
-#   --- EJ2
-#   def get_sentinel_user():
-#       return User.objects.get_or_create(username='deleted')[0]
-#   
-#   class MyModel(models.Model):
-#       user = models.ForeignKey(User, on_delete=models.SET(get_sentinel_user))
-
-
 
 
 

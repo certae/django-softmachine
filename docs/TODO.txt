@@ -1,5 +1,27 @@
+121018  Udp genericas a un modelo abstracto 
+    **  Ver si se puede pegar una UDP generica ( considerando el contenttype ) un modelo abstracto ( meta: asbtrat = true ) 
+        No se puede, genera un error indicando q el modelo no existe o q es abstracto. 
+
+    **  La solucion es crear una tabla de Udps cuando sea necesario 'UdpXyz' al crear la definicion el systema verificara si existe 
+        un modelo con el nombre 'UdpXyz' donde Xyz es el nombre de la tabla base y agregara los parametros necesarios para manejar las UDP 
+
+    **  otra solucion es crear en protoLib un modelo con relaciones genericas, el problema de esto es que la info quedaria en la db de config 
+        y no en la db de produccion, la informacion de produccion no debe ir nunca a la definicion. 
+
+
 
 parametrizacion de displaylust para el zoom y los detalles 
+
+Organizador 
+    Proyecto de agenda,  q puede convertise en un admin de proyectos 
+    
+protoFace 
+    blogs y estados al estilo fb  o tweet ??  
+
+Para el manejo de empresas y entornos,  
+    cada pcl podra solicitar una serie de var de entorno, antes de cargar se preguntaran por las variables 
+    de entorno q se manejaran dentro del profil del usuario, este podra guardarse para usos futuro y podra 
+    ser modificado como una relacion  variable - valor ( combo con valores posibles )
 
 Forma 
     Filtrar los campos existentes en el fields 
@@ -14,10 +36,6 @@ Tareas pendientes
         
     Icono
         GetMenu debe traer el icono tambien de la definicion guardada si existe,  ahora lo trae solamente de la metadirecta 
-        
-    Redefinir meta2tree 
-        HAcerlo de manera jerarquica y no recursiva,  separar por lo menos en rutinas independientes el m2t de la forma y 
-        del list displayset
         
     Detalles, 
         la llave del detalle no permite actalmente montar dos referencias a partir de la misma tabla ( maestro1, maestro2 )
@@ -35,7 +53,7 @@ Tareas pendientes
         Revisar el beforeDrop para limitar los contenedores de cada elto 
         La edicion en forma considera los detalles en una sola transaccion,  ver la definicion del doc automatico  
         
-    Copiar una pci 
+**  Copiar una pci   -- Ok. 
         Tener la posibilidad de copiar una pci, ( obviamente una vista dependiente de la entidad )
        
     Seguridad 
@@ -69,7 +87,8 @@ Tareas pendientes
 
 	Tablero de control 
 
-		Se puede definir en el menu y definir la pseudo entidad como una coleccion adicional sobre la misma entidad, asi se manejaran vistas diferentes sobre un mismo modelo y un mismo admin. 
+		Se puede definir en el menu y definir la pseudo entidad como una coleccion adicional sobre la misma entidad, 
+		asi se manejaran vistas diferentes sobre un mismo modelo y un mismo admin. 
 		
 		Crear una pseudo entidad q cargue valores agrupados y permitir el manejo de dimensiones de detalle. 
 		
@@ -141,6 +160,12 @@ Tareas pendientes
 ---------------  ---------------------------------------------------------------------------------------------------------- 
 
     Ok PCL Guardado, no agrega las propiedades. 
+
+
+** Redefinir meta2tree 
+        HAcerlo de manera jerarquica y no recursiva,  separar por lo menos en rutinas independientes el m2t de la forma y 
+        del list displayset
+
 
 ** Pendiente reg nuevo, creacion desde el zoom 
 
