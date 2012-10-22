@@ -282,7 +282,9 @@ class importDict():
 
                             try:
                                 dForeign.save()
-                            except: pass
+                            except: 
+                                self.__logger.info("Error dForeign.save")
+                                return
 
                 # ------------------------------------------------------------------------------
                 xLinkModels = xDomain.getiterator("linkModel")
@@ -294,10 +296,10 @@ class importDict():
                         dLink = PropertyEquivalence()
 
                         #Obtiene las refs
-                        oAux = getPrpRef( dDomain , xLink.get( 'sourceCol' ))
+                        oAux = getPrpRef( dDomain , xLink.find( 'sourceCol' ).text )
                         if oAux:  dLink.sourceProperty = oAux  
     
-                        oAux = getPrpRef( dDomain , xLink.get( 'destinationCol') )
+                        oAux = getPrpRef( dDomain , xLink.find( 'destinationCol').text )
                         if oAux:  dLink.targetProperty = oAux  
 
                         for child in xLink:
@@ -307,7 +309,8 @@ class importDict():
                         try:
                             dLink.save()
                         except: 
-                            pass
+                            self.__logger.info("Error dForeign.save")
+                            return
 
 
 #        except KeyError, e:
