@@ -308,9 +308,11 @@ def verifyUdpDefinition( pUDP ):
     return cUDP    
 
 
-def strNotNull(  sValue ):
-    if (sValue is None): 
-        return "_"
+def strNotNull(  sValue, sDefault ):
+    if (sValue is None):
+        if (sDefault is None):  
+            return "_"
+        else: return sDefault 
     else: return sValue 
 
 

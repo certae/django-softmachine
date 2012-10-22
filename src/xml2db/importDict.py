@@ -1,6 +1,5 @@
 # The core system of my application
-# Esta version trabaja con la app protoExt,  
-# la nueva version 'imnportDict'  trabajara con protoDict   12/10/20 Dgt  
+# Version 121020  trabaja con protoDict 
 
 # Import XML module
 from xml.etree.ElementTree import ElementTree
@@ -20,7 +19,7 @@ management.setup_environ(settings)
 import logging
 
 #Import Database class
-from protoExt.models import *  
+from protoDict.models import *  
 
 
 def toInteger(s , iDefault = None):

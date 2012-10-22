@@ -4,11 +4,51 @@ from django.db import models
 
 from protoLib.utilsBase import  strNotNull
 
+#    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
+#    
+#    category = models.CharField(max_length=50, blank = True, null = True )
+#    alias = models.CharField(verbose_name=u'Alias',blank = True, null = True, max_length=50)
+#    physicalName = models.CharField(blank = True, null = True, max_length=200)
+#    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
+#
+#    def __unicode__(self):
+#        return self.code 
 
-class MetaObj(models.Model):
-    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
+   
+class Domain(models.Model):
+    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 , unique = True)
+
     category = models.CharField(max_length=50, blank = True, null = True )
-    alias = models.CharField(verbose_name=u'Alias',blank = True, null = True, max_length=50)
+    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
+    
+    def __unicode__(self):
+        return self.code 
+
+
+class Model(models.Model):
+    domain = models.ForeignKey('Domain', verbose_name=u'Domaine')
+    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
+
+    category = models.CharField(max_length=50, blank = True, null = True )
+    modelPrefix = models.CharField(verbose_name=u'modelPrefix', blank = True, null = True, max_length=50)
+    repositoryPath = models.CharField(blank = True, null = True, max_length=200)
+    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
+
+    class Meta:
+        unique_together = ('domain', 'code',  )
+
+    def __unicode__(self):
+        return self.code 
+    
+    protoExt = { 'protoUdp' : { 'udpTable' : 'UdpModel' }}
+
+
+
+class Concept(models.Model):
+    model = models.ForeignKey('Model' )
+    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
+    
+    category = models.CharField(max_length=50, blank = True, null = True )
     physicalName = models.CharField(blank = True, null = True, max_length=200)
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
@@ -16,34 +56,142 @@ class MetaObj(models.Model):
         return self.code 
 
     class Meta:
-        abstract = True
+        unique_together = ('model', 'code',  )
 
+class PropertyDom(models.Model):
+    """
+    * Propiedades a nivel de dominio,  definicion semantica del problema
+    """
 
-   
-class Domain(MetaObj):
-    origin = models.CharField(verbose_name=u'origin', blank = True, null = True, max_length=50)
-    superDomain = models.ForeignKey('Domain', blank = True, null = True)
+    domain = models.ForeignKey('Domain' )
+    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
 
-#    def __unicode__(self):
-#        return self.code 
+    """ Caracteristicas generales q definen el campo """
+    baseType = models.CharField(verbose_name=u'Type de Base', blank = True, null = True, max_length=50)
+    prpLength = models.DecimalField(blank = True, null = True, decimal_places =2 ,max_digits = 6)
 
-
-class Model(MetaObj):
-    modelPrefix = models.CharField(verbose_name=u'modelPrefix', blank = True, null = True, max_length=50)
-    idModel = models.CharField(verbose_name=u'Ix', blank = True, null = True, max_length=50)
-    idRef = models.CharField(verbose_name=u'IxRef', blank = True, null = True, max_length=50)
-    domain = models.ForeignKey('Domain', verbose_name=u'Domaine')
+    """ defaultValue: Puede variar en cada instancia """ 
+    defaultValue = models.CharField( blank = True, null = True, max_length=50)
     
+    """ Lista de valores CSV ( idioma?? ) """ 
+    propertyChoices = models.CharField( blank = True, null = True, max_length=200)
+    
+    category = models.CharField(max_length=50, blank = True, null = True )
+    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
+
     def __unicode__(self):
         return self.code 
 
-    protoExt = { 'protoUdp' : { 'udpTable' : 'UdpModel' }}
+    class Meta:
+        unique_together = ('domain', 'code',  )
 
+    protoExt = { 'protoUdp' : { 'udpTable' : 'UdpPropertyDom' }}
+
+
+class PropertyModel(models.Model):
+    """
+    * Propiedades por modelo, subdominio de propiedades a nivel de modelo, es solo informativo 
+    * se requiere para el diccionario MSSQ, podria generarse navegando model-concept-prop 
+    * pero el primer paso en la metodologia implica la definicion semantica de propiedades por modelo, 
+    * este concepto permite organizar esta informacion. 
+    
+    * La derivacion de prpConcpeto se toma desde el dominio, pues esta tabla es importante solo en la metodologia de 
+    * definicion semantica,   
+    """
+
+    model = models.ForeignKey('Model' )
+    propertyDom = models.ForeignKey('PropertyDom' )
+
+    tag = models.CharField(blank = True, null = True, max_length=50)
+
+    def __unicode__(self):
+        return self.model.code + '.' +  self.concept.code    
+
+    class Meta:
+        unique_together = ('model', 'propertyDom',  )
+
+class PropertyConcept(models.Model):
+    """
+    * Propiedades por tabla, definicion a nivel de modelo de datos. 
+    """
+    concept = models.ForeignKey('Concept', related_name = 'pConcept')
+    propertyDom = models.ForeignKey('PropertyDom' )
+
+    """ 
+    * alias:  Es el nombre en el concpeto, una especie de sinonimo en caso de q existan varias ocurrencias del mismo
+    * physicalName : mapea el nombre real de la Db   
+    """
+    alias = models.CharField(verbose_name=u'Alias',blank = True, null = True, max_length=50)
+    physicalName = models.CharField(blank = True, null = True, max_length=200)
+
+    """ caracteristicas propias de la instancia """ 
+    isNullable = models.BooleanField()
+    isRequired = models.BooleanField()
+    isUnique = models.BooleanField()
+    defaultValue = models.CharField( blank = True, null = True, max_length=50)
+    
+    isForeign = models.BooleanField()
+    foreignConcept = models.ForeignKey('PropertyDom',blank = True, null = True, related_name = 'fConcept')
+    foreignFilter = models.CharField( blank = True, null = True, max_length=50)
+
+
+    class Meta:
+        unique_together = ('concept', 'propertyDom',  )
+
+    def __unicode__(self):
+        return self.concept.code + '.' +  strNotNull( self.alias, self.propertyDom.code )     
+
+
+class Relationship(models.Model):
+    """
+    * El proposito fundamental de esta clase es poder mapear la informacion grafica de origen
+    * la definicion de la cardinlaidad y otras se maneja aqui,
+    * La relaciones son en realidad campos q apuntan a otro concepto  
+    """
+
+    baseConcept = models.ForeignKey('Concept', related_name = 'bConcept')
+    refConcept = models.ForeignKey('Concept', related_name = 'rConcept')
+
+    """ Nombre del set en la tabla base ( related_name de Django ) """
+    """ Nombre del campo referenciado (fKey) """
+    baseName = models.CharField( blank = True, null = True, max_length=50)
+    refName = models.CharField( blank = True, null = True, max_length=50)
+
+    baseMin = models.CharField( blank = True, null = True, max_length=50)
+    baseMax = models.CharField( blank = True, null = True, max_length=50)
+    refMin = models.CharField( blank = True, null = True, max_length=50)
+    refMax = models.CharField( blank = True, null = True, max_length=50)
+
+    def __unicode__(self):
+        return self.baseConcept + ' -> ' + self.refConcept
+
+    class Meta:
+        unique_together = ('baseConcept', 'refConcept',  )
+
+
+class PropertyEquivalence(models.Model):
+#   * Los dos deben pertenecer al mismo dominio, pero puedo agregar al zoom el filtro del campo de base sourceProp__domain 
+#   domain = models.ForeignKey('Domain')
+
+    sourceProperty = models.ForeignKey('PropertyDom', blank = True, null = True, related_name = 'sourcePrp')
+    targetProperty = models.ForeignKey('PropertyDom', blank = True, null = True, related_name = 'targetPrp')
+
+    tag = models.CharField(blank = True, null = True, max_length=50)
+
+    def __unicode__(self):
+        return self.sourceProperty.code + '.' + self.targetProperty.code   
+
+    class Meta:
+        unique_together = ('sourceProperty', 'targetProperty',  )
+
+
+
+# ---------------------------
 
 class UdpModel(models.Model):
+    model = models.ForeignKey('Model')
     code = models.CharField(max_length=50)
     valueUdp = models.TextField(blank = True, null = True, max_length=200)
-    model = models.ForeignKey('Model')
 
     def __unicode__(self):
         return self.model.code  + '.' + self.code   
@@ -52,33 +200,10 @@ class UdpModel(models.Model):
         unique_together = ('model', 'code',)
 
 
-class Concept(MetaObj):
-    model = models.ForeignKey('Model' )
-
-    def __unicode__(self):
-        return self.code 
-
-
-class PropertyDom(MetaObj):
-    """
-    * Propiedades a nivel de dominio,  definicion semantica del problema
-    """
-    
-    baseType = models.CharField(verbose_name=u'Type de Base', blank = True, null = True, max_length=50)
-    prpLength = models.DecimalField(blank = True, null = True, decimal_places =2 ,max_digits = 6)
-
-    domain = models.ForeignKey('Domain' )
-
-    def __unicode__(self):
-        return strNotNull(self.code)    
-
-    protoExt = { 'protoUdp' : { 'udpTable' : 'UdpPropertyDom' }}
-
-
 class UdpPropertyDom(models.Model):
+    propertyDom = models.ForeignKey('PropertyDom')
     code = models.CharField(max_length=50)
     valueUdp = models.TextField(blank = True, null = True, max_length=200)
-    propertyDom = models.ForeignKey('PropertyDom')
 
     def __unicode__(self):
         return self.propertyDom.code + '.' + self.code   
@@ -86,63 +211,3 @@ class UdpPropertyDom(models.Model):
     class Meta:
         unique_together = ('propertyDom', 'code',)
 
-
-
-class PropertyConcept(MetaObj):
-    """
-    * Propiedades por tabla, definicion a nivel de modelo de datos. 
-    """
-
-    propertyDom = models.ForeignKey('PropertyDom' )
-    concept = models.ForeignKey('Concept', related_name = 'pConcept')
-
-    isNullable = models.BooleanField()
-    isRequired = models.BooleanField()
-    isUnique = models.BooleanField()
-    defaultValue = models.CharField( blank = True, null = True, max_length=50)
-    
-    isForeign = models.BooleanField()
-    foreignConcept = models.ForeignKey('PropertyDom',blank = True, null = True, related_name = 'fConcept')
-
-
-    def __unicode__(self):
-        return self.concept.code + '.' +  self.code    
-
-
-
-class Relationship(MetaObj):
-    """
-    * La relaciones son tambien campos, la definicion de la cardinlaidad y otras se maneja aqui,
-    * La idea es poder mapear la informacion grafica de origen
-    """
-    
-    baseMin = models.CharField( blank = True, null = True, max_length=50)
-    baseMax = models.CharField( blank = True, null = True, max_length=50)
-    refMin = models.CharField( blank = True, null = True, max_length=50)
-    refMax = models.CharField( blank = True, null = True, max_length=50)
-
-    """ Nombre del campo FKey """
-    refName = models.CharField( blank = True, null = True, max_length=50)
-
-    """ Nombre del set en la tabla base ( related_name de Django ) """
-    relatedName = models.CharField( blank = True, null = True, max_length=50)
-
-    concept = models.ForeignKey('Concept', related_name = 'fConcept')
-    baseConcept = models.ForeignKey('Concept', related_name = 'bConcept')
-
-    def __unicode__(self):
-        return self.code
-
-
-
-class MetaLink(models.Model):
-    tag = models.CharField(blank = True, null = True, max_length=50)
-    domain = models.ForeignKey('Domain')
-    sourceProperty = models.ForeignKey('PropertyDom', blank = True, null = True, related_name = 'sourcePrp')
-    targetProperty = models.ForeignKey('PropertyDom', blank = True, null = True, related_name = 'targetPrp')
-
-    def __unicode__(self):
-        return self.sourceProperty.code + '.' + self.targetProperty.code   
-
-    class Meta:
-        unique_together = ('sourceProperty', 'targetProperty',  )
