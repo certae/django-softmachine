@@ -16,6 +16,7 @@ from protoLib.utilsBase import  strNotNull
 
    
 class Domain(models.Model):
+    """El dominio corresponde a un nivel conceptual corportativo MCCD"""
     code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 , unique = True)
 
     category = models.CharField(max_length=50, blank = True, null = True )
@@ -26,12 +27,16 @@ class Domain(models.Model):
 
 
 class Model(models.Model):
+    """Los modelos pueden ser abstractos ( conceptuales ) o fisicos 
+    * en caso de modelos fisicos el conectionPath puede ser el conection string o la ruta de acceso
+    * los modelos pueden tener prefijos especificos para todas sus entidades ( conceptos ) 
+    """
     domain = models.ForeignKey('Domain', verbose_name=u'Domaine')
     code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
 
     category = models.CharField(max_length=50, blank = True, null = True )
     modelPrefix = models.CharField(verbose_name=u'modelPrefix', blank = True, null = True, max_length=50)
-    repositoryPath = models.CharField(blank = True, null = True, max_length=200)
+    conectionPath = models.CharField(blank = True, null = True, max_length=200)
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
     class Meta:
@@ -45,6 +50,8 @@ class Model(models.Model):
 
 
 class Concept(models.Model):
+    """ Concept corresponde a las entidades, puede tener asociado un elto fisico 
+    """    
     model = models.ForeignKey('Model' )
     code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
     
@@ -59,8 +66,8 @@ class Concept(models.Model):
         unique_together = ('model', 'code',  )
 
 class PropertyDom(models.Model):
-    """
-    * Propiedades a nivel de dominio,  definicion semantica del problema
+    """ Propiedades a nivel de dominio,  
+    * definicion semantica del problema
     """
 
     domain = models.ForeignKey('Domain' )
@@ -103,6 +110,7 @@ class PropertyModel(models.Model):
     propertyDom = models.ForeignKey('PropertyDom' )
 
     tag = models.CharField(blank = True, null = True, max_length=50)
+    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
     def __unicode__(self):
         return self.model.code + '.' +  self.concept.code    
@@ -127,13 +135,17 @@ class PropertyConcept(models.Model):
     """ caracteristicas propias de la instancia """ 
     isNullable = models.BooleanField()
     isRequired = models.BooleanField()
+    isSensitive = models.BooleanField()
+    isEssential = models.BooleanField()
     isUnique = models.BooleanField()
+ 
     defaultValue = models.CharField( blank = True, null = True, max_length=50)
     
     isForeign = models.BooleanField()
     foreignConcept = models.ForeignKey('PropertyDom',blank = True, null = True, related_name = 'fConcept')
     foreignFilter = models.CharField( blank = True, null = True, max_length=50)
 
+    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
     class Meta:
         unique_together = ('concept', 'propertyDom',  )
@@ -162,6 +174,10 @@ class Relationship(models.Model):
     refMin = models.CharField( blank = True, null = True, max_length=50)
     refMax = models.CharField( blank = True, null = True, max_length=50)
 
+    code = models.CharField(verbose_name=u'Alias',blank = True, null = True, max_length=50)
+    alias = models.CharField(verbose_name=u'Alias',blank = True, null = True, max_length=50)
+    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
+
     def __unicode__(self):
         return self.baseConcept + ' -> ' + self.refConcept
 
@@ -176,6 +192,9 @@ class PropertyEquivalence(models.Model):
     sourceProperty = models.ForeignKey('PropertyDom', blank = True, null = True, related_name = 'sourcePrp')
     targetProperty = models.ForeignKey('PropertyDom', blank = True, null = True, related_name = 'targetPrp')
 
+    code = models.CharField(verbose_name=u'Alias',blank = True, null = True, max_length=50)
+    alias = models.CharField(verbose_name=u'Alias',blank = True, null = True, max_length=50)
+    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
     tag = models.CharField(blank = True, null = True, max_length=50)
 
     def __unicode__(self):

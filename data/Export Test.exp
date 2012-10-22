@@ -3,6 +3,129 @@
   <domain>
     <code>AI RSSSS mccd v7 - TEST</code>
     <origin>OpenModelSphere 3.2</origin>
+    <udpDefinitions>
+      <udpDefinition>
+        <code>DOCUMENT DE RÉFÉRENCE</code>
+        <baseType>String</baseType>
+        <alias>DOCUMENTDEREFERENCE</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>Paramètres d'impression</code>
+        <baseType>String</baseType>
+        <alias>ParametresDImpression</alias>
+        <description>Un court texte qui explique comment produire le diagramme en format PDF.  On devrait retrouver comme valeur: - pilote : PDF Creator - format du papier : Lettre - orientation : Paysage - échelle : 50%  Ex: PDF Creator Lettre Paysage 50%</description>
+      </udpDefinition>
+      <udpDefinition>
+        <code>Commentaire</code>
+        <baseType>String</baseType>
+        <alias>Commentaire</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>Dernière modification</code>
+        <baseType>String</baseType>
+        <alias>DerniereModification</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>Créateur</code>
+        <baseType>String</baseType>
+        <alias>Createur</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>FORMAT</code>
+        <baseType>Multiline Text</baseType>
+        <alias>FORMAT</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>GABARIT</code>
+        <baseType>Multiline Text</baseType>
+        <alias>GABARIT</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>DÉFINITION</code>
+        <baseType>Multiline Text</baseType>
+        <alias>DEFINITION</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>DESCRIPTION CN</code>
+        <baseType>Multiline Text</baseType>
+        <alias>DESCRIPTIONCN</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>PRÉCISIONS</code>
+        <baseType>Multiline Text</baseType>
+        <alias>PRECISIONS</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>VALIDATION</code>
+        <baseType>Multiline Text</baseType>
+        <alias>VALIDATION</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>VALIDATIONS SUR ÉLÉMENT</code>
+        <baseType>Multiline Text</baseType>
+        <alias>VALIDATIONSSURELEMENT</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>VALIDATIONS INTER-ÉLÉMENT</code>
+        <baseType>Multiline Text</baseType>
+        <alias>VALIDATIONSINTERELEMENT</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>VALIDATION INTER-ENREGISTREMENT</code>
+        <baseType>Multiline Text</baseType>
+        <alias>VALIDATIONINTERENREGISTREMENT</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>SOURCE DE DONNÉES EXTERNES</code>
+        <baseType>Multiline Text</baseType>
+        <alias>SOURCEDEDONNEESEXTERNES</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>ÉLÉMENT TRANSFORMÉ</code>
+        <baseType>Multiline Text</baseType>
+        <alias>ELEMENTTRANSFORME</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>ÉLÉMENT TRANSMIS</code>
+        <baseType>Multiline Text</baseType>
+        <alias>ELEMENTTRANSMIS</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>DOMAINE DE VALEURS</code>
+        <baseType>Multiline Text</baseType>
+        <alias>DOMAINEDEVALEURS</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>ENTRÉE EN VIGUEUR</code>
+        <baseType>Multiline Text</baseType>
+        <alias>ENTREEENVIGUEUR</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>DATE DE LA DERNIÈRE MODIFICATION</code>
+        <baseType>Multiline Text</baseType>
+        <alias>DATEDELADERNIEREMODIFICATION</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>REQUIS PAR</code>
+        <baseType>Multiline Text</baseType>
+        <alias>REQUISPAR</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>TRANSMISSION</code>
+        <baseType>Multiline Text</baseType>
+        <alias>TRANSMISSION</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>Acteur Principal</code>
+        <baseType>String</baseType>
+        <alias>ActeurPrincipal</alias>
+      </udpDefinition>
+      <udpDefinition>
+        <code>Description_test</code>
+        <baseType>Multiline Text</baseType>
+        <alias>DescriptionTest</alias>
+      </udpDefinition>
+    </udpDefinitions>
     <models>
       <model>
         <idModel>1</idModel>
