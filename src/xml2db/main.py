@@ -6,7 +6,7 @@ import sys
 from PyQt4 import  QtGui
 
 #Import the components of the application
-import importXML
+import importDict
 import systemGui
 
 
@@ -17,7 +17,7 @@ def main():
     # We create the application
     system = QtGui.QApplication(sys.argv)
     
-    systemCore = importXML.importXML()
+    systemCore = importDict.importDict()
     
     systemWindow = systemGui.systemGui(systemCore)
     systemWindow.show()

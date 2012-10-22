@@ -17,3 +17,15 @@ admin.site.register(PropertyModel )
 admin.site.register(PropertyConcept )
 admin.site.register(PropertyEquivalence )
 
+
+# drop table protoDict_Domain ; 
+# drop table protoDict_Model ;
+# drop table protoDict_Concept ;
+# drop table protoDict_Relationship ;
+# drop table protoDict_PropertyDom ;
+# drop table protoDict_PropertyModel ;
+# drop table protoDict_PropertyConcept ;
+# drop table protoDict_PropertyEquivalence ;
+# drop table protoDict_UdpModel ;
+# drop table protoDict_UdpPropertyDom ;
+

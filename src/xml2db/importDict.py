@@ -39,7 +39,7 @@ def toBoolean(s):
     return ( s.lower()[0] in ("y", "t", "o", "s", "1") ) 
 
 
-class importXML():
+class importDict():
     def __init__(self):
         self.__filename = ""
         self.__tree = None
@@ -136,11 +136,11 @@ class importXML():
         fdsDomain = ( 'code', 'category', 'description' )
         #eqvDomain = ( ('origin', 'description')  )
 
-        fdsModel= ( 'code', 'category', 'description', 'modelPrefix', 'conectionPath',  )
+        fdsModel= ( 'code', 'category',  'modelPrefix', 'conectionPath',  )
         
-        fdsConcept= ( 'code', 'category', 'description', 'physicalName' )
+        fdsConcept= ( 'code', 'category',  'physicalName' )
 
-        fdsPropertyDom = ( 'code', 'category', 'description',  'baseType', 'defaultValue', )
+        fdsPropertyDom = ( 'code', 'category',  'baseType', 'defaultValue', )
         intPropertyDom = ( 'prpLength',  )
         
         fdsPropertyConcept = ( 'alias', 'physicalName', )
@@ -158,72 +158,74 @@ class importXML():
             xDomains = self.__tree.getiterator("domain")
             
             for xDomain in xDomains:
-                lDomain = Domain()
+                dDomain = Domain()
                 for child in xDomain:
                     if child.tag in fdsDomain:
-                        setattr( lDomain, child.tag, child.text ) 
+                        setattr( dDomain, child.tag, child.text ) 
                         
                 try: 
-                    lDomain.save()
-                except:  pass 
-
+                    dDomain.save()
+                except:  
+                    self.__logger.info("Error dDomain.save")
+                    return
                 
-                self.__logger.info("Domain..."  + lDomain.code)
+                self.__logger.info("Domain..."  + dDomain.code)
+
 
                 # ------------------------------------------------------------------------------
                 xModels = xDomain.getiterator("model")
                 for xModel in xModels:
                     dModel = Model()
-                    dModel.domain = lDomain
+                    dModel.domain = dDomain
                     modelUdps = []
 
                     for child in xModel:
                         if child.tag in fdsModel:
                             setattr( dModel, child.tag, child.text )
-                            
                         elif child.tag == 'udps':
                             for xUdp in child:
                                 modelUdps.append( (xUdp.tag, xUdp.get('text') ) )
-                        else:
-                            modelUdps.append( (child.tag, child.text) )
 
-
-                    dModel.save()
-                    if len( modelUdps ) > 0: self.saveModelUdps( modelUdps, dModel )
+                    try:
+                        dModel.save()
+                    except:  
+                        self.__logger.info("Error dModel.save")
+                        return
+                        
+                    if len( modelUdps ) > 0: 
+                        self.saveModelUdps( modelUdps, dModel )
                     
                     self.__logger.info("Model..."  + dModel.code)
 
                     # ------------------------------------------------------------------------------
                     xConcepts = xModel.getiterator("concept")
                     for xConcept in xConcepts:
-                        concept = Concept()
-                        concept.model = dModel
+                        dConcept = Concept()
+                        dConcept.model = dModel
                         
                         for child in xConcept:
                             if (child.tag in fdsConcept):
                                 if (child.text is not None):
-                                    setattr( concept, child.tag, child.text )
-                                elif  ( child.tag == 'description' ):
-                                    setattr( concept, child.tag, child.get('text'))
+                                    setattr( dConcept, child.tag, child.text )
+                            elif  ( child.tag == 'description' ):
+                                setattr( dConcept, child.tag, child.get('text'))
                             
-                            else:
-                                pass
-    
                         try:              
-                            concept.save()
-                        except: pass
+                            dConcept.save()
+                        except: 
+                            self.__logger.info("Error dConcept.save")
+                            return
 
-                        self.__logger.info("Concept..."  + concept.code)
+                        self.__logger.info("Concept..."  + dConcept.code)
 
                         # ------------------------------------------------------------------------------
                         xPropertys = xConcept.getiterator("property")
                         for xProperty in xPropertys:
-                            sCode = xProperty.get( 'code') 
+                            sCode = xProperty.find( 'code' ).text  
                             prpDom = getPrpDom( dModel, sCode  )
                             
                             prpConcept = PropertyConcept()
-                            
-                            prpConcept.concept = concept
+                            prpConcept.concept = dConcept
                             prpConcept.propertyDom = prpDom
 
                             # Inicializa el diccionaccionario para las UDPS 
@@ -233,8 +235,9 @@ class importXML():
                                 if child.tag in fdsPropertyDom:
                                     if (child.text is not None):
                                         setattr( prpDom, child.tag, child.text )
-                                    elif  ( child.tag == 'description' ):
-                                        setattr( prpDom, child.tag, child.get('text'))
+
+                                elif  ( child.tag == 'description' ):
+                                    setattr( prpDom, child.tag, child.get('text'))
 
                                 elif child.tag in intPropertyDom:
                                     iValue = toInteger(child.text , 0)
@@ -252,18 +255,18 @@ class importXML():
                                     oAux = getConceptRef( dModel, child.text )
                                     if oAux:     
                                         setattr( prpConcept, child.tag, oAux )
-                                    
+
                                 elif child.tag == 'udps':
                                     for xUdp in child:
                                         prpUdps.append( (xUdp.tag, xUdp.get('text') ) )
 
-                                else:
-                                    pass 
                                        
                             try: 
                                 prpDom.save()
                                 prpConcept.save()
-                            except: pass
+                            except: 
+                                self.__logger.info("Error prpDom.save")
+                                return
 
                             if len( prpUdps ) > 0: self.savePrpUdps( prpUdps, prpDom )
 
@@ -271,7 +274,7 @@ class importXML():
                         xForeigns = xConcept.getiterator("foreign")
                         for xForeign in xForeigns:
                             dForeign = Relationship()
-                            dForeign.concept = concept
+                            dForeign.concept = dConcept
 
                             for child in xForeign:
                                 if child.tag in fdsRelationship:
@@ -291,10 +294,10 @@ class importXML():
                         dLink = PropertyEquivalence()
 
                         #Obtiene las refs
-                        oAux = getPrpRef( lDomain , xLink.get( 'sourceCol' ))
+                        oAux = getPrpRef( dDomain , xLink.get( 'sourceCol' ))
                         if oAux:  dLink.sourceProperty = oAux  
     
-                        oAux = getPrpRef( lDomain , xLink.get( 'destinationCol') )
+                        oAux = getPrpRef( dDomain , xLink.get( 'destinationCol') )
                         if oAux:  dLink.targetProperty = oAux  
 
                         for child in xLink:
@@ -360,13 +363,13 @@ def getPrpDom( dModel, prpCode  ):
     return dPrpDom 
 
 
-def getModelRef( lDomain, modelName  ):
-    mAux = Model.objects.filter( domain = lDomain, code = modelName )
+def getModelRef( dDomain, modelName  ):
+    mAux = Model.objects.filter( domain = dDomain, code = modelName )
     if mAux: 
         return mAux[0] 
 
-def getPrpRef( lDomain , propName  ):
-    mAux = PropertyModel.objects.filter( domain = lDomain, code = propName  )
+def getPrpRef( dDomain , propName  ):
+    mAux = PropertyModel.objects.filter( domain = dDomain, code = propName  )
     if mAux: 
         return mAux[0] 
 
