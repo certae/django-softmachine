@@ -181,9 +181,6 @@ class Relationship(models.Model):
     def __unicode__(self):
         return self.baseConcept + ' -> ' + self.refConcept
 
-    class Meta:
-        unique_together = ('baseConcept', 'refConcept',  )
-
 
 class PropertyEquivalence(models.Model):
 #   * Los dos deben pertenecer al mismo dominio, pero puedo agregar al zoom el filtro del campo de base sourceProp__domain 

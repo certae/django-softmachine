@@ -147,10 +147,10 @@ class importDict():
         booPropertyConcept = ( 'isNullable', 'isRequired', 'isSensitive', 'isEssential', 'isUnique', 'isForeign')
         keyPropertyConcept = ( 'foreignConcept', )
         
-        fdsRelationship= ( 'code', 'category', 'description', 'baseMin', 'baseMax', 'refMin', 'refMax', 'superProperty', 'baseConcept', 'alias', 'physicalName')
+        fdsRelationship = ( 'code',  'alias', 'category', 'description', 'baseMin', 'baseMax', 'refMin', 'refMax', )
+        keyRelationship  = ( 'refConcept', )
 
-        fdsPropertyEquivalence = ['code', 'alias', 'destinationText', ]
-        #keyPropertyEquivalence = ['sourceCol', 'destinationCol', ]
+        fdsPropertyEquivalence = ('code', 'alias', 'description', )
 
         # We populate the database
         if (self.__tree != None):  # A file has been loaded
@@ -270,20 +270,25 @@ class importDict():
 
                             if len( prpUdps ) > 0: self.savePrpUdps( prpUdps, prpDom )
 
-                        # ------------------------------------------------------------------------------
+                        # Relationship -------------------------------------------------------------------
                         xForeigns = xConcept.getiterator("foreign")
                         for xForeign in xForeigns:
                             dForeign = Relationship()
-                            dForeign.concept = dConcept
+                            dForeign.baseConcept = dConcept
 
                             for child in xForeign:
                                 if child.tag in fdsRelationship:
                                     setattr( dForeign, child.tag, child.text)
 
+                                elif child.tag in Relationship:
+                                    oAux = getConceptRef( dModel, child.text )
+                                    if oAux:     
+                                        setattr( prpConcept, child.tag, oAux )
+
                             try:
                                 dForeign.save()
-                            except: 
-                                self.__logger.info("Error dForeign.save")
+                            except Exception, e: 
+                                self.__logger.info("Error dForeign.save"  + str(e))
                                 return
 
                 # ------------------------------------------------------------------------------
@@ -312,20 +317,9 @@ class importDict():
                             self.__logger.info("Error dForeign.save")
                             return
 
-
-#        except KeyError, e:
-#            #Logging critical
-#            self.__logger.critical("Erreur d attribut.")
-#            return {'state':self.ADDING_ERROR, 'message': 'Erreur attribut :'+str(e)} 
-#                         
-#        except Exception, e:
-#            #Logging critical
-#            self.__logger.critical("Impossible d ecrire dans la base de donnee.")
-#            return {'state':self.ADDING_ERROR, 'message': str(e)} 
         
         #Logging info
         self.__logger.info("Ecriture dans la base de donnee effectuee...")
-        
         return {'state':self.OK, 'message': 'Ecriture effectuee'}
     
         
