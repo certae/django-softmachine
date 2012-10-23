@@ -193,11 +193,19 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                 var oData = me.treeRecord.data.__ptConfig 
                 var prpName = e.record.data.name
 
-                // ****  Solo llegan objetos, los Array se manejan en otro lado
-                if ( typeOf(oData) !=  "object") { console.log( 'Error onEdit', oData  ); return }
+                // ****  Solo llegan objetos, los Array deben tener un __ptConfig aidcional 
+                if ( typeOf(oData) !=  "object") { 
 
-                // Asigna el valor a la propiedad 
-                oData[ prpName ]  = e.value 
+                    if ( ! oData.__ptConfig ) oData.__ptConfig = {}
+                    oData.__ptConfig[ prpName ]  = e.value
+                                          
+                } else {
+
+                    // Asigna el valor a la propiedad 
+                    oData[ prpName ]  = e.value 
+                     
+                }
+                     
                 
             }}, 
             scope: me }

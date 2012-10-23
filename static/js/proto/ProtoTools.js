@@ -196,12 +196,22 @@ function Tree2Meta( tNode  ) {
             // El __ptConfig corresponde a la conf basica del node
             mData =  get_ptConfig( __ptConfig  ) 
             // if ( ! mData.name ) mData.name = __ptText    
-            getChilds( tData, tChilds , mData )
+            getChilds( tData, tChilds , mData , sType)
             
         } else if ( sType == 'array' )  {
-            // Si es un array, el objeto de base es un array  
-            mData =  []  
-            getChilds( tData, tChilds , mData )
+            // Si es un array, el objeto de base es un array
+            
+            // Es una rama con conf de base e items 
+            if ( __ptConfig.__ptConfig )  { 
+
+                mData =  __ptConfig.__ptConfig
+                mData.items = []
+                getChilds( tData, tChilds , mData, 'items' )
+
+            } else { 
+                mData =  []  
+                getChilds( tData, tChilds , mData , sType)
+            } 
 
         } else  {
             console.log ('t2m Error de tipo', sType  )
@@ -223,17 +233,14 @@ function Tree2Meta( tNode  ) {
 
     // -----------------------------------------------------------------------------
 
-    function getChilds( tData, tChilds, mData ) {
+    function getChilds( tData, tChilds, mData , sType) {
     
-        var sType = typeOf( mData )
-
+        
         // If protoForm then add items ( Se eliminaron en el arbol para facilidad de usuario )            
         if ( mData.__ptType in oc([ 'fieldset','tabpanel','accordeon','panel'])) {
             mData['items']  = []
-            sType = 'protoForm'
-        }
-                
-           
+            sType = 'items'
+        }           
         for (var ix in tChilds ) {
             var lNode = tChilds[ ix ]
             var __ptType = getPtType( lNode  )
@@ -249,7 +256,7 @@ function Tree2Meta( tNode  ) {
                 if ( Ext.encode( nChildData ) === Ext.encode({}) ) nChildData = sText 
                 mData.push( nChildData )
 
-            } else if ( sType == 'protoForm' )  {
+            } else if ( sType == 'items' )  {
 
                 mData.items.push( nChildData )
 

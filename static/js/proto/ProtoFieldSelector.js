@@ -60,7 +60,13 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
                 savePci( me.myMeta )         
             }, 
             'add': function () {
-                var a 
+
+                var msg = 'Please enter the folder name'
+                Ext.Msg.prompt( 'Add field', msg, function(btn, pName){
+                    if (btn != 'ok') return 
+                    elemTree.addUdpField( {'name' : pName , 'checked' : false } ) 
+
+                }, me, false , 'udp__');
 
             }, 
             scope: me }
@@ -94,6 +100,7 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
                 if ( vNode ) {
                     vNode.set( 'checked', true )
                 } else {
+                    vFld.checked = true 
                     elemTree.addUdpField( vFld )
                 }
 
@@ -294,7 +301,7 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
             'id'         : vFld.name, 
             'text'       : vFld.name, 
             'type'       : 'udp', 
-            'checked'    : true, 
+            'checked'    : vFld.checked, 
             'allowBlank' : true, 
             'leaf'       : true 
         }
