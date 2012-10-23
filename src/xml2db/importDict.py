@@ -147,8 +147,7 @@ class importDict():
         booPropertyConcept = ( 'isNullable', 'isRequired', 'isSensitive', 'isEssential', 'isUnique', 'isForeign')
         keyPropertyConcept = ( 'foreignConcept', )
         
-        fdsRelationship = ( 'code',  'alias', 'category', 'description', 'baseMin', 'baseMax', 'refMin', 'refMax', )
-        keyRelationship  = ( 'refConcept', )
+        fdsRelationship = ( 'code', 'baseMin', 'baseMax', 'refMin', 'refMax', )
 
         fdsPropertyEquivalence = ('code', 'alias', 'description', )
 
@@ -274,16 +273,15 @@ class importDict():
                         xForeigns = xConcept.getiterator("foreign")
                         for xForeign in xForeigns:
                             dForeign = Relationship()
-                            dForeign.baseConcept = dConcept
+                            dForeign.refConcept = dConcept
+
+                            #Obtiene las refs
+                            oAux = getPrpRef( dDomain , xForeign.find( 'baseConcept' ).text )
+                            if oAux:  dForeign.baseConcept = oAux  
 
                             for child in xForeign:
                                 if child.tag in fdsRelationship:
                                     setattr( dForeign, child.tag, child.text)
-
-                                elif child.tag in Relationship:
-                                    oAux = getConceptRef( dModel, child.text )
-                                    if oAux:     
-                                        setattr( prpConcept, child.tag, oAux )
 
                             try:
                                 dForeign.save()
