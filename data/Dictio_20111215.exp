@@ -1,0 +1,1656 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domains>
+<domain>
+<code>Dictio 1112</code>
+<origin>OpenModelSphere 3.2</origin>
+<udpDefinitions>
+<udpDefinition>
+<code>DOCUMENT DE RÉFÉRENCE</code>
+<baseType>String</baseType>
+<alias>DOCUMENTDEREFERENCE</alias>
+</udpDefinition>
+<udpDefinition>
+<code>FORMAT</code>
+<baseType>Multiline Text</baseType>
+<alias>FORMAT</alias>
+</udpDefinition>
+<udpDefinition>
+<code>GABARIT</code>
+<baseType>Multiline Text</baseType>
+<alias>GABARIT</alias>
+</udpDefinition>
+<udpDefinition>
+<code>DÉFINITION</code>
+<baseType>Multiline Text</baseType>
+<alias>DEFINITION</alias>
+</udpDefinition>
+<udpDefinition>
+<code>DESCRIPTION CN</code>
+<baseType>Multiline Text</baseType>
+<alias>DESCRIPTIONCN</alias>
+</udpDefinition>
+<udpDefinition>
+<code>PRÉCISIONS</code>
+<baseType>Multiline Text</baseType>
+<alias>PRECISIONS</alias>
+</udpDefinition>
+<udpDefinition>
+<code>VALIDATION</code>
+<baseType>Multiline Text</baseType>
+<alias>VALIDATION</alias>
+</udpDefinition>
+<udpDefinition>
+<code>VALIDATIONS SUR ÉLÉMENT</code>
+<baseType>Multiline Text</baseType>
+<alias>VALIDATIONSSURELEMENT</alias>
+</udpDefinition>
+<udpDefinition>
+<code>VALIDATIONS INTER-ÉLÉMENT</code>
+<baseType>Multiline Text</baseType>
+<alias>VALIDATIONSINTERELEMENT</alias>
+</udpDefinition>
+<udpDefinition>
+<code>VALIDATION INTER-ENREGISTREMENT</code>
+<baseType>Multiline Text</baseType>
+<alias>VALIDATIONINTERENREGISTREMENT</alias>
+</udpDefinition>
+<udpDefinition>
+<code>SOURCE DE DONNÉES EXTERNES</code>
+<baseType>Multiline Text</baseType>
+<alias>SOURCEDEDONNEESEXTERNES</alias>
+</udpDefinition>
+<udpDefinition>
+<code>ÉLÉMENT TRANSFORMÉ</code>
+<baseType>Multiline Text</baseType>
+<alias>ELEMENTTRANSFORME</alias>
+</udpDefinition>
+<udpDefinition>
+<code>ÉLÉMENT TRANSMIS</code>
+<baseType>Multiline Text</baseType>
+<alias>ELEMENTTRANSMIS</alias>
+</udpDefinition>
+<udpDefinition>
+<code>DOMAINE DE VALEURS</code>
+<baseType>Multiline Text</baseType>
+<alias>DOMAINEDEVALEURS</alias>
+</udpDefinition>
+<udpDefinition>
+<code>ENTRÉE EN VIGUEUR</code>
+<baseType>Multiline Text</baseType>
+<alias>ENTREEENVIGUEUR</alias>
+</udpDefinition>
+<udpDefinition>
+<code>DATE DE LA DERNIÈRE MODIFICATION</code>
+<baseType>Multiline Text</baseType>
+<alias>DATEDELADERNIEREMODIFICATION</alias>
+</udpDefinition>
+<udpDefinition>
+<code>REQUIS PAR</code>
+<baseType>Multiline Text</baseType>
+<alias>REQUISPAR</alias>
+</udpDefinition>
+<udpDefinition>
+<code>TRANSMISSION</code>
+<baseType>Multiline Text</baseType>
+<alias>TRANSMISSION</alias>
+</udpDefinition>
+</udpDefinitions>
+<models>
+
+
+<model>
+<idModel>3</idModel>
+<idRef>2</idRef>
+<code>Vue locale - FiTQ</code>
+<concepts>
+
+
+
+
+<concept>
+<code>PERSONNE</code>
+<properties>
+<property>
+<code>Numéro identification de la personne</code>
+<alias>011</alias>
+<baseType>INTEGER</baseType>
+<length>7</length>
+<isNullable>False</isNullable>
+<isUnique>True</isUnique>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Numérique,  Longueur : 7."/>
+<DEFINITION text="Numéro d'identification unique attribué automatiquement par le système à chaque nouvelle personne inscrite au FTQ."/>
+<DESCRIPTIONCN text="Cette information est obligatoire."/>
+<PRECISIONS text="Exceptions ou réserve : Il ne peut contenir que des zéros."/>
+<VALIDATION text="Un numéro d'identification est attribué lorsqu'une inscription échoue aux diverses (clés) et conditions de raccordement listées en annexe."/>
+<SOURCEDEDONNEESEXTERNES text="Telles qu'attribuées par le système."/>
+<REQUISPAR text="Le MSSS."/>
+</udps>
+</property>
+<property>
+<code>NAM</code>
+<alias>001</alias>
+<baseType>NVARCHAR</baseType>
+<length>12</length>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Alphanumérique, Longueur : 12."/>
+<GABARIT text="NNNP AAMM JJVR"/>
+<DEFINITION text="Numéro d'assurance maladie tel qu'attribué par la RAMQ."/>
+<DESCRIPTIONCN text="Cette information est obligatoire sauf pour: les nouveau-nés les non résidents du Québec les résidents du Québec de moins de trois mois. Le NAM est constitué de la façon suivante : nom (3 premiers caractères) prénom (1e caractère) année de naissance (AA) mois de naissance (MM + 50 si sexe =F) jour de naissance vérification du caractère valideur (12e). "/>
+</udps>
+</property>
+<property>
+<code>Date de naisance</code>
+<alias>002</alias>
+<baseType>INTEGER</baseType>
+<length>8</length>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Numérique, Longueur : 8."/>
+<DEFINITION text="Date de naissance de la personne inscrite au FTQ.  "/>
+<DESCRIPTIONCN text="Cette information est obligatoire."/>
+<VALIDATIONSINTERELEMENT text="&lt;ul class=&quot;cuadro&quot;&gt;&#10;  &lt;li&gt;Correspondance simple au central avec le NAM (positions 5 et 6 pour l'année de naissance).&lt;/li&gt;&#10;  &lt;li&gt;Correspondance simple au central avec le NAM (positions 7 et 8 pour le mois de la naissance moins 50 si sexe =F).&lt;/li&gt;&#10;  &lt;li&gt;Correspondance simple au central avec le NAM (positions 9 et 10 pour le jour de la naissance).&lt;/li&gt;&#10;  &lt;li&gt;Correspondance relationnelle au central avec la date du décès.&lt;/li&gt;&#10;&lt;/ul&gt;&#10;    &#10; "/>
+<REQUISPAR text="Le MSSS, le RCC et les établissements de santé. "/>
+</udps>
+</property>
+<property>
+<code>Sexe</code>
+<alias>003</alias>
+<baseType>NVARCHAR</baseType>
+<length>1</length>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Alphanumérique,  Longueur : 1."/>
+<DEFINITION text="Sexe de la personne inscrite au FTQ."/>
+<DESCRIPTIONCN text="Cette information est obligatoire."/>
+<VALIDATIONSINTERELEMENT text="&lt;ul class=&quot;cuadro&quot;&gt;&#10;  &lt;li&gt;Correspondance simple au central avec le NAM (positions 7 et 8 pour le mois de la naissance moins 50 si sexe =F).&lt;/li&gt;&#10;  &lt;li&gt;Correspondance verticale au central avec la topographie : si sexe =M, alors le siège de la tumeur doit être différent de :174, 179 à 184, 233.1 à 233.3, 236.0 à 236.3 si sexe =F, alors le siège de la tumeur doit être différent de :175, 185 à 187.9, 133.4 à 233.6, 236.4 à 236.6. &lt;/li&gt;&#10;&lt;/ul&gt;&#10;  &#10;"/>
+<SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO."/>
+<DOMAINEDEVALEURS text="F : féminin &#10;M : masculin &#10;X : indéterminé "/>
+<REQUISPAR text="Le MSSS, le RCC et les établissements de santé."/>
+</udps>
+</property>
+<property>
+<code>Nom à la naissance</code>
+<alias>004</alias>
+<baseType>NVARCHAR</baseType>
+<length>25</length>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Alphanumérique,  Longueur : 25."/>
+<DEFINITION text="Nom de famille officiel ou nom de famille sous lequel la personne a été inscrite à la naissance."/>
+<DESCRIPTIONCN text="Cette information est obligatoire. Exceptions ou réserve :  Les signes tels que le trait d'union, l'apostrophe, le tiret, etc. et les blancs ne sont pas acceptés dans le nom (exemple : STAMOUR)."/>
+<PRECISIONS text="L'inscription doit être cadrée à gauche et le reste des espaces laissé à blanc."/>
+<VALIDATIONSINTERELEMENT text="Correspondance simple au central avec le NAM (3 premiers caractères)."/>
+<SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO (local)."/>
+<DOMAINEDEVALEURS text="Lettres majuscules sans accent (A à Z). "/>
+<REQUISPAR text="Le MSSS, le RCC et les établissements de santé."/>
+</udps>
+</property>
+<property>
+<code>Prénom à la naissance</code>
+<alias>005</alias>
+<baseType>NVARCHAR</baseType>
+<length>25</length>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Alphanumérique,  Longueur : 25."/>
+<DEFINITION text="Prénom sous lequel la personne a été inscrite à la naissance."/>
+<DESCRIPTIONCN text="Peut être absent. Exceptions ou réserve : Pour les résidents du Québec, au moins l'initiale doit être présente. Les signes tels que le trait d'union, l'apostrophe, le tiret, etc. et les blancs ne sont pas acceptés dans le prénom (exemple : JEANNEDARC)."/>
+<PRECISIONS text="L'inscription doit être cadrée à gauche et le reste des espaces laissé à blanc."/>
+<VALIDATIONSINTERELEMENT text="Correspondance simple au central avec le NAM (4e caractère). "/>
+<DOMAINEDEVALEURS text="Lettres majuscules sans accent (A à Z)."/>
+<REQUISPAR text="Le MSSS, le RCC et les établissements de santé."/>
+</udps>
+</property>
+<property>
+<code>Nom du père</code>
+<alias>006</alias>
+<baseType>NVARCHAR</baseType>
+<length>25</length>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Alphanumérique, Longueur : 25."/>
+<DEFINITION text="Nom du père à la naissance."/>
+<DESCRIPTIONCN text="Peut être absent. Exceptions ou réserve : Les signes tels que le trait d'union, l'apostrophe, le tiret, etc. et les blancs ne sont pas acceptés dans le nom (exemple : STJEAN)."/>
+<PRECISIONS text="L'inscription doit être cadrée à gauche et le reste des espaces laissé à blanc."/>
+<DOMAINEDEVALEURS text="Lettres majuscules sans accent (A à Z)."/>
+<REQUISPAR text="Le MSSS, le RCC et les établissements de santé."/>
+</udps>
+</property>
+<property>
+<code>Prénom du père</code>
+<alias>007</alias>
+<baseType>NVARCHAR</baseType>
+<length>25</length>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Alphanumérique,  Longueur : 25."/>
+<DEFINITION text="Prénom du père à la naissance."/>
+<DESCRIPTIONCN text="Peut être absent. Exceptions ou réserve : Les signes tels que le trait d'union, l'apostrophe, le tiret etc. et les blancs ne sont pas acceptés dans le prénom (exemple : JOSEPHARTHUR)."/>
+<PRECISIONS text="L'inscription doit être cadrée à gauche et le reste des espaces laissé à blanc."/>
+<DOMAINEDEVALEURS text="Lettres majuscules sans accent (A à Z). "/>
+<REQUISPAR text="Le MSSS, le RCC et les établissements de santé."/>
+</udps>
+</property>
+<property>
+<code>Nom de la mère</code>
+<alias>008</alias>
+<baseType>NVARCHAR</baseType>
+<length>25</length>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Alphanumérique,  Longueur : 25."/>
+<DEFINITION text="Nom de la mère la naissance."/>
+<DESCRIPTIONCN text="Peut être absent.  Exceptions ou réserve: Les signes tels que le trait d'union, l'apostrophe, le tiret etc. et les blancs ne sont pas acceptés dans le nom (exemple : MCDONALD)."/>
+<PRECISIONS text="L'inscription doit être cadrée à gauche et le reste des espaces laissé à blanc."/>
+<DOMAINEDEVALEURS text="Lettres majuscules sans accent (A à Z)."/>
+<REQUISPAR text="Le MSSS, le RCC et les établissements de santé."/>
+</udps>
+</property>
+<property>
+<code>Prénom de la mère</code>
+<alias>009</alias>
+<baseType>NVARCHAR</baseType>
+<length>25</length>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Alphanumérique,  Longueur : 25."/>
+<DEFINITION text="Prénom de la mère à la naissance."/>
+<DESCRIPTIONCN text="Peut être absent. Exceptions ou réserve: Les signes tels que le trait d'union, l'apostrophe, le tiret etc. et les blancs ne sont pas acceptés dans le prénom (exemple : ANNEMARIE)."/>
+<PRECISIONS text="L'inscription doit être cadrée à gauche et le reste des espaces laissé à blanc."/>
+<DOMAINEDEVALEURS text="Lettres majuscules sans accent (A à Z). "/>
+<REQUISPAR text="Le MSSS, le RCC et les établissements de santé."/>
+</udps>
+</property>
+<property>
+<code>Lieu de naissance</code>
+<alias>010</alias>
+<baseType>NVARCHAR</baseType>
+<length>3</length>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Alphanumérique,  Longueur : 3."/>
+<DEFINITION text="La province ou le territoire (au Canada) ou le pays (autre que le Canada) où la personne est née."/>
+<DESCRIPTIONCN text="Les endroits sont codés d'après les frontières géopolitiques courantes. Cette information est obligatoire."/>
+<DOMAINEDEVALEURS text="Selon la table des codes créés par l'organisation internationale de normalisation (ISO). La série de codes originaux de l'ISO a été étendue afin d'inclure chaque province ainsi que les territoires du Canada.   &#10;Exceptions ou réserve : &#10;999 : province/pays de naissance inconnu "/>
+<REQUISPAR text="Le MSSS, le RCC et les établissements de santé."/>
+</udps>
+</property>
+</properties>
+<foreigns>
+<foreign>
+<code>RÉSIDENCE PATIENT-PERSONNE</code>
+<baseConcept>RÉSIDENCE PATIENT</baseConcept>
+<baseMin>1</baseMin>
+<baseMax>1</baseMax>
+<refMin>0</refMin>
+<refMax>1</refMax>
+</foreign>
+</foreigns>
+</concept>
+<concept>
+<code>ADMISSION INSTALLATION</code>
+<properties>
+<property>
+<code>Identifiant admission installation</code>
+<isNullable>False</isNullable>
+<isUnique>True</isUnique>
+</property>
+<property>
+<code>Date admission</code>
+<alias>041</alias>
+<baseType>INTEGER</baseType>
+<length>8</length>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Numérique,  Longueur : 8."/>
+<DEFINITION text="Date à laquelle la personne a été admise à l'établissement où le diagnostic a été posé."/>
+<DESCRIPTIONCN text="Cette information est obligatoire."/>
+<SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO."/>
+<DOMAINEDEVALEURS text="Positions 1 à 4 : siècle et année (1875 - 2000 années valides)&#10;Positions 5 et 6 : mois de janvier à décembre (01 à 12) &#10;Positions 7 et 8 : jour du mois ( 01 à 31) "/>
+<REQUISPAR text="Le MSSS, le RCC et les établissements de santé."/>
+</udps>
+</property>
+<property>
+<code>Date sortie</code>
+<alias>042</alias>
+<baseType>INTEGER</baseType>
+<length>8</length>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Numérique,  Longueur : 8."/>
+<DEFINITION text="Date à laquelle le bénéficiaire est sorti (vivant ou décédé) de l'établissement où le diagnostic a été posé. "/>
+<DESCRIPTIONCN text="Cette information est obligatoire."/>
+<SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO."/>
+<DOMAINEDEVALEURS text="Positions 1 à 4 : siècle et année ( 1875-2000 années valides) &#10;Positions 5 et 6 : mois de janvier à décembre ( 01 à 12 ) &#10;Positions 7 et 8 : jour du mois ( 01 à 31)  "/>
+<REQUISPAR text="Le MSSS, le RCC et les établissements de santé."/>
+</udps>
+</property>
+<property>
+<code>Secteur de soins ou source de transaction</code>
+<alias>025</alias>
+<baseType>INTEGER</baseType>
+<length>2</length>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Numérique,  Longueur : 2."/>
+<DEFINITION text="Code du secteur de soins de l'organisme qui fournit l'information initiale ou les données de mise à jour."/>
+<DESCRIPTIONCN text="Cette information est obligatoire."/>
+<VALIDATIONSINTERELEMENT text="Correspondance simple au central avec code de l'organisme."/>
+<SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO."/>
+<DOMAINEDEVALEURS text="01 soins de courte durée &#10;03 soins de longue durée et hébergement &#10;27 chirurgie d'un jour &#10;35 laboratoire &#10;36 fichier local des tumeurs  &#10;37 fichier provincial "/>
+<REQUISPAR text="Le MSSS et les établissements de santé."/>
+</udps>
+</property>
+<property>
+<code>Code d'organisme</code>
+<alias>023</alias>
+<isNullable>False</isNullable>
+<isForeign>True</isForeign>
+<foreignConcept>ETABLISSEMENT</foreignConcept>
+</property>
+<property>
+<code>DOSSIER PATIENT Code installation</code>
+<isNullable>False</isNullable>
+<isForeign>True</isForeign>
+<foreignConcept>DOSSIERPATIENT</foreignConcept>
+</property>
+<property>
+<code>Numéro de dossier médical</code>
+<alias>016</alias>
+<isNullable>False</isNullable>
+<isForeign>True</isForeign>
+<foreignConcept>DOSSIERPATIENT</foreignConcept>
+</property>
+<property>
+<code>Numéro de référence du diagnostic</code>
+<alias>044</alias>
+<isNullable>False</isNullable>
+<isForeign>True</isForeign>
+<foreignConcept>DIAGNOSTIC</foreignConcept>
+</property>
+<property>
+<code>Code installation</code>
+<isNullable>False</isNullable>
+<isForeign>True</isForeign>
+<foreignConcept>INSTALLATION</foreignConcept>
+</property>
+</properties>
+<foreigns>
+<foreign>
+<code>Installation de séjour</code>
+<alias>INSTALLATION-ADMISSION INSTALLATION</alias>
+<baseConcept>INSTALLATION</baseConcept>
+<baseMin>0</baseMin>
+<baseMax>N</baseMax>
+<refMin>1</refMin>
+<refMax>1</refMax>
+</foreign>
+<foreign>
+<code>Diagnostic d'admission (24.3)</code>
+<alias>DIAGNOSTIC-ADMISSION INSTALLATION</alias>
+<baseConcept>DIAGNOSTIC</baseConcept>
+<baseMin>0</baseMin>
+<baseMax>1</baseMax>
+<refMin>1</refMin>
+<refMax>1</refMax>
+</foreign>
+<foreign>
+<code>ETABLISSEMENT-ADMISSION INSTALLATION</code>
+<baseConcept>ETABLISSEMENT</baseConcept>
+<baseMin>1</baseMin>
+<baseMax>N</baseMax>
+<refMin>1</refMin>
+<refMax>1</refMax>
+</foreign>
+</foreigns>
+</concept>
+
+
+
+
+<concept>
+<code>MUNICIPALITÉ</code>
+<properties>
+<property>
+<code>Code municipal du lieu de résidence</code>
+<alias>013</alias>
+<baseType>NVARCHAR</baseType>
+<length>5</length>
+<isNullable>False</isNullable>
+<isUnique>True</isUnique>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Alphanumérique,  Longueur : 5."/>
+<DEFINITION text="Au moment du diagnostic de chaque nouvelle tumeur, code établi par l'ISQ et attribué à chacune des municipalités ayant un statut légalement reconnu et aux territoires non organisés du Québec. Pour les non résidents du Québec des codes ont été prévus et intégrés dans la table des codes possibles."/>
+<DESCRIPTIONCN text="Cette information est obligatoire."/>
+<VALIDATIONSINTERELEMENT text="Correspondance verticale au central avec code postal."/>
+<SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO."/>
+<DOMAINEDEVALEURS text="Liste des valeurs permises : Pour les résidents québécois :  selon les codes municipaux en vigueur du système référentiel ministériel &quot; Découpage géographique &quot; (M22). Pour les touristes :   selon la table ci-dessous Cas en provenance de l'Ontario :  88888 Inconnu :  99999 Description de certains codes particuliers : &#10;Codes des lieux de résidence pour les non résidents du Québec &#10;00080 Alberta &#10;00081 Colombie- Britannique &#10;00082 Île-du-Prince-Édouard &#10;00083 Manitoba 00084 Nouveau-Brunswick &#10;00085 Nouvelle-Écosse &#10;00086 Ontario &#10;00087 Saskatchewan &#10;00088 Terre-Neuve &#10;00089 Territoires du Nord-Ouest &#10;00090 Yukon &#10;00091 États-Unis d'Amérique (USA) &#10;00092 Autres pays "/>
+<REQUISPAR text="Le MSSS, le RCC et les établissements de santé. "/>
+</udps>
+</property>
+<property>
+<code>Code pays</code>
+<isNullable>False</isNullable>
+<isForeign>True</isForeign>
+<foreignConcept>CodeDesPaysSelonISO</foreignConcept>
+</property>
+</properties>
+<foreigns>
+<foreign>
+<code>Code des pays selon ISO-MUNICIPALITÉ</code>
+<baseConcept>Code des pays selon ISO</baseConcept>
+<baseMin>0</baseMin>
+<baseMax>N</baseMax>
+<refMin>1</refMin>
+<refMax>1</refMax>
+</foreign>
+</foreigns>
+</concept>
+<concept>
+<code>INSTALLATION</code>
+<properties>
+<property>
+<code>Code installation</code>
+<baseType>INTEGER</baseType>
+<length>8</length>
+<isNullable>False</isNullable>
+<isUnique>True</isUnique>
+<description text="(Installation de séjour) : Numéro matricule attribué à l'installation où les soins ont été donnés à l'usager et utilisé comme numéro de permis d'exploitation par le ministère de la Santé et des Services sociaux à la délivrance du permis. Dans le cas où un établissement a plus d'une installation avec une mission de centre hospitalier, les données doivent être transmises pour chacune des installations où sont donnés des soins. Ex. : Le code 1104 2371 est celui du Centre hospitalier universitaire de Québec. Or, cet établissement a plusieurs installations ayant une mission de centre hospitalier. Chaque installation utilisera donc son propre code pour la transmission des données MED-ÉCHO : 5121 7586 pavillon l'Hôtel-Dieu de Québec ; 5121 7594 pavillon le Centre hospitalier de l'Université Laval ; 5121 7602 pavillon Saint-François-d'Assise.  &#10;21 : Code de l'installation ou valeur établie pour le lieu d'où arrive l'usager. Il s'agit du numéro matricule attribué par le ministère de la Santé et des Services sociaux comme numéro de permis d'exploitation à la délivrance du permis ou d'une valeur attribuée à un lieu qui n'est pas une installation. Dans le cas où un établissement a plus d'une entité physique (installation), indiquer le code de l'entité d'où arrive l'usager, ce qui permettra de faire la distinction entre le transfert vers un autre établissement et le déplacement d'une installation à l'autre d'un même établissement.&#10;28 : Code de l'installation ou du lieu vers lequel a été dirigé l'usager après son hospitalisation. Il s'agit du numéro matricule attribué par le ministère de la Santé et des Services sociaux à la délivrance du permis s'il s'agit d'une installation, ou d'une valeur attribuée pour tout autre lieu. Dans le cas où une entreprise a plus d'une entité physique (installation), indiquer le code de l'entité vers où est dirigé l'usager, ce qui permettra de faire la distinction entre le transfert vers un autre établissement et le déplacement d'une installation à l'autre d'un même établissement. La valeur 00000000 est attribuée pour l'usager dont le « type de destination » a une valeur 21 (domicile), 31 (départ sans autorisation), 34 (maison funéraire après prélèvement d'organes) ou dans certaines conditions, une valeur 17 (CLSC) ou 30 (maison funéraire)."/>
+
+</property>
+<property>
+<code>Code d'organisme (023)</code>
+<isNullable>False</isNullable>
+<isForeign>True</isForeign>
+<foreignConcept>ETABLISSEMENT</foreignConcept>
+</property>
+</properties>
+<foreigns>
+<foreign>
+<code>ETABLISSEMENT-INSTALLATION</code>
+<baseConcept>ETABLISSEMENT</baseConcept>
+<baseMin>1</baseMin>
+<baseMax>N</baseMax>
+<refMin>1</refMin>
+<refMax>1</refMax>
+</foreign>
+</foreigns>
+</concept>
+<concept>
+<code>AUTOPSIE</code>
+<properties>
+<property>
+<code>Code autopsie confirmant la cause du décès</code>
+<alias>021</alias>
+<baseType>NVARCHAR</baseType>
+<length>1</length>
+<isNullable>False</isNullable>
+<isUnique>True</isUnique>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Alphanumérique,  Longueur : 1."/>
+<DEFINITION text="Code indiquant s'il y a eu autopsie ou non et dans l'affirmative, si la certification de la cause du décès tient compte de l'information fournie par l'autopsie."/>
+<DESCRIPTIONCN text="Peut être absent. Valeurs par défaut : Zéro (0)."/>
+<VALIDATIONSINTERELEMENT text="&lt;ul class=&quot;cuadro&quot;&gt;&#10;  &lt;li&gt;Correspondance verticale au central avec date du décès. &lt;/li&gt;&#10;  &lt;li&gt;Correspondance verticale au central avec source d'information décès. &lt;/li&gt;&#10;  &lt;li&gt;Correspondance verticale au central avec code de l'organisme. &lt;/li&gt;&#10;  &lt;li&gt;Correspondance verticale au central avec date de confirmation de la tumeur.&lt;/li&gt;&#10;&lt;/ul&gt;&#10;&#10;&#10;&#10;"/>
+<SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO, Système Statistiques démographiques (K29), Province déclarante RCC, CH québécois non client de MED-ÉCHO, Laboratoire."/>
+<DOMAINEDEVALEURS text="Telles qu'inscrites au Fichier des décès : &#10;1 : autopsie pratiquée, la cause déclarée du décès tient compte des résultats. &#10;2 : autopsie pratiquée, la cause déclarée du décès ne tient pas compte des résultats. &#10;9 : inconnu   "/>
+<REQUISPAR text="Le MSSS, le RCC et les établissements de santé."/>
+</udps>
+</property>
+<property>
+<code>Numéro d'enregistrement du décès</code>
+<alias>019</alias>
+<baseType>NVARCHAR</baseType>
+<length>6</length>
+<isNullable>False</isNullable>
+<isUnique>True</isUnique>
+<isForeign>True</isForeign>
+<foreignConcept>DECES</foreignConcept>
+<udps>
+<FORMAT text="Alphanumérique  Longueur : 6  "/>
+<DEFINITION text="Numéro séquentiel utilisé pour identifier le dossier de chacun des résidents du Québec qui décède au cours d'une année.  Il est attribué selon l'ordre d'arrivée des formulaires au cours de l'année du décès et des années subséquentes.  "/>
+<DESCRIPTIONCN text="Peut être absent.  Valeurs par défaut : Zéro (0)  "/>
+<VALIDATIONSINTERELEMENT text="Correspondance verticale au central avec date du décès. &#10;Correspondance verticale au central avec source d'information  décès. &#10;Correspondance verticale au central avec code de l'organisme.  "/>
+<SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO     "/>
+<DOMAINEDEVALEURS text="Telles qu'inscrites au Ficher des décès du Québec (K29). Liste des valeurs permises : &#10;101001 à 150000 : si la personne est décédée au Québec &#10;501001 et plus : si la personne est décédée à l'extérieur du Québec &#10;999998 : si la personnes est décédée à l'extérieur du Canada &#10;999999 :  personne décédée, mais numéro d'enregistrement inconnu "/>
+<REQUISPAR text="Le MSSS, le RCC et les établissements de santé  "/>
+<TRANSMISSION text="Élément non transmis à la banque centrale actuellement.  "/>
+</udps>
+</property>
+</properties>
+<foreigns>
+<foreign>
+<code>DÉCÈS-AUTOPSIE</code>
+<baseConcept>DÉCÈS</baseConcept>
+<baseMin>0</baseMin>
+<baseMax>N</baseMax>
+<refMin>1</refMin>
+<refMax>1</refMax>
+</foreign>
+</foreigns>
+</concept>
+<concept>
+<code>TRANSMISSION</code>
+<properties>
+<property>
+<code>Statut d'envoi à Statisque Canada</code>
+<alias>901</alias>
+<baseType>INTEGER</baseType>
+<length>1</length>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Numérique,  Longueur : 1."/>
+<DEFINITION text="Code indiquant la nature de la transaction à transmettre à Statistique Canada : une nouvelle inscription, la mise à jour d'un enregistrement déjà transmis, la suppression d'un enregistrement ou le changement de propriété."/>
+<DESCRIPTIONCN text="Peut être absent."/>
+<VALIDATIONSINTERELEMENT text="&lt;ul class=&quot;cuadro&quot;&gt;&#10;  &lt;li&gt;Correspondance verticale au central avec date de transmission à Statistique Canada.&lt;/li&gt;&#10;  &lt;li&gt;Correspondance verticale (ou hiérarchique)au central avec statut de la tumeur.&lt;/li&gt;&#10;&lt;/ul&gt;&#10;&#10;"/>
+<DOMAINEDEVALEURS text="1 ajout &#10;2 mise à jour &#10;3 suppression &#10;4 changement de propriété "/>
+<REQUISPAR text="Le MSSS et le RCC."/>
+</udps>
+</property>
+<property>
+<code>Date de transmission</code>
+</property>
+<property>
+<code>Date d'envoi à Statistique Canada</code>
+<alias>902</alias>
+<baseType>INTEGER</baseType>
+<length>8</length>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Numérique,  Longueur : 8."/>
+<DEFINITION text="Date à laquelle une copie de l'enregistrement &quot; patient &quot; a été extraite du FTQ pour l'introduction initiale ou la mise à jour subséquente dans le RCC."/>
+<DESCRIPTIONCN text="Peut être absent. Valeurs par défaut : Zéro (0). "/>
+<PRECISIONS text="Date complète figurant dans l'ordinateur au moment où l'enregistrement patient ou la tumeur a été extrait pour être transmis à Statistique Canada."/>
+<DOMAINEDEVALEURS text="Positions 1 à 4 :  siècle et année &#10;Positions 5 et 6 :  mois  &#10;Positions 7 et 8 :  jour  "/>
+<REQUISPAR text="Le MSSS et le RCC."/>
+</udps>
+</property>
+<property>
+<code>Code de l'utlisateur de confirmation</code>
+</property>
+<property>
+<code>Code du statut de raccordement</code>
+</property>
+</properties>
+<foreigns/>
+</concept>
+<concept>
+<code>DOSSIER PATIENT</code>
+<properties>
+<property>
+<code>Numéro de dossier médical</code>
+<alias>016</alias>
+<baseType>NVARCHAR</baseType>
+<length>12</length>
+<isNullable>False</isNullable>
+<isUnique>True</isUnique>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Alphanumérique,  Longueur : 12"/>
+<DEFINITION text="Le numéro de dossier médical attribué à la personne par l'établissement où le diagnostic a été posé. Une personne pour laquelle des diagnostics sont posés dans des établissements différents se verra assigner un numéro de dossier distinct pour chacun de ces établissements."/>
+<DESCRIPTIONCN text="Cette information est obligatoire."/>
+<PRECISIONS text="Le numéro de dossier doit être différent de zéro (0)."/>
+<DOMAINEDEVALEURS text="Les lettres A à Z ainsi que les nombres 0 à 9. "/>
+<REQUISPAR text="Le MSSS, le RCC et les établissements de santé."/>
+</udps>
+</property>
+<property>
+<code>Date de création du dossier patient</code>
+<alias>027</alias>
+<baseType>INTEGER</baseType>
+<length>8</length>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Numérique,  Longueur : 8."/>
+<DEFINITION text="Date de la première déclaration de la première tumeur pour la personne."/>
+<DESCRIPTIONCN text="Cette information est obligatoire. "/>
+<VALIDATIONSINTERELEMENT text="&lt;ul class=&quot;cuadro&quot;&gt;&#10;  &lt;li&gt;Correspondance relationnelle au central avec date de naissance.&lt;/li&gt;&#10;  &lt;li&gt;Correspondance relationnelle au central avec date de décès.&lt;/li&gt;&#10;  &lt;li&gt;Correspondance relationnelle au central avec date du jour. &lt;/li&gt;&#10;  &lt;li&gt;Correspondance relationnelle au central avec date de déclaration.&lt;/li&gt;&#10;&lt;/ul&gt;&#10; &#10; &#10;&#10;"/>
+<DOMAINEDEVALEURS text="Positions 1 à 4 : siècle et année (1975 à l'année courante) &#10;Positions 5 et 6 : mois &#10;Positions 7 et 8 : jour "/>
+<REQUISPAR text="Le MSSS et le RCC."/>
+</udps>
+</property>
+<property>
+<code>Date de la dernière hospitalisation</code>
+<alias>045</alias>
+<baseType>INTEGER</baseType>
+<length>8</length>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Numérique,  Longueur : 8."/>
+<DEFINITION text="Date de la dernière hospitalisation de la personne que l'on a traitée dans le système. Cette date est mise à jour par le raccordement.  "/>
+<DESCRIPTIONCN text="Cette information est obligatoire."/>
+<DOMAINEDEVALEURS text="Positions 1 à 4 : siècle et année (1875-2000 années valides) &#10;Positions 5 et 6 : mois de janvier à décembre ( 01 à 12 ) &#10;Positions 7 et 8 : jour du mois ( 01 à 31) "/>
+<REQUISPAR text="Le MSSS, le RCC et les établissements de santé. "/>
+<TRANSMISSION text="Donnée générée par le système."/>
+</udps>
+</property>
+<property>
+<code>Numéro identification de la personne</code>
+<alias>011</alias>
+<isNullable>False</isNullable>
+<isForeign>True</isForeign>
+<foreignConcept>PERSONNE</foreignConcept>
+</property>
+<property>
+<code>Code installation</code>
+<isNullable>False</isNullable>
+<isUnique>True</isUnique>
+<isForeign>True</isForeign>
+<foreignConcept>INSTALLATION</foreignConcept>
+</property>
+</properties>
+<foreigns>
+<foreign>
+<code>PERSONNE-DOSSIER PATIENT</code>
+<baseConcept>PERSONNE</baseConcept>
+<baseMin>0</baseMin>
+<baseMax>N</baseMax>
+<refMin>1</refMin>
+<refMax>1</refMax>
+</foreign>
+<foreign>
+<code>ADMISSION INSTALLATION-DOSSIER PATIENT</code>
+<baseConcept>ADMISSION INSTALLATION</baseConcept>
+<baseMin>1</baseMin>
+<baseMax>1</baseMax>
+<refMin>0</refMin>
+<refMax>N</refMax>
+</foreign>
+<foreign>
+<code>INSTALLATION-DOSSIER PATIENT</code>
+<baseConcept>INSTALLATION</baseConcept>
+<baseMin>0</baseMin>
+<baseMax>N</baseMax>
+<refMin>1</refMin>
+<refMax>1</refMax>
+</foreign>
+</foreigns>
+</concept>
+<concept>
+<code>ETABLISSEMENT</code>
+<properties>
+<property>
+<code>Code d'organisme</code>
+<alias>023</alias>
+<baseType>INTEGER</baseType>
+<length>8</length>
+<isUnique>True</isUnique>
+<description text="&#10;"/>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Numérique,  Longueur : 8.   &#10;"/>
+<DEFINITION text="Code de l'organisme qui transmet au Fichier des tumeurs les données d'enregistrement initiales ou les données de mise à jour de l'enregistrement.  Le code correspond au numéro de permis délivré à chacun des établissements de santé du Québec par le MSSS. Pour les organismes autres et ceux situés hors du Québec, des codes spéciaux ont été donnés par le Fichier des tumeurs.  &#10;"/>
+<DESCRIPTIONCN text="Cette information est obligatoire.  &#10;"/>
+<VALIDATIONSINTERELEMENT text="Validation-interélément au central avec source d'information sur le décès.  &#10;"/>
+<SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO Référentiel Établissements (M02).  "/>
+<DOMAINEDEVALEURS text="Le code doit être conforme aux valeurs présentées dans la liste des valeurs permises tirée du système référentiel ministériel &quot; ÉTABLISSEMENTS, M02 &quot; et selon la table des codes spéciaux.  Description de certains codes particuliers :  Les codes suivants sont à utiliser lorsque l'information est transmise par d'autres fichiers canadiens : &#10;07900079 Terre-Neuve &#10;07901077 Nouvelle-Écosse &#10;07902075 Île du Prince-Édouard &#10;07903073 Nouveau-Brunswick &#10;07904071 Ontario  &#10;07905078 Manitoba &#10;07906076 Alberta &#10;07907074 Saskatchewan &#10;07908072 Colombie-Britannique &#10;07909070 Territoires du Nord-Ouest &#10;07910078 Yukon &#10;00000029 Fichier des décès Québec "/>
+<REQUISPAR text="Le MSSS et les établissements de santé.  &#10;"/>
+</udps>
+</property>
+<property>
+<code>Code de la région de l'organisme</code>
+<alias>043</alias>
+<length>8</length>
+<isNullable>False</isNullable>
+<isForeign>True</isForeign>
+<foreignConcept>REGIONSOCIOSANITAIRE</foreignConcept>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Numérique,  Longueur : 8."/>
+<DEFINITION text="Code de l'organisme qui transmet au Fichier des tumeurs les données d'enregistrement initiales ou les données de mise à jour de l'enregistrement.  Le code correspond au numéro de permis délivré à chacun des établissements de santé du Québec par le MSSS. Pour les organismes autres et ceux situés hors du Québec, des codes spéciaux ont été donnés par le Fichier des tumeurs."/>
+<DESCRIPTIONCN text="Cette information est obligatoire."/>
+<VALIDATIONSINTERELEMENT text="Validation inter élément au central avec source d'information sur le décès."/>
+<SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO, Référentiel Établissements (M02)."/>
+<DOMAINEDEVALEURS text="Le code doit être conforme aux valeurs présentées dans la liste des valeurs permises tirée du système référentiel ministériel &quot; ÉTABLISSEMENTS, M02 &quot; et selon la table des codes spéciaux.  Description de certains codes particuliers :  Les codes suivants sont à utiliser lorsque l'information est transmise par d'autres fichiers canadiens : &#10;07900079  Terre-Neuve &#10;07901077 Nouvelle-Écosse &#10;07902075 Île du Prince-Édouard &#10;07903073 Nouveau-Brunswick &#10;07904071 Ontario &#10;07905078  Manitoba &#10;07906076 Alberta &#10;07907074 Saskatchewan &#10;07908072 Colombie-Britannique &#10;07909070 Territoires du Nord-Ouest &#10;07910078 Yukon &#10;00000029 Fichier des décès Québec   "/>
+<REQUISPAR text="Le MSSS et les établissements de santé."/>
+</udps>
+</property>
+</properties>
+<foreigns>
+<foreign>
+<code>REGION SOCIO-SANITAIRE-ETABLISSEMENT</code>
+<baseConcept>REGION SOCIO-SANITAIRE</baseConcept>
+<baseMin>0</baseMin>
+<baseMax>N</baseMax>
+<refMin>1</refMin>
+<refMax>1</refMax>
+</foreign>
+</foreigns>
+</concept>
+<concept>
+<code>CLSC</code>
+<properties>
+<property>
+<code>Code CLSC de résidence du patient</code>
+<alias>015</alias>
+<baseType>NVARCHAR</baseType>
+<length>5</length>
+<isNullable>False</isNullable>
+<isUnique>True</isUnique>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Alphanumérique,  Longueur : 5."/>
+<DEFINITION text="Il s'agit d'un code qui indique les territoires ou districts de CLSC de résidence du patient au moment du diagnostic. "/>
+<PRECISIONS text="Cette donnée est attribuée, à l'aide du code postal et du code municipal, par le système référentiel ministériel &quot; Découpage géographique &quot; (M22)."/>
+<SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO."/>
+<DOMAINEDEVALEURS text="Liste des valeurs permises : Selon les codes du système ministériel référentiel &quot; Découpage géographique &quot; (M22) :&#10;&lt;ul class=&quot;cuadro&quot;&gt;&#10;  &lt;li&gt;Positions 1 et 2 : région sociosanitaire.&lt;/li&gt;&#10;  &lt;li&gt;Position 3 : département de santé communautaire. &lt;/li&gt;&#10;  &lt;li&gt;Positions 4 et 5 : centre local de santé communautaire.&lt;/li&gt;&#10;  &lt;li&gt;XX000 : indéterminé (XX =code de la région sociosanitaire).&lt;/li&gt;&#10;  &lt;li&gt;99999 : touriste  Le découpage géographique est évolutif en fonction de décisions administratives gouvernementales qui touchent à la fois les territoires du MSSS et les autres entités territoriales. &lt;/li&gt;&#10;&lt;/ul&gt; &#10; &#10;&#10;  &#10; &#10;"/>
+<REQUISPAR text="Le MSSS, le RCC et les établissements de santé. "/>
+<TRANSMISSION text="Donnée générée par le système.  "/>
+</udps>
+</property>
+<property>
+<code>Nom du CLSC</code>
+<udps>
+<DEFINITION text="Voir élément 015 Code CLSC de résidence du patient&#10;"/>
+</udps>
+</property>
+</properties>
+<foreigns/>
+</concept>
+<concept>
+<code>REGION SOCIO-SANITAIRE</code>
+<properties>
+<property>
+<code>Code de la région de l'organisme</code>
+<alias>043</alias>
+<baseType>INTEGER</baseType>
+<length>2</length>
+<isNullable>False</isNullable>
+<isUnique>True</isUnique>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Numérique,  Longueur : 2"/>
+<DEFINITION text="Code de la région socio-sanitaire de l'établissement qui était en vigueur lorsque le diagnostic a été posé."/>
+<DESCRIPTIONCN text="Cette information est obligatoire.  "/>
+<SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO."/>
+<DOMAINEDEVALEURS text="01 Bas Saint-Laurent&#10;02 Saguenay-Lac Saint-Jean &#10;03 Québec  &#10;04 Mauricie-Bois-Francs &#10;05 Estrie 06 Montréal-Centre &#10;07 Outaouais &#10;08 Abitibi-Témiscamingue &#10;09 Côte-Nord &#10;10 Nord-du-Québec &#10;11 Gaspésie-Iles-de-la-Madeleine &#10;12 Chaudière-Appalaches &#10;13 Laval &#10;14 Lanaudière &#10;15 Laurentides &#10;16 Montérégie &#10;17 Nunavik &#10;18 Terres-Cries-de-la-Baie-James &#10;99 Hors Québec "/>
+<REQUISPAR text="Le MSSS, le RCC et les établissements de santé."/>
+</udps>
+</property>
+</properties>
+<foreigns/>
+</concept>
+<concept>
+<code>CIM-9</code>
+<description text="Ça devrait changer à CIM-10"/>
+<properties>
+<property>
+<code>Code CIM-9</code>
+<isNullable>False</isNullable>
+<isUnique>True</isUnique>
+</property>
+</properties>
+<foreigns/>
+</concept>
+<concept>
+<code>CATÉGORIE MÉTHODES DIAGNOSTIQUES</code>
+<properties>
+<property>
+<code>Mode de diagnostic</code>
+<alias>032</alias>
+<baseType>INTEGER</baseType>
+<length>2</length>
+<isNullable>False</isNullable>
+<isUnique>True</isUnique>
+<udps>
+<DOCUMENTDEREFERENCE text="Cadre Normatif 20 janvier 2004"/>
+<FORMAT text="Numérique,  Longueur : 2."/>
+<DEFINITION text="Le procédé le plus définitif par lequel la tumeur a été diagnostiquée."/>
+<DESCRIPTIONCN text="Cette information est obligatoire."/>
+<PRECISIONS text="En général, le mode ou méthode de diagnostic doit être fondé sur l'état du patient avant l'administration de tout traitement autre qu'une intervention chirurgicale.  Voir l'algorithme annexé ci-joint."/>
+<VALIDATIONSINTERELEMENT text="&lt;ul class=&quot;cuadro&quot;&gt;&#10;  &lt;li&gt;Correspondance verticale au central avec morphologie.&lt;/li&gt;&#10;  &lt;li&gt;Correspondance hiérarchique au central avec date du décès.&lt;/li&gt;&#10;  &lt;li&gt;Correspondance hiérarchique au central avec source information décès.&lt;/li&gt;&#10;&lt;/ul&gt;&#10; &#10; &#10;"/>
+<SOURCEDEDONNEESEXTERNES text="Système d'information MED-ÉCHO."/>
+<DOMAINEDEVALEURS text="Les catégories de méthodes diagnostiques sont énumérées ci-dessous, en ordre décroissant de priorité :&#10;01 biopsie ou histologie (que le tissu ait été prélevé du siège primaire ou d'un siège secondaire) &#10;02 cytologie  &#10;03 autopsie &#10;04 radiologie (médecine nucléaire) &#10;05 diagnostic clinique &#10;06 fait antérieurement ou non spécifié &#10;10 certificat de décès seulement (le certificat de décès étant l'unique source de renseignements sur le cas) "/>
+<REQUISPAR text="Le MSSS, le RCC et les établissements de santé."/>
+</udps>
+</property>
+<property>
+<code>Nom méthode diagnostique</code>
+<udps>
+<DEFINITION text="Voir élément 032 Mode de diagnostic"/>
+</udps>
+</property>
+</properties>
+<foreigns/>
+</concept>
+</concepts>
+</model>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</models>
+<linkModels>
+<linkModel>
+<code>Modèle de liens - FiTQ</code>
+<source>Vue Corporative - FiTQ</source>
+<destination>Vue locale - FiTQ</destination>
+<link>
+<code>Identifiant usager -&gt; Numéro identification de la personne (011)</code>
+<alias>1</alias>
+<destinationText>PERSONNE.Numéro identification de la personne</destinationText>
+<sourceCol>Identifiant usager</sourceCol>
+<destinationCol>Numéro identification de la personne</destinationCol>
+</link>
+<link>
+<code>NAM usager -&gt; NAM (001)</code>
+<alias>2</alias>
+<destinationText>PERSONNE.NAM</destinationText>
+<sourceCol>NAM usager</sourceCol>
+<destinationCol>NAM</destinationCol>
+</link>
+<link>
+<code>Date naissance usager -&gt; Date de naisance (002)</code>
+<alias>3</alias>
+<destinationText>PERSONNE.Date de naisance</destinationText>
+<sourceCol>Date naissance usager</sourceCol>
+<destinationCol>Date de naisance</destinationCol>
+</link>
+<link>
+<code>Sexe usager -&gt; Sexe (003)</code>
+<alias>4</alias>
+<destinationText>PERSONNE.Sexe</destinationText>
+<sourceCol>Sexe usager</sourceCol>
+<destinationCol>Sexe</destinationCol>
+</link>
+<link>
+<code>Nom usager -&gt; Nom à la naissance (004)</code>
+<alias>5</alias>
+<destinationText>PERSONNE.Nom à la naissance</destinationText>
+<sourceCol>Nom usager</sourceCol>
+<destinationCol>Nom à la naissance</destinationCol>
+</link>
+<link>
+<code>Prénom usager -&gt; Prénom à la naissance (005)</code>
+<alias>6</alias>
+<destinationText>PERSONNE.Prénom à la naissance</destinationText>
+<sourceCol>Prénom usager</sourceCol>
+<destinationCol>Prénom à la naissance</destinationCol>
+</link>
+<link>
+<code>Nom usager -&gt; Nom du père (006)</code>
+<alias>7</alias>
+<destinationText>PERSONNE.Nom du père</destinationText>
+<sourceCol>Nom usager</sourceCol>
+<destinationCol>Nom du père</destinationCol>
+</link>
+<link>
+<code>Prénom usager -&gt; Prénom du père (007)</code>
+<alias>8</alias>
+<destinationText>PERSONNE.Prénom du père</destinationText>
+<sourceCol>Prénom usager</sourceCol>
+<destinationCol>Prénom du père</destinationCol>
+</link>
+<link>
+<code>Nom usager -&gt; Nom de la mère (008)</code>
+<alias>9</alias>
+<destinationText>PERSONNE.Nom de la mère</destinationText>
+<sourceCol>Nom usager</sourceCol>
+<destinationCol>Nom de la mère</destinationCol>
+</link>
+<link>
+<code>Prénom usager -&gt; Prénom de la mère (009)</code>
+<alias>10</alias>
+<destinationText>PERSONNE.Prénom de la mère</destinationText>
+<sourceCol>Prénom usager</sourceCol>
+<destinationCol>Prénom de la mère</destinationCol>
+</link>
+<link>
+<code>Lieu de naissance -&gt; Lieu de naissance (010)</code>
+<alias>11</alias>
+<destinationText>PERSONNE.Lieu de naissance</destinationText>
+<sourceCol>Lieu de naissance</sourceCol>
+<destinationCol>Lieu de naissance</destinationCol>
+</link>
+<link>
+<code>Identifiant tumeur -&gt; Numéro de référence de la tumeur (040)</code>
+<alias>12</alias>
+<destinationText>TUMEUR.Numéro de référence de la tumeur</destinationText>
+<sourceCol>Identifiant tumeur</sourceCol>
+<destinationCol>Numéro de référence de la tumeur</destinationCol>
+</link>
+<link>
+<code>Topographie ou siège de la tumeur -&gt; Topographie ou siège de la tumeur (029)</code>
+<alias>13</alias>
+<destinationText>TUMEUR.Topographie ou siège de la tumeur</destinationText>
+<sourceCol>Topographie ou siège de la tumeur</sourceCol>
+<destinationCol>Topographie ou siège de la tumeur</destinationCol>
+</link>
+<link>
+<code>Morphologie de la tumeur -&gt; Morphologie (030)</code>
+<alias>14</alias>
+<destinationText>TUMEUR.Morphologie </destinationText>
+<sourceCol>Morphologie de la tumeur</sourceCol>
+<destinationCol>Morphologie </destinationCol>
+</link>
+<link>
+<code>Latéralité de la tumeur -&gt; Latéralité (035)</code>
+<alias>15</alias>
+<destinationText>TUMEUR.Latéralité</destinationText>
+<sourceCol>Latéralité de la tumeur</sourceCol>
+<destinationCol>Latéralité</destinationCol>
+</link>
+<link>
+<code>Stade initial de la tumeur -&gt; Stade initial de la tumeur (037)</code>
+<alias>16</alias>
+<destinationText>TUMEUR.Stade initial de la tumeur</destinationText>
+<sourceCol>Stade initial de la tumeur</sourceCol>
+<destinationCol>Stade initial de la tumeur</destinationCol>
+</link>
+<link>
+<code>Statut de la tumeur -&gt; Statut de la tumeur (039)</code>
+<alias>17</alias>
+<destinationText>TUMEUR.Statut de la tumeur</destinationText>
+<sourceCol>Statut de la tumeur</sourceCol>
+<destinationCol>Statut de la tumeur</destinationCol>
+</link>
+<link>
+<code>Identifiant séjour installation -&gt; Identifiant admission installation</code>
+<alias>18</alias>
+<destinationText>ADMISSION INSTALLATION.Identifiant admission installation</destinationText>
+<sourceCol>Identifiant séjour installation</sourceCol>
+<destinationCol>Identifiant admission installation</destinationCol>
+</link>
+<link>
+<code>Date et Heure début séjour installation -&gt; Date admission (041)</code>
+<alias>19</alias>
+<destinationText>ADMISSION INSTALLATION.Date admission</destinationText>
+<sourceCol>Date et Heure début séjour installation</sourceCol>
+<destinationCol>Date admission</destinationCol>
+</link>
+<link>
+<code>Date et Heure fin séjour installation -&gt; Date sortie (042)</code>
+<alias>20</alias>
+<destinationText>ADMISSION INSTALLATION.Date sortie</destinationText>
+<sourceCol>Date et Heure fin séjour installation</sourceCol>
+<destinationCol>Date sortie</destinationCol>
+</link>
+<link>
+<code>Identifiant diagnostic -&gt; Numéro de référence du diagnostic (044)</code>
+<alias>21</alias>
+<destinationText>DIAGNOSTIC.Numéro de référence du diagnostic</destinationText>
+<sourceCol>Identifiant diagnostic</sourceCol>
+<destinationCol>Numéro de référence du diagnostic</destinationCol>
+</link>
+<link>
+<code>Identifiant code diagnostic -&gt; Code CIM-9</code>
+<alias>22</alias>
+<destinationText>CIM-9.Code CIM-9</destinationText>
+<sourceCol>Identifiant code diagnostic</sourceCol>
+<destinationCol>Code CIM-9</destinationCol>
+</link>
+<link>
+<code>Identifiant décès usager -&gt; Numéro d'enregistrement du décès (019)</code>
+<alias>23</alias>
+<destinationText>DÉCÈS.Numéro d'enregistrement du décès</destinationText>
+<sourceCol>Identifiant décès usager</sourceCol>
+<destinationCol>Numéro d'enregistrement du décès</destinationCol>
+</link>
+<link>
+<code>Date décès usager -&gt; Date du décès (017)</code>
+<alias>24</alias>
+<destinationText>DÉCÈS.Date du décès</destinationText>
+<sourceCol>Date décès usager</sourceCol>
+<destinationCol>Date du décès</destinationCol>
+</link>
+<link>
+<code>Lieu du décès usager -&gt; Lieu du décès (018)</code>
+<alias>25</alias>
+<destinationText>DÉCÈS.Lieu du décès</destinationText>
+<sourceCol>Lieu du décès usager</sourceCol>
+<destinationCol>Lieu du décès</destinationCol>
+</link>
+<link>
+<code>Cause médicale décès usager -&gt; Cause sous-jacente du décès (020)</code>
+<alias>26</alias>
+<destinationText>DÉCÈS.Cause sous-jacente du décès</destinationText>
+<sourceCol>Cause médicale décès usager</sourceCol>
+<destinationCol>Cause sous-jacente du décès</destinationCol>
+</link>
+<link>
+<code>Identifiant inscription installation -&gt; Numéro de dossier médical (016)</code>
+<alias>27</alias>
+<destinationText>DOSSIER PATIENT.Numéro de dossier médical</destinationText>
+<sourceCol>Identifiant inscription installation</sourceCol>
+<destinationCol>Numéro de dossier médical</destinationCol>
+</link>
+<link>
+<code>Date inscription installation -&gt; Date de création du dossier patient (027)</code>
+<alias>28</alias>
+<destinationText>DOSSIER PATIENT.Date de création du dossier patient</destinationText>
+<sourceCol>Date inscription installation</sourceCol>
+<destinationCol>Date de création du dossier patient</destinationCol>
+</link>
+<link>
+<code>Identifiant élément territorial -&gt; Code municipal du lieu de résidence (013)</code>
+<alias>30</alias>
+<destinationText>MUNICIPALITÉ.Code municipal du lieu de résidence</destinationText>
+<sourceCol>Identifiant élément territorial</sourceCol>
+<destinationCol>Code municipal du lieu de résidence</destinationCol>
+</link>
+<link>
+<code>Numéro de permis ODS -&gt; Code d'organisme (023)</code>
+<alias>30</alias>
+<destinationText>ETABLISSEMENT.Code d'organisme</destinationText>
+<sourceCol>Numéro de permis ODS</sourceCol>
+<destinationCol>Code d'organisme</destinationCol>
+</link>
+<link>
+<code>Numéro au permis -&gt; Code installation</code>
+<alias>31</alias>
+<destinationText>INSTALLATION.Code installation</destinationText>
+<sourceCol>Numéro au permis</sourceCol>
+<destinationCol>Code installation</destinationCol>
+</link>
+</linkModel>
+<linkModel>
+<code>Modèle de liens - APR-DRG </code>
+<source>Vue Corporative - APR-DRG</source>
+<destination>Vue locale - APR-DRG</destination>
+<link>
+<code>NAM usager -&gt; Numéro Assurance Maladie 043</code>
+<alias>1</alias>
+<destinationText>BÉNÉFICIAIRE.Numéro Assurance Maladie </destinationText>
+<sourceCol>NAM usager</sourceCol>
+<destinationCol>Numéro Assurance Maladie </destinationCol>
+</link>
+<link>
+<code>Date naissance usager -&gt; Date naissance 012</code>
+<alias>2</alias>
+<destinationText>BÉNÉFICIAIRE.Date naissance </destinationText>
+<sourceCol>Date naissance usager</sourceCol>
+<destinationCol>Date naissance </destinationCol>
+</link>
+<link>
+<code>Poids à la naissance usager -&gt; Masse à la naissance 014</code>
+<alias>3</alias>
+<destinationText>BÉNÉFICIAIRE.Masse à la naissance </destinationText>
+<sourceCol>Poids à la naissance usager</sourceCol>
+<destinationCol>Masse à la naissance </destinationCol>
+</link>
+<link>
+<code>Sexe usager -&gt; Sexe bénéficiaire 015</code>
+<alias>4</alias>
+<destinationText>BÉNÉFICIAIRE.Sexe bénéficiaire </destinationText>
+<sourceCol>Sexe usager</sourceCol>
+<destinationCol>Sexe bénéficiaire </destinationCol>
+</link>
+<link>
+<code>Identifiant élément territorial -&gt; Code postal bénéficiaire 1à3 016 </code>
+<alias>5</alias>
+<destinationText>BÉNÉFICIAIRE.Code postal bénéficiaire 1à3  </destinationText>
+<sourceCol>Identifiant élément territorial</sourceCol>
+<destinationCol>Code postal bénéficiaire 1à3  </destinationCol>
+</link>
+<link>
+<code>Identifiant élément territorial -&gt; Code postal bénéficiaire 4à6 017</code>
+<alias>6</alias>
+<destinationText>BÉNÉFICIAIRE.Code postal bénéficiaire 4à6 </destinationText>
+<sourceCol>Identifiant élément territorial</sourceCol>
+<destinationCol>Code postal bénéficiaire 4à6 </destinationCol>
+</link>
+<link>
+<code>Identifiant élément territorial -&gt; Code municiapal bénéficiaire 018</code>
+<alias>7</alias>
+<destinationText>BÉNÉFICIAIRE.Code géographique bénéficiaire </destinationText>
+<sourceCol>Identifiant élément territorial</sourceCol>
+<destinationCol>Code géographique bénéficiaire </destinationCol>
+</link>
+<link>
+<code>Identifiant élément territorial -&gt; CLSC bénéficiaire 020</code>
+<alias>8</alias>
+<destinationText>BÉNÉFICIAIRE.CLSC bénéficiaire </destinationText>
+<sourceCol>Identifiant élément territorial</sourceCol>
+<destinationCol>CLSC bénéficiaire </destinationCol>
+</link>
+<link>
+<code>Numéro au permis -&gt; Code installation 002</code>
+<alias>9</alias>
+<destinationText>INSTALLATION.Code installation</destinationText>
+<sourceCol>Numéro au permis</sourceCol>
+<destinationCol>Code installation</destinationCol>
+</link>
+<link>
+<code>Description unité service -&gt; Type soins 003</code>
+<alias>10</alias>
+<destinationText>TYPE SOINS.Type soins </destinationText>
+<sourceCol>Description unité service</sourceCol>
+<destinationCol>Type soins </destinationCol>
+</link>
+<link>
+<code>Date et Heure début séjour-unité.1 -&gt; Date admission bénéficiaire 004</code>
+<alias>11</alias>
+<destinationText>HOSPITALISATION.Date admission bénéficiaire</destinationText>
+<sourceCol>Date et Heure début séjour-unité.1</sourceCol>
+<destinationCol>Date admission bénéficiaire</destinationCol>
+</link>
+<link>
+<code>Date et Heure début séjour installation -&gt; Date admission bénéficiaire 004</code>
+<alias>12</alias>
+<destinationText>HOSPITALISATION.Date admission bénéficiaire</destinationText>
+<sourceCol>Date et Heure début séjour installation</sourceCol>
+<destinationCol>Date admission bénéficiaire</destinationCol>
+</link>
+<link>
+<code>Date et Heure fin séjour installation -&gt; Date sortie bénéficiaire 005</code>
+<alias>13</alias>
+<destinationText>HOSPITALISATION.Date sortie bénéficiaire </destinationText>
+<sourceCol>Date et Heure fin séjour installation</sourceCol>
+<destinationCol>Date sortie bénéficiaire </destinationCol>
+</link>
+<link>
+<code>Identifiant élément territorial -&gt; RSS - CLSC installation 007</code>
+<alias>14</alias>
+<destinationText>INSTALLATION.RSS - CLSC installation </destinationText>
+<sourceCol>Identifiant élément territorial</sourceCol>
+<destinationCol>RSS - CLSC installation </destinationCol>
+</link>
+<link>
+<code>Nom élément territorial -&gt; RSS - CLSC installation 007</code>
+<alias>15</alias>
+<destinationText>INSTALLATION.RSS - CLSC installation </destinationText>
+<sourceCol>Nom élément territorial</sourceCol>
+<destinationCol>RSS - CLSC installation </destinationCol>
+</link>
+<link>
+<code>Type ODS -&gt; Type provenance 021</code>
+<alias>16</alias>
+<destinationText>HOSPITALISATION.Type provenance </destinationText>
+<sourceCol>Type ODS</sourceCol>
+<destinationCol>Type provenance </destinationCol>
+</link>
+<link>
+<code>Code type ODS -&gt; Code installation provenance 022</code>
+<alias>17</alias>
+<destinationText>HOSPITALISATION.Code installation provenance </destinationText>
+<sourceCol>Code type ODS</sourceCol>
+<destinationCol>Code installation provenance </destinationCol>
+</link>
+<link>
+<code>Identifiant code diagnostic -&gt; Diagnostic principal 025</code>
+<alias>18</alias>
+<destinationText>DIAGNOSTIC PRINCIPAL.Diagnostic principal </destinationText>
+<sourceCol>Identifiant code diagnostic</sourceCol>
+<destinationCol>Diagnostic principal </destinationCol>
+</link>
+<link>
+<code>Identifiant spécialité médecin -&gt; Spécialité médecin </code>
+<alias>19</alias>
+<destinationText>SPÉCIALITÉ MÉDECIN.Spécialité médecin </destinationText>
+<sourceCol>Identifiant spécialité médecin</sourceCol>
+<destinationCol>Spécialité médecin </destinationCol>
+</link>
+<link>
+<code>Description spécialité médecin -&gt; Spécialité médecin </code>
+<alias>20</alias>
+<destinationText>SPÉCIALITÉ MÉDECIN.Spécialité médecin </destinationText>
+<sourceCol>Description spécialité médecin</sourceCol>
+<destinationCol>Spécialité médecin </destinationCol>
+</link>
+<link>
+<code>Numéro au permis -&gt; Code installaton destination </code>
+<alias>21</alias>
+<destinationText>HOSPITALISATION.Code installaton destination </destinationText>
+<sourceCol>Numéro au permis</sourceCol>
+<destinationCol>Code installaton destination </destinationCol>
+</link>
+<link>
+<code>Date et Heure début séjour urgence -&gt; Date inscription à l'urgence</code>
+<alias>22</alias>
+<destinationText>SÉJOUR À L'URGENCE.Date inscription à l'urgence</destinationText>
+<sourceCol>Date et Heure début séjour urgence</sourceCol>
+<destinationCol>Date inscription à l'urgence</destinationCol>
+</link>
+<link>
+<code>Date et heure fin contact -&gt; Date traitement opératoire (DRG)</code>
+<alias>25</alias>
+<destinationText>TRAITEMENT OPÉRATOIRE.Date traitement opératoire (DRG)</destinationText>
+<sourceCol>Date et heure fin contact</sourceCol>
+<destinationCol>Date traitement opératoire (DRG)</destinationCol>
+</link>
+<link>
+<code>Identifiant spécialité médecin -&gt; Spécialité chirurgien </code>
+<alias>26</alias>
+<destinationText>TRAITEMENT OPÉRATOIRE.Spécialité chirurgien (DRG) </destinationText>
+<sourceCol>Identifiant spécialité médecin</sourceCol>
+<destinationCol>Spécialité chirurgien (DRG) </destinationCol>
+</link>
+<link>
+<code>Description spécialité médecin -&gt; Spécialité chirurgien </code>
+<alias>27</alias>
+<destinationText>TRAITEMENT OPÉRATOIRE.Spécialité chirurgien (DRG) </destinationText>
+<sourceCol>Description spécialité médecin</sourceCol>
+<destinationCol>Spécialité chirurgien (DRG) </destinationCol>
+</link>
+<link>
+<code>Identifiant code intervention -&gt; Traitement opératiore 050</code>
+<alias>28</alias>
+<destinationText>TRAITEMENT OPÉRATOIRE.Traitement opératiore (DRG) </destinationText>
+<sourceCol>Identifiant code intervention</sourceCol>
+<destinationCol>Traitement opératiore (DRG) </destinationCol>
+</link>
+<link>
+<code>Description code intervention -&gt; Traitement opératiore 050</code>
+<alias>29</alias>
+<destinationText>TRAITEMENT OPÉRATOIRE.Traitement opératiore (DRG) </destinationText>
+<sourceCol>Description code intervention</sourceCol>
+<destinationCol>Traitement opératiore (DRG) </destinationCol>
+</link>
+<link>
+<code>Identifiant DRG -&gt; Code APR-DRG </code>
+<alias>28</alias>
+<destinationText>APR-DRG.Code APR-DRG </destinationText>
+<sourceCol>Identifiant DRG</sourceCol>
+<destinationCol>Code APR-DRG </destinationCol>
+</link>
+<link>
+<code>Description unité service -&gt; Description unité soins intensifs</code>
+<alias>29</alias>
+<destinationText>SÉJOUR AUX SOINS INTENSIFS.Description unité soins intensifs</destinationText>
+<sourceCol>Description unité service</sourceCol>
+<destinationCol>Description unité soins intensifs</destinationCol>
+</link>
+<link>
+<code>Description code diagnostic -&gt; Diagnostic principal </code>
+<alias>30</alias>
+<destinationText>DIAGNOSTIC PRINCIPAL.Diagnostic principal </destinationText>
+<sourceCol>Description code diagnostic</sourceCol>
+<destinationCol>Diagnostic principal </destinationCol>
+</link>
+<link>
+<code>Numéro de permis ODS -&gt; Code de l'établissement </code>
+<alias>31</alias>
+<destinationText>ÉTABLISSEMENT.Code de l'établissement </destinationText>
+<sourceCol>Numéro de permis ODS</sourceCol>
+<destinationCol>Code de l'établissement </destinationCol>
+</link>
+<link>
+<code>Identifiant spécialité médecin -&gt; Spécialité de l'anesthésiste </code>
+<alias>32</alias>
+<destinationText>TRAITEMENT OPÉRATOIRE.Spécialité de l'anesthésiste </destinationText>
+<sourceCol>Identifiant spécialité médecin</sourceCol>
+<destinationCol>Spécialité de l'anesthésiste </destinationCol>
+</link>
+<link>
+<code>Description spécialité médecin -&gt; Spécialité de l'anesthésiste </code>
+<alias>33</alias>
+<destinationText>TRAITEMENT OPÉRATOIRE.Spécialité de l'anesthésiste </destinationText>
+<sourceCol>Description spécialité médecin</sourceCol>
+<destinationCol>Spécialité de l'anesthésiste </destinationCol>
+</link>
+<link>
+<code>Remarque accident -&gt; Code cause extétieure accident</code>
+<alias>34</alias>
+<destinationText>ACCIDENT.Code cause extétieure accident</destinationText>
+<sourceCol>Remarque accident</sourceCol>
+<destinationCol>Code cause extétieure accident</destinationCol>
+</link>
+</linkModel>
+<linkModel>
+<code>ML iCLSC</code>
+<source>Vue Corporative - iCLSC</source>
+<destination>Vue locale - iCLSC</destination>
+<link>
+<code>Âge gestationnel -&gt; Âge gestationnel </code>
+<alias>1</alias>
+<destinationText>DÉLIVRANCE SERVICE PÉRINATALITÉ.Âge gestationnel </destinationText>
+<sourceCol>Âge gestationnel</sourceCol>
+<destinationCol>Âge gestationnel </destinationCol>
+</link>
+<link>
+<code>Date création groupe usagers -&gt; Date ouverture dossier usager </code>
+<alias>2</alias>
+<destinationText>USAGER.Date ouverture dossier usager </destinationText>
+<sourceCol>Date création groupe usagers</sourceCol>
+<destinationCol>Date ouverture dossier usager </destinationCol>
+</link>
+<link>
+<code>Date début service périnatalité -&gt; Date début service périnatalité</code>
+<alias>3</alias>
+<destinationText>DÉLIVRANCE SERVICE PÉRINATALITÉ.Date début service périnatalité</destinationText>
+<sourceCol>Date début service périnatalité</sourceCol>
+<destinationCol>Date début service périnatalité</destinationCol>
+</link>
+<link>
+<code>Date de début de la grossesse -&gt; Durée gestation</code>
+<alias>4</alias>
+<destinationText>ACCOUCHEMENT.Durée gestation</destinationText>
+<sourceCol>Date de début de la grossesse</sourceCol>
+<destinationCol>Durée gestation</destinationCol>
+</link>
+<link>
+<code>Date de fin de la grossesse -&gt; Durée gestation</code>
+<alias>5</alias>
+<destinationText>ACCOUCHEMENT.Durée gestation</destinationText>
+<sourceCol>Date de fin de la grossesse</sourceCol>
+<destinationCol>Durée gestation</destinationCol>
+</link>
+<link>
+<code>Date et heure début contact -&gt; Date activité ponctuelle </code>
+<alias>6</alias>
+<destinationText>ACTIVITÉ PONCTUELLE.Date activité ponctuelle </destinationText>
+<sourceCol>Date et heure début contact</sourceCol>
+<destinationCol>Date activité ponctuelle </destinationCol>
+</link>
+<link>
+<code>Date et heure début contact -&gt; Date intervention</code>
+<alias>7</alias>
+<destinationText>INTERVENTION.Date intervention</destinationText>
+<sourceCol>Date et heure début contact</sourceCol>
+<destinationCol>Date intervention</destinationCol>
+</link>
+<link>
+<code>Date et heure fin accouchement -&gt; Date effective accouchement</code>
+<alias>8</alias>
+<destinationText>ACCOUCHEMENT.Date effective accouchement</destinationText>
+<sourceCol>Date et heure fin accouchement</sourceCol>
+<destinationCol>Date effective accouchement</destinationCol>
+</link>
+<link>
+<code>Date et heure fin contact -&gt; Date intervention</code>
+<alias>9</alias>
+<destinationText>INTERVENTION.Date intervention</destinationText>
+<sourceCol>Date et heure fin contact</sourceCol>
+<destinationCol>Date intervention</destinationCol>
+</link>
+<link>
+<code>Date et heure réception demande service -&gt; Daté réception demande services </code>
+<alias>10</alias>
+<destinationText>DEMANDE SERVICES.Daté réception demande services </destinationText>
+<sourceCol>Date et heure réception demande service</sourceCol>
+<destinationCol>Daté réception demande services </destinationCol>
+</link>
+<link>
+<code>Date fin service périnatalité -&gt; Date fin service périnatalité</code>
+<alias>11</alias>
+<destinationText>DÉLIVRANCE SERVICE PÉRINATALITÉ.Date fin service périnatalité</destinationText>
+<sourceCol>Date fin service périnatalité</sourceCol>
+<destinationCol>Date fin service périnatalité</destinationCol>
+</link>
+<link>
+<code>Date naissance usager -&gt; Date de naissance usager-individu</code>
+<alias>12</alias>
+<destinationText>USAGER.Date de naissance usager-individu</destinationText>
+<sourceCol>Date naissance usager</sourceCol>
+<destinationCol>Date de naissance usager-individu</destinationCol>
+</link>
+<link>
+<code>Durée effective contact -&gt; Durée intervention </code>
+<alias>13</alias>
+<destinationText>INTERVENTION.Durée intervention </destinationText>
+<sourceCol>Durée effective contact</sourceCol>
+<destinationCol>Durée intervention </destinationCol>
+</link>
+<link>
+<code>Etat demande service -&gt; Décision demande services </code>
+<alias>14</alias>
+<destinationText>DEMANDE SERVICES.Décision demande services </destinationText>
+<sourceCol>Etat demande service</sourceCol>
+<destinationCol>Décision demande services </destinationCol>
+</link>
+<link>
+<code>Identifiant code intervention -&gt; Acte </code>
+<alias>15</alias>
+<destinationText>ACTE.Acte </destinationText>
+<sourceCol>Identifiant code intervention</sourceCol>
+<destinationCol>Acte </destinationCol>
+</link>
+<link>
+<code>Identifiant code intervention -&gt; Acte activité ponctuelle </code>
+<alias>16</alias>
+<destinationText>ACTE ACTIVITÉ PONCTUELLE.Acte activité ponctuelle </destinationText>
+<sourceCol>Identifiant code intervention</sourceCol>
+<destinationCol>Acte activité ponctuelle </destinationCol>
+</link>
+<link>
+<code>Identifiant code intervention -&gt; Activité principale usager-communautaire</code>
+<alias>17</alias>
+<destinationText>ACTIVITÉ PRINCIPALE COMMUNAUTAIRE.Activité principale usager-communautaire</destinationText>
+<sourceCol>Identifiant code intervention</sourceCol>
+<destinationCol>Activité principale usager-communautaire</destinationCol>
+</link>
+<link>
+<code>Identifiant code intervention -&gt; Numéro intervention </code>
+<alias>18</alias>
+<destinationText>INTERVENTION.Numéro intervention </destinationText>
+<sourceCol>Identifiant code intervention</sourceCol>
+<destinationCol>Numéro intervention </destinationCol>
+</link>
+<link>
+<code>Identifiant code intervention -&gt; Service spécifique périnatalité</code>
+<alias>19</alias>
+<destinationText>SERVICE SPÉCIFIQUE PÉRINATALITÉ.Service spécifique périnatalité</destinationText>
+<sourceCol>Identifiant code intervention</sourceCol>
+<destinationCol>Service spécifique périnatalité</destinationCol>
+</link>
+<link>
+<code>Identifiant contact -&gt; Numéro intervention </code>
+<alias>20</alias>
+<destinationText>INTERVENTION.Numéro intervention </destinationText>
+<sourceCol>Identifiant contact</sourceCol>
+<destinationCol>Numéro intervention </destinationCol>
+</link>
+<link>
+<code>Identifiant demande service -&gt; Numéro demande services </code>
+<alias>21</alias>
+<destinationText>DEMANDE SERVICES.Numéro demande services </destinationText>
+<sourceCol>Identifiant demande service</sourceCol>
+<destinationCol>Numéro demande services </destinationCol>
+</link>
+<link>
+<code>Identifiant groupe usagers -&gt; Numéro dossier usager </code>
+<alias>22</alias>
+<destinationText>USAGER.Numéro dossier usager </destinationText>
+<sourceCol>Identifiant groupe usagers</sourceCol>
+<destinationCol>Numéro dossier usager </destinationCol>
+</link>
+<link>
+<code>Identifiant intervenant -&gt; Identifiant intervenant</code>
+<alias>23</alias>
+<destinationText>INTERVENANT.Identifiant intervenant</destinationText>
+<sourceCol>Identifiant intervenant</sourceCol>
+<destinationCol>Identifiant intervenant</destinationCol>
+</link>
+<link>
+<code>Identifiant ODS -&gt; Code CLSC </code>
+<alias>24</alias>
+<destinationText>CLSC.Code CLSC </destinationText>
+<sourceCol>Identifiant ODS</sourceCol>
+<destinationCol>Code CLSC </destinationCol>
+</link>
+<link>
+<code>Identifiant usager -&gt; Numéro dossier usager </code>
+<alias>25</alias>
+<destinationText>USAGER.Numéro dossier usager </destinationText>
+<sourceCol>Identifiant usager</sourceCol>
+<destinationCol>Numéro dossier usager </destinationCol>
+</link>
+<link>
+<code>Identifiant usager -&gt; Numéro fiche périnatalité</code>
+<alias>26</alias>
+<destinationText>DÉLIVRANCE SERVICE PÉRINATALITÉ.Numéro fiche périnatalité</destinationText>
+<sourceCol>Identifiant usager</sourceCol>
+<destinationCol>Numéro fiche périnatalité</destinationCol>
+</link>
+<link>
+<code>Lieu contact -&gt; Lieu activité ponctuelle </code>
+<alias>27</alias>
+<destinationText>ACTIVITÉ PONCTUELLE.Lieu activité ponctuelle </destinationText>
+<sourceCol>Lieu contact</sourceCol>
+<destinationCol>Lieu activité ponctuelle </destinationCol>
+</link>
+<link>
+<code>Lieu contact -&gt; Lieu intervention </code>
+<alias>28</alias>
+<destinationText>INTERVENTION.Lieu intervention </destinationText>
+<sourceCol>Lieu contact</sourceCol>
+<destinationCol>Lieu intervention </destinationCol>
+</link>
+<link>
+<code>Motif demande service -&gt; Objet demande services</code>
+<alias>29</alias>
+<destinationText>DEMANDE SERVICES.Objet demande services</destinationText>
+<sourceCol>Motif demande service</sourceCol>
+<destinationCol>Objet demande services</destinationCol>
+</link>
+<link>
+<code>Numéro centre activité -&gt; Centre d'activité </code>
+<alias>30</alias>
+<destinationText>CENTRE ACTIVITÉ.Centre d'activité </destinationText>
+<sourceCol>Numéro centre activité</sourceCol>
+<destinationCol>Centre d'activité </destinationCol>
+</link>
+<link>
+<code>Numéro centre activité -&gt; Centre d'activité de l'activité ponctuelle 050</code>
+<alias>31</alias>
+<destinationText>ACTIVITÉ PONCTUELLE.Centre d'activité de l'activité ponctuelle</destinationText>
+<sourceCol>Numéro centre activité</sourceCol>
+<destinationCol>Centre d'activité de l'activité ponctuelle</destinationCol>
+</link>
+<link>
+<code>Numéro centre activité -&gt; Centre d'activité de l'intervention</code>
+<alias>32</alias>
+<destinationText>INTERVENTION.Centre d'activité de l'intervention</destinationText>
+<sourceCol>Numéro centre activité</sourceCol>
+<destinationCol>Centre d'activité de l'intervention</destinationCol>
+</link>
+<link>
+<code>Numéro centre activité -&gt; Centre d'activité de la demande de services </code>
+<alias>33</alias>
+<destinationText>DEMANDE SERVICES.Centre d'activité de la demande de services </destinationText>
+<sourceCol>Numéro centre activité</sourceCol>
+<destinationCol>Centre d'activité de la demande de services </destinationCol>
+</link>
+<link>
+<code>Poids à la naissance usager -&gt; Poids bébé naissance </code>
+<alias>34</alias>
+<destinationText>BÉBÉ.Poids bébé naissance </destinationText>
+<sourceCol>Poids à la naissance usager</sourceCol>
+<destinationCol>Poids bébé naissance </destinationCol>
+</link>
+<link>
+<code>Raison cessation service périnatalité -&gt; Raison cessation service périnatalité</code>
+<alias>35</alias>
+<destinationText>DÉLIVRANCE SERVICE PÉRINATALITÉ.Raison cessation service périnatalité</destinationText>
+<sourceCol>Raison cessation service périnatalité</sourceCol>
+<destinationCol>Raison cessation service périnatalité</destinationCol>
+</link>
+<link>
+<code>Raison contact -&gt; Raison </code>
+<alias>36</alias>
+<destinationText>RAISON.Raison </destinationText>
+<sourceCol>Raison contact</sourceCol>
+<destinationCol>Raison </destinationCol>
+</link>
+<link>
+<code>Service spécifique périnatalité -&gt; Service spécifique périnatalité</code>
+<alias>37</alias>
+<destinationText>SERVICE SPÉCIFIQUE PÉRINATALITÉ.Service spécifique périnatalité</destinationText>
+<sourceCol>Service spécifique périnatalité</sourceCol>
+<destinationCol>Service spécifique périnatalité</destinationCol>
+</link>
+<link>
+<code>Sexe usager -&gt; Sexe usager-individu </code>
+<alias>38</alias>
+<destinationText>USAGER.Sexe usager-individu </destinationText>
+<sourceCol>Sexe usager</sourceCol>
+<destinationCol>Sexe usager-individu </destinationCol>
+</link>
+<link>
+<code>Type groupe usagers -&gt; Population-cible usager </code>
+<alias>39</alias>
+<destinationText>POPULATION-CIBLE USAGER.Population-cible usager </destinationText>
+<sourceCol>Type groupe usagers</sourceCol>
+<destinationCol>Population-cible usager </destinationCol>
+</link>
+<link>
+<code>Type groupe usagers -&gt; Population cible communautaire </code>
+<alias>40</alias>
+<destinationText>POPULATION-CIBLE COMMUNAUTAIRE.Population cible communautaire </destinationText>
+<sourceCol>Type groupe usagers</sourceCol>
+<destinationCol>Population cible communautaire </destinationCol>
+</link>
+<link>
+<code>Type groupe usagers -&gt; Catégorie usager-communautaire</code>
+<alias>41</alias>
+<destinationText>CATÉGORIE USAGER-COMMUNAUTAIRE.Catégorie usager-communautaire</destinationText>
+<sourceCol>Type groupe usagers</sourceCol>
+<destinationCol>Catégorie usager-communautaire</destinationCol>
+</link>
+</linkModel>
+</linkModels>
+</domain>
+</domains>
+

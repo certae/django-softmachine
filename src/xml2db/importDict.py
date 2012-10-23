@@ -143,11 +143,10 @@ class importDict():
         fdsPropertyDom = ( 'code', 'category',  'baseType', 'defaultValue', )
         intPropertyDom = ( 'prpLength',  )
         
-        fdsPropertyConcept = ( 'alias', 'physicalName', )
+        fdsPropertyConcept = ( 'alias', 'physicalName', 'foreignConcept' )
         booPropertyConcept = ( 'isNullable', 'isRequired', 'isSensitive', 'isEssential', 'isUnique', 'isForeign')
-        keyPropertyConcept = ( 'foreignConcept', )
         
-        fdsRelationship = ( 'code', 'baseMin', 'baseMax', 'refMin', 'refMax', )
+        fdsRelationship = ( 'baseConcept', 'code', 'baseMin', 'baseMax', 'refMin', 'refMax', )
 
         fdsPropertyEquivalence = ('code', 'alias', 'description', )
 
@@ -250,11 +249,6 @@ class importDict():
                                     bValue = toBoolean(child.text )
                                     setattr( prpConcept, child.tag, bValue )
 
-                                elif child.tag in keyPropertyConcept:
-                                    oAux = getConceptRef( dModel, child.text )
-                                    if oAux:     
-                                        setattr( prpConcept, child.tag, oAux )
-
                                 elif child.tag == 'udps':
                                     for xUdp in child:
                                         prpUdps.append( (xUdp.tag, xUdp.get('text') ) )
@@ -274,10 +268,6 @@ class importDict():
                         for xForeign in xForeigns:
                             dForeign = Relationship()
                             dForeign.refConcept = dConcept
-
-                            #Obtiene las refs
-                            oAux = getPrpRef( dDomain , xForeign.find( 'baseConcept' ).text )
-                            if oAux:  dForeign.baseConcept = oAux  
 
                             for child in xForeign:
                                 if child.tag in fdsRelationship:
@@ -364,7 +354,7 @@ def getModelRef( dDomain, modelName  ):
         return mAux[0] 
 
 def getPrpRef( dDomain , propName  ):
-    mAux = PropertyModel.objects.filter( domain = dDomain, code = propName  )
+    mAux = PropertyDom.objects.filter( domain = dDomain, code = propName  )
     if mAux: 
         return mAux[0] 
 

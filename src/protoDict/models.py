@@ -113,7 +113,7 @@ class PropertyModel(models.Model):
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
     def __unicode__(self):
-        return self.model.code + '.' +  self.concept.code    
+        return unicode( self.model.code ) + ' - ' +  unicode( self.propertyDom.code )
 
     class Meta:
         unique_together = ('model', 'propertyDom',  )
@@ -142,7 +142,8 @@ class PropertyConcept(models.Model):
     defaultValue = models.CharField( blank = True, null = True, max_length=50)
     
     isForeign = models.BooleanField()
-    foreignConcept = models.ForeignKey('PropertyDom',blank = True, null = True, related_name = 'fConcept')
+    """No se puede crear el vinculo inmediato, pues es posible q no este aun creado""" 
+    foreignConcept = models.CharField( blank = True, null = True, max_length=50)
     foreignFilter = models.CharField( blank = True, null = True, max_length=50)
 
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
@@ -161,8 +162,10 @@ class Relationship(models.Model):
     * La relaciones son en realidad campos q apuntan a otro concepto  
     """
 
-    baseConcept = models.ForeignKey('Concept', related_name = 'bConcept')
-    refConcept = models.ForeignKey('Concept', related_name = 'rConcept')
+    refConcept = models.ForeignKey('Concept', related_name = 'bConcept')
+
+    """No se puede crear el vinculo inmediato, pues es posible q no este aun creado""" 
+    baseConcept = models.CharField( blank = True, null = True, max_length=50)
 
     """ Nombre del set en la tabla base ( related_name de Django ) """
     """ Nombre del campo referenciado (fKey) """
@@ -179,7 +182,7 @@ class Relationship(models.Model):
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
     def __unicode__(self):
-        return self.baseConcept + ' -> ' + self.refConcept
+        return unicode( self.baseConcept  ) + ' -> ' + unicode( self.refConcept.code ) 
 
 
 class PropertyEquivalence(models.Model):
@@ -195,7 +198,7 @@ class PropertyEquivalence(models.Model):
     tag = models.CharField(blank = True, null = True, max_length=50)
 
     def __unicode__(self):
-        return self.sourceProperty.code + '.' + self.targetProperty.code   
+        return self.sourceProperty.code + ' - ' + self.targetProperty.code   
 
     class Meta:
         unique_together = ('sourceProperty', 'targetProperty',  )
