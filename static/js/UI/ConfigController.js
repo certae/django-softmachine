@@ -68,7 +68,7 @@ Ext.define('ProtoUL.UI.ConfigController', {
         
     showMetaConfig: function () {
         var safeConf =  clone( this.myMeta , 0 )
-        this.showConfig( 'MetaConfig', safeConf )
+        showConfig( 'MetaConfig', safeConf )
     }, 
 
     showColsConfig: function() {
@@ -81,7 +81,7 @@ Ext.define('ProtoUL.UI.ConfigController', {
         var treeData = Meta2Tree( safeConf, 'pcl' , 'pcl' ) 
         safeConf = Tree2Meta( treeData ) 
 
-        this.showConfig( 'm2t t2m' , safeConf  )
+        showConfig( 'm2t t2m' , safeConf  )
     }, 
         
 
@@ -155,18 +155,8 @@ Ext.define('ProtoUL.UI.ConfigController', {
         
         myWin.show()
 
-    }, 
+    } 
          
-    
-    showConfig: function ( title , myConf ) {
-        Ext.Msg.show({
-           title: title,
-           multiline : true,   
-           width : 800, 
-           height : 600, 
-           value: Ext.encode( myConf ) 
-           });
-    }
 
 
       

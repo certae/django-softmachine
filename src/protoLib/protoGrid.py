@@ -137,10 +137,11 @@ class ProtoGridFactory(object):
         """ El field set determina la distribucion de los campos en la forma
         """ 
         
-        prFieldSet = self.protoAdmin.get( 'protoForm', []) 
-
+        pForm = self.protoAdmin.get( 'protoForm', { 'items' : [] }) 
+        prFieldSet = pForm[ 'items' ]
+        
         # Si no han sido definido genera por defecto  
-        if (len( prFieldSet )  == 0 ):
+        if ( len( prFieldSet )   == 0 ):
 
             # Toma la lista del field set si no existe lo crea de base, 
             baseFieldSet = verifyList( getattr(self.model_admin , 'fieldsets', []))
@@ -148,11 +149,12 @@ class ProtoGridFactory(object):
             if (len( baseFieldSet )  == 0 ):        
                 # Genera la lista de campos y agrega el nombre al diccionario
 
+                prBlank = []                
                 prItems = []                
                 prTexts = []
                 prChecks = []
                 prN2N = []
-                prIds = []
+#                prIds = []
                                 
                 for key in self.protoFields:
                     vFld = self.protoFields.get( key , {})
@@ -164,7 +166,8 @@ class ProtoGridFactory(object):
                         prTexts.append( { 'name' : key  , '__ptType' : 'formField'} ) 
                          
                     elif ( fType in ['autofield', 'foreignid'] ) :
-                        prIds.append( { 'name' : key  , '__ptType' : 'formField'} )
+#                        prIds.append( { 'name' : key  , '__ptType' : 'formField'} )
+                        continue
 
                     elif ( fType  == 'bool' ) :
                         prChecks.append( { 'name' : key  , '__ptType' : 'formField'} )
@@ -172,8 +175,12 @@ class ProtoGridFactory(object):
                     elif ( fType == 'protoN2N' ) :
                         prN2N.append( { 'name' : key  , '__ptType' : 'formField'} )
 
-#                    elif ( vFld.get( 'name', '' )  == '__str__' ) :
+                    elif ( vFld.get( 'name', '' )  == '__str__' ) :
 #                        prTexts.insert( 0, { 'name' : key  , '__ptType' : 'formField'} )
+                        continue
+
+                    elif ( vFld.get( 'allowBlank', True  )): 
+                        prBlank.append( { 'name' : key  , '__ptType' : 'formField'} )
                          
                     else:  
                         prItems.append( { 'name' : key  , '__ptType' : 'formField'} )
@@ -189,9 +196,9 @@ class ProtoGridFactory(object):
                     prSection['items'] = prChecks 
                     prFieldSet.append ( prSection )
 
-                if prN2N : 
-                    prSection = { '__ptType' : 'fieldset','fsLayout' : '1col'  }
-                    prSection['items'] = prN2N 
+                if prBlank : 
+                    prSection = { '__ptType' : 'fieldset','fsLayout' : '2col'  }
+                    prSection['items'] = prBlank 
                     prFieldSet.append ( prSection )
 
                 if prTexts : 
@@ -199,10 +206,16 @@ class ProtoGridFactory(object):
                     prSection['items'] = prTexts 
                     prFieldSet.append ( prSection )
 
-                if prIds : 
-                    prSection = { '__ptType' : 'fieldset','fsLayout' : '2col'  }
-                    prSection['items'] = prIds 
+
+                if prN2N : 
+                    prSection = { '__ptType' : 'fieldset','fsLayout' : '1col'  }
+                    prSection['items'] = prN2N 
                     prFieldSet.append ( prSection )
+
+#                if prIds : 
+#                    prSection = { '__ptType' : 'fieldset','fsLayout' : '2col'  }
+#                    prSection['items'] = prIds 
+#                    prFieldSet.append ( prSection )
 
             
             # si existe un fieldset convierte la estructura                      
@@ -224,7 +237,7 @@ class ProtoGridFactory(object):
                     prSection['items'] =  prItems   
                     prFieldSet.append( prSection )
             
-        return prFieldSet 
+        return pForm 
         
 
 

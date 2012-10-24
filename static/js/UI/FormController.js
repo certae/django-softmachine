@@ -224,8 +224,14 @@ Ext.define('ProtoUL.UI.FormController', {
         me.prFormLayout = [];
         me.N2Nfields = []
 
-        for ( var ixV in myFormDefinition) {
-            var lObj = myFormDefinition[ixV];
+        //FIx : Compatibilidad con la version vieja,  debe eliminarse  --- 
+        if ( ! myFormDefinition.items  ) {
+            myFormDefinition = { 'items': myFormDefinition }
+        }
+        //FIx : Compatibilidad con la version vieja,  debe eliminarse ---/
+         
+        for ( var ixV in myFormDefinition.items) {
+            var lObj = myFormDefinition.items[ixV];
             
             // Envia el contenedor y el objeto   
             var prItem = defineProtoFormItem( {__ptType : 'panel'}, lObj )

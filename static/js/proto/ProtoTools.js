@@ -26,8 +26,9 @@ function Meta2Tree( oData, pName, ptType   ) {
         if ( __ptConfig.name )      pName  = __ptConfig.name
 
 
-        // Form 
-        if ( ptType in oc([ 'fieldset','tabpanel','accordeon','panel'])) {
+        // Form ( debe manejar el raiz sin el marco de items )
+        if ( pName == 'protoForm') { ptType = 'protoForm' }
+        if ( ptType in oc([ 'protoForm', 'fieldset','tabpanel','accordeon','panel'])) {
             var tData = getNodeBase( pName, ptType, __ptConfig  )
             tData['children'] = formContainer2Tree( oData.items )
             return tData 
@@ -160,6 +161,7 @@ function Meta2Tree( oData, pName, ptType   ) {
 
     return tData 
 
+
 } ; 
 
 
@@ -195,6 +197,7 @@ function Tree2Meta( tNode  ) {
 
             // El __ptConfig corresponde a la conf basica del node
             mData =  get_ptConfig( __ptConfig  ) 
+            if ( ! mData.__ptType ) mData.__ptType = __ptType    
             // if ( ! mData.name ) mData.name = __ptText    
             getChilds( tData, tChilds , mData , sType)
             
@@ -237,7 +240,7 @@ function Tree2Meta( tNode  ) {
     
         
         // If protoForm then add items ( Se eliminaron en el arbol para facilidad de usuario )            
-        if ( mData.__ptType in oc([ 'fieldset','tabpanel','accordeon','panel'])) {
+        if ( mData.__ptType in oc([ 'protoForm','fieldset','tabpanel','accordeon','panel'])) {
             mData['items']  = []
             sType = 'items'
         }           
@@ -315,20 +318,6 @@ function get_ptConfig( oData   ) {
 }             
 
 
-
-function getNodeBase( pName, ptType, __ptConfig  ) {
-    // Obtiene un Id y genera  una referencia cruzada de la pcl con el arbol 
-    // El modelo debe crear la referencia a la data o se perdera en el treeStore
-
-    return  { 
-        'id'            :  Ext.id(),
-        'text'          :  pName, 
-        '__ptType'      :  ptType, 
-        '__ptConfig'    :  __ptConfig,
-        'children'      :  [] 
-    }
-
-}
 
 
 function formContainer2Tree( items ) {
@@ -423,3 +412,16 @@ function Tree2Menu( tNode  ) {
     
 }
 
+function getNodeBase( pName, ptType, __ptConfig  ) {
+    // Obtiene un Id y genera  una referencia cruzada de la pcl con el arbol 
+    // El modelo debe crear la referencia a la data o se perdera en el treeStore
+
+    return  { 
+        'id'            :  Ext.id(),
+        'text'          :  pName, 
+        '__ptType'      :  ptType, 
+        '__ptConfig'    :  __ptConfig,
+        'children'      :  [] 
+    }
+
+}

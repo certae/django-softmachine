@@ -16,6 +16,7 @@ Ext.application({
     appFolder: 'static/js',
 
     requires: [
+        'Ext.window.MessageBox',
         'Ext.toolbar.Paging', 
         'Ext.layout.container.Border',
         
@@ -30,7 +31,7 @@ Ext.application({
 
         'ProtoUL.ux.Printer',
         'ProtoUL.ux.GridHeaderToolTip',
-        'ProtoUL.ux.GridCheckColumn'
+        'ProtoUL.ux.GridCheckColumn' 
     ],
 
 

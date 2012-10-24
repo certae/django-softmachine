@@ -1,3 +1,18 @@
+Forma 
+
+    Designer : Eliminar del menu los componentes 
+
+    Eliminar el tipo html,  y Agregar un htmlFieldSet,  sera un hbox con todos los campos definidos,
+    se carga directamente el html en cada panel  y tendra un tool de edicion q invocara una ventana
+    de edicion html, asi solo existe un unico editor al tiempo. 
+
+    Agregar en la ventana el acceso al protoForm. 
+
+    Verificar el manejo de los combos 
+
+    Verificar el tamano de la ventana conf desde la meta 
+
+
 Generacion de dictionartio, 
     Las entidades tendran una funcion de generacion de su esquema Django de base, 
     El modelo recogera todas las propieades y presentara el esquema. 

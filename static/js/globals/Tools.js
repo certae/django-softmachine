@@ -360,3 +360,26 @@ function getGridColumn( myGrid, dataIndex  ) {
     }
 }
 
+
+function showConfig( title , myConf ) {
+
+        var msgBox =  Ext.create('Ext.window.MessageBox', {
+            minHeight: 200,
+            maxHeight: 500,
+            defaultMinHeight: 200,
+            defaultMaxHeight: 500,
+            defaultTextHeight : 250
+        });
+    
+        // msgBox.maxHeight = 600
+        // msgBox.minHeight = 200
+        
+        var sValue = Ext.encode( myConf )
+        
+        msgBox.show({
+           width : 800, 
+           multiline : true,   
+           title: title,
+           value: sValue
+        })
+    }
