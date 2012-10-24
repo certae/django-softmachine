@@ -99,9 +99,9 @@ function getTemplate( ptType, forForm,  metaDict  )  {
         prps = Ext.apply( prps, prpDict   )
     }
 
-    // Garantiza q no venga una definicion generica 
-    if ( ! prps.xtype  ) prps.xtype = ptType 
-    if ( prps.xtype == 'formField' ) prps.xtype = 'textfield' 
+    // Garantiza q no venga una definicion generica ( solo para los formFields ) 
+    // if ( ! prps.xtype  ) prps.xtype = ptType 
+    if ( ( prps.xtype == 'formField' ) ||  ( ptType == 'formField' )) prps.xtype = 'textfield' 
  
 
     return {'__ptConfig' : prps, 

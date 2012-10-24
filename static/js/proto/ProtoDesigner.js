@@ -248,7 +248,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                         if ( ptType in  oc(['Fields', 'Containers', 'Grids']))
                             return false
 
-                        if ( ptType in oc( ['fieldset'])) {
+                        if ( ptType in oc( ['htmlset', 'fieldset'])) {
 
                             // Obtiene el padre y el ix
                             var nParent = overModel.store.getById( overModel.data.parentId )

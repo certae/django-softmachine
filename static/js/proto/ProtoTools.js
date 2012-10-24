@@ -28,7 +28,7 @@ function Meta2Tree( oData, pName, ptType   ) {
 
         // Form ( debe manejar el raiz sin el marco de items )
         if ( pName == 'protoForm') { ptType = 'protoForm' }
-        if ( ptType in oc([ 'protoForm', 'fieldset','tabpanel','accordeon','panel'])) {
+        if ( ptType in oc([ 'protoForm', 'htmlset', 'fieldset','tabpanel','accordeon','panel'])) {
             var tData = getNodeBase( pName, ptType, __ptConfig  )
             tData['children'] = formContainer2Tree( oData.items )
             return tData 
@@ -188,7 +188,7 @@ function Tree2Meta( tNode  ) {
     if  ( tData.__ptConfig )  __ptConfig = tData.__ptConfig
     
     __ptType  = getPtType( tData ) 
-    // if ( __ptType in oc([ 'protoForm', 'fieldset'])) {console.log( __ptType , tNode )}  
+    // if ( __ptType in oc([ 'protoForm', 'htmlset', 'fieldset'])) {console.log( __ptType , tNode )}  
 
     if ( __ptConfig )  { 
 
@@ -230,6 +230,13 @@ function Tree2Meta( tNode  ) {
         
     }
 
+
+    // Borra el __ptType 
+    if ( mData.__ptType  ) { 
+        if ( !( mData.__ptType in oc([ 'protoForm','htmlset', 'fieldset','tabpanel','accordeon','panel', 'formField']))) {
+            delete mData.__ptType 
+        }
+    } 
 
     return mData 
     
@@ -333,7 +340,7 @@ function formContainer2Tree( items ) {
         var ptType = __ptConfig.__ptType
         
         //  contenedores de la forma 
-        if ( ptType in oc([ 'fieldset','tabpanel','accordeon','panel'])) {
+        if ( ptType in oc([ 'htmlset', 'fieldset','tabpanel','accordeon','panel'])) {
 
             t2Data = getNodeBase(  ptType, ptType, __ptConfig  )
             t2Data['children'] = formContainer2Tree( oData.items )
