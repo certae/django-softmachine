@@ -62,12 +62,12 @@ Ext.define('ProtoUL.view.ProtoForm', {
             activeRecord : null,
             
             items : this.prFormLayout,
-            dockedItems : this.getDockedItems() 
+            dockedItems : this.getDockedItems(),  
 
-            // tools: [{
-            // handler: this.showFormConfig,
-            // handler: this.showLayoutConfig,
-            // }]
+            tools: [{
+                handler: this.showFormConfig,
+                handler: this.showLayoutConfig
+            }]
             
         });
         

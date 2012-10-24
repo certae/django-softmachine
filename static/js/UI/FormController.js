@@ -309,6 +309,16 @@ Ext.define('ProtoUL.UI.FormController', {
                     prLayout.initialFilter = { 'pk': -1 }
         
                     delete protoObj.__ptConfig.name 
+
+
+                } else if ( __ptType == 'htmlset'  ) {
+                    
+                    template = getTemplate( __ptType  , true  )
+                    prLayout = Ext.apply( template.__ptConfig , protoObj.__ptConfig  ) 
+                    
+                    prLayout.htlmFields = protoObj.items 
+                    
+                    delete protoObj.__ptConfig.name 
                     
                 } else {
                       

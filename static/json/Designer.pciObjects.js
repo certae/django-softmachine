@@ -208,6 +208,16 @@ DesignerObjects =  {
         ]
     },
 
+    "htmlset": {
+        "description": "A Fieldset, containing HtmlField elements",
+        "properties": [
+            "title", 
+            "collapsible", "collapsed", 
+            "flex", 
+            "height","maxHeight","minHeight","width", "maxWidth","minWidth"
+        ]
+    },
+
     "formField": {
         "description": "A field element",
         "properties": [
@@ -256,101 +266,3 @@ DesignerObjects =  {
 
 
 
-
-
-/* 
-    FieldContainer implements the Labelable mixin. 
-    Varios campos son presentados con un label y un sitio comun para los mensajes de error 
-    A common use is for grouping a set of related fields under a single label in a form.
-    FieldContainer Inherit itself and  can pass fieldDefaults to any fields it may itself contain 
-    Otros:  Ext.form.CheckboxGroup or Ext.form.RadioGroup 
-    
-    -- Props adicionales 
-    hideLabels      :  Oculta  todos los labels de los campos
-    
-    -- Props fijas    
-    combineErrors   : true 
-    autoScroll      : true
-    
-    --- Comentarios 
-    title corresponde al label del grupo
-     
-
-        // "choices": '',
-        // "align": "right",
-
-        // TODO: BackEnd, Grid, No 
-        "sortable": oData.sortable || false
-
-        // FIX:  Q es esto por q 3 propiedades q pueden ser las misma vaina  readOnly, editable   
-        // "editable": false,
-        
-        // "name": oData.name ,
-        // "zoomModel": oData.zoomModel 
-        // "cellLink": oData.cellLink ,
-        // "fkField":  oData.fkField, 
-        // "fkId": oData.fkId,
-
-
-        "labelWidth" : 'ancho del label',
-        "labelAlign" : "left",
-        "labelWidth" : 75,
-        "labelAlign" : "left",
-        "labelAlign" : [ "top", "left"]
-    
-
-    }, {
-    
-        "text": "Field Set",
-        "qtip": "A Fieldset, containing other form elements",
-        "children": [], 
-        "__ptConfig": {
-            "xtype": "fieldset",
-            "title": "Legend",
-            "autoHeight": true
-        }
-    }, {
-        "text": "Absolute Layout",
-        "qtip": "Layout containing many elements, absolutely positionned with x/y values",
-        "children": [], 
-        "__ptConfig": {
-            "layout": "absolute",
-            "title": "AbsoluteLayout Container"
-        }
-    }, {
-        "text": "Accordion Panel",
-        "qtip": "Layout as accordion",
-        "children": [], 
-        "wizard": "wizard/accordion-wiz.json"
-    }, {
-        "text": "Column Layout",
-        "qtip": "Layout of columns",
-        "children": [], 
-        "wizard": "wizard/column-wiz.json"
-    }, {
-        "text": "Border Layout",
-        "qtip": "Layout with regions",
-        "children": [], 
-        "wizard": "wizard/border-wiz.json"
-    }
-
-
-        {
-            "text": "Label",
-            "qtip": "A textlabel",
-            "leaf": true,
-            "__ptConfig": {
-                "xtype": "label",
-                "text": "Label"
-            }
-        }, {
-            "text": "Button",
-            "qtip": "A button",
-            "leaf": true,
-            "__ptConfig": {
-                "xtype": "button",
-                "text": "Ok"
-            }
-        }
-
-*/

@@ -247,7 +247,7 @@ function Tree2Meta( tNode  ) {
     
         
         // If protoForm then add items ( Se eliminaron en el arbol para facilidad de usuario )            
-        if ( mData.__ptType in oc([ 'protoForm','fieldset','tabpanel','accordeon','panel'])) {
+        if ( mData.__ptType in oc([ 'protoForm','htmlset', 'fieldset','tabpanel','accordeon','panel'])) {
             mData['items']  = []
             sType = 'items'
         }           

@@ -657,7 +657,7 @@ function getFormFieldDefinition( vFld ) {
         break;
 
     case 'html':
-        formEditor.xtype = 'htmlfield'
+        formEditor.xtype = 'textarea'
         formEditor.height = 100
         formEditor.labelAlign = 'top'
         break;

@@ -14,124 +14,7 @@
         "disabled": false,
         "itemId" : "delete"
 
-    },"-",{
 
-        // "text": "Fields",
-        "tooltip" : "add fields",
-        "itemId" : "fields",
-        "iconCls" : "icon-pclFields", 
-        "menu": {
-            "xtype": 'protoMenu', 
-            "items": []
-        }
-    }, {
-
-        // "text"    : "Containers",
-        "itemId"  : "containers",
-        "tooltip" : "add containers",
-        "iconCls" : "icon-pclContainers", 
-        "menu": {
-            "xtype": 'protoMenu', 
-            "items": [
-            {
-                "text": "fieldset",
-                "qtip": "A Fieldset, containing other form elements",
-                "__ptType": "fieldset",
-                "children": [], 
-                "__ptConfig": {
-                    "__ptType": "fieldset"
-                }
-            }, {
-                "text": "Panel",
-                "qtip": "A simple panel with default layout",
-                "__ptType" : "panel", 
-                "children": [], 
-                "__ptConfig": {
-                    "layout": "fit",
-                    "xtype": "panel", 
-                    "__ptType" : "panel"
-                }
-            }, {
-                "text": "Tab Container",
-                "qtip": "A panel with many tabs",
-                "__ptType": "tabpanel",
-                "children": [], 
-                "__ptConfig": {
-                    "__ptType" : "tabpanel", 
-                    "layout": "fit",
-                    "title": "",
-                    "activeItem": 0
-                }
-            }, {
-                "text": "Tab Panel",
-                "qtip": "A tab panel",
-                "__ptType": "tab",
-                "children": [], 
-                "__ptConfig": {
-                    "__ptType": "tab",
-                    "layout": "fit",
-                    "title": ""
-                }
-
-            }, {
-                "text": "Accordion Panel",
-                "qtip": "Layout as accordion",
-                "__ptType": "accordion",
-                "children": [], 
-                "__ptConfig": {
-                    "__ptType" : "accordion", 
-                    "layout": "fit",
-                    "title": "",
-                    "activeItem": 0
-                }
-                
-            }, {
-                "text": "fieldcontainer",
-                "qtip": "A Fieldset, containing field elements",
-                "__ptType": "fieldcontainer",
-                "children": [], 
-                "__ptConfig": {
-                    "__ptType": "fieldcontainer"
-                    } 
-            }
-        ]}
-
-
-    }, {
-        // "text": "Details",
-        "tooltip" : "add details",
-        "itemId" : "details",
-        "iconCls" : "icon-pclDetails", 
-        "menu": {
-            "xtype": 'protoMenu', 
-            "items": []
-        }
-    }, {
-        // "text": "Others",
-        "tooltip" : "add others",
-        "itemId" : "others",
-        "iconCls" : "icon-pclOthers", 
-        "menu": {
-            "xtype": 'protoMenu', 
-            "items": [
-            {
-                "text": "Label",
-                "qtip": "A textlabel",
-                "leaf": true,
-                "__ptConfig": {
-                    "xtype": "label",
-                    "text": "Label"
-                }
-            }, {
-                "text": "Button",
-                "qtip": "A button",
-                "leaf": true,
-                "__ptConfig": {
-                    "xtype": "button",
-                    "text": "Ok"
-                }
-            }
-        ]}
     },    
 
 // --------------
@@ -228,6 +111,14 @@
                     "__ptType": "fieldset"
                 }
             }, {
+                "text": "htmlset",
+                "qtip": "A Fieldset, containing HML elements",
+                "__ptType": "htmlset",
+                "children": [], 
+                "__ptConfig": {
+                    "__ptType": "htmlset"
+                }
+            }, {
                 "text": "Panel",
                 "qtip": "A simple panel with default layout",
                 "__ptType" : "panel", 
@@ -307,27 +198,4 @@
         ]
     }]    
 }
-
-/*  ----------------------------------------------------------
-
-            }, {
-                "text": "Absolute Layout",
-                "qtip": "Layout containing many elements, absolutely positionned with x/y values",
-                "children": [], 
-                "__ptConfig": {
-                    "layout": "absolute",
-                    "title": "AbsoluteLayout Container"
-                }
-            }, {
-                "text": "Accordion Panel",
-                "qtip": "Layout as accordion",
-                "__ptType": "tab",
-                "children": [], 
-                "__ptConfig": {
-                    "layout": "fit",
-                    "title": ""
-                }
-
- 
- */
 
