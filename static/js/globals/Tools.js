@@ -232,7 +232,7 @@ function VerifyLast( sAux , sChar   ) {
 function FormatJsonStr( sData ) {
     var oData = {}; 
 
-    // Verifica q no venga vacion 
+    // Verifica q no venga vacio 
     if ( ! sData ) return oData
     
     // Separado para debuguer 
@@ -368,7 +368,8 @@ function showConfig( title , myConf ) {
             maxHeight: 500,
             defaultMinHeight: 200,
             defaultMaxHeight: 500,
-            defaultTextHeight : 250
+            defaultTextHeight : 250, 
+            styleHtmlContent : true
         });
     
         // msgBox.maxHeight = 600
@@ -379,7 +380,10 @@ function showConfig( title , myConf ) {
         msgBox.show({
            width : 800, 
            multiline : true,   
-           title: title,
-           value: sValue
+           // msg va arriba de la caja de texto y se estila html y el html no sirve de nada 
+           // msg: sValue, 
+           // html: sValue,
+           value: sValue, 
+           title: title
         })
     }

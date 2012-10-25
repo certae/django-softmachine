@@ -42,6 +42,9 @@ Ext.define('ProtoUL.view.ProtoForm', {
     // Mantiene el IdMaster para las operaciones maestro detalle  
     idMaster : null,
       
+    // Coleccion de campos html definidos en htmlSet
+    htmlPanels : {},     
+      
 
     initComponent : function() {
         this.addEvents('create', 'close', 'hide');
@@ -64,14 +67,13 @@ Ext.define('ProtoUL.view.ProtoForm', {
             items : this.prFormLayout,
             dockedItems : this.getDockedItems(),  
 
-            tools: [{
-                handler: this.showFormConfig,
-                handler: this.showLayoutConfig
-            }]
             
         });
         
         this.callParent();
+
+        // obtiene la coleccion de panles html para su manipulacion 
+        this.getHtmlPanels(); 
 
         // Obtiene los store de las grillas dependientes
         this.cllStoreDet = getStoreDet( this.items.items  )
@@ -96,13 +98,13 @@ Ext.define('ProtoUL.view.ProtoForm', {
     
 
     showFormConfig: function () {
-            var safeConf =  clone( this.myMeta.protoForm )
-            showConfig( 'Form Config' , safeConf   )
+        var safeConf =  clone( this.myMeta.protoForm )
+        showConfig( 'Form Config' , safeConf   )
        },
 
     showLayoutConfig: function () {
-            var safeConf =  clone( this.prFormLayout  )
-            showConfig( 'LayoutConfig' , safeConf   )
+        var safeConf =  clone( this.prFormLayout  )
+        showConfig( 'LayoutConfig' , safeConf   )
        },
         
     
@@ -336,8 +338,40 @@ Ext.define('ProtoUL.view.ProtoForm', {
             }; 
         
         });
-          
+
+        // Recorre los htmlPanels         
+        for (var ix in this.htmlPanels  ) {
+            var obj = this.htmlPanels[ix]
+            var fDef = obj.__ptConfig 
+            
+            if ( fDef.readOnly ) {
+                obj.setReadOnly( true );
+            } else if ( ! readOnlyFields  || ( fDef.name in oc( readOnlyFields )  )  ) {
+                obj.setReadOnly( bReadOnly );
+            }; 
+
+        } 
+        
+        
       },
+
+    getHtmlPanels: function () {
+
+        // Busca si tiene htmlSets podria agregarse los paneles como campos, 
+        // los paneles al interior deberian heredar de  'Ext.form.field.Base' y mezclar Ext.form.Basic 
+        // setear propiedad  isFormField : true 
+        // implementar por lo menos los metodos : valueToRaw, setRawValue
+        
+        var formItems = this.items.items 
+        for (var ix in formItems   ) {
+            var vFld = formItems[ix]
+            
+            if ( vFld.xtype =  "htmlset" ) {
+                Ext.apply(  this.htmlPanels, vFld.htmlPanels  )
+            }
+        } 
+        
+    }, 
        
     getDockedItems: function() {
       

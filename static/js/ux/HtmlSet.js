@@ -14,15 +14,18 @@ Ext.define('ProtoUL.ux.HtmlSet', {
         align: 'stretch' 
     },
 
-    // Campos html q contendra el set  
+    // Definicion de campos html q contendra el set  
     htlmFields : [],  
+    
+    // 
+    htmlPanels : {},
+
     height : 200,
     flex  : 1,
      
     initComponent: function () {
 
         var me = this, 
-            myHtmlPanels = {},
             myItems = [], 
             myConfig = this.myConfig; 
         
@@ -32,26 +35,37 @@ Ext.define('ProtoUL.ux.HtmlSet', {
             var vFld = this.htlmFields[ix] 
 
             var newPanel = Ext.create('Ext.panel.Panel', {
+                __ptConfig : vFld, 
+                layout: { padding: 5  },  
+
+                html: '',
                 title: vFld.fieldLabel || vFld.name ,
-                layout: {  
-                    padding: 5 
-                },  
-                html: 'Hello <b>World!</b>',
                 tools: [{
                     type: 'maximize',
+                    itemId : 'edithtml', 
+                    tooltip: 'Open html editor',
+                    scope : this,  
                     handler: function(event, target, owner, tool ){
-                        // show help here
+                        openHtmlEditorWin( 'xx', 'xx')
                     }
                 }],                 
                 collapsible : true, 
-                flex : 1  
+                flex : 1, 
+                
+                setReadOnly: function( bReadOnly ) {
+                    var obj = this.getHeader()
+                    if ( obj ) obj = obj.child('#edithtml')
+                    if ( obj ) obj.setVisible( ! bReadOnly ); 
+                }
+                
             }); 
 
             // Items de presentacion 
             myItems.push(  newPanel ) ;
             
-            // Objeto indexado de trabajo 
-            myHtmlPanels[ vFld.name ] = newPanel;
+            // Coleccion de panels html expuestas para su actualizacion y manipulacion  
+            this.htmlPanels[ vFld.name ] = newPanel;
+            
         }
 
         Ext.apply(this, {
@@ -64,3 +78,43 @@ Ext.define('ProtoUL.ux.HtmlSet', {
 });
 
 
+function openHtmlEditorWin( htmlText, htmlTiltle )  {
+
+    var myWin = Ext.create('Ext.window.Window', {
+        title: htmlTiltle,
+        height: 300,
+        width: 600,
+        modal : true, 
+        layout: 'fit',
+
+        minHeight: 200,
+        minWidth: 300,
+        resizable: true,
+        
+        items: {  // Let's put an empty grid in just to illustrate fit layout
+            xtype: 'htmlfield',
+            border: false
+        },
+        dockedItems : [{
+            xtype : 'toolbar',
+            dock : 'bottom',
+            ui : 'footer',
+            items : ['->', {
+                iconCls : 'icon-save',
+                itemId : 'save',
+                text : 'Save',
+                // disabled : true,
+                scope : this,
+                handler : this.onSave
+            }, {
+                iconCls : 'icon-reset',
+                text : 'Reset',
+                scope : this,
+                handler : this.onReset
+            }]
+        }] 
+    })
+    
+    myWin.show();    
+    
+};

@@ -13,6 +13,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     ],
     // iconCls: 'icon-grid',
 
+    height : 200,
     protoOption: null,
     
     // Internals 

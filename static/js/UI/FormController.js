@@ -110,24 +110,31 @@ Ext.define('ProtoUL.UI.FormController', {
             return 
         }
 
-        this.newWindow( this ); 
-        this.myForm.setActiveRecord( myRecord );
-        this.myForm.store = myRecord.store 
+        var me = this;
+
+        me.newWindow( me ); 
+        me.myForm.setActiveRecord( myRecord );
+        me.myForm.store = myRecord.store 
+        me.myWin.show();
         
-        if ( this.isReadOnly ) {
-            this.myForm.setFormReadOnly( true );
+        if ( me.isReadOnly ) {
+            me.myForm.setFormReadOnly( true );
             
-            this.myWin.tools = [{
+            me.myWin.tools = [{
                 type: 'readOnly',
                 tooltip: 'readOnly' 
+            }, {
+                type: 'gear',
+                scope: me.myForm, 
+                handler: me.myForm.showFormConfig
+                // handler: me.showLayoutConfig
             }] 
-            this.myWin.addTools()
+            me.myWin.addTools()
             
         } else {
-            this.myForm.setReadOnlyFields( true, this.myMeta.gridConfig.readOnlyFields );            
+            me.myForm.setReadOnlyFields( true, me.myMeta.gridConfig.readOnlyFields );            
         }
         
-        this.myWin.show();
         
     }, 
     

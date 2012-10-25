@@ -726,48 +726,48 @@ Ext.define('ProtoUL.ux.HtmlEditor.MidasFormat', {
 
     // private
     midasBtns: ['|', {
-        cmd: 'indent',
-        tooltip: {
-            text: 'Indent Text'
-        },
-        overflowText: 'Indent Text'
-    }, {
-        cmd: 'outdent',
-        tooltip: {
-            text: 'Outdent Text'
-        },
-        overflowText: 'Outdent Text'
-    },'|', {
-        enableOnSelection: true,
-        cmd: 'subscript',
-        tooltip: {
-            text: 'Subscript'
-        },
-        overflowText: 'Subscript'
-    }, {
-        enableOnSelection: true,
-        cmd: 'superscript',
-        tooltip: {
-            text: 'Superscript'
-        },
-        overflowText: 'Superscript'
-    },'|', {
-        enableOnSelection   : true,
-        cmd                 : 'formatblock',
-        value               : '<h1>',
-        tooltip             : {
-            text : '1st Heading'
-        },
-        overflowText        : '1st Heading'
-    }, {
-        enableOnSelection   : true,
-        cmd                 : 'formatblock',
-        value               : '<h2>',
-        tooltip             : {
-            text : '2nd Heading'
-        },
-        overflowText: '2nd Heading'
-    },'|', {
+        // cmd: 'indent',
+        // tooltip: {
+            // text: 'Indent Text'
+        // },
+        // overflowText: 'Indent Text'
+    // }, {
+        // cmd: 'outdent',
+        // tooltip: {
+            // text: 'Outdent Text'
+        // },
+        // overflowText: 'Outdent Text'
+    // },'|', {
+        // enableOnSelection: true,
+        // cmd: 'subscript',
+        // tooltip: {
+            // text: 'Subscript'
+        // },
+        // overflowText: 'Subscript'
+    // }, {
+        // enableOnSelection: true,
+        // cmd: 'superscript',
+        // tooltip: {
+            // text: 'Superscript'
+        // },
+        // overflowText: 'Superscript'
+    // },'|', {
+        // enableOnSelection   : true,
+        // cmd                 : 'formatblock',
+        // value               : '<h1>',
+        // tooltip             : {
+            // text : '1st Heading'
+        // },
+        // overflowText        : '1st Heading'
+    // }, {
+        // enableOnSelection   : true,
+        // cmd                 : 'formatblock',
+        // value               : '<h2>',
+        // tooltip             : {
+            // text : '2nd Heading'
+        // },
+        // overflowText: '2nd Heading'
+    // },'|', {
         enableOnSelection: true,
         cmd: 'removeFormat',
         tooltip: {
