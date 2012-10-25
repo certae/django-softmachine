@@ -56,6 +56,14 @@ Ext.define('ProtoUL.view.ProtoForm', {
         var _pForm = this;
 
 
+        this.btSave = Ext.create( 'Ext.Button', {
+            iconCls : 'icon-save',
+            id : this.idSaveBt,
+            text : 'Save',
+            scope : this,
+            handler : this.onSave
+        });
+
         Ext.apply(this, {
             frame      : true,
             autoScroll : true,
@@ -63,10 +71,19 @@ Ext.define('ProtoUL.view.ProtoForm', {
             bodyStyle: 'padding:5px 5px',
             bodyPadding: 10,
             activeRecord : null,
-            
             items : this.prFormLayout,
-            dockedItems : this.getDockedItems(),  
 
+            dockedItems : [{
+                xtype : 'toolbar',
+                dock : 'bottom',
+                ui : 'footer',
+                items : ['->',  this.btSave , {
+                    iconCls : 'icon-reset',
+                    text : 'Reset',
+                    scope : this,
+                    handler : this.onReset
+                }]
+            }]
             
         });
         
@@ -76,7 +93,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
         this.getHtmlPanels(); 
 
         // Obtiene los store de las grillas dependientes
-        this.cllStoreDet = getStoreDet( this.items.items  )
+        this.cllStoreDet = getStoreDet( this.items.items  ); 
         
         // Indexa los stores con la info de los detalles copiando la info del detalle  
         for ( var ix in this.cllStoreDet ) {
@@ -134,20 +151,25 @@ Ext.define('ProtoUL.view.ProtoForm', {
     updateHtmlPanels: function( record ) {
     
         var sHtml 
-                
         for (var ix in this.htmlPanels  ) {
             var obj = this.htmlPanels[ix]
             
-            if (record) { 
-                 sHtml = record.get( ix )
+            if (record) { sHtml = record.get( ix )
             } else { sHtml = '' }
                 
             obj.update( sHtml )
             obj.rawHtml = sHtml
-
         } 
             
     }, 
+
+    readHtmlPanels: function( record ) {
+        for (var ix in this.htmlPanels  ) {
+            var obj = this.htmlPanels[ix]
+            record.set( ix, obj.rawHtml  )            
+        } 
+    }, 
+
 
     loadN2N: function( record ) {
 
@@ -231,8 +253,9 @@ Ext.define('ProtoUL.view.ProtoForm', {
         form.updateRecord( active );
         // this.onReset();
 
-        // DGT:  Save
+
         var me = this; 
+        me.readHtmlPanels( active )
        
         // Si es nuevo 
         if ( this.myFormController.newForm ) {
@@ -333,7 +356,10 @@ Ext.define('ProtoUL.view.ProtoForm', {
         
         // Fix : Error ExtJs ??? dice q el obj no tiene metodo isXType 
         // this.setDisabled( bDisable )
-        
+
+        // desactiva el boton save 
+        this.btSave.setDisabled( true )
+                
         this.setReadOnlyFields( bDisable )
     }, 
 
@@ -395,30 +421,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
             }
         } 
         
-    }, 
-       
-    getDockedItems: function() {
-      
-      return     [{
-        xtype : 'toolbar',
-        dock : 'bottom',
-        ui : 'footer',
-        items : ['->', {
-            iconCls : 'icon-save',
-            itemId : 'save',
-            text : 'Save',
-            // disabled : true,
-            scope : this,
-            handler : this.onSave
-        }, {
-            iconCls : 'icon-reset',
-            text : 'Reset',
-            scope : this,
-            handler : this.onReset
-        }]
-    }]
- 
-  } 
+    }
     
     
     

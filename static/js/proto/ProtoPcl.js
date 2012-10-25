@@ -42,7 +42,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         var treeData = getTreeData( me );
 
         var treeGridStore = Ext.create('Ext.data.TreeStore', { 
-            folderSort: true, 
+            folderSort: false, 
             // sorters: [{ property: 'text', direction: 'ASC' }], 
             model: 'Proto.PclTreeNode',
             root: treeData 
@@ -52,7 +52,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         
         var treeGrid = Ext.create('Ext.tree.Panel', {
             store: treeGridStore,
-            
+            sortableColumns : false, 
             useArrows: true,
             rootVisible: true,
             multiSelect: false,
