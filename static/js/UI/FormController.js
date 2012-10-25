@@ -114,12 +114,10 @@ Ext.define('ProtoUL.UI.FormController', {
 
         me.newWindow( me ); 
         me.myForm.setActiveRecord( myRecord );
-        me.myForm.store = myRecord.store 
-        me.myWin.show();
+        me.myForm.store = myRecord.store
         
+        // Si la forma es visible no salen los tools 
         if ( me.isReadOnly ) {
-            me.myForm.setFormReadOnly( true );
-            
             me.myWin.tools = [{
                 type: 'readOnly',
                 tooltip: 'readOnly' 
@@ -130,7 +128,13 @@ Ext.define('ProtoUL.UI.FormController', {
                 // handler: me.showLayoutConfig
             }] 
             me.myWin.addTools()
-            
+        }         
+         
+        me.myWin.show();
+        
+        // Si la forma no esta visible no puede desactivar los headers 
+        if ( me.isReadOnly ) {
+            me.myForm.setFormReadOnly( true );
         } else {
             me.myForm.setReadOnlyFields( true, me.myMeta.gridConfig.readOnlyFields );            
         }
