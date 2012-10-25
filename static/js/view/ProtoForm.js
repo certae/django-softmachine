@@ -116,14 +116,38 @@ Ext.define('ProtoUL.view.ProtoForm', {
             this.linkDetail( record )
             this.loadN2N( record )
             this.updateZoomIds()
+
+            this.updateHtmlPanels( record )
             
         } else {
             // this.down('#save').disable();
             this.getForm().reset();
             this.linkDetail( )
+
+            // Si no se envia registro se resetea 
+            this.updateHtmlPanels()
+
         }
 
     },
+
+    updateHtmlPanels: function( record ) {
+    
+        var sHtml 
+                
+        for (var ix in this.htmlPanels  ) {
+            var obj = this.htmlPanels[ix]
+            
+            if (record) { 
+                 sHtml = record.get( ix )
+            } else { sHtml = '' }
+                
+            obj.update( sHtml )
+            obj.rawHtml = sHtml
+
+        } 
+            
+    }, 
 
     loadN2N: function( record ) {
 

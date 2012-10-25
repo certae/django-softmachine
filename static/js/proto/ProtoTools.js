@@ -30,7 +30,13 @@ function Meta2Tree( oData, pName, ptType   ) {
         if ( pName == 'protoForm') { ptType = 'protoForm' }
         if ( ptType in oc([ 'protoForm', 'htmlset', 'fieldset','tabpanel','accordeon','panel'])) {
             var tData = getNodeBase( pName, ptType, __ptConfig  )
-            tData['children'] = formContainer2Tree( oData.items )
+            
+            if (sDataType != "array") {
+                tData['children'] = formContainer2Tree( oData.items )    
+            } else {
+                tData['children'] = formContainer2Tree( oData  )
+            }
+            
             return tData 
         }  
 

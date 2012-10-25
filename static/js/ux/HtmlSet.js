@@ -36,23 +36,25 @@ Ext.define('ProtoUL.ux.HtmlSet', {
 
             var newPanel = Ext.create('Ext.panel.Panel', {
                 __ptConfig : vFld, 
-                layout: { padding: 5  },  
-
+                layout: { padding: 5  }, 
+                autoScroll: true,
                 html: '',
                 title: vFld.fieldLabel || vFld.name ,
                 tools: [{
-                    type: 'maximize',
+                    type: 'formUpd',
                     itemId : 'edithtml', 
                     tooltip: 'Open html editor',
                     scope : this,  
                     handler: function(event, target, owner, tool ){
-                        openHtmlEditorWin( 'xx', 'xx')
+                        var myPanel = owner.ownerCt
+                        openHtmlEditorWin( myPanel )
                     }
                 }],                 
                 collapsible : true, 
                 flex : 1, 
                 
                 setReadOnly: function( bReadOnly ) {
+                    // FIx: si no esta visible no reconoce el child @#$@#% 
                     var obj = this.getHeader()
                     if ( obj ) obj = obj.child('#edithtml')
                     if ( obj ) obj.setVisible( ! bReadOnly ); 
@@ -78,12 +80,17 @@ Ext.define('ProtoUL.ux.HtmlSet', {
 });
 
 
-function openHtmlEditorWin( htmlText, htmlTiltle )  {
+function openHtmlEditorWin( myPanel   )  {
+
+    var myHtmlField = Ext.create( 'ProtoUL.ux.FieldHtmlEditor', { 
+            value : myPanel.rawHtml, 
+            border: false
+        } )
 
     var myWin = Ext.create('Ext.window.Window', {
-        title: htmlTiltle,
+        title: myPanel.title,
         height: 300,
-        width: 600,
+        width: 720,
         modal : true, 
         layout: 'fit',
 
@@ -91,10 +98,7 @@ function openHtmlEditorWin( htmlText, htmlTiltle )  {
         minWidth: 300,
         resizable: true,
         
-        items: {  // Let's put an empty grid in just to illustrate fit layout
-            xtype: 'htmlfield',
-            border: false
-        },
+        items: myHtmlField ,
         dockedItems : [{
             xtype : 'toolbar',
             dock : 'bottom',
@@ -103,17 +107,29 @@ function openHtmlEditorWin( htmlText, htmlTiltle )  {
                 iconCls : 'icon-save',
                 itemId : 'save',
                 text : 'Save',
-                // disabled : true,
                 scope : this,
-                handler : this.onSave
+                handler : onSave
             }, {
                 iconCls : 'icon-reset',
-                text : 'Reset',
+                text : 'Return',
                 scope : this,
-                handler : this.onReset
+                handler : onReset
             }]
         }] 
     })
+    
+    function onSave() {
+
+        var sHtml = myHtmlField.getValue()
+        myPanel.update(sHtml  )
+        myPanel.rawHtml = sHtml 
+
+        myWin.close()
+    }
+
+    function onReset() {
+        myWin.close()
+    }
     
     myWin.show();    
     
