@@ -3,6 +3,11 @@
 // editor html  Dgt  12/10 
 // utilizado por el Dict MSSSQ   
 
+    // Plan de trabajo:   Ok  
+    // Eliminar el tipo html,  y Agregar un htmlFieldSet,  sera un hbox con todos los campos definidos,
+    // se carga directamente el html en cada panel  y tendra un tool de edicion q invocara una ventana
+    // de edicion html, asi solo existe un unico editor al tiempo. 
+
 
 Ext.define('ProtoUL.ux.HtmlSet', {
     extend: 'Ext.panel.Panel',
