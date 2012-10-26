@@ -406,24 +406,25 @@ Ext.define('ProtoUL.view.ProtoForm', {
       },
 
     getHtmlPanels: function () {
-
         // Busca si tiene htmlSets podria agregarse los paneles como campos, 
         // los paneles al interior deberian heredar de  'Ext.form.field.Base' y mezclar Ext.form.Basic 
         // setear propiedad  isFormField : true 
         // implementar por lo menos los metodos : valueToRaw, setRawValue
         
-        var formItems = this.items.items 
+        this.getHtmlPanelDefinition( this.items.items )
+    },
+
+    getHtmlPanelDefinition: function ( formItems ) {
         for (var ix in formItems   ) {
             var vFld = formItems[ix]
             
-            if ( vFld.xtype =  "htmlset" ) {
+            if ( vFld.xtype ==  "htmlset" ) {
                 Ext.apply(  this.htmlPanels, vFld.htmlPanels  )
+            } else if ( vFld.xtype ==  "fieldset" ) {
+                this.getHtmlPanelDefinition( vFld.items.items )     
             }
         } 
-        
     }
-    
-    
     
 });
 

@@ -11,31 +11,41 @@ from django.contrib.admin.sites import  site
 from utilsBase import _PROTOFN_ , verifyStr, verifyList, verifyUdpDefinition, copyProps 
 from protoField import  setFieldDict
 
+
+def getProtoAdmin( model ):
+    
+    #DGT Siempre existe, la creacion del site la asigna por defecto 
+    model_admin = site._registry.get( model )
+
+    # Si no esta registrado genera una definicion en blanco         
+    if not model_admin: 
+        model_admin = {}
+    # Lee las propiedades extendidas del modelo y luego del admin, 
+    # ( no es necesario guardarlas en el admin, el admin permite crear los entryPoints  )
+               
+    protoAdmin = getattr( model, 'protoExt', {})
+    protoAdmin = copyProps( protoAdmin, getattr( model_admin, 'protoExt', {}) )
+    
+    return  model_admin, protoAdmin
+
+
 class ProtoGridFactory(object):
 
-    def __init__(self, model, protoOption  ):
+    def __init__(self, model, protoOption, model_admin, protoAdmin  ):
             
         self.protoOption = protoOption  
         self.model = model              # the model to use as reference
         self.fields = []                # holds the extjs fields
         self.storeFields = ''           # holds the Query Fields
          
+        # retoma las variables del modelo 
+        self.model_admin =  model_admin
+        self.protoAdmin = protoAdmin
 
         # Obtiene el nombre de la entidad 
         self.title = self.model._meta.verbose_name.title()
 
-        #DGT Siempre existe, la creacion del site la asigna por defecto 
-        self.model_admin = site._registry.get( model )
-
-        # Si no esta registrado genera una definicion en blanco         
-        if not self.model_admin: 
-            self.model_admin = {} 
-
-        self.protoAdmin = getattr(self.model, 'protoExt', {})
-        self.protoAdmin = copyProps( self.protoAdmin, getattr(self.model_admin, 'protoExt', {}) ) 
-        
         self.protoFields = self.protoAdmin.get( 'protoFields', {}) 
-
 
         #UDPs para poder determinar el valor por defecto ROnly 
         self.pUDP = self.protoAdmin.get( 'protoUdp', {}) 

@@ -20,7 +20,7 @@
 #import sys, 
 
 from django.http import HttpResponse
-from protoGrid import getSearcheableFields, getProtoViewName, setDefaultField
+from protoGrid import getSearcheableFields, getProtoViewName, setDefaultField , getProtoAdmin
 from protoLib import protoGrid
 from protoField import  setFieldDict
 from models import getDjangoModel, ProtoDefinition
@@ -47,7 +47,9 @@ def protoGetPCI(request):
         context = json.dumps( jsondict)
         return HttpResponse(context, mimetype="application/json")
     
-    # created : True  ( new ) is a boolean specifying whether a new object was created.
+    # Verifica si la info de protoExt co 
+    
+    # created : El objeto es nuevo 
     protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
     
     # El default solo parece funcionar al insertar en la Db
@@ -59,13 +61,15 @@ def protoGetPCI(request):
     # Si es nuevo o no esta activo lee Django 
     if created or ( not protoDef.active   ) :
 
+        model_admin, protoAdmin  = getProtoAdmin( model )
+        baseComplete = protoAdmin.get( 'active', False  )
+
         # Verifica si existe una propiedad ProtoMeta es la copia de la meta cargada a la Db,
-        grid = protoGrid.ProtoGridFactory( model, protoOption   )
+        grid = protoGrid.ProtoGridFactory( model, protoOption, model_admin, protoAdmin     )
         protoMeta = grid.protoAdmin.get( 'protoMeta', {} )
         
         if ( not protoMeta ): 
             protoMeta = createProtoMeta( model, grid, protoConcept, protoOption  )
-        
 
         # Guarda la Meta si es nuevo o si se especifica overWrite
         if  created or protoDef.overWrite: 

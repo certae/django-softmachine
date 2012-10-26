@@ -36,12 +36,10 @@ Reportes
 
 
 
-    
-
-
 
 Forma 
-    Verificar el manejo de los combos 
+    Verificar el manejo de los combos
+    Editar los types o algun campo para las udp q permita cambiar a checks y combos  
     Verificar el tamano de la ventana conf desde la meta 
 
 
