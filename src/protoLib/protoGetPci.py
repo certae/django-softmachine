@@ -1,33 +1,17 @@
 # -*- coding: utf-8 -*-
 
-#from django import forms
-#from django.conf import settings
-#from django.core import serializers
-#from django.contrib import messages
-#from django.contrib.auth.decorators import login_required
-#from django.contrib.auth.models import User
-#from django.db import transaction
-#from django.db.models import Q
-#from django.forms.models import model_to_dict
-#from django.http import HttpResponseRedirect
-#from django.shortcuts import render_to_response, get_object_or_404
-#from django.template import  Context
-#from django.template import  RequestContext
-#from django.template.loader import get_template
-#from django.utils.translation import gettext as __
-#from protoLib import utilsBase, utilsWeb
-#from utilsBase import _PROTOFN_ , verifyStr, verifyList, , verifyUdpDefinition, addFilter 
-#import sys, 
-
 from django.http import HttpResponse
 from protoGrid import getSearcheableFields, getProtoViewName, setDefaultField , getProtoAdmin
 from protoLib import protoGrid
 from protoField import  setFieldDict
 from models import getDjangoModel, ProtoDefinition
-from utilsBase import getReadableError 
+from utilsBase import getReadableError, copyProps
 
 import django.utils.simplejson as json
 
+
+# Dgt 12/10/28 Permite la carga directa de json de definicion. 
+PROTOVERSION = '4.23'
 
 
 def protoGetPCI(request):
@@ -49,28 +33,27 @@ def protoGetPCI(request):
     
     # Verifica si la info de protoExt co 
     
-    # created : El objeto es nuevo 
+    # created : El objeto es nuevo
+    # protoDef : PCI leida de la DB 
     protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
     
     # El default solo parece funcionar al insertar en la Db
     if created: protoDef.overWrite = True
     
-    # Inicializa la meta  
-    protoMeta = {} 
-    
     # Si es nuevo o no esta activo lee Django 
     if created or ( not protoDef.active   ) :
 
-        model_admin, protoAdmin  = getProtoAdmin( model )
-        baseComplete = protoAdmin.get( 'active', False  )
+        model_admin, protoMeta  = getProtoAdmin( model )
+        version = protoMeta.get( 'version' )
 
-        # Verifica si existe una propiedad ProtoMeta es la copia de la meta cargada a la Db,
-        grid = protoGrid.ProtoGridFactory( model, protoOption, model_admin, protoAdmin     )
-        protoMeta = grid.protoAdmin.get( 'protoMeta', {} )
-        
-        if ( not protoMeta ): 
+        # La version determina q es una carga completa de la meta y no es necesario reconstruirla
+        # solo en caso de q la definicion no este en la Db        
+        if not version: 
+
+            # Verifica si existe una propiedad ProtoMeta es la copia de la meta cargada a la Db,
+            grid = protoGrid.ProtoGridFactory( model, protoOption, model_admin, protoMeta )
             protoMeta = createProtoMeta( model, grid, protoConcept, protoOption  )
-
+    
         # Guarda la Meta si es nuevo o si se especifica overWrite
         if  created or protoDef.overWrite: 
             protoDef.metaDefinition = json.dumps( protoMeta ) 
@@ -142,92 +125,91 @@ def protoGetPCI(request):
 
 def createProtoMeta( model, grid, protoConcept , protoOption ):
 
-    protoIcon  = 'icon-%s' % grid.protoAdmin.get( 'protoIcon', '1') 
 
-    pSearchFields = grid.protoAdmin.get( 'searchFields', []) 
+    # Los criterios de busqueda ni los ordenamientos son heredados del admin, 
+    pSearchFields = grid.gridConfig.get( 'searchFields', []) 
     if len( pSearchFields ) == 0: pSearchFields = getSearcheableFields( model  )
 
-    pSortFields = grid.protoAdmin.get( 'sortFields', []) 
+    pSortFields = grid.gridConfig.get( 'sortFields', []) 
     if len( pSortFields )  ==  0: pSortFields = getSearcheableFields( model  )
 
-    # Lista de campos precedidos con '-' para order desc  ( 'campo1' , '-campo2' ) 
-    initialSort = grid.protoAdmin.get( 'initialSort', ())
+    # Lista de campos precedidos con '-' para order desc  ( 'campo1' , '-campo2' )
+    # * o [{ "property": "code", "direction": "ASC" }, {  
+    initialSort = grid.gridConfig.get( 'initialSort', ())
     sortInfo = []
     for sField in initialSort:
-        sortOrder = 'ASC'
-        if sField[0] == '-':
-            sortOrder =  'DESC'
-            sField = sField[1:]
-        sortInfo.append({ 'property': sField, 'direction' : sortOrder })
+        # Si es un string lo convierte en objeto 
+        if type( sField ).__name__ == type( '' ).__name__ :  
+            sortOrder = 'ASC'
+            if sField[0] == '-':
+                sortOrder =  'DESC'
+                sField = sField[1:]
+            sField = { 'property': sField, 'direction' : sortOrder }
+            
+        sortInfo.append(sField)
 
 
-    pDescription = grid.protoAdmin.get( 'description', '')
-    if len(pDescription) == 0:  pDescription = grid.protoAdmin.get( 'title', grid.title)
-    
-
-    #FIX: busca el id en la META  ( id_field = model._meta.pk.name ) 
-    id_field = u'id'
-
-    #La forma tambien agrega campos a fields 
-    protoForm = grid.getFieldSets(); 
-
-
-    protoMeta = { 
-         'protoOption' : protoOption,           
-         'protoConcept' : protoConcept,           
-         'idProperty': id_field,
-         'shortTitle': grid.protoAdmin.get( 'title', grid.title),
-         'description': pDescription ,
-         'protoIcon': protoIcon,
-
-         'helpPath': grid.protoAdmin.get( 'helpPath',''),
-
-         'protoMenuOpt': grid.protoAdmin.get( 'protoMenuOpt',''),
-         'protoMenuIx':  grid.protoAdmin.get( 'protoMenuIx',''),
-
-         'fields': grid.fields, 
-
-         # Config de la grilla
-         'gridConfig' : {
-             'hideRowNumbers' : grid.protoAdmin.get( 'hideRowNumbers',False),  
-             'filterSetABC': grid.protoAdmin.get( 'filterSetABC', ''),
-
+    # ----------- Completa las propiedades del gridConfig 
+    gridConfig = { 
+             'searchFields': pSearchFields, 
+             'sortFields': pSortFields, 
              'initialSort': sortInfo,
 
              # Si no es autoload  -  '{"pk" : 0,}'            
-             'initialFilter': grid.protoAdmin.get( 'initialFilter', {}),
-             'baseFilter': grid.protoAdmin.get( 'baseFilter', {}),
+             'initialFilter': grid.gridConfig.get( 'initialFilter', {}),
 
-             'filtersSet': grid.protoAdmin.get( 'filtersSet', []),
-#            'listDisplaySet':grid.protoAdmin.get( 'listDisplaySet', {}) ,     
-
-             'listDisplay' : grid.protoListDisplay,  
-
-             # En las protoViews existiran tambien las propiedades de campos ( y formas ) 
-             'readOnlyFields' : grid.protoReadOnlyFields,
-             'searchFields': pSearchFields, 
-             'sortFields': pSortFields, 
+            # Toma las definidas en la grilla 
+            'listDisplay' : grid.gridConfig.get( 'listDisplay', []),
+            'readOnlyFields' : grid.gridConfig.get( 'readOnlyFields', []),
              
-             # TODO: Implementar  ( El listDisplay podra contener propiedades, hidden, flex, width,  ... 
-             'hiddenFields': grid.protoAdmin.get( 'hiddenFields', ['id', ]),
+            # Garantiza q existan en la definicion 
+             'hideRowNumbers' : grid.gridConfig.get( 'hideRowNumbers',False),  
+             'filterSetABC': grid.gridConfig.get( 'filterSetABC', ''),
+             'baseFilter': grid.gridConfig.get( 'baseFilter', {}),
+             'filtersSet': grid.gridConfig.get( 'filtersSet', []),
+             'hiddenFields': grid.protoMeta.get( 'hiddenFields', ['id', ]),
+#            'listDisplaySet':grid.gridConfig.get( 'listDisplaySet', {}) ,     
+         } 
 
-         },
 
+    #---------- Ahora las propiedades generales de la PCI 
+    protoIcon  = 'icon-%s' % grid.protoMeta.get( 'protoIcon', '1') 
+
+    pDescription = grid.protoMeta.get( 'description', '')
+    if len(pDescription) == 0:  pDescription = grid.protoMeta.get( 'title', grid.title)
+    
+    #FIX: busca el id en la META  ( id_field = model._meta.pk.name ) 
+    id_field = u'id'
+
+    # Conf de hojas de info
+    pSheets = grid.protoMeta.get( 'sheetConfig', {})
+
+    protoMeta = { 
+         'version': PROTOVERSION ,
+         'protoOption' : protoOption,           
+         'protoConcept' : protoConcept,           
+         'idProperty': id_field,
+         'shortTitle': grid.protoMeta.get( 'shortTitle', grid.title ),
+         'description': pDescription ,
+         'protoIcon': protoIcon,
+         'helpPath': grid.protoMeta.get( 'helpPath',''),
+
+         'fields': grid.fields, 
+         'gridConfig' : gridConfig,  
 
         # Propiedades extendidas   
          'protoDetails': grid.get_details() , 
-         'protoForm': protoForm,  
-         'protoUdp': grid.protoAdmin.get( 'protoUdp', {}), 
+         'protoForm': grid.getFieldSets(),  
+         'protoUdp': grid.protoMeta.get( 'protoUdp', {}), 
 
         # DGT: Vistas heredadas del modelo base, zooms,  etc ...
         # Ya no se requieren pues el menu se maneja directamente en el FrontEnd           
-        # 'protoViews': grid.protoAdmin.get( 'protoViews', {}), 
+        # 'protoViews': grid.protoMeta.get( 'protoViews', {}), 
          
-        # sheet html asociada ( diccionario MSSSQ  )  
          'sheetConfig' : {
-            'protoSheets' : grid.protoAdmin.get( 'protoSheets', [] ), 
-            'protoSheetSelector' : grid.protoAdmin.get( 'protoSheetSelector', ''), 
-            'protoSheetProperties' : grid.protoAdmin.get( 'protoSheetProperties', ()), 
+            'protoSheets' : pSheets.get( 'protoSheets', [] ), 
+            'protoSheetSelector' : pSheets.get( 'protoSheetSelector', ''), 
+            'protoSheetProperties' : pSheets.get( 'protoSheetProperties', ()), 
              }, 
          }
 

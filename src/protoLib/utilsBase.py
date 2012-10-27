@@ -58,7 +58,6 @@ def verifyStr( vrBase , vrDefault ):
     return  u'%s' % sAux 
 
 
-
 def construct_search(field_name):
     if field_name.startswith('^'):
         return "%s__istartswith" % field_name[1:]
@@ -139,12 +138,30 @@ def reduceDict(inDict, keep_keys):
             del dict2[k]
     return dict2
 
-def dict_to_dbltuple(indict):
+
+def dict2tuple(indict):
     atuple = tuple()
     for item in indict:
         atuple += ((item, indict[item]),)
     #print atuple
     return atuple
+
+
+def list2dict(alist , key ):
+    # Convierte una lista de objetos en dict usando key como llave del dict. 
+    aDict = {}
+    for item in alist:
+        
+        #Verifica si es un dict  
+        if type( item ).__name__ == type({}).__name__ :  
+            aDict[ item[key] ]  = item 
+
+        # si es un string lo crea con el key por defecto 
+        elif type( item ).__name__ == type('').__name__ :  
+            aDict[ item  ]  = { key : { key : item }}
+            
+    return aDict
+
      
 def CleanFilePath(inFileName):
     """ assure qu'un nom de fichier n'est bien qu'un nom de fichier (remove slashes) """

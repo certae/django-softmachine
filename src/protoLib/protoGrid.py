@@ -1,107 +1,123 @@
 # -*- coding: utf-8 -*-
 
-#import sys 
-#from django.forms.models import model_to_dict
-#from django.conf import settings
-
 from django.db import models
 from django.contrib.admin.sites import  site
 
 
-from utilsBase import _PROTOFN_ , verifyStr, verifyList, verifyUdpDefinition, copyProps 
+from utilsBase import _PROTOFN_ , verifyStr, verifyList, verifyUdpDefinition, copyProps, list2dict
 from protoField import  setFieldDict
 
 
 def getProtoAdmin( model ):
-    
+    """ Carga la protoDefinicion, del modelo y luego del admin,
+    * La definicion del admin sirve para definir los EntryPoint, 
+    * pero no es necesario, la protoDefinicion se puede guardar directamente 
+    * en el modelo 
+    """ 
+
     #DGT Siempre existe, la creacion del site la asigna por defecto 
     model_admin = site._registry.get( model )
 
     # Si no esta registrado genera una definicion en blanco         
     if not model_admin: 
         model_admin = {}
-    # Lee las propiedades extendidas del modelo y luego del admin, 
-    # ( no es necesario guardarlas en el admin, el admin permite crear los entryPoints  )
-               
-    protoAdmin = getattr( model, 'protoExt', {})
-    protoAdmin = copyProps( protoAdmin, getattr( model_admin, 'protoExt', {}) )
+        
+    protoMeta = getattr( model, 'protoExt', {})
+    protoMeta = copyProps( protoMeta, getattr( model_admin, 'protoExt', {}) )
     
-    return  model_admin, protoAdmin
+    return  model_admin, protoMeta
+
 
 
 class ProtoGridFactory(object):
+    """ Construye la definicion por defecto de la interface 
+    """ 
 
-    def __init__(self, model, protoOption, model_admin, protoAdmin  ):
+    def __init__(self, model, protoOption, model_admin, protoMeta  ):
             
         self.protoOption = protoOption  
         self.model = model              # the model to use as reference
-        self.fields = []                # holds the extjs fields
         self.storeFields = ''           # holds the Query Fields
          
         # retoma las variables del modelo 
         self.model_admin =  model_admin
-        self.protoAdmin = protoAdmin
+        self.protoMeta = protoMeta
 
         # Obtiene el nombre de la entidad 
         self.title = self.model._meta.verbose_name.title()
 
-        self.protoFields = self.protoAdmin.get( 'protoFields', {}) 
+        # Obtiene los campos, si llega una lista la convierte en dict
+        # fields es la lista final,  
+        # fieldsDict es el dictionario de trabajo, se lee de la variable protoExt.fields  
+        # * [ 'xx' , {'name': 'xy'}]  si es una lista, permite solo el nombre del campo o la def del campo
+        # * { {'name': 'xy' }, { ..  si es un dictionario debe estar bien estructurado          
+        self.fields = []                
+        self.fieldsDict = self.protoMeta.get( 'fields', {})
+        if type( self.fieldsDict ).__name__ == type( [] ).__name__ :  
+            self.fieldsDict = list2dict( self.fieldsDict, 'name')
 
         #UDPs para poder determinar el valor por defecto ROnly 
-        self.pUDP = self.protoAdmin.get( 'protoUdp', {}) 
+        self.pUDP = self.protoMeta.get( 'protoUdp', {}) 
         cUDP = verifyUdpDefinition( self.pUDP )
-        
+
+
+        # Configuracion de la grilla 
+        self.gridConfig = self.protoMeta.get( 'gridConfig', {})
+
         # lista de campos para la presentacion en la grilla 
-        self.protoListDisplay = verifyList( self.protoAdmin.get( 'listDisplay', []) )
-        if not self.protoListDisplay: 
-            self.protoListDisplay = verifyList( getattr(self.model_admin , 'list_display', []))
+        pListDisplay = verifyList( self.gridConfig.get( 'listDisplay', []) )
+        if not pListDisplay: 
+            pListDisplay = verifyList( getattr(self.model_admin , 'list_display', []))
 
             # Por defecto solo vienen  Chk, _str_
-            try: self.protoListDisplay.remove('action_checkbox')
+            try: pListDisplay.remove('action_checkbox')
             except ValueError:  pass
     
-            # if self.protoListDisplay and (self.protoListDisplay[0] == '__str__'): self.protoListDisplay = []
+            # if pListDisplay and (pListDisplay[0] == '__str__'): pListDisplay = []
+            
+        self.gridConfig['listDisplay'] = pListDisplay 
         
-        #Se leen los excluidos y se cargan en una sola coleccion 
-        protoExclude = verifyList( self.protoAdmin.get( 'excludeFields', []) ) 
-        protoExclude.extend ( verifyList( getattr(self.model_admin , 'exclude', [])) )
+        
+        # Se leen los excluidos del admin, no se requiere 
+        # en protoMeta, pues los campos se enumeran explicitamente 
+        protoExclude = verifyList( getattr(self.model_admin , 'exclude', []))
 
         #Se leen los readonly fields para setear el attr readOnly = true 
-        self.protoReadOnlyFields = verifyList( self.protoAdmin.get( 'readOnlyFields', []) )
-        self.protoReadOnlyFields.extend( verifyList( getattr(self.model_admin , 'readonly_fields', [])) )  
+        pReadOnlyFlds = verifyList( self.gridConfig.get( 'readOnlyFields', []) )
+        if not pReadOnlyFlds:
+            pReadOnlyFlds =  verifyList( getattr(self.model_admin , 'readonly_fields', []))   
 
+        self.gridConfig['readOnlyFields'] = pReadOnlyFlds 
 
-#       WHY: Por alguna Ext no retiene el IdProperty ( idInternal al hacer click en las filas )     
-#       idName = model._meta.pk.name   
-        
+        # @@ Por alguna Ext no retiene el IdProperty ( idInternal al hacer click en las filas )     
+        # idName = model._meta.pk.name   
         
         # La lista de campos del admin sirve de base, pues puede haber muchos mas campos en proto q en admin
         # Si solo queda el __str__ , asume todos los campos del modelo
-            
-        iCount = len( self.protoListDisplay )  
-        if ( iCount == 0  ) or ( iCount == 1 and (self.protoListDisplay[0] == '__str__')) :
+        iCount = len( pListDisplay )  
+        if ( iCount == 0  ) or ( iCount == 1 and (pListDisplay[0] == '__str__')) :
             # Se crean los campos con base al modelo ( trae todos los campos del modelo )
             for field in self.model._meta._fields():
                 if field.name in protoExclude: continue
-                setFieldDict (  self.protoFields , field )
+                setFieldDict (  self.fieldsDict , field )
 
             for field in self.model._meta._many_to_many():
                 if field.name in protoExclude: continue
-                setFieldDict (  self.protoFields , field )
+                setFieldDict (  self.fieldsDict , field )
 
         else : 
-            for fName in self.protoListDisplay:
+            for fName in pListDisplay:
                 if fName in protoExclude: continue
                 try:
                     # Recibe los parametros de los campos del modelo  
                     field = self.model._meta.get_field(fName )
-                    setFieldDict (  self.protoFields , field )
+                    setFieldDict (  self.fieldsDict , field )
                 except: 
                     # Si no es parte del modelo, se asegura q exista en el diccionario
-                    fdict = self.protoFields.get( fName, {} )
+                    fdict = self.fieldsDict.get( fName, {} )
                     if not fdict: 
                         fdict['name'] = fName
-                        self.protoFields[ fName ] = fdict
+                        self.fieldsDict[ fName ] = fdict
 
                         if fName == '__str__':
                             setDefaultField( fdict, self.model , self.protoOption  )
@@ -114,27 +130,28 @@ class ProtoGridFactory(object):
 
         # Agrega el __str__ que sirve de base para los zooms
         fName = '__str__' 
-        fdict = self.protoFields.get( fName , {}) 
+        fdict = self.fieldsDict.get( fName , {}) 
         if not fdict: 
             fdict['name'] = fName
-            self.protoFields[ fName ] = fdict
+            self.fieldsDict[ fName ] = fdict
             
             setDefaultField ( fdict, self.model, self.protoOption )
              
 
+
         # Genera la lista de campos y agrega el nombre al diccionario 
-        for key in self.protoFields:        
-            fdict = self.protoFields[ key ]
+        for key in self.fieldsDict:        
+            fdict = self.fieldsDict[ key ]
             if (fdict.get( 'name', '') == '') : fdict[ 'name' ] = key  
 
-            if key in self.protoReadOnlyFields: fdict[ 'readOnly' ] = True
+            if key in pReadOnlyFlds: fdict[ 'readOnly' ] = True
 
             # TODO: Repasa las propiedades de base, ver por q no esta pasando trayendo las props de base ( ie:  defaulValue )  
             if ((fdict.get( 'fromModel', False) == False ) and not ( key.startswith( 'udp__') )):
                 try: 
                     field = self.model._meta.get_field( key )
-                    setFieldDict ( self.protoFields , field )
-                    fdict = self.protoFields[ key ]
+                    setFieldDict ( self.fieldsDict , field )
+                    fdict = self.fieldsDict[ key ]
                 except: 
                     #Es posible q se puedan configuar propiedades no pertenecientes a la tabla como editables???
                     fdict[ 'readOnly' ] = True
@@ -143,11 +160,12 @@ class ProtoGridFactory(object):
             self.fields.append(fdict)
 
 
+
     def getFieldSets(self):
         """ El field set determina la distribucion de los campos en la forma
         """ 
         
-        pForm = self.protoAdmin.get( 'protoForm', { 'items' : [] }) 
+        pForm = self.protoMeta.get( 'protoForm', { 'items' : [] }) 
         prFieldSet = pForm[ 'items' ]
         
         # Si no han sido definido genera por defecto  
@@ -166,8 +184,8 @@ class ProtoGridFactory(object):
                 prN2N = []
 #                prIds = []
                                 
-                for key in self.protoFields:
-                    vFld = self.protoFields.get( key , {})
+                for key in self.fieldsDict:
+                    vFld = self.fieldsDict.get( key , {})
                     fType = vFld.get( 'type', 'string' )
                     
                     if ( vFld.get( 'storeOnly', False )): continue
@@ -254,7 +272,7 @@ class ProtoGridFactory(object):
     def get_details(self):  
 
         # Inicializa con los valores definidos,   
-        details = self.protoAdmin.get( 'protoDetails', []) 
+        details = self.protoMeta.get( 'protoDetails', []) 
 
 
         # Si no han sido definido genera por defecto  
@@ -326,6 +344,7 @@ def setDefaultField ( fdict, model, protoOption ):
 #   fdict['zoomModel'] = model._meta.app_label + '.' + model._meta.object_name
     fdict['zoomModel'] = protoOption
     fdict['fkId']      =  'id'  
+
 
 
 # Obtiene el diccionario basado en el Query Set 
@@ -485,8 +504,8 @@ def verifyField( self, fName ):
     try:
         # Recibe los parametros de los campos del modelo  
         field = self.model._meta.get_field(fName )
-        setFieldDict (  self.protoFields , field )
-        fdict = self.protoFields[ fName ]
+        setFieldDict (  self.fieldsDict , field )
+        fdict = self.fieldsDict[ fName ]
         self.fields.append(fdict)
         return True 
     except: 
