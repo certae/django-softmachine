@@ -8,9 +8,11 @@ from django.http import HttpResponse
 
 from django.contrib.admin.util import  get_fields_from_path
 
-from protoGrid import Q2Dict, getSearcheableFields
+from protoGrid import getSearcheableFields
 
 from utilsBase import construct_search, addFilter, JSONEncoder, getReadableError 
+from utilsBase import _PROTOFN_ , verifyStr,  verifyUdpDefinition 
+
 from models import getDjangoModel 
 
 import django.utils.simplejson as json
@@ -158,3 +160,114 @@ def protoList(request):
             }, cls=JSONEncoder )
     
     return HttpResponse(context, mimetype="application/json")
+
+
+
+# Obtiene el diccionario basado en el Query Set 
+def Q2Dict (  protoMeta, pRows  ):
+    """ 
+        return the row list from given queryset  
+    """
+
+    pStyle = protoMeta.get( 'pciStyle', '')        
+    pUDP = protoMeta.get( 'protoUdp', {}) 
+    cUDP = verifyUdpDefinition( pUDP )
+    rows = []
+
+    # Identifica las Udps para solo leer las definidas en la META
+    if cUDP.udpTable :
+        lsProperties =  []
+        for lField  in protoMeta['fields']:
+            fName = lField['name']
+            if fName.startswith( cUDP.propertyPrefix + '__'): lsProperties.append(fName)
+                
+
+#   Esta forma permite agregar las funciones entre ellas el __unicode__
+    for item in pRows:
+        rowdict = {}
+        for lField  in protoMeta['fields']:
+            fName = lField['name']
+
+            # UDP Se evaluan despues 
+            if cUDP.udpTable and fName.startswith( cUDP.propertyPrefix + '__'): 
+                continue  
+            
+            #Es una funcion 
+            if ( fName  == '__str__'   ):
+                try: 
+                    val = eval( 'item.__str__()'  )
+                    val = verifyStr(val , '' )
+                except: 
+                    val = 'Id#' + verifyStr(item.pk, '?')
+
+            elif ( _PROTOFN_ in fName ):
+                try: 
+                    val = eval( 'item.' + fName.replace( _PROTOFN_,'.') + '()'  )
+                    val = verifyStr(val , '' )
+                except: val = 'fn?'
+                
+            # Campo Absorbido
+            elif ( '__' in fName ):
+                try: 
+                    val = eval( 'item.' + fName.replace( '__', '.'))
+                    val = verifyStr(val , '' )
+                except: val = '__?'
+
+            # N2N
+            elif ( lField['type'] == 'protoN2N' ):
+                try: 
+                    val = list( item.__getattribute__( fName  ).values_list()) 
+                except: val = '[]'
+
+            # Campo del modelo                 
+            else:
+                try:
+                    val = getattr( item, fName  )
+                    if isinstance( val,models.Model): 
+                        val = verifyStr(val , '' )
+                except: val = 'vr?'
+                
+                # Evita el valor null en el el frontEnd 
+                if val is None: val = ''
+                
+            rowdict[ fName ] = val
+            
+        
+        if cUDP.udpTable:
+            try: 
+                bAux = eval ( 'item.' + cUDP.udpTable + '_set.exists()' ) 
+            except: bAux = False 
+            if bAux: 
+                cllUDP = eval ( 'item.' + cUDP.udpTable + '_set.all()' ) 
+                
+                for lUDP in cllUDP:
+                    prpGridName = cUDP.propertyPrefix + '__' + getattr( lUDP, cUDP.propertyName  , '') 
+                    if prpGridName in lsProperties:
+                        sAux = getattr( lUDP, cUDP.propertyValue, '' ).replace( '\n', '<br>').replace( '\r', '<br>')  
+                        sAux = sAux.replace( '<br><br>', '<br>')
+                        sAux = sAux.replace( '<td><br>', '<td>').replace( '</td><br>', '</td>')
+                        sAux = sAux.replace( '<th><br>', '<th>').replace( '</th><br>', '</th>')
+                        sAux = sAux.replace( '<tr><br>', '<tr>').replace( '</tr><br>', '</tr>')
+
+                        sAux = sAux.replace( '<br><td>', '<td>').replace( '<br></td>', '</td>')
+                        sAux = sAux.replace( '<br><th>', '<th>').replace( '<br></th>', '</th>')
+                        sAux = sAux.replace( '<br><tr>', '<tr>').replace( '<br></tr>', '</tr>')
+
+                        
+                        rowdict[ prpGridName ] =  sAux 
+                
+
+        if pStyle == 'tree':
+            rowdict[ 'protoView' ] = protoMeta.get('protoOption', '')
+            rowdict[ 'leaf' ] = False 
+            rowdict[ 'children' ] = []
+
+
+        # Agrega el Id Siempre como idInterno ( no representa una col, idProperty ) 
+        rowdict[ 'id'] = item.pk 
+
+        # Agrega la fila al diccionario
+        rows.append(rowdict)
+
+
+    return rows

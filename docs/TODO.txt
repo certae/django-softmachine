@@ -1,47 +1,18 @@
 Estructura de base para Dzenan, con es esquma json generado por los graficos 
 
+
 MSSQ 
-    Copiar datos de pci en Db a  Django, 
+**    Copiar datos de pci en Db a  Django, 
 
     Reportes : Se hara por reporte libre, las plantillas son campos html con la definicion de formato, 
 
 
-Reportes 
 
-    Hay dos maneras de generar los reportes: 
-
-    1.  haciendo un recorrido de los everyRow y en los rompimientos por llaves,  traer los datos de los encabezados, 
-        esto es lo mejor repotes analiticos, es la manera como lo hace IssReportes,  
-
-    2.  cargando un encabezado con una plantilla y luego recorriendo los detalles asociados cada uno con su respectiva 
-        plantilla, todos deben residir en el encabezado. como un reporte definido, es la manera como lo hace IssReporteLibre. 
-
-    ReporteLibre 
-
-    Este reporte se genera a partir de un registro especifico, no hay criterios libres (qbe) de generacion. 
-    Definir una estructura json para manejarlo, cada vista tendra una lista de reportes 
-
-    Cada reporte tendra 
-        Nombre
-        Icono en la ventana de reportes 
-        Lista de variables usadas ( properties )
-        plantilla de base 
-
-            * Despues de leer el encabezado se leen los detalles correspondientes en una o varias plantillas, 
-            * los detalles se sucederan en orden, 
-            plantilla detalle  ( items []) 
-                ConceptoBase 
-                Pantilla 
-                Properties 
-
-
-
-
-Forma 
-    Verificar el manejo de los combos
-    Editar los types o algun campo para las udp q permita cambiar a checks y combos  
-    Verificar el tamano de la ventana conf desde la meta 
-
+FrontEnd  
+    -- Verificar el manejo de los combos
+    -- Editar los types o algun campo para las udp q permita cambiar a checks y combos  
+    -- Verificar el tamano de la ventana edicion desde la meta 
+    -- dejar el clear para limpiar estados cuando se quedan pegados 
 
 
 Generacion de dictionartio, 

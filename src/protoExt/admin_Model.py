@@ -23,8 +23,6 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
     list_filter =( 'code',  'category' )
     search_fields =('code',  'category' )
     
-
-    
     protoXExt = {
     "sheetConfig": {
         "protoSheets": [

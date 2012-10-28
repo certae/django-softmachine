@@ -6,7 +6,7 @@ from django.contrib.admin.sites import  site
 
 
 from models import getDjangoModel
-from protoGrid import Q2Dict
+from protoActionList import Q2Dict
 from protoActions import ERR_NOEXIST  
 from utilsConvert import toInteger, toDate,toDateTime,toTime, toFloat, toDecimal, toBoolean
 from utilsBase import JSONEncoder, getReadableError, addFilter, verifyUdpDefinition 
