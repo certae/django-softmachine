@@ -3,7 +3,8 @@
 from django.contrib.admin.sites import  site
 
 
-from utilsBase import verifyList, verifyUdpDefinition, copyProps, list2dict
+from utilsBase import verifyList, copyProps, list2dict
+from protoUdp import verifyUdpDefinition 
 from protoField import  setFieldDict
 
 

@@ -320,9 +320,6 @@ def protoGetFieldTree(request):
         return 
     
     protoOption = request.GET.get('protoOption', '') 
-#    protoUdp = request.GET.get('protoUpd', {})
-#    cUDP = verifyUdpDefinition( protoUdp )
-     
     protoConcept, view = getProtoViewName( protoOption )
     
     try: 

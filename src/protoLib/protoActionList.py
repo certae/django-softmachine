@@ -11,7 +11,8 @@ from django.contrib.admin.util import  get_fields_from_path
 from protoGrid import getSearcheableFields
 
 from utilsBase import construct_search, addFilter, JSONEncoder, getReadableError 
-from utilsBase import _PROTOFN_ , verifyStr,  verifyUdpDefinition 
+from utilsBase import _PROTOFN_ , verifyStr   
+from protoUdp import verifyUdpDefinition, readUdps 
 
 from models import getDjangoModel 
 
@@ -176,10 +177,10 @@ def Q2Dict (  protoMeta, pRows  ):
 
     # Identifica las Udps para solo leer las definidas en la META
     if cUDP.udpTable :
-        lsProperties =  []
+        udpProps =  []
         for lField  in protoMeta['fields']:
             fName = lField['name']
-            if fName.startswith( cUDP.propertyPrefix + '__'): lsProperties.append(fName)
+            if fName.startswith( cUDP.propertyPrefix + '__'): udpProps.append(fName)
                 
 
 #   Esta forma permite agregar las funciones entre ellas el __unicode__
@@ -234,27 +235,13 @@ def Q2Dict (  protoMeta, pRows  ):
             
         
         if cUDP.udpTable:
-            try: 
-                bAux = eval ( 'item.' + cUDP.udpTable + '_set.exists()' ) 
-            except: bAux = False 
-            if bAux: 
-                cllUDP = eval ( 'item.' + cUDP.udpTable + '_set.all()' ) 
-                
-                for lUDP in cllUDP:
-                    prpGridName = cUDP.propertyPrefix + '__' + getattr( lUDP, cUDP.propertyName  , '') 
-                    if prpGridName in lsProperties:
-                        sAux = getattr( lUDP, cUDP.propertyValue, '' ).replace( '\n', '<br>').replace( '\r', '<br>')  
-                        sAux = sAux.replace( '<br><br>', '<br>')
-                        sAux = sAux.replace( '<td><br>', '<td>').replace( '</td><br>', '</td>')
-                        sAux = sAux.replace( '<th><br>', '<th>').replace( '</th><br>', '</th>')
-                        sAux = sAux.replace( '<tr><br>', '<tr>').replace( '</tr><br>', '</tr>')
 
-                        sAux = sAux.replace( '<br><td>', '<td>').replace( '<br></td>', '</td>')
-                        sAux = sAux.replace( '<br><th>', '<th>').replace( '<br></th>', '</th>')
-                        sAux = sAux.replace( '<br><tr>', '<tr>').replace( '<br></tr>', '</tr>')
+            # rowDict : se actualizara con los datos de la UDP
+            # item es el registro de base, en caso de q sea un MD la lectura es automatica item.udpTable...
+            # cUDP
+            # udpProps  : lista de Udps a leer  
+            readUdps( rowdict, item , cUDP, udpProps )
 
-                        
-                        rowdict[ prpGridName ] =  sAux 
                 
 
         if pStyle == 'tree':

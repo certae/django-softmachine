@@ -284,9 +284,6 @@ class VirtualField(object):
     def __init__(self, name):
         self.name = name
 
-# Para pasar atributos en forma de clase   
-class cAux: pass 
-
 
 def getReadableError( e ):
     sAux = '<b>ErrType:</b> ' + type( e ).__name__ + '<br>'
@@ -297,32 +294,6 @@ def getReadableError( e ):
 #    if len( e.args ) > 1: sAux += '<br>' +  str( '; '.join( e.args ))
     return sAux + '<br>'
 
-
-def verifyUdpDefinition( pUDP ):
-    # Verifica q todos los valores tengan su definicion y retorna una clase  
-
-    #@@ udpTable         : Nombre de la tabla q aloja las UDPs ( obligatoria )  
-    #@@ propertyName     : Nombre de la UDP
-    #@@ propertyValue    : Valor str donde se almacenara la Udp  
-    #@@ propertyReference: Valor de referencia del objeto base que contiene la cll de Udps  
-    #@@ propertyPrefix   : prefijo usado en el recordSet para diferenciar los campos provenientes de UDP 
-
-    cUDP = cAux()
-
-    if ( pUDP ) : 
-        cUDP.udpTable          = getattr( pUDP, 'udpTable', 'udp' )  
-        cUDP.propertyName      = getattr( pUDP, 'propertyName', 'code')
-        cUDP.propertyValue     = getattr( pUDP, 'propertyValue', 'valueUdp')
-        cUDP.propertyReference = getattr( pUDP, 'propertyReference', 'metaObj')
-        cUDP.propertyPrefix    = getattr( pUDP, 'propertyPrefix', 'udp')
-    else: 
-        cUDP.udpTable          = ''  
-        cUDP.propertyName      = ''
-        cUDP.propertyValue     = ''
-        cUDP.propertyReference = ''
-        cUDP.propertyPrefix    = ''
-    
-    return cUDP    
 
 
 def strNotNull(  sValue, sDefault ):

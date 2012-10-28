@@ -39,6 +39,8 @@ DesignerProperties =  {
     "propertyValue.help" : "En la tabla de udps el nombre del campo que contiene el valor",
     "udpTable.help" : "Tabla que contiene las upds", 
 
+    "propertyReference.help" : "Valor de referencia del objeto base que contiene la cll de Udps ( tabla base )",    
+    "keyField.help" : "keyField ( nombre del campo ) sobre el registro de base,cuando la udp no es un maestroDetalle",
 
 // sheets
 

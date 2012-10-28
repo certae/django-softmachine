@@ -2,14 +2,16 @@
 
 from django.utils import simplejson as json
 from django.http import HttpResponse 
-from django.contrib.admin.sites import  site
+
+#from django.contrib.admin.sites import  site
 
 
 from models import getDjangoModel
 from protoActionList import Q2Dict
 from protoActions import ERR_NOEXIST  
 from utilsConvert import toInteger, toDate,toDateTime,toTime, toFloat, toDecimal, toBoolean
-from utilsBase import JSONEncoder, getReadableError, addFilter, verifyUdpDefinition 
+from utilsBase import JSONEncoder, getReadableError
+from protoUdp import verifyUdpDefinition, saveUDP
 
 
 def protoCreate(request):
@@ -126,30 +128,6 @@ def protoEdit(request, myAction ):
 # ---------------
 
 
-
-def saveUDP( rec,  data, cUDP  ):
-
-    UdpModel = getDjangoModel( cUDP.udpTable )
-
-    Qs = UdpModel.objects
-    Qs = addFilter( Qs, { cUDP.propertyReference : rec.id  } )
-
-    for key in data:
-        if (not key.startswith( cUDP.propertyPrefix + '__')): continue 
-
-        UdpCode = key.lstrip( cUDP.propertyPrefix + '__' ) 
-        
-        QsUdp = addFilter( Qs, { cUDP.propertyName : UdpCode  } )
-        if QsUdp.exists():
-            rUdp = QsUdp[0]
-        else: 
-            rUdp = UdpModel()
-            setattr( rUdp, cUDP.propertyReference, rec )
-            setattr( rUdp, cUDP.propertyName , UdpCode)
-            
-        setattr( rUdp, cUDP.propertyValue , data[key])
-
-        rUdp.save()
 
 
 # ---------------------
