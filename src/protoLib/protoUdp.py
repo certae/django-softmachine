@@ -51,12 +51,13 @@ def saveUDP( rec,  data, cUDP  ):
     if not cUDP.keyField: 
         keyValue = rec.id
     else: 
-        keyValue = rec.get( cUDP.keyField  )
+        keyValue = data.get( cUDP.keyField  )
 
     Qs = UdpModel.objects
     Qs = addFilter( Qs, { cUDP.propertyReference : keyValue  } )
 
     for key in data:
+        #Fix: pythonic ??? 
         if (not key.startswith( cUDP.propertyPrefix + '__')): continue 
 
         UdpCode = key.lstrip( cUDP.propertyPrefix + '__' ) 
@@ -66,11 +67,15 @@ def saveUDP( rec,  data, cUDP  ):
             rUdp = QsUdp[0]
         else: 
             rUdp = UdpModel()
-            setattr( rUdp, cUDP.propertyReference, rec )
+            if not cUDP.keyField: 
+                setattr( rUdp, cUDP.propertyReference, rec )
+            else: 
+                #Fix: deberia ser un parametro
+                setattr( rUdp, cUDP.propertyReference + '_id', keyValue  )
+                
             setattr( rUdp, cUDP.propertyName , UdpCode)
             
         setattr( rUdp, cUDP.propertyValue , data[key])
-
         rUdp.save()
 
 def readUdps( rowdict, regBase , cUDP, udpProps ):
