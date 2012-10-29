@@ -3,16 +3,16 @@
 
 
 from models import Domain,  Model, PropertyDom, Concept, PropertyModel, PropertyConcept, PropertyEquivalence, Relationship 
-
 from django.contrib import admin
 
+from admin_Property import PropertyAdmin
+admin.site.register(PropertyDom, PropertyAdmin)
 
 admin.site.register(Domain )
 admin.site.register(Model )
 admin.site.register(Concept )
 admin.site.register(Relationship )
 
-admin.site.register(PropertyDom )
 admin.site.register(PropertyModel )
 admin.site.register(PropertyConcept )
 admin.site.register(PropertyEquivalence )

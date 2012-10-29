@@ -65,8 +65,9 @@ def protoGetPCI(request):
 
 
     else:
+        
         protoMeta = json.loads( protoDef.metaDefinition ) 
-
+        protoMeta['protoOption'] = protoOption  
 
     # Verifica la view y copia las propiedades necesarias, ( un protoView no sera editable ) 
     if view: 
@@ -176,7 +177,7 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
 
 
     #---------- Ahora las propiedades generales de la PCI 
-    protoIcon  = 'icon-%s' % grid.protoMeta.get( 'protoIcon', '1') 
+    protoIcon  = grid.protoMeta.get( 'protoIcon', 'icon-1') 
 
     pDescription = grid.protoMeta.get( 'description', '')
     if len(pDescription) == 0:  pDescription = grid.protoMeta.get( 'title', grid.title)

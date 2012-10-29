@@ -314,8 +314,11 @@ function updateWinPosition( myWidth, myHeight ) {
 // **********************************************************
 
 function savePclCache( protoOption, protoMeta ) {
+
+    // Asigna la llave, pues si se hace una copia seguiria trayendo la misma protoOption de base 
+    protoMeta.protoOption = protoOption 
+
     // Guarda el cache de  pcl's 
-    
     _cllPCI[ protoOption ]  = protoMeta;  
     DefineProtoModel( protoMeta , getModelName( protoOption  )  );
 

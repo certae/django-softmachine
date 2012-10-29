@@ -73,11 +73,10 @@ DesignerObjects =  {
             "cellLink", 
 
             // Para los N2N
-            "conceptDetail", 
-            "relatedN2N",
-            "detailField",
-            "masterField",                                     
-            
+            // "conceptDetail", 
+            // "relatedN2N",
+            // "detailField",
+            // "masterField",                                                 
             "type", 
             "xtype",
             "vType" 
@@ -114,11 +113,10 @@ DesignerObjects =  {
             "cellLink",
             
             // Para los N2N
-            "conceptDetail", 
-            "relatedN2N",
-            "detailField",
-            "masterField",                                     
-
+            // "conceptDetail", 
+            // "relatedN2N",
+            // "detailField",
+            // "masterField",                                     
             // tipos              
             "type", 
             "xtype", 

@@ -130,7 +130,7 @@ Ext.define('ProtoUL.UI.FormController', {
             me.myWin.addTools()
         }         
          
-        me.myWin.show();
+        // me.myWin.show();
         
         // Si la forma no esta visible no puede desactivar los headers 
         if ( me.isReadOnly ) {
@@ -138,7 +138,8 @@ Ext.define('ProtoUL.UI.FormController', {
         } else {
             me.myForm.setReadOnlyFields( true, me.myMeta.gridConfig.readOnlyFields );            
         }
-        
+
+        me.myWin.show();        
         
     }, 
     
@@ -283,7 +284,10 @@ Ext.define('ProtoUL.UI.FormController', {
                         prLayout = Ext.apply( template.__ptConfig , protoObj.__ptConfig  )
 
                         // ReadOnlyCls
-                        prLayout[ 'readOnlyCls' ] = 'protofield-readonly'
+                        if (  prLayout[ 'xtype' ] == 'protoZoom' ) {
+                            prLayout[ 'readOnlyCls' ] = 'protoLink'                        } else {
+                            prLayout[ 'readOnlyCls' ] = 'protofield-readonly' 
+                        }
 
                         // Aqui se parametrizan los tiposespecificos 
                         if (  prLayout[ 'xtype' ] == 'combobox' ) {

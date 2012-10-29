@@ -36,7 +36,7 @@ DesignerProperties =  {
     "propertyPrefix.help" : "prefijo de las propiedades definidas por el usuario ( en el nombre del campo aparencen upd__xxxxx)", 
     "propertyName.help" : "En la tabla de udps el nombre del campo que contiene la llave de la propiedad",
     "propertyValue.help" : "En la tabla de udps el nombre del campo que contiene el valor",
-    "udpTable.help" : "Tabla que contiene las upds", 
+    "udpTable.help" : "Tabla que contiene las upds, si es un vinculo directo es el nombre del set ( foreignConcept normalmente la tabla en minusculas)", 
 
     "propertyReference.help" : "Valor de referencia del objeto base que contiene la cll de Udps ( tabla base )",    
     "keyField.help" : "keyField ( nombre del campo ) sobre el registro de base,cuando la udp no es un maestroDetalle",
@@ -72,7 +72,7 @@ DesignerProperties =  {
 
     "fromModel.help" : "Pertenece al modelo de base",  
     "xtype.help" : "Tipo de objeto en el frontEnd ( puede ser manipulado con el vType)",
-    "xtype.choices": ["textfield", "combobox", "checkbox", "numberfield", "textarea"],
+    "xtype.choices": ["textfield", "combobox", "checkbox", "numberfield", "textarea", "datefield" ],
     
     "decimalPrecision": 0,
     "decimalPrecision.help": "Cantidad de decimales permitidos ( 0 para enteros 2 para decimales )",

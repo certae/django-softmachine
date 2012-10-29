@@ -42,8 +42,7 @@ Ext.define('Ext.ux.protoZoom', {
      * trigger button cls 
      */
     triggerCls : Ext.baseCSSPrefix + 'form-search-trigger',
-    
-
+    // readOnlyCls : 'protoLink', 
     /**
      * @private
      * Indica si todos los atributos de configuracion fueron cargados, permitiria reutilizar la forma solo cambiando el filtro 
@@ -68,17 +67,18 @@ Ext.define('Ext.ux.protoZoom', {
         var options = {
             scope: this, 
             success: function ( obj, result, request ) {
-                me.createZoomWindow( me )
+                me.createZoomWindow( me ); 
             },
             failure: function ( obj, result, request) { 
                 return ;  
             }
-        }
+        };
 
         if (  loadPci( me.zoomModel , true, options ) ) {
-            me.createZoomWindow( me )
+            me.createZoomWindow( me ); 
         }   
 
+        
         this.callParent(arguments);
         
         // Para activar el evento con ENTER 
@@ -237,26 +237,22 @@ Ext.define('Ext.ux.protoZoom', {
     }, 
     
     resetZoom: function() {
-
         this.setStatusBar( )
-        
-    }, 
+    } 
     
-    setReadOnly: function(readOnly) {
-        if (readOnly != this.readOnly) {
-            this.readOnly = readOnly;
-            
-            if ( readOnly ) {
-                this.fieldCls = 'protoLink'
-                // this.addCls( 'protoLink' ) 
-            } else if ( hasCls( 'protoLink' )) {
-                this.removeCls( 'protoLink' ) 
-            }
-            
-            this.updateLayout();
-        }
-    }
-
+    // setReadOnly: function(readOnly) {
+        // if (readOnly != this.readOnly) {
+            // this.setReadOnly( true ); 
+            // // this.readOnly = readOnly;
+            // // if ( readOnly ) {
+                // // this.fieldCls = 'protoLink'
+                // // this.addCls( 'protoLink' ) 
+            // // } else if ( hasCls( 'protoLink' )) {
+                // // this.removeCls( 'protoLink' ) 
+            // // }
+            // // this.updateLayout();
+        // }
+    // }
 });
 
 

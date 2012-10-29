@@ -692,10 +692,13 @@ function loadPci( protoOption, loadIfNot, options) {
         
         // Verificar si la opcion esta creada 
         var myMeta = _cllPCI[ protoOption ]
+        
                 
         // Verifica modelo 
         if  ( myMeta && Ext.ClassManager.isCreated(  getModelName( protoOption )  )){
 
+            // Asigna la llave, pues si se hace una copia seguiria trayendo la misma protoOption de base 
+            myMeta.protoOption = protoOption 
             return true
 
         } else { 
@@ -731,7 +734,6 @@ function loadPci( protoOption, loadIfNot, options) {
                 }
             })
             
-            // 
             return false 
             
         }  
