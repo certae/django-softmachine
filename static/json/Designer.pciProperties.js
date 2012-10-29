@@ -123,6 +123,9 @@ DesignerProperties =  {
     "height.type": "number",
     "width.type": "number", 
 
+    "flex.type": "number", 
+    "flex.help": "Recalcula el ancho en funcion de la forma y el peso ( flex) asignado", 
+
     "readOnly": false,
     "readOnly.help": "campo de solo lectura",
     "title.help": "Titulo del componente",

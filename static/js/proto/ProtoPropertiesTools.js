@@ -59,7 +59,9 @@ function clearPhantonProps( __ptConfig ,  __ptType ) {
     var objConfig = DesignerObjects[ __ptType ] || {}
     for (var ix in __ptConfig ) {   
         if ( !( ix  in oc( objConfig.properties.concat ( ['name' ] )))) {
+            console.log( ix )
             delete __ptConfig[ ix ]
+            
         }
     } 
     return __ptConfig 
@@ -117,7 +119,7 @@ function getTemplate( ptType, forForm,  metaDict  )  {
 
     // Garantiza q no venga una definicion generica ( solo para los formFields ) 
     if ( forForm && ( ! prps.xtype  )) prps.xtype = ptType 
-    if ( ( prps.xtype == 'formField' ) ||  ( ptType == 'formField' )) prps.xtype = 'textfield' 
+    if ( ( prps.xtype == 'formField' ) &&  ( ptType == 'formField' )) prps.xtype = 'textfield' 
  
 
     return {'__ptConfig' : prps, 
