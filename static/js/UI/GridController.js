@@ -158,7 +158,7 @@ Ext.define('ProtoUL.UI.GridController', {
         
             function showMetaConfig() {
                 if ( ! this.configCtrl  ) {
-                    this.configCtrl = Ext.create('ProtoUL.UI.ConfigController', { myMeta : this.myMeta });    
+                    this.configCtrl = Ext.create('ProtoUL.UI.ConfigController', { protoOption : this.myMeta.protoOption });    
                 }
                 this.configCtrl.showMetaConfig()
             }

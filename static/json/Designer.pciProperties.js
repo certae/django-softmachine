@@ -15,9 +15,8 @@ DesignerProperties =  {
     "pciStyle.help" : "Presentacion de la pci [ form,  grid, tree]", 
     "pciStyle.choices": ["grid", "form", "tree"],
 
-    "protoMenuOpt.help" : "Rama de menu en la que aparece", 
-    "protoMenuIx.help" : "Index de la opcion en la Rama de menu", 
-    "protoMenuIx.type" : "number", 
+    "version.help" : "Cofigo de version", 
+
 
 // Detalles 
 
@@ -54,6 +53,8 @@ DesignerProperties =  {
     "allowDecimals.help": "NO USAR : si permite o no decimales, si decimalPReciosion = 0 implica falso",
     "autoscroll": true,
     "autoscroll.help": "t/f",
+
+    "choices.help": "lista de valores separados por coma para el combobox",
     
     "collapsed": false,
     "collapsed.help": "t/f aparece contraido",
@@ -70,7 +71,8 @@ DesignerProperties =  {
     "cellLink.type": "boolean",
 
     "fromModel.help" : "Pertenece al modelo de base",  
-    "xtype" : "Tipo de objeto en el frontEnd ( puede ser manipulado con el vType)",
+    "xtype.help" : "Tipo de objeto en el frontEnd ( puede ser manipulado con el vType)",
+    "xtype.choices": ["textfield", "combobox", "checkbox", "numberfield", "textarea"],
     
     "decimalPrecision": 0,
     "decimalPrecision.help": "Cantidad de decimales permitidos ( 0 para enteros 2 para decimales )",

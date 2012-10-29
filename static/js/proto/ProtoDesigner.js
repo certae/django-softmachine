@@ -57,9 +57,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
 
     updateFormTree : function() {
         // Genera el arbol a partir de la meta 
-       
-        var safeConf = clone( this.myMeta.protoForm , 0, exclude =[] )
-        var treeData = Meta2Tree( safeConf, 'protoForm', 'protoForm'  )
+        var treeData = Meta2Tree( this.myMeta.protoForm, 'protoForm', 'protoForm'  )
         treeData.expanded = true
 
         this.formTree.getStore().setRootNode( treeData ) 

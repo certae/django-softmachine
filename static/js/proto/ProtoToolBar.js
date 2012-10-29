@@ -11,7 +11,7 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
     initComponent : function() {
 
         var me = this
-        me.addEvents('save', 'preview', 'add', 'del', 'help', 'show1', 'show2');
+        me.addEvents('save', 'preview', 'add', 'del', 'help', 'show1');
 
         Ext.apply(this, {
             items : [{
@@ -63,14 +63,6 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
                 scope   : this,
                 handler : function() {  
                     me.fireEvent('show1') 
-                    }
-            }, {
-                tooltip : "Show edited Meta",
-                iconCls : "icon-script_edit",
-                itemId  : "show2", 
-                scope   : this,
-                handler : function() {  
-                    me.fireEvent('show2') 
                     }
             },"->",{
                 iconCls : "icon-help",

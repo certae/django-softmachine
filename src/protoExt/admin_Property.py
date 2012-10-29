@@ -140,14 +140,12 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
             "type": "html",
             "fieldLabel": "Definition",
             "name": "udp__DEFINITION",
-            "checked": True,
             "header": "udp__DEFINITION"
         },
         {
             "fieldLabel": "Elto transforme",
             "type": "bool",
             "name": "udp__ELEMENTTRANSFORME",
-            "checked": True,
             "header": "udp__ELEMENTTRANSFORME"
         },
         {
@@ -161,14 +159,12 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
             "fieldLabel": "Doc Reference",
             "type": "string",
             "name": "udp__DOCUMENTDEREFERENCE",
-            "checked": True,
             "header": "udp__DOCUMENTDEREFERENCE"
         },
         {
             "fieldLabel": "Source Donnes",
             "type": "string",
             "name": "udp__SOURCEDEDONNEESEXTERNES",
-            "checked": True,
             "header": "udp__SOURCEDEDONNEESEXTERNES"
         },
         {
@@ -182,7 +178,6 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
             "type": "html",
             "fieldLabel": "Precision",
             "name": "udp__PRECISIONS",
-            "checked": True,
             "header": "udp__PRECISIONS"
         },
         {

@@ -56,6 +56,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
                 itemId : 'errBt', 
                 xtype: 'button',
                 text: 'clear',
+                tooltip : 'clear status bar', 
                 
                 // hidden: true,
                 scope: this,
@@ -65,8 +66,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
                 itemId : 'openTaskForm', 
                 xtype: 'button',
                 text: 'task',
-                
-                // hidden: true,
+                hidden: true,
                 scope: this,
                 iconCls: 'taskManager',
                 handler: this.openTaskForm
@@ -81,7 +81,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
     },
 
     clearErrCount: function () {
-        this.errBt.hide()
+        // this.errBt.hide()
         this.errBt.tooltip = ''
         this.busyCount = 0; 
         this.clearStatus( { useDefaults: true} )    

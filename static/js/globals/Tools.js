@@ -348,7 +348,7 @@ function getModelName( protoOption  ) {
 function getSafeMeta( myMeta ) {
     
     // prepara la meta 
-    var excludeP = [ 'protoForm', 'sheetConfig', 'protoViews', 'protoDetails']
+    var excludeP = [ 'gridConfig', 'protoForm', 'sheetConfig', 'protoDetails']
     var safeMeta =  clone( myMeta, 0, excludeP );
     
     return Ext.encode( safeMeta )

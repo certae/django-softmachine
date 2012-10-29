@@ -149,16 +149,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                 me.cancelChanges()
             }, 
             'show1': function (  ) {
-
-                var safeConf = clone( me.myMeta , 0, exclude =[ 'protoViews'] )
-                showConfig( 'Original' , safeConf  )
-            }, 
-            'show2': function (  ) {
-
-                var safeConf =  me.treeGridStore.getRootNode()
-                safeConf =  Tree2Meta( safeConf )
-                showConfig( 'Edited' , safeConf  )
-
+                showConfig( 'Meta' , me.myMeta  )
             }, 
             'add': function ( record ) {
                 addTreeNode ( record )
@@ -226,8 +217,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
         function getTreeData( me ) {
           
-            var safeConf =  clone( me.myMeta , 0, exclude =[ 'protoViews'] );
-            var treeData = Meta2Tree( safeConf, 'pcl', 'pcl' );
+            var treeData = Meta2Tree( me.myMeta, 'pcl', 'pcl' );
             treeData.expanded = true;
     
             // Para guardar las dos definiciones ( la data se modifica al generar el store )

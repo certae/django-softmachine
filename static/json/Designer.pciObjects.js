@@ -19,13 +19,12 @@ DesignerObjects =  {
             "protoOption", 
             "description" ,
             "protoConcept" , 
-            "protoMenuOpt",  
-            "protoMenuIx",  
             "protoIcon",
             "shortTitle" ,
             "helpPath", 
             "idProperty", 
-            "pciStyle" 
+            "pciStyle", 
+            "version"
             ],
         "roProperties": [ "protoOption", "protoConcept", "idProperty" ]  
         },
@@ -58,12 +57,76 @@ DesignerObjects =  {
             "storeOnly", 
             "cellLink",  
             "wordWrap",
-            "fromModel",  "xtype",
+            "fromModel",
+            
+            // Para los campos del htmlSet            
+            "collapsed",   
+            // Para el combo
+            "choices",
+
+            // Para el zoom 
+            "fkId", 
+            "fkField",
+            "zoomModel", 
+            "zoomFilter", 
+            "zoomReturn", 
+            "cellLink", 
+
+            // Para los N2N
+            "conceptDetail", 
+            "relatedN2N",
+            "detailField",
+            "masterField",                                     
+            
             "type", 
+            "xtype",
             "vType" 
             ],
         "roProperties": [ "fromModel" ]  
     },
+
+    "formField": {
+        "description": "A field element",
+        "properties": [
+            "tooltip", 
+            "fieldLabel",
+            "labelWidth","labelAlign","hideLabel",
+            "allowBlank",
+            "readOnly",
+            "hidden",
+            "defaultValue",
+            "height","maxHeight","minHeight","width", "maxWidth","minWidth",
+            "flex", 
+            "format",
+            "decimalPrecision", 
+
+            // Para los campos del htmlSet            
+            "collapsed",   
+            // Para el combo
+            "choices",
+
+            // Para el zoom 
+            "fkId", 
+            "fkField",
+            "zoomModel", 
+            "zoomFilter", 
+            "zoomReturn",
+            "cellLink",
+            
+            // Para los N2N
+            "conceptDetail", 
+            "relatedN2N",
+            "detailField",
+            "masterField",                                     
+
+            // tipos              
+            "type", 
+            "xtype", 
+            "vType"
+            ], 
+        "roProperties": [ "type "]  
+            
+    }, 
 
     "gridConfig": {
         "description": "Propiedades de configuracion de la grilla",
@@ -220,21 +283,6 @@ DesignerObjects =  {
         ]
     },
 
-    "formField": {
-        "description": "A field element",
-        "properties": [
-            "tooltip", 
-            "fieldLabel",
-            "labelWidth","labelAlign","hideLabel",
-            "allowBlank",
-            "readOnly",
-            "hidden",
-            "defaultValue",
-            "height","maxHeight","minHeight","width", "maxWidth","minWidth",
-            "format",
-            "decimalPrecision"
-            ]
-    }, 
 
     "protoGrid": {
         "description": "A detail grid",

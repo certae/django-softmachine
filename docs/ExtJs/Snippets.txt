@@ -1,3 +1,58 @@
+    // showColsConfig: function() {
+        // var safeConf = clone( this.myMeta , 0, exclude =['protoViews'] )
+        // var treeData = Meta2Tree( safeConf, 'pcl' , 'pcl' ) 
+        // safeConf = Tree2Meta( treeData ) 
+        // showConfig( 'm2t t2m' , safeConf  )
+    // }, 
+        
+
+    // showMetaConfig: function () {
+        // showConfig( 'MetaConfig', this.myMeta )
+    // }, 
+
+
+// ------------------------------------------------------------------------------------------------
+// 
+        // var tbViews = Ext.getCmp( ideTbViews )
+        // tbViews.add({
+            // xtype: 'tbtext',
+            // iconCls : 'icon-views', 
+            // text: '<b>Group de colonnes :<b>'
+            // // },{  xtype: 'menuseparator'
+        // });
+// 
+        // function configurelistDisplaySet(){
+// 
+            // var bHide = true; 
+// 
+            // // Agrega la vista por defecto 
+            // var myDefaultCols = myMeta.gridConfig.listDisplay;
+            // if ( myDefaultCols.length > 0 ) {
+                // tbViews.add({
+                    // text:       _defaultViewText,
+                    // protoView:  myDefaultCols ,
+                    // handler:    onClickChangeView
+                // });
+            // }
+//             
+            // var pViews = myMeta.gridConfig.listDisplaySet;
+            // for (var vDet in pViews) {         
+                // tbViews.add({
+                    // text:       vDet ,
+                    // protoView:  pViews[vDet] ,
+                    // handler:    onClickChangeView
+                // });
+                // bHide = false; 
+            // }
+//             
+            // // if ( bHide) {
+                // // var btViews = Ext.getCmp( ideBtViews );
+                // // btViews.hidden = true
+            // // }
+        // }
+//     
+        // configurelistDisplaySet(); 
+
 ** Buscar la implentacion de search_fields para las busquedas Texto  Agregar el ALL
 
    Complex lookups with Q objects

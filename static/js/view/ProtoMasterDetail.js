@@ -28,7 +28,6 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             border : false, 
             protoOption : this.protoOption,  
             baseFilter : this.baseFilter, 
-            // detFilter : this.detFilter, 
             detailTitle : this.detailTitle, 
             
             region: 'center',
@@ -45,7 +44,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
 
         // config Controller 
-        var configCtrl = Ext.create('ProtoUL.UI.ConfigController', { myMeta : this.myMeta });
+        var configCtrl = Ext.create('ProtoUL.UI.ConfigController', { protoOption : this.myMeta.protoOption });
 
 
         // Barra MD 

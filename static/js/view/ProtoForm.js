@@ -115,13 +115,11 @@ Ext.define('ProtoUL.view.ProtoForm', {
     
 
     showFormConfig: function () {
-        var safeConf =  clone( this.myMeta.protoForm )
-        showConfig( 'Form Config' , safeConf   )
+        showConfig( 'Form Config' , this.myMeta.protoForm   )
        },
 
     showLayoutConfig: function () {
-        var safeConf =  clone( this.prFormLayout  )
-        showConfig( 'LayoutConfig' , safeConf   )
+        showConfig( 'LayoutConfig' , this.prFormLayout   )
        },
         
     

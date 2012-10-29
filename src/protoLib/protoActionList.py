@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-#from django.contrib.admin.sites import  site
-#from protoGrid import Q2Dict,  getProtoViewName
 
 from django.db import models
 from django.http import HttpResponse

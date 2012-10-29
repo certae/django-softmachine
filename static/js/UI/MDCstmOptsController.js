@@ -74,49 +74,6 @@ Ext.define('ProtoUL.UI.MDCstmOptsController', {
         }
         
         
-
-// ------------------------------------------------------------------------------------------------
-// 
-        // var tbViews = Ext.getCmp( ideTbViews )
-        // tbViews.add({
-            // xtype: 'tbtext',
-            // iconCls : 'icon-views', 
-            // text: '<b>Group de colonnes :<b>'
-            // // },{  xtype: 'menuseparator'
-        // });
-// 
-        // function configurelistDisplaySet(){
-// 
-            // var bHide = true; 
-// 
-            // // Agrega la vista por defecto 
-            // var myDefaultCols = myMeta.gridConfig.listDisplay;
-            // if ( myDefaultCols.length > 0 ) {
-                // tbViews.add({
-                    // text:       _defaultViewText,
-                    // protoView:  myDefaultCols ,
-                    // handler:    onClickChangeView
-                // });
-            // }
-//             
-            // var pViews = myMeta.gridConfig.listDisplaySet;
-            // for (var vDet in pViews) {         
-                // tbViews.add({
-                    // text:       vDet ,
-                    // protoView:  pViews[vDet] ,
-                    // handler:    onClickChangeView
-                // });
-                // bHide = false; 
-            // }
-//             
-            // // if ( bHide) {
-                // // var btViews = Ext.getCmp( ideBtViews );
-                // // btViews.hidden = true
-            // // }
-        // }
-//     
-        // configurelistDisplaySet(); 
-        
     }
     
 }) 

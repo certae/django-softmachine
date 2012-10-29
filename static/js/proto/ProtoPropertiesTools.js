@@ -8,7 +8,9 @@
 
 
 function prepareProperties( record , myMeta,  propPanel  ){
-    // Pepara la tabla de propiedades 
+    /* Pepara la tabla de propiedades
+     * retorna propPanel 
+     */ 
 
     var template = {} 
     
@@ -39,15 +41,29 @@ function prepareProperties( record , myMeta,  propPanel  ){
     // Default Data ( aplica los defaults a la definicion del campo )
     __ptConfig = Ext.apply(  template.__ptConfig, __ptConfig   ) 
 
-    propPanel.setSource( __ptConfig )
+    // Solo maneja las propiedades propias de la version 
+    __ptConfig = clearPhantonProps( __ptConfig,  __ptType )
 
+    propPanel.setSource( __ptConfig )
     propPanel.setCombos( template.__ppChoices )
     propPanel.setTypes( template.__ppTypes )
     
-    propPanel.readOnlyProps = ['__ptType', 'xtype', 'name'].concat ( template.__roProperties )         
+    propPanel.readOnlyProps = ['__ptType', 'name'].concat ( template.__roProperties )         
     propPanel.sourceInfo = template.__ptHelp
 
 };
+
+function clearPhantonProps( __ptConfig ,  __ptType ) {
+    /* Borra las propieades q no hacen parte de la config de base 
+     */ 
+    var objConfig = DesignerObjects[ __ptType ] || {}
+    for (var ix in __ptConfig ) {   
+        if ( !( ix  in oc( objConfig.properties.concat ( ['name' ] )))) {
+            delete __ptConfig[ ix ]
+        }
+    } 
+    return __ptConfig 
+}; 
 
 
 function getTemplate( ptType, forForm,  metaDict  )  {

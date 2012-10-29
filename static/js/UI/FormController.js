@@ -281,10 +281,22 @@ Ext.define('ProtoUL.UI.FormController', {
         
                         template = getTemplate( __ptType, true,  myFld  )
                         prLayout = Ext.apply( template.__ptConfig , protoObj.__ptConfig  )
-        
+
                         // ReadOnlyCls
                         prLayout[ 'readOnlyCls' ] = 'protofield-readonly'
-        
+
+                        // Aqui se parametrizan los tiposespecificos 
+                        if (  prLayout[ 'xtype' ] == 'combobox' ) {
+                            
+                            var cbChoices = prLayout[ 'choices' ]
+                            if ( typeOf(cbChoices) == 'string') {
+                                cbChoices = cbChoices.split( ",")  
+                            }
+                            prLayout[ 'store' ] = cbChoices 
+                             
+                        }
+
+                        // N2N        
                         if ( myFld.type == 'protoN2N') { 
                             prLayout[ 'id' ] = Ext.id()
                             me.N2Nfields.push( { 

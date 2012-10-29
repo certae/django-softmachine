@@ -431,15 +431,15 @@ function getColDefinition( vFld ) {
         // date, datime 
         'disabledDays', 'disabledDaysText',       // [0, 6]
         
-        //@zoomModel : Contiene el modelo del FK, se carga automaticamente 
+        /*@zoomModel : Contiene el modelo del FK, se carga automaticamente,
+         * puede ser modificado para cargar una vista particular, 
+         * una buena practica es dejar los modelos de base para los zooms y generar vistas 
+         * para las opciones de trabajo 
+         */  
         'zoomModel', 
         
         //@fkId : Llave correspondiente al zoom          
         'fkId', 
-        
-         // @zoomView : TODO: Contiene un GridView ( app.model.gridView ) utilizado para los campos del zoom  
-         // esto se pega al nombre la entidad para obtner la vista 
-        'zoomView', 
 
         //@zoomFilter : TODO: Filtro de base fijo para el zoom ( puede venir definido en zoomView )
         'zoomFilter', 
@@ -742,7 +742,7 @@ function loadPci( protoOption, loadIfNot, options) {
 function savePci( protoMeta,  options) {
 
     var protoOption = protoMeta.protoOption
-    var sMeta = Ext.encode(  clone( protoMeta, 0  ) )
+    var sMeta = Ext.encode(  protoMeta )
 
     saveProtoObj( protoOption, sMeta ,  options)
         

@@ -10,6 +10,9 @@ from utilsBase import getReadableError, copyProps
 import django.utils.simplejson as json
 
 
+#TODO: Vistas parametrizadas por el usuario 
+
+
 # Dgt 12/10/28 Permite la carga directa de json de definicion. 
 PROTOVERSION = '4.23'
 
@@ -197,15 +200,12 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
          'fields': grid.fields, 
          'gridConfig' : gridConfig,  
 
-        # Propiedades extendidas   
+         # Propiedades extendidas   
          'protoDetails': grid.get_details() , 
          'protoForm': grid.getFieldSets(),  
          'protoUdp': grid.protoMeta.get( 'protoUdp', {}), 
 
-        # DGT: Vistas heredadas del modelo base, zooms,  etc ...
-        # Ya no se requieren pues el menu se maneja directamente en el FrontEnd           
-        # 'protoViews': grid.protoMeta.get( 'protoViews', {}), 
-         
+         # Paginas de datos        
          'sheetConfig' : {
             'protoSheets' : pSheets.get( 'protoSheets', [] ), 
             'protoSheetSelector' : pSheets.get( 'protoSheetSelector', ''), 
