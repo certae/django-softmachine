@@ -1,7 +1,7 @@
 
 from models import getDjangoModel
 from utilsBase import addFilter
-
+from utilsConvert import getTypedValue
 
 # Para pasar atributos en forma de clase   
 class cAux: pass 
@@ -75,10 +75,12 @@ def saveUDP( rec,  data, cUDP  ):
                 
             setattr( rUdp, cUDP.propertyName , UdpCode)
             
-        setattr( rUdp, cUDP.propertyValue , data[key])
+        sAux = str( data[key] ) 
+        setattr( rUdp, cUDP.propertyValue , sAux )
         rUdp.save()
 
-def readUdps( rowdict, regBase , cUDP, udpProps ):
+
+def readUdps( rowdict, regBase , cUDP, udpList,  udpTypes ):
 
     # Intenta con el maestro detalle
     try: 
@@ -92,7 +94,7 @@ def readUdps( rowdict, regBase , cUDP, udpProps ):
         UdpModel = getDjangoModel( cUDP.udpTable )
         keyValue = rowdict.get( cUDP.keyField , '' )
     
-        if keyValue:
+        if keyValue: 
             bAux = True
             Qs = UdpModel.objects
             Qs = addFilter( Qs, { cUDP.propertyReference : keyValue  } )
@@ -105,11 +107,12 @@ def readUdps( rowdict, regBase , cUDP, udpProps ):
     if bAux: 
         
         for lUDP in cllUDP:
-            prpGridName = cUDP.propertyPrefix + '__' + getattr( lUDP, cUDP.propertyName  , '') 
-            if prpGridName in udpProps:
+            udpName = cUDP.propertyPrefix + '__' + getattr( lUDP, cUDP.propertyName  , '') 
+            if udpName in udpList:
                 sAux = getattr( lUDP, cUDP.propertyValue, '' )
+                sAux = getTypedValue ( sAux , udpTypes[ udpName ])
                 
-                if type( sAux ).__name__=='string': 
+                if udpTypes[ udpName ] == 'html' and type( sAux ).__name__=='string'  : 
                     sAux = sAux.replace( '\n', '<br>').replace( '\r', '<br>')  
                     sAux = sAux.replace( '<br><br>', '<br>')
                     sAux = sAux.replace( '<td><br>', '<td>').replace( '</td><br>', '</td>')
@@ -118,7 +121,7 @@ def readUdps( rowdict, regBase , cUDP, udpProps ):
                     sAux = sAux.replace( '<br><td>', '<td>').replace( '<br></td>', '</td>')
                     sAux = sAux.replace( '<br><th>', '<th>').replace( '<br></th>', '</th>')
                     sAux = sAux.replace( '<br><tr>', '<tr>').replace( '<br></tr>', '</tr>')
-                else:
-                    pass 
     
-                rowdict[ prpGridName ] =  sAux 
+                rowdict[ udpName ] =  sAux 
+
+

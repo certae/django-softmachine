@@ -4,6 +4,29 @@
 import datetime, time 
 from decimal import Decimal 
 
+
+def getTypedValue ( sAux , sType):
+    """ Retorna valores tipados segun el tipo definido 
+    * se usa sobre todo para las UDP 
+    """  
+    
+    if sType == 'bool':
+        sAux = toBoolean( sAux ) 
+    elif sType in ( [ 'int', 'autofield', 'foreignid' ]):   
+        sAux = toInteger( sAux ) 
+    elif sType == 'decimal':
+        sAux = toDecimal( sAux ) 
+    elif sType == 'date':
+        sAux = toDate( sAux )
+    elif sType == 'datetime':
+        sAux = toDateTime( sAux )
+    elif sType == 'time':
+        sAux = toTime( sAux )
+    
+    return sAux 
+
+
+
 def toInteger(s , iDefault = None):
     """
     Conversion a entero,  utilizada antes de cargar la Db 
@@ -11,7 +34,7 @@ def toInteger(s , iDefault = None):
     try:
         iResult = int(s)
         return iResult 
-    except ValueError:
+    except :
         return iDefault
 
 
@@ -22,7 +45,7 @@ def toFloat(s , iDefault = None):
     try:
         iResult = float(s)
         return iResult 
-    except ValueError:
+    except :
         return iDefault
 
 
@@ -33,7 +56,7 @@ def toDecimal(s , iDefault = None):
     try:
         iResult = Decimal( s)
         return iResult 
-    except ValueError:
+    except :
         return iDefault
 
 
@@ -42,7 +65,7 @@ def toBoolean(s):
     """
     Conversion a boolean,  utilizada antes de cargar la Db 
     """
-    if type(s).__name__  == 'str':
+    if type(s).__name__  in ['str', 'unicode']:
         return ( s.lower()[0] in ("y", "t", "o", "s", "1") ) 
     elif type(s).__name__  == 'bool':
         return s 
@@ -54,24 +77,38 @@ def toBoolean(s):
 
 def toDate(sVal, iDefault = None ):
     sVal = toDateTime(sVal, iDefault )
-    if sVal is not None: 
+    if type( sVal ).__name__  == 'date': 
+        return sVal
+    elif type( sVal ).__name__  == 'datetime':
         return sVal.date()
-
+    return None
+    
 def toTime(sVal, iDefault = None ):
     sVal = toDateTime(sVal, iDefault )
-    if sVal is not None: 
+    if type( sVal ).__name__  == 'time': 
+        return sVal
+    elif type( sVal ).__name__  == 'datetime':
         return sVal.time()
 
+
 def toDateTime(sVal, iDefault = None ):
-    
+    """ Suponer formato Iso OrderingDate 
+    """
     if sVal is None: return iDefault
     try:   
         if sVal.count("T")>0:
+            # IsoFormat DateTime             
             (date, time) = sVal.split("T")
             (an, mois, jour) = date.split('-')
             (h, m, s) = time.split(':')
             return datetime.datetime(int(an), int(mois), int(jour), int(h), int(m), int(s))
-        elif sVal.count("/") == '2':
+
+        elif sVal.count("-") == 2:
+            # IsoFormat Date             
+            (an, mois, jour) = sVal.split('-')
+            return datetime.date(int(an), int(mois), int(jour))
+            
+        elif sVal.count("/") == 2:
             if sVal.count(' ')>0:
                 (date, time) = sVal.split(" ")
                 (jour, mois, an) = date.split('/')

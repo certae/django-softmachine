@@ -174,11 +174,14 @@ def Q2Dict (  protoMeta, pRows  ):
 
     # Identifica las Udps para solo leer las definidas en la META
     if cUDP.udpTable :
-        udpProps =  []
+        udpTypes =  {}
+        udpList =  []
         for lField  in protoMeta['fields']:
             fName = lField['name']
-            if fName.startswith( cUDP.propertyPrefix + '__'): udpProps.append(fName)
-                
+            if fName.startswith( cUDP.propertyPrefix + '__'): 
+                udpList.append( fName )
+                udpTypes[ fName ]  =  lField['type'] 
+               
 
 #   Esta forma permite agregar las funciones entre ellas el __unicode__
     for item in pRows:
@@ -236,8 +239,8 @@ def Q2Dict (  protoMeta, pRows  ):
             # rowDict : se actualizara con los datos de la UDP
             # item es el registro de base, en caso de q sea un MD la lectura es automatica item.udpTable...
             # cUDP
-            # udpProps  : lista de Udps a leer  
-            readUdps( rowdict, item , cUDP, udpProps )
+            # udpTypes  : lista de Udps a leer  
+            readUdps( rowdict, item , cUDP, udpList,  udpTypes )
 
                 
 

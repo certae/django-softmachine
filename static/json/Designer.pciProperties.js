@@ -72,7 +72,7 @@ DesignerProperties =  {
 
     "fromModel.help" : "Pertenece al modelo de base",  
     "xtype.help" : "Tipo de objeto en el frontEnd ( puede ser manipulado con el vType)",
-    "xtype.choices": ["textfield", "combobox", "checkbox", "numberfield", "textarea", "datefield" ],
+    "xtype.choices": ["", "textfield", "combobox", "checkbox", "numberfield", "textarea", "datefield" ],
     
     "decimalPrecision": 0,
     "decimalPrecision.help": "Cantidad de decimales permitidos ( 0 para enteros 2 para decimales )",
@@ -137,10 +137,10 @@ DesignerProperties =  {
  
     "type" : "string",    
     "type.help" : "Tipo de dato de la Db ", 
-    "type.choices" : [ "string", "text", "bool", "int", "decimal", "combo", "date",  "datetime", "time", "autofield", "foreignid",  "foreigntext"  ],             
+    "type.choices" : [ "", "string", "text", "bool", "int", "decimal", "combo", "date",  "datetime", "time", "autofield", "html", "foreignid",  "foreigntext"  ],             
 
-    "vType.help" : "Tipo de dato de presentacion ( por defecto igual a 'type') ", 
-    "vType.choices" : [ "string", "text", "bool", "int", "decimal", "combo", "date",  "datetime", "time", "autofield", "foreignid",  "foreigntext"  ],             
+    "vType.help" : "TODO: Tipo de dato de validacion  ", 
+    "vType.choices" : [ "", "email", "ip4", "ip6", "tel", "postalCodeCA", "postalCodeUSA"  ],             
     
     "width.help": "The width value in pixels",
     "wordWrap": false,
