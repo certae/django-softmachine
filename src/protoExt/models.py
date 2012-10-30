@@ -209,7 +209,7 @@ class Udp(models.Model):
 #        return self.metaObj.objType
 
     def __unicode__(self):
-        return (strNotNull(self.metaObj.code) + '.' + strNotNull(self.code))
+        return self.metaObj.code  + '.' + self.code
 
     class Meta:
         unique_together = ('metaObj', 'code',)

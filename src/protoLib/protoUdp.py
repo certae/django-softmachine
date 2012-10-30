@@ -107,14 +107,18 @@ def readUdps( rowdict, regBase , cUDP, udpProps ):
         for lUDP in cllUDP:
             prpGridName = cUDP.propertyPrefix + '__' + getattr( lUDP, cUDP.propertyName  , '') 
             if prpGridName in udpProps:
-                sAux = getattr( lUDP, cUDP.propertyValue, '' ).replace( '\n', '<br>').replace( '\r', '<br>')  
-                sAux = sAux.replace( '<br><br>', '<br>')
-                sAux = sAux.replace( '<td><br>', '<td>').replace( '</td><br>', '</td>')
-                sAux = sAux.replace( '<th><br>', '<th>').replace( '</th><br>', '</th>')
-                sAux = sAux.replace( '<tr><br>', '<tr>').replace( '</tr><br>', '</tr>')
-    
-                sAux = sAux.replace( '<br><td>', '<td>').replace( '<br></td>', '</td>')
-                sAux = sAux.replace( '<br><th>', '<th>').replace( '<br></th>', '</th>')
-                sAux = sAux.replace( '<br><tr>', '<tr>').replace( '<br></tr>', '</tr>')
+                sAux = getattr( lUDP, cUDP.propertyValue, '' )
+                
+                if type( sAux ).__name__=='string': 
+                    sAux = sAux.replace( '\n', '<br>').replace( '\r', '<br>')  
+                    sAux = sAux.replace( '<br><br>', '<br>')
+                    sAux = sAux.replace( '<td><br>', '<td>').replace( '</td><br>', '</td>')
+                    sAux = sAux.replace( '<th><br>', '<th>').replace( '</th><br>', '</th>')
+                    sAux = sAux.replace( '<tr><br>', '<tr>').replace( '</tr><br>', '</tr>')
+                    sAux = sAux.replace( '<br><td>', '<td>').replace( '<br></td>', '</td>')
+                    sAux = sAux.replace( '<br><th>', '<th>').replace( '<br></th>', '</th>')
+                    sAux = sAux.replace( '<br><tr>', '<tr>').replace( '<br></tr>', '</tr>')
+                else:
+                    pass 
     
                 rowdict[ prpGridName ] =  sAux 
