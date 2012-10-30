@@ -555,6 +555,30 @@ function getColDefinition( vFld ) {
     }
 
 
+    // Ancho minimo 
+    if ( ! colDefinition.minWidth  ) { colDefinition.minWidth = 100 }
+    
+    
+    // verificacion de xtype  
+    switch( colDefinition.xtype  ){
+    case 'checkcolumnreadonly':
+    case 'datecolumn':
+    case 'numbercolumn' : 
+        break; 
+    case 'checkbox': 
+        colDefinition.xtype = 'checkcolumnreadonly'
+        break; 
+    case 'datefield':  
+        colDefinition.xtype = 'datecolumn'
+        break; 
+    case 'numberfield': 
+        colDefinition.xtype ='numbercolumn'
+        break 
+    default: 
+        delete colDefinition.xtype
+    }
+         
+
     // Asigna las coleccoiones de presentacion
     // El foreignid puede ser editable directamente, 
     if (  vFld.type in oc([ 'autofield' ]) || vFld.readOnly  ) 
@@ -577,9 +601,9 @@ function getColDefinition( vFld ) {
 
     } 
 
-    // Sortable 
-    if ( !('sortable' in colDefinition)) {
-        colDefinition['sortable']  = vFld['fromModel'] || false   
+    // sortable  ( se requiere para q no se ordenen las udps y otras )
+    if ( !('sortable' in colDefinition)) { 
+        colDefinition['sortable']  = vFld['fromModel'] || false 
     }
 
 

@@ -45,6 +45,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             myMeta.gridConfig.initialFilter = this.initialFilter 
         }
         
+        // Si no tiene un filtro base, asigna el filtro inicial  
         if ( ! this.baseFilter ) {
             myFilter = myMeta.gridConfig.initialFilter;
             myFilter = Ext.encode(myFilter);
@@ -61,12 +62,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         // Definicion de Columnas y Fields        ------------------------------------------
         var myColumns = [];
 
-        // DGT adding RowNumberer  
-        if (( ! myMeta.gridConfig.hideRowNumbers ) && ( myMeta.pciStyle == 'grid' )) {
-            myColumns.push( this._getRowNumberDefinition() ); 
-        }
 
-
+        // Si es un detalle, aqui viene la especificacion de conexion ( protoDetail ) 
         if ( me.detailDefinition ) {
 
             // El estilo de los detalles es siemrpe grid             
@@ -101,17 +98,11 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             myColumns.push( col  );
         }
         
+        // Guarda la referencia de todas las columnas definidas 
         this.myColumns = myColumns; 
         
         //   gridColumns: Es un subconjuto para poder manejar diferentes conf de columnas  
-        var grid, 
-            gridColumns =  myColumns, 
-            myDefaultCols = myMeta.gridConfig.listDisplay;
-            
-        if ( myDefaultCols.length > 0 ) {
-            try {  gridColumns = this.getViewColumns( myDefaultCols ); 
-            } catch(e) {}
-        }
+        var gridColumns = this.getViewColumns( myMeta.gridConfig.listDisplay  );            
         
         // var selModel = Ext.create('Ext.selection.CheckboxModel', {
             // listeners: { selectionchange: function(sm, selections) {} }
@@ -131,7 +122,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             sProtoMeta  : getSafeMeta( myMeta )    
         };
 
-    
+        // Definie el grid 
+        var grid
         if ( myMeta.pciStyle == 'tree' ) {
 
             me.store = getTreeStoreDefinition( storeDefinition )
@@ -421,23 +413,33 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     getViewColumns: function (  viewCols  ) {
         
         var vColumns = [];
-        if ( ! this.myMeta.gridConfig.hideRowNumbers ) {
+        //  adding RowNumberer  
+        if (( ! this.myMeta.gridConfig.hideRowNumbers ) && ( 'grid' == this.myMeta.pciStyle || 'grid' )) {
             vColumns.push( this._getRowNumberDefinition());
         }; 
-        
-        for (var ixV in viewCols  ) {
-            var vCol  =  viewCols[ixV];
 
-            for (var ixC in this.myColumns  ) {
-                var gCol  =  this.myColumns[ixC];
-                if ( gCol.dataIndex == vCol ) {
-                    vColumns.push( gCol );
-                    break 
-                }
-            }            
+        // En caso de q no halla listDisplay 
+        if ( viewCols.length == 0 ) {
+            vColumns.concat ( this.myColumns )
+            return vColumns              
+        } 
+                
+        for (var ixV in viewCols  ) {
+            gCol = getColByName(  viewCols[ ixV ], this.myColumns  ) 
+            if ( gCol ) { 
+              vColumns.push( gCol );
+            }
         }
-        
         return vColumns
+        
+        function getColByName( vCol , gColumns ) {
+            for (var ixC in gColumns  ) {
+                var gCol  =  gColumns[ixC];
+                if ( gCol.dataIndex == vCol ) {
+                    return gCol 
+                }
+            }
+        }
 
     },
     

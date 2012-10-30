@@ -69,9 +69,6 @@ def protoGetPCI(request):
         protoMeta = json.loads( protoDef.metaDefinition ) 
         protoMeta['protoOption'] = protoOption  
 
-    # Verifica la view y copia las propiedades necesarias, ( un protoView no sera editable ) 
-    if view: 
-        protoMeta = getProtoViewObj( protoMeta, view )    
     
     # La definicion del arbol es fija, pues las cols deben ser siempre uniformes sin importar el tipo de modelo.
     pStyle = protoMeta.get( 'pciStyle', '')      

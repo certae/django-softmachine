@@ -142,8 +142,8 @@ class Property(MetaObj):
         super(Property, self).save(*args, **kwargs) # Call the "real" save() method.
 
     def __unicode__(self):
-        sConcept = strNotNull(self.concept.code)
-        sProperty = strNotNull(self.code)
+        sConcept = self.concept.code
+        sProperty = self.code
         return self.concept.model.code + '.' + sConcept + '.' + sProperty    
 
     class Meta:

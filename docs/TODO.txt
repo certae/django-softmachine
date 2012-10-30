@@ -1,4 +1,11 @@
 
+fecha y boleanos no se cargan, y la edicion produce valores formateados de manera no conveniente 
+
+protoDefinicion editada no hace sort x active 
+
+ver los URGENTE 
+
+----------------
 
 
 Generacion de dictionartio, 

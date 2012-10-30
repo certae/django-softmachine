@@ -285,7 +285,8 @@ Ext.define('ProtoUL.UI.FormController', {
 
                         // ReadOnlyCls
                         if (  prLayout[ 'xtype' ] == 'protoZoom' ) {
-                            prLayout[ 'readOnlyCls' ] = 'protoLink'                        } else {
+                            prLayout[ 'readOnlyCls' ] = 'protoLink'                        } else if (  prLayout[ 'xtype' ] == 'checkbox' ) {
+                        } else {
                             prLayout[ 'readOnlyCls' ] = 'protofield-readonly' 
                         }
 

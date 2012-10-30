@@ -57,6 +57,9 @@ def protoList(request):
     # baseFilter = protoMeta.get( 'baseFilter', {})
      
     Qs = model.objects.select_related(depth=1)
+
+#   El filtro base viene en la configuracion MD 
+    textFilter = baseFilter
     Qs = addFilter( Qs, baseFilter )
 
 #   Order by 
@@ -68,10 +71,6 @@ def protoList(request):
             if sField['direction'] == 'DESC': sField['property'] = '-' + sField['property']  
             orderBy.append( sField['property'] )
     orderBy = tuple( orderBy )
-
-#   El filtro base viene en la configuracion MD 
-    textFilter = baseFilter
-    Qs = addFilter( Qs, baseFilter )
 
 
 #   Busqueda Textual ( no viene con ningun tipo de formato solo el texto a buscar
