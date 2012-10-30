@@ -75,6 +75,7 @@ def saveUDP( rec,  data, cUDP  ):
                 
             setattr( rUdp, cUDP.propertyName , UdpCode)
             
+        # Genera el ISO para la fecha y valores estandares para numeros y booleanos             
         sAux = str( data[key] ) 
         setattr( rUdp, cUDP.propertyValue , sAux )
         rUdp.save()

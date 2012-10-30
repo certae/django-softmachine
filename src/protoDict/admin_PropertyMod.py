@@ -4,11 +4,11 @@ import django.contrib.admin
 class PropertyAdmin(django.contrib.admin.ModelAdmin):
 
     protoExt= {
-    "protoOption": "protoExt.Property",
+    "protoOption": "protoDict.PropertyModel",
     "description": "Éléments de données",
-    "shortTitle": "Éléments de données",
+    "protoConcept": "protoDict.PropertyModel",
     "protoIcon": "icon-property",
-    "protoConcept": "protoExt.Property",
+    "shortTitle": "Éléments de données",
     "version": "4.23",
     "helpPath": "",
     "idProperty": "id",
@@ -62,74 +62,29 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     "gridConfig": {
         "hideRowNumbers": False,
         "filterSetABC": "code",
+        "baseFilter": {},
+        "readOnlyFields": [],
+        "sortFields": [],
+        "initialSort": {},
+        "initialFilter": {},
+        "hiddenFields": [],
+        "listDisplay": [
+            "model__code",
+            "propertyDom__code"
+        ],
+        "filtersSet": [],
         "searchFields": [
             "code",
             "concept__model"
-        ],
-        "baseFilter": {
-            "isForeign": False
-        },
-        "listDisplay": [
-            "code",
-            "concept__model"
-        ],
-        "hiddenFields": [],
-        "filtersSet": [],
-        "readOnlyFields": [],
-        "sortFields": [
-            "code",
-            "concept__model"
-        ],
-        "initialSort": [
-            {
-                "direction": "ASC",
-                "property": "code"
-            },
-            {
-                "direction": "ASC",
-                "property": "concept__model"
-            }
-        ],
-        "initialFilter": {}
+        ]
     },
     "fields": [
         {
-            "flex": 1,
-            "fieldLabel": "Property",
-            "name": "code",
-            "header": "Élément de données",
-            "tooltip": "Codigo o Identificador principal del objeto",
-            "minWidth": 200,
-            "width": 200,
-            "fromModel": True,
-            "type": "string",
-            "allowBlank": False
-        },
-        {
-            "flex": 1,
-            "fieldLabel": "Éléments de Données",
-            "allowBlank": True,
-            "fkId": "id",
-            "zoomModel": "protoExt.Property",
-            "cellLink": True,
-            "header": "Éléments de Données",
-            "readOnly": True,
-            "hidden": True,
-            "type": "string",
-            "name": "__str__"
-        },
-        {
-            "header": "VueId",
-            "readOnly": True,
-            "type": "string",
-            "name": "concept__model_id"
-        },
-        {
             "header": "udp__DEFINITION",
-            "fieldLabel": "Definition",
+            "type": "html",
             "name": "udp__DEFINITION",
             "checked": True,
-            "type": "html"
+            "fieldLabel": "Definition"
         },
         {
             "checked": True,
@@ -141,55 +96,31 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         },
         {
             "header": "udp__ELEMENTTRANSFORME",
-            "type": "bool",
+            "fieldLabel": "Elto transforme",
             "name": "udp__ELEMENTTRANSFORME",
             "checked": True,
-            "fieldLabel": "Elto transforme"
-        },
-        {
-            "fieldLabel": "Category",
-            "readOnly": True,
-            "type": "string",
-            "name": "concept__model__category",
-            "header": "concept__model__category"
+            "type": "bool"
         },
         {
             "header": "udp__DOCUMENTDEREFERENCE",
-            "type": "string",
+            "fieldLabel": "Doc Reference",
             "name": "udp__DOCUMENTDEREFERENCE",
             "checked": True,
-            "fieldLabel": "Doc Reference"
+            "type": "string"
         },
         {
             "header": "udp__SOURCEDEDONNEESEXTERNES",
-            "type": "string",
+            "fieldLabel": "Source Donnes",
             "name": "udp__SOURCEDEDONNEESEXTERNES",
             "checked": True,
-            "fieldLabel": "Source Donnes"
-        },
-        {
-            "type": "string",
-            "fieldLabel": "Type",
-            "name": "baseType",
-            "fromModel": True,
-            "header": "Type de Base"
+            "type": "string"
         },
         {
             "header": "udp__PRECISIONS",
-            "fieldLabel": "Precision",
+            "type": "html",
             "name": "udp__PRECISIONS",
             "checked": True,
-            "type": "html"
-        },
-        {
-            "storeOnly": True,
-            "flex": 1,
-            "fieldLabel": "Entity",
-            "name": "concept__code",
-            "minWidth": 200,
-            "header": "Concept",
-            "readOnly": True,
-            "type": "string"
+            "fieldLabel": "Precision"
         },
         {
             "fieldLabel": "Elto Transmis",
@@ -199,17 +130,6 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
             "checked": True,
             "type": "string",
             "name": "udp__ELEMENTTRANSMIS"
-        },
-        {
-            "zoomModel": "protoExt.Model",
-            "name": "concept__model",
-            "fkId": "concept__model_id",
-            "flex": 1,
-            "cellLink": True,
-            "minWidth": 200,
-            "header": "Vue",
-            "readOnly": True,
-            "type": "string"
         },
         {
             "storeOnly": True,
@@ -222,86 +142,66 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         },
         {
             "header": "udp__REQUISPAR",
-            "type": "string",
+            "fieldLabel": "Rquis par",
             "name": "udp__REQUISPAR",
             "checked": True,
-            "fieldLabel": "Rquis par"
+            "type": "string"
         },
         {
             "header": "udp__VALIDATIONSSURELEMENT",
-            "fieldLabel": "Validation Elto",
+            "type": "html",
             "name": "udp__VALIDATIONSSURELEMENT",
             "checked": True,
-            "type": "html"
-        },
-        {
-            "type": "bool",
-            "fieldLabel": "Is Required",
-            "name": "isRequired",
-            "fromModel": True,
-            "header": "isRequired"
+            "fieldLabel": "Validation Elto"
         },
         {
             "header": "udp__DATEDERNIREMODIFICATION",
-            "fieldLabel": "Dt derniere modif",
+            "type": "date",
             "name": "udp__DATEDERNIREMODIFICATION",
             "checked": True,
-            "type": "date"
+            "fieldLabel": "Dt derniere modif"
         },
         {
             "header": "udp__GABARIT",
-            "fieldLabel": "Gabarit",
+            "type": "combo",
             "name": "udp__GABARIT",
             "checked": True,
-            "type": "combo"
+            "fieldLabel": "Gabarit"
         },
         {
             "header": "udp__STATUTELEMENTDEDONNEE",
-            "type": "string",
+            "fieldLabel": "Statut élément de donnée",
             "name": "udp__STATUTELEMENTDEDONNEE",
             "checked": True,
-            "fieldLabel": "Statut élément de donnée"
-        },
-        {
-            "type": "decimal",
-            "fieldLabel": "Length",
-            "name": "prpLength",
-            "fromModel": True,
-            "header": "prpLength"
+            "type": "string"
         },
         {
             "header": "udp__ENTREEENVIGUEUR",
-            "type": "string",
+            "fieldLabel": "Entree en viguer",
             "name": "udp__ENTREEENVIGUEUR",
             "checked": True,
-            "fieldLabel": "Entree en viguer"
-        },
-        {
-            "header": "Is null",
-            "type": "bool",
-            "name": "isNullable",
-            "fromModel": True
+            "type": "string"
         },
         {
             "header": "udp__DESCRIPTIONCN",
-            "fieldLabel": "Description CN",
+            "type": "html",
             "name": "udp__DESCRIPTIONCN",
             "checked": True,
-            "type": "html"
+            "fieldLabel": "Description CN"
         },
         {
             "header": "udp__VALIDATION",
-            "fieldLabel": "Validation",
+            "type": "html",
             "name": "udp__VALIDATION",
             "checked": True,
-            "type": "html"
+            "fieldLabel": "Validation"
         },
         {
             "header": "udp__VALIDATION_INTER-ENREGISTREMENT",
-            "fieldLabel": "Validation Entt",
+            "type": "html",
             "name": "udp__VALIDATION_INTER-ENREGISTREMENT",
             "checked": True,
-            "type": "html"
+            "fieldLabel": "Validation Entt"
         },
         {
             "checked": True,
@@ -313,24 +213,17 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         },
         {
             "header": "udp__DOMAINEDEVALEURS",
-            "fieldLabel": "Domain Valuers",
+            "type": "html",
             "name": "udp__DOMAINEDEVALEURS",
             "checked": True,
-            "type": "html"
-        },
-        {
-            "type": "string",
-            "fieldLabel": "Alias",
-            "name": "alias",
-            "fromModel": True,
-            "header": "Alias"
+            "fieldLabel": "Domain Valuers"
         },
         {
             "header": "udp__TRANSMISSION",
-            "type": "string",
+            "fieldLabel": "Transmission",
             "name": "udp__TRANSMISSION",
             "checked": True,
-            "fieldLabel": "Transmission"
+            "type": "string"
         },
         {
             "checked": True,
@@ -341,10 +234,93 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
             "name": "udp__methodetransf"
         },
         {
+            "checked": True,
+            "name": "udp__numelement",
             "header": "udp__numelement",
             "readOnly": False,
             "type": "udp",
-            "name": "udp__numelement",
+            "allowBlank": True
+        },
+        {
+            "header": "Type de Base",
+            "readOnly": True,
+            "type": "string",
+            "name": "propertyDom__baseType",
+            "allowBlank": True
+        },
+        {
+            "header": "prpLength",
+            "readOnly": True,
+            "type": "decimal",
+            "name": "propertyDom__prpLength",
+            "allowBlank": True
+        },
+        {
+            "flex": 1,
+            "cellLink": True,
+            "header": "Éléments de Données",
+            "readOnly": True,
+            "name": "__str__",
+            "zoomModel": "protoDict.PropertyDom",
+            "fieldLabel": "Éléments de Données",
+            "allowBlank": True,
+            "fkId": "id",
+            "hidden": True,
+            "type": "string"
+        },
+        {
+            "header": "category",
+            "readOnly": True,
+            "type": "string",
+            "name": "model__category",
+            "allowBlank": True
+        },
+        {
+            "fkField": "model",
+            "zoomModel": "protoDict.Model",
+            "name": "model_id",
+            "readOnly": True,
+            "type": "foreignid",
+            "allowBlank": False
+        },
+        {
+            "fkField": "propertyDom",
+            "zoomModel": "protoDict.PropertyDom",
+            "name": "propertyDom_id",
+            "readOnly": True,
+            "type": "foreignid",
+            "allowBlank": False
+        },
+        {
+            "zoomModel": "protoDict.PropertyDom",
+            "name": "propertyDom",
+            "fkId": "propertyDom_id",
+            "header": "propertyDom",
+            "readOnly": False,
+            "type": "foreigntext",
+            "allowBlank": False
+        },
+        {
+            "zoomModel": "protoDict.Model",
+            "name": "model",
+            "fkId": "model_id",
+            "header": "model",
+            "readOnly": False,
+            "type": "foreigntext",
+            "allowBlank": False
+        },
+        {
+            "header": "Nom",
+            "readOnly": True,
+            "type": "string",
+            "name": "model__code",
+            "allowBlank": True
+        },
+        {
+            "header": "Nom",
+            "readOnly": True,
+            "type": "string",
+            "name": "propertyDom__code",
             "allowBlank": True
         }
     ],
@@ -358,7 +334,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     "protoDetails": [
         {
             "menuText": "Propriétés ",
-            "conceptDetail": "protoExt.Udp",
+            "conceptDetail": "protoDict.Udp",
             "detailField": "metaObj__pk",
             "masterField": "pk"
         }
@@ -380,11 +356,11 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                         "name": "concept__model"
                     },
                     {
-                        "allowBlank": False,
-                        "fieldLabel": "Élément de donnée",
                         "xtype": "textfield",
+                        "fieldLabel": "Élément de donnée",
+                        "name": "code",
                         "__ptType": "formField",
-                        "name": "code"
+                        "allowBlank": False
                     },
                     {
                         "readOnly": True,
@@ -545,9 +521,9 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                         "name": "udp__ENTREEENVIGUEUR"
                     },
                     {
-                        "xtype": "datefield",
-                        "fieldLabel": "Date de dernière modification",
                         "name": "udp__DATEDERNIREMODIFICATION",
+                        "fieldLabel": "Date de dernière modification",
+                        "xtype": "datefield",
                         "__ptType": "formField",
                         "format": "Y/m/d"
                     },

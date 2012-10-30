@@ -14,11 +14,11 @@ import django.contrib.admin
 class Model_Admin(django.contrib.admin.ModelAdmin):
     
     protoExt = {
-    "protoOption": "protoExt.Model",
+    "protoOption": "protoDict.Model",
     "description": "Description des vues",
     "shortTitle": "Vues",
     "protoIcon": "icon-model",
-    "protoConcept": "protoExt.Model",
+    "protoConcept": "protoDict.Model",
     "version": "121030",
     "helpPath": "",
     "idProperty": "id",
@@ -127,7 +127,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
             "fieldLabel": "Modèle",
             "name": "__str__",
             "fkId": "id",
-            "zoomModel": "protoExt.Model",
+            "zoomModel": "protoDict.Model",
             "cellLink": True,
             "header": "ModèLe",
             "readOnly": True,
@@ -261,7 +261,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
         },
         {
             "fkField": "domain",
-            "zoomModel": "protoExt.Domain",
+            "zoomModel": "protoDict.Domain",
             "name": "domain_id",
             "header": "domain_id",
             "readOnly": True,
@@ -286,7 +286,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
         {
             "detailTitleLbl": "Vue :",
             "detailField": "model__pk",
-            "conceptDetail": "protoExt.Concept",
+            "conceptDetail": "protoDict.Concept",
             "masterTitleField": "code",
             "menuText": "Entité",
             "masterField": "pk"
@@ -294,14 +294,14 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
         {
             "detailTitleLbl": " ",
             "detailField": "concept__model__pk",
-            "conceptDetail": "protoExt.Property",
+            "conceptDetail": "protoDict.Property",
             "masterTitleField": "code",
             "menuText": "Éléments de Données",
             "masterField": "pk"
         },
         {
             "menuText": "Propriétés ",
-            "conceptDetail": "protoExt.Udp",
+            "conceptDetail": "protoDict.Udp",
             "detailField": "metaObj__pk",
             "masterField": "pk"
         }

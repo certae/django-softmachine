@@ -581,7 +581,7 @@ function getColDefinition( vFld ) {
 
     // Asigna las coleccoiones de presentacion
     // El foreignid puede ser editable directamente, 
-    if (  vFld.type in oc([ 'autofield' ]) || vFld.readOnly  ) 
+    if ((  vFld.type == 'autofield' ) || vFld.readOnly  ) 
          colDefinition.renderer = cellReadOnly
     else  colDefinition['editor'] = editor; 
 

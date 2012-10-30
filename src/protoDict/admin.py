@@ -5,18 +5,19 @@
 from models import Domain,  Model, PropertyDom, Concept, PropertyModel, PropertyConcept, PropertyEquivalence, Relationship 
 from django.contrib import admin
 
-from admin_Property import PropertyAdmin
-admin.site.register(PropertyDom, PropertyAdmin)
+from admin_Model import Model_Admin 
+admin.site.register(Model, Model_Admin)
+
+from admin_PropertyMod import PropertyAdmin
+admin.site.register(PropertyModel, PropertyAdmin)
 
 admin.site.register(Domain )
-admin.site.register(Model )
 admin.site.register(Concept )
 admin.site.register(Relationship )
 
-admin.site.register(PropertyModel )
+admin.site.register(PropertyDom )
 admin.site.register(PropertyConcept )
 admin.site.register(PropertyEquivalence )
-
 
 # drop table protoDict_Domain ; 
 # drop table protoDict_Model ;

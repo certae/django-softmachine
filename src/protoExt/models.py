@@ -73,8 +73,6 @@ class Model(MetaObj):
     class Meta:
         verbose_name = 'Modèle'
 
-    protoExt = { 'description' : 'Esta es la description del modelo ( vue para el prototypeur' }
-
 
 class Concept(MetaObj):
     model = models.ForeignKey('Model', verbose_name=u'Vue')
@@ -93,7 +91,6 @@ class Concept(MetaObj):
     class Meta:
         verbose_name = 'Éntite'
 
-    protoExt = { 'description' : 'Esta es la description del  concepto' }
 
 
 class Property(MetaObj):
