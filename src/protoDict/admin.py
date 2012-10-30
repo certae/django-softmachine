@@ -29,4 +29,3 @@ admin.site.register(PropertyEquivalence )
 # drop table protoDict_PropertyEquivalence ;
 # drop table protoDict_UdpModel ;
 # drop table protoDict_UdpPropertyDom ;
-

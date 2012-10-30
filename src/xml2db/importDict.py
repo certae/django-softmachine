@@ -264,46 +264,46 @@ class importDict():
                             if len( prpUdps ) > 0: self.savePrpUdps( prpUdps, prpDom )
 
                         # Relationship -------------------------------------------------------------------
-                        xForeigns = xConcept.getiterator("foreign")
-                        for xForeign in xForeigns:
-                            dForeign = Relationship()
-                            dForeign.refConcept = dConcept
-
-                            for child in xForeign:
-                                if child.tag in fdsRelationship:
-                                    setattr( dForeign, child.tag, child.text)
-
-                            try:
-                                dForeign.save()
-                            except Exception, e: 
-                                self.__logger.info("Error dForeign.save"  + str(e))
-                                return
+#                        xForeigns = xConcept.getiterator("foreign")
+#                        for xForeign in xForeigns:
+#                            dForeign = Relationship()
+#                            dForeign.refConcept = dConcept
+#
+#                            for child in xForeign:
+#                                if child.tag in fdsRelationship:
+#                                    setattr( dForeign, child.tag, child.text)
+#
+#                            try:
+#                                dForeign.save()
+#                            except Exception, e: 
+#                                self.__logger.info("Error dForeign.save"  + str(e))
+#                                return
 
                 # ------------------------------------------------------------------------------
-                xLinkModels = xDomain.getiterator("linkModel")
-                for xLinkModel in xLinkModels:
-
-                    xLinks = xLinkModel.getiterator("link")
-
-                    for xLink in xLinks:
-                        dLink = PropertyEquivalence()
-
-                        #Obtiene las refs
-                        oAux = getPrpRef( dDomain , xLink.find( 'sourceCol' ).text )
-                        if oAux:  dLink.sourceProperty = oAux  
-    
-                        oAux = getPrpRef( dDomain , xLink.find( 'destinationCol').text )
-                        if oAux:  dLink.targetProperty = oAux  
-
-                        for child in xLink:
-                            if child.tag in fdsPropertyEquivalence:
-                                setattr( dLink, child.tag, child.text)
-                                        
-                        try:
-                            dLink.save()
-                        except: 
-                            self.__logger.info("Error dForeign.save")
-                            return
+#                xLinkModels = xDomain.getiterator("linkModel")
+#                for xLinkModel in xLinkModels:
+#
+#                    xLinks = xLinkModel.getiterator("link")
+#
+#                    for xLink in xLinks:
+#                        dLink = PropertyEquivalence()
+#
+#                        #Obtiene las refs
+#                        oAux = getPrpRef( dDomain , xLink.find( 'sourceCol' ).text )
+#                        if oAux:  dLink.sourceProperty = oAux  
+#    
+#                        oAux = getPrpRef( dDomain , xLink.find( 'destinationCol').text )
+#                        if oAux:  dLink.targetProperty = oAux  
+#
+#                        for child in xLink:
+#                            if child.tag in fdsPropertyEquivalence:
+#                                setattr( dLink, child.tag, child.text)
+#                                        
+#                        try:
+#                            dLink.save()
+#                        except: 
+#                            self.__logger.info("Error dForeign.save")
+#                            return
 
         
         #Logging info
@@ -327,7 +327,8 @@ class importDict():
             dUdp.valueUdp = value
             try:
                 dUdp.save()
-            except: pass
+            except: 
+                pass
 
     def savePrpUdps(self, udps, dPrp ):
         for key, value  in udps:
@@ -337,7 +338,8 @@ class importDict():
             dUdp.valueUdp = value
             try:
                 dUdp.save()
-            except: pass
+            except: 
+                pass
 
 
 def getPrpDom( dModel, prpCode  ):

@@ -17,7 +17,8 @@ from protoLib.utilsBase import  strNotNull
    
 class Domain(models.Model):
     """El dominio corresponde a un nivel conceptual corportativo MCCD"""
-    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 , unique = True)
+#    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 , unique = True)
+    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
 
     category = models.CharField(max_length=50, blank = True, null = True )
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
@@ -39,8 +40,8 @@ class Model(models.Model):
     conectionPath = models.CharField(blank = True, null = True, max_length=200)
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
-    class Meta:
-        unique_together = ('domain', 'code',  )
+#    class Meta:
+#        unique_together = ('domain', 'code',  )
 
     def __unicode__(self):
         return self.code 
@@ -62,8 +63,8 @@ class Concept(models.Model):
     def __unicode__(self):
         return self.code 
 
-    class Meta:
-        unique_together = ('model', 'code',  )
+#    class Meta:
+#        unique_together = ('model', 'code',  )
 
 class PropertyDom(models.Model):
     """ Propiedades a nivel de dominio,  
@@ -89,8 +90,8 @@ class PropertyDom(models.Model):
     def __unicode__(self):
         return self.code 
 
-    class Meta:
-        unique_together = ('domain', 'code',  )
+#    class Meta:
+#        unique_together = ('domain', 'code',  )
 
     protoExt = { 'protoUdp' : { 'udpTable' : 'UdpPropertyDom' }}
 
@@ -115,8 +116,8 @@ class PropertyModel(models.Model):
     def __unicode__(self):
         return unicode( self.model.code ) + ' - ' +  unicode( self.propertyDom.code )
 
-    class Meta:
-        unique_together = ('model', 'propertyDom',  )
+#    class Meta:
+#        unique_together = ('model', 'propertyDom',  )
 
 class PropertyConcept(models.Model):
     """
@@ -148,8 +149,8 @@ class PropertyConcept(models.Model):
 
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
-    class Meta:
-        unique_together = ('concept', 'propertyDom',  )
+#    class Meta:
+#        unique_together = ('concept', 'propertyDom',  )
 
     def __unicode__(self):
         return self.concept.code + '.' +  strNotNull( self.alias, self.propertyDom.code )     
@@ -215,8 +216,8 @@ class UdpModel(models.Model):
     def __unicode__(self):
         return self.model.code  + '.' + self.code   
 
-    class Meta:
-        unique_together = ('model', 'code',)
+#    class Meta:
+#        unique_together = ('model', 'code',)
 
 
 class UdpPropertyDom(models.Model):
@@ -227,6 +228,6 @@ class UdpPropertyDom(models.Model):
     def __unicode__(self):
         return self.propertyDom.code + '.' + self.code   
 
-    class Meta:
-        unique_together = ('propertyDom', 'code',)
+#    class Meta:
+#        unique_together = ('propertyDom', 'code',)
 
