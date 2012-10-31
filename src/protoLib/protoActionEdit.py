@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import traceback
+
 from django.utils import simplejson as json
 from django.http import HttpResponse 
 
@@ -74,7 +76,7 @@ def protoEdit(request, myAction ):
         if not myAction['DEL']:
             for key in data:
                 if  key == 'id' or key == '_ptStatus' or key == '_ptId': continue
-                if (pUDP and key.startswith( cUDP.propertyPrefix + '__')): continue 
+                if (cUDP.udpTable and key.startswith( cUDP.propertyPrefix + '__')): continue 
                 try:
                     setRegister( model,  rec, key,  data )
                 except Exception,  e:
@@ -90,7 +92,8 @@ def protoEdit(request, myAction ):
                 rec.save()
                 
                 # Guardar las Udps
-                if pUDP:  saveUDP( rec, data, cUDP  )
+                if cUDP.udpTable:  
+                    saveUDP( rec, data, cUDP  )
 
                 # -- Los tipos complejos ie. date, generan un error, es necesario hacerlo detalladamente 
                 # Convierte el registro en una lista y luego toma solo el primer elto de la lista resultado. 
@@ -99,6 +102,7 @@ def protoEdit(request, myAction ):
 
             except Exception,  e:
                 data['_ptStatus'] =  data['_ptStatus'] +  getReadableError( e ) 
+                traceback.print_exc()
             finally: 
                 data['_ptId'] =  _ptId
                 
@@ -122,11 +126,8 @@ def protoEdit(request, myAction ):
         'rows': pList,
         'success': True 
     }
-#   return HttpResponse(json.dumps(context), mimetype="application/json")
+
     return json.dumps(context, cls=JSONEncoder)
-
-# ---------------
-
 
 
 

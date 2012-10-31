@@ -10,6 +10,8 @@ def getTypedValue ( sAux , sType):
     * se usa sobre todo para las UDP 
     """  
     
+    if sAux == 'None': sAux = ''
+    
     if sType == 'bool':
         sAux = toBoolean( sAux ) 
     elif sType in ( [ 'int', 'autofield', 'foreignid' ]):   

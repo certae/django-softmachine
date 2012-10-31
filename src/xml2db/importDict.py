@@ -45,7 +45,7 @@ class importDict():
         self.__tree = None
         self.__session = None
 
-        
+        # Manejo del log 
         self.__logger = logging.getLogger("Convert XML Database")
         self.__logger.setLevel(logging.DEBUG)
         
