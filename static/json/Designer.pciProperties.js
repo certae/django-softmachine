@@ -37,7 +37,7 @@ DesignerProperties =  {
     "propertyName.help" : "campo que contiene la llave de la propiedad",
     "propertyValue.help" : "campo que contiene el valor",
 
-    "propertyRef.help" : "Campo en la udp q apunta a la tabla base",    
+    "propertyRef.help" : "REQUERIDO: Campo en la udp q apunta a la tabla base",    
     "keyField.help" : "Campo leido del registro de base<br>** Solo se debe setear cuando la udp no es un MD",
     "udpTable.help" : "Tabla que contiene las upds, <b>** Si es un vinculo directo corresponde al related_name q es el set de detalles, normalmente la tablaUdp comenzando por minuscula", 
 

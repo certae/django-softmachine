@@ -33,7 +33,7 @@ def verifyUdpDefinition( pUDP ):
         cUDP.propertyRef       = pUDP.get( 'propertyRef', '')
         cUDP.keyField          = pUDP.get( 'keyField', '' )
         
-        if ( cUDP.keyField and not cUDP.propertyRef ): 
+        if  len( cUDP.propertyRef) == 0 : 
             raise Exception( 'UdpError: Undefined properteRef for: ' + cUDP.udpTable )
         
     else: 
@@ -44,7 +44,7 @@ def verifyUdpDefinition( pUDP ):
     return cUDP    
 
 
-def saveUDP( rec,  data, cUDP  ):
+def saveUDP( regBase,  data, cUDP  ):
 
     try:
         UdpModel = getDjangoModel( cUDP.udpTable )
@@ -54,14 +54,19 @@ def saveUDP( rec,  data, cUDP  ):
     
     # si keyField no esta definido implica una relacion MD  
     if not cUDP.keyField: 
-        keyValue = rec.id
+        try:  
+            Qs = eval ( 'regBase.' + cUDP.udpTable.lower() + '_set.all()' ) 
+        except:  
+            raise Exception( 'UdpError:  related_name  set not found ' + cUDP.udpTable.lower() ) 
+    
     else: 
         keyValue = data.get( cUDP.keyField  )
         if not keyValue: 
             raise Exception( 'UdpError: Key not found ' + cUDP.keyField  + ' in masterReg') 
 
-    Qs = UdpModel.objects
-    Qs = addFilter( Qs, { cUDP.propertyRef : keyValue  } )
+        Qs = UdpModel.objects
+        Qs = addFilter( Qs, { cUDP.propertyRef : keyValue  } )
+
 
     for key in data:
         #Fix: pythonic ??? 
@@ -75,7 +80,7 @@ def saveUDP( rec,  data, cUDP  ):
         else: 
             rUdp = UdpModel()
             if not cUDP.keyField: 
-                setattr( rUdp, cUDP.propertyRef, rec )
+                setattr( rUdp, cUDP.propertyRef, regBase )
             else: 
                 #Fix: deberia ser un parametro
                 setattr( rUdp, cUDP.propertyRef + '_id', keyValue  )
@@ -83,7 +88,8 @@ def saveUDP( rec,  data, cUDP  ):
             setattr( rUdp, cUDP.propertyName , UdpCode)
             
         # Genera el ISO para la fecha y valores estandares para numeros y booleanos             
-        sAux = str( data[key] ) 
+        sAux = str( data[key] )
+        if sAux == 'None': sAux = ''
         setattr( rUdp, cUDP.propertyValue , sAux )
         rUdp.save()
 
