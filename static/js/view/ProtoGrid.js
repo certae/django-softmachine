@@ -41,7 +41,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         var myFilter = '';
         
         // Agrega  filtro nulo si la grilla es detalle 
-        if ( this.initialFilter ) {
+        if ( this.initialFilter  || typeOf( this.initialFilter ) == 'object') {
             myMeta.gridConfig.initialFilter = this.initialFilter 
         }
         
@@ -110,6 +110,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         this.editable = false; 
 
+        if ( typeOf( myMeta.gridConfig.initialSort ) != 'array'  ) {
+            myMeta.gridConfig.initialSort = [] 
+        }
         var storeDefinition =  {
             protoOption : this.protoOption, 
             autoLoad: this.autoLoad || true, 

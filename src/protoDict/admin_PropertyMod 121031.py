@@ -63,6 +63,14 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         "hideRowNumbers": False,
         "filterSetABC": "code",
         "baseFilter": {},
+        "listDisplay": [
+            "model__code",
+            "propertyDom__code",
+            "udp__DOCUMENTDEREFERENCE"
+        ],
+        "hiddenFields": [],
+        "initialFilter": {},
+        "filtersSet": [],
         "readOnlyFields": [],
         "sortFields": [
             "model__category",
@@ -70,15 +78,6 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
             "propertyDom__code"
         ],
         "initialSort": [],
-        "initialFilter": {},
-        "hiddenFields": [],
-        "listDisplay": [
-            "model__code",
-            "propertyDom__code",
-            "udp__DOCUMENTDEREFERENCE"
-
-        ],
-        "filtersSet": [],
         "searchFields": [
             "model__code",
             "propertyDom__code"
@@ -87,10 +86,10 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     "fields": [
         {
             "header": "udp__DEFINITION",
-            "type": "html",
+            "fieldLabel": "Definition",
             "name": "udp__DEFINITION",
             "checked": True,
-            "fieldLabel": "Definition"
+            "type": "html"
         },
         {
             "checked": True,
@@ -102,31 +101,31 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         },
         {
             "header": "udp__ELEMENTTRANSFORME",
-            "fieldLabel": "Elto transforme",
+            "type": "bool",
             "name": "udp__ELEMENTTRANSFORME",
             "checked": True,
-            "type": "bool"
+            "fieldLabel": "Elto transforme"
         },
         {
             "header": "udp__DOCUMENTDEREFERENCE",
-            "fieldLabel": "Doc Reference",
+            "type": "string",
             "name": "udp__DOCUMENTDEREFERENCE",
             "checked": True,
-            "type": "string"
+            "fieldLabel": "Doc Reference"
         },
         {
             "header": "udp__SOURCEDEDONNEESEXTERNES",
-            "fieldLabel": "Source Donnes",
+            "type": "string",
             "name": "udp__SOURCEDEDONNEESEXTERNES",
             "checked": True,
-            "type": "string"
+            "fieldLabel": "Source Donnes"
         },
         {
             "header": "udp__PRECISIONS",
-            "type": "html",
+            "fieldLabel": "Precision",
             "name": "udp__PRECISIONS",
             "checked": True,
-            "fieldLabel": "Precision"
+            "type": "html"
         },
         {
             "fieldLabel": "Elto Transmis",
@@ -148,66 +147,66 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         },
         {
             "header": "udp__REQUISPAR",
-            "fieldLabel": "Rquis par",
+            "type": "string",
             "name": "udp__REQUISPAR",
             "checked": True,
-            "type": "string"
+            "fieldLabel": "Rquis par"
         },
         {
             "header": "udp__VALIDATIONSSURELEMENT",
-            "type": "html",
+            "fieldLabel": "Validation Elto",
             "name": "udp__VALIDATIONSSURELEMENT",
             "checked": True,
-            "fieldLabel": "Validation Elto"
+            "type": "html"
         },
         {
             "header": "udp__DATEDERNIREMODIFICATION",
-            "type": "date",
+            "fieldLabel": "Dt derniere modif",
             "name": "udp__DATEDERNIREMODIFICATION",
             "checked": True,
-            "fieldLabel": "Dt derniere modif"
+            "type": "date"
         },
         {
             "header": "udp__GABARIT",
-            "type": "combo",
+            "fieldLabel": "Gabarit",
             "name": "udp__GABARIT",
             "checked": True,
-            "fieldLabel": "Gabarit"
+            "type": "combo"
         },
         {
             "header": "udp__STATUTELEMENTDEDONNEE",
-            "fieldLabel": "Statut élément de donnée",
+            "type": "string",
             "name": "udp__STATUTELEMENTDEDONNEE",
             "checked": True,
-            "type": "string"
+            "fieldLabel": "Statut élément de donnée"
         },
         {
             "header": "udp__ENTREEENVIGUEUR",
-            "fieldLabel": "Entree en viguer",
+            "type": "string",
             "name": "udp__ENTREEENVIGUEUR",
             "checked": True,
-            "type": "string"
+            "fieldLabel": "Entree en viguer"
         },
         {
             "header": "udp__DESCRIPTIONCN",
-            "type": "html",
+            "fieldLabel": "Description CN",
             "name": "udp__DESCRIPTIONCN",
             "checked": True,
-            "fieldLabel": "Description CN"
+            "type": "html"
         },
         {
             "header": "udp__VALIDATION",
-            "type": "html",
+            "fieldLabel": "Validation",
             "name": "udp__VALIDATION",
             "checked": True,
-            "fieldLabel": "Validation"
+            "type": "html"
         },
         {
             "header": "udp__VALIDATION_INTER-ENREGISTREMENT",
-            "type": "html",
+            "fieldLabel": "Validation Entt",
             "name": "udp__VALIDATION_INTER-ENREGISTREMENT",
             "checked": True,
-            "fieldLabel": "Validation Entt"
+            "type": "html"
         },
         {
             "checked": True,
@@ -219,17 +218,17 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         },
         {
             "header": "udp__DOMAINEDEVALEURS",
-            "type": "html",
+            "fieldLabel": "Domain Valuers",
             "name": "udp__DOMAINEDEVALEURS",
             "checked": True,
-            "fieldLabel": "Domain Valuers"
+            "type": "html"
         },
         {
             "header": "udp__TRANSMISSION",
-            "fieldLabel": "Transmission",
+            "type": "string",
             "name": "udp__TRANSMISSION",
             "checked": True,
-            "type": "string"
+            "fieldLabel": "Transmission"
         },
         {
             "checked": True,
@@ -241,11 +240,11 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         },
         {
             "checked": True,
-            "name": "udp__numelement",
+            "allowBlank": True,
             "header": "udp__numelement",
             "readOnly": False,
             "type": "udp",
-            "allowBlank": True
+            "name": "udp__numelement"
         },
         {
             "header": "Type de Base",
@@ -263,16 +262,16 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         },
         {
             "flex": 1,
+            "fieldLabel": "Éléments de Données",
+            "name": "__str__",
+            "fkId": "id",
+            "zoomModel": "protoDict.PropertyDom",
             "cellLink": True,
             "header": "Éléments de Données",
             "readOnly": True,
-            "name": "__str__",
-            "zoomModel": "protoDict.PropertyDom",
-            "fieldLabel": "Éléments de Données",
-            "allowBlank": True,
-            "fkId": "id",
             "hidden": True,
-            "type": "string"
+            "type": "string",
+            "allowBlank": True
         },
         {
             "header": "category",
@@ -316,10 +315,11 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
             "allowBlank": False
         },
         {
+            "sortable": True,
+            "name": "model__code",
             "header": "Nom",
             "readOnly": True,
             "type": "string",
-            "name": "model__code",
             "allowBlank": True
         },
         {
@@ -529,9 +529,9 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                         "name": "udp__ENTREEENVIGUEUR"
                     },
                     {
-                        "name": "udp__DATEDERNIREMODIFICATION",
-                        "fieldLabel": "Date de dernière modification",
                         "xtype": "datefield",
+                        "fieldLabel": "Date de dernière modification",
+                        "name": "udp__DATEDERNIREMODIFICATION",
                         "__ptType": "formField",
                         "format": "Y/m/d"
                     },

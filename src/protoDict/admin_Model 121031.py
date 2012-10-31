@@ -27,7 +27,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
         "protoSheets": [
             {
                 "name": "DEFAULT",
-                "template": "<table class=\"ficha\" cellpadding=\"3\"><tr class=\"azul\"><td class=\"negro\">Nom de la vue: </td><td>{{code}}</td></tr><tr class=\"blanco\"><td class=\"negro\">Catégorie: </td><td>{{category}}</td></tr><tr class=\"azul\"><td class=\"negro\">Auteur de la vue:</td><td>{{udp__Auteurmodele}}</td></tr><tr class=\"blanco\"><td class=\"negro\">Version de la vue: </td><td>{{udp__Version}}</td></tr><tr class=\"azul\"><td class=\"negro\">Document de réréfence: </td><td class=\"desc\">{{udp__docureference}}</td></tr><tr class=\"blanco\"><td class=\"negro\">Description: </td><td>{{udp__Descriptionmodele}}</td></tr></table>",
+                "template": "<table class=\"ficha\" cellpadding=\"3\"><tr class=\"azul\"><td class=\"negro\">Nom de la vue: </td><td>{{code}}</td></tr><tr class=\"azul\"><td class=\"negro\">Catégorie: </td><td>{{udp__Categorie}}</td></tr><tr class=\"blanco\"><td class=\"negro\">Sous-Catégorie:</td><td>{{udp__Souscategorie}}</td></tr><tr class=\"blanco\"><td class=\"negro\">Auteur de la vue:</td><td>{{udp__Auteurmodele}}</td></tr><tr class=\"azul\"><td class=\"negro\">Version de la vue: </td><td>{{udp__Version}}</td></tr><tr class=\"blanco\"><td class=\"negro\">Description: </td><td class=\"desc\">{{udp__Descriptionmodele}}</td></tr></table>",
                 "title": "Fiche descriptive des vues corporatives"
             },
             {
@@ -43,27 +43,28 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
         ],
         "protoSheetProperties": [
             "code",
+            "udp__Categorie",
             "udp__Souscategorie",
             "udp__Auteurmodele",
             "udp__Version",
             "udp__Descriptionmodele",
             "udp__ActeurPrincipal",
             "udp__AutresActeurs",
-            "udp__IntrantsDeclencheurs",
-            "category",
-            "udp__docureference"
+            "udp__IntrantsDeclencheurs"
         ]
     },
     "gridConfig": {
         "hideRowNumbers": False,
         "filterSetABC": "",
-        "hiddenFields": [],
+        "searchFields": [
+            "code"
+        ],
+        "baseFilter": {},
         "listDisplay": [
             "code",
             "udp__Descriptionmodele"
         ],
-        "baseFilter": {},
-        "initialFilter": {},
+        "hiddenFields": [],
         "filtersSet": [
             {
                 "filter": {
@@ -98,18 +99,15 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                 "property": "code"
             }
         ],
-        "searchFields": [
-            "code"
-        ]
+        "initialFilter": {}
     },
     "fields": [
         {
             "flex": 1,
-            "fieldLabel": "Nom de la vue",
             "allowBlank": False,
             "width": 200,
-            "tooltip": "",
-            "header": "Nom de la vue",
+            "tooltip": "Codigo o Identificador principal del objeto",
+            "header": "Vues",
             "fromModel": True,
             "type": "string",
             "name": "code"
@@ -118,8 +116,8 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
             "header": "Catégorie",
             "type": "string",
             "name": "udp__Categorie",
-            "flex": 1,
-            "checked": True
+            "checked": True,
+            "flex": 1
         },
         {
             "flex": 1,
@@ -145,30 +143,29 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
             "header": "Version",
             "type": "string",
             "name": "udp__Version",
-            "flex": 1,
-            "checked": True
+            "checked": True,
+            "flex": 1
         },
         {
             "header": "Sous-Catégorie",
             "type": "string",
             "name": "udp__Souscategorie",
-            "flex": 0.5,
-            "checked": True
+            "checked": True,
+            "flex": 0.5
         },
         {
             "flex": 6,
             "vType": "htmlText",
-            "fieldLabel": "Description",
-            "name": "udp__Descriptionmodele",
-            "header": "Description",
             "checked": True,
+            "name": "udp__Descriptionmodele",
+            "header": "Description Modèle",
             "type": "text"
         },
         {
             "fieldLabel": "Catégorie",
             "name": "category",
-            "width": 100,
             "header": "Catégorie",
+            "width": 100,
             "fromModel": True,
             "type": "string"
         },
@@ -192,8 +189,8 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
             "header": "Auteur",
             "type": "string",
             "name": "udp__Auteurmodele",
-            "flex": 1,
-            "checked": True
+            "checked": True,
+            "flex": 1
         },
         {
             "checked": True,
@@ -291,8 +288,8 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
     "protoDetails": [
         {
             "detailTitleLbl": "Vue :",
-            "conceptDetail": "protoDict.Concept",
             "detailField": "model__pk",
+            "conceptDetail": "protoDict.Concept",
             "masterTitleField": "code",
             "menuText": "Entité",
             "masterField": "pk"
@@ -328,20 +325,18 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                         "fkId": "domain_id",
                         "editable": False,
                         "__ptType": "formField",
-                        "name": "domain",
                         "readOnly": False,
-                        "hidden": "true",
+                        "allowBlank": False,
+                        "name": "domain"
+                    },
+                    {
+                        "xtype": "textfield",
+                        "fieldLabel": "Nom de la vue",
+                        "name": "code",
+                        "__ptType": "formField",
                         "allowBlank": False
                     },
                     {
-                        "name": "code",
-                        "fieldLabel": "Nom de la vue",
-                        "allowBlank": False,
-                        "__ptType": "formField",
-                        "xtype": "textfield"
-                    },
-                    {
-                        "tooltip": "CN, AT ou défault",
                         "fieldLabel": "Catégorie",
                         "xtype": "textfield",
                         "__ptType": "formField",
@@ -350,20 +345,16 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                     {
                         "fieldLabel": "Sous-Catégorie",
                         "xtype": "textfield",
-                        "tooltip": "Le nom du modélisateur de la vue",
                         "__ptType": "formField",
-                        "hidden": "true",
                         "name": "udp__Souscategorie"
                     },
                     {
-                        "tooltip": "Le nom du créateur de la vue",
                         "fieldLabel": "Auteur de la vue",
                         "xtype": "textfield",
                         "__ptType": "formField",
                         "name": "udp__Auteurmodele"
                     },
                     {
-                        "tooltip": "Numéro de version de la vue",
                         "fieldLabel": "Version",
                         "xtype": "textfield",
                         "__ptType": "formField",
@@ -371,12 +362,11 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                     },
                     {
                         "fieldLabel": "Document de référence",
-                        "allowBlank": True,
+                        "xtype": "textfield",
                         "__ptType": "formField",
                         "name": "udp__docureference",
                         "readOnly": False,
-                        "tooltip": "Type de document utilisé pour créer la vue",
-                        "xtype": "textfield"
+                        "allowBlank": True
                     },
                     {
                         "__ptType": "htmlset",
@@ -402,59 +392,59 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                         "fieldLabel": "Nom du système d\'information ou de la banque de données ministérielle",
                         "xtype": "textfield",
                         "__ptType": "formField",
+                        "name": "udp__nomsibdm",
                         "width": 510,
                         "readOnly": False,
-                        "allowBlank": True,
-                        "name": "udp__nomsibdm"
+                        "allowBlank": True
                     },
                     {
                         "fieldLabel": "Acronyme SI ou BDM",
-                        "allowBlank": True,
+                        "xtype": "textfield",
                         "__ptType": "formField",
                         "name": "udp__acronyme",
                         "readOnly": False,
-                        "xtype": "textfield"
+                        "allowBlank": True
                     },
                     {
                         "fieldLabel": "Nom unité administrative",
-                        "allowBlank": True,
+                        "xtype": "textfield",
                         "__ptType": "formField",
                         "name": "udp__uniteadministrative",
                         "readOnly": False,
-                        "xtype": "textfield"
+                        "allowBlank": True
                     },
                     {
                         "fieldLabel": "Date du Cadre Normatif",
-                        "xtype": "datefield",
+                        "xtype": "textfield",
                         "__ptType": "formField",
+                        "name": "udp__datecn",
                         "readOnly": False,
-                        "allowBlank": True,
                         "type": "date",
-                        "name": "udp__datecn"
+                        "allowBlank": True
                     },
                     {
                         "fieldLabel": "Nom du réalisateur",
-                        "allowBlank": True,
+                        "xtype": "textfield",
                         "__ptType": "formField",
                         "name": "udp__nomrealisateurcn",
                         "readOnly": False,
-                        "xtype": "textfield"
+                        "allowBlank": True
                     },
                     {
                         "fieldLabel": "Nom(s) des rédacteurs",
-                        "allowBlank": True,
+                        "xtype": "textfield",
                         "__ptType": "formField",
                         "name": "udp__nomredacteurs",
                         "readOnly": False,
-                        "xtype": "textfield"
+                        "allowBlank": True
                     },
                     {
                         "fieldLabel": "Nom(s) secrétariat",
-                        "allowBlank": True,
+                        "xtype": "textfield",
                         "__ptType": "formField",
                         "name": "udp__nomsecretariat",
                         "readOnly": False,
-                        "xtype": "textfield"
+                        "allowBlank": True
                     }
                 ]
             },

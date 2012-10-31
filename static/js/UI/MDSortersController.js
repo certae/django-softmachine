@@ -60,7 +60,14 @@ Ext.define('ProtoUL.UI.MDSortersController', {
 
 
             for ( var ix in mySortCols ) {
+
                 var c =  mySortCols[ix]
+
+                // Verifica si la col existe 
+                var col = me.myFieldDict[name]
+                if ( ! col ) { continue }                  
+
+                // Agrega el sort 
                 __MasterDetail.tbSorters.add(createSorterButtonConfig({
                     text: c.header,
                     tooltip : c.header,
@@ -76,7 +83,6 @@ Ext.define('ProtoUL.UI.MDSortersController', {
             this.mySortCols = mySortCols
 
         }
-        
 
 
         /**
