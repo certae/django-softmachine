@@ -1,5 +1,6 @@
+Enviar a la meta solo lo necesario, los campos nombre typo, udps, searchfields, sortfields 
 
-fecha y boleanos no se cargan, y la edicion produce valores formateados de manera no conveniente 
+** fecha y boleanos no se cargan, y la edicion produce valores formateados de manera no conveniente 
 
 protoDefinicion editada no hace sort x active 
 

@@ -86,12 +86,13 @@ DesignerProperties =  {
 
     "header.help" : "Encabezado de la collumna en modo grilla ( default para fieldLabel ) " ,
 
+    "height.type": "number",
     "height.help": "The height value in pixels",
     "helpPath.help": "se define como : /help/xxxx.html  esta en: /static/help",
     
     "hidden": false,
     "hidden.help": "componente oculto",
-    "hiden.type": "boolean",
+    "hidden.type": "boolean",
 
     "hideLabel": false,
     "hideLabel.help": "presenta los campos sin label, util cuando se configura grupos como firstName, lastName",

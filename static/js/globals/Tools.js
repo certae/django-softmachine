@@ -72,7 +72,7 @@ function copyProps(oBase, oRef, overWrite, lstInclude, lstExclude )
  * @auxRec  : Control de recursividad  ( no debe pasar de un max de nivles ie 5 )
  * @exclude : permite excluir propiedades de un diccionario
  */
-function clone(obj, auxRec, exclude ) {
+function clone(obj, auxRec, exclude, include  ) {
     
     // Verificacion de nivel de recursividad en la copia de objetos 
     if ( auxRec )  {  auxRec = auxRec + 1 } else { auxRec = 1 } 
@@ -93,7 +93,7 @@ function clone(obj, auxRec, exclude ) {
         var copy = [];
         var len = obj.length;
         for (var i = 0; i < len; ++i) {
-            copy[i] = clone(obj[i], auxRec, exclude );
+            copy[i] = clone(obj[i], auxRec, exclude , include );
         }
         return copy;
     }
@@ -101,7 +101,7 @@ function clone(obj, auxRec, exclude ) {
         // Si es una clase, solo copia el initialConfig y un nombre de clase 
         var copy = {};
         if (obj.hasOwnProperty('initialConfig')) {
-            copy.initialConfig = clone( obj.initialConfig )
+            copy.initialConfig = clone( obj.initialConfig, auxRec, exclude , include )
         } 
         if (obj.__proto__.$className ) {
             copy.className = obj.__proto__.$className
@@ -115,10 +115,11 @@ function clone(obj, auxRec, exclude ) {
         for (var attr in obj) {
             if ( attr in oc( ['events', 'renderer'] )) continue; 
             if (( exclude ) && ( attr in oc( exclude ))) continue; 
+            if (( include ) && ! ( attr in oc( include ))) continue; 
 
             if (obj.hasOwnProperty(attr)) {
                 // console.log ( auxRec,  obj, attr, obj[attr] )
-                copy[attr] = clone(obj[attr], auxRec, exclude);
+                copy[attr] = clone(obj[attr], auxRec, exclude, include);
             } 
         }
         return copy;

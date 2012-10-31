@@ -436,8 +436,8 @@ Ext.define('ProtoUL.UI.FormController', {
             
             function setFieldDefaults(  prLayout, key ) {
                 // Asigna los fieldDefaults q vienen en los contenedores 
-                var saux = prLayout[ key ]
-                if  ( saux  )  prLayout.fieldDefaults[ key ] = sAux
+                var sAux = prLayout[ key ]
+                if  ( sAux  )  prLayout.fieldDefaults[ key ] = sAux
             }
         } 
     
