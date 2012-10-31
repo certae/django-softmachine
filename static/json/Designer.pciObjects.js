@@ -218,7 +218,7 @@ DesignerObjects =  {
             "propertyPrefix", 
             "propertyName",
             "propertyValue",
-            "propertyReference", 
+            "propertyRef", 
             "keyField",
             "udpTable" 
         ]

@@ -23,9 +23,9 @@ DesignerProperties =  {
     "masterField" : "pk",
 
     "menuText.help"         : "titulo en el menu ( toolbar )", 
-    "conceptDetail.help"    : "Entidad detalle de la relacion ( App.Model App.Model.View? )",
-    "masterField.help"      : "Campo en el maestro para q sirve de criterio para el filtro del detalle, por ahora solo el ID (Pk)",
-    "detailField.help"      : "Campo del detalle para hacer el filtro", 
+    "conceptDetail.help"    : "Entidad detalle de la relacion ( [App.]Model o [App.]Model.View )",
+    "masterField.help"      : "Campo en el maestro para q contiene el criterio para el filtro del detalle, (normalmente Pk si es un detalle directo)",
+    "detailField.help"      : "Campo del detalle para hacer el filtro, normalmente el nombre de la tabla padre en minuscula", 
     "detailTitleLbl.help"   : "Titulo en el detalle para indicar el filtro actual", 
 
     "masterTitleField.help" : "Campo en el maestro que se utiliza para construir el titulo de la vista filtrada en el detalle", 
@@ -34,12 +34,12 @@ DesignerProperties =  {
 //  Udps 
     "propertyPrefix" : "udp", 
     "propertyPrefix.help" : "prefijo de las propiedades definidas por el usuario ( en el nombre del campo aparencen upd__xxxxx)", 
-    "propertyName.help" : "En la tabla de udps el nombre del campo que contiene la llave de la propiedad",
-    "propertyValue.help" : "En la tabla de udps el nombre del campo que contiene el valor",
-    "udpTable.help" : "Tabla que contiene las upds, si es un vinculo directo es el nombre del set ( foreignConcept normalmente la tabla en minusculas)", 
+    "propertyName.help" : "campo que contiene la llave de la propiedad",
+    "propertyValue.help" : "campo que contiene el valor",
 
-    "propertyReference.help" : "Valor de referencia del objeto base que contiene la cll de Udps ( tabla base )",    
-    "keyField.help" : "keyField ( nombre del campo ) sobre el registro de base,cuando la udp no es un maestroDetalle",
+    "propertyRef.help" : "Campo en la udp q apunta a la tabla base",    
+    "keyField.help" : "Campo leido del registro de base<br>** Solo se debe setear cuando la udp no es un MD",
+    "udpTable.help" : "Tabla que contiene las upds, <b>** Si es un vinculo directo corresponde al related_name q es el set de detalles, normalmente la tablaUdp comenzando por minuscula", 
 
 // sheets
 

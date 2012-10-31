@@ -123,7 +123,7 @@ class ProtoGridFactory(object):
                             setDefaultField( fdict, self.model , self.protoOption  )
                                                         
                         # Si no es una UDP y no esta en diccionario debe ser ReadOnly 
-                        if not (self.pUDP and fName.startswith( cUDP.propertyPrefix + '__')):  
+                        if not (cUDP.udpTable and fName.startswith( cUDP.propertyPrefix + '__')):  
                             fdict[ 'readOnly' ] = True
                 
 

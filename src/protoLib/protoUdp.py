@@ -10,10 +10,10 @@ class cAux: pass
 def verifyUdpDefinition( pUDP ):
     """ Verifica q todos los valores tengan su definicion y retorna una clase  
 
-    @udpTable         : Nombre de la tabla q aloja las UDPs ( obligatoria )  
+    @udpTable         : Tabla q aloja las UDPs o el set del objeto padre    
     @propertyName     : Nombre de la UDP
     @propertyValue    : Valor str donde se almacenara la Udp  
-    @propertyReference: Valor de referencia del objeto base que contiene la cll de Udps ( tabla base )   
+    @propertyRef      : Valor de referencia del objeto base que contiene la cll de Udps ( tabla base )   
     @propertyPrefix   : prefijo usado en el recordSet para diferenciar los campos provenientes de UDP
     @keyField         : keyField ( nombre del campo ) sobre el registro de base,cuando la udp no es un maestroDetalle,
     
@@ -23,38 +23,45 @@ def verifyUdpDefinition( pUDP ):
     """  
 
     cUDP = cAux()
+    cUDP.udpTable = pUDP.get( 'udpTable', None )
 
-    if ( pUDP ) : 
-        cUDP.udpTable          = pUDP.get( 'udpTable', 'udp' )  
+    if ( cUDP.udpTable ) : 
         cUDP.propertyName      = pUDP.get( 'propertyName', 'code')
         cUDP.propertyValue     = pUDP.get( 'propertyValue', 'valueUdp')
         cUDP.propertyPrefix    = pUDP.get( 'propertyPrefix', 'udp')
 
-        cUDP.propertyReference = pUDP.get( 'propertyReference', '')
-        cUDP.keyField          = pUDP.get( 'keyField', '')
+        cUDP.propertyRef       = pUDP.get( 'propertyRef', '')
+        cUDP.keyField          = pUDP.get( 'keyField', '' )
+        
+        if ( cUDP.keyField and not cUDP.propertyRef ): 
+            raise Exception( 'UdpError: Undefined properteRef for: ' + cUDP.udpTable )
+        
     else: 
-        cUDP.udpTable          = ''  
-        cUDP.propertyName      = ''
-        cUDP.propertyValue     = ''
-        cUDP.propertyReference = ''
-        cUDP.propertyPrefix    = ''
-        cUDP.keyField          = ''
+        cUDP.udpTable          = None  
+        cUDP.keyField          = None
+        cUDP.propertyPrefix    =  '' 
     
     return cUDP    
 
 
 def saveUDP( rec,  data, cUDP  ):
 
-    UdpModel = getDjangoModel( cUDP.udpTable )
+    try:
+        UdpModel = getDjangoModel( cUDP.udpTable )
+    except: 
+        raise Exception( 'UdpError: Invalid model ' + UdpModel )
+        
     
     # si keyField no esta definido implica una relacion MD  
     if not cUDP.keyField: 
         keyValue = rec.id
     else: 
         keyValue = data.get( cUDP.keyField  )
+        if not keyValue: 
+            raise Exception( 'UdpError: Key not found ' + cUDP.keyField  + ' in masterReg') 
 
     Qs = UdpModel.objects
-    Qs = addFilter( Qs, { cUDP.propertyReference : keyValue  } )
+    Qs = addFilter( Qs, { cUDP.propertyRef : keyValue  } )
 
     for key in data:
         #Fix: pythonic ??? 
@@ -68,10 +75,10 @@ def saveUDP( rec,  data, cUDP  ):
         else: 
             rUdp = UdpModel()
             if not cUDP.keyField: 
-                setattr( rUdp, cUDP.propertyReference, rec )
+                setattr( rUdp, cUDP.propertyRef, rec )
             else: 
                 #Fix: deberia ser un parametro
-                setattr( rUdp, cUDP.propertyReference + '_id', keyValue  )
+                setattr( rUdp, cUDP.propertyRef + '_id', keyValue  )
                 
             setattr( rUdp, cUDP.propertyName , UdpCode)
             
@@ -83,28 +90,28 @@ def saveUDP( rec,  data, cUDP  ):
 
 def readUdps( rowdict, regBase , cUDP, udpList,  udpTypes ):
 
-    # Intenta con el maestro detalle
-    try: 
-        bAux = eval ( 'regBase.' + cUDP.udpTable + '_set.exists()' ) 
-        if bAux: cllUDP = eval ( 'regBase.' + cUDP.udpTable + '_set.all()' ) 
-    except: 
-        bAux = False
-
-
-    if ( not bAux ) and ( cUDP.keyField ) : 
+    if cUDP.keyField: 
+        # si la creacion del detalle no es relacional, 
+        # se requiere hacer un verdadero Query sobre udpTable                    
         UdpModel = getDjangoModel( cUDP.udpTable )
         keyValue = rowdict.get( cUDP.keyField , '' )
+        if not keyValue: 
+            raise Exception( 'UdpError: Key not found ' + cUDP.keyField  + ' in masterReg') 
     
-        if keyValue: 
-            bAux = True
-            Qs = UdpModel.objects
-            Qs = addFilter( Qs, { cUDP.propertyReference : keyValue  } )
-            cllUDP = Qs.all()
+        bAux = True
+        Qs = UdpModel.objects
+        Qs = addFilter( Qs, { cUDP.propertyRef  : keyValue  } )
+        cllUDP = Qs.all()
 
-    
-    # y hace el query basado en el registro maestro 
-    # si la creacion del detalle no es relacional, 
-    # se requiere hacer un verdadero Query sobre udpTable                    
+
+    else:
+        # Si no hay keyField, hace el query basado en el registro maestro
+        try:  
+            bAux = eval ( 'regBase.' + cUDP.udpTable.lower() + '_set.exists()' )
+            cllUDP = eval ( 'regBase.' + cUDP.udpTable.lower() + '_set.all()' ) 
+        except:  
+            raise Exception( 'UdpError:  related_name  set not found ' + cUDP.udpTable.lower() ) 
+
     if bAux: 
         
         for lUDP in cllUDP:

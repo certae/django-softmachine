@@ -327,7 +327,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     "protoUdp": {
         "propertyPrefix": "udp",
         "propertyName": "code",
-        "propertyReference": "metaObj",
+        "propertyRef": "metaObj",
         "propertyValue": "valueUdp",
         "udpTable": "udp"
     },
