@@ -1,5 +1,7 @@
+Status en la forma si hay camopos invalidos no aparece 
+
 Guardar solo las variables con valores 
-    Revizar checked 
+    ** Revizar checked 
     y el agregar filterset en la pci 
 
 

@@ -789,6 +789,7 @@ function loadPci( protoOption, loadIfNot, options) {
 
 
 function savePci( protoMeta,  options) {
+    if ( ! protoMeta ) return; 
 
     var protoOption = protoMeta.protoOption
     protoMeta.updateTime = getCurrentTime()
@@ -796,7 +797,6 @@ function savePci( protoMeta,  options) {
     var sMeta = Ext.encode(  protoMeta )
 
     saveProtoObj( protoOption, sMeta ,  options)
-        
 }
 
 

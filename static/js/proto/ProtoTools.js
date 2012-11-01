@@ -194,8 +194,9 @@ function Tree2Meta( tNode  ) {
     if  ( tData.__ptConfig )  __ptConfig = tData.__ptConfig
     
     __ptType  = getPtType( tData ) 
-    // if ( __ptType in oc([ 'protoForm', 'htmlset', 'fieldset'])) {console.log( __ptType , tNode )}  
-
+    if ( __ptType in oc( [ 'field', 'formField'])) {   
+        __ptConfig = clearPhantonProps( __ptConfig,  __ptType ) }  
+    // if ( __ptType in oc( [ 'filtersSet', 'filterDef'])) {console.log( 'filtersSet') }  
     if ( __ptConfig )  { 
 
         sType = typeOf( __ptConfig )
@@ -269,7 +270,7 @@ function Tree2Meta( tNode  ) {
     
             } else if ( sType == 'array' )  {
                 // si solo viene  nombre del campo lo crea como un objeto 
-                if ( Ext.encode( nChildData ) === Ext.encode({}) ) nChildData = sText 
+                if ( Ext.encode( nChildData ) === Ext.encode({}) ) nChildData = {} 
                 mData.push( nChildData )
 
             } else if ( sType == 'items' )  {

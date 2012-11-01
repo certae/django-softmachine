@@ -7,33 +7,114 @@ import django.contrib.admin
 
 class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
 
-    protoExt = {'title': 'proto Definition' , 
-                'gridConfig' : { 
-                    'listDisplay' : ( 'code', 'description', 'active', 'overWrite'), 
-                    'searchFields' : ( 'code', 'description', 'metaDefinition' ),  
-                    'sortFields' :( 'code',  ) 
-                    }, 
-
-                # Incluye la metadefinicion ( no aparece en el listDisplay ) 
-                # formatea el campo code para hacer el vinculo a una nueva forma. 
-                'fields' : { 
-                    'metaDefinition' : {},  
-                    'code': {'cellLink' : True,  'zoomModel' : '@cellValue' },
-                  },        
-                
-                "sheetConfig": {
-                    'protoSheetProperties' :(  'metaDefinition', ), 
-                    'protoSheets' :  [        
-                            {
-                              'name'    : 'DEFAULT' ,                         
-                              'title'   : "meta",                        
-                              'template': '{{metaDefinition}}'  
-                              },
-                            ] 
-                    }
-                }
-
-
+    protoExt = {
+    "description": "proto Definition",
+    "protoConcept": "protoLib.ProtoDefinition",
+    "protoIcon": "icon-1",
+    "idProperty": "id",
+    "protoOption": "protoLib.ProtoDefinition",
+    "shortTitle": "Proto Definition",
+    "version": "4.23",
+    "sheetConfig": {
+        "protoSheets": [{
+            "name": "DEFAULT",
+            "template": "{{metaDefinition}}",
+            "title": "meta"
+        }],
+        "protoSheetProperties": ["metaDefinition"]
+    },
+    "protoUdp": {},
+    "gridConfig": {
+        "baseFilter": {},
+        "readOnlyFields": [],
+        "sortFields": ["code"],
+        "initialSort": [],
+        "initialFilter": {},
+        "hiddenFields": [],
+        "listDisplay": ["code", "description", "active", "overWrite"],
+        "filtersSet": [{
+            "filter": {
+                "code__startswith": "protoDict"
+            },
+            "name": "protoDict"
+        }],
+        "searchFields": ["code", "description", "metaDefinition"]
+    },
+    "fields": [{
+        "zoomModel": "@cellValue",
+        "cellLink": True,
+        "header": "code",
+        "fromModel": True,
+        "type": "string",
+        "name": "code",
+        "sortable": True
+    }, {
+        "header": "Descriptions",
+        "vType": "plainText",
+        "type": "text",
+        "name": "description",
+        "fromModel": True
+    }, {
+        "flex": 1,
+        "name": "__str__",
+        "fkId": "id",
+        "zoomModel": "protoLib.ProtoDefinition",
+        "cellLink": True,
+        "header": "Proto Definition",
+        "readOnly": True,
+        "type": "string",
+        "allowBlank": True
+    }, {
+        "header": "metaDefinition",
+        "vType": "plainText",
+        "type": "text",
+        "name": "metaDefinition",
+        "fromModel": True
+    }, {
+        "header": "active",
+        "type": "bool",
+        "name": "active",
+        "fromModel": True
+    }, {
+        "header": "overWrite",
+        "type": "bool",
+        "name": "overWrite",
+        "fromModel": True
+    }],
+    "protoDetails": [],
+    "protoForm": {
+        "__ptType": "protoForm",
+        "items": [{
+            "fsLayout": "2col",
+            "__ptType": "fieldset",
+            "items": [{
+                "name": "code",
+                "__ptType": "formField"
+            }]
+        }, {
+            "fsLayout": "2col",
+            "__ptType": "fieldset",
+            "items": [{
+                "name": "active",
+                "__ptType": "formField"
+            }, {
+                "name": "overWrite",
+                "__ptType": "formField"
+            }]
+        }, {
+            "fsLayout": "1col",
+            "__ptType": "fieldset",
+            "items": [{
+                "name": "description",
+                "__ptType": "formField"
+            }, {
+                "name": "metaDefinition",
+                "__ptType": "formField"
+            }]
+        }]
+    },
+    "updateTime": "2012-11-01 11:54:02"
+}
 
 
 admin.site.register(ProtoDefinition, protoDefinitionAdmin)

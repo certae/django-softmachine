@@ -143,7 +143,7 @@ DesignerObjects =  {
 
 
     "filtersSet": {
-        "description": "Conjunto de filtros predefinidos ( Aparecen bajo el icono 'Filter' de la barra principal )",
+        "description": "Conjunto de filtros predefinidos ( __[iexact,icontains,iendswith,istartswith,gt,gte,lt,lte]) ",
         "properties": [ { 'name': '__ptType' , 'value': 'filtersSet'} ] 
     },
 

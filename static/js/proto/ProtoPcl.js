@@ -134,13 +134,13 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
         tBar.on({
             'preview': function ( ) {
-                var newMeta =  Tree2Meta( me.treeGridStore.getRootNode() )
-                savePclCache( newMeta.protoOption, newMeta )
+                me.myMeta  =  Tree2Meta( me.treeGridStore.getRootNode() )
+                savePclCache( me.myMeta.protoOption, me.myMeta )
             }, 
             'save': function ( ) {
-                var newMeta =  Tree2Meta( me.treeGridStore.getRootNode() )
-                savePclCache( newMeta.protoOption, newMeta )
-                savePci( newMeta )         
+                me.myMeta =  Tree2Meta( me.treeGridStore.getRootNode() )
+                savePclCache( me.myMeta.protoOption, me.myMeta )
+                savePci( me.myMeta )         
             }, 
             'reload': function ( ) {
 
@@ -362,8 +362,8 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             resetPanelInterface()
 
             if ( template.__ptStyle == "jsonText") {
-                jsonText.setRawValue( __ptConfig.__ptValue )
                 jsonText.__ptConfig = __ptConfig
+                jsonText.setRawValue( __ptConfig.__ptValue )
                 jsonText.setFieldLabel( oData.text ) 
                 jsonText.show()
 

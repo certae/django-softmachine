@@ -143,10 +143,15 @@ function FormatJSON( oData, sIndent) {
     // Indenta un string JSON no formateado
     // Tools.FormatJSon  CERTAE U. Laval 2012/02  
     // @oData    :  Unformated JSon string 
-    // @sIndent  :  Optional spaces string  or  [&nbsp;  ] 
+    // @sIndent  :  Optional spaces string  or  [&nbsp;  ]
+    // sIndent = ' '  encode text  
     
-    if (! sIndent ) sIndent = "";
     var sIndentStyle = "&nbsp; &nbsp; ";
+    var BR = "<br>"; 
+    
+    if (! sIndent ){ sIndent = "" }
+    else if ( sIndent  == ' ') { sIndentStyle = ''; BR = '' }
+    
     var sDataType = typeOf(oData);
 
     // open object
@@ -176,9 +181,9 @@ function FormatJSON( oData, sIndent) {
             sHTML += ",";
         }
         if (sDataType == "array") {
-            sHTML += ("<br>" + sIndent + sIndentStyle);
+            sHTML += (BR + sIndent + sIndentStyle);
         } else {
-            sHTML += ("<br>" + sIndent + sIndentStyle + "\"" + sKey + "\"" + ": ");
+            sHTML += (BR + sIndent + sIndentStyle + "\"" + sKey + "\"" + ": ");
         }
 
         // display relevant data type
@@ -197,7 +202,11 @@ function FormatJSON( oData, sIndent) {
                 sHTML += "None";
                 break;
             case "string":
-                vValue = vValue.replace( /</g, '&lt;').replace( />/g, '&gt;').replace( /'/g, '\\\'').replace( /"/g, '\\"')
+                vValue = vValue.replace( /'/g, '\\\'').replace( /"/g, '\\"')
+                if ( sIndent  != ' ') {
+                    vValue = vValue.replace( /</g, '&lt;').replace( />/g, '&gt;')    
+                }
+                
                 sHTML += ("\"" + vValue + "\"");
                 break;
             default:
@@ -210,9 +219,9 @@ function FormatJSON( oData, sIndent) {
 
     // close object
     if (sDataType == "array") {
-        sHTML += ("<br>" + sIndent + "]");
+        sHTML += (BR + sIndent + "]");
     } else {
-        sHTML += ("<br>" + sIndent + "}");
+        sHTML += (BR + sIndent + "}");
     }
 
     // return
@@ -389,7 +398,7 @@ function showConfig( title , myConf ) {
         // msgBox.maxHeight = 600
         // msgBox.minHeight = 200
         
-        var sValue = Ext.encode( myConf )
+        var sValue = FormatJSON( myConf , ' ')
         
         msgBox.show({
            width : 800, 
