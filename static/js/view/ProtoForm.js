@@ -64,6 +64,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
             handler : this.onSave
         });
 
+        this.stMsg = Ext.create('Ext.toolbar.TextItem');
+
         Ext.apply(this, {
             frame      : true,
             autoScroll : true,
@@ -77,7 +79,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 xtype : 'toolbar',
                 dock : 'bottom',
                 ui : 'footer',
-                items : ['->',  this.btSave , {
+                items : [ this.stMsg, '->',  this.btSave , {
                     iconCls : 'icon-reset',
                     text : 'Reset',
                     scope : this,
@@ -213,6 +215,11 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
     },
 
+    setText : function ( sText ) {
+         
+         this.stMsg.setText( sText )
+         
+    }, 
     
     onSave : function() {
 
@@ -240,7 +247,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         var form = this.getForm();
         if( ! form.isValid()) {
-            errorMessage( 'Validate Form', 'Is not valid')
+            this.setText( 'OOPs!!  Form is not valid')
             return;  
         }  
 
