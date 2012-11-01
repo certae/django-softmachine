@@ -433,14 +433,13 @@ function getColDefinition( vFld ) {
 
     colDefinition = copyProps ( colDefinition,  vFld, true, lstProps )
 
-
     
     // Copia las propiedades de base 
     var lstProps = [
         'defaultValue', 
     
         // string 
-        'allowBlank', 'readOnly', 
+        'required', 'readOnly', 
         'minLength', 'minLengthText', 
         'maxLength', 'maxLengthText', 
         
@@ -471,6 +470,12 @@ function getColDefinition( vFld ) {
         'zoomReturn'
         ]
     var editor = copyProps ( {},  vFld, true, lstProps )
+
+    // Requerido 
+    if ( vFld.required == true  ) { 
+        colDefinition.allowBlank = false; 
+        editor.allowBlank = false 
+    } 
 
     //TODO: vType ( eMail, IpAdress, etc ... )
     // editor.vtype = 'email'
@@ -582,6 +587,7 @@ function getColDefinition( vFld ) {
     if ( ! colDefinition.minWidth  ) { colDefinition.minWidth = 100 }
     
     
+    
     // verificacion de xtype  
     switch( colDefinition.xtype  ){
     case 'checkcolumnreadonly':
@@ -621,7 +627,6 @@ function getColDefinition( vFld ) {
     if ( vFld.vType ) {
         // vType stopLigth  Maneja el codigo de colores para un semaforo con 3 indicadores, 2 limites Red-Yellow; Yellow-Green   
         if ( vFld.vType == 'stopLight' ) colDefinition.renderer = cellStopLight
-
     } 
 
     // sortable  ( se requiere para q no se ordenen las udps y otras )
@@ -912,7 +917,7 @@ function definieProtoFieldSelctionModel( protoOption ) {
             {name: 'type', type: 'string'},  
 
             {name: 'readOnly', type: 'boolean'},
-            {name: 'allowBlank', type: 'boolean'},
+            {name: 'required', type: 'boolean'},
             {name: 'tooltip', type: 'string'},  
             {name: 'header', type: 'string'},  
 

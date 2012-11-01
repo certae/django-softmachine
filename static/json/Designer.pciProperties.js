@@ -6,7 +6,7 @@ DesignerProperties =  {
 
 
 //  Types
-    "allowBlank.type" : "boolean", 
+    "required.type" : "boolean", 
     "fromModel.type"  : "boolean",
     "hideRowNumbers.type"  : "boolean",
     "readOnly.type"  : "boolean",
@@ -54,8 +54,8 @@ DesignerProperties =  {
     "template.help": "Definicion de la plantilla", 
 
 // 
-    "allowBlank": true,
-    "allowBlank.help": "permite blancos en la forma, es diferente al nulo de la Db",
+    "required": false,
+    "required.help": "Requiere valores la forma",
     "allowDecimals.help": "NO USAR : si permite o no decimales, si decimalPReciosion = 0 implica falso",
     "autoscroll": true,
     "autoscroll.help": "t/f",

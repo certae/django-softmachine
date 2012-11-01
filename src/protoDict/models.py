@@ -32,7 +32,7 @@ class Model(models.Model):
     * en caso de modelos fisicos el conectionPath puede ser el conection string o la ruta de acceso
     * los modelos pueden tener prefijos especificos para todas sus entidades ( conceptos ) 
     """
-    domain = models.ForeignKey('Domain', verbose_name=u'Domaine')
+    domain = models.ForeignKey('Domain', verbose_name=u'Domaine', blank = False, null = False )
     code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
 
     category = models.CharField(max_length=50, blank = True, null = True )
@@ -92,8 +92,7 @@ class PropertyDom(models.Model):
 
 #    class Meta:
 #        unique_together = ('domain', 'code',  )
-
-    protoExt = { 'protoUdp' : { 'udpTable' : 'UdpPropertyDom' }}
+#    protoExt = { 'protoUdp' : { 'udpTable' : 'UdpPropertyDom' }}
 
 
 class PropertyModel(models.Model):

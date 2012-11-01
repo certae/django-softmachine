@@ -107,7 +107,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
     "fields": [
         {
             "flex": 1,
-            "allowBlank": False,
+            
             "width": 200,
             "tooltip": "Codigo o Identificador principal del objeto",
             "header": "Vues",
@@ -132,7 +132,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
             "header": "ModèLe",
             "readOnly": True,
             "type": "string",
-            "allowBlank": True
+            
         },
         {
             "flex": 1,
@@ -197,7 +197,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
         },
         {
             "checked": True,
-            "allowBlank": True,
+            
             "header": "udp__nomsibdm",
             "readOnly": False,
             "type": "udp",
@@ -205,7 +205,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
         },
         {
             "checked": True,
-            "allowBlank": True,
+            
             "header": "udp__acronyme",
             "readOnly": False,
             "type": "udp",
@@ -213,7 +213,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
         },
         {
             "checked": True,
-            "allowBlank": True,
+            
             "header": "udp__uniteadministrative",
             "readOnly": False,
             "type": "udp",
@@ -221,7 +221,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
         },
         {
             "checked": True,
-            "allowBlank": True,
+            
             "header": "udp__datecn",
             "readOnly": False,
             "type": "udp",
@@ -229,7 +229,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
         },
         {
             "checked": True,
-            "allowBlank": True,
+            
             "header": "udp__nomrealisateurcn",
             "readOnly": False,
             "type": "udp",
@@ -237,7 +237,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
         },
         {
             "checked": True,
-            "allowBlank": True,
+            
             "header": "udp__nomredacteurs",
             "readOnly": False,
             "type": "udp",
@@ -245,7 +245,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
         },
         {
             "checked": True,
-            "allowBlank": True,
+            
             "header": "udp__nomsecretariat",
             "readOnly": False,
             "type": "udp",
@@ -257,7 +257,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
             "header": "udp__docureference",
             "readOnly": False,
             "type": "udp",
-            "allowBlank": True
+            
         },
         {
             "fkField": "domain",
@@ -266,14 +266,14 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
             "header": "domain_id",
             "readOnly": True,
             "type": "foreignid",
-            "allowBlank": False
+            
         },
         {
             "header": "ID",
             "readOnly": True,
             "type": "int",
             "name": "domain__id",
-            "allowBlank": True
+            
         }
     ],
     "protoUdp": {
@@ -317,7 +317,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                 "items": [
                     {
                         "fieldLabel": "domain_id",
-                        "allowBlank": True,
+                        
                         "defaultValue": "1",
                         "__ptType": "formField",
                         "name": "domain_id",
@@ -329,7 +329,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                         "fieldLabel": "Nom de la vue",
                         "name": "code",
                         "__ptType": "formField",
-                        "allowBlank": False
+                        
                     },
                     {
                         "fieldLabel": "Catégorie",
@@ -361,7 +361,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                         "__ptType": "formField",
                         "name": "udp__docureference",
                         "readOnly": False,
-                        "allowBlank": True
+                        
                     },
                     {
                         "__ptType": "htmlset",
@@ -390,7 +390,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                         "name": "udp__nomsibdm",
                         "width": 510,
                         "readOnly": False,
-                        "allowBlank": True
+                        
                     },
                     {
                         "fieldLabel": "Acronyme SI ou BDM",
@@ -398,7 +398,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                         "__ptType": "formField",
                         "name": "udp__acronyme",
                         "readOnly": False,
-                        "allowBlank": True
+                        
                     },
                     {
                         "fieldLabel": "Nom unité administrative",
@@ -406,7 +406,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                         "__ptType": "formField",
                         "name": "udp__uniteadministrative",
                         "readOnly": False,
-                        "allowBlank": True
+                        
                     },
                     {
                         "fieldLabel": "Date du Cadre Normatif",
@@ -415,7 +415,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                         "name": "udp__datecn",
                         "readOnly": False,
                         "type": "date",
-                        "allowBlank": True
+                        
                     },
                     {
                         "fieldLabel": "Nom du réalisateur",
@@ -423,7 +423,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                         "__ptType": "formField",
                         "name": "udp__nomrealisateurcn",
                         "readOnly": False,
-                        "allowBlank": True
+                        
                     },
                     {
                         "fieldLabel": "Nom(s) des rédacteurs",
@@ -431,7 +431,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                         "__ptType": "formField",
                         "name": "udp__nomredacteurs",
                         "readOnly": False,
-                        "allowBlank": True
+                        
                     },
                     {
                         "fieldLabel": "Nom(s) secrétariat",
@@ -439,7 +439,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                         "__ptType": "formField",
                         "name": "udp__nomsecretariat",
                         "readOnly": False,
-                        "allowBlank": True
+                        
                     }
                 ]
             },

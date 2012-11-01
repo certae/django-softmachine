@@ -375,7 +375,6 @@ def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
     # fieldBase indica campos de llaves foraneas       
     if fieldBase != '': 
         pField[ 'readOnly' ] = True 
-        pField[ 'allowBlank' ] = True 
 
         if pField['type'] == 'autofield':
             pField['type'] = 'int'
@@ -387,7 +386,7 @@ def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
         'text'       : field.name, 
         'checked'    : False, 
         'readOnly'   : pField.get( 'readOnly' , False ) , 
-        'allowBlank' : pField.get( 'allowBlank' , True  ),  
+        'required'   : pField.get( 'required' , False ),  
         'tooltip'    : pField.get( 'tooltip', ''  ),  
         'header'     : pField.get( 'header',  field.name  ),   
         'type'       : pField.get( 'type',  'string'  )  
@@ -431,7 +430,7 @@ def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
             myFieldId['readOnly'] = True
             myFieldId['checked'] = False
             myFieldId['text'] =  pField['fkId']  
-            myFieldId['allowBlank'] = myField['allowBlank']  
+            myFieldId['required'] = myField['required']  
             myFieldId['type'] =  myFieldId['type']  
     
             fieldList.append( myFieldId )

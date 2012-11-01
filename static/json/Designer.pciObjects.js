@@ -39,7 +39,7 @@ DesignerObjects =  {
     "field": {
         "description": "A store field element",
         "properties": [
-            "allowBlank",
+            "required",
             "decimalPrecision", 
             "defaultValue",
             "fieldLabel",
@@ -91,7 +91,7 @@ DesignerObjects =  {
             "tooltip", 
             "fieldLabel",
             "labelWidth","labelAlign","hideLabel",
-            "allowBlank",
+            "required",
             "readOnly",
             "hidden",
             "defaultValue",

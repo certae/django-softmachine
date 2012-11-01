@@ -207,7 +207,7 @@ class ProtoGridFactory(object):
 #                        prTexts.insert( 0, { 'name' : key  , '__ptType' : 'formField'} )
                         continue
 
-                    elif ( vFld.get( 'allowBlank', True  )): 
+                    elif ( vFld.get( 'required', False  )  == False ): 
                         prBlank.append( { 'name' : key  , '__ptType' : 'formField'} )
                          
                     else:  
@@ -338,7 +338,6 @@ def setDefaultField ( fdict, model, protoOption ):
     fdict['header'] = model._meta.verbose_name.title() 
     fdict['type'] =  'string'   
     fdict['readOnly']  = True        
-    fdict['allowBlank']  = True        
     fdict['flex']      = 1        
     fdict['cellLink']  = True 
 #   fdict['zoomModel'] = model._meta.app_label + '.' + model._meta.object_name

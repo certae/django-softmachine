@@ -149,7 +149,7 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
 
                     type :  rec.get( 'type' ),  
                     readOnly :  rec.get( 'readOnly' ), 
-                    allowBlank :  rec.get( 'allowBlank' ),
+                    required :  rec.get( 'required' ),
                     tooltip :  rec.get( 'tooltip' ),  
 
                     // header :  rec.get( 'text' ),   
@@ -234,7 +234,7 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
                 falseText: 'req', 
                 width: 50,
                 text: 'req',
-                dataIndex: 'allowBlank'
+                dataIndex: 'required'
             },{
                 xtype: 'booleancolumn', 
                 trueText: 'rOnly',
@@ -302,7 +302,7 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
             'text'       : vFld.name, 
             'type'       : 'udp', 
             'checked'    : vFld.checked, 
-            'allowBlank' : true, 
+            'required'   : false, 
             'leaf'       : true 
         }
         

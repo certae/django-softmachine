@@ -35,7 +35,6 @@ def setFieldDict(protoFields ,  field ):
     #TODO:  useNull  para definirlo sobre el modelo 
     
     # Recorrer el dict Field y agregar las prop q no estan  protoField
-    setFieldProperty(  pField, 'allowBlank',  True, field, 'blank', False   )
     setFieldProperty(  pField, 'tooltip',  '', field, 'help_text', ''  )
 
     
@@ -62,6 +61,9 @@ def setFieldDict(protoFields ,  field ):
     # Otras propiedades a mapear 
     if ( getattr( field, 'editable', False ) == False ) or (  pField['type'] == 'autofield'): 
         pField['readOnly'] = True   
+
+    if ( getattr( field, 'blank', False ) == False ): 
+        pField['required'] = True   
 
     # Defaults 
     if (field.default is not None) and (field.default is not NOT_PROVIDED):                     

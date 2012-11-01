@@ -62,8 +62,7 @@ class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
         "cellLink": True,
         "header": "Proto Definition",
         "readOnly": True,
-        "type": "string",
-        "allowBlank": True
+        "type": "string"
     }, {
         "header": "metaDefinition",
         "vType": "plainText",

@@ -103,12 +103,12 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
             "width": 200,
             "fromModel": True,
             "type": "string",
-            "allowBlank": False
+            
         },
         {
             "flex": 1,
             "fieldLabel": "Éléments de Données",
-            "allowBlank": True,
+            
             "fkId": "id",
             "zoomModel": "protoExt.Property",
             "cellLink": True,
@@ -133,7 +133,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         },
         {
             "checked": True,
-            "allowBlank": True,
+            
             "header": "udp__elementssource",
             "readOnly": False,
             "type": "udp",
@@ -334,7 +334,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         },
         {
             "checked": True,
-            "allowBlank": True,
+            
             "header": "udp__methodetransf",
             "readOnly": False,
             "type": "udp",
@@ -345,7 +345,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
             "readOnly": False,
             "type": "udp",
             "name": "udp__numelement",
-            "allowBlank": True
+            
         }
     ],
     "protoUdp": {
@@ -380,7 +380,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                         "name": "concept__model"
                     },
                     {
-                        "allowBlank": False,
+                        
                         "fieldLabel": "Élément de donnée",
                         "xtype": "textfield",
                         "__ptType": "formField",
@@ -398,7 +398,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                         "xtype": "textfield",
                         "__ptType": "formField",
                         "readOnly": False,
-                        "allowBlank": True,
+                        
                         "type": "int",
                         "name": "udp__numelement"
                     },
@@ -505,7 +505,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                                 "__ptType": "formField",
                                 "name": "udp__elementssource",
                                 "readOnly": False,
-                                "allowBlank": True
+                                
                             },
                             {
                                 "fieldLabel": "Méthode de transformation",
@@ -513,7 +513,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                                 "__ptType": "formField",
                                 "name": "udp__methodetransf",
                                 "readOnly": False,
-                                "allowBlank": True
+                                
                             }
                         ]
                     },

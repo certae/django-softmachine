@@ -126,7 +126,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
             "header": "ModèLe",
             "readOnly": True,
             "type": "string",
-            "allowBlank": True
+            
         },
         {
             "flex": 1,
@@ -192,53 +192,53 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
         },
         {
             "checked": True,
-            "allowBlank": True,
+            
             "header": "udp__nomsibdm",
             "type": "udp",
             "name": "udp__nomsibdm"
         },
         {
-            "allowBlank": True,
+            
             "header": "udp__acronyme",
             "type": "udp",
             "name": "udp__acronyme"
         },
         {
-            "allowBlank": True,
+            
             "header": "udp__uniteadministrative",
             "type": "udp",
             "name": "udp__uniteadministrative"
         },
         {
-            "allowBlank": True,
+            
             "header": "udp__datecn",
             "type": "udp",
             "name": "udp__datecn"
         },
         {
             "checked": True,
-            "allowBlank": True,
+            
             "header": "udp__nomrealisateurcn",
             "type": "udp",
             "name": "udp__nomrealisateurcn"
         },
         {
             "checked": True,
-            "allowBlank": True,
+            
             "header": "udp__nomredacteurs",
             "type": "udp",
             "name": "udp__nomredacteurs"
         },
         {
             "checked": True,
-            "allowBlank": True,
+            
             "header": "udp__nomsecretariat",
             "type": "udp",
             "name": "udp__nomsecretariat"
         },
         {
             "checked": True,
-            "allowBlank": True,
+            
             "header": "udp__docureference",
             "type": "udp",
             "name": "udp__docureference"
@@ -340,7 +340,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                         "__ptType": "formField",
                         "name": "udp__docureference",
                         "tooltip": "Type de document utilisé pour créer la vue",
-                        "allowBlank": True
+                        
                     },
                     {
                         "__ptType": "htmlset",
@@ -367,19 +367,19 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                         "xtype": "textfield",
                         "__ptType": "formField",
                         "width": 510,
-                        "allowBlank": True,
+                        
                         "name": "udp__nomsibdm"
                     },
                     {
                         "fieldLabel": "Acronyme SI ou BDM",
-                        "allowBlank": True,
+                        
                         "__ptType": "formField",
                         "name": "udp__acronyme",
                         "xtype": "textfield"
                     },
                     {
                         "fieldLabel": "Nom unité administrative",
-                        "allowBlank": True,
+                        
                         "__ptType": "formField",
                         "name": "udp__uniteadministrative",
                         "xtype": "textfield"
@@ -388,27 +388,27 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                         "fieldLabel": "Date du Cadre Normatif",
                         "xtype": "datefield",
                         "__ptType": "formField",
-                        "allowBlank": True,
+                        
                         "type": "date",
                         "name": "udp__datecn"
                     },
                     {
                         "fieldLabel": "Nom du réalisateur",
-                        "allowBlank": True,
+                        
                         "__ptType": "formField",
                         "name": "udp__nomrealisateurcn",
                         "xtype": "textfield"
                     },
                     {
                         "fieldLabel": "Nom(s) des rédacteurs",
-                        "allowBlank": True,
+                        
                         "__ptType": "formField",
                         "name": "udp__nomredacteurs",
                         "xtype": "textfield"
                     },
                     {
                         "fieldLabel": "Nom(s) secrétariat",
-                        "allowBlank": True,
+                        
                         "__ptType": "formField",
                         "name": "udp__nomsecretariat",
                         "xtype": "textfield"
