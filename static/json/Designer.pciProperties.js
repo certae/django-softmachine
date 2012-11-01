@@ -3,6 +3,14 @@
 
 
 DesignerProperties =  {
+
+
+//  Types
+    "allowBlank.type" : "boolean", 
+    "fromModel.type"  : "boolean",
+    "hideRowNumbers.type"  : "boolean",
+    "readOnly.type"  : "boolean",
+    
 // PCI
     "protoConcept.help" : "Opcion de base de la pci (apunta directamente al modelo Django  app.modelo)",
     "protoOption.help"  : "Definicion de view interface - puede ser = al protoConcpeto o definir un nivel adicional app.modelo.vista", 
@@ -42,10 +50,8 @@ DesignerProperties =  {
     "udpTable.help" : "Tabla que contiene las upds, <b>** Si es un vinculo directo corresponde al related_name q es el set de detalles, normalmente la tablaUdp comenzando por minuscula", 
 
 // sheets
-
     "protoSheetSelector.help": "Campo de criterio para seleccionar el template, vacio para una unica plantilla por defecto DEFAULT",
     "template.help": "Definicion de la plantilla", 
-    
 
 // 
     "allowBlank": true,
@@ -146,7 +152,8 @@ DesignerProperties =  {
     "vType.choices" : [ "", "email", "ip4", "ip6", "tel", "postalCodeCA", "postalCodeUSA"  ],             
     
     "width.help": "The width value in pixels",
-    "wordWrap": false,
+    
+    "wordWrap.type": "boolean",
     "wordWrap.help": "ver el contenido en mas de una linea"
     
 };

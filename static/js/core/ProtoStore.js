@@ -276,6 +276,19 @@ function getRecordByDataIx( myStore, fieldName, value  )  {
     
 }; 
 
+function verifyList ( myList , defList ){
+
+    // verifica el default 
+    if ( ! defList ) { defList = [] }
+    
+    // Verifica q sea una lista 
+    if ( typeOf( myList ) != 'array' ) { 
+        myList = defList }
+    else if ( myList.length  == 0 ) { 
+        myList  = defList }
+        
+    return myList 
+}
 
     
 function DefineProtoModel ( myMeta , modelClassName ){
@@ -290,6 +303,14 @@ function DefineProtoModel ( myMeta , modelClassName ){
     // type: 'hasMany',
     // autoLoad: true
     // convert :  Campo Virtual calculado,  Apunta a una funcion q  genera el valor 
+
+    // Verifica la conf de colecciones de base
+    myMeta.gridConfig.readOnlyFields = verifyList (  myMeta.gridConfig.readOnlyFields )
+    myMeta.gridConfig.sortFields = verifyList (  myMeta.gridConfig.sortFields )
+    myMeta.gridConfig.searchFields = verifyList (  myMeta.gridConfig.searchFields )
+    myMeta.gridConfig.initialSort = verifyList (  myMeta.gridConfig.initialSort )
+    myMeta.gridConfig.listDisplay = verifyList (  myMeta.gridConfig.listDisplay, ['__str__'] )
+    
     
     var myFields = [];           // model Fields 
     for (var ix in myMeta.fields ) {
@@ -302,7 +323,6 @@ function DefineProtoModel ( myMeta , modelClassName ){
         var mField = {
             name: vFld.name,
             type: vFld.type 
-            
             //TODO:  useNull : true / false    ( NullAllowed, IsNull,  NotNull )
         };
 
@@ -315,7 +335,6 @@ function DefineProtoModel ( myMeta , modelClassName ){
                 vFld.type = 'string'
         }; 
 
-
         // 
         if ( vFld.name in oc( myMeta.gridConfig.hiddenFields )) {
             mField.hidden = true ;
@@ -325,6 +344,10 @@ function DefineProtoModel ( myMeta , modelClassName ){
         if ( vFld.name in oc( myMeta.gridConfig.readOnlyFields )) {
             mField.readOnly = true ;
             vFld.readOnly = true ;
+        }
+
+        if ( vFld.name in oc( myMeta.gridConfig.sortFields )  ) {
+            vFld.sortable = true 
         }
 
 
@@ -768,6 +791,8 @@ function loadPci( protoOption, loadIfNot, options) {
 function savePci( protoMeta,  options) {
 
     var protoOption = protoMeta.protoOption
+    protoMeta.updateTime = getCurrentTime()
+    
     var sMeta = Ext.encode(  protoMeta )
 
     saveProtoObj( protoOption, sMeta ,  options)

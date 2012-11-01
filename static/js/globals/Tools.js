@@ -318,10 +318,10 @@ function savePclCache( protoOption, protoMeta ) {
 
     // Asigna la llave, pues si se hace una copia seguiria trayendo la misma protoOption de base 
     protoMeta.protoOption = protoOption 
+    DefineProtoModel( protoMeta , getModelName( protoOption  )  );
 
     // Guarda el cache de  pcl's 
     _cllPCI[ protoOption ]  = protoMeta;  
-    DefineProtoModel( protoMeta , getModelName( protoOption  )  );
 
 }
 
@@ -351,10 +351,18 @@ function getModelName( protoOption  ) {
 
 function getSafeMeta( myMeta ) {
     
-    // prepara la meta 
-    var excludeP = [ 'gridConfig', 'protoForm', 'sheetConfig', 'protoDetails']
-    var safeMeta =  clone( myMeta, 0, excludeP );
-    
+    // prepara la meta q retorna al BackEnd 
+    var safeMeta = { 
+        "pciStyle" : myMeta.pciStyle, 
+        "protoOption" : myMeta.protoOption,      
+        "protoConcept" : myMeta.protoConcept,      
+        "gridConfig": {
+            "searchFields": clone( myMeta.gridConfig.searchFields  )
+        },
+        "fields": clone( myMeta.fields, 0, [],  [ 'name', 'type'] ),
+        "protoUdp": clone( myMeta.protoUdp )  
+    } 
+        
     return Ext.encode( safeMeta )
     
 }
@@ -393,3 +401,7 @@ function showConfig( title , myConf ) {
            title: title
         })
     }
+    
+function getCurrentTime(){
+    return Ext.Date.format( new Date() , "Y-m-d H:i:s" )
+}

@@ -24,9 +24,10 @@ DesignerObjects =  {
             "helpPath", 
             "idProperty", 
             "pciStyle", 
+            "updateTime", 
             "version"
             ],
-        "roProperties": [ "protoOption", "protoConcept", "idProperty" ]  
+        "roProperties": [ "protoOption", "protoConcept", "idProperty" , "updateTime"]  
         },
 
     "fields": {

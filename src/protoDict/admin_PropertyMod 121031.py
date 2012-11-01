@@ -6,11 +6,10 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     protoExt= {
     "protoOption": "protoDict.PropertyModel",
     "description": "Éléments de données",
-    "protoConcept": "protoDict.PropertyModel",
-    "protoIcon": "icon-property",
     "shortTitle": "Éléments de données",
+    "protoIcon": "icon-property",
+    "protoConcept": "protoDict.PropertyModel",
     "version": "4.23",
-    "helpPath": "",
     "idProperty": "id",
     "sheetConfig": {
         "protoSheetSelector": "concept__model__category",
@@ -32,9 +31,6 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
             }
         ],
         "protoSheetProperties": [
-            "code",
-            "baseType",
-            "prpLength",
             "description",
             "udp__DOCUMENTDEREFERENCE",
             "udp__GABARIT",
@@ -60,8 +56,11 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         ]
     },
     "gridConfig": {
-        "hideRowNumbers": False,
         "filterSetABC": "code",
+        "searchFields": [
+            "model__code",
+            "propertyDom__code"
+        ],
         "baseFilter": {},
         "listDisplay": [
             "model__code",
@@ -69,7 +68,6 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
             "udp__DOCUMENTDEREFERENCE"
         ],
         "hiddenFields": [],
-        "initialFilter": {},
         "filtersSet": [],
         "readOnlyFields": [],
         "sortFields": [
@@ -78,10 +76,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
             "propertyDom__code"
         ],
         "initialSort": [],
-        "searchFields": [
-            "model__code",
-            "propertyDom__code"
-        ]
+        "initialFilter": {}
     },
     "fields": [
         {
@@ -95,7 +90,6 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
             "checked": True,
             "allowBlank": True,
             "header": "udp__elementssource",
-            "readOnly": False,
             "type": "udp",
             "name": "udp__elementssource"
         },
@@ -234,7 +228,6 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
             "checked": True,
             "allowBlank": True,
             "header": "udp__methodetransf",
-            "readOnly": False,
             "type": "udp",
             "name": "udp__methodetransf"
         },
@@ -242,7 +235,6 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
             "checked": True,
             "allowBlank": True,
             "header": "udp__numelement",
-            "readOnly": False,
             "type": "udp",
             "name": "udp__numelement"
         },
@@ -274,10 +266,11 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
             "allowBlank": True
         },
         {
+            "sortable": True,
+            "name": "model__category",
             "header": "category",
             "readOnly": True,
             "type": "string",
-            "name": "model__category",
             "allowBlank": True
         },
         {
@@ -285,48 +278,43 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
             "zoomModel": "protoDict.Model",
             "name": "model_id",
             "readOnly": True,
-            "type": "foreignid",
-            "allowBlank": False
+            "type": "foreignid"
         },
         {
             "fkField": "propertyDom",
             "zoomModel": "protoDict.PropertyDom",
             "name": "propertyDom_id",
             "readOnly": True,
-            "type": "foreignid",
-            "allowBlank": False
+            "type": "foreignid"
         },
         {
             "zoomModel": "protoDict.PropertyDom",
             "name": "propertyDom",
             "fkId": "propertyDom_id",
             "header": "propertyDom",
-            "readOnly": False,
-            "type": "foreigntext",
-            "allowBlank": False
+            "type": "foreigntext"
         },
         {
             "zoomModel": "protoDict.Model",
             "name": "model",
             "fkId": "model_id",
             "header": "model",
-            "readOnly": False,
-            "type": "foreigntext",
-            "allowBlank": False
+            "type": "foreigntext"
         },
         {
             "sortable": True,
             "name": "model__code",
-            "header": "Nom",
+            "header": "Model",
             "readOnly": True,
             "type": "string",
             "allowBlank": True
         },
         {
-            "header": "Nom",
+            "sortable": True,
+            "name": "propertyDom__code",
+            "header": "Property",
             "readOnly": True,
             "type": "string",
-            "name": "propertyDom__code",
             "allowBlank": True
         }
     ],
@@ -341,7 +329,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
     },
     "protoDetails": [
         {
-            "menuText": "Propriétés ",
+            "menuText": "Propriétés",
             "conceptDetail": "protoDict.UdpPropertyDom",
             "detailField": "propertyDom",
             "masterField": "propertyDom_id"
@@ -364,11 +352,10 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                         "name": "concept__model"
                     },
                     {
-                        "xtype": "textfield",
-                        "fieldLabel": "Élément de donnée",
                         "name": "code",
+                        "fieldLabel": "Élément de donnée",
                         "__ptType": "formField",
-                        "allowBlank": False
+                        "xtype": "textfield"
                     },
                     {
                         "readOnly": True,
@@ -381,7 +368,6 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                         "fieldLabel": "Numéro de l\'élément de données",
                         "xtype": "textfield",
                         "__ptType": "formField",
-                        "readOnly": False,
                         "allowBlank": True,
                         "type": "int",
                         "name": "udp__numelement"
@@ -408,14 +394,12 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                         "name": "udp__GABARIT"
                     },
                     {
-                        "collapsed": False,
                         "__ptType": "htmlset",
                         "height": 800,
                         "items": [
                             {
                                 "fieldLabel": "Définition",
                                 "xtype": "textarea",
-                                "collapsed": False,
                                 "__ptType": "formField",
                                 "height": 100,
                                 "labelAlign": "top",
@@ -432,7 +416,6 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                             {
                                 "fieldLabel": "Précisions",
                                 "xtype": "textarea",
-                                "collapsed": False,
                                 "__ptType": "formField",
                                 "height": 100,
                                 "labelAlign": "top",
@@ -475,11 +458,9 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                         "__ptType": "fieldset",
                         "items": [
                             {
-                                "flex": None,
                                 "fieldLabel": "Élément transformé?",
                                 "xtype": "checkbox",
                                 "__ptType": "formField",
-                                "choices": "",
                                 "type": "bool",
                                 "name": "udp__ELEMENTTRANSFORME"
                             },
@@ -488,7 +469,6 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                                 "xtype": "textfield",
                                 "__ptType": "formField",
                                 "name": "udp__elementssource",
-                                "readOnly": False,
                                 "allowBlank": True
                             },
                             {
@@ -496,7 +476,6 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                                 "xtype": "textfield",
                                 "__ptType": "formField",
                                 "name": "udp__methodetransf",
-                                "readOnly": False,
                                 "allowBlank": True
                             }
                         ]
@@ -544,5 +523,6 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                 ]
             }
         ]
-    }
+    },
+    "updateTime": "2012-11-01 00:26:12"
 }

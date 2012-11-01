@@ -322,7 +322,12 @@ function get_ptConfig( oData   ) {
                     console.log( "Error de encodage", cValue )
                 }
             } else {
-                cData[ lKey  ] = cValue  
+                
+                cValue = verifyPrpType(  lKey, cValue )
+                if ( cValue ) { 
+                    cData[ lKey  ] = cValue  
+                }
+                
             } 
 
         }
@@ -330,7 +335,33 @@ function get_ptConfig( oData   ) {
     }
 }             
 
-
+function verifyPrpType(  lKey, cValue ) {
+    // Verifica los tipos de las  propiedades 
+    
+    var pType = DesignerProperties[ lKey + '.type' ] 
+    if ( ! pType )  { 
+        if ( typeof ( cValue ) == 'string') { return cValue.trimRight()  }
+        else { return cValue }      
+    }
+    
+    if ( pType == typeof( cValue ) ) 
+    { return cValue  }    
+    
+    switch ( pType ) {
+    case "boolean":
+        if  ( (typeof( cValue ) == 'number') ){ cValue = cValue.toString() }
+        if  ( (typeof( cValue ) == 'string') ){
+            if ( cValue.substr(1,1).toLowerCase()  in oc([ 'y', 's', '1','o' ]) )
+            { return true } else { return false } 
+        } else { return false }  
+    case "number":
+        return parseFloat( cValue );
+    case "null":
+        return null 
+    default:
+        return cValue
+    }
+}
 
 
 function formContainer2Tree( items ) {

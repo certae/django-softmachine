@@ -1,11 +1,12 @@
-Enviar a la meta solo lo necesario, los campos nombre typo, udps, searchfields, sortfields 
+Guardar solo las variables con valores 
+    Revizar checked 
+    y el agregar filterset en la pci 
 
+
+** protoDefinicion editada no hace sort x active 
+* Enviar a la meta solo lo necesario, los campos nombre typo, udps, searchfields, sortfields 
 ** fecha y boleanos no se cargan, y la edicion produce valores formateados de manera no conveniente 
-
-protoDefinicion editada no hace sort x active 
-
-Cargar las UDP con sus tipos, o sea q todo se hace en python, por q el store en Ext recibe los tipos con sus objetos correspondientes. 
-
+** Cargar las UDP con sus tipos, o sea q todo se hace en python, por q el store en Ext recibe los tipos con sus objetos correspondientes. 
 
 ----------------
 

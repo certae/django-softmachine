@@ -50,21 +50,13 @@ Ext.define('ProtoUL.UI.GridSheetController', {
         }
 
         var pSheets = myMeta.sheetConfig.protoSheets;
-        var pSheetSelector = myMeta.sheetConfig.protoSheetSelector;
+        var pSheetSelector = myMeta.sheetConfig.protoSheetSelector || '';
         var pSheetCriteria = me.rowData[ pSheetSelector ] 
         var pSheet = undefined;  
         
         for ( var ix in pSheets  ) {
-            var vFld  =  pSheets[ix]; 
-            
-            if ( vFld.name == 'DEFAULT' ) {
-                pSheet =  vFld   
-            }; 
-            
-            if ( vFld.name == pSheetCriteria ) { 
-                pSheet =  vFld;
-                break; 
-            }
+            pSheet  =  pSheets[ix]; 
+            if ( pSheet.name == pSheetCriteria ) {break; }
         };
 
        if (  pSheet == undefined ) { return }; 

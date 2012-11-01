@@ -41,11 +41,7 @@ def protoList(request):
     
 #   Decodifica los eltos 
     protoMeta = json.loads(protoMeta)
-    
-    protoFields = protoMeta.get('fields', {})
     gridConfig =  protoMeta.get('gridConfig', {})
-    
-    #protoOption = protoMeta.get('protoOption', '')
     protoConcept = protoMeta.get('protoConcept', '')
     
 #   Carga la info

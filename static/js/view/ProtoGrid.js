@@ -84,7 +84,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             var vFld = myMeta.fields[ix] 
             if ( vFld.storeOnly ) continue;
 
+            // lee las props p
             var col = getColDefinition( vFld  );
+
+            // Oculta los campos provenientes del maestroo en los detalles 
             if ( col.dataIndex in oc([nDetId , nDetTitle])  ) { 
                 col['readOnly'] = true  
                 delete col['editor']
@@ -110,9 +113,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         this.editable = false; 
 
-        if ( typeOf( myMeta.gridConfig.initialSort ) != 'array'  ) {
-            myMeta.gridConfig.initialSort = [] 
-        }
         var storeDefinition =  {
             protoOption : this.protoOption, 
             autoLoad: this.autoLoad || true, 
