@@ -933,7 +933,6 @@ function definieProtoFieldSelctionModel( protoOption ) {
         ]
         
     });
-            
     
 }
 

@@ -1,14 +1,7 @@
-Status en la forma si hay camopos invalidos no aparece 
-
-Guardar solo las variables con valores 
-    ** Revizar checked 
-    y el agregar filterset en la pci 
 
 
-** protoDefinicion editada no hace sort x active 
-* Enviar a la meta solo lo necesario, los campos nombre typo, udps, searchfields, sortfields 
-** fecha y boleanos no se cargan, y la edicion produce valores formateados de manera no conveniente 
-** Cargar las UDP con sus tipos, o sea q todo se hace en python, por q el store en Ext recibe los tipos con sus objetos correspondientes. 
+JPlumb  Libreria a mirar con detenimiento 
+DjangoReporter 
 
 ----------------
 
@@ -60,9 +53,10 @@ Tareas pendientes
     forma 
         Revisar el beforeDrop para limitar los contenedores de cada elto 
         La edicion en forma considera los detalles en una sola transaccion,  ver la definicion del doc automatico  
+
         
 **  Copiar una pci   -- Ok. 
-        Tener la posibilidad de copiar una pci, ( obviamente una vista dependiente de la entidad )
+        Tener la posibilidad de copiar una pci, (  una vista dependiente de la entidad )
        
     Seguridad 
         implementar     
@@ -233,29 +227,13 @@ Edicion
 
     Login y manejo de edicion, autorizaciones 
 
-    ** Leer todo del admin y de los modelos, usar la logica del admin
-    Esto permitira proponer el producto a la comunidad Django 
+    Copiar del admin producto a la comunidad Django 
     
-    ** cambiar Db por MSSS y probar  
-    ** eliminar llamados al modelo "Concept" leer del admin     
 
     **  Abrir un blog, estabelecer el roadmap, tomar codigo basico del admin 
     leer toda la definicion del admin. separar un proyecto aparte. 
 
-    
-    **  Cargar la definicion de la grilla directamente de la dB
-    HAce una tabla Buffer para este manejo 
 
-    ** Separa el llamado Ajax como un singleton, 
-    Esto hara q solo se llame una vez 
-    Tomar como referencia  feed-viewer/app/lib/FeedValidator.js   ( mvc )
-
-
-	** Seleccion de Columnas visibles ( vista )
-	PAra el manejode las columnas no se usaran tabs, pues este objeto es automaticamente un contenedor y el objeto contenido 
-	hace referencia a su contenedor, de tal forma q al intentar compartirlo en diferentes tabs, solo aparece en el ultimo q 
-	se asigno,  habria q jugar con esto dinamicamente y tocaria escribir mas codigo.  
-	
 	
 	** Busqueda  QBE
     Agregar busqueda textual sobre campos predefinidos 
@@ -266,33 +244,12 @@ Edicion
 	file:///D:/data/ExtJs/ext-3.4.0/examples/grid-filtering/grid-filter-local.html
 
 
-    # TODO: Otras propiedades de base de los campos, usarlas para la edicion             
-    #field.default, field.editable, field.error_message, field.help_text, fiedl.verbose_name_plural
-    #field.blank, field.null, field.choises 
-	 	
 	 	
 
 ------------------------------------------------------------------------
 
-Ok	Otras 
-	Pasar la vista a ProtoLib
-	Q la vista genere los datos de manejo tomados de la definicion Db
 	Manejar los modelos tambien dinamicamente Db
 	Independizar las DB 	
-
-
-Ok    Separar los datos dela  definicion 
-
-NO  Ext.ux.form.SearchField
-    Es un widget especializado en esto,  y con un campo de base adicional se podria manejar 
-    busquedas sobre campos especificos o sobre todos los campos buscables
-     
-    http://joekuan.wordpress.com/2011/04/04/selective-column-search-using-extjs-combo-and-searchfield-together/
-    file:///D:/data/ExtJs/ext-3.4.0/examples/form/custom-access.html
-    file:///D:/data/ExtJs/ext-3.4.0/examples/forum/forum.html
-
-    Finalmente las busquedas se manejara construyendo los QBE en Python con el ORM 
-
 
 
 Ok  Nagegador  Master Detail 

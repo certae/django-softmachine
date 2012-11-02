@@ -1,3 +1,4 @@
+#Thu Nov 01 23:28:41 EDT 2012
 eclipse.preferences.version=1
 encoding//docs/django/fieldSets.py.txt=utf-8
 encoding//docs/django/jsonDump.py.txt=utf-8
@@ -12,6 +13,9 @@ encoding//src/Zpruebas/pruebas/admin.py=utf-8
 encoding//src/Zpruebas/pruebas/models.py=utf-8
 encoding//src/Zpruebas/shiny/admin.py=utf-8
 encoding//src/Zpruebas/shiny/models.py=utf-8
+encoding//src/fpdf/fonts.py=latin1
+encoding//src/fpdf/fpdf.py=latin1
+encoding//src/fpdf/html.py=latin1
 encoding//src/protoDict/admin_Model.py=utf-8
 encoding//src/protoDict/admin_PropertyMod.py=utf-8
 encoding//src/protoDict/models.py=utf-8
