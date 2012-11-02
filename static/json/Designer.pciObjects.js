@@ -131,6 +131,7 @@ DesignerObjects =  {
         "description": "Propiedades de configuracion de la grilla",
         "properties": [ 
             'hideRowNumbers', 
+            'multiSelect', 
             'hideSheet', 
             'filterSetABC'
              ] 

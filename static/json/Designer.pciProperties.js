@@ -9,6 +9,7 @@ DesignerProperties =  {
     "required.type" : "boolean", 
     "fromModel.type"  : "boolean",
     "hideRowNumbers.type"  : "boolean",
+    "multiSelect.type"  : "boolean",
     "readOnly.type"  : "boolean",
     
 // PCI
@@ -96,18 +97,13 @@ DesignerProperties =  {
     "height.help": "The height value in pixels",
     "helpPath.help": "se define como : /help/xxxx.html  esta en: /static/help",
     
-    "hidden": false,
     "hidden.help": "componente oculto",
     "hidden.type": "boolean",
 
-    "hideLabel": false,
     "hideLabel.help": "presenta los campos sin label, util cuando se configura grupos como firstName, lastName",
-
-    "hideSheet" : false, 
     "hideSheet.help" : "Oculta la ficha descriptiva", 
-
-    "hideRowNumbers" : false, 
     "hideRowNumbers.help" : "Oculta la columna que numera los campos", 
+    "multiSelect.help" : "Permite seleccionar multiples registros", 
 
     "filterSetABC.help" : "Genera automaticamente filtro alfabetico sobre la columna seleccionada", 
 

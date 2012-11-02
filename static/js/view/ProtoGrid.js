@@ -105,8 +105,13 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         this.myColumns = myColumns; 
         
         //   gridColumns: Es un subconjuto para poder manejar diferentes conf de columnas  
-        var gridColumns = this.getViewColumns( myMeta.gridConfig.listDisplay  );            
-        var selModel = Ext.create('Ext.selection.CheckboxModel');
+        var gridColumns = this.getViewColumns( myMeta.gridConfig.listDisplay  ), 
+            selModel = null 
+        
+        // Manejo de seleccion multiple 
+        if ( myMeta.gridConfig.multiSelect ) {
+            selModel = Ext.create('Ext.selection.CheckboxModel');    
+        }            
 
         this.editable = false; 
 
