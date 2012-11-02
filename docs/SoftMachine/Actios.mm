@@ -1,6 +1,6 @@
 <map version="0.9.0">
 <!-- To view this file, download free mind mapping software FreeMind from http://freemind.sourceforge.net -->
-<node CREATED="1351377136644" ID="ID_1629252968" MODIFIED="1351377159506" TEXT="Actions">
+<node CREATED="1351377136644" ID="ID_1629252968" MODIFIED="1351862795645" TEXT="Actions">
 <node CREATED="1351377169453" ID="ID_1266028467" MODIFIED="1351377174741" POSITION="right" TEXT="Django">
 <node CREATED="1351377229419" ID="ID_1232764964" MODIFIED="1351379386201" TEXT="Como se definien">
 <node CREATED="1351377240101" ID="ID_1122347329" MODIFIED="1351377859959">
@@ -30,8 +30,7 @@
       </li>
     </ul>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 </node>
 </node>
 <node CREATED="1351377775037" ID="ID_768729252" MODIFIED="1351379299374" TEXT="Globales ( genericas ) ">
@@ -51,8 +50,7 @@
       admin.site.add_action(export_selected_objects)
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 </node>
 </node>
 <node CREATED="1351378231321" ID="ID_476293964" MODIFIED="1351378366099" TEXT="Ejemplos">
@@ -77,8 +75,7 @@
 
 <span style="margin-right: 0px; margin-left: 0px" class="n">admin</span><b><span style="margin-right: 0px; margin-left: 0px; font-weight: bold" class="o">.</span></b><span style="margin-right: 0px; margin-left: 0px" class="n">site</span><b><span style="margin-right: 0px; margin-left: 0px; font-weight: bold" class="o">.</span></b><span style="margin-right: 0px; margin-left: 0px" class="n">register</span><span style="margin-right: 0px; margin-left: 0px" class="p">(</span><span style="margin-right: 0px; margin-left: 0px" class="n">Article</span><span style="margin-right: 0px; margin-left: 0px" class="p">,</span> <span style="margin-right: 0px; margin-left: 0px" class="n">ArticleAdmin</span></pre>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 </node>
 </node>
 <node CREATED="1351378428947" FOLDED="true" ID="ID_89759255" MODIFIED="1351378489364" TEXT="model_admin">
@@ -97,8 +94,7 @@
         <span style="margin-right: 0px; margin-left: 0px" class="n">queryset</span><b><span style="margin-right: 0px; margin-left: 0px; font-weight: bold" class="o">.</span></b><span style="margin-right: 0px; margin-left: 0px" class="n">update</span><span style="margin-right: 0px; margin-left: 0px" class="p">(</span><span style="margin-right: 0px; margin-left: 0px" class="n">status</span><b><span style="margin-right: 0px; margin-left: 0px; font-weight: bold" class="o">=</span></b><span style="margin-right: 0px; color: rgb(187, 136, 68); margin-left: 0px" class="s"><font color="rgb(187, 136, 68)">'p'</font></span><span style="margin-right: 0px; margin-left: 0px" class="p">)</span>
     <span style="margin-right: 0px; margin-left: 0px" class="n">make_published</span><b><span style="margin-right: 0px; margin-left: 0px; font-weight: bold" class="o">.</span></b><span style="margin-right: 0px; margin-left: 0px" class="n">short_description</span> <b><span style="margin-right: 0px; margin-left: 0px; font-weight: bold" class="o">=</span></b> <span style="margin-right: 0px; color: rgb(187, 136, 68); margin-left: 0px" class="s"><font color="rgb(187, 136, 68)">&quot;Mark selected stories as published</font></span></pre>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 </node>
 </node>
 <node CREATED="1351378497776" FOLDED="true" ID="ID_1578801846" MODIFIED="1351378823287" TEXT="Alternativa QSet">
@@ -126,8 +122,7 @@
       Modelo de seleccion por checkbox,
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 </node>
 <node CREATED="1351377393417" ID="ID_787496984" MODIFIED="1351377429021" TEXT="Acciones genericas ">
 <node CREATED="1351377430718" ID="ID_296165696" MODIFIED="1351377747651">
@@ -163,8 +158,7 @@
       
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 </node>
 </node>
 </node>
@@ -189,8 +183,7 @@
       la vista construe un QSet y lo envia a la accion declarada;&#160;
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 </node>
 </node>
 <node CREATED="1351378138640" ID="ID_16095163" MODIFIED="1351378144201" TEXT="Parametros adicionales">
@@ -200,5 +193,10 @@
 <node CREATED="1351378181828" ID="ID_1312855207" MODIFIED="1351378183919" TEXT="puede retornar un estado y/o refrescar la grilla."/>
 </node>
 </node>
+<node CREATED="1351862797002" ID="ID_1114327862" MODIFIED="1351862805597" POSITION="left" TEXT="TODO">
+<node CREATED="1351862822627" ID="ID_1709910413" MODIFIED="1351862845305" TEXT="Permitir seleccion en la grilla"/>
+<node CREATED="1351862845970" ID="ID_1594373119" MODIFIED="1351862873720" TEXT="Cambiar la conf para agregar un compo o un boton ( combo ) de acciones,  "/>
+</node>
+<node CREATED="1351862809689" ID="ID_1516347322" MODIFIED="1351862818620" POSITION="left" TEXT="Journal"/>
 </node>
 </map>

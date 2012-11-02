@@ -8,8 +8,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         'Ext.util.*',
         'Ext.state.*',
         'Ext.form.*',
+        'Ext.selection.CheckboxModel',
         'Ext.toolbar.TextItem' 
-     // 'Ext.selection.CheckboxModel',
     ],
     // iconCls: 'icon-grid',
 
@@ -106,10 +106,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         //   gridColumns: Es un subconjuto para poder manejar diferentes conf de columnas  
         var gridColumns = this.getViewColumns( myMeta.gridConfig.listDisplay  );            
-        
-        // var selModel = Ext.create('Ext.selection.CheckboxModel', {
-            // listeners: { selectionchange: function(sm, selections) {} }
-        // });
+        var selModel = Ext.create('Ext.selection.CheckboxModel');
 
         this.editable = false; 
 
@@ -188,7 +185,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 
                 
                 plugins: [    'headertooltip', this.rowEditing ],            
-                // selModel: selModel,
+                selModel: selModel,
                 columns : gridColumns,   
                 store : this.store,  
                 stripeRows: true, 
@@ -201,14 +198,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                     selectionchange: function(selModel, selected) {
                         // Expone la fila seleccionada. 
                         this.selected = selected[0] || null;
-                        
+
                         // Si hay botones o eltos de la interface a modificar 
                         // grid4.down('#removeButton').setDisabled(selections.length == 0);
-    
-                    }, 
-                    
-                    keydown: function(a,b,c,d,e,f) {
-                        console.log(a,b,c,d,e,f) 
                     }, 
                     
                     itemmouseenter: function(view, record, item) {
@@ -316,7 +308,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         });
 
         this.addEvents(
-            'rowClick', 'rowDblClick', 'promoteDetail', 'selectionChange'
+            'rowClick', 'rowDblClick', 'promoteDetail'
+            // 'selectionChange'
         );
 
         this.callParent(arguments);
