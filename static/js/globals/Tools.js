@@ -414,3 +414,34 @@ function showConfig( title , myConf ) {
 function getCurrentTime(){
     return Ext.Date.format( new Date() , "Y-m-d H:i:s" )
 }
+
+
+function verifyList ( myList , defList ){
+
+    // verifica el default 
+    if (( ! defList ) || ( typeOf( defList ) != 'array' )) { defList = [] }
+    
+    // Verifica q sea una lista 
+    if ( typeOf( myList ) != 'array' ) { 
+        myList = defList }
+    else if ( myList.length  == 0 ) { 
+        myList  = defList }
+        
+    return myList 
+}
+
+function verifyObj ( myObj , defObj ){
+
+    // verifica el default 
+    if (( ! defObj ) || ( typeOf( defObj ) != 'object' )) { defObj = {} }
+    
+    // Verifica q sea un objeto  
+    if ( typeOf( myObj ) != 'object' )   { 
+        myObj = defObj }
+        
+    else  { 
+        // Aplica el objeto real sobre el vr por defecto 
+        myObj  = Ext.apply( defObj, myObj ) }
+        
+    return myObj 
+}

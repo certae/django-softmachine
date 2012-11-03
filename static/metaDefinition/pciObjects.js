@@ -1,7 +1,58 @@
 // @Author : Dario Gomez /  Certae U. Laval Quebec, Qc, Canada
-    // Objetos utilizados por la pci,
-    // El marcador ( atrr ) del objeto corresponde al "__ptType"
-   
+    
+
+/* Objetos utilizados por la pci,
+ *
+ * Sirve para generar y validar la estructura de un json a partir de la definicion q se haga aqui 
+ * tambien debe servir para la creacion del arbol de la plc y las validaciones necesarias  
+ *
+ * El marcador ( atrr ) del objeto corresponde al "__ptType" y es el nombre del objeto aqui definido 
+ * 
+ * La definicion tiene las siguientes propiedades
+ * 
+ *      description 
+ *      lists                       
+ *      objects
+ *      properties              # Son valores simples: string, number, bool 
+ *      roProperties            # readOnly en la pcl, deben preexistir en properties 
+ *  
+ * Los objetos de tipo list contienen ademas  
+ * 
+ *       listOf
+ * 
+ * Tambien se puede aplicar un valor por defecto, por 
+ * ejemplo en listDisplay  = ['__str__']
+ * 
+ *      defaultValue : ['__str__']
+ * 
+ * Si se desea cambiar el tipo de definicion: 
+ * 
+ *       __ptType  lleva a la definicion correcta   
+ * 
+ * Para la edicion en la pcl contienen 
+ * 
+ *       __ptStyle  [ jsonText, colList ]
+ * 
+ * --- Una plantilla de la form  
+ 
+    "": {
+        "description": "Lista de acciones backend", 
+        "listOf" : "actionDef"
+        "properties": [
+          ], 
+        "roProperties" : [
+          ], 
+        "objects": [
+            ],
+        "lists": [
+            ],
+        "roProperties": []  
+        },
+ 
+        
+ * 
+ */ 
+
 
 //  FieldSet 
 //  El layout column permite un manejo flexible 
@@ -10,8 +61,87 @@
 //  fix  : Se especifica el "width"  ( si se especifica el width prima sobre la definicion ) 
 
 
+function verifyMeta( oMeta,  ptType ) {
 
-DesignerObjects =  {
+//    Verifica un objeto de acuerdo a la estructura      
+
+    var __ptConfig = _MetaObjects[ ptType ]
+    if ( ! __ptConfig ) 
+        return oMeta ; 
+
+    // Verifica las listas 
+    if ( __ptConfig.lists &&  ( typeOf( __ptConfig.lists ) == 'array' ))  { 
+        for ( var ix in __ptConfig.lists  ) {
+            var sKey = __ptConfig.lists[ix]
+            if ( typeof( sKey)  !=  'string' ) 
+                continue ; 
+
+            var listOfConf = _MetaObjects[ sKey ] || {}
+            oMeta[ sKey ]  = verifyList (  oMeta[ sKey ], listOfConf.defaultValue  )            
+        }
+    } 
+
+    // Verifica los Objetos ( no aplica los default, pues la config puede eliminarlos )  
+    if ( __ptConfig.objects &&  ( typeOf( __ptConfig.objects  ) == 'array' ))  { 
+        for ( var ix in __ptConfig.objects  ) {
+            var sKey = __ptConfig.objects[ix]
+            if ( typeof( sKey)  !=  'string' ) 
+                continue ; 
+
+            var myObj = oMeta[ sKey ]
+            if ( typeOf( myObj ) != 'object' )  { 
+                myObj = {} }
+
+            oMeta[ sKey ] = verifyMeta( myObj,  sKey  )
+        }
+    } 
+
+    // No es necesario verificar las propiedades pues se hace al momento de guardar la pcl  
+    // if ( __ptConfig.properties  &&  ( typeOf( __ptConfig.properties  ) == 'array' ))  {
+
+    return oMeta 
+
+}; 
+
+
+_MetaObjects =  {
+
+    "actions": {
+        "description": "Lista de acciones backend", 
+        "listOf" : "actionDef"
+    },
+
+    "actionDef" : {
+        "description": "Actions backend",
+        "properties": [
+          "name", 
+          "title", 
+          "actionType", 
+          "refreshOnComplete"
+          ], 
+        "lists": [
+            "actionParams"
+          ], 
+        "__ptStyle": "obj" 
+    }, 
+
+    "actionParams": {
+        "description": "Propiedades de las actions backend",
+        "listOf" : "actionParam"
+    }, 
+
+    "actionParam": {
+        "properties": [
+          "name", 
+          "title", 
+          "protoIcon", 
+          "description",  
+          "vrDefault", 
+          "choices", 
+          "actionParamType",
+          "required"
+          ]
+        }, 
 
     "pcl": {
         "description": "definicion de la meta",
@@ -27,12 +157,24 @@ DesignerObjects =  {
             "updateTime", 
             "version"
             ],
+        "objects": [
+            "sheetConfig", 
+            "gridConfig", 
+            "protoUdp", 
+            "protoForm"
+            ],
+        "lists": [
+            "fields", 
+            "protoDetails", 
+            "actions"
+            ],
         "roProperties": [ "protoOption", "protoConcept", "idProperty" , "updateTime"]  
         },
 
+
     "fields": {
-        "description": "Definicion de los campos del store",
-        "properties": [ { 'name': '__ptType' , 'value': 'fields'} ] 
+        "description": "Definicion de los campos del store", 
+        "listOf" : "field"
     },
 
 
@@ -77,7 +219,8 @@ DesignerObjects =  {
             // "conceptDetail", 
             // "relatedN2N",
             // "detailField",
-            // "masterField",                                                 
+            // "masterField",                                     
+            
             "type", 
             "xtype",
             "vType" 
@@ -117,7 +260,8 @@ DesignerObjects =  {
             // "conceptDetail", 
             // "relatedN2N",
             // "detailField",
-            // "masterField",                                     
+            // "masterField",                                     
+
             // tipos              
             "type", 
             "xtype", 
@@ -134,7 +278,19 @@ DesignerObjects =  {
             'multiSelect', 
             'hideSheet', 
             'filterSetABC'
-             ] 
+             ], 
+        "objects": [
+            "baseFilter", 
+            "initialFilter"
+            ],
+        "lists": [
+            "listDisplay",
+            "searchFields",
+            "hiddenFields",
+            "filtersSet",
+            "readOnlyFields",
+            "initialSort"
+            ],
     },
 
     "baseFilter": {
@@ -170,6 +326,7 @@ DesignerObjects =  {
 
     "listDisplay": {
         "description": "Lista de campos a desplegar en la grilla",
+        "defaultValue" : ["__str__"], 
         "__ptStyle": "colList" 
     },
 
@@ -197,13 +354,14 @@ DesignerObjects =  {
 
     "protoDetails": {
         "description": "Detalles en una relacion Master-Detail",
-        "properties": [ { 'name': '__ptType' , 'value': 'protoDetails'} ] 
+        "listOf": "protoDetails" 
     },
 
 
     "protoDetail": {
         "description": "Detalle en una relacion Master-Detail",
         "properties": [
+            "name", 
             "menuText", 
             "conceptDetail",
             "masterField",
@@ -217,12 +375,12 @@ DesignerObjects =  {
     "protoUdp": {
         "description": "User defined properties ( se utilizan como campos y son creados por usr a voluntad, no participan en search, sort)",
         "properties": [
-            "propertyPrefix", 
-            "propertyName",
-            "propertyValue",
+            "udpTable", 
             "propertyRef", 
             "keyField",
-            "udpTable" 
+            "propertyPrefix", 
+            "propertyName",
+            "propertyValue"
         ]
     },
 
@@ -230,27 +388,51 @@ DesignerObjects =  {
         "description": "Plantillas de info html que son alimentadas por los datos de la Db",
         "properties": [
             "protoSheetSelector" 
+        ], 
+        "lists" : [
+            "protoSheets", 
+            "protoSheetProperties"
         ]
     },
 
     "protoSheetProperties": {
         "description": "Lista de campos utilizados en las plantillas",
+        "listOf": "colList",  
         "__ptStyle": "colList" 
     },
 
     "protoSheets": {
         "description": "Lista de plantillas",
-        "properties": [ { 'name': '__ptType' , 'value': 'protoSheets'} ] 
+        "listOf": "protoSheet" 
     },
 
     "protoSheet": {
         "description": "Plantilla ( el nombre corresponde al selector )",
         "properties": [
+            "name", 
             "template", 
-            "title" 
+            "title", 
+            "sheetType" 
+        ], 
+        "lists" : [
+            "sheetDetails" 
         ]
     },
 
+    "sheetDetails": {
+        "description": "Lista de detalles por hoja ( sheet )",
+        "listOf": "sheetDetail" 
+    },
+
+    "sheetDetail": {
+        "description": "Detalles por hoja ( sheet )",
+        "properties": [
+            "name", 
+            "detailView", 
+            "template", 
+            "sheetDetails" 
+        ]
+    },
 
     "protoForm": {
         "description": "definicion de formas",

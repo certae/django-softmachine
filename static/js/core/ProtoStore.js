@@ -276,19 +276,6 @@ function getRecordByDataIx( myStore, fieldName, value  )  {
     
 }; 
 
-function verifyList ( myList , defList ){
-
-    // verifica el default 
-    if ( ! defList ) { defList = [] }
-    
-    // Verifica q sea una lista 
-    if ( typeOf( myList ) != 'array' ) { 
-        myList = defList }
-    else if ( myList.length  == 0 ) { 
-        myList  = defList }
-        
-    return myList 
-}
 
     
 function DefineProtoModel ( myMeta , modelClassName ){
@@ -304,13 +291,9 @@ function DefineProtoModel ( myMeta , modelClassName ){
     // autoLoad: true
     // convert :  Campo Virtual calculado,  Apunta a una funcion q  genera el valor 
 
+
     // Verifica la conf del objeto de base 
-    if ( ! myMeta.gridConfig ) myMeta.gridConfig = {}; 
-    myMeta.gridConfig.readOnlyFields = verifyList (  myMeta.gridConfig.readOnlyFields )
-    myMeta.gridConfig.sortFields = verifyList (  myMeta.gridConfig.sortFields )
-    myMeta.gridConfig.searchFields = verifyList (  myMeta.gridConfig.searchFields )
-    myMeta.gridConfig.initialSort = verifyList (  myMeta.gridConfig.initialSort )
-    myMeta.gridConfig.listDisplay = verifyList (  myMeta.gridConfig.listDisplay, ['__str__'] )
+    myMeta = verifyMeta ( myMeta, 'pcl' )
     
     
     var myFields = [];           // model Fields 

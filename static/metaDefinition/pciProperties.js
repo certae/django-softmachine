@@ -1,8 +1,22 @@
+/* 
+ * Definicion de las propiedades, 
+ * 
+ * las propiedades tienen 
+ * 
+ *      help         : description 
+ *      type    
+ *      choices      : lista de valores en caso de ser string 
+ *      required     : 
+ * 
+ *  EL nombre de la propiedad contiene el defaultValue q solo se aplcia 
+ *  si no existe y es requerida  
+ * 
+ */
 
 // La defincion de tipos es   xxx.type = [ 'boolean' | 'date' | 'string' | 'number' ] 
 
 
-DesignerProperties =  {
+_MetaProperties =  {
 
 
 //  Types
@@ -139,8 +153,6 @@ DesignerProperties =  {
     "sortable.help": "t/f",
     "sortable.type": "boolean",
 
- 
-    "type" : "string",    
     "type.help" : "Tipo de dato de la Db ", 
     "type.choices" : [ "", "string", "text", "bool", "int", "decimal", "combo", "date",  "datetime", "time", "autofield", "html", "foreignid",  "foreigntext"  ],             
 
@@ -150,6 +162,20 @@ DesignerProperties =  {
     "width.help": "The width value in pixels",
     
     "wordWrap.type": "boolean",
-    "wordWrap.help": "ver el contenido en mas de una linea"
+    "wordWrap.help": "ver el contenido en mas de una linea", 
+
+    "sheetType.help" : "Tipo de hoja ( usada para reportes ) ", 
+    "sheetType.choices" : [ "", "printerOnly", "screenOnly"], 
     
+    "detailView.help" : "Nombre correspondiente a un detalle declarado en la opcionBase correspondiente ( padre )",              
+
+    "actionType.help" : "Tipo de accion ( metodos backend ) ", 
+    "actionType.choices" : [ "", "report", "wflow", "edicion"], 
+
+    "refreshOnComplete.type": "boolean",
+    
+    "actionParamType.help" : "Tipo de dato del parametro", 
+    "actionParamType.choices" : [ "", "string", "bool", "number"] 
+    
+
 };

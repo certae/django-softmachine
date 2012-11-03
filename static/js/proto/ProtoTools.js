@@ -339,7 +339,7 @@ function get_ptConfig( oData   ) {
 function verifyPrpType(  lKey, cValue ) {
     // Verifica los tipos de las  propiedades 
     
-    var pType = DesignerProperties[ lKey + '.type' ] 
+    var pType = _MetaProperties[ lKey + '.type' ] 
     if ( ! pType )  { 
         if ( typeof ( cValue ) == 'string') { return cValue.trimRight()  }
         else { return cValue }      

@@ -56,7 +56,7 @@ function prepareProperties( record , myMeta,  propPanel  ){
 function clearPhantonProps( __ptConfig ,  __ptType ) {
     /* Borra las propieades q no hacen parte de la config de base 
      */ 
-    var objConfig = DesignerObjects[ __ptType ] || {}
+    var objConfig = _MetaObjects[ __ptType ] || {}
     for (var ix in __ptConfig ) {   
         if ( !( ix  in oc( objConfig.properties.concat ( ['name' ] )))) {
             // console.log( ix )            delete __ptConfig[ ix ]
@@ -74,7 +74,7 @@ function getTemplate( ptType, forForm,  metaDict  )  {
     var prpName, prpValue, prpHelp, prpChoices, prpDict, prpType
 
     // Lee la plantilla de la variable publica 
-    var objConfig = DesignerObjects[ ptType ] || {}
+    var objConfig = _MetaObjects[ ptType ] || {}
 
     // Recorre el vector de propieades    
     // puede ser solo el nombre o la tupla name, value 
@@ -88,13 +88,13 @@ function getTemplate( ptType, forForm,  metaDict  )  {
             prpValue = prp.value       
         } else {
             prpName = prp       
-            prpValue =  DesignerProperties[ prpName ] || null             
+            prpValue =  _MetaProperties[ prpName ] || null             
         }
 
 
-        prpHelp =  DesignerProperties[ prpName + '.help']             
-        prpChoices =  DesignerProperties[ prpName + '.choices']          
-        prpType =  DesignerProperties[ prpName + '.type']          
+        prpHelp =  _MetaProperties[ prpName + '.help']             
+        prpChoices =  _MetaProperties[ prpName + '.choices']          
+        prpType =  _MetaProperties[ prpName + '.type']          
 
         // Para presentacion en la forma o en las propiedades 
         if (forForm) {

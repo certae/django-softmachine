@@ -311,7 +311,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
 
         function getAttrMsg( attrName ) {
-            var msg =  DesignerObjects[ attrName ] || {}
+            var msg =  _MetaObjects[ attrName ] || {}
             return msg.description || ''
         }
 
@@ -350,7 +350,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             var ptType = oData.__ptType
             var __ptConfig = oData.__ptConfig || {}
 
-    	    var template = DesignerObjects[ ptType ] || {}
+    	    var template = _MetaObjects[ ptType ] || {}
 
             // Status Bar 
             var sMsg = getAttrMsg( record.data.text )
