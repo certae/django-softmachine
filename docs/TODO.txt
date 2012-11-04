@@ -1,3 +1,29 @@
+get_ptConfig
+
+	si existe un ptConfig en el objeto lo retorna, 
+	si no, lee y retorna  las propiedades 
+
+Se usa en el configLayout de la forma para retornar las props del objeto 
+
+
+getNodeBase( pName, ptType, __ptConfig  ) {
+	** usarlo en la creacion de nodos 
+    // Obtiene un Id y genera  una referencia cruzada de la pcl con el arbol 
+    // El modelo debe crear la referencia a la data o se perdera en el treeStore
+
+    return  { 
+        'id'            :  Ext.id(),
+        'text'          :  pName, 
+        '__ptType'      :  ptType, 
+        '__ptConfig'    :  __ptConfig,
+        'children'      :  [] 
+    }
+
+
+--------------------------
+
+
+
 PAra agregar un nodo en la pcl se debe definir en la lista padre 
 
 	listOf  esto encadena con el objeto hijo 

@@ -248,28 +248,23 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             var pName = ptPrompt ( nodeDef.listOf, childDef.addPrompt  )
             if ( ! pName ) return;  
 
-            // Crea el nodo base 
-            var tNode = {
-                'text'     :  pName,
-                '__ptType' :  nodeDef.listOf, 
-                'children' : [] }
 
+            // Crea el nodo base 
+            var tNode = getNodeBase( pName, nodeDef.listOf, { '__ptType' : nodeDef.listOf } )
+
+            
             if ( childDef.__ptStyle  == 'jsonText' ) {
 
                 var template = childDef.addTemplate.replace( '@name', pName ) 
-                tNode['__ptConfig'] =  { '__ptValue' : template }
+                tNode.__ptConfig.__ptValue = template 
+                tNode.__ptConfig.name  = pName 
                   
             } else if ( childDef.__ptStyle  == 'colList' ) {
-
-                tNode['__ptConfig'] =  { '__ptType' : nodeDef.listOf }  
-
             } else  {
+                tNode.__ptConfig.name  = pName 
 
                 // Tipo objeto, debe recrear el objeto pues existen listas y otras 
                 var newObj = verifyMeta( {}, nodeDef.listOf , tNode )                 
-
-                tNode['__ptConfig'] =  { '__ptType' : nodeDef.listOf , 'name' :  pName  }  
-
             } 
             
             record.appendChild( tNode )

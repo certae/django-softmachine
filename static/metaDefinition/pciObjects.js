@@ -108,14 +108,10 @@ function verifyMeta( oMeta,  ptType, tNode ) {
             if ( tNode ) { 
                 
                 // agrega un nuevo objeto al arbol 
-                var nBranch =  {
-                    'text'     :  sKey,
-                    '__ptType' :  sKey, 
-                    '__ptConfig':  { '__ptType' : sKey }, 
-                    'children' : [] }
-                    
+                var nBranch  = getNodeBase( sKey, sKey, { '__ptType' : sKey } )
                 tNode.children.push( nBranch )
                 
+                // Agrega los hijos tambein al arbol 
                 oMeta[ sKey ] = verifyMeta( myObj,  sKey, nBranch   )    
 
             } else {
@@ -187,8 +183,8 @@ _MetaObjects =  {
         "description": "definicion de la meta",
         "properties": [
             "protoOption", 
-            "description" ,
             "protoConcept" , 
+            "description" ,
             "protoIcon",
             "shortTitle" ,
             "helpPath", 
@@ -198,10 +194,10 @@ _MetaObjects =  {
             "version"
             ],
         "objects": [
-            "sheetConfig", 
             "gridConfig", 
-            "protoUdp", 
-            "protoForm"
+            "protoForm", 
+            "sheetConfig", 
+            "protoUdp" 
             ],
         "lists": [
             "fields", 
@@ -491,7 +487,9 @@ _MetaObjects =  {
         "__ptStyle": "object" 
     },
 
+
     "protoForm": {
+        "hideItems" : true,  
         "description": "definicion de formas",
         "properties": [
             "title", "tooltip", 
@@ -501,6 +499,7 @@ _MetaObjects =  {
         },
     
     "fieldset": {
+        "hideItems" : true,  
         "description": "A Fieldset, containing field elements",
         "properties": [
             "title", 
@@ -513,6 +512,7 @@ _MetaObjects =  {
     },
 
     "htmlset": {
+        "hideItems" : true,  
         "description": "A Fieldset, containing HtmlField elements",
         "properties": [
             "title", 
@@ -521,7 +521,6 @@ _MetaObjects =  {
             "height","maxHeight","minHeight","width", "maxWidth","minWidth"
         ]
     },
-
 
     "protoGrid": {
         "description": "A detail grid",
@@ -533,6 +532,7 @@ _MetaObjects =  {
 
 
     "panel": {
+        "hideItems" : true,  
         "description": "A simple panel with fit layout",
         "properties": [
             "title",
@@ -540,9 +540,9 @@ _MetaObjects =  {
             ]
     }, 
     
-    
 
   "tabpanel": { 
+        "hideItems" : true,  
         "description": "A Tab Container with many tabs",
         "properties": [
             "layout", "activeItem", 

@@ -260,7 +260,7 @@ Ext.define('ProtoUL.UI.FormController', {
         
                 // Configura el objeto
                 if ( ! protoObj.__ptConfig )  
-                    protoObj.__ptConfig = get_ptConfig( protoObj )
+                    protoObj.__ptConfig = getSimpleProperties( protoObj )
                     
                 if ( ! protoObj.__ptConfig.name ) 
                     protoObj.__ptConfig.name = protoIx 

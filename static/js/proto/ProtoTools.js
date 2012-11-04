@@ -1,11 +1,11 @@
 
 
 function Meta2Tree( oData, pName, ptType   ) {
-    /* Convierte la meta en Arbol  
+    /* Convierte la meta en treeStore ( Arbol )   
      * 
      * Input    --------------------------------- 
      * @oData     : Data a convertir
-     * @pName     : property Name ( iteraction en el objeto padre )
+     * @pName     : property Name ( iteraction en el objeto padre, en el caso de las formas )
      * @ptType    : property Type ( Tipo del padre en caso de ser un array  )
      *  
      * Return   -------------------------------
@@ -13,159 +13,130 @@ function Meta2Tree( oData, pName, ptType   ) {
      * 
      */
 
-    var  __ptConfig 
-    var sDataType = typeOf(oData);
-
-    // Solo deben entrar objetos o arrays 
-    if (sDataType == "object"  ||  sDataType == "array")  {
-        
-        __ptConfig = get_ptConfig( oData )
-        
-        // El __ptConfig puede redefinirlas 
-        if ( __ptConfig.__ptType )  ptType = __ptConfig.__ptType
-        if ( __ptConfig.name )      pName  = __ptConfig.name
+    var nodeDef     =   _MetaObjects[ ptType ]
+    if ( ! nodeDef ) { console.log( 'Meta2Tree: definicion no encontrada para ' + ptType ) }
+    
+    var __ptConfig  =   getSimpleProperties( oData, ptType )  
+    var tData       =   getNodeBase(  ptType, ptType, __ptConfig )    
 
 
-        // Form ( debe manejar el raiz sin el marco de items )
-        if ( pName == 'protoForm') { ptType = 'protoForm' }
-        if ( ptType in oc([ 'protoForm', 'htmlset', 'fieldset','tabpanel','accordeon','panel'])) {
-            var tData = getNodeBase( pName, ptType, __ptConfig  )
-            
-            if (sDataType != "array") {
-                tData['children'] = formContainer2Tree( oData.items )    
-            } else {
-                tData['children'] = formContainer2Tree( oData  )
-            }
-            
-            return tData 
-        }  
-
-        // Details 
-        if (( ptType == 'protoDetails') && ( pName != ptType )) {
-            ptType = 'protoDetail'                        
-            var tData = getNodeBase( pName, ptType, __ptConfig  )
-            tData['leaf'] =  true  
-            return tData 
-        }  
+    // Form ( debe manejar el raiz sin el marco de items )
+    if ( nodeDef.hideItems ) {
+        if ( oData.items ) {
+            tData['children'] = formContainer2Tree( oData.items )    
+        } else {
+            tData['children'] = formContainer2Tree( oData  )}
+        return tData 
+    }  
 
 
-        if ( ! ptType  )  ptType = sDataType    
-        
-        if (  ptType  == "fields" )   ptType = 'field' 
-        if (  ptType  in oc([ 'pcl', 'gridConfig']) )   ptType = pName 
+    // Los tipos q son presentados en text 
+    if ( nodeDef.__ptStyle == 'jsonText' ) {
+        tData.__ptConfig.__ptValue =  Ext.encode( oData  )
+        return tData 
+    }   
 
-        if (( ptType == 'filtersSet') && ( pName != ptType ))  ptType = 'filterDef'                        
-        if (( ptType == 'listDisplaySet') && ( pName != ptType ))  ptType = 'listDisplay'                        
+    // Los tipos q son presentados en listas 
+    if ( nodeDef.__ptStyle == 'colList' ) {
+        tData.__ptConfig.__ptList =  Ext.encode( oData  )
+        return tData 
+    }   
 
-        if (( ptType == 'protoSheets') && ( pName != ptType ))  ptType = 'protoSheet'     
-                           
-
-        // Nombre de tipos q se propagaron 
-        if (( ptType == 'sheetConfig' ) 
-            && ( pName in oc([ 'protoSheetProperties', 'protoSheets']))) {
-                ptType = pName
-        }
-
-        // Genera la info del nodo base 
-        var tData = getNodeBase( pName, ptType, __ptConfig  )
-        
-        // Ramas que no deben abrirse 
-        if ( (sDataType == "object" ) && ( ptType in oc([ 'field',  'protoGrid'  ]) ))  {
-            tData['leaf'] =  true  
-            return tData 
-        }
-
-
-        // Los tipos q son presentados en text 
-        if ( ptType in oc([ 'baseFilter','initialFilter','initialSort','filterDef'])) {
-            tData['__ptConfig' ] = { '__ptValue' :  Ext.encode( oData  ) }
-            return tData 
-        }   
-
-        // Los tipos q son presentados en listas 
-        if ( ptType in oc([ 'listDisplay',
-                        'readOnlyFields', 'hiddenFields',
-                        'searchFields', 'sortFields', 
-                        'protoSheetProperties'])) {
-            tData['__ptConfig' ] = { '__ptList' :  Ext.encode( oData  ) }
-            return tData 
-        }   
-
-
-
-        tData['children'] =  [] 
-        
-        // Recorre las propiedades     
-        for (var sKey in oData) {
-            var vValue = oData[ sKey  ]
-            var typeItem = typeOf(vValue);
-
-            if ( typeItem  ==  undefined ) continue  
-
-            // PRegunta es por el objeto padre para enviar el tipo en los arrays      
-            if ( sDataType == "object" ) {
-                if ( sKey.indexOf( "__pt" ) == 0 ) continue
-                                
-                if ( !( typeItem in oc( [ 'boolean', 'number', 'string' ]) )) {
-
-                    var nBase = pName
-                    if ( ptType == 'protoForm' ) {
-                        nBase = ptType    
-                        if ( vValue.__ptType && ( vValue.__ptType  == 'formField' )) {
-                            nBase = 'formField'                             
-                        } 
-                    }
-                    tData['children'].push(  Meta2Tree(vValue, sKey , nBase ) ) 
-                    
-                } 
-
-            } else if ( sDataType == "array" ) {
-                
-                var oTitle = null  
-
-                if ( vValue.__ptType ) {
-                    oTitle = vValue.__ptType
-
-                } else if ( vValue.__ptConfig ) {
-                    oTitle = vValue.__ptConfig.__ptType
-
-                } else if ( vValue.name ) {
-                    oTitle = vValue.name
-
-                } else if ( vValue.menuText ) {
-                    oTitle = vValue.menuText
-
-
-                } else if ( typeItem == 'string' ) {
-                    
-                    oTitle = vValue
-                    var nData = {
-                        'text' : oTitle,  
-                        'leaf':  true,  
-                        'id' : Ext.id(), 
-                        '__ptConfig' : { '__ptType' : pName }
-                    }
-                    
-                    tData['children'].push(  nData  )
-                    continue
-                    
-                } else {
-                    // TODO Verificar por q llegan objetos sin config                     
-                    console.log( 'El objeto no tiene config?? ', vValue )
-                }
-
-                tData['children'].push(  Meta2Tree(vValue, oTitle , pName   ) ) 
-
-            }  
-        }
-        
-    } else { 
-        
-        // TODO m2t objeto plano???  Conversion 
-        console.log (  'TODO FIX :  m2t objeto plano???  Aqui no dbee llegar nunca', oData, pName, ptType)
+    // es una lista  lista, se hace el mismo recorrido ( solo en caso de una lista de listas ) 
+    if ( nodeDef.listOf ) {
+        Array2Tree( oData, ptType, tData    ) 
     }
 
+        
+    // Verifica q la definicion este bien hecha         
+    verifyNodeDef( nodeDef )
+
+    // Recorre las listas
+    for ( var ix in nodeDef.lists  ) {
+        var sKey = nodeDef.lists[ix]
+        var childConf = _MetaObjects[ sKey ]
+
+        // Obtiene y agrega la base de la lista 
+        var tChild = getNodeBase(  sKey, sKey, { '__ptType' : sKey } )    
+        tData['children'].push(  tChild   ) 
+        
+        // Si la lista tiene un tipo de presentacion particular sale 
+        if ( childConf.__ptStyle  == 'colList' || childConf.__ptStyle  == 'jsonText' ) continue;
+
+        // Recorre las instancias de la lista           
+        Array2Tree( oData[ sKey ],  childConf.listOf  , tChild  ) 
+    }
+
+    // Recorre los objetos 
+    for ( var ix in nodeDef.objects  ) {
+        var sKey = nodeDef.objects[ix]
+
+        // Obtiene el objeto de la meta, lo convierte y lo genera 
+        var tChild = Meta2Tree( oData[ sKey  ], sKey, sKey   ) 
+        tData['children'].push(  tChild   ) 
+    }
+    
+    // Asigna el nombre al nodo en caso de objetos 
+    tData.text = oData.name || oData.menuText ||  ptType
+
     return tData 
+
+
+    // ---------------------------------------
+    function Array2Tree( oList, ptType, tNode    ) {
+        // REcibe un array y genera los hijos, 
+        // @tNode   referencia al nodo base
+        // @ptType  tipo de nodo hijo 
+        // @oList    objeto lista de la meta   
+        var nodeDef =   _MetaObjects[ ptType ]
+        
+        for (var sKey in oList ) {
+            var oData = oList[ sKey  ]
+
+            var tChild = Meta2Tree( oData, pName, ptType   ) 
+            tNode['children'].push(  tChild   ) 
+        }
+    }; 
+
+    function verifyNodeDef( nodeDef ) {
+        // Verifica las listas y objetos  
+        if ( nodeDef.lists ) { 
+            if ( typeOf( nodeDef.lists ) != 'array' ) {
+                console.log( 'pciObjects definicion errada de listas para ' + ptType )
+                nodeDef.lists = []
+            } else { 
+                for ( var ix in nodeDef.lists  ) {
+                    var sKey = nodeDef.lists[ix]
+                    if ( typeof( sKey)  !=  'string' ) {
+                        console.log( 'pciObjects definicion errada en listas ' + ptType + ' key ' , sKey  )
+                        delete nodeDef.lists[ix]
+                        continue } 
+                    var childConf = _MetaObjects[ sKey ]
+                    if ( childConf.__ptStyle  == 'colList' || childConf.__ptStyle  == 'jsonText' ) continue;
+                    if ( ! childConf.listOf ) {
+                        console.log( 'pciObjects no se encontro listOf para ' + sKey  )
+                        nodeDef.lists[ix]
+                        continue } 
+                }
+            }  
+        }
+                       
+        if (  nodeDef.objects ) { 
+            if  ( typeOf( nodeDef.objects ) != 'array' ) {
+                console.log( 'pciObjects definicion errada de objects para ' + ptType )
+                nodeDef.lists = [] 
+            } else {
+                for ( var ix in nodeDef.objects  ) {
+                    var sKey = nodeDef.objects[ix]
+                    if ( typeof( sKey)  !=  'string' ) {
+                        console.log( 'pciObjects definicion errada en objects ' + ptType + ' key ' , sKey  )
+                        nodeDef.lists[ix]
+                        continue } 
+                }
+            }  
+        }    
+    }
+    // ---------------------------------------
 
 
 } ; 
@@ -203,7 +174,7 @@ function Tree2Meta( tNode  ) {
         if ( sType == 'object' ) {
 
             // El __ptConfig corresponde a la conf basica del node
-            mData =  get_ptConfig( __ptConfig  ) 
+            mData =  getSimpleProperties( __ptConfig  ) 
             if ( ! mData.__ptType ) mData.__ptType = __ptType    
             // if ( ! mData.name ) mData.name = __ptText    
             getChilds( tData, tChilds , mData , sType)
@@ -298,71 +269,42 @@ function Tree2Meta( tNode  ) {
 
 }
 
-function get_ptConfig( oData   ) {
-    
+function getSimpleProperties( oData, ptType   ) {
+    // Retorna los valores simples, verificando los tipos de cada propiedad
+
+    // Solo deben llegar objetos, si llega un array no hay props q mostrar     
     if ( typeOf( oData )  == 'array' ) {
+        console.log( 'getSimpleProperties  array???', oData  )
         return []
+    }   
 
-    } else if ( oData.__ptConfig )  {
-        return oData.__ptConfig 
+    // Inicializa con el type 
+    var cData = { '__ptType' : ptType }
 
-    } else {  
-        
-        var cData = {}
-        for (var lKey in oData ) {
-            var cValue = oData[ lKey  ]
+    for (var lKey in oData ) {
+        var cValue = oData[ lKey  ]
 
-            // Los objetos o arrays son la imagen del arbol y no deben ser tenidos en cuenta, generarian recursividad infinita 
-            if  ( typeOf( cValue  ) in oc([ 'object', 'array' ])) continue   
+        // Los objetos o arrays son la imagen del arbol y no deben ser tenidos en cuenta, generarian recursividad infinita 
+        if  ( typeOf( cValue  ) in oc([ 'object', 'array' ])) continue   
 
-            // __ptValue es un encodage 
-            if ( lKey in oc( [ '__ptValue', '__ptList' ])  )  {
-                try {
-                    cData = Ext.decode( cValue )    
-                } catch (e) {  
-                    console.log( "Error de encodage", cValue )
-                }
-            } else {
-                
-                cValue = verifyPrpType(  lKey, cValue )
-                if ( cValue ) { 
-                    cData[ lKey  ] = cValue  
-                }
-                
-            } 
-
-        }
-        return cData 
+        // Si son valores codificados, los decodifica y los agrega  
+        if ( lKey in oc( [ '__ptValue', '__ptList' ])  )  {
+            try {
+                cData = Ext.decode( cValue )    
+            } catch (e) {  
+                console.log( "Error de encodage", cValue )
+            }
+            
+        } else {
+            cValue = verifyPrpType(  lKey, cValue )
+            if ( cValue ) { 
+                cData[ lKey  ] = cValue  
+            }
+        } 
     }
+    return cData 
+
 }             
-
-function verifyPrpType(  lKey, cValue ) {
-    // Verifica los tipos de las  propiedades 
-    
-    var pType = _MetaProperties[ lKey + '.type' ] 
-    if ( ! pType )  { 
-        if ( typeof ( cValue ) == 'string') { return cValue.trimRight()  }
-        else { return cValue }      
-    }
-    
-    if ( pType == typeof( cValue ) ) 
-    { return cValue  }    
-    
-    switch ( pType ) {
-    case "boolean":
-        if  ( (typeof( cValue ) == 'number') ){ cValue = cValue.toString() }
-        if  ( (typeof( cValue ) == 'string') ){
-            if ( cValue.substr(1,1).toLowerCase()  in oc([ 'y', 's', '1','o' ]) )
-            { return true } else { return false } 
-        } else { return false }  
-    case "number":
-        return parseFloat( cValue );
-    case "null":
-        return null 
-    default:
-        return cValue
-    }
-}
 
 
 function formContainer2Tree( items ) {
@@ -374,7 +316,7 @@ function formContainer2Tree( items ) {
     for (var sKey in items ) {
 
         var oData = items[ sKey  ],  t2Data 
-        var __ptConfig = get_ptConfig( oData )
+        var __ptConfig = getSimpleProperties( oData )
         var ptType = __ptConfig.__ptType
         
         //  contenedores de la forma 
@@ -405,57 +347,6 @@ function formContainer2Tree( items ) {
 
 //
 
-function Tree2Menu( tNode  ) {
-
-    // Para poder leer de la treeData o del TreeStore ( requiere data )
-    var tData = tNode.data,  
-        tChilds =  tNode.childNodes, 
-        mData = {}
-
-    if ( tData.root ) {
-        mData = getMenuChilds(  tChilds  )
-    } else { 
-
-        mData = {
-                "text": tData.text ,
-                "qtip": tData.qtip, 
-                "qtitle": tData.qtitle, 
-                "iconCls": tData.iconCls ,
-                "id":  'protoMenu-' + Ext.id() ,
-                "index": tData.index, 
-            }
-   
-        // Es un menu 
-        if ( tChilds.length > 0 ) {
-             mData.expanded = tData.expanded
-             mData.children = getMenuChilds(  tChilds  )
-        } else {
-             mData.leaf = true 
-             mData.protoOption =  tData.protoOption ||  tData.id 
-        }
-                   
-    } 
-
-    return mData 
-
-
-    function getMenuChilds( tChilds  ) {
-
-        var mChilds = []    
-           
-        for (var ix in tChilds ) {
-            var lNode = tChilds[ ix ]
-            var nChildData = Tree2Menu( lNode   ) 
-    
-            mChilds.push( nChildData )
-
-        }
-        
-        return mChilds
-        
-    }
-    
-}
 
 function getNodeBase( pName, ptType, __ptConfig  ) {
     // Obtiene un Id y genera  una referencia cruzada de la pcl con el arbol 
