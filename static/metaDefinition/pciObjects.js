@@ -16,7 +16,7 @@
  *      properties              # Son valores simples: string, number, bool 
  *      roProperties            # readOnly en la pcl, deben preexistir en properties 
  *  
- * Los objetos de tipo list contienen ademas  
+ * Los objetos de tipo list contienen ademas, esto permite agregar instancias en la pcl   
  * 
  *       listOf
  * 
@@ -61,9 +61,10 @@
 //  fix  : Se especifica el "width"  ( si se especifica el width prima sobre la definicion ) 
 
 
-function verifyMeta( oMeta,  ptType ) {
+function verifyMeta( oMeta,  ptType, tNode ) {
 
-//    Verifica un objeto de acuerdo a la estructura      
+//  Verifica un objeto de acuerdo a la estructura
+//  Si es un objeto asociado a un arbol tNode es el nodo base,       
 
     var __ptConfig = _MetaObjects[ ptType ]
     if ( ! __ptConfig ) 
@@ -77,7 +78,19 @@ function verifyMeta( oMeta,  ptType ) {
                 continue ; 
 
             var listOfConf = _MetaObjects[ sKey ] || {}
-            oMeta[ sKey ]  = verifyList (  oMeta[ sKey ], listOfConf.defaultValue  )            
+            oMeta[ sKey ]  = verifyList (  oMeta[ sKey ], listOfConf.defaultValue  )
+
+            if ( tNode ) { 
+                // agrega una nueva lista al arbol 
+                var nBranch =  {
+                    'text'     :  sKey,
+                    '__ptType' :  sKey, 
+                    '__ptConfig':  { '__ptType' : sKey }, 
+                    'children' : [] }
+                    
+                tNode.children.push( nBranch )
+            }
+                        
         }
     } 
 
@@ -92,7 +105,26 @@ function verifyMeta( oMeta,  ptType ) {
             if ( typeOf( myObj ) != 'object' )  { 
                 myObj = {} }
 
-            oMeta[ sKey ] = verifyMeta( myObj,  sKey  )
+            if ( tNode ) { 
+                
+                // agrega un nuevo objeto al arbol 
+                var nBranch =  {
+                    'text'     :  sKey,
+                    '__ptType' :  sKey, 
+                    '__ptConfig':  { '__ptType' : sKey }, 
+                    'children' : [] }
+                    
+                tNode.children.push( nBranch )
+                
+                oMeta[ sKey ] = verifyMeta( myObj,  sKey, nBranch   )    
+
+            } else {
+            
+                oMeta[ sKey ] = verifyMeta( myObj,  sKey  )    
+            }
+
+            
+
         }
     } 
 
@@ -108,7 +140,8 @@ _MetaObjects =  {
 
     "actions": {
         "description": "Lista de acciones backend", 
-        "listOf" : "actionDef"
+        "listOf" : "actionDef",
+        "allowAdd" : true  
     },
 
     "actionDef" : {
@@ -122,12 +155,16 @@ _MetaObjects =  {
         "lists": [
             "actionParams"
           ], 
-        "__ptStyle": "obj" 
+        "addPrompt" : "Please enter the name for your action:", 
+        "allowDel" : true,  
+        "__ptStyle": "object" 
+         
     }, 
 
     "actionParams": {
         "description": "Propiedades de las actions backend",
-        "listOf" : "actionParam"
+        "listOf" : "actionParam", 
+        "allowAdd" : true  
     }, 
 
     "actionParam": {
@@ -140,7 +177,10 @@ _MetaObjects =  {
           "choices", 
           "actionParamType",
           "required"
-          ]
+          ], 
+        "addPrompt" : "Parametros de acciones", 
+        "allowDel" : true,  
+        "__ptStyle": "object" 
         }, 
 
     "pcl": {
@@ -174,7 +214,7 @@ _MetaObjects =  {
 
     "fields": {
         "description": "Definicion de los campos del store", 
-        "listOf" : "field"
+        "listOf" : "field" 
     },
 
 
@@ -301,11 +341,15 @@ _MetaObjects =  {
 
     "filtersSet": {
         "description": "Conjunto de filtros predefinidos ( __[iexact,icontains,iendswith,istartswith,gt,gte,lt,lte]) ",
-        "properties": [ { 'name': '__ptType' , 'value': 'filtersSet'} ] 
+        "listOf" : "filterDef",
+        "allowAdd" : true 
     },
 
     "filterDef": {
         "description": "Filtro predefinido definido ",
+        "addPrompt" : "Please enter the name for your filter:", 
+        "addTemplate" : "{\"filter\":{},\"name\": \"@name\"}", 
+        "allowDel" : true,  
         "__ptStyle": "jsonText" 
     },
 
@@ -327,6 +371,7 @@ _MetaObjects =  {
     "listDisplay": {
         "description": "Lista de campos a desplegar en la grilla",
         "defaultValue" : ["__str__"], 
+        "addPrompt" : "Please enter the name for your alternative listDisplay:", 
         "__ptStyle": "colList" 
     },
 
@@ -354,7 +399,8 @@ _MetaObjects =  {
 
     "protoDetails": {
         "description": "Detalles en una relacion Master-Detail",
-        "listOf": "protoDetails" 
+        "listOf": "protoDetail",
+        "allowAdd" : true 
     },
 
 
@@ -369,7 +415,11 @@ _MetaObjects =  {
             "detailTitleLbl", 
             "masterTitleField", 
             "detailTitleField"
-        ]
+        ], 
+        "addPrompt" : "Please enter the name for your detail:", 
+        "allowDel" : true,  
+        "__ptStyle": "object" 
+        
     },
 
     "protoUdp": {
@@ -397,13 +447,13 @@ _MetaObjects =  {
 
     "protoSheetProperties": {
         "description": "Lista de campos utilizados en las plantillas",
-        "listOf": "colList",  
         "__ptStyle": "colList" 
     },
 
     "protoSheets": {
         "description": "Lista de plantillas",
-        "listOf": "protoSheet" 
+        "listOf": "protoSheet",
+        "allowAdd" : true       
     },
 
     "protoSheet": {
@@ -416,12 +466,16 @@ _MetaObjects =  {
         ], 
         "lists" : [
             "sheetDetails" 
-        ]
+        ], 
+        "addPrompt" : "Please enter the name for your sheet:", 
+        "allowDel" : true,  
+        "__ptStyle": "object" 
     },
 
     "sheetDetails": {
         "description": "Lista de detalles por hoja ( sheet )",
-        "listOf": "sheetDetail" 
+        "listOf": "sheetDetail", 
+        "allowAdd" : true
     },
 
     "sheetDetail": {
@@ -431,7 +485,10 @@ _MetaObjects =  {
             "detailView", 
             "template", 
             "sheetDetails" 
-        ]
+        ], 
+        "addPrompt" : "Please enter the detailName:", 
+        "allowDel" : true,  
+        "__ptStyle": "object" 
     },
 
     "protoForm": {

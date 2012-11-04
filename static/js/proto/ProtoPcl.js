@@ -226,69 +226,54 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             return treeData 
         }
                 
+                        
         function addTreeNode ( record ) {
 
-            var ptType = record.data.__ptType
+            // verifica el tipo de datos 
+            var ptType = record.data.__ptType 
+            if ( ! ptType ) return; 
+
+            // Carga el __ptConfig es el obj de referencia q viaja  
             var __ptConfig = record.data.__ptConfig || {}
-            var msg = ''
 
-            // TODO: Cambiar por un template y hacer rutina generica 
-            if (  ptType == 'filtersSet' ) {
-
-                msg = 'Please enter the name for your filter:'
-                Ext.Msg.prompt(ptType, msg, function(btn, pName){
-                    if (btn != 'ok') return 
-
-                    var pJText = "{\"filter\":{},\"name\": \"" + pName + "\"}" 
-                    var tNode = {'text' :  pName,     '__ptType' :  'filterDef'   }
-                    tNode['__ptConfig'] =  { __ptValue : pJText }  
-
-                    tNode['children'] =  []  
-                    record.appendChild( tNode )
-                });
                 
-            } else if (  ptType == 'listDisplaySet' ) {
+            // Obtiene la definicion del nodo hijo
+            var nodeDef =  _MetaObjects[ ptType ] 
+            var childDef = _MetaObjects[ nodeDef.listOf ] || {}
 
-                msg =  'Please enter the name for your alternative listDisplay:'
-                Ext.Msg.prompt(ptType, msg, function(btn, pName){
-                    if (btn != 'ok') return 
+            // obtiene el estilo de las propiedades 
+            if ( ! childDef.__ptStyle  ) return ;  
 
-                    var tNode = {'text' :  pName , __ptType : 'listDisplay' }
-                    tNode['__ptConfig'] =  { __ptType : 'listDisplay' }  
+            // Pregunta el nombre del nuevo nodo                
+            var pName = ptPrompt ( nodeDef.listOf, childDef.addPrompt  )
+            if ( ! pName ) return;  
 
-                    tNode['children'] =  []  
-                    record.appendChild( tNode )
-                });
+            // Crea el nodo base 
+            var tNode = {
+                'text'     :  pName,
+                '__ptType' :  nodeDef.listOf, 
+                'children' : [] }
 
-            } else if (  ptType == 'protoDetails' ) {
+            if ( childDef.__ptStyle  == 'jsonText' ) {
 
-                msg = 'Please enter the name for your detail:'
-                Ext.Msg.prompt(ptType, msg, function(btn, pName){
-                    if (btn != 'ok') return 
+                var template = childDef.addTemplate.replace( '@name', pName ) 
+                tNode['__ptConfig'] =  { '__ptValue' : template }
+                  
+            } else if ( childDef.__ptStyle  == 'colList' ) {
 
-                    var tNode = {'text' :  pName , __ptType : 'protoDetail' }
-                    tNode['__ptConfig'] =  { __ptType : 'protoDetail', 'menuText' :  pName }  
+                tNode['__ptConfig'] =  { '__ptType' : nodeDef.listOf }  
 
-                    tNode['children'] =  []  
-                    record.appendChild( tNode )
-                });
+            } else  {
 
-            } else if (  ptType == 'protoSheets' ) {
+                // Tipo objeto, debe recrear el objeto pues existen listas y otras 
+                var newObj = verifyMeta( {}, nodeDef.listOf , tNode )                 
 
-                msg = 'Please enter the name for your sheet:'
-                Ext.Msg.prompt(ptType, msg, function(btn, pName){
-                    if (btn != 'ok') return 
+                tNode['__ptConfig'] =  { '__ptType' : nodeDef.listOf , 'name' :  pName  }  
 
-                    var tNode = {'text' :  pName , __ptType : 'protoSheet' }
-                    tNode['__ptConfig'] =  { 'title' :  pName , 'name' : pName }  
-
-                    tNode['children'] =  []  
-                    record.appendChild( tNode )
-                });
-
-            }
- 
-
+            } 
+            
+            record.appendChild( tNode )
+                
         }
 
         function delTreeNode ( record ) {
@@ -347,7 +332,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         function preparePropertiesPCL( record ){
 
             var oData      = record.data
-            var ptType = oData.__ptType
+            var ptType     = oData.__ptType
             var __ptConfig = oData.__ptConfig || {}
 
     	    var template = _MetaObjects[ ptType ] || {}
@@ -377,25 +362,18 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                 prepareProperties( record , me.myMeta,  propsGrid  )
             } 
         
-            // Prepara el menu 
-            //  .setButton( key  , show, enbl, toolTip , def  )
+            // Prepara el menu
+            var nodeDef = _MetaObjects[ ptType ] || {}
+            if ( nodeDef.allowAdd  ) {     
 
-            if ( ptType in oc([ 'filtersSet', 'protoDetails', 'listDisplaySet', 'protoSheets'])  ) {
                 tBar.setButton( 'add', true, true, 'Add instance of ' +  ptType, record  )
-
-            } else if ( ptType in oc( [ 'filterDef', 'protoDetail', , 'protoSheet'] )) {
+            } 
+            
+            else if ( nodeDef.allowDel ) {
                 tBar.setButton( 'del', true, true, 'Delete current ' + ptType + ' [' + oData.text + ']', record  )
 
+            } 
 
-            } else if ( ptType in oc( [ 'listDisplay'] )) {
-                var parent = record.parentNode
-
-                if ( parent && parent.data.__ptType == 'listDisplaySet' ) {
-                    tBar.setButton( 'del', true, true, 'Delete alternative listDisplay [' + oData.text + ']', record  )    
-                }
-
-            }
-            
         };
 
 

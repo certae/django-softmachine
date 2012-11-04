@@ -445,3 +445,14 @@ function verifyObj ( myObj , defObj ){
         
     return myObj 
 }
+
+
+function ptPrompt( title, msg )  {
+     
+    return prompt( msg )     
+    // Ext.Msg.prompt(title, msg, function(btn, pName){
+        // if (btn != 'ok') return '' 
+        // return pName  
+    // })
+} 
+

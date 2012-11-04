@@ -1,9 +1,30 @@
+PAra agregar un nodo en la pcl se debe definir en la lista padre 
+
+	listOf  esto encadena con el objeto hijo 
+	allowAdd  permite adicion en la pcl ( por defecto true )
+
+	El objeto a agregar debe contener el tipo de propiedades q maneja 
+
+	__ptStyle :  jsonText,  colList , object  ( por defecto )
+	addPrompt :  Mesnaje para el nombre del nodo 
+
+	En caso de ser un jsonText
+
+	addTemplate ( @name sera reemplazado por el valor ingresado por el usuario )
+
+
+
+------------------------
+
 
 
 JPlumb  Libreria a mirar con detenimiento 
 DjangoReporter 
 
 ----------------
+
+
+
 
 
 Generacion de dictionartio, 

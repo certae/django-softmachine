@@ -58,9 +58,9 @@ function clearPhantonProps( __ptConfig ,  __ptType ) {
      */ 
     var objConfig = _MetaObjects[ __ptType ] || {}
     for (var ix in __ptConfig ) {   
+        if ( ! objConfig.properties ) continue; 
         if ( !( ix  in oc( objConfig.properties.concat ( ['name' ] )))) {
             // console.log( ix )            delete __ptConfig[ ix ]
-            
         }
     } 
     return __ptConfig 
