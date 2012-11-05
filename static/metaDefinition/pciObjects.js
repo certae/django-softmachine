@@ -336,6 +336,7 @@ _MetaObjects =  {
         "lists": [
             "listDisplay",
             "searchFields",
+            "sortFields", 
             "hiddenFields",
             "filtersSet",
             "readOnlyFields",

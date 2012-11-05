@@ -22,25 +22,9 @@ function Meta2Tree( oData, pName, ptType   ) {
     var tData       =   getNodeBase(  ptType, ptType, __ptConfig )    
 
 
-    // Form ( debe manejar el raiz sin el marco de items )
-    if ( nodeDef.hideItems ) {
-        if ( oData.items ) {
-            tData['children'] = formContainer2Tree( oData.items )    
-        } else {
-            tData['children'] = formContainer2Tree( oData  )}
-        return tData 
-    }  
-
-
-    // Los tipos q son presentados en text 
-    if ( nodeDef.__ptStyle == 'jsonText' ) {
-        tData.__ptConfig.__ptValue =  Ext.encode( oData  )
-        return tData 
-    }    
-    if ( nodeDef.__ptStyle == 'colList' ) {
-        tData.__ptConfig.__ptList =  Ext.encode( oData  )
-        return tData 
-    }   
+    if ( getSpecialNodes( nodeDef, tData, oData )) {
+        return doFinalFormat( tData )
+    }
 
     // es una lista  lista, se hace el mismo recorrido ( solo en caso de una lista de listas ) 
     if ( nodeDef.listOf ) {
@@ -55,18 +39,10 @@ function Meta2Tree( oData, pName, ptType   ) {
         var sKey = nodeDef.lists[ix]
         var childConf = _MetaObjects[ sKey ], 
             tChild 
-        
-        // Si la lista tiene un tipo de presentacion particular sale 
-        if ( childConf.__ptStyle  == 'colList' ) {
-            tChild = getNodeBase(  sKey, sKey, { '__ptType' : sKey } )
-            tChild.__ptConfig.__ptList =  Ext.encode( oData[ sKey ]  )
-             
-        } else if ( childConf.__ptStyle  == 'jsonText' ) {
-            tChild = getNodeBase(  sKey, sKey, { '__ptType' : sKey } )
-            tChild.__ptConfig.__ptValue =  Ext.encode( oData[ sKey ]  )
 
-        } else {
-            tChild = getNodeBase(  sKey, sKey, { '__ptType' : sKey } )
+        tChild = getNodeBase(  sKey, sKey, { '__ptType' : sKey } )
+
+        if ( ! getSpecialNodes( childConf, tChild, oData[ sKey ] )) {
             Array2Tree( oData[ sKey ],  childConf.listOf  , tChild  ) 
         }
 
@@ -85,12 +61,42 @@ function Meta2Tree( oData, pName, ptType   ) {
     }
     
     // Asigna el nombre al nodo en caso de objetos 
-    tData.text = oData.name || oData.menuText ||  oData.protoConcept ||  ptType
+    
 
-    return tData 
+    return doFinalFormat( tData ) 
 
+    function doFinalFormat( tData ) {
+        tData.text = oData.name || oData.menuText ||  oData.protoConcept ||  ptType
+        return tData     
+    }
 
     // ---------------------------------------
+    function getSpecialNodes( nodeDef, treeData, objData ){
+        // Recibe el treeData y lo configura en caso de nodos especiales
+        // retorna true si fue configurado    
+    
+        // Form ( debe manejar el raiz sin el marco de items )
+        if ( nodeDef.hideItems ) {
+            if ( objData.items ) {
+                treeData['children'] = formContainer2Tree( objData.items )    
+            } else {
+                treeData['children'] = formContainer2Tree( objData  )}
+            return true 
+        }  
+    
+        // Los tipos codificados  
+        if ( nodeDef.__ptStyle == 'jsonText' ) {
+            if ( objData.name ) { treeData.__ptConfig.name = objData.name  }
+            treeData.__ptConfig.__ptValue =  Ext.encode( objData  )
+            return true 
+        }    
+        if ( nodeDef.__ptStyle == 'colList' ) {
+            treeData.__ptConfig.__ptList =  Ext.encode( objData  )
+            return true 
+        }   
+    
+    } 
+
     function Array2Tree( oList, ptType, tNode    ) {
         // REcibe un array y genera los hijos, 
         // @tNode   referencia al nodo base
