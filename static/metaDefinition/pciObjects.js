@@ -472,7 +472,10 @@ _MetaObjects =  {
             "name", 
             "template", 
             "title", 
-            "sheetType" 
+            "sheetType", 
+            "templateBf",  
+            "templateER", 
+            "templateAf"  
         ], 
         "lists" : [
             "sheetDetails" 
@@ -491,8 +494,10 @@ _MetaObjects =  {
         "description": "Detalles por hoja ( sheet )",
         "properties": [
             "name", 
-            "detailView", 
-            "template" 
+            "detailName", 
+            "templateBf",  
+            "templateER",  
+            "templateAf" 
         ], 
         "lists" : [
             "sheetDetails" 

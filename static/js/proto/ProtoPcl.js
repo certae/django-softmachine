@@ -241,9 +241,6 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             var nodeDef =  _MetaObjects[ ptType ] 
             var childDef = _MetaObjects[ nodeDef.listOf ] || {}
 
-            // obtiene el estilo de las propiedades 
-            if ( ! childDef.__ptStyle  ) return ;  
-
             // Pregunta el nombre del nuevo nodo                
             var pName = ptPrompt ( nodeDef.listOf, childDef.addPrompt  )
             if ( ! pName ) return;  

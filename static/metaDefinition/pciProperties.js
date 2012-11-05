@@ -204,7 +204,7 @@ _MetaProperties =  {
     "sheetType.help" : "Tipo de hoja ( usada para reportes ) ", 
     "sheetType.choices" : [ "", "printerOnly", "screenOnly"], 
     
-    "detailView.help" : "Nombre correspondiente a un detalle declarado en la opcionBase correspondiente ( padre )",              
+    "detailName.help" : "Nombre correspondiente a un detalle declarado en la opcionBase correspondiente ( padre )",              
 
     "actionType.help" : "Tipo de accion ( metodos backend ) ", 
     "actionType.choices" : [ "", "report", "wflow", "edicion"], 
