@@ -14,7 +14,9 @@ function Meta2Tree( oData, pName, ptType   ) {
      */
 
     var nodeDef     =   _MetaObjects[ ptType ]
-    if ( ! nodeDef ) { console.log( 'Meta2Tree: definicion no encontrada para ' + ptType ) }
+    if ( ! nodeDef ) { 
+        console.log( 'Meta2Tree: definicion no encontrada para ' + ptType , oData )
+     }
     
     var __ptConfig  =   getSimpleProperties( oData, ptType )  
     var tData       =   getNodeBase(  ptType, ptType, __ptConfig )    
@@ -34,9 +36,7 @@ function Meta2Tree( oData, pName, ptType   ) {
     if ( nodeDef.__ptStyle == 'jsonText' ) {
         tData.__ptConfig.__ptValue =  Ext.encode( oData  )
         return tData 
-    }   
-
-    // Los tipos q son presentados en listas 
+    }    
     if ( nodeDef.__ptStyle == 'colList' ) {
         tData.__ptConfig.__ptList =  Ext.encode( oData  )
         return tData 
@@ -46,7 +46,6 @@ function Meta2Tree( oData, pName, ptType   ) {
     if ( nodeDef.listOf ) {
         Array2Tree( oData, ptType, tData    ) 
     }
-
         
     // Verifica q la definicion este bien hecha         
     verifyNodeDef( nodeDef )
@@ -54,17 +53,26 @@ function Meta2Tree( oData, pName, ptType   ) {
     // Recorre las listas
     for ( var ix in nodeDef.lists  ) {
         var sKey = nodeDef.lists[ix]
-        var childConf = _MetaObjects[ sKey ]
-
-        // Obtiene y agrega la base de la lista 
-        var tChild = getNodeBase(  sKey, sKey, { '__ptType' : sKey } )    
-        tData['children'].push(  tChild   ) 
+        var childConf = _MetaObjects[ sKey ], 
+            tChild 
         
         // Si la lista tiene un tipo de presentacion particular sale 
-        if ( childConf.__ptStyle  == 'colList' || childConf.__ptStyle  == 'jsonText' ) continue;
+        if ( childConf.__ptStyle  == 'colList' ) {
+            tChild = getNodeBase(  sKey, sKey, { '__ptType' : sKey } )
+            tChild.__ptConfig.__ptList =  Ext.encode( oData[ sKey ]  )
+             
+        } else if ( childConf.__ptStyle  == 'jsonText' ) {
+            tChild = getNodeBase(  sKey, sKey, { '__ptType' : sKey } )
+            tChild.__ptConfig.__ptValue =  Ext.encode( oData[ sKey ]  )
 
-        // Recorre las instancias de la lista           
-        Array2Tree( oData[ sKey ],  childConf.listOf  , tChild  ) 
+        } else {
+            tChild = getNodeBase(  sKey, sKey, { '__ptType' : sKey } )
+            Array2Tree( oData[ sKey ],  childConf.listOf  , tChild  ) 
+        }
+
+        //  agrega la base de la lista 
+        tData['children'].push(  tChild   )
+        
     }
 
     // Recorre los objetos 
@@ -77,7 +85,7 @@ function Meta2Tree( oData, pName, ptType   ) {
     }
     
     // Asigna el nombre al nodo en caso de objetos 
-    tData.text = oData.name || oData.menuText ||  ptType
+    tData.text = oData.name || oData.menuText ||  oData.protoConcept ||  ptType
 
     return tData 
 
@@ -97,6 +105,44 @@ function Meta2Tree( oData, pName, ptType   ) {
             tNode['children'].push(  tChild   ) 
         }
     }; 
+
+
+
+    function formContainer2Tree( items ) {
+        // Aqui solo llegan los contenedores de la forma,  ( hideItems : true )
+
+        var tItems = []
+        for (var sKey in items ) {
+    
+            var oData = items[ sKey  ],  
+                t2Data
+                 
+            var __ptConfig = getSimpleProperties( oData , ptType )
+            var ptType = __ptConfig.__ptType
+            
+            //  contenedores de la forma 
+            if ( ptType in oc([ 'htmlset', 'fieldset','tabpanel','accordeon','panel'])) {
+    
+                t2Data = getNodeBase(  ptType, ptType, __ptConfig  )
+                t2Data['children'] = formContainer2Tree( oData.items )
+    
+                    tItems.push(  t2Data ) 
+     
+                }  else if ( ptType in oc([ 'formField' ])) {  
+    
+                t2Data = getNodeBase(  __ptConfig.name, ptType, __ptConfig  )
+                t2Data['leaf'] =  true
+                  
+                tItems.push(  t2Data ) 
+    
+            } else {
+                
+                console.log( "Error formContainer2Tree", oData )
+            } 
+        }
+        return tItems 
+    }
+
 
     function verifyNodeDef( nodeDef ) {
         // Verifica las listas y objetos  
@@ -144,130 +190,90 @@ function Meta2Tree( oData, pName, ptType   ) {
 
 
 function Tree2Meta( tNode  ) {
-
     // Dada la informacion del arbol genera la meta correspondiente 
-    // console.log( 't2meta' , tNode  )
 
+    var tData, mData  
 
-    // Para poder leer de la treeData o del TreeStore ( requiere data )   
-    // En la data solo necesito el __ptType,  text  y el __ptConfig
-    if (  tNode.data ) {
-        var tData = tNode.data 
-        var tChilds =  tNode.childNodes
-    }  else {
-        var tData = tNode 
-        var tChilds =  tNode.children
-    }
-
-    var __ptConfig, __ptType, sType, mData   
-    var __ptText   = tData.text
+    // Obtiene la info del nodo 
+    var myObj = getNodeInfo( tNode  )
     
-    if  ( tData.__ptConfig )  __ptConfig = tData.__ptConfig
-    
-    __ptType  = getPtType( tData ) 
-    if ( __ptType in oc( [ 'field', 'formField'])) {   
-        __ptConfig = clearPhantonProps( __ptConfig,  __ptType ) }  
-    // if ( __ptType in oc( [ 'filtersSet', 'filterDef'])) {console.log( 'filtersSet') }  
-    if ( __ptConfig )  { 
+    if ( ! myObj.__ptConfig )  { 
+        console.log( 'Nodo sin configuracion ', tNode )
+        return 
+    }  
 
-        sType = typeOf( __ptConfig )
-        if ( sType == 'object' ) {
-
-            // El __ptConfig corresponde a la conf basica del node
-            mData =  getSimpleProperties( __ptConfig  ) 
-            if ( ! mData.__ptType ) mData.__ptType = __ptType    
-            // if ( ! mData.name ) mData.name = __ptText    
-            getChilds( tData, tChilds , mData , sType)
-            
-        } else if ( sType == 'array' )  {
-            // Si es un array, el objeto de base es un array
-            
-            // Es una rama con conf de base e items 
-            if ( __ptConfig.__ptConfig )  { 
-
-                mData =  __ptConfig.__ptConfig
+    // Obtiene la informacion base del nodo 
+    var nodeConf = _MetaObjects[ myObj.__ptType  ]
+    if (  nodeConf.listOf   ) {
+        mData = []
+        getChilds( myObj.tChilds, mData , 'array') 
+        
+    } else if ( nodeConf.__ptStyle in oc( [ "colList", "jsonText"] ) ) {
+        mData =  getSimpleProperties( myObj.__ptConfig  , myObj.__ptType )
+         
+    } else if ( nodeConf.properties || nodeConf.lists || nodeConf.objects  ) { 
+        mData =  getSimpleProperties( myObj.__ptConfig  , myObj.__ptType )
+        if ( myObj.tChilds.length > 0  ) {
+            if (  nodeConf.hideItems  ) {
                 mData.items = []
-                getChilds( tData, tChilds , mData, 'items' )
-
+                getChilds( myObj.tChilds, mData.items , 'array')
             } else { 
-                mData =  []  
-                getChilds( tData, tChilds , mData , sType)
-            } 
-
-        } else  {
-            console.log ('t2m Error de tipo', sType  )
-            return {}
+                getChilds( myObj.tChilds, mData , 'object')
+            }  
         }
-        // Lo necesita por q  es leida del child   
-        // mData.__ptText = __ptText  
 
     } else {
-
-        console.log ('t2m Error ptConfig no definido', tNode  )
-        return {}
-        
+        console.log( 'tre2meta no considera esta conf ', nodeConf,  tNode )
     }
 
+    return mData 
 
-    // Borra el __ptType 
-    if ( mData.__ptType  ) { 
-        if ( !( mData.__ptType in oc([ 'protoForm','htmlset', 'fieldset','tabpanel','accordeon','panel', 'formField']))) {
-            delete mData.__ptType 
+    function getChilds( tChilds, mData , sType) {
+
+        // Recorre los hijos para crear los objetos segun su tipo 
+        for (var ix in tChilds ) {
+            var lNode = tChilds[ ix ]
+            var nChildData = Tree2Meta( lNode   )
+    
+            if ( sType == 'object' ) {
+                mData[ getPtType( lNode  )  ] = nChildData 
+            } else   {
+                mData.push( nChildData )
+            }
         }
     } 
 
-    return mData 
-    
-
-    // -----------------------------------------------------------------------------
-
-    function getChilds( tData, tChilds, mData , sType) {
-    
+    function getNodeInfo( tNode  ) {
+        var tData, myObj  = {}
+        if (  tNode.data ) {
+            tData = tNode.data 
+            myObj.tChilds =  tNode.childNodes
+        }  else {
+            tData = tNode 
+            myObj.tChilds =  tNode.children
+        }   
         
-        // If protoForm then add items ( Se eliminaron en el arbol para facilidad de usuario )            
-        if ( mData.__ptType in oc([ 'protoForm','htmlset', 'fieldset','tabpanel','accordeon','panel'])) {
-            mData['items']  = []
-            sType = 'items'
-        }           
-        for (var ix in tChilds ) {
-            var lNode = tChilds[ ix ]
-            var __ptType = getPtType( lNode  )
-    
-            var nChildData = Tree2Meta( lNode   )
-            // delete nChildData.__ptText 
-    
-            if ( sType == 'object' ) {
-                mData[ __ptType  ] = nChildData 
-    
-            } else if ( sType == 'array' )  {
-                // si solo viene  nombre del campo lo crea como un objeto 
-                if ( Ext.encode( nChildData ) === Ext.encode({}) ) nChildData = {} 
-                mData.push( nChildData )
-
-            } else if ( sType == 'items' )  {
-
-                mData.items.push( nChildData )
-
-            }
-    
+        myObj.__ptType =   tData.__ptType
+        if ( !tData.__ptConfig ) {
+            console.log( 'getNodeInfo: __ptConfig ni encotrado ', tNode )
+            myObj.__ptConfig = {}
+            return myObj 
         }
-        
+        myObj.__ptConfig = clearPhantonProps( tData.__ptConfig, myObj.__ptType )
+        return myObj               
     }
-    
+
     function getPtType( lNode  ) {
-    
         if  ( lNode.__ptType ) {
             return lNode.__ptType  
         } else if ( lNode.data && lNode.data.__ptType ) {
             return lNode.data.__ptType  
         }     
-    
-        console.log ( 'Tipo de dato??' , lNode )                
-        
+        console.log ( 'getPtType: Tipo de dato no encontrado' , lNode )                
     }
 
-
 }
+
 
 function getSimpleProperties( oData, ptType   ) {
     // Retorna los valores simples, verificando los tipos de cada propiedad
@@ -279,7 +285,9 @@ function getSimpleProperties( oData, ptType   ) {
     }   
 
     // Inicializa con el type 
-    var cData = { '__ptType' : ptType }
+    var cData = {}
+    if ( ptType ) { cData.__ptType = ptType }
+    
 
     for (var lKey in oData ) {
         var cValue = oData[ lKey  ]
@@ -305,45 +313,6 @@ function getSimpleProperties( oData, ptType   ) {
     return cData 
 
 }             
-
-
-function formContainer2Tree( items ) {
-    // Aqui solo llegan los contenedores de la forma,
-    // se procesan los items en t2m y/o otros contenedores 
-
-    var tItems = []
-
-    for (var sKey in items ) {
-
-        var oData = items[ sKey  ],  t2Data 
-        var __ptConfig = getSimpleProperties( oData )
-        var ptType = __ptConfig.__ptType
-        
-        //  contenedores de la forma 
-        if ( ptType in oc([ 'htmlset', 'fieldset','tabpanel','accordeon','panel'])) {
-
-            t2Data = getNodeBase(  ptType, ptType, __ptConfig  )
-            t2Data['children'] = formContainer2Tree( oData.items )
-
-                tItems.push(  t2Data ) 
- 
-            }  else if ( ptType in oc([ 'formField' ])) {  
-
-            t2Data = getNodeBase(  __ptConfig.name, ptType, __ptConfig  )
-            t2Data['leaf'] =  true
-              
-            tItems.push(  t2Data ) 
-
-        } else {
-            
-            console.log( "Error formContainer2Tree", oData )
-        } 
-
-    
-    }
-    
-    return tItems 
-}
 
 //
 

@@ -81,6 +81,8 @@ _MetaProperties =  {
     "masterField" : "pk",
 
     "menuText.help"         : "titulo en el menu ( toolbar )", 
+    "detailName.help"       : "key del detalle usada para encadenar los reportes ", 
+    
     "conceptDetail.help"    : "Entidad detalle de la relacion ( [App.]Model o [App.]Model.View )",
     "masterField.help"      : "Campo en el maestro para q contiene el criterio para el filtro del detalle, (normalmente Pk si es un detalle directo)",
     "detailField.help"      : "Campo del detalle para hacer el filtro, normalmente el nombre de la tabla padre en minuscula", 

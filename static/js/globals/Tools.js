@@ -5,9 +5,13 @@
 
 
 // Object converter: Para testear si un elto hace parte de un array se convierte el array en objeto 
-function oc(a)
+function oc( a )
 {
   var o = {};
+  if ( ! a ) {
+      console.log( 'oc : no list!!! ')
+      return o ;
+  }
   for(var i=0;i<a.length;i++)
   {
     o[a[i]]='';

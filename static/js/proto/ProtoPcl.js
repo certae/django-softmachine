@@ -276,14 +276,12 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             var ptType = record.data.__ptType
             var parent = record.parentNode 
 
-            if (  ptType in oc( [ 'filterDef', 'listDisplay', 'protoDetail', 'protoSheet' ])  ) {
-                record.remove( )
-                resetPanelInterface()
+            record.remove( )
+            resetPanelInterface()
 
-                if ( parent ) {
-                    var view = me.treeGrid.getView();
-                    view.select( parent );
-                }
+            if ( parent ) {
+                var view = me.treeGrid.getView();
+                view.select( parent );
             }
         }
 

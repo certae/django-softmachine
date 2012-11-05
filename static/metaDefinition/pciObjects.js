@@ -132,6 +132,22 @@ function verifyMeta( oMeta,  ptType, tNode ) {
 }; 
 
 
+function clearPhantonProps( __ptConfig ,  __ptType ) {
+    /* Borra las propieades q no hacen parte de la config de base 
+     */ 
+    var objConfig = _MetaObjects[ __ptType ] || {}
+    for (var ix in __ptConfig ) {   
+        if ( ! objConfig.properties ) continue; 
+        if ( !( ix  in oc( objConfig.properties.concat ( ['name', '__ptValue', '__ptList', '__ptType' ] )))) {
+            console.log( ix )
+            delete __ptConfig[ ix ]
+        }
+    } 
+    return __ptConfig 
+}; 
+
+
+
 _MetaObjects =  {
 
     "actions": {
@@ -152,8 +168,7 @@ _MetaObjects =  {
             "actionParams"
           ], 
         "addPrompt" : "Please enter the name for your action:", 
-        "allowDel" : true,  
-        "__ptStyle": "object" 
+        "allowDel" : true  
          
     }, 
 
@@ -175,8 +190,7 @@ _MetaObjects =  {
           "required"
           ], 
         "addPrompt" : "Parametros de acciones", 
-        "allowDel" : true,  
-        "__ptStyle": "object" 
+        "allowDel" : true
         }, 
 
     "pcl": {
@@ -403,18 +417,17 @@ _MetaObjects =  {
     "protoDetail": {
         "description": "Detalle en una relacion Master-Detail",
         "properties": [
-            "name", 
             "menuText", 
             "conceptDetail",
             "masterField",
             "detailField", 
+            "detailName", 
             "detailTitleLbl", 
             "masterTitleField", 
             "detailTitleField"
         ], 
         "addPrompt" : "Please enter the name for your detail:", 
-        "allowDel" : true,  
-        "__ptStyle": "object" 
+        "allowDel" : true  
         
     },
 
@@ -464,8 +477,7 @@ _MetaObjects =  {
             "sheetDetails" 
         ], 
         "addPrompt" : "Please enter the name for your sheet:", 
-        "allowDel" : true,  
-        "__ptStyle": "object" 
+        "allowDel" : true  
     },
 
     "sheetDetails": {
@@ -479,12 +491,13 @@ _MetaObjects =  {
         "properties": [
             "name", 
             "detailView", 
-            "template", 
+            "template" 
+        ], 
+        "lists" : [
             "sheetDetails" 
         ], 
         "addPrompt" : "Please enter the detailName:", 
-        "allowDel" : true,  
-        "__ptStyle": "object" 
+        "allowDel" : true
     },
 
 

@@ -53,18 +53,7 @@ function prepareProperties( record , myMeta,  propPanel  ){
 
 };
 
-function clearPhantonProps( __ptConfig ,  __ptType ) {
-    /* Borra las propieades q no hacen parte de la config de base 
-     */ 
-    var objConfig = _MetaObjects[ __ptType ] || {}
-    for (var ix in __ptConfig ) {   
-        if ( ! objConfig.properties ) continue; 
-        if ( !( ix  in oc( objConfig.properties.concat ( ['name' ] )))) {
-            // console.log( ix )            delete __ptConfig[ ix ]
-        }
-    } 
-    return __ptConfig 
-}; 
+
 
 
 function getTemplate( ptType, forForm,  metaDict  )  {
