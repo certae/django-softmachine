@@ -1,7 +1,10 @@
 
-verifyMeta  eliminar el tNode,  llamar a meta2tree con el tipo correspondiente
 
-Verificar el initialFilter,  esta dando un error de encodage 
+Verifcar por q algunos htmlset no quedan readOnly
+
+terminar de probar los repoirtes 
+
+por q se abre en un popUp y no en un tab como las otras impresiones 
 
 
 --------------------------
