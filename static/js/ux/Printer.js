@@ -73,6 +73,14 @@ Ext.define("ProtoUL.ux.Printer", {
             }
         },
 
+        reportPrint: function( win, sheetHtml ) {
+
+            //open up a new printing window, write to it, print it and close
+            win.document.write( sheetHtml );
+            win.print();
+
+        },
+
 
 
         getGridData: function(grid, columns ) {

@@ -94,23 +94,30 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
                 return 
             }
             
-            prn.sheetPrint( pGrid._extGrid, pGrid.sheetHtml  )
+            // prn.sheetPrint( pGrid._extGrid, pGrid.sheetHtml  )
+           me.openHtmlWin( pGrid.sheetHtml )
+
         };
 
 
         function onClickPrintSheetRep( btn ){
             var prn = ProtoUL.ux.Printer, 
                 pGrid = __MasterDetail.protoMasterGrid ;
-            
+
+            var win = window.open('', 'printgrid');
+
             var selectedKeys = []
             if ( __MasterDetail.idMasterGrid >= 0  )  {
                 selectedKeys = [ __MasterDetail.idMasterGrid ]
             }
 
+
             var options = {
                 scope : me,
                 success : function(result, request) {
-                    prn.sheetPrint( pGrid._extGrid, result.responseText  )
+                    // prn.sheetPrint( pGrid._extGrid, result.responseText  )
+                    prn.reportPrint( win , result.responseText  )
+                    // me.openHtmlWin( result.responseText )
                 }
             }
             
@@ -118,7 +125,23 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
             
         };
         
-    }
+    }, 
+    
+    openHtmlWin : function(  sHtml  ) { 
+    
+    
+        //open up a new printing window, write to it, print it and close
+        var win = window.open('', 'printgrid');
+        win.document.write( sHtml );
+        
+        if (this.printAutomatically){
+            win.print();
+            // win.close();
+        }
+
+        
+    } 
+    
     
 }) 
 

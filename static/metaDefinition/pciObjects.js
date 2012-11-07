@@ -497,7 +497,7 @@ _MetaObjects =  {
             "detailName", 
             "detailSort", 
             "templateBd",  
-            "templateER",  
+            "templateEr",  
             "templateAd" 
         ], 
         "lists" : [

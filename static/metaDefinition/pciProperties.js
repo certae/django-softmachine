@@ -105,9 +105,26 @@ _MetaProperties =  {
     "protoSheetSelector.help": "Campo de criterio para seleccionar el template, vacio para una unica plantilla por defecto DEFAULT",
     "template.help": "Definicion de la plantilla", 
 
-    "templateBf.help": "Templante de impresion BeforeGroup", 
-    "templateEr.help": "Templante de impresion EveryRow", 
-    "templateAf.help": "Templante de impresion AfterGroup", 
+    "templateFp.help": "Templante FirstPage", 
+    "templateLp.help": "Templante LastPage",
+     
+    "templateBd.help": "Templante BeforeDetail", 
+    "templateAd.help": "Templante AfterDetail", 
+
+    "templateEr.help": "EveryRow", 
+
+    "templateFp": '<!DOCTYPE html>' + 
+        '<html>' +
+          '<head>' +
+           '<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />' +
+           '<link href="/static/css/print.css" rel="stylesheet" type="text/css" media="screen,print" />' +
+           '<title>PtReport : {{reportTitle}}</title>' +
+          '</head>' +
+        '<body>',  
+
+    "templateLp": '</body>' +
+                  '</html>',  
+
 
 // 
     "required": false,
