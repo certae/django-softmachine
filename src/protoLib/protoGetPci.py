@@ -25,7 +25,7 @@ def protoGetPCI(request):
         return 
     
     protoOption = request.GET.get('protoOption', '') 
-    protoConcept, view = getProtoViewName( protoOption )
+    protoConcept  = getProtoViewName( protoOption )
     
     try: 
         model = getDjangoModel(protoConcept)
@@ -318,7 +318,7 @@ def protoGetFieldTree(request):
         return 
     
     protoOption = request.GET.get('protoOption', '') 
-    protoConcept, view = getProtoViewName( protoOption )
+    protoConcept  = getProtoViewName( protoOption )
     
     try: 
         model = getDjangoModel(protoConcept)

@@ -956,3 +956,35 @@ function getUserRights( usr, pwd , options ) {
         
 }
 
+
+function getSheeReport( protoOption, sheetName,  selectedKeys, options ) {
+
+        options = options || {};
+        Ext.applyIf(options, {
+            scope: this,
+            success: Ext.emptyFn,
+            failure: Ext.emptyFn
+        });
+    
+        Ext.Ajax.request({
+            method: 'POST',
+            url: _PConfig.urlGetSheetReport  ,
+            params : { 
+                protoOption : protoOption,  
+                sheetName   : sheetName, 
+                selectedKeys: Ext.encode( selectedKeys )    
+                },
+            
+            success: function(result, request) {
+                options.success.call( options.scope, result  , request);
+            },
+            failure: function(result, request) {
+                errorMessage ( 'SheetReport Failed', result.status + ' ' + result.statusText )
+                options.failure.call(options.scope, result, request);
+            },
+            scope: this,
+            timeout: 60000
+        })
+        
+}
+

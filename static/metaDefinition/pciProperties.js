@@ -105,6 +105,10 @@ _MetaProperties =  {
     "protoSheetSelector.help": "Campo de criterio para seleccionar el template, vacio para una unica plantilla por defecto DEFAULT",
     "template.help": "Definicion de la plantilla", 
 
+    "templateBf.help": "Templante de impresion BeforeGroup", 
+    "templateEr.help": "Templante de impresion EveryRow", 
+    "templateAf.help": "Templante de impresion AfterGroup", 
+
 // 
     "required": false,
     "required.help": "Requiere valores la forma",

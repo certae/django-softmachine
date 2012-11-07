@@ -370,9 +370,8 @@ def getProtoViewName( protoOption   ):
     if protoOption.count(".") == 2:
         app, model, view = protoOption.split(".")
         protoOption = app + '.' +  model
-    else: view = ''
     
-    return protoOption, view 
+    return protoOption  
 
 
 def getFieldsInSet( self, prItems, formFields ):

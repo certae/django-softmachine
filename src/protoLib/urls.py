@@ -6,11 +6,13 @@ from protoLib.protoGetDetails import protoGetDetailsTree
 from protoLib.protoLogin import protoGetUserRights
 
 from protoLib.protoActionList import protoList
+from protoLib.protoActionRep  import protoSheetRep
 from protoLib.protoActionEdit  import protoCreate, protoUpdate, protoDelete 
 
 
 urlpatterns = patterns('', 
     url('protoList/$', protoList ),
+    url('protoSheetRep/$', protoSheetRep ),
     
     url('protoAdd/$', protoCreate ),
     url('protoUpd/$', protoUpdate),

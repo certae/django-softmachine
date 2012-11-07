@@ -14,6 +14,7 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
         var __MasterDetail = this.__MasterDetail
 
         if ( ! this.myMeta.gridConfig.denyAutoPrint  ) {
+            
             myPrinterOpts.push (
                 new Ext.Action({
                     text:       'Grille',
@@ -25,13 +26,22 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
             if ( __MasterDetail.protoMasterGrid.IdeSheet != undefined ) {
                 myPrinterOpts.push (
                     new Ext.Action({
-                        text:       'Fiche',
+                        text    : 'Fiche',
                         iconCls : 'icon-printSheet', 
-                        scope:          me,                     
-                        handler:    onClickPrintSheet
+                        scope   :  me,                     
+                        handler :  onClickPrintSheet
                     }));
             };
         } 
+
+        // TODO: Los diferentes formatos definidos para cada grilla, definiria impresion en maestro deltalle usando templates y las relaciones definidas.  
+        myPrinterOpts.push (
+            new Ext.Action({
+                text:       'Report',
+                iconCls :   'icon-printGrid', 
+                scope:      me,                     
+                handler:    onClickPrintSheetRep
+            }));
 
 
         // TODO: Los diferentes formatos definidos para cada grilla, definiria impresion en maestro deltalle usando templates y las relaciones definidas.  
@@ -86,7 +96,30 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
             
             prn.sheetPrint( pGrid._extGrid, pGrid.sheetHtml  )
         };
+
+
+        function onClickPrintSheetRep( btn ){
+            var prn = ProtoUL.ux.Printer, 
+                pGrid = __MasterDetail.protoMasterGrid ;
+            
+            var selectedKeys = []
+            if ( __MasterDetail.idMasterGrid >= 0  )  {
+                selectedKeys = [ __MasterDetail.idMasterGrid ]
+            }
+
+            var options = {
+                scope : me,
+                success : function(result, request) {
+                    prn.sheetPrint( pGrid._extGrid, result.responseText  )
+                }
+            }
+            
+            getSheeReport( pGrid.protoOption, '', selectedKeys , options  )
+            
+        };
         
     }
     
 }) 
+
+

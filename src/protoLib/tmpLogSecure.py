@@ -19,9 +19,6 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 
 
 
-# Error Constants 
-ERR_NOEXIST = '<b>ErrType:</b> KeyNotFound<br>The specifique record does not exist'
-
 #import tools as utils
 
 def main(request):

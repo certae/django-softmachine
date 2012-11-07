@@ -17,7 +17,7 @@ def protoGetDetailsTree(request):
         return 
     
     protoOption = request.GET.get('protoOption', '') 
-    protoConcept, view = getProtoViewName( protoOption )
+    protoConcept  = getProtoViewName( protoOption )
     
     try: 
         model = getDjangoModel(protoConcept)
