@@ -15,14 +15,11 @@ class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
     "protoOption": "protoLib.ProtoDefinition",
     "shortTitle": "Proto Definition",
     "version": "4.23",
-    "sheetConfig": {
-        "protoSheets": [{
-            "name": "DEFAULT",
-            "template": "{{metaDefinition}}",
-            "title": "meta"
-        }],
-        "protoSheetProperties": ["metaDefinition"]
-    },
+    "protoSheets": [{
+        "name": "DEFAULT",
+        "template": "{{metaDefinition}}",
+        "title": "meta"
+    }],
     "protoUdp": {},
     "gridConfig": {
         "baseFilter": {},

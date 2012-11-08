@@ -1,12 +1,10 @@
-#Mon Nov 05 17:20:43 EST 2012
+#Thu Nov 08 09:07:15 EST 2012
 eclipse.preferences.version=1
 encoding//docs/django/fieldSets.py.txt=utf-8
 encoding//docs/django/jsonDump.py.txt=utf-8
 encoding//src/Zpruebas/CategoryCle/models.py=utf-8
 encoding//src/Zpruebas/TCO/models.py=utf-8
 encoding//src/Zpruebas/protoExt/admin_Concept.py=utf-8
-encoding//src/Zpruebas/protoExt/admin_Model.py=utf-8
-encoding//src/Zpruebas/protoExt/admin_Property.py=utf-8
 encoding//src/Zpruebas/protoExt/models.py=utf-8
 encoding//src/Zpruebas/protoFace/models.py=utf-8
 encoding//src/Zpruebas/pruebas/admin.py=utf-8

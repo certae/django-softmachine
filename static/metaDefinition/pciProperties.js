@@ -54,6 +54,11 @@ function verifyPrpType(  lKey,  cValue ) {
 _MetaProperties =  {
 
 
+    "metaVersion" : "121108", 
+    "metaVersion.help" : "Version interna de la meta", 
+
+    "userVersion.help" : "Version de usuario ( editable )", 
+    
 //  Types
     "required.type" : "boolean", 
     "fromModel.type"  : "boolean",
@@ -108,8 +113,11 @@ _MetaProperties =  {
     "templateFp.help": "Templante FirstPage", 
     "templateLp.help": "Templante LastPage",
      
-    "templateBd.help": "Templante BeforeDetail", 
-    "templateAd.help": "Templante AfterDetail", 
+    "templateBb.help": "Templante BeforeBlock", 
+    "templateAb.help": "Templante AfterBlock", 
+
+    "templateBb": "<spam>------------------------------------</spam><br>", 
+    "templateAb": "<spam>====================================</spam><br>", 
 
     "templateEr.help": "EveryRow", 
 
@@ -223,7 +231,7 @@ _MetaProperties =  {
     "wordWrap.help": "ver el contenido en mas de una linea", 
 
     "sheetType.help" : "Tipo de hoja ( usada para reportes ) ", 
-    "sheetType.choices" : [ "", "printerOnly", "screenOnly"], 
+    "sheetType.choices" : [ "", "printerOnly", "gridOnly"], 
     
     "detailName.help" : "Nombre correspondiente a un detalle declarado en la opcionBase correspondiente ( padre )",              
 

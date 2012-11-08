@@ -199,26 +199,28 @@ _MetaObjects =  {
             "protoOption", 
             "protoConcept" , 
             "description" ,
-            "protoIcon",
             "shortTitle" ,
+            "protoSheetSelector", 
+            "pciStyle", 
+            "protoIcon",
             "helpPath", 
             "idProperty", 
-            "pciStyle", 
             "updateTime", 
-            "version"
+            "metaVersion", 
+            "userVersion"
             ],
         "objects": [
             "gridConfig", 
             "protoForm", 
-            "sheetConfig", 
             "protoUdp" 
             ],
         "lists": [
             "fields", 
+            "actions",
             "protoDetails", 
-            "actions"
+            "protoSheets"
             ],
-        "roProperties": [ "protoOption", "protoConcept", "idProperty" , "updateTime"]  
+        "roProperties": [ "protoOption", "protoConcept", "idProperty" , "updateTime", "metaVersion"]  
         },
 
 
@@ -444,16 +446,6 @@ _MetaObjects =  {
         ]
     },
 
-    "sheetConfig": {
-        "description": "Plantillas de info html que son alimentadas por los datos de la Db",
-        "properties": [
-            "protoSheetSelector" 
-        ], 
-        "lists" : [
-            "protoSheets"
-        ]
-    },
-
     "protoSheets": {
         "description": "Lista de plantillas",
         "listOf": "protoSheet",
@@ -468,7 +460,9 @@ _MetaObjects =  {
             "title", 
             "sheetType", 
             "templateFp",  
+            "templateBb",  
             "templateEr", 
+            "templateAb",  
             "templateLp"  
         ], 
         "lists" : [
@@ -490,9 +484,9 @@ _MetaObjects =  {
             "name", 
             "detailName", 
             "detailSort", 
-            "templateBd",  
+            "templateBb",  
             "templateEr",  
-            "templateAd" 
+            "templateAb" 
         ], 
         "lists" : [
             "sheetDetails" 

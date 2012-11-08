@@ -331,10 +331,27 @@ function savePclCache( protoOption, protoMeta ) {
 
     // Asigna la llave, pues si se hace una copia seguiria trayendo la misma protoOption de base 
     protoMeta.protoOption = protoOption 
+
+    verifyMetaVersion( protoMeta )
     DefineProtoModel( protoMeta , getModelName( protoOption  )  );
 
     // Guarda el cache de  pcl's 
     _cllPCI[ protoOption ]  = protoMeta;  
+
+}
+
+
+function verifyMetaVersion( protoMeta ) {
+    
+    // 121108  Se relocaliza protoSheets,  protoSheetProperties se crean dinamicamente.  
+    if ( protoMeta.sheetConfig )  { 
+        sheetConfig = protoMeta.sheetConfig; 
+        protoMeta.protoSheetSelector = sheetConfig.protoSheetSelector;
+        if ( sheetConfig.protoSheets ) {
+            protoMeta.protoSheets = sheetConfig.protoSheets;    
+        }
+        delete protoMeta.sheetConfig 
+    }
 
 }
 

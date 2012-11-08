@@ -46,9 +46,12 @@ def protoSheetRep(request):
     
     #  Obtiene el template FirstPage         
     templateFp = pSheet.get( 'templateFp' , '<span ' +  sheetName + '.firstPage></span>') 
-    templateLp = pSheet.get( 'templateLp' , '<span ' +  sheetName + '.lastPage></span>') 
-    templateEr = pSheet.get( 'templateEr' , pSheet.get( 'template' ) )
+    templateFp = templateFp + pSheet.get( 'templateBb' , '<span ' +  sheetName + '.BeforeBlock></span>')
+     
+    templateLp = pSheet.get( 'templateAb' , '<span ' +  sheetName + '.AfterBlock></span>') 
+    templateLp = templateLp + pSheet.get( 'templateLp' , '<span ' +  sheetName + '.lastPage></span>') 
 
+    templateEr = pSheet.get( 'templateEr' , pSheet.get( 'template', '' ) )
 
     # Crea la clase del reporte 
     MyReport = SheetReportFactory()
@@ -70,7 +73,7 @@ def getSheetConf( protoMeta , sheetName ):
     """
         
     try:
-        pSheets = protoMeta.get( 'sheetConfig', {}).get( 'protoSheets', [] )
+        pSheets = protoMeta.get( 'protoSheets', [] )
     except Exception as e:
         return {} 
 
@@ -164,8 +167,8 @@ class SheetReportFactory(object):
                 detailName = detail.get('name' )
                 detailName = detail.get('detailName', detailName  )
 
-                templateBd = detail.get( 'templateBd' , '<span ' +  detailName + '.BeforeDet></span>') 
-                templateAd = detail.get( 'templateAd' , '<span ' +  detailName + '.AfterDet></span>') 
+                templateBb = detail.get( 'templateBb' , '<span ' +  detailName + '.BeforeDet></span>') 
+                templateAb = detail.get( 'templateAb' , '<span ' +  detailName + '.AfterDet></span>') 
                 templateEr = detail.get( 'templateEr' , '<span ' +  detailName + '.EveryRow></span>') 
 
 
@@ -182,7 +185,7 @@ class SheetReportFactory(object):
                 pFilter = { detailConf['detailField']  : idMaster  } 
                 QsDet = addFilter( QsDet, pFilter   )
                 
-                self.getReport(  QsDet, templateBd, templateEr, templateAd, protoMetaDet, detail[ 'sheetDetails' ] )
+                self.getReport(  QsDet, templateBb, templateEr, templateAb, protoMetaDet, detail[ 'sheetDetails' ] )
 
         # Al finalizar el template AfterDetail                     
         self.myReport += getReport( afProps, templateAfter, row  )

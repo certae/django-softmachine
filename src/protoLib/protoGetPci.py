@@ -14,7 +14,7 @@ import django.utils.simplejson as json
 
 
 # Dgt 12/10/28 Permite la carga directa de json de definicion. 
-PROTOVERSION = '4.23'
+PROTOVERSION = '121108'
 
 
 def protoGetPCI(request):
@@ -182,11 +182,9 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
     #FIX: busca el id en la META  ( id_field = model._meta.pk.name ) 
     id_field = u'id'
 
-    # Conf de hojas de info
-    pSheets = grid.protoMeta.get( 'sheetConfig', {})
 
     protoMeta = { 
-         'version': PROTOVERSION ,
+         'metaVersion' : PROTOVERSION ,
          'protoOption' : protoOption,           
          'protoConcept' : protoConcept,           
          'idProperty': id_field,
@@ -194,6 +192,7 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
          'description': pDescription ,
          'protoIcon': protoIcon,
          'helpPath': grid.protoMeta.get( 'helpPath',''),
+         'protoSheetSelector' : grid.protoMeta.get( 'protoSheetSelector', ''), 
 
          'fields': grid.fields, 
          'gridConfig' : gridConfig,  
@@ -204,11 +203,7 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
          'protoUdp': grid.protoMeta.get( 'protoUdp', {}), 
 
          # Paginas de datos        
-         'sheetConfig' : {
-            'protoSheets' : pSheets.get( 'protoSheets', [] ), 
-            'protoSheetSelector' : pSheets.get( 'protoSheetSelector', ''), 
-            'protoSheetProperties' : pSheets.get( 'protoSheetProperties', ()), 
-             }, 
+         'protoSheets' : grid.protoMeta.get( 'protoSheets', []), 
          }
 
     return protoMeta 
