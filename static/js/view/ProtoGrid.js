@@ -402,6 +402,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         });
 
+        me.store.on( 'datachanged',  function( store,  eOpts ){
+           console.log( '')   
+        }) 
 
         
     },

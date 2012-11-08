@@ -80,6 +80,7 @@ Ext.define('ProtoUL.UI.GridSheetController', {
        var pSheetProps = this.pSheetsProps[  pSheet.name  ] 
        if ( !pSheetProps ) {
            pSheetProps = []
+           console.log( 'xxxxxxx ')
            for ( ix in myMeta.fields  ) {
                var fName = myMeta.fields[ix].name
                if ( pTemplate.indexOf( '{{' + fName + '}}') > -1  ) {

@@ -97,33 +97,10 @@ Ext.define('ProtoUL.UI.GridController', {
     
     addGridTools : function()  {
     
-        var editTools =    [{
-                itemId: 'toolRowAdd',
-                tooltip: 'rowAdd',  
-                type: 'rowAdd',
-                hidden: true,
-                width : 20, 
-                scope: this,
-                handler: this.onEditAction
-            }, {
-                itemId: 'toolRowCopy',
-                tooltip: 'rowCopy',  
-                type: 'rowCopy',
-                hidden: true,
-                width : 20, 
-                scope: this,
-                handler: this.onEditAction
-            }, {
-                itemId: 'toolRowDel',
-                type: 'rowDel',
-                tooltip: 'rowDel',  
-                hidden: true,
-                width : 30, 
-                scope: this,
-                handler: this.onEditAction
-            }, {
+        var editTools =    [
+            {
                 itemId: 'toolFormAdd',
-                tooltip: 'formAdd',  
+                tooltip: 'Ajouter (formulaire)',  
                 type: 'formAdd',
                 width : 20, 
                 hidden: true,
@@ -131,15 +108,23 @@ Ext.define('ProtoUL.UI.GridController', {
                 handler: this.onEditAction
             }, {
                 itemId: 'toolFormUpd',
-                tooltip: 'formUpd',  
+                tooltip: 'Editer (formulaire)',  
                 hidden: true,
                 type: 'formUpd',
                 width : 20, 
                 scope: this,
                 handler: this.onEditAction
             }, {
+                itemId: 'toolRowDel',
+                type: 'rowDel',
+                tooltip: 'Effacer ligne',  
+                hidden: true,
+                width : 30, 
+                scope: this,
+                handler: this.onEditAction
+            },  {
                 itemId: 'toolFormView',
-                tooltip: 'formView',  
+                tooltip: 'Voir ( lecture seulement )',  
                 type: 'formView',
                 width : 20, 
                 scope: this,
@@ -151,7 +136,25 @@ Ext.define('ProtoUL.UI.GridController', {
                 width : 20, 
                 scope: this,
                 handler: showMetaConfig
-            }]
+            },
+            {
+                itemId: 'toolRowAdd',
+                tooltip: 'Ajouter ligne',  
+                type: 'rowAdd',
+                hidden: true,
+                width : 20, 
+                scope: this,
+                handler: this.onEditAction
+            }, {
+                itemId: 'toolRowCopy',
+                tooltip: 'Copier ligne',  
+                type: 'rowCopy',
+                hidden: true,
+                width : 20, 
+                scope: this,
+                handler: this.onEditAction
+            } 
+            ]
         
             this.myGrid.addTools( editTools )
             this.setEditMode( false )
