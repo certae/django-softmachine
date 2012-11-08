@@ -13,10 +13,16 @@ Ext.define('ProtoUL.UI.GridSheetController', {
 
         var me = this.myGrid; 
         var myMeta = me.myMeta; 
+        
          
         // Los zooms ( initialConfig ) no deben manejar sheets
-        if ( !( me.initialConfig.hideSheet || myMeta.gridConfig.hideSheet ) && ( myMeta.sheetConfig.protoSheetProperties.length > 0 )) {
+        if ( !( me.initialConfig.hideSheet || myMeta.gridConfig.hideSheet )) {
             me.IdeSheet = Ext.id();
+    
+            // Ojeto dinamicamente creada con las pSheetProps segun cada plantilla
+            // Indice  el sheetName y el indice segun se requieren 
+            this.pSheetsProps = {}
+
             return  {
                     region: 'east',
                     id: me.IdeSheet,
@@ -39,15 +45,13 @@ Ext.define('ProtoUL.UI.GridSheetController', {
         var me = this.myGrid 
         var myMeta = me.myMeta 
 
+    
+
         // Los zooms ( initialConfig ) no deben manejar sheets
         if ( me.initialConfig.hideSheet || myMeta.gridConfig.hideSheet ) {
             return 
         }
 
-        var pSheetProps = myMeta.sheetConfig.protoSheetProperties;
-        if ( !pSheetProps ) {
-          return;  
-        }
 
         var pSheets = myMeta.sheetConfig.protoSheets;
         var pSheetSelector = myMeta.sheetConfig.protoSheetSelector || '';
@@ -60,9 +64,23 @@ Ext.define('ProtoUL.UI.GridSheetController', {
         };
 
        if (  pSheet == undefined ) { return }; 
-        
-       var pTemplate = pSheet.template ; 
 
+
+        // Contruye las pSheetProps a medida q las necesita 
+       var pTemplate = pSheet.template ; 
+       var pSheetProps = this.pSheetsProps[  pSheet.name  ] 
+       if ( !pSheetProps ) {
+           pSheetProps = []
+           for ( ix in myMeta.fields  ) {
+               var fName = myMeta.fields[ix].name
+               if ( pTemplate.indexOf( '{{' + fName + '}}') > -1  ) {
+                   pSheetProps.push(  fName )
+               }
+           }
+           this.pSheetsProps[  pSheet.name  ] = pSheetProps
+       }
+
+        
        for (var ix in pSheetProps) {
             var vFld  =  pSheetProps[ix]; 
 
@@ -73,7 +91,7 @@ Ext.define('ProtoUL.UI.GridSheetController', {
                 pValue = FormatJsonStr( pValue )
             }
             
-            pTemplate = pTemplate.replace( pKey , pValue  ); 
+            pTemplate = pTemplate.replace( new RegExp(pKey, 'g') , pValue  ); 
 
         }
 

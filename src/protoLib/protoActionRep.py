@@ -47,7 +47,7 @@ def protoSheetRep(request):
     #  Obtiene el template FirstPage         
     templateFp = pSheet.get( 'templateFp' , '<span ' +  sheetName + '.firstPage></span>') 
     templateLp = pSheet.get( 'templateLp' , '<span ' +  sheetName + '.lastPage></span>') 
-    templateEr = pSheet.get( 'templateEr' , '<span ' +  sheetName + '.EveryRow></span>') 
+    templateEr = pSheet.get( 'templateEr' , pSheet.get( 'template' ) )
 
 
     # Crea la clase del reporte 

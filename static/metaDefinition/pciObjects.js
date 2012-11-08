@@ -450,14 +450,8 @@ _MetaObjects =  {
             "protoSheetSelector" 
         ], 
         "lists" : [
-            "protoSheets", 
-            "protoSheetProperties"
+            "protoSheets"
         ]
-    },
-
-    "protoSheetProperties": {
-        "description": "Lista de campos utilizados en las plantillas",
-        "__ptStyle": "colList" 
     },
 
     "protoSheets": {

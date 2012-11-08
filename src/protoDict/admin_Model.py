@@ -39,18 +39,6 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                 "title": "Fiche descriptive des vues locales"
             }
         ],
-        "protoSheetProperties": [
-            "code",
-            "udp__Souscategorie",
-            "udp__Auteurmodele",
-            "udp__Version",
-            "udp__Descriptionmodele",
-            "udp__ActeurPrincipal",
-            "udp__AutresActeurs",
-            "udp__IntrantsDeclencheurs",
-            "category",
-            "udp__docureference"
-        ]
     },
     "gridConfig": {
         "searchFields": [
