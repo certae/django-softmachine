@@ -58,6 +58,8 @@ _MetaProperties =  {
     "metaVersion.help" : "Version interna de la meta", 
 
     "userVersion.help" : "Version de usuario ( editable )", 
+
+
     
 //  Types
     "required.type" : "boolean", 
@@ -78,11 +80,10 @@ _MetaProperties =  {
     "pciStyle.help" : "Presentacion de la pci [ form,  grid, tree]", 
     "pciStyle.choices": ["grid", "form", "tree"],
 
-    "version.help" : "Cofigo de version", 
-
+    "denyAutoPrint.type" : "boolean", 
+    "denyAutoPrint.help" : "Impide la impresion automatica de la grilla", 
 
 // Detalles 
-
     "masterField" : "pk",
 
     "menuText.help"         : "titulo en el menu ( toolbar )", 

@@ -329,6 +329,7 @@ _MetaObjects =  {
             'hideRowNumbers', 
             'multiSelect', 
             'hideSheet', 
+            'denyAutoPrint', 
             'filterSetABC'
              ], 
         "objects": [
@@ -458,6 +459,7 @@ _MetaObjects =  {
             "name", 
             "template", 
             "title", 
+            "protoIcon", 
             "sheetType", 
             "templateFp",  
             "templateBb",  

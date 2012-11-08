@@ -10,7 +10,6 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
 
         var me = this; 
         var myPrinterOpts = []  
-        var tmpPrinterOpts = [] 
         var __MasterDetail = this.__MasterDetail
 
         if ( ! this.myMeta.gridConfig.denyAutoPrint  ) {
@@ -34,30 +33,25 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
             };
         } 
 
-        // TODO: Los diferentes formatos definidos para cada grilla, definiria impresion en maestro deltalle usando templates y las relaciones definidas.  
-        myPrinterOpts.push (
-            new Ext.Action({
-                text:       'Report',
-                iconCls :   'icon-printGrid', 
-                scope:      me,                     
-                handler:    onClickPrintSheetRep
-            }));
-
-
-        // TODO: Los diferentes formatos definidos para cada grilla, definiria impresion en maestro deltalle usando templates y las relaciones definidas.  
-        for (var vDet in tmpPrinterOpts ) {       
-            var pPrinterOpts = tmpPrinterOpts[ vDet ]
-            myPrinterOpts.push (
-                new Ext.Action({
-                    text:           pPrinterOpts.name,
-                    iconCls :       pPrinterOpts.icon, 
-                    maxWidth :      100, 
-                    printerOpt:     Ext.encode( pPrinterOpts.filter ),
-                    scope:          me,                     
-                    handler:        onClickProtoPrinterOpt
-                }));
-        };
-
+        // Los diferentes formatos definidos para cada grilla, definiria impresion en maestro deltalle usando templates y las relaciones definidas.
+        if ( this.myMeta.protoSheets.length > 0 ) {
+            
+            for (var ix in this.myMeta.protoSheets  ) {       
+                var pPrinterOpts = this.myMeta.protoSheets[ ix ]
+                if ( pPrinterOpts.sheetStyle == 'gridOnly' ) continue; 
+                
+                myPrinterOpts.push (
+                    new Ext.Action({
+                        text:           pPrinterOpts.name,
+                        sheetName :     pPrinterOpts.name, 
+                        iconCls :       pPrinterOpts.protoIcon || 'icon-printSheet', 
+                        tooltip:        pPrinterOpts.title,
+                        scope:          me,                     
+                        handler:        onClickPrintSheetRep
+                    }));
+            };
+     
+        } 
 
         if ( myPrinterOpts.length > 0  ) {
 
@@ -121,7 +115,7 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
                 }
             }
             
-            getSheeReport( pGrid.protoOption, '', selectedKeys , options  )
+            getSheeReport( pGrid.protoOption, btn.sheetName , selectedKeys , options  )
             
         };
         
