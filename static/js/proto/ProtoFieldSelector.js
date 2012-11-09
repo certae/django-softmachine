@@ -123,8 +123,7 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
                 if ( field ) {
                     fields.push( clearProps( field ))   
                 } else { 
-                    console.log( "Field no encontrado", names[ix]  )
-                } 
+                    // console.log( "Field no encontrado", names[ix]  )                } 
                 
             } 
             

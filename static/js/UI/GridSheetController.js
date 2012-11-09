@@ -62,33 +62,39 @@ Ext.define('ProtoUL.UI.GridSheetController', {
             return 
         }
 
+        // Si no tiene datos 
+        if ( me.rowData.length == 0 ) {
+            renderSheet( '', '' )
+            return 
+        }  
+
         var pSheets = myMeta.protoSheets;
         var pSheetSelector = myMeta.protoSheetSelector || '';
         var pSheetCriteria = me.rowData[ pSheetSelector ] 
         var pSheet = undefined;  
         
         for ( var ix in pSheets  ) {
+            if ( pSheets[ix].sheetType == 'printerOnly' ) {continue ; }
+            
             pSheet  =  pSheets[ix]; 
             if ( pSheet.name == pSheetCriteria ) {break; }
         };
 
         if (  pSheet == undefined ) { return }; 
 
-
         // Contruye las pSheetProps a medida q las necesita 
-       var pTemplate = pSheet.template ; 
-       var pSheetProps = this.pSheetsProps[  pSheet.name  ] 
-       if ( !pSheetProps ) {
-           pSheetProps = []
-           console.log( 'xxxxxxx ')
-           for ( ix in myMeta.fields  ) {
-               var fName = myMeta.fields[ix].name
-               if ( pTemplate.indexOf( '{{' + fName + '}}') > -1  ) {
-                   pSheetProps.push(  fName )
-               }
-           }
-           this.pSheetsProps[  pSheet.name  ] = pSheetProps
-       }
+        var pTemplate = pSheet.template || '' ; 
+        var pSheetProps = this.pSheetsProps[  pSheet.name  ] 
+        if ( !pSheetProps ) {
+            pSheetProps = []
+             for ( ix in myMeta.fields  ) {
+                 var fName = myMeta.fields[ix].name
+                 if ( pTemplate.indexOf( '{{' + fName + '}}') > -1  ) {
+                     pSheetProps.push(  fName )
+                 }
+             }
+            this.pSheetsProps[  pSheet.name  ] = pSheetProps
+        }
 
         
        for (var ix in pSheetProps) {
@@ -105,12 +111,18 @@ Ext.define('ProtoUL.UI.GridSheetController', {
 
         }
 
-        var sheet = Ext.getCmp( me.IdeSheet );
-        sheet.setTitle( pSheet.title );
-        sheet.update( pTemplate );
+        renderSheet( pSheet.title, pTemplate )
+        
+        function renderSheet( title, pTempalte ) {
 
-        // Expone el template 
-        me.sheetHtml = pTemplate ;             
+            var sheet = Ext.getCmp( me.IdeSheet );
+            sheet.setTitle(  title  );
+            sheet.update( pTemplate );
+    
+            // Expone el template 
+            me.sheetHtml = pTemplate ;             
+            
+        }
 
     }
         

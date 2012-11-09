@@ -296,13 +296,13 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         }
         this.gridController.addGridTools()
 
-        var sheetCrl = Ext.create('ProtoUL.UI.GridSheetController', { myGrid : this }); 
+        this.sheetCrl = Ext.create('ProtoUL.UI.GridSheetController', { myGrid : this }); 
         
 
 // ---
 
         var myItems = [ grid ]
-        var mySheet = sheetCrl.getSheetConfig()
+        var mySheet = this.sheetCrl.getSheetConfig()
         if ( mySheet ) myItems.push( mySheet )  
 
         Ext.apply(this, {
@@ -330,8 +330,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             select: {fn: function ( rowModel , record,  rowIndex,  eOpts ) {
                 // SelectionModel.rowSelected 
                 me.rowData = record.data;
-                this.fireEvent('rowClick', rowModel, record, rowIndex,  eOpts );
-                if ( me.IdeSheet ) { sheetCrl.prepareSheet(); }
+                me.rowChange( rowModel , record,  rowIndex,  eOpts   )
             }, scope: this }, 
 
             celldblclick: {fn: function ( tbl, el,  cellIndex, record, tr, rowIndex, e,  eOpts ) {
@@ -403,11 +402,18 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         });
 
         me.store.on( 'datachanged',  function( store,  eOpts ){
-           console.log( '')   
+            me.selected = null 
+            me.rowData = []
+            me.rowChange( null , null,  -1,  eOpts   )
         }) 
 
-        
+         
     },
+
+    rowChange: function ( rowModel, record, rowIndex,  eOpts ) {
+        this.fireEvent('rowClick', rowModel, record, rowIndex,  eOpts );
+        if ( this.IdeSheet ) { this.sheetCrl.prepareSheet(); }
+    }, 
 
     _getRowNumberDefinition: function () {
         var rowNumberCol = { xtype: 'rownumberer', width:37, draggable:false,  sortable: false } // locked: true, lockable: false }

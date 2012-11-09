@@ -98,8 +98,7 @@ Ext.define('ProtoUL.proto.ProtoDetailSelector', {
                 if ( detail ) {
                     details.push( detail )   
                 } else { 
-                    console.log( "Detalle no encontrado", names[ix]  )
-                } 
+                    // console.log( "Detalle no encontrado", names[ix]  )                } 
                 
             } 
             

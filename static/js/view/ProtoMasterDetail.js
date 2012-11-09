@@ -114,8 +114,11 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         //  Eventos de los objetos internos para el manejo Master-Detail   
                 
         this.protoMasterGrid.on({
-            rowClick: {fn: function ( gView, record, item, rowIndex,  e,  eOpts ) {
-                this.idMasterGrid = record.get('id') ;
+            rowClick: {fn: function ( rowModel, record, rowIndex,  eOpts  ) {
+                if ( record ) { this.idMasterGrid = record.get('id');    
+                } else { this.idMasterGrid = -1 
+                }
+                
                 this.linkDetail();
                 }, 
             scope: me }

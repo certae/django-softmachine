@@ -49,8 +49,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
 
 
         function onClickRedraw(myObj) {
-            console.log( 'this') 
-        } 
+            // console.log( 'this')         } 
 
 
     },
@@ -65,8 +64,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
     }, 
 
     onClickRedraw : function(myObj) {
-        console.log( 'this') 
-    }, 
+        // console.log( 'this')     }, 
     
     doFormatLayout : function(myObj) {
 
