@@ -1,7 +1,7 @@
 <map version="0.9.0">
 <!-- To view this file, download free mind mapping software FreeMind from http://freemind.sourceforge.net -->
 <node CREATED="1351377136644" ID="ID_1629252968" MODIFIED="1351883978373" TEXT="Actions">
-<node CREATED="1351377961011" FOLDED="true" ID="ID_1506617092" MODIFIED="1351884078020" POSITION="right" TEXT="Como implemetarlos">
+<node CREATED="1351377961011" ID="ID_1506617092" MODIFIED="1352485339644" POSITION="right" TEXT="Como implemetarlos">
 <node CREATED="1351377971198" ID="ID_1328744298" MODIFIED="1351378179298">
 <richcontent TYPE="NODE"><html>
   <head>
@@ -25,11 +25,12 @@
 </node>
 <node CREATED="1351378138640" ID="ID_16095163" MODIFIED="1351378144201" TEXT="Parametros adicionales">
 <node CREATED="1351378163305" ID="ID_1638440659" MODIFIED="1351378166219" TEXT="puden pedir parametros adicionales, una ventana generica con la lista de los parametros, o una funcion q pueda leerlos de la forma o de la grilla. "/>
+<node CREATED="1352486395856" ID="ID_1960812751" MODIFIED="1352486425398" TEXT="Para enviar los parametros a la funcion, se agregan en el modelAdmin, si es requerdo se puede tomar un vr default "/>
 </node>
 <node CREATED="1351378181828" ID="ID_1312855207" MODIFIED="1351378183919" TEXT="puede retornar un estado y/o refrescar la grilla."/>
 </node>
 <node CREATED="1351377169453" ID="ID_1266028467" MODIFIED="1351377174741" POSITION="right" TEXT="Django">
-<node CREATED="1351377229419" FOLDED="true" ID="ID_1232764964" MODIFIED="1351873719355" TEXT="Como se definien">
+<node CREATED="1351377229419" ID="ID_1232764964" MODIFIED="1352485352286" TEXT="Como se definien">
 <node CREATED="1351377240101" ID="ID_1122347329" MODIFIED="1351377859959">
 <richcontent TYPE="NODE"><html>
   <head>
@@ -60,7 +61,7 @@
 </html></richcontent>
 </node>
 </node>
-<node CREATED="1351377775037" FOLDED="true" ID="ID_768729252" MODIFIED="1351872534067" TEXT="Globales ( genericas ) ">
+<node CREATED="1351377775037" ID="ID_768729252" MODIFIED="1352485367026" TEXT="Globales ( genericas ) ">
 <node CREATED="1351377784825" ID="ID_13257224" MODIFIED="1351377795053">
 <richcontent TYPE="NODE"><html>
   <head>
@@ -80,8 +81,8 @@
 </html></richcontent>
 </node>
 </node>
-<node CREATED="1351378231321" FOLDED="true" ID="ID_476293964" MODIFIED="1351872676895" TEXT="Ejemplos">
-<node CREATED="1351378282699" FOLDED="true" ID="ID_100421203" MODIFIED="1351378494379" TEXT="modulo">
+<node CREATED="1351378231321" ID="ID_476293964" MODIFIED="1352485368607" TEXT="Ejemplos">
+<node CREATED="1351378282699" ID="ID_100421203" MODIFIED="1352485369826" TEXT="modulo">
 <node CREATED="1351378290925" ID="ID_85238906" MODIFIED="1351378320800">
 <richcontent TYPE="NODE"><html>
   <head>
@@ -105,7 +106,7 @@
 </html></richcontent>
 </node>
 </node>
-<node CREATED="1351378428947" FOLDED="true" ID="ID_89759255" MODIFIED="1351378489364" TEXT="model_admin">
+<node CREATED="1351378428947" ID="ID_89759255" MODIFIED="1352485391807" TEXT="model_admin">
 <node CREATED="1351378438787" ID="ID_1111673020" MODIFIED="1351378487708">
 <richcontent TYPE="NODE"><html>
   <head>
@@ -124,18 +125,18 @@
 </html></richcontent>
 </node>
 </node>
-<node CREATED="1351378497776" FOLDED="true" ID="ID_1578801846" MODIFIED="1351378823287" TEXT="Alternativa QSet">
+<node CREATED="1351378497776" ID="ID_1578801846" MODIFIED="1352485411623" TEXT="Alternativa QSet">
 <node CREATED="1351378761166" ID="ID_125963443" MODIFIED="1351378820419" TEXT="Pueden hacerse a nivle de&#xa0; QSet&#xa;&gt;&gt;&gt;  queryset.update(status=&apos;p&apos;) &#xa;&#xa;o trabajarse objeto por objeto &#xa;&gt;&gt;&gt; for&#xa0;obj&#xa0;in&#xa0;queryset:&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;do_something_with(obj)"/>
 </node>
 </node>
-<node CREATED="1351378883370" FOLDED="true" ID="ID_570785342" MODIFIED="1351873720992" TEXT="Parametros ">
+<node CREATED="1351378883370" ID="ID_570785342" MODIFIED="1352485425297" TEXT="Parametros ">
 <node CREATED="1351378890161" ID="ID_1658054790" MODIFIED="1351378926661" TEXT="message_user ">
 <node CREATED="1351378927231" ID="ID_819352864" MODIFIED="1351378937661" TEXT="request,  message "/>
 </node>
 <node CREATED="1351378940720" ID="ID_276976323" MODIFIED="1351378957358" TEXT="short_description"/>
 </node>
 </node>
-<node CREATED="1351377176048" FOLDED="true" ID="ID_291441057" MODIFIED="1351873725629" POSITION="right" TEXT="FrontEnd">
+<node CREATED="1351377176048" FOLDED="true" ID="ID_291441057" MODIFIED="1352486257260" POSITION="right" TEXT="FrontEnd">
 <node CREATED="1351377331041" ID="ID_1693043076" MODIFIED="1351377346299">
 <richcontent TYPE="NODE"><html>
   <head>
@@ -235,8 +236,8 @@
 <node CREATED="1351880712700" ID="ID_259600992" MODIFIED="1351884127329" TEXT="required"/>
 </node>
 </node>
-<node CREATED="1351879518496" FOLDED="true" ID="ID_358869822" MODIFIED="1351882842309" POSITION="right" TEXT="Reportes">
-<node CREATED="1351882870827" FOLDED="true" ID="ID_1744639704" MODIFIED="1351884134674" TEXT="Como hacerlo">
+<node CREATED="1351879518496" FOLDED="true" ID="ID_358869822" MODIFIED="1352486281509" POSITION="right" TEXT="Reportes">
+<node CREATED="1351882870827" FOLDED="true" ID="ID_1744639704" MODIFIED="1352486280365" TEXT="Como hacerlo">
 <node CREATED="1351379570158" FOLDED="true" ID="ID_1877307174" MODIFIED="1351884128781" TEXT="Generalidades">
 <node CREATED="1351379597839" ID="ID_1672805558" MODIFIED="1351379675122">
 <richcontent TYPE="NODE"><html>
@@ -370,8 +371,7 @@
       Esquema protoSheets
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <node CREATED="1351880764467" ID="ID_1278235206" MODIFIED="1351880846761" TEXT="name"/>
 <node CREATED="1351880853727" ID="ID_1404798510" MODIFIED="1351880856867" TEXT="title"/>
 <node CREATED="1351880857272" FOLDED="true" ID="ID_149569749" MODIFIED="1351960432813" TEXT="template">

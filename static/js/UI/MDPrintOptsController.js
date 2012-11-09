@@ -99,12 +99,7 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
                 pGrid = __MasterDetail.protoMasterGrid ;
 
             var win = window.open('', 'printgrid');
-
-            var selectedKeys = []
-            if ( __MasterDetail.idMasterGrid >= 0  )  {
-                selectedKeys = [ __MasterDetail.idMasterGrid ]
-            }
-
+            var selectedKeys = pGrid.getSelectedIds()
 
             var options = {
                 scope : me,

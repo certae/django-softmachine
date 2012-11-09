@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import django.contrib.admin          
+from actions import *  
 
 class PropertyAdmin(django.contrib.admin.ModelAdmin):
 

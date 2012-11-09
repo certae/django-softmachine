@@ -1,3 +1,8 @@
+        // Datos en el Store this.store.getAt(index)
+        // var data = grid.getSelectionModel().selected.items[0].data;
+
+
+
 #   Order by 
     orderBy = []
     if sort:

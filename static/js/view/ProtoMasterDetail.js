@@ -114,7 +114,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         //  Eventos de los objetos internos para el manejo Master-Detail   
                 
         this.protoMasterGrid.on({
-            rowClick: {fn: function ( rowModel, record, rowIndex,  eOpts  ) {
+            selectionChange: {fn: function ( rowModel, record, rowIndex,  eOpts  ) {
                 if ( record ) { this.idMasterGrid = record.get('id');    
                 } else { this.idMasterGrid = -1 
                 }
@@ -158,9 +158,10 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         // Obtiene la grilla y le da un titulo  
         var myDetGrid = me.protoTabs.items.items[ me.ixActiveDetail ]
         var masterTitleField = pDetail.masterTitleField || '__str__' 
-        var rowData = me.protoMasterGrid.rowData
         
+        var rowData = me.protoMasterGrid.rowData
         if ( rowData )  myDetGrid.detailTitle = rowData[ masterTitleField ]
+
         myDetGrid.baseFilter = baseFilter 
         myDetGrid.setGridTitle( myDetGrid  )
         

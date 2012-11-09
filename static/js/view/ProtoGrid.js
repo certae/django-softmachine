@@ -19,7 +19,11 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     // Internals 
     myMeta : null,  
     initialFilter : null, 
-    
+
+    // Selection model 
+    selModel : null, 
+    rowData : null,  
+        
     initComponent: function() {
 
         var me = this;         
@@ -105,12 +109,11 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         this.myColumns = myColumns; 
         
         //   gridColumns: Es un subconjuto para poder manejar diferentes conf de columnas  
-        var gridColumns = this.getViewColumns( myMeta.gridConfig.listDisplay  ), 
-            selModel = null 
+        var gridColumns = this.getViewColumns( myMeta.gridConfig.listDisplay  ) 
         
         // Manejo de seleccion multiple 
         if ( myMeta.gridConfig.multiSelect ) {
-            selModel = Ext.create('Ext.selection.CheckboxModel');    
+            this.selModel = Ext.create('Ext.selection.CheckboxModel');    
         }            
 
         this.editable = false; 
@@ -158,23 +161,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 },{
                     text: 'id', dataIndex: 'id' 
                 }] 
-                // listeners: {
-                    // 'itemmouseenter': function(view, record, item) {
-                        // Ext.fly(item).set({'data-qtip': getAttrMsg( record.data.text ), 'data-qtitle': record.data.text }); 
-                  // }, scope : me 
-                // }
             }); 
-
-            // grid = Ext.create('Ext.tree.Panel', {
-                // // plugins: [ 'headertooltip'],
-                // listeners: {
-                    // scope: this,
-                    // selectionchange: function(selModel, selected) {
-                        // // Expone la fila seleccionada. 
-                        // this.selected = selected[0] || null;
-                    // } 
-                // } 
-            // }); 
 
 
         } else { 
@@ -190,7 +177,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 
                 
                 plugins: [    'headertooltip', this.rowEditing ],            
-                selModel: selModel,
+                selModel: this.selModel,
                 columns : gridColumns,   
                 store : this.store,  
                 stripeRows: true, 
@@ -198,36 +185,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                  // Tools  ( necesario para AddTools )
                 tools: [], 
                 
-                listeners: {
-                    scope: this,
-                    selectionchange: function(selModel, selected) {
-                        // Expone la fila seleccionada. 
-                        this.selected = selected[0] || null;
-
-                        // Si hay botones o eltos de la interface a modificar 
-                        // grid4.down('#removeButton').setDisabled(selections.length == 0);
-                    }, 
-                    
-                    itemmouseenter: function(view, record, item) {
-                        // Esto maneja los tooltip en las las filas
-                        var msg = record.get('_ptStatus')
-                        if ( msg == _ROW_ST.NEWROW  ) msg = '';
-        
-                        // Asigna un tooltip a la fila, pero respeta los de cada celda y los de los Actiosn
-                        Ext.fly(item).set({'data-qtip': msg });
-                        
-                        // Dgt :  Este tooltip evita las actions columns 
-                        // Ext.fly(item).select('.x-grid-cell:not(.x-action-col-cell)').set({'data-qtip': 'My tooltip: ' + record.get('name')});
-                    }
-                    
-                }, 
-    
-                // processEvent: function(type, view, cell, recordIndex, cellIndex, e) {
-                    // if ( type == 'keydown' ) { 
-                        // console.log( view, cell, recordIndex, cellIndex, e )
-                    // } 
-                // }, 
-     
                 viewConfig: {
                     // Manejo de rows y cells  
                    
@@ -312,26 +269,53 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             items: myItems
         });
 
+
+
         this.addEvents(
-            'rowClick', 'rowDblClick', 'promoteDetail'
-            // 'selectionChange'
+            'selectionChange', 'rowDblClick', 'promoteDetail'
         );
 
         this.callParent(arguments);
         this.gridController.addNavigationPanel(); 
 
-        
-        // Datos en el Store this.store.getAt(index)
-        // var data = grid.getSelectionModel().selected.items[0].data;
-        
-        // grid.on({ itemClick: {fn: function ( gView, record, item, rowIndex,  e,  eOpts ) {
-
         grid.on({
-            select: {fn: function ( rowModel , record,  rowIndex,  eOpts ) {
-                // SelectionModel.rowSelected 
-                me.rowData = record.data;
-                me.rowChange( rowModel , record,  rowIndex,  eOpts   )
+            // select: {fn: function ( rowModel , record,  rowIndex,  eOpts ) {
+                // // Select, presenta el rowIndex en  la grilla  
+                // me.fireSelectionChange( rowModel , record,  rowIndex,  eOpts   )
+            // }, scope: this }, 
+            selectionchange: {fn: function(selModel, selected,  eOpts ) {
+                // Expone la fila seleccionada. 
+                this.selected = selected[0] || null;
+
+                if ( this.selected  ) {
+                    me.rowData = this.selected.data 
+                    me.fireSelectionChange( selModel, this.selected,  this.selected.index + 1,  eOpts   ) 
+                } else { 
+                    me.rowData = null 
+                    me.fireSelectionChange( selModel, null,  null,  eOpts   )
+                } 
+                                // Si hay botones o eltos de la interface a modificar 
+                // grid4.down('#removeButton').setDisabled(selections.length == 0);
             }, scope: this }, 
+            
+            itemmouseenter: {fn: function(view, record, item) {
+                // Esto maneja los tooltip en las las filas
+                var msg = record.get('_ptStatus')
+                if ( msg == _ROW_ST.NEWROW  ) msg = '';
+
+                // Asigna un tooltip a la fila, pero respeta los de cada celda y los de los Actiosn
+                Ext.fly(item).set({'data-qtip': msg });
+                
+                // Dgt :  Este tooltip evita las actions columns 
+                // Ext.fly(item).select('.x-grid-cell:not(.x-action-col-cell)').set({'data-qtip': 'My tooltip: ' + record.get('name')});
+            }, scope: this }, 
+
+            // Para manejar aciones por teclas, ie  ^I Insertar, etc ....     
+            // processEvent: function(type, view, cell, recordIndex, cellIndex, e) {
+                // if ( type == 'keydown' ) { 
+                    // console.log( view, cell, recordIndex, cellIndex, e )
+                // } 
+            // }, 
 
             celldblclick: {fn: function ( tbl, el,  cellIndex, record, tr, rowIndex, e,  eOpts ) {
                 // para seleccionar en el zoom         
@@ -340,6 +324,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 me.fireEvent('rowDblClick', record, rowIndex  );
             }, scope: me }, 
 
+
+            //   E D I C I O N    --------------------------------------------------------------- 
 
             beforeedit: {fn: function ( edPlugin, e, eOpts) {
                 if ( ! this.editable )  return false;
@@ -353,72 +339,75 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                     var zoom = vFld.getEditor()
                     zoom.resetZoom()
                 }
-            }, scope: me }
-                
-        });                 
-
-        // Fires when the user started editing but then cancelled the edit. ...
-        // grid.on('canceledit', function(editor, e, eOpts) {
-            // console.log( 'canceledit' ) 
-        // });
-
-
-        // Fires after editing, but before the value is set in the record. ...
-        grid.on('validateedit', function(editor, e, eOpts) {
+            }, scope: me }, 
             
-            // Resetea el status despues de la edicion 
-            if ( ! e.record.getId() ) {
-                e.record.phantom = true;                           
-                e.record.data._ptStatus = _ROW_ST.NEWROW 
-            } else {
-                e.record.data._ptStatus = '' 
-            }
-            e.record.dirty = true;
+            // canceledit :  function(editor, e, eOpts) {
+            // Fires when the user started editing but then cancelled the edit. ...
 
-            // Manejo del retorno del zoom 
-            for (var ix in e.grid.columns ) {
-                var vFld = e.grid.columns[ix]
-                var initialConf = vFld.initialConfig 
-                if (! initialConf.editor ) continue;
-                if (  initialConf.editor.xtype != 'protoZoom' ) continue;
-                
-                var zoom = vFld.getEditor()
-                var idIndex = initialConf.editor.fkId 
-                            
-                if ( ! zoom.zoomRecord ) continue; 
 
-                // console.log( e , zoom.zoomRecord.data.__str__ )
-                // Actualiza el Id con el dato proveniente del zoom 
+            validateedit: {fn:  function(editor, e, eOpts) {
+                // Fires after editing, but before the value is set in the record. ...
+            
+                // Resetea el status despues de la edicion 
+                if ( ! e.record.getId() ) {
+                    e.record.phantom = true;                           
+                    e.record.data._ptStatus = _ROW_ST.NEWROW 
+                } else {
+                    e.record.data._ptStatus = '' 
+                }
+                e.record.dirty = true;
+    
+                // Manejo del retorno del zoom 
+                for (var ix in e.grid.columns ) {
+                    var vFld = e.grid.columns[ix]
+                    var initialConf = vFld.initialConfig 
+                    if (! initialConf.editor ) continue;
+                    if (  initialConf.editor.xtype != 'protoZoom' ) continue;
+                    
+                    var zoom = vFld.getEditor()
+                    var idIndex = initialConf.editor.fkId 
+                                
+                    if ( ! zoom.zoomRecord ) continue; 
+                    // Actualiza el Id con el dato proveniente del zoom 
+                    // fix: Agrega el modificado en caso de q no se encuentre         
+                    if ( ! e.record.modified[ idIndex ]  ) {
+                        e.record.modified[ idIndex ] = e.record.data[ idIndex ]  
+                    }         
+                    e.record.data[ idIndex ] = zoom.zoomRecord.data.id
+                }
+            }, scope: me } 
 
-                // fix: Agrega el modificado en caso de q no se encuentre         
-                if ( ! e.record.modified[ idIndex ]  ) {
-                    e.record.modified[ idIndex ] = e.record.data[ idIndex ]  
-                }         
-                  
-                e.record.data[ idIndex ] = zoom.zoomRecord.data.id
-
-            }
-
-        });
-
-        me.store.on( 'datachanged',  function( store,  eOpts ){
-            me.selected = null 
-            me.rowData = []
-            me.rowChange( null , null,  -1,  eOpts   )
-        }) 
-
+        });         
+        
          
     },
 
-    rowChange: function ( rowModel, record, rowIndex,  eOpts ) {
-        this.fireEvent('rowClick', rowModel, record, rowIndex,  eOpts );
+    fireSelectionChange: function ( rowModel, record, rowIndex,  eOpts ) {
+        this.fireEvent('selectionChange', rowModel, record, rowIndex,  eOpts );
         if ( this.IdeSheet ) { this.sheetCrl.prepareSheet(); }
     }, 
+
+
 
     _getRowNumberDefinition: function () {
         var rowNumberCol = { xtype: 'rownumberer', width:37, draggable:false,  sortable: false } // locked: true, lockable: false }
         return rowNumberCol
       },
+    
+    getSelectedIds: function() {
+        // Lista de registros seleccionados ( id )
+
+        var selectedIds = []
+        if ( ! this.selected ) return selectedIds 
+        if ( ! this.selModel ) return [ this.selected.get('id') ]
+
+        var cllSelection = this.selModel.getSelection()                 
+        for ( var ix in cllSelection ) {
+            selectedIds.push( cllSelection[ix].get( 'id') ) 
+        } 
+        
+        return selectedIds
+    }, 
     
     getViewColumns: function (  viewCols  ) {
         

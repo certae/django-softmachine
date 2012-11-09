@@ -63,7 +63,7 @@ Ext.define('ProtoUL.UI.GridSheetController', {
         }
 
         // Si no tiene datos 
-        if ( me.rowData.length == 0 ) {
+        if ( ! me.rowData ) {
             renderSheet( '', '' )
             return 
         }  
