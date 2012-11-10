@@ -14,7 +14,8 @@ _requiredField = '<span style="color:red;font-weight:bold" data-qtip="Required">
 
 
 _siteTitle = 'ART Atelier de Référentiel pour Togaf'
-_versionProto = 'Version 0.13k'
+_versionMeta = '12.1108'
+_versionProto = 'Version 0.13.' + _versionMeta
 
 _detailViewNewTab     = 'Voir dans un nouvel onglet'
 _gridBbPerPage         = ' par page'

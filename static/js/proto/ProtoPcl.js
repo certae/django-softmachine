@@ -139,6 +139,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             }, 
             'save': function ( ) {
                 me.myMeta =  Tree2Meta( me.treeGridStore.getRootNode() )
+                me.myMeta.metaVersion = _versionMeta
                 savePclCache( me.myMeta.protoOption, me.myMeta )
                 savePci( me.myMeta )         
             }, 

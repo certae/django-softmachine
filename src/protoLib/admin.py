@@ -14,7 +14,7 @@ class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
     "idProperty": "id",
     "protoOption": "protoLib.ProtoDefinition",
     "shortTitle": "Proto Definition",
-    "version": "4.23",
+    "metaVersion": "121001",
     "protoSheets": [{
         "name": "DEFAULT",
         "template": "{{metaDefinition}}",

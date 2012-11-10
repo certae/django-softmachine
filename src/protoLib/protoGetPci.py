@@ -47,7 +47,7 @@ def protoGetPCI(request):
     if created or ( not protoDef.active   ) :
 
         model_admin, protoMeta  = getProtoAdmin( model )
-        version = protoMeta.get( 'version' )
+        version = protoMeta.get( 'metaVersion' )
 
         # La version determina q es una carga completa de la meta y no es necesario reconstruirla
         # solo en caso de q la definicion no este en la Db        

@@ -54,9 +54,7 @@ function verifyPrpType(  lKey,  cValue ) {
 _MetaProperties =  {
 
 
-    "metaVersion" : "121108", 
     "metaVersion.help" : "Version interna de la meta", 
-
     "userVersion.help" : "Version de usuario ( editable )", 
 
 
