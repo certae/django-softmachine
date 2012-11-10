@@ -209,38 +209,6 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
     return protoMeta 
 
 
-def getAction( grid ):
-    """ Busca las actions definidas por defecto en el admin, ( model_admin.get_actions ) 
-    * y genera la coleccion propia. 
-    * Los reportes son un caso especial de acciones,  
-    """ 
-
-    model_admin = grid.model_admin 
-
-    actionSchema =   [
-        {
-          "name": "value",
-          "title": "value",
-          "type": "report, wflow, edition ",
-          "refreshOnComplete": True, 
-          "parameters": [
-            {
-              "name": "value",
-              "title": "value",
-              "icon" : "",
-              "description" : "", 
-              "vrDefault": "value",
-              "choices": [],
-              "type": "value",
-              "required": "value"
-            }, 
-          ],
-        }
-      ]
-
-    actions = model_admin.get_actions( actionSchema )
-    return actions 
-
     
 
 def getProtoViewObj( protoMeta, view   ):

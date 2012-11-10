@@ -8,11 +8,12 @@ from protoLib.protoLogin import protoGetUserRights
 from protoLib.protoActionList import protoList
 from protoLib.protoActionRep  import protoSheetRep
 from protoLib.protoActionEdit  import protoCreate, protoUpdate, protoDelete 
-
+from protoLib.protoActions  import protoExecuteAction
 
 urlpatterns = patterns('', 
     url('protoList/$', protoList ),
     url('protoSheetRep/$', protoSheetRep ),
+    url('protoDoActions/$', protoExecuteAction ),
     
     url('protoAdd/$', protoCreate ),
     url('protoUpd/$', protoUpdate),

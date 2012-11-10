@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 import django.contrib.admin          
-from actions import *  
+from actions import createNewModel  
 
 class PropertyAdmin(django.contrib.admin.ModelAdmin):
+
+    actions = [ createNewModel ]
 
     protoExt= {
     "__ptType": "pcl",

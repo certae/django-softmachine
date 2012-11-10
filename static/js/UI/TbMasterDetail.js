@@ -80,6 +80,17 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 handler: toogleTb2,  
                 menu :  Ext.create( 'Ext.menu.Menu', {}) 
 
+            },{
+                xtype: 'splitbutton', 
+                text   : 'Actions',
+                tooltip: "The basic workflow",
+                iconCls: 'icon-action',
+                itemId : 'protoActions', 
+                hidden : true,
+                enableToggle: true,
+                handler: toogleTb2,  
+                menu :  Ext.create( 'Ext.menu.Menu', {}) 
+
             }, {
                 xtype: 'splitbutton', 
                 text : 'Détails',
@@ -164,6 +175,12 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                     __MasterDetail.showDetailPanel( ! but.pressed )
                 }
 
+            } else if ( but.itemId == 'protoActions' ) {
+                if ( __MasterDetail.tbProtoActions ) {
+                    __MasterDetail.tbProtoActions.setVisible( but.pressed  )
+                }
+
+
             // } else if ( but.itemId == 'config' ) {
                 // this.configCtrl.showMetaConfig()
 
@@ -230,6 +247,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         setEditMode( this, 'printerOpts', bEdit );
         setEditMode( this, 'sorters', bEdit  );
         setEditMode( this, 'custom', bEdit );
+        setEditMode( this, 'protoActions', bEdit );
 
         var autoSync = this.__MasterDetail.autoSync
         this.__MasterDetail.setEditMode(  bEdit   )
@@ -266,6 +284,13 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         if ( this.__MasterDetail.myPrinterOpts ) {
             var bt = this.getComponent('printerOpts')
             bt.menu.add(  this.__MasterDetail.myPrinterOpts )
+            bt.protoEnable = true 
+            bt.show()            
+        }
+
+        if ( this.__MasterDetail.myProtoActions ) {
+            var bt = this.getComponent('protoActions')
+            bt.menu.add(  this.__MasterDetail.myProtoActions )
             bt.protoEnable = true 
             bt.show()            
         }

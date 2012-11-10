@@ -104,7 +104,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         Ext.create('ProtoUL.UI.MDCstmOptsController',  { myMeta : this.myMeta, __MasterDetail : me });
         Ext.create('ProtoUL.UI.MDSortersController',   { myMeta : this.myMeta, __MasterDetail : me });
         Ext.create('ProtoUL.UI.MDPrintOptsController', { myMeta : this.myMeta, __MasterDetail : me });
-
+        Ext.create('ProtoUL.UI.MDActionsController',   { myMeta : this.myMeta, __MasterDetail : me });
 
         
         // Agrega los botones de actions 

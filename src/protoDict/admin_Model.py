@@ -8,9 +8,9 @@
 
 
 import django.contrib.admin          
- 
 
 class Model_Admin(django.contrib.admin.ModelAdmin):
+    
     
     protoExt = {
     "__ptType": "pcl",

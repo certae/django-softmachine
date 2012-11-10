@@ -1,120 +1,47 @@
+# -*- coding: utf-8 -*-
 
 from django.contrib import admin
-from models import * 
-
-
-def createNewModel( modeladmin, request, queryset):
-    """ funcion de pannier para crear un nuevo modelo  
-    """
-    
-#    Recorre el QSet, puede ser una lista de ids de PropertyModel o de PropertyDom, 
-#    si el modelo no corresponde no hace nada. 
-    queryset.update(status='p')
-
-
-    
-createNewModel.short_description = "Create a new model whit the selected properties"
-
-
-
-"""
-Built-in, globally-available admin actions.
-"""
-
-from django import template
 from django.core.exceptions import PermissionDenied
 from django.contrib.admin import helpers
 from django.contrib.admin.util import get_deleted_objects, model_ngettext
 from django.db import router
-from django.shortcuts import render_to_response
 from django.utils.encoding import force_unicode
 from django.utils.translation import ugettext_lazy, ugettext as _
+from models import * 
 
-def delete_selected(modeladmin, request, queryset):
+
+def createNewModel( modeladmin, request, queryset):
+    """ 
+    funcion de pannier para crear un nuevo modelo, 
     """
-    Default action which deletes the selected objects.
 
-    This action first displays a confirmation page whichs shows all the
-    deleteable objects, or, if the user has no permission one of the related
-    childs (foreignkeys), a "permission denied" message.
+#   El QSet viene con la lista de Ids de PropertyModel 
+    if queryset.count() == 0:
+        return 'No record selected' 
 
-    Next, it delets all selected objects and redirects back to the change list.
-    """
-    opts = modeladmin.model._meta
-    app_label = opts.app_label
+    opts = modeladmin.opts 
+    dModel = None 
 
-    # Check that the user has delete permission for the actual model
-    if not modeladmin.has_delete_permission(request):
-        raise PermissionDenied
+#   es invocada desde propertyModel ( el Qset es propModel )  
+    for objPropModel  in queryset:
 
-    using = router.db_for_write(modeladmin.model)
+        dPropDom = objPropModel.propertyDom
+        if dModel == None :   
+            dModel = getModel( dPropDom.domain, 'New Model' )
 
-    # Populate deletable_objects, a data structure of all related objects that
-    # will also be deleted.
-    deletable_objects, perms_needed, protected = get_deleted_objects(
-        queryset, opts, request.user, modeladmin.admin_site, using)
-
-    # The user has already confirmed the deletion.
-    # Do the deletion and return a None to display the change list view again.
-    if request.POST.get('post'):
-        if perms_needed:
-            raise PermissionDenied
-        n = queryset.count()
-        if n:
-            for obj in queryset:
-                obj_display = force_unicode(obj)
-                modeladmin.log_deletion(request, obj, obj_display)
-            queryset.delete()
-            modeladmin.message_user(request, _("Successfully deleted %(count)d %(items)s.") % {
-                "count": n, "items": model_ngettext(modeladmin.opts, n)
-            })
-        # Return None to display the change list page again.
-        return None
-
-    if len(queryset) == 1:
-        objects_name = force_unicode(opts.verbose_name)
-    else:
-        objects_name = force_unicode(opts.verbose_name_plural)
-
-    if perms_needed or protected:
-        title = _("Cannot delete %(name)s") % {"name": objects_name}
-    else:
-        title = _("Are you sure?")
-
-    context = {
-        "title": title,
-        "objects_name": objects_name,
-        "deletable_objects": [deletable_objects],
-        'queryset': queryset,
-        "perms_lacking": perms_needed,
-        "protected": protected,
-        "opts": opts,
-        "root_path": modeladmin.admin_site.root_path,
-        "app_label": app_label,
-        'action_checkbox_name': helpers.ACTION_CHECKBOX_NAME,
-    }
-
-    # Display the confirmation page
-    return render_to_response(modeladmin.delete_selected_confirmation_template or [
-        "admin/%s/%s/delete_selected_confirmation.html" % (app_label, opts.object_name.lower()),
-        "admin/%s/delete_selected_confirmation.html" % app_label,
-        "admin/delete_selected_confirmation.html"
-    ], context, context_instance=template.RequestContext(request))
-
-delete_selected.short_description = ugettext_lazy("Delete selected %(verbose_name_plural)s")
+        dPropModel = PropertyModel()
+        dPropModel.model = dModel
+        dPropModel.propertyDom = dPropDom
+        dPropModel.save() 
+        
+    return 
+    
+createNewModel.short_description = "Create a new model whit the selected properties"
 
 
+def getModel( objDomain, modelCode  ):
+    """ Obtiene un modelo, dado el dominio y el codigo 
+    """ 
+    dModel, created  = Model.objects.get_or_create( domain = objDomain, code = modelCode )
+    return dModel
 
-class ProfileAdmin(admin.ModelAdmin):
-    actions = ['send_verify_email']
-
-    def send_verify_email(self, request, queryset):
-        """
-        Loop through all objects the user has selected and call our custom function.
-        """
-        for obj in queryset:
-            Profile.objects.send_verify_email(obj.user)
-
-        self.message_user(request, "%s users were successfully emailed for re-verification" % len(queryset))
-
-    send_verify_email.short_description = 'Verify Email Addresses'

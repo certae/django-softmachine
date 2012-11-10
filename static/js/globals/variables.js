@@ -41,6 +41,7 @@ _PConfig =  {
     urlGetDetailsTree : 'protoLib/protoGetDetailsTree/', 
     urlGetUserRights : 'protoLib/protoGetUserRights/', 
     urlGetSheetReport : 'protoLib/protoSheetRep/', 
+    urlDoAction   : 'protoLib/protoDoActions/', 
    
     clsBaseModel: 'ProtoUL.model.' 
 }; 

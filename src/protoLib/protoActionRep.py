@@ -1,9 +1,9 @@
+# -*- coding: utf-8 -*-
+
 """
 Manejo de reportes basdaos en plantillas ( sheets )
 Dg 121105   --------------------------------------------------
 """
-
-
 
 from django.http import HttpResponse
 from models import getDjangoModel, ProtoDefinition
