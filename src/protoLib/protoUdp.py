@@ -71,8 +71,7 @@ def saveUDP( regBase,  data, cUDP  ):
     for key in data:
         #Fix: pythonic ??? 
         if (not key.startswith( cUDP.propertyPrefix + '__')): continue 
-
-        UdpCode = key.lstrip( cUDP.propertyPrefix + '__' ) 
+        UdpCode = key[ len(  cUDP.propertyPrefix ) + 2 : ] 
         
         QsUdp = addFilter( Qs, { cUDP.propertyName : UdpCode  } )
         if QsUdp.exists():
