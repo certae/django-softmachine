@@ -6,11 +6,12 @@
 #Categoria,       Modelo  
 #SubCategoria     Para los elmentos de datos 
 
+from models import *
 
 import django.contrib.admin          
+ 
 
 class Model_Admin(django.contrib.admin.ModelAdmin):
-    
     
     protoExt = {
     "__ptType": "pcl",
@@ -18,17 +19,36 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
     "description": "Description des vues",
     "protoConcept": "protoDict.Model",
     "protoIcon": "icon-model",
-    "updateTime": "2012-11-09 17:44:45",
+    "updateTime": "2012-11-11 09:31:51",
     "protoSheetSelector": "udp__Categorie",
+    "metaVersion": "12.1108",
     "idProperty": "id",
     "shortTitle": "Vues",
     "fields": [
+        {
+            "__ptType": "field",
+            "header": "udp__docureference",
+            "type": "udp",
+            "name": "udp__docureference"
+        },
+        {
+            "__ptType": "field",
+            "zoomModel": "protoDict.Domain",
+            "name": "domain",
+            "fkId": "domain_id",
+            "required": True,
+            "cellLink": True,
+            "header": "Domaine",
+            "fromModel": True,
+            "type": "foreigntext"
+        },
         {
             "__ptType": "field",
             "flex": 100,
             "fieldLabel": "Nom de la vue",
             "name": "code",
             "header": "Nom de la vue",
+            "required": True,
             "width": 200,
             "fromModel": True,
             "sortable": True,
@@ -55,6 +75,85 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
         },
         {
             "__ptType": "field",
+            "header": "udp__nomsibdm",
+            "type": "udp",
+            "name": "udp__nomsibdm"
+        },
+        {
+            "__ptType": "field",
+            "header": "udp__acronyme",
+            "type": "udp",
+            "name": "udp__acronyme"
+        },
+        {
+            "__ptType": "field",
+            "header": "Sous-Catégorie",
+            "type": "string",
+            "name": "udp__Souscategorie",
+            "flex": 0.5
+        },
+        {
+            "__ptType": "field",
+            "fkField": "domain",
+            "name": "domain_id",
+            "header": "domain_id",
+            "readOnly": True,
+            "hidden": True,
+            "type": "foreignid"
+        },
+        {
+            "__ptType": "field",
+            "fieldLabel": "Catégorie",
+            "name": "category",
+            "width": 100,
+            "header": "Catégorie",
+            "fromModel": True,
+            "type": "string"
+        },
+        {
+            "__ptType": "field",
+            "header": "udp__nomredacteurs",
+            "type": "udp",
+            "name": "udp__nomredacteurs"
+        },
+        {
+            "__ptType": "field",
+            "header": "udp__uniteadministrative",
+            "type": "string",
+            "name": "udp__uniteadministrative"
+        },
+        {
+            "__ptType": "field",
+            "flex": 1,
+            "name": "udp__IntrantsDeclencheurs",
+            "header": "Intrants déclencheurs",
+            "wordWrap": True,
+            "type": "text"
+        },
+        {
+            "__ptType": "field",
+            "flex": 300,
+            "fieldLabel": "Description",
+            "name": "udp__DescriptionModele",
+            "header": "Description",
+            "wordWrap": True,
+            "type": "udp"
+        },
+        {
+            "__ptType": "field",
+            "header": "Date",
+            "type": "date",
+            "name": "udp__datecn",
+            "fieldLabel": "Date"
+        },
+        {
+            "__ptType": "field",
+            "header": "udp__nomrealisateurcn",
+            "type": "udp",
+            "name": "udp__nomrealisateurcn"
+        },
+        {
+            "__ptType": "field",
             "flex": 1,
             "name": "udp__ActeurPrincipal",
             "header": "Acteur principal",
@@ -70,19 +169,9 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
         },
         {
             "__ptType": "field",
-            "header": "Sous-Catégorie",
-            "type": "string",
-            "name": "udp__Souscategorie",
-            "flex": 0.5
-        },
-        {
-            "__ptType": "field",
-            "fieldLabel": "Catégorie",
-            "name": "category",
-            "header": "Catégorie",
-            "width": 100,
-            "fromModel": True,
-            "type": "string"
+            "header": "udp__nomsecretariat",
+            "type": "udp",
+            "name": "udp__nomsecretariat"
         },
         {
             "__ptType": "field",
@@ -94,11 +183,9 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
         },
         {
             "__ptType": "field",
-            "flex": 1,
-            "name": "udp__IntrantsDeclencheurs",
-            "header": "Intrants déclencheurs",
-            "wordWrap": True,
-            "type": "text"
+            "header": "udp__versioncn",
+            "type": "udp",
+            "name": "udp__versioncn"
         },
         {
             "__ptType": "field",
@@ -106,116 +193,52 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
             "type": "string",
             "name": "udp__Auteurmodele",
             "flex": 1
-        },
-        {
-            "__ptType": "field",
-            "header": "udp__nomsibdm",
-            "type": "udp",
-            "name": "udp__nomsibdm"
-        },
-        {
-            "__ptType": "field",
-            "header": "udp__acronyme",
-            "type": "udp",
-            "name": "udp__acronyme"
-        },
-        {
-            "__ptType": "field",
-            "header": "udp__uniteadministrative",
-            "type": "udp",
-            "name": "udp__uniteadministrative"
-        },
-        {
-            "__ptType": "field",
-            "header": "udp__datecn",
-            "type": "udp",
-            "name": "udp__datecn"
-        },
-        {
-            "__ptType": "field",
-            "header": "udp__nomrealisateurcn",
-            "type": "udp",
-            "name": "udp__nomrealisateurcn"
-        },
-        {
-            "__ptType": "field",
-            "header": "udp__nomredacteurs",
-            "type": "udp",
-            "name": "udp__nomredacteurs"
-        },
-        {
-            "__ptType": "field",
-            "header": "udp__nomsecretariat",
-            "type": "udp",
-            "name": "udp__nomsecretariat"
-        },
-        {
-            "__ptType": "field",
-            "header": "udp__docureference",
-            "type": "udp",
-            "name": "udp__docureference"
-        },
-        {
-            "__ptType": "field",
-            "fkField": "domain",
-            "zoomModel": "protoDict.Domain",
-            "name": "domain_id",
-            "header": "domain_id",
-            "readOnly": True,
-            "type": "foreignid"
-        },
-        {
-            "__ptType": "field",
-            "zoomModel": "protoDict.Domain",
-            "name": "domain",
-            "fkId": "domain_id",
-            "cellLink": True,
-            "header": "Domaine",
-            "type": "foreigntext"
-        },
-        {
-            "__ptType": "field",
-            "flex": 300,
-            "fieldLabel": "Description",
-            "name": "udp__DescriptionModele",
-            "header": "Description",
-            "wordWrap": True,
-            "type": "udp"
         }
     ],
-    "actions": [],
+    "actions": [
+        {
+            "__ptType": "actionDef",
+            "name": "aaa",
+            "actionParams": []
+        }
+    ],
     "protoDetails": [
         {
             "__ptType": "protoDetail",
             "detailTitleLbl": "Vue :",
-            "detailField": "model__pk",
             "conceptDetail": "protoDict.Concept",
+            "detailField": "model__pk",
             "masterTitleField": "code",
             "menuText": "Entité",
             "masterField": "pk"
         },
         {
             "__ptType": "protoDetail",
-            "conceptDetail": "protoDict.PropertyModel",
             "detailField": "model__pk",
-            "masterTitleField": "code",
+            "conceptDetail": "protoDict.PropertyModel",
+            "detailName": "elementsdonnees",
             "menuText": "Éléments de Données",
+            "masterTitleField": "code",
             "masterField": "pk"
         },
         {
             "__ptType": "protoDetail",
-            "menuText": "Propriétés",
             "conceptDetail": "protoDict.UdpModel",
             "detailField": "model__pk",
+            "detailName": "proprietes",
+            "menuText": "Propriétés",
             "masterField": "pk"
         }
     ],
     "protoSheets": [
         {
             "__ptType": "protoSheet",
-            "title": "Fiche descriptive des actions terraines",
+            "sheetType": "gridOnly",
             "name": "AT",
+            "title": "Fiche descriptive des actions terraines",
+            "templateFp": "<!DOCTYPE html> <html> <head> <meta name=\"generator\" content=\"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org\"> <meta charset=\"utf-8\"> <title>{{reportTitle}}</title> <link href=\"static/css/mainsc.css\" rel=\"stylesheet\" type=\"text/css\"> <link href=\"static/css/print.css\" rel=\"stylesheet\" type=\"text/css\" media=\"print\"> </head> <body>",
             "template": "<table class=\"ficha\" cellpadding=\"3\"> <tr class=\"azul\"> <td class=\"negro\">Nom de l\'élément de donnée:</td> <td>{{code}}</td> </tr> <tr class=\"blanco\"> <td class=\"negro\">Description:</td> <td class=\"desc\">{{udp__DescriptionModele}}</td> </tr> <tr class=\"azul\"> <td class=\"negro\">Auteur de la vue</td> <td class=\"desc\">{{udp__Auteurmodele}}</td> </tr> <tr class=\"blanco\"> <td class=\"negro\">Version de la vue</td> <td class=\"desc\">{{udp__Version}}</td> </tr> <tr class=\"azul\"> <td class=\"negro\">Document de référence</td> <td>{{udp__docureference}}</td> </tr> <tr class=\"blanco\"> <td class=\"negro\">Acteur principal:</td> <td class=\"desc\">{{udp__ActeurPrincipal}}</td> </tr> <tr class=\"azul\"> <td class=\"negro\">Autres acteurs:</td> <td>{{udp__AutresActeurs}}</td> </tr> <tr class=\"blanco\"> <td class=\"negro\">Intrants déclencheurs:</td> <td class=\"desc\">{{udp__IntrantsDeclencheurs}}</td> </tr> </table>",
+            "templateEr": "<div class=\"pagebreakbefore\"></div><div class=\"margepage\"><h3>Fiche descriptive de l\'action terrain: {{code}}</h3><table class=\"tabla\"> <caption>Ministère de la Santé et des Services sociaux</caption> <colgroup> <col class=\"coltabla\"/> <col /> </colgroup><tbody> <tr> <td>Nom de l\'élément de donnée:</td> <td>{{code}}</td> </tr> <tr> <td>Description:</td> <td>{{udp__DescriptionModele}}</td> </tr> <tr> <td>Auteur de la vue</td> <td>{{udp__Auteurmodele}}</td> </tr> <tr> <td>Version de la vue</td> <td>{{udp__Version}}</td> </tr> <tr> <td>Document de référence</td> <td>{{udp__docureference}}</td> </tr> <tr> <td>Acteur principal:</td> <td>{{udp__ActeurPrincipal}}</td> </tr> <tr> <td>Autres acteurs:</td> <td>{{udp__AutresActeurs}}</td> </tr> <tr> <td>Intrants déclencheurs:</td> <td>{{udp__IntrantsDeclencheurs}}</td> </tr> </tbody> </table> </div>",
             "sheetDetails": []
         },
         {
@@ -223,19 +246,54 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
             "title": "Fiche descriptive des vues locales",
             "name": "Locale",
             "template": "<table class=\"ficha\" cellpadding=\"3\"> <tr class=\"azul\"> <td class=\"negro\">Nom de l\'élément de donnée:</td> <td>{{code}}</td> </tr> <tr class=\"blanco\"> <td class=\"negro\">Description:</td> <td class=\"desc\">{{udp__DescriptionModele}}</td> </tr> <tr class=\"azul\"> <td class=\"negro\">Auteur de la vue</td> <td class=\"desc\">{{udp__Auteurmodele}}</td> </tr> <tr class=\"blanco\"> <td class=\"negro\">Version de la vue</td> <td class=\"desc\">{{udp__Version}}</td> </tr> <tr class=\"azul\"> <td class=\"negro\">Document de référence:</td> <td>{{udp__docureference}}</td> </tr><tr class=\"blanco\"> <td class=\"negro\">Nom du système d\'information ou de la banque de données ministérielle:</td> <td class=\"desc\">{{udp__nomsibdm}}</td></tr><tr class=\"azul\"> <td class=\"negro\">Acronyme SI ou BDM</td> <td>{{udp__acronyme}}</td></tr><tr class=\"blanco\"> <td class=\"negro\">Nom unité administrative:</td> <td class=\"desc\">{{udp__uniteadministrative}}</td></tr><tr class=\"azul\"> <td class=\"negro\">Date du Cadre Normatif</td> <td>{{udp__datecn}}</td> </tr><tr class=\"blanco\"> <td class=\"negro\">Nom du réalisateur CN:</td> <td class=\"desc\">{{udp__nomrealisateurcn}}</td></tr></table>",
+            "templateFp": "<!DOCTYPE html> <html> <head> <meta name=\"generator\" content=\"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org\"> <meta charset=\"utf-8\"> <title>{{reportTitle}}</title> <link href=\"static/css/mainsc.css\" rel=\"stylesheet\" type=\"text/css\"> <link href=\"static/css/print.css\" rel=\"stylesheet\" type=\"text/css\" media=\"print\"> </head> <body>",
+            "templateEr": "<div class=\"pagebreakbefore\"></div><div class=\"margepage\"> <h3>Fiche descriptive de l\'action terrain: {{code}}</h3> <table class=\"tabla\"> <caption>Ministère de la Santé et des Services sociaux</caption> <colgroup> <col class=\"coltabla\" /> <col /> </colgroup> <tbody> <tr> <td>Nom de la vue:</td> <td>{{code}}</td> </tr> <tr> <td>Catégorie:</td> <td>{{udp__Categorie}}</td> </tr> <tr> <td>Description:</td> <td>{{udp__DescriptionModele}}</td> </tr> <tr> <td>Auteur de la vue</td> <td>{{udp__Auteurmodele}}</td> </tr> <tr> <td>Version de la vue</td> <td>{{udp__Version}}</td> </tr></tbody></table> </div>",
             "sheetDetails": []
         },
         {
             "__ptType": "protoSheet",
+            "templateEr": "<div class=\"pagebreakbefore\"></div><div class=\"margepage\"> <h3>Fiche descriptive de l\'action terrain: {{code}}</h3> <table class=\"tabla\"> <caption>Ministère de la Santé et des Services sociaux</caption> <colgroup> <col class=\"coltabla\" /> <col /> </colgroup> <tbody> <tr> <td>Nom de la vue:</td> <td>{{code}}</td> </tr> <tr> <td>Catégorie:</td> <td>{{udp__Categorie}}</td> </tr> <tr> <td>Description:</td> <td>{{udp__DescriptionModele}}</td> </tr> <tr> <td>Auteur de la vue</td> <td>{{udp__Auteurmodele}}</td> </tr> <tr> <td>Version de la vue</td> <td>{{udp__Version}}</td> </tr></tbody></table> </div>",
             "title": "Fiche descriptive des vues corporatives",
+            "templateFp": "<!DOCTYPE html> <html> <head> <meta name=\"generator\" content=\"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org\"> <meta charset=\"utf-8\"> <title>{{reportTitle}}</title> <link href=\"static/css/mainsc.css\" rel=\"stylesheet\" type=\"text/css\"> <link href=\"static/css/print.css\" rel=\"stylesheet\" type=\"text/css\" media=\"print\"> </head> <body>",
+            "template": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\"> <html> <head> <title></title> </head> <body> <table class=\"ficha\" cellpadding=\"3\"> <tr class=\"azul\"> <td class=\"negro\">Nom de l\'élément de donnée:</td> <td>{{code}}</td> </tr> <tr class=\"blanco\"> <td class=\"negro\">Description:</td> <td class=\"desc\">{{udp__DescriptionModele}}</td> </tr> <tr class=\"azul\"> <td class=\"negro\">Auteur de la vue</td> <td class=\"desc\">{{udp__Auteurmodele}}</td> </tr> <tr class=\"blanco\"> <td class=\"negro\">Version de la vue</td> <td class=\"desc\">{{udp__Version}}</td> </tr> </table> </body> </html>",
             "name": "Corporative",
-            "template": "<table class=\"ficha\" cellpadding=\"3\"> <tr class=\"azul\"> <td class=\"negro\">Nom de l\'élément de donnée:</td> <td>{{code}}</td> </tr> <tr class=\"blanco\"> <td class=\"negro\">Description:</td> <td class=\"desc\">{{udp__DescriptionModele}}</td> </tr> <tr class=\"azul\"> <td class=\"negro\">Auteur de la vue</td> <td class=\"desc\">{{udp__Auteurmodele}}</td> </tr> <tr class=\"blanco\"> <td class=\"negro\">Version de la vue</td> <td class=\"desc\">{{udp__Version}}</td> </tr> <tr class=\"azul\"> <td class=\"negro\">Document de référence</td> <td>{{udp__docureference}}</td> </tr> </table>",
             "sheetDetails": []
+        },
+        {
+            "__ptType": "protoSheet",
+            "templateBb": "<div class=\"margepage\"> <div class=\"tete\"><img src=\"/static/img/app/en_tete.png\" alt=\"cadre normatif entete\" width=\"818\" height=\"241\" class=\"entete\"></div> <div class=\"maincontent\"> <div class=\"titrecentre\"> <h2 class=\"maj\">Cadre normatif</h2> <h3 class=\"maj\">pour {{udp__nomsibdm}}</h3> </div> <div class=\"titre2centre\"> <h2>Système d\'information {{udp__acronyme}}</h2> <h3>{{udp__uniteadministrative}}</h3> <h3>Ministère de la Santé et des Services sociaux</h3> </div> <div class=\"versioncentre\"> <h4>Version {{udp__versioncn}}</h4> <h5>{{udp__datecn}}</h5> </div> </div> <div class=\"footer\"><img src=\"/static/img/app/footer.png\" alt=\"cadre normatif footer\" width=\"818\" height=\"211\" class=\"footer\"></div> <div class=\"pagebreakbefore\"></div>",
+            "name": "Cadre Normatif",
+            "title": "Chapitre 3: description des éléments",
+            "templateFp": "<!DOCTYPE html> <html> <head> <meta name=\"generator\" content=\"HTML Tidy for Linux (vers 25 March 2009), see www.w3.org\"> <meta charset=\"utf-8\"> <title>{{reportTitle}}</title> <link href=\"static/css/mainsc.css\" rel=\"stylesheet\" type=\"text/css\"> <link href=\"static/css/print.css\" rel=\"stylesheet\" type=\"text/css\" media=\"print\"> </head> <body>",
+            "templateLp": "</body></html>",
+            "templateEr": "<h3>Informations général: {{code}}</h3><table class=\"tabla\"><tr> <td>Nom de la vue:</td><td>{{code}}</td></tr><tr><td>Description:</td><td>{{udp__DescriptionModele}}</td></tr><tr><td>Auteur de la vue</td><td>{{udp__Auteurmodele}}</td></tr><tr><td>Version de la vue</td><td>{{udp__Version}}</td></tr><tr><td>Document de référence:</td><td>{{udp__docureference}}</td></tr><tr><td>Nom du système d\'information ou de la banque de données ministérielle:</td> <td>{{udp__nomsibdm}}</td></tr><tr><td>Acronyme SI ou BDM</td> <td>{{udp__acronyme}}</td></tr><tr><td>Nom unité administrative:</td> <td>{{udp__uniteadministrative}}</td></tr><tr><td>Date du Cadre Normatif</td> <td>{{udp__datecn}}</td></tr><tr><td>Nom du réalisateur CN:</td> <td>{{udp__nomrealisateurcn}}</td></tr><tr><td>Noms de rédacteurs:</td> <td>{{udp__nomredacteurs}}</td></tr><tr><td>Nom(s) secrétariat:</td> <td>{{udp__nomsecretariat}}</td></tr></table>",
+            "sheetDetails": [
+                {
+                    "__ptType": "sheetDetail",
+                    "templateBb": "<div class=\"pagebreakbefore\"></div><div class=\"margepage\"> <h3>Liste des éléments</h3> <table class=\"tabla\"><th> <tr> <td>Nom de l\'élément de données</td> <td>Numéro de l\'élément de données</td> </tr> </th>",
+                    "name": "liste",
+                    "detailName": "elementsdonnees",
+                    "templateAb": "</table> </div>",
+                    "templateEr": "<tr> <td>{{propertyDom__code}}</td> <td>{{udp__numelement}}</td> </tr>",
+                    "sheetDetails": []
+                },
+                {
+                    "__ptType": "sheetDetail",
+                    "templateBb": "<div class=\"margepage\">",
+                    "name": "elements",
+                    "detailName": "elementsdonnees",
+                    "templateAb": "</div>",
+                    "templateEr": "<div class=\"pagebreakbefore\"></div> <table class=\"elemtete\" cellspacing=\"10\"> <tr> <td>Chapitre</td> <td>3</td> <td>Description des éléments</td> </tr> </table> <br /> <table class=\"tabla\"><colgroup class=\"coltabla\"> <col /> </colgroup><tr> <td>Nom de l\'élément de donnée:</td> <td>{{propertyDom__code}}</td> </tr> <tr> <td>Numéro de l\'élément de donnée au CN:</td> <td>{{udp__numelement}}</td> </tr> <tr> <td>Type de donnée:</td> <td>{{propertyDom__baseType}}</td> </tr> <tr> <td>Longueur:</td> <td>{{propertyDom__prpLength}}</td> </tr> <tr> <td>Gabarit:</td> <td>{{udp__GABARIT}}</td> </tr> <tr> <td>Définition:</td> <td>{{udp__DEFINITION}}</td> </tr> <tr> <td>Description:</td> <td>{{udp__DESCRIPTIONCN}}</td> </tr> <tr> <td>Précisions:</td> <td>{{udp__PRECISIONS}}</td> </tr> <tr> <td>Validations sur l\'élément:</td> <td>{{udp__VALIDATIONSSURELEMENT}}</td> </tr> <tr> <td>Validations inter-éléments:</td> <td>{{udp__VALIDATIONSINTERELEMENT}}</td> </tr> <tr> <td>Validation inter-enregistrement:</td> <td>{{udp__VALIDATION_INTER-ENREGISTREMENT}}</td> </tr> <tr> <td>Source de données externes:</td> <td>{{udp__SOURCEDEDONNEESEXTERNES}}</td> </tr> <tr> <td>Élément transformé:</td> <td>{{udp__ELEMENTTRANSFORME}}</td> </tr> <tr> <td>Éléments de source:</td> <td>{{udp__elementssource}}</td> </tr> <tr> <td>Méthode de transformation:</td> <td>{{udp__methodetransf}}</td> </tr> <tr> <td>Élément transmis:</td> <td>{{udp__ELEMENTTRANSMIS}}</td> </tr> <tr> <td>Domaine de valeurs:</td> <td>{{udp__DOMAINEDEVALEURS}}</td> </tr> <tr> <td>Entrée en vigueur:</td> <td>{{udp__ENTREEENVIGUEUR}}</td> </tr> <tr> <td>Date de la dernière modification:</td> <td>{{udp__DATEDERNIREMODIFICATION}}</td> </tr> <tr> <td>Validation:</td> <td>{{udp__VALIDATION}}</td> </tr> <tr> <td>Requis par:</td> <td>{{udp__REQUISPAR}}</td> </tr> <tr> <td>Transmission:</td> <td>{{udp__TRANSMISSION}}</td> </tr> <tr> <td>Statut élément de donnée:</td> <td>{{udp__STATUTELEMENTDEDONNEE}}</td> </tr></table>",
+                    "sheetDetails": []
+                }
+            ]
         }
     ],
     "gridConfig": {
         "__ptType": "gridConfig",
         "hideRowNumbers": True,
+        "multiSelect": True,
+        "denyAutoPrint": True,
         "listDisplay": [
             "code",
             "udp__Categorie",
@@ -247,7 +305,9 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
         "sortFields": [
             "code"
         ],
-        "hiddenFields": [],
+        "hiddenFields": [
+            "id"
+        ],
         "filtersSet": [
             {
                 "filter": {
@@ -321,24 +381,24 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                     },
                     {
                         "__ptType": "formField",
-                        "name": "udp__Auteurmodele",
+                        "tooltip": "Créateur de la vue",
                         "fieldLabel": "Auteur de la vue",
-                        "xtype": "textfield",
-                        "tooltip": "Créateur de la vue"
+                        "name": "udp__Auteurmodele",
+                        "xtype": "textfield"
                     },
                     {
                         "__ptType": "formField",
-                        "name": "udp__Version",
+                        "tooltip": "Version de la vue",
                         "fieldLabel": "Version",
-                        "xtype": "textfield",
-                        "tooltip": "Version de la vue"
+                        "name": "udp__Version",
+                        "xtype": "textfield"
                     },
                     {
                         "__ptType": "formField",
-                        "xtype": "textfield",
+                        "tooltip": "Document de base pour la création de la vue",
                         "fieldLabel": "Document de référence",
-                        "name": "udp__docureference",
-                        "tooltip": "Document de base pour la création de la vue"
+                        "xtype": "textfield",
+                        "name": "udp__docureference"
                     },
                     {
                         "__ptType": "htmlset",
@@ -374,13 +434,20 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                     {
                         "__ptType": "formField",
                         "fieldLabel": "Nom unité administrative",
+                        "type": "string",
                         "xtype": "textfield",
                         "name": "udp__uniteadministrative"
                     },
                     {
                         "__ptType": "formField",
-                        "type": "date",
+                        "fieldLabel": "Version",
+                        "xtype": "textfield",
+                        "name": "udp__versioncn"
+                    },
+                    {
+                        "__ptType": "formField",
                         "fieldLabel": "Date du Cadre Normatif",
+                        "type": "date",
                         "name": "udp__datecn",
                         "xtype": "datefield"
                     },

@@ -18,15 +18,15 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-     ('dario', 'certae_dariogomez@gmail.com'),
+     ('Dario Gomez', 'certae_dariogomez@gmail.com'),
 )
 
 MANAGERS = ADMINS
 
 DATABASES = {
-#    'default': {
+#    'test': {
 #        'ENGINE': 'mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-#        'NAME': 'dictionnaire',
+#        'NAME':   'dictionnaire',
 #        'USER': 'root',                      # Not used with sqlite3.
 #        'PASSWORD': '1214moi',               # Not used with sqlite3.
 #        'HOST': '132.203.51.190',             # Set to empty string for localhost. Not used with sqlite3.
@@ -165,13 +165,12 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.sites',
-#    'django_extensions',
     'protoLib', 
     'protoDict', 
-#    'protoExt', 
 #    'shiny', 
 #    'CategoryCle', 
 #    'TCO'
+#    'django_extensions',
 #    'django_qbe'
 )
 
@@ -214,7 +213,7 @@ PROTO_APP['app_menu'] = {
     'auth' : { 'hidden': True, },  
     'sites' : { 'hidden': True },  
 #    'admin': { 'hidden': True },
-#    'protoExt' : { 'hidden': False, 'title': 'Dictionnaire', 'expanded':False , 'menu_index' : 30  }, 
+#    'protoDict' : { 'hidden': False, 'title': 'Dictionnaire', 'expanded':False , 'menu_index' : 30  }, 
 #    'protoLib': { 'hidden': False, 'title': 'Métadonnée', 'expanded':False, 'menu_index' : 99  },
     } 
 

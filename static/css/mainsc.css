@@ -1,0 +1,17 @@
+body {width: 820px; font-size: 12px; font-family: Arial,Helvetica,sans-serif; background: white; }
+.maj {text-transform:uppercase;}
+.margepage {width: auto; margin: 5px; padding:5px;}
+.pagebreakbefore {display: block; page-break-before: always;}
+p {text-align:justify; font-size: 12px;}
+.coltabla { width: 200px;}
+.tabla {border-collapse:collapse;}
+.tabla th, .tabla td {padding: 5px; padding-right:10px; text-align: left;}
+.tabla td {border-bottom: 1px solid #CCC;}
+.tabla td+td {border-left: 1px solid #CCC;}
+.tabla caption {caption-side:bottom; text-align:left; padding: 5px;}
+.elemtete {border-bottom: 1px solid #000000;}
+.elemtete td {padding: 5px; text-align: left; font-weight: bold; font-size: 14px;}
+.maincontent {height: 500px;}
+.titrecentre, .titre2centre, .versioncentre {margin-left: 30px; margin-right: 30px; padding: 5px 10px; text-align:center;  margin-bottom: 50px;}
+.maincontent {height: auto;}
+.footer {margin-top: 35px; page-break-before: avoid;}

@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 
-"""
-Manejo de reportes basdaos en plantillas ( sheets )
-Dg 121105   --------------------------------------------------
-"""
+#Manejo de reportes basdaos en plantillas ( sheets )
+#Dg 121105   --------------------------------------------------
 
 from django.http import HttpResponse
 from models import getDjangoModel, ProtoDefinition
 from protoActionList  import Q2Dict 
 from protoGrid import  getProtoViewName 
 from utilsBase import addFilter, getReadableError  
+from django.utils.encoding import smart_str
 
 import django.utils.simplejson as json
 
@@ -47,12 +46,15 @@ def protoSheetRep(request):
     #  Obtiene el template FirstPage         
     templateFp = pSheet.get( 'templateFp' , '<span ' +  sheetName + '.firstPage></span>') 
     templateFp = templateFp + pSheet.get( 'templateBb' , '<span ' +  sheetName + '.BeforeBlock></span>')
-     
+    
     templateLp = pSheet.get( 'templateAb' , '<span ' +  sheetName + '.AfterBlock></span>') 
     templateLp = templateLp + pSheet.get( 'templateLp' , '<span ' +  sheetName + '.lastPage></span>') 
 
     templateEr = pSheet.get( 'templateEr' , pSheet.get( 'template', '' ) )
 
+    #  Variables de titulo 
+    templateFp = getReport( ['reportTitle'], templateFp, {'reportTitle' : pSheet.get( 'title', sheetName )} ) 
+     
     # Crea la clase del reporte 
     MyReport = SheetReportFactory()
 
@@ -195,12 +197,14 @@ class SheetReportFactory(object):
 def getProperties( fields, template ):
     # Obtiene las propiedades de un template para no recorrer props inutiles 
 
+    template = smart_str( template ) 
     if not template.__contains__( '{{'): return  [] 
 
     properties = [ 'id' ]        
     for field in fields: 
-        if  template.__contains__( '{{' + field[ 'name'] + '}}' ): 
-            properties.append( field[ 'name']  )
+        fName = smart_str( field[ 'name'] ) 
+        if  template.__contains__( '{{' + fName + '}}' ): 
+            properties.append( fName   )
 
     # Retorna y elimina los duplicados 
     return set( properties ) 
@@ -229,10 +233,10 @@ def getDetailConf( protoMeta, detailName ):
 def getReport( props, template, row  ):
     # Remmplaza las propieades en el template  
 
-    report = template.__str__()
+    sAux = smart_str( template[0:] ) 
     for prop  in props :
-        rValue = str( row.get( prop , '') ) 
-        report = report.replace( '{{' + prop + '}}' , rValue )
+        rValue = smart_str( row.get( prop , '') ) 
+        sAux = sAux.replace( '{{' + smart_str( prop ) + '}}' , rValue )
     
-    return report  
+    return sAux  
 

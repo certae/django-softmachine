@@ -18,7 +18,8 @@ urlpatterns = patterns('',
     url(r'^prueba$', direct_to_template, { 'template': 'prueba.html' }),
 
 #    Use for production instalation and for load json configuration files  
-#    (r'static/(?P<path>.*)$', 'django.views.static.serve',{'document_root': '/var/www/protoExt/static'}),
+    url(r'static/(?P<path>.*)$', 'django.views.static.serve',{'document_root': PPATH + '/static'}),
     url(r'^resources/(?P<path>.*)$', 'django.views.static.serve',{'document_root': PPATH + '/static'}),
+    url(r'^media/(?P<path>.*)$', 'django.views.static.serve',{'document_root': PPATH + '/static'}),
 )
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import django.contrib.admin          
-from actions import createNewModel  
+from actions import createNewModel
 
 class PropertyAdmin(django.contrib.admin.ModelAdmin):
 
@@ -8,14 +8,15 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
 
     protoExt= {
     "__ptType": "pcl",
-    "protoOption": "protoDict.PropertyModel",
     "description": "Éléments de données",
     "protoConcept": "protoDict.PropertyModel",
     "protoIcon": "icon-property",
-    "updateTime": "2012-11-09 17:45:00",
-    "protoSheetSelector": "model__category",
+    "metaVersion": "12.1108",
     "idProperty": "id",
+    "protoOption": "protoDict.PropertyModel",
     "shortTitle": "Éléments de données",
+    "protoSheetSelector": "model__category",
+    "updateTime": "2012-11-11 09:24:52",
     "fields": [
         {
             "__ptType": "field",
@@ -23,15 +24,43 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
             "fieldLabel": "Définition",
             "name": "udp__DEFINITION",
             "header": "Définition",
-            "width": 400,
             "wordWrap": True,
-            "type": "html"
+            "type": "html",
+            "width": 400
+        },
+        {
+            "__ptType": "field",
+            "header": "prpLength",
+            "readOnly": True,
+            "type": "decimal",
+            "name": "propertyDom__prpLength"
+        },
+        {
+            "__ptType": "field",
+            "flex": 1,
+            "cellLink": True,
+            "header": "Éléments de Données",
+            "readOnly": True,
+            "zoomModel": "protoDict.PropertyDom",
+            "fieldLabel": "Éléments de Données",
+            "name": "__str__",
+            "fkId": "id",
+            "hidden": True,
+            "type": "string"
         },
         {
             "__ptType": "field",
             "header": "udp__elementssource",
             "type": "udp",
             "name": "udp__elementssource"
+        },
+        {
+            "__ptType": "field",
+            "flex": 100,
+            "fieldLabel": "Élément de données",
+            "name": "propertyDom__code",
+            "header": "Élément de données",
+            "type": "string"
         },
         {
             "__ptType": "field",
@@ -56,6 +85,29 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         },
         {
             "__ptType": "field",
+            "header": "Descriptions",
+            "readOnly": True,
+            "type": "text",
+            "name": "model__description"
+        },
+        {
+            "__ptType": "field",
+            "fieldLabel": "Catégorie",
+            "name": "model__category",
+            "header": "Catégorie",
+            "readOnly": True,
+            "type": "string"
+        },
+        {
+            "__ptType": "field",
+            "flex": 100,
+            "fieldLabel": "Nom de la vue",
+            "name": "model__code",
+            "header": "Nom de la vue",
+            "type": "string"
+        },
+        {
+            "__ptType": "field",
             "header": "udp__PRECISIONS",
             "fieldLabel": "Precision",
             "name": "udp__PRECISIONS",
@@ -72,6 +124,15 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         },
         {
             "__ptType": "field",
+            "fkField": "model",
+            "zoomModel": "protoDict.Model",
+            "name": "model_id",
+            "header": "model_id",
+            "readOnly": True,
+            "type": "foreignid"
+        },
+        {
+            "__ptType": "field",
             "header": "udp__REQUISPAR",
             "type": "string",
             "name": "udp__REQUISPAR",
@@ -83,6 +144,24 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
             "fieldLabel": "Validation Elto",
             "name": "udp__VALIDATIONSSURELEMENT",
             "type": "html"
+        },
+        {
+            "__ptType": "field",
+            "zoomModel": "protoDict.PropertyDom",
+            "name": "propertyDom",
+            "fkId": "propertyDom_id",
+            "required": True,
+            "cellLink": True,
+            "header": "propertyDom",
+            "fromModel": True,
+            "type": "foreigntext"
+        },
+        {
+            "__ptType": "field",
+            "header": "Type de Base",
+            "readOnly": True,
+            "type": "string",
+            "name": "propertyDom__baseType"
         },
         {
             "__ptType": "field",
@@ -114,6 +193,13 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         },
         {
             "__ptType": "field",
+            "header": "udp__VALIDATION",
+            "fieldLabel": "Validation",
+            "name": "udp__VALIDATION",
+            "type": "html"
+        },
+        {
+            "__ptType": "field",
             "flex": 300,
             "fieldLabel": "Description",
             "name": "udp__DESCRIPTIONCN",
@@ -123,10 +209,12 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         },
         {
             "__ptType": "field",
-            "header": "udp__VALIDATION",
-            "fieldLabel": "Validation",
-            "name": "udp__VALIDATION",
-            "type": "html"
+            "fkField": "propertyDom",
+            "zoomModel": "protoDict.PropertyDom",
+            "name": "propertyDom_id",
+            "header": "propertyDom_id",
+            "readOnly": True,
+            "type": "foreignid"
         },
         {
             "__ptType": "field",
@@ -159,109 +247,27 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         },
         {
             "__ptType": "field",
-            "header": "udp__methodetransf",
-            "type": "udp",
-            "name": "udp__methodetransf"
-        },
-        {
-            "__ptType": "field",
             "header": "udp__numelement",
             "type": "udp",
             "name": "udp__numelement"
         },
         {
             "__ptType": "field",
-            "header": "Type de Base",
-            "readOnly": True,
-            "type": "string",
-            "name": "propertyDom__baseType"
-        },
-        {
-            "__ptType": "field",
-            "header": "prpLength",
-            "readOnly": True,
-            "type": "decimal",
-            "name": "propertyDom__prpLength"
-        },
-        {
-            "__ptType": "field",
-            "flex": 1,
-            "fieldLabel": "Éléments de Données",
-            "name": "__str__",
-            "fkId": "id",
-            "zoomModel": "protoDict.PropertyDom",
-            "cellLink": True,
-            "header": "Éléments de Données",
-            "readOnly": True,
-            "hidden": True,
-            "type": "string"
-        },
-        {
-            "__ptType": "field",
-            "header": "Catégorie",
-            "fieldLabel": "Catégorie",
-            "name": "model__category",
-            "type": "string"
-        },
-        {
-            "__ptType": "field",
-            "fkField": "model",
             "zoomModel": "protoDict.Model",
-            "name": "model_id",
-            "header": "model_id",
-            "readOnly": True,
-            "type": "foreignid"
-        },
-        {
-            "__ptType": "field",
-            "fkField": "propertyDom",
-            "zoomModel": "protoDict.PropertyDom",
-            "name": "propertyDom_id",
-            "header": "propertyDom_id",
-            "readOnly": True,
-            "type": "foreignid"
-        },
-        {
-            "__ptType": "field",
-            "zoomModel": "protoDict.PropertyDom",
-            "name": "propertyDom",
-            "fkId": "propertyDom_id",
-            "cellLink": True,
-            "header": "propertyDom",
-            "type": "foreigntext"
-        },
-        {
-            "__ptType": "field",
-            "zoomModel": "protoDict.Model",
+            "fromModel": True,
             "name": "model",
             "fkId": "model_id",
             "flex": 100,
-            "cellLink": True,
+            "type": "foreigntext",
             "header": "model",
-            "type": "foreigntext"
+            "required": True,
+            "cellLink": True
         },
         {
             "__ptType": "field",
-            "flex": 100,
-            "fieldLabel": "Nom de la vue",
-            "name": "model__code",
-            "header": "Nom de la vue",
-            "type": "string"
-        },
-        {
-            "__ptType": "field",
-            "flex": 100,
-            "fieldLabel": "Élément de données",
-            "name": "propertyDom__code",
-            "header": "Élément de données",
-            "type": "string"
-        },
-        {
-            "__ptType": "field",
-            "header": "Descriptions",
-            "readOnly": True,
-            "type": "text",
-            "name": "model__description"
+            "header": "udp__methodetransf",
+            "type": "udp",
+            "name": "udp__methodetransf"
         }
     ],
     "actions": [],
@@ -301,18 +307,24 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         "__ptType": "gridConfig",
         "hideRowNumbers": True,
         "filterSetABC": "code",
-        "multiSelect": True,
         "listDisplay": [
             "model__code",
             "propertyDom__code",
             "udp__DEFINITION"
         ],
         "searchFields": [
-            "code",
-            "concept__model"
+            "model__category",
+            "model__code",
+            "propertyDom__code",
+            "model__description"
         ],
-        "sortFields": [],
-        "hiddenFields": [],
+        "sortFields": [
+            "tag",
+            "description"
+        ],
+        "hiddenFields": [
+            "id"
+        ],
         "filtersSet": [],
         "readOnlyFields": [],
         "initialSort": [],
@@ -331,7 +343,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                     {
                         "__ptType": "formField",
                         "zoomModel": "protoDict.PropertyDom",
-                        "fieldLabel": "Prop Dom",
+                        "fieldLabel": "Domaine",
                         "xtype": "protoZoom",
                         "fkId": "propertyDom_id",
                         "name": "propertyDom"
@@ -346,7 +358,12 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                     },
                     {
                         "__ptType": "formField",
-                        "readOnly": True,
+                        "fieldLabel": "Élément de données",
+                        "xtype": "textfield",
+                        "name": "propertyDom__code"
+                    },
+                    {
+                        "__ptType": "formField",
                         "fieldLabel": "Catégorie",
                         "xtype": "textfield",
                         "name": "model__category"
@@ -354,9 +371,8 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
                     {
                         "__ptType": "formField",
                         "fieldLabel": "Numéro de l\'élément de données",
-                        "xtype": "textfield",
-                        "readOnly": True,
                         "type": "int",
+                        "xtype": "textfield",
                         "name": "udp__numelement"
                     },
                     {
