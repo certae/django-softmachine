@@ -63,6 +63,8 @@ def saveUDP( regBase,  data, cUDP  ):
     
     else: 
         keyValue = data.get( cUDP.keyField  )
+        keyValue = smart_str( keyValue )
+        
         if not keyValue: 
             raise Exception( 'UdpError: Key not found ' + cUDP.keyField  + ' in masterReg') 
 
@@ -71,7 +73,7 @@ def saveUDP( regBase,  data, cUDP  ):
 
 
     for key in data:
-        #Fix: pythonic ??? 
+        key = smart_str( key )
         if (not key.startswith( cUDP.propertyPrefix + '__')): continue 
         UdpCode = key[ len(  cUDP.propertyPrefix ) + 2 : ] 
         
@@ -89,7 +91,7 @@ def saveUDP( regBase,  data, cUDP  ):
             setattr( rUdp, cUDP.propertyName , UdpCode)
             
         # Genera el ISO para la fecha y valores estandares para numeros y booleanos             
-        sAux = str( data[key] )
+        sAux = smart_str( data[key] )
         if sAux == 'None': sAux = ''
         setattr( rUdp, cUDP.propertyValue , sAux )
         rUdp.save()
@@ -105,6 +107,7 @@ def readUdps( rowdict, regBase , cUDP, udpList,  udpTypes ):
         if not keyValue: 
             raise Exception( 'UdpError: Key not found ' + cUDP.keyField  + ' in masterReg') 
     
+        keyValue = smart_str( keyValue )
         bAux = True
         Qs = UdpModel.objects
         Qs = addFilter( Qs, { cUDP.propertyRef  : keyValue  } )
@@ -126,6 +129,7 @@ def readUdps( rowdict, regBase , cUDP, udpList,  udpTypes ):
             if udpName in udpList:
                 sAux = getattr( lUDP, cUDP.propertyValue, '' )
                 sAux = getTypedValue ( sAux , udpTypes[ udpName ])
+                sAux = smart_str( sAux )
                 
                 if udpTypes[ udpName ] == 'html' and type( sAux ).__name__=='string'  : 
                     sAux = sAux.replace( '\n', '<br>').replace( '\r', '<br>')  

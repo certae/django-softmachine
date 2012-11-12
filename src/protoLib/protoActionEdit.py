@@ -97,7 +97,10 @@ def protoEdit(request, myAction ):
                 
                 # Guardar las Udps
                 if cUDP.udpTable:  
-                    saveUDP( rec, data, cUDP  )
+                    try: 
+                        saveUDP( rec, data, cUDP  )
+                    except Exception as e:
+                        raise Exception( 'UdpError: saveActiob')
 
                 # -- Los tipos complejos ie. date, generan un error, es necesario hacerlo detalladamente 
                 # Convierte el registro en una lista y luego toma solo el primer elto de la lista resultado. 

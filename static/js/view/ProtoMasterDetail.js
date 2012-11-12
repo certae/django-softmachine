@@ -145,11 +145,16 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         if ( me.idMasterGrid === 0  ) { tmpStore.protoMasterId = me.idMasterGrid; return; } 
         if (tmpStore.protoMasterId == me.idMasterGrid ) { return; }
 
-        // Filtro de base 
-        var baseFilter = '{"' + pDetail.detailField + '" : ' + me.idMasterGrid + ',}';
+        // Filtro de base y asignacion del pDetail  
+        if ( ! me.protoMasterGrid.rowData )  { 
+            var baseFilter = '{"' + pDetail.detailField + '" : ' + me.idMasterGrid + ',}';
+        } else { 
+            var rowDataIx  = me.protoMasterGrid.rowData[ pDetail.masterField ]
+            var baseFilter = '{"' + pDetail.detailField + '" : ' + rowDataIx  + ',}';
+        }
+        
          
         // TODO: El filtro del detalle debe tner en cuenta el filtro predefinido para la grilla???
-        // TODO: En el vinculo debe existir un filtro predefinido, no es necesariamente cierto q sea solo el Id 
         tmpStore.clearFilter();
         tmpStore.getProxy().extraParams.baseFilter = baseFilter 
         tmpStore.protoMasterId = me.idMasterGrid;

@@ -3,7 +3,7 @@
 
 import datetime, time 
 from decimal import Decimal 
-
+from django.utils.encoding import smart_str
 
 def getTypedValue ( sAux , sType):
     """ Retorna valores tipados segun el tipo definido 
@@ -11,6 +11,7 @@ def getTypedValue ( sAux , sType):
     """  
     
     if sAux == 'None': sAux = ''
+    sAux = smart_str( sAux )
     
     if sType == 'bool':
         sAux = toBoolean( sAux ) 
