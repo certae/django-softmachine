@@ -240,7 +240,9 @@ _MetaProperties =  {
     "refreshOnComplete.type": "boolean",
     
     "actionParamType.help" : "Tipo de dato del parametro", 
-    "actionParamType.choices" : [ "", "string", "bool", "number"] 
+    "actionParamType.choices" : [ "", "string", "bool", "number"], 
+    
+    "fromField.help" : "Copia el contenido de un campo en otro, en el caso de zooms o valores por defecto" 
     
 
 };

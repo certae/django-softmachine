@@ -450,8 +450,8 @@ function getColDefinition( vFld ) {
         //@zoomFilter : TODO: Filtro de base fijo para el zoom ( puede venir definido en zoomView )
         'zoomFilter', 
 
-        //@zoomReturn : TODO: Campos q sera heredados a la entidad base  
-        'zoomReturn'
+        //@fromField : TODO: Campos q sera heredados a la entidad base  
+        'fromField'
         ]
     var editor = copyProps ( {},  vFld, true, lstProps )
 

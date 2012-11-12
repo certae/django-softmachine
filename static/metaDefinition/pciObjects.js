@@ -262,10 +262,10 @@ _MetaObjects =  {
             // Para el zoom 
             "fkId", 
             "fkField",
+            "cellLink", 
             "zoomModel", 
             "zoomFilter", 
-            "zoomReturn", 
-            "cellLink", 
+            "fromField", 
 
             // Para los N2N
             // "conceptDetail", 
@@ -305,7 +305,7 @@ _MetaObjects =  {
             "fkField",
             "zoomModel", 
             "zoomFilter", 
-            "zoomReturn",
+            "fromField",
             "cellLink",
             
             // Para los N2N

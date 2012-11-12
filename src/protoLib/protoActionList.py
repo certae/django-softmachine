@@ -11,6 +11,7 @@ from protoGrid import getSearcheableFields
 from utilsBase import construct_search, addFilter, JSONEncoder, getReadableError 
 from utilsBase import _PROTOFN_ , verifyStr   
 from protoUdp import verifyUdpDefinition, readUdps 
+from django.utils.encoding import smart_str
 
 from models import getDjangoModel 
 
@@ -179,6 +180,14 @@ def Q2Dict (  protoMeta, pRows  ):
                 udpTypes[ fName ]  =  lField['type'] 
                
 
+    # Verifica si existen reemplazos por hacer ( fromField )
+    copyValueFromField = False
+    for lField  in protoMeta['fields']:
+        if lField.get( 'fromField', None ):  
+            copyValueFromField = True
+            break 
+    
+
 #   Esta forma permite agregar las funciones entre ellas el __unicode__
     for item in pRows:
         rowdict = {}
@@ -220,7 +229,8 @@ def Q2Dict (  protoMeta, pRows  ):
             else:
                 try:
                     val = getattr( item, fName  )
-                    if isinstance( val,models.Model): 
+                    # Si es una referencia ( fk ) es del tipo model 
+                    if isinstance( val, models.Model): 
                         val = verifyStr(val , '' )
                 except: val = 'vr?'
                 
@@ -239,6 +249,9 @@ def Q2Dict (  protoMeta, pRows  ):
             readUdps( rowdict, item , cUDP, udpList,  udpTypes )
 
                 
+        # REaliza la absorcion de datos provenientes de un zoom 
+        if copyValueFromField:
+            rowdict = copyValuesFromFields( protoMeta, rowdict  )
 
         if pStyle == 'tree':
             rowdict[ 'protoView' ] = protoMeta.get('protoOption', '')
@@ -254,3 +267,19 @@ def Q2Dict (  protoMeta, pRows  ):
 
 
     return rows
+
+def copyValuesFromFields( protoMeta, rowdict ):
+    
+    for lField  in protoMeta['fields']:
+        fromField =  lField.get( 'fromField', None )
+        if not fromField: continue 
+
+        fromField = smart_str( fromField  )  
+        fName = smart_str( lField['name'] ) 
+        val = rowdict.get( fName, None )  
+        if ( val ) and smart_str( val ).__len__() > 0: continue
+        
+        val = rowdict.get( fromField , None )
+        if ( val ) : rowdict[ fName ] = val 
+
+    return rowdict 
