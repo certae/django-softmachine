@@ -13,7 +13,7 @@ from protoActionList import Q2Dict
 from utilsConvert import toInteger, toDate,toDateTime,toTime, toFloat, toDecimal, toBoolean
 from utilsBase import JSONEncoder, getReadableError
 from protoUdp import verifyUdpDefinition, saveUDP
-
+from django.utils.encoding import smart_str
 
 
 # Error Constants 
@@ -47,7 +47,6 @@ def protoEdit(request, myAction ):
     protoMeta = json.loads( protoMeta )
     rows = json.loads( rows )
 
-    #protoOption = protoMeta.get('protoOption', '')
     protoConcept = protoMeta.get('protoConcept', '')
     
 
@@ -79,6 +78,7 @@ def protoEdit(request, myAction ):
 
         if not myAction['DEL']:
             for key in data:
+                key = smart_str( key )
                 if  key == 'id' or key == '_ptStatus' or key == '_ptId': continue
                 if (cUDP.udpTable and key.startswith( cUDP.propertyPrefix + '__')): continue 
                 try:
@@ -161,7 +161,7 @@ def setRegister( model,  rec, key,  data   ):
         elif  cName  == 'ForeignKey':
             keyId = key + '_id'
             value = data[keyId]
-            exec( 'rec.' + keyId + ' =  ' + str( value ) )
+            exec( 'rec.' + keyId + ' =  ' + smart_str( value ) )
             return 
 
         elif cName == 'DateField':     value = toDate( value  )

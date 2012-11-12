@@ -2,6 +2,7 @@
 from models import getDjangoModel
 from utilsBase import addFilter
 from utilsConvert import getTypedValue
+from django.utils.encoding import smart_str
 
 # Para pasar atributos en forma de clase   
 class cAux: pass 
@@ -24,14 +25,15 @@ def verifyUdpDefinition( pUDP ):
 
     cUDP = cAux()
     cUDP.udpTable = pUDP.get( 'udpTable', None )
-
+       
     if ( cUDP.udpTable ) : 
-        cUDP.propertyName      = pUDP.get( 'propertyName', 'code')
-        cUDP.propertyValue     = pUDP.get( 'propertyValue', 'valueUdp')
-        cUDP.propertyPrefix    = pUDP.get( 'propertyPrefix', 'udp')
+        cUDP.udpTable          = smart_str( cUDP.udpTable )
+        cUDP.propertyName      = smart_str( pUDP.get( 'propertyName', 'code'))
+        cUDP.propertyValue     = smart_str( pUDP.get( 'propertyValue', 'valueUdp'))
+        cUDP.propertyPrefix    = smart_str( pUDP.get( 'propertyPrefix', 'udp'))
 
-        cUDP.propertyRef       = pUDP.get( 'propertyRef', '')
-        cUDP.keyField          = pUDP.get( 'keyField', '' )
+        cUDP.propertyRef       = smart_str( pUDP.get( 'propertyRef', ''))
+        cUDP.keyField          = smart_str( pUDP.get( 'keyField', '' ))
         
         if  len( cUDP.propertyRef) == 0 : 
             raise Exception( 'UdpError: Undefined properteRef for: ' + cUDP.udpTable )
