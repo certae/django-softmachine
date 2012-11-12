@@ -143,13 +143,14 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
         // Verifica si la llave cambio
         if ( me.idMasterGrid === 0  ) { tmpStore.protoMasterId = me.idMasterGrid; return; } 
-        if (tmpStore.protoMasterId == me.idMasterGrid ) { return; }
+        if ( tmpStore.protoMasterId == me.idMasterGrid ) { return; }
 
         // Filtro de base y asignacion del pDetail  
         if ( ! me.protoMasterGrid.rowData )  { 
             var baseFilter = '{"' + pDetail.detailField + '" : ' + me.idMasterGrid + ',}';
         } else { 
             var rowDataIx  = me.protoMasterGrid.rowData[ pDetail.masterField ]
+            if ( ! rowDataIx ) { rowDataIx = me.idMasterGrid  }
             var baseFilter = '{"' + pDetail.detailField + '" : ' + rowDataIx  + ',}';
         }
         
