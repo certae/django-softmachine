@@ -102,24 +102,25 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 enableToggle: true,
                 handler: toogleTb2,  
                 menu :  Ext.create( 'Ext.menu.Menu', {}) 
-
-            },'->',{
-                iconCls : 'icon-tableCancel', 
-                itemId:     'cancel',
-                text:       'Cancel',
-                tooltip:    'Cancel EditMode',
-                hidden : true,
-                handler:    editOpts
-
             },  { 
                 xtype: 'splitbutton', 
-                tooltip: 'Personalisatios',
+                text:       'Filtres',
+                tooltip: 'Filtres et Personalisatios',
                 iconCls: 'icon-custom',
                 itemId : 'custom', 
                 // hidden : true,
                 enableToggle: true,
                 handler: toogleTb2,  
                 menu :  Ext.create( 'Ext.menu.Menu', {}) 
+
+            },'->',{
+                iconCls : 'door_out', 
+                itemId:     'cancel',
+                text:       'Fermer',
+                tooltip:    'Fermer mode édition',
+                hidden : true,
+                handler:    editOpts
+
             }, {
                 // text: 'Aide',
                 xtype: 'splitbutton', 

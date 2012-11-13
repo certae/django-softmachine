@@ -32,7 +32,8 @@
 .icon-help    { background-image: url(../img/protoImg/base-help.png ) !important;}
 
 .icon-cancel      { background-image: url(../img/protoImg/edit_cancel.png ) !important;}
- 
+.door_out         { background-image: url(../img/protoImg/door_out.png ) !important;}
+
 .icon-filter       { background-image: url(../img/protoImg/filter.png ) !important; }
 .icon-filterdelete { background-image: url(../img/protoImg/filter_delete.png ) !important; }
 .icon-filterqbe    { background-image: url(../img/protoImg/filter_edit.png ) !important; }

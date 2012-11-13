@@ -13,9 +13,9 @@ _ROW_ST = {
 _requiredField = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
 
 
-_siteTitle = 'ART Atelier de Référentiel pour Togaf'
+// _siteTitle = 'ART Atelier de Référentiel pour Togaf'_siteTitle = 'Dictionnaire du Ministère de la Santé et des Services sociaux'
 _versionMeta = '12.1108'
-_versionProto = 'Version 0.13.' + _versionMeta
+_versionProto = 'Version 1.00.' + _versionMeta
 
 _detailViewNewTab     = 'Voir dans un nouvel onglet'
 _gridBbPerPage         = ' par page'
@@ -83,8 +83,7 @@ _ComboPageSize = [
 
 
 // Autoload entites
-//_AUTOLOAD_PCI = ['protoExt.Model', 'protoExt.Property' , 'pruebas.Prueba', 'protoLib.ProtoDefinition' , 'TCO.Logiciel'  ]
-_AUTOLOAD_PCI = [ ]
+_AUTOLOAD_PCI = [ 'protoDict.Model', 'protoDict.PropertyModel' ]
 _MENU_COLLAPSED = false 
 
 // ProtoUL.view.ProtoMasterDetail 

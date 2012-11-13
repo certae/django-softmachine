@@ -78,7 +78,7 @@ Ext.application({
             title: 'ART - Identification',
             layout: 'fit',
             
-            width: 360,
+            width: 420,
             height: 135,
             // frame: true,
             

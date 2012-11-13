@@ -82,8 +82,8 @@ Ext.define('ProtoUL.ux.Login', {
     },
 
     submitLogin: function (btn) {
-        
-        this.submitButton.disable();
+        if ( ! btn ) { btn = this.submitButton }
+        btn.disable();
         
         var form = this.getForm(), 
             me = this
@@ -96,27 +96,25 @@ Ext.define('ProtoUL.ux.Login', {
         
         
         if (form.isValid()) {
-            this.submitButton.setIconCls("st-loading");
+            btn.setIconCls("st-loading");
             form.submit({
                 method: 'POST',
-                waitTitle:'Connecting', 
-                waitMsg:'Sending data...',
-             
+                // waitTitle:'Connecting', 
+                // waitMsg:'Sending data...',             
                 url: _PConfig.urlGetUserRights ,
                 scope: me,
                 // success: this.submitLoginCallback,
                 // failure: this.submitLoginCallback, 
                 success: function(result, request) {
                     _UserInfo = request.result.userInfo
-                    me.options.success.call( me.options.scope, result, request);
-                },
+                    me.options.success.call( me.options.scope, result, request);                },
                 failure: function(result, request) {
-                    me.options.failure.call( me.options.scope, result, request);
-                    me.error(result, request);
-                }
+                    _UserInfo = request.result.userInfo
+                    me.showFormError( request.result.message);
+                    me.options.failure.call( me.options.scope, result, request);                }
             });
         } else {
-           this.submitButton.enable();
+           btn.enable();
         }
     },
 
@@ -130,8 +128,8 @@ Ext.define('ProtoUL.ux.Login', {
         // } 
     // },
 
-    error: function (form, json) {
-        this.stLogin.setText( 'Error ... ' ); 
+    showFormError: function ( errMsg ) {
+        this.stLogin.setText( errMsg  ); 
         this.submitButton.enable();
         this.submitButton.setIconCls("icon-ok");
         this.getForm().findField('login').focus();
