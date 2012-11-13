@@ -57,10 +57,8 @@ Ext.define('ProtoUL.ux.StatusBar', {
                 xtype: 'button',
                 text: 'clear',
                 tooltip : 'clear status bar', 
-                
-                // hidden: true,
                 scope: this,
-                iconCls: 'x-status-error',
+                iconCls: 'comment_delete',
                 handler: this.clearErrCount
             },{
                 itemId : 'openTaskForm', 
@@ -70,9 +68,12 @@ Ext.define('ProtoUL.ux.StatusBar', {
                 scope: this,
                 iconCls: 'taskManager',
                 handler: this.openTaskForm
-            },{
-                xtype:'splitbutton',
-                text: 'Login'
+            // },{
+                // xtype:'splitbutton',
+                // text: 'Login'
+            },'-', {
+                xtype: 'text',
+                text: _UserInfo.fullName  || _UserInfo.userName 
             }])
 
         // TODO: Boton q permita clear del sb y guarde en el tooltip la informacion de errores 

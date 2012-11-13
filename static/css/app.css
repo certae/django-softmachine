@@ -56,6 +56,8 @@
 .menu_save   { background-image: url(../img/protoImg/page_save.png) !important; }
 .menu_reload { background-image: url(../img/protoImg/page_refresh.png) !important; }
 
+.comment_delete { background-image: url(../img/protoImg/comment_delete.png ) !important; }
+
 
 /* Iconos Config - Edit */
 .icon-tableSheet        { background-image: url(../img/protoImg/print_sheet.png ) !important;}

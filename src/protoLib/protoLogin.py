@@ -1,5 +1,8 @@
+# -*- encoding: UTF-8 -*-
 
 from django.http import HttpResponse
+from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate, get_backends
 
 import django.utils.simplejson as json
 
@@ -12,24 +15,44 @@ def protoGetUserRights(request):
     if request.method != 'POST':
         return 
 
-    usr = request.POST['login']
-    pwd = request.POST['password']
+    userName = request.POST['login']
+    userPwd  = request.POST['password']
+
+    errMsg = ''
+    success = False  
+
+    user = authenticate(username = userName, password = userPwd )
+    userInfo = { 'userName' : userName } 
+                 
+    if user is not None:
+        if user.is_active:
+            login(request, user)
+            success = True
+            userInfo[ 'isStaff' ] = user.is_staff  
+            userInfo[ 'isSuperUser' ] = user.is_superuser  
+            userInfo[ 'fullName' ] = user.get_full_name()  
+            
+        else:
+            # Return a 'disabled account' error message
+            errMsg =  "Cet utilisateur est desactiv&eacute;"   
+
+    elif userName == '':
+        userInfo[ 'fullName' ] = 'readOnly User'
+        success = True
+
+    else:
+        # Return an 'invalid login' error message.
+        errMsg =  "Mauvais utilisateur ou mot de passe"  
     
-    success = ( usr == pwd )
     
     jsondict = {
         'success': success,
-        'message': '',
+        'message': errMsg,
         'metaData':{
-            'usr': usr,
-            'pwd': pwd,
-
-            #Name of the property from which to retrieve the success attribute. ...
             'successProperty':'success',
-            
-            #The name of the property which contains a response message. (optional)
             'messageProperty': 'message', 
-            }, 
+            },
+        'userInfo' : userInfo, 
         'rows':[],
         'totalCount': 0, 
     }

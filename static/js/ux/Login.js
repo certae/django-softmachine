@@ -82,7 +82,9 @@ Ext.define('ProtoUL.ux.Login', {
     },
 
     submitLogin: function (btn) {
-        btn.disable();
+        
+        this.submitButton.disable();
+        
         var form = this.getForm(), 
             me = this
 
@@ -94,7 +96,7 @@ Ext.define('ProtoUL.ux.Login', {
         
         
         if (form.isValid()) {
-            btn.setIconCls("st-loading");
+            this.submitButton.setIconCls("st-loading");
             form.submit({
                 method: 'POST',
                 waitTitle:'Connecting', 
@@ -105,6 +107,7 @@ Ext.define('ProtoUL.ux.Login', {
                 // success: this.submitLoginCallback,
                 // failure: this.submitLoginCallback, 
                 success: function(result, request) {
+                    _UserInfo = request.result.userInfo
                     me.options.success.call( me.options.scope, result, request);
                 },
                 failure: function(result, request) {
@@ -122,24 +125,12 @@ Ext.define('ProtoUL.ux.Login', {
         // // json.redirect = 'writer'
         // if (json.success === true) {
             // // window.location = json.redirect;
-//             
         // }  else {
             // this.error(result, request);
         // } 
-//             
     // },
 
     error: function (form, json) {
-        // Ext.Msg.show({
-            // buttons: Ext.Msg.OK,
-            // animEl: 'elId',
-            // title: 'erreur',
-            // msg: 'Mauvais utilisateur ou mot de passe',
-            // icon: Ext.MessageBox.ERROR
-// 
-        // });
-
-        
         this.stLogin.setText( 'Error ... ' ); 
         this.submitButton.enable();
         this.submitButton.setIconCls("icon-ok");
@@ -199,22 +190,17 @@ Ext.define('ProtoUL.ux.Login', {
     // // ,iconCls: 'icon-key'
     // border: false,
     // initComponent: function () {
-// 
         // this.form_change_pass = new Ext.FormPanel({
             // waitMsgTarget: true,
             // labelAlign: 'right',
             // labelWidth: 150,
             // disabled: false,
-            // border: false
-// 
-            // ,
+            // border: false, 
             // items: [{
                 // html: 'Changement de votre mot de passe',
                 // style: 'margin:20px',
                 // border: false
-            // },
-// 
-            // {
+            // }, {
                 // xtype: 'textfield',
                 // fieldLabel: 'mot de passe actuel',
                 // inputType: 'password',
@@ -262,21 +248,14 @@ Ext.define('ProtoUL.ux.Login', {
                     // }
                 // }
             // }]
-// 
-// 
         // })
         // this.form_change_pass
         // this.items = this.form_change_pass;
-// 
         // // Ext.apply(this, {
         // // layout:'fit'
         // // ,items:this.form_change_pass
         // // })
-// 
         // Ext.ux.ChangePass.superclass.initComponent.apply(this, arguments);
-// 
         // this.addEvents(['submitSuccess']);
     // }
-// 
-// 
 // });

@@ -1,47 +1,14 @@
 # -*- encoding: UTF-8 -*-
 
-from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, get_list_or_404
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
-from django.contrib.auth import login, authenticate, get_backends
+
 
 from django.conf import settings
 from django.utils.translation import gettext as _
-from core.decorators import publish
 from django.contrib.auth.decorators import login_required
-from apps.django_extjs import utils
 
-@publish
-def default(request):
-    
-    if request.user.is_authenticated() and request.GET.get('next'):
-        return HttpResponseRedirect(request.GET['next'])
-
-    from django.template import RequestContext
-    if request.method == 'POST':
-        user = request.POST['login']
-        apass = request.POST['password']
-        user = authenticate(username=user, password=apass)
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                resp = utils.JsonSuccess({'redirect':request.GET.get('next', '/')  })
-                resp = utils.set_cookie(resp, 'username', user.username)
-                resp = utils.set_cookie(resp, 'email', user.email)
-                return resp
-            else:
-                # Return a 'disabled account' error message
-                return utils.JsonError(_(u"Cet utilisateur est desactiv&eacute;") )   
-        else:
-            # Return an 'invalid login' error message.
-            return utils.JsonError(_("Mauvais utilisateur ou mot de passe") )  
-        
-    params = {}
-    params['username'] = utils.get_cookie(request, 'username') or ''
-    params['email'] = utils.get_cookie(request, 'email') or ''
-    response = render_to_response('login.html', params, context_instance=RequestContext(request))
-    return response
 
 
 @publish

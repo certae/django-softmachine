@@ -8,6 +8,8 @@ Ext.define('ProtoUL.UI.MDActionsController', {
 
     getProtoActionsBar: function() {
 
+        if ( ! _UserInfo.isStaff ) return  
+
         var me = this; 
         var myProtoActions = []  
         var __MasterDetail = this.__MasterDetail

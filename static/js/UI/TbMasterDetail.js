@@ -37,6 +37,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 itemId : 'edit', 
                 tooltip: 'Changer à mode edition',
                 text:    'Editer',
+                hidden : true,
                 handler:    editOpts
                 
             }, {
@@ -137,6 +138,12 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         this.callParent();
         this.setEditMode( false ); 
 
+
+        // permite la edicion 
+        if ( _UserInfo.isStaff ) { 
+            this.getComponent('edit').setVisible ( true  );
+        }
+
         //--------------------------------------------------------
         
         
@@ -225,10 +232,11 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
     }, 
 
     setEditMode: function( bEdit ) {
-        
-        // En modoEdicion los botones de accion son desactivados 
-        // En modoAction los botones de edicion son apagados 
 
+        if ( ! _UserInfo.isStaff  ) return 
+
+                
+        // En modoEdicion los botones de accion son desactivados y los  edicion son apagados 
         Ext.suspendLayouts();
     
         // 'edit', 'cancel', 'save', 'autoSync'

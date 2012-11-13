@@ -129,15 +129,14 @@ Ext.define('ProtoUL.UI.GridController', {
                 width : 20, 
                 scope: this,
                 handler: this.onEditAction
-            }, {
-                itemId: 'toolMetaConfig',
-                tooltip: 'Show MetaConfig',  
-                type: 'metaConfig',
-                width : 20, 
-                scope: this,
-                handler: showMetaConfig
-            },
-            {
+            // }, {
+                // itemId: 'toolMetaConfig',
+                // tooltip: 'Show MetaConfig',  
+                // type: 'metaConfig',
+                // width : 20, 
+                // scope: this,
+                // handler: showMetaConfig
+            },{
                 itemId: 'toolRowAdd',
                 tooltip: 'Ajouter ligne',  
                 type: 'rowAdd',
@@ -159,17 +158,19 @@ Ext.define('ProtoUL.UI.GridController', {
             this.myGrid.addTools( editTools )
             this.setEditMode( false )
         
-            function showMetaConfig() {
-                if ( ! this.configCtrl  ) {
-                    this.configCtrl = Ext.create('ProtoUL.UI.ConfigController', { protoOption : this.myMeta.protoOption });    
-                }
-                this.configCtrl.showMetaConfig()
-            }
+            // function showMetaConfig() {
+                // if ( ! this.configCtrl  ) {
+                    // this.configCtrl = Ext.create('ProtoUL.UI.ConfigController', { protoOption : this.myMeta.protoOption });    
+                // }
+                // this.configCtrl.showMetaConfig()
+            // }
         
         
     }, 
     
     setEditMode: function ( bEdit) {
+
+        if ( ! _UserInfo.isStaff  ) return 
 
         this.myGrid.editable = bEdit
         var myExtGrid = this.myGrid._extGrid    
@@ -182,7 +183,7 @@ Ext.define('ProtoUL.UI.GridController', {
         setToolMode ( myExtGrid, '#toolFormUpd', bEdit )
         setToolMode ( myExtGrid, '#toolFormView', !bEdit )
 
-        setToolMode ( myExtGrid, '#toolMetaConfig',  !bEdit ) 
+        // setToolMode ( myExtGrid, '#toolMetaConfig',  !bEdit ) 
 
         function setToolMode( myExtGrid, myToolBt, bEdit ) {
             if ( bEdit ) { myExtGrid.down( myToolBt ).show(); }

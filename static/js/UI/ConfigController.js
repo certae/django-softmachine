@@ -12,17 +12,19 @@ Ext.define('ProtoUL.UI.ConfigController', {
     
     getActions: function() {
         // Se deben crear en forma indepnediente ( limitacion de Ext ) 
-
         // var tbConfig = Ext.getCmp( ideTbConfig )
 
         var me = this;         
         var myActions = [];
 
-        myActions.push( myActionConfig( 'Meta', 'Meta Config', 'icon-configMeta' ))
-        myActions.push( myActionConfig( 'Form', 'Form Config', 'icon-configForm' ))
-        myActions.push( myActionConfig( 'Fields', 'Add Fields', 'icon-configFields' ))
-        myActions.push( myActionConfig( 'Details', 'Add Details', 'icon-configDetails' ))
-        myActions.push( myActionConfig( 'Reset', 'Reset loaded meta', 'icon-configReset' ))
+
+        if ( _UserInfo.isSuperUser ) { 
+            myActions.push( myActionConfig( 'Meta', 'Meta Config', 'icon-configMeta' ))
+            myActions.push( myActionConfig( 'Form', 'Form Config', 'icon-configForm' ))
+            myActions.push( myActionConfig( 'Fields', 'Add Fields', 'icon-configFields' ))
+            myActions.push( myActionConfig( 'Details', 'Add Details', 'icon-configDetails' ))
+            myActions.push( myActionConfig( 'Reset', 'Reset loaded meta', 'icon-configReset' ))
+        } 
 
         return myActions   
 

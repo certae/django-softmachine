@@ -923,40 +923,6 @@ function definieProtoFieldSelctionModel( protoOption ) {
 
 
 
-function getUserRights( usr, pwd , options ) {
-
-        options = options || {};
-        
-        // DGT: reemplaza las funciones en caso de no existir  
-        Ext.applyIf(options, {
-            scope: this,
-            success: Ext.emptyFn,
-            failure: Ext.emptyFn
-        });
-
-    
-        Ext.Ajax.request({
-            method: 'POST',
-            url: _PConfig.urlGetUserRights  ,
-            params : { user : usr,  pwd : pwd },
-            scope: this,
-            success: function(result, request) {
-                
-                var myResult = Ext.decode( result.responseText );
-                savePclCache( protoOption, myResult.protoMeta )
-
-                options.success.call( options.scope, result, request);
-
-            },
-            failure: function(result, request) {
-                options.failure.call(options.scope, result, request);
-            }
-        })
-            
-        
-}
-
-
 function getSheeReport( protoOption, sheetName,  selectedKeys, options ) {
 
         options = options || {};
