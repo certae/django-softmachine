@@ -53,10 +53,11 @@ function verifyPrpType(  lKey,  cValue ) {
 
 _MetaProperties =  {
 
-
     "metaVersion.help" : "Version interna de la meta", 
-    "userVersion.help" : "Version de usuario ( editable )", 
-
+    "userVersion.help" : "Version de usuario ( editable )",
+     
+    "exportCsv.help"   : "Permite exportar la definicion de fields en formato csv",   
+    "exportCsv.type" : "boolean", 
 
     
 //  Types

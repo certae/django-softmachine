@@ -130,6 +130,13 @@ function getStoreDefinition(  stDef  ){
             // Fires whenever the records in the Store have changed in some way - this could include adding or removing records, or ...
             datachanged: function( store,  eOpts ) {
                 __StBar.clear( store.protoOption , 'dataChanged' ); 
+                
+                // Guarda la info de sort 
+                try {
+                    var mySort = clone( store.getSorters() , 0, [], ['property', 'direction']) 
+                    store.proxy.extraParams.sort  = Ext.encode( mySort )   
+                } catch(e) {}
+                 
             }, 
 
             // Fired when a Model instance has been added to this Store ...

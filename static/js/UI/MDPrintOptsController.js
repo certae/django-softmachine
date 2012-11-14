@@ -12,6 +12,21 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
         var myPrinterOpts = []  
         var __MasterDetail = this.__MasterDetail
 
+
+        if (  this.myMeta.exportCsv  ) {
+            
+            myPrinterOpts.push (
+                new Ext.Action({
+                    text:       'Export CSV',
+                    iconCls :   'icon-printGrid', 
+                    tooltip:    'export en format csv',
+                    scope:      me,                     
+                    handler:    onClickExportCsv
+                }));
+
+        } 
+
+
         if ( ! this.myMeta.gridConfig.denyAutoPrint  ) {
             
             myPrinterOpts.push (
@@ -113,6 +128,34 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
             getSheeReport( pGrid.protoOption, btn.sheetName , selectedKeys , options  )
             
         };
+
+        function onClickExportCsv( btn ){
+            
+            var pGrid = __MasterDetail.protoMasterGrid ;
+
+            // extraParams : {
+                // protoOption : stDef.protoOption,
+                // protoFilter : stDef.protoFilter,
+                // baseFilter: stDef.baseFilter, 
+                // protoMeta  : stDef.sProtoMeta    // String 
+            // },    
+
+            Ext.Ajax.request({
+                method: 'POST',
+                url: _PConfig.urlGetProtoCsv  ,
+                params : pGrid.store.proxy.extraParams,
+                success: function(result, request) {
+                    errorMessage( 'export Csv  Ok' )  
+                },
+                failure: function(result, request) {
+                    errorMessage( 'export Csv Failed', result.status + ' ' + result.statusText )
+                },
+                scope: this,
+                timeout: 60000
+            })
+
+        };
+
         
     }, 
     

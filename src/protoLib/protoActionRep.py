@@ -5,18 +5,18 @@
 
 from django.http import HttpResponse
 from models import getDjangoModel, ProtoDefinition
-from protoActionList  import Q2Dict 
+from protoActionList  import Q2Dict, getQSet  
 from protoGrid import  getProtoViewName 
 from utilsBase import addFilter, getReadableError  
 from django.utils.encoding import smart_str
 
+import csv
 import django.utils.simplejson as json
 
 
 def protoSheetRep(request):
     """ Reporte basado en la definicion de plantillas ( sheets ) 
     """
-    
     if request.method != 'POST':
         return 
     
@@ -63,6 +63,9 @@ def protoSheetRep(request):
     
     # retorna el reporte 
     return HttpResponse(MyReport.myReport )
+
+
+
 
 
 
@@ -116,6 +119,7 @@ def getReportBase( protoOption ):
 
     return protoMeta, Qs 
     
+
 
 class SheetReportFactory(object):
     """ Construye un reporte basado en templates ( sheets )  
@@ -239,4 +243,54 @@ def getReport( props, template, row  ):
         sAux = sAux.replace( '{{' + smart_str( prop ) + '}}' , rValue )
     
     return sAux  
+
+
+# -----------------------------------------------------------------------------------------------
+
+
+def protoCsv(request):
+    # Create the HttpResponse object with the appropriate CSV header, based of fieldDefinition 
+    
+    if request.method != 'POST':
+        return 
+    
+    protoMeta = request.POST.get('protoMeta', '')
+    protoMeta = json.loads(protoMeta)
+    
+    protoFilter = request.POST.get('protoFilter', '')
+    baseFilter = request.POST.get('baseFilter', '')
+    sort = request.POST.get('sort', '')
+
+#   Obtiene las filas del modelo 
+    Qs, orderBy = getQSet( protoMeta, protoFilter, baseFilter , sort  )
+
+    if orderBy: 
+        pRows =  Qs.order_by(*orderBy)
+    else: pRows =  Qs
+
+#   -----------------------------------
+    response = HttpResponse(mimetype='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="' + protoMeta.get('protoOption','export') +'.csv"'
+    writer = csv.writer(response)
+
+
+#   Prepara las cols del Query 
+    try:
+        pList = Q2Dict(protoMeta , pRows  )
+    except Exception,  e:
+        message = getReadableError( e ) 
+        pList = [ message ]
+
+
+    # Recorre los registros y genera el CSV  
+    rIx = 0 
+    for row in pList: 
+
+        if rIx == 0:  
+            writer.writerow( row.keys() )    
+            rIx += 1 
+
+        writer.writerow( row.values() )    
+    
+    return response
 
