@@ -59,7 +59,10 @@ _MetaProperties =  {
     "exportCsv.help"   : "Permite exportar la definicion de fields en formato csv",   
     "exportCsv.type" : "boolean", 
 
-    
+//QBE    
+    "qbeHelp.type":"boolean",
+    "qbeHelp.help": "determina si aparece o no el trigger para el select distinct",
+
 //  Types
     "required.type" : "boolean", 
     "fromModel.type"  : "boolean",

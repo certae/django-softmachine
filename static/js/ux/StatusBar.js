@@ -72,13 +72,45 @@ Ext.define('ProtoUL.ux.StatusBar', {
                 // xtype:'splitbutton',
                 // text: 'Login'
             },'-', {
-                xtype: 'text',
-                text: _UserInfo.fullName  || _UserInfo.userName 
+
+                xtype: 'splitbutton',
+                text: _UserInfo.fullName || _UserInfo.userName,
+                iconCls:'icon-user',
+                menu: new Ext.menu.Menu({
+                    items: [
+                        
+                        { text: 'Cerrar Sesion',flex:1, handler: this.sessionClose, iconCls: 'icon-logout', }
+                    ]
+                })
             }])
 
         // TODO: Boton q permita clear del sb y guarde en el tooltip la informacion de errores 
         this.errBt = this.getComponent( 'errBt' )
         
+    },
+
+    sessionClose:function(){
+    
+        Ext.Ajax.request({
+            url: '/Login/CerrarSesion',
+            
+            success: function (response) {
+
+                var resp = Ext.decode(response.responseText);
+
+                if (resp.success) {
+
+                    document.location = '/Home';
+
+
+                } else {
+                    Ext.Msg.alert('Error', 'La accion no es posible');
+                }
+            },
+            failure: function () {
+
+            }
+        });
     },
 
     clearErrCount: function () {

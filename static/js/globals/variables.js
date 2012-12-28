@@ -13,7 +13,7 @@ _ROW_ST = {
 _requiredField = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
 
 
-// _siteTitle = 'ART Atelier de Référentiel pour Togaf'_siteTitle = 'Dictionnaire du Ministère de la Santé et des Services sociaux'
+// _siteTitle = 'ART Atelier de Référentiel pour Togaf'_siteTitle = 'Promigas S.A. E.S.P.'
 _versionMeta = '12.1108'
 _versionProto = 'Version 1.00.' + _versionMeta
 
@@ -43,6 +43,7 @@ _PConfig =  {
     urlGetSheetReport : 'protoLib/protoSheetRep/', 
     urlGetProtoCsv : 'protoLib/protoCsv/', 
     urlDoAction   : 'protoLib/protoDoActions/', 
+    urlHelpQbe: 'protoLib/protoGetHelpQbe/',
    
     clsBaseModel: 'ProtoUL.model.' 
 }; 
@@ -84,7 +85,8 @@ _ComboPageSize = [
 
 
 // Autoload entites
-_AUTOLOAD_PCI = [ 'protoDict.Model', 'protoDict.PropertyModel' ]
+// _AUTOLOAD_PCI = [ 'protoDict.Model', 'protoDict.PropertyModel' ]
+_AUTOLOAD_PCI = [ ]
 _MENU_COLLAPSED = false 
 
 // ProtoUL.view.ProtoMasterDetail 

@@ -167,6 +167,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'protoLib', 
     'protoDict', 
+    'demo', 
 #    'shiny', 
 #    'CategoryCle', 
 #    'TCO'

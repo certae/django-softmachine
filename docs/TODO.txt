@@ -1,4 +1,99 @@
+Canvas 
 
+Ext JS and Canvas can be used together very easily. One just needs to understand how Ext uses elements and how to gain access to the underlying DOM.
+
+Here is an example of a canvas element embedded in an Ext Panel:
+
+//draw function from https://developer.mozilla.org/en/Drawing_Graphics_with_Canvas
+function draw(el) {
+  var canvas = el;
+  var ctx = canvas.getContext("2d");
+ 
+  ctx.fillStyle = "red";
+ 
+  ctx.beginPath();
+  ctx.moveTo(30, 30);
+  ctx.lineTo(150, 150);
+  ctx.bezierCurveTo(60, 70, 60, 70, 70, 150);
+  ctx.lineTo(30, 30);
+  ctx.fill();
+}
+ 
+Ext.BLANK_IMAGE_URL = '/inc/js/ext-3.2.1/resources/images/default/s.gif';
+ 
+Ext.onReady(function(){
+ 
+canvasPanel = new Ext.Panel({
+	title:'Ext JS Canvas Panel'
+	,height:200
+	,width:400
+	,frame:true
+	//,renderTo:'ext-canvas-container' //NOTICE: renderTo does not work because the var canvasPanel will not be available in the renderer yet
+	,items:{
+		xtype: 'box',
+		autoEl:{
+			tag: 'canvas'
+			,height:150
+		}
+		,listeners:{
+			render:{
+				scope:this
+				,fn:function(){
+					draw(canvasPanel.items.items[0].el.dom);
+				}
+			}
+		}
+	}
+});
+canvasPanel.render('ext-canvas-container');
+ 
+});
+Ext JS Canvas Panel
+
+You can also do the same thing with an Ext style window using the Ext.Window class.
+
+Ext.onReady(function(){
+ 
+	canvasWindow = new Ext.Window({
+		title:'Ext JS Canvas Window'
+		,height:200
+		,width:400
+		,items:{
+			xtype: 'box',
+			autoEl:{
+				tag: 'canvas'
+				,height:150
+			}
+			,listeners:{
+				render:{
+					scope:this
+					,fn:function(){
+						draw(canvasWindow.items.items[0].el.dom);
+					}
+				}
+			}
+		}
+	});
+ 
+	canvasWindowButton = new Ext.Panel({
+		renderTo:'ext-canvas-window-button-container'
+		,frame:true
+		,width:400
+		,height:150
+		,items:{
+			xtype:'button'
+			,width:300
+			,text:'Launch Ext Canvas Window'
+			,handler:function(){
+				canvasWindow.show();
+			}
+		}
+	});
+});
+
+
+
+---------------------------------
 
 Verifcar por q algunos htmlset no quedan readOnly
 

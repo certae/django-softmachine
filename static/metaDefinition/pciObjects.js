@@ -241,6 +241,7 @@ _MetaObjects =  {
             "format",
             "header" ,
             "sortable", 
+            "searchable",
             "flex", 
             "height","maxHeight","minHeight",
             "width", "maxWidth","minWidth",
@@ -255,6 +256,8 @@ _MetaObjects =  {
             "wordWrap",
             "fromModel",
             
+            "qbeHelp",
+
             // Para los campos del htmlSet            
             "collapsed",   
             // Para el combo

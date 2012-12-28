@@ -182,7 +182,8 @@ Ext.define('ProtoUL.view.Viewport', {
        this.protoTabContainer = Ext.create('widget.protoTabContainer', {
             region: 'center',
             border : false, 
-            minWidth: 300 
+            minWidth: 300
+//          bodyStyle: "background-image:url(../../Recursos/Imagenes/sm.jpg) !important; background-size:100% 100% !important; background-repeat:no-repeat  !important;" 
         }); 
         return this.protoTabContainer;
     }

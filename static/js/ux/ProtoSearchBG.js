@@ -30,13 +30,20 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
             handler: onClickLoadData,
             pressed: true,
             iconCls: 'icon-filter',
-            // menu: {
-               // items: [{
-                   // text: 'Advanced filter QBE' ,
-                   // iconCls: 'icon-filterqbe',
-                   // // handler: onClickClearFilter 
-               // }]
-            // }
+            menu: {
+                items:[
+                     {
+                       text: 'Advanced filter QBE' ,
+                       iconCls: 'icon-filterqbe',
+                       hidden:true,
+                       handler: onClickClearFilter 
+                     },{
+                         text: 'Advanced filter QBE',
+                       iconCls: 'icon-filterqbe',
+                       handler: onClickViewQBE 
+                    }
+               ]
+             }
         });
 
         var clearBtn = new Ext.button.Button({
@@ -92,6 +99,23 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
             // TODO: Manejara los filtros compuestos ( QBE )
             clearCombos()
             onClickLoadData( {} );
+    
+        }
+
+        function onClickViewQBE(item) {
+            data = me.myMeta;
+            resp = data.fields;
+                       
+            var QBE = Ext.create('Ext.ux.protoQBE', {
+                campos: data.fields,
+                protoOption: data.protoOption,
+                titulo: data.shortTitle,
+                aceptar: function (qbe) {
+                    Ext.Msg.alert("",qbe);
+                    //ahora de debe filtrar
+                }
+            }).show();
+                      
     
         } 
 

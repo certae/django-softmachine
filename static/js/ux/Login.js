@@ -109,8 +109,7 @@ Ext.define('ProtoUL.ux.Login', {
                     _UserInfo = request.result.userInfo
                     me.options.success.call( me.options.scope, result, request);                },
                 failure: function(result, request) {
-                    _UserInfo = request.result.userInfo
-                    me.showFormError( request.result.message);
+                    me.showFormError( request.result.message );
                     me.options.failure.call( me.options.scope, result, request);                }
             });
         } else {

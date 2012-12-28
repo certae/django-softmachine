@@ -34,6 +34,7 @@ function OpenFile( fileName  ) {
 }
 
 
+// Redefinicion de typeof de base para generar array y null 
 function typeOf(value) {
     var s = typeof value;
     if (s === 'object') {
