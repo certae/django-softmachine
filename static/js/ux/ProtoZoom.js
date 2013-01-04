@@ -197,7 +197,7 @@ Ext.define('Ext.ux.protoZoom', {
 
         function doEdit() {
             if ( ! zoomGrid.selected ) {
-                errorMessage( 'Form', 'No record selected')
+                errorMessage(__language.Title_Form_Panel, __language.Msg_Select_Record)
                 return 
             }
             var formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });

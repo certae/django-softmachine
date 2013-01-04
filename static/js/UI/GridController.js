@@ -100,7 +100,7 @@ Ext.define('ProtoUL.UI.GridController', {
         var editTools =    [
             {
                 itemId: 'toolFormAdd',
-                tooltip: 'Ajouter (formulaire)',  
+                tooltip: __language.Tooltip_Grid_Add_Form,
                 type: 'formAdd',
                 width : 20, 
                 hidden: true,
@@ -108,7 +108,7 @@ Ext.define('ProtoUL.UI.GridController', {
                 handler: this.onEditAction
             }, {
                 itemId: 'toolFormUpd',
-                tooltip: 'Editer (formulaire)',  
+                tooltip: __language.Tooltip_Grid_Edit_Form,
                 hidden: true,
                 type: 'formUpd',
                 width : 20, 
@@ -117,14 +117,14 @@ Ext.define('ProtoUL.UI.GridController', {
             }, {
                 itemId: 'toolRowDel',
                 type: 'rowDel',
-                tooltip: 'Effacer ligne',  
+                tooltip: __language.Tooltip_Grid_Del_Record,
                 hidden: true,
                 width : 30, 
                 scope: this,
                 handler: this.onEditAction
             },  {
                 itemId: 'toolFormView',
-                tooltip: 'Voir ( lecture seulement )',  
+                tooltip: __language.Tooltip_Grid_Read_Only,
                 type: 'formView',
                 width : 20, 
                 scope: this,
@@ -138,7 +138,7 @@ Ext.define('ProtoUL.UI.GridController', {
                 // handler: showMetaConfig
             },{
                 itemId: 'toolRowAdd',
-                tooltip: 'Ajouter ligne',  
+                tooltip: __language.Tooltip_Grid_Add_Row,
                 type: 'rowAdd',
                 hidden: true,
                 width : 20, 
@@ -146,7 +146,7 @@ Ext.define('ProtoUL.UI.GridController', {
                 handler: this.onEditAction
             }, {
                 itemId: 'toolRowCopy',
-                tooltip: 'Copier ligne',  
+                tooltip: __language.Tooltip_Grid_Copy_Row,
                 type: 'rowCopy',
                 hidden: true,
                 width : 20, 
@@ -236,7 +236,7 @@ Ext.define('ProtoUL.UI.GridController', {
 
         function validaSelected( myReg )  {
             if ( ! myReg ) {
-                errorMessage( 'Form', 'No record selected')
+                errorMessage(__language.Title_Form_Panel, __language.Msg_Select_Record)
                 return false 
             }
             return true 

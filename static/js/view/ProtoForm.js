@@ -247,7 +247,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         var form = this.getForm();
         if( ! form.isValid()) {
-            this.setText( 'OOPs!!  Form is not valid')
+            this.setText(__language.Msg_Invalid_Form)
             return;  
         }  
 
@@ -276,13 +276,13 @@ Ext.define('ProtoUL.view.ProtoForm', {
     
                     var myResult = Ext.decode( myReponse.responseText );
                     if( myResult.message ) {
-                        errorMessage ( 'Save form Failed', myResult.message  )
+                        errorMessage(__language.Msg_Error_Save_Form, myResult.message)
                     } else {
                         me.fireEvent('close', me );
                     }
                 },
                 failure: function(result, request) {
-                    errorMessage ( 'Save form Failed', 'Operation failure' )
+                    errorMessage(__language.Msg_Error_Save_Form, __language.Msg_Failed_Operation)
                 }
             });
         } 

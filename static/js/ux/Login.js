@@ -16,14 +16,14 @@ Ext.define('ProtoUL.ux.Login', {
     initComponent: function () {
 
         this.submitButton = new Ext.Button({
-            text: "vérifier",
+            text: __language.Text_Validate_Login_Button,
             iconCls: "st-user-go",
             scope: this,
             handler: this.submitLogin
         });
 
         this.resetButton = new Ext.Button({
-            text: "mot de passe perdu",
+            text: __language.Text_Forgotten_Password,
             iconCls: "st-key-go",
             scope: this,
             handler: this.resetPassword
@@ -34,7 +34,7 @@ Ext.define('ProtoUL.ux.Login', {
 
         Ext.apply(this, {
             items: [{
-                fieldLabel: "utilisateur",
+                fieldLabel: __language.Textfield_User_Login,
                 name: "login",
                 value: this.username,
                 listeners: {
@@ -42,7 +42,7 @@ Ext.define('ProtoUL.ux.Login', {
                     keydown: this.onKeyEnter
                 }
             }, {
-                fieldLabel: "mot de passe",
+                fieldLabel: __language.Textfield_Password_Login,
                 inputType: "password",
                 name: "password",
                 listeners: {
@@ -109,7 +109,8 @@ Ext.define('ProtoUL.ux.Login', {
                     _UserInfo = request.result.userInfo
                     me.options.success.call( me.options.scope, result, request);                },
                 failure: function(result, request) {
-                    me.showFormError( request.result.message );
+                    // _UserInfo = request.result.userInfo
+                    me.showFormError( request.result.message);
                     me.options.failure.call( me.options.scope, result, request);                }
             });
         } else {
@@ -135,7 +136,7 @@ Ext.define('ProtoUL.ux.Login', {
     },
 
     resetPassword: function (btn) {
-        Ext.Msg.prompt("votre email", "Saisissez votre email", function (btn, email) {
+        Ext.Msg.prompt(__language.Title_Window_Email_Request, __language.Message_Enter_Email, function (btn, email) {
             if (btn == 'ok') {
                 Ext.Ajax.request({
                     url: '/apps/login/lostpassword',
@@ -148,15 +149,15 @@ Ext.define('ProtoUL.ux.Login', {
                         if (json.success) {
 
                             Ext.Msg.show({
-                                title: 'Succès',
-                                msg: 'Un email contenant les instructions vous a été envoyé',
+                                title: __language.Message_Success,
+                                msg:   __language.Message_Email_Forgotten_Password,
                                 buttons: Ext.Msg.OK,
                                 icon: Ext.MessageBox.INFO
                             });
                         } else {
 
                             Ext.Msg.show({
-                                title: 'Erreur',
+                                title: Message_Error,
                                 msg: json.msg,
                                 buttons: Ext.Msg.OK,
                                 icon: Ext.MessageBox.WARNING
@@ -165,8 +166,8 @@ Ext.define('ProtoUL.ux.Login', {
                     },
                     failure: function () {
                         Ext.Msg.show({
-                            title: 'Erreur',
-                            msg: 'Impossible',
+                            title: __language.Message_Error,
+                            msg: __language.Message_Error_Login,
                             buttons: Ext.Msg.OK,
                             icon: Ext.MessageBox.WARNING
                         });

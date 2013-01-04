@@ -35,35 +35,35 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             { 
                 iconCls: 'icon-edit',
                 itemId : 'edit', 
-                tooltip: 'Changer à mode edition',
-                text:    'Editer',
+                tooltip: __language.Tooltip_Switch_Edit_Mode,
+                text:    __language.Toolbar_Text_Edit_Button,
                 hidden : true,
                 handler:    editOpts
                 
             }, {
                 iconCls : 'icon-tableSave', 
                 itemId:     'save',
-                text:       'Save',
-                tooltip:    'Save and exit edition mode',
+                text:       __language.Title_Save_Button,
+                tooltip:    __language.Tooltip_Save_Exit_Edition_Button,
                 handler:    editOpts,
                 hidden:     true  
             }, {
                 iconCls : 'icon-saveDraft', 
                 itemId:     'saveDraft',
-                text:       'Continue',
-                tooltip:    'Save and continue',
+                text:       __language.Text_Continue_Button,
+                tooltip:    __language.Tooltip_Save_Continue_Edition_Button,
                 handler:    editOpts,
                 hidden:     true   
             },  {
                 iconCls : 'icon-tableAutoSync', 
                 itemId:     'autoSync',
-                text:       'AutoSync',
+                text:      __language.Text_AutoSync,
                 enableToggle: true, 
                 handler:      editOpts, 
                 hidden : true
             },{
-                text: 'Classer',
-                tooltip: 'Options de classement',
+                text:    __language.Text_Clasify_Button,
+                tooltip: __language.Tooltip_Clasify_Button,
                 iconCls: 'icon-order',
                 itemId : 'sorters', 
                 hidden : true,
@@ -72,8 +72,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
             },{
                 xtype: 'splitbutton', 
-                text   : 'Imprimer',
-                tooltip: "Options d'impression",
+                text:    __language.Text_Print,
+                tooltip: __language.Tooltip_Printing_Options,
                 iconCls: 'icon-print',
                 itemId : 'printerOpts', 
                 hidden : true,
@@ -83,8 +83,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
             },{
                 xtype: 'splitbutton', 
-                text   : 'Actions',
-                tooltip: "The basic workflow",
+                text:    __language.Text_Actions_Button,
+                tooltip: __language.Tooltip_Actions_Button,
                 iconCls: 'icon-action',
                 itemId : 'protoActions', 
                 hidden : true,
@@ -94,8 +94,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
             }, {
                 xtype: 'splitbutton', 
-                text : 'Détails',
-                tooltip: 'Voir détails',
+                text:   __language.Text_Toolbar_Detail_Button,
+                tooltip: __language.Tooltip_Details_Button,
                 iconCls: 'icon-details', 
                 itemId : 'details', 
                 hidden : true,
@@ -104,8 +104,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 menu :  Ext.create( 'Ext.menu.Menu', {}) 
             },  { 
                 xtype: 'splitbutton', 
-                text:       'Filtres',
-                tooltip: 'Filtres et Personalisatios',
+                text:    __language.Text_Filters_Button,
+                tooltip: __language.Tooltip_Filters_Button,
                 iconCls: 'icon-custom',
                 itemId : 'custom', 
                 // hidden : true,
@@ -116,8 +116,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             },'->',{
                 iconCls : 'door_out', 
                 itemId:     'cancel',
-                text:       'Fermer',
-                tooltip:    'Fermer mode édition',
+                text:    __language.Text_Close_Button,
+                tooltip: __language.Tooltip_Exit_Edit_Mode_Button,
                 hidden : true,
                 handler:    editOpts
 

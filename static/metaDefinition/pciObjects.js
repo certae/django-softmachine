@@ -49,7 +49,65 @@
         "roProperties": []  
         },
  
-        
+    
+----------------------
+
+
+{
+    "customFilters": [
+        {
+            "name": "xxxx",
+            "filter": [
+                {
+                    "property": "name",
+                    "qbeValue": "qbeStmt"
+                },
+                {
+                    "property": "name",
+                    "qbeValue": "qbeStmt"
+                }
+            ]
+        },
+        {
+            "name": "yyyy",
+            "filter": [
+                {
+                    "property": "name",
+                    "qbeValue": "qbeStmt"
+                }
+            ]
+        }
+    ],
+    "customSorters": [
+        {
+            "name": "xxxx",
+            "orderBy": [
+                "+/-propt1",
+                "+/-propt2"
+            ]
+        }
+    ],
+    "displaySet": [
+        {
+            "name": "xxxx",
+            "columnSet": [
+                "propt1",
+                "propt2"
+            ],
+            "initialFilter": [
+                {
+                    "property": "name",
+                    "qbeValue": "qbeStmt"
+                }
+            ],
+            "initialSort": [
+                "+/-propt1",
+                "+/-propt2"
+            ]
+        }
+    ]
+}
+----------------------        
  * 
  */ 
 
@@ -213,7 +271,8 @@ _MetaObjects =  {
         "objects": [
             "gridConfig", 
             "protoForm", 
-            "protoUdp" 
+            "protoUdp"
+//            "custom" 
             ],
         "lists": [
             "fields", 

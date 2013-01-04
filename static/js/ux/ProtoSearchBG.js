@@ -22,15 +22,15 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
         var me = this;
         var myMeta = this.myMeta; 
 
-
+        
         // Load Data button 
-        var searchBtn = new Ext.button.Split({
+        var searchBtn = new Ext.button.Button({
             // scale: 'medium', 
-            tooltip: 'Filtrer',
+            tooltip: __language.Tooltip_Filter_Grid_Button,
             handler: onClickLoadData,
-            pressed: true,
+           // pressed: true,
             iconCls: 'icon-filter',
-            menu: {
+           /* menu: {
                 items:[
                      {
                        text: 'Advanced filter QBE' ,
@@ -43,7 +43,15 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
                        handler: onClickViewQBE 
                     }
                ]
-             }
+             }*/
+        });
+
+        var QBEBtn = new Ext.button.Button({
+            // scale: 'medium', 
+            text: __language.Text_Toolbar_Advanced_Filter,
+            iconCls: 'icon-filterqbe',
+            handler: onClickViewQBE
+           
         });
 
         var clearBtn = new Ext.button.Button({
@@ -55,7 +63,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
         
         // Criteria 
         var searchCr = new Ext.form.TextField({
-            emptyText: 'mots-clés recherchés ..',
+            emptyText: __language.Text_Toolbar_Search_Field,
             enableKeyEvents : true,  
             width: 200, 
             listeners: {
@@ -72,9 +80,10 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
             border : false,
             disabled : ! me.protoEnable,
             items:  [  
-                searchCr,
+                /*searchCr,
                 clearBtn, 
-                searchBtn 
+                searchBtn,*/
+                QBEBtn
             ]
         });
 
@@ -86,7 +95,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
         clearCombos();     
 
         function onClickLoadData ( btn ) { 
-
+            
             var sFilter = searchCr.getValue();
             var sTitle = ' " ' + searchCr.getValue() + ' "';
             
@@ -105,19 +114,21 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
         function onClickViewQBE(item) {
             data = me.myMeta;
             resp = data.fields;
-                       
+            
             var QBE = Ext.create('Ext.ux.protoQBE', {
+                
                 campos: data.fields,
                 protoOption: data.protoOption,
                 titulo: data.shortTitle,
                 aceptar: function (qbe) {
-                    Ext.Msg.alert("",qbe);
+                    console.log('ok');
+                    me.fireEvent('loadData', me, qbe, ' " '+ __language.Text_Toolbar_Advanced_Filter + '"');
                     //ahora de debe filtrar
                 }
             }).show();
                       
-    
-        } 
+               
+        }
 
         //BG
         function clearCombos ( ){
@@ -149,7 +160,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
             displayField: 'colName',
             valueField: 'colPhysique',
             forceSelection: true,
-            emptyText: 'dans ...',
+            emptyText: __language.Text_Toolbar_In,
             selectOnFocus: true,
             typeAhead: true
         });
@@ -162,7 +173,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
         }); 
         
         var comboOp = new Ext.form.ComboBox({
-            emptyText: 'sélectionner opérator' ,
+            emptyText: __language.Text_Toolbar_Search_Combo,
             store: opStore,
             width: 150,
             mode: 'local',
@@ -178,7 +189,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
         function configureComboColumns ( tb ){
             // Columnas para el Query del tipo :  newColData = [['idx', 'Id Reg'],['code', 'Code Reg']];
             var colData = [];
-            var myFieldDict = getFieldDict( me.myMeta )
+            var myFieldDict = getFieldDict(me.myMeta)
 
             // REcorre los q llegan y genera el obj  header, name         
             for ( var ix in me.myMeta.gridConfig.searchFields ) {

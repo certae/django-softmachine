@@ -52,7 +52,7 @@ Ext.define('ProtoUL.UI.MDSortersController', {
                 items  : [{
                     iconCls : 'sort', 
                     xtype: 'tbtext',
-                    text: '<b>Classer par :</b>',
+                    text: '<b>' + __language.Sorting_Text + ':</b>',
                     reorderable: false 
                     }],  
                 plugins: [reorderer]

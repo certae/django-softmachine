@@ -163,7 +163,7 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
             autoLoad: true,
             model: 'Proto.DetailsTreeModel',
             root: {
-                text:'details',
+                text: __language.Text_Toolbar_Detail_Button,
                 expanded: true 
             }, 
 
@@ -184,17 +184,17 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
 
             columns: [{
                 xtype: 'treecolumn', //this is so we know which column will show the tree
-                text: 'text',
+                text: __language.Tree_Concept_Details_Text,
                 flex: 2,
                 sortable: true,
                 minWidth: 200,
                 dataIndex: 'id'
             },{
-                text: 'conceptDetail',
+                text: __language.Tree_Concept_Details_Detail,
                 dataIndex: 'conceptDetail'
             },{
                 flex: 2,
-                text: 'detailField',
+                text: __language.Tree_Details_Field,
                 dataIndex: 'detailField'
             }] 
              

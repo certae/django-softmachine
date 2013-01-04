@@ -17,20 +17,28 @@ _requiredField = '<span style="color:red;font-weight:bold" data-qtip="Required">
 _versionMeta = '12.1108'
 _versionProto = 'Version 1.00.' + _versionMeta
 
-_detailViewNewTab     = 'Voir dans un nouvel onglet'
-_gridBbPerPage         = ' par page'
-_gridBbShow  = 'Résultats' 
-_gridBbOf = 'de' 
-_gridBbPage = 'Page'
+_detailViewNewTab = __language.Msg_View_In_New_Tab
+_gridBbPerPage = __language.Label_Pagging_by_Page
+_gridBbShow = __language.Label_Pagging_Result
+_gridBbOf = __language.Label_Pagging_From
+_gridBbPage = __language.Label_Pagging_Page
 
-_gridFirstText = 'Première page',  
-_gridNextText = 'Page suivante', 
-_gridPrevText = 'Page précédente', 
-_gridLastText = 'Dernière page', 
-_gridRefreshText = 'Actualiser',  
+_gridFirstText = __language.Label_Pagging_First_Page,
+_gridNextText = __language.Label_Pagging_Next_Page,
+_gridPrevText = __language.Label_Pagging_Previous_Page,
+_gridLastText = __language.Label_Pagging_Last_Page,
+_gridRefreshText = __language.Text_Button_Upd_Grid,
 
     
-_tbSearchClearFilter = 'Supprimer les filtres'
+_tbSearchClearFilter = __language.Text_Toolbar_Remove_Filters
+    
+//user_prueba
+
+_UserInfo = {
+    fullName: __language.Text_UserInfo_Fullname,
+    userName: ""
+
+};
     
 // Config Variables 
 _PConfig =  {
@@ -83,40 +91,38 @@ _ComboPageSize = [
             ]; 
             
 
-
 // Autoload entites
 // _AUTOLOAD_PCI = [ 'protoDict.Model', 'protoDict.PropertyModel' ]
 _AUTOLOAD_PCI = [ ]
 _MENU_COLLAPSED = false 
 
 // ProtoUL.view.ProtoMasterDetail 
-_ComboFilterOp = [
-            ['iexact', 'égal'],
-            ['icontains', 'qui contient'],
-            ['iendswith', 'qui finisse par'],
-            ['istartswith', 'qui commence par'],
-            ['--', ''],
+_ComboFilterOp = []
 
-            ['gt', 'plus grand que'],
-            ['gte', 'plus grand ou égal que'],
-            ['lt', 'plus petit que'],
-            ['lte', 'plus petit ou égal que'],
+// _ComboFilterOp = [
+            // ['iexact', __language.Text_ComboFilterOp_Equal],
+            // ['icontains', __language.Text_ComboFilterOp_Containing],
+            // ['iendswith', __language.Text_ComboFilterOp_Finishing],
+            // ['istartswith', __language.Text_ComboFilterOp_Starting],
+            // ['--', ''],
+            // ['gt', __language.Text_ComboFilterOp_PlusThan],
+            // ['gte', __language.Text_ComboFilterOp_PlusEqualThan],
+            // ['lt', __language.Text_ComboFilterOp_LessThan],
+            // ['lte', __language.Text_ComboFilterOp_LessEqualThan],
             // ['range', '(..)'],
             // ['in', '(_,_)'],
-
-//            ['--', ''],
-//            ['day', 'jour'],
-//            ['month', 'mois'],
-//            ['week_day', 'jour de la semaine'],
-//            ['year', 'année'],
-            ['--', ''],
-
-            ['isnull', 'valeur nulle']
+            // ['--', ''],
+            // ['day', 'jour'],
+            // ['month', 'mois'],
+            // ['week_day', 'jour de la semaine'],
+            // ['year', 'année
+            // ['--', ''],
+            // ['isnull', __language.Text_ComboFilterOp_Null_Value], 
             // ['iregex', 'regex'],
-    ]; 
+    // ]; 
  
 
-_defaultViewText = 'Default';
+_defaultViewText = __language.Text_Default_view;
 _defaultViewIcon = 'default_view' 
  
 
@@ -126,6 +132,8 @@ _mainWin = null
  
 _winX = 10
 _winY = 10  
+ 
+
  
   // *  Configuracion del metodo por defecto  
   // Ext.data.Connection.prototype.method = 'GET';

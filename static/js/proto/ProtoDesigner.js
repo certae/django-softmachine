@@ -207,7 +207,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
             model : 'Proto.PclTreeNode', 
             root : {
                 expanded : true,
-                text : 'RootPanel',
+                text: __language.Title_Main_Panel,
                 children : []
             }
         });
@@ -348,7 +348,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
             collapsible : true,
             split : true,
             flex : 1,
-            title : 'Form',
+            title: __language.Title_Form_Panel,
             itemId : 'toolsPanel',
             layout : 'border',
             defaults : {
@@ -367,7 +367,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                 collapsible : true,
                 split : true,
                 flex : 1,
-                title : 'Tools'
+                title: __language.Title_Panel_Tools
             }]
         }]
             

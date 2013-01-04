@@ -77,8 +77,10 @@ Ext.define('ProtoUL.view.Viewport', {
             region:'north',            
             margins:'0 0 0 0',
             // border : false, 
+            collapseMode: 'mini',
+            collapsed:true,
             split: false,
-            collapsible: false,
+            //collapsible: true,
             layout: {
                 type: 'hbox',
                 align:'middle'
@@ -87,7 +89,10 @@ Ext.define('ProtoUL.view.Viewport', {
                  margins:'5 5',
                  xtype: 'box',
                  html: '<span class="title">' + _siteTitle + '</span><br><span class="subtitle">' + _versionProto + '</span>', 
-                 height: 56
+                 height: 56,
+                 handler: function () {
+                     headerPanel.collapse();
+                 }
             }]
 
         }
@@ -104,7 +109,7 @@ Ext.define('ProtoUL.view.Viewport', {
         this.menuPanel = {
             region: 'west',
             width: 300,
-            title : 'Composants du Dictionnaire',
+            title: __language.Title_Main_Menu,
             collapsible: true,
             // border : false, 
             collapsed: _MENU_COLLAPSED,
@@ -165,7 +170,7 @@ Ext.define('ProtoUL.view.Viewport', {
     },   
 
     openProtoOption: function( protoOption ){
-
+      
         var me = this ;
         var myMeta = _cllPCI[ protoOption ] ;
 
@@ -183,7 +188,7 @@ Ext.define('ProtoUL.view.Viewport', {
             region: 'center',
             border : false, 
             minWidth: 300
-//          bodyStyle: "background-image:url(../../Recursos/Imagenes/sm.jpg) !important; background-size:100% 100% !important; background-repeat:no-repeat  !important;" 
+//            bodyStyle: "background-image:url(../../Recursos/Imagenes/sm.jpg) !important; background-size:100% 100% !important; background-repeat:no-repeat  !important;"
         }); 
         return this.protoTabContainer;
     }

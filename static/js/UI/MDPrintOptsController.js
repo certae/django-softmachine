@@ -17,9 +17,9 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
             
             myPrinterOpts.push (
                 new Ext.Action({
-                    text:       'Export CSV',
+                    text:       __language.Text_Export_CSV,
                     iconCls :   'icon-printGrid', 
-                    tooltip:    'export en format csv',
+                    tooltip:    __language.Tooltip_Export_CSV,
                     scope:      me,                     
                     handler:    onClickExportCsv
                 }));
@@ -31,7 +31,7 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
             
             myPrinterOpts.push (
                 new Ext.Action({
-                    text:       'Grille',
+                    text:       __language.Text_Grid,
                     iconCls :   'icon-printGrid', 
                     scope:      me,                     
                     handler:    onClickPrintGrid
@@ -76,7 +76,7 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
                 enableOverflow : true, 
                 items: [{
                     xtype   : 'tbtext',
-                    text: '<b>Imprimer :<b>'
+                    text: '<b>'+__language.Text_Print+ ':<b>'
                 }]
             });
 
@@ -99,7 +99,7 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
                 pGrid = __MasterDetail.protoMasterGrid ;
             
             if ( (! pGrid) || (! pGrid.sheetHtml )) {
-                __StBar.showWarning( 'no record selected', 'MdPrintOptsController')
+                __StBar.showWarning(__language.Msg_Select_Record, 'MdPrintOptsController')
                 return 
             }
             
@@ -145,10 +145,10 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
                 url: _PConfig.urlGetProtoCsv  ,
                 params : pGrid.store.proxy.extraParams,
                 success: function(result, request) {
-                    errorMessage( 'export Csv  Ok' )  
+                    errorMessage(__language.Message_Succesful_Export_CSV)
                 },
                 failure: function(result, request) {
-                    errorMessage( 'export Csv Failed', result.status + ' ' + result.statusText )
+                    errorMessage(__language.Message_Failed_Export_CSV, result.status + ' ' + result.statusText)
                 },
                 scope: this,
                 timeout: 60000

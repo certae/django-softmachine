@@ -37,7 +37,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         defineProtoPclTreeModel();
 
         var tBar =  Ext.create('ProtoUL.proto.ProtoToolBar', {dock : 'top'});
-        var sbar = Ext.create('Ext.form.Label', { text : 'Meta edition tool'});        
+        var sbar = Ext.create('Ext.form.Label', { text: __language.ProtoPcl_Edition_Tool });
         
         var treeData = getTreeData( me );
 
@@ -357,11 +357,11 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             var nodeDef = _MetaObjects[ ptType ] || {}
             if ( nodeDef.allowAdd  ) {     
 
-                tBar.setButton( 'add', true, true, 'Add instance of ' +  ptType, record  )
+                tBar.setButton('add', true, true, __language.ProtoPcl_Add_Instance + ptType, record)
             } 
             
             else if ( nodeDef.allowDel ) {
-                tBar.setButton( 'del', true, true, 'Delete current ' + ptType + ' [' + oData.text + ']', record  )
+                tBar.setButton('del', true, true, __language.ProtoPcl_Del_Current + ptType + ' [' + oData.text + ']', record)
 
             } 
 

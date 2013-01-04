@@ -23,10 +23,11 @@
         if (me.titulo != '') me.titulo = '-' + me.titulo;
 
         var resp = me.campos;
-
+        //console.log(resp);
         for (i = 0; i < resp.length; i++) {
             var nom = '';
-            if (resp[i].require == true) {
+            //console.log(resp[i].required);
+            if (resp[i].required == true) {
                 var req = _requiredField;
                 nom = '<b>' + resp[i].name + '</b>'
             } else {
@@ -39,12 +40,16 @@
                     fieldLabel: Ext.util.Format.capitalize(nom),
                     afterLabelTextTpl: req,
                     name: resp[i].name,
-                    allowBlank: !resp[i].require,
-                    //width: 300,
+                    allowBlank: !resp[i].required,
+                    width: 300,
                     protoOption:me.protoOption,
                     editable: true,
                     xtype: "HelpQbe",
+                    //hidden:!resp[i].searchable,
+                    //hidden:false,
                     //query: "select OPCION from W0menus"
+                    hideTrigger: !resp[i].qbeHelp
+                    
                 }
 
 
@@ -68,7 +73,7 @@
                     labelWidth: 150,
                     autoHeigth: true,
                     maxHeight: 360,
-                    width:510,
+                    width:350,
                     monitorValid: true,
                     frame: true,
                     bodyStyle: 'padding:5px 10px 0',
@@ -76,22 +81,28 @@
                        {
                            xtype: 'button',
                            width: 10,
-                           text: 'Aceptar',
+                           text: __language.Text_Accept_Button,
                            formBind: true,
                            iconCls: "icon-ok",
                            handler: function () {
                                var campos = me.down('form').items.items;
-                              
+                               arr = new Array();
                                var qbe = '';
                                for (i = 0; i < campos.length; i++) {
-                                   if (campos[i].down('triggerfield').getValue().trim() != '') {
-                                       qbe += campos[i].down('triggerfield').getName() + "$( " + campos[i].down('triggerfield').getValue() + " ),";
+                                   if (campos[i].getValue().trim() != '') {
+                                       var t = {
+                                           field: campos[i].getName(),
+                                           value: campos[i].getValue()
+                                       };
+                                       arr.push(t);
+                                       //qbe += campos[i].getName() + "$( " + campos[i].getValue() + " ),";
                                    }
                                }
-                               if (qbe != '') {
+                               /*if (qbe != '') {
                                    qbe = qbe.substring(0, qbe.length - 1);
-                               }
-                               me.aceptar(qbe);
+                               }*/
+                               //me.aceptar(qbe);
+                               me.aceptar(Ext.encode(arr));
                                me.close();
                            }
 
@@ -99,7 +110,7 @@
 
                        }, {
                            xtype: 'button',
-                           text: 'Cancelar',
+                           text: __language.Title_Cancel_Button,
                            iconCls: "icon-cancelar",
                            width: 10,
                            action: 'clickCancelar',

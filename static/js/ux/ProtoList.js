@@ -92,7 +92,7 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
                 plugins: {
                     ptype: 'gridviewdragdrop',
                     ddGroup : Ext.id(), 
-                    dragText: 'Drag and drop to reorganize'
+                    dragText: __language.Text_Plugin_DD_Grid
                 },
 
                 listeners: {

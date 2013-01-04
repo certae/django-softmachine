@@ -119,12 +119,12 @@ function getStoreDefinition(  stDef  ){
 
             // Fires before a request is made for a new data object. ...
             beforeload: function(  store,  operation,  eOpts ) {
-                __StBar.showBusy( 'loading ..' + store.protoOption, 'beforeLoad' ); 
+                __StBar.showBusy(__language.StatusBar_Message_Loading + store.protoOption, 'beforeLoad');
             },
      
             // Fired before a call to sync is executed. Return false from any listener to cancel the sync
             beforesync: function ( options, eOpts ) {
-                __StBar.showBusy( 'sync ..' + this.protoOption, 'beforeSync'  );
+                __StBar.showBusy(__language.StatusBar_Message_Sync + this.protoOption, 'beforeSync');
             },  
     
             // Fires whenever the records in the Store have changed in some way - this could include adding or removing records, or ...
@@ -822,11 +822,11 @@ function saveProtoObj( protoOption, sMeta ,  options) {
                     options.success.call( options.scope, result, request);
                 } else {
                     options.failure.call(options.scope, result, request);
-                    errorMessage ( 'SavePCI Failed', myResult.message  )
+                    errorMessage(__language.Message_Error_SavePCI, myResult.message)
                 }
             },
             failure: function(result, request) {
-                errorMessage ( 'SavePCI Failed', result.status + ' ' + result.statusText )
+                errorMessage(__language.Message_Error_SavePCI, result.status + ' ' + result.statusText)
                 options.failure.call(options.scope, result, request);
             },
             scope: this,
@@ -952,7 +952,7 @@ function getSheeReport( protoOption, sheetName,  selectedKeys, options ) {
                 options.success.call( options.scope, result  , request);
             },
             failure: function(result, request) {
-                errorMessage ( 'SheetReport Failed', result.status + ' ' + result.statusText )
+                errorMessage(__language.Message_Error_Reporting, result.status + ' ' + result.statusText)
                 options.failure.call(options.scope, result, request);
             },
             scope: this,

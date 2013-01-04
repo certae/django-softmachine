@@ -45,7 +45,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
                 enableOverflow : true, 
                 items: [
                     {
-                    text    : '<b>Détails :<b>', 
+                        text: '<b>'+ __language.Text_Toolbar_Detail_Button + ':<b>',
                     iconCls : 'icon-panelDown',  
                     enableToggle : false ,
                     scope   :  mDet,                     
@@ -86,7 +86,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
         function createDummyPanel(  item , myAction  ) {
             // Si hubo error en la creacion del detalle 
             mDet.protoTabs.add( { 
-                html: 'Error loading :'  + item.detailKey, 
+                html: __language.Error_Loading_Detail_Button+' :'  + item.detailKey, 
                 ixDetail : mDet.protoTabs.items.length 
             } )
             myAction.show()

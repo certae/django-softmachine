@@ -61,8 +61,8 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
             }, 
             'add': function () {
 
-                var msg = 'Please enter the folder name'
-                Ext.Msg.prompt( 'Add field', msg, function(btn, pName){
+                var msg = __language.Msg_Window_New_Folder
+                Ext.Msg.prompt(__language.List_Help_Add_Fields, msg, function (btn, pName) {
                     if (btn != 'ok') return 
                     elemTree.addUdpField( {'name' : pName , 'checked' : false } ) 
 
@@ -202,7 +202,7 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
             autoLoad: true,
             model: 'Proto.FieldSelectionModel',
             root: {
-                text:'fields',
+                text: __language.Protofield_Fields,
                 expanded: true 
             }, 
 
@@ -222,7 +222,7 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
 
             columns: [{
                 xtype: 'treecolumn', //this is so we know which column will show the tree
-                text: 'text',
+                text: __language.Protofield_Text,
                 flex: 2,
                 sortable: true,
                 minWidth: 200,
@@ -232,51 +232,51 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
                 trueText: '',
                 falseText: 'req', 
                 width: 50,
-                text: 'req',
+                text: __language.Protofield_Req,
                 dataIndex: 'required'
             },{
                 xtype: 'booleancolumn', 
                 trueText: 'rOnly',
                 width: 50,
                 falseText: '', 
-                text: 'rOnly',
+                text: __language.Protofield_ROnly,
                 dataIndex: 'readOnly'
             },{
-                text: 'fieldType',
+                text: __language.Protofield_Field_Type,
                 dataIndex: 'type'
             },{
-                text: 'zoomModel',
+                text: __language.Protofield_Zoom_Model,
                 dataIndex: 'zoomModel'
             },{
-                text: 'fkField',
+                text: __language.Protofield_fk_Field,
                 dataIndex: 'fkField'
             },{
-                text: 'fkId',
+                text: __language.Protofield_fk_Id,
                 dataIndex: 'fkId'
             },{
                 flex: 2,
                 // hidden : true, 
-                text: 'Ix',
+                text: __language.Protofield_Ix,
                 dataIndex: 'id'
             },{
                 hidden : true, 
-                text: 'header',
+                text: __language.Protofield_Header,
                 dataIndex: 'header'
             },{
                 hidden : true, 
-                text: 'tooltip',
+                text: __language.Protofield_Tooltip,
                 dataIndex: 'tooltip'
             },{
                 hidden : true, 
-                text: 'defaultValue',
+                text: __language.Protofield_Default_Value,
                 dataIndex: 'defaultValue'
             },{
                 hidden : true, 
-                text: 'vType',
+                text: __language.Protofield_vType,
                 dataIndex: 'vType'
             },{
                 hidden : true, 
-                text: 'choices',
+                text: __language.Protofield_choices,
                 dataIndex: 'choices'
             }] 
              

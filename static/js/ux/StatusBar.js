@@ -16,7 +16,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
     cls: 'x-statusbar',
     
     busyIconCls: 'x-status-busy',
-    busyText: 'Loading...',
+    busyText: __language.StatusBar_Message_Loading,
     autoClear: 5000,
     emptyText: '&#160;',
     activeThreadId: 0,
@@ -26,7 +26,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
     // defaultIconCls: 'x-status-valid',
 
     // values to set initially:
-    text: 'Ready',
+    text: __language.StatusBar_Message_Ready,
     iconCls: 'ready-icon', 
 
 
@@ -55,15 +55,15 @@ Ext.define('ProtoUL.ux.StatusBar', {
         this.add( [{
                 itemId : 'errBt', 
                 xtype: 'button',
-                text: 'clear',
-                tooltip : 'clear status bar', 
+                text: __language.StatusBar_Text_Clean_Button,
+                tooltip: __language.StatusBar_Tooltip_Clean_Button,
                 scope: this,
                 iconCls: 'comment_delete',
                 handler: this.clearErrCount
             },{
                 itemId : 'openTaskForm', 
                 xtype: 'button',
-                text: 'task',
+                text: __language.StatusBar_Text_Task_Button,
                 hidden: true,
                 scope: this,
                 iconCls: 'taskManager',
@@ -71,7 +71,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
             // },{
                 // xtype:'splitbutton',
                 // text: 'Login'
-            },'-', {
+            }, '-', {
 
                 xtype: 'splitbutton',
                 text: _UserInfo.fullName || _UserInfo.userName,
@@ -79,7 +79,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
                 menu: new Ext.menu.Menu({
                     items: [
                         
-                        { text: 'Cerrar Sesion',flex:1, handler: this.sessionClose, iconCls: 'icon-logout', }
+                        { text: __language.StatusBar_Text_Close_Session, flex: 1, handler: this.cerrarSesion, iconCls: 'icon-logout', }
                     ]
                 })
             }])
@@ -89,7 +89,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
         
     },
 
-    sessionClose:function(){
+    cerrarSesion:function(){
     
         Ext.Ajax.request({
             url: '/Login/CerrarSesion',
@@ -104,7 +104,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
 
 
                 } else {
-                    Ext.Msg.alert('Error', 'La accion no es posible');
+                    Ext.Msg.alert(__language.Message_Error, __language.StatusBar_Error_When_Close_Session);
                 }
             },
             failure: function () {
