@@ -56,7 +56,8 @@ function prepareProperties( record , myMeta,  propPanel  ){
 
 
 
-function getTemplate( ptType, forForm,  metaDict  )  {
+function getTemplate( ptType, forForm,  metaField  )  {
+    // TODO:  agregar en la definicion del campo un colList para hacer un combo automatico con los nombres de campo  
     //@forForm boolean for Form Definition 
     
     var prps = {}, qtips = {}, choices = {}, ppTypes = {}
@@ -100,8 +101,8 @@ function getTemplate( ptType, forForm,  metaDict  )  {
     }
 
     // Si es un campo obtiene los defaults de fields 
-    if ( metaDict ) {
-        prpDict = getFormFieldDefinition( metaDict )
+    if ( metaField ) {
+        prpDict = getFormFieldDefinition( metaField )
         prps = Ext.apply( prps, prpDict   )
     }
 

@@ -198,13 +198,13 @@ function FormatJSON( oData, sIndent) {
                 sHTML += FormatJSON(vValue, (sIndent + sIndentStyle));
                 break;
             case "boolean":
-                if ( vValue ) { sHTML += "True" } else { sHTML += "False" }
+                if ( vValue ) { sHTML += "true" } else { sHTML += "false" }
                 break;   
             case "number":
                 sHTML += vValue.toString();
                 break;
             case "null":
-                sHTML += "None";
+                sHTML += "null";  //  None
                 break;
             case "string":
                 vValue = vValue.replace( /'/g, '\\\'').replace( /"/g, '\\"')

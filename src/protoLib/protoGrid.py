@@ -347,19 +347,6 @@ def setDefaultField ( fdict, model, protoOption ):
 
 
 
-def getSearcheableFields(  model  ):
-# Obtiene los campos visibles del modelo base, se usa como valor por defecto para los searchFields 
-
-    lFields = []
-    
-    filterableTypes = [ 'CharField', 'TextField', 'IntegerField', 'DecimalField', 'FloatField',  ]
-    filterableTypes.extend( [ 'DateField', 'TimeField', 'DateTimeField', 'BooleanField' ])
-        
-    for field in model._meta._fields():
-        if field.__class__.__name__ in filterableTypes:
-            lFields.append( field.name )   
-
-    return lFields 
 
     
 def getProtoViewName( protoOption   ):

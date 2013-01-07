@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from django.http import HttpResponse
-from protoGrid import getSearcheableFields, getProtoViewName, setDefaultField , getProtoAdmin
+from protoGrid import  getProtoViewName, setDefaultField , getProtoAdmin
 from protoLib import protoGrid
 from protoField import  setFieldDict
 from models import getDjangoModel, ProtoDefinition
 from utilsBase import getReadableError, copyProps
+
+from protoQbe import getSearcheableFields
 
 import django.utils.simplejson as json
 
@@ -157,7 +159,7 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
              'initialSort': sortInfo,
 
              # Si no es autoload  -  '{"pk" : 0,}'            
-             'initialFilter': grid.gridConfig.get( 'initialFilter', {}),
+             'initialFilter': grid.gridConfig.get( 'initialFilter', []),
 
             # Toma las definidas en la grilla 
             'listDisplay' : grid.gridConfig.get( 'listDisplay', []),
@@ -166,10 +168,10 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
             # Garantiza q existan en la definicion 
              'hideRowNumbers' : grid.gridConfig.get( 'hideRowNumbers',False),  
              'filterSetABC': grid.gridConfig.get( 'filterSetABC', ''),
-             'baseFilter': grid.gridConfig.get( 'baseFilter', {}),
-             'filtersSet': grid.gridConfig.get( 'filtersSet', []),
+             'baseFilter': grid.gridConfig.get( 'baseFilter', []),
              'hiddenFields': grid.protoMeta.get( 'hiddenFields', ['id', ]),
-#            'listDisplaySet':grid.gridConfig.get( 'listDisplaySet', {}) ,     
+#            'filtersSet': grid.gridConfig.get( 'filtersSet', []),
+#            'listDisplaySet':grid.gridConfig.get( 'listDisplaySet', []) ,     
          } 
 
 

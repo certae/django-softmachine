@@ -26,27 +26,11 @@ class JSONEncoder(json.JSONEncoder):
             return json.JSONEncoder.default(self, obj)    
 
 
-def addFilter( Qs, sFilter ):
-#   Agrega un filtro q viene en modo texto a un Qset 
-    if (len (sFilter) == 0 ):
-        return Qs 
-
-    # Tipo dictionario
-    if type( sFilter ) == type({}):
-        protoStmt = sFilter
-    
-    # Filtro String 
-    else: 
-        try: protoStmt = eval( sFilter )
-        except: return Qs 
-
-    Qs = Qs.filter(**protoStmt )
-    return Qs 
-
 
 def verifyList( obj ):
 #   DGT:  Los objetos del admin son en su mayoria del tipo tuple,
-#   Es necesario convertirlos a listas por facilidad de trabajo 
+#   Es necesario convertirlos a listas por facilidad de trabajo
+#   TODO: solo convertir tuplas, si no retornar  [] 
     if obj is None:  obj = []
     if type( obj ).__name__ != type([]).__name__ :  
         obj = list( obj )
@@ -56,17 +40,6 @@ def verifyList( obj ):
 def verifyStr( vrBase , vrDefault ):
     sAux = vrBase or vrDefault
     return  u'%s' % sAux 
-
-
-def construct_search(field_name):
-    if field_name.startswith('^'):
-        return "%s__istartswith" % field_name[1:]
-    elif field_name.startswith('='):
-        return "%s__iexact" % field_name[1:]
-    elif field_name.startswith('@'):
-        return "%s__search" % field_name[1:]
-    else:
-        return "%s__icontains" % field_name
 
 
     

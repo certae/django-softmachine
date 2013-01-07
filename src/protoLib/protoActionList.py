@@ -4,11 +4,10 @@
 from django.db import models
 from django.http import HttpResponse
 
-from django.contrib.admin.util import  get_fields_from_path
 
-from protoGrid import getSearcheableFields
+from protoQbe import construct_search, addFilter, getTextSearchFields, getSearcheableFields
 
-from utilsBase import construct_search, addFilter, JSONEncoder, getReadableError 
+from utilsBase import JSONEncoder, getReadableError 
 from utilsBase import _PROTOFN_ , verifyStr   
 from protoUdp import verifyUdpDefinition, readUdps 
 from django.utils.encoding import smart_str
@@ -28,23 +27,26 @@ def protoList(request):
     if request.method != 'POST':
         return 
 
+#   Los objetos vienen textoJson y hay q hacer el load para construirlos como objetos. 
     protoMeta = request.POST.get('protoMeta', '')
     protoMeta = json.loads(protoMeta)
 
+#   getQSet se encarga de convertirlos de textoJson a objetos  
     protoFilter = request.POST.get('protoFilter', '')
     baseFilter = request.POST.get('baseFilter', '')
+    sort = request.POST.get('sort', '')
     
     start = int(request.POST.get('start', 0))
     page = int(request.POST.get('page', 1))
     limit = int(request.POST.get('limit', PAGESIZE ))
 
-    sort = request.POST.get('sort', '')
         
 #   Obtiene las filas del modelo 
     Qs, orderBy = getQSet( protoMeta, protoFilter, baseFilter , sort  )
     pRowsCount = Qs.count()
 
-#   Cuando esta en la pagina el filtro continua en la pagina 2 y no muestra nada.     
+
+#   Fix: Cuando esta en la pagina el filtro continua en la pagina 2 y no muestra nada.     
 #   if ( ( page -1 ) *limit >= pRowsCount ): page = 1
     
     if orderBy: 
@@ -213,6 +215,9 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort   ):
 #   QSEt
     Qs = model.objects.select_related(depth=1)
 
+#   TODO: Agregar solomente los campos definidos en el safeMeta
+#   Qs.query.select_fields = [f1, f2, .... ]     
+
 #   El filtro base viene en la configuracion MD 
     textFilter = baseFilter
     Qs = addFilter( Qs, baseFilter )
@@ -255,23 +260,13 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort   ):
                 # Se permite marcar todo tipo de campo como filtrable, pero solo se hace textSearch sobre 
                 # los campos con tipos validos     
                 
-                textSearchFlds = []
-                textFilterTypes  = [ 'CharField', 'TextField', 'IntegerField', 'DecimalField', 'FloatField',  ]
-                for fName  in pSearchFields:
-                    try: 
-                        field = get_fields_from_path( model, fName)[-1]
-
-                        #field = model._meta.get_field( fName )
-                        #model = field.rel.to
-                        #model.famille.field.related.parent_model
-                    except: continue  
-
-                    if field.__class__.__name__ in textFilterTypes:
-                        textSearchFlds.append( fName )   
+                textSearchFlds = getTextSearchFields( pSearchFields, model  )
                 
                 textFilter +=  ' '.join(textSearchFlds)  + ':' + protoFilter
-                orm_lookups = [construct_search(str(search_field))
-                               for search_field in textSearchFlds]
+                orm_lookups = [
+                       construct_search(str(search_field))
+                               for search_field in textSearchFlds
+                               ]
             
                 for bit in protoFilter.split():
                     or_queries = [models.Q(**{orm_lookup: bit})
@@ -282,4 +277,6 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort   ):
                 message = 'Error: ' + textFilter
                 Qs = Qs.none()
                 
-    return Qs, orderBy 
+    return Qs, orderBy
+
+

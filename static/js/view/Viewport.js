@@ -76,11 +76,17 @@ Ext.define('ProtoUL.view.Viewport', {
         var headerPanel = {
             region:'north',            
             margins:'0 0 0 0',
-            // border : false, 
+            border : false, 
+            collapsible: true,
             collapseMode: 'mini',
-            collapsed:true,
-            split: false,
-            //collapsible: true,
+            
+            collapsed:  _siteTitleCollapsed,
+            header : false, 
+            collapsible: true,
+            collapseMode: 'mini',
+            split: true,
+            splitterResize : false,             
+            
             layout: {
                 type: 'hbox',
                 align:'middle'

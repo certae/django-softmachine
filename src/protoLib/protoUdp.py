@@ -1,6 +1,6 @@
 
 from models import getDjangoModel
-from utilsBase import addFilter
+from protoQbe import addFilter
 from utilsConvert import getTypedValue
 from django.utils.encoding import smart_str
 

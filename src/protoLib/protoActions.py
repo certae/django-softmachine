@@ -2,11 +2,12 @@
 
 from django.contrib.admin.sites import  site
 from django.http import HttpResponse
-from protoGrid import getSearcheableFields, getProtoViewName, setDefaultField , getProtoAdmin
+from protoGrid import getProtoViewName, setDefaultField , getProtoAdmin
 from protoLib import protoGrid
 from protoField import  setFieldDict
 from models import getDjangoModel, ProtoDefinition
-from utilsBase import addFilter, getReadableError  
+from utilsBase import  getReadableError  
+from protoQbe import addFilter  
 
 import django.utils.simplejson as json
 

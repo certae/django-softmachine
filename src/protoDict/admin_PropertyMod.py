@@ -328,8 +328,8 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         "filtersSet": [],
         "readOnlyFields": [],
         "initialSort": [],
-        "baseFilter": {},
-        "initialFilter": {}
+        "baseFilter": [],
+        "initialFilter": []
     },
     "protoForm": {
         "__ptType": "protoForm",

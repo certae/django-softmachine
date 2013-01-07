@@ -18,12 +18,15 @@ Ext.define('ProtoUL.UI.MDCstmOptsController', {
         }
         
         // Si no hay filtros definidos pero existe un filterAlph, 
-        if ((this.myMeta.gridConfig.filtersSet.length == 0)  &&  this.myMeta.gridConfig.filterSetABC  ) {
+        if ((this.myMeta.custom.filtersSet.length == 0)  &&  this.myMeta.gridConfig.filterSetABC  ) {
 
             for (var nFiltre in oc(['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'])) {
                 var tmpF1 = {}
-                tmpF1[ this.myMeta.gridConfig.filterSetABC + '__istartswith' ] =  nFiltre 
-                tmpFilters.push ({ name: nFiltre,  filter: tmpF1 }) 
+                // tmpF1[ this.myMeta.gridConfig.filterSetABC + '__istartswith' ] =  nFiltre 
+                // tmpFilters.push ({ name: nFiltre,  filter: tmpF1 }) 
+                tmpF1[ 'property' ] = this.myMeta.gridConfig.filterSetABC   
+                tmpF1[ 'filterStmt' ] =  '^' + nFiltre 
+                tmpFilters.push ({ name: nFiltre,  filter: [ tmpF1 ] }) 
             }
             tmpFilters.push ({ name: ' *', filter: {} })
              

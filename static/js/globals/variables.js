@@ -13,9 +13,10 @@ _ROW_ST = {
 _requiredField = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
 
 
-// _siteTitle = 'ART Atelier de Référentiel pour Togaf'_siteTitle = 'Promigas S.A. E.S.P.'
-_versionMeta = '12.1108'
+// _siteTitle = 'ART Atelier de Référentiel pour Togaf'_versionMeta = '12.1108'
 _versionProto = 'Version 1.00.' + _versionMeta
+_siteTitle = 'Promigas S.A. E.S.P.'
+_siteTitleCollapsed = false 
 
 _detailViewNewTab = __language.Msg_View_In_New_Tab
 _gridBbPerPage = __language.Label_Pagging_by_Page

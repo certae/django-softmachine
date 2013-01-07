@@ -7,8 +7,9 @@ from django.http import HttpResponse
 from models import getDjangoModel, ProtoDefinition
 from protoActionList  import Q2Dict, getQSet  
 from protoGrid import  getProtoViewName 
-from utilsBase import addFilter, getReadableError  
+from utilsBase import  getReadableError  
 from django.utils.encoding import smart_str
+from protoQbe import addFilter
 
 import csv
 import django.utils.simplejson as json

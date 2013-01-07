@@ -48,67 +48,22 @@
             ],
         "roProperties": []  
         },
+
+-- Determina el nombre del nodo en las listas 
  
+        "nodeName" : "filterName", 
+
+-- Permite agregar un template en caso de nodos json  
+    "__ptStyle" : "jsonText"
+    "addTemplate" : "{\"listDisplay\":{},\"name\": \"@name\"}",
     
-----------------------
 
+--  Creacion de nodos 
 
-{
-    "customFilters": [
-        {
-            "name": "xxxx",
-            "filter": [
-                {
-                    "property": "name",
-                    "qbeValue": "qbeStmt"
-                },
-                {
-                    "property": "name",
-                    "qbeValue": "qbeStmt"
-                }
-            ]
-        },
-        {
-            "name": "yyyy",
-            "filter": [
-                {
-                    "property": "name",
-                    "qbeValue": "qbeStmt"
-                }
-            ]
-        }
-    ],
-    "customSorters": [
-        {
-            "name": "xxxx",
-            "orderBy": [
-                "+/-propt1",
-                "+/-propt2"
-            ]
-        }
-    ],
-    "displaySet": [
-        {
-            "name": "xxxx",
-            "columnSet": [
-                "propt1",
-                "propt2"
-            ],
-            "initialFilter": [
-                {
-                    "property": "name",
-                    "qbeValue": "qbeStmt"
-                }
-            ],
-            "initialSort": [
-                "+/-propt1",
-                "+/-propt2"
-            ]
-        }
-    ]
-}
-----------------------        
- * 
+        "allowAdd" : true            //  requiere un listOf  
+        "listOf" : "filtersSetDef",
+    
+    
  */ 
 
 
@@ -177,8 +132,6 @@ function verifyMeta( oMeta,  ptType, tNode ) {
                 oMeta[ sKey ] = verifyMeta( myObj,  sKey  )    
             }
 
-            
-
         }
     } 
 
@@ -208,48 +161,6 @@ function clearPhantonProps( __ptConfig ,  __ptType ) {
 
 _MetaObjects =  {
 
-    "actions": {
-        "description": "Lista de acciones backend", 
-        "listOf" : "actionDef",
-        "allowAdd" : true  
-    },
-
-    "actionDef" : {
-        "description": "Actions backend",
-        "properties": [
-          "name", 
-          "title", 
-          "actionType", 
-          "refreshOnComplete"
-          ], 
-        "lists": [
-            "actionParams"
-          ], 
-        "addPrompt" : "Please enter the name for your action:", 
-        "allowDel" : true  
-         
-    }, 
-
-    "actionParams": {
-        "description": "Propiedades de las actions backend",
-        "listOf" : "actionParam", 
-        "allowAdd" : true  
-    }, 
-
-    "actionParam": {
-        "properties": [
-          "name", 
-          "title", 
-          "protoIcon", 
-          "description",  
-          "vrDefault", 
-          "choices", 
-          "actionParamType",
-          "required"
-          ], 
-        "addPrompt" : "Parametros de acciones", 
-        "allowDel" : true
-        }, 
 
     "pcl": {
         "description": "definicion de la meta",
@@ -271,8 +182,8 @@ _MetaObjects =  {
         "objects": [
             "gridConfig", 
             "protoForm", 
-            "protoUdp"
-//            "custom" 
+            "protoUdp", 
+            "custom" 
             ],
         "lists": [
             "fields", 
@@ -395,50 +306,145 @@ _MetaObjects =  {
             'denyAutoPrint', 
             'filterSetABC'
              ], 
-        "objects": [
-            "baseFilter", 
-            "initialFilter"
-            ],
         "lists": [
             "listDisplay",
             "searchFields",
             "sortFields", 
+
+            "baseFilter", 
+            "initialFilter", 
+            "initialSort",
+
             "hiddenFields",
-            "filtersSet",
-            "readOnlyFields",
-            "initialSort"
+            "readOnlyFields"
             ],
     },
 
-    "baseFilter": {
-        "description": "Filtro de base adicional a cualquier filtro definido, no modificable por el usuario Ej: { \"status__exact\":\"0\" } ",
-        "__ptStyle": "jsonText" 
+    "custom": {
+        "description": "Configuraciones de usuario",
+        "lists": [
+            "filtersSet",
+            "listDisplaySet",
+            "sortersSet"
+            ]
     },
 
 
-    "filtersSet": {
-        "description": "Conjunto de filtros predefinidos ( __[iexact,icontains,iendswith,istartswith,gt,gte,lt,lte]) ",
+    "baseFilter": {
+        "description": "Filtro de base. Se adiciona a cualquier filtro posterior, no modificable por el usuario",
         "listOf" : "filterDef",
         "allowAdd" : true 
     },
 
-    "filterDef": {
-        "description": "Filtro predefinido definido ",
-        "addPrompt" : "Please enter the name for your filter:", 
-        "addTemplate" : "{\"filter\":{},\"name\": \"@name\"}", 
-        "allowDel" : true,  
-        "__ptStyle": "jsonText" 
+    "customFilter": {
+        "description": "Filtro predefinido ",
+        "listOf" : "filterDef",
+        "allowAdd" : true 
     },
+
 
     "initialFilter": {
         "description": "Filtro inicial, reescribible al seleccionar otro filtro  Ej: { \"status__exact\":\"0\" } ",
-        "__ptStyle": "jsonText" 
+        "listOf" : "filterDef",
+        "allowAdd" : true 
     },
 
     "initialSort": {
         "description": "Ordenamiento por defecto  Ej: [{\"direction\":\"ASC\",\"property\":\"code\"}, ... ] ",
-        "__ptStyle": "jsonText" 
+        "listOf" : "sorterDef",
+        "allowAdd" : true 
     },
+
+
+    "sorterDef": {
+        "description": "Definicion de ordenamiento  ",
+        "addPrompt" : "Please enter the name of the property for your sorter:", 
+        "allowDel" : true,
+        "nodeName" : "property", 
+        "properties": [
+            "property", 
+            "direction" 
+        ] 
+    },
+
+    "sortersSet": {
+        "description": "Conjunto de ordenamientos predefinidos ",
+        "listOf" : "sortersSetDef",
+        "allowAdd" : true 
+    },
+
+    "sortersSetDef": {
+        "description": "Ordenamientos predefinidos  ",
+        "addPrompt" : "Please enter the name of the sorter:", 
+        "allowDel" : true,
+        "properties": [
+            "name" 
+        ], 
+        "lists": [
+            "customSort" 
+        ]
+    },
+
+    "customSort": {
+        "description": "Ordenamiento predefinido",
+        "listOf" : "sorterDef",
+        "allowAdd" : true 
+    },
+
+
+    "filterDef": {
+        "description": "Filtro predefinido  ",
+        "addPrompt" : "Please enter the name of the property for your filter:", 
+        "allowDel" : true,
+        "nodeName" : "property", 
+        "properties": [
+            "property", 
+            "filterStmt" 
+        ] 
+    },
+
+
+    "filtersSet": {
+        "description": "Conjunto de filtros predefinidos ( *x*, ><=, !=,  aa:bb ) ",
+        "listOf" : "filtersSetDef",
+        "allowAdd" : true 
+    },
+
+    "filtersSetDef": {
+        "description": "Filtros predefinidos  ",
+        "addPrompt" : "Please enter the name of the filterSet:", 
+        "allowDel" : true,
+        "properties": [
+            "name" 
+        ], 
+        "lists": [
+            "customFilter" 
+        ]
+    },
+
+
+    "listDisplaySet": {
+        "description": "Configuraciones alternativas para la grilla  ( Aparecen bajo el icono 'ViewCols' de la barra principal )",
+        "listOf" : "listDisplayDef",
+        "allowAdd" : true 
+    },
+
+    "listDisplayDef": {
+        "description": "listDisplay predefinidos ",
+        "addPrompt" : "Please enter the name of the columnSet:", 
+        "allowDel" : true, 
+        
+        "properties": [
+            "name" 
+        ], 
+        "lists" : [
+            "listDisplay" 
+        ]
+         
+    },
+
+
+
 
     "hiddenFields": {
         "description": "Lista de campos ocultos  ( TODO: hidden = true or not at all? )",
@@ -447,15 +453,11 @@ _MetaObjects =  {
 
     "listDisplay": {
         "description": "Lista de campos a desplegar en la grilla",
-        "defaultValue" : ["__str__"], 
+        // "defaultValue" : ["__str__"], 
         "addPrompt" : "Please enter the name for your alternative listDisplay:", 
         "__ptStyle": "colList" 
     },
 
-    "listDisplaySet": {
-        "description": "Configuraciones alternativas para la grialla  ( Aparecen bajo el icono 'ViewCols' de la barra principal )",
-        "properties": [ { 'name': '__ptType' , 'value': 'listDisplaySet'} ] 
-    },
 
     "readOnlyFields": {
         "description": "Lista de campos a marcar como readOnly ( tambien se puede utilzar la prop ReadOnly es igual )",
@@ -621,7 +623,50 @@ _MetaObjects =  {
             "layout", "activeItem", 
             "height","maxHeight","minHeight","width", "maxWidth","minWidth"
             ]
-    }
+    }, 
+    
+    "actions": {
+        "description": "Lista de acciones backend", 
+        "listOf" : "actionDef",
+        "allowAdd" : true  
+    },
+
+    "actionDef" : {
+        "description": "Actions backend",
+        "properties": [
+          "name", 
+          "title", 
+          "actionType", 
+          "refreshOnComplete"
+          ], 
+        "lists": [
+            "actionParams"
+          ], 
+        "addPrompt" : "Please enter the name for your action:", 
+        "allowDel" : true  
+         
+    }, 
+
+    "actionParams": {
+        "description": "Propiedades de las actions backend",
+        "listOf" : "actionParam", 
+        "allowAdd" : true  
+    }, 
+
+    "actionParam": {
+        "properties": [
+          "name", 
+          "title", 
+          "protoIcon", 
+          "description",  
+          "vrDefault", 
+          "choices", 
+          "actionParamType",
+          "required"
+          ], 
+        "addPrompt" : "Parametros de acciones", 
+        "allowDel" : true
+        } 
     
     
 };

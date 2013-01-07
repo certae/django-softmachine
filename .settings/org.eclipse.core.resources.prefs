@@ -1,4 +1,4 @@
-#Tue Dec 04 11:14:07 EST 2012
+#Sun Jan 06 10:26:35 EST 2013
 eclipse.preferences.version=1
 encoding//docs/django/fieldSets.py.txt=utf-8
 encoding//docs/django/jsonDump.py.txt=utf-8
@@ -31,6 +31,7 @@ encoding//src/protoLib/protoGetDetails.py=utf-8
 encoding//src/protoLib/protoGetPci.py=utf-8
 encoding//src/protoLib/protoGrid.py=utf-8
 encoding//src/protoLib/protoMenu.py=utf-8
+encoding//src/protoLib/protoQbe.py=utf-8
 encoding//src/protoLib/tmpLogSecure.py=utf-8
 encoding//src/protoLib/utilsBase.py=utf-8
 encoding//src/protoLib/utilsConvert.py=utf-8

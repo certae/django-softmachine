@@ -25,37 +25,18 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
         
         // Load Data button 
         var searchBtn = new Ext.button.Button({
-            // scale: 'medium', 
             tooltip: __language.Tooltip_Filter_Grid_Button,
-            handler: onClickLoadData,
-           // pressed: true,
-            iconCls: 'icon-filter',
-           /* menu: {
-                items:[
-                     {
-                       text: 'Advanced filter QBE' ,
-                       iconCls: 'icon-filterqbe',
-                       hidden:true,
-                       handler: onClickClearFilter 
-                     },{
-                         text: 'Advanced filter QBE',
-                       iconCls: 'icon-filterqbe',
-                       handler: onClickViewQBE 
-                    }
-               ]
-             }*/
+            iconCls: 'icon-filter', 
+            handler: onClickLoadData
         });
 
         var QBEBtn = new Ext.button.Button({
-            // scale: 'medium', 
-            text: __language.Text_Toolbar_Advanced_Filter,
+            tooltip: __language.Text_Toolbar_Advanced_Filter,
             iconCls: 'icon-filterqbe',
             handler: onClickViewQBE
-           
         });
 
         var clearBtn = new Ext.button.Button({
-            // scale: 'medium', 
             tooltip: _tbSearchClearFilter,
             handler: onClickClearFilter,
             iconCls: 'icon-filterdelete'
@@ -80,9 +61,9 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
             border : false,
             disabled : ! me.protoEnable,
             items:  [  
-                /*searchCr,
+                searchCr,
                 clearBtn, 
-                searchBtn,*/
+                searchBtn,
                 QBEBtn
             ]
         });

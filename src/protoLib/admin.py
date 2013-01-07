@@ -22,19 +22,13 @@ class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
     }],
     "protoUdp": {},
     "gridConfig": {
-        "baseFilter": {},
+        "baseFilter": [],
         "readOnlyFields": [],
         "sortFields": ["code"],
         "initialSort": [],
-        "initialFilter": {},
+        "initialFilter": [],
         "hiddenFields": [],
         "listDisplay": ["code", "description", "active", "overWrite"],
-        "filtersSet": [{
-            "filter": {
-                "code__startswith": "protoDict"
-            },
-            "name": "protoDict"
-        }],
         "searchFields": ["code", "description", "metaDefinition"]
     },
     "fields": [{

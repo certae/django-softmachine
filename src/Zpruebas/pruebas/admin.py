@@ -10,14 +10,14 @@ class PruebaMAdmin(django.contrib.admin.ModelAdmin):
     protoExt = {'title': 'Maestro' }
     protoExt[ 'protoMenuIx' ] = 1 
     protoExt[ 'listDisplay' ] = ( 'prCode', 'prDescription', '__str__', 'id')
-    protoExt[ 'readOnlyFields' ] = ( ) 
+    protoExt[ 'readOnlyFields' ] = () 
 
     protoExt[ 'searchFields' ] = ( 'prCode', 'prDescription' ) 
     protoExt[ 'sortFields' ] = ( 'prCode', 'prDescription' )
     
     # Valores iniciales ( initialFilter maneja el autoload )   
     protoExt[ 'initialSort' ] = () 
-    protoExt[ 'initialFilter' ] = {}
+    protoExt[ 'initialFilter' ] = []
 
 
 #admin.site.register(PruebaM, PruebaMAdmin)

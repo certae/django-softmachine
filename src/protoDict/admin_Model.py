@@ -342,8 +342,8 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
                 "transform": None
             }
         ],
-        "baseFilter": {},
-        "initialFilter": {}
+        "baseFilter": [],
+        "initialFilter": []
     },
     "protoForm": {
         "__ptType": "protoForm",
