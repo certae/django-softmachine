@@ -81,7 +81,7 @@ def getTextSearchFields( pSearchFields, model  ) :
     return textSearchFlds
 
 
-def getQbeStmt( fieldName , sType ,  sQBE  ):  
+def getQbeStmt( fieldName ,  sQBE, sType   ):  
 
 #-- Valida y copia el criterio 
     sQBE = sQBE.strip()
@@ -93,6 +93,7 @@ def getQbeStmt( fieldName , sType ,  sQBE  ):
     if sQBE.startswith('!')  :
         sQBE = sQBE[1:]
         bNot = True
+    
     
     #-- Para hacerlo recursivo lo que dbde controlar incialemente es el or
     if sQBE.find(";") > 0 :
@@ -115,6 +116,8 @@ def getQbeStmt( fieldName , sType ,  sQBE  ):
         if bNot : QResult = ~ QResult 
         return QResult
 
+    # 
+    sType = sType | 'string'
 
     # String:  \iexact, \icontains, \istartswith, isnull, search, TODO: \iendswith, \iregex 
     if sType in ([ 'string', 'text']) : 

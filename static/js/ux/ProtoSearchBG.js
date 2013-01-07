@@ -104,7 +104,6 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
                 aceptar: function (qbe) {
                     console.log('ok');
                     me.fireEvent('loadData', me, qbe, ' " '+ __language.Text_Toolbar_Advanced_Filter + '"');
-                    //ahora de debe filtrar
                 }
             }).show();
                       

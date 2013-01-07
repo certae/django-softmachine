@@ -549,7 +549,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     
     loadData: function( grid,  sFilter, sTitle  ) {
         grid.store.clearFilter();
-        grid.store.getProxy().extraParams.protoFilter = sFilter;
+        grid.store.getProxy().extraParams.protoFilter =  Ext.encode( sFilter ) ;
         grid.store.load();
         
         // Para evitar q al filtrar se quede en una pagina vacia 

@@ -3,15 +3,15 @@
 
 from django.db import models
 from django.http import HttpResponse
+from django.contrib.admin.util import  get_fields_from_path
+from django.utils.encoding import smart_str
 
-
-from protoQbe import construct_search, addFilter, getTextSearchFields, getSearcheableFields
+from protoQbe import construct_search, addFilter, getTextSearchFields, getSearcheableFields, getQbeStmt
 
 from utilsBase import JSONEncoder, getReadableError 
 from utilsBase import _PROTOFN_ , verifyStr   
 from protoUdp import verifyUdpDefinition, readUdps 
-from django.utils.encoding import smart_str
-
+from protoField import TypeEquivalence
 from models import getDjangoModel 
 
 import django.utils.simplejson as json
@@ -219,8 +219,7 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort   ):
 #   Qs.query.select_fields = [f1, f2, .... ]     
 
 #   El filtro base viene en la configuracion MD 
-    textFilter = baseFilter
-    Qs = addFilter( Qs, baseFilter )
+    Qs = addQbeFilter( baseFilter, model, Qs )
 
 #   Order by 
     orderBy = []
@@ -233,50 +232,61 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort   ):
     orderBy = tuple( orderBy )
 
 
-#   Busqueda Textual ( no viene con ningun tipo de formato solo el texto a buscar
-#   Si no trae nada deja el Qs con el filtro de base
-#   Si trae algo y comienza por  "{" trae la estructura del filtro   
-    if  (len( protoFilter) > 0): 
-        
-        #  Convierte el filtro en un diccionario 
-        if (  protoFilter.startswith( '{' ) ) :
-            Qs = addFilter( Qs, protoFilter )
-            textFilter +=  ' ' + protoFilter
-
-        #  Solo tra el texto y hay q crear el filtro sobre  la lista de campos 
-        else: 
-        
-            pSearchFields = gridConfig.get( 'searchFields', []) 
-    
-            # Si solo viene el texto, se podria tomar la "lista" de campos "mostrados"
-            # ya los campos q veo deben coincidir con el criterio, q pasa con los __str__ ?? 
-            # Se busca sobre los campos del combo ( filtrables  )
-            
-            if len( pSearchFields )  == 0: 
-                pSearchFields = getSearcheableFields( model  )
-    
-            if len( pSearchFields )  > 0: 
-
-                # Se permite marcar todo tipo de campo como filtrable, pero solo se hace textSearch sobre 
-                # los campos con tipos validos     
-                
-                textSearchFlds = getTextSearchFields( pSearchFields, model  )
-                
-                textFilter +=  ' '.join(textSearchFlds)  + ':' + protoFilter
-                orm_lookups = [
-                       construct_search(str(search_field))
-                               for search_field in textSearchFlds
-                               ]
-            
-                for bit in protoFilter.split():
-                    or_queries = [models.Q(**{orm_lookup: bit})
-                                  for orm_lookup in orm_lookups]
-                    Qs = Qs.filter(reduce(operator.or_, or_queries))
-    
-            else:  
-                message = 'Error: ' + textFilter
-                Qs = Qs.none()
-                
+    Qs = addQbeFilter( protoFilter, model, Qs )
     return Qs, orderBy
+
+
+
+def addQbeFilter( protoFilter, model, Qs ):
+
+    if  (len( protoFilter) == 0): return Qs
+
+    protoFilter =  json.loads(  protoFilter )
+    QStmt = models.Q()
+
+    for sFilter in protoFilter: 
+        
+        if sFilter[ 'property' ] == '_allCols':
+            QTmp = getTextSearch( sFilter, model  )
+        
+        else: 
+            QTmp = addQbeFilterStmt( sFilter, model )
+
+        QStmt = QStmt & QTmp 
+
+    Qs = Qs.filter( QStmt  )
+    return Qs
+
+
+
+def addQbeFilterStmt( sFilter, model ):
+
+    field = get_fields_from_path( model, sFilter['property'] )[-1]
+    sType = TypeEquivalence.get( field.__class__.__name__, 'string')
+    QStmt = getQbeStmt( sFilter['property'], sFilter['filterStmt'], sType  )
+    
+    return QStmt 
+
+def getTextSearch( sFilter, model ):        
+
+    #   Busqueda Textual ( no viene con ningun tipo de formato solo el texto a buscar
+    #   Si no trae nada deja el Qs con el filtro de base
+    #   Si trae algo y comienza por  "{" trae la estructura del filtro   
+
+    # Si solo viene el texto, se podria tomar la "lista" de campos "mostrados"
+    # ya los campos q veo deben coincidir con el criterio, q pasa con los __str__ ?? 
+    # Se busca sobre los campos del combo ( filtrables  )
+    
+    QStmt = models.Q()
+    
+    pSearchFields = getSearcheableFields( model  )
+    for fName  in pSearchFields:
+
+        tmpFilter = {'property': fName, 'filterStmt': sFilter['filterStmt'] }
+        QTmp = addQbeFilterStmt( tmpFilter , model )
+        QStmt = QStmt & QTmp 
+        
+    return QStmt 
+
 
 
