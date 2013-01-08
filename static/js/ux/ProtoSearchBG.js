@@ -80,7 +80,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
             var sFilter = searchCr.getValue();
             var sTitle = ' " ' + searchCr.getValue() + ' "';
             
-            me.fireEvent('loadData', me, sFilter, sTitle );
+            me.fireEvent('loadData', me, [{ 'property' :  '_allCols' , 'filterStmt' : sFilter }], sTitle );
 
         }
     

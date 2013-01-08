@@ -86,15 +86,15 @@
                            iconCls: "icon-ok",
                            handler: function () {
                                var campos = me.down('form').items.items;
-                               arr = new Array();
+                               arrQbe = new Array();
                                var qbe = '';
                                for (i = 0; i < campos.length; i++) {
                                    if (campos[i].getValue().trim() != '') {
                                        var t = {
-                                           field: campos[i].getName(),
-                                           value: campos[i].getValue()
+                                           property   : campos[i].getName(),
+                                           filterStmt : campos[i].getValue()
                                        };
-                                       arr.push(t);
+                                       arrQbe.push(t);
                                        //qbe += campos[i].getName() + "$( " + campos[i].getValue() + " ),";
                                    }
                                }
@@ -102,7 +102,7 @@
                                    qbe = qbe.substring(0, qbe.length - 1);
                                }*/
                                //me.aceptar(qbe);
-                               me.aceptar(Ext.encode(arr));
+                               me.aceptar( arrQbe );
                                me.close();
                            }
 

@@ -16,6 +16,7 @@ from models import getDjangoModel
 
 import django.utils.simplejson as json
 import operator
+import traceback
 
 
 def protoList(request):
@@ -219,7 +220,14 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort   ):
 #   Qs.query.select_fields = [f1, f2, .... ]     
 
 #   El filtro base viene en la configuracion MD 
-    Qs = addQbeFilter( baseFilter, model, Qs )
+    try:
+        Qs = addQbeFilter( baseFilter, model, Qs )
+    except Exception,  e:
+#        getReadableError( e ) 
+        traceback.print_exc()
+
+
+        
 
 #   Order by 
     orderBy = []
@@ -232,7 +240,12 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort   ):
     orderBy = tuple( orderBy )
 
 
-    Qs = addQbeFilter( protoFilter, model, Qs )
+    try:
+        Qs = addQbeFilter( protoFilter, model, Qs )
+    except Exception,  e:
+#        getReadableError( e ) 
+        traceback.print_exc()
+
     return Qs, orderBy
 
 
@@ -242,7 +255,7 @@ def addQbeFilter( protoFilter, model, Qs ):
     if  (len( protoFilter) == 0): return Qs
 
     protoFilter =  json.loads(  protoFilter )
-    QStmt = models.Q()
+    QStmt = None 
 
     for sFilter in protoFilter: 
         
@@ -252,7 +265,8 @@ def addQbeFilter( protoFilter, model, Qs ):
         else: 
             QTmp = addQbeFilterStmt( sFilter, model )
 
-        QStmt = QStmt & QTmp 
+        if QStmt is None:  QStmt = QTmp
+        else: QStmt = QStmt & QTmp 
 
     Qs = Qs.filter( QStmt  )
     return Qs
@@ -277,16 +291,16 @@ def getTextSearch( sFilter, model ):
     # ya los campos q veo deben coincidir con el criterio, q pasa con los __str__ ?? 
     # Se busca sobre los campos del combo ( filtrables  )
     
-    QStmt = models.Q()
+    QStmt = None 
     
     pSearchFields = getSearcheableFields( model  )
     for fName  in pSearchFields:
 
-        tmpFilter = {'property': fName, 'filterStmt': sFilter['filterStmt'] }
-        QTmp = addQbeFilterStmt( tmpFilter , model )
-        QStmt = QStmt & QTmp 
-        
-    return QStmt 
+        QTmp = addQbeFilterStmt( {'property': fName, 'filterStmt': sFilter['filterStmt'] }  , model )
 
+        if QStmt is None:  QStmt = QTmp
+        else: QStmt = QStmt | QTmp 
+
+    return QStmt 
 
 

@@ -83,10 +83,11 @@ def getTextSearchFields( pSearchFields, model  ) :
 
 def getQbeStmt( fieldName ,  sQBE, sType   ):  
 
+    QResult = Q()
+
 #-- Valida y copia el criterio 
     sQBE = sQBE.strip()
-    if sQBE == '' : return
-    QResult = Q()
+    if sQBE == '' : return QResult
 
     #  Negacion del criterio
     bNot = False 
@@ -116,46 +117,48 @@ def getQbeStmt( fieldName ,  sQBE, sType   ):
         if bNot : QResult = ~ QResult 
         return QResult
 
-    # 
-    sType = sType | 'string'
 
     # String:  \iexact, \icontains, \istartswith, isnull, search, TODO: \iendswith, \iregex 
     if sType in ([ 'string', 'text']) : 
         if sQBE.startswith('^'):
-            QResult =  Q( "{1}__istartswith = '{2}'".format( fieldName, sQBE[1:] ) )  
+            Qobj =  { "{0}__istartswith ".format( fieldName ) :  sQBE[1:]  }  
         
         elif sQBE == '=' :
-            QResult =  Q( "{1}__isnnull = True'".format( fieldName ) )  
+            Qobj =  { "{0}__isnnull ".format( fieldName ) : True }  
     
         elif sQBE.startswith('='):
-            QResult =  Q( "{1}__iexact = '{2}'".format( fieldName, sQBE[1:] ) )  
+            Qobj =  { "{0}__iexact".format( fieldName ) :  sQBE[1:]  }  
         
         elif sQBE.startswith('@'):
-            QResult =  Q( "{1}__search = '{2}'".format( fieldName, sQBE[1:] ) )  
+            Qobj =  { "{0}__search".format( fieldName ) :  sQBE[1:]  }  
         
         else:
-            QResult =  Q( "{1}__icontains = '{2}'".format( fieldName, sQBE ) )  
+            Qobj =  { "{0}__icontains".format( fieldName) :  sQBE }  
+
+        QResult =  Q( **Qobj ) 
 
 
+    # TODO: Verificar q sea numerico 
     # Numericos : gt, gte, lt, lte,   TODO: in,   range, 
-    elif sType in ( [ 'int', 'foreignid', 'decimal' ]): 
-        if sQBE.startswith( ">=") :
-            QResult =  Q( "{1}__gte = {2}".format( fieldName, sQBE[2:] ) )  
-        elif sQBE.startswith( "<=") :
-            QResult =  Q( "{1}__lte = {2}".format( fieldName, sQBE[2:] ) )  
-            
-        elif sQBE.startswith( "<>") | sQBE.startswith( "!=") :
-            bNot = ~ bNot
-            QResult =  Q( "{1} = {2}".format( fieldName, sQBE[2:] ) )
-              
-        elif sQBE.startswith( ">") :
-            QResult =  Q( "{1}__gt = {2}".format( fieldName, sQBE[1:] ) )
-        elif sQBE.startswith( "<") :
-            QResult =  Q( "{1}__lt = {2}".format( fieldName, sQBE[1:] ) )
-        elif sQBE.startswith( "=") :
-            QResult =  Q( "{1} = {2}".format( fieldName, sQBE[1:] ) )
-        else: 
-            QResult =  Q( "{1} = {2}".format( fieldName, sQBE ) )
+#    elif sType in ( [ 'int', 'foreignid', 'decimal' ]):
+#        
+#        if sQBE.startswith( ">=") :
+#            QResult =  Q( "{0}__gte = {1}".format( fieldName, sQBE[2:] ) )  
+#        elif sQBE.startswith( "<=") :
+#            QResult =  Q( "{0}__lte = {1}".format( fieldName, sQBE[2:] ) )  
+#            
+#        elif sQBE.startswith( "<>") | sQBE.startswith( "!=") :
+#            bNot = ~ bNot
+#            QResult =  Q( "{0} = {1}".format( fieldName, sQBE[2:] ) )
+#              
+#        elif sQBE.startswith( ">") :
+#            QResult =  Q( "{0}__gt = {1}".format( fieldName, sQBE[1:] ) )
+#        elif sQBE.startswith( "<") :
+#            QResult =  Q( "{0}__lt = {1}".format( fieldName, sQBE[1:] ) )
+#        elif sQBE.startswith( "=") :
+#            QResult =  Q( "{0} = {1}".format( fieldName, sQBE[1:] ) )
+#        else: 
+#            QResult =  Q( "{0} = {1}".format( fieldName, sQBE ) )
     
 #    TODO: if sType == 'bool':
 #    Fechas: year, month, day,   
