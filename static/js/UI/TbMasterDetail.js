@@ -150,7 +150,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         
         this.searchBG.on({
             loadData: {fn: function ( tbar , sFilter, sTitle ) {
-                // __MasterDetail.onClickLoadData( [{ 'property' :  '_allCols' , 'filterStmt' : sFilter }] );
                 __MasterDetail.onClickLoadData( sFilter );
                 __MasterDetail.protoMasterGrid.protoLocalFilter = sTitle; 
                 __MasterDetail.protoMasterGrid.setGridTitle( __MasterDetail.protoMasterGrid ) 

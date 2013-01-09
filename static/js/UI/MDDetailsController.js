@@ -105,7 +105,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
                 protoIsDetailGrid : true,
                 detailDefinition : pDetail,  
                 autoLoad : false, 
-                baseFilter : '{"' + pDetail.detailField + '" : -1}',
+                baseFilter : '[{ "property":"' + pDetail.detailField + '", "filterStmt": -1}]',
     
                 // Para saber de q linea del maestro  depende  
                 _MasterDetail: mDet 

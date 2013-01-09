@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.contrib.admin.util import  get_fields_from_path
 from django.utils.encoding import smart_str
 
-from protoQbe import construct_search, addFilter, getTextSearchFields, getSearcheableFields, getQbeStmt
+from protoQbe import construct_search, addFilter, getSearcheableFields, getQbeStmt
 
 from utilsBase import JSONEncoder, getReadableError 
 from utilsBase import _PROTOFN_ , verifyStr   
@@ -207,10 +207,7 @@ def copyValuesFromFields( protoMeta, rowdict ):
 def getQSet(  protoMeta, protoFilter, baseFilter , sort   ):
     
 #   Decodifica los eltos 
-    gridConfig =  protoMeta.get('gridConfig', {})
     protoConcept = protoMeta.get('protoConcept', '')
-    
-#   Carga la info
     model = getDjangoModel(protoConcept)
 
 #   QSEt
@@ -275,9 +272,18 @@ def addQbeFilter( protoFilter, model, Qs ):
 
 def addQbeFilterStmt( sFilter, model ):
 
-    field = get_fields_from_path( model, sFilter['property'] )[-1]
-    sType = TypeEquivalence.get( field.__class__.__name__, 'string')
-    QStmt = getQbeStmt( sFilter['property'], sFilter['filterStmt'], sType  )
+    fieldName  =  sFilter['property']
+    
+    try: 
+        # Obtiene el tipo de dato, si no existe la col retorna elimina la condicion
+        field = get_fields_from_path( model, fieldName )[-1]
+        sType = TypeEquivalence.get( field.__class__.__name__, 'string')
+    except Exception,  e:
+        if fieldName.endswith('__pk') : 
+            sType = 'foreignid' 
+        else : return models.Q()
+        
+    QStmt = getQbeStmt( fieldName , sFilter['filterStmt'], sType  )
     
     return QStmt 
 

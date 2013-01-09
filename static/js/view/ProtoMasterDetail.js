@@ -145,13 +145,14 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         if ( me.idMasterGrid === 0  ) { tmpStore.protoMasterId = me.idMasterGrid; return; } 
         if ( tmpStore.protoMasterId == me.idMasterGrid ) { return; }
 
-        // Filtro de base y asignacion del pDetail  
+        // Filtro de base y asignacion del pDetail
+        var baseFilter = -1   
         if ( ! me.protoMasterGrid.rowData )  { 
-            var baseFilter = '{"' + pDetail.detailField + '" : ' + me.idMasterGrid + ',}';
+            baseFilter = '[{ "property" :"' + pDetail.detailField + '" , "filterStmt" :' + me.idMasterGrid + '}]';
         } else { 
             var rowDataIx  = me.protoMasterGrid.rowData[ pDetail.masterField ]
             if ( ! rowDataIx ) { rowDataIx = me.idMasterGrid  }
-            var baseFilter = '{"' + pDetail.detailField + '" : ' + rowDataIx  + ',}';
+            baseFilter = '[{ "property" :"' + pDetail.detailField + '" , "filterStmt" :' + rowDataIx + '}]';
         }
         
          

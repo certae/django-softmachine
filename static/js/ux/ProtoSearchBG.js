@@ -62,9 +62,9 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
             disabled : ! me.protoEnable,
             items:  [  
                 searchCr,
-                clearBtn, 
                 searchBtn,
-                QBEBtn
+                QBEBtn,
+                clearBtn 
             ]
         });
 

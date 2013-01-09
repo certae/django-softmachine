@@ -29,6 +29,14 @@ def getTypedValue ( sAux , sType):
     return sAux 
 
 
+def isNumeric( s ):
+    try:
+      i = float(s)
+    except ValueError, TypeError:
+        return False 
+    else:
+        return True     
+
 
 def toInteger(s , iDefault = None):
     """

@@ -199,15 +199,17 @@ Ext.define('ProtoUL.view.ProtoForm', {
             var tmpStore = this.cllStoreDet[ixDet];
             var detField = tmpStore.detailDefinition.detailField, myFilter = {} 
 
-            myFilter[ detField ] = this.idMaster
+            // myFilter[ detField ] = this.idMaster
 
+            var baseFilter = '[{ "property" : "' + detField + '" , "filterStmt" :' + this.idMaster + '}]';
+            
             // El filtro del detalle debe tner en cuenta el filtro predefinido para la grilla???
             // TODO: En el vinculo debe existir un filtro predefinido,  no es necesariamente cierto q siempre deba ser 
             // el filtro de consulta de la grilla o q se deba siempre eliminar. 
             tmpStore.clearFilter();
 
             tmpStore.getProxy().extraParams.protoFilter = '';
-            tmpStore.getProxy().extraParams.baseFilter = Ext.encode( myFilter ) 
+            tmpStore.getProxy().extraParams.baseFilter = baseFilter 
             tmpStore.protoMasterId = this.idMaster;
             tmpStore.load();
 

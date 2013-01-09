@@ -176,6 +176,7 @@ def PathToList(inPath, template_type="", showExt = True):
       
         
 def strip_html(inHtml):
+    # regularExp
     import re
     inHtml = re.sub(r'<br>', '\n', inHtml)
     inHtml = re.sub(r'</td><td>', ' - ', inHtml)

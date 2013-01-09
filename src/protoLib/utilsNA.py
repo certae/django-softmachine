@@ -33,3 +33,24 @@
 #        file_count = len(os.walk(path)[2])
 #    return file_count
     
+
+from django.contrib.admin.util import  get_fields_from_path
+
+def getTextSearchFields( pSearchFields, model  ) :
+#   TODO:  Esto deberia ser un parametro configurable en la pci 
+    textSearchFlds = []
+    textFilterTypes  = [ 'CharField', 'TextField', 'IntegerField', 'DecimalField', 'FloatField',  ]
+    for fName  in pSearchFields:
+        try: 
+            # Busca el campo en el modelo y joins 
+            field = get_fields_from_path( model, fName)[-1]
+    
+            #field = model._meta.get_field( fName )
+            #model = field.rel.to
+            #model.famille.field.related.parent_model
+        except: continue  
+    
+        if field.__class__.__name__ in textFilterTypes:
+            textSearchFlds.append( fName )   
+
+    return textSearchFlds
