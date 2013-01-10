@@ -1,3 +1,5 @@
+El zoom esta cargando la pagina completa al definirse
+
 12/11
 
 Status en la forma si hay camopos invalidos no aparece 

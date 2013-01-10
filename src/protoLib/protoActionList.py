@@ -279,7 +279,7 @@ def addQbeFilterStmt( sFilter, model ):
         field = get_fields_from_path( model, fieldName )[-1]
         sType = TypeEquivalence.get( field.__class__.__name__, 'string')
     except Exception,  e:
-        if fieldName.endswith('__pk') : 
+        if fieldName.endswith('__pk') or fieldName == 'pk' : 
             sType = 'foreignid' 
         else : return models.Q()
         
