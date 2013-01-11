@@ -18,8 +18,6 @@ Ext.define('ProtoUL.UI.MDSetFiltersController', {
 
             for (var nFiltre in oc(['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'])) {
                 var tmpF1 = {}
-                // tmpF1[ this.myMeta.gridConfig.filterSetABC + '__istartswith' ] =  nFiltre 
-                // tmpFilters.push ({ name: nFiltre,  filter: tmpF1 }) 
                 tmpF1[ 'property' ] = this.myMeta.gridConfig.filterSetABC   
                 tmpF1[ 'filterStmt' ] =  '^' + nFiltre 
                 tmpFilters.push ({ name: nFiltre,  filter: [ tmpF1 ] }) 

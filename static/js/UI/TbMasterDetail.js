@@ -106,9 +106,31 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 xtype: 'splitbutton', 
                 text:    __language.Text_Filters_Button,
                 tooltip: __language.Tooltip_Filters_Button,
-                iconCls: 'icon-custom',
-                itemId : 'custom', 
-                // hidden : true,
+                iconCls: 'icon-filters',
+                itemId : 'filterSet', 
+                hidden : true,
+                enableToggle: true,
+                handler: toogleTb2,  
+                menu :  Ext.create( 'Ext.menu.Menu', {}) 
+
+            },  { 
+                xtype: 'splitbutton', 
+                text:    __language.Text_Tabs_Button,
+                tooltip: __language.Tooltip_Tabs_Button,
+                iconCls: 'icon-tabs',
+                itemId : 'tabSet', 
+                hidden : true,
+                enableToggle: true,
+                handler: toogleTb2,  
+                menu :  Ext.create( 'Ext.menu.Menu', {}) 
+
+            },  { 
+                xtype: 'splitbutton', 
+                text:    __language.Text_Sorters_Button,
+                tooltip: __language.Tooltip_Sorters_Button,
+                iconCls: 'icon-sorters',
+                itemId : 'sorterSet', 
+                hidden : true,
                 enableToggle: true,
                 handler: toogleTb2,  
                 menu :  Ext.create( 'Ext.menu.Menu', {}) 
@@ -161,16 +183,26 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
 
         function toogleTb2( but ) {
-            // 'details', 'printerOpts', 'sorters', 'tbHelp', 'custom',  
+            // 'details', 'printerOpts', 'sorters', 'tbHelp', 'filterSet',  
 
             if ( but.itemId == 'sorters' ) {
                 if ( __MasterDetail.tbSorters ) {
                     __MasterDetail.tbSorters.setVisible( but.pressed  )
                 }
 
-            } else if ( but.itemId == 'custom' ) {
+            } else if ( but.itemId == 'filterSet' ) {
                 if ( __MasterDetail.tbFilters ) {
                     __MasterDetail.tbFilters.setVisible( but.pressed  )
+                }
+
+            } else if ( but.itemId == 'tabSet' ) {
+                if ( __MasterDetail.tbTabs ) {
+                    __MasterDetail.tbTabs.setVisible( but.pressed  )
+                }
+
+            } else if ( but.itemId == 'sorterSet' ) {
+                if ( __MasterDetail.tbSortersSet ) {
+                    __MasterDetail.tbSortersSet.setVisible( but.pressed  )
                 }
 
             } else if ( but.itemId == 'printerOpts' ) {
@@ -251,11 +283,11 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         this.searchBG.setVisible( ! bEdit )
         this.setAutoSync( this.__MasterDetail.autoSync )
 
-        // 'details', 'printerOpts', 'sorters', 'tbHelp', 'custom',
+        // 'details', 'printerOpts', 'sorters', 'tbHelp', 'filterSet',
         setEditMode( this, 'details', bEdit );
         setEditMode( this, 'printerOpts', bEdit );
         setEditMode( this, 'sorters', bEdit  );
-        setEditMode( this, 'custom', bEdit );
+        setEditMode( this, 'filterSet', bEdit );
         setEditMode( this, 'protoActions', bEdit );
 
         var autoSync = this.__MasterDetail.autoSync
@@ -284,7 +316,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         }
 
         if ( this.__MasterDetail.myFilters ) {
-            var bt = this.getComponent('custom')
+            var bt = this.getComponent('filterSet')
             bt.menu.add(  this.__MasterDetail.myFilters )
             bt.protoEnable = true 
             bt.show()            
@@ -309,6 +341,21 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             bt.protoEnable = true 
             bt.show()            
         }
+
+        if ( this.__MasterDetail.myTabs ) {
+            var bt = this.getComponent('tabSet')
+            bt.menu.add(  this.__MasterDetail.myTabs )
+            bt.protoEnable = true 
+            bt.show()            
+        }
+
+        if ( this.__MasterDetail.mySortersSet ) {
+            var bt = this.getComponent('sorterSet')
+            bt.menu.add(  this.__MasterDetail.mySortersSet )
+            bt.protoEnable = true 
+            bt.show()            
+        }
+
         
     }
   

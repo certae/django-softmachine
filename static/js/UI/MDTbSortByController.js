@@ -1,4 +1,4 @@
-Ext.define('ProtoUL.UI.MDSortersController', {
+Ext.define('ProtoUL.UI.MDTbSortByController', {
     extend: 'Ext.Base',
     myMeta : null, 
     constructor: function (config) {

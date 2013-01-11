@@ -26,7 +26,10 @@
 .icon-order   { background-image: url(../img/protoImg/base-sort.png ) !important;  }
 .icon-print   { background-image: url(../img/protoImg/base-print.png ) !important;}
 .icon-action  { background-image: url(../img/protoImg/base-action.png ) !important;}
-.icon-custom  { background-image: url(../img/protoImg/base-custom.png ) !important;}
+.icon-filters { background-image: url(../img/protoImg/base-filters.png ) !important;}
+.icon-tabs    { background-image: url(../img/protoImg/base-tabs.png ) !important;}
+.icon-sorters { background-image: url(../img/protoImg/base-sorters.png ) !important;}
+
 .icon-details { background-image: url(../img/protoImg/base-details.png ) !important;}
 .icon-config  { background-image: url(../img/protoImg/base-config.png ) !important;}
 .icon-help    { background-image: url(../img/protoImg/base-help.png ) !important;}

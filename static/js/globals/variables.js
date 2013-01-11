@@ -13,8 +13,7 @@ _ROW_ST = {
 _requiredField = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
 
 
-// _siteTitle = 'ART Atelier de Référentiel pour Togaf'_versionMeta = '12.1108'
-_versionProto = 'Version 1.00.' + _versionMeta
+// _siteTitle = 'ART Atelier de Référentiel pour Togaf'_versionProto = 'Version 1.00.' + _versionMeta
 _siteTitle = 'Promigas S.A. E.S.P.'
 _siteTitleCollapsed = false 
 

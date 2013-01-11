@@ -158,9 +158,9 @@ function clearPhantonProps( __ptConfig ,  __ptType ) {
 }; 
 
 
+_versionMeta = '13.0111'
 
 _MetaObjects =  {
-
 
     "pcl": {
         "description": "definicion de la meta",
@@ -308,16 +308,47 @@ _MetaObjects =  {
              ], 
         "lists": [
             "listDisplay",
-            "searchFields",
-            "sortFields", 
-
             "baseFilter", 
             "initialFilter", 
-            "initialSort",
+            "initialSort", 
 
+        // TODO: Eliminar de aqui y pasar a obj  colShortcuts             
+            "searchFields",     // TODO: Cambiar por sercheable
+            "sortFields",       // TODO: Cambiar por sortable
             "hiddenFields",
             "readOnlyFields"
+            
             ],
+        "objects": [
+            "others",
+         // "colShortcuts" 
+            ]
+            
+    },
+
+    // TODO: Caundo se agrega aqui, al guardar actualiza fieldDefinition,
+    // el agregar o borrar prevalece sobre la condicion del campo. 
+    "colShortcuts": {
+        "description": "Column configuration shortcuts",
+        "lists": [
+            "searchFields",     // TODO: Cambiar por sercheable
+            "sortFields",       // TODO: Cambiar por sortable
+            "hiddenFields",
+            "readOnlyFields"
+            
+            // qbeAllowFields
+            // textSearchFields  
+            ]
+    },
+
+
+    "others": {
+        "description": "Configuraciones de adicionales ( filters, sorters, userViews )",
+        "lists": [
+            "filtersSet",
+            "listDisplaySet",
+            "sortersSet"
+            ]
     },
 
     "custom": {

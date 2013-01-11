@@ -107,6 +107,12 @@ __language={
     Text_Close_Button: 'Close',
     Tooltip_Exit_Edit_Mode_Button: 'Exit edit mode',
 
+    Text_Tabs_Button: 'Tabs',
+    Tooltip_Tabs_Button: 'Tabs',
+
+    Text_Sorters_Button: 'Sorters',
+    Tooltip_Sorters_Button: 'Sorters',
+
     Tooltip_Open_HtmlEditor: 'Open html editor',
     Text_Return_Button:'Return',
     StatusBar_Message_Loading: 'Loading...',
@@ -296,6 +302,12 @@ __Langue_es = {
     Text_Close_Button: 'Cerrar',
     Tooltip_Exit_Edit_Mode_Button: 'Salir de modo de edición',
 
+    Text_Tabs_Button: 'Tabs',
+    Tooltip_Tabs_Button: 'Tabs',
+
+    Text_Sorters_Button: 'Sorters',
+    Tooltip_Sorters_Button: 'Sorters',
+
     Tooltip_Open_HtmlEditor: 'Abrir html editor',
     Text_Return_Button: 'Volver',
     StatusBar_Message_Loading: 'Cargando...',
@@ -483,6 +495,12 @@ __Langue_fr={
     Tooltip_Filters_Button: 'Filtres personnalisés',
     Text_Close_Button: 'Fermer',
     Tooltip_Exit_Edit_Mode_Button: 'Fermer mode édition',
+
+    Text_Tabs_Button: 'Tabs',
+    Tooltip_Tabs_Button: 'Tabs',
+
+    Text_Sorters_Button: 'Sorters',
+    Tooltip_Sorters_Button: 'Sorters',
 
     Tooltip_Open_HtmlEditor: 'Ouvrir éditeur html',
     Text_Return_Button:'Rentrer',

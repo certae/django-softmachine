@@ -265,7 +265,14 @@ def addQbeFilter( protoFilter, model, Qs ):
         if QStmt is None:  QStmt = QTmp
         else: QStmt = QStmt & QTmp 
 
-    Qs = Qs.filter( QStmt  )
+    if QStmt is None:  QStmt = models.Q()
+
+    try:
+        Qs = Qs.filter( QStmt  )
+    except Exception,  e:
+        traceback.print_exc()
+        return Qs 
+        
     return Qs
 
 
