@@ -109,10 +109,10 @@ def getQbeStmt( fieldName ,  sQBE, sType   ):
     # String:  \iexact, \icontains, \istartswith, isnull, search, TODO: \iendswith, \iregex 
     if sType in ([ 'string', 'text']) : 
         if sQBE.startswith('^'):
-            Qobj =  { "{0}__istartswith ".format( fieldName ) :  sQBE[1:]  }  
+            Qobj =  { "{0}__istartswith".format( fieldName ) :  sQBE[1:]  }  
         
         elif sQBE == '=' :
-            Qobj =  { "{0}__isnnull ".format( fieldName ) : True }  
+            Qobj =  { "{0}__isnnull".format( fieldName ) : True }  
     
         elif sQBE.startswith('='):
             Qobj =  { "{0}__iexact".format( fieldName ) :  sQBE[1:]  }  

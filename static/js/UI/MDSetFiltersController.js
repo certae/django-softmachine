@@ -1,4 +1,4 @@
-Ext.define('ProtoUL.UI.MDCstmOptsController', {
+Ext.define('ProtoUL.UI.MDSetFiltersController', {
     extend: 'Ext.Base',
     myMeta : null, 
     constructor: function (config) {
@@ -12,10 +12,6 @@ Ext.define('ProtoUL.UI.MDCstmOptsController', {
         var tmpFilters = [] 
         var __MasterDetail = this.__MasterDetail
 
-        
-        if ( ! this.myMeta.gridConfig.filtersSet ) {
-            this.myMeta.gridConfig.filtersSet = []
-        }
         
         // Si no hay filtros definidos pero existe un filterAlph, 
         if ((this.myMeta.custom.filtersSet.length == 0)  &&  this.myMeta.gridConfig.filterSetABC  ) {
@@ -31,7 +27,7 @@ Ext.define('ProtoUL.UI.MDCstmOptsController', {
             tmpFilters.push ({ name: ' *', filter: {} })
              
         } else {
-          tmpFilters = this.myMeta.gridConfig.filtersSet  
+          tmpFilters = this.myMeta.custom.filtersSet  
         }  
 
         for (var vDet in tmpFilters ) {       
@@ -42,7 +38,7 @@ Ext.define('ProtoUL.UI.MDCstmOptsController', {
                     text:           pFilters.name,
                     iconCls :       pFilters.icon, 
                     maxWidth :      100, 
-                    protoFilter:    Ext.encode( pFilters.filter ),
+                    protoFilter:    pFilters.filter,
                     scope:          this,                     
                     handler:        onClickProtoFilter
                 }));
