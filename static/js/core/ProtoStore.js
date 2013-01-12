@@ -101,7 +101,7 @@ function getStoreDefinition(  stDef  ){
         model: getModelName( stDef.protoOption  ),  
         autoLoad: stDef.autoLoad,
         pageSize: stDef.pageSize,
-        sorters: stDef.sorters,    
+        sorters:  stDef.sorters,    
 
         remoteSort: true,
         autoSync: true, 
@@ -109,7 +109,6 @@ function getStoreDefinition(  stDef  ){
         proxy: getProxyDefinition( stDef ), 
         
         // Redefinicion de metodos 
-        
         // sort: function ( sorters ) {
             // Redefine el metodo, siempre pasa por aqui 
         // }, 
