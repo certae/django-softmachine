@@ -5,7 +5,8 @@
     protoOption: null,
     defaultType: 'textfield',
     autoHeigth: true,
-    campos:[],
+    campos: [],
+    resizable:false,
     titulo:'',
     //width: 530,
     modal: true,
@@ -14,7 +15,11 @@
     cancelar: function () { },
     plain: true,
     titulo: '',
+   /* layout: {
+        type: 'border'
 
+    },*/
+  
     initComponent: function () {
         me = this;
 
@@ -48,8 +53,9 @@
                     //hidden:!resp[i].searchable,
                     //hidden:false,
                     //query: "select OPCION from W0menus"
-                    hideTrigger: !resp[i].qbeHelp
-                    
+                    hideTrigger: !resp[i].qbeHelp,
+                    enterKey:this.accept
+
                 }
 
 
@@ -64,16 +70,22 @@
         Ext.applyIf(me, {
 
             title: me.protoOption + me.titulo,
+            
+
 
             items: [
                 {
                     xtype: 'form',
+                   // region: 'center',
                     items: fields,
                     autoScroll: true,
                     labelWidth: 150,
                     autoHeigth: true,
-                    maxHeight: 360,
-                    width:350,
+                    maxHeight: 400,
+                    width: 350,
+                    //height:300,
+                    flex:1,
+                    
                     monitorValid: true,
                     frame: true,
                     bodyStyle: 'padding:5px 10px 0',
@@ -83,41 +95,18 @@
                            width: 10,
                            text: __language.Text_Accept_Button,
                            formBind: true,
-                           iconCls: "icon-ok",
-                           handler: function () {
-                               var campos = me.down('form').items.items;
-                               arrQbe = new Array();
-                               var qbe = '';
-                               for (i = 0; i < campos.length; i++) {
-                                   if (campos[i].getValue().trim() != '') {
-                                       var t = {
-                                           property   : campos[i].getName(),
-                                           filterStmt : campos[i].getValue()
-                                       };
-                                       arrQbe.push(t);
-                                       //qbe += campos[i].getName() + "$( " + campos[i].getValue() + " ),";
-                                   }
-                               }
-                               /*if (qbe != '') {
-                                   qbe = qbe.substring(0, qbe.length - 1);
-                               }*/
-                               //me.aceptar(qbe);
-                               me.aceptar( arrQbe );
-                               me.close();
-                           }
+                           iconCls: "icon-accept",
+                           handler: this.accept
 
 
 
                        }, {
                            xtype: 'button',
                            text: __language.Title_Cancel_Button,
-                           iconCls: "icon-cancelar",
+                           iconCls: "icon-cancel",
                            width: 10,
                            action: 'clickCancelar',
-                           handler:function(){
-                                me.cancelar();
-                                me.close();
-                           }
+                           handler:this.cancel
                        }
 
                     ]
@@ -131,6 +120,38 @@
 
 
         me.callParent(arguments);
+    },
+
+    accept:function () {
+        var form = me.down('form').getForm();
+        if(form.isValid()){
+            var campos = me.down('form').items.items;
+            arrQbe = new Array();
+            var qbe = '';
+            for (i = 0; i < campos.length; i++) {
+                if (campos[i].getValue().trim() != '') {
+                    var t = {
+                        property   : campos[i].getName(),
+                        filterStmt : campos[i].getValue()
+                    };
+                    arrQbe.push(t);
+                    //qbe += campos[i].getName() + "$( " + campos[i].getValue() + " ),";
+                }
+            }
+            /*if (qbe != '') {
+                qbe = qbe.substring(0, qbe.length - 1);
+            }*/
+            //me.aceptar(qbe);
+
+            me.aceptar( Ext.encode(arrQbe) );
+            me.close();
+        }
+       
+    },
+
+    cancel: function () {
+        me.cancelar();
+        me.close();
     }
 
 });

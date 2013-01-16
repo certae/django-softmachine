@@ -14,7 +14,7 @@ _requiredField = '<span style="color:red;font-weight:bold" data-qtip="Required">
 
 
 // _siteTitle = 'ART Atelier de Référentiel pour Togaf'_versionProto = 'Version 1.00.' + _versionMeta
-_siteTitle = 'Promigas S.A. E.S.P.'
+_siteTitle = 'CANNON S.A. E.S.P.'
 _siteTitleCollapsed = false 
 
 _detailViewNewTab = __language.Msg_View_In_New_Tab
@@ -52,6 +52,7 @@ _PConfig =  {
     urlGetProtoCsv : 'protoLib/protoCsv/', 
     urlDoAction   : 'protoLib/protoDoActions/', 
     urlHelpQbe: 'protoLib/protoGetHelpQbe/',
+    urlLogOut:'/Login/cerrarSesion',
    
     clsBaseModel: 'ProtoUL.model.' 
 }; 
@@ -61,8 +62,8 @@ __HELPpath = '/resources/help/index.html'
 
 // Globally changing the text of Cancel and Save buttons;
 
-Ext.grid.RowEditor.prototype.saveBtnText = 'Enregistrer'; 
-Ext.grid.RowEditor.prototype.cancelBtnText = 'Canceler';
+Ext.grid.RowEditor.prototype.saveBtnText = __language.Title_Save_Button;
+Ext.grid.RowEditor.prototype.cancelBtnText = __language.Title_Cancel_Button;
 
 
 // Collection of PCL's ( Proto Concept Definition )  

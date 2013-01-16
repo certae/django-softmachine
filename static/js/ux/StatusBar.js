@@ -72,6 +72,12 @@ Ext.define('ProtoUL.ux.StatusBar', {
                 // xtype:'splitbutton',
                 // text: 'Login'
             }, '-', {
+                xtype: 'button',
+                iconCls: 'icon-script_gear',
+                text: __language.StatusBar_Text_Command_Button,
+                handler: this.command
+
+            }, {
 
                 xtype: 'splitbutton',
                 text: _UserInfo.fullName || _UserInfo.userName,
@@ -79,7 +85,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
                 menu: new Ext.menu.Menu({
                     items: [
                         
-                        { text: __language.StatusBar_Text_Close_Session, flex: 1, handler: this.cerrarSesion, iconCls: 'icon-logout', }
+                        { text: __language.StatusBar_Text_Close_Session, flex: 1, handler: this.closeSession, iconCls: 'icon-logout', }
                     ]
                 })
             }])
@@ -89,10 +95,19 @@ Ext.define('ProtoUL.ux.StatusBar', {
         
     },
 
-    cerrarSesion:function(){
+    command: function (){
+        Ext.MessageBox.prompt('Comando', 'Digite El Comando',
+                function (btn, nemo) {
+                    if (btn == 'ok') {
+                        
+                    }
+                }, this, false, ValorPrompt);
+    },
+
+    closeSession:function(){
     
         Ext.Ajax.request({
-            url: '/Login/CerrarSesion',
+            url: _PConfig.urlLogOut,
             
             success: function (response) {
 

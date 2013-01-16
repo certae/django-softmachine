@@ -194,7 +194,7 @@ Ext.define('ProtoUL.view.Viewport', {
             region: 'center',
             border : false, 
             minWidth: 300
-//            bodyStyle: "background-image:url(../../Recursos/Imagenes/sm.jpg) !important; background-size:100% 100% !important; background-repeat:no-repeat  !important;"
+//          bodyCls: "background-SM2"
         }); 
         return this.protoTabContainer;
     }

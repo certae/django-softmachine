@@ -387,6 +387,8 @@ function getSafeMeta( myMeta ) {
         "pciStyle" : myMeta.pciStyle, 
         "protoOption" : myMeta.protoOption,      
         "protoConcept" : myMeta.protoConcept,      
+        "sql": myMeta.sql,
+        "idProperty": myMeta.idProperty,
         "gridConfig": {
             "searchFields": clone( myMeta.gridConfig.searchFields  )
         },

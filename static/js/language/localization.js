@@ -21,6 +21,7 @@ __language={
     MenuTree_Text_Edit_Event: 'Edit Event',
     Msg_Saved: 'Saving changes...',
     Msg_Deleted_Event: 'Deleting event...',
+    Toolbar_Text_Reset_Button: 'Reset',
     Msg_Invalid_Form: 'OOPs!! Form is not valid',
     Msg_Error_Save_Form: 'Save form Failed',
     Msg_Failed_Operation: 'Operation failure',
@@ -63,6 +64,7 @@ __language={
     Msg_Select_Record: 'No record selected',
 
     Tooltip_Filter_Grid_Button: 'Filter',
+    Text_Grid_Filter_By:'filtered by',
     Text_Toolbar_Advanced_Filter:'Advanced filter QBE',
     Text_Toolbar_Search_Field: 'key word ..',
     Text_Toolbar_Search_Combo: 'select operator',
@@ -123,6 +125,7 @@ __language={
     StatusBar_Text_Task_Button: 'task',
     StatusBar_Text_Close_Session: 'Close session',
     StatusBar_Error_When_Close_Session: 'Action is not possible',
+    StatusBar_Text_Command_Button: 'Command',
 
     Text_Close_Tab: 'Close Tab',
     Text_Close_Other_Tabs: 'Close Other Tabs',
@@ -188,6 +191,13 @@ __language={
     Text_Button_Load_App:'Load application',
     Text_Button_Close_Session: 'Close session',
 
+    HelpQBE_Tooltip_PlusThan_Button: 'larger than',
+    HelpQBE_Tooltip_LessThan_Button: 'smaller than',
+    HelpQBE_Tooltip_PlusEqualThan_Button: 'larger or equal than',
+    HelpQBE_Tooltip_LessEqualThan_Button: 'smaller or equal than',
+    HelpQBE_Tooltip_Different_Button: 'different',
+    HelpQBE_Tooltip_Between_Button: 'between',
+    HelpQBE_Tooltip_Containing_Button: 'containing',
     HelpQBE_Label_Pagging_DisplayMsg: 'records {0} - {1} of {2}',
     HelpQBE_Label_Pagging_EmptyMsg: 'no records',
     HelpQBE_Window_Title: 'Help QBE'
@@ -216,6 +226,7 @@ __Langue_es = {
     MenuTree_Text_Edit_Event: 'Modificar Evento',
     Msg_Saved: 'Guardando cambios...',
     Msg_Deleted_Event: 'Eliminando evento...',
+    Toolbar_Text_Reset_Button: 'Reiniciar',
     Msg_Invalid_Form: 'OOPs!! Formulario no es válido',
     Msg_Error_Save_Form: 'Error al guardar formulario',
     Msg_Failed_Operation: 'operación fallida',
@@ -258,6 +269,7 @@ __Langue_es = {
     Msg_Select_Record: 'Ningún registro seleccionado',
 
     Tooltip_Filter_Grid_Button: 'Filtrar',
+    Text_Grid_Filter_By: 'filtrado por',
     Text_Toolbar_Advanced_Filter: 'Filtro QBE avanzado',
     Text_Toolbar_Search_Field: 'palabra clave ..',
     Text_Toolbar_Search_Combo: 'seleccione el operador',
@@ -318,6 +330,7 @@ __Langue_es = {
     StatusBar_Text_Task_Button: 'tarea',
     StatusBar_Text_Close_Session: 'Cerrar Sesión',
     StatusBar_Error_When_Close_Session: 'La accion no es posible',
+    StatusBar_Text_Command_Button: 'Comando',
 
     Text_Close_Tab: 'Cerrar pestaña',
     Text_Close_Other_Tabs: 'Cerrar demás pestañas',
@@ -382,6 +395,14 @@ __Langue_es = {
     Text_Accept_Button: 'Aceptar',
     Text_Button_Load_App: 'Cargar aplicación ',
     Text_Button_Close_Session: 'Cerrar sesión',
+    
+    HelpQBE_Tooltip_PlusThan_Button: 'mayor que',
+    HelpQBE_Tooltip_LessThan_Button: 'menor que',
+    HelpQBE_Tooltip_PlusEqualThan_Button: 'mayor o igual que',
+    HelpQBE_Tooltip_LessEqualThan_Button: 'menor o igual que',
+    HelpQBE_Tooltip_Different_Button: 'diferente',
+    HelpQBE_Tooltip_Between_Button: 'entre',
+    HelpQBE_Tooltip_Containing_Button: 'contiene',
 
     HelpQBE_Label_Pagging_DisplayMsg: 'registros {0} - {1} de {2}',
     HelpQBE_Label_Pagging_EmptyMsg: 'no hay registros',
@@ -410,6 +431,7 @@ __Langue_fr={
     MenuTree_Text_Edit_Event: "Modifier l'événement",
     Msg_Saved: 'Enregistrement des modifications ...',
     Msg_Deleted_Event: "Suppression d'événement ...",
+    Toolbar_Text_Reset_Button: 'Réinitialiser',
     Msg_Invalid_Form: "OOPS! La forme n'est pas valide",
     Msg_Error_Save_Form: 'Enregistrer sous forme Échec',
     Msg_Failed_Operation: "échec de l'opération",
@@ -452,6 +474,7 @@ __Langue_fr={
     Msg_Select_Record: 'aucun enregistrement sélectionné',
 
     Tooltip_Filter_Grid_Button: 'Filtrer',
+    Text_Grid_Filter_By: 'filtrés par',
     Text_Toolbar_Advanced_Filter:'Filtre avancé QBE',
     Text_Toolbar_Search_Field: 'mots-clés recherchés ..',
     Text_Toolbar_Search_Combo: 'sélectionner opérator',
@@ -512,6 +535,7 @@ __Langue_fr={
     StatusBar_Text_Task_Button: 'tâche',
     StatusBar_Text_Close_Session: 'Fermer la session',
     StatusBar_Error_When_Close_Session: "Action n'est pas possible",
+    StatusBar_Text_Command_Button: 'commandement',
 
     Text_Close_Tab: "Fermer l'onglet",
     Text_Close_Other_Tabs: 'Fermer les autres onglets',
@@ -577,6 +601,13 @@ __Langue_fr={
     Text_Button_Load_App:'Application de la charge',
     Text_Button_Close_Session: 'Fermer la session',
 
+    HelpQBE_Tooltip_PlusThan_Button: 'plus grand que',
+    HelpQBE_Tooltip_LessThan_Button: 'plus petit que',
+    HelpQBE_Tooltip_PlusEqualThan_Button: 'plus grand ou égal que',
+    HelpQBE_Tooltip_LessEqualThan_Button: 'plus petit ou égal que',
+    HelpQBE_Tooltip_Different_Button: 'différent',
+    HelpQBE_Tooltip_Between_Button: 'entre',
+    HelpQBE_Tooltip_Containing_Button: 'qui contient',
     HelpQBE_Label_Pagging_DisplayMsg: 'registres {0} - {1} de {2}',
     HelpQBE_Label_Pagging_EmptyMsg: 'no registres',
     HelpQBE_Window_Title: 'Aider QBE'

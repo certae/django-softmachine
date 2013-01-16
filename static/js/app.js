@@ -8,6 +8,9 @@
 // Ext.require('Ext.toolbar.Paging');
 // Ext.require('Ext.layout.container.Border');
 
+//borrar el body:  ( para quitar la mascara ) 
+//document.getElementById('Idbody').innerHTML = "";
+
 Ext.Loader.setConfig({enabled: true});
 Ext.Loader.setPath('Ext.ux', 'static/extjs-4.1.x/examples/ux');
 
@@ -51,6 +54,31 @@ Ext.application({
         Ext.QuickTips.init();
         
         this.showLogin()
+
+/*
+       Ext.Ajax.request({
+            method: 'POST',
+            // waitTitle:'Connecting', 
+            // waitMsg:'Sending data...',
+            url: _PConfig.urlGetUserRights,
+            
+            // success: this.submitLoginCallback,
+            // failure: this.submitLoginCallback, 
+            success: function (result) {
+                resp = Ext.decode(result.responseText);
+                _UserInfo = resp.userInfo
+                //me.options.success.call(me.options.scope, result, request);
+                var app = new ProtoUL.view.Viewport();
+            },
+            failure: function (result, request) {
+                //pendiente hmaury
+                //_UserInfo = request.result.userInfo
+                //me.showFormError(request.result.message);
+                //me.options.failure.call(me.options.scope, result, request);
+            }
+        });
+
+*/
         
         // var app = new ProtoUL.view.Viewport();
         

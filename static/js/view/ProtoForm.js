@@ -59,7 +59,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
         this.btSave = Ext.create( 'Ext.Button', {
             iconCls : 'icon-save',
             id : this.idSaveBt,
-            text : 'Save',
+            text: __language.Title_Save_Button,
             scope : this,
             handler : this.onSave
         });
@@ -81,7 +81,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 ui : 'footer',
                 items : [ this.stMsg, '->',  this.btSave , {
                     iconCls : 'icon-reset',
-                    text : 'Reset',
+                    text: __language.Toolbar_Text_Reset_Button,
                     scope : this,
                     handler : this.onReset
                 }]

@@ -177,13 +177,16 @@ _MetaObjects =  {
             "idProperty", 
             "updateTime", 
             "metaVersion", 
-            "userVersion"
+            "userVersion",
+            "sql",
+            "pciType"
             ],
         "objects": [
             "gridConfig", 
             "protoForm", 
             "protoUdp", 
-            "custom" 
+            "custom", 
+            "businessRules"
             ],
         "lists": [
             "fields", 
@@ -697,7 +700,44 @@ _MetaObjects =  {
           ], 
         "addPrompt" : "Parametros de acciones", 
         "allowDel" : true
-        } 
+        }, 
+
+
+  "businessRules": {
+      "description": "",
+      "listOf":"rules"
+  },
+
+  "rules": [
+      "event",
+      "handler",
+      "src",
+      "type",
+      "field"
+  ],
+
+  "businessRulesText": {
+      "description": "business rules",
+      "properties": [
+            "afterCellUpdate",
+            "afterRowDelete",
+            "BeforeCellEdit",
+            "BeforeCellUpdate",
+            "BeforeRowDelete",
+            "BeforeRowInsert",
+            "dblClick",
+            "issZoomConfigure",
+            "issBeforeVslidateVr",
+            "issHelpReturn",
+            "issRowLoad",
+            "reposition",
+            "getLinkFilter",
+            "afterOpSave",
+            "beforeOpSave",
+            "issValidationComplete"
+      ]
+  }
+
     
     
 };

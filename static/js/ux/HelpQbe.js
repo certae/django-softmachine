@@ -67,8 +67,8 @@
             'specialkey', function (f, e) {
                 if (e.getKey() == e.ENTER) {
                     
-                   
-                    this.onTriggerClick();
+                    this.enterKey();
+                   // this.onTriggerClick();
                 }
             },
         this);
@@ -77,7 +77,7 @@
 
     },
 
-    
+   
    
     createHelpWindow: function (me) {
         
@@ -181,42 +181,49 @@
                                 xtype: 'button',
                                 width: 25,
                                 text: '>',
+                                tooltip: __language.HelpQBE_Tooltip_PlusThan_Button,
                                 handler: function () {this.up('window').addText(this)}
                             },
                             {
                                 xtype: 'button',
                                 width: 25,
                                 text: '<',
+                                tooltip: __language.HelpQBE_Tooltip_LessThan_Button,
                                 handler: function () { this.up('window').addText(this) }
                             },
                             {
                                 xtype: 'button',
                                 width: 25,
                                 text: '>=',
+                                tooltip: __language.HelpQBE_Tooltip_PlusEqualThan_Button,
                                 handler: function () { this.up('window').addText(this) }
                             },
                             {
                                 xtype: 'button',
                                 width: 25,
                                 text: '<=',
+                                tooltip: __language.HelpQBE_Tooltip_LessEqualThan_Button,
                                 handler: function () { this.up('window').addText(this) }
                             },
                             {
                                 xtype: 'button',
                                 width: 25,
                                 text: '<>',
+                                tooltip: __language.HelpQBE_Tooltip_Different_Button,
                                 handler: function () { this.up('window').addText(this) }
                             },
                             {
                                 xtype: 'button',
                                 width: 25,
                                 text: ':',
+                                tooltip: __language.HelpQBE_Tooltip_Between_Button,
                                 handler: function () { this.up('window').addText(this) }
                             },
                             {
                                 xtype: 'button',
                                 width: 25,
                                 text: '*',
+                                tooltip: __language.HelpQBE_Tooltip_Containing_Button,
                                 handler: function () { this.up('window').addText(this) }
                             }
                          ]
@@ -233,8 +240,8 @@
                 items: [
                     { xtype: 'tbtext', text: '', id: me.idStBar },
                     { xtype: 'component', flex: 1 },
-                    { xtype: 'button', text: __language.Text_Accept_Button, scope: me, handler: me.doReturn },
-                    { xtype: 'button', text: __language.Title_Cancel_Button, scope: me, handler: doCancel },
+                    { xtype: 'button', text: __language.Text_Accept_Button, scope: me, handler: me.doReturn, iconCls: 'icon-accept' },
+                    { xtype: 'button', text: __language.Title_Cancel_Button, scope: me, handler: doCancel, iconCls: 'icon-cancel' },
 
                  //   { xtype: 'button', text: 'Edit', scope: me, handler: doEdit },
                  //   { xtype: 'button', text: 'New', scope: me, handler: doNew },
@@ -265,6 +272,7 @@
                         
                         this.down('textfield').setValue(el.text + "" + text2 + "" + el.text);
                         break;
+                  
                     default: 
                        
                         this.down('textfield').setValue(el.text + "" + text2);
@@ -287,6 +295,8 @@
 
 
     },
+
+   
 
     onTriggerClick: function () {
         
@@ -327,7 +337,8 @@
 
    
 
-   
+   
+
 });
 
 
