@@ -33,9 +33,17 @@ DATABASES = {
 #        'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
 #    }, 
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': PPATH + '/db/protoMeta.db',
-    }
+        'ENGINE': 'mysql', 
+        'NAME':   'protogn',
+        'USER': 'root',
+        'PASSWORD': 'certae1',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+    }, 
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+#        'NAME': PPATH + '/db/protoMeta.db',
+#    }
 }
 
 # Local time zone for this installation. Choices can be found here:
@@ -166,8 +174,8 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.sites',
     'protoLib', 
-    'protoDict', 
-    'demo', 
+#    'protoDict', 
+    'bestingenomics', 
 #    'shiny', 
 #    'CategoryCle', 
 #    'TCO'

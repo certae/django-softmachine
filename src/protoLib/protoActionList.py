@@ -178,9 +178,13 @@ def Q2Dict (  protoMeta, pRows  ):
             rowdict[ 'children' ] = []
 
 
-        # Agrega el Id Siempre como idInterno ( no representa una col, idProperty ) 
-        rowdict[ 'id'] = item.pk 
-
+        # Agrega el Id Siempre como idInterno ( no representa una col, idProperty )
+        try:  
+            rowdict[ 'id'] = item.pk 
+        except:
+            rowdict[ 'id'] = 0 
+             
+        
         # Agrega la fila al diccionario
         rows.append(rowdict)
 

@@ -21,7 +21,12 @@ def protoGetUserRights(request):
     errMsg = ''
     success = False  
 
-    user = authenticate(username = userName, password = userPwd )
+    try:
+        user = authenticate(username = userName, password = userPwd )
+    except:
+        user = None
+        
+
     userInfo = { 'userName' : userName } 
                  
     if user is not None:
