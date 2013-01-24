@@ -703,18 +703,43 @@ _MetaObjects =  {
         }, 
 
 
-  "businessRules": {
-      "description": "",
-      "listOf":"rules"
-  },
+    "businessRules": {
+      "properties": [
+            "dblClick",
 
-  "rules": [
-      "event",
-      "handler",
-      "src",
-      "type",
-      "field"
-  ],
+            "afterCellUpdate",
+            "afterRowDelete",
+            "afterSave",
+
+            "beforeCellEdit",
+            "beforeCellUpdate",
+            "beforeRowDelete",
+            "beforeRowInsert",
+            "beforeOpSave",
+            "beforeValidate",
+
+            "zoomConfigure",
+            "zoomReturn",
+            "issRowLoad",
+            "reposition",
+            "getLinkFilter",
+            "validationComplete"
+      ]
+    },
+
+
+    "businessRule": {
+        "properties": [
+          "name", 
+          "handler",
+          "src",
+          "type",
+          "field"
+          ], 
+        "addPrompt" : "Parametros de acciones", 
+        "allowDel" : true
+        }, 
+
 
   "businessRulesText": {
       "description": "business rules",
