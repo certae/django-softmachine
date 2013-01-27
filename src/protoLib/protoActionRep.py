@@ -146,7 +146,7 @@ class SheetReportFactory(object):
         blockRowCount = 0 
 
         # Envia el QSet  obtiene una lista 
-        pList = Q2Dict(protoMeta , Qs  )
+        pList = Q2Dict(protoMeta , Qs , False  )
 
         # prepara las variables q participan en cada template 
         bfProps = getProperties( protoMeta['fields'], templateBefore )
@@ -263,7 +263,7 @@ def protoCsv(request):
     sort = request.POST.get('sort', '')
 
 #   Obtiene las filas del modelo 
-    Qs, orderBy = getQSet( protoMeta, protoFilter, baseFilter , sort  )
+    Qs, orderBy, fakeId = getQSet( protoMeta, protoFilter, baseFilter , sort  )
 
     if orderBy: 
         pRows =  Qs.order_by(*orderBy)
@@ -277,7 +277,7 @@ def protoCsv(request):
 
 #   Prepara las cols del Query 
     try:
-        pList = Q2Dict(protoMeta , pRows  )
+        pList = Q2Dict(protoMeta , pRows, fakeId  )
     except Exception,  e:
         message = getReadableError( e ) 
         pList = [ message ]

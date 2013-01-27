@@ -32,7 +32,7 @@ def protoList(request):
     protoMeta = request.POST.get('protoMeta', '')
     protoMeta = json.loads(protoMeta)
 
-#   getQSet se encarga de convertirlos de textoJson a objetos  
+#     
     protoFilter = request.POST.get('protoFilter', '')
     baseFilter = request.POST.get('baseFilter', '')
     sort = request.POST.get('sort', '')
@@ -43,7 +43,7 @@ def protoList(request):
 
         
 #   Obtiene las filas del modelo 
-    Qs, orderBy = getQSet( protoMeta, protoFilter, baseFilter , sort  )
+    Qs, orderBy, fakeId = getQSet( protoMeta, protoFilter, baseFilter , sort  )
     pRowsCount = Qs.count()
 
 
@@ -54,12 +54,12 @@ def protoList(request):
         pRows =  Qs.order_by(*orderBy)[ start: page*limit ]
     else: pRows =  Qs[ start: page*limit ]
 
-
 #   Prepara las cols del Query 
     try:
-        pList = Q2Dict(protoMeta , pRows  )
+        pList = Q2Dict(protoMeta , pRows, fakeId  )
         bResult = True 
     except Exception,  e:
+        traceback.print_exc()
         message = getReadableError( e ) 
         bResult = False  
         pList = []
@@ -78,7 +78,7 @@ def protoList(request):
 
 
 # Obtiene el diccionario basado en el Query Set 
-def Q2Dict (  protoMeta, pRows  ):
+def Q2Dict (  protoMeta, pRows, fakeId  ):
     """ 
         return the row list from given queryset  
     """
@@ -108,7 +108,9 @@ def Q2Dict (  protoMeta, pRows  ):
     
 
 #   Esta forma permite agregar las funciones entre ellas el __unicode__
+    rowId = 0 
     for item in pRows:
+        rowId += 1
         rowdict = {}
         for lField  in protoMeta['fields']:
             fName = lField['name']
@@ -179,11 +181,9 @@ def Q2Dict (  protoMeta, pRows  ):
 
 
         # Agrega el Id Siempre como idInterno ( no representa una col, idProperty )
-        try:  
-            rowdict[ 'id'] = item.pk 
-        except:
-            rowdict[ 'id'] = 0 
-             
+        rowdict[ 'id'] = item.pk 
+        if fakeId:
+            rowdict[ 'id'] = rowId 
         
         # Agrega la fila al diccionario
         rows.append(rowdict)
@@ -217,7 +217,8 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort   ):
 #   QSEt
     Qs = model.objects.select_related(depth=1)
 
-#   TODO: Agregar solomente los campos definidos en el safeMeta
+
+#   TODO: Agregar solomente los campos definidos en el safeMeta  ( only,  o defer ) 
 #   Qs.query.select_fields = [f1, f2, .... ]     
 
 #   El filtro base viene en la configuracion MD 
@@ -226,9 +227,6 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort   ):
     except Exception,  e:
 #        getReadableError( e ) 
         traceback.print_exc()
-
-
-        
 
 #   Order by 
     orderBy = []
@@ -247,7 +245,10 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort   ):
 #        getReadableError( e ) 
         traceback.print_exc()
 
-    return Qs, orderBy
+    # DbFirst en caso de q no exista una llave primaria   
+    fakeId = hasattr( model , '_fakeId' ) 
+
+    return Qs, orderBy, fakeId
 
 
 
