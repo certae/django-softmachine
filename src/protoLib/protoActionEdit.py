@@ -104,7 +104,7 @@ def protoEdit(request, myAction ):
 
                 # -- Los tipos complejos ie. date, generan un error, es necesario hacerlo detalladamente 
                 # Convierte el registro en una lista y luego toma solo el primer elto de la lista resultado. 
-                data = Q2Dict(protoMeta , [rec] )[0]
+                data = Q2Dict(protoMeta , [rec], False  )[0]
 
 
             except Exception,  e:

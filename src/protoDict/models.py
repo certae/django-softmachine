@@ -70,9 +70,10 @@ class PropertyDom(models.Model):
     """ Propiedades a nivel de dominio,  
     * definicion semantica del problema
     """
+    _fakeId = True
+    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200, primary_key=True )
 
-    domain = models.ForeignKey('Domain' )
-    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
+    domain = models.ForeignKey('Domain' ,  primary_key=True)
 
     """ Caracteristicas generales q definen el campo """
     baseType = models.CharField(verbose_name=u'Type de Base', blank = True, null = True, max_length=50)
@@ -162,6 +163,10 @@ class Relationship(models.Model):
     * La relaciones son en realidad campos q apuntan a otro concepto  
     """
 
+
+    _fakeId = True
+    code = models.CharField(verbose_name=u'Alias',blank = True, null = True, max_length=50, primary_key=True)
+
     refConcept = models.ForeignKey('Concept', related_name = 'bConcept')
 
     """No se puede crear el vinculo inmediato, pues es posible q no este aun creado""" 
@@ -177,7 +182,6 @@ class Relationship(models.Model):
     refMin = models.CharField( blank = True, null = True, max_length=50)
     refMax = models.CharField( blank = True, null = True, max_length=50)
 
-    code = models.CharField(verbose_name=u'Alias',blank = True, null = True, max_length=50)
     alias = models.CharField(verbose_name=u'Alias',blank = True, null = True, max_length=50)
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
