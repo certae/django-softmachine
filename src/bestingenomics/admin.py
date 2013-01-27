@@ -15,7 +15,7 @@ admin.site.register( QuestionProperties )
 admin.site.register( Products )
 admin.site.register( Answers )
 admin.site.register( Submissions )
-admin.site.register( UploadFiles )
+#admin.site.register( UploadFiles )
 
 #admin.site.register( Announcement )
 #admin.site.register( ApiIphone )

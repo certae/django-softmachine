@@ -1,0 +1,17 @@
+
+En el evento de cargar datos de una db, considerar 
+
+hay tablas q no tienen id, 
+R/ Crear un tipo de campo virtual q genere un consecutivo para el store 
+pero q realmente sea un consecutivo de lectura para el store frontEnd 
+
+no permitir el guardado 
+R/ Crear en la meta algun parametro para saber si se pueden editar 
+los registros de ese modelo
+
+Navegacion, 
+R/ permitir navegar por llaves compuesta  
+
+
+deseable hacer un procedimiento q permita hacer el inspectDb 
+crear la conexion dinamicamente y tambien los modelos. 
