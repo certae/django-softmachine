@@ -15,11 +15,32 @@ class OrganisationTree(models.Model):
 
     code = models.CharField(unique=True, blank = False, null = False, max_length=200 )
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
-    parentNode = models.ForeignKey( 'OrganisationTree', blank = True, null = True )
+    parentNode = models.ForeignKey( 'OrganisationTree', blank = True, null = True , related_name='downHierachy')
     site = models.ForeignKey( Site )
+
+    @property
+    def fullPath(self):
+        return getFullPath( self , 'parentNode',  'id', 'fullPath'  )
+
+    @property
+    def treeHierarchy(self):
+        "Returns the full down-hierarchy"
+        sTree = unicode( self.id )
+        for item in self.downHierachy.all() :
+            sTree += ',' + item.treeHierarchy
+        return sTree     
 
     def __unicode__(self):
         return self.code
+
+    protoExt = { 'fields' : { 
+          'fullPath': {'readOnly' : True},
+          'treeHierarchy': {'readOnly' : True},
+     }}
+
+
+
+
 
 
 # here is the profile model
@@ -28,8 +49,7 @@ class UserProfile(models.Model):
 #del usuario para dar permisos tambien a la jerarquia ( ascendente )
     user = models.ForeignKey(User, unique=True)
     userHierarchy = models.ForeignKey( OrganisationTree, blank = True, null = True )
-    userSites = models.ManyToManyField( Site ,blank = True, null = True)
-
+    userTree  = models.CharField( blank = True, null = True, max_length= 500 )
     def __unicode__(self):
 #        return self.user.get_full_name() or self.user.username 
         return  self.user.username 
@@ -54,8 +74,8 @@ class ProtoModel(models.Model):
     modifiedBy = models.ForeignKey( User, related_name='modifiedBy', editable = False)
     wflowStatus =  models.CharField( max_length=50,  null = True, blank=True, editable = False)
     regStatus =  models.CharField( max_length=50,  null = True, blank=True, editable = False)
-    createdOn = models.DateTimeField( default= datetime.now , editable = False)
-    modifiedOn = models.DateTimeField( default= datetime.now, editable = False)
+    createdOn = models.DateTimeField( auto_now=True , editable = False)
+    modifiedOn = models.DateTimeField( auto_now=True , editable = False)
 
     # Indicador para manejo de seguridad 
     _protoObj = True 
@@ -104,8 +124,7 @@ def getFullPath( record, parentField,  codeField, pathFunction  ):
 
     pRec  = record.__getattribute__(  parentField )
     if pRec   : 
-        return pRec.__getattribute__( pathFunction  ) + '.' + record.__getattribute__(  codeField  ) 
+        return pRec.__getattribute__( pathFunction  ) + ',' + unicode( record.__getattribute__(  codeField  ) ) 
     else: 
-        return record.__getattribute__(  codeField )
-
+        return unicode( record.__getattribute__(  codeField ) )
 

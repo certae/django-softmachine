@@ -109,8 +109,9 @@ class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
 
 admin.site.register(ProtoDefinition, protoDefinitionAdmin)
 
-from adminOrgTree import orgTreeAdmin
-admin.site.register(OrganisationTree, orgTreeAdmin)
+#from adminOrgTree import orgTreeAdmin
+#admin.site.register(OrganisationTree, orgTreeAdmin)
+admin.site.register(OrganisationTree )
 
 from adminUserProf import usrProfileAdmin
 admin.site.register(UserProfile, usrProfileAdmin)

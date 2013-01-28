@@ -32,3 +32,7 @@ Manejo de seguridad
     SqlServer, 
         Bases de datos de SoftMachine y crm 
         
+Campos seguridad v0.01
+
+'owningUser','owningHierachy','createdBy','modifiedBy','wflowStatus','regStatus','createdOn','modifiedOn'
+owningUser,owningHierachy,createdBy,modifiedBy,wflowStatus,regStatus,createdOn,modifiedOn

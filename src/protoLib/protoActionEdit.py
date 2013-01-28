@@ -4,11 +4,12 @@ import traceback
 
 from django.utils import simplejson as json
 from django.http import HttpResponse 
+from django.contrib.auth.models import User
 
 #from django.contrib.admin.sites import  site
 
-
-from models import getDjangoModel
+from datetime import datetime
+from models import getDjangoModel, UserProfile 
 from protoActionList import Q2Dict
 from utilsConvert import toInteger, toDate,toDateTime,toTime, toFloat, toDecimal, toBoolean
 from utilsBase import JSONEncoder, getReadableError
@@ -40,6 +41,9 @@ def protoEdit(request, myAction ):
     message = '' 
     if request.method != 'POST':  return
 
+    if not request.user.is_authenticated():
+        raise Exception( 'readOnly User')
+
     protoMeta = request.POST.get('protoMeta', '')
     rows = request.POST.get('rows', [])
 
@@ -61,6 +65,12 @@ def protoEdit(request, myAction ):
     if type(rows).__name__=='dict':
         rows = [rows]
         
+        
+    # Verfica si es un protoModel 
+    isProtoModel = hasattr( model , '_protoObj' )
+    if isProtoModel:
+        userProfile  = request.user.get_profile()   
+        
     pList = []
     for data in rows: 
         
@@ -80,11 +90,27 @@ def protoEdit(request, myAction ):
             for key in data:
                 key = smart_str( key )
                 if  key == 'id' or key == '_ptStatus' or key == '_ptId': continue
+
+                # Los campos de seguridad se manejan a nivel registro
+                if isProtoModel and key in ['owningUser','owningHierachy','createdBy','modifiedBy','wflowStatus','regStatus','createdOn','modifiedOn']:
+                    continue 
+                
                 if (cUDP.udpTable and key.startswith( cUDP.propertyPrefix + '__')): continue 
                 try:
                     setRegister( model,  rec, key,  data )
                 except Exception,  e:
                     data['_ptStatus'] = data['_ptStatus'] +  getReadableError( e ) 
+
+            if isProtoModel: 
+                setProtoData( rec, data,  'modifiedBy',  userProfile.user ) 
+                setProtoData( rec, data,  'modifiedOn', datetime.now() ) 
+
+                if myAction['INS']:
+                    setProtoData( rec, data,  'owningUser',userProfile.user )   
+                    setProtoData( rec, data,  'owningHierachy',userProfile.userHierarchy ) 
+                    setProtoData( rec, data,  'createdBy',userProfile.user ) 
+                    setProtoData( rec, data,  'regStatus','0' ) 
+                    setProtoData( rec, data,  'createdOn',datetime.now() ) 
 
             # Guarda el idInterno para concatenar registros nuevos en la grilla 
             try:
@@ -139,6 +165,11 @@ def protoEdit(request, myAction ):
 
 
 # ---------------------
+
+def setProtoData( rec, data, key, value  ):
+    data[ key ] = value 
+    setattr( rec, key, value  )
+
 
 def setRegister( model,  rec, key,  data   ):
 

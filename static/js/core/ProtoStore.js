@@ -356,8 +356,9 @@ function DefineProtoModel ( myMeta , modelClassName ){
             mField.dateFormat ='Y-m-d' 
             break;
         case 'datetime':
-            mField.type = 'date';            
-            mField.dateFormat ='Y-m-d H:i:s'  // 'timestamp' 
+            mField.type = 'string';            
+            // mField.type = 'date';            
+            // mField.dateFormat ='Y-m-d H:i:s'  // 'timestamp' 
             break;
         case 'time':
             mField.type = 'date';            
@@ -516,12 +517,11 @@ function getColDefinition( vFld ) {
           break;
 
     case 'datetime':
-        colDefinition['xtype'] = 'datecolumn' 
-        colDefinition['format'] = 'Y/m/d H:i:s'
-
-        editor.xtype = 'datefield'
-        editor.format = 'Y/m/d'
-        editor.timeFormat = 'H:i'
+        // colDefinition['xtype'] = 'datecolumn' 
+        // colDefinition['format'] = 'Y/m/d H:i:s'
+        // editor.xtype = 'datefield'
+        // editor.format = 'Y/m/d'
+        // editor.timeFormat = 'H:i'
         break;
 
     case 'time':
