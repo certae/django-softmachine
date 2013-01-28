@@ -13,7 +13,22 @@ Manejo de seguridad
     quiere decir q si X esta asignado al Bunit q es superrior en jerarquia q el BUnit de Y,  X podra ver todos 
     los registros de Y
 
+    El usuario pertence a una jerarquia
+    cada registro tiene el nodo jerarquico al qu pertence
+     
+    El usuario tiene la lista con la jerarquia a la q pertenece, ( una lista json )
+    en el Query se hace un -or- con la lista jerarquica q tiene el usuario 
+    
+    al asignar un BUnit se asigna tambien los id de la jerarquia, con esto se podria tener una lista de
+    bunit adicional ( para reemplazos etc ) con el or se hace un set y se hace un filter adicional  
+    
+    owningHierarchy_id in [,,,,]   
+    
+    El manejo de los sitios es igual, un puede pertenecer a multiples sitios ( empresas, entornos ) simultanemente 
+    
+    
 
 **  ejemplos en /u/VMW/WinXPSP2/  
     SqlServer, 
         Bases de datos de SoftMachine y crm 
+        

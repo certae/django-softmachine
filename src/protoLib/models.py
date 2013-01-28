@@ -5,72 +5,60 @@
 from datetime import datetime
 
 from django.db import models
-from django.contrib.auth.models import User, Group, Permission 
+from django.contrib.auth.models import User 
 from django.contrib.sites.models import Site
+from django.db.models.signals import post_save
 
-
-class ProtoSite(Site):
-# Esta tabla tiene un unico registro equivalente una serie de parametros comunes a la org
-#   name = Site.name   ( viene del modelo base 'Site' ) 
-    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
-    calemdarCode =  models.CharField( max_length=50,  null = True, blank = True)
-
-    baseCurrencyCode  =  models.CharField( max_length=50,  null = True, blank = True)    
-    baseLanguajeCode  =  models.CharField( max_length=50,  null = True, blank = True)
-
-    fiscalPeriodType  =  models.CharField( max_length=50,  null = True, blank = True)
-    fiscalCurrentYear  =  models.CharField( max_length=50,  null = True, blank = True)
-
-    createdOn = models.DateTimeField( default=datetime.now )
-
-    def __unicode__(self):
-        return self.name 
-
-
-class ProtoBussinesUnit(models.Model):
-# Los BUnit representan la jerarquia funcional ( de seguridad ) de la app     
+class OrganisationTree(models.Model):
+# Jerarquia funcional ( de seguridad ) de la app     
 # Es la base de la seguridad por registro
 
     code = models.CharField(unique=True, blank = False, null = False, max_length=200 )
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
-    parentBUnit = models.ForeignKey( 'ProtoBussinesUnit', blank = True, null = True )
-    protoSite = models.ForeignKey( 'ProtoSite' )
+    parentNode = models.ForeignKey( 'OrganisationTree', blank = True, null = True )
+    site = models.ForeignKey( Site )
 
     def __unicode__(self):
         return self.code
 
 
-     
-class ProtoUser(User):
+# here is the profile model
+class UserProfile(models.Model):  
 #Es necesario inlcuir el ususario en un BUnit, cada registro copiara el Bunit 
 #del usuario para dar permisos tambien a la jerarquia ( ascendente )
-   
-#   username = User.username ( viene del modelo base 'User' )
-    bussinesUnit = models.ForeignKey( ProtoBussinesUnit )
-    protoSite = models.ManyToManyField( 'ProtoSite' )
+    user = models.ForeignKey(User, unique=True)
+    userHierarchy = models.ForeignKey( OrganisationTree, blank = True, null = True )
+    userSites = models.ManyToManyField( Site ,blank = True, null = True)
 
+    def __unicode__(self):
+#        return self.user.get_full_name() or self.user.username 
+        return  self.user.username 
 
-#Es necesario inlcuir el ususario en BUnit, ademas los grupos son recursivos      
-class ProtoGroup(Group):
-#   name = Group.name  ( viene del modelo base 'Group' )
-    bussinesUnit = models.ManyToManyField( ProtoBussinesUnit )
-    parentGroup = models.ForeignKey( 'ProtoSite', blank = True, null = True )
+def user_post_save(sender, instance, created, **kwargs):
+    """Create a user profile when a new user account is created"""
+    if created == True:
+        p = UserProfile()
+        p.user = instance
+        p.save()
+
+post_save.connect(user_post_save, sender=User)
 
 
 #Tabla modelo para la creacion de entidades de usuario     
 #related_name="%(app_label)s_%(class)s
 class ProtoModel(models.Model):
-    owningUser = models.ForeignKey( ProtoUser, related_name='+')
-    owningBUnit = models.ForeignKey( ProtoBussinesUnit, related_name='+')
+    owningUser = models.ForeignKey( User, related_name='owningUsers', editable = False )
+    owningHierachy = models.ForeignKey( OrganisationTree, related_name='owningHierachies', editable = False)
 
-    createdBy = models.ForeignKey( ProtoUser, related_name='+')
-    modifiedBy = models.ForeignKey( ProtoUser, related_name='+')
-    wflowStatus =  models.CharField( max_length=50,  null = True, blank=True)
-    regStatus =  models.CharField( max_length=50,  null = True, blank=True)
-    createdOn = models.DateTimeField( default= datetime.now )
-    modifiedOn = models.DateTimeField( default= datetime.now)
+    createdBy = models.ForeignKey( User, related_name='createdBy', editable = False)
+    modifiedBy = models.ForeignKey( User, related_name='modifiedBy', editable = False)
+    wflowStatus =  models.CharField( max_length=50,  null = True, blank=True, editable = False)
+    regStatus =  models.CharField( max_length=50,  null = True, blank=True, editable = False)
+    createdOn = models.DateTimeField( default= datetime.now , editable = False)
+    modifiedOn = models.DateTimeField( default= datetime.now, editable = False)
 
-    ProtoObj = True 
+    # Indicador para manejo de seguridad 
+    _protoObj = True 
 
     class Meta:
         abstract = True

@@ -183,14 +183,18 @@ class ProtoGridFactory(object):
                 prChecks = []
                 prN2N = []
 #                prIds = []
+                prAdmin = []
                                 
                 for key in self.fieldsDict:
                     vFld = self.fieldsDict.get( key , {})
                     fType = vFld.get( 'type', 'string' )
                     
                     if ( vFld.get( 'storeOnly', False )): continue
+
+                    if ( key in [ 'owningUser','owningHierachy','createdBy','modifiedBy','wflowStatus','regStatus','createdOn','modifiedOn' ]) :
+                        prAdmin.append( { 'name' : key  , '__ptType' : 'formField'} )
                     
-                    if ( fType == 'text') :
+                    elif ( fType == 'text') :
                         prTexts.append( { 'name' : key  , '__ptType' : 'formField'} ) 
                          
                     elif ( fType in ['autofield', 'foreignid'] ) :
@@ -203,7 +207,7 @@ class ProtoGridFactory(object):
                     elif ( fType == 'protoN2N' ) :
                         prN2N.append( { 'name' : key  , '__ptType' : 'formField'} )
 
-                    elif ( vFld.get( 'name', '' )  == '__str__' ) :
+                    elif ( key  == '__str__' ) :
 #                        prTexts.insert( 0, { 'name' : key  , '__ptType' : 'formField'} )
                         continue
 
@@ -238,6 +242,12 @@ class ProtoGridFactory(object):
                 if prN2N : 
                     prSection = { '__ptType' : 'fieldset','fsLayout' : '1col'  }
                     prSection['items'] = prN2N 
+                    prFieldSet.append ( prSection )
+
+                if prAdmin : 
+                    prSection = { '__ptType' : 'fieldset','fsLayout' : '2col', 
+                                  'title' : 'Admin', 'collapsible' : True, 'collapsed' : True  }
+                    prSection['items'] = prAdmin 
                     prFieldSet.append ( prSection )
 
 #                if prIds : 
