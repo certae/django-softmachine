@@ -4,13 +4,17 @@
 
 from models import Domain,  Model, PropertyDom, Concept, PropertyModel, PropertyConcept, PropertyEquivalence, Relationship 
 from django.contrib import admin
+from django.contrib.admin import ModelAdmin
+from actions import createNewModel
 
-from admin_Model import Model_Admin 
-admin.site.register(Model, Model_Admin)
 
-from admin_PropertyMod import PropertyAdmin
+class PropertyAdmin(ModelAdmin):
+    actions = [ createNewModel ]
+
 admin.site.register(PropertyModel, PropertyAdmin)
 
+
+admin.site.register(Model)
 admin.site.register(Domain )
 admin.site.register(Concept )
 admin.site.register(Relationship )

@@ -18,18 +18,55 @@ from protoLib.models import ProtoModel
    
 class Domain(ProtoModel):
     """El dominio corresponde a un nivel conceptual corportativo MCCD"""
-#    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 , unique = True)
-    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
-
-    category = models.CharField(max_length=50, blank = True, null = True )
+    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200, unique = True )
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
     
     def __unicode__(self):
         return self.code 
 
 
+class PropertyDom(models.Model):
+    """ A nivel conceptual encontraremos la lista de propiedadaes 
+        qu corresponde a la definicion semantica del problema; 
+        
+        1. Estas propiedades normalmente se definien a nivel de modelo 
+        cuando el usuario ( piloto ) describe su problematica, 
+        
+        2. Si la definicion la realiza un modelizador, se hara a nivel de concepto, 
+        
+        En cualquier caso, la propiedad se copiara a sus instancias superiores 
+            1. PropertyDom 
+            2. PropertyModel 
+            3. PropertyConcept 
+
+    """
+    domain = models.ForeignKey('Domain' )
+    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
+
+
+    """ Caracteristicas generales q definen el campo """
+    baseType = models.CharField(verbose_name=u'Type de Base', blank = True, null = True, max_length=50)
+    prpLength = models.DecimalField(blank = True, null = True, decimal_places =2 ,max_digits = 6)
+
+    """ defaultValue: Puede variar en cada instancia """ 
+    defaultValue = models.CharField( blank = True, null = True, max_length=50)
+    
+    """ Lista de valores CSV ( idioma?? ) """ 
+    propertyChoices = models.CharField( blank = True, null = True, max_length=200 )
+    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
+
+    def __unicode__(self):
+        return self.code 
+
+    class Meta:
+        unique_together = ('domain', 'code',  )
+
+#    protoExt = { 'protoUdp' : { 'udpTable' : 'UdpPropertyDom' }}
+
+
+
 class Model(models.Model):
-    """Los modelos pueden ser abstractos ( conceptuales ) o fisicos 
+    """
     * en caso de modelos fisicos el conectionPath puede ser el conection string o la ruta de acceso
     * los modelos pueden tener prefijos especificos para todas sus entidades ( conceptos ) 
     """
@@ -38,7 +75,6 @@ class Model(models.Model):
 
     category = models.CharField(max_length=50, blank = True, null = True )
     modelPrefix = models.CharField(verbose_name=u'modelPrefix', blank = True, null = True, max_length=50)
-    conectionPath = models.CharField(blank = True, null = True, max_length=200)
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
 #    class Meta:
@@ -47,7 +83,7 @@ class Model(models.Model):
     def __unicode__(self):
         return self.code 
     
-    protoExt = { 'protoUdp' : { 'udpTable' : 'UdpModel' }}
+#    protoExt = { 'protoUdp' : { 'udpTable' : 'UdpModel' }}
 
 
 
@@ -67,33 +103,6 @@ class Concept(models.Model):
 #    class Meta:
 #        unique_together = ('model', 'code',  )
 
-class PropertyDom(models.Model):
-    """ Propiedades a nivel de dominio,  
-    * definicion semantica del problema
-    """
-    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
-
-    domain = models.ForeignKey('Domain' ,  primary_key=True)
-
-    """ Caracteristicas generales q definen el campo """
-    baseType = models.CharField(verbose_name=u'Type de Base', blank = True, null = True, max_length=50)
-    prpLength = models.DecimalField(blank = True, null = True, decimal_places =2 ,max_digits = 6)
-
-    """ defaultValue: Puede variar en cada instancia """ 
-    defaultValue = models.CharField( blank = True, null = True, max_length=50)
-    
-    """ Lista de valores CSV ( idioma?? ) """ 
-    propertyChoices = models.CharField( blank = True, null = True, max_length=200)
-    
-    category = models.CharField(max_length=50, blank = True, null = True )
-    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
-
-    def __unicode__(self):
-        return self.code 
-
-#    class Meta:
-#        unique_together = ('domain', 'code',  )
-#    protoExt = { 'protoUdp' : { 'udpTable' : 'UdpPropertyDom' }}
 
 
 class PropertyModel(models.Model):
@@ -143,6 +152,7 @@ class PropertyConcept(models.Model):
     defaultValue = models.CharField( blank = True, null = True, max_length=50)
     
     isForeign = models.BooleanField()
+    
     """No se puede crear el vinculo inmediato, pues es posible q no este aun creado""" 
     foreignConcept = models.CharField( blank = True, null = True, max_length=50)
     foreignFilter = models.CharField( blank = True, null = True, max_length=50)
@@ -205,28 +215,27 @@ class PropertyEquivalence(models.Model):
         unique_together = ('sourceProperty', 'targetProperty',  )
 
 
-
 # ---------------------------
 
-class UdpModel(models.Model):
-    model = models.ForeignKey('Model')
-    code = models.CharField(max_length=50)
-    valueUdp = models.TextField(blank = True, null = True, max_length=200)
-
-    def __unicode__(self):
-        return self.model.code  + '.' + self.code   
-
-#    class Meta:
-#        unique_together = ('model', 'code',)
-
-
-class UdpPropertyDom(models.Model):
-    propertyDom = models.ForeignKey('PropertyDom')
-    code = models.CharField(max_length=50)
-    valueUdp = models.TextField(blank = True, null = True, max_length=200)
-
-    def __unicode__(self):
-        return self.propertyDom.code + '.' + self.code   
+#class UdpModel(models.Model):
+#    model = models.ForeignKey('Model')
+#    code = models.CharField(max_length=50)
+#    valueUdp = models.TextField(blank = True, null = True, max_length=200)
+#
+#    def __unicode__(self):
+#        return self.model.code  + '.' + self.code   
+#
+##    class Meta:
+##        unique_together = ('model', 'code',)
+#
+#
+#class UdpPropertyDom(models.Model):
+#    propertyDom = models.ForeignKey('PropertyDom')
+#    code = models.CharField(max_length=50)
+#    valueUdp = models.TextField(blank = True, null = True, max_length=200)
+#
+#    def __unicode__(self):
+#        return self.propertyDom.code + '.' + self.code   
 
 #    class Meta:
 #        unique_together = ('propertyDom', 'code',)
