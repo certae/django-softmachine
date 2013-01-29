@@ -78,11 +78,11 @@ class UserShare(models.Model):
 #Tabla modelo para la creacion de entidades de usuario     
 #related_name="%(app_label)s_%(class)s
 class ProtoModel(models.Model):
-    owningUser = models.ForeignKey( User, related_name='owningUsers', editable = False )
-    owningHierachy = models.ForeignKey( OrganisationTree, related_name='owningHierachies', editable = False)
+    owningUser = models.ForeignKey( User, related_name='+', editable = False )
+    owningHierachy = models.ForeignKey( OrganisationTree, related_name='+', editable = False)
 
-    createdBy = models.ForeignKey( User, related_name='createdBy', editable = False)
-    modifiedBy = models.ForeignKey( User, related_name='modifiedBy', editable = False)
+    createdBy = models.ForeignKey( User, related_name='+', editable = False)
+    modifiedBy = models.ForeignKey( User, related_name='+', editable = False)
     wflowStatus =  models.CharField( max_length=50,  null = True, blank=True, editable = False)
     regStatus =  models.CharField( max_length=50,  null = True, blank=True, editable = False)
     createdOn = models.DateTimeField( auto_now=True , editable = False)

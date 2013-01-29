@@ -174,7 +174,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'protoLib', 
-    'protoDict', 
+    'prototype', 
 #    'bestingenomics', 
 #    'shiny', 
 #    'CategoryCle', 

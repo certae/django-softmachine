@@ -5,18 +5,19 @@ from django.db.models.fields import NOT_PROVIDED
 
 # Equivalencia de tipos 
 TypeEquivalence = { 
-        'BooleanField'  :'bool',
-        'CharField'     :'string',
-        'DateField'     :'date', 
-        'DateTimeField' :'datetime', 
-        'DecimalField'  :'decimal',
-        'FloatField'    :'decimal',
-        'ForeignKey'    :'foreigntext',
-        'IntegerField'  :'int',
-        'TextField'     :'text',
-        'TimeField'     :'time',
-        'AutoField'     :'autofield',
-        'ManyToManyField' : 'protoN2N'
+        'BooleanField'      :'bool',
+        'CharField'         :'string',
+        'DateField'         :'date', 
+        'DateTimeField'     :'datetime', 
+        'DecimalField'      :'decimal',
+        'FloatField'        :'decimal',
+        'ForeignKey'        :'foreigntext',
+        'IntegerField'      :'int',
+        'TextField'         :'text',
+        'TimeField'         :'time',
+        'AutoField'         :'autofield',
+        'ManyToManyField'   :'protoN2N', 
+        'OneToOneField'     :'proto11',
     }
 
 
@@ -47,7 +48,8 @@ def setFieldDict(protoFields ,  field ):
 #        'null': 'This field is required',
 #        }    
 #    setFieldProperty(  pField, 'invalidText',  '', field, 'error_messages', ''  )
-    
+
+        
     
     # Agrega y/o sobreEscribe las propiedades definidas en protoExt 
     for mProp in modelField:
@@ -110,6 +112,11 @@ def setFieldDict(protoFields ,  field ):
              }
         protoFields[fKey['name']] = fKey 
 
+    # Campos autocreados 
+    if field.auto_created: 
+        pField['type'] = 'autofield'    
+        pField['readOnly'] = True   
+        pField['required'] = False    
     
     #Lo retorna al diccionario
     pField['fromModel'] = True 

@@ -52,7 +52,7 @@ def getSearcheableFields(  model  ):
 
     lFields = []
     
-    filterableTypes = [ 'CharField', 'TextField', 'IntegerField', 'DecimalField', 'FloatField',  ]
+    filterableTypes = [ 'CharField', 'TextField', 'IntegerField', 'DecimalField', 'FloatField', 'JSONField' ]
     filterableTypes.extend( [ 'DateField', 'TimeField', 'DateTimeField', 'BooleanField' ])
         
     for field in model._meta._fields():

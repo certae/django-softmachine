@@ -45,9 +45,21 @@ nodoAuth    ( jerarquia de autorizacion )
 version     ( manejar el history ) 
 
 
- 
+--------
 
-      
+Las tablas generadas por el prototipador se crean en unico modelo ( tabla administrada por Django ), 
 
+Esta tabla fisica contiene un 
+    id,
+    tableName 
+    campo json con las ocurrencias de todos los campos
+    info de seguridad 
 
+La tabla manejar un QueryManager q permita hacer una busqueda dentro del campo json para poder encadenar los maestros detalle. 
 
+La definicion de la meta si encuentra un jsonField toma todas las UDP directamente. 
+
+Queda una tabla con la definicion basica y la generacion de las pcl, 
+
+1. Query ??
+2. Menu ?? 

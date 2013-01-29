@@ -1,20 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-
-from protoLib.utilsBase import  strNotNull
 from protoLib.models import ProtoModel
 
-#    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
-#    
-#    category = models.CharField(max_length=50, blank = True, null = True )
-#    alias = models.CharField(verbose_name=u'Alias',blank = True, null = True, max_length=50)
-#    physicalName = models.CharField(blank = True, null = True, max_length=200)
-#    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
-#
-#    def __unicode__(self):
-#        return self.code 
+from protoLib.fields import JSONField,  JSONAwareManager
 
+class Person(models.Model):
+    info = JSONField(default = {})
+    objects = JSONAwareManager(json_fields = ['info'])
+   
    
 class Domain(ProtoModel):
     """El dominio corresponde a un nivel conceptual corportativo MCCD"""
@@ -25,50 +19,13 @@ class Domain(ProtoModel):
         return self.code 
 
 
-class PropertyDom(models.Model):
-    """ A nivel conceptual encontraremos la lista de propiedadaes 
-        qu corresponde a la definicion semantica del problema; 
-        
-        1. Estas propiedades normalmente se definien a nivel de modelo 
-        cuando el usuario ( piloto ) describe su problematica, 
-        
-        2. Si la definicion la realiza un modelizador, se hara a nivel de concepto, 
-        
-        En cualquier caso, la propiedad se copiara a sus instancias superiores 
-            1. PropertyDom 
-            2. PropertyModel 
-            3. PropertyConcept 
-
+class Model(ProtoModel):
     """
-    domain = models.ForeignKey('Domain' )
-    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
-
-
-    """ Caracteristicas generales q definen el campo """
-    baseType = models.CharField(verbose_name=u'Type de Base', blank = True, null = True, max_length=50)
-    prpLength = models.DecimalField(blank = True, null = True, decimal_places =2 ,max_digits = 6)
-
-    """ defaultValue: Puede variar en cada instancia """ 
-    defaultValue = models.CharField( blank = True, null = True, max_length=50)
+    Los modelos corresponde a una solucion especifica,  
+    varios modelos pueden estar enmarcados en un dominio
     
-    """ Lista de valores CSV ( idioma?? ) """ 
-    propertyChoices = models.CharField( blank = True, null = True, max_length=200 )
-    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
-
-    def __unicode__(self):
-        return self.code 
-
-    class Meta:
-        unique_together = ('domain', 'code',  )
-
-#    protoExt = { 'protoUdp' : { 'udpTable' : 'UdpPropertyDom' }}
-
-
-
-class Model(models.Model):
-    """
-    * en caso de modelos fisicos el conectionPath puede ser el conection string o la ruta de acceso
-    * los modelos pueden tener prefijos especificos para todas sus entidades ( conceptos ) 
+    Los modelos son la unidad para generar una solucion ejecutable, 
+    los modelos pueden tener prefijos especificos para todas sus componentes ( entidades ) 
     """
     domain = models.ForeignKey('Domain', verbose_name=u'Domaine', blank = False, null = False )
     code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
@@ -77,166 +34,156 @@ class Model(models.Model):
     modelPrefix = models.CharField(verbose_name=u'modelPrefix', blank = True, null = True, max_length=50)
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
-#    class Meta:
-#        unique_together = ('domain', 'code',  )
+    class Meta:
+        unique_together = ('domain', 'code',  )
 
     def __unicode__(self):
         return self.code 
     
-#    protoExt = { 'protoUdp' : { 'udpTable' : 'UdpModel' }}
 
 
-
-class Concept(models.Model):
-    """ Concept corresponde a las entidades, puede tener asociado un elto fisico 
+class Entity(ProtoModel):
+    """ 
+    Entity corresponde a las entidades, puede tener asociado un elto fisico;  
+    
     """    
     model = models.ForeignKey('Model' )
     code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
     
-    category = models.CharField(max_length=50, blank = True, null = True )
-    physicalName = models.CharField(blank = True, null = True, max_length=200)
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
     def __unicode__(self):
         return self.code 
 
-#    class Meta:
-#        unique_together = ('model', 'code',  )
+    class Meta:
+        unique_together = ('model', 'code',  )
 
 
+class PropertyBase(ProtoModel):
 
-class PropertyModel(models.Model):
-    """
-    * Propiedades por modelo, subdominio de propiedades a nivel de modelo, es solo informativo 
-    * se requiere para el diccionario MSSQ, podria generarse navegando model-concept-prop 
-    * pero el primer paso en la metodologia implica la definicion semantica de propiedades por modelo, 
-    * este concepto permite organizar esta informacion. 
-    
-    * La derivacion de prpConcpeto se toma desde el dominio, pues esta tabla es importante solo en la metodologia de 
-    * definicion semantica,   
-    """
+    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
 
-    model = models.ForeignKey('Model' )
-    propertyDom = models.ForeignKey('PropertyDom' )
+    """baseType, prpLength:  Caracteristicas generales q definen el campo """
+    baseType = models.CharField(verbose_name=u'Type de Base', blank = True, null = True, max_length=50)
+    prpLength = models.DecimalField(blank = True, null = True, decimal_places =2 ,max_digits = 6)
 
-    tag = models.CharField(blank = True, null = True, max_length=50)
-    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
-
-    def __unicode__(self):
-        return unicode( self.model.code ) + ' - ' +  unicode( self.propertyDom.code )
-
-#    class Meta:
-#        unique_together = ('model', 'propertyDom',  )
-
-class PropertyConcept(models.Model):
-    """
-    * Propiedades por tabla, definicion a nivel de modelo de datos. 
-    """
-    concept = models.ForeignKey('Concept', related_name = 'pConcept')
-    propertyDom = models.ForeignKey('PropertyDom' )
-
-    """ 
-    * alias:  Es el nombre en el concpeto, una especie de sinonimo en caso de q existan varias ocurrencias del mismo
-    * physicalName : mapea el nombre real de la Db   
-    """
-    alias = models.CharField(verbose_name=u'Alias',blank = True, null = True, max_length=50)
-    physicalName = models.CharField(blank = True, null = True, max_length=200)
-
-    """ caracteristicas propias de la instancia """ 
-    isNullable = models.BooleanField()
-    isRequired = models.BooleanField()
-    isSensitive = models.BooleanField()
-    isEssential = models.BooleanField()
-    isUnique = models.BooleanField()
- 
+    """defaultValue: Puede variar en cada instancia """ 
     defaultValue = models.CharField( blank = True, null = True, max_length=50)
     
-    isForeign = models.BooleanField()
-    
-    """No se puede crear el vinculo inmediato, pues es posible q no este aun creado""" 
-    foreignConcept = models.CharField( blank = True, null = True, max_length=50)
-    foreignFilter = models.CharField( blank = True, null = True, max_length=50)
-
+    """propertyChoices:  Lista de valores CSV ( idioma?? ) """ 
+    propertyChoices = models.CharField( blank = True, null = True, max_length=200 )
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
-#    class Meta:
-#        unique_together = ('concept', 'propertyDom',  )
+    """isSensitive: Indica si las propiedades requieren un nivel mayor de seguridad """  
+    isSensitive = models.BooleanField()
+
+    class Meta:
+        abstract = True
+
+
+
+class Property(PropertyBase):
+    """ 
+    Propiedades por tabla, definicion a nivel de modelo de datos.
+    Las relaciones heredan de las propriedades y definien la cardinalidad 
+    """
+
+    entity = models.ForeignKey('Entity', related_name = 'pEntity')
+    
+    """propertyModel : corresponde a la especificacion en el modelo ( metodologia: user history )"""
+    propertyModel = models.ForeignKey('PropertyModel',blank = True, null = True )
+
+    # -----------  caracteristicas propias de la instancia
+    """isPrimary : La llave primaria siempre es artificial, se deja con propositos academicos, implica isUnique """  
+    isPrimary = models.BooleanField()
+    isUnique = models.BooleanField()
+
+    """isNullable: tiene q ver con la Db"""    
+    isNullable = models.BooleanField()
+    
+    """isRequired: tiene q ver con el llenado de datos"""
+    isRequired = models.BooleanField()
+
+    """isEssential: Indica si las propiedades saldran en la vista por defecto """ 
+    isEssential = models.BooleanField()
+
+    """isForeign: indica si la propiedad ha sido definida en  Relationship"""
+    isForeign = models.BooleanField( editable = False, default = False )
+
+    class Meta:
+        unique_together = ('entity', 'code',  )
 
     def __unicode__(self):
-        return self.concept.code + '.' +  strNotNull( self.alias, self.propertyDom.code )     
+        return self.entity.code + '.' +  self.code     
 
 
-class Relationship(models.Model):
+class Relationship(Property):
     """
-    * El proposito fundamental de esta clase es poder mapear la informacion grafica de origen
-    * la definicion de la cardinlaidad y otras se maneja aqui,
-    * La relaciones son en realidad campos q apuntan a otro concepto  
+    * Es un tipo particula de propiedad q define las relaciones,  la definicion de la cardinlaidad y otras
     """
-    code = models.CharField(verbose_name=u'Alias',blank = True, null = True, max_length=50)
 
-    refConcept = models.ForeignKey('Concept', related_name = 'bConcept')
+    """refEntity : entidad referenciada""" 
+    refEntity = models.ForeignKey('Entity', related_name = 'bEntity')
 
-    """No se puede crear el vinculo inmediato, pues es posible q no este aun creado""" 
-    baseConcept = models.CharField( blank = True, null = True, max_length=50)
+    """relatedName:  Nombre del set en la tabla primaria ( modelacion objeto )  """
+    relatedName = models.CharField( blank = True, null = True, max_length=50)
 
-    """ Nombre del set en la tabla base ( related_name de Django ) """
-    """ Nombre del campo referenciado (fKey) """
-    baseName = models.CharField( blank = True, null = True, max_length=50)
-    refName = models.CharField( blank = True, null = True, max_length=50)
-
+    # Caridanlidad 
     baseMin = models.CharField( blank = True, null = True, max_length=50)
     baseMax = models.CharField( blank = True, null = True, max_length=50)
+    
     refMin = models.CharField( blank = True, null = True, max_length=50)
     refMax = models.CharField( blank = True, null = True, max_length=50)
 
-    alias = models.CharField(verbose_name=u'Alias',blank = True, null = True, max_length=50)
-    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
-
     def __unicode__(self):
-        return unicode( self.baseConcept  ) + ' -> ' + unicode( self.refConcept.code ) 
+        return self.entity.code + '.' +  self.code     
 
-
-class PropertyEquivalence(models.Model):
-#   * Los dos deben pertenecer al mismo dominio, pero puedo agregar al zoom el filtro del campo de base sourceProp__domain 
-#   domain = models.ForeignKey('Domain')
-
-    sourceProperty = models.ForeignKey('PropertyDom', blank = True, null = True, related_name = 'sourcePrp')
-    targetProperty = models.ForeignKey('PropertyDom', blank = True, null = True, related_name = 'targetPrp')
-
-    code = models.CharField(verbose_name=u'Alias',blank = True, null = True, max_length=50)
-    alias = models.CharField(verbose_name=u'Alias',blank = True, null = True, max_length=50)
-    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
-    tag = models.CharField(blank = True, null = True, max_length=50)
-
-    def __unicode__(self):
-        return self.sourceProperty.code + ' - ' + self.targetProperty.code   
-
-    class Meta:
-        unique_together = ('sourceProperty', 'targetProperty',  )
+    def save(self, *args, **kwargs ):
+        self.isForeign = True 
+        super(Relationship, self).save(*args, **kwargs) 
 
 
 # ---------------------------
 
-#class UdpModel(models.Model):
-#    model = models.ForeignKey('Model')
-#    code = models.CharField(max_length=50)
-#    valueUdp = models.TextField(blank = True, null = True, max_length=200)
-#
-#    def __unicode__(self):
-#        return self.model.code  + '.' + self.code   
-#
-##    class Meta:
-##        unique_together = ('model', 'code',)
-#
-#
-#class UdpPropertyDom(models.Model):
-#    propertyDom = models.ForeignKey('PropertyDom')
-#    code = models.CharField(max_length=50)
-#    valueUdp = models.TextField(blank = True, null = True, max_length=200)
-#
-#    def __unicode__(self):
-#        return self.propertyDom.code + '.' + self.code   
+class PropertyDom(PropertyBase):
+    """ A nivel conceptual encontraremos la lista de propiedadaes 
+        qu corresponde a la definicion semantica del problema; 
+        
+        1. Estas propiedades normalmente se definien a nivel de modelo 
+        cuando el usuario ( piloto ) describe su problematica, 
+        
+        2. Si la definicion la realiza un modelizador, se hara a nivel de entidad, 
+        
+        En cualquier caso, la propiedad se copiara a sus instancias superiores 
+            1. PropertyDom 
+            2. PropertyModel 
+            3. Property 
+    """
+    domain = models.ForeignKey('Domain' )
 
-#    class Meta:
-#        unique_together = ('propertyDom', 'code',)
+    def __unicode__(self):
+        return self.domain.code + '.' + self.code 
 
+    class Meta:
+        unique_together = ('domain', 'code',  )
+
+
+
+class PropertyModel(PropertyBase):
+    """
+    * Propiedades por modelo, subdominio de propiedades a nivel de modelo, es solo informativo 
+    * se requiere para el diccionario MSSQ, podria generarse navegando model-entity-prop 
+    * pero el primer paso en la metodologia implica la definicion semantica de propiedades por modelo, 
+    * este entidad permite organizar esta informacion. 
+    
+    * La derivacion de prpConcpeto se toma desde el dominio, pues esta tabla es importante solo en la metodologia de 
+    * definicion semantica,   
+    """
+    model = models.ForeignKey('Model' )
+    propertyDom = models.ForeignKey('PropertyDom' )
+
+    def __unicode__(self):
+        return self.model.code + '.' +  self.code
+
+    class Meta:
+        unique_together = ('model', 'code',  )
