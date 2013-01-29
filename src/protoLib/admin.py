@@ -6,7 +6,6 @@ from django.contrib  import admin
 import django.contrib.admin
 
 class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
-
     protoExt = {
     "description": "proto Definition",
     "protoConcept": "protoLib.ProtoDefinition",
@@ -110,8 +109,7 @@ class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
 admin.site.register(ProtoDefinition, protoDefinitionAdmin)
 
 #from adminOrgTree import orgTreeAdmin
-#admin.site.register(OrganisationTree, orgTreeAdmin)
 admin.site.register(OrganisationTree )
 
 from adminUserProf import usrProfileAdmin
-admin.site.register(UserProfile, usrProfileAdmin)
+admin.site.register(UserProfile )

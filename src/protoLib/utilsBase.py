@@ -261,9 +261,7 @@ class VirtualField(object):
 
 def getReadableError( e ):
     sAux = '<b>ErrType:</b> ' + type( e ).__name__ + '<br>'
-    if len( e.message ) > 0:
-        sAux += smart_str( e.message ) 
-    else:  sAux +=  smart_str( e )
+    sAux +=  smart_str( e )
     
 #    if len( e.args ) > 1: sAux += '<br>' +  str( '; '.join( e.args ))
     return sAux + '<br>'

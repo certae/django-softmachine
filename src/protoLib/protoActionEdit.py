@@ -96,9 +96,14 @@ def protoEdit(request, myAction ):
                     continue 
                 
                 if (cUDP.udpTable and key.startswith( cUDP.propertyPrefix + '__')): continue 
+                
+                # Si es nulo no lo asigna
+                vAux = data[key]
+                if vAux is None or vAux == '': continue    
+                
                 try:
                     setRegister( model,  rec, key,  data )
-                except Exception,  e:
+                except Exception as e:
                     data['_ptStatus'] = data['_ptStatus'] +  getReadableError( e ) 
 
             if isProtoModel: 

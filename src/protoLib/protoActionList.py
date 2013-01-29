@@ -5,9 +5,9 @@ from django.db import models
 from django.http import HttpResponse
 from django.contrib.admin.util import  get_fields_from_path
 from django.utils.encoding import smart_str
+from django.db.models import Q
 
 from protoQbe import construct_search, addFilter, getSearcheableFields, getQbeStmt
-
 from utilsBase import JSONEncoder, getReadableError 
 from utilsBase import _PROTOFN_ , verifyStr   
 from protoUdp import verifyUdpDefinition, readUdps 
@@ -43,7 +43,7 @@ def protoList(request):
 
         
 #   Obtiene las filas del modelo 
-    Qs, orderBy, fakeId = getQSet( protoMeta, protoFilter, baseFilter , sort  )
+    Qs, orderBy, fakeId = getQSet( protoMeta, protoFilter, baseFilter , sort , request.user )
     pRowsCount = Qs.count()
 
 
@@ -208,15 +208,27 @@ def copyValuesFromFields( protoMeta, rowdict ):
     return rowdict 
 
 
-def getQSet(  protoMeta, protoFilter, baseFilter , sort   ):
+def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
     
 #   Decodifica los eltos 
     protoConcept = protoMeta.get('protoConcept', '')
     model = getDjangoModel(protoConcept)
 
+#   modelo Administrado
+    isProtoModel = hasattr( model , '_protoObj' )
+    if isProtoModel:
+        try: 
+            userProfile  = pUser.get_profile()
+            userNodes = userProfile.userTree.split(',')   
+        except: 
+            userNodes = []
+
 #   QSEt
     Qs = model.objects.select_related(depth=1)
 
+#   Filtros por seguridad
+    if isProtoModel and not pUser.is_superuser:  
+        Qs = Qs.filter( Q( owningHierachy__in = userNodes ) | Q( owningUser = pUser  ) )
 
 #   TODO: Agregar solomente los campos definidos en el safeMeta  ( only,  o defer ) 
 #   Qs.query.select_fields = [f1, f2, .... ]     
@@ -224,7 +236,7 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort   ):
 #   El filtro base viene en la configuracion MD 
     try:
         Qs = addQbeFilter( baseFilter, model, Qs )
-    except Exception,  e:
+    except Exception as e:
 #        getReadableError( e ) 
         traceback.print_exc()
 
@@ -290,10 +302,10 @@ def addQbeFilterStmt( sFilter, model ):
         # Obtiene el tipo de dato, si no existe la col retorna elimina la condicion
         field = get_fields_from_path( model, fieldName )[-1]
         sType = TypeEquivalence.get( field.__class__.__name__, 'string')
-    except Exception,  e:
+    except :
         if fieldName.endswith('__pk') or fieldName == 'pk' : 
             sType = 'foreignid' 
-        else : return models.Q()
+        else : return Q()
         
     QStmt = getQbeStmt( fieldName , sFilter['filterStmt'], sType  )
     

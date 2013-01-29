@@ -1,12 +1,12 @@
 # -*- encoding: UTF-8 -*-
 
+import django.utils.simplejson as json
+
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, get_backends
 
-import django.utils.simplejson as json
-
-
+from models import UserProfile
 
 def protoGetUserRights(request):
     """ return usr rihts 
@@ -22,20 +22,34 @@ def protoGetUserRights(request):
     success = False  
 
     try:
-        user = authenticate(username = userName, password = userPwd )
+        pUser = authenticate(username = userName, password = userPwd )
     except:
-        user = None
+        pUser = None
         
 
     userInfo = { 'userName' : userName } 
                  
-    if user is not None:
-        if user.is_active:
-            login(request, user)
+    if pUser is not None:
+        if pUser.is_active:
+            login(request, pUser)
             success = True
-            userInfo[ 'isStaff' ] = user.is_staff  
-            userInfo[ 'isSuperUser' ] = user.is_superuser  
-            userInfo[ 'fullName' ] = user.get_full_name()  
+            userInfo[ 'isStaff' ] = pUser.is_staff  
+            userInfo[ 'isSuperUser' ] = pUser.is_superuser  
+            userInfo[ 'fullName' ] = pUser.get_full_name()  
+
+            # Profile 
+            uProfile, created = UserProfile.objects.get_or_create(user = pUser)
+            if uProfile.userHierarchy is not None:
+                uOrgTree = uProfile.userHierarchy.treeHierarchy
+            else:  uOrgTree = ''
+
+            # permisos adicionales 
+            for item in pUser.usershare_set.all() :
+                uOrgTree += ',' + item.userHierarchy.treeHierarchy
+            
+            # Organiza los ids 
+            uProfile.userTree = ','.join( set( uOrgTree.split(',')))
+            uProfile.save()
             
         else:
             # Return a 'disabled account' error message

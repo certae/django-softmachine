@@ -16,7 +16,7 @@ class OrganisationTree(models.Model):
     code = models.CharField(unique=True, blank = False, null = False, max_length=200 )
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
     parentNode = models.ForeignKey( 'OrganisationTree', blank = True, null = True , related_name='downHierachy')
-    site = models.ForeignKey( Site )
+    site = models.ForeignKey( Site, blank = True, null = True)
 
     @property
     def fullPath(self):
@@ -33,12 +33,17 @@ class OrganisationTree(models.Model):
     def __unicode__(self):
         return self.code
 
+    def save(self, *args, **kwargs ):
+        if self.parentNode is not None: 
+            self.site = self.parentNode.site
+        if self.site is None:
+            raise Exception( 'site required')
+        super(OrganisationTree, self).save(*args, **kwargs) 
+
     protoExt = { 'fields' : { 
           'fullPath': {'readOnly' : True},
           'treeHierarchy': {'readOnly' : True},
      }}
-
-
 
 
 
@@ -51,7 +56,6 @@ class UserProfile(models.Model):
     userHierarchy = models.ForeignKey( OrganisationTree, blank = True, null = True )
     userTree  = models.CharField( blank = True, null = True, max_length= 500 )
     def __unicode__(self):
-#        return self.user.get_full_name() or self.user.username 
         return  self.user.username 
 
 def user_post_save(sender, instance, created, **kwargs):
@@ -63,6 +67,13 @@ def user_post_save(sender, instance, created, **kwargs):
 
 post_save.connect(user_post_save, sender=User)
 
+class UserShare(models.Model):  
+    # si el usuairo comparte otros permisos  
+    user = models.ForeignKey( User )
+    userHierarchy = models.ForeignKey( OrganisationTree , related_name='userShares' )
+
+    def __unicode__(self):
+        return self.user.username + '-' + self.userHierarchy.code 
 
 #Tabla modelo para la creacion de entidades de usuario     
 #related_name="%(app_label)s_%(class)s
