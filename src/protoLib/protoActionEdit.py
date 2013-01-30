@@ -57,6 +57,9 @@ def protoEdit(request, myAction ):
 #   Carga el modelo
     model = getDjangoModel(protoConcept)
 
+#   JsonField 
+    jsonField = protoMeta.get('jsonField', 'info')
+
 #   Genera la clase UPD
     pUDP = protoMeta.get('protoUdp', {})
     cUDP = verifyUdpDefinition( pUDP )
@@ -64,7 +67,6 @@ def protoEdit(request, myAction ):
     # Verifica q sea una lista de registros, (no deberia pasar, ya desde Extjs se controla )  
     if type(rows).__name__=='dict':
         rows = [rows]
-        
         
     # Verfica si es un protoModel 
     isProtoModel = hasattr( model , '_protoObj' )
@@ -91,11 +93,15 @@ def protoEdit(request, myAction ):
                 key = smart_str( key )
                 if  key == 'id' or key == '_ptStatus' or key == '_ptId': continue
 
-                # Los campos de seguridad se manejan a nivel registro
+                #  Los campos de seguridad se manejan a nivel registro
                 if isProtoModel and key in ['owningUser','owningHierachy','createdBy','modifiedBy','wflowStatus','regStatus','createdOn','modifiedOn']:
                     continue 
                 
                 if (cUDP.udpTable and key.startswith( cUDP.propertyPrefix + '__')): continue 
+
+                #  JsonField 
+                if key ==  jsonField: continue 
+                if key.startswith( jsonField + '__'): continue 
                 
                 # Si es nulo no lo asigna
                 vAux = data[key]
@@ -116,6 +122,15 @@ def protoEdit(request, myAction ):
                     setProtoData( rec, data,  'createdBy',userProfile.user ) 
                     setProtoData( rec, data,  'regStatus','0' ) 
                     setProtoData( rec, data,  'createdOn',datetime.now() ) 
+
+
+            if len( jsonField ) > 0: 
+                jsonInfo = {}
+                for key in data:
+                    if not key.startswith( jsonField + '__'): continue 
+                    jKey = key[ len(jsonField) + 2 : ]
+                    jsonInfo[ jKey ] = data[ key ]
+                setattr( rec, jsonField , jsonInfo   )
 
             # Guarda el idInterno para concatenar registros nuevos en la grilla 
             try:

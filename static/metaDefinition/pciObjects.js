@@ -179,6 +179,7 @@ _MetaObjects =  {
             "metaVersion", 
             "userVersion",
             "sql",
+            "jsonField",
             "pciType"
             ],
         "objects": [
