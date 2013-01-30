@@ -84,6 +84,8 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
     """
 
     pStyle = protoMeta.get( 'pciStyle', '')        
+    JsonField = protoMeta.get( 'jsonField', 'info')
+
     pUDP = protoMeta.get( 'protoUdp', {}) 
     cUDP = verifyUdpDefinition( pUDP )
     rows = []
@@ -115,6 +117,7 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
         for lField  in protoMeta['fields']:
             fName = lField['name']
 
+
             # UDP Se evaluan despues 
             if cUDP.udpTable and fName.startswith( cUDP.propertyPrefix + '__'): 
                 continue  
@@ -132,6 +135,24 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
                     val = eval( 'item.' + fName.replace( _PROTOFN_,'.') + '()'  )
                     val = verifyStr(val , '' )
                 except: val = 'fn?'
+
+            # Master JSonField ( se carga texto ) 
+            elif ( fName  == JsonField   ):
+                try: 
+                    val = item.__getattribute__( fName  ) 
+                except: val = {}
+                if isinstance(val, dict):
+                    val = json.dumps( val , cls=JSONEncoder )
+
+            # JSon fields 
+            elif fName.startswith( JsonField + '__'): 
+                try: 
+                    val = item.__getattribute__( JsonField  ) 
+                    if isinstance(val, dict):
+                        val = val.get( fName[ len( JsonField + '__'):] , '')
+                        if isinstance(val, dict):
+                            val = json.dumps( val , cls=JSONEncoder )
+                except: val = ''
                 
             # Campo Absorbido
             elif ( '__' in fName ):

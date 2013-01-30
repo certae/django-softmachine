@@ -61,5 +61,58 @@ La definicion de la meta si encuentra un jsonField toma todas las UDP directamen
 
 Queda una tabla con la definicion basica y la generacion de las pcl, 
 
-1. Query ??
-2. Menu ?? 
+1. Query /  Ok,  
+	el Query se puede hacer por llave sobre la estructura JSon 
+	y  textSearch se hace sobre el texto json ( si el criterio contiene los campos,  todos los reg son validos :\)
+
+
+2.  Definicion 
+
+    Las entidades definidas en el dict son protoEntidades definidas sobre una unica tabla  ( protoTable )
+	
+    Las definiciones de prototype se compilan directamtne como "pci"  creadas como  vistas  de la tabla base 
+
+    Las protoPropiedades se definen con el prefijo  "info__" para indicar un pseudoCampo json
+
+	protoTable :
+		protoEntity
+		protoField  ( info )
+		*AuthFields
+
+	prototype.protoTable.[protoEntity]
+
+    Ademas en
+        protoDefinition ( ya existente )
+
+    se permite 
+        protoDefinitionGrp   ( por grupo, almacena las definiciones de las tablas )
+        protoDefinitionUsr   ( por usuario, el menu y las definicione personalizadas  )
+
+    para esto se agregan campos para manejar la pertencenci 
+        groupOwner 
+        userOwner 
+
+    y una funcion para indetificar la pertencia 
+        ownerType   'S'  System 
+                    'G'  Group
+                    'U'  User 
+
+2. Menu  
+
+    Por el momento solo se crea una vista de cada "protoEntidad"
+
+    EL menu se carga en tandas 
+    1. carga el menu estandar de la app, 
+    2. carga el menu por hiierarchiNode con las opciones compiladas  para el grupo  ( protoDefinition ownereType :'G')
+
+
+
+----------------------
+
+    obj = Person.objects.create(name = "Bill")
+    obj.info = {'sex': 'male','address': {'country', 'Canada',}}
+    obj.save()
+    Person.objects.filter(info__address__country = 'Canada')
+    >>> [Person: "Bill"]
+
+obj = model.objects.create(info = {'sex': 'male','address': {'country' :'Canada',}})

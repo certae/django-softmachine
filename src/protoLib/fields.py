@@ -27,12 +27,13 @@ import itertools
 
 from django.db import models
 from django.utils import simplejson as json
+from utilsBase import JSONEncoder
 
 
 class JSONDict(dict):
     
     def __repr__(self):
-        return unicode( json.dumps(self, indent=4))
+        return unicode( json.dumps(self, cls=JSONEncoder, indent=4))
 
 
 class JSONAwareQuerySet(models.query.QuerySet):
@@ -135,5 +136,5 @@ class JSONField(models.TextField):
         return value
 
     def get_db_prep_save(self, value, *args, **kwargs):
-        value = json.dumps(value)
+        value = json.dumps(value, cls=JSONEncoder)
         return super(JSONField, self).get_db_prep_save(value, *args, **kwargs)

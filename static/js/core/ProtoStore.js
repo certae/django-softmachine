@@ -351,6 +351,12 @@ function DefineProtoModel ( myMeta , modelClassName ){
             mField.readOnly = true;            
             mField.type = 'list';            
             break;
+
+        case 'protojson':
+            mField.readOnly = true;            
+            mField.type = 'json';            
+            break;
+
         case 'date':
             mField.type = 'date';            
             mField.dateFormat ='Y-m-d' 

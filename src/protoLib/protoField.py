@@ -17,9 +17,9 @@ TypeEquivalence = {
         'TimeField'         :'time',
         'AutoField'         :'autofield',
         'ManyToManyField'   :'protoN2N', 
-        'OneToOneField'     :'proto11',
+        'OneToOneField'     :'proto121',
+        'JSONField'         :'protojson',
     }
-
 
 def setFieldDict(protoFields ,  field ):
 
@@ -49,7 +49,6 @@ def setFieldDict(protoFields ,  field ):
 #        }    
 #    setFieldProperty(  pField, 'invalidText',  '', field, 'error_messages', ''  )
 
-        
     
     # Agrega y/o sobreEscribe las propiedades definidas en protoExt 
     for mProp in modelField:
@@ -84,6 +83,11 @@ def setFieldDict(protoFields ,  field ):
 
     elif field.__class__.__name__ == 'TextField':
         pField['vType'] = 'plainText' # 'htmlText'
+
+    elif field.__class__.__name__ == 'JSONField':
+        pField['type'] = 'text'    
+        pField['readOnly'] = True   
+        pField['searchable'] = True   
 
     elif field.__class__.__name__ == 'ManyToManyField':
         tmpTable = field.rel.through._meta
@@ -132,13 +136,11 @@ def setFieldProperty( pField, pProperty, pDefault, field, fProperty, fpDefault )
         pField[ pProperty ] = vAux
         
 
-
 #----------------------------------------------------------
 #DGT:  choice,  Convierte las propiedades en una lista  
 #        a = []
 #        for c in field.choices:
 #            a[c[0]] = c[1]              //  Dict
 #            a.push ( [ c[0], c[1] ])    //  List
-
 
 

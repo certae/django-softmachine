@@ -8,7 +8,6 @@ from protoGrid import  getProtoViewName, getModelDetails
 
 import django.utils.simplejson as json
 
-
 def protoGetDetailsTree(request):
     """ return full field tree 
     """
