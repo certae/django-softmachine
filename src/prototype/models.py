@@ -36,7 +36,12 @@ class Model(ProtoModel):
     def __unicode__(self):
         return self.code 
     
-
+    protoExt = { 
+        "actions": [
+            { "name": "doModelPrototype", "actionParams": [] }, 
+        ]
+    } 
+    
 class Entity(ProtoModel):
     """ 
     Entity corresponde a las entidades, puede tener asociado un elto fisico;  
@@ -52,6 +57,12 @@ class Entity(ProtoModel):
 
     class Meta:
         unique_together = ('model', 'code',  )
+
+    protoExt = { 
+        "actions": [
+            { "name": "doEntityPrototype", "actionParams": [] }, 
+        ]
+    } 
 
 
 class PropertyBase(ProtoModel):

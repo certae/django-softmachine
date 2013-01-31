@@ -5,7 +5,7 @@ from protoGrid import  getProtoViewName, setDefaultField , getProtoAdmin
 from protoLib import protoGrid
 from protoField import  setFieldDict
 from models import getDjangoModel, ProtoDefinition
-from utilsBase import getReadableError, copyProps
+from utilsBase import getReadableError
 
 from protoQbe import getSearcheableFields
 

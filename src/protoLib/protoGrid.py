@@ -35,34 +35,26 @@ class ProtoGridFactory(object):
 
     def __init__(self, model, protoOption, model_admin, protoMeta  ):
             
-        self.protoOption = protoOption  
         self.model = model              # the model to use as reference
-        self.storeFields = ''           # holds the Query Fields
-         
-        # retoma las variables del modelo 
-        self.model_admin =  model_admin
-        self.protoMeta = protoMeta
-
-        # Obtiene el nombre de la entidad 
         self.title = self.model._meta.verbose_name.title()
+        
+        # importa las definiciones del modelo y del admin 
+        self.model_admin =  model_admin
+        self.protoMeta =  protoMeta
+        if isinstance(protoMeta, dict ): 
+            for mProp in protoMeta:
+                self.__setattr__( mProp , protoMeta[ mProp ] )  
+        
+        # garantiza la llave 
+        self.protoOption = protoOption  
 
-        # Obtiene los campos, si llega una lista la convierte en dict
-        # fields es la lista final,  
-        # fieldsDict es el dictionario de trabajo, se lee de la variable protoExt.fields  
-        # * [ 'xx' , {'name': 'xy'}]  si es una lista, permite solo el nombre del campo o la def del campo
-        # * { {'name': 'xy' }, { ..  si es un dictionario debe estar bien estructurado          
-        self.fields = []                
-        self.fieldsDict = self.protoMeta.get( 'fields', {})
-        if type( self.fieldsDict ).__name__ == type( [] ).__name__ :  
-            self.fieldsDict = list2dict( self.fieldsDict, 'name')
+        # Inicializa  
+        self.fields = self.protoMeta.get( 'fields', [])                
+        self.gridConfig = self.protoMeta.get( 'gridConfig', {})
 
         #UDPs para poder determinar el valor por defecto ROnly 
         self.pUDP = self.protoMeta.get( 'protoUdp', {}) 
         cUDP = verifyUdpDefinition( self.pUDP )
-
-
-        # Configuracion de la grilla 
-        self.gridConfig = self.protoMeta.get( 'gridConfig', {})
 
         # lista de campos para la presentacion en la grilla 
         pListDisplay = verifyList( self.gridConfig.get( 'listDisplay', []) )
@@ -79,7 +71,7 @@ class ProtoGridFactory(object):
         
         
         # Se leen los excluidos del admin, no se requiere 
-        # en protoMeta, pues los campos se enumeran explicitamente 
+        # en la protoDef, pues los campos se enumeran explicitamente 
         protoExclude = verifyList( getattr(self.model_admin , 'exclude', []))
 
         #Se leen los readonly fields para setear el attr readOnly = true 
