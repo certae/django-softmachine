@@ -75,6 +75,7 @@ class UserShare(models.Model):
     def __unicode__(self):
         return self.user.username + '-' + self.userHierarchy.code 
 
+
 #Tabla modelo para la creacion de entidades de usuario     
 #related_name="%(app_label)s_%(class)s
 class ProtoModel(models.Model):
@@ -115,6 +116,18 @@ class ProtoDefinition(models.Model):
     def __unicode__(self):
         return self.code 
 
+
+class CustomDefinition(models.Model):
+    # maneja las definiciones por grupo 
+    # aqui se guardan los menus personalizados, y las customOptions 
+    # DGT: por ahora el manejo es solo a nivel de grupos, pero dependiendo el nivel de amdin, se guardara como grupo o usuario  
+    code = models.CharField(unique=True, blank = False, null = False, max_length=200 )
+    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
+
+    metaDefinition = models.TextField( blank = True, null = True)
+    
+    def __unicode__(self):
+        return self.code 
 
 
 def getDjangoModel( modelName ):

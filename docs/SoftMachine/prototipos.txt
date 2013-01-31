@@ -75,36 +75,77 @@ Queda una tabla con la definicion basica y la generacion de las pcl,
     Las protoPropiedades se definen con el prefijo  "info__" para indicar un pseudoCampo json
 
 	protoTable :
-		protoEntity
-		protoField  ( info )
+		protoEntity   
+		protoFields  ( info )
 		*AuthFields
 
 	prototype.protoTable.[protoEntity]
 
+    El campo protoEntity como valor por defecfto la protoEntidad y 
+    ademas tiene un filtro de base  baseFilter = { 'property' : protoEntity, 'filterStmt' : [protoEntity] }
+
+    Esto permitira q en la misma tabla se almacenen diferentes entidades 
+
     Ademas en
         protoDefinition ( ya existente )
 
-    se permite 
-        protoDefinitionGrp   ( por grupo, almacena las definiciones de las tablas )
-        protoDefinitionUsr   ( por usuario, el menu y las definicione personalizadas  )
+        customDefinition : maneja las definiciones por grupo, 
+            si el usuario es administrador de grupo ( por ahora solo asi ) cambiara las opciones a nivel de grupo 
+            si no solo a nivel de usuario 
 
-    para esto se agregan campos para manejar la pertencenci 
-        groupOwner 
-        userOwner 
+        Cuando se guarde en customDefinition la llave es code - ownGroup 
 
-    y una funcion para indetificar la pertencia 
-        ownerType   'S'  System 
-                    'G'  Group
-                    'U'  User 
+    NO ------------------------------------
+        se permite 
+            protoDefinitionGrp   ( por grupo, almacena las definiciones de las tablas )
+            protoDefinitionUsr   ( por usuario, el menu y las definicione personalizadas  )
+
+        para esto se agregan campos para manejar la pertencencia
+            groupOwner 
+            userOwner 
+
+        y una funcion para indetificar la pertencia 
+            ownerType   'S'  System 
+                        'G'  Group
+                        'U'  User 
 
 2. Menu  
 
-    Por el momento solo se crea una vista de cada "protoEntidad"
+    Solo se crea una vista de cada "protoEntidad", pero se permitira un saveAs para cambiar 
+    el nombre de la vista respetando el modelo de base 
 
     EL menu se carga en tandas 
     1. carga el menu estandar de la app, 
-    2. carga el menu por hiierarchiNode con las opciones compiladas  para el grupo  ( protoDefinition ownereType :'G')
+    2. EXiste una tabla proto.ProtoViews q contiene el valor por para generar un lib.CustonDefinition 
+    2. -- NO: carga el menu por hiierarchiNode con las opciones compiladas  para el grupo  ( protoDefinition ownereType :'G')
 
+    Prototypes :
+        protoEntity     --
+        protoView       --> apunta a la definicion 
+        *AuthFields
+
+
+    Las definiciones existen siempre en la tabla de protoDefinicion, 
+    pero se crean unas vistas por modelo para el grupo ( auth )
+
+    Hay tres niveles de menu, 
+
+        el menu generado a partir de las app, 
+        el menu guardado en protoDefinition 
+        el menu de usuarios 
+
+    Solo el administrador podra cambiar el menu en protodefinition, 
+    borra el menu general y regresa al menu generado de la app  
+    
+    Un admin de grupo solo borra su menu y regresa al menu general 
+
+    Desde el prototipador se genera el menu de grupo a partir del dominio 
+    basado en las vistas generadas por el usuario., 
+
+    Las creacion de la vista generara la protoDefinition, 
+*** por ahora generar una unica vista 
+
+3.  Filtros para los zooms 
 
 
 ----------------------

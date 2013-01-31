@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from protoLib.models import ProtoModel
+from protoLib.models import ProtoModel 
 
 from protoLib.fields import JSONField,  JSONAwareManager
 
-class Person(models.Model):
-    info = JSONField(default = {})
-    objects = JSONAwareManager(json_fields = ['info'])
-   
    
 class Domain(ProtoModel):
     """El dominio corresponde a un nivel conceptual corportativo MCCD"""
@@ -41,7 +37,6 @@ class Model(ProtoModel):
         return self.code 
     
 
-
 class Entity(ProtoModel):
     """ 
     Entity corresponde a las entidades, puede tener asociado un elto fisico;  
@@ -53,7 +48,7 @@ class Entity(ProtoModel):
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
     def __unicode__(self):
-        return self.code 
+        return self.model.code + '.' + self.code 
 
     class Meta:
         unique_together = ('model', 'code',  )
@@ -187,3 +182,37 @@ class PropertyModel(PropertyBase):
 
     class Meta:
         unique_together = ('model', 'code',  )
+
+
+class ProtoViews(ProtoModel):
+    """
+    Esta tabla manejar la lista de  prototypos almacenados en protoDefinicion, 
+    servira para generar el menu a nivel de grupos     
+    """
+    entity = models.ForeignKey( Entity )
+    
+    """Nombre (str) de la vista a buscar en protoDefinition  """
+    view   = models.CharField( blank = False, null = False, max_length=200, editable = False )
+
+    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
+
+    def __unicode__(self):
+        return self.entity + '.' + self.info  
+    
+    objects = JSONAwareManager(json_fields = ['info'])
+    protoExt = { 'jsonField' : 'info' }
+   
+
+class ProtoTable(ProtoModel):
+    """
+    Esta tabla contiene los datos de los prototipos,  
+    """
+    entity = models.CharField( blank = False, null = False, max_length=200, editable = False )
+    info = JSONField(default = {})
+
+    def __unicode__(self):
+        return self.entity + '.' + self.info  
+    
+    objects = JSONAwareManager(json_fields = ['info'])
+    protoExt = { 'jsonField' : 'info' }
+   

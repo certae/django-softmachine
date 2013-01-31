@@ -84,7 +84,7 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
     """
 
     pStyle = protoMeta.get( 'pciStyle', '')        
-    JsonField = protoMeta.get( 'jsonField', 'info')
+    JsonField = protoMeta.get( 'jsonField', '')
 
     pUDP = protoMeta.get( 'protoUdp', {}) 
     cUDP = verifyUdpDefinition( pUDP )
@@ -247,9 +247,10 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
 #   QSEt
     Qs = model.objects.select_related(depth=1)
 
-#   Filtros por seguridad
+#   Filtros por seguridad ( debe ser siempre a nivel de grupo ) 
     if isProtoModel and not pUser.is_superuser:  
-        Qs = Qs.filter( Q( owningHierachy__in = userNodes ) | Q( owningUser = pUser  ) )
+#       Qs = Qs.filter( Q( owningHierachy__in = userNodes ) | Q( owningUser = pUser  ) )
+        Qs = Qs.filter( owningHierachy__in = userNodes ) 
 
 #   TODO: Agregar solomente los campos definidos en el safeMeta  ( only,  o defer ) 
 #   Qs.query.select_fields = [f1, f2, .... ]     

@@ -10,9 +10,9 @@ from django.utils.translation import ugettext_lazy, ugettext as _
 from models import * 
 
 
-def createNewModel( modeladmin, request, queryset):
+def doPrototype( modeladmin, request, queryset):
     """ 
-    funcion de pannier para crear un nuevo modelo, 
+    funcion para crear el prototipo sobre 'protoTable' con la definicion del diccionario 
     """
 
 #   El QSet viene con la lista de Ids de PropertyModel 
@@ -36,7 +36,7 @@ def createNewModel( modeladmin, request, queryset):
         
     return 
     
-createNewModel.short_description = "Create a new model whit the selected properties"
+doPrototype.short_description = "Create a new model whit the selected properties"
 
 
 def getModel( objDomain, modelCode  ):

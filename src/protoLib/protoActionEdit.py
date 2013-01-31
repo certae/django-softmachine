@@ -58,7 +58,7 @@ def protoEdit(request, myAction ):
     model = getDjangoModel(protoConcept)
 
 #   JsonField 
-    jsonField = protoMeta.get('jsonField', 'info')
+    jsonField = protoMeta.get('jsonField', '')
 
 #   Genera la clase UPD
     pUDP = protoMeta.get('protoUdp', {})
