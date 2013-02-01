@@ -59,7 +59,8 @@ def protoEdit(request, myAction ):
 
 #   JsonField 
     jsonField = protoMeta.get('jsonField', '')
-
+    if not isinstance( jsonField, (str, unicode) ): jsonField = ''  
+    
 #   Genera la clase UPD
     pUDP = protoMeta.get('protoUdp', {})
     cUDP = verifyUdpDefinition( pUDP )

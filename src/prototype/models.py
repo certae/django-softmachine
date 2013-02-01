@@ -222,7 +222,7 @@ class ProtoTable(ProtoModel):
     Esta tabla contiene los datos de los prototipos,  
     """
     entity = models.CharField( blank = False, null = False, max_length=200, editable = False )
-    info = JSONField(default = {})
+    info = JSONField( default = {} )
 
     def __unicode__(self):
         return self.entity + '.' + self.info  

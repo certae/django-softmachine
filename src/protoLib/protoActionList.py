@@ -85,6 +85,7 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
 
     pStyle = protoMeta.get( 'pciStyle', '')        
     JsonField = protoMeta.get( 'jsonField', '')
+    if not isinstance( JsonField, ( str, unicode) ): JsonField = ''  
 
     pUDP = protoMeta.get( 'protoUdp', {}) 
     cUDP = verifyUdpDefinition( pUDP )

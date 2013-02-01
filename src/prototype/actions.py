@@ -138,7 +138,6 @@ def baseDefinition( pEntity ):
             "type": "foreigntext"
         },
         {
-            "sortable": True,
             "name": "modifiedOn",
             "readOnly": True,
             "type": "datetime"
@@ -177,7 +176,6 @@ def baseDefinition( pEntity ):
             "type": "foreigntext"
         },
         {
-            "sortable": True,
             "name": "regStatus",
             "readOnly": True,
             "type": "string"
@@ -205,7 +203,6 @@ def baseDefinition( pEntity ):
             "type": "foreignid"
         },
         {
-            "sortable": True,
             "name": "wflowStatus",
             "readOnly": True,
             "type": "string"
