@@ -225,7 +225,7 @@ class ProtoTable(ProtoModel):
     info = JSONField( default = {} )
 
     def __unicode__(self):
-        return self.entity + '.' + self.info  
+        return self.entity + '.' + self.info.__str__()  
     
     objects = JSONAwareManager(json_fields = ['info'])
     protoExt = { 'jsonField' : 'info' }

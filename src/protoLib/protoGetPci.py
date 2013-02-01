@@ -7,6 +7,7 @@ from protoField import  setFieldDict
 from models import getDjangoModel, ProtoDefinition, CustomDefinition 
 from utilsBase import getReadableError, copyProps
 
+from protoActionEdit import setSecurityInfo
 from protoQbe import getSearcheableFields
 from protoActionList import getUserNodes 
 
@@ -252,13 +253,37 @@ def protoSavePCI(request):
 
     if request.method != 'POST':
         return 
+
+    userProfile = request.user.get_profile()
+    custom = False  
     
-    protoOption = request.POST.get('protoOption', '') 
+    protoOption = request.POST.get('protoOption', '')
+    if protoOption != '__menu' :
+        protoConcept  = getProtoViewName( protoOption )
+        if protoConcept == 'prototype.ProtoTable' and protoConcept != protoOption :
+            custom = True 
+
+    elif not request.user.is_superuser: 
+        custom = True 
+     
     sMeta = request.POST.get('protoMeta', '')
     protoMeta = json.loads( sMeta )
+
+    # Prototipos 
+    if custom:
+ 
+        try:
+            protoDef = CustomDefinition.objects.get(code = protoOption, owningHierachy  = userProfile.userHierarchy )
+            created = False 
+        except:
+            CustomDefinition( code = protoOption )
+            created = True 
+            
+        setSecurityInfo( protoDef, {}, userProfile, created   )
     
-    # created : True  ( new ) is a boolean specifying whether a new object was created.
-    protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
+    else: 
+        # created : True  ( new ) is a boolean specifying whether a new object was created.
+        protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
     
     # El default solo parece funcionar al insertar en la Db
     protoDef.active = True 
@@ -268,7 +293,7 @@ def protoSavePCI(request):
     if protoOption == '__menu' :
         protoDef.description = 'Menu'
     else: 
-        protoDef.description = protoMeta['description']
+        protoDef.description = protoMeta.get( 'description', '' ) 
      
     protoDef.save()    
 

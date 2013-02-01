@@ -95,8 +95,9 @@ def protoEdit(request, myAction ):
                 if  key == 'id' or key == '_ptStatus' or key == '_ptId': continue
 
                 #  Los campos de seguridad se manejan a nivel registro
-                if isProtoModel and key in ['owningUser','owningHierachy','createdBy','modifiedBy','wflowStatus','regStatus','createdOn','modifiedOn']:
-                    continue 
+                if isProtoModel:
+                    if key in ['owningUser','owningHierachy','createdBy','modifiedBy','wflowStatus','regStatus','createdOn','modifiedOn']: continue 
+                    if key in ['owningUser_id','owningHierachy_id','createdBy_id','modifiedBy_id']: continue 
                 
                 if (cUDP.udpTable and key.startswith( cUDP.propertyPrefix + '__')): continue 
 
@@ -209,7 +210,8 @@ def setRegister( model,  rec, key,  data   ):
     # Tipo de attr 
     cName = field.__class__.__name__
 
-    if getattr( field, 'editable', False ) == False: return   
+    # if getattr( field, 'editable', False ) == False: return
+    # El attr puede no ser editable pero guardarse por defecto    
     if  cName == 'AutoField': return
     
     # Obtiene el valor 

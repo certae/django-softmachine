@@ -58,7 +58,7 @@ def getEntities( queryset , request ):
 def getProtoEntityDefinition( pEntity, viewName ):
     
     infoEntity = baseDefinition( pEntity )
-    infoEntity['gridConfig']['baseFilter'] = [ { 'entity' : pEntity.code } ]
+    infoEntity['gridConfig']['baseFilter'] = [ { 'property':'entity', 'filterStmt' : pEntity.code } ]
 
     pProperties = pEntity.propertySet.all()
     for pProperty in pProperties:
@@ -121,7 +121,7 @@ def baseDefinition( pEntity ):
             "name": "entity",
             "readOnly": True,
             "hidden": True,
-            "default" : pEntity.code, 
+            "defaultValue" : pEntity.code, 
         },
         {
             "name": "info",
