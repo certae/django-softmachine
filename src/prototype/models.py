@@ -61,6 +61,32 @@ class Entity(ProtoModel):
     protoExt = { 
         "actions": [
             { "name": "doEntityPrototype", "actionParams": [] }, 
+        ], 
+        "protoDetails": [
+        {
+            "__ptType": "protoDetail",
+            "menuText": "Properties",
+            "conceptDetail": "prototype.Property",
+            "detailName": "entity",
+            "detailField": "entity__pk",
+            "masterField": "pk"
+        },
+        {
+            "__ptType": "protoDetail",
+            "menuText": "Relationships",
+            "conceptDetail": "prototype.Relationship",
+            "detailName": "entity",
+            "detailField": "entity__pk",
+            "masterField": "pk"
+        },
+        {
+            "__ptType": "protoDetail",
+            "menuText": "Views",
+            "conceptDetail": "prototype.ProtoViews",
+            "detailName": "entity",
+            "detailField": "entity__pk",
+            "masterField": "pk"
+        }
         ]
     } 
 
@@ -150,6 +176,11 @@ class Relationship(Property):
     def save(self, *args, **kwargs ):
         self.isForeign = True 
         super(Relationship, self).save(*args, **kwargs) 
+
+    protoExt = { 
+        "exclude": [ "baseType","prpLength","defaultValue","propertyChoices"]
+        }
+
 
 
 # ---------------------------

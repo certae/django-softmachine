@@ -14,7 +14,7 @@ from protoActionList import getUserNodes
 import django.utils.simplejson as json
 
 
-#TODO: Vistas parametrizadas por el usuario 
+#TODO: Vistas parametrizadas por el usuario ( custom ) 
 
 
 # Dgt 12/10/28 Permite la carga directa de json de definicion. 
@@ -65,7 +65,7 @@ def protoGetPCI(request):
 
         # La version determina q es una carga completa de la meta y no es necesario reconstruirla
         # solo en caso de q la definicion no este en la Db        
-        if not version: 
+        if ( not version ) or ( not protoDef.active ): 
 
             # Verifica si existe una propiedad ProtoMeta es la copia de la meta cargada a la Db,
             grid = protoGrid.ProtoGridFactory( model, protoOption, model_admin, protoMeta )

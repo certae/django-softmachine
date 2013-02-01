@@ -9,12 +9,11 @@ Ext.define('ProtoUL.UI.MDSetFiltersController', {
     getCustomOptsBar: function() {
         
         var myFilters = []  
-        var tmpFilters = [] 
         var __MasterDetail = this.__MasterDetail
+        var tmpFilters = this.myMeta.gridConfig.others.filtersSet.concat( this.myMeta.custom.filtersSet ) 
 
-        
-        // Si no hay filtros definidos pero existe un filterAlph, 
-        if ((this.myMeta.custom.filtersSet.length == 0)  &&  this.myMeta.gridConfig.filterSetABC  ) {
+        // Si no hay filtros definidos pero existe un filterAlph,
+        if ((tmpFilters.length == 0)  &&  this.myMeta.gridConfig.filterSetABC  ) {
 
             for (var nFiltre in oc(['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'])) {
                 var tmpF1 = {}
@@ -24,10 +23,8 @@ Ext.define('ProtoUL.UI.MDSetFiltersController', {
             }
             tmpFilters.push ({ name: ' *', filter: {} })
              
-        } else {
-          tmpFilters = this.myMeta.custom.filtersSet  
-        }  
-
+        } 
+        
         for (var vDet in tmpFilters ) {       
 
             var pFilters = tmpFilters[ vDet ]
@@ -36,7 +33,7 @@ Ext.define('ProtoUL.UI.MDSetFiltersController', {
                     text:           pFilters.name,
                     iconCls :       pFilters.icon, 
                     maxWidth :      100, 
-                    protoFilter:    pFilters.filter,
+                    protoFilter:    pFilters.customFilter,
                     scope:          this,                     
                     handler:        onClickProtoFilter
                 }));

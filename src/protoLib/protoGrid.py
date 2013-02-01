@@ -20,9 +20,13 @@ def getProtoAdmin( model ):
 
     # Si no esta registrado genera una definicion en blanco         
     if not model_admin: model_admin = {}
+    protoExclude = getattr( model_admin , 'exclude', [])
+    if protoExclude is None: protoExclude = [] 
         
     protoMeta = getattr( model, 'protoExt', {})
     protoExt = getattr( model_admin, 'protoExt', {})
+    
+    protoMeta[ 'exclude'] = protoMeta.get('exclude', []) + protoExclude 
 
     if not isinstance(protoMeta, dict ): protoMeta = {}
     if not isinstance(protoExt, dict ): protoExt = {}
@@ -80,7 +84,7 @@ class ProtoGridFactory(object):
         
         # Se leen los excluidos del admin, no se requiere 
         # en la protoDef, pues los campos se enumeran explicitamente 
-        protoExclude = verifyList( getattr(self.model_admin , 'exclude', []))
+        protoExclude = verifyList( self.protoMeta.get( 'exclude', []))
 
         #Se leen los readonly fields para setear el attr readOnly = true 
         pReadOnlyFlds = verifyList( self.gridConfig.get( 'readOnlyFields', []) )

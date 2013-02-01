@@ -107,7 +107,6 @@ Queda una tabla con la definicion basica y la generacion de las pcl,
         y una funcion para indetificar la pertencia 
             ownerType   'S'  System 
                         'G'  Group
-                        'U'  User 
 
 2. Menu  
 
