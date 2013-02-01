@@ -51,7 +51,8 @@ function getProxyDefinition( stDef )  {
             extraParams : {
                 protoOption : stDef.protoOption,
                 protoFilter : stDef.protoFilter,
-                baseFilter: stDef.baseFilter, 
+                baseFilter  : stDef.baseFilter, 
+                baseFilterCp: stDef.baseFilter, 
                 protoMeta  : stDef.sProtoMeta    // String 
             },    
 

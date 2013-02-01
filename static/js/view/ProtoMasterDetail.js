@@ -147,8 +147,9 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         if ( me.idMasterGrid === 0  ) { tmpStore.protoMasterId = me.idMasterGrid; return; } 
         if ( tmpStore.protoMasterId == me.idMasterGrid ) { return; }
 
-        // Filtro de base y asignacion del pDetail
-        var baseFilter = -1   
+        // TODO: URGENTE  Filtro de base y asignacion del pDetail
+        // Navegacion por llaves diferenes al ID, 
+        var baseFilter   
         if ( ! me.protoMasterGrid.rowData )  { 
             baseFilter = '[{ "property" :"' + pDetail.detailField + '" , "filterStmt" :' + me.idMasterGrid + '}]';
         } else { 
