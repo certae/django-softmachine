@@ -94,10 +94,10 @@ class Property(PropertyBase):
     Las relaciones heredan de las propriedades y definien la cardinalidad 
     """
 
-    entity = models.ForeignKey('Entity', related_name = 'pEntity')
+    entity = models.ForeignKey('Entity', related_name = 'propertySet')
     
     """propertyModel : corresponde a la especificacion en el modelo ( metodologia: user history )"""
-    propertyModel = models.ForeignKey('PropertyModel',blank = True, null = True )
+    propertyModel = models.ForeignKey('PropertyModel', blank = True, null = True )
 
     # -----------  caracteristicas propias de la instancia
     """isPrimary : La llave primaria siempre es artificial, se deja con propositos academicos, implica isUnique """  
@@ -109,6 +109,9 @@ class Property(PropertyBase):
     
     """isRequired: tiene q ver con el llenado de datos"""
     isRequired = models.BooleanField()
+
+    """isReadOnly: ReadOnly field"""
+    isReadOnly = models.BooleanField()
 
     """isEssential: Indica si las propiedades saldran en la vista por defecto """ 
     isEssential = models.BooleanField()
@@ -129,7 +132,7 @@ class Relationship(Property):
     """
 
     """refEntity : entidad referenciada""" 
-    refEntity = models.ForeignKey('Entity', related_name = 'bEntity')
+    refEntity = models.ForeignKey('Entity', related_name = 'fKeysSet')
 
     """relatedName:  Nombre del set en la tabla primaria ( modelacion objeto )  """
     relatedName = models.CharField( blank = True, null = True, max_length=50)

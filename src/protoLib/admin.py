@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from models import ProtoDefinition, UserProfile, OrganisationTree, UserShare
+from models import ProtoDefinition, UserProfile, OrganisationTree, UserShare, CustomDefinition 
 from django.contrib  import admin           
 
 import django.contrib.admin
@@ -114,4 +114,5 @@ admin.site.register(OrganisationTree )
 #from adminUserProf import usrProfileAdmin
 admin.site.register(UserProfile )
 admin.site.register(UserShare )
+admin.site.register( CustomDefinition )
 

@@ -19,11 +19,15 @@ def getProtoAdmin( model ):
     model_admin = site._registry.get( model )
 
     # Si no esta registrado genera una definicion en blanco         
-    if not model_admin: 
-        model_admin = {}
+    if not model_admin: model_admin = {}
         
     protoMeta = getattr( model, 'protoExt', {})
-    protoMeta = copyProps( protoMeta, getattr( model_admin, 'protoExt', {}) )
+    protoExt = getattr( model_admin, 'protoExt', {})
+
+    if not isinstance(protoMeta, dict ): protoMeta = {}
+    if not isinstance(protoExt, dict ): protoExt = {}
+
+    protoMeta = copyProps( protoMeta, protoExt )
     
     return  model_admin, protoMeta
 
@@ -41,16 +45,20 @@ class ProtoGridFactory(object):
         # importa las definiciones del modelo y del admin 
         self.model_admin =  model_admin
         self.protoMeta =  protoMeta
-        if isinstance(protoMeta, dict ): 
-            for mProp in protoMeta:
-                self.__setattr__( mProp , protoMeta[ mProp ] )  
         
         # garantiza la llave 
         self.protoOption = protoOption  
 
         # Inicializa  
-        self.fields = self.protoMeta.get( 'fields', [])                
+        self.fields = []                
+        self.fieldsDict = {}
         self.gridConfig = self.protoMeta.get( 'gridConfig', {})
+
+        # Los campos deben ser inicialmente un diccionario para poder validarlos 
+        protoMeta[ 'fields' ]  =  protoMeta.get( 'fields', [])
+        if isinstance( protoMeta[ 'fields' ], list )  :  
+            self.fieldsDict = list2dict( protoMeta[ 'fields' ], 'name')
+
 
         #UDPs para poder determinar el valor por defecto ROnly 
         self.pUDP = self.protoMeta.get( 'protoUdp', {}) 

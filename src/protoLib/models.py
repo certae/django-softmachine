@@ -79,15 +79,15 @@ class UserShare(models.Model):
 #Tabla modelo para la creacion de entidades de usuario     
 #related_name="%(app_label)s_%(class)s
 class ProtoModel(models.Model):
-    owningUser = models.ForeignKey( User, related_name='+', editable = False )
-    owningHierachy = models.ForeignKey( OrganisationTree, related_name='+', editable = False)
+    owningUser = models.ForeignKey( User, null = True, blank=True, related_name='+', editable = False )
+    owningHierachy = models.ForeignKey( OrganisationTree, null = True, blank=True, related_name='+', editable = False)
 
-    createdBy = models.ForeignKey( User, related_name='+', editable = False)
-    modifiedBy = models.ForeignKey( User, related_name='+', editable = False)
+    createdBy = models.ForeignKey( User, null = True, blank=True,related_name='+', editable = False)
+    modifiedBy = models.ForeignKey( User, null = True, blank=True, related_name='+', editable = False)
     wflowStatus =  models.CharField( max_length=50,  null = True, blank=True, editable = False)
     regStatus =  models.CharField( max_length=50,  null = True, blank=True, editable = False)
-    createdOn = models.DateTimeField( auto_now=True , editable = False)
-    modifiedOn = models.DateTimeField( auto_now=True , editable = False)
+    createdOn = models.DateTimeField( auto_now=True , null = True, blank=True,editable = False)
+    modifiedOn = models.DateTimeField( auto_now=True , null = True, blank=True, editable = False)
 
     # Indicador para manejo de seguridad 
     _protoObj = True 
@@ -117,7 +117,7 @@ class ProtoDefinition(models.Model):
         return self.code 
 
 
-class CustomDefinition(models.Model):
+class CustomDefinition( ProtoModel ):
     # maneja las definiciones por grupo 
     # aqui se guardan los menus personalizados, y las customOptions 
     # DGT: por ahora el manejo es solo a nivel de grupos, pero dependiendo el nivel de amdin, se guardara como grupo o usuario  
@@ -125,6 +125,10 @@ class CustomDefinition(models.Model):
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
     metaDefinition = models.TextField( blank = True, null = True)
+
+    # Compatibilidad con ProtoDefinition
+    active = models.BooleanField( default = True )
+    overWrite = models.BooleanField( default = False   )
     
     def __unicode__(self):
         return self.code 

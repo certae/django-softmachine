@@ -229,6 +229,16 @@ def copyValuesFromFields( protoMeta, rowdict ):
     return rowdict 
 
 
+def getUserNodes( pUser ):
+    try: 
+        userProfile  = pUser.get_profile()
+        userNodes = userProfile.userTree.split(',')   
+    except: 
+        userNodes = []
+        
+    return userNodes
+        
+
 def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
     
 #   Decodifica los eltos 
@@ -237,12 +247,8 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
 
 #   modelo Administrado
     isProtoModel = hasattr( model , '_protoObj' )
-    if isProtoModel:
-        try: 
-            userProfile  = pUser.get_profile()
-            userNodes = userProfile.userTree.split(',')   
-        except: 
-            userNodes = []
+    if isProtoModel: 
+        userNodes = getUserNodes( pUser )
 
 #   QSEt
     Qs = model.objects.select_related(depth=1)

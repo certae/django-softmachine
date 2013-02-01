@@ -1,42 +1,100 @@
 # -*- coding: utf-8 -*-
+
+import django.utils.simplejson as json
+
 from datetime import datetime
 from django.contrib import admin
-
 from models import Model, Entity 
-from protoLib.models import ProtoDefinition, CustomDefinition 
 
-def doModelPrototype( modeladmin, request, queryset):
+from protoLib.models import ProtoDefinition, CustomDefinition
+from protoLib.protoActionEdit import setSecurityInfo 
+from protoLib.utilsBase import JSONEncoder
+
+def doModelPrototype( modeladmin, request, queryset ):
     """ 
     funcion para crear el prototipo sobre 'protoTable' con la definicion del diccionario
     a partir de Model  
     """
 
+#   Listade opciones definidas 
+#    opts = modeladmin.opts 
+
 #   El QSet viene con la lista de Ids  
     if queryset.count() == 0:
         return 'No record selected' 
 
-#    opts = modeladmin.opts 
-
 #   Recorre los registros selccionados   
     for pModel in queryset:
-        getProtoEntityDefinition ( pModel.entity )
+        getEntities( pModel.entity_set.all() , request  )
         
-    return 
     
 doModelPrototype.short_description = "Create prototypes for the model"
+
+
+def getEntities( queryset , request ):
+
+    userProfile  = request.user.get_profile()   
+
+#   Recorre los registros selccionados   
+    for pEntity in queryset:
+        infoEntity  = getProtoEntityDefinition ( pEntity, '' )
+        protoOption = infoEntity[ 'protoOption' ]
+        
+        try:
+            rec = CustomDefinition.objects.get(code = protoOption, owningHierachy  = userProfile.userHierarchy )
+            created = False 
+        except CustomDefinition.DoesNotExist:
+            created = True 
+            rec = CustomDefinition( code = protoOption )
+        
+        rec.metaDefinition = json.dumps( infoEntity, cls=JSONEncoder ) 
+        rec.description = infoEntity['description'] 
+        rec.active = True 
+        
+        setSecurityInfo( rec, {}, userProfile, created   )
+        rec.save()
 
 
 def getProtoEntityDefinition( pEntity, viewName ):
     
     infoEntity = baseDefinition( pEntity )
+    infoEntity['gridConfig']['baseFilter'] = [ { 'entity' : pEntity.code } ]
+
+    pProperties = pEntity.propertySet.all()
+    for pProperty in pProperties:
+
+        fName = 'info__' + pProperty.code
+        
+        field = {
+            "name": fName,
+            "header": pProperty.code ,
+            "readOnly": pProperty.isReadOnly,
+            "required": pProperty.isRequired or not pProperty.isNullable ,
+            "toolTip" : pProperty.description, 
+            "type"    : "string"
+        }
+        
+        infoEntity['fields'].append( field )
+
+        if pProperty.isEssential or pProperty.isPrimary or pProperty.isRequired: 
+            infoEntity['gridConfig']['listDisplay'].append( fName )
+    
+        infoEntity['protoForm']['items'][0]['items'].append( { "name": fName, "__ptType": "formField" } )
+        
     return infoEntity
+    
+        
+#    "protoDetails": [
+#        {
+#            "__ptType": "protoDetail",
+#            "detailField": "domain__pk",
+#            "conceptDetail": "prototype.Model",
+#            "detailName": "domain",
+#            "menuText": "Model.domain",
+#            "masterField": "pk"
+#        }
+#    ],
 
-
-def getModel( objDomain, modelCode  ):
-    """ Obtiene un modelo, dado el dominio y el codigo 
-    """ 
-    dModel, created  = Model.objects.get_or_create( domain = objDomain, code = modelCode )
-    return dModel
 
 
 def baseDefinition( pEntity ):
@@ -46,6 +104,7 @@ def baseDefinition( pEntity ):
     "protoConcept": "prototype.ProtoTable",
     "protoOption" : "prototype.ProtoTable." + pEntity.code,
     "description" : pEntity.description ,
+    "jsonField"   : "info" ,
     "protoIcon"   : "icon-1",
     "shortTitle"  : pEntity.code,
     "updateTime"  : datetime.now(),
@@ -55,14 +114,12 @@ def baseDefinition( pEntity ):
         {
             "name": "id",
             "readOnly": True,
-            "fromModel": True,
             "hidden": True,
             "type": "autofield"
         },
         {
             "name": "entity",
             "readOnly": True,
-            "fromModel": True,
             "hidden": True,
             "default" : pEntity.code, 
         },
@@ -70,7 +127,6 @@ def baseDefinition( pEntity ):
             "name": "info",
             "searchable": True,
             "readOnly": True,
-            "fromModel": True,
             "hidden": True,
             "type": "text",
         },               
@@ -78,16 +134,13 @@ def baseDefinition( pEntity ):
             "zoomModel": "auth.User",
             "name": "owningUser",
             "fkId": "owningUser_id",
-            "required": True,
             "readOnly": True,
-            "fromModel": True,
             "type": "foreigntext"
         },
         {
             "sortable": True,
             "name": "modifiedOn",
             "readOnly": True,
-            "fromModel": True,
             "type": "datetime"
         },
         {
@@ -108,36 +161,25 @@ def baseDefinition( pEntity ):
             "zoomModel": "protoLib.OrganisationTree",
             "name": "owningHierachy",
             "fkId": "owningHierachy_id",
-            "required": True,
-            "header": "owningHierachy",
             "readOnly": True,
-            "fromModel": True,
             "type": "foreigntext"
         },
         {
-            "sortable": True,
             "name": "createdOn",
-            "header": "createdOn",
             "readOnly": True,
-            "fromModel": True,
             "type": "datetime"
         },
         {
             "zoomModel": "auth.User",
             "name": "modifiedBy",
             "fkId": "modifiedBy_id",
-            "required": True,
-            "header": "modifiedBy",
             "readOnly": True,
-            "fromModel": True,
             "type": "foreigntext"
         },
         {
             "sortable": True,
             "name": "regStatus",
-            "header": "regStatus",
             "readOnly": True,
-            "fromModel": True,
             "type": "string"
         },
         {
@@ -145,9 +187,7 @@ def baseDefinition( pEntity ):
             "name": "createdBy",
             "fkId": "createdBy_id",
             "required": True,
-            "header": "createdBy",
             "readOnly": True,
-            "fromModel": True,
             "type": "foreigntext"
         },
         {
@@ -167,38 +207,19 @@ def baseDefinition( pEntity ):
         {
             "sortable": True,
             "name": "wflowStatus",
-            "header": "wflowStatus",
             "readOnly": True,
-            "fromModel": True,
             "type": "string"
         }
     ],
     "protoDetails": [
-        {
-            "__ptType": "protoDetail",
-            "detailField": "domain__pk",
-            "conceptDetail": "prototype.Model",
-            "detailName": "domain",
-            "menuText": "Model.domain",
-            "masterField": "pk"
-        }
     ],
     "gridConfig": {
-        "listDisplay": [
-        ],
+        "listDisplay": [],
         "baseFilter": [],
-        "initialFilter": [],
-        "initialSort": [],
-        "searchFields": [
-            "info",
-        ],
-        "sortFields": [
-        ],
-        "hiddenFields": [
-            "id", "info", "entity"
-        ],
-        "readOnlyFields": [
-        ],
+        "searchFields": [ "info",],
+        "sortFields": [],
+        "hiddenFields": [ "id", "info", "entity" ],
+        "readOnlyFields": [],
     },
     "protoForm": {
         "__ptType": "protoForm",
@@ -206,12 +227,7 @@ def baseDefinition( pEntity ):
             {
                 "__ptType": "fieldset",
                 "fsLayout": "2col",
-                "items": [
-                    {
-                        "__ptType": "formField",
-                        "name": "code"
-                    }
-                ]
+                "items": []
             },
             {
                 "__ptType": "fieldset",

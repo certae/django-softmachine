@@ -4,10 +4,11 @@ from django.http import HttpResponse
 from protoGrid import  getProtoViewName, setDefaultField , getProtoAdmin
 from protoLib import protoGrid
 from protoField import  setFieldDict
-from models import getDjangoModel, ProtoDefinition
-from utilsBase import getReadableError
+from models import getDjangoModel, ProtoDefinition, CustomDefinition 
+from utilsBase import getReadableError, copyProps
 
 from protoQbe import getSearcheableFields
+from protoActionList import getUserNodes 
 
 import django.utils.simplejson as json
 
@@ -35,12 +36,22 @@ def protoGetPCI(request):
         jsondict = { 'success':False, 'message': getReadableError( e ) }
         context = json.dumps( jsondict)
         return HttpResponse(context, mimetype="application/json")
+
+    # PROTOTIPOS 
+    if protoConcept == 'prototype.ProtoTable' and protoConcept != protoOption :
+        userProfile = request.user.get_profile() 
+        try:
+            protoDef = CustomDefinition.objects.get(code = protoOption, owningHierachy  = userProfile.userHierarchy )
+            created = False 
+        except:
+            jsondict = { 'success':False, 'message': protoOption + ' notFound' } 
+            return HttpResponse( json.dumps( jsondict), mimetype="application/json")
+
+    else:
+        # created : El objeto es nuevo
+        # protoDef : PCI leida de la DB 
+        protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
     
-    # Verifica si la info de protoExt co 
-    
-    # created : El objeto es nuevo
-    # protoDef : PCI leida de la DB 
-    protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
     
     # El default solo parece funcionar al insertar en la Db
     if created: protoDef.overWrite = True
@@ -184,32 +195,29 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
     #FIX: busca el id en la META  ( id_field = model._meta.pk.name ) 
     id_field = u'id'
 
-
-    protoMeta = { 
+    protoTmp = { 
          'metaVersion' : PROTOVERSION ,
          'protoOption' : protoOption,           
          'protoConcept' : protoConcept,           
-         'idProperty': id_field,
+         'idProperty': grid.protoMeta.get( 'idProperty', id_field ),
          'shortTitle': grid.protoMeta.get( 'shortTitle', grid.title ),
          'description': pDescription ,
          'protoIcon': protoIcon,
-         'helpPath': grid.protoMeta.get( 'helpPath',''),
-         'protoSheetSelector' : grid.protoMeta.get( 'protoSheetSelector', ''), 
 
          'fields': grid.fields, 
          'gridConfig' : gridConfig,  
 
-         # Propiedades extendidas   
          'protoDetails': grid.get_details() , 
          'protoForm': grid.getFieldSets(),  
-         'protoUdp': grid.protoMeta.get( 'protoUdp', {}), 
-
-         # Paginas de datos        
-         'protoSheets' : grid.protoMeta.get( 'protoSheets', []), 
          }
+    
 
-    return protoMeta 
+#         'helpPath': grid.protoMeta.get( 'helpPath',''),
+#         'protoSheetSelector' : grid.protoMeta.get( 'protoSheetSelector', ''), 
+#         'protoUdp': grid.protoMeta.get( 'protoUdp', {}), 
+#         'protoSheets' : grid.protoMeta.get( 'protoSheets', []), 
 
+    return copyProps( grid.protoMeta, protoTmp ) 
 
     
 

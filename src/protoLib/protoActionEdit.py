@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 #from django.contrib.admin.sites import  site
 
 from datetime import datetime
-from models import getDjangoModel, UserProfile 
+from models import getDjangoModel  
 from protoActionList import Q2Dict
 from utilsConvert import toInteger, toDate,toDateTime,toTime, toFloat, toDecimal, toBoolean
 from utilsBase import JSONEncoder, getReadableError
@@ -112,16 +112,8 @@ def protoEdit(request, myAction ):
                 except Exception as e:
                     data['_ptStatus'] = data['_ptStatus'] +  getReadableError( e ) 
 
-            if isProtoModel: 
-                setProtoData( rec, data,  'modifiedBy',  userProfile.user ) 
-                setProtoData( rec, data,  'modifiedOn', datetime.now() ) 
-
-                if myAction['INS']:
-                    setProtoData( rec, data,  'owningUser',userProfile.user )   
-                    setProtoData( rec, data,  'owningHierachy',userProfile.userHierarchy ) 
-                    setProtoData( rec, data,  'createdBy',userProfile.user ) 
-                    setProtoData( rec, data,  'regStatus','0' ) 
-                    setProtoData( rec, data,  'createdOn',datetime.now() ) 
+            if isProtoModel:
+                setSecurityInfo( rec, data, userProfile, myAction['INS'] )  
 
 
             if len( jsonField ) > 0: 
@@ -182,6 +174,22 @@ def protoEdit(request, myAction ):
 
     return json.dumps(context, cls=JSONEncoder)
 
+
+def setSecurityInfo( rec, data, userProfile, insAction  ):
+    """
+    rec      : registro al q se agrega la info de seguridad 
+    data     : objeto buffer q puede ser {} utilizado para retornar la info guardad 
+    insAction: True if insert,  False if update
+    """
+    setProtoData( rec, data,  'modifiedBy',  userProfile.user ) 
+    setProtoData( rec, data,  'modifiedOn', datetime.now() ) 
+    
+    if insAction:
+        setProtoData( rec, data,  'owningUser',userProfile.user )   
+        setProtoData( rec, data,  'owningHierachy',userProfile.userHierarchy ) 
+        setProtoData( rec, data,  'createdBy',userProfile.user ) 
+        setProtoData( rec, data,  'regStatus','0' ) 
+        setProtoData( rec, data,  'createdOn',datetime.now() ) 
 
 
 # ---------------------
