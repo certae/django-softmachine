@@ -121,7 +121,8 @@ Ext.define('Ext.ux.protoZoom', {
         // Crea la grilla 
         var zoomGrid = Ext.create('ProtoUL.view.ProtoGrid', { 
             protoOption  : me.zoomModel,
-            initialFilter: [{ "property":"pk", "filterStmt": -1}], 
+            // initialFilter: [{ "property":"pk", "filterStmt": -1}], 
+            initialFilter: [], 
             hideSheet    : true, 
             listDisplay  : '__str__'   
          }) ; 
@@ -221,8 +222,13 @@ Ext.define('Ext.ux.protoZoom', {
         var stBar = Ext.getCmp( this.idStBar )
         
         if ( record ) {
-            this.zoomRecord = record 
-            stBar.setText( '[' + rowIndex.toString() + ']  ' + record.data.__str__ )
+            this.zoomRecord = record
+            if ( this.myMeta.returnField ) {
+                this.retField = record.data[ this.myMeta.returnField ]
+            } else {
+                this.retField = record.data.__str__ || this.myMeta.protoOption + '.__str__ not found'
+            }
+            stBar.setText( '[' + rowIndex.toString() + ']  ' + this.retField )
         }     else  {
             this.zoomRecord = null 
             stBar.setText('')   
@@ -232,7 +238,8 @@ Ext.define('Ext.ux.protoZoom', {
     
     doReturn: function() {
         if ( this.zoomRecord )  {
-            this.setValue( this.zoomRecord.data.__str__ || this.myMeta.protoOption + '.__str__ not found' ) 
+            // this.setValue( this.zoomRecord.data.__str__ || this.myMeta.protoOption + '.__str__ not found' ) 
+            this.setValue( this.retField ) 
         }
         this.win.hide()
     }, 

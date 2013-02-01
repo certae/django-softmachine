@@ -132,7 +132,7 @@ class Relationship(Property):
     """
 
     """refEntity : entidad referenciada""" 
-    refEntity = models.ForeignKey('Entity', related_name = 'fKeysSet')
+    refEntity = models.ForeignKey('Entity', related_name = 'fKeysRefSet')
 
     """relatedName:  Nombre del set en la tabla primaria ( modelacion objeto )  """
     relatedName = models.CharField( blank = True, null = True, max_length=50)

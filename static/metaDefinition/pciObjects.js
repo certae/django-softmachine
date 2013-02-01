@@ -178,6 +178,7 @@ _MetaObjects =  {
             "helpPath", 
             "idProperty", 
             "jsonField",
+            "returnField",
 
             "sql",
             "updateTime", 

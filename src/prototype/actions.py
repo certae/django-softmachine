@@ -14,6 +14,9 @@ def doModelPrototype( modeladmin, request, queryset ):
     """ 
     funcion para crear el prototipo sobre 'protoTable' con la definicion del diccionario
     a partir de Model  
+    
+    TODO:  MD, Menu  
+    
     """
 
 #   Listade opciones definidas 
@@ -61,18 +64,41 @@ def getProtoEntityDefinition( pEntity, viewName ):
     infoEntity['gridConfig']['baseFilter'] = [ { 'property':'entity', 'filterStmt' : pEntity.code } ]
 
     pProperties = pEntity.propertySet.all()
+    
     for pProperty in pProperties:
 
         fName = 'info__' + pProperty.code
         
         field = {
-            "name": fName,
-            "header": pProperty.code ,
+            "name"    : fName,
+            "header"  : pProperty.code ,
             "readOnly": pProperty.isReadOnly,
             "required": pProperty.isRequired or not pProperty.isNullable ,
             "toolTip" : pProperty.description, 
             "type"    : "string"
         }
+
+        # hace las veces de __str__ 
+        if pProperty.isUnique:
+            infoEntity['returnField'] = fName 
+
+        if pProperty.isForeign: 
+            field["zoomModel"]= "prototype.ProtoTable." + pProperty.relationship.code
+            field["fkId"]     = fName + "_id"
+            field["type"]     = "foreigntext"
+            
+            #No es ncesario pues el modelo tiene su filtro de base
+            #field["zoomFilter"]= [{'property':'entity', 'filterStmt' : pEntity.code } ]
+
+            fieldId = {
+                "fkField": fName, 
+                "name"   : fName + "_id",
+                "readOnly": True,
+                "hidden": True,
+                "type": "foreignid"
+            }
+
+            infoEntity['fields'].append( fieldId )
         
         infoEntity['fields'].append( field )
 
@@ -81,6 +107,9 @@ def getProtoEntityDefinition( pEntity, viewName ):
     
         infoEntity['protoForm']['items'][0]['items'].append( { "name": fName, "__ptType": "formField" } )
         
+    if infoEntity.get( 'returnField', '' ) ==  '': 
+        infoEntity['returnField'] = 'info' 
+            
     return infoEntity
     
         
