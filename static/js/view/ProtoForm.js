@@ -201,7 +201,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
             // myFilter[ detField ] = this.idMaster
 
-            var baseFilter = '[{ "property" : "' + detField + '" , "filterStmt" :' + this.idMaster + '}]';
+            var protoFilter = '[{ "property" : "' + detField + '" , "filterStmt" :' + this.idMaster + '}]';
             
             // El filtro del detalle debe tner en cuenta el filtro predefinido para la grilla???
             // TODO: En el vinculo debe existir un filtro predefinido,  no es necesariamente cierto q siempre deba ser 
@@ -209,7 +209,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
             tmpStore.clearFilter();
 
             tmpStore.getProxy().extraParams.protoFilter = '';
-            tmpStore.getProxy().extraParams.baseFilter = baseFilter 
+            tmpStore.getProxy().extraParams.protoFilter = protoFilter 
             tmpStore.protoMasterId = this.idMaster;
             tmpStore.load();
 

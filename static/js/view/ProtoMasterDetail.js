@@ -144,24 +144,22 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         var pDetail = tmpStore.detailDefinition 
 
         // Verifica si la llave cambio
-        if ( me.idMasterGrid === 0  ) { tmpStore.protoMasterId = me.idMasterGrid; return; } 
         if ( tmpStore.protoMasterId == me.idMasterGrid ) { return; }
 
-        // TODO: URGENTE  Filtro de base y asignacion del pDetail
-        // Navegacion por llaves diferenes al ID, 
-        var baseFilter   
+        // Navegacion por llaves del maestro, si rowData is null no hay registro seleccionado   
+        var protoFilter   
         if ( ! me.protoMasterGrid.rowData )  { 
-            baseFilter = '[{ "property" :"' + pDetail.detailField + '" , "filterStmt" :' + me.idMasterGrid + '}]';
+            protoFilter = '[{ "property" :"' + pDetail.detailField + '" , "filterStmt" : -1}]';
         } else { 
-            var rowDataIx  = me.protoMasterGrid.rowData[ pDetail.masterField ]
-            if ( ! rowDataIx ) { rowDataIx = me.idMasterGrid  }
-            baseFilter = '[{ "property" :"' + pDetail.detailField + '" , "filterStmt" :' + rowDataIx + '}]';
+            // En caso de q el master no sea el pk 
+            var rowDataIx  = me.idMasterGrid
+            if ( pDetail.masterField != 'pk' ) { rowDataIx  = me.protoMasterGrid.rowData[ pDetail.masterField ] }
+            protoFilter = '[{ "property" :"' + pDetail.detailField + '" , "filterStmt" :' + rowDataIx + '}]';
         }
         
-         
-        // TODO: El filtro del detalle debe tner en cuenta el filtro predefinido para la grilla???
+        // El filtro del detalle tiene en cuenta el filtro predefinido para la grilla
         tmpStore.clearFilter();
-        tmpStore.getProxy().extraParams.baseFilter = baseFilter 
+        tmpStore.getProxy().extraParams.protoFilter = protoFilter 
         tmpStore.protoMasterId = me.idMasterGrid;
         tmpStore.load();
 
@@ -172,7 +170,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         var rowData = me.protoMasterGrid.rowData
         if ( rowData )  myDetGrid.detailTitle = rowData[ masterTitleField ]
 
-        myDetGrid.baseFilter = baseFilter 
+        myDetGrid.protoFilter = protoFilter 
         myDetGrid.setGridTitle( myDetGrid  )
         
     }, 

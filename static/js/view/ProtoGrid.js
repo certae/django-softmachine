@@ -455,7 +455,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         if ( me.detailTitle ) {
             gridTitle = '" ' + me.detailTitle + ' "' 
-        // } else if (( ! me.protoIsDetailGrid ) && ( me.baseFilter != undefined ) ) { 
         } else if ( me.mdFilter != undefined )  { 
             gridTitle = Ext.encode( me.mdFilter )   
         };

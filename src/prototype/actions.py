@@ -15,8 +15,7 @@ def doModelPrototype( modeladmin, request, queryset ):
     funcion para crear el prototipo sobre 'protoTable' con la definicion del diccionario
     a partir de Model  
     
-    TODO:  MD, Menu  
-    
+    TODO:  MD, absorcion, Menu  
     """
 
 #   Listade opciones definidas 
@@ -33,6 +32,7 @@ def doModelPrototype( modeladmin, request, queryset ):
     
 doModelPrototype.short_description = "Create prototypes for the model"
 
+# --------------------------------------------------------------------------------
 
 def getEntities( queryset , request ):
 
@@ -63,9 +63,7 @@ def getProtoEntityDefinition( pEntity, viewName ):
     infoEntity = baseDefinition( pEntity )
     infoEntity['gridConfig']['baseFilter'] = [ { 'property':'entity', 'filterStmt' : pEntity.code } ]
 
-    pProperties = pEntity.propertySet.all()
-    
-    for pProperty in pProperties:
+    for pProperty in pEntity.propertySet.all():
 
         fName = 'info__' + pProperty.code
         
@@ -107,22 +105,28 @@ def getProtoEntityDefinition( pEntity, viewName ):
     
         infoEntity['protoForm']['items'][0]['items'].append( { "name": fName, "__ptType": "formField" } )
         
+    #  __str__, __unicode__            
     if infoEntity.get( 'returnField', '' ) ==  '': 
         infoEntity['returnField'] = 'info' 
+            
+
+    # Details
+    for pDetail in pEntity.fKeysRefSet.all():
+        
+        detail =  {
+            "detailField": "info__" + pDetail.code + "_id",
+            "conceptDetail": "prototype.ProtoTable." + pDetail.entity.code,
+            "detailName": pDetail.entity.code,
+            "menuText": pDetail.entity.code.capitalize(),
+            "masterField": "pk"
+        }
+                    
+        infoEntity['protoDetails'].append ( detail ) 
+                
             
     return infoEntity
     
         
-#    "protoDetails": [
-#        {
-#            "__ptType": "protoDetail",
-#            "detailField": "domain__pk",
-#            "conceptDetail": "prototype.Model",
-#            "detailName": "domain",
-#            "menuText": "Model.domain",
-#            "masterField": "pk"
-#        }
-#    ],
 
 
 

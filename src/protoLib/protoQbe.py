@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 from django.db.models import Q
-from utilsConvert import isNumeric 
+from utilsConvert import isNumeric, toInteger
 import re
 
 
@@ -145,7 +145,7 @@ def getQbeStmt( fieldName ,  sQBE, sType   ):
         elif sQBE.startswith( "=") :
             Qobj =  { "{0}".format( fieldName ) :  sQBE[1:]  }  
         else: 
-            Qobj =  { "{0}".format( fieldName ) :  sQBE  }  
+            Qobj =  { "{0}".format( fieldName ) :  toInteger( sQBE )  }  
     
         if not isNumeric( re.sub(r'[=><!]', '', sQBE) ):
             return QResult 

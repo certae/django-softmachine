@@ -251,6 +251,10 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
     if isProtoModel: 
         userNodes = getUserNodes( pUser )
 
+#   JsonField
+    JsonField = protoMeta.get( 'jsonField', '')
+    if not isinstance( JsonField, ( str, unicode) ): JsonField = ''  
+
 #   QSEt
     Qs = model.objects.select_related(depth=1)
 
@@ -264,7 +268,7 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
 
 #   El filtro base viene en la configuracion MD 
     try:
-        Qs = addQbeFilter( baseFilter, model, Qs )
+        Qs = addQbeFilter( baseFilter, model, Qs , JsonField)
     except Exception as e:
 #        getReadableError( e ) 
         traceback.print_exc()
@@ -274,14 +278,13 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
     if sort:
         sort = json.loads(  sort ) 
         for sField in sort: 
-            # FIX:  @@@  Verificar que el campo de sort haga parte de los campos del modelo   
+            # FIX:  Verificar que el campo de sort haga parte de los campos del modelo   
             if sField['direction'] == 'DESC': sField['property'] = '-' + sField['property']  
             orderBy.append( sField['property'] )
     orderBy = tuple( orderBy )
 
-
     try:
-        Qs = addQbeFilter( protoFilter, model, Qs )
+        Qs = addQbeFilter( protoFilter, model, Qs, JsonField )
     except Exception,  e:
 #        getReadableError( e ) 
         traceback.print_exc()
@@ -293,11 +296,14 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
 
 
 
-def addQbeFilter( protoFilter, model, Qs ):
+def addQbeFilter( protoFilter, model, Qs, JsonField ):
 
-    if  (len( protoFilter) == 0): return Qs
+    # No hay criterios 
+    if len( protoFilter) == 0: 
+        return Qs
 
     protoFilter =  json.loads(  protoFilter )
+    
     QStmt = None 
 
     for sFilter in protoFilter: 
@@ -306,7 +312,7 @@ def addQbeFilter( protoFilter, model, Qs ):
             QTmp = getTextSearch( sFilter, model  )
         
         else: 
-            QTmp = addQbeFilterStmt( sFilter, model )
+            QTmp = addQbeFilterStmt( sFilter, model, JsonField )
 
         if QStmt is None:  QStmt = QTmp
         else: QStmt = QStmt & QTmp 
@@ -318,23 +324,28 @@ def addQbeFilter( protoFilter, model, Qs ):
     except Exception,  e:
         traceback.print_exc()
         return Qs 
-        
+
     return Qs
 
 
 
-def addQbeFilterStmt( sFilter, model ):
+def addQbeFilterStmt( sFilter, model, JsonField ):
 
     fieldName  =  sFilter['property']
     
-    try: 
-        # Obtiene el tipo de dato, si no existe la col retorna elimina la condicion
-        field = get_fields_from_path( model, fieldName )[-1]
-        sType = TypeEquivalence.get( field.__class__.__name__, 'string')
-    except :
-        if fieldName.endswith('__pk') or fieldName == 'pk' : 
-            sType = 'foreignid' 
-        else : return Q()
+    if fieldName.endswith('__pk') or fieldName.endswith('_id') or fieldName == 'pk': 
+        sType = 'int' 
+
+    elif fieldName.startswith( JsonField + '__'): 
+        sType = 'string'
+
+    else:
+        try: 
+            # Obtiene el tipo de dato, si no existe la col retorna elimina la condicion
+            field = get_fields_from_path( model, fieldName )[-1]
+            sType = TypeEquivalence.get( field.__class__.__name__, 'string')
+        except :
+            return Q()
         
     QStmt = getQbeStmt( fieldName , sFilter['filterStmt'], sType  )
     

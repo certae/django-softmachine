@@ -133,13 +133,6 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
             
             var pGrid = __MasterDetail.protoMasterGrid ;
 
-            // extraParams : {
-                // protoOption : stDef.protoOption,
-                // protoFilter : stDef.protoFilter,
-                // baseFilter: stDef.baseFilter, 
-                // protoMeta  : stDef.sProtoMeta    // String 
-            // },    
-
             Ext.Ajax.request({
                 method: 'POST',
                 url: _PConfig.urlGetProtoCsv  ,
