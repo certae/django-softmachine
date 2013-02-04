@@ -5,9 +5,9 @@ from django.db import models
 from django.http import HttpResponse
 from django.contrib.admin.util import  get_fields_from_path
 from django.utils.encoding import smart_str
+from django.db.models import Q
 
 from protoQbe import construct_search, addFilter, getSearcheableFields, getQbeStmt
-
 from utilsBase import JSONEncoder, getReadableError 
 from utilsBase import _PROTOFN_ , verifyStr   
 from protoUdp import verifyUdpDefinition, readUdps 
@@ -43,7 +43,7 @@ def protoList(request):
 
         
 #   Obtiene las filas del modelo 
-    Qs, orderBy, fakeId = getQSet( protoMeta, protoFilter, baseFilter , sort  )
+    Qs, orderBy, fakeId = getQSet( protoMeta, protoFilter, baseFilter , sort , request.user )
     pRowsCount = Qs.count()
 
 
@@ -84,6 +84,9 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
     """
 
     pStyle = protoMeta.get( 'pciStyle', '')        
+    JsonField = protoMeta.get( 'jsonField', '')
+    if not isinstance( JsonField, ( str, unicode) ): JsonField = ''  
+
     pUDP = protoMeta.get( 'protoUdp', {}) 
     cUDP = verifyUdpDefinition( pUDP )
     rows = []
@@ -115,6 +118,7 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
         for lField  in protoMeta['fields']:
             fName = lField['name']
 
+
             # UDP Se evaluan despues 
             if cUDP.udpTable and fName.startswith( cUDP.propertyPrefix + '__'): 
                 continue  
@@ -132,6 +136,24 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
                     val = eval( 'item.' + fName.replace( _PROTOFN_,'.') + '()'  )
                     val = verifyStr(val , '' )
                 except: val = 'fn?'
+
+            # Master JSonField ( se carga texto ) 
+            elif ( fName  == JsonField   ):
+                try: 
+                    val = item.__getattribute__( fName  ) 
+                except: val = {}
+                if isinstance(val, dict):
+                    val = json.dumps( val , cls=JSONEncoder )
+
+            # JSon fields 
+            elif fName.startswith( JsonField + '__'): 
+                try: 
+                    val = item.__getattribute__( JsonField  ) 
+                    if isinstance(val, dict):
+                        val = val.get( fName[ len( JsonField + '__'):] , '')
+                        if isinstance(val, dict):
+                            val = json.dumps( val , cls=JSONEncoder )
+                except: val = ''
                 
             # Campo Absorbido
             elif ( '__' in fName ):
@@ -208,15 +230,34 @@ def copyValuesFromFields( protoMeta, rowdict ):
     return rowdict 
 
 
-def getQSet(  protoMeta, protoFilter, baseFilter , sort   ):
+def getUserNodes( pUser ):
+    try: 
+        userProfile  = pUser.get_profile()
+        userNodes = userProfile.userTree.split(',')   
+    except: 
+        userNodes = []
+        
+    return userNodes
+        
+
+def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
     
 #   Decodifica los eltos 
     protoConcept = protoMeta.get('protoConcept', '')
     model = getDjangoModel(protoConcept)
 
+#   modelo Administrado
+    isProtoModel = hasattr( model , '_protoObj' )
+    if isProtoModel: 
+        userNodes = getUserNodes( pUser )
+
 #   QSEt
     Qs = model.objects.select_related(depth=1)
 
+#   Filtros por seguridad ( debe ser siempre a nivel de grupo ) 
+    if isProtoModel and not pUser.is_superuser:  
+#       Qs = Qs.filter( Q( owningHierachy__in = userNodes ) | Q( owningUser = pUser  ) )
+        Qs = Qs.filter( owningHierachy__in = userNodes ) 
 
 #   TODO: Agregar solomente los campos definidos en el safeMeta  ( only,  o defer ) 
 #   Qs.query.select_fields = [f1, f2, .... ]     
@@ -224,7 +265,7 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort   ):
 #   El filtro base viene en la configuracion MD 
     try:
         Qs = addQbeFilter( baseFilter, model, Qs )
-    except Exception,  e:
+    except Exception as e:
 #        getReadableError( e ) 
         traceback.print_exc()
 
@@ -290,10 +331,10 @@ def addQbeFilterStmt( sFilter, model ):
         # Obtiene el tipo de dato, si no existe la col retorna elimina la condicion
         field = get_fields_from_path( model, fieldName )[-1]
         sType = TypeEquivalence.get( field.__class__.__name__, 'string')
-    except Exception,  e:
+    except :
         if fieldName.endswith('__pk') or fieldName == 'pk' : 
             sType = 'foreignid' 
-        else : return models.Q()
+        else : return Q()
         
     QStmt = getQbeStmt( fieldName , sFilter['filterStmt'], sType  )
     

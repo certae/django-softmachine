@@ -4,15 +4,17 @@ from django.http import HttpResponse
 from protoGrid import  getProtoViewName, setDefaultField , getProtoAdmin
 from protoLib import protoGrid
 from protoField import  setFieldDict
-from models import getDjangoModel, ProtoDefinition
+from models import getDjangoModel, ProtoDefinition, CustomDefinition 
 from utilsBase import getReadableError, copyProps
 
+from protoActionEdit import setSecurityInfo
 from protoQbe import getSearcheableFields
+from protoActionList import getUserNodes 
 
 import django.utils.simplejson as json
 
 
-#TODO: Vistas parametrizadas por el usuario 
+#TODO: Vistas parametrizadas por el usuario ( custom ) 
 
 
 # Dgt 12/10/28 Permite la carga directa de json de definicion. 
@@ -35,12 +37,22 @@ def protoGetPCI(request):
         jsondict = { 'success':False, 'message': getReadableError( e ) }
         context = json.dumps( jsondict)
         return HttpResponse(context, mimetype="application/json")
+
+    # PROTOTIPOS 
+    if protoConcept == 'prototype.ProtoTable' and protoConcept != protoOption :
+        userProfile = request.user.get_profile() 
+        try:
+            protoDef = CustomDefinition.objects.get(code = protoOption, owningHierachy  = userProfile.userHierarchy )
+            created = False 
+        except:
+            jsondict = { 'success':False, 'message': protoOption + ' notFound' } 
+            return HttpResponse( json.dumps( jsondict), mimetype="application/json")
+
+    else:
+        # created : El objeto es nuevo
+        # protoDef : PCI leida de la DB 
+        protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
     
-    # Verifica si la info de protoExt co 
-    
-    # created : El objeto es nuevo
-    # protoDef : PCI leida de la DB 
-    protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
     
     # El default solo parece funcionar al insertar en la Db
     if created: protoDef.overWrite = True
@@ -53,7 +65,7 @@ def protoGetPCI(request):
 
         # La version determina q es una carga completa de la meta y no es necesario reconstruirla
         # solo en caso de q la definicion no este en la Db        
-        if not version: 
+        if ( not version ) or ( not protoDef.active ): 
 
             # Verifica si existe una propiedad ProtoMeta es la copia de la meta cargada a la Db,
             grid = protoGrid.ProtoGridFactory( model, protoOption, model_admin, protoMeta )
@@ -184,32 +196,29 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
     #FIX: busca el id en la META  ( id_field = model._meta.pk.name ) 
     id_field = u'id'
 
-
-    protoMeta = { 
+    protoTmp = { 
          'metaVersion' : PROTOVERSION ,
          'protoOption' : protoOption,           
          'protoConcept' : protoConcept,           
-         'idProperty': id_field,
+         'idProperty': grid.protoMeta.get( 'idProperty', id_field ),
          'shortTitle': grid.protoMeta.get( 'shortTitle', grid.title ),
          'description': pDescription ,
          'protoIcon': protoIcon,
-         'helpPath': grid.protoMeta.get( 'helpPath',''),
-         'protoSheetSelector' : grid.protoMeta.get( 'protoSheetSelector', ''), 
 
          'fields': grid.fields, 
          'gridConfig' : gridConfig,  
 
-         # Propiedades extendidas   
          'protoDetails': grid.get_details() , 
          'protoForm': grid.getFieldSets(),  
-         'protoUdp': grid.protoMeta.get( 'protoUdp', {}), 
-
-         # Paginas de datos        
-         'protoSheets' : grid.protoMeta.get( 'protoSheets', []), 
          }
+    
 
-    return protoMeta 
+#         'helpPath': grid.protoMeta.get( 'helpPath',''),
+#         'protoSheetSelector' : grid.protoMeta.get( 'protoSheetSelector', ''), 
+#         'protoUdp': grid.protoMeta.get( 'protoUdp', {}), 
+#         'protoSheets' : grid.protoMeta.get( 'protoSheets', []), 
 
+    return copyProps( grid.protoMeta, protoTmp ) 
 
     
 
@@ -244,13 +253,37 @@ def protoSavePCI(request):
 
     if request.method != 'POST':
         return 
+
+    userProfile = request.user.get_profile()
+    custom = False  
     
-    protoOption = request.POST.get('protoOption', '') 
+    protoOption = request.POST.get('protoOption', '')
+    if protoOption != '__menu' :
+        protoConcept  = getProtoViewName( protoOption )
+        if protoConcept == 'prototype.ProtoTable' and protoConcept != protoOption :
+            custom = True 
+
+    elif not request.user.is_superuser: 
+        custom = True 
+     
     sMeta = request.POST.get('protoMeta', '')
     protoMeta = json.loads( sMeta )
+
+    # Prototipos 
+    if custom:
+ 
+        try:
+            protoDef = CustomDefinition.objects.get(code = protoOption, owningHierachy  = userProfile.userHierarchy )
+            created = False 
+        except:
+            CustomDefinition( code = protoOption )
+            created = True 
+            
+        setSecurityInfo( protoDef, {}, userProfile, created   )
     
-    # created : True  ( new ) is a boolean specifying whether a new object was created.
-    protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
+    else: 
+        # created : True  ( new ) is a boolean specifying whether a new object was created.
+        protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
     
     # El default solo parece funcionar al insertar en la Db
     protoDef.active = True 
@@ -260,7 +293,7 @@ def protoSavePCI(request):
     if protoOption == '__menu' :
         protoDef.description = 'Menu'
     else: 
-        protoDef.description = protoMeta['description']
+        protoDef.description = protoMeta.get( 'description', '' ) 
      
     protoDef.save()    
 

@@ -7,7 +7,7 @@ from models import getDjangoModel
 from protoQbe import addFilter  
 
 import django.utils.simplejson as json
-
+from utilsBase import JSONEncoder
 
 def protoExecuteAction(request):
     """ Ejecuta una opcion  
@@ -59,5 +59,5 @@ def protoExecuteAction(request):
 
 def doReturn( jsonDict ):
     # Codifica el mssage json 
-    context = json.dumps( jsonDict )
+    context = json.dumps( jsonDict, cls=JSONEncoder )
     return HttpResponse(context, mimetype="application/json")

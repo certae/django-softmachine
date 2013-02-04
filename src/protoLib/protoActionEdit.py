@@ -4,11 +4,12 @@ import traceback
 
 from django.utils import simplejson as json
 from django.http import HttpResponse 
+from django.contrib.auth.models import User
 
 #from django.contrib.admin.sites import  site
 
-
-from models import getDjangoModel
+from datetime import datetime
+from models import getDjangoModel  
 from protoActionList import Q2Dict
 from utilsConvert import toInteger, toDate,toDateTime,toTime, toFloat, toDecimal, toBoolean
 from utilsBase import JSONEncoder, getReadableError
@@ -40,6 +41,9 @@ def protoEdit(request, myAction ):
     message = '' 
     if request.method != 'POST':  return
 
+    if not request.user.is_authenticated():
+        raise Exception( 'readOnly User')
+
     protoMeta = request.POST.get('protoMeta', '')
     rows = request.POST.get('rows', [])
 
@@ -53,6 +57,10 @@ def protoEdit(request, myAction ):
 #   Carga el modelo
     model = getDjangoModel(protoConcept)
 
+#   JsonField 
+    jsonField = protoMeta.get('jsonField', '')
+    if not isinstance( jsonField, (str, unicode) ): jsonField = ''  
+    
 #   Genera la clase UPD
     pUDP = protoMeta.get('protoUdp', {})
     cUDP = verifyUdpDefinition( pUDP )
@@ -60,6 +68,11 @@ def protoEdit(request, myAction ):
     # Verifica q sea una lista de registros, (no deberia pasar, ya desde Extjs se controla )  
     if type(rows).__name__=='dict':
         rows = [rows]
+        
+    # Verfica si es un protoModel 
+    isProtoModel = hasattr( model , '_protoObj' )
+    if isProtoModel:
+        userProfile  = request.user.get_profile()   
         
     pList = []
     for data in rows: 
@@ -80,11 +93,38 @@ def protoEdit(request, myAction ):
             for key in data:
                 key = smart_str( key )
                 if  key == 'id' or key == '_ptStatus' or key == '_ptId': continue
+
+                #  Los campos de seguridad se manejan a nivel registro
+                if isProtoModel:
+                    if key in ['owningUser','owningHierachy','createdBy','modifiedBy','wflowStatus','regStatus','createdOn','modifiedOn']: continue 
+                    if key in ['owningUser_id','owningHierachy_id','createdBy_id','modifiedBy_id']: continue 
+                
                 if (cUDP.udpTable and key.startswith( cUDP.propertyPrefix + '__')): continue 
+
+                #  JsonField 
+                if key ==  jsonField: continue 
+                if key.startswith( jsonField + '__'): continue 
+                
+                # Si es nulo no lo asigna
+                vAux = data[key]
+                if vAux is None or vAux == '': continue    
+                
                 try:
                     setRegister( model,  rec, key,  data )
-                except Exception,  e:
+                except Exception as e:
                     data['_ptStatus'] = data['_ptStatus'] +  getReadableError( e ) 
+
+            if isProtoModel:
+                setSecurityInfo( rec, data, userProfile, myAction['INS'] )  
+
+
+            if len( jsonField ) > 0: 
+                jsonInfo = {}
+                for key in data:
+                    if not key.startswith( jsonField + '__'): continue 
+                    jKey = key[ len(jsonField) + 2 : ]
+                    jsonInfo[ jKey ] = data[ key ]
+                setattr( rec, jsonField , jsonInfo   )
 
             # Guarda el idInterno para concatenar registros nuevos en la grilla 
             try:
@@ -137,8 +177,29 @@ def protoEdit(request, myAction ):
     return json.dumps(context, cls=JSONEncoder)
 
 
+def setSecurityInfo( rec, data, userProfile, insAction  ):
+    """
+    rec      : registro al q se agrega la info de seguridad 
+    data     : objeto buffer q puede ser {} utilizado para retornar la info guardad 
+    insAction: True if insert,  False if update
+    """
+    setProtoData( rec, data,  'modifiedBy',  userProfile.user ) 
+    setProtoData( rec, data,  'modifiedOn', datetime.now() ) 
+    
+    if insAction:
+        setProtoData( rec, data,  'owningUser',userProfile.user )   
+        setProtoData( rec, data,  'owningHierachy',userProfile.userHierarchy ) 
+        setProtoData( rec, data,  'createdBy',userProfile.user ) 
+        setProtoData( rec, data,  'regStatus','0' ) 
+        setProtoData( rec, data,  'createdOn',datetime.now() ) 
+
 
 # ---------------------
+
+def setProtoData( rec, data, key, value  ):
+    data[ key ] = value 
+    setattr( rec, key, value  )
+
 
 def setRegister( model,  rec, key,  data   ):
 
@@ -149,7 +210,8 @@ def setRegister( model,  rec, key,  data   ):
     # Tipo de attr 
     cName = field.__class__.__name__
 
-    if getattr( field, 'editable', False ) == False: return   
+    # if getattr( field, 'editable', False ) == False: return
+    # El attr puede no ser editable pero guardarse por defecto    
     if  cName == 'AutoField': return
     
     # Obtiene el valor 

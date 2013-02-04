@@ -67,9 +67,6 @@ def protoSheetRep(request):
 
 
 
-
-
-
     #------------
 
 def getSheetConf( protoMeta , sheetName ):
@@ -231,8 +228,6 @@ def getDetailConf( protoMeta, detailName ):
             return item 
 
     return None
- 
-
 
 
 def getReport( props, template, row  ):
@@ -263,7 +258,7 @@ def protoCsv(request):
     sort = request.POST.get('sort', '')
 
 #   Obtiene las filas del modelo 
-    Qs, orderBy, fakeId = getQSet( protoMeta, protoFilter, baseFilter , sort  )
+    Qs, orderBy, fakeId = getQSet( protoMeta, protoFilter, baseFilter , sort , request.user  )
 
     if orderBy: 
         pRows =  Qs.order_by(*orderBy)

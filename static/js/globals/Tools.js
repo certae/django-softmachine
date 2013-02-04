@@ -384,12 +384,13 @@ function getSafeMeta( myMeta ) {
     
     // prepara la meta q retorna al BackEnd 
     var safeMeta = { 
-        "pciStyle" : myMeta.pciStyle, 
-        "protoOption" : myMeta.protoOption,      
+        "protoOption"  : myMeta.protoOption,      
         "protoConcept" : myMeta.protoConcept,      
-        "sql": myMeta.sql,
-        "idProperty": myMeta.idProperty,
-        "gridConfig": {
+        "pciStyle"     : myMeta.pciStyle, 
+        "jsonField"    : myMeta.jsonField || ''  ,      
+        "sql"          : myMeta.sql,
+        "idProperty"   : myMeta.idProperty,
+        "gridConfig"   : {
             "searchFields": clone( myMeta.gridConfig.searchFields  )
         },
         "fields": clone( myMeta.fields, 0, [],  [ 'name', 'type', 'fromField'] ),

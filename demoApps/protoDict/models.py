@@ -3,6 +3,7 @@
 from django.db import models
 
 from protoLib.utilsBase import  strNotNull
+from protoLib.models import ProtoModel
 
 #    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
 #    
@@ -15,7 +16,7 @@ from protoLib.utilsBase import  strNotNull
 #        return self.code 
 
    
-class Domain(models.Model):
+class Domain(ProtoModel):
     """El dominio corresponde a un nivel conceptual corportativo MCCD"""
 #    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 , unique = True)
     code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
@@ -70,8 +71,7 @@ class PropertyDom(models.Model):
     """ Propiedades a nivel de dominio,  
     * definicion semantica del problema
     """
-    _fakeId = True
-    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200, primary_key=True )
+    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
 
     domain = models.ForeignKey('Domain' ,  primary_key=True)
 
@@ -162,10 +162,7 @@ class Relationship(models.Model):
     * la definicion de la cardinlaidad y otras se maneja aqui,
     * La relaciones son en realidad campos q apuntan a otro concepto  
     """
-
-
-    _fakeId = True
-    code = models.CharField(verbose_name=u'Alias',blank = True, null = True, max_length=50, primary_key=True)
+    code = models.CharField(verbose_name=u'Alias',blank = True, null = True, max_length=50)
 
     refConcept = models.ForeignKey('Concept', related_name = 'bConcept')
 

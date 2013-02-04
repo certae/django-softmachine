@@ -40,7 +40,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         var myMeta = clone( _cllPCI[ this.protoOption ] );
         this.myMeta = myMeta;
         this.myFieldDict = getFieldDict( myMeta )            
-
+        
+        
         // VErifica si el store viene como parametro ( Detail )
         var myFilter = '';
         
@@ -49,12 +50,22 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             myMeta.gridConfig.initialFilter = this.initialFilter 
         }
         
-        // Si no tiene un filtro base, asigna el filtro inicial  
-        if ( ! this.baseFilter ) {
+        // Si no tiene un filtro base, asigna el filtro inicial, si lo tiene lo agrega al baseFilter  
+        this.baseFilter = myMeta.gridConfig.baseFilter 
+        if ( typeOf( this.baseFilter ) != 'array' ) {
+            try { this.baseFilter  = Ext.decode( this.baseFilter )   
+            } catch(e) { this.baseFilter = [] }
+        } 
+        
+        if ( ! this.mdFilter ) {
             myFilter = myMeta.gridConfig.initialFilter;
             myFilter = Ext.encode(myFilter);
-        }   
-        
+
+        } else {
+            this.baseFilter = this.baseFilter.concat( this.mdFilter ) 
+        } 
+        this.baseFilter = Ext.encode( this.baseFilter );
+
 
         // Start Row Editing PlugIn
         me.rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
@@ -133,37 +144,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         // Definie el grid 
         var grid
         if ( myMeta.pciStyle == 'tree' ) {
-
             me.store = getTreeStoreDefinition( storeDefinition )
-
-            grid = Ext.create('Ext.tree.Panel', {
-                border : false, 
-                region: 'center',
-                flex: 1,
-                layout: 'fit',
-                minSize: 50,
-                stripeRows: true, 
-                tools: [], 
-                
-                useArrows: true,
-                rootVisible: false,
-                multiSelect: false,
-                singleExpand: true,
-                stripeRows: true, 
-                rowLines : true, 
-    
-                store: me.store,
-
-                columns: [{
-                    xtype: 'treecolumn', text: myMeta.shortTitle, flex: 3, dataIndex: '__str__'
-                },{
-                    text: 'protoView', dataIndex: 'protoView'
-                },{
-                    text: 'id', dataIndex: 'id' 
-                }] 
-            }); 
-
-
+            grid = Ext.create('Ext.tree.Panel', {border:false,region:'center',flex:1,layout:'fit',minSize:50,stripeRows:true,tools:[],useArrows:true,rootVisible:false,multiSelect:false,singleExpand:true,stripeRows:true,rowLines:true,store:me.store,columns:[{xtype:'treecolumn',text:myMeta.shortTitle,flex:3,dataIndex:'__str__'},{text:'protoView',dataIndex:'protoView'},{text:'id',dataIndex:'id'}]}); 
         } else { 
 
             me.store = getStoreDefinition( storeDefinition )
@@ -474,8 +456,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         if ( me.detailTitle ) {
             gridTitle = '" ' + me.detailTitle + ' "' 
         // } else if (( ! me.protoIsDetailGrid ) && ( me.baseFilter != undefined ) ) { 
-        } else if ( me.baseFilter != undefined )  { 
-            gridTitle = me.baseFilter  
+        } else if ( me.mdFilter != undefined )  { 
+            gridTitle = Ext.encode( me.mdFilter )   
         };
         
         if ( me.protoLocalFilter ) {

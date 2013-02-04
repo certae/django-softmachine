@@ -126,11 +126,11 @@ def list2dict(alist , key ):
     for item in alist:
         
         #Verifica si es un dict  
-        if type( item ).__name__ == type({}).__name__ :  
+        if isinstance( item, dict ):   
             aDict[ item[key] ]  = item 
 
         # si es un string lo crea con el key por defecto 
-        elif type( item ).__name__ == type('').__name__ :  
+        elif isinstance( item, str ):  
             aDict[ item  ]  = { key : { key : item }}
             
     return aDict
@@ -261,9 +261,7 @@ class VirtualField(object):
 
 def getReadableError( e ):
     sAux = '<b>ErrType:</b> ' + type( e ).__name__ + '<br>'
-    if len( e.message ) > 0:
-        sAux += smart_str( e.message ) 
-    else:  sAux +=  smart_str( e )
+    sAux +=  smart_str( e )
     
 #    if len( e.args ) > 1: sAux += '<br>' +  str( '; '.join( e.args ))
     return sAux + '<br>'

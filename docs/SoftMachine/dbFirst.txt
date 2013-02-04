@@ -25,3 +25,5 @@ Desde luego con esta opcion la tabla no es editable
 TODO:  enviar el _fakeId como parte de la meta para evitar todo tipo de edicion 
 TODO:  controlar el _fakeId para evitar todo tipo de edicion en el backEnd 
 
+deseable hacer un procedimiento q permita hacer el inspectDb 
+crear la conexion dinamicamente y tambien los modelos. 

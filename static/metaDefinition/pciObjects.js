@@ -166,7 +166,9 @@ _MetaObjects =  {
         "description": "definicion de la meta",
         "properties": [
             "protoOption", 
-            "protoConcept" , 
+            "protoConcept" ,
+             
+            "protoModel" , 
             "description" ,
             "shortTitle" ,
             "protoSheetSelector",
@@ -175,11 +177,14 @@ _MetaObjects =  {
             "protoIcon",
             "helpPath", 
             "idProperty", 
+            "jsonField",
+            "returnField",
+
+            "sql",
             "updateTime", 
             "metaVersion", 
             "userVersion",
-            "sql",
-            "pciType"
+            "pciType" 
             ],
         "objects": [
             "gridConfig", 

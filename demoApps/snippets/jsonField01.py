@@ -1,5 +1,9 @@
 """
-This is a great way to pack extra data into a model object, where the structure is dynamic, and not relational. For instance, if you wanted to store a list of dictionaries. The data won't be classically searchable, but you can define pretty much any data construct you'd like, as long as it is JSON-serializable. It's especially useful in a JSON heavy application or one that deals with a lot of javascript.
+This is a great way to pack extra data into a model object, where the structure is dynamic, and not relational. 
+
+For instance, if you wanted to store a list of dictionaries. 
+The data won't be classically searchable, but you can define pretty much any data construct you'd like, as long as it is JSON-serializable. 
+It's especially useful in a JSON heavy application or one that deals with a lot of javascript.
 
 Example (models.py):
 

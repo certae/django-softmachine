@@ -5,20 +5,21 @@ from django.db.models.fields import NOT_PROVIDED
 
 # Equivalencia de tipos 
 TypeEquivalence = { 
-        'BooleanField'  :'bool',
-        'CharField'     :'string',
-        'DateField'     :'date', 
-        'DateTimeField' :'datetime', 
-        'DecimalField'  :'decimal',
-        'FloatField'    :'decimal',
-        'ForeignKey'    :'foreigntext',
-        'IntegerField'  :'int',
-        'TextField'     :'text',
-        'TimeField'     :'time',
-        'AutoField'     :'autofield',
-        'ManyToManyField' : 'protoN2N'
+        'BooleanField'      :'bool',
+        'CharField'         :'string',
+        'DateField'         :'date', 
+        'DateTimeField'     :'datetime', 
+        'DecimalField'      :'decimal',
+        'FloatField'        :'decimal',
+        'ForeignKey'        :'foreigntext',
+        'IntegerField'      :'int',
+        'TextField'         :'text',
+        'TimeField'         :'time',
+        'AutoField'         :'autofield',
+        'ManyToManyField'   :'protoN2N', 
+        'OneToOneField'     :'proto121',
+        'JSONField'         :'protojson',
     }
-
 
 def setFieldDict(protoFields ,  field ):
 
@@ -47,7 +48,7 @@ def setFieldDict(protoFields ,  field ):
 #        'null': 'This field is required',
 #        }    
 #    setFieldProperty(  pField, 'invalidText',  '', field, 'error_messages', ''  )
-    
+
     
     # Agrega y/o sobreEscribe las propiedades definidas en protoExt 
     for mProp in modelField:
@@ -83,6 +84,11 @@ def setFieldDict(protoFields ,  field ):
     elif field.__class__.__name__ == 'TextField':
         pField['vType'] = 'plainText' # 'htmlText'
 
+    elif field.__class__.__name__ == 'JSONField':
+        pField['type'] = 'text'    
+        pField['readOnly'] = True   
+        pField['searchable'] = True   
+
     elif field.__class__.__name__ == 'ManyToManyField':
         tmpTable = field.rel.through._meta
         relTable =  field.related.parent_model._meta
@@ -110,6 +116,11 @@ def setFieldDict(protoFields ,  field ):
              }
         protoFields[fKey['name']] = fKey 
 
+    # Campos autocreados 
+    if field.auto_created: 
+        pField['type'] = 'autofield'    
+        pField['readOnly'] = True   
+        pField['required'] = False    
     
     #Lo retorna al diccionario
     pField['fromModel'] = True 
@@ -125,13 +136,11 @@ def setFieldProperty( pField, pProperty, pDefault, field, fProperty, fpDefault )
         pField[ pProperty ] = vAux
         
 
-
 #----------------------------------------------------------
 #DGT:  choice,  Convierte las propiedades en una lista  
 #        a = []
 #        for c in field.choices:
 #            a[c[0]] = c[1]              //  Dict
 #            a.push ( [ c[0], c[1] ])    //  List
-
 
 

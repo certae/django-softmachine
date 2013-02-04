@@ -193,7 +193,7 @@ Ext.define('ProtoUL.UI.FormController', {
         }  
 
         // Filter 
-        var myFilter = '{"pk" : ' +  myRecordId + ',}'
+        var myFilter = '[{ "property":"pk", "filterStmt":' +  myRecordId + '}]'
         var storeDefinition =  {
             protoOption : this.protoOption, 
             autoLoad: true, 

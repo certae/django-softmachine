@@ -51,7 +51,8 @@ function getProxyDefinition( stDef )  {
             extraParams : {
                 protoOption : stDef.protoOption,
                 protoFilter : stDef.protoFilter,
-                baseFilter: stDef.baseFilter, 
+                baseFilter  : stDef.baseFilter, 
+                baseFilterCp: stDef.baseFilter, 
                 protoMeta  : stDef.sProtoMeta    // String 
             },    
 
@@ -351,13 +352,20 @@ function DefineProtoModel ( myMeta , modelClassName ){
             mField.readOnly = true;            
             mField.type = 'list';            
             break;
+
+        case 'protojson':
+            mField.readOnly = true;            
+            mField.type = 'json';            
+            break;
+
         case 'date':
             mField.type = 'date';            
             mField.dateFormat ='Y-m-d' 
             break;
         case 'datetime':
-            mField.type = 'date';            
-            mField.dateFormat ='Y-m-d H:i:s'  // 'timestamp' 
+            mField.type = 'string';            
+            // mField.type = 'date';            
+            // mField.dateFormat ='Y-m-d H:i:s'  // 'timestamp' 
             break;
         case 'time':
             mField.type = 'date';            
@@ -516,12 +524,11 @@ function getColDefinition( vFld ) {
           break;
 
     case 'datetime':
-        colDefinition['xtype'] = 'datecolumn' 
-        colDefinition['format'] = 'Y/m/d H:i:s'
-
-        editor.xtype = 'datefield'
-        editor.format = 'Y/m/d'
-        editor.timeFormat = 'H:i'
+        // colDefinition['xtype'] = 'datecolumn' 
+        // colDefinition['format'] = 'Y/m/d H:i:s'
+        // editor.xtype = 'datefield'
+        // editor.format = 'Y/m/d'
+        // editor.timeFormat = 'H:i'
         break;
 
     case 'time':

@@ -130,6 +130,8 @@ Ext.define('ProtoUL.ux.StatusBar', {
 
     clearErrCount: function () {
         // this.errBt.hide()
+        _cllPCI = [];
+        
         this.errBt.tooltip = ''
         this.busyCount = 0; 
         this.clearStatus( { useDefaults: true} )    

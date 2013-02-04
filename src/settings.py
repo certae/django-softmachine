@@ -32,18 +32,18 @@ DATABASES = {
 #        'HOST': '132.203.51.190',             # Set to empty string for localhost. Not used with sqlite3.
 #        'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
 #    }, 
-    'default': {
-        'ENGINE': 'mysql', 
-        'NAME':   'protogn',
-        'USER': 'root',
-        'PASSWORD': 'certae1',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-    }, 
 #    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-#        'NAME': PPATH + '/db/protoMeta.db',
-#    }
+#        'ENGINE': 'mysql', 
+#        'NAME':   'protogn',
+#        'USER': 'root',
+#        'PASSWORD': 'certae1',
+#        'HOST': '127.0.0.1',
+#        'PORT': '3306',
+#    }, 
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': PPATH + '/db/protoMeta.db',
+    }
 }
 
 # Local time zone for this installation. Choices can be found here:
@@ -169,13 +169,13 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'django.contrib.auth',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'django.contrib.sites',
     'protoLib', 
-    'protoDict', 
-    'bestingenomics', 
+    'prototype', 
+#    'bestingenomics', 
 #    'shiny', 
 #    'CategoryCle', 
 #    'TCO'
@@ -207,6 +207,8 @@ LOGGING = {
 }
 
 
+AUTH_PROFILE_MODULE = 'protoLib.UserProfile'
+
 # Variables prototipeur
 PROTO_APP = {}
 
@@ -218,19 +220,12 @@ PROTO_APP = {}
 #Las propiedades de app_menu son :   hidden,   title,  expanded  
 
 # app_menu se usa para ordenar la pre
-PROTO_APP['app_menu'] = {
-    'auth' : { 'hidden': True, },  
-    'sites' : { 'hidden': True },  
+#PROTO_APP['app_menu'] = {
+#    'auth' : { 'hidden': True, },  
+#    'sites' : { 'hidden': True },  
 #    'admin': { 'hidden': True },
 #    'protoDict' : { 'hidden': False, 'title': 'Dictionnaire', 'expanded':False , 'menu_index' : 30  }, 
 #    'protoLib': { 'hidden': False, 'title': 'Métadonnée', 'expanded':False, 'menu_index' : 99  },
-    } 
+#    } 
 
 
-#  The next lines show de available settings and its default QBE values.
-QBE_AUTOCOMPLETE = True
-QBE_EXHIBIT = False
-QBE_ADMIN = "admin"
-QBE_ADMIN_SITE ="admin.admin_site"
-QBE_ACCESS_FOR = lambda user: user.is_staff
-QBE_FORMATS_EXPORT = "qbe_formats"

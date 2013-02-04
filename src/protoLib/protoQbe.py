@@ -52,7 +52,7 @@ def getSearcheableFields(  model  ):
 
     lFields = []
     
-    filterableTypes = [ 'CharField', 'TextField', 'IntegerField', 'DecimalField', 'FloatField',  ]
+    filterableTypes = [ 'CharField', 'TextField', 'IntegerField', 'DecimalField', 'FloatField', 'JSONField' ]
     filterableTypes.extend( [ 'DateField', 'TimeField', 'DateTimeField', 'BooleanField' ])
         
     for field in model._meta._fields():
@@ -107,7 +107,7 @@ def getQbeStmt( fieldName ,  sQBE, sType   ):
 
 
     # String:  \iexact, \icontains, \istartswith, isnull, search, TODO: \iendswith, \iregex 
-    if sType in ([ 'string', 'text']) : 
+    if sType in ([ 'string', 'text', 'protojson']) : 
         if sQBE.startswith('^'):
             Qobj =  { "{0}__istartswith".format( fieldName ) :  sQBE[1:]  }  
         

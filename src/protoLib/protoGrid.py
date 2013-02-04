@@ -19,11 +19,19 @@ def getProtoAdmin( model ):
     model_admin = site._registry.get( model )
 
     # Si no esta registrado genera una definicion en blanco         
-    if not model_admin: 
-        model_admin = {}
+    if not model_admin: model_admin = {}
+    protoExclude = getattr( model_admin , 'exclude', [])
+    if protoExclude is None: protoExclude = [] 
         
     protoMeta = getattr( model, 'protoExt', {})
-    protoMeta = copyProps( protoMeta, getattr( model_admin, 'protoExt', {}) )
+    protoExt = getattr( model_admin, 'protoExt', {})
+    
+    protoMeta[ 'exclude'] = protoMeta.get('exclude', []) + protoExclude 
+
+    if not isinstance(protoMeta, dict ): protoMeta = {}
+    if not isinstance(protoExt, dict ): protoExt = {}
+
+    protoMeta = copyProps( protoMeta, protoExt )
     
     return  model_admin, protoMeta
 
@@ -35,34 +43,30 @@ class ProtoGridFactory(object):
 
     def __init__(self, model, protoOption, model_admin, protoMeta  ):
             
-        self.protoOption = protoOption  
         self.model = model              # the model to use as reference
-        self.storeFields = ''           # holds the Query Fields
-         
-        # retoma las variables del modelo 
-        self.model_admin =  model_admin
-        self.protoMeta = protoMeta
-
-        # Obtiene el nombre de la entidad 
         self.title = self.model._meta.verbose_name.title()
+        
+        # importa las definiciones del modelo y del admin 
+        self.model_admin =  model_admin
+        self.protoMeta =  protoMeta
+        
+        # garantiza la llave 
+        self.protoOption = protoOption  
 
-        # Obtiene los campos, si llega una lista la convierte en dict
-        # fields es la lista final,  
-        # fieldsDict es el dictionario de trabajo, se lee de la variable protoExt.fields  
-        # * [ 'xx' , {'name': 'xy'}]  si es una lista, permite solo el nombre del campo o la def del campo
-        # * { {'name': 'xy' }, { ..  si es un dictionario debe estar bien estructurado          
+        # Inicializa  
         self.fields = []                
-        self.fieldsDict = self.protoMeta.get( 'fields', {})
-        if type( self.fieldsDict ).__name__ == type( [] ).__name__ :  
-            self.fieldsDict = list2dict( self.fieldsDict, 'name')
+        self.fieldsDict = {}
+        self.gridConfig = self.protoMeta.get( 'gridConfig', {})
+
+        # Los campos deben ser inicialmente un diccionario para poder validarlos 
+        protoMeta[ 'fields' ]  =  protoMeta.get( 'fields', [])
+        if isinstance( protoMeta[ 'fields' ], list )  :  
+            self.fieldsDict = list2dict( protoMeta[ 'fields' ], 'name')
+
 
         #UDPs para poder determinar el valor por defecto ROnly 
         self.pUDP = self.protoMeta.get( 'protoUdp', {}) 
         cUDP = verifyUdpDefinition( self.pUDP )
-
-
-        # Configuracion de la grilla 
-        self.gridConfig = self.protoMeta.get( 'gridConfig', {})
 
         # lista de campos para la presentacion en la grilla 
         pListDisplay = verifyList( self.gridConfig.get( 'listDisplay', []) )
@@ -79,8 +83,8 @@ class ProtoGridFactory(object):
         
         
         # Se leen los excluidos del admin, no se requiere 
-        # en protoMeta, pues los campos se enumeran explicitamente 
-        protoExclude = verifyList( getattr(self.model_admin , 'exclude', []))
+        # en la protoDef, pues los campos se enumeran explicitamente 
+        protoExclude = verifyList( self.protoMeta.get( 'exclude', []))
 
         #Se leen los readonly fields para setear el attr readOnly = true 
         pReadOnlyFlds = verifyList( self.gridConfig.get( 'readOnlyFields', []) )
@@ -183,14 +187,18 @@ class ProtoGridFactory(object):
                 prChecks = []
                 prN2N = []
 #                prIds = []
+                prAdmin = []
                                 
                 for key in self.fieldsDict:
                     vFld = self.fieldsDict.get( key , {})
                     fType = vFld.get( 'type', 'string' )
                     
                     if ( vFld.get( 'storeOnly', False )): continue
+
+                    if ( key in [ 'owningUser','owningHierachy','createdBy','modifiedBy','wflowStatus','regStatus','createdOn','modifiedOn' ]) :
+                        prAdmin.append( { 'name' : key  , '__ptType' : 'formField'} )
                     
-                    if ( fType == 'text') :
+                    elif ( fType == 'text') :
                         prTexts.append( { 'name' : key  , '__ptType' : 'formField'} ) 
                          
                     elif ( fType in ['autofield', 'foreignid'] ) :
@@ -203,7 +211,7 @@ class ProtoGridFactory(object):
                     elif ( fType == 'protoN2N' ) :
                         prN2N.append( { 'name' : key  , '__ptType' : 'formField'} )
 
-                    elif ( vFld.get( 'name', '' )  == '__str__' ) :
+                    elif ( key  == '__str__' ) :
 #                        prTexts.insert( 0, { 'name' : key  , '__ptType' : 'formField'} )
                         continue
 
@@ -238,6 +246,12 @@ class ProtoGridFactory(object):
                 if prN2N : 
                     prSection = { '__ptType' : 'fieldset','fsLayout' : '1col'  }
                     prSection['items'] = prN2N 
+                    prFieldSet.append ( prSection )
+
+                if prAdmin : 
+                    prSection = { '__ptType' : 'fieldset','fsLayout' : '2col', 
+                                  'title' : 'Admin', 'collapsible' : True, 'collapsed' : True  }
+                    prSection['items'] = prAdmin 
                     prFieldSet.append ( prSection )
 
 #                if prIds : 

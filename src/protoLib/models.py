@@ -5,72 +5,92 @@
 from datetime import datetime
 
 from django.db import models
-from django.contrib.auth.models import User, Group, Permission 
+from django.contrib.auth.models import User 
 from django.contrib.sites.models import Site
+from django.db.models.signals import post_save
 
-
-class ProtoSite(Site):
-# Esta tabla tiene un unico registro equivalente una serie de parametros comunes a la org
-#   name = Site.name   ( viene del modelo base 'Site' ) 
-    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
-    calemdarCode =  models.CharField( max_length=50,  null = True, blank = True)
-
-    baseCurrencyCode  =  models.CharField( max_length=50,  null = True, blank = True)    
-    baseLanguajeCode  =  models.CharField( max_length=50,  null = True, blank = True)
-
-    fiscalPeriodType  =  models.CharField( max_length=50,  null = True, blank = True)
-    fiscalCurrentYear  =  models.CharField( max_length=50,  null = True, blank = True)
-
-    createdOn = models.DateTimeField( default=datetime.now )
-
-    def __unicode__(self):
-        return self.name 
-
-
-class ProtoBussinesUnit(models.Model):
-# Los BUnit representan la jerarquia funcional ( de seguridad ) de la app     
+class OrganisationTree(models.Model):
+# Jerarquia funcional ( de seguridad ) de la app     
 # Es la base de la seguridad por registro
 
     code = models.CharField(unique=True, blank = False, null = False, max_length=200 )
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
-    parentBUnit = models.ForeignKey( 'ProtoBussinesUnit', blank = True, null = True )
-    protoSite = models.ForeignKey( 'ProtoSite' )
+    parentNode = models.ForeignKey( 'OrganisationTree', blank = True, null = True , related_name='downHierachy')
+    site = models.ForeignKey( Site, blank = True, null = True)
+
+    @property
+    def fullPath(self):
+        return getFullPath( self , 'parentNode',  'id', 'fullPath'  )
+
+    @property
+    def treeHierarchy(self):
+        "Returns the full down-hierarchy"
+        sTree = unicode( self.id )
+        for item in self.downHierachy.all() :
+            sTree += ',' + item.treeHierarchy
+        return sTree     
 
     def __unicode__(self):
         return self.code
 
+    def save(self, *args, **kwargs ):
+        if self.parentNode is not None: 
+            self.site = self.parentNode.site
+        if self.site is None:
+            raise Exception( 'site required')
+        super(OrganisationTree, self).save(*args, **kwargs) 
 
-     
-class ProtoUser(User):
+    protoExt = { 'fields' : { 
+          'fullPath': {'readOnly' : True},
+          'treeHierarchy': {'readOnly' : True},
+     }}
+
+
+
+
+# here is the profile model
+class UserProfile(models.Model):  
 #Es necesario inlcuir el ususario en un BUnit, cada registro copiara el Bunit 
 #del usuario para dar permisos tambien a la jerarquia ( ascendente )
-   
-#   username = User.username ( viene del modelo base 'User' )
-    bussinesUnit = models.ForeignKey( ProtoBussinesUnit )
-    protoSite = models.ManyToManyField( 'ProtoSite' )
+    user = models.ForeignKey(User, unique=True)
+    userHierarchy = models.ForeignKey( OrganisationTree, blank = True, null = True )
+    userTree  = models.CharField( blank = True, null = True, max_length= 500 )
+    def __unicode__(self):
+        return  self.user.username 
 
+def user_post_save(sender, instance, created, **kwargs):
+    """Create a user profile when a new user account is created"""
+    if created == True:
+        p = UserProfile()
+        p.user = instance
+        p.save()
 
-#Es necesario inlcuir el ususario en BUnit, ademas los grupos son recursivos      
-class ProtoGroup(Group):
-#   name = Group.name  ( viene del modelo base 'Group' )
-    bussinesUnit = models.ManyToManyField( ProtoBussinesUnit )
-    parentGroup = models.ForeignKey( 'ProtoSite', blank = True, null = True )
+post_save.connect(user_post_save, sender=User)
+
+class UserShare(models.Model):  
+    # si el usuairo comparte otros permisos  
+    user = models.ForeignKey( User )
+    userHierarchy = models.ForeignKey( OrganisationTree , related_name='userShares' )
+
+    def __unicode__(self):
+        return self.user.username + '-' + self.userHierarchy.code 
 
 
 #Tabla modelo para la creacion de entidades de usuario     
 #related_name="%(app_label)s_%(class)s
 class ProtoModel(models.Model):
-    owningUser = models.ForeignKey( ProtoUser, related_name='+')
-    owningBUnit = models.ForeignKey( ProtoBussinesUnit, related_name='+')
+    owningUser = models.ForeignKey( User, null = True, blank=True, related_name='+', editable = False )
+    owningHierachy = models.ForeignKey( OrganisationTree, null = True, blank=True, related_name='+', editable = False)
 
-    createdBy = models.ForeignKey( ProtoUser, related_name='+')
-    modifiedBy = models.ForeignKey( ProtoUser, related_name='+')
-    wflowStatus =  models.CharField( max_length=50,  null = True, blank=True)
-    regStatus =  models.CharField( max_length=50,  null = True, blank=True)
-    createdOn = models.DateTimeField( default= datetime.now )
-    modifiedOn = models.DateTimeField( default= datetime.now)
+    createdBy = models.ForeignKey( User, null = True, blank=True,related_name='+', editable = False)
+    modifiedBy = models.ForeignKey( User, null = True, blank=True, related_name='+', editable = False)
+    wflowStatus =  models.CharField( max_length=50,  null = True, blank=True, editable = False)
+    regStatus =  models.CharField( max_length=50,  null = True, blank=True, editable = False)
+    createdOn = models.DateTimeField( auto_now=True , null = True, blank=True,editable = False)
+    modifiedOn = models.DateTimeField( auto_now=True , null = True, blank=True, editable = False)
 
-    ProtoObj = True 
+    # Indicador para manejo de seguridad 
+    _protoObj = True 
 
     class Meta:
         abstract = True
@@ -97,6 +117,22 @@ class ProtoDefinition(models.Model):
         return self.code 
 
 
+class CustomDefinition( ProtoModel ):
+    # maneja las definiciones por grupo 
+    # aqui se guardan los menus personalizados, y las customOptions 
+    # DGT: por ahora el manejo es solo a nivel de grupos, pero dependiendo el nivel de amdin, se guardara como grupo o usuario  
+    code = models.CharField(unique=True, blank = False, null = False, max_length=200 )
+    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
+
+    metaDefinition = models.TextField( blank = True, null = True)
+
+    # Compatibilidad con ProtoDefinition
+    active = models.BooleanField( default = True )
+    overWrite = models.BooleanField( default = False   )
+    
+    def __unicode__(self):
+        return self.code 
+
 
 def getDjangoModel( modelName ):
 #   Obtiene el modelo 
@@ -116,8 +152,7 @@ def getFullPath( record, parentField,  codeField, pathFunction  ):
 
     pRec  = record.__getattribute__(  parentField )
     if pRec   : 
-        return pRec.__getattribute__( pathFunction  ) + '.' + record.__getattribute__(  codeField  ) 
+        return pRec.__getattribute__( pathFunction  ) + ',' + unicode( record.__getattribute__(  codeField  ) ) 
     else: 
-        return record.__getattribute__(  codeField )
-
+        return unicode( record.__getattribute__(  codeField ) )
 
