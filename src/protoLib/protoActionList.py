@@ -154,6 +154,14 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
                         if isinstance(val, dict):
                             val = json.dumps( val , cls=JSONEncoder )
                 except: val = ''
+
+            #TODO:  Campo Absorbido  JSON  ( info_client.nom  ) 
+            elif ( '.' in fName ) and fName.startswith( JsonField + '__'):
+                try: 
+                    val = eval( 'item.' + fName.replace( '__', '.'))
+                    val = verifyStr(val , '' )
+                except: val = '__?'
+
                 
             # Campo Absorbido
             elif ( '__' in fName ):
