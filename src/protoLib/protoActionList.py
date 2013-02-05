@@ -303,27 +303,33 @@ def addQbeFilter( protoFilter, model, Qs, JsonField ):
         return Qs
 
     protoFilter =  json.loads(  protoFilter )
+
+    if len( protoFilter) == 1: 
+        QTmp = addQbeFilterStmt( protoFilter[0], model, JsonField )
+        QTmp = dict((x, y) for x, y in QTmp.children)
+        Qs = Qs.filter( **QTmp  )
+
+    else:     
+        QStmt = None 
     
-    QStmt = None 
-
-    for sFilter in protoFilter: 
-        
-        if sFilter[ 'property' ] == '_allCols':
-            QTmp = getTextSearch( sFilter, model  )
-        
-        else: 
-            QTmp = addQbeFilterStmt( sFilter, model, JsonField )
-
-        if QStmt is None:  QStmt = QTmp
-        else: QStmt = QStmt & QTmp 
-
-    if QStmt is None:  QStmt = models.Q()
-
-    try:
-        Qs = Qs.filter( QStmt  )
-    except Exception,  e:
-        traceback.print_exc()
-        return Qs 
+        for sFilter in protoFilter: 
+            
+            if sFilter[ 'property' ] == '_allCols':
+                QTmp = getTextSearch( sFilter, model  )
+            
+            else: 
+                QTmp = addQbeFilterStmt( sFilter, model, JsonField )
+    
+            if QStmt is None:  QStmt = QTmp
+            else: QStmt = QStmt & QTmp 
+    
+        if QStmt is None:  QStmt = models.Q()
+    
+        try:
+            Qs = Qs.filter( QStmt  )
+        except Exception,  e:
+            traceback.print_exc()
+            return Qs 
 
     return Qs
 
