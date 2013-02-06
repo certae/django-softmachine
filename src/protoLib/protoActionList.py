@@ -102,10 +102,10 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
                 udpTypes[ fName ]  =  lField['type'] 
                
 
-    # Verifica si existen reemplazos por hacer ( fromField )
+    # Verifica si existen reemplazos por hacer ( cpFromField )
     copyValueFromField = False
     for lField  in protoMeta['fields']:
-        if lField.get( 'fromField', None ):  
+        if lField.get( 'cpFromField', None ):  
             copyValueFromField = True
             break 
     
@@ -155,7 +155,12 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
                             val = json.dumps( val , cls=JSONEncoder )
                 except: val = ''
 
-            #TODO:  Campo Absorbido  JSON  ( info_client.nom  ) 
+#            Campo Absorbido  JSON  ( info_client.nom  )
+#            Un campo absorbido debe indicar de q entidad viene, se podria hacer un un punto, 
+#            q podria se de modo general para indicar  app.entidad.vista; la vista solo se usara 
+#            en el caso de los prototipos, de resto solo sera app.entidad, 
+#            para el prototipo puede ser simplificada como  entidad.vista 
+#            
             elif ( '.' in fName ) and fName.startswith( JsonField + '__'):
                 try: 
                     val = eval( 'item.' + fName.replace( '__', '.'))
@@ -224,15 +229,15 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
 def copyValuesFromFields( protoMeta, rowdict ):
     
     for lField  in protoMeta['fields']:
-        fromField =  lField.get( 'fromField', None )
-        if not fromField: continue 
+        cpFromField =  lField.get( 'cpFromField', None )
+        if not cpFromField: continue 
 
-        fromField = smart_str( fromField  )  
+        cpFromField = smart_str( cpFromField  )  
         fName = smart_str( lField['name'] ) 
         val = rowdict.get( fName, None )  
         if ( val ) and smart_str( val ).__len__() > 0: continue
         
-        val = rowdict.get( fromField , None )
+        val = rowdict.get( cpFromField , None )
         if ( val ) : rowdict[ fName ] = val 
 
     return rowdict 

@@ -34,7 +34,7 @@ class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
         "zoomModel": "@cellValue",
         "cellLink": True,
         "header": "code",
-        "fromModel": True,
+        
         "type": "string",
         "name": "code",
         "sortable": True
@@ -43,7 +43,7 @@ class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
         "vType": "plainText",
         "type": "text",
         "name": "description",
-        "fromModel": True
+        
     }, {
         "flex": 1,
         "name": "__str__",
@@ -58,17 +58,17 @@ class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
         "vType": "plainText",
         "type": "text",
         "name": "metaDefinition",
-        "fromModel": True
+        
     }, {
         "header": "active",
         "type": "bool",
         "name": "active",
-        "fromModel": True
+        
     }, {
         "header": "overWrite",
         "type": "bool",
         "name": "overWrite",
-        "fromModel": True
+        
     }],
     "protoDetails": [],
     "protoForm": {

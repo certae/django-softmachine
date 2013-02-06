@@ -462,10 +462,10 @@ function getColDefinition( vFld ) {
         'fkId', 
 
         //@zoomFilter : TODO: Filtro de base fijo para el zoom ( puede venir definido en zoomView )
-        'zoomFilter', 
+        //'zoomFilter', 
 
         //@fromField : TODO: Campos q sera heredados a la entidad base  
-        'fromField'
+        'cpFromField', 'cpFromModel'
         ]
     var editor = copyProps ( {},  vFld, true, lstProps )
 
@@ -626,10 +626,8 @@ function getColDefinition( vFld ) {
         if ( vFld.vType == 'stopLight' ) colDefinition.renderer = cellStopLight
     } 
 
-    // sortable  ( se requiere para q no se ordenen las udps y otras )
-    if ( !('sortable' in colDefinition)) { 
-        colDefinition['sortable']  = vFld['fromModel'] || false 
-    }
+    // TODO: Asignar un sortable por defecto 
+    // if ( (!'sortable' in colDefinition) && ?? ) {  colDefinition['sortable']  = true }
 
 
     return colDefinition; 

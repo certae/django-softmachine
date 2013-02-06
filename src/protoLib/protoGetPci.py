@@ -98,7 +98,7 @@ def protoGetPCI(request):
         pFields =  []
         pFields.append ( { "name": "__str__","type": "string"} )
         pFields.append ( { "name": "protoView","type": "string"} )
-        pFields.append ( { "name":"id", "type":"autofield","fromModel":True} )
+        pFields.append ( { "name":"id", "type":"autofield" } )
     
         protoMeta['fields'] = pFields 
         protoMeta['hiddenFields'] = ["id"]

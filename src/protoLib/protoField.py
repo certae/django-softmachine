@@ -90,12 +90,12 @@ def setFieldDict(protoFields ,  field ):
         pField['searchable'] = True   
 
     elif field.__class__.__name__ == 'ManyToManyField':
-        tmpTable = field.rel.through._meta
-        relTable =  field.related.parent_model._meta
+        tmpModel = field.rel.through._meta
+        relModel =  field.related.parent_model._meta
 
         pField['vType'] = 'protoN2N'
-        pField['conceptDetail'] = tmpTable.app_label + '.' + tmpTable.object_name 
-        pField['relatedN2N'] = relTable.app_label + '.' + relTable.object_name
+        pField['conceptDetail'] = tmpModel.app_label + '.' + tmpModel.object_name 
+        pField['relatedN2N'] = relModel.app_label + '.' + relModel.object_name
         pField['detailField'] = field.related.var_name  + '__pk'
         pField['masterField'] = 'pk'                                     
         
@@ -123,7 +123,8 @@ def setFieldDict(protoFields ,  field ):
         pField['required'] = False    
     
     #Lo retorna al diccionario
-    pField['fromModel'] = True 
+    tmpModel = field.model._meta
+    pField['fromModel'] = tmpModel.app_label + '.' + tmpModel.object_name 
     protoFields[ pField['name'] ] = pField 
 
 

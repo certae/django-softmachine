@@ -303,7 +303,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
     updateZoomIds:  function() {
 
         // La info del zoom permanece en el campo fk, es necesario actualizar el registro 
-        // antes de guardarlo, TODO: esto se podria hacer en el zoomReturn ( fromField ) para actualzar 
+        // antes de guardarlo, TODO: esto se podria hacer en el zoomReturn ( cpFromField ) para actualzar 
         // otros campos derivados del zoom.  
 
         var lFields = this.getForm().getFields().items 

@@ -99,15 +99,12 @@ def protoEdit(request, myAction ):
                     if key in ['owningUser','owningHierachy','createdBy','modifiedBy','wflowStatus','regStatus','createdOn','modifiedOn']: continue 
                     if key in ['owningUser_id','owningHierachy_id','createdBy_id','modifiedBy_id']: continue 
                 
+                #  Udps
                 if (cUDP.udpTable and key.startswith( cUDP.propertyPrefix + '__')): continue 
 
                 #  JsonField 
                 if key ==  jsonField: continue 
                 if key.startswith( jsonField + '__'): continue 
-                
-                # Si es nulo no lo asigna
-                vAux = data[key]
-                if vAux is None or vAux == '': continue    
                 
                 try:
                     setRegister( model,  rec, key,  data )

@@ -232,8 +232,6 @@ _MetaObjects =  {
             "storeOnly", 
             "cellLink",  
             "wordWrap",
-            "fromModel",
-            
             "qbeHelp",
 
             // Para los campos del htmlSet            
@@ -247,8 +245,15 @@ _MetaObjects =  {
             "cellLink", 
             "zoomModel", 
             "zoomFilter", 
-            "fromField", 
 
+
+            // modelo de origen del campo 
+            "fromModel",
+            
+            // hereda datos de otro campo ( ya se a de un zoom o del mismo rset ) 
+            "cpFromField", 
+            "cpFromModel", 
+                        
             // Para los N2N
             // "conceptDetail", 
             // "relatedN2N",
@@ -259,7 +264,7 @@ _MetaObjects =  {
             "xtype",
             "vType" 
             ],
-        "roProperties": [ "fromModel" ]  
+        "roProperties": [ ]  
     },
 
     "formField": {
@@ -287,8 +292,11 @@ _MetaObjects =  {
             "fkField",
             "zoomModel", 
             "zoomFilter", 
-            "fromField",
             "cellLink",
+
+            "fromModel", 
+            "cpFromField", 
+            "cpFromModel", 
             
             // Para los N2N
             // "conceptDetail", 

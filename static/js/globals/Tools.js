@@ -393,7 +393,7 @@ function getSafeMeta( myMeta ) {
         "gridConfig"   : {
             "searchFields": clone( myMeta.gridConfig.searchFields  )
         },
-        "fields": clone( myMeta.fields, 0, [],  [ 'name', 'type', 'fromField'] ),
+        "fields": clone( myMeta.fields, 0, [],  [ 'name', 'type', 'fromModel', 'cpFromField', 'cpFromModel'] ),
         "protoUdp": clone( myMeta.protoUdp )  
     } 
         

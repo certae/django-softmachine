@@ -17,7 +17,7 @@ class orgTreeAdmin(django.contrib.admin.ModelAdmin):
         "required": True,
         "type": "string",
         "name": "code",
-        "fromModel": True,
+        
         "sortable": True
     }, {
         "__ptType": "field",
@@ -25,7 +25,7 @@ class orgTreeAdmin(django.contrib.admin.ModelAdmin):
         "vType": "plainText",
         "type": "text",
         "name": "description",
-        "fromModel": True,
+        
         "sortable": True
     }, {
         "__ptType": "field",
@@ -51,7 +51,7 @@ class orgTreeAdmin(django.contrib.admin.ModelAdmin):
         "fkId": "site_id",
         "required": True,
         "header": "site",
-        "fromModel": True,
+        
         "type": "foreigntext"
     }, {
         "__ptType": "field",
@@ -59,7 +59,7 @@ class orgTreeAdmin(django.contrib.admin.ModelAdmin):
         "name": "parentNode",
         "fkId": "parentNode_id",
         "header": "parentNode",
-        "fromModel": True,
+        
         "type": "foreigntext"
     }, {
         "__ptType": "field",
@@ -74,7 +74,7 @@ class orgTreeAdmin(django.contrib.admin.ModelAdmin):
         "readOnly": True,
         "type": "autofield",
         "name": "id",
-        "fromModel": True,
+        
         "hidden": True
     }],
     "actions": [],

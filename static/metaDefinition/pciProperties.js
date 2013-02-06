@@ -65,7 +65,6 @@ _MetaProperties =  {
 
 //  Types
     "required.type" : "boolean", 
-    "fromModel.type"  : "boolean",
     "hideRowNumbers.type"  : "boolean",
     "multiSelect.type"  : "boolean",
     "readOnly.type"  : "boolean",
@@ -160,7 +159,7 @@ _MetaProperties =  {
     "cellLink.help": "Presenta contenido del campo como micro ayuda",
     "cellLink.type": "boolean",
 
-    "fromModel.help" : "Pertenece al modelo de base",  
+    "fromModel.help" : "Modelo al q pertenece",  
     "xtype.help" : "Tipo de objeto en el frontEnd ( puede ser manipulado con el vType)",
     "xtype.choices": ["", "textfield", "combobox", "checkbox", "numberfield", "textarea", "datefield" ],
     
@@ -246,7 +245,7 @@ _MetaProperties =  {
     "actionParamType.help" : "Tipo de dato del parametro", 
     "actionParamType.choices" : [ "", "string", "bool", "number"], 
     
-    "fromField.help" : "Copia el contenido de un campo en otro, en el caso de zooms o valores por defecto" 
+    "cpFromField.help" : "Copia el contenido de un campo en otro, en el caso de zooms o valores por defecto" 
     
 
 };

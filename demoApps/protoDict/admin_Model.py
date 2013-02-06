@@ -39,7 +39,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
             "required": True,
             "cellLink": True,
             "header": "Domaine",
-            "fromModel": True,
+            
             "type": "foreigntext"
         },
         {
@@ -50,7 +50,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
             "header": "Nom de la vue",
             "required": True,
             "width": 200,
-            "fromModel": True,
+            
             "sortable": True,
             "type": "string"
         },
@@ -107,7 +107,7 @@ class Model_Admin(django.contrib.admin.ModelAdmin):
             "name": "category",
             "width": 100,
             "header": "Catégorie",
-            "fromModel": True,
+            
             "type": "string"
         },
         {

@@ -153,7 +153,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
             "required": True,
             "cellLink": True,
             "header": "propertyDom",
-            "fromModel": True,
+            
             "type": "foreigntext"
         },
         {
@@ -254,7 +254,7 @@ class PropertyAdmin(django.contrib.admin.ModelAdmin):
         {
             "__ptType": "field",
             "zoomModel": "protoDict.Model",
-            "fromModel": True,
+            
             "name": "model",
             "fkId": "model_id",
             "flex": 100,

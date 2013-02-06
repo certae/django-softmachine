@@ -15,7 +15,7 @@ class usrProfileAdmin(django.contrib.admin.ModelAdmin):
         "vType": "protoN2N",
         "name": "userSites",
         "header": "userSites",
-        "fromModel": True,
+        
         "type": "protoN2N"
     }, {
         "__ptType": "field",
@@ -48,7 +48,7 @@ class usrProfileAdmin(django.contrib.admin.ModelAdmin):
         "fkId": "user_id",
         "required": True,
         "header": "user",
-        "fromModel": True,
+        
         "type": "foreigntext"
     }, {
         "__ptType": "field",
@@ -56,7 +56,7 @@ class usrProfileAdmin(django.contrib.admin.ModelAdmin):
         "readOnly": True,
         "type": "autofield",
         "name": "id",
-        "fromModel": True,
+        
         "hidden": True
     }, {
         "__ptType": "field",
@@ -64,7 +64,7 @@ class usrProfileAdmin(django.contrib.admin.ModelAdmin):
         "name": "userHierarchy",
         "fkId": "userHierarchy_id",
         "header": "userHierarchy",
-        "fromModel": True,
+        
         "type": "foreigntext"
     }],
     "actions": [],
