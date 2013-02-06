@@ -1,4 +1,4 @@
-#Fri Feb 01 10:23:34 EST 2013
+#Wed Feb 06 14:46:21 EST 2013
 eclipse.preferences.version=1
 encoding//demoApps/CategoryCle/models.py=utf-8
 encoding//demoApps/TCO/models.py=utf-8
@@ -40,5 +40,6 @@ encoding//src/protoLib/utilsBase.py=utf-8
 encoding//src/protoLib/utilsConvert.py=utf-8
 encoding//src/protoLib/utilsWeb.py=utf-8
 encoding//src/prototype/actions.py=utf-8
+encoding//src/prototype/migrations/0002_auto__add_field_property_isReadOnly.py=utf-8
 encoding//src/prototype/models.py=utf-8
 encoding//src/settings.py=utf-8

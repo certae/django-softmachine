@@ -73,6 +73,6 @@ class DictionaryField(models.Field):
 # rules for South migrations tool (for version >= 0.7)
 try:
     from south.modelsinspector import add_introspection_rules
-    add_introspection_rules([], ["^carting\.fields\.DictionaryField"])
+    add_introspection_rules([], ["^protoF\.fields\.DictionaryField"])
 except ImportError:
     pass
