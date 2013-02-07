@@ -6,7 +6,7 @@
 
 Ext.define('ProtoUL.ux.CheckColumn', {
     extend: 'Ext.grid.column.Column',
-    alias: 'widget.checkcolumn',
+    alias: 'widget.mycheckcolumn',
 
     /**
      * @cfg {Boolean} [stopSelection=true]
@@ -53,8 +53,7 @@ Ext.define('ProtoUL.ux.CheckColumn', {
             // Propiedad readOnly de la grilla 
             if ( this.readOnly ) {  return false  }
             if ( this.inGrid ) { 
-                if ( ! this.ownerCt.ownerCt.ownerCt.editable  ) 
-                    return false 
+                if ( ! this.ownerCt.ownerCt.ownerCt.editable  ) return false 
             }
             
             

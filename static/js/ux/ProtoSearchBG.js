@@ -181,15 +181,6 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
                 colData.push( [c.name, c.header] ) 
             } 
 
-            // Si no llego nada toma los campos del modelo 
-            // if ( colData.length == 0 ) { 
-                // for (var i = 0, len = me.myMeta.fields.length; i < len; i++) {
-                    // var c = me.myMeta.fields[i];
-                    // if (!(c.fromModel == true ) || (c.type in oc( 'string', 'text'))) continue
-                    // colData.push( [c.name, c.header] ) 
-                // }
-            // } 
-
             // Para tomar todos los campos 
             colData.unshift( ['', ''] ) 
             return colData ; 

@@ -83,7 +83,7 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
         return the row list from given queryset  
     """
 
-    pStyle = protoMeta.get( 'pciStyle', '')        
+#    pStyle = protoMeta.get( 'pciStyle', '')        
     JsonField = protoMeta.get( 'jsonField', '')
     if not isinstance( JsonField, ( str, unicode) ): JsonField = ''  
 
@@ -91,132 +91,110 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
     cUDP = verifyUdpDefinition( pUDP )
     rows = []
 
+    # Tablas de zoom para absorcion de campos 
+    relModels = {}
+
     # Identifica las Udps para solo leer las definidas en la META
     if cUDP.udpTable :
-        udpTypes =  {}
-        udpList =  []
+        udpTypes =  {}; udpList =  []
         for lField  in protoMeta['fields']:
             fName = lField['name']
             if fName.startswith( cUDP.propertyPrefix + '__'): 
                 udpList.append( fName )
                 udpTypes[ fName ]  =  lField['type'] 
-               
+
 
     # Verifica si existen reemplazos por hacer ( cpFromField )
     copyValueFromField = False
     for lField  in protoMeta['fields']:
-        if lField.get( 'cpFromField', None ):  
+        fName = lField['name']
+        if lField.get( 'cpFromField', '' ) <> '':  
             copyValueFromField = True
-            break 
-    
 
+        # Alimenta la coleccion de zooms, los campos heredados de otras tablas deben hacer 
+        # referencia a un campo de zoom, el contendra el modelo y la llave para acceder al registro  
+        myZoomModel = lField.get( 'zoomModel', '')   
+        if (len( myZoomModel ) > 0) and ( myZoomModel <> protoMeta['protoView']):
+            # dos campos puede apuntar al mismo zoom, la llave es el campo, 
+            # "fromModel"  contiene el campo q apunta al zoom y no el modelo    
+            relModels[ fName ] = { 'zoomModel' : myZoomModel, 'fkId' : lField['fkId'] , 'loaded' : False }     
+
+
+    # recorre para borrar los zooms q no tienen referencias
+    # 1. recorre los campos y verifica si alguno hace referencia y lo marca  
+    for lField in protoMeta['fields']:
+        if copyValueFromField and isAbsorbedField( lField, protoMeta  ) :
+            try: 
+                relModel = relModels[ lField.get( 'cpFromModel', '' ) ]
+                relModel[ 'loaded']  = True  
+            except: pass
+             
+    # 2.  borra los q no tienen marca   
+    for relName in relModels.keys():
+        relModel = relModels[ relName ] 
+        if not relModel[ 'loaded']: del relModels[ relName ]  
+    
 #   Esta forma permite agregar las funciones entre ellas el __unicode__
     rowId = 0 
-    for item in pRows:
+    for rowData in pRows:
         rowId += 1
         rowdict = {}
+
+        # limpia los datos de tablas relacionadas
+        for relName in relModels:
+            relModel = relModels[ relName ] 
+            relModel[ 'rowData']  = {}
+            relModel[ 'loaded']  = False 
+        
+        # recorre los campos para obtener su valor 
         for lField  in protoMeta['fields']:
             fName = lField['name']
-
 
             # UDP Se evaluan despues 
             if cUDP.udpTable and fName.startswith( cUDP.propertyPrefix + '__'): 
                 continue  
-            
-            #Es una funcion 
-            if ( fName  == '__str__'   ):
-                try: 
-                    val = eval( 'item.__str__()'  )
-                    val = verifyStr(val , '' )
-                except: 
-                    val = 'Id#' + verifyStr(item.pk, '?')
-
-            elif ( _PROTOFN_ in fName ):
-                try: 
-                    val = eval( 'item.' + fName.replace( _PROTOFN_,'.') + '()'  )
-                    val = verifyStr(val , '' )
-                except: val = 'fn?'
-
-            # Master JSonField ( se carga texto ) 
-            elif ( fName  == JsonField   ):
-                try: 
-                    val = item.__getattribute__( fName  ) 
-                except: val = {}
-                if isinstance(val, dict):
-                    val = json.dumps( val , cls=JSONEncoder )
-
-            # JSon fields 
-            elif fName.startswith( JsonField + '__'): 
-                try: 
-                    val = item.__getattribute__( JsonField  ) 
-                    if isinstance(val, dict):
-                        val = val.get( fName[ len( JsonField + '__'):] , '')
-                        if isinstance(val, dict):
-                            val = json.dumps( val , cls=JSONEncoder )
-                except: val = ''
-
-#            Campo Absorbido  JSON  ( info_client.nom  )
-#            Un campo absorbido debe indicar de q entidad viene, se podria hacer un un punto, 
-#            q podria se de modo general para indicar  app.entidad.vista; la vista solo se usara 
-#            en el caso de los prototipos, de resto solo sera app.entidad, 
-#            para el prototipo puede ser simplificada como  entidad.vista 
-#            
-            elif ( '.' in fName ) and fName.startswith( JsonField + '__'):
-                try: 
-                    val = eval( 'item.' + fName.replace( '__', '.'))
-                    val = verifyStr(val , '' )
-                except: val = '__?'
-
-                
-            # Campo Absorbido
-            elif ( '__' in fName ):
-                try: 
-                    val = eval( 'item.' + fName.replace( '__', '.'))
-                    val = verifyStr(val , '' )
-                except: val = '__?'
 
             # N2N
             elif ( lField['type'] == 'protoN2N' ):
                 try: 
-                    val = list( item.__getattribute__( fName  ).values_list()) 
+                    val = list( rowData.__getattribute__( fName  ).values_list()) 
                 except: val = '[]'
+                rowdict[ fName ] = val
+                continue 
 
-            # Campo del modelo                 
-            else:
-                try:
-                    val = getattr( item, fName  )
-                    # Si es una referencia ( fk ) es del tipo model 
-                    if isinstance( val, models.Model): 
-                        val = verifyStr(val , '' )
-                except: val = 'vr?'
-                
-                # Evita el valor null en el el frontEnd 
-                if val is None: val = ''
-                
-            rowdict[ fName ] = val
+            # Valores absorbidos on select a otros modelos 
+            elif copyValueFromField and isAbsorbedField( lField, protoMeta  ) :
+                try: 
+                    relModel = relModels[ lField.get( 'cpFromModel', '' ) ]
+                except: 
+                    relModel = { 'loaded': True, 'rowData' : {} }
+                    
+                if not relModel['loaded']: 
+                    relModel['loaded']  =  True  
+                    relModel['rowData'] =  getRowById( relModel['zoomModel'], relModel['fkId'] )
+
+                rowdict[ fName ] = relModel['rowData'][ lField.get( 'cpFromField', '' ) ] 
+                continue  
             
+            rowdict[ fName ] = getFieldValue( fName, rowData, JsonField )
         
         if cUDP.udpTable:
-
             # rowDict : se actualizara con los datos de la UDP
-            # item es el registro de base, en caso de q sea un MD la lectura es automatica item.udpTable...
-            # cUDP
+            # rowData es el registro de base, en caso de q sea un MD la lectura es automatica rowData.udpTable...
             # udpTypes  : lista de Udps a leer  
-            readUdps( rowdict, item , cUDP, udpList,  udpTypes )
+            readUdps( rowdict, rowData , cUDP, udpList,  udpTypes )
 
                 
         # REaliza la absorcion de datos provenientes de un zoom 
         if copyValueFromField:
             rowdict = copyValuesFromFields( protoMeta, rowdict  )
 
-        if pStyle == 'tree':
-            rowdict[ 'protoView' ] = protoMeta.get('protoOption', '')
-            rowdict[ 'leaf' ] = False 
-            rowdict[ 'children' ] = []
-
+#        if pStyle == 'tree':
+#            rowdict[ 'protoView' ] = protoMeta.get('protoOption', '')
+#            rowdict[ 'leaf' ] = False; rowdict[ 'children' ] = []
 
         # Agrega el Id Siempre como idInterno ( no representa una col, idProperty )
-        rowdict[ 'id'] = item.pk 
+        rowdict[ 'id'] = rowData.pk 
         if fakeId:
             rowdict[ 'id'] = rowId 
         
@@ -226,11 +204,42 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
 
     return rows
 
+def getRowById( myModelName, myId ):
+    """
+    Retorna un registro dado un modelo y un id  
+    """
+
+#   Obtiene los datos 
+    model = getDjangoModel( myModelName )
+    myList = model.objects.filter( pk = myId ).values()
+    if len( myList ) > 0: 
+        return myList[0]
+    else:  return {}
+
+
+def isAbsorbedField( lField , protoMeta ):
+    """ Determina si el campo es heredado de un zoom,
+    Pueden existir herencias q no tienen modelo, estas se manejar directamente por el ORM
+    Las herencias manejadas aqui son las q implican un select adicional al otro registro, 
+    utilizan la logica del zoom para traer la llave correspondiente 
+    """
+    if lField.get( 'cpFromField', '' ) <> '': return False  
+    if lField.get( 'cpFromModel', '' ) <> '': return False
+    
+    # No debe ser del mismo modelo ( usa la vista q por defecto es el protoConcept menos en los prototipos 
+    if lField['cpFromModel'] == protoMeta.get('protoView', ''): return False  
+         
+    return True 
+
+
 def copyValuesFromFields( protoMeta, rowdict ):
     
     for lField  in protoMeta['fields']:
         cpFromField =  lField.get( 'cpFromField', None )
         if not cpFromField: continue 
+
+        # Los datos ya fueron cargados es un campo heredado 
+        if isAbsorbedField( lField , protoMeta ): continue   
 
         cpFromField = smart_str( cpFromField  )  
         fName = smart_str( lField['name'] ) 
@@ -340,7 +349,7 @@ def addQbeFilter( protoFilter, model, Qs, JsonField ):
     
         try:
             Qs = Qs.filter( QStmt  )
-        except Exception,  e:
+        except:
             traceback.print_exc()
             return Qs 
 
@@ -393,3 +402,72 @@ def getTextSearch( sFilter, model ):
     return QStmt 
 
 
+def getFieldValue( fName, rowData, JsonField ):
+
+    #Es una funcion 
+    if ( fName  == '__str__'   ):
+        try: 
+            val = eval( 'rowData.__str__()'  )
+            val = verifyStr(val , '' )
+        except: 
+            val = 'Id#' + verifyStr(rowData.pk, '?')
+
+    elif ( _PROTOFN_ in fName ):
+        try: 
+            val = eval( 'rowData.' + fName.replace( _PROTOFN_,'.') + '()'  )
+            val = verifyStr(val , '' )
+        except: val = 'fn?'
+
+    # Master JSonField ( se carga texto ) 
+    elif ( fName  == JsonField   ):
+        try: 
+            val = rowData.__getattribute__( fName  ) 
+        except: val = {}
+        if isinstance(val, dict):
+            val = json.dumps( val , cls=JSONEncoder )
+
+    # JSon fields 
+    elif fName.startswith( JsonField + '__'): 
+        try: 
+            val = rowData.__getattribute__( JsonField  ) 
+            if isinstance(val, dict):
+                val = val.get( fName[ len( JsonField + '__'):] , '')
+                if isinstance(val, dict):
+                    val = json.dumps( val , cls=JSONEncoder )
+        except: val = ''
+
+#            Campo Absorbido  JSON  ( info_client.nom  )
+#            Un campo absorbido debe indicar de q entidad viene, se podria hacer un un punto, 
+#            q podria se de modo general para indicar  app.entidad.vista; la vista solo se usara 
+#            en el caso de los prototipos, de resto solo sera app.entidad, 
+#            para el prototipo puede ser simplificada como  entidad.vista 
+#            
+    elif ( '.' in fName ) and fName.startswith( JsonField + '__'):
+        try: 
+            val = eval( 'rowData.' + fName.replace( '__', '.'))
+            val = verifyStr(val , '' )
+        except: val = '__?'
+
+        
+    # Campo Absorbido
+    elif ( '__' in fName ):
+        try: 
+            val = eval( 'rowData.' + fName.replace( '__', '.'))
+            val = verifyStr(val , '' )
+        except: val = '__?'
+
+
+    # Campo del modelo                 
+    else:
+        try:
+            val = getattr( rowData, fName  )
+            # Si es una referencia ( fk ) es del tipo model 
+            if isinstance( val, models.Model): 
+                val = verifyStr(val , '' )
+        except: val = 'vr?'
+        
+        # Evita el valor null en el el frontEnd 
+        if val is None: val = ''
+
+
+    return val 

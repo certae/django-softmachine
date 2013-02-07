@@ -341,6 +341,9 @@ function DefineProtoModel ( myMeta , modelClassName ){
             vFld.sortable = true 
         }
 
+        // fromModel ( compatibilidad )
+        if ( vFld.fromModel == true  )  { vFld.fromModel = vFld.protoConcept } 
+
 
         // Determina el xType y otros parametros 
         switch( vFld.type )
@@ -541,8 +544,7 @@ function getColDefinition( vFld ) {
         break;
           
     case 'bool':
-        // colDefinition['xtype'] = 'checkcolumnreadonly'      
-        colDefinition['xtype'] = 'checkcolumn'      
+        colDefinition['xtype'] = 'mycheckcolumn'      
         colDefinition['editable'] = false 
         colDefinition['inGrid'] = true  
 
@@ -589,14 +591,12 @@ function getColDefinition( vFld ) {
     
     // verificacion de xtype  
     switch( colDefinition.xtype  ){
-    // case 'checkcolumnreadonly':
-    case 'checkcolumn':
+    case 'mycheckcolumn':
     case 'datecolumn':
     case 'numbercolumn' : 
         break; 
     case 'checkbox': 
-        // colDefinition.xtype = 'checkcolumnreadonly'
-        colDefinition.xtype = 'checkcolumn'
+        colDefinition.xtype = 'mycheckcolumn'
         break; 
     case 'datefield':  
         colDefinition.xtype = 'datecolumn'

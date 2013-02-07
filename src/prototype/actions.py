@@ -136,6 +136,7 @@ def baseDefinition( pEntity ):
     "__ptType": "pcl",
     "protoConcept": "prototype.ProtoTable",
     "protoOption" : "prototype.ProtoTable." + pEntity.code,
+    "protoView"   : "prototype.ProtoTable." + pEntity.code, 
     "description" : pEntity.description ,
     "jsonField"   : "info" ,
     "protoIcon"   : "icon-1",
@@ -241,8 +242,7 @@ def baseDefinition( pEntity ):
             "type": "string"
         }
     ],
-    "protoDetails": [
-    ],
+    "protoDetails": [],
     "gridConfig": {
         "listDisplay": [],
         "baseFilter": [],

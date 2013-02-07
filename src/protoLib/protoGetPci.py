@@ -18,7 +18,7 @@ import django.utils.simplejson as json
 
 
 # Dgt 12/10/28 Permite la carga directa de json de definicion. 
-PROTOVERSION = '121108'
+PROTOVERSION = '130206'
 
 
 def protoGetPCI(request):
@@ -85,25 +85,8 @@ def protoGetPCI(request):
 
     
     # La definicion del arbol es fija, pues las cols deben ser siempre uniformes sin importar el tipo de modelo.
-    pStyle = protoMeta.get( 'pciStyle', '')      
-    if pStyle == 'tree':
-        # Los campos base minimos son :   
-        #     Id          : id del registro  ( automatico ) 
-        #     __str__     : valor semantico del registro   
-        #     protoView   : permite redefinir el panel de detalles y la navegacion 
-    
-        #    El arbol se defina a medida q el usuario haga drill-down en cada detalle, 
-        #    la construccion del arbol es responsabilidad del frontEnd 
-
-        pFields =  []
-        pFields.append ( { "name": "__str__","type": "string"} )
-        pFields.append ( { "name": "protoView","type": "string"} )
-        pFields.append ( { "name":"id", "type":"autofield" } )
-    
-        protoMeta['fields'] = pFields 
-        protoMeta['hiddenFields'] = ["id"]
-        protoMeta['listDisplay'] = ["__str__", "protoView"]
-
+#    pStyle = protoMeta.get( 'pciStyle', '')      
+#    if pStyle == 'tree':  setTreeDefinition()
     
     jsondict = {
         'success':True,
@@ -222,28 +205,6 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
 
     
 
-def getProtoViewObj( protoMeta, view   ):
-#   Copia las propiedades de la vista en el protoMeta ( La meta resultante no es editable ) 
-
-    protoView = {}
-    if view:
-        # intenta leer la definicion de la vista             
-        protoViews  = protoMeta.get( 'protoViews', {})
-        if protoViews:  
-            protoView  = protoViews.get(  view, {})
-
-    if protoView:
-        protoCopy = protoMeta.copy()
-        for key in protoView: 
-            # evitar recursividad en vistas 
-            if key == 'protoViews': continue 
-            protoCopy[ key ] = protoView[ key ]
-          
-        return protoCopy
-
-    else: 
-        return protoMeta
-
 # ------------------------------------------------------------------------
 
 
@@ -357,8 +318,6 @@ def protoGetFieldTree(request):
     context = json.dumps( fieldList )
     return HttpResponse(context, mimetype="application/json")
 
-
-
 def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
     """ return parcial field tree  ( Called from protoGetFieldTree ) 
     """
@@ -456,8 +415,9 @@ def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
     
 
     fieldList.append( myField )
-    
-    
+
+
+
 # --------------------------------------------------------------------------
 
 def isFieldDefined( pFields , fName ):

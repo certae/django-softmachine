@@ -76,6 +76,8 @@ _MetaProperties =  {
     "protoIcon.help"  : "iconName tal como se define en el css",
     "shortTitle.help" : "Titulo del menu y de la forma" ,
     "idProperty.help" : "Campo q sirve como Id en el modelo, Django definie por defecto un Id, no es necesario definirlo explitamente",
+
+    "protoView.help" : "Utilizado para la vista de base en los prototipos ( prototype.protoTable.xxx )",
      
     "pciStyle" : "grid", 
     "pciStyle.help" : "Presentacion de la pci [ form,  grid, tree]", 
@@ -136,7 +138,7 @@ _MetaProperties =  {
                   '</html>',  
 
 
-// 
+//  Fields
     "required": false,
     "required.help": "Requiere valores la forma",
     "allowDecimals.help": "NO USAR : si permite o no decimales, si decimalPReciosion = 0 implica falso",
@@ -160,6 +162,7 @@ _MetaProperties =  {
     "cellLink.type": "boolean",
 
     "fromModel.help" : "Modelo al q pertenece",  
+    
     "xtype.help" : "Tipo de objeto en el frontEnd ( puede ser manipulado con el vType)",
     "xtype.choices": ["", "textfield", "combobox", "checkbox", "numberfield", "textarea", "datefield" ],
     
@@ -245,7 +248,7 @@ _MetaProperties =  {
     "actionParamType.help" : "Tipo de dato del parametro", 
     "actionParamType.choices" : [ "", "string", "bool", "number"], 
     
-    "cpFromField.help" : "Copia el contenido de un campo en otro, en el caso de zooms o valores por defecto" 
-    
+    "cpFromField.help" : "Copia el contenido de un campo en otro, en el caso de zooms o valores por defecto",  
+    "cpFromModel.help" : "Campo q apunta al modelo referenciado ( no apunta al zoom pues varios campos pueden usar el mismo zoom )" 
 
 };

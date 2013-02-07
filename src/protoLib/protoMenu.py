@@ -7,7 +7,7 @@ from django.contrib.admin.sites import  site
 from django.conf import settings
 from django.http import HttpResponse
 
-from protoGetPci import getProtoViewObj
+#from protoGetPci import getProtoViewObj
 
 import django.utils.simplejson as json
 
@@ -86,21 +86,18 @@ def protoGetMenuData(request):
 
     else:
 
-        for model, model_admin in site._registry.items():
-            
-            protoAdmin = getattr(model_admin, 'protoExt', {}) 
-            protoViews = protoAdmin.get( 'protoViews' )
-    
-            menuNode = model._meta.object_name
-            getMenuItem( protoAdmin, model, menuNode )
-             
-            if protoViews: 
-                # si existen vistas,  carga una opcion de menu para cada una             
-                for view in protoViews: 
-                    menuNode = model._meta.object_name + '.' + view
-                    protoOpcion =  getProtoViewObj( protoAdmin, view   )
-                    getMenuItem( protoOpcion, model, menuNode )
-    
+#        Esto era para cargar vistas definidas como opciones adicionales en el admin  
+#        for model, model_admin in site._registry.items():
+#            protoAdmin = getattr(model_admin, 'protoExt', {}) 
+#            protoViews = protoAdmin.get( 'protoViews' )
+#            menuNode = model._meta.object_name
+#            getMenuItem( protoAdmin, model, menuNode )
+#            if protoViews: 
+#                # si existen vistas,  carga una opcion de menu para cada una             
+#                for view in protoViews: 
+#                    menuNode = model._meta.object_name + '.' + view
+#                    protoOpcion =  getProtoViewObj( protoAdmin, view   )
+#                    getMenuItem( protoOpcion, model, menuNode )
     
         # Sort the apps alphabetically.
         app_list = app_dict.values()

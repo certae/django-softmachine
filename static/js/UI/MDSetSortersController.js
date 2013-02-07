@@ -11,21 +11,18 @@ Ext.define('ProtoUL.UI.MDSetSortersController', {
         var mySortersSet = []  
         var __MasterDetail = this.__MasterDetail
 
-        if ( this.myMeta.gridConfig.initialSort && ( this.myMeta.gridConfig.others.sortersSet  || this.myMeta.custom.sortersSet )) {
+        var tmpSorters = this.myMeta.gridConfig.others.sortersSet.concat( this.myMeta.custom.sortersSet )
+
+        if ( this.myMeta.gridConfig.initialSort && ( tmpSorters.length > 0  )) {
             addSorters( [ {
                 'name' : 'Initial', 
                 'icon' : 'soterIcon', 
                 'customSort' :  this.myMeta.gridConfig.initialSort
                 } ] )
+
+            addSorters( tmpSorters  )
         }
 
-        if ( this.myMeta.gridConfig.others.sortersSet  ) {
-            addSorters( this.myMeta.gridConfig.others.sortersSet )
-        }
-
-        if ( this.myMeta.custom.sortersSet ) {
-            addSorters( this.myMeta.custom.sortersSet )
-        }
 
         if ( mySortersSet.length > 0  ) {
 

@@ -76,7 +76,10 @@ def setFieldDict(protoFields ,  field ):
 #        else:
 #            setFieldProperty(  pField, 'defaultValue', '' , field, 'default', ''  )
 
-
+    # Comportamiento en la grilla por defecto 
+    pField['searchable'] = True   
+    pField['sortable'] = True   
+    
     if  field.choices:
         pField['vType'] = 'combo'
         pField['choices'] = field.choices  
@@ -87,11 +90,14 @@ def setFieldDict(protoFields ,  field ):
     elif field.__class__.__name__ == 'JSONField':
         pField['type'] = 'text'    
         pField['readOnly'] = True   
-        pField['searchable'] = True   
+        pField['sortable'] = False   
 
     elif field.__class__.__name__ == 'ManyToManyField':
         tmpModel = field.rel.through._meta
         relModel =  field.related.parent_model._meta
+
+        pField['searchable'] = False    
+        pField['sortable'] = False 
 
         pField['vType'] = 'protoN2N'
         pField['conceptDetail'] = tmpModel.app_label + '.' + tmpModel.object_name 
@@ -101,9 +107,11 @@ def setFieldDict(protoFields ,  field ):
         
 
     elif  field.__class__.__name__ == 'ForeignKey':
+
 #       Verificado ( q pasa cuando existen dos ref al mismo maestro )  
         pField['fkId'] = field.attname                              # Campo q contiene el ID 
-        
+        pField['searchable'] = False    
+
         # Nombre del modelo referenciado
         pField['zoomModel'] = field.rel.to._meta.app_label + '.' + field.rel.to.__name__                   
         
@@ -121,6 +129,9 @@ def setFieldDict(protoFields ,  field ):
         pField['type'] = 'autofield'    
         pField['readOnly'] = True   
         pField['required'] = False    
+
+        pField['searchable'] = False    
+        pField['sortable'] = False 
     
     #Lo retorna al diccionario
     tmpModel = field.model._meta

@@ -11,20 +11,16 @@ Ext.define('ProtoUL.UI.MDSetTabsController', {
         var myTabs = []  
         var __MasterDetail = this.__MasterDetail
 
-        if ( this.myMeta.gridConfig.listDisplaySet  || this.myMeta.custom.listDisplaySet ) {
+        var tmpTabs = this.myMeta.gridConfig.others.listDisplaySet.concat( this.myMeta.custom.listDisplaySet ) 
+
+        if ( tmpTabs.length > 0 ) {
             addTabs( [ {
                 'name' : 'Default', 
                 'icon' : 'colSetIcon', 
                 'listDisplay' :  this.myMeta.gridConfig.listDisplay
                 } ] )
-        }
-
-        if ( this.myMeta.gridConfig.listDisplaySet  ) {
-            addTabs( this.myMeta.gridConfig.listDisplaySet )
-        }
-
-        if ( this.myMeta.custom.listDisplaySet ) {
-            addTabs( this.myMeta.custom.listDisplaySet )
+                
+            addTabs( tmpTabs )                
         }
 
 

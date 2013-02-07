@@ -386,14 +386,19 @@ function getSafeMeta( myMeta ) {
     var safeMeta = { 
         "protoOption"  : myMeta.protoOption,      
         "protoConcept" : myMeta.protoConcept,      
-        "pciStyle"     : myMeta.pciStyle, 
+        "protoView"    : myMeta.protoConcept || myMeta.protoConcept,      
         "jsonField"    : myMeta.jsonField || ''  ,      
-        "sql"          : myMeta.sql,
+        // "pciStyle"     : myMeta.pciStyle, 
+        // "sql"          : myMeta.sql,
         "idProperty"   : myMeta.idProperty,
         "gridConfig"   : {
             "searchFields": clone( myMeta.gridConfig.searchFields  )
         },
-        "fields": clone( myMeta.fields, 0, [],  [ 'name', 'type', 'fromModel', 'cpFromField', 'cpFromModel'] ),
+        "fields": clone( myMeta.fields, 0, [],  [ 
+            'name', 'type', 
+            'zoomModel', 'fkId', 
+            'fromModel', 'cpFromField', 'cpFromModel'
+            ] ),
         "protoUdp": clone( myMeta.protoUdp )  
     } 
         

@@ -167,8 +167,8 @@ _MetaObjects =  {
         "properties": [
             "protoOption", 
             "protoConcept" ,
+            "protoView" ,
              
-            "protoModel" , 
             "description" ,
             "shortTitle" ,
             "protoSheetSelector",
