@@ -145,6 +145,13 @@ class Property(PropertyBase):
     """isForeign: indica si la propiedad ha sido definida en  Relationship"""
     isForeign = models.BooleanField( editable = False, default = False )
 
+    """fromModel: indica a q modelo pertence (absorber JsonFields)"""
+    fromModel = models.CharField( blank = True, null = True, max_length=200)
+
+    """cpFrom____ : permite definir como heredar campos complejos (absorber JsonFields)"""
+    cpFromModel = models.CharField( blank = True, null = True, max_length=200)
+    cpFromField = models.CharField( blank = True, null = True, max_length=200)
+
     class Meta:
         unique_together = ('entity', 'code',  )
 
