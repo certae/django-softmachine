@@ -33,8 +33,8 @@ Ext.application({
         'ProtoUL.view.ProtoTabContainer',          'ProtoUL.view.Viewport',
 
         'ProtoUL.ux.Printer',
-        'ProtoUL.ux.GridHeaderToolTip',
-        'ProtoUL.ux.GridCheckColumn' 
+        'ProtoUL.ux.GridHeaderToolTip', 
+        'ProtoUL.ux.CheckColumn' 
     ],
 
 

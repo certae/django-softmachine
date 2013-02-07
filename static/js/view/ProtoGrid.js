@@ -171,6 +171,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                     // Manejo de rows y cells  
                    
                     listeners: {
+
+
                         cellclick: function (view, cell, cellIndex, record, row, rowIndex, e) {
                             // Esto maneja los vinculos en los campos 
                             var linkClicked = (e.target.tagName == 'A');
@@ -310,10 +312,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 //{ "dblClick":"{ fn: function(){ Ext.Msg.alert('','hola') } } " ,"Prueba" : ""  }
                 //para cargar un js desde el codigo del evento:
                 // var scrpt = document.createElement('script'); scrpt.src='../../static/aplications/GIS/factura_dblclick.js'; document.head.appendChild(scrpt);
-                eval(me.myMeta.businessRulesText["dblClick"]);
-                var event = Ext.decode(me.myMeta.businessRulesText["dblClick"]);
-                event.fn();
-
+                // eval(me.myMeta.businessRulesText["dblClick"]);
+                // var event = Ext.decode(me.myMeta.businessRulesText["dblClick"]);
+                // event.fn();
 
                 me.fireEvent('rowDblClick', record, rowIndex  );
             }, scope: me }, 

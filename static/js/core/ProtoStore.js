@@ -422,8 +422,8 @@ function getColDefinition( vFld ) {
             text: vFld.header 
     }
 
-    // TODO: La propiedad EditMode debe ser reemplazada por readOnly ( negado )
-    var lstProps = ['flex',  'width', 'minWidth', 'sortable',
+    // Propiedades q seran copiadas a las columnas de la grilla 
+    var lstProps = ['flex',  'width', 'minWidth', 'sortable', 
                     'hidden',  
                     'xtype',  'readOnly', 
                     'render', 'align', 'format', 'tooltip'
@@ -432,7 +432,7 @@ function getColDefinition( vFld ) {
     colDefinition = copyProps ( colDefinition,  vFld, true, lstProps )
 
     
-    // Copia las propiedades de base 
+    // Copia las propiedades de base al editor 
     var lstProps = [
         'defaultValue', 
     
@@ -541,8 +541,10 @@ function getColDefinition( vFld ) {
         break;
           
     case 'bool':
-        colDefinition['xtype'] = 'checkcolumnreadonly'      
+        // colDefinition['xtype'] = 'checkcolumnreadonly'      
+        colDefinition['xtype'] = 'checkcolumn'      
         colDefinition['editable'] = false 
+        colDefinition['inGrid'] = true  
 
         editor.xtype = 'checkbox'
         // editor.cls = 'x-grid-checkheader-editor'
@@ -581,18 +583,20 @@ function getColDefinition( vFld ) {
 
 
     // Ancho minimo 
-    if ( ! colDefinition.minWidth  ) { colDefinition.minWidth = 100 }
+    if ( ! colDefinition.minWidth  ) { colDefinition.minWidth = 70 }
     
     
     
     // verificacion de xtype  
     switch( colDefinition.xtype  ){
-    case 'checkcolumnreadonly':
+    // case 'checkcolumnreadonly':
+    case 'checkcolumn':
     case 'datecolumn':
     case 'numbercolumn' : 
         break; 
     case 'checkbox': 
-        colDefinition.xtype = 'checkcolumnreadonly'
+        // colDefinition.xtype = 'checkcolumnreadonly'
+        colDefinition.xtype = 'checkcolumn'
         break; 
     case 'datefield':  
         colDefinition.xtype = 'datecolumn'
@@ -607,7 +611,7 @@ function getColDefinition( vFld ) {
 
     // Asigna las coleccoiones de presentacion
     // El foreignid puede ser editable directamente, 
-    if ((  vFld.type == 'autofield' ) || vFld.readOnly  ) 
+    if (((  vFld.type == 'autofield' ) || vFld.readOnly  ) && ( vFld.type != 'bool'  ))  
          colDefinition.renderer = cellReadOnly
     else  colDefinition['editor'] = editor; 
 
@@ -626,8 +630,8 @@ function getColDefinition( vFld ) {
         if ( vFld.vType == 'stopLight' ) colDefinition.renderer = cellStopLight
     } 
 
-    // TODO: Asignar un sortable por defecto 
-    // if ( (!'sortable' in colDefinition) && ?? ) {  colDefinition['sortable']  = true }
+    // sortable por defecto 
+    if ( ! colDefinition.sortable  ) {  colDefinition['sortable']  = false }
 
 
     return colDefinition; 
