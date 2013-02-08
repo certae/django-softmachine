@@ -3,6 +3,7 @@
 from utilsBase import _PROTOFN_ , verifyStr
 from django.db.models.fields import NOT_PROVIDED
 
+
 # Equivalencia de tipos 
 TypeEquivalence = { 
         'BooleanField'      :'bool',
@@ -81,8 +82,13 @@ def setFieldDict(protoFields ,  field ):
     pField['sortable'] = True   
     
     if  field.choices:
-        pField['vType'] = 'combo'
-        pField['choices'] = field.choices  
+        pField['type'] = 'combo'
+
+        cbChoices = []        
+        for opt in field.choices:
+            cbChoices.append( opt[0] )
+        
+        pField['choices'] = ','.join( cbChoices )  
 
     elif field.__class__.__name__ == 'TextField':
         pField['vType'] = 'plainText' # 'htmlText'
@@ -135,7 +141,10 @@ def setFieldDict(protoFields ,  field ):
     
     #Lo retorna al diccionario
     tmpModel = field.model._meta
-    pField['fromModel'] = tmpModel.app_label + '.' + tmpModel.object_name 
+    
+    # Ahora se usa el cpFromModel,  si este campo contiene algo, no se evalua en el modelo 
+    # solo se evaluan los q contienen el nombre de un campo Zoom  
+    #pField['FromModel'] = tmpModel.app_label + '.' + tmpModel.object_name 
     protoFields[ pField['name'] ] = pField 
 
 

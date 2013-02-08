@@ -144,9 +144,10 @@ Ext.define('ProtoUL.UI.FormController', {
     }, 
     
 
-    openProtoForm: function ( myZoomModel, myRecordId  )   {
+    openProtoForm: function ( myZoomModel, myRecordId , bEditable )   {
 
         this.protoOption = myZoomModel
+        this.isReadOnly  = ! bEditable  
 
         if ( ! myRecordId ) {
             errorMessage( 'LinkedForm Error : ' +  myZoomModel, 'not fkId field definition found' )
@@ -212,7 +213,7 @@ Ext.define('ProtoUL.UI.FormController', {
                     if ( this.myWin ) return 
     
                     // The form is now linked to  store  
-                    this.openLinkedForm( records[0], true  )
+                    this.openLinkedForm( records[0], this.isReadOnly   )
                 }, 
                 scope: this }
             )
@@ -288,17 +289,6 @@ Ext.define('ProtoUL.UI.FormController', {
                             prLayout[ 'readOnlyCls' ] = 'protoLink'                        } else if (  prLayout[ 'xtype' ] == 'checkbox' ) {
                         } else {
                             prLayout[ 'readOnlyCls' ] = 'protofield-readonly' 
-                        }
-
-                        // Aqui se parametrizan los tiposespecificos 
-                        if (  prLayout[ 'xtype' ] == 'combobox' ) {
-                            
-                            var cbChoices = prLayout[ 'choices' ]
-                            if ( typeOf(cbChoices) == 'string') {
-                                cbChoices = cbChoices.split( ",")  
-                            }
-                            prLayout[ 'store' ] = cbChoices 
-                             
                         }
 
                         // N2N        

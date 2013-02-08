@@ -116,8 +116,8 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
         myZoomModel = lField.get( 'zoomModel', '')   
         if (len( myZoomModel ) > 0) and ( myZoomModel <> protoMeta['protoView']):
             # dos campos puede apuntar al mismo zoom, la llave es el campo, 
-            # "fromModel"  contiene el campo q apunta al zoom y no el modelo    
-            relModels[ fName ] = { 'zoomModel' : myZoomModel, 'fkId' : lField['fkId'] , 'loaded' : False }     
+            # "cpFromModel"  contiene el campo q apunta al zoom y no el modelo    
+            relModels[ fName ] = { 'zoomModel' : myZoomModel, 'fkId' : lField.get( 'fkId', '') , 'loaded' : False }     
 
 
     # recorre para borrar los zooms q no tienen referencias

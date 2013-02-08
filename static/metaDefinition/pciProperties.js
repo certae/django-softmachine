@@ -161,8 +161,6 @@ _MetaProperties =  {
     "cellLink.help": "Presenta contenido del campo como micro ayuda",
     "cellLink.type": "boolean",
 
-    "fromModel.help" : "Modelo al q pertenece",  
-    
     "xtype.help" : "Tipo de objeto en el frontEnd ( puede ser manipulado con el vType)",
     "xtype.choices": ["", "textfield", "combobox", "checkbox", "numberfield", "textarea", "datefield" ],
     
@@ -247,7 +245,7 @@ _MetaProperties =  {
     
     "actionParamType.help" : "Tipo de dato del parametro", 
     "actionParamType.choices" : [ "", "string", "bool", "number"], 
-    
+
     "cpFromField.help" : "Copia el contenido de un campo en otro, en el caso de zooms o valores por defecto",  
     "cpFromModel.help" : "Campo q apunta al modelo referenciado ( no apunta al zoom pues varios campos pueden usar el mismo zoom )" 
 

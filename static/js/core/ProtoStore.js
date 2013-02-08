@@ -341,10 +341,6 @@ function DefineProtoModel ( myMeta , modelClassName ){
             vFld.sortable = true 
         }
 
-        // fromModel ( compatibilidad )
-        if ( vFld.fromModel == true  )  { vFld.fromModel = vFld.protoConcept } 
-
-
         // Determina el xType y otros parametros 
         switch( vFld.type )
         {
@@ -557,7 +553,14 @@ function getColDefinition( vFld ) {
         editor.typeAhead = true
         editor.triggerAction = 'all'
         editor.selectOnTab = true
-        editor.store = vFld.choices
+        
+        // Lo normal es q venga como una lista de opciones ( string ) 
+        var cbChoices = vFld.choices
+        if ( typeOf(cbChoices) == 'string') {
+            cbChoices = cbChoices.split( ",")  
+        } else { cbChoices = [] }
+        
+        editor.store = cbChoices
         editor.lazyRender = true
         editor.listClass = 'x-combo-list-small'
         break;

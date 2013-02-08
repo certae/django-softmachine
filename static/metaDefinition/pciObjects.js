@@ -246,11 +246,7 @@ _MetaObjects =  {
             "zoomModel", 
             "zoomFilter", 
 
-
-            // modelo de origen del campo 
-            "fromModel",
-            
-            // hereda datos de otro campo ( ya se a de un zoom o del mismo rset ) 
+            // Definien como heredar datos de otro campo ( ya se a de un zoom o del mismo rset ) 
             "cpFromField", 
             "cpFromModel", 
                         
@@ -294,7 +290,6 @@ _MetaObjects =  {
             "zoomFilter", 
             "cellLink",
 
-            "fromModel", 
             "cpFromField", 
             "cpFromModel", 
             

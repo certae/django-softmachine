@@ -93,7 +93,6 @@ class Migration(SchemaMigration):
             ('isReadOnly', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('isEssential', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('isForeign', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('fromModel', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
             ('cpFromModel', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
             ('cpFromField', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
         ))
@@ -345,7 +344,6 @@ class Migration(SchemaMigration):
             'defaultValue': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'entity': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'propertySet'", 'to': "orm['prototype.Entity']"}),
-            'fromModel': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'isEssential': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'isForeign': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),

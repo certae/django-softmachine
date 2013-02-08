@@ -182,7 +182,7 @@ Ext.define('ProtoUL.view.Viewport', {
 
         if ( myMeta.pciStyle == 'form' ) {
             var formController = Ext.create('ProtoUL.UI.FormController', {});
-            formController.openProtoForm.call( formController, protoOption, -1  ) 
+            formController.openProtoForm.call( formController, protoOption, -1 , true  ) 
         } else {
             me.protoTabContainer.addTabPanel( protoOption );
         }                

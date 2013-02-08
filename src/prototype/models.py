@@ -91,12 +91,23 @@ class Entity(ProtoModel):
     } 
 
 
+BASE_TYPES = ( ( 'string', 'string' ),
+               ( 'text', 'text' ),  
+               ( 'bool', 'bool' ), 
+               ( 'int', 'int' ),
+               ( 'decimal', 'decimal' ), 
+               ( 'combo', 'combo' ),  
+               ( 'date',  'date' ),
+               ( 'datetime', 'datetime' ), 
+               ( 'time', 'time' )
+              ) 
+
 class PropertyBase(ProtoModel):
 
     code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
 
     """baseType, prpLength:  Caracteristicas generales q definen el campo """
-    baseType = models.CharField(verbose_name=u'Type de Base', blank = True, null = True, max_length=50)
+    baseType = models.CharField(verbose_name=u'Type de Base', blank = True, null = True, max_length=50, choices = BASE_TYPES)
     prpLength = models.DecimalField(blank = True, null = True, decimal_places =2 ,max_digits = 6)
 
     """defaultValue: Puede variar en cada instancia """ 
@@ -145,8 +156,6 @@ class Property(PropertyBase):
     """isForeign: indica si la propiedad ha sido definida en  Relationship"""
     isForeign = models.BooleanField( editable = False, default = False )
 
-    """fromModel: indica a q modelo pertence (absorber JsonFields)"""
-    fromModel = models.CharField( blank = True, null = True, max_length=200)
 
     """cpFrom____ : permite definir como heredar campos complejos (absorber JsonFields)"""
     cpFromModel = models.CharField( blank = True, null = True, max_length=200)
@@ -157,6 +166,7 @@ class Property(PropertyBase):
 
     def __unicode__(self):
         return self.entity.code + '.' +  self.code     
+
 
 
 class Relationship(Property):
@@ -185,6 +195,7 @@ class Relationship(Property):
         super(Relationship, self).save(*args, **kwargs) 
 
     protoExt = { 
+        # Propiedades de propertyBase q no se usan aqui.
         "exclude": [ "baseType","prpLength","defaultValue","propertyChoices"]
         }
 

@@ -73,7 +73,11 @@ def getProtoEntityDefinition( pEntity, viewName ):
             "readOnly": pProperty.isReadOnly,
             "required": pProperty.isRequired or not pProperty.isNullable ,
             "toolTip" : pProperty.description, 
-            "type"    : "string"
+
+            "cpFromModel" : pProperty.cpFromModel, 
+            "cpFromField" : pProperty.cpFromField, 
+            
+            "type"    : pProperty.baseType
         }
 
         # hace las veces de __str__ 
