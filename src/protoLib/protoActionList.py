@@ -134,7 +134,7 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
         relModel = relModels[ relName ] 
         if not relModel[ 'loaded']: del relModels[ relName ]  
     
-#   Esta forma permite agregar las funciones entre ellas el __unicode__
+    #   Esta forma permite agregar las funciones entre ellas el __unicode__
     rowId = 0 
     for rowData in pRows:
         rowId += 1
@@ -300,9 +300,21 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
     if sort:
         sort = json.loads(  sort ) 
         for sField in sort: 
-            # FIX:  Verificar que el campo de sort haga parte de los campos del modelo   
-            if sField['direction'] == 'DESC': sField['property'] = '-' + sField['property']  
-            orderBy.append( sField['property'] )
+
+            # Verificar que el campo de sort haga parte de los campos del modelo   
+            # blacklist = [f.name for f in instance._meta.fields] + ['id', 'user']
+            
+            # Unicode sort 
+            if sField['property'] == '__str__' : 
+                unicodeSort = getUnicodeFields( model ) 
+                for sAux in unicodeSort:
+                    if sField['direction'] == 'DESC': sAux = '-' + sAux
+                    orderBy.append( sAux )
+                    
+            else:
+                if sField['direction'] == 'DESC': sField['property'] = '-' + sField['property']
+                orderBy.append( sField['property'] )
+                
     orderBy = tuple( orderBy )
 
     try:
@@ -317,6 +329,13 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
     return Qs, orderBy, fakeId
 
 
+def getUnicodeFields( model ):
+    unicodeSort = () 
+    if hasattr( model , 'unicode_sort' ): 
+        unicodeSort = model.unicode_sort
+    else: unicodeSort = model._meta.unique_together
+    return unicodeSort 
+    
 
 def addQbeFilter( protoFilter, model, Qs, JsonField ):
 
@@ -326,43 +345,45 @@ def addQbeFilter( protoFilter, model, Qs, JsonField ):
 
     protoFilter =  json.loads(  protoFilter )
 
-    if len( protoFilter) == 1: 
-        QTmp = addQbeFilterStmt( protoFilter[0], model, JsonField )
-        QTmp = dict((x, y) for x, y in QTmp.children)
-        Qs = Qs.filter( **QTmp  )
+    for sFilter in protoFilter: 
+        
+        if sFilter[ 'property' ] == '_allCols':
+            # debe descomponer la busqueda usando el objeto Q 
+            QTmp = getTextSearch( sFilter, model, JsonField  )
+            if QTmp is None:  QTmp = models.Q()
 
-    else:     
-        QStmt = None 
+            try:
+                Qs = Qs.filter( QTmp  )
+            except:
+                traceback.print_exc()
+
+        else: 
+            # Los campos simples se filtran directamente, se require para el JSonField 
+            QTmp = addQbeFilterStmt( sFilter, model, JsonField )
+            QTmp = dict((x, y) for x, y in QTmp.children)
+            try:
+                Qs = Qs.filter( **QTmp  )
+            except:
+                traceback.print_exc()
     
-        for sFilter in protoFilter: 
-            
-            if sFilter[ 'property' ] == '_allCols':
-                QTmp = getTextSearch( sFilter, model  )
-            
-            else: 
-                QTmp = addQbeFilterStmt( sFilter, model, JsonField )
-    
-            if QStmt is None:  QStmt = QTmp
-            else: QStmt = QStmt & QTmp 
-    
-        if QStmt is None:  QStmt = models.Q()
-    
-        try:
-            Qs = Qs.filter( QStmt  )
-        except:
-            traceback.print_exc()
-            return Qs 
 
     return Qs
 
 
 
 def addQbeFilterStmt( sFilter, model, JsonField ):
-
+    """ Verifica casos especiales y obtiene el QStmt 
+        retorna un objeto Q
+    """
     fieldName  =  sFilter['property']
     
     if fieldName.endswith('__pk') or fieldName.endswith('_id') or fieldName == 'pk': 
+        # Los id por ahora son numericos 
         sType = 'int' 
+
+    elif fieldName == '__str__': 
+        # El campo especial __str__ debe ser descompuesto en los seachFields en forma explicita  
+        return Q()
 
     elif fieldName.startswith( JsonField + '__'): 
         sType = 'string'
@@ -379,7 +400,8 @@ def addQbeFilterStmt( sFilter, model, JsonField ):
     
     return QStmt 
 
-def getTextSearch( sFilter, model ):        
+
+def getTextSearch( sFilter, model , JsonField):        
 
     #   Busqueda Textual ( no viene con ningun tipo de formato solo el texto a buscar
     #   Si no trae nada deja el Qs con el filtro de base
@@ -394,7 +416,7 @@ def getTextSearch( sFilter, model ):
     pSearchFields = getSearcheableFields( model  )
     for fName  in pSearchFields:
 
-        QTmp = addQbeFilterStmt( {'property': fName, 'filterStmt': sFilter['filterStmt'] }  , model )
+        QTmp = addQbeFilterStmt( {'property': fName, 'filterStmt': sFilter['filterStmt'] } , model, JsonField )
 
         if QStmt is None:  QStmt = QTmp
         else: QStmt = QStmt | QTmp 

@@ -352,9 +352,9 @@ def setDefaultField ( fdict, model, protoOption ):
     fdict['header'] = model._meta.verbose_name.title() 
     fdict['type'] =  'string'   
     fdict['readOnly']  = True        
+    fdict['sortable']  = True        
     fdict['flex']      = 1        
     fdict['cellLink']  = True 
-#   fdict['zoomModel'] = model._meta.app_label + '.' + model._meta.object_name
     fdict['zoomModel'] = protoOption
     fdict['fkId']      =  'id'  
 

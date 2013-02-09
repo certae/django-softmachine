@@ -94,7 +94,7 @@ def getQbeStmt( fieldName ,  sQBE, sType   ):
                 bAndConector = True 
                 sCondicion = sCondicion[1:]
             
-            Qtmp = getQbeStmt(fieldName, sType, sCondicion)
+            Qtmp = getQbeStmt(fieldName, sCondicion, sType)
             if bAndConector: 
                 QResult = QResult & Qtmp 
             else: 

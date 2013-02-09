@@ -180,13 +180,24 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                             if (linkClicked && clickedDataIndex ) {
                                 
                                 var myZField = me.myFieldDict[ clickedDataIndex ] 
-                                if ( myZField &&  myZField.zoomModel && myZField.fkId ) {
-                                    var formController = Ext.create('ProtoUL.UI.FormController', {});
+                                if ( ! myZField ) { return }
+                                if (  myZField.zoomModel && myZField.fkId ) {
                                     
-                                    // Redefine el scope  
-                                    formController.openProtoForm.call( formController, myZField.zoomModel , record.get( myZField.fkId ) , me.editable )
+                                    if (( myZField.zoomModel == me.myMeta.protoConcept ) && ( myZField.fkId = me.myMeta.idProperty )) {
+                                        // Si es el mismo registro lo llama como un upd 
+                                        // xxx.call Redefine el scope  
+                                        var formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });
+                                        formController.openLinkedForm.call( formController, me.selected , ! me.editable    )
+
+                                    } else {
+                                        // es un vinculo a otro objeto 
+                                        var formController = Ext.create('ProtoUL.UI.FormController', {});
+                                        formController.openProtoForm.call( formController, myZField.zoomModel , record.get( myZField.fkId ) , false )
+                                    }
+                                    
+                                    
     
-                                } else if ( myZField &&  ( myZField.zoomModel == '@cellValue')) {
+                                } else if ( myZField.zoomModel == '@cellValue' ) {
                                     // Podria usarse con @FieldName para indicar de donde tomar el modelo o la funcion  
     
                                     var pModel  =  record.get( myZField.name ) 

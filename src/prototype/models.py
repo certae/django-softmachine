@@ -32,6 +32,8 @@ class Model(ProtoModel):
 
     class Meta:
         unique_together = ('domain', 'code',  )
+        
+    unicode_sort = ('domain', 'code',  )
 
     def __unicode__(self):
         return self.code 
@@ -54,6 +56,8 @@ class Entity(ProtoModel):
 
     def __unicode__(self):
         return self.model.code + '.' + self.code 
+
+    unicode_sort = ('domain', 'code',  )
 
     class Meta:
         unique_together = ('model', 'code',  )
@@ -167,6 +171,7 @@ class Property(PropertyBase):
     def __unicode__(self):
         return self.entity.code + '.' +  self.code     
 
+    unicode_sort = ('entity', 'code',  )
 
 
 class Relationship(Property):

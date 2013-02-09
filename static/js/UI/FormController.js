@@ -26,10 +26,6 @@ Ext.define('ProtoUL.UI.FormController', {
     myWidth : 620, 
     myHeight : 460, 
 
-    // initComponent: function() {
-        // this.callParent(arguments);
-    // }, 
-
     constructor: function (config) {
         Ext.apply(this, config || {});
     },
@@ -176,9 +172,11 @@ Ext.define('ProtoUL.UI.FormController', {
                 this._openAndLoad( this.protoOption, myRecordId )
         }
 
+
     }, 
 
-    _openAndLoad: function ( protoOption, myRecordId ) { 
+
+    _openAndLoad: function( protoOption, myRecordId ) { 
 
         this.myMeta = _cllPCI[ protoOption ] ;
         this.formLoaded = true;
@@ -187,7 +185,7 @@ Ext.define('ProtoUL.UI.FormController', {
     }, 
     
         
-    _loadFormData: function ( myRecordId ) {
+    _loadFormData: function( myRecordId ) {
 
         if ( ! this.formLoaded ) {
             console.log( 'FormController:  Form is not ready')
@@ -217,15 +215,11 @@ Ext.define('ProtoUL.UI.FormController', {
                 }, 
                 scope: this }
             )
-
         } else  {
-
             var myRecord = getNewRecord( this.myMeta, myStore );
             this.openForm( myRecord )
-
         } 
-         
-    }, 
+    },  
     
 
     defineFormLayout: function( ){
