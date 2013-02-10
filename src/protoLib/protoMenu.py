@@ -11,7 +11,7 @@ from django.http import HttpResponse
 
 import django.utils.simplejson as json
 
-from models import getDjangoModel, ProtoDefinition
+from models import getDjangoModel, ProtoDefinition, CustomDefinition  
 
 class cAux: pass 
 
@@ -86,12 +86,13 @@ def protoGetMenuData(request):
 
     else:
 
+        for model, model_admin in site._registry.items():
+            protoAdmin = getattr(model_admin, 'protoExt', {}) 
+            menuNode = model._meta.object_name
+            getMenuItem( protoAdmin, model, menuNode )
+
 #        Esto era para cargar vistas definidas como opciones adicionales en el admin  
-#        for model, model_admin in site._registry.items():
-#            protoAdmin = getattr(model_admin, 'protoExt', {}) 
 #            protoViews = protoAdmin.get( 'protoViews' )
-#            menuNode = model._meta.object_name
-#            getMenuItem( protoAdmin, model, menuNode )
 #            if protoViews: 
 #                # si existen vistas,  carga una opcion de menu para cada una             
 #                for view in protoViews: 
@@ -107,6 +108,36 @@ def protoGetMenuData(request):
         for app in app_list:
             app['children'].sort(key=lambda x: x['index'])
 
+
+        # lee las opciones del prototipo 
+        userProfile = request.user.get_profile()
+        
+        protoOpts = CustomDefinition.objects.filter( code__startswith = 'prototype.ProtoTable.', owningHierachy = userProfile.userHierarchy )
+        ix = 0 
+        for option in protoOpts:
+
+            if ix == 0 :
+                prNodes = {
+                    'id': 'prototype.auto.nodes' ,
+                    'text': 'ProtoOptions' ,
+                    'index': 1000 ,
+                    'children': [],
+                    'leaf': False 
+                }
+                app_list.append( prNodes )
+
+            nodeName = option.code.replace( 'prototype.ProtoTable.', '')
+            
+            prNodes['children'].append( {
+                'text':  nodeName,
+                'expanded': True ,
+                'index': 'prOtoTyPe.' + option.code,
+                'leaf': True 
+                 })
+
+            ix += 1 
+
+        # decodifica en string 
         context = json.dumps( app_list ) 
 
         # Lo guarda  ( created : true  --> new
@@ -117,5 +148,4 @@ def protoGetMenuData(request):
     
 
     return HttpResponse( context, mimetype="application/json")
-
 
