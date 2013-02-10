@@ -25,11 +25,16 @@ def doModelPrototype( modeladmin, request, queryset ):
     if queryset.count() == 0:
         return 'No record selected' 
 
+#   Mensaje de retorno
+    returnMsg = '' 
+
 #   Recorre los registros selccionados   
     for pModel in queryset:
-        getEntities( pModel.entity_set.all() , request  )
-        
-    
+        returnTmp = getEntities( pModel.entity_set.all() , request  )
+        returnMsg += 'Model : ' + pModel.code + ' Entts: ' + returnTmp + '; '    
+
+    return returnMsg
+
 doModelPrototype.short_description = "Create prototypes for the model"
 
 # --------------------------------------------------------------------------------
@@ -37,9 +42,11 @@ doModelPrototype.short_description = "Create prototypes for the model"
 def getEntities( queryset , request ):
 
     userProfile  = request.user.get_profile()   
+    returnMsg = '' 
 
 #   Recorre los registros selccionados   
     for pEntity in queryset:
+        returnMsg += pEntity.code  + ','    
         infoEntity  = getProtoEntityDefinition ( pEntity, '' )
         protoOption = infoEntity[ 'protoOption' ]
         
@@ -57,6 +64,8 @@ def getEntities( queryset , request ):
         setSecurityInfo( rec, {}, userProfile, created   )
         rec.save()
 
+    return returnMsg
+
 
 def getProtoEntityDefinition( pEntity, viewName ):
     
@@ -71,14 +80,16 @@ def getProtoEntityDefinition( pEntity, viewName ):
             "name"    : fName,
             "header"  : pProperty.code ,
             "readOnly": pProperty.isReadOnly,
-            "required": pProperty.isRequired or not pProperty.isNullable ,
-            "toolTip" : pProperty.description, 
-
-            "cpFromModel" : pProperty.cpFromModel, 
-            "cpFromField" : pProperty.cpFromField, 
-            
-            "type"    : pProperty.baseType
+            "required": pProperty.isRequired or not pProperty.isNullable,
+            "toolTip" : pProperty.description or '', 
+            "type"    : pProperty.baseType or 'string'
         }
+
+        # Si es un campo heredado 
+        if len( pProperty.cpFromModel or '' ) > 0 and len( pProperty.cpFromField or '' ) > 0 :  
+            field["cpFromModel"] = pProperty.cpFromModel  
+            field["cpFromField"] = pProperty.cpFromField  
+            del field[ "required" ]
 
         # hace las veces de __str__ 
         if pProperty.isUnique:

@@ -272,6 +272,21 @@ Ext.define('ProtoUL.ux.StatusBar', {
         }
     }, 
 
+    showMessage: function ( text, origin, clear ) {
+
+        var o = {  text: origin + ' ' + text, iconCls: this.iconCls };
+        
+        if( clear ) { 
+            Ext.defer(function(){
+                this.clearStatus({useDefaults:true});
+            }, clear, this);
+        }
+
+        return this.setStatus(o)
+
+    }, 
+
+
     showError: function ( text, origin  ) {
 
         console.log( 'error :' + origin  ,  text )

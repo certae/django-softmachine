@@ -54,10 +54,16 @@ Ext.define('ProtoUL.UI.MDActionsController', {
             var options = {
                 scope : me,
                 success : function(result, request) {
-                    console.log( '@@@@@@@' + result )
+                    var myResult = Ext.decode( result.responseText );
+                    __StBar.showMessage( btn.actionName + ' ' +  myResult.message , 'MDActionsController', 3000 )
+                }, 
+                failure: function(result, request) {
+                    __StBar.showError( btn.actionName + ' ' +  result.statusText , 'MDActionsController' )
+
                 }
             }
             
+            __StBar.showMessage( 'executing  ' + btn.actionName + '...', 'MDActionsController' )
             doProtoActions( pGrid.protoOption, btn.actionName , selectedKeys , options  )
             
         };

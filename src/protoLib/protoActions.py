@@ -14,7 +14,7 @@ def protoExecuteAction(request):
     """
 
     if request.method != 'POST':
-        return doReturn ({'success':False ,'error' : 'PostAction required'})
+        return doReturn ({'success':False ,'message' : 'PostAction required'})
 
     actionName   = request.POST.get('actionName', '') 
     
@@ -29,32 +29,29 @@ def protoExecuteAction(request):
         model = getDjangoModel(protoConcept)
         modelAdmin = site._registry.get( model )
     except Exception as e:
-        return doReturn ({'success':False, 'error' : 'Model notFound'}) 
+        return doReturn ({'success':False, 'message' : 'Model notFound'}) 
 
     for action in modelAdmin.actions: 
         if action.__name__ == actionName: break; 
         
     if not action: 
-        return doReturn ({'success':False, 'error' : 'Action notFound'}) 
+        return doReturn ({'success':False, 'message' : 'Action notFound'}) 
 
     
     # hace el QSet de los registros seleccionados
     if selectedKeys.__len__() == 0:
-        return doReturn ({'success':False, 'error' : 'No record selected'}) 
+        return doReturn ({'success':False, 'message' : 'No record selected'}) 
     
-    pFilter = { 'pk__in' : selectedKeys }
-         
     Qs = model.objects.select_related(depth=1)
-    Qs = addFilter( Qs, pFilter   )
+    Qs = Qs.filter( pk__in = selectedKeys  )
 
+    try:
+        returnMsg  = action( modelAdmin, request, Qs )
+        return doReturn ({'success':True, 'message' : returnMsg }) 
 
-    try:        
-        action( modelAdmin, request, Qs )
     except Exception as e:
-        return doReturn ({'success':False, 'error' : str( e ) }) 
+        return doReturn ({'success':False, 'message' : str( e ) }) 
         
-    
-    return doReturn ({'success':True }) 
 
 
 def doReturn( jsonDict ):
