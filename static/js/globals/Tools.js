@@ -385,7 +385,7 @@ function getSafeMeta( myMeta ) {
         "fields": clone( myMeta.fields, 0, [],  [ 
             'name', 'type', 
             'zoomModel', 'fkId', 
-            'cpFromField', 'cpFromModel'
+            'crudType', 'cpFromField', 'cpFromModel'
             ] ),
         "protoUdp": clone( myMeta.protoUdp )  
     } 

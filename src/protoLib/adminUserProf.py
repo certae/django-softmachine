@@ -36,10 +36,10 @@ class usrProfileAdmin(django.contrib.admin.ModelAdmin):
         "type": "string"
     }, {
         "__ptType": "field",
-        "fkField": "userHierarchy",
+        "fkField": "userGroup",
         "hidden": True,
         "type": "foreignid",
-        "name": "userHierarchy_id",
+        "name": "userGroup_id",
         "readOnly": True
     }, {
         "__ptType": "field",
@@ -61,9 +61,9 @@ class usrProfileAdmin(django.contrib.admin.ModelAdmin):
     }, {
         "__ptType": "field",
         "zoomModel": "protoLib.OrganisationTree",
-        "name": "userHierarchy",
-        "fkId": "userHierarchy_id",
-        "header": "userHierarchy",
+        "name": "userGroup",
+        "fkId": "userGroup_id",
+        "header": "userGroup",
         
         "type": "foreigntext"
     }],
@@ -79,7 +79,7 @@ class usrProfileAdmin(django.contrib.admin.ModelAdmin):
     "protoSheets": [],
     "gridConfig": {
         "__ptType": "gridConfig",
-        "listDisplay": ["user", "userHierarchy"],
+        "listDisplay": ["user", "userGroup"],
         "baseFilter": [],
         "initialFilter": [],
         "initialSort": [],
@@ -108,7 +108,7 @@ class usrProfileAdmin(django.contrib.admin.ModelAdmin):
             "fsLayout": "2col",
             "items": [{
                 "__ptType": "formField",
-                "name": "userHierarchy"
+                "name": "userGroup"
             }]
         }, {
             "__ptType": "fieldset",

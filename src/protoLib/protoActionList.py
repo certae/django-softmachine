@@ -10,6 +10,8 @@ from django.db.models import Q
 from protoQbe import construct_search, addFilter, getSearcheableFields, getQbeStmt
 from utilsBase import JSONEncoder, getReadableError 
 from utilsBase import _PROTOFN_ , verifyStr   
+from utilsConvert import getTypedValue
+
 from protoUdp import verifyUdpDefinition, readUdps 
 from protoField import TypeEquivalence
 from models import getDjangoModel 
@@ -148,6 +150,7 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
         # recorre los campos para obtener su valor 
         for lField  in protoMeta['fields']:
             fName = lField['name']
+            if lField.get( 'crudType' ) == "screenOnly" : continue 
 
             # UDP Se evaluan despues 
             if cUDP.udpTable and fName.startswith( cUDP.propertyPrefix + '__'): 
@@ -165,7 +168,7 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
             elif bCopyFromFld and isAbsorbedField( lField, protoMeta  ) :
                 continue 
             
-            rowdict[ fName ] = getFieldValue( fName, rowData, JsonField )
+            rowdict[ fName ] = getFieldValue( fName, lField[ 'type'], rowData, JsonField )
         
         if cUDP.udpTable:
             # rowDict : se actualizara con los datos de la UDP
@@ -269,7 +272,7 @@ def copyValuesFromFields( protoMeta, rowdict, relModels, JsonField):
             rowData = relModel['rowData']
             if rowData is not None  : 
                 # interpreta los datos del registro 
-                val  =  getFieldValue( cpFromField, rowData  , JsonField )
+                val  =  getFieldValue( cpFromField, lField[ 'type'], rowData  , JsonField )
             else: val = 'pt??'
              
         rowdict[ fName ] = val 
@@ -307,8 +310,8 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
 
 #   Filtros por seguridad ( debe ser siempre a nivel de grupo ) 
     if isProtoModel and not pUser.is_superuser:  
-#       Qs = Qs.filter( Q( owningHierachy__in = userNodes ) | Q( owningUser = pUser  ) )
-        Qs = Qs.filter( owningHierachy__in = userNodes ) 
+#       Qs = Qs.filter( Q( smOwningGroup__in = userNodes ) | Q( smOwningUser = pUser  ) )
+        Qs = Qs.filter( smOwningGroup__in = userNodes ) 
 
 #   TODO: Agregar solomente los campos definidos en el safeMeta  ( only,  o defer ) 
 #   Qs.query.select_fields = [f1, f2, .... ]     
@@ -449,7 +452,7 @@ def getTextSearch( sFilter, model , JsonField):
     return QStmt 
 
 
-def getFieldValue( fName, rowData, JsonField ):
+def getFieldValue( fName, fType, rowData, JsonField ):
 
     #Es una funcion 
     if ( fName  == '__str__'   ):
@@ -471,11 +474,9 @@ def getFieldValue( fName, rowData, JsonField ):
         # JSon fields 
         try: 
             val = rowData.__getattribute__( JsonField  ) 
-            if isinstance(val, dict):
-                val = val.get( fName[ len( JsonField + '__'):] , '')
-                # Solo para guardar estructuras de varios nivels   
-                #if isinstance(val, dict):
-                #    val = json.dumps( val , cls=JSONEncoder )
+            val = val.get( fName[ len( JsonField + '__'):] )
+            val = getTypedValue( val, fType )
+            
         except: val = ''
 
     elif ( _PROTOFN_ in fName ):

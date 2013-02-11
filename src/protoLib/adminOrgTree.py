@@ -87,17 +87,17 @@ class orgTreeAdmin(django.contrib.admin.ModelAdmin):
         "masterField": "pk"
     }, {
         "__ptType": "protoDetail",
-        "menuText": "Userprofile.userHierarchy",
+        "menuText": "Userprofile.userGroup",
         "conceptDetail": "protoLib.UserProfile",
-        "detailName": "userHierarchy",
-        "detailField": "userHierarchy__pk",
+        "detailName": "userGroup",
+        "detailField": "userGroup__pk",
         "masterField": "pk"
     }, {
         "__ptType": "protoDetail",
-        "menuText": "Domain.owningHierachy",
+        "menuText": "Domain.smOwningGroup",
         "conceptDetail": "protoDict.Domain",
-        "detailName": "owningHierachy",
-        "detailField": "owningHierachy__pk",
+        "detailName": "smOwningGroup",
+        "detailField": "smOwningGroup__pk",
         "masterField": "pk"
     }],
     "protoSheets": [],

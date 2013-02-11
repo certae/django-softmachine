@@ -53,7 +53,7 @@ class UserProfile(models.Model):
 #Es necesario inlcuir el ususario en un BUnit, cada registro copiara el Bunit 
 #del usuario para dar permisos tambien a la jerarquia ( ascendente )
     user = models.ForeignKey(User, unique=True)
-    userHierarchy = models.ForeignKey( OrganisationTree, blank = True, null = True )
+    userGroup = models.ForeignKey( OrganisationTree, blank = True, null = True )
     userTree  = models.CharField( blank = True, null = True, max_length= 500 )
     def __unicode__(self):
         return  self.user.username 
@@ -70,24 +70,24 @@ post_save.connect(user_post_save, sender=User)
 class UserShare(models.Model):  
     # si el usuairo comparte otros permisos  
     user = models.ForeignKey( User )
-    userHierarchy = models.ForeignKey( OrganisationTree , related_name='userShares' )
+    userGroup = models.ForeignKey( OrganisationTree , related_name='userShares' )
 
     def __unicode__(self):
-        return self.user.username + '-' + self.userHierarchy.code 
+        return self.user.username + '-' + self.userGroup.code 
 
 
-#Tabla modelo para la creacion de entidades de usuario     
+#Tabla modelo para la creacion de entidades de usuario     ( sm  security mark ) 
 #related_name="%(app_label)s_%(class)s
 class ProtoModel(models.Model):
-    owningUser = models.ForeignKey( User, null = True, blank=True, related_name='+', editable = False )
-    owningHierachy = models.ForeignKey( OrganisationTree, null = True, blank=True, related_name='+', editable = False)
+    smOwningUser = models.ForeignKey( User, null = True, blank=True, related_name='+', editable = False )
+    smOwningGroup = models.ForeignKey( OrganisationTree, null = True, blank=True, related_name='+', editable = False)
 
-    createdBy = models.ForeignKey( User, null = True, blank=True,related_name='+', editable = False)
-    modifiedBy = models.ForeignKey( User, null = True, blank=True, related_name='+', editable = False)
-    wflowStatus =  models.CharField( max_length=50,  null = True, blank=True, editable = False)
-    regStatus =  models.CharField( max_length=50,  null = True, blank=True, editable = False)
-    createdOn = models.DateTimeField( auto_now=True , null = True, blank=True,editable = False)
-    modifiedOn = models.DateTimeField( auto_now=True , null = True, blank=True, editable = False)
+    smCreatedBy = models.ForeignKey( User, null = True, blank=True,related_name='+', editable = False)
+    smCreatedOn = models.DateTimeField( auto_now=True , null = True, blank=True,editable = False)
+    smModifiedBy = models.ForeignKey( User, null = True, blank=True, related_name='+', editable = False)
+    smModifiedOn = models.DateTimeField( auto_now=True , null = True, blank=True, editable = False)
+    smRegStatus  =  models.CharField( max_length=50,  null = True, blank=True, editable = False)
+    smWflowStatus =  models.CharField( max_length=50,  null = True, blank=True, editable = False)
 
     # Indicador para manejo de seguridad 
     _protoObj = True 

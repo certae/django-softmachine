@@ -28,6 +28,82 @@ def protoGetMenuData(request):
     appAux.ixApp = 1 
     appAux.ixMod = 1
 
+
+#-- Lectura de la Db ------------------------------------------------------------- 
+
+    forceDefault = request.GET.get('forceDefault', '') 
+    userProfile = request.user.get_profile()
+
+
+    protoOption = '__menu'
+    protoDef = CustomDefinition.objects.get_or_create(
+           code = protoOption, smOwningGroup = userProfile.userGroup, 
+           defaults= {'active': False, 'code' : protoOption, 'smOwningGroup' : userProfile.userGroup }
+           )[:1]
+
+    # El default solo parece funcionar al insertar en la Db
+    if protoDef.active and ( forceDefault == '0') :  
+        context = protoDef.metaDefinition 
+
+    else:
+
+        for model, model_admin in site._registry.items():
+            protoAdmin = getattr(model_admin, 'protoExt', {}) 
+            menuNode = model._meta.object_name
+            getMenuItem( protoAdmin, model, menuNode )
+
+    
+        # Sort the apps alphabetically.
+        app_list = app_dict.values()
+        app_list.sort(key=lambda x: x['index'])
+    
+        # Sort the models alphabetically within each app.
+        for app in app_list:
+            app['children'].sort(key=lambda x: x['index'])
+
+
+        # lee las opciones del prototipo 
+        protoOpts = CustomDefinition.objects.filter( code__startswith = 'prototype.ProtoTable.', smOwningGroup = userProfile.userGroup )
+        ix = 0 
+        for option in protoOpts:
+
+            if ix == 0 :
+                prNodes = {  
+                    'id': 'prototype.auto.nodes' ,
+                    'text': 'ProtoOptions' ,
+                    'expanded': True ,
+                    'index': 1000 ,
+                    'children': [],
+                    'leaf': False 
+                }
+                app_list.append( prNodes )
+
+            nodeName = option.code.replace( 'prototype.ProtoTable.', '')
+            
+            prNodes['children'].append( {
+                'text':  nodeName,
+                'expanded': True ,
+                'protoOption': option.code,
+                'index': 'prOtoTyPe.' + option.code,
+                'leaf': True 
+                 })
+
+            ix += 1 
+
+        # decodifica en string 
+        context = json.dumps( app_list ) 
+
+        # Lo guarda  ( created : true  --> new
+        protoDef.metaDefinition = context  
+        protoDef.description = 'Menu' 
+        protoDef.save()
+    
+
+    return HttpResponse( context, mimetype="application/json")
+
+
+#   ---------------------------------------------------------------------------
+
     def getMenuItem( protoAdmin, model, menuNode ):
     
         # El menuIx determina tambien si aparece o no en el menu 
@@ -72,82 +148,4 @@ def protoGetMenuData(request):
              
         appAux.ixMod += 1 
     
-
-#-- Lectura de la Db ------------------------------------------------------------- 
-
-    forceDefault = request.GET.get('forceDefault', '') 
-
-    protoOption = '__menu'
-    protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'active': False })
-    
-    # El default solo parece funcionar al insertar en la Db
-    if protoDef.active and ( forceDefault == '0') :  
-        context = protoDef.metaDefinition 
-
-    else:
-
-        for model, model_admin in site._registry.items():
-            protoAdmin = getattr(model_admin, 'protoExt', {}) 
-            menuNode = model._meta.object_name
-            getMenuItem( protoAdmin, model, menuNode )
-
-#        Esto era para cargar vistas definidas como opciones adicionales en el admin  
-#            protoViews = protoAdmin.get( 'protoViews' )
-#            if protoViews: 
-#                # si existen vistas,  carga una opcion de menu para cada una             
-#                for view in protoViews: 
-#                    menuNode = model._meta.object_name + '.' + view
-#                    protoOpcion =  getProtoViewObj( protoAdmin, view   )
-#                    getMenuItem( protoOpcion, model, menuNode )
-    
-        # Sort the apps alphabetically.
-        app_list = app_dict.values()
-        app_list.sort(key=lambda x: x['index'])
-    
-        # Sort the models alphabetically within each app.
-        for app in app_list:
-            app['children'].sort(key=lambda x: x['index'])
-
-
-        # lee las opciones del prototipo 
-        userProfile = request.user.get_profile()
-        
-        protoOpts = CustomDefinition.objects.filter( code__startswith = 'prototype.ProtoTable.', owningHierachy = userProfile.userHierarchy )
-        ix = 0 
-        for option in protoOpts:
-
-            if ix == 0 :
-                prNodes = {
-                    'id': 'prototype.auto.nodes' ,
-                    'text': 'ProtoOptions' ,
-                    'expanded': True ,
-                    'index': 1000 ,
-                    'children': [],
-                    'leaf': False 
-                }
-                app_list.append( prNodes )
-
-            nodeName = option.code.replace( 'prototype.ProtoTable.', '')
-            
-            prNodes['children'].append( {
-                'text':  nodeName,
-                'expanded': True ,
-                'protoOption': option.code,
-                'index': 'prOtoTyPe.' + option.code,
-                'leaf': True 
-                 })
-
-            ix += 1 
-
-        # decodifica en string 
-        context = json.dumps( app_list ) 
-
-        # Lo guarda  ( created : true  --> new
-        protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
-        protoDef.metaDefinition = context  
-        protoDef.description = 'Menu' 
-        protoDef.save()
-    
-
-    return HttpResponse( context, mimetype="application/json")
 

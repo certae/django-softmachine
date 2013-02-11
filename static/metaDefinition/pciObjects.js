@@ -223,19 +223,19 @@ _MetaObjects =  {
             "flex", 
             "height","maxHeight","minHeight",
             "width", "maxWidth","minWidth",
-            "hidden",
             "hideLabel",
             "labelAlign","labelWidth",
-            "readOnly",
             "tooltip", 
             "cellToolTip",
-            "storeOnly", 
             "cellLink",  
             "wordWrap",
             "qbeHelp",
 
-            // Para los campos del htmlSet            
-            "collapsed",   
+            // manejo
+            "crudType", 
+            "readOnly",
+            "hidden",
+
             // Para el combo
             "choices",
 
@@ -274,12 +274,13 @@ _MetaObjects =  {
             "hidden",
             "defaultValue",
             "height","maxHeight","minHeight","width", "maxWidth","minWidth",
-            "flex", 
+            
             "format",
             "decimalPrecision", 
 
             // Para los campos del htmlSet            
             "collapsed",   
+            
             // Para el combo
             "choices",
 
@@ -290,9 +291,6 @@ _MetaObjects =  {
             "zoomFilter", 
             "cellLink",
 
-            "cpFromField", 
-            "cpFromModel", 
-            
             // Para los N2N
             // "conceptDetail", 
             // "relatedN2N",

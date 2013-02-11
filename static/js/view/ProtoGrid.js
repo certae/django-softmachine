@@ -97,7 +97,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         // DGT** Copia las columnas   
         for (var ix in myMeta.fields ) {
             var vFld = myMeta.fields[ix] 
-            if ( vFld.storeOnly ) continue;
+            if ( vFld.crudType == 'storeOnly' ) continue;
 
             // lee las props p
             var col = getColDefinition( vFld  );
@@ -107,8 +107,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 col['readOnly'] = true  
                 delete col['editor']
             }
-
-            if ( vFld.storeOnly ) continue;
             
             // DGT: No se necesita, la definicion viene automatica  
             // if (( myMeta.pciStyle == 'tree' ) && ( col.dataIndex  == '__str__' )) { col.xtype = 'treecolumn' };  

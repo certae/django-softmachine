@@ -7,7 +7,7 @@ from django.utils.encoding import smart_str
 
 def getTypedValue ( sAux , sType):
     """ Retorna valores tipados segun el tipo definido 
-    * se usa sobre todo para las UDP 
+    * se usa sobre todo para las UDP y los JsonField 
     """  
     
     if sAux == 'None': sAux = ''

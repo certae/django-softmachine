@@ -193,9 +193,9 @@ class ProtoGridFactory(object):
                     vFld = self.fieldsDict.get( key , {})
                     fType = vFld.get( 'type', 'string' )
                     
-                    if ( vFld.get( 'storeOnly', False )): continue
+                    if  vFld.get( 'crudType' ) == 'storeOnly' : continue
 
-                    if ( key in [ 'owningUser','owningHierachy','createdBy','modifiedBy','wflowStatus','regStatus','createdOn','modifiedOn' ]) :
+                    if ( key in [ 'smOwningUser','smOwningGroup','smCreatedBy','smModifiedBy','smWflowStatus','smRegStatus','smCreatedOn','smModifiedOn' ]) :
                         prAdmin.append( { 'name' : key  , '__ptType' : 'formField'} )
                     
                     elif ( fType == 'text') :
@@ -357,8 +357,6 @@ def setDefaultField ( fdict, model, protoOption ):
     fdict['cellLink']  = True 
     fdict['zoomModel'] = protoOption
     fdict['fkId']      =  'id'  
-
-
 
 
 

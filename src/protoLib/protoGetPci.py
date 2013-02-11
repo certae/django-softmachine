@@ -42,7 +42,7 @@ def protoGetPCI(request):
     if protoConcept == 'prototype.ProtoTable' and protoConcept != protoOption :
         userProfile = request.user.get_profile() 
         try:
-            protoDef = CustomDefinition.objects.get(code = protoOption, owningHierachy  = userProfile.userHierarchy )
+            protoDef = CustomDefinition.objects.get(code = protoOption, smOwningGroup  = userProfile.userGroup )
             created = False 
         except:
             jsondict = { 'success':False, 'message': protoOption + ' notFound' } 
@@ -234,7 +234,7 @@ def protoSavePCI(request):
     if custom:
  
         try:
-            protoDef = CustomDefinition.objects.get(code = protoOption, owningHierachy  = userProfile.userHierarchy )
+            protoDef = CustomDefinition.objects.get(code = protoOption, smOwningGroup  = userProfile.userGroup )
             created = False 
         except:
             CustomDefinition( code = protoOption )

@@ -6,7 +6,7 @@ from datetime import datetime
 from django.contrib import admin
 from models import Model, Entity 
 
-from protoLib.models import ProtoDefinition, CustomDefinition
+from protoLib.models import CustomDefinition
 from protoLib.protoActionEdit import setSecurityInfo 
 from protoLib.utilsBase import JSONEncoder
 
@@ -51,7 +51,7 @@ def getEntities( queryset , request ):
         protoOption = infoEntity[ 'protoOption' ]
         
         try:
-            rec = CustomDefinition.objects.get(code = protoOption, owningHierachy  = userProfile.userHierarchy )
+            rec = CustomDefinition.objects.get(code = protoOption, smOwningGroup = userProfile.userGroup )
             created = False 
         except CustomDefinition.DoesNotExist:
             created = True 
@@ -88,7 +88,8 @@ def getProtoEntityDefinition( pEntity, viewName ):
         # Si es un campo heredado 
         if len( pProperty.cpFromModel or '' ) > 0 and len( pProperty.cpFromField or '' ) > 0 :  
             field["cpFromModel"] = 'info__' + pProperty.cpFromModel  
-            field["cpFromField"] = 'info__' + pProperty.cpFromField  
+            field["cpFromField"] = 'info__' + pProperty.cpFromField
+            # un campo heredado no tiene por q ser requerido   
             del field[ "required" ]
 
         # hace las veces de __str__ 
@@ -181,78 +182,78 @@ def baseDefinition( pEntity ):
         },               
         {
             "zoomModel": "auth.User",
-            "name": "owningUser",
-            "fkId": "owningUser_id",
+            "name": "smOwningUser",
+            "fkId": "smOwningUser_id",
             "readOnly": True,
             "type": "foreigntext"
         },
         {
-            "name": "modifiedOn",
+            "name": "smModifiedOn",
             "readOnly": True,
             "type": "datetime"
         },
         {
-            "fkField": "createdBy",
-            "name": "createdBy_id",
+            "fkField": "smCreatedBy",
+            "name": "smCreatedBy_id",
             "readOnly": True,
             "hidden": True,
             "type": "foreignid"
         },
         {
-            "fkField": "owningUser",
-            "name": "owningUser_id",
+            "fkField": "smOwningUser",
+            "name": "smOwningUser_id",
             "readOnly": True,
             "hidden": True,
             "type": "foreignid"
         },
         {
             "zoomModel": "protoLib.OrganisationTree",
-            "name": "owningHierachy",
-            "fkId": "owningHierachy_id",
+            "name": "smOwningGroup",
+            "fkId": "smOwningGroup_id",
             "readOnly": True,
             "type": "foreigntext"
         },
         {
-            "name": "createdOn",
+            "name": "smCreatedOn",
             "readOnly": True,
             "type": "datetime"
         },
         {
             "zoomModel": "auth.User",
-            "name": "modifiedBy",
-            "fkId": "modifiedBy_id",
+            "name": "smModifiedBy",
+            "fkId": "smModifiedBy_id",
             "readOnly": True,
             "type": "foreigntext"
         },
         {
-            "name": "regStatus",
+            "name": "smRegStatus",
             "readOnly": True,
             "type": "string"
         },
         {
             "zoomModel": "auth.User",
-            "name": "createdBy",
-            "fkId": "createdBy_id",
+            "name": "smCreatedBy",
+            "fkId": "smCreatedBy_id",
             "required": True,
             "readOnly": True,
             "type": "foreigntext"
         },
         {
-            "fkField": "owningHierachy",
-            "name": "owningHierachy_id",
+            "fkField": "smOwningGroup",
+            "name": "smOwningGroup_id",
             "readOnly": True,
             "hidden": True,
             "type": "foreignid"
         },
         {
-            "fkField": "modifiedBy",
-            "name": "modifiedBy_id",
+            "fkField": "smModifiedBy",
+            "name": "smModifiedBy_id",
             "readOnly": True,
             "hidden": True,
             "type": "foreignid"
         },
         {
-            "name": "wflowStatus",
+            "name": "smWflowStatus",
             "readOnly": True,
             "type": "string"
         }
@@ -283,35 +284,35 @@ def baseDefinition( pEntity ):
                 "items": [
                     {
                         "__ptType": "formField",
-                        "name": "owningUser"
+                        "name": "smOwningUser"
                     },
                     {
                         "__ptType": "formField",
-                        "name": "owningHierachy"
+                        "name": "smOwningGroup"
                     },
                     {
                         "__ptType": "formField",
-                        "name": "modifiedBy"
+                        "name": "smModifiedBy"
                     },
                     {
                         "__ptType": "formField",
-                        "name": "createdBy"
+                        "name": "smCreatedBy"
                     },
                     {
                         "__ptType": "formField",
-                        "name": "modifiedOn"
+                        "name": "smModifiedOn"
                     },
                     {
                         "__ptType": "formField",
-                        "name": "createdOn"
+                        "name": "smCreatedOn"
                     },
                     {
                         "__ptType": "formField",
-                        "name": "regStatus"
+                        "name": "smRegStatus"
                     },
                     {
                         "__ptType": "formField",
-                        "name": "wflowStatus"
+                        "name": "smWflowStatus"
                     }
                 ]
             }

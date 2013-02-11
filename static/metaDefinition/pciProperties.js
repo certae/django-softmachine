@@ -247,6 +247,18 @@ _MetaProperties =  {
     "actionParamType.choices" : [ "", "string", "bool", "number"], 
 
     "cpFromField.help" : "Copia el contenido de un campo en otro, en el caso de zooms o valores por defecto",  
-    "cpFromModel.help" : "Campo q apunta al modelo referenciado ( no apunta al zoom pues varios campos pueden usar el mismo zoom )" 
+    "cpFromModel.help" : "Campo q apunta al modelo referenciado ( no apunta al zoom pues varios campos pueden usar el mismo zoom )", 
+    
+    "crudType.help" : "Comportamiento del campo con la edicion en  Db", 
+    // editable      : es un campo estandar de la Db ( default )  
+    // screenOnly    : ninguna iteraccion con la db, funciones calculadas en el frontEnd, o campos de procesamiento intermedio para generar otros campos     
+    // storeOnly     : leido de la Db,  no se despliega en el frontEnd, se usa como resultado de campos calculados, usado para manejar subSets ( implica definir baseFilter, vrDefault  )
+    // insertOnly    : campos invariables ( ej: nro documento, )      
+    // updateOnly    : nulo al inicio, requerido en modificacion       
+        
+    // linked        : no es editable, no se guarda en la Db, requiere cpFromField,  cpFromModel* ( *para prototipos, o zooms no relacionales )  
+    // copied        : toma el vr por defecto de cpFromField o cpFromModel ( similar a linked + editable )      
+    "crudType.choices" : [ "", "editable", "screenOnly", "storeOnly", "insertOnly", "updateOnly", "linked", "copied" ]
+     
 
 };

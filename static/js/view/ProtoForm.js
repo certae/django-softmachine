@@ -46,6 +46,10 @@ Ext.define('ProtoUL.view.ProtoForm', {
     htmlPanels : {},     
       
 
+    // Defne como manejar  maneja los campos heredados de los zoom 
+    zoomReturnDef : null, 
+
+
     initComponent : function() {
         this.addEvents('create', 'close', 'hide');
 
@@ -321,10 +325,47 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
             // Actualiza el Id con el dato proveniente del zoom 
             this.updateFormField(  vFld.fkId, vFld.zoomRecord.data.id ) 
-
+            
+            // Actualiza los valores de retorno 
+            // this.updateZoomReturn( vFld  )
         }
        
         
+    }, 
+
+    updateZoomReturn: function (  zoomFld  ) {
+
+        // verifica si esta definido y lo define a necesidad 
+        if ( ! this.zoomReturnDef  ) {
+
+            // mantiene una lista con la definicion de los cpFromField 
+            this.zoomReturnDef = []
+            
+            // Crea la coleccion de campos q deben heredarse 
+            for (var ix in this.myMeta.fields ) {
+                var vFld = this.myMeta.fields[ix] 
+                if ( ! vFld.cpFromModel ) continue;
+                
+                var cpFrom = {
+                    "name"    : vFld.fName,
+                    "cpFromModel" : vFld.cpFromModel,   
+                    "cpFromField" : vFld.cpFromField
+                } 
+            }
+        } 
+        
+        // Verifica si hay elementos a heredar 
+        if ( this.zoomReturnDef.length  == 0 ) { return } 
+
+        // Recorre las propiedades a heredar         
+        for (var ix in this.zoomReturnDef ) {
+            var cpFrom = this.zoomReturnDef[ix]
+            
+            if ( cpForm.cpFromModel == zoomFld.name   ) {
+                this.updateFormField(  zoomFld.name , zoomFld[ cpForm.cpFromField ] )
+            }
+        }
+
     }, 
 
     updateFkId: function (  zoomField, fkId ) {

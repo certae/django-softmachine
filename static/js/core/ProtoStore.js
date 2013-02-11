@@ -339,7 +339,8 @@ function DefineProtoModel ( myMeta , modelClassName ){
 
         if ( vFld.name in oc( myMeta.gridConfig.sortFields )  ) {
             vFld.sortable = true 
-        }
+        }; 
+        
 
         // Determina el xType y otros parametros 
         switch( vFld.type )
@@ -390,11 +391,7 @@ function DefineProtoModel ( myMeta , modelClassName ){
         fields: myFields 
             
         //TODO: Validation, Validaciones             
-        //    validations: [{
-        //        type: 'length',
-        //        field: 'name',
-        //        min: 1
-        //    }]
+        //    validations: [{ type: 'length', field: 'name', min: 1 }]
 
         });
         

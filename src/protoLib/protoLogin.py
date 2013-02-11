@@ -39,13 +39,13 @@ def protoGetUserRights(request):
 
             # Profile 
             uProfile, created = UserProfile.objects.get_or_create(user = pUser)
-            if uProfile.userHierarchy is not None:
-                uOrgTree = uProfile.userHierarchy.treeHierarchy
+            if uProfile.userGroup is not None:
+                uOrgTree = uProfile.userGroup.treeHierarchy
             else:  uOrgTree = ''
 
             # permisos adicionales 
             for item in pUser.usershare_set.all() :
-                uOrgTree += ',' + item.userHierarchy.treeHierarchy
+                uOrgTree += ',' + item.userGroup.treeHierarchy
             
             # Organiza los ids 
             uProfile.userTree = ','.join( set( uOrgTree.split(',')))

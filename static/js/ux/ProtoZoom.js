@@ -238,7 +238,7 @@ Ext.define('Ext.ux.protoZoom', {
     
     doReturn: function() {
         if ( this.zoomRecord )  {
-            // this.setValue( this.zoomRecord.data.__str__ || this.myMeta.protoOption + '.__str__ not found' ) 
+            // Asigna el returnField al text de base  
             this.setValue( this.retField ) 
         }
         this.win.hide()

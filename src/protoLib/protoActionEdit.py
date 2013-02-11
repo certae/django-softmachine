@@ -90,14 +90,18 @@ def protoEdit(request, myAction ):
                 continue 
 
         if not myAction['DEL']:
+            # Upd, Ins 
             for key in data:
                 key = smart_str( key )
                 if  key == 'id' or key == '_ptStatus' or key == '_ptId': continue
+                
+                vFld = protoMeta.fields[key]
+                if vFld.get( 'crudType' )  in ["screenOnly", "linked" ]: continue 
 
                 #  Los campos de seguridad se manejan a nivel registro
                 if isProtoModel:
-                    if key in ['owningUser','owningHierachy','createdBy','modifiedBy','wflowStatus','regStatus','createdOn','modifiedOn']: continue 
-                    if key in ['owningUser_id','owningHierachy_id','createdBy_id','modifiedBy_id']: continue 
+                    if key in ['smOwningUser','smOwningGroup','smCreatedBy','smModifiedBy','smWflowStatus','smRegStatus','smCreatedOn','smModifiedOn']: continue 
+                    if key in ['smOwningUser_id','smOwningGroup_id','smCreatedBy_id','smModifiedBy_id']: continue 
                 
                 #  Udps
                 if (cUDP.udpTable and key.startswith( cUDP.propertyPrefix + '__')): continue 
@@ -180,15 +184,15 @@ def setSecurityInfo( rec, data, userProfile, insAction  ):
     data     : objeto buffer q puede ser {} utilizado para retornar la info guardad 
     insAction: True if insert,  False if update
     """
-    setProtoData( rec, data,  'modifiedBy',  userProfile.user ) 
-    setProtoData( rec, data,  'modifiedOn', datetime.now() ) 
+    setProtoData( rec, data,  'smModifiedBy',  userProfile.user ) 
+    setProtoData( rec, data,  'smModifiedOn', datetime.now() ) 
     
     if insAction:
-        setProtoData( rec, data,  'owningUser',userProfile.user )   
-        setProtoData( rec, data,  'owningHierachy',userProfile.userHierarchy ) 
-        setProtoData( rec, data,  'createdBy',userProfile.user ) 
-        setProtoData( rec, data,  'regStatus','0' ) 
-        setProtoData( rec, data,  'createdOn',datetime.now() ) 
+        setProtoData( rec, data,  'smOwningUser',userProfile.user )   
+        setProtoData( rec, data,  'smOwningGroup',userProfile.userGroup ) 
+        setProtoData( rec, data,  'smCreatedBy',userProfile.user ) 
+        setProtoData( rec, data,  'smRegStatus','0' ) 
+        setProtoData( rec, data,  'smCreatedOn',datetime.now() ) 
 
 
 # ---------------------
