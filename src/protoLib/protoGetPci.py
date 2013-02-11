@@ -37,6 +37,7 @@ def protoGetPCI(request):
         jsondict = { 'success':False, 'message': getReadableError( e ) }
         context = json.dumps( jsondict)
         return HttpResponse(context, mimetype="application/json")
+    
 
     # PROTOTIPOS 
     if protoConcept == 'prototype.ProtoTable' and protoConcept != protoOption :
@@ -215,7 +216,10 @@ def protoSavePCI(request):
     if request.method != 'POST':
         return 
 
-    userProfile = request.user.get_profile()
+    try: 
+        userProfile = request.user.get_profile()
+    except: return  
+
     custom = False  
     
     protoOption = request.POST.get('protoOption', '')

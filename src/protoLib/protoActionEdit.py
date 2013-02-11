@@ -71,8 +71,11 @@ def protoEdit(request, myAction ):
         
     # Verfica si es un protoModel 
     isProtoModel = hasattr( model , '_protoObj' )
-    if isProtoModel:
-        userProfile  = request.user.get_profile()   
+
+    try: 
+        userProfile = request.user.get_profile()
+    except: return  
+
         
     pList = []
     for data in rows: 

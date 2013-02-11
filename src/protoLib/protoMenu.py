@@ -32,8 +32,10 @@ def protoGetMenuData(request):
 #-- Lectura de la Db ------------------------------------------------------------- 
 
     forceDefault = request.GET.get('forceDefault', '') 
-    userProfile = request.user.get_profile()
-
+    
+    try: 
+        userProfile = request.user.get_profile()
+    except: return  
 
     protoOption = '__menu'
     protoDef = CustomDefinition.objects.get_or_create(

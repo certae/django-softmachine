@@ -41,7 +41,10 @@ doModelPrototype.short_description = "Create prototypes for the model"
 
 def getEntities( queryset , request ):
 
-    userProfile  = request.user.get_profile()   
+    try: 
+        userProfile = request.user.get_profile()
+    except: return  
+
     returnMsg = '' 
 
 #   Recorre los registros selccionados   
@@ -137,14 +140,11 @@ def getProtoEntityDefinition( pEntity, viewName ):
             "masterField": "pk"
         }
                     
-        infoEntity['protoDetails'].append ( detail ) 
+        infoEntity['protoDetails'].append( detail ) 
                 
             
     return infoEntity
     
-        
-
-
 
 def baseDefinition( pEntity ):
     
