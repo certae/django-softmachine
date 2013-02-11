@@ -87,8 +87,8 @@ def getProtoEntityDefinition( pEntity, viewName ):
 
         # Si es un campo heredado 
         if len( pProperty.cpFromModel or '' ) > 0 and len( pProperty.cpFromField or '' ) > 0 :  
-            field["cpFromModel"] = pProperty.cpFromModel  
-            field["cpFromField"] = pProperty.cpFromField  
+            field["cpFromModel"] = 'info__' + pProperty.cpFromModel  
+            field["cpFromField"] = 'info__' + pProperty.cpFromField  
             del field[ "required" ]
 
         # hace las veces de __str__ 

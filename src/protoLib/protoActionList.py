@@ -105,11 +105,10 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
 
 
     # Verifica si existen reemplazos por hacer ( cpFromField )
-    copyValueFromField = False
+    bCopyFromFld = False
     for lField  in protoMeta['fields']:
         fName = lField['name']
-        if lField.get( 'cpFromField', '' ) <> '':  
-            copyValueFromField = True
+        if lField.get( 'cpFromField' ) is not None: bCopyFromFld = True
 
         # Alimenta la coleccion de zooms, los campos heredados de otras tablas deben hacer 
         # referencia a un campo de zoom, el contendra el modelo y la llave para acceder al registro  
@@ -123,9 +122,9 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
     # recorre para borrar los zooms q no tienen referencias
     # 1. recorre los campos y verifica si alguno hace referencia y lo marca  
     for lField in protoMeta['fields']:
-        if copyValueFromField and isAbsorbedField( lField, protoMeta  ) :
+        if bCopyFromFld and isAbsorbedField( lField, protoMeta  ) :
             try: 
-                relModel = relModels[ lField.get( 'cpFromModel', '' ) ]
+                relModel = relModels[ lField.get( 'cpFromModel' ) ]
                 relModel[ 'loaded']  = True  
             except: pass
              
@@ -162,19 +161,9 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
                 rowdict[ fName ] = val
                 continue 
 
-            # Valores absorbidos on select a otros modelos 
-            elif copyValueFromField and isAbsorbedField( lField, protoMeta  ) :
-                try: 
-                    relModel = relModels[ lField.get( 'cpFromModel', '' ) ]
-                except: 
-                    relModel = { 'loaded': True, 'rowData' : {} }
-                    
-                if not relModel['loaded']: 
-                    relModel['loaded']  =  True  
-                    relModel['rowData'] =  getRowById( relModel['zoomModel'], relModel['fkId'] )
-
-                rowdict[ fName ] = relModel['rowData'][ lField.get( 'cpFromField', '' ) ] 
-                continue  
+            # Si el campo es absorbido ( bCopyFromFld es un shortcut para evitar la evulacion en caso de q no haya ningun cpFromField )    
+            elif bCopyFromFld and isAbsorbedField( lField, protoMeta  ) :
+                continue 
             
             rowdict[ fName ] = getFieldValue( fName, rowData, JsonField )
         
@@ -186,8 +175,8 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
 
                 
         # REaliza la absorcion de datos provenientes de un zoom 
-        if copyValueFromField:
-            rowdict = copyValuesFromFields( protoMeta, rowdict  )
+        if bCopyFromFld:
+            rowdict = copyValuesFromFields( protoMeta, rowdict, relModels, JsonField  )
 
 #        if pStyle == 'tree':
 #            rowdict[ 'protoView' ] = protoMeta.get('protoOption', '')
@@ -211,10 +200,10 @@ def getRowById( myModelName, myId ):
 
 #   Obtiene los datos 
     model = getDjangoModel( myModelName )
-    myList = model.objects.filter( pk = myId ).values()
+    myList = model.objects.filter( pk = myId )
     if len( myList ) > 0: 
         return myList[0]
-    else:  return {}
+    else:  return None 
 
 
 def isAbsorbedField( lField , protoMeta ):
@@ -223,31 +212,67 @@ def isAbsorbedField( lField , protoMeta ):
     Las herencias manejadas aqui son las q implican un select adicional al otro registro, 
     utilizan la logica del zoom para traer la llave correspondiente 
     """
-    if lField.get( 'cpFromField', '' ) <> '': return False  
-    if lField.get( 'cpFromModel', '' ) <> '': return False
+    if ( lField.get( 'isAbsorbed' )  ): return True 
     
-    # No debe ser del mismo modelo ( usa la vista q por defecto es el protoConcept menos en los prototipos 
-    if lField['cpFromModel'] == protoMeta.get('protoView', ''): return False  
-         
+    lField[ 'isAbsorbed' ] = False 
+    if ( lField.get( 'cpFromField' ) is None ): return False  
+    if ( lField.get( 'cpFromModel' ) is None ): return False
+    lField[ 'isAbsorbed' ] = True 
+
     return True 
 
 
-def copyValuesFromFields( protoMeta, rowdict ):
+def copyValuesFromFields( protoMeta, rowdict, relModels, JsonField):
+    """ 
+    Permite copiar campos q vienen de los zooms, 
+    En el caso de prototipos hace un select a la instancia relacionada 
+    """
     
     for lField  in protoMeta['fields']:
-        cpFromField =  lField.get( 'cpFromField', None )
+        cpFromField =  lField.get( 'cpFromField' )
         if not cpFromField: continue 
 
-        # Los datos ya fueron cargados es un campo heredado 
-        if isAbsorbedField( lField , protoMeta ): continue   
-
-        cpFromField = smart_str( cpFromField  )  
         fName = smart_str( lField['name'] ) 
-        val = rowdict.get( fName, None )  
-        if ( val ) and smart_str( val ).__len__() > 0: continue
-        
-        val = rowdict.get( cpFromField , None )
-        if ( val ) : rowdict[ fName ] = val 
+        cpFromField = smart_str( cpFromField  )  
+
+        if not isAbsorbedField( lField , protoMeta ):    
+            # Es un copy q puede ser resuelto a partir del modelo objeto 
+            # esta es la situacion normal cuando no se idetifica un modelo y se cargan los datos por jerarquia
+            # por ahora requiere q el campo este tambien en el modelo ( se puede cambiar si hay la necesidad )
+            
+            # Se uso para copiar cosas de discretas y debia mostrar y al editar deberia guardar el valor    
+            # Si ya contiene algun valor, sale, solo copia cuando es nulo. 
+            val = rowdict.get( fName, None )  
+            if ( val ) and smart_str( val ).__len__() > 0: continue
+            
+            val = rowdict.get( cpFromField , None )
+            if ( val is None ) : val = '' 
+
+        else:
+            # Esta es la situacion de los prototipos q requieren el cpFromModel,
+            # se hace un select adicional para obtner el registro relacionado 
+
+            cpFromModel = lField.get( 'cpFromModel' )
+             
+            try: 
+                relModel = relModels[ cpFromModel ]
+            except: 
+                # para envitar volverlo a leer, si son varios campos del mismo registro   
+                relModel = { 'loaded': True, 'rowData' : None   }
+
+            if not relModel['loaded']: 
+                # Obtiene el id 
+                rowId = rowdict[ relModel['fkId'] ]
+                relModel['rowData'] =  getRowById( relModel['zoomModel'], rowId )
+                relModel['loaded']  =  True  
+
+            rowData = relModel['rowData']
+            if rowData is not None  : 
+                # interpreta los datos del registro 
+                val  =  getFieldValue( cpFromField, rowData  , JsonField )
+            else: val = 'pt??'
+             
+        rowdict[ fName ] = val 
 
     return rowdict 
 
@@ -434,45 +459,35 @@ def getFieldValue( fName, rowData, JsonField ):
         except: 
             val = 'Id#' + verifyStr(rowData.pk, '?')
 
-    elif ( _PROTOFN_ in fName ):
-        try: 
-            val = eval( 'rowData.' + fName.replace( _PROTOFN_,'.') + '()'  )
-            val = verifyStr(val , '' )
-        except: val = 'fn?'
-
-    # Master JSonField ( se carga texto ) 
     elif ( fName  == JsonField   ):
+        # Master JSonField ( se carga texto ) 
         try: 
             val = rowData.__getattribute__( fName  ) 
         except: val = {}
         if isinstance(val, dict):
             val = json.dumps( val , cls=JSONEncoder )
 
-    # JSon fields 
     elif fName.startswith( JsonField + '__'): 
+        # JSon fields 
         try: 
             val = rowData.__getattribute__( JsonField  ) 
             if isinstance(val, dict):
                 val = val.get( fName[ len( JsonField + '__'):] , '')
-                if isinstance(val, dict):
-                    val = json.dumps( val , cls=JSONEncoder )
+                # Solo para guardar estructuras de varios nivels   
+                #if isinstance(val, dict):
+                #    val = json.dumps( val , cls=JSONEncoder )
         except: val = ''
 
-#            Campo Absorbido  JSON  ( info_client.nom  )
-#            Un campo absorbido debe indicar de q entidad viene, se podria hacer un un punto, 
-#            q podria se de modo general para indicar  app.entidad.vista; la vista solo se usara 
-#            en el caso de los prototipos, de resto solo sera app.entidad, 
-#            para el prototipo puede ser simplificada como  entidad.vista 
-#            
-    elif ( '.' in fName ) and fName.startswith( JsonField + '__'):
+    elif ( _PROTOFN_ in fName ):
+        # para definir funciones en los modelos 
         try: 
-            val = eval( 'rowData.' + fName.replace( '__', '.'))
+            val = eval( 'rowData.' + fName.replace( _PROTOFN_,'.') + '()'  )
             val = verifyStr(val , '' )
-        except: val = '__?'
+        except: val = 'fn?'
 
         
-    # Campo Absorbido
     elif ( '__' in fName ):
+        # Campo Absorbido modo objeto 
         try: 
             val = eval( 'rowData.' + fName.replace( '__', '.'))
             val = verifyStr(val , '' )

@@ -120,6 +120,7 @@ def protoGetMenuData(request):
                 prNodes = {
                     'id': 'prototype.auto.nodes' ,
                     'text': 'ProtoOptions' ,
+                    'expanded': True ,
                     'index': 1000 ,
                     'children': [],
                     'leaf': False 
@@ -131,6 +132,7 @@ def protoGetMenuData(request):
             prNodes['children'].append( {
                 'text':  nodeName,
                 'expanded': True ,
+                'protoOption': option.code,
                 'index': 'prOtoTyPe.' + option.code,
                 'leaf': True 
                  })
