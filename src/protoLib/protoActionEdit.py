@@ -191,11 +191,11 @@ def setSecurityInfo( rec, data, userProfile, insAction  ):
     setProtoData( rec, data,  'smModifiedOn', datetime.now() ) 
     
     if insAction:
-        setProtoData( rec, data,  'smOwningUser',userProfile.user )   
+        setProtoData( rec, data,  'smOwningUser', userProfile.user )   
         setProtoData( rec, data,  'smOwningGroup',userProfile.userGroup ) 
-        setProtoData( rec, data,  'smCreatedBy',userProfile.user ) 
+        setProtoData( rec, data,  'smCreatedBy',  userProfile.user ) 
         setProtoData( rec, data,  'smRegStatus','0' ) 
-        setProtoData( rec, data,  'smCreatedOn',datetime.now() ) 
+        setProtoData( rec, data,  'smCreatedOn',  datetime.now() ) 
 
 
 # ---------------------

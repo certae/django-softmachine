@@ -1,6 +1,7 @@
 import django.contrib.admin
 
 class usrProfileAdmin(django.contrib.admin.ModelAdmin):
+    
     protoExt = {
     "__ptType": "pcl",
     "description": "User Profile",
