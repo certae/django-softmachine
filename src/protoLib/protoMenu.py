@@ -78,9 +78,8 @@ def protoGetMenuData(request):
 
     forceDefault = request.GET.get('forceDefault', '') 
     
-    try: 
-        userProfile = request.user.get_profile()
-    except: return  
+    from protoAuth import getUserProfile
+    userProfile = getUserProfile( request.user, protoConcept, '' ) 
 
     protoOption = '__menu'
     protoDef = CustomDefinition.objects.get_or_create(

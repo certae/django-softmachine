@@ -3,10 +3,9 @@
 import django.utils.simplejson as json
 
 from django.http import HttpResponse
-from django.contrib.auth.models import User
-from django.contrib.auth import login, authenticate, get_backends
+from django.contrib.auth import login, authenticate 
 
-from models import UserProfile
+from protoAuth import getUserProfile
 
 def protoGetUserRights(request):
     """ return usr rihts 
@@ -19,7 +18,8 @@ def protoGetUserRights(request):
     userPwd  = request.POST['password']
 
     errMsg = ''
-    success = False  
+    success = False
+    languaje = None   
 
     try:
         pUser = authenticate(username = userName, password = userPwd )
@@ -37,27 +37,12 @@ def protoGetUserRights(request):
             userInfo[ 'isSuperUser' ] = pUser.is_superuser  
             userInfo[ 'fullName' ] = pUser.get_full_name()  
 
-            # Profile 
-            uProfile, created = UserProfile.objects.get_or_create(user = pUser)
-            if uProfile.userGroup is not None:
-                uOrgTree = uProfile.userGroup.treeHierarchy
-            else:  uOrgTree = ''
-
-            # permisos adicionales 
-            for item in pUser.usershare_set.all() :
-                uOrgTree += ',' + item.userGroup.treeHierarchy
-            
-            # Organiza los ids 
-            uProfile.userTree = ','.join( set( uOrgTree.split(',')))
-            uProfile.save()
+            # Si es login retorna la lengua del usuario  
+            languaje = getUserProfile( pUser, 'login', userName ) 
             
         else:
             # Return a 'disabled account' error message
             errMsg =  "Cet utilisateur est desactiv&eacute;"   
-
-    elif userName == '':
-        userInfo[ 'fullName' ] = 'readOnly User'
-        success = True
 
     else:
         # Return an 'invalid login' error message.
@@ -67,11 +52,8 @@ def protoGetUserRights(request):
     jsondict = {
         'success': success,
         'message': errMsg,
-        'metaData':{
-            'successProperty':'success',
-            'messageProperty': 'message', 
-            },
-        'userInfo' : userInfo, 
+        'userInfo' : userInfo,
+        'languaje' : languaje,  
         'rows':[],
         'totalCount': 0, 
     }
@@ -79,5 +61,4 @@ def protoGetUserRights(request):
     # Codifica el mssage json 
     context = json.dumps( jsondict)
     return HttpResponse(context, mimetype="application/json")
-
 

@@ -280,12 +280,10 @@ def copyValuesFromFields( protoMeta, rowdict, relModels, JsonField):
     return rowdict 
 
 
-def getUserNodes( pUser ):
-    try: 
-        userProfile  = pUser.get_profile()
-        userNodes = userProfile.userTree.split(',')   
-    except: 
-        userNodes = []
+def getUserNodes( pUser, protoConcept ):
+    from protoAuth import getUserProfile
+    userProfile = getUserProfile( pUser, protoConcept, '' ) 
+    userNodes = userProfile.userTree.split(',')   
         
     return userNodes
         
@@ -299,7 +297,7 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
 #   modelo Administrado
     isProtoModel = hasattr( model , '_protoObj' )
     if isProtoModel: 
-        userNodes = getUserNodes( pUser )
+        userNodes = getUserNodes( pUser, protoConcept )
 
 #   JsonField
     JsonField = protoMeta.get( 'jsonField', '')

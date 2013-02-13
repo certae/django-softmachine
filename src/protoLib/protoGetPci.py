@@ -9,7 +9,6 @@ from utilsBase import getReadableError, copyProps
 
 from protoActionEdit import setSecurityInfo
 from protoQbe import getSearcheableFields
-from protoActionList import getUserNodes 
 
 import django.utils.simplejson as json
 
@@ -38,10 +37,13 @@ def protoGetPCI(request):
         context = json.dumps( jsondict)
         return HttpResponse(context, mimetype="application/json")
     
+    # 
+    from protoAuth import getUserProfile
+    userProfile = getUserProfile( request.user, protoConcept, '' ) 
+
 
     # PROTOTIPOS 
     if protoConcept == 'prototype.ProtoTable' and protoConcept != protoOption :
-        userProfile = request.user.get_profile() 
         try:
             protoDef = CustomDefinition.objects.get(code = protoOption, smOwningGroup  = userProfile.userGroup )
             created = False 
@@ -216,13 +218,12 @@ def protoSavePCI(request):
     if request.method != 'POST':
         return 
 
-    try: 
-        userProfile = request.user.get_profile()
-    except: return  
-
     custom = False  
-    
     protoOption = request.POST.get('protoOption', '')
+
+    from protoAuth import getUserProfile
+    userProfile = getUserProfile( request.user, protoOption, '' ) 
+
     if protoOption != '__menu' :
         protoConcept  = getProtoViewName( protoOption )
         if protoConcept == 'prototype.ProtoTable' and protoConcept != protoOption :

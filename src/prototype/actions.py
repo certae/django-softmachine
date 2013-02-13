@@ -41,9 +41,8 @@ doModelPrototype.short_description = "Create prototypes for the model"
 
 def getEntities( queryset , request ):
 
-    try: 
-        userProfile = request.user.get_profile()
-    except: return  
+    from protoLib.protoAuth import getUserProfile
+    userProfile = getUserProfile( request.user, 'prototype', '' ) 
 
     returnMsg = '' 
 

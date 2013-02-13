@@ -55,6 +55,8 @@ class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True)
     userGroup = models.ForeignKey( OrganisationTree, blank = True, null = True )
     userTree  = models.CharField( blank = True, null = True, max_length= 500 )
+    language  = models.CharField( blank = True, null = True, max_length= 500 )
+      
     def __unicode__(self):
         return  self.user.username 
 

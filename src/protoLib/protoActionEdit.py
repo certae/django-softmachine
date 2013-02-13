@@ -73,7 +73,8 @@ def protoEdit(request, myAction ):
     isProtoModel = hasattr( model , '_protoObj' )
 
     try: 
-        userProfile = request.user.get_profile()
+        from protoAuth import getUserProfile
+        userProfile = getUserProfile( request.user, protoConcept, '' ) 
     except: return  
 
         
