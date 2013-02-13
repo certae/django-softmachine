@@ -19,7 +19,7 @@ def protoGetUserRights(request):
 
     errMsg = ''
     success = False
-    languaje = None   
+    language = None   
 
     try:
         pUser = authenticate(username = userName, password = userPwd )
@@ -38,7 +38,7 @@ def protoGetUserRights(request):
             userInfo[ 'fullName' ] = pUser.get_full_name()  
 
             # Si es login retorna la lengua del usuario  
-            languaje = getUserProfile( pUser, 'login', userName ) 
+            language = getUserProfile( pUser, 'login', userName ) 
             
         else:
             # Return a 'disabled account' error message
@@ -53,7 +53,7 @@ def protoGetUserRights(request):
         'success': success,
         'message': errMsg,
         'userInfo' : userInfo,
-        'languaje' : languaje,  
+        'language' : language,  
         'rows':[],
         'totalCount': 0, 
     }

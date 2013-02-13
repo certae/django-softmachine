@@ -199,7 +199,7 @@ Ext.define('Ext.ux.protoZoom', {
 
         function doEdit() {
             if ( ! zoomGrid.selected ) {
-                errorMessage(__language.Title_Form_Panel, __language.Msg_Select_Record)
+                errorMessage(__language.Title_Form_Panel, __language.GridAction_NoRecord)
                 return 
             }
             var formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });

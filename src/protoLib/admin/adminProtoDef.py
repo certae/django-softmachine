@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from models import ProtoDefinition, UserProfile, OrganisationTree, UserShare, CustomDefinition 
-from django.contrib  import admin           
-
 import django.contrib.admin
 
 class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
@@ -104,15 +101,4 @@ class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
     },
     "updateTime": "2012-11-01 11:54:02"
 }
-
-
-admin.site.register(ProtoDefinition, protoDefinitionAdmin)
-
-#from adminOrgTree import orgTreeAdmin
-admin.site.register(OrganisationTree )
-
-#from adminUserProf import usrProfileAdmin
-admin.site.register(UserProfile )
-admin.site.register(UserShare )
-admin.site.register( CustomDefinition )
 

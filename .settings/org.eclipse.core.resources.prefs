@@ -1,4 +1,4 @@
-#Tue Feb 12 19:18:50 EST 2013
+#Wed Feb 13 13:33:45 EST 2013
 eclipse.preferences.version=1
 encoding//demoApps/CategoryCle/models.py=utf-8
 encoding//demoApps/TCO/models.py=utf-8
@@ -24,7 +24,9 @@ encoding//demoApps/snippets/tmpLogSecure.py=utf-8
 encoding//demoApps/xml2db/main.py=utf-8
 encoding//docs/django/fieldSets.py.txt=utf-8
 encoding//docs/django/jsonDump.py.txt=utf-8
-encoding//src/protoLib/admin.py=utf-8
+encoding//src/protoLib/admin/__init__.py=utf-8
+encoding//src/protoLib/admin/adminProtoDef.py=utf-8
+encoding//src/protoLib/admin/adminUsr.py=utf-8
 encoding//src/protoLib/models.py=utf-8
 encoding//src/protoLib/protoActionEdit.py=utf-8
 encoding//src/protoLib/protoActionList.py=utf-8

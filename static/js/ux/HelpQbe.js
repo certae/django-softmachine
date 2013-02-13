@@ -121,8 +121,8 @@
             bbar: Ext.create('Ext.PagingToolbar', {
                 store: this.myStore,
                 displayInfo: true,
-                displayMsg: __language.HelpQBE_Label_Pagging_DisplayMsg,
-                emptyMsg: __language.HelpQBE_Label_Pagging_EmptyMsg,
+                displayMsg: __language.HelpQBE_GridNav_DisplayMsg,
+                emptyMsg: __language.HelpQBE_GridNav_EmptyMsg,
                 
             })
         });

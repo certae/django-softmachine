@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.db.models.signals import post_save
 
+
 class OrganisationTree(models.Model):
 # Jerarquia funcional ( de seguridad ) de la app     
 # Es la base de la seguridad por registro
@@ -68,6 +69,7 @@ def user_post_save(sender, instance, created, **kwargs):
         p.save()
 
 post_save.connect(user_post_save, sender=User)
+
 
 class UserShare(models.Model):  
     # si el usuairo comparte otros permisos  

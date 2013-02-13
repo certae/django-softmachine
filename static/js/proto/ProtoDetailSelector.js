@@ -163,7 +163,7 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
             autoLoad: true,
             model: 'Proto.DetailsTreeModel',
             root: {
-                text: __language.Text_Toolbar_Detail_Button,
+                text: __language.Grid_Detail_Title,
                 expanded: true 
             }, 
 

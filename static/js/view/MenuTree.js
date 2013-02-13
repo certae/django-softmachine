@@ -5,7 +5,7 @@ Ext.define('ProtoUL.view.MenuTree', {
     viewConfig: {
             plugins: {
                 ptype: 'treeviewdragdrop',
-                dragText: __language.Text_Plugin_DD,
+                dragText: __language.MenuTree_DD_Text,
                 ddGroup: 'menu'
             }
     },    
@@ -234,10 +234,11 @@ Ext.define('ProtoUL.view.MenuTree', {
                      mData.leaf = false
                      mData.protoOption = tData.protoOption || tData.id
                 } else {
-                     mData.expanded = false
-                     mData.children = {}
-                     
-                     mData.leaf = tData.leaf
+                     // dgt: por q este cambio ??
+                     //mData.expanded = false
+                     //mData.children = {}
+                     //mData.leaf = tData.leaf
+                     mData.leaf = true 
                      mData.protoOption =  tData.protoOption ||  tData.id 
                 }
             } 

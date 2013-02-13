@@ -57,7 +57,6 @@ class usrProfileAdmin(django.contrib.admin.ModelAdmin):
         "readOnly": True,
         "type": "autofield",
         "name": "id",
-        
         "hidden": True
     }, {
         "__ptType": "field",

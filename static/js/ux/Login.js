@@ -107,6 +107,7 @@ Ext.define('ProtoUL.ux.Login', {
                 // failure: this.submitLoginCallback, 
                 success: function(result, request) {
                     _UserInfo = request.result.userInfo
+                    __language = request.result.language
                     me.options.success.call( me.options.scope, result, request);                },
                 failure: function(result, request) {
                     // _UserInfo = request.result.userInfo

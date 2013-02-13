@@ -17,9 +17,9 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
             
             myPrinterOpts.push (
                 new Ext.Action({
-                    text:       __language.Text_Export_CSV,
+                    text:       __language.Grid_ExportCSV,
                     iconCls :   'icon-printGrid', 
-                    tooltip:    __language.Tooltip_Export_CSV,
+                    tooltip:    __language.Grid_ExportCSV_Ttip,
                     scope:      me,                     
                     handler:    onClickExportCsv
                 }));
@@ -99,7 +99,7 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
                 pGrid = __MasterDetail.protoMasterGrid ;
             
             if ( (! pGrid) || (! pGrid.sheetHtml )) {
-                __StBar.showWarning(__language.Msg_Select_Record, 'MdPrintOptsController')
+                __StBar.showWarning(__language.GridAction_NoRecord, 'MdPrintOptsController')
                 return 
             }
             
@@ -138,10 +138,10 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
                 url: _PConfig.urlGetProtoCsv  ,
                 params : pGrid.store.proxy.extraParams,
                 success: function(result, request) {
-                    errorMessage(__language.Message_Succesful_Export_CSV)
+                    errorMessage(__language.Grid_ExportCSV_Ok)
                 },
                 failure: function(result, request) {
-                    errorMessage(__language.Message_Failed_Export_CSV, result.status + ' ' + result.statusText)
+                    errorMessage(__language.Grid_ExportCSV_Err, result.status + ' ' + result.statusText)
                 },
                 scope: this,
                 timeout: 60000

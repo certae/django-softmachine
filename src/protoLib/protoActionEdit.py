@@ -12,7 +12,7 @@ from datetime import datetime
 from models import getDjangoModel  
 from protoActionList import Q2Dict
 from utilsConvert import toInteger, toDate,toDateTime,toTime, toFloat, toDecimal, toBoolean
-from utilsBase import JSONEncoder, getReadableError
+from utilsBase import JSONEncoder, getReadableError, list2dict
 from protoUdp import verifyUdpDefinition, saveUDP
 from django.utils.encoding import smart_str
 
@@ -53,6 +53,7 @@ def protoEdit(request, myAction ):
 
     protoConcept = protoMeta.get('protoConcept', '')
     
+    fieldsDict = list2dict( protoMeta[ 'fields' ], 'name')    
 
 #   Carga el modelo
     model = getDjangoModel(protoConcept)
@@ -99,7 +100,7 @@ def protoEdit(request, myAction ):
                 key = smart_str( key )
                 if  key == 'id' or key == '_ptStatus' or key == '_ptId': continue
                 
-                vFld = protoMeta.fields[key]
+                vFld = fieldsDict[key]
                 if vFld.get( 'crudType' )  in ["screenOnly", "linked" ]: continue 
 
                 #  Los campos de seguridad se manejan a nivel registro
@@ -215,8 +216,8 @@ def setRegister( model,  rec, key,  data   ):
     # Tipo de attr 
     cName = field.__class__.__name__
 
-    # if getattr( field, 'editable', False ) == False: return
-    # El attr puede no ser editable pero guardarse por defecto    
+    # Si es definido como no editable en el modelo
+    if getattr( field, 'editable', False ) == False: return   
     if  cName == 'AutoField': return
     
     # Obtiene el valor 

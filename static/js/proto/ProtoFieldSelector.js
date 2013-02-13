@@ -62,7 +62,7 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
             'add': function () {
 
                 var msg = __language.Msg_Window_New_Folder
-                Ext.Msg.prompt(__language.List_Help_Add_Fields, msg, function (btn, pName) {
+                Ext.Msg.prompt(__language.MetaConfig_Add_Fields, msg, function (btn, pName) {
                     if (btn != 'ok') return 
                     elemTree.addUdpField( {'name' : pName , 'checked' : false } ) 
 

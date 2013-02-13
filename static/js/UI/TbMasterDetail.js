@@ -35,8 +35,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             { 
                 iconCls: 'icon-edit',
                 itemId : 'edit', 
-                tooltip: __language.Tooltip_Switch_Edit_Mode,
-                text:    __language.Toolbar_Text_Edit_Button,
+                tooltip: __language.Grid_Edit_Ttip,
+                text:    __language.Grid_Edit_Title,
                 hidden : true,
                 handler:    editOpts
                 
@@ -44,20 +44,20 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 iconCls : 'icon-tableSave', 
                 itemId:     'save',
                 text:       __language.Title_Save_Button,
-                tooltip:    __language.Tooltip_Save_Exit_Edition_Button,
+                tooltip:    __language.Grid_EditSave_Title,
                 handler:    editOpts,
                 hidden:     true  
             }, {
                 iconCls : 'icon-saveDraft', 
                 itemId:     'saveDraft',
-                text:       __language.Text_Continue_Button,
-                tooltip:    __language.Tooltip_Save_Continue_Edition_Button,
+                text:       __language.Grid_EditSaveCont_Title,
+                tooltip:    __language.Grid_EditSaveCont_Ttip,
                 handler:    editOpts,
                 hidden:     true   
             },  {
                 iconCls : 'icon-tableAutoSync', 
                 itemId:     'autoSync',
-                text:      __language.Text_AutoSync,
+                text:      __language.Grid_EditAutoSync_Title,
                 enableToggle: true, 
                 handler:      editOpts, 
                 hidden : true
@@ -94,7 +94,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
             }, {
                 xtype: 'splitbutton', 
-                text:   __language.Text_Toolbar_Detail_Button,
+                text:   __language.Grid_Detail_Title,
                 tooltip: __language.Tooltip_Details_Button,
                 iconCls: 'icon-details', 
                 itemId : 'details', 
