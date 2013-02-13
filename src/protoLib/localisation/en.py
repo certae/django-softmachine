@@ -72,6 +72,7 @@ __language ={
     'Text_Toolbar_Search_Combo' : 'select operator',
     'Text_Toolbar_In' : 'in ...',
     'Text_Plugin_DD_Grid' : 'Drag and drop to reorganize',
+    
     'Text_Validate_Login_Button' : 'check',
     'Text_Forgotten_Password' : 'lost password',
     'Textfield_User_Login' : 'user',

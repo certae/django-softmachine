@@ -37,7 +37,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
         });
 
         var clearBtn = new Ext.button.Button({
-            tooltip: _tbSearchClearFilter,
+            tooltip: __language.Text_Toolbar_Remove_Filters,
             handler: onClickClearFilter,
             iconCls: 'icon-filterdelete'
         });

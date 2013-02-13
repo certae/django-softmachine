@@ -39,7 +39,7 @@ def protoGetPCI(request):
     
     # 
     from protoAuth import getUserProfile
-    userProfile = getUserProfile( request.user, protoConcept, '' ) 
+    userProfile = getUserProfile( request.user, 'getPci', protoConcept  ) 
 
 
     # PROTOTIPOS 
@@ -222,7 +222,7 @@ def protoSavePCI(request):
     protoOption = request.POST.get('protoOption', '')
 
     from protoAuth import getUserProfile
-    userProfile = getUserProfile( request.user, protoOption, '' ) 
+    userProfile = getUserProfile( request.user, 'savePci', protoOption  ) 
 
     if protoOption != '__menu' :
         protoConcept  = getProtoViewName( protoOption )

@@ -50,13 +50,13 @@ Ext.define('ProtoUL.UI.GridController', {
         // Extraccion de grilla detalle        
         if ( me.protoIsDetailGrid ) {
             navPanel.push ({
-                text: _detailViewNewTab,
+                text: __language.Msg_View_In_New_Tab,
                 iconCls : 'icon-promote',
                 handler : onMenuPromoteDetail
             })  
         } 
 
-        navPanel.push( comboPageSize, _gridBbPerPage );
+        navPanel.push( comboPageSize, __language.Label_Pagging_by_Page );
         
         var myNavPanel =   {
                 xtype: 'pagingtoolbar',
@@ -65,16 +65,16 @@ Ext.define('ProtoUL.UI.GridController', {
                 store: me.store,
                 displayInfo: true,
                 items: navPanel,
-                afterPageText : _gridBbOf  + ' {0}',
-                beforePageText : _gridBbPage, 
+                afterPageText : __language.Label_Pagging_From  + ' {0}',
+                beforePageText : __language.Label_Pagging_Page, 
                 
-                firstText : _gridFirstText, 
-                nextText : _gridNextText, 
-                prevText : _gridPrevText, 
-                lastText : _gridLastText, 
-                refreshText : _gridRefreshText,  
+                firstText : __language.Label_Pagging_First_Page, 
+                nextText : __language.Label_Pagging_Next_Page, 
+                prevText : __language.Label_Pagging_Previous_Page, 
+                lastText : __language.Label_Pagging_Last_Page, 
+                refreshText : __language.Text_Button_Upd_Grid,  
 
-                displayMsg: _gridBbShow + ' : {0} - {1} ' + _gridBbOf +' {2}'
+                displayMsg: __language.Label_Pagging_Result + ' : {0} - {1} ' + __language.Label_Pagging_From +' {2}'
                 // emptyMsg: "No register to display"
             }
 

@@ -110,7 +110,7 @@ Ext.define('ProtoUL.ux.Login', {
                     me.options.success.call( me.options.scope, result, request);                },
                 failure: function(result, request) {
                     // _UserInfo = request.result.userInfo
-                    me.showFormError( request.result.message);
+                    me.showFormError( request.response.responseText );
                     me.options.failure.call( me.options.scope, result, request);                }
             });
         } else {

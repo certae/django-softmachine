@@ -13,7 +13,7 @@ class OrganisationTree(models.Model):
 # Jerarquia funcional ( de seguridad ) de la app     
 # Es la base de la seguridad por registro
 
-    code = models.CharField(unique=True, blank = False, null = False, max_length=200 )
+    code = models.CharField( unique=True, blank = False, null = False, max_length=200 )
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
     parentNode = models.ForeignKey( 'OrganisationTree', blank = True, null = True , related_name='downHierachy')
     site = models.ForeignKey( Site, blank = True, null = True)
@@ -36,8 +36,8 @@ class OrganisationTree(models.Model):
     def save(self, *args, **kwargs ):
         if self.parentNode is not None: 
             self.site = self.parentNode.site
-        if self.site is None:
-            raise Exception( 'site required')
+#        if self.site is None:
+#            raise Exception( 'site required')
         super(OrganisationTree, self).save(*args, **kwargs) 
 
     protoExt = { 'fields' : { 

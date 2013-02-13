@@ -14,31 +14,23 @@ _requiredField = '<span style="color:red;font-weight:bold" data-qtip="Required">
 
 
 // _siteTitle = 'ART Atelier de Référentiel pour Togaf'_versionProto = 'Version 1.00.' + _versionMeta
-_siteTitle = 'CANNON S.A. E.S.P.'
+_siteTitle = 'CeRTAE'
 _siteTitleCollapsed = false 
 
-_detailViewNewTab = __language.Msg_View_In_New_Tab
-_gridBbPerPage = __language.Label_Pagging_by_Page
-_gridBbShow = __language.Label_Pagging_Result
-_gridBbOf = __language.Label_Pagging_From
-_gridBbPage = __language.Label_Pagging_Page
 
-_gridFirstText = __language.Label_Pagging_First_Page,
-_gridNextText = __language.Label_Pagging_Next_Page,
-_gridPrevText = __language.Label_Pagging_Previous_Page,
-_gridLastText = __language.Label_Pagging_Last_Page,
-_gridRefreshText = __language.Text_Button_Upd_Grid,
-
-    
-_tbSearchClearFilter = __language.Text_Toolbar_Remove_Filters
-    
-//user_prueba
-
-_UserInfo = {
-    fullName: __language.Text_UserInfo_Fullname,
-    userName: ""
-
-};
+// place holder para los titulos con datos basicos del login  
+__language = {
+    'Text_Validate_Login_Button' : 'check',
+    'Text_Forgotten_Password' : 'lost password',
+    'Textfield_User_Login' : 'user',
+    'Textfield_Password_Login' : 'password',
+    'Title_Window_Email_Request' : 'your email',
+    'Message_Enter_Email' : 'Enter your email',
+    'Message_Success' : 'Success',
+    'Message_Email_Forgotten_Password' : 'An email has been sent with the instructions',
+    'Message_Error' : 'Error',
+    'Message_Error_Login' : 'Impossible'
+}
     
 // Config Variables 
 _PConfig =  {
@@ -123,18 +115,14 @@ _ComboFilterOp = []
     // ]; 
  
 
-_defaultViewText = __language.Text_Default_view;
 _defaultViewIcon = 'default_view' 
  
 
 // Windows Position
-
 _mainWin = null
- 
 _winX = 10
 _winY = 10  
  
-
  
   // *  Configuracion del metodo por defecto  
   // Ext.data.Connection.prototype.method = 'GET';

@@ -25,14 +25,15 @@ def  getUserProfile( pUser, action, actionInfo  ):
      
     """
 
+    # User 
+    if pUser is None: return None 
+
     # Profile 
-    try: 
-        uProfile  = UserProfile.objects.get( user = pUser )
-    except UserProfile.DoesNotExist:
+    uProfile  = UserProfile.objects.get_or_create( user = pUser )[0]
         
+    if uProfile.userGroup is None:         
         # verifica el grupo  ( proto por defecto ) 
-        pGroup = OrganisationTree.objects.get_or_create(code='proto')[0]
-        uProfile = UserProfile( user = pUser, userGroup = pGroup )
+        uProfile.userGroup = OrganisationTree.objects.get_or_create(code='proto')[0]
         uProfile.save() 
          
     if action == 'login':
@@ -46,14 +47,12 @@ def  getUserProfile( pUser, action, actionInfo  ):
         uProfile.userTree = ','.join( set( uOrgTree.split(',')))
         uProfile.save()
 
-        if uProfile.languaje == 'es': 
-            from protoLib.localisation.es import __language  
-        elif uProfile.languaje == 'en': 
-            from protoLib.localisation.en import __language  
-        else :  
-            from protoLib.localisation.fr import __language  
+        usrLanguage = uProfile.language
+        if usrLanguage not in ['es', 'en', 'fr' ] : usrLanguage = 'fr'
+        usrLanguage = 'protoLib.localisation.' + usrLanguage 
+        myModule = __import__( usrLanguage,  globals(), locals(), ['__language' ], -1 )         
 
-        return __language 
+        return myModule.__language 
 
 
     return uProfile 

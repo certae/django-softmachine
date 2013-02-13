@@ -7,7 +7,7 @@ from django.contrib.admin.util import  get_fields_from_path
 from django.utils.encoding import smart_str
 from django.db.models import Q
 
-from protoQbe import construct_search, addFilter, getSearcheableFields, getQbeStmt
+from protoQbe import getSearcheableFields, getQbeStmt
 from utilsBase import JSONEncoder, getReadableError 
 from utilsBase import _PROTOFN_ , verifyStr   
 from utilsConvert import getTypedValue
@@ -17,7 +17,6 @@ from protoField import TypeEquivalence
 from models import getDjangoModel 
 
 import django.utils.simplejson as json
-import operator
 import traceback
 
 
@@ -282,7 +281,7 @@ def copyValuesFromFields( protoMeta, rowdict, relModels, JsonField):
 
 def getUserNodes( pUser, protoConcept ):
     from protoAuth import getUserProfile
-    userProfile = getUserProfile( pUser, protoConcept, '' ) 
+    userProfile = getUserProfile( pUser, 'list', protoConcept  ) 
     userNodes = userProfile.userTree.split(',')   
         
     return userNodes
@@ -318,8 +317,8 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
     try:
         Qs = addQbeFilter( baseFilter, model, Qs , JsonField)
     except Exception as e:
-#        getReadableError( e ) 
         traceback.print_exc()
+        getReadableError( e ) 
 
 #   Order by 
     orderBy = []
@@ -345,9 +344,9 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
 
     try:
         Qs = addQbeFilter( protoFilter, model, Qs, JsonField )
-    except Exception,  e:
-#        getReadableError( e ) 
+    except Exception as e:
         traceback.print_exc()
+        getReadableError( e ) 
 
     # DbFirst en caso de q no exista una llave primaria   
     fakeId = hasattr( model , '_fakeId' ) 

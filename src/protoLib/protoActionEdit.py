@@ -74,7 +74,7 @@ def protoEdit(request, myAction ):
 
     try: 
         from protoAuth import getUserProfile
-        userProfile = getUserProfile( request.user, protoConcept, '' ) 
+        userProfile = getUserProfile( request.user, 'edit', protoConcept ) 
     except: return  
 
         
