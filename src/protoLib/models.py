@@ -10,13 +10,13 @@ from django.contrib.sites.models import Site
 from django.db.models.signals import post_save
 
 
-class OrganisationTree(models.Model):
+class TeamHierarchy(models.Model):
 # Jerarquia funcional ( de seguridad ) de la app     
 # Es la base de la seguridad por registro
 
     code = models.CharField( unique=True, blank = False, null = False, max_length=200 )
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
-    parentNode = models.ForeignKey( 'OrganisationTree', blank = True, null = True , related_name='downHierachy')
+    parentNode = models.ForeignKey( 'TeamHierarchy', blank = True, null = True , related_name='downHierachy')
     site = models.ForeignKey( Site, blank = True, null = True)
 
     @property
@@ -39,7 +39,7 @@ class OrganisationTree(models.Model):
             self.site = self.parentNode.site
 #        if self.site is None:
 #            raise Exception( 'site required')
-        super(OrganisationTree, self).save(*args, **kwargs) 
+        super(TeamHierarchy, self).save(*args, **kwargs) 
 
     protoExt = { 'fields' : { 
           'fullPath': {'readOnly' : True},
@@ -54,7 +54,7 @@ class UserProfile(models.Model):
 #Es necesario inlcuir el ususario en un BUnit, cada registro copiara el Bunit 
 #del usuario para dar permisos tambien a la jerarquia ( ascendente )
     user = models.ForeignKey(User, unique=True)
-    userGroup = models.ForeignKey( OrganisationTree, blank = True, null = True )
+    userTeam = models.ForeignKey( TeamHierarchy, blank = True, null = True )
     userTree  = models.CharField( blank = True, null = True, max_length= 500 )
     language  = models.CharField( blank = True, null = True, max_length= 500 )
       
@@ -74,17 +74,17 @@ post_save.connect(user_post_save, sender=User)
 class UserShare(models.Model):  
     # si el usuairo comparte otros permisos  
     user = models.ForeignKey( User )
-    userGroup = models.ForeignKey( OrganisationTree , related_name='userShares' )
+    userTeam = models.ForeignKey( TeamHierarchy , related_name='userShares' )
 
     def __unicode__(self):
-        return self.user.username + '-' + self.userGroup.code 
+        return self.user.username + '-' + self.userTeam.code 
 
 
 #Tabla modelo para la creacion de entidades de usuario     ( sm  security mark ) 
 #related_name="%(app_label)s_%(class)s
 class ProtoModel(models.Model):
     smOwningUser = models.ForeignKey( User, null = True, blank=True, related_name='+', editable = False )
-    smOwningGroup = models.ForeignKey( OrganisationTree, null = True, blank=True, related_name='+', editable = False)
+    smOwningTeam = models.ForeignKey( TeamHierarchy, null = True, blank=True, related_name='+', editable = False)
 
     smCreatedBy = models.ForeignKey( User, null = True, blank=True,related_name='+', editable = False)
     smCreatedOn = models.DateTimeField( auto_now=True , null = True, blank=True,editable = False)

@@ -105,8 +105,8 @@ def protoEdit(request, myAction ):
 
                 #  Los campos de seguridad se manejan a nivel registro
                 if isProtoModel:
-                    if key in ['smOwningUser','smOwningGroup','smCreatedBy','smModifiedBy','smWflowStatus','smRegStatus','smCreatedOn','smModifiedOn']: continue 
-                    if key in ['smOwningUser_id','smOwningGroup_id','smCreatedBy_id','smModifiedBy_id']: continue 
+                    if key in ['smOwningUser','smOwningTeam','smCreatedBy','smModifiedBy','smWflowStatus','smRegStatus','smCreatedOn','smModifiedOn']: continue 
+                    if key in ['smOwningUser_id','smOwningTeam_id','smCreatedBy_id','smModifiedBy_id']: continue 
                 
                 #  Udps
                 if (cUDP.udpTable and key.startswith( cUDP.propertyPrefix + '__')): continue 
@@ -194,7 +194,7 @@ def setSecurityInfo( rec, data, userProfile, insAction  ):
     
     if insAction:
         setProtoData( rec, data,  'smOwningUser', userProfile.user )   
-        setProtoData( rec, data,  'smOwningGroup',userProfile.userGroup ) 
+        setProtoData( rec, data,  'smOwningTeam',userProfile.userTeam ) 
         setProtoData( rec, data,  'smCreatedBy',  userProfile.user ) 
         setProtoData( rec, data,  'smRegStatus','0' ) 
         setProtoData( rec, data,  'smCreatedOn',  datetime.now() ) 

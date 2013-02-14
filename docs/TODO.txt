@@ -1,5 +1,6 @@
-en vez de carga storeProxu,  ejecutar un metodo  myLoadData( filter, sorter  )
-Los filtros se deben manejar siempre como objetos,  el manejo del store debe convertirlos a str 
+
+	Ok en vez de carga storeProxu,  ejecutar un metodo  myLoadData( filter, sorter  )
+	   Los filtros se deben manejar siempre como objetos,  el manejo del store debe convertirlos a str 
 
 	Ok, South 
 	Ok, MD 

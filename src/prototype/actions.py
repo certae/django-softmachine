@@ -53,7 +53,7 @@ def getEntities( queryset , request ):
         protoOption = infoEntity[ 'protoOption' ]
         
         try:
-            rec = CustomDefinition.objects.get(code = protoOption, smOwningGroup = userProfile.userGroup )
+            rec = CustomDefinition.objects.get(code = protoOption, smOwningTeam = userProfile.userTeam )
             created = False 
         except CustomDefinition.DoesNotExist:
             created = True 
@@ -206,9 +206,9 @@ def baseDefinition( pEntity ):
             "type": "foreignid"
         },
         {
-            "zoomModel": "protoLib.OrganisationTree",
-            "name": "smOwningGroup",
-            "fkId": "smOwningGroup_id",
+            "zoomModel": "protoLib.TeamHierarchy",
+            "name": "smOwningTeam",
+            "fkId": "smOwningTeam_id",
             "readOnly": True,
             "type": "foreigntext"
         },
@@ -238,8 +238,8 @@ def baseDefinition( pEntity ):
             "type": "foreigntext"
         },
         {
-            "fkField": "smOwningGroup",
-            "name": "smOwningGroup_id",
+            "fkField": "smOwningTeam",
+            "name": "smOwningTeam_id",
             "readOnly": True,
             "hidden": True,
             "type": "foreignid"
@@ -287,7 +287,7 @@ def baseDefinition( pEntity ):
                     },
                     {
                         "__ptType": "formField",
-                        "name": "smOwningGroup"
+                        "name": "smOwningTeam"
                     },
                     {
                         "__ptType": "formField",

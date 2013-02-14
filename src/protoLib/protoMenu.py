@@ -19,8 +19,8 @@ class cAux: pass
 
 def protoGetMenuData(request):
     """
-    Displays the main admin index page, which lists all of the installed
-    apps that have been registered in this site.
+    Cada grupo tiene su propio menu q se construye con las app a las cuales tiene derecho 
+    se guarda siempre por grupo en customDefinition,  
     """
 
     app_dict = {}
@@ -83,8 +83,8 @@ def protoGetMenuData(request):
 
     protoOption = '__menu'
     protoDef = CustomDefinition.objects.get_or_create(
-           code = protoOption, smOwningGroup = userProfile.userGroup, 
-           defaults= {'active': False, 'code' : protoOption, 'smOwningGroup' : userProfile.userGroup }
+           code = protoOption, smOwningTeam = userProfile.userTeam, 
+           defaults= {'active': False, 'code' : protoOption, 'smOwningTeam' : userProfile.userTeam }
            )[0]
 
     # El default solo parece funcionar al insertar en la Db
@@ -109,7 +109,7 @@ def protoGetMenuData(request):
 
 
         # lee las opciones del prototipo 
-        protoOpts = CustomDefinition.objects.filter( code__startswith = 'prototype.ProtoTable.', smOwningGroup = userProfile.userGroup )
+        protoOpts = CustomDefinition.objects.filter( code__startswith = 'prototype.ProtoTable.', smOwningTeam = userProfile.userTeam )
         ix = 0 
         for option in protoOpts:
 

@@ -307,8 +307,8 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
 
 #   Filtros por seguridad ( debe ser siempre a nivel de grupo ) 
     if isProtoModel and not pUser.is_superuser:  
-#       Qs = Qs.filter( Q( smOwningGroup__in = userNodes ) | Q( smOwningUser = pUser  ) )
-        Qs = Qs.filter( smOwningGroup__in = userNodes ) 
+#       Qs = Qs.filter( Q( smOwningTeam__in = userNodes ) | Q( smOwningUser = pUser  ) )
+        Qs = Qs.filter( smOwningTeam__in = userNodes ) 
 
 #   TODO: Agregar solomente los campos definidos en el safeMeta  ( only,  o defer ) 
 #   Qs.query.select_fields = [f1, f2, .... ]     

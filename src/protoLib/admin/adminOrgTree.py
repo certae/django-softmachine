@@ -5,11 +5,11 @@ class orgTreeAdmin(django.contrib.admin.ModelAdmin):
     protoExt = {
     "__ptType": "pcl",
     "description": "Organisation Tree",
-    "protoConcept": "protoLib.OrganisationTree",
+    "protoConcept": "protoLib.TeamHierarchy",
     "protoIcon": "icon-1",
     "metaVersion": "13.0111",
     "idProperty": "id",
-    "protoOption": "protoLib.OrganisationTree",
+    "protoOption": "protoLib.TeamHierarchy",
     "shortTitle": "Organisation Tree",
     "fields": [{
         "__ptType": "field",
@@ -32,7 +32,7 @@ class orgTreeAdmin(django.contrib.admin.ModelAdmin):
         "flex": 1,
         "name": "__str__",
         "fkId": "id",
-        "zoomModel": "protoLib.OrganisationTree",
+        "zoomModel": "protoLib.TeamHierarchy",
         "cellLink": True,
         "header": "Organisation Tree",
         "readOnly": True,
@@ -55,7 +55,7 @@ class orgTreeAdmin(django.contrib.admin.ModelAdmin):
         "type": "foreigntext"
     }, {
         "__ptType": "field",
-        "zoomModel": "protoLib.OrganisationTree",
+        "zoomModel": "protoLib.TeamHierarchy",
         "name": "parentNode",
         "fkId": "parentNode_id",
         "header": "parentNode",
@@ -80,24 +80,24 @@ class orgTreeAdmin(django.contrib.admin.ModelAdmin):
     "actions": [],
     "protoDetails": [{
         "__ptType": "protoDetail",
-        "menuText": "Organisationtree.parentNode",
-        "conceptDetail": "protoLib.OrganisationTree",
+        "menuText": "TeamHierarchy.parentNode",
+        "conceptDetail": "protoLib.TeamHierarchy",
         "detailName": "parentNode",
         "detailField": "parentNode__pk",
         "masterField": "pk"
     }, {
         "__ptType": "protoDetail",
-        "menuText": "Userprofile.userGroup",
+        "menuText": "Userprofile.userTeam",
         "conceptDetail": "protoLib.UserProfile",
-        "detailName": "userGroup",
-        "detailField": "userGroup__pk",
+        "detailName": "userTeam",
+        "detailField": "userTeam__pk",
         "masterField": "pk"
     }, {
         "__ptType": "protoDetail",
-        "menuText": "Domain.smOwningGroup",
+        "menuText": "Domain.smOwningTeam",
         "conceptDetail": "protoDict.Domain",
-        "detailName": "smOwningGroup",
-        "detailField": "smOwningGroup__pk",
+        "detailName": "smOwningTeam",
+        "detailField": "smOwningTeam__pk",
         "masterField": "pk"
     }],
     "protoSheets": [],

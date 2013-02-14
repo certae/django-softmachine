@@ -11,15 +11,25 @@ def add_view_permissions(sender, **kwargs):
     # print "Adding view permission" 
     for content_type in ContentType.objects.all():
         # build our permission slug
-        codename = "view_%s" % content_type.model
 
-        # if it doesn't exist..
+        codename = "view_%s" % content_type.model
+        name = name="Can view %s" % content_type.name
         if not Permission.objects.filter(content_type=content_type, codename=codename):
-            # add it
-            Permission.objects.create(content_type=content_type,
-                                      codename=codename,
-                                      name="Can view %s" % content_type.name)
-            print "Added view permission for %s" % content_type.name
+            Permission.objects.create(content_type=content_type, codename=codename, name = name )
+            print "Added permission %s" % codename 
+
+        codename = "config_%s" % content_type.model
+        name = name="Can config %s" % content_type.name
+        if not Permission.objects.filter(content_type=content_type, codename=codename):
+            Permission.objects.create(content_type=content_type, codename=codename, name = name )
+            print "Added permission %s" % codename 
+
+        codename = "custom_%s" % content_type.model
+        name = name="Can customize %s" % content_type.name
+        if not Permission.objects.filter(content_type=content_type, codename=codename):
+            Permission.objects.create(content_type=content_type, codename=codename, name = name )
+            print "Added permission %s" % codename 
+
 
 # check for all our view permissions after a syncdb
 post_syncdb.connect(add_view_permissions)

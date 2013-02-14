@@ -1,7 +1,7 @@
 # -*- encoding: UTF-8 -*-
 
 
-from models import UserProfile, OrganisationTree
+from models import UserProfile, TeamHierarchy
 
 
 def  getUserProfile( pUser, action, actionInfo  ):
@@ -31,17 +31,17 @@ def  getUserProfile( pUser, action, actionInfo  ):
     # Profile 
     uProfile  = UserProfile.objects.get_or_create( user = pUser )[0]
         
-    if uProfile.userGroup is None:         
+    if uProfile.userTeam is None:         
         # verifica el grupo  ( proto por defecto ) 
-        uProfile.userGroup = OrganisationTree.objects.get_or_create(code='proto')[0]
+        uProfile.userTeam = TeamHierarchy.objects.get_or_create(code='proto')[0]
         uProfile.save() 
          
     if action == 'login':
-        uOrgTree = uProfile.userGroup.treeHierarchy
+        uOrgTree = uProfile.userTeam.treeHierarchy
     
         # permisos adicionales 
         for item in pUser.usershare_set.all() :
-            uOrgTree += ',' + item.userGroup.treeHierarchy
+            uOrgTree += ',' + item.userTeam.treeHierarchy
     
         # Organiza los ids 
         uProfile.userTree = ','.join( set( uOrgTree.split(',')))

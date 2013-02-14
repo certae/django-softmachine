@@ -37,9 +37,10 @@ function getStoreDefinition(  stDef  ){
         myLoadData: function( myFilter, mySorter, myMasterId  ) {
             // buscar por getProxy, clearFilter, ....  
             // Dgt:  Agregar page??? 
-            console.log( '-------  myLoadData ', this.protoOption ) 
-            console.log( myFilter, this.getProxy().extraParams ) 
-            console.log( mySorter, this.sorters.items  )
+            
+            // console.log( '-------  myLoadData ', this.protoOption ) 
+            // console.log( myFilter, this.getProxy().extraParams ) 
+            // console.log( mySorter, this.sorters.items  )
 
             if ( myMasterId ){ this.protoMasterId = myMasterId  }
 
