@@ -6,6 +6,7 @@ from protoLib import protoGrid
 from protoField import  setFieldDict
 from models import getDjangoModel, ProtoDefinition, CustomDefinition 
 from utilsBase import getReadableError, copyProps
+from utilsWeb import JsonError, JsonSuccess 
 
 from protoActionEdit import setSecurityInfo
 from protoQbe import getSearcheableFields
@@ -32,10 +33,8 @@ def protoGetPCI(request):
     
     try: 
         model = getDjangoModel(protoConcept)
-    except Exception,  e:
-        jsondict = { 'success':False, 'message': getReadableError( e ) }
-        context = json.dumps( jsondict)
-        return HttpResponse(context, mimetype="application/json")
+    except Exception as  e:
+        return JsonError(  getReadableError( e ) ) 
     
     # 
     from protoAuth import getUserProfile
@@ -211,8 +210,24 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
 # ------------------------------------------------------------------------
 
 
-def protoSavePCI(request):
+def protoSaveProtoObj(request):
     """ Save full metadata
+    
+    * objetos del tipo _XXX                   se guardan siempre en customDefinition 
+    * objetos del tipo prototype.protoTable   se guardan siempre en customDefinition
+     
+    * Solo los adminstradores tienen el derecho de guardar pcls
+    
+    custom :  Los objetos de tipo custom, manejan la siguiente llave 
+    
+        _ColSet.[protoView]        listDisplaySet  
+        _QrySet.[protoView]        filterSet
+        _menu 
+    
+    Para manejar el modelo en las generacion de protoPci's  se usa :
+    
+        prototype.protoTable.[protoModel-protoView]  --> al leer la pcl se leera prototype.protoTable.[protoModel-protoView]
+    
     """
 
     if request.method != 'POST':
@@ -224,54 +239,40 @@ def protoSavePCI(request):
     from protoAuth import getUserProfile
     userProfile = getUserProfile( request.user, 'savePci', protoOption  ) 
 
-    if protoOption != '__menu' :
-        protoConcept  = getProtoViewName( protoOption )
-        if protoConcept == 'prototype.ProtoTable' and protoConcept != protoOption :
-            custom = True 
+    # Reglas para definir q se guarda  
+    if protoOption.find( '_' ) == 0  :  custom = True 
+    if protoOption.find( 'prototype.ProtoTable.' ) == 0  :  custom = True 
 
-    elif not request.user.is_superuser: 
-        custom = True 
-     
+    # Carga la meta 
     sMeta = request.POST.get('protoMeta', '')
-    protoMeta = json.loads( sMeta )
+    
+    # Es customProperty 
+    if custom: 
 
-    # Prototipos 
-    if custom:
- 
         try:
-            protoDef = CustomDefinition.objects.get(code = protoOption, smOwningTeam  = userProfile.userTeam )
-            created = False 
-        except:
-            CustomDefinition( code = protoOption )
-            created = True 
+            protoDef, created = CustomDefinition.objects.get_or_create(code = protoOption, smOwningTeam = userProfile.userTeam )
+        except Exception as e:
+            return JsonError(  getReadableError( e ) ) 
             
-        setSecurityInfo( protoDef, {}, userProfile, created   )
-    
-    else: 
-        # created : True  ( new ) is a boolean specifying whether a new object was created.
-        protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
-    
+        setSecurityInfo( protoDef, {}, userProfile, created  )
+
+    # Solo los administradores pueden cargar en protoDefinition 
+    elif request.user.is_superuser: 
+
+        try:
+            protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption )
+        except Exception as e:
+            return JsonError(  getReadableError( e ) ) 
+
+    else: return JsonError('Q paso, como llego aqui?') 
+ 
     # El default solo parece funcionar al insertar en la Db
     protoDef.active = True 
     protoDef.overWrite = False 
     protoDef.metaDefinition = sMeta 
-
-    if protoOption == '__menu' :
-        protoDef.description = 'Menu'
-    else: 
-        protoDef.description = protoMeta.get( 'description', '' ) 
-     
     protoDef.save()    
 
-    jsondict = {
-        'success':True,
-        'message': 'Ok',
-    }
-    
-    # Codifica el mssage json 
-    context = json.dumps( jsondict)
-    return HttpResponse(context, mimetype="application/json")
-
+    return  JsonSuccess( { 'message': 'Ok' } )
 
 
 def protoGetFieldTree(request):
@@ -286,11 +287,8 @@ def protoGetFieldTree(request):
     
     try: 
         model = getDjangoModel(protoConcept)
-    except Exception,  e:
-        jsondict = { 'success':False, 'message': getReadableError( e ) }
-        context = json.dumps( jsondict)
-        return HttpResponse(context, mimetype="application/json")
-    
+    except Exception as e:
+        return JsonError(  getReadableError( e ) ) 
     
     fieldList = []
     

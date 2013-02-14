@@ -11,8 +11,11 @@ from django.http import HttpResponse
 
 import django.utils.simplejson as json
 
-from models import getDjangoModel, ProtoDefinition, CustomDefinition  
+from models import getDjangoModel, CustomDefinition  
 from protoActionEdit import setSecurityInfo
+from utilsWeb import JsonError 
+
+from protoAuth import getUserProfile
 
 class cAux: pass 
 
@@ -21,28 +24,38 @@ def protoGetMenuData(request):
     """
     Cada grupo tiene su propio menu q se construye con las app a las cuales tiene derecho 
     se guarda siempre por grupo en customDefinition,  
+    
+    Cada usuario tendra una rama de  favoritos para sus opciones frecuentes, 
+    el menu es a nivel de grupo  
     """
 
-    app_dict = {}
+    if request.method != 'GET': return 
     
+    currentUser  = request.user
+    userProfile = getUserProfile( currentUser, 'getMenu', ''  ) 
+
+    app_dict = {}
+
     appAux = cAux()
     appAux.ixApp = 1 
     appAux.ixMod = 1
+    
 
     def getMenuItem( protoAdmin, model, menuNode ):
     
-        # El menuIx determina tambien si aparece o no en el menu 
-        ixModAux = protoAdmin.get( 'protoMenuIx', appAux.ixMod)
-        if ixModAux < 0: return 
-    
         appCode = model._meta.app_label
+        
+        # Verifica q el usuairo tenga permiso, considera el admin 
+        if not currentUser.is_superuser :  
+            if not currentUser.has_module_perms( appCode ): return  
+            if not currentUser.has_perm( appCode + '.view_' + model._meta.module_name ): return  
         
         # Define la rama del menu 
         menuLabel = protoAdmin.get('protoMenuOpt', appCode )
         
         pTitle = protoAdmin.get('title', model._meta.verbose_name.title() )
     
-    #       Obtiene el menu de settigs.PROTO_APP          
+        # Obtiene el menu de settigs.PROTO_APP          
         try: menuDefinition = settings.PROTO_APP.get( 'app_menu', {}).get( menuLabel, {} ) 
         except: menuDefinition = {}
             
@@ -54,7 +67,7 @@ def protoGetMenuData(request):
         model_dict = {
             'id': appCode + '.' + menuNode ,
             'text': pTitle ,
-            'index': ixModAux ,
+            'index': appAux.ixMod ,
             'iconCls': protoIcon ,
             'leaf': True,
         }
@@ -77,9 +90,6 @@ def protoGetMenuData(request):
 #-- Lectura de la Db ------------------------------------------------------------- 
 
     forceDefault = request.GET.get('forceDefault', '') 
-    
-    from protoAuth import getUserProfile
-    userProfile = getUserProfile( request.user, 'getMenu', '' ) 
 
     protoOption = '__menu'
     protoDef = CustomDefinition.objects.get_or_create(

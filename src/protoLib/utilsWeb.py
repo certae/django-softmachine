@@ -1,15 +1,17 @@
 # -*- encoding: utf-8 -*-
 
-from datetime import datetime
-from django.conf import settings
-
 # some common Web routines
 # Compiled by : Dgt 11/11
 
-import os
-import re
 
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from datetime import datetime
+from django.conf import settings
+from django.http import HttpResponse 
+
+import django.utils.simplejson as json
+import os
+
+
 def proxy_GetToPost(request):
     """ transfer the GET into a POST form then submit to $target url """
     data = request.GET.copy()
@@ -33,27 +35,6 @@ def set_cookie(response, key, value, days_expire = 7):
 #   response.set_cookie(key, value, max_age=max_age, expires=expires)
     return response
     
-def set_pickle_cookie(response, key, value, days_expire = 7):
-    if days_expire is None:
-        max_age = 365*24*60*60  #one year
-    else:
-        max_age = days_expire*24*60*60 
-    value = pickle.dumps(value)
-    expires = datetime.datetime.strftime(datetime.datetime.utcnow() + datetime.timedelta(seconds=max_age), "%a, %d-%b-%Y %H:%M:%S GMT")
-    response.set_cookie(key, value, max_age=max_age, expires=expires)
-    return response  
-    
-    return pickle.loads(value) 
-    
-def get_pickle_cookie(request, key):
-    value = request.COOKIES.get(key)
-    if value:
-        try:
-            value = pickle.loads(value) 
-        except:
-            print ' * ERROR unpickling cookie %s' % key
-            value = None
-    return value
     
 def get_cookie(request, key):
     return request.COOKIES.get(key)
@@ -70,6 +51,7 @@ def JsonSuccess(params = {}):
    
 def JsonError(error = ''):
     return JsonResponse('{"success":false, "msg":%s}' % JSONserialise(error))
+
     
 def DownloadLocalFile(InFile):
     import mimetypes
@@ -81,46 +63,12 @@ def DownloadLocalFile(InFile):
     return response
    
     
-def JSONserialise(obj, sep = '"', escapeStrings = True):
-    import decimal
-    from django.db import models
-    
-    if type(obj)==type({}):
-        return JSONserialise_dict(obj)
-    
-    elif type(obj)==type(True):
-        return obj and "true" or "false"
-    elif type(obj) in [type([]), type((1,2))]:
-        # if len(obj) > 50:
-            # print '*********', 'list', len(obj), type(obj)
-        return "[%s]" % ','.join(map(JSONserialise, obj))
-        # data = []
-        # for item in obj:
-            # data.append(JSONserialise(item))
-        # return "[%s]" % ",".join(data)
-    elif type(obj) in [type(0), type(0.0), long, decimal.Decimal]:
-        return '%s' % obj
-    elif type(obj) in [datetime.datetime , datetime.date]:
-         return u'%s%s%s' % (sep, obj, sep)
-         
-    elif type(obj) in [type(''), type(u'')] or isinstance(obj, models.Model):
-        #print obj, isinstance(obj, str), isinstance(obj, unicode)
-        if obj == "False": 
-           return "false"
-        elif obj == "True":
-            return "true"
-        else:
-            if escapeStrings:
-                return u'%s%s%s' % (sep, JsonCleanstr(obj), sep)
-            else:
-                return u'%s%s%s' % (sep, obj, sep)
-    elif not obj:   
-        return u'%s%s' % (sep, sep)
-    else:   
-        
-        print 'JSONserialise unknown type', obj, type(obj), obj.__class__.__name__, isinstance(obj, models.Model)
-        return u'%s' % obj
-    return None
+def JSONserialise( obj ):
+    if not isinstance( obj , basestring ):
+        try: 
+            obj = json.dump( obj )  
+        except : obj = 'error JSONSerialise'
+    return obj 
     
 
 def getUrl(url, data = None, method = 'GET', headers = {}):
@@ -139,37 +87,6 @@ def getUrl(url, data = None, method = 'GET', headers = {}):
     #    return _code
     
     return response.read()
-
-def JSONserialise_dict_item(key, value, sep = '"'):
-    # quote the value except for ExtJs keywords
-    
-    if key in ['renderer', 'editor', 'hidden', 'sortable', 'sortInfo', 'listeners', 'view', 'failure', 'success','scope', 'fn','store','handler','callback']:
-        if u'%s' % value in ['True', 'False']:
-            value = str(value).lower()
-        else:
-            # dont escape strings inside these special values (eg; store data)
-            value = JSONserialise(value, sep='', escapeStrings = False)
-        return '"%s":%s' % (key, value)
-    else:
-        value = JSONserialise(value, sep)
-        return '"%s":%s' % (key, value)
-     
-def JSONserialise_dict(inDict):
-    data=[]
-    for key in inDict.keys():
-        data.append(JSONserialise_dict_item(key, inDict[key]))
-    data = ",".join(data)
-    return "{%s}" % data
-    
-def JsonCleanstr(inval):
-    try:
-        inval = u'%s' % inval
-    except:
-        print "ERROR nunicoding %s" % inval
-        pass
-    inval = inval.replace('"',r'\"')
-    inval = inval.replace('\n','\\n').replace('\r','')
-    return inval
 
 
 def my_send_mail(subject, txt, sender, to=[], files=[], charset='UTF-8'):

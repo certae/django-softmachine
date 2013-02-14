@@ -141,7 +141,7 @@ __language ={
     'Text_Hide_Errors_Validation_Form' : 'Click again to hide the error list',
     'Text_Submit_Validation_Form' : 'Saving...',
 
-    'Message_Error_SavePCI' : 'SavePCI Failed',
+    'Message_Error_SaveProtoObj' : 'SaveProtoObj Failed',
     'Message_Error_Reporting' : 'SheetReport Failed',
 
 

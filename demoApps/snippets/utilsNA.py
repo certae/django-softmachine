@@ -54,3 +54,26 @@ def getTextSearchFields( pSearchFields, model  ) :
             textSearchFlds.append( fName )   
 
     return textSearchFlds
+
+
+#def set_pickle_cookie(response, key, value, days_expire = 7):
+#    if days_expire is None:
+#        max_age = 365*24*60*60  #one year
+#    else:
+#        max_age = days_expire*24*60*60 
+#    value = pickle.dumps(value)
+#    expires = datetime.datetime.strftime(datetime.datetime.utcnow() + datetime.timedelta(seconds=max_age), "%a, %d-%b-%Y %H:%M:%S GMT")
+#    response.set_cookie(key, value, max_age=max_age, expires=expires)
+#    return response  
+#    
+#    return pickle.loads(value) 
+#    
+#def get_pickle_cookie(request, key):
+#    value = request.COOKIES.get(key)
+#    if value:
+#        try:
+#            value = pickle.loads(value) 
+#        except:
+#            print ' * ERROR unpickling cookie %s' % key
+#            value = None
+#    return value

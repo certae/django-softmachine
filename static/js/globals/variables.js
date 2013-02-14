@@ -37,7 +37,7 @@ __language = {
 _PConfig =  {
     urlMenu         : 'protoLib/protoGetMenuData/', 
     urlGetPCI         : 'protoLib/protoGetPCI/', 
-    urlSavePCI         : 'protoLib/protoSavePCI/', 
+    urlSaveProtoObj         : 'protoLib/protoSaveProtoObj/', 
     urlGetFieldTree : 'protoLib/protoGetFieldTree/', 
     urlGetDetailsTree : 'protoLib/protoGetDetailsTree/', 
     urlGetUserRights : 'protoLib/protoGetUserRights/', 

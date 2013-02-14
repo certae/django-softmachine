@@ -828,7 +828,7 @@ function saveProtoObj( protoOption, sMeta ,  options) {
     
         Ext.Ajax.request({
             method: 'POST',
-            url: _PConfig.urlSavePCI  ,
+            url: _PConfig.urlSaveProtoObj  ,
             params : { 
                 protoOption : protoOption,  
                 protoMeta : sMeta  
@@ -840,11 +840,11 @@ function saveProtoObj( protoOption, sMeta ,  options) {
                     options.success.call( options.scope, result, request);
                 } else {
                     options.failure.call(options.scope, result, request);
-                    errorMessage(__language.Message_Error_SavePCI, myResult.message)
+                    errorMessage(__language.Message_Error_SaveProtoObj, myResult.message)
                 }
             },
             failure: function(result, request) {
-                errorMessage(__language.Message_Error_SavePCI, result.status + ' ' + result.statusText)
+                errorMessage(__language.Message_Error_SaveProtoObj, result.status + ' ' + result.statusText)
                 options.failure.call(options.scope, result, request);
             },
             scope: this,

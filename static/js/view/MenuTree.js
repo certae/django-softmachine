@@ -57,7 +57,7 @@ Ext.define('ProtoUL.view.MenuTree', {
         });
 
 
-        if ( _UserInfo.isSuperUser ) { 
+        // if ( _UserInfo.isSuperUser ) { 
 
             Ext.apply(this, {
                 dockedItems: [
@@ -118,8 +118,7 @@ Ext.define('ProtoUL.view.MenuTree', {
                 }
             ]
             });
-
-        }
+        // }
 
         
         this.callParent(arguments);

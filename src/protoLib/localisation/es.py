@@ -139,7 +139,7 @@ __language ={
     'Text_Hide_Errors_Validation_Form' : 'Clic de nuevo para ocultar la lista de eorrores',
     'Text_Submit_Validation_Form' : 'Guardando...',
 
-    'Message_Error_SavePCI' : 'Error al guardar PCI',
+    'Message_Error_SaveProtoObj' : 'Error al guardar PCI',
     'Message_Error_Reporting' : 'Error en lanzar informe',
 
     'Title_Main_Panel' : 'Panel Raiz',

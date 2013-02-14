@@ -48,7 +48,6 @@ class TeamHierarchy(models.Model):
 
 
 
-
 # here is the profile model
 class UserProfile(models.Model):  
 #Es necesario inlcuir el ususario en un BUnit, cada registro copiara el Bunit 
@@ -57,6 +56,9 @@ class UserProfile(models.Model):
     userTeam = models.ForeignKey( TeamHierarchy, blank = True, null = True )
     userTree  = models.CharField( blank = True, null = True, max_length= 500 )
     language  = models.CharField( blank = True, null = True, max_length= 500 )
+
+    #TODO: si  el usuario pertenece a varios grupos podria cambiar su grupo de trabajo 
+    #workigTeam = models.ForeignKey( TeamHierarchy, blank = True, null = True )
       
     def __unicode__(self):
         return  self.user.username 
@@ -125,7 +127,7 @@ class CustomDefinition( ProtoModel ):
     # maneja las definiciones por grupo 
     # aqui se guardan los menus personalizados, y las customOptions 
     # DGT: por ahora el manejo es solo a nivel de grupos, pero dependiendo el nivel de amdin, se guardara como grupo o usuario  
-    code = models.CharField(unique=True, blank = False, null = False, max_length=200 )
+    code = models.CharField( blank = False, null = False, max_length=200 )
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
     metaDefinition = models.TextField( blank = True, null = True)
@@ -136,6 +138,8 @@ class CustomDefinition( ProtoModel ):
     
     def __unicode__(self):
         return self.code 
+    class Meta:
+        unique_together = ('smOwningTeam', 'code',  )
 
 
 def getDjangoModel( modelName ):

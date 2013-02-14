@@ -61,6 +61,15 @@ def  getUserProfile( pUser, action, actionInfo  ):
 
 """
 
+Existen diferentes esquemas de seguridad para las tablas : 
+
+    Abierto a toda la jerarquia 
+    Especifico por grupo 
+
+Es posible que hubiera tablas q permitieran ver una parte de la jerarquia, 
+un detalle del TeamHierachy podria contener las tablas y sus permisos 
+
+
 has_perm(perm, obj=None)
 has_perms(perm_list, obj=None)
 

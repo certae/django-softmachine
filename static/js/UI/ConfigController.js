@@ -18,13 +18,13 @@ Ext.define('ProtoUL.UI.ConfigController', {
         var myActions = [];
 
 
-        if ( _UserInfo.isSuperUser ) { 
+        // if ( _UserInfo.isSuperUser ) { 
             myActions.push(myActionConfig('Meta', __language.MetaConfig_Meta_Config, 'icon-configMeta'))
             myActions.push(myActionConfig('Form', __language.MetaConfig_Form_Config, 'icon-configForm'))
             myActions.push(myActionConfig('Fields', __language.MetaConfig_Add_Fields, 'icon-configFields'))
             myActions.push(myActionConfig('Details', __language.MetaConfig_Add_Details, 'icon-configDetails'))
             myActions.push(myActionConfig('Reset', __language.MetaConfig_Reset_Meta, 'icon-configReset'))
-        } 
+        // } 
 
         return myActions   
 

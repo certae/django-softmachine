@@ -141,7 +141,7 @@ __language ={
     'Text_Hide_Errors_Validation_Form' : 'Cliquez à nouveau pour masquer la liste des erreurs',
     'Text_Submit_Validation_Form' : 'Sauvegarde en cours ...',
 
-    'Message_Error_SavePCI' : 'Échec SavePCI',
+    'Message_Error_SaveProtoObj' : 'Échec SaveProtoObj',
     'Message_Error_Reporting' : 'Échec SheetReport',
 
     'Title_Main_Panel' : 'RootPanel',
