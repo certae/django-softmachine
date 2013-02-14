@@ -28,21 +28,22 @@ class JSONEncoder(json.JSONEncoder):
 
 
 def verifyList( obj ):
-#   DGT:  Los objetos del admin son en su mayoria del tipo tuple,
+#   Los objetos del admin son en su mayoria del tipo tuple,
 #   Es necesario convertirlos a listas por facilidad de trabajo
-#   TODO: solo convertir tuplas, si no retornar  [] 
-    if obj is None:  obj = []
-    if type( obj ).__name__ != type([]).__name__ :  
+    if isinstance( obj , basestring ):
+        try: obj = json.loads( obj )  
+        except : obj = []
+    elif isinstance( obj, tuple  ):  
         obj = list( obj )
-    return obj 
 
+    if isinstance( obj, list ):
+        return obj    
+    else: return [] 
 
 def verifyStr( vrBase , vrDefault ):
     sAux = vrBase or vrDefault
     return  u'%s' % sAux 
 
-
-    
              
 def parseEmailAddress(fullemail, delimitorLeft = '<', delimitorRight = '>'):
     """ 

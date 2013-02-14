@@ -13,90 +13,10 @@ Ext.define('ProtoUL.core.ProtoStore', {
  */
 
 
-function getProxyDefinition( stDef )  {
-
-    return {
-            type: 'ajax',
-            batchActions : true, 
-            batchOrder : "create,update,destroy", 
-            api: {
-                 read :   'protoLib/protoList/',
-                 create:  'protoLib/protoAdd/',
-                 update:  'protoLib/protoUpd/',
-                 destroy: 'protoLib/protoDel/'
-            },
-            actionMethods: {
-                    create : 'POST',
-                    read   : 'POST',
-                    update : 'POST',
-                    destroy: 'POST'
-            },    
-            reader: {
-                type: 'json',
-                root: 'rows',
-                successProperty: 'success',
-                totalProperty: 'totalCount',
-                messageProperty: 'message'
-            },
-
-            writer: {
-                type: 'json',
-                root: 'rows', 
-                allowSingle: false, 
-                writeAllFields: true,
-                encode: true,            // Dgt:  Incluye los parametros en el post ( por defecto en el get )
-                messageProperty: 'message'
-            },
-
-            extraParams : {
-                protoOption : stDef.protoOption,
-                protoFilter : stDef.protoFilter,
-                baseFilter  : stDef.baseFilter, 
-                baseFilterCp: stDef.baseFilter, 
-                protoMeta  : stDef.sProtoMeta    // String 
-            },    
-
-            listeners: {
-
-                // 'load' :  function(store,records,options) { this.loaded = true }
-                'exception': function(proxy, response, operation){
-                    // var msg = operation.request.scope.reader.jsonData["message"] ;
-                    var msg = 'REMOTE EXCEPTION: ' + operation.getError();
-                    __StBar.showError( msg , 'storeException'); 
-                } 
-            }
-             
-            // afterRequest: function( request, success ){
-                // var title = 'afterRequest :' + request.method + '.' + request.action, msg = ''
-                // try {
-                    // if ( request.operation.response.status != 200 ) {
-                        // if ( 'jsonData' in request.scope.reader ) { 
-                            // var jsData = request.scope.reader.jsonData;
-                            // msg = request.scope.reader.getMessage()
-                        // }
-                    // }                    
-                // } catch(e) {
-                    // msg = e.message
-                // }
-            // } 
-            
-        }    
-    
-}; 
 
 function getStoreDefinition(  stDef  ){ 
 
-    // En la definicion como clase 
-    // initComponent: function() {
-        // this.sorters = stDef.sorters || [{ property: 'xx', direction: 'ASC' }]
-        // this.idProperty = 
-        // stDef.fields = 
-        // this.callParent(arguments);
-    // }, 
-
     var myStore = Ext.create('Ext.data.Store', {
-        // model : stDef.model,
-
         protoOption : stDef.protoOption,
 
         model: getModelName( stDef.protoOption  ),  
@@ -114,6 +34,25 @@ function getStoreDefinition(  stDef  ){
             // Redefine el metodo, siempre pasa por aqui 
         // }, 
 
+        myLoadData: function( myFilter, mySorter, myMasterId  ) {
+            // buscar por getProxy, clearFilter, ....  
+            // Dgt:  Agregar page??? 
+            console.log( '-------  myLoadData ', this.protoOption ) 
+            console.log( myFilter, this.getProxy().extraParams ) 
+            console.log( mySorter, this.sorters.items  )
+
+            if ( myMasterId ){ this.protoMasterId = myMasterId  }
+
+            if ( myFilter ) {
+                this.clearFilter();
+                this.getProxy().extraParams.protoFilter = obj2tx( myFilter )
+                this.load();
+                
+            } else if ( mySorter ) {
+                this.sort( mySorter )
+            }
+            
+        },   
 
         listeners: {
 
@@ -193,18 +132,87 @@ function getStoreDefinition(  stDef  ){
                         recOrigin.dirty = true;
                         if ( ! recOrigin.getId()  ) recOrigin.phantom = true;
                     }                           
-
                 } 
-    
-            }  
+            } 
         }
-
     })
         
     return myStore
 
 }
 
+function getProxyDefinition( stDef )  {
+
+
+    return {
+            type: 'ajax',
+            batchActions : true, 
+            batchOrder : "create,update,destroy", 
+            api: {
+                 read :   'protoLib/protoList/',
+                 create:  'protoLib/protoAdd/',
+                 update:  'protoLib/protoUpd/',
+                 destroy: 'protoLib/protoDel/'
+            },
+            actionMethods: {
+                    create : 'POST',
+                    read   : 'POST',
+                    update : 'POST',
+                    destroy: 'POST'
+            },    
+            reader: {
+                type: 'json',
+                root: 'rows',
+                successProperty: 'success',
+                totalProperty: 'totalCount',
+                messageProperty: 'message'
+            },
+
+            writer: {
+                type: 'json',
+                root: 'rows', 
+                allowSingle: false, 
+                writeAllFields: true,
+                // Incluye los parametros en el post ( por defecto en el get )
+                encode: true,            
+                messageProperty: 'message'
+            },
+
+            // Parametros String para la conexion al backEnd 
+            extraParams : {
+                protoOption : stDef.protoOption,
+                protoFilter : obj2tx( stDef.protoFilter ),
+                baseFilter  : obj2tx( stDef.baseFilter ), 
+                protoMeta  :  obj2tx( stDef.sProtoMeta )     
+            },    
+
+            listeners: {
+
+                // 'load' :  function(store,records,options) { this.loaded = true }
+                'exception': function(proxy, response, operation){
+                    // var msg = operation.request.scope.reader.jsonData["message"] ;
+                    var msg = 'REMOTE EXCEPTION: ' + operation.getError();
+                    __StBar.showError( msg , 'storeException'); 
+                } 
+            }
+             
+            // afterRequest: function( request, success ){
+                // var title = 'afterRequest :' + request.method + '.' + request.action, msg = ''
+                // try {
+                    // if ( request.operation.response.status != 200 ) {
+                        // if ( 'jsonData' in request.scope.reader ) { 
+                            // var jsData = request.scope.reader.jsonData;
+                            // msg = request.scope.reader.getMessage()
+                        // }
+                    // }                    
+                // } catch(e) {
+                    // msg = e.message
+                // }
+            // } 
+            
+        }    
+    
+}; 
 
 
 function getTreeStoreDefinition(  stDef  ){ 

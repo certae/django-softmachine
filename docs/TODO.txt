@@ -1,10 +1,18 @@
-	South 
+en vez de carga storeProxu,  ejecutar un metodo  myLoadData( filter, sorter  )
+Los filtros se deben manejar siempre como objetos,  el manejo del store debe convertirlos a str 
 
+	Ok, South 
 	Ok, MD 
-	campos absorbidos
+
+	Ok,  campos absorbidos
+		Agregar el fromModel   
+		R/ se cambio por crudType  
+
+	    modelMeta = field.model._meta
+		pField['fromModel'] = modelMeta.app_label + '.' + modelMeta.object_name 
+
 	menu por grupo 
 	generacion de vistas 
-
 
 
 ---------------

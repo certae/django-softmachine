@@ -126,7 +126,7 @@
         var form = me.down('form').getForm();
         if(form.isValid()){
             var campos = me.down('form').items.items;
-            arrQbe = new Array();
+            arrFilterQbe = new Array();
             var qbe = '';
             for (i = 0; i < campos.length; i++) {
                 if (campos[i].getValue().trim() != '') {
@@ -134,16 +134,13 @@
                         property   : campos[i].getName(),
                         filterStmt : campos[i].getValue()
                     };
-                    arrQbe.push(t);
+                    arrFilterQbe.push(t);
                     //qbe += campos[i].getName() + "$( " + campos[i].getValue() + " ),";
                 }
             }
-            /*if (qbe != '') {
-                qbe = qbe.substring(0, qbe.length - 1);
-            }*/
-            //me.aceptar(qbe);
 
-            me.aceptar( Ext.encode(arrQbe) );
+            // me.aceptar( Ext.encode(arrFilterQbe) );
+            me.aceptar( arrFilterQbe );
             me.close();
         }
        

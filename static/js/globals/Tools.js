@@ -462,7 +462,21 @@ function verifyObj ( myObj , defObj ){
         myObj  = Ext.apply( defObj, myObj ) }
         
     return myObj 
+
 }
+
+
+function obj2tx( myObj ) {
+    // recibe un obj y garantiza q retorne un texto ( con un array )
+    var sAux = typeof myObj;   
+    if ( sAux == 'string' ) { sAux = myObj }
+    else{ try { sAux  = Ext.encode( myObj )   
+        } catch(e) {sAux = '[]' }
+    } 
+    return sAux 
+}
+
+
 
 
 function ptPrompt( title, msg )  {

@@ -91,8 +91,12 @@ Ext.application({
         var options = {
             scope: me, 
             success: function ( obj, result, request ) {
-                this.formLoaded = true;
                 myWin.hide()
+                
+                // Globally changing the text of Cancel and Save buttons;
+                Ext.grid.RowEditor.prototype.saveBtnText = __language.Title_Save_Button;
+                Ext.grid.RowEditor.prototype.cancelBtnText = __language.Title_Cancel_Button;
+                
                 var app = new ProtoUL.view.Viewport();
             }
             // failure: function ( obj, result, request) { 

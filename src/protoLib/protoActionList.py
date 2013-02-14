@@ -9,7 +9,7 @@ from django.db.models import Q
 
 from protoQbe import getSearcheableFields, getQbeStmt
 from utilsBase import JSONEncoder, getReadableError 
-from utilsBase import _PROTOFN_ , verifyStr   
+from utilsBase import _PROTOFN_ , verifyStr, verifyList    
 from utilsConvert import getTypedValue
 
 from protoUdp import verifyUdpDefinition, readUdps 
@@ -322,23 +322,22 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
 
 #   Order by 
     orderBy = []
-    if sort:
-        sort = json.loads(  sort ) 
-        for sField in sort: 
+    sort = verifyList( sort )
+    for sField in sort: 
 
-            # Verificar que el campo de sort haga parte de los campos del modelo   
-            # blacklist = [f.name for f in instance._meta.fields] + ['id', 'user']
-            
-            # Unicode sort 
-            if sField['property'] == '__str__' : 
-                unicodeSort = getUnicodeFields( model ) 
-                for sAux in unicodeSort:
-                    if sField['direction'] == 'DESC': sAux = '-' + sAux
-                    orderBy.append( sAux )
-                    
-            else:
-                if sField['direction'] == 'DESC': sField['property'] = '-' + sField['property']
-                orderBy.append( sField['property'] )
+        # Verificar que el campo de sort haga parte de los campos del modelo   
+        # blacklist = [f.name for f in instance._meta.fields] + ['id', 'user']
+        
+        # Unicode sort 
+        if sField['property'] == '__str__' : 
+            unicodeSort = getUnicodeFields( model ) 
+            for sAux in unicodeSort:
+                if sField['direction'] == 'DESC': sAux = '-' + sAux
+                orderBy.append( sAux )
+                
+        else:
+            if sField['direction'] == 'DESC': sField['property'] = '-' + sField['property']
+            orderBy.append( sField['property'] )
                 
     orderBy = tuple( orderBy )
 
@@ -368,7 +367,7 @@ def addQbeFilter( protoFilter, model, Qs, JsonField ):
     if len( protoFilter) == 0: 
         return Qs
 
-    protoFilter =  json.loads(  protoFilter )
+    protoFilter =  verifyList(  protoFilter )
 
     for sFilter in protoFilter: 
         

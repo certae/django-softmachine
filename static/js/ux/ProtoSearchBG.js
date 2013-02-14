@@ -27,7 +27,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
         var searchBtn = new Ext.button.Button({
             tooltip: __language.Tooltip_Filter_Grid_Button,
             iconCls: 'icon-filter', 
-            handler: onClickLoadData
+            handler: onClickSearchBtn
         });
 
         var QBEBtn = new Ext.button.Button({
@@ -50,7 +50,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
             listeners: {
                 keydown: function( me, e ) { 
                     if (e.getKey() == e.ENTER ) {
-                        onClickLoadData ( searchBtn  )
+                        onClickSearchBtn ( searchBtn  )
                        }
                 }}
         });
@@ -69,27 +69,24 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
         });
 
 
-        me.addEvents('loadData');
+        me.addEvents('qbeLoadData');
         me.callParent();
         
         // Inicializa Combos 
         clearCombos();     
 
-        function onClickLoadData ( btn ) { 
-            
+        function onClickSearchBtn ( btn ) { 
             var sFilter = searchCr.getValue();
-            var sTitle = ' " ' + searchCr.getValue() + ' "';
+            var sTitle = '" ' + searchCr.getValue() + ' "';
             
-            me.fireEvent('loadData', me, [{ 'property' :  '_allCols' , 'filterStmt' : sFilter }], sTitle );
-
+            me.fireEvent('qbeLoadData', me, [{ 'property' :  '_allCols' , 'filterStmt' : sFilter }], sTitle );
         }
     
         //BG 
         function onClickClearFilter (item ){
-            // TODO: Manejara los filtros compuestos ( QBE )
+            // resetea los fitros tambien 
             clearCombos()
-            onClickLoadData( {} );
-    
+            me.fireEvent('qbeLoadData', me, [], '' , [] );
         }
 
         function onClickViewQBE(item) {
@@ -103,7 +100,8 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
                 titulo: data.shortTitle,
                 aceptar: function (qbe) {
                     console.log('ok');
-                    me.fireEvent('loadData', me, qbe, ' " '+ __language.Text_Toolbar_Advanced_Filter + '"');
+                    // TODO: preparar el titulo del qbe, con campo y valor 
+                    me.fireEvent('qbeLoadData', me, qbe, '** qbe' );
                 }
             }).show();
                       
@@ -117,104 +115,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
             searchCr.setValue(''); 
         } 
     
-    }, 
-    
-    
-    // =========================================================================================================
-    
-    
-    qbeFilter: function() {
-        // Abre una forma de QBE con cada campo, sus opciones de busqueda y el criterio 
-        
-        // Combo Columnas  
-        var colStore = new Ext.data.ArrayStore({
-            fields: ['colPhysique', 'colName'],
-            data: configureComboColumns()  
-        });
-    
-        var comboCols = new Ext.form.ComboBox({
-            store: colStore,
-            width: 135,
-            mode: 'local',
-            triggerAction: 'all',
-            displayField: 'colName',
-            valueField: 'colPhysique',
-            forceSelection: true,
-            emptyText: __language.Text_Toolbar_In,
-            selectOnFocus: true,
-            typeAhead: true
-        });
-
-
-        // combo - operation 
-        var opStore = new Ext.data.ArrayStore({ 
-            fields: ['code', 'operation'], 
-            data: _ComboFilterOp 
-        }); 
-        
-        var comboOp = new Ext.form.ComboBox({
-            emptyText: __language.Text_Toolbar_Search_Combo,
-            store: opStore,
-            width: 150,
-            mode: 'local',
-            triggerAction: 'all',  
-            displayField: 'operation',
-            valueField: 'code',
-            forceSelection: true,
-            editable: false
-        });
-
-
-
-        function configureComboColumns ( tb ){
-            // Columnas para el Query del tipo :  newColData = [['idx', 'Id Reg'],['code', 'Code Reg']];
-            var colData = [];
-            var myFieldDict = getFieldDict(me.myMeta)
-
-            // REcorre los q llegan y genera el obj  header, name         
-            for ( var ix in me.myMeta.gridConfig.searchFields ) {
-                var name = me.myMeta.gridConfig.searchFields[ix]
-                var c = myFieldDict[name]
-                if ( ! c ) { 
-                    var c = { name : name, header : name }
-                }
-                colData.push( [c.name, c.header] ) 
-            } 
-
-            // Para tomar todos los campos 
-            colData.unshift( ['', ''] ) 
-            return colData ; 
-        }; 
-
-
-        function onClickQbe( btn ) { 
-    
-            var sFilter = '';
-            var sTitle =  ''; 
-            var sCols = comboCols.getValue() || '' 
-
-            var sOps  = comboOp.getValue() || 'icontains'; 
-            if ( sOps == '--' ) { sOps = 'icontains' };    
-            
-            if (searchCr.getValue() == '' ) {
-                sFilter = '';
-            } else if ((sCols  == '') && (searchCr.getValue() != '' )) {
-                sFilter = searchCr.getValue();
-                sTitle = ' " ' + searchCr.getValue() + ' "';
-            } else {
-                sFilter = '{"' + sCols + '__' + sOps + '" : "' + searchCr.getValue() + '",}';
-
-                sTitle = comboOp.getDisplayValue() || 'qui contient';  
-                sTitle =  ' " ' + comboCols.getDisplayValue() + " " +  sTitle + " " + searchCr.getValue() + ' "';
-            }
-            
-            me.fireEvent('loadData', me, sFilter, sTitle );
-    
-        };
-        
-        
-    }
-    
+    } 
 
 });
 

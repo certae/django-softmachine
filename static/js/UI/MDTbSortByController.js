@@ -113,13 +113,12 @@ Ext.define('ProtoUL.UI.MDTbSortByController', {
                     button.sortData.direction = Ext.String.toggle(button.sortData.direction, "ASC", "DESC");
                     button.setIconCls(Ext.String.toggle(iconCls, "sort-asc", "sort-desc"));
                 }
-                __MasterDetail.protoMasterStore.clearFilter();
                 doSort();
             }
         }
     
         function doSort() {
-            __MasterDetail.protoMasterStore.sort( getSorters() );
+            __MasterDetail.protoMasterStore.myLoadData( null,  getSorters() );
         }
     
         /**

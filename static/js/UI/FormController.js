@@ -192,7 +192,7 @@ Ext.define('ProtoUL.UI.FormController', {
         }  
 
         // Filter 
-        var myFilter = '[{ "property":"pk", "filterStmt":' +  myRecordId + '}]'
+        var myFilter = [{ "property" : "pk", "filterStmt" : myRecordId }]
         var storeDefinition =  {
             protoOption : this.protoOption, 
             autoLoad: true, 
@@ -318,8 +318,7 @@ Ext.define('ProtoUL.UI.FormController', {
                     prLayout = Ext.apply( template.__ptConfig , protoObj.__ptConfig  ) 
                     
                     // Inicia la grilla sin datos 
-                    prLayout.initialFilter = { 'pk': -1 }
-        
+                    prLayout.initialFilter = [{ 'property' : 'pk', 'filterStmt' :  -1 }]
                     delete protoObj.__ptConfig.name 
 
 

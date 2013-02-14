@@ -14,6 +14,11 @@ class Domain(ProtoModel):
     def __unicode__(self):
         return self.code 
 
+    class Meta:
+        permissions = (
+            ( "read_domain", "Can read domain"),
+        )
+
 
 class Model(ProtoModel):
     """

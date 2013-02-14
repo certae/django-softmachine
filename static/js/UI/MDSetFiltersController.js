@@ -62,9 +62,9 @@ Ext.define('ProtoUL.UI.MDSetFiltersController', {
         }; 
         
         function onClickProtoFilter( btn ){
-            __MasterDetail.protoMasterGrid.protoLocalFilter = ' " ' +  btn.text + ' "'; 
+            __MasterDetail.protoMasterGrid.filterTitle = ' " ' +  btn.text + ' "'; 
             __MasterDetail.protoMasterGrid.setGridTitle( __MasterDetail.protoMasterGrid ) 
-            __MasterDetail.onClickLoadData( btn.protoFilter );
+            __MasterDetail.mdGridLoadData( btn.protoFilter );
         }
         
         

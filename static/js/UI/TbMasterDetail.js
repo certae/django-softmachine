@@ -171,9 +171,9 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         
         
         this.searchBG.on({
-            loadData: {fn: function ( tbar , sFilter, sTitle ) {
-                __MasterDetail.onClickLoadData( sFilter );
-                __MasterDetail.protoMasterGrid.protoLocalFilter = sTitle; 
+            qbeLoadData: {fn: function ( tbar , sFilter, sTitle, sorter ) {
+                __MasterDetail.mdGridLoadData( sFilter, sorter );
+                __MasterDetail.protoMasterGrid.filterTitle = sTitle; 
                 __MasterDetail.protoMasterGrid.setGridTitle( __MasterDetail.protoMasterGrid ) 
                 }, scope: this }
         });                 

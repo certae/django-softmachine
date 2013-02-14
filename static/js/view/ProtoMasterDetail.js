@@ -14,11 +14,19 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
     // Estados iniciales 
     editable : false, 
     autoSync : true, 
+    
+    // @es definido solamente cuando es una grilla dependiente  ( detalle o promoted ) 
+    isPromoted : false, 
+    mdFilter : [], 
+    
     initComponent: function() {
 
         // Recupera la meta   ------------------------------------------------------------ 
         this.myMeta = _cllPCI[ this.protoOption ] ;                         
         var me  = this ;         
+        
+        // Marca si viene de un detalle 
+        if ( this.mdFilter ) {  this.isPromoted = true }
         
         __StBar.showBusy( 'loading ' + this.protoOption + '...', 'prMD.init',  2000)
         
@@ -27,8 +35,9 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         this.protoMasterGrid = Ext.create('ProtoUL.view.ProtoGrid', {
             border : false, 
             protoOption : this.protoOption,  
-            baseFilter : this.baseFilter, 
+            mdFilter    : this.mdFilter, 
             detailTitle : this.detailTitle, 
+            isPromoted  : this.isPromoted, 
             
             region: 'center',
             flex: 1,
@@ -146,22 +155,18 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         // Verifica si la llave cambio
         if ( tmpStore.protoMasterId == me.idMasterGrid ) { return; }
 
-        // Navegacion por llaves del maestro, si rowData is null no hay registro seleccionado   
+        // DGT@@@ Navegacion por llaves del maestro, si rowData is null no hay registro seleccionado   
         var protoFilter   
         if ( ! me.protoMasterGrid.rowData )  { 
-            protoFilter = '[{ "property" :"' + pDetail.detailField + '" , "filterStmt" : -1}]';
+            protoFilter = [{ "property" :  pDetail.detailField , "filterStmt" : -1}];
         } else { 
             // En caso de q el master no sea el pk 
             var rowDataIx  = me.idMasterGrid
             if ( pDetail.masterField != 'pk' ) { rowDataIx  = me.protoMasterGrid.rowData[ pDetail.masterField ] }
-            protoFilter = '[{ "property" :"' + pDetail.detailField + '" , "filterStmt" :' + rowDataIx + '}]';
+            protoFilter = [{ "property" :  pDetail.detailField , "filterStmt" : rowDataIx }];
         }
         
-        // El filtro del detalle tiene en cuenta el filtro predefinido para la grilla
-        tmpStore.clearFilter();
-        tmpStore.getProxy().extraParams.protoFilter = protoFilter 
-        tmpStore.protoMasterId = me.idMasterGrid;
-        tmpStore.load();
+        tmpStore.myLoadData( protoFilter, null, me.idMasterGrid )
 
         // Obtiene la grilla y le da un titulo  
         var myDetGrid = me.protoTabs.items.items[ me.ixActiveDetail ]
@@ -176,9 +181,9 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
     }, 
     
 
-    onClickLoadData: function ( sFilter ) { 
+    mdGridLoadData: function ( sFilter , sorter) { 
         // Refresh 
-        this.protoMasterGrid.loadData( this.protoMasterGrid,  sFilter  )
+        this.protoMasterGrid.gridLoadData( this.protoMasterGrid,  sFilter,  sorter  )
     },
     
     showDetailPanel: function( bHide ) {

@@ -172,7 +172,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.auth',
     'django.contrib.admin',
-    'django.contrib.admindocs',
+#   'django.contrib.admindocs',
     'south', 
     'protoLib', 
     'prototype', 

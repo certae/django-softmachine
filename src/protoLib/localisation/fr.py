@@ -126,7 +126,7 @@ __language ={
     'StatusBar_Message_Loading' : 'Chargement ...',
     'StatusBar_Message_Ready' : 'Prête',
     'StatusBar_Message_Sync' : 'Sync..',
-    'StatusBar_Text_Clean_Button' : 'Décochez',
+    'StatusBar_Text_Clean_Button' : 'Clear',
     'StatusBar_Tooltip_Clean_Button' : "barre d'état clair",
     'StatusBar_Text_Task_Button' : 'tâche',
     'StatusBar_Text_Close_Session' : 'Fermer la session',
@@ -143,7 +143,6 @@ __language ={
 
     'Message_Error_SavePCI' : 'Échec SavePCI',
     'Message_Error_Reporting' : 'Échec SheetReport',
-
 
     'Title_Main_Panel' : 'RootPanel',
     'Title_Form_Panel' : 'Formulaire',

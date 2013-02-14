@@ -4,8 +4,9 @@ Ext.define('ProtoUL.view.MenuTree', {
 
     viewConfig: {
             plugins: {
+                // El dragText no puede reemplazarse por una variable, impide el drag
                 ptype: 'treeviewdragdrop',
-                dragText: __language.MenuTree_DD_Text,
+                dragText: 'Drag to reorder',
                 ddGroup: 'menu'
             }
     },    
@@ -234,11 +235,9 @@ Ext.define('ProtoUL.view.MenuTree', {
                      mData.leaf = false
                      mData.protoOption = tData.protoOption || tData.id
                 } else {
-                     // dgt: por q este cambio ??
-                     //mData.expanded = false
-                     //mData.children = {}
-                     //mData.leaf = tData.leaf
-                     mData.leaf = true 
+                     mData.expanded = false
+                     mData.children = {}
+                     mData.leaf = tData.leaf
                      mData.protoOption =  tData.protoOption ||  tData.id 
                 }
             } 

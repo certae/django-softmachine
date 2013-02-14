@@ -18,11 +18,16 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     
     // Internals 
     myMeta : null,  
-    initialFilter : null, 
 
     // Selection model 
     selModel : null, 
     rowData : null,  
+    
+    // Navegacion 
+    isDetail : false, 
+    isPromoted : false, 
+    mdFilter : [], 
+    initialFilter : null, 
         
     initComponent: function() {
 
@@ -43,29 +48,41 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         
         // VErifica si el store viene como parametro ( Detail )
-        var myFilter = '';
-        
-        // Agrega  filtro nulo si la grilla es detalle 
-        if ( this.initialFilter  || typeOf( this.initialFilter ) == 'object') {
-            myMeta.gridConfig.initialFilter = this.initialFilter 
-        }
-        
-        // Si no tiene un filtro base, asigna el filtro inicial, si lo tiene lo agrega al baseFilter  
-        this.baseFilter = myMeta.gridConfig.baseFilter 
-        if ( typeOf( this.baseFilter ) != 'array' ) {
-            try { this.baseFilter  = Ext.decode( this.baseFilter )   
-            } catch(e) { this.baseFilter = [] }
-        } 
-        
-        if ( ! this.mdFilter ) {
-            myFilter = myMeta.gridConfig.initialFilter;
-            myFilter = Ext.encode(myFilter);
+        var baseFilter = [];
+        var myFilter = []
+                
+        if ( this.isDetail )  {
+            // Inicialmente la grilla esta en blanco hasta q linkDetail le entrega un maestro valido.
+            baseFilter = myMeta.gridConfig.baseFilter 
+            myFilter   = [{ "property":  this.detailDefinition.detailField , "filterStmt": -1}] 
+             
+        } else if ( this.isPromoted ) {
+            // El filtro base de una grilla promovida ( sacar detalle ) es el filtro base + la llave del maestro
+            baseFilter = myMeta.gridConfig.baseFilter  
+            baseFilter = baseFilter.concat( this.mdFilter ) 
+               
+        } else { 
+            // La grilla normal tiene los parametros estandar definidos 
+            baseFilter = myMeta.gridConfig.baseFilter 
+            myFilter   = this.initialFilter || myMeta.gridConfig.initialFilter  
+        }              
 
-        } else {
-            this.baseFilter = this.baseFilter.concat( this.mdFilter ) 
-        } 
-        this.baseFilter = Ext.encode( this.baseFilter );
 
+        var storeDefinition =  {
+            protoOption : this.protoOption, 
+            autoLoad    : this.autoLoad || true, 
+            pageSize    : _PAGESIZE,
+
+            // proxy.extraParams, siempre deben ser string 
+            baseFilter  : baseFilter , 
+            protoFilter : myFilter ,
+            sorters     : myMeta.gridConfig.initialSort , 
+            sProtoMeta  : getSafeMeta( myMeta )    
+        };
+
+
+
+        // ---------------------------------------------------------
 
         // Start Row Editing PlugIn
         me.rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
@@ -127,17 +144,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         this.editable = false; 
 
-        var storeDefinition =  {
-            protoOption : this.protoOption, 
-            autoLoad: this.autoLoad || true, 
-            pageSize: _PAGESIZE,
-            sorters: myMeta.gridConfig.initialSort , 
-
-            // proxy.extraParams = {
-            protoFilter : myFilter,
-            baseFilter: this.baseFilter, 
-            sProtoMeta  : getSafeMeta( myMeta )    
-        };
 
         // Definie el grid 
         var grid
@@ -469,14 +475,15 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             gridTitle = Ext.encode( me.mdFilter )   
         };
         
-        if ( me.protoLocalFilter ) {
+        // Titulos cuando son filtros predefinidos 
+        if ( me.filterTitle ) {
             if ( gridTitle ) { gridTitle += ' ; '  };
-            gridTitle +=  me.protoLocalFilter ; 
+            gridTitle +=  me.filterTitle ; 
         } 
 
         if ( gridTitle ) { gridTitle = ' filtrés par ' +  gridTitle + '' };
-        
-        var gridTitle = me.myMeta.shortTitle + gridTitle ; 
+        gridTitle = me.myMeta.shortTitle + gridTitle ; 
+
         me._extGrid.setTitle( gridTitle )  
     }, 
     
@@ -550,10 +557,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         this.store.load(); 
     }, 
     
-    loadData: function( grid,  sFilter, sTitle  ) {
-        grid.store.clearFilter();
-        grid.store.getProxy().extraParams.protoFilter =  Ext.encode( sFilter ) ;
-        grid.store.load();
+    gridLoadData: function( grid,  sFilter, sorter  ) {
+        
+        grid.store.myLoadData( sFilter, sorter  )
         
         // Para evitar q al filtrar se quede en una pagina vacia 
         if ( grid.store.currentPage != 1 )  grid.store.loadPage(1);

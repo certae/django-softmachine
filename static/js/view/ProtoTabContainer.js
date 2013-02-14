@@ -22,14 +22,12 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
         this.callParent();
     },
     
-    addTabPanel: function( protoOption, baseFilter , detailTitle  ){
+    addTabPanel: function( protoOption, mdFilter , detailTitle  ){
 
-
-        // FIX: Ext.suspendLayouts();
-        
+        // FIX: Ext.suspendLayouts();        
         var myMeta = _cllPCI[ protoOption ] ;
         var title = myMeta.shortTitle ; 
-        if ( baseFilter ) { title = '*' + title }
+        if ( mdFilter ) { title = '*' + title }
 
         var tab = this.add({
             title: title ,
@@ -41,22 +39,7 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
             iconCls: myMeta.protoIcon , 
             closable: true, 
             layout: 'fit',
-            items: [
-                // FIX: 
-                  
-                this.createProtoMasterDetail( protoOption, baseFilter , detailTitle )
-                // this.protoMasterGrid = Ext.create('ProtoUL.view.ProtoGrid', {
-                    // border : false, 
-                    // protoOption : protoOption,  
-                    // baseFilter : baseFilter, 
-                    // // detFilter : this.detFilter, 
-                    // detailTitle : detailTitle, 
-                    // region: 'center',
-                    // flex: 1,
-                    // layout: 'fit',
-                    // collapsible: false
-                // }) 
-                ]
+            items: [ this.createProtoMasterDetail( protoOption, mdFilter , detailTitle ) ]
         });
 
         this.setActiveTab( tab )
@@ -65,11 +48,11 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
 
     },
 
-    createProtoMasterDetail: function( protoOption, baseFilter, detailTitle ){
+    createProtoMasterDetail: function( protoOption, mdFilter, detailTitle ){
 
         var MDPanel = Ext.create('widget.protoMasterDetail', {
             protoOption : protoOption,
-            baseFilter : baseFilter, 
+            mdFilter    : mdFilter, 
             detailTitle : detailTitle 
         });
         return MDPanel;

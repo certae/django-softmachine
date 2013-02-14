@@ -86,7 +86,7 @@ Ext.define('ProtoUL.UI.GridController', {
 
             __TabContainer.addTabPanel(
                    me.store.protoOption , 
-                   me.store.getProxy().extraParams.baseFilter, 
+                   me.protoFilter, 
                    me.detailTitle 
            ); 
             

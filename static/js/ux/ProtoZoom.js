@@ -121,7 +121,6 @@ Ext.define('Ext.ux.protoZoom', {
         // Crea la grilla 
         var zoomGrid = Ext.create('ProtoUL.view.ProtoGrid', { 
             protoOption  : me.zoomModel,
-            // initialFilter: [{ "property":"pk", "filterStmt": -1}], 
             initialFilter: [], 
             hideSheet    : true, 
             listDisplay  : '__str__'   
@@ -144,9 +143,9 @@ Ext.define('Ext.ux.protoZoom', {
         });
 
         searchBG.on({
-            loadData: {fn: function ( searchBG , sFilter, sTitle ) {
+            qbeLoadData: {fn: function ( searchBG , sFilter, sTitle , sorter ) {
                 me.resetZoom()                
-                zoomGrid.loadData( zoomGrid, sFilter, sTitle );
+                zoomGrid.gridLoadData( zoomGrid, sFilter, sorter );
             }, scope: this }
         });                 
         
