@@ -122,6 +122,21 @@ class ProtoDefinition(models.Model):
     def __unicode__(self):
         return self.code 
 
+    protoExt = { 
+        "gridConfig" : {
+            "listDisplay": ["__str__", "description", "active", "overWrite"], 
+            "others": {
+                "filtersSet": [{
+                    "name": "prototype",
+                    "customFilter": [{
+                        "property": "code",
+                        "filterStmt": "^prototype"
+                    }]
+                }],
+            }
+        }
+    } 
+
 
 class CustomDefinition( ProtoModel ):
     # maneja las definiciones por grupo 

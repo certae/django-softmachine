@@ -156,18 +156,19 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
              'initialSort': sortInfo,
 
              # Si no es autoload  -  '{"pk" : 0,}'            
+             'baseFilter': grid.gridConfig.get( 'baseFilter', []),
              'initialFilter': grid.gridConfig.get( 'initialFilter', []),
 
-            # Toma las definidas en la grilla 
-            'listDisplay' : grid.gridConfig.get( 'listDisplay', []),
-            'readOnlyFields' : grid.gridConfig.get( 'readOnlyFields', []),
+             # Toma las definidas en la grilla 
+             'listDisplay' : grid.gridConfig.get( 'listDisplay', []),
+             'readOnlyFields' : grid.gridConfig.get( 'readOnlyFields', []),
              
-            # Garantiza q existan en la definicion 
+             # Garantiza q existan en la definicion 
              'hideRowNumbers' : grid.gridConfig.get( 'hideRowNumbers',False),  
              'filterSetABC': grid.gridConfig.get( 'filterSetABC', ''),
-             'baseFilter': grid.gridConfig.get( 'baseFilter', []),
+
              'hiddenFields': grid.protoMeta.get( 'hiddenFields', ['id', ]),
-#            'filtersSet': grid.gridConfig.get( 'filtersSet', []),
+             'others': grid.gridConfig.get( 'others', {}),
 #            'listDisplaySet':grid.gridConfig.get( 'listDisplaySet', []) ,     
          } 
 

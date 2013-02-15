@@ -19,6 +19,12 @@ class Domain(ProtoModel):
             ( "read_domain", "Can read domain"),
         )
 
+    protoExt = { 
+        "gridConfig" : {
+            "listDisplay": ["__str__", "description", "smOwningTeam", "smCreatedOn"]      
+        }
+    } 
+
 
 class Model(ProtoModel):
     """
@@ -46,8 +52,13 @@ class Model(ProtoModel):
     protoExt = { 
         "actions": [
             { "name": "doModelPrototype", "actionParams": [] }, 
-        ]
+        ], 
+        "gridConfig" : {
+            "listDisplay": ["__str__", "description", "smOwningTeam", "smCreatedOn"]      
+        }
     } 
+    
+    
     
 class Entity(ProtoModel):
     """ 
@@ -87,16 +98,11 @@ class Entity(ProtoModel):
             "detailName": "entity",
             "detailField": "entity__pk",
             "masterField": "pk"
-        },
-        {
-            "__ptType": "protoDetail",
-            "menuText": "Views",
-            "conceptDetail": "prototype.ProtoViews",
-            "detailName": "entity",
-            "detailField": "entity__pk",
-            "masterField": "pk"
         }
-        ]
+        ], 
+        "gridConfig" : {
+            "listDisplay": ["__str__", "description", "smOwningTeam", "smCreatedOn"]      
+        }
     } 
 
 
@@ -178,6 +184,12 @@ class Property(PropertyBase):
 
     unicode_sort = ('entity', 'code',  )
 
+    protoExt = { 
+        "gridConfig" : {
+            "listDisplay": ["__str__", "description", "smOwningTeam", "smCreatedOn"]      
+        }
+    } 
+
 
 class Relationship(Property):
     """
@@ -205,6 +217,9 @@ class Relationship(Property):
         super(Relationship, self).save(*args, **kwargs) 
 
     protoExt = { 
+        "gridConfig" : {
+            "listDisplay": ["__str__", "description", "smOwningTeam", "smCreatedOn"]      
+        }, 
         # Propiedades de propertyBase q no se usan aqui.
         "exclude": [ "baseType","prpLength","defaultValue","propertyChoices"]
         }
@@ -235,6 +250,12 @@ class PropertyDom(PropertyBase):
     class Meta:
         unique_together = ('domain', 'code',  )
 
+    protoExt = { 
+        "gridConfig" : {
+            "listDisplay": ["__str__", "description", "smOwningTeam", "smCreatedOn"]      
+        }
+    } 
+
 
 
 class PropertyModel(PropertyBase):
@@ -256,31 +277,18 @@ class PropertyModel(PropertyBase):
     class Meta:
         unique_together = ('model', 'code',  )
 
+    protoExt = { 
+        "gridConfig" : {
+            "listDisplay": ["__str__", "description", "smOwningTeam", "smCreatedOn"]      
+        }
+    } 
 
-class ProtoViews(ProtoModel):
-    """
-    Esta tabla manejar la lista de  prototypos almacenados en protoDefinicion, 
-    servira para generar el menu a nivel de grupos     
-    """
-    entity = models.ForeignKey( Entity )
-    
-    """Nombre (str) de la vista a buscar en protoDefinition  """
-    view   = models.CharField( blank = False, null = False, max_length=200, editable = False )
-
-    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
-
-    def __unicode__(self):
-        return self.entity + '.' + self.info  
-    
-    objects = JSONAwareManager(json_fields = ['info'])
-    protoExt = { 'jsonField' : 'info' }
-   
 
 class ProtoTable(ProtoModel):
     """
     Esta tabla contiene los datos de los prototipos,  
     """
-    entity = models.CharField( blank = False, null = False, max_length=200, editable = False )
+    entity = models.CharField( blank = False, null = False, max_length=200  )
     info = JSONField( default = {} )
 
     def __unicode__(self):
@@ -289,3 +297,8 @@ class ProtoTable(ProtoModel):
     objects = JSONAwareManager(json_fields = ['info'])
     protoExt = { 'jsonField' : 'info' }
    
+    protoExt = { 
+        "gridConfig" : {
+            "listDisplay": ["__str__", "smOwningTeam", "smCreatedOn"]      
+        }
+    } 

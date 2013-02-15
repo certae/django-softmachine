@@ -25,7 +25,16 @@ class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
         "initialFilter": [],
         "hiddenFields": [],
         "listDisplay": ["code", "description", "active", "overWrite"],
-        "searchFields": ["code", "description", "metaDefinition"]
+        "searchFields": ["code", "description", "metaDefinition"], 
+        "others": {
+            "filtersSet": [{
+                "name": "prototype",
+                "customFilter": [{
+                    "property": "code",
+                    "filterStmt": "^prototype"
+                }]
+            }],
+        }
     },
     "fields": [{
         "zoomModel": "@cellValue",

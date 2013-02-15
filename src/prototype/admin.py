@@ -3,7 +3,7 @@
 
 
 from models import Domain,  Model, Entity, Property,  Relationship
-from models import PropertyDom, PropertyModel, ProtoTable, ProtoViews
+from models import PropertyDom, PropertyModel, ProtoTable
 from actions import doModelPrototype
 
 from django.contrib import admin
@@ -21,6 +21,5 @@ admin.site.register(Property )
 admin.site.register(PropertyDom )
 admin.site.register(PropertyModel )
 
-admin.site.register( ProtoViews )
 admin.site.register( ProtoTable )
 

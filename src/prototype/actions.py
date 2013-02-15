@@ -8,7 +8,7 @@ from models import Model, Entity
 
 from protoLib.models import CustomDefinition
 from protoLib.protoActionEdit import setSecurityInfo 
-from protoLib.utilsBase import JSONEncoder
+from protoLib.utilsBase import JSONEncoder, stripAccents
 
 def doModelPrototype( modeladmin, request, queryset ):
     """ 
@@ -49,7 +49,7 @@ def getEntities( queryset , request ):
 #   Recorre los registros selccionados   
     for pEntity in queryset:
         returnMsg += pEntity.code  + ','    
-        infoEntity  = getProtoEntityDefinition ( pEntity, '' )
+        infoEntity  = getProtoEntityDefinition ( pEntity  )
         protoOption = infoEntity[ 'protoOption' ]
         
         try:
@@ -69,14 +69,20 @@ def getEntities( queryset , request ):
     return returnMsg
 
 
-def getProtoEntityDefinition( pEntity, viewName ):
+def getProtoEntityDefinition( pEntity, viewName = None  ):
+
+    entityTitle = pEntity.model.code + '-' + pEntity.code
+    entityName = getEntityName( pEntity  )
+
+    if viewName is None or len( viewName ) == 0 : viewName  = entityName  
+    else: viewName = stripAccents( viewName )
     
-    infoEntity = baseDefinition( pEntity )
-    infoEntity['gridConfig']['baseFilter'] = [ { 'property':'entity', 'filterStmt' : '=' + pEntity.code } ]
+    infoEntity = baseDefinition( pEntity, entityName, entityTitle, viewName )
+    infoEntity['gridConfig']['baseFilter'] = [ { 'property':'entity', 'filterStmt' : '=' + viewName } ]
 
     for pProperty in pEntity.propertySet.all():
 
-        fName = 'info__' + pProperty.code
+        fName  = stripAccents( 'info__' + pProperty.code ) 
         
         field = {
             "name"    : fName,
@@ -89,8 +95,8 @@ def getProtoEntityDefinition( pEntity, viewName ):
 
         # Si es un campo heredado 
         if len( pProperty.cpFromModel or '' ) > 0 and len( pProperty.cpFromField or '' ) > 0 :  
-            field["cpFromModel"] = 'info__' + pProperty.cpFromModel  
-            field["cpFromField"] = 'info__' + pProperty.cpFromField
+            field["cpFromModel"] = 'info__' + stripAccents( pProperty.cpFromModel )   
+            field["cpFromField"] = 'info__' + stripAccents( pProperty.cpFromField ) 
             # un campo heredado no tiene por q ser requerido   
             del field[ "required" ]
 
@@ -99,7 +105,7 @@ def getProtoEntityDefinition( pEntity, viewName ):
             infoEntity['returnField'] = fName 
 
         if pProperty.isForeign: 
-            field["zoomModel"]= "prototype.ProtoTable." + pProperty.relationship.code
+            field["zoomModel"]= "prototype.ProtoTable." + getEntityName( pProperty.relationship.refEntity ) 
             field["fkId"]     = fName + "_id"
             field["type"]     = "foreigntext"
             
@@ -122,6 +128,7 @@ def getProtoEntityDefinition( pEntity, viewName ):
             infoEntity['gridConfig']['listDisplay'].append( fName )
     
         infoEntity['protoForm']['items'][0]['items'].append( { "name": fName, "__ptType": "formField" } )
+
         
     #  __str__, __unicode__            
     if infoEntity.get( 'returnField', '' ) ==  '': 
@@ -132,10 +139,10 @@ def getProtoEntityDefinition( pEntity, viewName ):
     for pDetail in pEntity.fKeysRefSet.all():
         
         detail =  {
-            "detailField": "info__" + pDetail.code + "_id",
-            "conceptDetail": "prototype.ProtoTable." + pDetail.entity.code,
-            "detailName": pDetail.entity.code,
-            "menuText": pDetail.entity.code.capitalize(),
+            "detailField": "info__" + stripAccents( pDetail.code ) + "_id",
+            "conceptDetail": "prototype.ProtoTable." + getEntityName( pDetail.entity  ),
+            "detailName": stripAccents( pDetail.entity.code ),
+            "menuText": pDetail.entity.code ,
             "masterField": "pk"
         }
                     
@@ -144,18 +151,21 @@ def getProtoEntityDefinition( pEntity, viewName ):
             
     return infoEntity
     
+def getEntityName( pEntity ):
+    return stripAccents( pEntity.model.code + '-' + pEntity.code )     
 
-def baseDefinition( pEntity ):
-    
+def baseDefinition( pEntity , entityName, entityTitle, viewName):
+    # protoView: permite generar una vista en prototipos, es el codigo de referencia en protoTable
+
     return  {
     "__ptType": "pcl",
     "protoConcept": "prototype.ProtoTable",
-    "protoOption" : "prototype.ProtoTable." + pEntity.code,
-    "protoView"   : "prototype.ProtoTable." + pEntity.code, 
+    "protoOption" : "prototype.ProtoTable." + entityName,
+    "protoView"   : "prototype.ProtoTable." + viewName,  
     "description" : pEntity.description ,
     "jsonField"   : "info" ,
     "protoIcon"   : "icon-1",
-    "shortTitle"  : pEntity.code,
+    "shortTitle"  : entityTitle,
     "updateTime"  : datetime.now(),
     "metaVersion" : "13.0131",
     "idProperty"  : "id",
@@ -170,7 +180,7 @@ def baseDefinition( pEntity ):
             "name": "entity",
             "readOnly": True,
             "hidden": True,
-            "defaultValue" : pEntity.code, 
+            "defaultValue" : viewName, 
         },
         {
             "name": "info",

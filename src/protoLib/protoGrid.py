@@ -98,37 +98,39 @@ class ProtoGridFactory(object):
         
         # La lista de campos del admin sirve de base, pues puede haber muchos mas campos en proto q en admin
         # Si solo queda el __str__ , asume todos los campos del modelo
-        iCount = len( pListDisplay )  
-        if ( iCount == 0  ) or ( iCount == 1 and (pListDisplay[0] == '__str__')) :
-            # Se crean los campos con base al modelo ( trae todos los campos del modelo )
-            for field in self.model._meta._fields():
-                if field.name in protoExclude: continue
-                setFieldDict (  self.fieldsDict , field )
+        
+#        iCount = len( pListDisplay )  
+#        if ( iCount == 0  ) or ( iCount == 1 and (pListDisplay[0] == '__str__')) :
 
-            for field in self.model._meta._many_to_many():
-                if field.name in protoExclude: continue
-                setFieldDict (  self.fieldsDict , field )
+        # Se crean los campos con base al modelo ( trae todos los campos del modelo )
+        for field in self.model._meta._fields():
+            if field.name in protoExclude: continue
+            setFieldDict (  self.fieldsDict , field )
 
-        else : 
-            for fName in pListDisplay:
-                if fName in protoExclude: continue
-                try:
-                    # Recibe los parametros de los campos del modelo  
-                    field = self.model._meta.get_field(fName )
-                    setFieldDict (  self.fieldsDict , field )
-                except: 
-                    # Si no es parte del modelo, se asegura q exista en el diccionario
-                    fdict = self.fieldsDict.get( fName, {} )
-                    if not fdict: 
-                        fdict['name'] = fName
-                        self.fieldsDict[ fName ] = fdict
+        for field in self.model._meta._many_to_many():
+            if field.name in protoExclude: continue
+            setFieldDict (  self.fieldsDict , field )
 
-                        if fName == '__str__':
-                            setDefaultField( fdict, self.model , self.protoOption  )
-                                                        
-                        # Si no es una UDP y no esta en diccionario debe ser ReadOnly 
-                        if not (cUDP.udpTable and fName.startswith( cUDP.propertyPrefix + '__')):  
-                            fdict[ 'readOnly' ] = True
+#        else : 
+#            for fName in pListDisplay:
+#                if fName in protoExclude: continue
+#                try:
+#                    # Recibe los parametros de los campos del modelo  
+#                    field = self.model._meta.get_field(fName )
+#                    setFieldDict (  self.fieldsDict , field )
+#                except: 
+#                    # Si no es parte del modelo, se asegura q exista en el diccionario
+#                    fdict = self.fieldsDict.get( fName, {} )
+#                    if not fdict: 
+#                        fdict['name'] = fName
+#                        self.fieldsDict[ fName ] = fdict
+#
+#                        if fName == '__str__':
+#                            setDefaultField( fdict, self.model , self.protoOption  )
+#                                                        
+#                        # Si no es una UDP y no esta en diccionario debe ser ReadOnly 
+#                        if not (cUDP.udpTable and fName.startswith( cUDP.propertyPrefix + '__')):  
+#                            fdict[ 'readOnly' ] = True
                 
 
 
@@ -141,7 +143,6 @@ class ProtoGridFactory(object):
             
             setDefaultField ( fdict, self.model, self.protoOption )
              
-
 
         # Genera la lista de campos y agrega el nombre al diccionario 
         for key in self.fieldsDict:        
@@ -162,8 +163,6 @@ class ProtoGridFactory(object):
                     pass 
 
             self.fields.append(fdict)
-
-
 
     def getFieldSets(self):
         """ El field set determina la distribucion de los campos en la forma
