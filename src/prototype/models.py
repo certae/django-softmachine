@@ -140,6 +140,16 @@ class PropertyBase(ProtoModel):
 
 
 
+CRUD_TYPES = (  ('screenOnly','screenOnly' ), 
+                ('storeOnly', 'storeOnly' ),  
+                ('readOnly',  'readOnly' ), 
+                ('insertOnly','insertOnly'  ),
+                ('updateOnly','updateOnly'  ),  
+                ('linked',    'linked' ), 
+                ('copied',    'copied' ), 
+              ) 
+
+
 class Property(PropertyBase):
     """ 
     Propiedades por tabla, definicion a nivel de modelo de datos.
@@ -173,6 +183,7 @@ class Property(PropertyBase):
 
 
     """cpFrom____ : permite definir como heredar campos complejos (absorber JsonFields)"""
+#    crudType    = models.CharField( blank = True, null = True, max_length=200, choices = CRUD_TYPES)
     cpFromModel = models.CharField( blank = True, null = True, max_length=200)
     cpFromField = models.CharField( blank = True, null = True, max_length=200)
 
