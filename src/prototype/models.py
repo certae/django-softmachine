@@ -1,10 +1,40 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from protoLib.models import ProtoModel 
+from protoLib.models import ProtoModel, CustomDefinition  
 
 from protoLib.fields import JSONField,  JSONAwareManager
 
+"""
+    la generacion de las VISTAS se hace como una creacion de una pcl,
+    
+    La pci contedra ahora : 
+        - lista de campos desde los cuales heredar; 
+        - detalles q puede definir; 
+    
+    el tipo de pcl definira la estructura
+    
+    La estructura se enviara desde el BackEnd cuando se requiera; 
+    La validacion de la pci se hace en el backend
+    La validacion de campos se hace con seguridad en el backend ) fieldLevel security  
+    
+    Configuarar los menus adicionales  ( parametricos?? )
+        grupo, 
+        boton 
+        procedimiento
+        tipo de ventana 
+        datos 
+        
+    Menu de protipos permitira 
+        Detalles 
+        Campos absorbidos
+    
+    La edicion de la pcl cerrara y abrira la opcion
+
+    Las acciones,
+        General 
+        Model ( dependen del modelo, no se requiere declararlas en el admin ) 
+"""
    
 class Domain(ProtoModel):
     """El dominio corresponde a un nivel conceptual corportativo MCCD"""
@@ -62,10 +92,9 @@ class Model(ProtoModel):
     
 class Entity(ProtoModel):
     """ 
-    Entity corresponde a las entidades, puede tener asociado un elto fisico;  
-    
+    Entity corresponde a las entidades FISICA;  
     """    
-    model = models.ForeignKey('Model' )
+    model = models.ForeignKey('Model', blank = False, null = False )
     code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
     
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
@@ -122,8 +151,8 @@ class PropertyBase(ProtoModel):
     code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
 
     """baseType, prpLength:  Caracteristicas generales q definen el campo """
-    baseType = models.CharField(verbose_name=u'Type de Base', blank = True, null = True, max_length=50, choices = BASE_TYPES)
-    prpLength = models.DecimalField(blank = True, null = True, decimal_places =2 ,max_digits = 6)
+    baseType = models.CharField( blank = True, null = True, max_length=50, choices = BASE_TYPES)
+    prpLength = models.IntegerField(blank = True, null = True )
 
     """defaultValue: Puede variar en cada instancia """ 
     defaultValue = models.CharField( blank = True, null = True, max_length=50)
@@ -139,14 +168,11 @@ class PropertyBase(ProtoModel):
         abstract = True
 
 
-
-CRUD_TYPES = (  ('screenOnly','screenOnly' ), 
-                ('storeOnly', 'storeOnly' ),  
-                ('readOnly',  'readOnly' ), 
-                ('insertOnly','insertOnly'  ),
-                ('updateOnly','updateOnly'  ),  
-                ('linked',    'linked' ), 
-                ('copied',    'copied' ), 
+CRUD_TYPES = (  
+                ('storeOnly', 'No se presentan nunca (los id)' ),  
+                ('readOnly',  'No se guarda nunca (usado por reglas de gestion)' ), 
+                ('insertOnly','No se actualiza (un campo absorbido al momento de la creacion, ej:direccion de envio'),
+                ('updateOnly','Al insertar nulo o VrDefault, (estado inicial fijo)'),  
               ) 
 
 
@@ -172,7 +198,7 @@ class Property(PropertyBase):
     """isRequired: tiene q ver con el llenado de datos"""
     isRequired = models.BooleanField()
 
-    """isReadOnly: ReadOnly field"""
+    """isReadOnly: ReadOnly field ( frontEnd"""
     isReadOnly = models.BooleanField()
 
     """isEssential: Indica si las propiedades saldran en la vista por defecto """ 
@@ -182,10 +208,16 @@ class Property(PropertyBase):
     isForeign = models.BooleanField( editable = False, default = False )
 
 
-    """cpFrom____ : permite definir como heredar campos complejos (absorber JsonFields)"""
-#    crudType    = models.CharField( blank = True, null = True, max_length=200, choices = CRUD_TYPES)
+    """cpFrom____ : permite definir como heredar campos complejos (absorber JsonFields)
+
+    ** Ya no se usan pues aqui solo se mapean las entidades fisicas, 
+       las copias se manejaran desde la generacion de la pcl;  
+       
     cpFromModel = models.CharField( blank = True, null = True, max_length=200)
     cpFromField = models.CharField( blank = True, null = True, max_length=200)
+       
+    """
+    crudType    = models.CharField( blank = True, null = True, max_length=20, choices = CRUD_TYPES)
 
     class Meta:
         unique_together = ('entity', 'code',  )
@@ -313,3 +345,34 @@ class ProtoTable(ProtoModel):
             "listDisplay": ["__str__", "smOwningTeam", "smCreatedOn"]      
         }
     } 
+
+#   --------------------------------------------------------------------------------
+
+
+class ProtoViews(ProtoModel):
+    """
+    Esta tabla manejar la lista de  prototypos almacenados en customDefinicion, 
+    Genera la "proto" pci;  con la lista de campos a absorber y los detalles posibles        
+    """
+    entity = models.ForeignKey( Entity, blank = False, null = False )
+    
+    """Nombre (str) de la vista a buscar en protoDefinition  """
+    code   = models.CharField( blank = False, null = False, max_length=200, editable = False )
+
+    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
+
+    def __unicode__(self):
+        return self.entity.code + '.' + self.code  
+    
+    protoExt = { 
+        "gridConfig" : {
+            "listDisplay": ["__str__", "smOwningTeam", "smCreatedOn"]      
+        }
+    } 
+
+    def delete(self, *args, **kwargs):
+        #Borra las ocurrencias en customDefinition
+        viewName = 'prototype.ProtoTable.' + self.code          
+        CustomDefinition.objects.filter( code = viewName ).delete()
+        super(ProtoViews, self).delete(*args, **kwargs)
+        
