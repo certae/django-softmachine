@@ -14,6 +14,8 @@ from viewDefinition import getViewDefinition, getViewCode
 
 PROTO_PREFIX = "prototype.ProtoTable."
 
+
+
 def doModelPrototype( modeladmin, request, queryset ):
     """ 
     funcion para crear el prototipo sobre 'protoTable' con la definicion del diccionario
@@ -38,6 +40,33 @@ def doModelPrototype( modeladmin, request, queryset ):
     return returnMsg
 
 doModelPrototype.short_description = "Create prototypes for the model"
+doModelPrototype.selectionMode = "multiple"
+
+
+def doEntityPrototype( modeladmin, request, queryset ):
+
+#   Listade opciones definidas 
+    opts = modeladmin.opts 
+
+#   El QSet viene con la lista de Ids  
+    if queryset.count() == 0:
+        return 'No record selected' 
+
+#   Mensaje de retorno
+    returnMsg = '' 
+
+#   Recorre los registros selccionados   
+    for pModel in queryset:
+        returnTmp = getEntities( pModel.entity_set.all() , request  )
+        returnMsg += 'Model : ' + pModel.code + ' Entts: ' + returnTmp + '; '    
+
+    return returnMsg
+    
+    pass 
+
+doEntityPrototype.selectionMode = "single"
+doEntityPrototype.actionParams = [{"name" : "viewCode", "paramType" : "string", "required": True, "description" : "option de menu (msi)" } ]
+
 
 # --------------------------------------------------------------------------------
 

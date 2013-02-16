@@ -4,7 +4,7 @@
 
 from models import Domain,  Model, Entity, Property,  Relationship
 from models import PropertyDom, PropertyModel, ProtoTable, ProtoView
-from actions import doModelPrototype
+from actions import doModelPrototype, doEntityPrototype
 
 from django.contrib import admin
 
@@ -12,9 +12,14 @@ from django.contrib import admin
 class MyModelAdmin( admin.ModelAdmin ):
     actions = [ doModelPrototype  ]
 
-admin.site.register(Model, MyModelAdmin)
+class MyEntityAdmin( admin.ModelAdmin ):
+    actions = [ doEntityPrototype  ]
+
 admin.site.register(Domain )
-admin.site.register(Entity )
+
+admin.site.register(Model, MyModelAdmin)
+admin.site.register(Entity, MyEntityAdmin )
+
 admin.site.register(Relationship )
 
 admin.site.register(Property )

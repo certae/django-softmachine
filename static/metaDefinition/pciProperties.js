@@ -239,7 +239,7 @@ _MetaProperties =  {
     "detailName.help" : "Nombre correspondiente a un detalle declarado en la opcionBase correspondiente ( padre )",              
 
     "actionType.help" : "Tipo de accion ( metodos backend ) ", 
-    "actionType.choices" : [ "", "report", "wflow", "edicion"], 
+    "actionType.choices" : [ "model", "report", "wflow", "edicion"], 
 
     "refreshOnComplete.type": "boolean",
     
