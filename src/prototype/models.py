@@ -80,9 +80,7 @@ class Model(ProtoModel):
         return self.code 
     
     protoExt = { 
-        "actions": [
-            { "name": "doModelPrototype", "actionParams": [] }, 
-        ], 
+        "actions": [{ "name": "doModelPrototype" }],        
         "gridConfig" : {
             "listDisplay": ["__str__", "description", "smOwningTeam"]      
         }
@@ -109,7 +107,9 @@ class Entity(ProtoModel):
 
     protoExt = { 
         "actions": [
-            { "name": "doEntityPrototype", "actionParams": [] }, 
+            { "name": "doEntityPrototype", "selectionMode" : "single",  
+              "actionParams": [{"name" : "viewCode", "paramType" : "string", "required": True, "description" : "option de menu (msi)" }] 
+            },
         ], 
         "protoDetails": [
         {
@@ -237,6 +237,14 @@ class Property(PropertyBase):
     } 
 
 
+ONDELETE_TYPES = (  
+        ('CASCADE', 'Cascade deletes; the default' ), 
+        ('PROTECT', 'Prevent deletion of the referenced object by raising ProtectedError, a subclass of django.db.IntegrityError'),
+        ('SET_NULL', 'Set the ForeignKey null; this is only possible if null is True'), 
+        ('SET_DEFAULT', 'Set the ForeignKey to its default value; a default for the ForeignKey must be set.  @function si possible'), 
+        ('DO_NOTHING', 'Use default Db constraint')
+    ) 
+
 class Relationship(Property):
     """
     * Tipo particula de propiedad q define las relaciones,  la definicion de la cardinlaidad y otras
@@ -255,9 +263,10 @@ class Relationship(Property):
     refMin = models.CharField( blank = True, null = True, max_length=50)
     refMax = models.CharField( blank = True, null = True, max_length=50)
 
+    onRefDelete = models.CharField( blank = True, null = True, max_length=50, choices = ONDELETE_TYPES)
+
     def __unicode__(self):
         return self.entity.code + '.' +  self.code     
-
 
     def save(self, *args, **kwargs ):
         self.isForeign = True 

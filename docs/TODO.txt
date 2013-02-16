@@ -1,4 +1,12 @@
 
+	generacion de vistas por entidad 
+		configuracion de acciones 
+		formas dinamiocas para parametros de acciones ( ver iss )
+
+	permisios a nivel de campo
+
+
+
 	Ok en vez de carga storeProxu,  ejecutar un metodo  myLoadData( filter, sorter  )
 	   Los filtros se deben manejar siempre como objetos,  el manejo del store debe convertirlos a str 
 
@@ -12,8 +20,7 @@
 	    modelMeta = field.model._meta
 		pField['fromModel'] = modelMeta.app_label + '.' + modelMeta.object_name 
 
-	menu por grupo 
-	generacion de vistas 
+	Ok menu por grupo 
 
 
 ---------------

@@ -2,8 +2,6 @@
 
 #TODO: Django’s comments system (django.contrib.comments) uses it to “attach” comments to any installed model.
 
-from datetime import datetime
-
 from django.db import models
 from django.contrib.auth.models import User 
 from django.contrib.sites.models import Site
@@ -100,6 +98,50 @@ class ProtoModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+class EntityMap(models.Model):
+    """
+    Maneja los permisos a nivel de campo,
+     
+    ?Exluyente - Incluyente 
+    El nvel de acceso al ser excluyente, no podria sumar los permisos de los grupos, 
+    seria necesario asignar un unico grupo ( Django group ) q defina los accesos a nivel de campos, 
+    de tal forma q los grupos de Django seran de dos tipos,    
+    ** Debe ser incluyente para poder sumar, 
+    ** No todas las tablas manejaran esta restriccion 
+
+    * Procedimiento 
+    Por defecto se tienen todos los permisos; Las tablas; 
+    La forma de registrarlos es de todas maneras sumando permisos; entonces
+    - se definen explicitamente las tablas q manejen fieldLevel securty  ( EntityMap )
+    - se definen permisos por grupos   
+     
+    se manejan referecias debiles por nombre para poder importar/exportar la info, de otra forma seria por contenttype 
+    
+          
+           
+    """
+    class Meta:
+        unique_together = ("appName", "modelName" )
+
+    appName = models.CharField(max_length=200, blank=False, null=False)
+    modelName = models.CharField(max_length=200, blank=False, null=False)
+    fieldLevelSecurity = models.BooleanField( default = True )
+
+
+class FieldMap(models.Model):
+
+    entity = models.ForeignKey(EntityMap, blank=False, null=False)
+    fieldName  = models.CharField(max_length=200, blank=False, null=False)
+
+    # Permisos a nivel de campo ( se marcan como enteros para sumarlos 0 = False )  
+    canRead =  models.IntegerField( default = 0, blank=False, null=False )
+    canIns  =  models.IntegerField( default = 0, blank=False, null=False )
+    canUpd  =  models.IntegerField( default = 0, blank=False, null=False )
+
+    class Meta:
+        unique_together = ("entity", "fieldName")
 
 
 # -------------------------------------------

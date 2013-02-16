@@ -64,8 +64,6 @@ def doEntityPrototype( modeladmin, request, queryset ):
     
     pass 
 
-doEntityPrototype.selectionMode = "single"
-doEntityPrototype.actionParams = [{"name" : "viewCode", "paramType" : "string", "required": True, "description" : "option de menu (msi)" } ]
 
 
 # --------------------------------------------------------------------------------

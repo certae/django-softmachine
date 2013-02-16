@@ -111,6 +111,8 @@ class ProtoGridFactory(object):
             if field.name in protoExclude: continue
             setFieldDict (  self.fieldsDict , field )
 
+#       ** DGT: Antes de borrar considerar el caso de fields heredados especificados en el listDisplay
+#       ** de resto se puede borrar, pues lo q hacia era cargar solamente los campos del listDisplay 
 #        else : 
 #            for fName in pListDisplay:
 #                if fName in protoExclude: continue
@@ -280,8 +282,6 @@ class ProtoGridFactory(object):
             
         return pForm 
         
-
-
     def get_details(self):  
 
         # Inicializa con los valores definidos,   

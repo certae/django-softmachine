@@ -239,8 +239,9 @@ _MetaProperties =  {
     "detailName.help" : "Nombre correspondiente a un detalle declarado en la opcionBase correspondiente ( padre )",              
 
     "actionType.help" : "Tipo de accion ( metodos backend ) ", 
-    "actionType.choices" : [ "model", "report", "wflow", "edicion"], 
-
+    // Solo las acciones de tipo "user" son presentadas  en el menu
+    // los triggers pueden ser escritos directamente en el modelo y no pasar por protoExt 
+    "actionType.choices" : [ "user", "insTrigger", "updTrigger", "delTrigger", "wflow"], 
     "refreshOnComplete.type": "boolean",
     
     "paramType.help" : "Tipo de dato del parametro", 
