@@ -1,5 +1,12 @@
-// I would create a database with model/source/grid column definitions, and build the ext grids dynamically by mapping the data with json. This is pretty trivial once you make a beforeRender listener that has a ajax request within it, then in the success routine of the ajax you create or populate the model/source/grid definitions and ... done.
-// You can see this technique (non grid) for example ...
+/*  ----------------------------------------------------------------------
+    I would create a database with model/source/grid column definitions, 
+    and build the ext grids dynamically by mapping the data with json. 
+    
+    This is pretty trivial once you make a beforeRender listener that has a ajax request within it, 
+    then in the success routine of the ajax you create or populate the model/source/grid definitions and ... done.
+    
+    You can see this technique (non grid) for example ...
+*/ 
 
 var areaEast = Ext.create('Ext.Panel', {
     region: 'east',

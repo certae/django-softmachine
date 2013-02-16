@@ -2,8 +2,9 @@
 
 from django.db import models
 from protoLib.models import ProtoModel, CustomDefinition  
-
 from protoLib.fields import JSONField,  JSONAwareManager
+
+PROTO_PREFIX = "prototype.ProtoTable."
 
 """
     la generacion de las VISTAS se hace como una creacion de una pcl,
@@ -38,20 +39,19 @@ from protoLib.fields import JSONField,  JSONAwareManager
    
 class Domain(ProtoModel):
     """El dominio corresponde a un nivel conceptual corportativo MCCD"""
-    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200, unique = True )
+    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200  )
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
-    
+
     def __unicode__(self):
         return self.code 
 
     class Meta:
-        permissions = (
-            ( "read_domain", "Can read domain"),
-        )
+        unique_together = ( 'code', 'smOwningTeam' )
+        #permissions = (( "read_domain", "Can read domain"), )        
 
     protoExt = { 
         "gridConfig" : {
-            "listDisplay": ["__str__", "description", "smOwningTeam", "smCreatedOn"]      
+            "listDisplay": ["__str__", "description", "smOwningTeam"]      
         }
     } 
 
@@ -72,7 +72,7 @@ class Model(ProtoModel):
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
     class Meta:
-        unique_together = ('domain', 'code',  )
+        unique_together = ('domain', 'code', 'smOwningTeam' )
         
     unicode_sort = ('domain', 'code',  )
 
@@ -84,7 +84,7 @@ class Model(ProtoModel):
             { "name": "doModelPrototype", "actionParams": [] }, 
         ], 
         "gridConfig" : {
-            "listDisplay": ["__str__", "description", "smOwningTeam", "smCreatedOn"]      
+            "listDisplay": ["__str__", "description", "smOwningTeam"]      
         }
     } 
     
@@ -100,12 +100,12 @@ class Entity(ProtoModel):
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
     def __unicode__(self):
-        return self.model.code + '.' + self.code 
+        return self.model.code + '-' + self.code 
 
     unicode_sort = ('domain', 'code',  )
 
     class Meta:
-        unique_together = ('model', 'code',  )
+        unique_together = ('model', 'code', 'smOwningTeam' )
 
     protoExt = { 
         "actions": [
@@ -130,7 +130,7 @@ class Entity(ProtoModel):
         }
         ], 
         "gridConfig" : {
-            "listDisplay": ["__str__", "description", "smOwningTeam", "smCreatedOn"]      
+            "listDisplay": ["__str__", "description", "smOwningTeam"]      
         }
     } 
 
@@ -169,7 +169,7 @@ class PropertyBase(ProtoModel):
 
 
 CRUD_TYPES = (  
-                ('storeOnly', 'No se presentan nunca (los id)' ),  
+                ('storeOnly', 'No se presentan nunca (los id, jsonTypes, etc )' ),  
                 ('readOnly',  'No se guarda nunca (usado por reglas de gestion)' ), 
                 ('insertOnly','No se actualiza (un campo absorbido al momento de la creacion, ej:direccion de envio'),
                 ('updateOnly','Al insertar nulo o VrDefault, (estado inicial fijo)'),  
@@ -181,7 +181,6 @@ class Property(PropertyBase):
     Propiedades por tabla, definicion a nivel de modelo de datos.
     Las relaciones heredan de las propriedades y definien la cardinalidad 
     """
-
     entity = models.ForeignKey('Entity', related_name = 'propertySet')
     
     """propertyModel : corresponde a la especificacion en el modelo ( metodologia: user history )"""
@@ -219,8 +218,12 @@ class Property(PropertyBase):
     """
     crudType    = models.CharField( blank = True, null = True, max_length=20, choices = CRUD_TYPES)
 
+    """solo para ordenar los campos en la entidad"""
+    secuence = models.IntegerField(blank = True, null = True,)
+
+
     class Meta:
-        unique_together = ('entity', 'code',  )
+        unique_together = ('entity', 'code', 'smOwningTeam' )
 
     def __unicode__(self):
         return self.entity.code + '.' +  self.code     
@@ -229,14 +232,14 @@ class Property(PropertyBase):
 
     protoExt = { 
         "gridConfig" : {
-            "listDisplay": ["__str__", "description", "smOwningTeam", "smCreatedOn"]      
+            "listDisplay": ["__str__", "description", "smOwningTeam"]      
         }
     } 
 
 
 class Relationship(Property):
     """
-    * Es un tipo particula de propiedad q define las relaciones,  la definicion de la cardinlaidad y otras
+    * Tipo particula de propiedad q define las relaciones,  la definicion de la cardinlaidad y otras
     """
 
     """refEntity : entidad referenciada""" 
@@ -255,18 +258,18 @@ class Relationship(Property):
     def __unicode__(self):
         return self.entity.code + '.' +  self.code     
 
+
     def save(self, *args, **kwargs ):
         self.isForeign = True 
         super(Relationship, self).save(*args, **kwargs) 
 
     protoExt = { 
         "gridConfig" : {
-            "listDisplay": ["__str__", "description", "smOwningTeam", "smCreatedOn"]      
+            "listDisplay": ["__str__", "description", "smOwningTeam" ]      
         }, 
         # Propiedades de propertyBase q no se usan aqui.
         "exclude": [ "baseType","prpLength","defaultValue","propertyChoices"]
         }
-
 
 
 # ---------------------------
@@ -291,11 +294,11 @@ class PropertyDom(PropertyBase):
         return self.domain.code + '.' + self.code 
 
     class Meta:
-        unique_together = ('domain', 'code',  )
+        unique_together = ('domain', 'code', 'smOwningTeam' )
 
     protoExt = { 
         "gridConfig" : {
-            "listDisplay": ["__str__", "description", "smOwningTeam", "smCreatedOn"]      
+            "listDisplay": ["__str__", "description", "smOwningTeam" ]      
         }
     } 
 
@@ -318,18 +321,18 @@ class PropertyModel(PropertyBase):
         return self.model.code + '.' +  self.code
 
     class Meta:
-        unique_together = ('model', 'code',  )
+        unique_together = ('model', 'code', 'smOwningTeam' )
 
     protoExt = { 
         "gridConfig" : {
-            "listDisplay": ["__str__", "description", "smOwningTeam", "smCreatedOn"]      
+            "listDisplay": ["__str__", "description", "smOwningTeam"]      
         }
     } 
 
 
 class ProtoTable(ProtoModel):
     """
-    Esta tabla contiene los datos de los prototipos,  
+    Esta es el store de los prototipos   
     """
     entity = models.CharField( blank = False, null = False, max_length=200  )
     info = JSONField( default = {} )
@@ -342,14 +345,14 @@ class ProtoTable(ProtoModel):
    
     protoExt = { 
         "gridConfig" : {
-            "listDisplay": ["__str__", "smOwningTeam", "smCreatedOn"]      
+            "listDisplay": ["__str__", "smOwningTeam"]      
         }
     } 
 
 #   --------------------------------------------------------------------------------
 
 
-class ProtoViews(ProtoModel):
+class ProtoView(ProtoModel):
     """
     Esta tabla manejar la lista de  prototypos almacenados en customDefinicion, 
     Genera la "proto" pci;  con la lista de campos a absorber y los detalles posibles        
@@ -362,17 +365,21 @@ class ProtoViews(ProtoModel):
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
     def __unicode__(self):
-        return self.entity.code + '.' + self.code  
+        return self.code  
     
     protoExt = { 
         "gridConfig" : {
-            "listDisplay": ["__str__", "smOwningTeam", "smCreatedOn"]      
+            "listDisplay": ["__str__", "entty", "smOwningTeam"]      
         }
     } 
 
+    class Meta:
+        unique_together = ( 'code', 'smOwningTeam' )
+
+
     def delete(self, *args, **kwargs):
         #Borra las ocurrencias en customDefinition
-        viewName = 'prototype.ProtoTable.' + self.code          
+        viewName = PROTO_PREFIX + self.code          
         CustomDefinition.objects.filter( code = viewName ).delete()
-        super(ProtoViews, self).delete(*args, **kwargs)
+        super(ProtoView, self).delete(*args, **kwargs)
         
