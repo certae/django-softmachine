@@ -49,14 +49,14 @@ def getEntities( queryset , request ):
 #   Recorre los registros selccionados   
     for pEntity in queryset:
         returnMsg += pEntity.code  + ','    
-        createView(  pEntity , pEntity.code , userProfile )
+        createView(  pEntity , getViewCode( pEntity ) , userProfile )
 
     return returnMsg
 
 
 def createView( pEntity, viewTitle, userProfile ):
 
-    viewName    = getViewCode( pEntity, viewTitle )
+    viewName    = stripAccents( viewTitle )
     infoEntity  = getViewDefinition( pEntity , viewTitle  )
 
     # Debe corresponder al protoOptiongenerado en el template ( infoEntity[protoOption] ) 

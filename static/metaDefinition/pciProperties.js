@@ -243,8 +243,8 @@ _MetaProperties =  {
 
     "refreshOnComplete.type": "boolean",
     
-    "actionParamType.help" : "Tipo de dato del parametro", 
-    "actionParamType.choices" : [ "", "string", "bool", "number"], 
+    "paramType.help" : "Tipo de dato del parametro", 
+    "paramType.choices" : [ "", "string", "bool", "number"], 
 
     "cpFromField.help" : "Copia el contenido de un campo en otro, en el caso de zooms o valores por defecto",  
     "cpFromModel.help" : "Campo q apunta al modelo referenciado ( no apunta al zoom pues varios campos pueden usar el mismo zoom )", 
@@ -258,7 +258,12 @@ _MetaProperties =  {
         
     // linked        : no es editable, no se guarda en la Db, requiere cpFromField,  cpFromModel* ( *para prototipos, o zooms no relacionales )  
     // copied        : toma el vr por defecto de cpFromField o cpFromModel ( similar a linked + editable )      
-    "crudType.choices" : [ "", "editable", "screenOnly", "storeOnly", "insertOnly", "updateOnly", "linked", "copied" ]
-     
+    "crudType.choices" : [ "", "editable", "screenOnly", "storeOnly", "insertOnly", "updateOnly", "linked", "copied" ], 
+    
+    "selectionMode.help" : "En las acciones determina el tipo de seleccion en la grilla",
+    // none : Envia la accion sin QSet 
+    // single : Exige un unico reg 
+    // multiple : Exige al menos un reg       
+    "selectionMode.choices" : [ "none", "single", "multiple" ] 
 
 };

@@ -677,6 +677,7 @@ _MetaObjects =  {
           "name", 
           "title", 
           "actionType", 
+          "selectionMode", 
           "refreshOnComplete"
           ], 
         "lists": [
@@ -701,7 +702,7 @@ _MetaObjects =  {
           "description",  
           "vrDefault", 
           "choices", 
-          "actionParamType",
+          "paramType",
           "required"
           ], 
         "addPrompt" : "Parametros de acciones", 
