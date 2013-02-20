@@ -16,13 +16,15 @@ Ext.define('ProtoUL.UI.MDActionsController', {
 
 
         for (var ix in this.myMeta.actions  ) {       
-            var pProtoActions = this.myMeta.actions[ ix ]
+            // TODO: "actionType",  filtrar solo user  
+            var pProtoAction = this.myMeta.actions[ ix ]
             myProtoActions.push (
                 new Ext.Action({
-                    text:           pProtoActions.menuText || pProtoActions.name,
-                    actionName:     pProtoActions.name,
-                    iconCls :       pProtoActions.protoIcon, 
-                    tooltip:        pProtoActions.description,
+                    text:           pProtoAction.menuText || pProtoAction.name,
+                    actionName:     pProtoAction.name,
+                    iconCls :       pProtoAction.protoIcon, 
+                    tooltip:        pProtoAction.description,
+                    actionDef :     pProtoAction,
                     scope:          me,                     
                     handler:        onClickDoAction
                 }));
@@ -50,12 +52,32 @@ Ext.define('ProtoUL.UI.MDActionsController', {
         function onClickDoAction( btn ){
             var pGrid = __MasterDetail.protoMasterGrid ;
             var selectedKeys = pGrid.getSelectedIds()
+            var pAction = btn.actionDef
+
+            // "selectionMode", 
+            if (( pAction.selectionMode == "single"  ) && ( selectedKeys.length != 1 )) {
+                __StBar.showMessage(  btn.actionName + 'TITLE_ACTION_SELECTION_SINLGLE' )
+                return 
+            } else if (( pAction.selectionMode == "multiple"  ) && ( selectedKeys.length < 1 )) {
+                __StBar.showMessage(  btn.actionName + 'TITLE_ACTION_SELECTION_MULTI' )
+                return 
+            }  
+
+
+            // actionParams
+            if ( pAction.actionParams > 0 ) {
+                @@@
+            }                    
+            
 
             var options = {
                 scope : me,
                 success : function(result, request) {
                     var myResult = Ext.decode( result.responseText );
                     __StBar.showMessage( btn.actionName + ' ' +  myResult.message , 'MDActionsController', 3000 )
+
+                    //TODO: "refreshOnComplete"
+
                 }, 
                 failure: function(result, request) {
                     __StBar.showError( btn.actionName + ' ' +  result.statusText , 'MDActionsController' )

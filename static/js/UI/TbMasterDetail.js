@@ -146,7 +146,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             }, {
                 // text: 'Aide',
                 xtype: 'splitbutton', 
-                menu :  this.configCtrl.getActions(),
+                menu :  this.configCtrl.getUsrActs(),
                 iconCls: 'icon-help',
                 handler: toogleTb2,
                 itemId : 'tbHelp'

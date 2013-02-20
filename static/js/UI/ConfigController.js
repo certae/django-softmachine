@@ -10,23 +10,23 @@ Ext.define('ProtoUL.UI.ConfigController', {
         Ext.apply(this, config || {});
     },
     
-    getActions: function() {
+    getUsrActs: function() {
         // Se deben crear en forma indepnediente ( limitacion de Ext ) 
         // var tbConfig = Ext.getCmp( ideTbConfig )
 
         var me = this;         
-        var myActions = [];
+        var myOptions = [];
 
 
         // if ( _UserInfo.isSuperUser ) { 
-            myActions.push(myActionConfig('Meta', __language.MetaConfig_Meta_Config, 'icon-configMeta'))
-            myActions.push(myActionConfig('Form', __language.MetaConfig_Form_Config, 'icon-configForm'))
-            myActions.push(myActionConfig('Fields', __language.MetaConfig_Add_Fields, 'icon-configFields'))
-            myActions.push(myActionConfig('Details', __language.MetaConfig_Add_Details, 'icon-configDetails'))
-            myActions.push(myActionConfig('Reset', __language.MetaConfig_Reset_Meta, 'icon-configReset'))
+            myOptions.push(myActionConfig('Meta', __language.MetaConfig_Meta_Config, 'icon-configMeta'))
+            myOptions.push(myActionConfig('Form', __language.MetaConfig_Form_Config, 'icon-configForm'))
+            myOptions.push(myActionConfig('Fields', __language.MetaConfig_Add_Fields, 'icon-configFields'))
+            myOptions.push(myActionConfig('Details', __language.MetaConfig_Add_Details, 'icon-configDetails'))
+            myOptions.push(myActionConfig('Reset', __language.MetaConfig_Reset_Meta, 'icon-configReset'))
         // } 
 
-        return myActions   
+        return myOptions   
 
         function myActionConfig( action, name, icon ) {
             var myAction = Ext.create ( 'Ext.Action', {
