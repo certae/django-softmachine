@@ -22,7 +22,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
     initComponent: function() {
 
         // Recupera la meta   ------------------------------------------------------------ 
-        this.myMeta = _cllPCI[ this.protoOption ] ;                         
+        this.myMeta = _SM._cllPCI[ this.protoOption ] ;                         
         var me  = this ;         
         
         // Marca si viene de un detalle 

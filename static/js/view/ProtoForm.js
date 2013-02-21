@@ -63,7 +63,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
         this.btSave = Ext.create( 'Ext.Button', {
             iconCls : 'icon-save',
             id : this.idSaveBt,
-            text: __language.Title_Save_Button,
+            text: _SM.__language.Title_Save_Button,
             scope : this,
             handler : this.onSave
         });
@@ -85,7 +85,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 ui : 'footer',
                 items : [ this.stMsg, '->',  this.btSave , {
                     iconCls : 'icon-reset',
-                    text: __language.Toolbar_Text_Reset_Button,
+                    text: _SM.__language.Toolbar_Text_Reset_Button,
                     scope : this,
                     handler : this.onReset
                 }]
@@ -121,11 +121,11 @@ Ext.define('ProtoUL.view.ProtoForm', {
     
 
     showFormConfig: function () {
-        showConfig( 'Form Config' , this.myMeta.protoForm   )
+        _SM.showConfig( 'Form Config' , this.myMeta.protoForm   )
        },
 
     showLayoutConfig: function () {
-        showConfig( 'LayoutConfig' , this.prFormLayout   )
+        _SM.showConfig( 'LayoutConfig' , this.prFormLayout   )
        },
         
     
@@ -244,7 +244,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         var form = this.getForm();
         if( ! form.isValid()) {
-            this.setText(__language.Msg_Invalid_Form)
+            this.setText(_SM.__language.Msg_Invalid_Form)
             return;  
         }  
 
@@ -273,13 +273,13 @@ Ext.define('ProtoUL.view.ProtoForm', {
     
                     var myResult = Ext.decode( myReponse.responseText );
                     if( myResult.message ) {
-                        errorMessage(__language.Msg_Error_Save_Form, myResult.message)
+                        _SM.errorMessage(_SM.__language.Msg_Error_Save_Form, myResult.message)
                     } else {
                         me.fireEvent('close', me );
                     }
                 },
                 failure: function(result, request) {
-                    errorMessage(__language.Msg_Error_Save_Form, __language.Msg_Failed_Operation)
+                    _SM.errorMessage(_SM.__language.Msg_Error_Save_Form, _SM.__language.Msg_Failed_Operation)
                 }
             });
         } 
@@ -324,6 +324,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
         
     }, 
 
+/*
+    
     updateZoomReturn: function (  zoomFld  ) {
 
         // verifica si esta definido y lo define a necesidad 
@@ -358,6 +360,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
         }
 
     }, 
+*/
 
     updateFkId: function (  zoomField, fkId ) {
         // Actualiza el IdValue en el zoom para hacer los vinculos  
@@ -419,7 +422,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 // obj[bReadOnly ? 'addCls' : 'removeCls']( readOnlyCls );
                 // if ( obj.xtype != 'htmlfield' ) obj.setDisabled( true  );
                 
-            } else if ( ! readOnlyFields  || ( obj.name in oc( readOnlyFields )  )  ) {
+            } else if ( ! readOnlyFields  || ( obj.name in _SM.objConv( readOnlyFields )  )  ) {
                 // El obj no es readOnly pero la forma si,  
                 // FIX: poner una mascara, pero q pasa con el zoom  
                 obj.setReadOnly( bReadOnly );
@@ -435,7 +438,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
             
             if ( fDef.readOnly ) {
                 obj.setReadOnly( true );
-            } else if ( ! readOnlyFields  || ( fDef.name in oc( readOnlyFields )  )  ) {
+            } else if ( ! readOnlyFields  || ( fDef.name in _SM.objConv( readOnlyFields )  )  ) {
                 obj.setReadOnly( bReadOnly );
             }; 
 

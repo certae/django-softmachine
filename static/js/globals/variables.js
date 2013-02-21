@@ -3,23 +3,25 @@
  *  
  */
 
+_SM = {}
+
 // Estados en cada fila de la grilla al iteractuar con el BackEnd  
-_ROW_ST = { 
+_SM._ROW_ST = { 
     ERROR     : 'ROWST_ERR',
     NEWROW     : 'ROWST_NEW'
     }
 
-// afterLabelTextTpl: _requiredField,
-_requiredField = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
+// afterLabelTextTpl: _SM._requiredField,
+_SM._requiredField = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
 
 
-// _siteTitle = 'ART Atelier de Référentiel pour Togaf'_versionProto = 'Version 1.00.' + _versionMeta
-_siteTitle = 'CeRTAE'
-_siteTitleCollapsed = false 
+// _SM._siteTitle = 'ART Atelier de Référentiel pour Togaf'_SM._versionProto = 'Version 1.00.' + _versionMeta
+_SM._siteTitle = 'CeRTAE'
+_SM._siteTitleCollapsed = false 
 
 
 // place holder para los titulos con datos basicos del login  
-__language = {
+_SM.__language = {
     'Text_Validate_Login_Button' : 'check',
     'Text_Forgotten_Password' : 'lost password',
     'Textfield_User_Login' : 'user',
@@ -34,7 +36,7 @@ __language = {
 }
     
 // Config Variables 
-_PConfig =  {
+_SM._PConfig =  {
     urlMenu         : 'protoLib/protoGetMenuData/', 
     urlGetPCI         : 'protoLib/protoGetPCI/', 
     urlSaveProtoObj         : 'protoLib/protoSaveProtoObj/', 
@@ -50,15 +52,15 @@ _PConfig =  {
     clsBaseModel: 'ProtoUL.model.' 
 }; 
 
-__HELPpath = '/resources/help/index.html'
+_SM._HELPpath = '/resources/help/index.html'
 
 
 // Collection of PCL's ( Proto Concept Definition )  
-_cllPCI = [];
+_SM._cllPCI = [];
 
 
 // Define los tipos para el manejo de edicion  (type => xtype)
-_gridTypeEditor = {
+_SM._gridTypeEditor = {
     'int'   : 'numberfield',
     'float'  : 'numberfield',
     'string' : 'textfield',
@@ -68,9 +70,9 @@ _gridTypeEditor = {
 };
 
 // PageSize par default 
-_PAGESIZE = 50; 
+_SM._PAGESIZE = 50; 
 
-_ComboPageSize = [
+_SM._ComboPageSize = [
                   ['25'],
                   ['50'],
                   ['100'],
@@ -79,18 +81,18 @@ _ComboPageSize = [
             
 
 // Autoload entites
-// _AUTOLOAD_PCI = [ 'protoDict.Model', 'protoDict.PropertyModel' ]
-_AUTOLOAD_PCI = [ ]
-_MENU_COLLAPSED = false 
+// _SM._AUTOLOAD_PCI = [ 'protoDict.Model', 'protoDict.PropertyModel' ]
+_SM._AUTOLOAD_PCI = [ ]
+_SM._MENU_COLLAPSED = false 
 
 
-_defaultViewIcon = 'default_view' 
+_SM._defaultViewIcon = 'default_view' 
  
 
 // Windows Position
-_mainWin = null
-_winX = 10
-_winY = 10  
+_SM._mainWin = null
+_SM._winX = 10
+_SM._winY = 10  
  
  
   // *  Configuracion del metodo por defecto  

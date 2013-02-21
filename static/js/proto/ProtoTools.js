@@ -127,14 +127,14 @@ function Meta2Tree( oData, pName, ptType   ) {
             var ptType = __ptConfig.__ptType
             
             //  contenedores de la forma 
-            if ( ptType in oc([ 'htmlset', 'fieldset','tabpanel','accordeon','panel'])) {
+            if ( ptType in _SM.objConv([ 'htmlset', 'fieldset','tabpanel','accordeon','panel'])) {
     
                 t2Data = getNodeBase(  ptType, ptType, __ptConfig  )
                 t2Data['children'] = formContainer2Tree( oData.items )
     
                     tItems.push(  t2Data ) 
      
-                }  else if ( ptType in oc([ 'formField' ])) {  
+                }  else if ( ptType in _SM.objConv([ 'formField' ])) {  
     
                 t2Data = getNodeBase(  __ptConfig.name, ptType, __ptConfig  )
                 t2Data['leaf'] =  true
@@ -153,7 +153,7 @@ function Meta2Tree( oData, pName, ptType   ) {
     function verifyNodeDef( nodeDef ) {
         // Verifica las listas y objetos  
         if ( nodeDef.lists ) { 
-            if ( typeOf( nodeDef.lists ) != 'array' ) {
+            if ( _SM.typeOf( nodeDef.lists ) != 'array' ) {
                 console.log( 'pciObjects definicion errada de listas para ' + ptType )
                 nodeDef.lists = []
             } else { 
@@ -174,7 +174,7 @@ function Meta2Tree( oData, pName, ptType   ) {
         }
                        
         if (  nodeDef.objects ) { 
-            if  ( typeOf( nodeDef.objects ) != 'array' ) {
+            if  ( _SM.typeOf( nodeDef.objects ) != 'array' ) {
                 console.log( 'pciObjects definicion errada de objects para ' + ptType )
                 nodeDef.lists = [] 
             } else {
@@ -214,7 +214,7 @@ function Tree2Meta( tNode  ) {
         mData = []
         getChilds( myObj.tChilds, mData , 'array') 
         
-    } else if ( nodeConf.__ptStyle in oc( [ "colList", "jsonText"] ) ) {
+    } else if ( nodeConf.__ptStyle in _SM.objConv( [ "colList", "jsonText"] ) ) {
         mData =  getSimpleProperties( myObj.__ptConfig  , myObj.__ptType )
          
     } else if ( nodeConf.properties || nodeConf.lists || nodeConf.objects  ) { 
@@ -285,7 +285,7 @@ function getSimpleProperties( oData, ptType   ) {
     // Retorna los valores simples, verificando los tipos de cada propiedad
 
     // Solo deben llegar objetos, si llega un array no hay props q mostrar     
-    if ( typeOf( oData )  == 'array' ) {
+    if ( _SM.typeOf( oData )  == 'array' ) {
         console.log( 'getSimpleProperties  array???', oData  )
         return []
     }   
@@ -299,10 +299,10 @@ function getSimpleProperties( oData, ptType   ) {
         var cValue = oData[ lKey  ]
 
         // Los objetos o arrays son la imagen del arbol y no deben ser tenidos en cuenta, generarian recursividad infinita 
-        if  ( typeOf( cValue  ) in oc([ 'object', 'array' ])) continue   
+        if  ( _SM.typeOf( cValue  ) in _SM.objConv([ 'object', 'array' ])) continue   
 
         // Si son valores codificados, los decodifica y los agrega  
-        if ( lKey in oc( [ '__ptValue', '__ptList' ])  )  {
+        if ( lKey in _SM.objConv( [ '__ptValue', '__ptList' ])  )  {
             try {
                 cData = Ext.decode( cValue )    
             } catch (e) {  

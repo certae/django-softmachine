@@ -25,7 +25,7 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
     addTabPanel: function( protoOption, mdFilter , detailTitle  ){
 
         // FIX: Ext.suspendLayouts();        
-        var myMeta = _cllPCI[ protoOption ] ;
+        var myMeta = _SM._cllPCI[ protoOption ] ;
         var title = myMeta.shortTitle ; 
         if ( mdFilter ) { title = '*' + title }
 

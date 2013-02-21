@@ -43,7 +43,7 @@ Ext.define('ProtoUL.protoOrg.tasks.TaskController', {
     
     _newWindow: function ( me ) {
 
-        updateWinPosition( me.myWidth, me.myHeight )
+        _SM.updateWinPosition( me.myWidth, me.myHeight )
         
         me.myWin  = Ext.widget('window', {
             // constrain: true, 
@@ -51,8 +51,8 @@ Ext.define('ProtoUL.protoOrg.tasks.TaskController', {
             closeAction: 'hide',
             width: me.myWidth,
             height: me.myHeight,
-            x : _winX, 
-            y : _winY, 
+            x : _SM._winX, 
+            y : _SM._winY, 
             minHeight: 400,
             minWidth: 400,
             layout: 'fit',
@@ -116,10 +116,10 @@ Ext.define('ProtoUL.protoOrg.tasks.TaskController', {
                 this._openAndLoad( this.protoOption, myRecordId )
             },
             failure: function ( obj, result, request) { 
-                errorMessage( 'ProtoDefinition Error :', myZoomModel + ': protoDefinition not found')
+                _SM.errorMessage( 'ProtoDefinition Error :', myZoomModel + ': protoDefinition not found')
             }
         }
-        if (  loadPci( this.protoOption , true, options ) ) {
+        if (  _SM.loadPci( this.protoOption , true, options ) ) {
                 this._openAndLoad( this.protoOption, myRecordId )
         }
 
@@ -129,7 +129,7 @@ Ext.define('ProtoUL.protoOrg.tasks.TaskController', {
 
     _openAndLoad: function ( protoOption, myRecordId ) { 
 
-        this.myMeta = _cllPCI[ protoOption ] ;
+        this.myMeta = _SM._cllPCI[ protoOption ] ;
         this.formLoaded = true;
         this._loadTaskData( myRecordId ) 
 
@@ -148,11 +148,11 @@ Ext.define('ProtoUL.protoOrg.tasks.TaskController', {
             protoOption : this.protoOption, 
             autoLoad: true, 
             baseFilter: myFilter, 
-            sProtoMeta  : getSafeMeta( this.myMeta )    
+            sProtoMeta  : _SM.getSafeMeta( this.myMeta )    
         };
 
-        var myStore = getStoreDefinition( storeDefinition )
-        var myRecord = getNewRecord( this.myMeta, myStore );
+        var myStore = _SM.getStoreDefinition( storeDefinition )
+        var myRecord = _SM.getNewRecord( this.myMeta, myStore );
         this.openTask( myRecord )
 
          

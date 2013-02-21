@@ -45,7 +45,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                 this.updateFormTree()
             }
         }
-        loadJsonConfig('json/Designer.panels.json', options)
+        _SM.loadJsonConfig('json/Designer.panels.json', options)
 
 
         function onClickRedraw(myObj) {
@@ -105,7 +105,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                 var prpName = e.record.data.name
 
                 // ****  Solo llegan objetos, los Array se manejan en otro lado
-                if ( typeOf(oData) ==  "object") 
+                if ( _SM.typeOf(oData) ==  "object") 
                     oData[ prpName ]  = e.value 
 
             }, 
@@ -117,9 +117,9 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
          * antes de crear el componente. 
          */
 
-        defineProtoPclTreeModel()
+        _SM.defineProtoPclTreeModel()
         
-        var treeData = clone ( myObj.toolsTree )
+        var treeData = _SM.clone ( myObj.toolsTree )
 
 
         function getTreeNodeByText( treeData, textKey ) {
@@ -136,7 +136,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         var treeNodAux = getTreeNodeByText( treeData,  'Fields' )  
         for (var ix in this.myMeta.fields ) {
             var vFld  =  this.myMeta.fields[ix];
-            var ptConfig =  getFormFieldDefinition( vFld )
+            var ptConfig =  _SM.getFormFieldDefinition( vFld )
             ptConfig['name']  = vFld.name
             var treeNodAuxData = {
                 "text": vFld.name ,
@@ -207,7 +207,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
             model : 'Proto.PclTreeNode', 
             root : {
                 expanded : true,
-                text: __language.Title_Main_Panel,
+                text: _SM.__language.Title_Main_Panel,
                 children : []
             }
         });
@@ -241,10 +241,10 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                     if(data.view.id != this.formTreeViewId) {
                         var rec = data.records[0]
                         var ptType = rec.get('text') 
-                        if ( ptType in  oc(['Fields', 'Containers', 'Grids']))
+                        if ( ptType in  _SM.objConv(['Fields', 'Containers', 'Grids']))
                             return false
 
-                        if ( ptType in oc( ['htmlset', 'fieldset'])) {
+                        if ( ptType in _SM.objConv( ['htmlset', 'fieldset'])) {
 
                             // Obtiene el padre y el ix
                             var nParent = overModel.store.getById( overModel.data.parentId )
@@ -311,8 +311,8 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                 var formMeta =  Tree2Meta( this.formTree.store.getRootNode() )
                 this.myMeta.protoForm = formMeta
 
-                savePclCache( this.myMeta.protoOption, this.myMeta )
-                savePci( this.myMeta )         
+                _SM.savePclCache( this.myMeta.protoOption, this.myMeta )
+                _SM.savePci( this.myMeta )         
             },me   );
 
 
@@ -348,7 +348,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
             collapsible : true,
             split : true,
             flex : 1,
-            title: __language.Title_Form_Panel,
+            title: _SM.__language.Title_Form_Panel,
             itemId : 'toolsPanel',
             layout : 'border',
             defaults : {
@@ -367,7 +367,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                 collapsible : true,
                 split : true,
                 flex : 1,
-                title: __language.Title_Panel_Tools
+                title: _SM.__language.Title_Panel_Tools
             }]
         }]
             

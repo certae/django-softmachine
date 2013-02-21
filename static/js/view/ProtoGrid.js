@@ -33,7 +33,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         var me = this;         
 
-        if ( ! loadPci( this.protoOption, false ) ) {
+        if ( ! _SM.loadPci( this.protoOption, false ) ) {
             Ext.Msg.show({
                title: this.protoOption ,
                value: 'ERROR Pci  not loaded' 
@@ -42,9 +42,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         }
 
         // Recupera la clase para obtener la meta ------------------------------------------
-        var myMeta = clone( _cllPCI[ this.protoOption ] );
+        var myMeta = _SM.clone( _SM._cllPCI[ this.protoOption ] );
         this.myMeta = myMeta;
-        this.myFieldDict = getFieldDict( myMeta )            
+        this.myFieldDict = _SM.getFieldDict( myMeta )            
         
         
         // VErifica si el store viene como parametro ( Detail )
@@ -71,13 +71,13 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         var storeDefinition =  {
             protoOption : this.protoOption, 
             autoLoad    : this.autoLoad || true, 
-            pageSize    : _PAGESIZE,
+            pageSize    : _SM._PAGESIZE,
 
             // proxy.extraParams, siempre deben ser string 
             baseFilter  : baseFilter , 
             protoFilter : myFilter ,
             sorters     : myMeta.gridConfig.initialSort , 
-            sProtoMeta  : getSafeMeta( myMeta )    
+            sProtoMeta  : _SM.getSafeMeta( myMeta )    
         };
 
 
@@ -117,10 +117,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             if ( vFld.crudType == 'storeOnly' ) continue;
 
             // lee las props p
-            var col = getColDefinition( vFld  );
+            var col = _SM.getColDefinition( vFld  );
 
             // Oculta los campos provenientes del maestroo en los detalles 
-            if ( col.dataIndex in oc([nDetId , nDetTitle])  ) { 
+            if ( col.dataIndex in _SM.objConv([nDetId , nDetTitle])  ) { 
                 col['readOnly'] = true  
                 delete col['editor']
             }
@@ -148,11 +148,11 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         // Definie el grid 
         var grid
         if ( myMeta.pciStyle == 'tree' ) {
-            // me.store = getTreeStoreDefinition( storeDefinition )
+            // me.store = _SM.getTreeStoreDefinition( storeDefinition )
             // grid = Ext.create('Ext.tree.Panel', {border:false,region:'center',flex:1,layout:'fit',minSize:50,stripeRows:true,tools:[],useArrows:true,rootVisible:false,multiSelect:false,singleExpand:true,stripeRows:true,rowLines:true,store:me.store,columns:[{xtype:'treecolumn',text:myMeta.shortTitle,flex:3,dataIndex:'__str__'},{text:'protoView',dataIndex:'protoView'},{text:'id',dataIndex:'id'}]}); 
         } else { 
 
-            me.store = getStoreDefinition( storeDefinition )
+            me.store = _SM.getStoreDefinition( storeDefinition )
                 
             grid = Ext.create('Ext.grid.Panel', {
                 border : false, 
@@ -205,10 +205,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                                     // Podria usarse con @FieldName para indicar de donde tomar el modelo o la funcion  
     
                                     var pModel  =  record.get( myZField.name ) 
-                                    mainVP.loadPciFromMenu( pModel ) 
+                                    mainVP._SM.loadPciFromMenu( pModel ) 
     
                                 } else {
-                                    errorMessage( 'LinkedForm definition error : ' +  clickedDataIndex, 
+                                    _SM.errorMessage( 'LinkedForm definition error : ' +  clickedDataIndex, 
                                                   'zoomModel : ' + myZField.zoomModel + '<br>' +
                                                   'fkId : ' + myZField.fkId  
                                                    )
@@ -223,8 +223,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                         //    Esto permite marcar los registros despues de la actualizacion 
                         var stRec = record.get('_ptStatus');
                         if ( stRec ) { 
-                            if ( stRec == _ROW_ST.NEWROW ) { return stRec; } 
-                            else { return _ROW_ST.ERROR; }
+                            if ( stRec == _SM._ROW_ST.NEWROW ) { return stRec; } 
+                            else { return _SM._ROW_ST.ERROR; }
                         } else { return '' }
                         
                     }
@@ -300,7 +300,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             itemmouseenter: {fn: function(view, record, item) {
                 // Esto maneja los tooltip en las las filas
                 var msg = record.get('_ptStatus')
-                if ( msg == _ROW_ST.NEWROW  ) msg = '';
+                if ( msg == _SM._ROW_ST.NEWROW  ) msg = '';
 
                 // Asigna un tooltip a la fila, pero respeta los de cada celda y los de los Actiosn
                 Ext.fly(item).set({'data-qtip': msg });
@@ -361,7 +361,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 // Resetea el status despues de la edicion 
                 if ( ! e.record.getId() ) {
                     e.record.phantom = true;                           
-                    e.record.data._ptStatus = _ROW_ST.NEWROW 
+                    e.record.data._ptStatus = _SM._ROW_ST.NEWROW 
                 } else {
                     e.record.data._ptStatus = '' 
                 }
@@ -490,7 +490,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     
     addNewRecord: function( zoomForm ) {
         if ( !(  this.editable  ||  zoomForm )) return; 
-        this.insertNewRecord ( getNewRecord( this.myMeta, this.store )  ) 
+        this.insertNewRecord ( _SM.getNewRecord( this.myMeta, this.store )  ) 
     }, 
     
 
@@ -503,7 +503,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
     insertNewRecord: function( rec ) {
         
-        rec.data._ptStatus = _ROW_ST.NEWROW 
+        rec.data._ptStatus = _SM._ROW_ST.NEWROW 
         rec.data._ptId = rec.get( 'id' )   
         rec.data.id = undefined 
         rec.phantom = true 

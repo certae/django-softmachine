@@ -16,14 +16,14 @@ Ext.define('ProtoUL.ux.Login', {
     initComponent: function () {
 
         this.submitButton = new Ext.Button({
-            text: __language.Text_Validate_Login_Button,
+            text: _SM.__language.Text_Validate_Login_Button,
             iconCls: "st-user-go",
             scope: this,
             handler: this.submitLogin
         });
 
         this.resetButton = new Ext.Button({
-            text: __language.Text_Forgotten_Password,
+            text: _SM.__language.Text_Forgotten_Password,
             iconCls: "st-key-go",
             scope: this,
             handler: this.resetPassword
@@ -34,7 +34,7 @@ Ext.define('ProtoUL.ux.Login', {
 
         Ext.apply(this, {
             items: [{
-                fieldLabel: __language.Textfield_User_Login,
+                fieldLabel: _SM.__language.Textfield_User_Login,
                 name: "login",
                 value: this.username,
                 listeners: {
@@ -42,7 +42,7 @@ Ext.define('ProtoUL.ux.Login', {
                     keydown: this.onKeyEnter
                 }
             }, {
-                fieldLabel: __language.Textfield_Password_Login,
+                fieldLabel: _SM.__language.Textfield_Password_Login,
                 inputType: "password",
                 name: "password",
                 listeners: {
@@ -101,16 +101,16 @@ Ext.define('ProtoUL.ux.Login', {
                 method: 'POST',
                 // waitTitle:'Connecting', 
                 // waitMsg:'Sending data...',             
-                url: _PConfig.urlGetUserRights ,
+                url: _SM._PConfig.urlGetUserRights ,
                 scope: me,
                 // success: this.submitLoginCallback,
                 // failure: this.submitLoginCallback, 
                 success: function(result, request) {
-                    _UserInfo = request.result.userInfo
-                    __language = request.result.language
+                    _SM._UserInfo = request.result.userInfo
+                    _SM.__language = request.result.language
                     me.options.success.call( me.options.scope, result, request);                },
                 failure: function(result, request) {
-                    // _UserInfo = request.result.userInfo
+                    // _SM._UserInfo = request.result.userInfo
                     me.showFormError( request.response.responseText );
                     me.options.failure.call( me.options.scope, result, request);                }
             });
@@ -137,7 +137,7 @@ Ext.define('ProtoUL.ux.Login', {
     },
 
     resetPassword: function (btn) {
-        Ext.Msg.prompt(__language.Title_Window_Email_Request, __language.Message_Enter_Email, function (btn, email) {
+        Ext.Msg.prompt(_SM.__language.Title_Window_Email_Request, _SM.__language.Message_Enter_Email, function (btn, email) {
             if (btn == 'ok') {
                 Ext.Ajax.request({
                     url: '/apps/login/lostpassword',
@@ -150,8 +150,8 @@ Ext.define('ProtoUL.ux.Login', {
                         if (json.success) {
 
                             Ext.Msg.show({
-                                title: __language.Message_Success,
-                                msg:   __language.Message_Email_Forgotten_Password,
+                                title: _SM.__language.Message_Success,
+                                msg:   _SM.__language.Message_Email_Forgotten_Password,
                                 buttons: Ext.Msg.OK,
                                 icon: Ext.MessageBox.INFO
                             });
@@ -167,8 +167,8 @@ Ext.define('ProtoUL.ux.Login', {
                     },
                     failure: function () {
                         Ext.Msg.show({
-                            title: __language.Message_Error,
-                            msg: __language.Message_Error_Login,
+                            title: _SM.__language.Message_Error,
+                            msg: _SM.__language.Message_Error_Login,
                             buttons: Ext.Msg.OK,
                             icon: Ext.MessageBox.WARNING
                         });

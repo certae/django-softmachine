@@ -14,12 +14,12 @@ Ext.define('ProtoUL.core.ProtoStore', {
 
 
 
-function getStoreDefinition(  stDef  ){ 
+_SM.getStoreDefinition = function(  stDef  ){ 
 
     var myStore = Ext.create('Ext.data.Store', {
         protoOption : stDef.protoOption,
 
-        model: getModelName( stDef.protoOption  ),  
+        model: _SM.getModelName( stDef.protoOption  ),  
         autoLoad: stDef.autoLoad,
         pageSize: stDef.pageSize,
         sorters:  stDef.sorters,    
@@ -27,7 +27,7 @@ function getStoreDefinition(  stDef  ){
         remoteSort: true,
         autoSync: true, 
 
-        proxy: getProxyDefinition( stDef ), 
+        proxy: _SM.getProxyDefinition( stDef ), 
         
         // Redefinicion de metodos 
         // sort: function ( sorters ) {
@@ -59,12 +59,12 @@ function getStoreDefinition(  stDef  ){
 
             // Fires before a request is made for a new data object. ...
             beforeload: function(  store,  operation,  eOpts ) {
-                __StBar.showBusy(__language.StatusBar_Message_Loading + store.protoOption, 'beforeLoad');
+                __StBar.showBusy(_SM.__language.StatusBar_Message_Loading + store.protoOption, 'beforeLoad');
             },
      
             // Fired before a call to sync is executed. Return false from any listener to cancel the sync
             beforesync: function ( options, eOpts ) {
-                __StBar.showBusy(__language.StatusBar_Message_Sync + this.protoOption, 'beforeSync');
+                __StBar.showBusy(_SM.__language.StatusBar_Message_Sync + this.protoOption, 'beforeSync');
             },  
     
             // Fires whenever the records in the Store have changed in some way - this could include adding or removing records, or ...
@@ -73,7 +73,7 @@ function getStoreDefinition(  stDef  ){
                 
                 // Guarda la info de sort 
                 try {
-                    var mySort = clone( store.getSorters() , 0, [], ['property', 'direction']) 
+                    var mySort = _SM.clone( store.getSorters() , 0, [], ['property', 'direction']) 
                     store.proxy.extraParams.sort  = Ext.encode( mySort )   
                 } catch(e) {}
                  
@@ -142,7 +142,7 @@ function getStoreDefinition(  stDef  ){
 
 }
 
-function getProxyDefinition( stDef )  {
+_SM.getProxyDefinition = function( stDef )  {
 
 
     return {
@@ -216,16 +216,16 @@ function getProxyDefinition( stDef )  {
 }; 
 
 
-function getTreeStoreDefinition(  stDef  ){ 
+_SM.getTreeStoreDefinition = function(  stDef  ){ 
 
 
     var myStore = Ext.create('Ext.data.TreeStore', {
         protoOption : stDef.protoOption,
-        model: getModelName( stDef.protoOption  ),  
+        model: _SM.getModelName( stDef.protoOption  ),  
         autoLoad: stDef.autoLoad,
         pageSize: stDef.pageSize,
         sorters: stDef.sorters,    
-        proxy: getProxyDefinition( stDef ), 
+        proxy: _SM.getProxyDefinition( stDef ), 
 
         remoteSort: true,
         autoSync: true, 
@@ -257,7 +257,7 @@ function getTreeStoreDefinition(  stDef  ){
 }; 
 
 
-function getNewRecord( myMeta, myStore )  { 
+_SM.getNewRecord = function( myMeta, myStore )  { 
 
     var myRecord = new myStore.model( setDefaults()  ) 
     
@@ -284,7 +284,7 @@ function getNewRecord( myMeta, myStore )  {
         
         
 
-function getRecordByDataIx( myStore, fieldName, value  )  {
+_SM.getRecordByDataIx = function( myStore, fieldName, value  )  {
     var ix =  myStore.findExact( fieldName, value  )
     if ( ix == -1 ) return 
     
@@ -294,7 +294,7 @@ function getRecordByDataIx( myStore, fieldName, value  )  {
 
 
     
-function DefineProtoModel ( myMeta , modelClassName ){
+_SM.DefineProtoModel = function  ( myMeta , modelClassName ){
         
     // dateFormat: 'Y-m-d'
     // type: 'date', 'float', 'int', 'number'
@@ -328,7 +328,7 @@ function DefineProtoModel ( myMeta , modelClassName ){
 
 
         // Tipos validos   
-        if ( ! vFld.type  in oc( [ 
+        if ( ! vFld.type  in _SM.objConv( [ 
             'string', 'text',  'bool', 'int', 'decimal', 'combo',  
             'date',  'datetime', 'time', 
             'autofield', 'foreignid',  'foreigntext', 'protoN2N', 'html'  ] )) {
@@ -336,17 +336,17 @@ function DefineProtoModel ( myMeta , modelClassName ){
         }; 
 
         // 
-        if ( vFld.name in oc( myMeta.gridConfig.hiddenFields )) {
+        if ( vFld.name in _SM.objConv( myMeta.gridConfig.hiddenFields )) {
             mField.hidden = true ;
             vFld.hidden = true ;
         }
 
-        if ( vFld.name in oc( myMeta.gridConfig.readOnlyFields )) {
+        if ( vFld.name in _SM.objConv( myMeta.gridConfig.readOnlyFields )) {
             mField.readOnly = true ;
             vFld.readOnly = true ;
         }
 
-        if ( vFld.name in oc( myMeta.gridConfig.sortFields )  ) {
+        if ( vFld.name in _SM.objConv( myMeta.gridConfig.sortFields )  ) {
             vFld.sortable = true 
         }; 
         
@@ -407,7 +407,7 @@ function DefineProtoModel ( myMeta , modelClassName ){
 }
 
 
-function getFieldDict( myMeta ) {
+_SM.getFieldDict = function ( myMeta ) {
     // For indexing fields    
     var ptDict = {};                 
     for (var ix in myMeta.fields ) {
@@ -418,7 +418,7 @@ function getFieldDict( myMeta ) {
 }
     
 
-function getColDefinition( vFld ) {
+_SM.getColDefinition = function ( vFld ) {
 
     if (!vFld.header ) vFld.header = vFld.name
     
@@ -434,7 +434,7 @@ function getColDefinition( vFld ) {
                     'render', 'align', 'format', 'tooltip'
                     ]
 
-    colDefinition = copyProps ( colDefinition,  vFld, true, lstProps )
+    colDefinition = _SM.copyProps ( colDefinition,  vFld, true, lstProps )
 
     
     // Copia las propiedades de base al editor 
@@ -472,7 +472,7 @@ function getColDefinition( vFld ) {
         //@fromField : TODO: Campos q sera heredados a la entidad base  
         'cpFromField', 'cpFromModel'
         ]
-    var editor = copyProps ( {},  vFld, true, lstProps )
+    var editor = _SM.copyProps ( {},  vFld, true, lstProps )
 
     // Requerido 
     if ( vFld.required == true  ) { 
@@ -562,7 +562,7 @@ function getColDefinition( vFld ) {
         
         // Lo normal es q venga como una lista de opciones ( string ) 
         var cbChoices = vFld.choices
-        if ( typeOf(cbChoices) == 'string') {
+        if ( _SM.typeOf(cbChoices) == 'string') {
             cbChoices = cbChoices.split( ",")  
         } else { cbChoices = [] }
         
@@ -694,9 +694,9 @@ function getColDefinition( vFld ) {
 
 }
 
-function getFormFieldDefinition( vFld ) {
+_SM.getFormFieldDefinition =  function ( vFld ) {
 
-    var colDefinition = getColDefinition( vFld );
+    var colDefinition = _SM.getColDefinition( vFld );
     
     // Se inicializa ro, en caso de q no se encuentre en el dict  
     var formEditor = {  readOnly : true  }
@@ -746,17 +746,17 @@ function getFormFieldDefinition( vFld ) {
 
 // *********************************************************
 
+_SM.loadPci = function ( protoOption, loadIfNot, options) {
 
-function loadPci( protoOption, loadIfNot, options ) {
 
         options = options || {};
         
         // Verificar si la opcion esta creada 
-        var myMeta = _cllPCI[ protoOption ]
+        var myMeta = _SM._cllPCI[ protoOption ]
         
                 
         // Verifica modelo 
-        if  ( myMeta && Ext.ClassManager.isCreated(  getModelName( protoOption )  )){
+        if  ( myMeta && Ext.ClassManager.isCreated(  _SM.getModelName( protoOption )  )){
 
             // Asigna la llave, pues si se hace una copia seguiria trayendo la misma protoOption de base 
             myMeta.protoOption = protoOption 
@@ -777,7 +777,7 @@ function loadPci( protoOption, loadIfNot, options ) {
         
             Ext.Ajax.request({
                 method: 'GET',
-                url: _PConfig.urlGetPCI  ,
+                url: _SM._PConfig.urlGetPCI  ,
                 params : { 
                     protoOption : protoOption 
                     },
@@ -785,7 +785,7 @@ function loadPci( protoOption, loadIfNot, options ) {
                 success: function(result, request) {
                     
                     var myResult = Ext.decode( result.responseText );
-                    savePclCache( protoOption, myResult.protoMeta )
+                    _SM.savePclCache( protoOption, myResult.protoMeta )
 
                     options.success.call( options.scope, result, request);
 
@@ -801,20 +801,20 @@ function loadPci( protoOption, loadIfNot, options ) {
 
 }
 
+_SM.savePci = function ( protoMeta,  options) {
 
-function savePci( protoMeta,  options) {
     if ( ! protoMeta ) return; 
 
     var protoOption = protoMeta.protoOption
-    protoMeta.updateTime = getCurrentTime()
+    protoMeta.updateTime = _SM.getCurrentTime()
     
     var sMeta = Ext.encode(  protoMeta )
 
-    saveProtoObj( protoOption, sMeta ,  options)
+    _SM.saveProtoObj( protoOption, sMeta ,  options)
 }
 
+_SM.saveProtoObj = function ( protoOption, sMeta ,  options) {
 
-function saveProtoObj( protoOption, sMeta ,  options) {
 
         options = options || {};
                     
@@ -828,7 +828,7 @@ function saveProtoObj( protoOption, sMeta ,  options) {
     
         Ext.Ajax.request({
             method: 'POST',
-            url: _PConfig.urlSaveProtoObj  ,
+            url: _SM._PConfig.urlSaveProtoObj  ,
             params : { 
                 protoOption : protoOption,  
                 protoMeta : sMeta  
@@ -840,11 +840,11 @@ function saveProtoObj( protoOption, sMeta ,  options) {
                     options.success.call( options.scope, result, request);
                 } else {
                     options.failure.call(options.scope, result, request);
-                    errorMessage(__language.Message_Error_SaveProtoObj, myResult.message)
+                    _SM.errorMessage(_SM.__language.Message_Error_SaveProtoObj, myResult.message)
                 }
             },
             failure: function(result, request) {
-                errorMessage(__language.Message_Error_SaveProtoObj, result.status + ' ' + result.statusText)
+                _SM.errorMessage(_SM.__language.Message_Error_SaveProtoObj, result.status + ' ' + result.statusText)
                 options.failure.call(options.scope, result, request);
             },
             scope: this,
@@ -853,8 +853,8 @@ function saveProtoObj( protoOption, sMeta ,  options) {
         
 }
 
+_SM.loadJsonConfig = function ( fileName, options) {
 
-function loadJsonConfig( fileName, options) {
 
     options = options || {};
     
@@ -873,7 +873,7 @@ function loadJsonConfig( fileName, options) {
             options.success.call( options.scope, result, request);
         },
         failure: function(result, request) {
-            errorMessage ( 'LoadJsonConfig', result.status + ' ' + result.statusText )
+            _SM.errorMessage ( 'LoadJsonConfig', result.status + ' ' + result.statusText )
             options.failure.call(options.scope, result, request);
         }
         
@@ -881,8 +881,8 @@ function loadJsonConfig( fileName, options) {
     
 }
 
+_SM.defineProtoPclTreeModel = function () {
 
-function defineProtoPclTreeModel() {
 // Definicion del modelo para los arboles de la PCL 
 
     Ext.define('Proto.PclTreeNode', {
@@ -901,8 +901,8 @@ function defineProtoPclTreeModel() {
     
 }
 
+_SM.definieProtoFieldSelctionModel = function ( protoOption ) {
 
-function definieProtoFieldSelctionModel( protoOption ) {
     // Modelo usado en la lista de campos con la jerarquia completa de los de zoom ( detalle de fk ) 
     
     Ext.define('Proto.FieldSelectionModel', {
@@ -910,7 +910,7 @@ function definieProtoFieldSelctionModel( protoOption ) {
         proxy: {
             type: 'ajax',
             method: 'GET',
-            url: _PConfig.urlGetFieldTree , 
+            url: _SM._PConfig.urlGetFieldTree , 
             extraParams : {
                 protoOption : protoOption 
             },    
@@ -947,8 +947,8 @@ function definieProtoFieldSelctionModel( protoOption ) {
 
 
 
+_SM.getSheeReport = function ( protoOption, sheetName,  selectedKeys, options ) {
 
-function getSheeReport( protoOption, sheetName,  selectedKeys, options ) {
 
         options = options || {};
         Ext.applyIf(options, {
@@ -959,7 +959,7 @@ function getSheeReport( protoOption, sheetName,  selectedKeys, options ) {
     
         Ext.Ajax.request({
             method: 'POST',
-            url: _PConfig.urlGetSheetReport  ,
+            url: _SM._PConfig.urlGetSheetReport  ,
             params : { 
                 protoOption : protoOption,  
                 sheetName   : sheetName, 
@@ -970,7 +970,7 @@ function getSheeReport( protoOption, sheetName,  selectedKeys, options ) {
                 options.success.call( options.scope, result  , request);
             },
             failure: function(result, request) {
-                errorMessage(__language.Message_Error_Reporting, result.status + ' ' + result.statusText)
+                _SM.errorMessage(_SM.__language.Message_Error_Reporting, result.status + ' ' + result.statusText)
                 options.failure.call(options.scope, result, request);
             },
             scope: this,
@@ -979,7 +979,7 @@ function getSheeReport( protoOption, sheetName,  selectedKeys, options ) {
         
 }
 
-function doProtoActions( protoOption, actionName, selectedKeys, options ) {
+_SM.doProtoActions = function ( protoOption, actionName, selectedKeys, options ) {
 
         options = options || {};
         Ext.applyIf(options, {
@@ -990,7 +990,7 @@ function doProtoActions( protoOption, actionName, selectedKeys, options ) {
     
         Ext.Ajax.request({
             method: 'POST',
-            url: _PConfig.urlDoAction  ,
+            url: _SM._PConfig.urlDoAction  ,
             params : { 
                 protoOption : protoOption,  
                 actionName   : actionName, 
@@ -1001,7 +1001,7 @@ function doProtoActions( protoOption, actionName, selectedKeys, options ) {
                 options.success.call( options.scope, result  , request);
             },
             failure: function(result, request) {
-                errorMessage ( 'ActionReport Failed', result.status + ' ' + result.statusText )
+                _SM.errorMessage ( 'ActionReport Failed', result.status + ' ' + result.statusText )
                 options.failure.call(options.scope, result, request);
             },
             scope: this,

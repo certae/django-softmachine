@@ -57,12 +57,12 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
             }, 
             'save': function () {
                 savePreview(); 
-                savePci( me.myMeta )         
+                _SM.savePci( me.myMeta )         
             }, 
             'add': function () {
 
-                var msg = __language.Msg_Window_New_Folder
-                Ext.Msg.prompt(__language.MetaConfig_Add_Fields, msg, function (btn, pName) {
+                var msg = _SM.__language.Msg_Window_New_Folder
+                Ext.Msg.prompt(_SM.__language.MetaConfig_Add_Fields, msg, function (btn, pName) {
                     if (btn != 'ok') return 
                     elemTree.addUdpField( {'name' : pName , 'checked' : false } ) 
 
@@ -121,7 +121,7 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
                     field = getDefaultField( names[ix] )
                 }
                 if ( field ) {
-                    fields.push( clearProps( field ))   
+                    fields.push( _SM.clearProps( field ))   
                 } else { 
                     // console.log( "Field no encontrado", names[ix]  )                } 
                 
@@ -196,13 +196,13 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
         me = this; 
         me.addEvents('checkModif', 'loadComplete');
         
-        definieProtoFieldSelctionModel( me.protoOption  )
+        _SM.definieProtoFieldSelctionModel( me.protoOption  )
         
         this.treeStore = Ext.create('Ext.data.TreeStore', {
             autoLoad: true,
             model: 'Proto.FieldSelectionModel',
             root: {
-                text: __language.Protofield_Fields,
+                text: _SM.__language.Protofield_Fields,
                 expanded: true 
             }, 
 
@@ -222,7 +222,7 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
 
             columns: [{
                 xtype: 'treecolumn', //this is so we know which column will show the tree
-                text: __language.Protofield_Text,
+                text: _SM.__language.Protofield_Text,
                 flex: 2,
                 sortable: true,
                 minWidth: 200,
@@ -232,51 +232,51 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
                 trueText: '',
                 falseText: 'req', 
                 width: 50,
-                text: __language.Protofield_Req,
+                text: _SM.__language.Protofield_Req,
                 dataIndex: 'required'
             },{
                 xtype: 'booleancolumn', 
                 trueText: 'rOnly',
                 width: 50,
                 falseText: '', 
-                text: __language.Protofield_ROnly,
+                text: _SM.__language.Protofield_ROnly,
                 dataIndex: 'readOnly'
             },{
-                text: __language.Protofield_Field_Type,
+                text: _SM.__language.Protofield_Field_Type,
                 dataIndex: 'type'
             },{
-                text: __language.Protofield_Zoom_Model,
+                text: _SM.__language.Protofield_Zoom_Model,
                 dataIndex: 'zoomModel'
             },{
-                text: __language.Protofield_fk_Field,
+                text: _SM.__language.Protofield_fk_Field,
                 dataIndex: 'fkField'
             },{
-                text: __language.Protofield_fk_Id,
+                text: _SM.__language.Protofield_fk_Id,
                 dataIndex: 'fkId'
             },{
                 flex: 2,
                 // hidden : true, 
-                text: __language.Protofield_Ix,
+                text: _SM.__language.Protofield_Ix,
                 dataIndex: 'id'
             },{
                 hidden : true, 
-                text: __language.Protofield_Header,
+                text: _SM.__language.Protofield_Header,
                 dataIndex: 'header'
             },{
                 hidden : true, 
-                text: __language.Protofield_Tooltip,
+                text: _SM.__language.Protofield_Tooltip,
                 dataIndex: 'tooltip'
             },{
                 hidden : true, 
-                text: __language.Protofield_Default_Value,
+                text: _SM.__language.Protofield_Default_Value,
                 dataIndex: 'defaultValue'
             },{
                 hidden : true, 
-                text: __language.Protofield_vType,
+                text: _SM.__language.Protofield_vType,
                 dataIndex: 'vType'
             },{
                 hidden : true, 
-                text: __language.Protofield_choices,
+                text: _SM.__language.Protofield_choices,
                 dataIndex: 'choices'
             }] 
              

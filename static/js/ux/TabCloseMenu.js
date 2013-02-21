@@ -17,7 +17,7 @@ Ext.define('Ext.ux.TabCloseMenu', {
      * @cfg {String} closeTabText
      * The text for closing the current tab.
      */
-    closeTabText: __language.Text_Close_Tab,
+    closeTabText: _SM.__language.Text_Close_Tab,
 
     /**
      * @cfg {Boolean} showCloseOthers
@@ -29,7 +29,7 @@ Ext.define('Ext.ux.TabCloseMenu', {
      * @cfg {String} closeOtherTabsText
      * The text for closing all tabs except the current one.
      */
-    closeOthersTabsText: __language.Text_Close_Other_Tabs,
+    closeOthersTabsText: _SM.__language.Text_Close_Other_Tabs,
 
     /**
      * @cfg {Boolean} showCloseAll
@@ -41,7 +41,7 @@ Ext.define('Ext.ux.TabCloseMenu', {
      * @cfg {String} closeAllTabsText
      * <p>The text for closing all tabs.
      */
-    closeAllTabsText: __language.Text_Close_All_Tabs,
+    closeAllTabsText: _SM.__language.Text_Close_All_Tabs,
 
     /**
      * @cfg {Array} extraItemsHead

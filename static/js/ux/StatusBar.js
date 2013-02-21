@@ -16,7 +16,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
     cls: 'x-statusbar',
     
     busyIconCls: 'x-status-busy',
-    busyText: __language.StatusBar_Message_Loading,
+    busyText: _SM.__language.StatusBar_Message_Loading,
     autoClear: 5000,
     emptyText: '&#160;',
     activeThreadId: 0,
@@ -26,7 +26,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
     // defaultIconCls: 'x-status-valid',
 
     // values to set initially:
-    text: __language.StatusBar_Message_Ready,
+    text: _SM.__language.StatusBar_Message_Ready,
     iconCls: 'ready-icon', 
 
 
@@ -55,15 +55,15 @@ Ext.define('ProtoUL.ux.StatusBar', {
         this.add( [{
                 itemId : 'errBt', 
                 xtype: 'button',
-                text: __language.StatusBar_Text_Clean_Button,
-                tooltip: __language.StatusBar_Tooltip_Clean_Button,
+                text: _SM.__language.StatusBar_Text_Clean_Button,
+                tooltip: _SM.__language.StatusBar_Tooltip_Clean_Button,
                 scope: this,
                 iconCls: 'comment_delete',
                 handler: this.clearErrCount
             },{
                 itemId : 'openTaskForm', 
                 xtype: 'button',
-                text: __language.StatusBar_Text_Task_Button,
+                text: _SM.__language.StatusBar_Text_Task_Button,
                 hidden: true,
                 scope: this,
                 iconCls: 'taskManager',
@@ -74,18 +74,18 @@ Ext.define('ProtoUL.ux.StatusBar', {
             }, '-', {
                 xtype: 'button',
                 iconCls: 'icon-script_gear',
-                text: __language.StatusBar_Text_Command_Button,
+                text: _SM.__language.StatusBar_Text_Command_Button,
                 handler: this.command
 
             }, {
 
                 xtype: 'splitbutton',
-                text: _UserInfo.fullName || _UserInfo.userName,
+                text: _SM._UserInfo.fullName || _SM._UserInfo.userName,
                 iconCls:'icon-user',
                 menu: new Ext.menu.Menu({
                     items: [
                         
-                        { text: __language.StatusBar_Text_Close_Session, flex: 1, handler: this.closeSession, iconCls: 'icon-logout', }
+                        { text: _SM.__language.StatusBar_Text_Close_Session, flex: 1, handler: this.closeSession, iconCls: 'icon-logout', }
                     ]
                 })
             }])
@@ -107,7 +107,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
     closeSession:function(){
     
         Ext.Ajax.request({
-            url: _PConfig.urlLogOut,
+            url: _SM._PConfig.urlLogOut,
             
             success: function (response) {
 
@@ -119,7 +119,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
 
 
                 } else {
-                    Ext.Msg.alert(__language.Message_Error, __language.StatusBar_Error_When_Close_Session);
+                    Ext.Msg.alert(_SM.__language.Message_Error, _SM.__language.StatusBar_Error_When_Close_Session);
                 }
             },
             failure: function () {
@@ -130,7 +130,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
 
     clearErrCount: function () {
         // this.errBt.hide()
-        _cllPCI = [];
+        _SM._cllPCI = [];
         
         this.errBt.tooltip = ''
         this.busyCount = 0; 

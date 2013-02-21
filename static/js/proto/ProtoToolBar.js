@@ -15,7 +15,7 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
 
         Ext.apply(this, {
             items : [{
-                tooltip: __language.ProtoToolbar_Save_Preview,
+                tooltip: _SM.__language.ProtoToolbar_Save_Preview,
                 iconCls : "icon-configPreview", 
                 itemId  : "preview", 
                 scope   : this,
@@ -23,7 +23,7 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
                     me.fireEvent('preview') 
                     }
             }," ",{
-                tooltip: __language.ProtoToolbar_Upd_Def,
+                tooltip: _SM.__language.ProtoToolbar_Upd_Def,
                 iconCls : "icon-save", 
                 itemId : "save", 
                 scope   : this,
@@ -31,7 +31,7 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
                     me.fireEvent('save') 
                     }
             }," ",{
-                tooltip: __language.ProtoToolbar_Reload,
+                tooltip: _SM.__language.ProtoToolbar_Reload,
                 iconCls : "icon-configReload", 
                 itemId : "reload", 
                 scope   : this,
@@ -39,7 +39,7 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
                     me.fireEvent('reload') 
                     }
             },"-",{
-                tooltip: __language.ProtoToolbar_Add_Node,
+                tooltip: _SM.__language.ProtoToolbar_Add_Node,
                 iconCls : "icon-nodeInsert",
                 hidden : true, 
                 itemId  : "add",
@@ -48,7 +48,7 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
                     me.fireEvent('add', btn.oData ) 
                     }
             },{
-                tooltip: __language.ProtoToolbar_Del_Current_Node,
+                tooltip: _SM.__language.ProtoToolbar_Del_Current_Node,
                 iconCls : "icon-nodeDelete",
                 hidden : true, 
                 itemId  : "del", 
@@ -57,7 +57,7 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
                     me.fireEvent('del', btn.oData ) 
                     }
             },"-",{
-                tooltip: __language.ProtoToolbar_Show_Current_Meta,
+                tooltip: _SM.__language.ProtoToolbar_Show_Current_Meta,
                 iconCls : "icon-script_gear",
                 itemId  : "show1", 
                 scope   : this,
@@ -67,7 +67,7 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
             },"->",{
                 iconCls : "icon-help",
                 itemId  : "help",
-                tooltip: __language.ProtoToolbar_Show_Help,
+                tooltip: _SM.__language.ProtoToolbar_Show_Help,
                 scope   : this,
                 handler : function() {  
                     me.fireEvent('help') 

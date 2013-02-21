@@ -1,7 +1,10 @@
-﻿Ext.define('Ext.ux.protoQBE', {
+﻿
+
+Ext.define('Ext.ux.protoQBE', {
     extend: 'Ext.window.Window',
     alias: 'widget.protoqbe',
     iconCls: 'icon-filter',
+    
     protoOption: null,
     defaultType: 'textfield',
     autoHeigth: true,
@@ -12,13 +15,9 @@
     modal: true,
     campos: {},
     aceptar: function () { },
-    cancelar: function () { },
+    cancelPress: function () { },
     plain: true,
     titulo: '',
-   /* layout: {
-        type: 'border'
-
-    },*/
   
     initComponent: function () {
         me = this;
@@ -33,7 +32,7 @@
             var nom = '';
             //console.log(resp[i].required);
             if (resp[i].required == true) {
-                var req = _requiredField;
+                var req = _SM._requiredField;
                 nom = '<b>' + resp[i].name + '</b>'
             } else {
                 nom = resp[i].name;
@@ -47,18 +46,15 @@
                     name: resp[i].name,
                     allowBlank: !resp[i].required,
                     width: 300,
-                    protoOption:me.protoOption,
+                    protoOption:  me.protoOption,
                     editable: true,
                     xtype: "HelpQbe",
                     //hidden:!resp[i].searchable,
                     //hidden:false,
                     //query: "select OPCION from W0menus"
                     hideTrigger: !resp[i].qbeHelp,
-                    enterKey:this.accept
-
+                    enterKey:   this.accept
                 }
-
-
             );
 
         }
@@ -93,19 +89,16 @@
                        {
                            xtype: 'button',
                            width: 10,
-                           text: __language.Text_Accept_Button,
+                           text: _SM.__language.Text_Accept_Button,
                            formBind: true,
                            iconCls: "icon-accept",
                            handler: this.accept
 
-
-
                        }, {
                            xtype: 'button',
-                           text: __language.Title_Cancel_Button,
+                           text: _SM.__language.Title_Cancel_Button,
                            iconCls: "icon-cancel",
                            width: 10,
-                           action: 'clickCancelar',
                            handler:this.cancel
                        }
 
@@ -135,11 +128,9 @@
                         filterStmt : campos[i].getValue()
                     };
                     arrFilterQbe.push(t);
-                    //qbe += campos[i].getName() + "$( " + campos[i].getValue() + " ),";
                 }
             }
 
-            // me.aceptar( Ext.encode(arrFilterQbe) );
             me.aceptar( arrFilterQbe );
             me.close();
         }
@@ -147,7 +138,7 @@
     },
 
     cancel: function () {
-        me.cancelar();
+        me.cancelPress();
         me.close();
     }
 

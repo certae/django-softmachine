@@ -5,7 +5,7 @@
     border: 0,
     autoHeight: true,
     width:300,
-    title: __language.Title_Login_View,
+    title: _SM.__language.Title_Login_View,
     closable:false,
     initComponent: function () {
         var me = this;
@@ -26,7 +26,7 @@
                                         labelWidth: 60,
                                         name: 'usuario',
                                         //emptyText: 'Usuario',
-                                        fieldLabel: __language.Textfield_User_Login,
+                                        fieldLabel: _SM.__language.Textfield_User_Login,
                                         labelWidth: 70
                                     },
                                     {
@@ -36,7 +36,7 @@
                                         width: 255,
                                         name: 'contrasena',
                                         //emptyText: 'Clave',
-                                        fieldLabel: __language.Textfield_Password_Login,
+                                        fieldLabel: _SM.__language.Textfield_Password_Login,
                                         labelWidth: 70
                                     },
 
@@ -47,7 +47,7 @@
                                         name: 'cmbAplicacion',
                                         width: 255,
                                         padding: 10,
-                                        fieldLabel: __language.Text_Combo_App,
+                                        fieldLabel: _SM.__language.Text_Combo_App,
                                         store: 'stoAplicacion',
                                         displayField: 'Aplicacion',
                                         valueField: 'idaplicacion',
@@ -60,7 +60,7 @@
                                         name: 'cmbEntorno',
                                         width: 255,
                                         padding: 10,
-                                        fieldLabel: __language.Text_Combo_Env,
+                                        fieldLabel: _SM.__language.Text_Combo_Env,
                                         store: 'stoEntorno',
                                         displayField: 'Descripcion',
                                         valueField: 'CodEntorno',
@@ -76,20 +76,20 @@
                             buttons: [
                                 {
                                     xtype: 'button',
-                                    text: __language.Text_Accept_Button,
+                                    text: _SM.__language.Text_Accept_Button,
                                     action: 'clickLogin',
                                     iconCls: 'icon-login'
                                     
                                 },
                                  {
                                      xtype: 'button',
-                                     text: __language.Text_Button_Load_App,
+                                     text: _SM.__language.Text_Button_Load_App,
                                      action: 'clickIniciarSesion',
                                      iconCls: 'icon-login',
                                      hidden: true
                                  },{
                                      xtype: 'button',
-                                     text: __language.Text_Button_Close_Session,
+                                     text: _SM.__language.Text_Button_Close_Session,
                                      action: 'clickCerrarSesion',
                                      iconCls: 'icon-logout',
                                      hidden: true

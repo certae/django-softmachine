@@ -37,7 +37,7 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         var myColumns = [ '__Checked' ]
         for (var ix in this.columnList ) {
             var vFld = this.columnList[ix] 
-            if ( typeOf( vFld ) == 'string' ) {
+            if ( _SM.typeOf( vFld ) == 'string' ) {
                 myColumns.push( vFld  )
             }  else if ( vFld.dataIndex ) {
                 myColumns.push( vFld.dataIndex  )
@@ -70,7 +70,7 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         // DGT** Copia las columnas   
         for (var ix in this.columnList ) {
             var vFld = this.columnList[ix]
-            if ( typeOf( vFld ) == 'string' ) {
+            if ( _SM.typeOf( vFld ) == 'string' ) {
                 var col = {
                     menuDisabled : true, flex : 1, text : this.idTitle,   
                     dataIndex: vFld 
@@ -92,7 +92,7 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
                 plugins: {
                     ptype: 'gridviewdragdrop',
                     ddGroup : Ext.id(), 
-                    dragText: __language.ProtoList_DD_Text
+                    dragText: _SM.__language.ProtoList_DD_Text
                 },
 
                 listeners: {
@@ -144,12 +144,12 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
             dataRec = {} 
 
         // Toma el Id positional ( el primero es )
-        if ( typeOf( data ) == 'array' ) {
+        if ( _SM.typeOf( data ) == 'array' ) {
             dataValue = data[0]
         
             // Verifica el 1er elto debe ser el Id 
             vFld = this.columnList[0]
-            if ( typeOf( vFld ) == 'string' ) {
+            if ( _SM.typeOf( vFld ) == 'string' ) {
                 dataIx = vFld 
             }  else if ( vFld.dataIndex ) {
                 dataIx = vFld.dataIndex
@@ -157,16 +157,16 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         }
 
 
-        var vNode =  getRecordByDataIx( this.gridStore, dataIx, dataValue  ) 
+        var vNode =  _SM.getRecordByDataIx( this.gridStore, dataIx, dataValue  ) 
         if ( ! vNode ) {
             
-            if ( typeOf( data ) == 'string' ) {
+            if ( _SM.typeOf( data ) == 'string' ) {
                 dataRec = { 'data': data  }
             } else {
 
                 for (var ix in this.columnList ) {
                     var vFld = this.columnList[ix] 
-                    if ( typeOf( vFld ) == 'string' ) {
+                    if ( _SM.typeOf( vFld ) == 'string' ) {
                         dataRec[ vFld ] = data[ ix ] 
                     }  else if ( vFld.dataIndex ) {
                         dataRec[ vFld.dataIndex ] = data[ ix ]
@@ -214,7 +214,7 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         // Cambia el estado de seleccion de un registro
         // Que hace si no existe y es check? Lo crea por q es posible q se inserten dos colecciones base y selected   
 
-        var vNode =  getRecordByDataIx( this.gridStore, 'data', data  ) 
+        var vNode =  _SM.getRecordByDataIx( this.gridStore, 'data', data  ) 
         if ( vNode ) {
             vNode.set( '__Checked', checked )
         } else { 
@@ -228,7 +228,7 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         if ( checked )  {
             this.setChecked(  data,  true  )
         } else {
-            var vNode =  getRecordByDataIx( this.gridStore, 'data', data  ) 
+            var vNode =  _SM.getRecordByDataIx( this.gridStore, 'data', data  ) 
             if (  vNode  )   {
                 this.gridStore.remove( vNode )
             }

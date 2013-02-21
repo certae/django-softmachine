@@ -48,7 +48,7 @@
         var codentorno = 3;
         var clave = '';*/
         
-        myMask = new Ext.LoadMask(WorkSpace.Vistas.Vislogin, { msg: __language.StatusBar_Message_Loading });
+        myMask = new Ext.LoadMask(WorkSpace.Vistas.Vislogin, { msg: _SM.__language.StatusBar_Message_Loading });
         myMask.show();
         Ext.Ajax.request({
             url: '/Login/Login',
@@ -101,7 +101,7 @@
             if (Main.getController('Core.ConLogin').ValidarUsuario()) {
                 Main.getController('Core.ConLogin').TraerAplicaciones(txtUsuario.getValue());
             } else {
-                Ext.Msg.alert(__language.Message_Error, __language.Text_Enter_User_Login);
+                Ext.Msg.alert(_SM.__language.Message_Error, _SM.__language.Text_Enter_User_Login);
             }
         }
 
@@ -116,7 +116,7 @@
             if (Main.getController('Core.ConLogin').ValidarUsuario()) {
                 Main.getController('Core.ConLogin').TraerAplicaciones(txtUsuario.getValue());
             } else {
-                Ext.Msg.alert(__language.Message_Error, __language.Text_Enter_User_Login);
+                Ext.Msg.alert(_SM.__language.Message_Error, _SM.__language.Text_Enter_User_Login);
             }
         
 
@@ -136,7 +136,7 @@
         comboApp.store.removeAll();
         comboEntorno.store.removeAll();*/
         comboApp.store.proxy.extraParams.usuario = usuario;
-        myMask = new Ext.LoadMask(WorkSpace.Vistas.Vislogin, { msg: __language.Text_Validating_Info_User });
+        myMask = new Ext.LoadMask(WorkSpace.Vistas.Vislogin, { msg: _SM.__language.Text_Validating_Info_User });
         myMask.show();
         comboApp.store.load(function (records, operation, success) {
 
@@ -153,11 +153,11 @@
 
                 } else {
                     myMask.hide();
-                    Ext.Msg.alert(__language.Text_General_Information, __language.Text_No_Aplications);
+                    Ext.Msg.alert(_SM.__language.Text_General_Information, _SM.__language.Text_No_Aplications);
                 }
             } else {
                 myMask.hide();
-                Ext.Msg.alert(__language.Text_General_Information, __language.Text_Error_In_Action);
+                Ext.Msg.alert(_SM.__language.Text_General_Information, _SM.__language.Text_Error_In_Action);
             }
            
         });

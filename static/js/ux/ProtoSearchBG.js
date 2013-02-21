@@ -25,26 +25,26 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
         
         // Load Data button 
         var searchBtn = new Ext.button.Button({
-            tooltip: __language.Tooltip_Filter_Grid_Button,
+            tooltip: _SM.__language.Tooltip_Filter_Grid_Button,
             iconCls: 'icon-filter', 
             handler: onClickSearchBtn
         });
 
         var QBEBtn = new Ext.button.Button({
-            tooltip: __language.Text_Toolbar_Advanced_Filter,
+            tooltip: _SM.__language.Text_Toolbar_Advanced_Filter,
             iconCls: 'icon-filterqbe',
             handler: onClickViewQBE
         });
 
         var clearBtn = new Ext.button.Button({
-            tooltip: __language.Text_Toolbar_Remove_Filters,
+            tooltip: _SM.__language.Text_Toolbar_Remove_Filters,
             handler: onClickClearFilter,
             iconCls: 'icon-filterdelete'
         });
         
         // Criteria 
         var searchCr = new Ext.form.TextField({
-            emptyText: __language.Text_Toolbar_Search_Field,
+            emptyText: _SM.__language.Text_Toolbar_Search_Field,
             enableKeyEvents : true,  
             width: 200, 
             listeners: {

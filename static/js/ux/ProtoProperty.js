@@ -36,14 +36,14 @@ Ext.define('ProtoUL.ux.ProtoProperty' ,{
             source : this.source, 
             listeners: {
                 'beforeedit': function(  editor,  e,  eOpts ){
-                    if ( (! me.editable ) || e.record.data.name in oc( me.readOnlyProps ))  {
+                    if ( (! me.editable ) || e.record.data.name in _SM.objConv( me.readOnlyProps ))  {
                         return false; 
                     } 
                 },
                 'itemmouseenter': function(view, record, item) {
                     var prpName = record.get( 'name' )
                     var msg =  me.sourceInfo[ prpName ]
-                    if ( prpName && prpName  in oc( me.readOnlyProps ) ) prpName += ' [RO]' 
+                    if ( prpName && prpName  in _SM.objConv( me.readOnlyProps ) ) prpName += ' [RO]' 
                     if ( msg ) {
                         Ext.fly(item).set({'data-qtip': msg, 'data-qtitle': prpName }); 
                     } 
@@ -66,7 +66,7 @@ Ext.define('ProtoUL.ux.ProtoProperty' ,{
             if ( this.customEditors[ prp ] ) continue 
             
             var l1 = __ptCombos[prp]
-            if ( typeOf( l1 ) == 'array' ) {
+            if ( _SM.typeOf( l1 ) == 'array' ) {
 
                 this.customEditors[ prp ] =  new Ext.grid.CellEditor({
                     field: new Ext.form.field.ComboBox({

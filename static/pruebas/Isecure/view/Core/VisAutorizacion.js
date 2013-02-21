@@ -5,7 +5,7 @@
     border: 0,
     height: 400,
     width: 531,
-    title: __language.Title_Aut_View,
+    title: _SM.__language.Title_Aut_View,
     closable: false,
     initComponent: function () {
         var me = this;
@@ -39,12 +39,12 @@
                                         columns: [
                                                {
                                                    xtype: 'gridcolumn',
-                                                   text: __language.Header_Column_Grid_App,
+                                                   text: _SM.__language.Header_Column_Grid_App,
                                                    dataIndex: 'Aplicacion',
                                                    flex:1
                                                },{
                                                     xtype: 'gridcolumn',
-                                                    text: __language.Header_Column_Grid_App_Id,
+                                                    text: _SM.__language.Header_Column_Grid_App_Id,
                                                     dataIndex: 'IdAplicacion',
                                                     hidden:true,
                                                     flex:1
@@ -68,12 +68,12 @@
                                         columns: [
                                               {
                                                   xtype: 'gridcolumn',
-                                                  text: __language.Header_Column_Grid_Env,
+                                                  text: _SM.__language.Header_Column_Grid_Env,
                                                   dataIndex: 'Descripcion',
                                                   flex: 1
                                               }, {
                                                   xtype: 'gridcolumn',
-                                                  text: __language.Header_Column_Grid_Env_Id,
+                                                  text: _SM.__language.Header_Column_Grid_Env_Id,
                                                   dataIndex: 'CodEntorno',
                                                   hidden: true,
                                                   flex: 1
@@ -91,13 +91,13 @@
                                
                                  {
                                      xtype: 'button',
-                                     text: __language.Text_Button_Load_App,
+                                     text: _SM.__language.Text_Button_Load_App,
                                      action: 'clickIniciarSesion',
                                      iconCls: 'icon-login',
                                     
                                  }, {
                                      xtype: 'button',
-                                     text: __language.Text_Button_Close_Session,
+                                     text: _SM.__language.Text_Button_Close_Session,
                                      action: 'clickCerrarSesion',
                                      iconCls: 'icon-logout',
                                      hidden: true

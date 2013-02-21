@@ -18,19 +18,19 @@ function prepareProperties( record , myMeta,  propPanel  ){
     // if ( record.parentNode ) parentType  =  record.parentNode.data.text 
 
     // La data configurada
-    var __ptConfig  =  clone( record.data.__ptConfig ) 
+    var __ptConfig  =  _SM.clone( record.data.__ptConfig ) 
     var __ptType = record.data.__ptType   
     var __ptText = record.data.text
 
-    var myFieldDict = getFieldDict( myMeta )
+    var myFieldDict = _SM.getFieldDict( myMeta )
  
-    if ( __ptType  in oc( [ 'field', 'formField' ]) ) {
+    if ( __ptType  in _SM.objConv( [ 'field', 'formField' ]) ) {
 
         // Default Data ( aplica los defaults a la pcl y luego a la definicion del campo )
         template = getTemplate( __ptType, false, myFieldDict[ __ptText  ] )
         __ptConfig[ 'name' ]  = __ptText 
 
-    // } else if ( __ptType  in oc( [ 'protoDetail', 'protoSheet' ]) ) {
+    // } else if ( __ptType  in _SM.objConv( [ 'protoDetail', 'protoSheet' ]) ) {
         // template = getTemplate( __ptType, false  )
 
     }  else {
@@ -73,7 +73,7 @@ function getTemplate( ptType, forForm,  metaField  )  {
         var prp  = objConfig.properties[ ix ]
         
         // Trae los valores directamente   
-        if ( typeOf( prp ) == 'object' ) {
+        if ( _SM.typeOf( prp ) == 'object' ) {
             prpName = prp.name       
             prpValue = prp.value       
         } else {
@@ -102,7 +102,7 @@ function getTemplate( ptType, forForm,  metaField  )  {
 
     // Si es un campo obtiene los defaults de fields 
     if ( metaField ) {
-        prpDict = getFormFieldDefinition( metaField )
+        prpDict = _SM.getFormFieldDefinition( metaField )
         prps = Ext.apply( prps, prpDict   )
     }
 

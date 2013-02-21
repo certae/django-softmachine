@@ -28,19 +28,19 @@ Ext.define('Ext.ux.statusbar.ValidationStatus', {
      * The {@link Ext.ux.statusbar.StatusBar#text text} value to be applied when
      * there is a form validation error.
      */
-    showText: __language.Text_Validation_Form,
+    showText: _SM.__language.Text_Validation_Form,
     /**
      * @cfg {String} hideText
      * The {@link Ext.ux.statusbar.StatusBar#text text} value to display when
      * the error list is displayed.
      */
-    hideText: __language.Text_Hide_Errors_Validation_Form,
+    hideText: _SM.__language.Text_Hide_Errors_Validation_Form,
     /**
      * @cfg {String} submitText
      * The {@link Ext.ux.statusbar.StatusBar#text text} value to be applied when
      * the form is being submitted.
      */
-    submitText: __language.Text_Submit_Validation_Form,
+    submitText: _SM.__language.Text_Submit_Validation_Form,
     
     // private
     init : function(sb){

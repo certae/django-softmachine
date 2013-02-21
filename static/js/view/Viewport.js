@@ -59,12 +59,12 @@ Ext.define('ProtoUL.view.Viewport', {
 
         // Carga las PCI de autoload
         // TODO: Esto podria ser un llamado configurado por usuario  
-        for (var autoPci in _AUTOLOAD_PCI) {
-            this.loadPciFromMenu(_AUTOLOAD_PCI[autoPci]);
+        for (var autoPci in _SM._AUTOLOAD_PCI) {
+            this.loadPciFromMenu(_SM._AUTOLOAD_PCI[autoPci]);
         }
 
         // Referencia a la ventana del viewPort 
-        _mainWin = this
+        _SM._mainWin = this
 
                  
     },
@@ -80,7 +80,7 @@ Ext.define('ProtoUL.view.Viewport', {
             collapsible: true,
             collapseMode: 'mini',
             
-            collapsed:  _siteTitleCollapsed,
+            collapsed:  _SM._siteTitleCollapsed,
             header : false, 
             collapsible: true,
             collapseMode: 'mini',
@@ -94,7 +94,7 @@ Ext.define('ProtoUL.view.Viewport', {
             items:[{
                  margins:'5 5',
                  xtype: 'box',
-                 html: '<span class="title">' + _siteTitle + '</span><br><span class="subtitle">' + _versionProto + '</span>', 
+                 html: '<span class="title">' + _SM._siteTitle + '</span><br><span class="subtitle">' + _SM._versionProto + '</span>', 
                  height: 56,
                  handler: function () {
                      headerPanel.collapse();
@@ -110,15 +110,15 @@ Ext.define('ProtoUL.view.Viewport', {
 
     createMenuPanel: function () {
 
-        if (_MENU_COLLAPSED == undefined) {_MENU_COLLAPSED = false};
+        if (_SM._MENU_COLLAPSED == undefined) {_SM._MENU_COLLAPSED = false};
         
         this.menuPanel = {
             region: 'west',
             width: 300,
-            title: __language.Title_Main_Menu,
+            title: _SM.__language.Title_Main_Menu,
             collapsible: true,
             // border : false, 
-            collapsed: _MENU_COLLAPSED,
+            collapsed: _SM._MENU_COLLAPSED,
             
             // Solo en el panel de menus
             xtype: 'menuTree'
@@ -167,7 +167,7 @@ Ext.define('ProtoUL.view.Viewport', {
             }
         }
 
-        if (  loadPci( protoOption, true, options ) ) {
+        if (  _SM.loadPci( protoOption, true, options ) ) {
             // El modelo ya ha sido cargado ( la cll meta es global )     
             me.openProtoOption( protoOption )                
             
@@ -178,7 +178,7 @@ Ext.define('ProtoUL.view.Viewport', {
     openProtoOption: function( protoOption ){
       
         var me = this ;
-        var myMeta = _cllPCI[ protoOption ] ;
+        var myMeta = _SM._cllPCI[ protoOption ] ;
 
         if ( myMeta.pciStyle == 'form' ) {
             var formController = Ext.create('ProtoUL.UI.FormController', {});

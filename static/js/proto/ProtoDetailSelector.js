@@ -55,7 +55,7 @@ Ext.define('ProtoUL.proto.ProtoDetailSelector', {
             }, 
             'save': function () {
                 savePreview(); 
-                savePci( me.myMeta )         
+                _SM.savePci( me.myMeta )         
             }, 
             scope: me }
         );
@@ -163,7 +163,7 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
             autoLoad: true,
             model: 'Proto.DetailsTreeModel',
             root: {
-                text: __language.Grid_Detail_Title,
+                text: _SM.__language.Grid_Detail_Title,
                 expanded: true 
             }, 
 
@@ -184,17 +184,17 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
 
             columns: [{
                 xtype: 'treecolumn', //this is so we know which column will show the tree
-                text: __language.Tree_Concept_Details_Text,
+                text: _SM.__language.Tree_Concept_Details_Text,
                 flex: 2,
                 sortable: true,
                 minWidth: 200,
                 dataIndex: 'id'
             },{
-                text: __language.Tree_Concept_Details_Detail,
+                text: _SM.__language.Tree_Concept_Details_Detail,
                 dataIndex: 'conceptDetail'
             },{
                 flex: 2,
-                text: __language.Tree_Details_Field,
+                text: _SM.__language.Tree_Details_Field,
                 dataIndex: 'detailField'
             }] 
              
@@ -274,7 +274,7 @@ function definieProtoDetailsTreeModel( protoOption ) {
         proxy: {
             type: 'ajax',
             method: 'GET',
-            url: _PConfig.urlGetDetailsTree , 
+            url: _SM._PConfig.urlGetDetailsTree , 
             extraParams : {
                 protoOption : protoOption 
             },    

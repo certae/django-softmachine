@@ -9,58 +9,8 @@
     initComponent: function () {
 
         var me = this;
-        
-            var opStore = new Ext.data.ArrayStore({
-                fields: ['code', 'operation'],
-                data: _ComboFilterOp
-            });
-
-       /*
-        Ext.applyIf(me, {
-
-            items: [
-               {
-                   xtype: "triggerfield",
-                   fieldLabel: me.fieldLabel,
-                   afterLabelTextTpl: me.afterLabelTextTpl,
-                   name: me.name,
-                   allowBlank: me.allowBlank,
-                   hideTrigger:me.help,
-                   width: 300,
-                   triggerCls: Ext.baseCSSPrefix + 'form-search-trigger',
-                   editable: me.editable,
-                   onTriggerClick: function () {
-                       this.up('toolbar').showHelpForm(this.up('toolbar'));
-                   },
-                   scope:me
-
-               }
-               
-               
-
-
-              , {
-                   xtype: "combobox",
-                   emptyText: 'sélectionner opérator',
-                   store: opStore,
-                   width: 150,
-                   mode: 'local',
-                   triggerAction: 'all',
-                   displayField: 'operation',
-                   valueField: 'code',
-                   
-                   forceSelection: true,
-                   editable: false
-               }
-
-            ]
-
-        });
-*/
-        me.myMeta = _cllPCI[me.protoOption];
-       
+        me.myMeta = _SM._cllPCI[me.protoOption];
         me.createHelpWindow(me);
-
         this.callParent(arguments);
 
         this.on(
@@ -93,7 +43,7 @@
             model: 'Model_' + me.fieldLabel,
             proxy: {
                 type: 'ajax',
-                url: _PConfig.urlHelpQbe,
+                url: _SM._PConfig.urlHelpQbe,
                 reader: {
                     type: 'json',
                     root: 'data',
@@ -121,8 +71,8 @@
             bbar: Ext.create('Ext.PagingToolbar', {
                 store: this.myStore,
                 displayInfo: true,
-                displayMsg: __language.HelpQBE_GridNav_DisplayMsg,
-                emptyMsg: __language.HelpQBE_GridNav_EmptyMsg,
+                displayMsg: _SM.__language.HelpQBE_GridNav_DisplayMsg,
+                emptyMsg: _SM.__language.HelpQBE_GridNav_EmptyMsg,
                 
             })
         });
@@ -141,7 +91,7 @@
         
         me.win = Ext.widget('window', {
             //title: 'Help : ' + me.myMeta.shortTitle,
-            title: __language.HelpQBE_Window_Title+' : ',
+            title: _SM.__language.HelpQBE_Window_Title+' : ',
             // iconCls: me.myMeta.protoIcon,
             closeAction: 'hide',
             //layout: 'fit',
@@ -181,49 +131,49 @@
                                 xtype: 'button',
                                 width: 25,
                                 text: '>',
-                                tooltip: __language.HelpQBE_Tooltip_PlusThan_Button,
+                                tooltip: _SM.__language.HelpQBE_Tooltip_PlusThan_Button,
                                 handler: function () {this.up('window').addText(this)}
                             },
                             {
                                 xtype: 'button',
                                 width: 25,
                                 text: '<',
-                                tooltip: __language.HelpQBE_Tooltip_LessThan_Button,
+                                tooltip: _SM.__language.HelpQBE_Tooltip_LessThan_Button,
                                 handler: function () { this.up('window').addText(this) }
                             },
                             {
                                 xtype: 'button',
                                 width: 25,
                                 text: '>=',
-                                tooltip: __language.HelpQBE_Tooltip_PlusEqualThan_Button,
+                                tooltip: _SM.__language.HelpQBE_Tooltip_PlusEqualThan_Button,
                                 handler: function () { this.up('window').addText(this) }
                             },
                             {
                                 xtype: 'button',
                                 width: 25,
                                 text: '<=',
-                                tooltip: __language.HelpQBE_Tooltip_LessEqualThan_Button,
+                                tooltip: _SM.__language.HelpQBE_Tooltip_LessEqualThan_Button,
                                 handler: function () { this.up('window').addText(this) }
                             },
                             {
                                 xtype: 'button',
                                 width: 25,
                                 text: '<>',
-                                tooltip: __language.HelpQBE_Tooltip_Different_Button,
+                                tooltip: _SM.__language.HelpQBE_Tooltip_Different_Button,
                                 handler: function () { this.up('window').addText(this) }
                             },
                             {
                                 xtype: 'button',
                                 width: 25,
                                 text: ':',
-                                tooltip: __language.HelpQBE_Tooltip_Between_Button,
+                                tooltip: _SM.__language.HelpQBE_Tooltip_Between_Button,
                                 handler: function () { this.up('window').addText(this) }
                             },
                             {
                                 xtype: 'button',
                                 width: 25,
                                 text: '*',
-                                tooltip: __language.HelpQBE_Tooltip_Containing_Button,
+                                tooltip: _SM.__language.HelpQBE_Tooltip_Containing_Button,
                                 handler: function () { this.up('window').addText(this) }
                             }
                          ]
@@ -240,8 +190,8 @@
                 items: [
                     { xtype: 'tbtext', text: '', id: me.idStBar },
                     { xtype: 'component', flex: 1 },
-                    { xtype: 'button', text: __language.Text_Accept_Button, scope: me, handler: me.doReturn, iconCls: 'icon-accept' },
-                    { xtype: 'button', text: __language.Title_Cancel_Button, scope: me, handler: doCancel, iconCls: 'icon-cancel' },
+                    { xtype: 'button', text: _SM.__language.Text_Accept_Button, scope: me, handler: me.doReturn, iconCls: 'icon-accept' },
+                    { xtype: 'button', text: _SM.__language.Title_Cancel_Button, scope: me, handler: doCancel, iconCls: 'icon-cancel' },
 
                  //   { xtype: 'button', text: 'Edit', scope: me, handler: doEdit },
                  //   { xtype: 'button', text: 'New', scope: me, handler: doNew },
@@ -342,3 +292,45 @@
 });
 
 
+       /*
+        Ext.applyIf(me, {
+
+            items: [
+               {
+                   xtype: "triggerfield",
+                   fieldLabel: me.fieldLabel,
+                   afterLabelTextTpl: me.afterLabelTextTpl,
+                   name: me.name,
+                   allowBlank: me.allowBlank,
+                   hideTrigger:me.help,
+                   width: 300,
+                   triggerCls: Ext.baseCSSPrefix + 'form-search-trigger',
+                   editable: me.editable,
+                   onTriggerClick: function () {
+                       this.up('toolbar').showHelpForm(this.up('toolbar'));
+                   },
+                   scope:me
+
+               }
+               
+               
+
+
+              , {
+                   xtype: "combobox",
+                   emptyText: 'sélectionner opérator',
+                   store: opStore,
+                   width: 150,
+                   mode: 'local',
+                   triggerAction: 'all',
+                   displayField: 'operation',
+                   valueField: 'code',
+                   
+                   forceSelection: true,
+                   editable: false
+               }
+
+            ]
+
+        });
+*/

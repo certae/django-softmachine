@@ -32,12 +32,12 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             return; 
         }
 
-        this.myFieldDict = getFieldDict( this.myMeta )
+        this.myFieldDict = _SM.getFieldDict( this.myMeta )
 
-        defineProtoPclTreeModel();
+        _SM.defineProtoPclTreeModel();
 
         var tBar =  Ext.create('ProtoUL.proto.ProtoToolBar', {dock : 'top'});
-        var sbar = Ext.create('Ext.form.Label', { text: __language.ProtoPcl_Edition_Tool });
+        var sbar = Ext.create('Ext.form.Label', { text: _SM.__language.ProtoPcl_Edition_Tool });
         
         var treeData = getTreeData( me );
 
@@ -135,13 +135,13 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         tBar.on({
             'preview': function ( ) {
                 me.myMeta  =  Tree2Meta( me.treeGridStore.getRootNode() )
-                savePclCache( me.myMeta.protoOption, me.myMeta )
+                _SM.savePclCache( me.myMeta.protoOption, me.myMeta )
             }, 
             'save': function ( ) {
                 me.myMeta =  Tree2Meta( me.treeGridStore.getRootNode() )
                 me.myMeta.metaVersion = _versionMeta
-                savePclCache( me.myMeta.protoOption, me.myMeta )
-                savePci( me.myMeta )         
+                _SM.savePclCache( me.myMeta.protoOption, me.myMeta )
+                _SM.savePci( me.myMeta )         
             }, 
             'reload': function ( ) {
 
@@ -150,7 +150,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                 me.cancelChanges()
             }, 
             'show1': function (  ) {
-                showConfig( 'Meta' , me.myMeta  )
+                _SM.showConfig( 'Meta' , me.myMeta  )
             }, 
             'add': function ( record ) {
                 addTreeNode ( record )
@@ -186,7 +186,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                 var prpName = e.record.data.name
 
                 // ****  Solo llegan objetos, los Array deben tener un __ptConfig aidcional 
-                if ( typeOf(oData) !=  "object") { 
+                if ( _SM.typeOf(oData) !=  "object") { 
 
                     if ( ! oData.__ptConfig ) oData.__ptConfig = {}
                     oData.__ptConfig[ prpName ]  = e.value
@@ -222,7 +222,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             treeData.expanded = true;
     
             // Para guardar las dos definiciones ( la data se modifica al generar el store )
-            me.treeData = clone( treeData );
+            me.treeData = _SM.clone( treeData );
 
             return treeData 
         }
@@ -243,7 +243,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             var childDef = _MetaObjects[ nodeDef.listOf ] || {}
 
             // Pregunta el nombre del nuevo nodo                
-            var pName = ptPrompt ( nodeDef.listOf, childDef.addPrompt  )
+            var pName = _SM.ptPrompt ( nodeDef.listOf, childDef.addPrompt  )
             if ( ! pName ) return;  
 
             // Propiedad q llevara el nombre del nodo 
@@ -359,11 +359,11 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             var nodeDef = _MetaObjects[ ptType ] || {}
             if ( nodeDef.allowAdd  ) {     
 
-                tBar.setButton('add', true, true, __language.ProtoPcl_Add_Instance + ptType, record)
+                tBar.setButton('add', true, true, _SM.__language.ProtoPcl_Add_Instance + ptType, record)
             } 
             
             if ( nodeDef.allowDel ) {
-                tBar.setButton('del', true, true, __language.ProtoPcl_Del_Current + ptType + ' [' + oData.text + ']', record)
+                tBar.setButton('del', true, true, _SM.__language.ProtoPcl_Del_Current + ptType + ' [' + oData.text + ']', record)
 
             } 
 

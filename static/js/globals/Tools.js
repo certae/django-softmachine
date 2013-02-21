@@ -1,41 +1,7 @@
-
 // Definicion del modelo, 
 
 // TODO:  Traer aqui  manejo de la carga de la PCI 
-
-
-// Object converter: Para testear si un elto hace parte de un array se convierte el array en objeto 
-function oc( a )
-{
-  var o = {};
-  if ( ! a ) {
-      console.log( 'oc : no list!!! ')
-      return o ;
-  }
-  for(var i=0;i<a.length;i++)
-  {
-    o[a[i]]='';
-  }
-  return o;
-}
-
-
-
-// TODO: Los templates de las finchas deberian ser leidos de un archivo 
-function OpenFile( fileName  ) {
-    // fh = window.open( fileName , 0);     // Open the file for reading 
-    // if(fh!=-1)                          // If the file has been successfully opened 
-    // { 
-        // length = flength(fh);           // Get the length of the file     
-        // str = fread(fh, length);        // Read in the entire file 
-        // fclose(fh);                     // Close the file 
-    // }
-    // return str     
-}
-
-
-// Redefinicion de typeof de base para generar array y null 
-function typeOf(value) {
+_SM.typeOf=function (value) {
     var s = typeof value;
     if (s === 'object') {
         if (value) {
@@ -49,22 +15,42 @@ function typeOf(value) {
     return s;
 }
 
-/*
- * @oBase         : Base objet ( source )
- * @oRef         : Ref object ( source )
- * @overWrite    : Overwrite Base with Ref 
- * @lstInclude     : Properties to copy 
- */
-function copyProps(oBase, oRef, overWrite, lstInclude, lstExclude )
-{
+_SM.objConv=function ( a ){
+    // Object converter: Para testear si un elto hace parte de un array se convierte el array en objeto 
+  var o = {};
+  if ( ! a ) {
+      console.log( '_SM.objConv : no list!!! ')
+      return o ;
+  }
+  for(var i=0;i<a.length;i++)
+  {
+    o[a[i]]='';
+  }
+  return o;
+}
+
+_SM.OpenFile = function (fileName) {
+
+    // TODO: Los templates de las finchas deberian ser leidos de un archivo 
+    // fh = window.open( fileName , 0);     // Open the file for reading 
+    // if(fh!=-1)                          // If the file has been successfully opened 
+    // { 
+        // length = flength(fh);           // Get the length of the file     
+        // str = fread(fh, length);        // Read in the entire file 
+        // fclose(fh);                     // Close the file 
+    // }
+    // return str     
+}
+
+_SM.copyProps = function (oBase, oRef, overWrite, lstInclude, lstExclude ){
     
     if ( !overWrite ) overWrite = true; 
 
-    var oResult = clone( oBase , 0, lstExclude );     
+    var oResult = _SM.clone(oBase, 0, lstExclude);
     for(var i in oRef)
     {
         if (  overWrite ||  ! oBase[i]  ) {
-            if ( !lstInclude ||  i in oc(lstInclude) ) {
+            if ( !lstInclude ||  i in _SM.objConv(lstInclude) ) {
                 oResult[i] = oRef[i];
             } 
         }
@@ -72,13 +58,13 @@ function copyProps(oBase, oRef, overWrite, lstInclude, lstExclude )
     return oResult;
 }
 
-/* 
- * @obj     : obj to clone 
+_SM.clone = function (obj, auxRec, exclude, include) {
+    /* 
+ * @obj     : obj to _SM.clone 
  * @auxRec  : Control de recursividad  ( no debe pasar de un max de nivles ie 5 )
  * @exclude : permite excluir propiedades de un diccionario
  */
-function clone(obj, auxRec, exclude, include  ) {
-    
+   
     // Verificacion de nivel de recursividad en la copia de objetos 
     if ( auxRec )  {  auxRec = auxRec + 1 } else { auxRec = 1 } 
     if ( auxRec > 5 )  return obj  
@@ -98,7 +84,7 @@ function clone(obj, auxRec, exclude, include  ) {
         var copy = [];
         var len = obj.length;
         for (var i = 0; i < len; ++i) {
-            copy[i] = clone(obj[i], auxRec, exclude , include );
+            copy[i] = _SM.clone(obj[i], auxRec, exclude , include );
         }
         return copy;
     }
@@ -106,7 +92,7 @@ function clone(obj, auxRec, exclude, include  ) {
         // Si es una clase, solo copia el initialConfig y un nombre de clase 
         var copy = {};
         if (obj.hasOwnProperty('initialConfig')) {
-            copy.initialConfig = clone( obj.initialConfig, auxRec, exclude , include )
+            copy.initialConfig = _SM.clone( obj.initialConfig, auxRec, exclude , include )
         } 
         if (obj.__proto__.$className ) {
             copy.className = obj.__proto__.$className
@@ -118,13 +104,13 @@ function clone(obj, auxRec, exclude, include  ) {
         // Si es un objeto recorre las propiedades y las clona una a una 
         var copy = {};
         for (var attr in obj) {
-            if ( attr in oc( ['events', 'renderer'] )) continue; 
-            if (( exclude ) && ( attr in oc( exclude ))) continue; 
-            if (( include ) && ! ( attr in oc( include ))) continue; 
+            if ( attr in _SM.objConv( ['events', 'renderer'] )) continue; 
+            if (( exclude ) && ( attr in _SM.objConv( exclude ))) continue; 
+            if (( include ) && ! ( attr in _SM.objConv( include ))) continue; 
 
             if (obj.hasOwnProperty(attr)) {
                 // console.log ( auxRec,  obj, attr, obj[attr] )
-                copy[attr] = clone(obj[attr], auxRec, exclude, include);
+                copy[attr] = _SM.clone(obj[attr], auxRec, exclude, include);
             } 
         }
         return copy;
@@ -134,17 +120,13 @@ function clone(obj, auxRec, exclude, include  ) {
         // var copy = obj.constructor();
         // for (var attr in obj) {
             // if (obj.hasOwnProperty(attr))  copy[attr] = obj[attr];
-            // else copy[attr] = clone( obj[attr] );
+            // else copy[attr] = _SM.clone( obj[attr] );
         // }
         // return copy;
     } 
-    
 }
 
-
-
-
-function FormatJSON( oData, sIndent) {
+_SM.FormatJSON = function (oData, sIndent) {
     // Indenta un string JSON no formateado
     // Tools.FormatJSon  CERTAE U. Laval 2012/02  
     // @oData    :  Unformated JSon string 
@@ -157,7 +139,7 @@ function FormatJSON( oData, sIndent) {
     if (! sIndent ){ sIndent = "" }
     else if ( sIndent  == ' ') { sIndentStyle = ''; BR = '' }
     
-    var sDataType = typeOf(oData);
+    var sDataType = _SM.typeOf(oData);
 
     // open object
     if (sDataType == "array") {
@@ -192,10 +174,10 @@ function FormatJSON( oData, sIndent) {
         }
 
         // display relevant data type
-        switch (typeOf(vValue)) {
+        switch (_SM.typeOf(vValue)) {
             case "array":
             case "object":
-                sHTML += FormatJSON(vValue, (sIndent + sIndentStyle));
+                sHTML += _SM.FormatJSON(vValue, (sIndent + sIndentStyle));
                 break;
             case "boolean":
                 if ( vValue ) { sHTML += "true" } else { sHTML += "false" }
@@ -204,7 +186,7 @@ function FormatJSON( oData, sIndent) {
                 sHTML += vValue.toString();
                 break;
             case "null":
-                sHTML += "null";  //  None
+                 sHTML += "null";  //  None
                 break;
             case "string":
                 vValue = vValue.replace( /'/g, '\\\'').replace( /"/g, '\\"')
@@ -215,7 +197,7 @@ function FormatJSON( oData, sIndent) {
                 sHTML += ("\"" + vValue + "\"");
                 break;
             default:
-                sHTML += ("TYPEOF: " + typeof(vValue));
+                sHTML += ("TYPEOF: " + _SM.typeOf(vValue));
         }
 
         // loop
@@ -233,8 +215,7 @@ function FormatJSON( oData, sIndent) {
     return sHTML;
 }
 
-
-function VerifyLast( sAux , sChar   ) {
+_SM.VerifyLast = function (sAux, sChar) {
     
     // Elimina condicionalmente el  ultima caracter
     if ( ! sChar ) sChar = ','
@@ -244,9 +225,7 @@ function VerifyLast( sAux , sChar   ) {
     return sAux 
 }
 
-
-
-function FormatJsonStr( sData ) {
+_SM.FormatJsonStr = function (sData) {
     var oData = {}; 
 
     // Verifica q no venga vacio 
@@ -257,40 +236,33 @@ function FormatJsonStr( sData ) {
         oData = Ext.decode( sData )   
     } catch(e) {}
     
-    var sAux  = FormatJSON( oData )
+    var sAux  = _SM.FormatJSON( oData )
     return     sAux
-
 }
 
-function charCount(  sData,  sChar ) {
+_SM.charCount = function (sData, sChar) {
     // Cuenta las ocurrencias de un caracter en una cadena  
     if ( sData ) {
         return sData.split(sChar).length
     }  else { return 0 }  
-    
 }
 
 
-
-
-function clearProps(  obj ) {
+_SM.clearProps = function (obj) {
     // Borra las propiedades con valores nulos no definidos o blancos 
     
     for (var ix in obj) {
         if ( ! obj[ix] &&  obj[ix] != false) {
             delete obj[ix]
-        } else if ( typeOf(obj[ix])  == 'string'  && obj[ix].trim() == '' ) {
+        } else if ( _SM.typeOf(obj[ix])  == 'string'  && obj[ix].trim() == '' ) {
             delete obj[ix]
         }  
     }
     
     return obj     
-    
 }
 
-
-
-function errorMessage(  errTitle,  errMsg ) {
+_SM.errorMessage = function (errTitle, errMsg) {
 
     // TODO: Log de errores, ya sea en stBar o en un panel del menu, habilitar un clear . 
     __StBar.showError( errMsg , errTitle )
@@ -301,36 +273,30 @@ function errorMessage(  errTitle,  errMsg ) {
         // icon: Ext.Msg.ERROR,
         // buttons: Ext.Msg.OK
     // });
-    
 }
 
+_SM.updateWinPosition = function (myWidth, myHeight) {
 
-function updateWinPosition( myWidth, myHeight ) {
-
-    _winX += 40; _winY += 20;
-    if ( ( _winX + myWidth ) > _mainWin.width  || ( _winY + myHeight ) > _mainWin.height  ) {
-        _winX = 10; _winY = 10;
+    _SM._winX += 40; _SM._winY += 20;
+    if ((_SM._winX + myWidth) > _SM._mainWin.width || (_SM._winY + myHeight) > _SM._mainWin.height) {
+        _SM._winX = 10; _SM._winY = 10;
     }    
-    
 }
 
-// **********************************************************
-
-function savePclCache( protoOption, protoMeta ) {
+_SM.savePclCache = function (protoOption, protoMeta) {
 
     // Asigna la llave, pues si se hace una copia seguiria trayendo la misma protoOption de base 
-    protoMeta.protoOption = protoOption 
+   // console.log(protoMeta);
+    protoMeta.protoOption = protoOption
 
-    verifyMetaVersion( protoMeta )
-    DefineProtoModel( protoMeta , getModelName( protoOption  )  );
+    _SM.verifyMetaVersion( protoMeta )
+    _SM.DefineProtoModel(protoMeta, _SM.getModelName(protoOption));
 
     // Guarda el cache de  pcl's 
-    _cllPCI[ protoOption ]  = protoMeta;  
-
+    _SM._cllPCI[protoOption] = protoMeta;
 }
 
-
-function verifyMetaVersion( protoMeta ) {
+_SM.verifyMetaVersion = function (protoMeta) {
     
     // 121108  Se relocaliza protoSheets,  protoSheetProperties se crean dinamicamente.  
     if ( protoMeta.sheetConfig )  { 
@@ -341,11 +307,9 @@ function verifyMetaVersion( protoMeta ) {
         }
         delete protoMeta.sheetConfig 
     }
-
 }
 
-
-function getModelName( protoOption  ) {
+_SM.getModelName = function (protoOption) {
     // En principio traia un modelo de base q servia para todas las vistas construidas 
     // con el nuevo esquema de creacion dinamica, es mejor q el modelo corresponda a la 
     // opcion, pues las definiciones pueden ser totalmente diferentes. 
@@ -357,18 +321,16 @@ function getModelName( protoOption  ) {
     var modelName = protoOption; 
     
     // Cuenta los "."
-    // if ( charCount( protoOption, ".")  > 2  ) {
+    // if ( _SM.charCount( protoOption, ".")  > 2  ) {
         // var n = protoOption.split(".", 2)         
         // modelName = n[0] + '.' + n[1]
-    // }
+    // }
 
-    return _PConfig.clsBaseModel + modelName 
 
+    return _SM._PConfig.clsBaseModel + modelName
 }
 
-
-
-function getSafeMeta( myMeta ) {
+_SM.getSafeMeta = function (myMeta) {
     
     // prepara la meta q retorna al BackEnd 
     var safeMeta = { 
@@ -380,29 +342,27 @@ function getSafeMeta( myMeta ) {
         // "sql"          : myMeta.sql,
         "idProperty"   : myMeta.idProperty,
         "gridConfig"   : {
-            "searchFields": clone( myMeta.gridConfig.searchFields  )
+            "searchFields": _SM.clone( myMeta.gridConfig.searchFields  )
         },
-        "fields": clone( myMeta.fields, 0, [],  [ 
+        "fields": _SM.clone( myMeta.fields, 0, [],  [ 
             'name', 'type', 
             'zoomModel', 'fkId', 
             'crudType', 'cpFromField', 'cpFromModel'
             ] ),
-        "protoUdp": clone( myMeta.protoUdp )  
+        "protoUdp": _SM.clone( myMeta.protoUdp )  
     } 
         
     return Ext.encode( safeMeta )
-    
 }
 
-function getGridColumn( myGrid, dataIndex  ) {
+_SM.getGridColumn = function (myGrid, dataIndex) {
     for ( var ix in myGrid.myColumns ) {
         var myCol = myGrid.myColumns[ix]
         if ( myCol.dataIndex == dataIndex )  return myCol    
     }
 }
 
-
-function showConfig( title , myConf ) {
+_SM.showConfig = function (title, myConf) {
 
         var msgBox =  Ext.create('Ext.window.MessageBox', {
             minHeight: 200,
@@ -416,7 +376,7 @@ function showConfig( title , myConf ) {
         // msgBox.maxHeight = 600
         // msgBox.minHeight = 200
         
-        var sValue = FormatJSON( myConf , ' ')
+        var sValue = _SM.FormatJSON( myConf , ' ')
         
         msgBox.show({
            width : 800, 
@@ -427,20 +387,19 @@ function showConfig( title , myConf ) {
            value: sValue, 
            title: title
         })
-    }
+}
     
-function getCurrentTime(){
+_SM.getCurrentTime = function () {
     return Ext.Date.format( new Date() , "Y-m-d H:i:s" )
 }
 
-
-function verifyList ( myList , defList ){
+_SM.verifyList = function (myList, defList) {
 
     // verifica el default 
-    if (( ! defList ) || ( typeOf( defList ) != 'array' )) { defList = [] }
+    if (( ! defList ) || ( _SM.typeOf( defList ) != 'array' )) { defList = [] }
     
     // Verifica q sea una lista 
-    if ( typeOf( myList ) != 'array' ) { 
+    if ( _SM.typeOf( myList ) != 'array' ) { 
         myList = defList }
     else if ( myList.length  == 0 ) { 
         myList  = defList }
@@ -448,13 +407,13 @@ function verifyList ( myList , defList ){
     return myList 
 }
 
-function verifyObj ( myObj , defObj ){
+_SM.verifyObj = function (myObj, defObj) {
 
     // verifica el default 
-    if (( ! defObj ) || ( typeOf( defObj ) != 'object' )) { defObj = {} }
+    if (( ! defObj ) || ( _SM.typeOf( defObj ) != 'object' )) { defObj = {} }
     
     // Verifica q sea un objeto  
-    if ( typeOf( myObj ) != 'object' )   { 
+    if ( _SM.typeOf( myObj ) != 'object' )   { 
         myObj = defObj }
         
     else  { 
@@ -462,11 +421,9 @@ function verifyObj ( myObj , defObj ){
         myObj  = Ext.apply( defObj, myObj ) }
         
     return myObj 
-
 }
 
-
-function obj2tx( myObj ) {
+_SM.obj2tx = function( myObj ) {
     // recibe un obj y garantiza q retorne un texto ( con un array )
     var sAux = typeof myObj;   
     if ( sAux == 'string' ) { sAux = myObj }
@@ -477,14 +434,60 @@ function obj2tx( myObj ) {
 }
 
 
-
-
-function ptPrompt( title, msg )  {
+_SM.ptPrompt = function (title, msg) {
      
     return prompt( msg )     
     // Ext.Msg.prompt(title, msg, function(btn, pName){
         // if (btn != 'ok') return '' 
         // return pName  
     // })
-} 
+}
+
+//Eventos :
+
+_SM.openScript = function (url) {
+    //permite cargar script de un archivo
+    //'../../static/aplications/GIS/factura_dblclick.js'
+    var scrpt = document.createElement('script');
+    scrpt.src = url;
+    document.head.appendChild(scrpt);
+}
+
+_SM.fireEvent = function (type, myMeta, eventData, scope, fn) {
+    me = scope;
+    var code = myMeta.businessRules[type] || null;
+    console.log(code + "-->" + type);
+    eventData.type = type;
+    _SM.eventData = eventData;
+    _SM.eventData.cancel = false;
+    if (code != null) {
+
+
+        if (type == "DblClick" || type == "default") {
+
+            _SM.eventData.HDataField = scope._extGrid.columns[_SM.eventData.cellIndex].dataIndex;
+        }
+
+        eval(code);
+        if (!_SM.eventData.cancel) {
+            fn();
+        }
+
+    } else {
+        fn();
+    }
+   
+   
+
+}
+
+_SM.GetRowValue = function (cellName) {
+    try {
+        var data = _SM.eventData.record.get(cellName);
+        return data;
+    } catch (e) {
+        return null;
+    }
+
+}
 

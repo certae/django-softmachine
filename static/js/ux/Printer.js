@@ -35,7 +35,7 @@ Ext.define("ProtoUL.ux.Printer", {
             
             var html1 = this.htmlTpl.toString();
             html1 = html1.replace( /@gridTitle@/g, grid.title );
-            html1 = html1.replace( /@siteTitle@/g, _siteTitle );
+            html1 = html1.replace( /@siteTitle@/g, _SM._siteTitle );
             html1 = html1.replace( '@headings@', headings );
             html1 = html1.replace( '@body@', body );
 
@@ -59,7 +59,7 @@ Ext.define("ProtoUL.ux.Printer", {
             
             var html1 = this.htmlTpl.toString();
             html1 = html1.replace( /@gridTitle@/g, grid.title );
-            html1 = html1.replace( /@siteTitle@/g, _siteTitle );
+            html1 = html1.replace( /@siteTitle@/g, _SM._siteTitle );
             html1 = html1.replace( '@headings@', '' );
             html1 = html1.replace( '@body@', body );
 
@@ -107,7 +107,7 @@ Ext.define("ProtoUL.ux.Printer", {
             return data; 
         },  
 
-        getGridColumns: function(grid  ) {
+        _SM.getGridColumns: function(grid  ) {
 
             var columns = [];
     

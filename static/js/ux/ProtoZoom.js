@@ -74,7 +74,7 @@ Ext.define('Ext.ux.protoZoom', {
             }
         };
 
-        if (  loadPci( me.zoomModel , true, options ) ) {
+        if (  _SM.loadPci( me.zoomModel , true, options ) ) {
             me.createZoomWindow( me ); 
         }   
 
@@ -113,7 +113,7 @@ Ext.define('Ext.ux.protoZoom', {
 
     createZoomWindow:  function ( me  ){
 
-        me.myMeta = _cllPCI[ me.zoomModel ] ; 
+        me.myMeta = _SM._cllPCI[ me.zoomModel ] ; 
 
         // Para identificar el StatusBar 
         me.idStBar = Ext.id();
@@ -198,7 +198,7 @@ Ext.define('Ext.ux.protoZoom', {
 
         function doEdit() {
             if ( ! zoomGrid.selected ) {
-                errorMessage(__language.Title_Form_Panel, __language.GridAction_NoRecord)
+                _SM.errorMessage(_SM.__language.Title_Form_Panel, _SM.__language.GridAction_NoRecord)
                 return 
             }
             var formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });

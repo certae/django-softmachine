@@ -48,7 +48,7 @@ Ext.define('ProtoUL.ux.HtmlSet', {
                 tools: [{
                     type: 'formUpd',
                     itemId : 'edithtml', 
-                    tooltip: __language.Tooltip_Open_HtmlEditor,
+                    tooltip: _SM.__language.Tooltip_Open_HtmlEditor,
                     scope : this,  
                     handler: function(event, target, owner, tool ){
                         var myPanel = owner.ownerCt
@@ -111,12 +111,12 @@ function openHtmlEditorWin( myPanel   )  {
             items : ['->', {
                 iconCls : 'icon-save',
                 itemId : 'save',
-                text:   __language.Title_Save_Button,
+                text:   _SM.__language.Title_Save_Button,
                 scope : this,
                 handler : onSave
             }, {
                 iconCls : 'icon-reset',
-                text:   __language.Text_Return_Button,
+                text:   _SM.__language.Text_Return_Button,
                 scope : this,
                 handler : onReset
             }]

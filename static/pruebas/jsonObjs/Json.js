@@ -943,12 +943,12 @@ Ext.define('ProtoUL.ux.Json', {
      },
 
     /**
-     * Function used to clone a object
+     * Function used to _SM.clone a object
      * IMPORTANT: works only when items are build with jsonid set
-     * @param {Object} items The object to be cloned
-     * @return {Object} The cloned object
+     * @param {Object} items The object to be _SM.cloned
+     * @return {Object} The _SM.cloned object
      */
-    clone : function(items) {
+    _SM.clone : function(items) {
       return this.decode(this.encode(items));
     }
 });

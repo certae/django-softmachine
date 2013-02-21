@@ -84,14 +84,14 @@ function verifyMeta( oMeta,  ptType, tNode ) {
         return oMeta ; 
 
     // Verifica las listas 
-    if ( __ptConfig.lists &&  ( typeOf( __ptConfig.lists ) == 'array' ))  { 
+    if ( __ptConfig.lists &&  ( _SM.typeOf( __ptConfig.lists ) == 'array' ))  { 
         for ( var ix in __ptConfig.lists  ) {
             var sKey = __ptConfig.lists[ix]
             if ( typeof( sKey)  !=  'string' ) 
                 continue ; 
 
             var listOfConf = _MetaObjects[ sKey ] || {}
-            oMeta[ sKey ]  = verifyList (  oMeta[ sKey ], listOfConf.defaultValue  )
+            oMeta[ sKey ]  = _SM.verifyList (  oMeta[ sKey ], listOfConf.defaultValue  )
 
             if ( tNode ) { 
                 // agrega una nueva lista al arbol 
@@ -108,14 +108,14 @@ function verifyMeta( oMeta,  ptType, tNode ) {
     } 
 
     // Verifica los Objetos ( no aplica los default, pues la config puede eliminarlos )  
-    if ( __ptConfig.objects &&  ( typeOf( __ptConfig.objects  ) == 'array' ))  { 
+    if ( __ptConfig.objects &&  ( _SM.typeOf( __ptConfig.objects  ) == 'array' ))  { 
         for ( var ix in __ptConfig.objects  ) {
             var sKey = __ptConfig.objects[ix]
             if ( typeof( sKey)  !=  'string' ) 
                 continue ; 
 
             var myObj = oMeta[ sKey ]
-            if ( typeOf( myObj ) != 'object' )  { 
+            if ( _SM.typeOf( myObj ) != 'object' )  { 
                 myObj = {} }
 
             if ( tNode ) { 
@@ -136,7 +136,7 @@ function verifyMeta( oMeta,  ptType, tNode ) {
     } 
 
     // No es necesario verificar las propiedades pues se hace al momento de guardar la pcl  
-    // if ( __ptConfig.properties  &&  ( typeOf( __ptConfig.properties  ) == 'array' ))  {
+    // if ( __ptConfig.properties  &&  ( _SM.typeOf( __ptConfig.properties  ) == 'array' ))  {
 
     return oMeta 
 
@@ -149,7 +149,7 @@ function clearPhantonProps( __ptConfig ,  __ptType ) {
     var objConfig = _MetaObjects[ __ptType ] || {}
     for (var ix in __ptConfig ) {   
         if ( ! objConfig.properties ) continue; 
-        if ( !( ix  in oc( objConfig.properties.concat ( ['name', '__ptValue', '__ptList', '__ptType' ] )))) {
+        if ( !( ix  in _SM.objConv( objConfig.properties.concat ( ['name', '__ptValue', '__ptList', '__ptType' ] )))) {
             console.log( ix )
             delete __ptConfig[ ix ]
         }

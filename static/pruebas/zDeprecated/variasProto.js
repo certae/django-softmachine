@@ -21,14 +21,14 @@
             tNode = {}
             tNode['text']  =  prpName    
             tNode['ptValue'] =  prpValue  
-            tNode['__ptType'] =  typeOf( prpValue )  
+            tNode['__ptType'] =  _SM.typeOf( prpValue )  
             tNode['leaf'] =  true  
             
             treeRecord.appendChild( tNode )
         }
 
 
-function getComboChoices(  l1 ) {
+function _SM.getComboChoices(  l1 ) {
     // Los valores vienen como una lista simple, el combo necesita una lista doble  ( ya no !! )
     
     var l2 = []
