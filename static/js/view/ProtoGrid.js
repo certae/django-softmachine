@@ -205,7 +205,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                                     // Podria usarse con @FieldName para indicar de donde tomar el modelo o la funcion  
     
                                     var pModel  =  record.get( myZField.name ) 
-                                    mainVP._SM.loadPciFromMenu( pModel ) 
+                                    mainVP.loadPciFromMenu( pModel ) 
     
                                 } else {
                                     _SM.errorMessage( 'LinkedForm definition error : ' +  clickedDataIndex, 

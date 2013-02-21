@@ -46,7 +46,7 @@ _SM.getStoreDefinition = function(  stDef  ){
 
             if ( myFilter ) {
                 this.clearFilter();
-                this.getProxy().extraParams.protoFilter = obj2tx( myFilter )
+                this.getProxy().extraParams.protoFilter = _SM.obj2tx( myFilter )
                 this.load();
                 
             } else if ( mySorter ) {
@@ -182,9 +182,9 @@ _SM.getProxyDefinition = function( stDef )  {
             // Parametros String para la conexion al backEnd 
             extraParams : {
                 protoOption : stDef.protoOption,
-                protoFilter : obj2tx( stDef.protoFilter ),
-                baseFilter  : obj2tx( stDef.baseFilter ), 
-                protoMeta  :  obj2tx( stDef.sProtoMeta )     
+                protoFilter : _SM.obj2tx( stDef.protoFilter ),
+                baseFilter  : _SM.obj2tx( stDef.baseFilter ), 
+                protoMeta  :  _SM.obj2tx( stDef.sProtoMeta )     
             },    
 
             listeners: {

@@ -46,8 +46,8 @@ Ext.define('ProtoUL.UI.FormController', {
     newWindow: function ( me ) {
 
         me.newProtoForm()
+        
         _SM.updateWinPosition( me.myWidth, me.myHeight )
-
         
         me.myWin  = Ext.widget('window', {
             // constrain: true, 

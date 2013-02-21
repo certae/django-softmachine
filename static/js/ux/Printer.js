@@ -107,7 +107,7 @@ Ext.define("ProtoUL.ux.Printer", {
             return data; 
         },  
 
-        _SM.getGridColumns: function(grid  ) {
+        getGridColumns: function(grid  ) {
 
             var columns = [];
     

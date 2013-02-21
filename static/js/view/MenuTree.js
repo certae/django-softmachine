@@ -135,7 +135,7 @@ Ext.define('ProtoUL.view.MenuTree', {
             if ( rec.get('leaf') ) {
                 var protoOption = rec.data.protoOption || rec.data.id
                 this.fireEvent('menuSelect', this, protoOption );
-                this.ownerCt._SM.loadPciFromMenu( protoOption );
+                this.ownerCt.loadPciFromMenu( protoOption );
             }
         } 
         
