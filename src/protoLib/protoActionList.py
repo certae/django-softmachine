@@ -114,7 +114,7 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
         # Alimenta la coleccion de zooms, los campos heredados de otras tablas deben hacer 
         # referencia a un campo de zoom, el contendra el modelo y la llave para acceder al registro  
         myZoomModel = lField.get( 'zoomModel', '')   
-        if (len( myZoomModel ) > 0) and ( myZoomModel <> protoMeta['protoView']):
+        if (len( myZoomModel ) > 0) and ( myZoomModel <> protoMeta['protoEntity']):
             # dos campos puede apuntar al mismo zoom, la llave es el campo, 
             # "cpFromModel"  contiene el campo q apunta al zoom y no el modelo    
             relModels[ fName ] = { 'zoomModel' : myZoomModel, 'fkId' : lField.get( 'fkId', '') , 'loaded' : False }     
@@ -181,7 +181,7 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
             rowdict = copyValuesFromFields( protoMeta, rowdict, relModels, JsonField  )
 
 #        if pStyle == 'tree':
-#            rowdict[ 'protoView' ] = protoMeta.get('protoOption', '')
+#            rowdict[ 'protoEntity' ] = protoMeta.get('protoOption', '')
 #            rowdict[ 'leaf' ] = False; rowdict[ 'children' ] = []
 
         # Agrega el Id Siempre como idInterno ( no representa una col, idProperty )

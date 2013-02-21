@@ -77,7 +77,7 @@ _MetaProperties =  {
     "shortTitle.help" : "Titulo del menu y de la forma" ,
     "idProperty.help" : "Campo q sirve como Id en el modelo, Django definie por defecto un Id, no es necesario definirlo explitamente",
 
-    "protoView.help" : "Utilizado para la vista de base en los prototipos ( prototype.protoTable.xxx )",
+    "protoEntity.help" : "Corresponde a la entidadBase en los prototipos ( prototype.protoTable.xxx )",
      
     "pciStyle" : "grid", 
     "pciStyle.help" : "Presentacion de la pci [ form,  grid, tree]", 

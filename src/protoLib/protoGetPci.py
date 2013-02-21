@@ -221,13 +221,13 @@ def protoSaveProtoObj(request):
     
     custom :  Los objetos de tipo custom, manejan la siguiente llave 
     
-        _ColSet.[protoView]        listDisplaySet  
-        _QrySet.[protoView]        filterSet
+        _ColSet.[protoEntity]        listDisplaySet  
+        _QrySet.[protoEntity]        filterSet
         _menu 
     
     Para manejar el modelo en las generacion de protoPci's  se usa :
     
-        prototype.protoTable.[protoModel-protoView]  --> al leer la pcl se leera prototype.protoTable.[protoModel-protoView]
+        prototype.protoTable.[protoModel-protoEntity]  --> al leer la pcl se leera prototype.protoTable.[protoModel-protoEntity]
     
     """
 

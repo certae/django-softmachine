@@ -336,7 +336,7 @@ _SM.getSafeMeta = function (myMeta) {
     var safeMeta = { 
         "protoOption"  : myMeta.protoOption,      
         "protoConcept" : myMeta.protoConcept,      
-        "protoView"    : myMeta.protoConcept || myMeta.protoConcept,      
+        "protoEntity"  : myMeta.protoConcept || myMeta.protoConcept,      
         "jsonField"    : myMeta.jsonField || ''  ,      
         // "pciStyle"     : myMeta.pciStyle, 
         // "sql"          : myMeta.sql,

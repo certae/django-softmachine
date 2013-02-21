@@ -1,17 +1,22 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+from protoLib.utilsBase import stripAccents
 
 PROTO_PREFIX = "prototype.ProtoTable."
 
-def baseDefinition( pEntity , entityName, viewTitle, viewName ):
-    # protoView: permite generar una vista en prototipos, es el codigo de referencia en protoTable
+def baseDefinition( pEntity , entityName, viewTitle ):
+    """ protoEntity: permite generar una vista en prototipos, es el codigo de referencia en protoTable
+                     es solo informativo, pues se maneja mediante un filtro y un default 
+    """ 
+    
+    viewName   = stripAccents( viewTitle  )
 
     return  {
     "__ptType": "pcl",
     "protoConcept": "prototype.ProtoTable",
-    "protoOption" : PROTO_PREFIX + entityName,
-    "protoView"   : PROTO_PREFIX + viewName,  
+    "protoOption" : PROTO_PREFIX + viewName,
+    "protoEntity" : PROTO_PREFIX + entityName,  
     "description" : pEntity.description ,
     "jsonField"   : "info" ,
     "protoIcon"   : "icon-1",
@@ -30,7 +35,7 @@ def baseDefinition( pEntity , entityName, viewTitle, viewName ):
             "name": "entity",
             "readOnly": True,
             "hidden": True,
-            "defaultValue" : viewName, 
+            "defaultValue" : entityName, 
         },
         {
             "name": "info",

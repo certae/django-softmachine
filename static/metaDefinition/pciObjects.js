@@ -167,7 +167,7 @@ _MetaObjects =  {
         "properties": [
             "protoOption", 
             "protoConcept" ,
-            "protoView" ,
+            "protoEntity" ,
              
             "description" ,
             "shortTitle" ,
@@ -199,7 +199,7 @@ _MetaObjects =  {
             "protoDetails", 
             "protoSheets"
             ],
-        "roProperties": [ "protoOption", "protoConcept", "idProperty" , "updateTime", "metaVersion"]  
+        "roProperties": [ "protoOption", "protoConcept", "idProperty" , "updateTime", "metaVersion", "protoEntity"]  
         },
 
 

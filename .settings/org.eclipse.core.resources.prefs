@@ -1,4 +1,4 @@
-#Sat Feb 16 13:59:20 EST 2013
+#Thu Feb 21 15:53:37 EST 2013
 eclipse.preferences.version=1
 encoding//demoApps/CategoryCle/models.py=utf-8
 encoding//demoApps/TCO/models.py=utf-8
@@ -17,6 +17,7 @@ encoding//demoApps/protoFace/models.py=utf-8
 encoding//demoApps/protoOrganizer/models.py=utf-8
 encoding//demoApps/pruebas/admin.py=utf-8
 encoding//demoApps/pruebas/models.py=utf-8
+encoding//demoApps/pruebas/protoGetTree.py=utf-8
 encoding//demoApps/shiny/admin.py=utf-8
 encoding//demoApps/shiny/models.py=utf-8
 encoding//demoApps/snippets/jsonField02.py=utf-8
@@ -35,7 +36,6 @@ encoding//src/protoLib/protoActions.py=utf-8
 encoding//src/protoLib/protoField.py=utf-8
 encoding//src/protoLib/protoGetDetails.py=utf-8
 encoding//src/protoLib/protoGetPci.py=utf-8
-encoding//src/protoLib/protoGetTree.py=utf-8
 encoding//src/protoLib/protoGrid.py=utf-8
 encoding//src/protoLib/protoMenu.py=utf-8
 encoding//src/protoLib/protoQbe.py=utf-8

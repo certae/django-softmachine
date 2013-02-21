@@ -705,6 +705,7 @@ _SM.getFormFieldDefinition =  function ( vFld ) {
       
 
     // Field Label
+    formEditor.name  =  vFld.name 
     formEditor.fieldLabel =  vFld.fieldLabel || vFld.header || vFld.name 
     if ( vFld.required ) {
         formEditor.fieldLabel = '<b>' + formEditor.fieldLabel + '</b>'
@@ -983,9 +984,11 @@ _SM.getSheeReport = function ( protoOption, sheetName,  selectedKeys, options ) 
         
 }
 
-_SM.doProtoActions = function ( protoOption, actionName, selectedKeys, options ) {
+_SM.doProtoActions = function ( protoOption, actionName, selectedKeys, parameters, options ) {
 
+        parameters = parameters || [];
         options = options || {};
+        
         Ext.applyIf(options, {
             scope: this,
             success: Ext.emptyFn,
@@ -997,7 +1000,8 @@ _SM.doProtoActions = function ( protoOption, actionName, selectedKeys, options )
             url: _SM._PConfig.urlDoAction  ,
             params : { 
                 protoOption : protoOption,  
-                actionName   : actionName, 
+                actionName  : actionName, 
+                parameters  : Ext.encode( parameters ), 
                 selectedKeys: Ext.encode( selectedKeys )    
                 },
             

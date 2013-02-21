@@ -56,41 +56,59 @@ Ext.define('ProtoUL.UI.MDActionsController', {
 
             // "selectionMode", 
             if (( pAction.selectionMode == "single"  ) && ( selectedKeys.length != 1 )) {
-                __StBar.showMessage(  btn.actionName + 'TITLE_ACTION_SELECTION_SINLGLE' )
+                __StBar.showMessage('TITLE_ACTION_SELECTION_SINLGLE', btn.actionName, 3000 )
                 return 
             } else if (( pAction.selectionMode == "multiple"  ) && ( selectedKeys.length < 1 )) {
-                __StBar.showMessage(  btn.actionName + 'TITLE_ACTION_SELECTION_MULTI' )
+                __StBar.showMessage('TITLE_ACTION_SELECTION_MULTI', btn.actionName, 3000 )
                 return 
             }  
 
-
-            // actionParams
-            if ( pAction.actionParams > 0 ) {
-                // @@@
-            }                    
-            
-
-            var options = {
-                scope : me,
-                success : function(result, request) {
-                    var myResult = Ext.decode( result.responseText );
-                    __StBar.showMessage( btn.actionName + ' ' +  myResult.message , 'MDActionsController', 3000 )
-
-                    //TODO: "refreshOnComplete"
-
-                }, 
-                failure: function(result, request) {
-                    __StBar.showError( btn.actionName + ' ' +  result.statusText , 'MDActionsController' )
-
+            // actionParams 
+            pAction.actionParams = _SM.verifyList( pAction.actionParams )
+            if ( pAction.actionParams.length == 0 ) {
+                this.doAction( me, pGrid.protoOption, btn.actionName , selectedKeys, [] )
+            } else {  
+                var myOptions = {
+                    scope : me,
+                    acceptFn : function( parameters) {
+                        this.doAction( me, pGrid.protoOption, btn.actionName , selectedKeys, parameters )
+                    }
                 }
-            }
-            
-            __StBar.showMessage( 'executing  ' + btn.actionName + '...', 'MDActionsController' )
-            _SM.doProtoActions( pGrid.protoOption, btn.actionName , selectedKeys , options  )
-            
+                
+                var myWin = Ext.create( 'ProtoUL.ux.parameterWin', {
+                    parameters : pAction.actionParams, 
+                    title : btn.actionName + ' - '  + pGrid.rowData['__str__'], 
+                    options : myOptions
+                }); 
+                
+                myWin.show()               
+            }                    
         };
         
-    } 
+    }, 
+
+    doAction: function ( me, protoOption, actionName , selectedKeys, parameters ) {
+
+        var options = {
+            scope : me,
+            success : function(result, request) {
+                var myResult = Ext.decode( result.responseText );
+                __StBar.showMessage( actionName + ' ' +  myResult.message , 'MDActionsController', 3000 )
+
+                //TODO: "refreshOnComplete"
+
+            }, 
+            failure: function(result, request) {
+                __StBar.showError( actionName + ' ' +  result.statusText , 'MDActionsController' )
+
+            }
+        }
+        
+        __StBar.showMessage( 'executing  ' + actionName + '...', 'MDActionsController' )
+        _SM.doProtoActions( protoOption, actionName, selectedKeys, parameters, options )
+        
+    }
+    
     
     
 }) 

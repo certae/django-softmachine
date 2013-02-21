@@ -121,11 +121,17 @@ class Entity(ProtoModel):
             "detailName": "entity",
             "detailField": "entity__pk",
             "masterField": "pk"
-        },
-        {
+        },{
             "__ptType": "protoDetail",
             "menuText": "Relationships",
             "conceptDetail": "prototype.Relationship",
+            "detailName": "entity",
+            "detailField": "entity__pk",
+            "masterField": "pk"
+        },{
+            "__ptType": "protoDetail",
+            "menuText": "Views",
+            "conceptDetail": "prototype.ProtoView",
             "detailName": "entity",
             "detailField": "entity__pk",
             "masterField": "pk"

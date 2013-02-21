@@ -16,14 +16,11 @@ PROTO_PREFIX = "prototype.ProtoTable."
 
 
 
-def doModelPrototype( modeladmin, request, queryset ):
+def doModelPrototype( modeladmin, request, queryset, parameters):
     """ 
     funcion para crear el prototipo sobre 'protoTable' con la definicion del diccionario
     a partir de Model  
     """
-
-#   Listade opciones definidas 
-#    opts = modeladmin.opts 
 
 #   El QSet viene con la lista de Ids  
     if queryset.count() == 0:
@@ -34,7 +31,7 @@ def doModelPrototype( modeladmin, request, queryset ):
 
 #   Recorre los registros selccionados   
     for pModel in queryset:
-        returnTmp = getEntities( pModel.entity_set.all() , request  )
+        returnTmp = getEntities( pModel.entity_set.all() , request , None  )
         returnMsg += 'Model : ' + pModel.code + ' Entts: ' + returnTmp + '; '    
 
     return returnMsg
@@ -43,32 +40,24 @@ doModelPrototype.short_description = "Create prototypes for the model"
 doModelPrototype.selectionMode = "multiple"
 
 
-def doEntityPrototype( modeladmin, request, queryset ):
-
-#   Listade opciones definidas 
-    opts = modeladmin.opts 
+def doEntityPrototype( modeladmin, request, queryset, parameters ):
 
 #   El QSet viene con la lista de Ids  
-    if queryset.count() == 0:
+    if queryset.count() != 1:
         return 'No record selected' 
 
-#   Mensaje de retorno
-    returnMsg = '' 
+    if len( parameters ) != 1: 
+        return 'ViewName required!!'         
 
 #   Recorre los registros selccionados   
-    for pModel in queryset:
-        returnTmp = getEntities( pModel.entity_set.all() , request  )
-        returnMsg += 'Model : ' + pModel.code + ' Entts: ' + returnTmp + '; '    
-
-    return returnMsg
+    returnTmp = getEntities( queryset , request, parameters[0]['value']  )
+    return ' Entt: ' + returnTmp
     
-    pass 
-
 
 
 # --------------------------------------------------------------------------------
 
-def getEntities( queryset , request ):
+def getEntities( queryset , request, viewTitle  ):
 
     userProfile = getUserProfile( request.user, 'prototype', '' ) 
     returnMsg = '' 
@@ -76,7 +65,7 @@ def getEntities( queryset , request ):
 #   Recorre los registros selccionados   
     for pEntity in queryset:
         returnMsg += pEntity.code  + ','    
-        createView(  pEntity , getViewCode( pEntity ) , userProfile )
+        createView(  pEntity , getViewCode( pEntity, viewTitle ) , userProfile )
 
     return returnMsg
 

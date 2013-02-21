@@ -47,15 +47,6 @@ class PruebaAdmin(django.contrib.admin.ModelAdmin):
 #        'prInteger': {'vType' : 'stopLight', 'stoplightRY': 33 ,  'stoplightYG': 67}
 #     }
 
-#    protoExt[ 'protoViews' ] =  {        
-#        'prueba2': {
-#            'title' : 'Tableu de test (resume)', 
-#            'description' : 'Esta es la description del concpeto concepto', 
-#            'listDisplay' : ( 'prChoice', 'prInteger' ), 
-#            'protoMenuIx' : 3
-#            }
-#     }
-
 
 admin.site.register(Prueba, PruebaAdmin)
 

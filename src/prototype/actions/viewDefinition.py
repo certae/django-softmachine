@@ -8,10 +8,9 @@ PROTO_PREFIX = "prototype.ProtoTable."
 def getViewDefinition( pEntity, viewTitle  ):
 
     entityName = getViewCode( pEntity  )
-    viewName   = stripAccents( viewTitle  )
     
-    infoEntity = baseDefinition( pEntity, entityName, viewTitle, viewName )
-    infoEntity['gridConfig']['baseFilter'] = [ { 'property':'entity', 'filterStmt' : '=' + viewName } ]
+    infoEntity = baseDefinition( pEntity, entityName, viewTitle )
+    infoEntity['gridConfig']['baseFilter'] = [ { 'property':'entity', 'filterStmt' : '=' + entityName } ]
 
     for pProperty in pEntity.propertySet.all():
 
@@ -86,5 +85,4 @@ def getViewDefinition( pEntity, viewTitle  ):
     
 def getViewCode( pEntity, viewTitle = None ):
     if viewTitle is None: viewTitle = pEntity.code
-    return stripAccents( pEntity.model.code + '-' + pEntity.code )
-  
+    return stripAccents( pEntity.model.code + '-' + viewTitle )

@@ -10,34 +10,26 @@ Ext.define('ProtoUL.ux.parameterWin', {
     
     // Coleccion de campos q se van a mostrar 
     parameters   : [],
+    width      : 400,
+    minWidth   : 300,
+    // frame      : true,
     
     title    : 'Parameters form',
-    modal    : false,
-    acceptText : _SM.__language.Text_Accept_Button, 
-    cancelText : _SM.__language.Text_Cancel_Button, 
+    layout   : 'fit',
+
+    acceptText : 'Accept', //_SM.__language.Text_Accept_Button, 
+    cancelText : 'Cancel', //_SM.__language.Text_Cancel_Button, 
 
     // Custom functions para aceptar y/o cancelar ( como ajax ) 
     options : {
         acceptFn  : null,
         cancelFn  : null
     }, 
-        
-    frame: true,
-    width: 340,
-    bodyPadding: 5,
-    waitMsgTarget: true,
 
-    defaultType: 'textfield',
-    autoHeigth: true,
-    fieldDefaults: {
-        labelAlign: 'right',
-        labelWidth: 85,
-        msgTarget: 'side'
-    },
 
     initComponent: function () {
         var me = this;
-        var myFields = new Array();
+        var myFields = [];
 
         //console.log(resp);
         for (var ix in this.parameters ) {
@@ -51,36 +43,41 @@ Ext.define('ProtoUL.ux.parameterWin', {
             cancelFn: Ext.emptyFn
         });
         
+        Ext.apply(this, {
 
-        Ext.apply(me, {
+            // waitMsgTarget: true,
+            // bodyStyle: 'padding:5px 5px',
+            // bodyPadding: 10,
+
             items: [
                 {
                     xtype: 'form',
-                    autoScroll: true,
-                    labelWidth: 150,
-                    autoHeigth: true,
-                    bodyStyle: 'padding:5px 10px 0',
-                    // height:300,
-                    maxHeight: 600,
-                    width    : 350,
-                    frame: true,
-                    flex:1,
-                    
+                    autoScroll : true,
                     monitorValid: true,
-
                     items: [{
                         xtype: 'fieldset',
                         defaultType: 'textfield',
-                        defaults: { width: 280 },
-                        items: myFields, 
+                        layout : "column",
+                        defaults: {
+                            padding: "2 2",
+                            columnWidth: 1
+                        },
+                        fieldDefaults: {
+                            labelAlign: 'left',
+                            labelWidth: 150,
+                            msgTarget: 'side'
+                        },
+                        items: myFields 
                     }],
                     buttons: [{
                         text: this.cancelText ,
                         iconCls: "icon-cancel",
+                        scope : this , 
                         handler: this.cancel
                     }, {
                         text:  this.acceptText ,
                         iconCls: "icon-accept",
+                        scope : this , 
                         handler: this.accept,  
                         disabled: true,
                         formBind: true
@@ -94,27 +91,24 @@ Ext.define('ProtoUL.ux.parameterWin', {
     },
 
     accept: function () {
-        var form = me.down('form').getForm();
+        var form = this.down('form').getForm();
         if(form.isValid()){
 
-            var myFields = me.down('form').items.items;
+            var myFields = form.getFields().items;
             var myReponse = [];
 
             for (var ix in myFields ) {
                 var myField = myFields[ix]
-                myReponse.push({
-                    property   : myFields[i].getName(),
-                    filterStmt : myFields[i].getValue()
-                }); 
+                myReponse.push( {parameter: myField.getName(), value: myField.getValue() } ) 
             }
-            me.options.acceptFn.call( me.options.scope, myReponse );
-            me.close();
+            this.options.acceptFn.call( this.options.scope, myReponse );
+            this.close();
         }
     },
 
     cancel: function () {
-        me.options.cancelFn.call( me.options.scope )
-        me.close();
+        this.options.cancelFn.call( this.options.scope )
+        this.close();
     }    
 
 

@@ -4,7 +4,6 @@ from django.contrib.admin.sites import  site
 from django.http import HttpResponse
 from protoGrid import getProtoViewName
 from models import getDjangoModel
-from protoQbe import addFilter  
 
 import django.utils.simplejson as json
 from utilsBase import JSONEncoder
@@ -23,6 +22,9 @@ def protoExecuteAction(request):
 
     selectedKeys = request.POST.get('selectedKeys', [])
     selectedKeys = json.loads( selectedKeys )
+
+    parameters = request.POST.get('parameters', [])
+    parameters = json.loads( parameters )
     
     # Obtiene el modelo 
     try: 
@@ -46,7 +48,7 @@ def protoExecuteAction(request):
     Qs = Qs.filter( pk__in = selectedKeys  )
 
     try:
-        returnMsg  = action( modelAdmin, request, Qs )
+        returnMsg  = action( modelAdmin, request, Qs , parameters )
         return doReturn ({'success':True, 'message' : returnMsg }) 
 
     except Exception as e:
