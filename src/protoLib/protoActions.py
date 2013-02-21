@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib.admin.sites import  site
-from django.http import HttpResponse
 from protoGrid import getProtoViewName
 from models import getDjangoModel
 
 import django.utils.simplejson as json
-from utilsBase import JSONEncoder
+from utilsWeb import doReturn 
 
 def protoExecuteAction(request):
     """ Ejecuta una opcion  
@@ -56,7 +55,3 @@ def protoExecuteAction(request):
         
 
 
-def doReturn( jsonDict ):
-    # Codifica el mssage json 
-    context = json.dumps( jsonDict, cls=JSONEncoder )
-    return HttpResponse(context, mimetype="application/json")

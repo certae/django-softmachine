@@ -57,6 +57,35 @@ def  getUserProfile( pUser, action, actionInfo  ):
 
     return uProfile 
 
+
+def getPermissions( pUser, model , perm = None ):
+    
+    appName = model._meta.app_label
+    modName = model._meta.module_name
+
+    # Verifica los permisos para cada opcion     
+    permissions = {}
+
+    def getIndPermission( perm  ):
+        permissions[ perm ]  = pUser.is_superuser or pUser.has_perm( appName + '.' + perm + '_' + modName )   
+
+    # Si es un solo permiso retorna true / false
+    if not ( perm is None ):  
+        getIndPermission ( perm  )
+        return permissions[ perm ] 
+    
+    # Si son todos retorna un obejto 
+    getIndPermission ( 'view' )
+    getIndPermission ( 'add' )
+    getIndPermission ( 'change' )
+    getIndPermission ( 'delete' )
+    getIndPermission ( 'config' )
+    getIndPermission ( 'custom' )
+
+    return  permissions
+
+
+    
 # ------------------
 
 """

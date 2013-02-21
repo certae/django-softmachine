@@ -11,6 +11,8 @@ from utilsWeb import JsonError, JsonSuccess
 from protoActionEdit import setSecurityInfo
 from protoQbe import getSearcheableFields
 
+from protoAuth import getUserProfile, getPermissions
+
 import django.utils.simplejson as json
 
 
@@ -37,7 +39,6 @@ def protoGetPCI(request):
         return JsonError(  getReadableError( e ) ) 
     
     # 
-    from protoAuth import getUserProfile
     userProfile = getUserProfile( request.user, 'getPci', protoConcept  ) 
 
 
@@ -110,6 +111,8 @@ def protoGetPCI(request):
             'messageProperty': 'message', 
             }, 
         'protoMeta': protoMeta,
+        'permissions': getPermissions( request.user, model ),
+        
         'rows':[],
         'totalCount': 0, 
     }

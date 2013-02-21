@@ -4,9 +4,7 @@ import traceback
 
 from django.utils import simplejson as json
 from django.http import HttpResponse 
-from django.contrib.auth.models import User
 
-#from django.contrib.admin.sites import  site
 
 from datetime import datetime
 from models import getDjangoModel  
@@ -15,54 +13,57 @@ from utilsConvert import toInteger, toDate,toDateTime,toTime, toFloat, toDecimal
 from utilsBase import JSONEncoder, getReadableError, list2dict
 from protoUdp import verifyUdpDefinition, saveUDP
 from django.utils.encoding import smart_str
-
+from protoAuth import getUserProfile, getPermissions
+from utilsWeb import doReturn 
 
 # Error Constants 
 ERR_NOEXIST = '<b>ErrType:</b> KeyNotFound<br>The specifique record does not exist'
 
 
 def protoCreate(request):
-    myAction = { 'INS': True, 'UPD': False, 'DEL': False }
-    jContext = protoEdit(request, myAction ) 
-    return HttpResponse(jContext, mimetype="application/json")
+    myAction = 'add' 
+    return _protoEdit(request, myAction ) 
 
 def protoUpdate(request):
-    myAction = { 'UPD': True, 'INS': False, 'DEL': False }
-    jContext = protoEdit(request, myAction ) 
-    return HttpResponse(jContext, mimetype="application/json")
+    myAction = 'change' 
+    return _protoEdit(request, myAction ) 
 
 def protoDelete(request):
-    myAction = { 'DEL': True, 'INS': False, 'UPD': False  }
-    jContext = protoEdit(request, myAction ) 
-    return HttpResponse(jContext, mimetype="application/json")
+    myAction = 'delete' 
+    return _protoEdit(request, myAction ) 
 
-def protoEdit(request, myAction ):
+def _protoEdit(request, myAction ):
     
     message = '' 
     if request.method != 'POST':  return
 
     if not request.user.is_authenticated():
-        raise Exception( 'readOnly User')
-
-    protoMeta = request.POST.get('protoMeta', '')
-    rows = request.POST.get('rows', [])
-
-#   Decodifica los eltos 
-    protoMeta = json.loads( protoMeta )
-    rows = json.loads( rows )
-
-    protoConcept = protoMeta.get('protoConcept', '')
-    
-    fieldsDict = list2dict( protoMeta[ 'fields' ], 'name')    
+        return doReturn ({'success':False ,'message' : 'readOnly User'})
 
 #   Carga el modelo
+    protoMeta = request.POST.get('protoMeta', '')
+    protoMeta = json.loads( protoMeta )
+    protoConcept = protoMeta.get('protoConcept', '')
     model = getDjangoModel(protoConcept)
+
+#   Autentica 
+    if not getPermissions( request.user, model, myAction ):
+        return doReturn ({'success':False ,'message' : 'No ' +  myAction +  'permission'})
+
+
+    userProfile = getUserProfile( request.user, 'edit', protoConcept ) 
+
+#   Decodifica los eltos 
+    rows = request.POST.get('rows', [])
+    rows = json.loads( rows )
+    
+    fieldsDict = list2dict( protoMeta[ 'fields' ], 'name')    
 
 #   JsonField 
     jsonField = protoMeta.get('jsonField', '')
     if not isinstance( jsonField, (str, unicode) ): jsonField = ''  
     
-#   Genera la clase UPD
+#   Genera la clase UDP
     pUDP = protoMeta.get('protoUdp', {})
     cUDP = verifyUdpDefinition( pUDP )
 
@@ -70,21 +71,15 @@ def protoEdit(request, myAction ):
     if type(rows).__name__=='dict':
         rows = [rows]
         
-    # Verfica si es un protoModel 
+    # Verfica si es un protoModel ( maneja TeamHierarchy )  
     isProtoModel = hasattr( model , '_protoObj' )
-
-
-    from protoAuth import getUserProfile
-    userProfile = getUserProfile( request.user, 'edit', protoConcept ) 
-
-
         
     pList = []
     for data in rows: 
         
         data['_ptStatus'] =  ''
 
-        if myAction['INS']:
+        if myAction == 'add':
             rec = model()
         else: 
             try:
@@ -94,7 +89,7 @@ def protoEdit(request, myAction ):
                 pList.append( data )
                 continue 
 
-        if not myAction['DEL']:
+        if not ( myAction == 'delete' ):
             # Upd, Ins 
             for key in data:
                 key = smart_str( key )
@@ -121,7 +116,7 @@ def protoEdit(request, myAction ):
                     data['_ptStatus'] = data['_ptStatus'] +  getReadableError( e ) 
 
             if isProtoModel:
-                setSecurityInfo( rec, data, userProfile, myAction['INS'] )  
+                setSecurityInfo( rec, data, userProfile, ( myAction == 'add' ) )  
 
 
             if len( jsonField ) > 0: 
@@ -180,8 +175,7 @@ def protoEdit(request, myAction ):
         'success': True 
     }
 
-    return json.dumps(context, cls=JSONEncoder)
-
+    return HttpResponse( json.dumps(context, cls=JSONEncoder), mimetype="application/json")
 
 def setSecurityInfo( rec, data, userProfile, insAction  ):
     """
@@ -246,5 +240,5 @@ def setRegister( model,  rec, key,  data   ):
 
         setattr( rec, key, value  ) 
 
-    except:
-        raise   
+    except Exception:
+        raise Exception  

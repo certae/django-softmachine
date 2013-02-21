@@ -8,9 +8,16 @@ from datetime import datetime
 from django.conf import settings
 from django.http import HttpResponse 
 
+from utilsBase import JSONEncoder
+
 import django.utils.simplejson as json
 import os
 
+
+def doReturn( jsonDict ):
+    # Codifica el mssage json 
+    context = json.dumps( jsonDict, cls=JSONEncoder )
+    return HttpResponse(context, mimetype="application/json")
 
 def proxy_GetToPost(request):
     """ transfer the GET into a POST form then submit to $target url """
