@@ -22,7 +22,7 @@
  *  
  */
  
-Ext.define('Ext.ux.protoZoom', {
+Ext.define('ProtoUL.ux.protoZoom', {
     extend : 'Ext.form.field.Trigger',
     alias : 'widget.protoZoom',
     

@@ -212,6 +212,7 @@ _MetaObjects =  {
     "field": {
         "description": "A store field element",
         "properties": [
+            "name", 
             "required",
             "decimalPrecision", 
             "defaultValue",
@@ -266,6 +267,7 @@ _MetaObjects =  {
     "formField": {
         "description": "A field element",
         "properties": [
+            "name", 
             "tooltip", 
             "fieldLabel",
             "labelWidth","labelAlign","hideLabel",
@@ -696,14 +698,31 @@ _MetaObjects =  {
 
     "actionParam": {
         "properties": [
-          "name", 
-          "title", 
-          "protoIcon", 
-          "description",  
-          "vrDefault", 
-          "choices", 
-          "paramType",
-          "required"
+            "name", 
+            "tooltip", 
+            "fieldLabel",
+            "defaultValue",
+            
+            "required",
+            "readOnly",
+            
+            "format",
+            "decimalPrecision", 
+
+            // Para el combo
+            "choices",
+
+            // Para el zoom 
+            "fkId", 
+            "fkField",
+            "zoomModel", 
+            "zoomFilter", 
+            "cellLink",
+
+            // tipos              
+            "type", 
+            "xtype", 
+            "vType"
           ], 
         "addPrompt" : "Parametros de acciones", 
         "allowDel" : true

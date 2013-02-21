@@ -322,7 +322,7 @@ Ext.define('ProtoUL.view.MenuTree', {
             // }],
 //     
             // buttons: [{
-                // text: _SM.__language.Title_Cancel_Button, 
+                // text: _SM.__language.Text_Cancel_Button, 
                 // scope : this, 
                 // handler : this.onCancel 
             // },{

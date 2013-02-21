@@ -191,7 +191,7 @@
                     { xtype: 'tbtext', text: '', id: me.idStBar },
                     { xtype: 'component', flex: 1 },
                     { xtype: 'button', text: _SM.__language.Text_Accept_Button, scope: me, handler: me.doReturn, iconCls: 'icon-accept' },
-                    { xtype: 'button', text: _SM.__language.Title_Cancel_Button, scope: me, handler: doCancel, iconCls: 'icon-cancel' },
+                    { xtype: 'button', text: _SM.__language.Text_Cancel_Button, scope: me, handler: doCancel, iconCls: 'icon-cancel' },
 
                  //   { xtype: 'button', text: 'Edit', scope: me, handler: doEdit },
                  //   { xtype: 'button', text: 'New', scope: me, handler: doNew },

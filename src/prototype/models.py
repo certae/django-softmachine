@@ -108,7 +108,9 @@ class Entity(ProtoModel):
     protoExt = { 
         "actions": [
             { "name": "doEntityPrototype", "selectionMode" : "single",  
-              "actionParams": [{"name" : "viewCode", "paramType" : "string", "required": True, "description" : "option de menu (msi)" }] 
+              "actionParams": [{"name" : "viewCode", "type" : "string", "required": True, 
+                                "tooltip" : "option de menu (msi)" }
+                               ] 
             },
         ], 
         "protoDetails": [

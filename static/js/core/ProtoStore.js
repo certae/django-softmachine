@@ -703,12 +703,16 @@ _SM.getFormFieldDefinition =  function ( vFld ) {
     
     if ( colDefinition.editor )  formEditor = colDefinition.editor;
       
-    formEditor.fieldLabel =  vFld.fieldLabel || vFld.header || vFld.name 
 
-    // Todo: Verificar la propiedad required para agregar el indicador 
-    // var required = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
-    // afterLabelTextTpl: required,
+    // Field Label
+    formEditor.fieldLabel =  vFld.fieldLabel || vFld.header || vFld.name 
+    if ( vFld.required ) {
+        formEditor.fieldLabel = '<b>' + formEditor.fieldLabel + '</b>'
+        formEditor.afterLabelTextTpl = _SM._requiredField;
+    }
+    formEditor.fieldLabel = Ext.util.Format.capitalize( formEditor.fieldLabel )    
     
+    // Casos especiales 
     switch( vFld.type )
     {
     case 'text':

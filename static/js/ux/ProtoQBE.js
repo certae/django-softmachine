@@ -8,16 +8,17 @@ Ext.define('Ext.ux.protoQBE', {
     protoOption: null,
     defaultType: 'textfield',
     autoHeigth: true,
-    campos: [],
+
     resizable:false,
-    titulo:'',
+    plain: true,
     //width: 530,
     modal: true,
+
+    titulo: '',
     campos: {},
+
     aceptar: function () { },
     cancelPress: function () { },
-    plain: true,
-    titulo: '',
   
     initComponent: function () {
         me = this;
@@ -96,7 +97,7 @@ Ext.define('Ext.ux.protoQBE', {
 
                        }, {
                            xtype: 'button',
-                           text: _SM.__language.Title_Cancel_Button,
+                           text: _SM.__language.Text_Cancel_Button,
                            iconCls: "icon-cancel",
                            width: 10,
                            handler:this.cancel

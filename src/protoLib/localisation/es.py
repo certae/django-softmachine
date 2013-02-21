@@ -18,7 +18,7 @@ __language ={
     'Msg_Select_Folder' : 'Ninguna carpeta seleccionada',
     'Title_Window_Add_Option' : 'Agregar opción al menu',
     'MenuTree_Title_Fieldset' :'Información Básica',
-    'Title_Cancel_Button' : 'Cancelar',
+    'Text_Cancel_Button' : 'Cancelar',
     'Title_Save_Button' : 'Guardar',
     'MenuTree_Text_Add_Event' : 'Agregar Evento',
     'MenuTree_Text_Edit_Event' : 'Modificar Evento',
