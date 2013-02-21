@@ -8,7 +8,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
 
     getProtoActionsBar: function() {
 
-        if ( ! _UserInfo.isStaff ) return  
+        if ( ! _SM._UserInfo.isStaff ) return  
 
         var me = this; 
         var myProtoActions = []  
@@ -66,7 +66,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
 
             // actionParams
             if ( pAction.actionParams > 0 ) {
-                @@@
+                // @@@
             }                    
             
 
@@ -86,7 +86,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
             }
             
             __StBar.showMessage( 'executing  ' + btn.actionName + '...', 'MDActionsController' )
-            doProtoActions( pGrid.protoOption, btn.actionName , selectedKeys , options  )
+            _SM.doProtoActions( pGrid.protoOption, btn.actionName , selectedKeys , options  )
             
         };
         

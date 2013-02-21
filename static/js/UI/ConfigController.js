@@ -18,12 +18,12 @@ Ext.define('ProtoUL.UI.ConfigController', {
         var myOptions = [];
 
 
-        // if ( _UserInfo.isSuperUser ) { 
-            myOptions.push(myActionConfig('Meta', __language.MetaConfig_Meta_Config, 'icon-configMeta'))
-            myOptions.push(myActionConfig('Form', __language.MetaConfig_Form_Config, 'icon-configForm'))
-            myOptions.push(myActionConfig('Fields', __language.MetaConfig_Add_Fields, 'icon-configFields'))
-            myOptions.push(myActionConfig('Details', __language.MetaConfig_Add_Details, 'icon-configDetails'))
-            myOptions.push(myActionConfig('Reset', __language.MetaConfig_Reset_Meta, 'icon-configReset'))
+        // if ( _SM._UserInfo.isSuperUser ) { 
+            myOptions.push(myActionConfig('Meta', _SM.__language.MetaConfig_Meta_Config, 'icon-configMeta'))
+            myOptions.push(myActionConfig('Form', _SM.__language.MetaConfig_Form_Config, 'icon-configForm'))
+            myOptions.push(myActionConfig('Fields', _SM.__language.MetaConfig_Add_Fields, 'icon-configFields'))
+            myOptions.push(myActionConfig('Details', _SM.__language.MetaConfig_Add_Details, 'icon-configDetails'))
+            myOptions.push(myActionConfig('Reset', _SM.__language.MetaConfig_Reset_Meta, 'icon-configReset'))
         // } 
 
         return myOptions   
@@ -62,7 +62,7 @@ Ext.define('ProtoUL.UI.ConfigController', {
             this.showDetailsTree();
             break;
         case 'Reset':
-            _cllPCI = [];
+            _SM._cllPCI = [];
             break;
         }
 
@@ -72,7 +72,7 @@ Ext.define('ProtoUL.UI.ConfigController', {
     showMetaConfig: function() {
 
         var myPcl = Ext.widget('protoPcl', {
-            myMeta :  _cllPCI[ this.protoOption ], 
+            myMeta :  _SM._cllPCI[ this.protoOption ], 
             editable : true  
         });
 
@@ -85,7 +85,7 @@ Ext.define('ProtoUL.UI.ConfigController', {
     
         var fieldsTree = Ext.create('ProtoUL.proto.ProtoFieldSelector', {
             protoOption : this.protoOption, 
-            myMeta :  _cllPCI[ this.protoOption ] 
+            myMeta :  _SM._cllPCI[ this.protoOption ] 
         });
     
         this.showConfigWin( fieldsTree ) 
@@ -96,7 +96,7 @@ Ext.define('ProtoUL.UI.ConfigController', {
     showProtoDesigner: function() {
 
         var protoDesigner = Ext.widget('protoDesigner', {
-            myMeta :  _cllPCI[ this.protoOption ], 
+            myMeta :  _SM._cllPCI[ this.protoOption ], 
             protoOption : this.protoOption 
         });
 
@@ -108,7 +108,7 @@ Ext.define('ProtoUL.UI.ConfigController', {
 
         var detailsTree = Ext.create('ProtoUL.proto.ProtoDetailSelector', {
             protoOption : this.protoOption, 
-            myMeta :  _cllPCI[ this.protoOption ] 
+            myMeta :  _SM._cllPCI[ this.protoOption ] 
         });
     
         this.showConfigWin( detailsTree ) 

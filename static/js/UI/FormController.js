@@ -46,7 +46,7 @@ Ext.define('ProtoUL.UI.FormController', {
     newWindow: function ( me ) {
 
         me.newProtoForm()
-        updateWinPosition( me.myWidth, me.myHeight )
+        _SM.updateWinPosition( me.myWidth, me.myHeight )
 
         
         me.myWin  = Ext.widget('window', {
@@ -55,8 +55,8 @@ Ext.define('ProtoUL.UI.FormController', {
             closeAction: 'hide',
             width: me.myWidth,
             height: me.myHeight,
-            x : _winX, 
-            y : _winY, 
+            x : _SM._winX, 
+            y : _SM._winY, 
             minHeight: 400,
             minWidth: 400,
             layout: 'fit',
@@ -86,7 +86,7 @@ Ext.define('ProtoUL.UI.FormController', {
         this.isReadOnly  = false 
         this.newForm = true    
 
-        var myRecord = getNewRecord( this.myMeta, myStore );
+        var myRecord = _SM.getNewRecord( this.myMeta, myStore );
         this.openForm( myRecord )
     },
 
@@ -102,7 +102,7 @@ Ext.define('ProtoUL.UI.FormController', {
 
         // Verifica la edicion  
         if ( ! myRecord   ) {
-            errorMessage( 'Form Error', 'no se definio registrode entrada')
+            _SM.errorMessage( 'Form Error', 'no se definio registrode entrada')
             return 
         }
 
@@ -146,12 +146,12 @@ Ext.define('ProtoUL.UI.FormController', {
         this.isReadOnly  = ! bEditable  
 
         if ( ! myRecordId ) {
-            errorMessage( 'LinkedForm Error : ' +  myZoomModel, 'not fkId field definition found' )
+            _SM.errorMessage( 'LinkedForm Error : ' +  myZoomModel, 'not fkId field definition found' )
             return 
         }
 
         // Obtiene la meta ( async )
-        this._getFormDefinition( myRecordId) 
+        this._getFormDefinition( myRecordId ) 
         
     }, 
 
@@ -165,10 +165,10 @@ Ext.define('ProtoUL.UI.FormController', {
                 this._openAndLoad( this.protoOption, myRecordId )
             },
             failure: function ( obj, result, request) { 
-                errorMessage( 'ProtoDefinition Error :', myZoomModel + ': protoDefinition not found')
+                _SM.errorMessage( 'ProtoDefinition Error :', myZoomModel + ': protoDefinition not found')
             }
         }
-        if (  loadPci( this.protoOption , true, options ) ) {
+        if (  _SM.loadPci( this.protoOption , true, options ) ) {
                 this._openAndLoad( this.protoOption, myRecordId )
         }
 
@@ -178,7 +178,7 @@ Ext.define('ProtoUL.UI.FormController', {
 
     _openAndLoad: function( protoOption, myRecordId ) { 
 
-        this.myMeta = _cllPCI[ protoOption ] ;
+        this.myMeta = _SM._cllPCI[ protoOption ] ;
         this.formLoaded = true;
         this._loadFormData( myRecordId ) 
 
@@ -197,10 +197,10 @@ Ext.define('ProtoUL.UI.FormController', {
             protoOption : this.protoOption, 
             autoLoad: true, 
             baseFilter: myFilter, 
-            sProtoMeta  : getSafeMeta( this.myMeta )    
+            sProtoMeta  : _SM.getSafeMeta( this.myMeta )    
         };
 
-        var myStore = getStoreDefinition( storeDefinition )
+        var myStore = _SM.getStoreDefinition( storeDefinition )
 
         if ( myRecordId >= 0  ) {
             myStore.load();
@@ -216,7 +216,7 @@ Ext.define('ProtoUL.UI.FormController', {
                 scope: this }
             )
         } else  {
-            var myRecord = getNewRecord( this.myMeta, myStore );
+            var myRecord = _SM.getNewRecord( this.myMeta, myStore );
             this.openForm( myRecord )
         } 
     },  
@@ -225,7 +225,7 @@ Ext.define('ProtoUL.UI.FormController', {
     defineFormLayout: function( ){
         
         var me = this
-        var myFormDefinition = clone( this.myMeta.protoForm )
+        var myFormDefinition = _SM.clone( this.myMeta.protoForm )
         var myMeta = this.myMeta
         
         me.prFormLayout = [];
@@ -248,8 +248,8 @@ Ext.define('ProtoUL.UI.FormController', {
         function defineProtoFormItem ( parent, protoObj, protoIx ) {
         
             var prLayout , template, __ptType 
-            var sDataType = typeOf(protoObj);
-            var myFieldDict = getFieldDict( myMeta )
+            var sDataType = _SM.typeOf(protoObj);
+            var myFieldDict = _SM.getFieldDict( myMeta )
         
             if (sDataType == "object" ) { 
         

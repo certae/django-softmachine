@@ -27,7 +27,7 @@ Ext.define('ProtoUL.UI.GridController', {
             width: 60,
             store: new Ext.data.ArrayStore({
                 fields: ['id'],
-                data  : _ComboPageSize
+                data  : _SM._ComboPageSize
             }),
             mode : 'local',
             value: '50',
@@ -50,13 +50,13 @@ Ext.define('ProtoUL.UI.GridController', {
         // Extraccion de grilla detalle        
         if ( me.protoIsDetailGrid ) {
             navPanel.push ({
-                text: __language.GridNav_In_New_Tab,
+                text: _SM.__language.GridNav_In_New_Tab,
                 iconCls : 'icon-promote',
                 handler : onMenuPromoteDetail
             })  
         } 
 
-        navPanel.push( comboPageSize, __language.GridNav_PageSize );
+        navPanel.push( comboPageSize, _SM.__language.GridNav_PageSize );
         
         var myNavPanel =   {
                 xtype: 'pagingtoolbar',
@@ -65,16 +65,16 @@ Ext.define('ProtoUL.UI.GridController', {
                 store: me.store,
                 displayInfo: true,
                 items: navPanel,
-                afterPageText : __language.GridNav_Total  + ' {0}',
-                beforePageText : __language.GridNav_Page, 
+                afterPageText : _SM.__language.GridNav_Total  + ' {0}',
+                beforePageText : _SM.__language.GridNav_Page, 
                 
-                firstText : __language.GridNav_First_Page, 
-                nextText : __language.GridNav_Next_Page, 
-                prevText : __language.GridNav_Previous_Page, 
-                lastText : __language.GridNav_Last_Page, 
-                refreshText : __language.GridNav_Refresh,  
+                firstText : _SM.__language.GridNav_First_Page, 
+                nextText : _SM.__language.GridNav_Next_Page, 
+                prevText : _SM.__language.GridNav_Previous_Page, 
+                lastText : _SM.__language.GridNav_Last_Page, 
+                refreshText : _SM.__language.GridNav_Refresh,  
 
-                displayMsg: __language.GridNav_Current + ' : {0} - {1} ' + __language.GridNav_Total +' {2}'
+                displayMsg: _SM.__language.GridNav_Current + ' : {0} - {1} ' + _SM.__language.GridNav_Total +' {2}'
                 // emptyMsg: "No register to display"
             }
 
@@ -100,7 +100,7 @@ Ext.define('ProtoUL.UI.GridController', {
         var editTools =    [
             {
                 itemId: 'toolFormAdd',
-                tooltip: __language.GridBtn_Ttip_Add_Form,
+                tooltip: _SM.__language.GridBtn_Ttip_Add_Form,
                 type: 'formAdd',
                 width : 20, 
                 hidden: true,
@@ -108,7 +108,7 @@ Ext.define('ProtoUL.UI.GridController', {
                 handler: this.onEditAction
             }, {
                 itemId: 'toolFormUpd',
-                tooltip: __language.GridBtn_Ttip_Edit_Form,
+                tooltip: _SM.__language.GridBtn_Ttip_Edit_Form,
                 hidden: true,
                 type: 'formUpd',
                 width : 20, 
@@ -117,14 +117,14 @@ Ext.define('ProtoUL.UI.GridController', {
             }, {
                 itemId: 'toolRowDel',
                 type: 'rowDel',
-                tooltip: __language.GridBtn_Ttip_Del_Record,
+                tooltip: _SM.__language.GridBtn_Ttip_Del_Record,
                 hidden: true,
                 width : 30, 
                 scope: this,
                 handler: this.onEditAction
             },  {
                 itemId: 'toolFormView',
-                tooltip: __language.GridBtn_Ttip_Read_Only,
+                tooltip: _SM.__language.GridBtn_Ttip_Read_Only,
                 type: 'formView',
                 width : 20, 
                 scope: this,
@@ -138,7 +138,7 @@ Ext.define('ProtoUL.UI.GridController', {
                 // handler: showMetaConfig
             },{
                 itemId: 'toolRowAdd',
-                tooltip: __language.GridBtn_Ttip_Add_Row,
+                tooltip: _SM.__language.GridBtn_Ttip_Add_Row,
                 type: 'rowAdd',
                 hidden: true,
                 width : 20, 
@@ -146,7 +146,7 @@ Ext.define('ProtoUL.UI.GridController', {
                 handler: this.onEditAction
             }, {
                 itemId: 'toolRowCopy',
-                tooltip: __language.GridBtn_Ttip_Copy_Row,
+                tooltip: _SM.__language.GridBtn_Ttip_Copy_Row,
                 type: 'rowCopy',
                 hidden: true,
                 width : 20, 
@@ -170,7 +170,7 @@ Ext.define('ProtoUL.UI.GridController', {
     
     setEditMode: function ( bEdit) {
 
-        if ( ! _UserInfo.isStaff  ) return 
+        if ( ! _SM._UserInfo.isStaff  ) return 
 
         this.myGrid.editable = bEdit
         var myExtGrid = this.myGrid._extGrid    
@@ -236,7 +236,7 @@ Ext.define('ProtoUL.UI.GridController', {
 
         function validaSelected( myReg )  {
             if ( ! myReg ) {
-                errorMessage(__language.Title_Form_Panel, __language.GridAction_NoRecord)
+                _SM.errorMessage(_SM.__language.Title_Form_Panel, _SM.__language.GridAction_NoRecord)
                 return false 
             }
             return true 

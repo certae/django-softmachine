@@ -35,35 +35,35 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             { 
                 iconCls: 'icon-edit',
                 itemId : 'edit', 
-                tooltip: __language.Grid_Edit_Ttip,
-                text:    __language.Grid_Edit_Title,
+                tooltip: _SM.__language.Grid_Edit_Ttip,
+                text:    _SM.__language.Grid_Edit_Title,
                 hidden : true,
                 handler:    editOpts
                 
             }, {
                 iconCls : 'icon-tableSave', 
                 itemId:     'save',
-                text:       __language.Title_Save_Button,
-                tooltip:    __language.Grid_EditSave_Title,
+                text:       _SM.__language.Title_Save_Button,
+                tooltip:    _SM.__language.Grid_EditSave_Title,
                 handler:    editOpts,
                 hidden:     true  
             }, {
                 iconCls : 'icon-saveDraft', 
                 itemId:     'saveDraft',
-                text:       __language.Grid_EditSaveCont_Title,
-                tooltip:    __language.Grid_EditSaveCont_Ttip,
+                text:       _SM.__language.Grid_EditSaveCont_Title,
+                tooltip:    _SM.__language.Grid_EditSaveCont_Ttip,
                 handler:    editOpts,
                 hidden:     true   
             },  {
                 iconCls : 'icon-tableAutoSync', 
                 itemId:     'autoSync',
-                text:      __language.Grid_EditAutoSync_Title,
+                text:      _SM.__language.Grid_EditAutoSync_Title,
                 enableToggle: true, 
                 handler:      editOpts, 
                 hidden : true
             },{
-                text:    __language.Text_Clasify_Button,
-                tooltip: __language.Tooltip_Clasify_Button,
+                text:    _SM.__language.Text_Clasify_Button,
+                tooltip: _SM.__language.Tooltip_Clasify_Button,
                 iconCls: 'icon-order',
                 itemId : 'sorters', 
                 hidden : true,
@@ -72,8 +72,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
             },{
                 xtype: 'splitbutton', 
-                text:    __language.Text_Print,
-                tooltip: __language.Tooltip_Printing_Options,
+                text:    _SM.__language.Text_Print,
+                tooltip: _SM.__language.Tooltip_Printing_Options,
                 iconCls: 'icon-print',
                 itemId : 'printerOpts', 
                 hidden : true,
@@ -83,8 +83,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
             },{
                 xtype: 'splitbutton', 
-                text:    __language.Text_Actions_Button,
-                tooltip: __language.Tooltip_Actions_Button,
+                text:    _SM.__language.Text_Actions_Button,
+                tooltip: _SM.__language.Tooltip_Actions_Button,
                 iconCls: 'icon-action',
                 itemId : 'protoActions', 
                 hidden : true,
@@ -94,8 +94,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
             }, {
                 xtype: 'splitbutton', 
-                text:   __language.Grid_Detail_Title,
-                tooltip: __language.Tooltip_Details_Button,
+                text:   _SM.__language.Grid_Detail_Title,
+                tooltip: _SM.__language.Tooltip_Details_Button,
                 iconCls: 'icon-details', 
                 itemId : 'details', 
                 hidden : true,
@@ -104,8 +104,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 menu :  Ext.create( 'Ext.menu.Menu', {}) 
             },  { 
                 xtype: 'splitbutton', 
-                text:    __language.Text_Filters_Button,
-                tooltip: __language.Tooltip_Filters_Button,
+                text:    _SM.__language.Text_Filters_Button,
+                tooltip: _SM.__language.Tooltip_Filters_Button,
                 iconCls: 'icon-filters',
                 itemId : 'filterSet', 
                 hidden : true,
@@ -115,8 +115,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
             },  { 
                 xtype: 'splitbutton', 
-                text:    __language.Text_Tabs_Button,
-                tooltip: __language.Tooltip_Tabs_Button,
+                text:    _SM.__language.Text_Tabs_Button,
+                tooltip: _SM.__language.Tooltip_Tabs_Button,
                 iconCls: 'icon-tabs',
                 itemId : 'tabSet', 
                 hidden : true,
@@ -126,8 +126,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
             },  { 
                 xtype: 'splitbutton', 
-                text:    __language.Text_Sorters_Button,
-                tooltip: __language.Tooltip_Sorters_Button,
+                text:    _SM.__language.Text_Sorters_Button,
+                tooltip: _SM.__language.Tooltip_Sorters_Button,
                 iconCls: 'icon-sorters',
                 itemId : 'sorterSet', 
                 hidden : true,
@@ -138,8 +138,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             },'->',{
                 iconCls : 'door_out', 
                 itemId:     'cancel',
-                text:    __language.Text_Close_Button,
-                tooltip: __language.Tooltip_Exit_Edit_Mode_Button,
+                text:    _SM.__language.Text_Close_Button,
+                tooltip: _SM.__language.Tooltip_Exit_Edit_Mode_Button,
                 hidden : true,
                 handler:    editOpts
 
@@ -163,7 +163,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
 
         // permite la edicion 
-        if ( _UserInfo.isStaff ) { 
+        if ( _SM._UserInfo.isStaff ) { 
             this.getComponent('edit').setVisible ( true  );
         }
 
@@ -225,7 +225,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 // this.configCtrl.showMetaConfig()
 
             } else if ( but.itemId == 'tbHelp' ) {
-                window.open( __HELPpath ,'protoHelp','left=50,top=20,width=1000,height=600,resizable=0')
+                window.open( _SM._HELPpath ,'protoHelp','left=50,top=20,width=1000,height=600,resizable=0')
             }
             
         } 
@@ -266,7 +266,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
     setEditMode: function( bEdit ) {
 
-        if ( ! _UserInfo.isStaff  ) return 
+        if ( ! _SM._UserInfo.isStaff  ) return 
 
                 
         // En modoEdicion los botones de accion son desactivados y los  edicion son apagados 

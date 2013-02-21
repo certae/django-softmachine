@@ -60,19 +60,19 @@ Ext.application({
             method: 'POST',
             // waitTitle:'Connecting', 
             // waitMsg:'Sending data...',
-            url: _PConfig.urlGetUserRights,
+            url: _SM._PConfig.urlGetUserRights,
             
             // success: this.submitLoginCallback,
             // failure: this.submitLoginCallback, 
             success: function (result) {
                 resp = Ext.decode(result.responseText);
-                _UserInfo = resp.userInfo
+                _SM._UserInfo = resp.userInfo
                 //me.options.success.call(me.options.scope, result, request);
                 var app = new ProtoUL.view.Viewport();
             },
             failure: function (result, request) {
                 //pendiente hmaury
-                //_UserInfo = request.result.userInfo
+                //_SM._UserInfo = request.result.userInfo
                 //me.showFormError(request.result.message);
                 //me.options.failure.call(me.options.scope, result, request);
             }
@@ -94,13 +94,13 @@ Ext.application({
                 myWin.hide()
                 
                 // Globally changing the text of Cancel and Save buttons;
-                Ext.grid.RowEditor.prototype.saveBtnText = __language.Title_Save_Button;
-                Ext.grid.RowEditor.prototype.cancelBtnText = __language.Title_Cancel_Button;
+                Ext.grid.RowEditor.prototype.saveBtnText = _SM.__language.Title_Save_Button;
+                Ext.grid.RowEditor.prototype.cancelBtnText = _SM.__language.Title_Cancel_Button;
                 
                 var app = new ProtoUL.view.Viewport();
             }
             // failure: function ( obj, result, request) { 
-                // errorMessage( 'ProtoDefinition Error :', myZoomModel + ': protoDefinition not found')
+                // _SM.errorMessage( 'ProtoDefinition Error :', myZoomModel + ': protoDefinition not found')
             // }
         }
         

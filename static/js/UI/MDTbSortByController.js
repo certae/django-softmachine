@@ -45,7 +45,7 @@ Ext.define('ProtoUL.UI.MDTbSortByController', {
                 items  : [{
                     iconCls : 'sort', 
                     xtype: 'tbtext',
-                    text: '<b>' + __language.Grid_Sort_Title + ':</b>',
+                    text: '<b>' + _SM.__language.Grid_Sort_Title + ':</b>',
                     reorderable: false 
                     }],  
                 plugins: [reorderer]

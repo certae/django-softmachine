@@ -104,7 +104,7 @@ Ext.define('ProtoUL.UI.GridSheetController', {
             var pValue =  me.rowData[ vFld ];
             
             if ( vFld == 'metaDefinition' ) {
-                pValue = FormatJsonStr( pValue )
+                pValue = _SM.FormatJsonStr( pValue )
             }
             
             pTemplate = pTemplate.replace( new RegExp(pKey, 'g') , pValue  ); 

@@ -17,9 +17,9 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
             
             myPrinterOpts.push (
                 new Ext.Action({
-                    text:       __language.Grid_ExportCSV,
+                    text:       _SM.__language.Grid_ExportCSV,
                     iconCls :   'icon-printGrid', 
-                    tooltip:    __language.Grid_ExportCSV_Ttip,
+                    tooltip:    _SM.__language.Grid_ExportCSV_Ttip,
                     scope:      me,                     
                     handler:    onClickExportCsv
                 }));
@@ -31,7 +31,7 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
             
             myPrinterOpts.push (
                 new Ext.Action({
-                    text:       __language.Text_Grid,
+                    text:       _SM.__language.Text_Grid,
                     iconCls :   'icon-printGrid', 
                     scope:      me,                     
                     handler:    onClickPrintGrid
@@ -76,7 +76,7 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
                 enableOverflow : true, 
                 items: [{
                     xtype   : 'tbtext',
-                    text: '<b>'+__language.Text_Print+ ':<b>'
+                    text: '<b>'+_SM.__language.Text_Print+ ':<b>'
                 }]
             });
 
@@ -99,7 +99,7 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
                 pGrid = __MasterDetail.protoMasterGrid ;
             
             if ( (! pGrid) || (! pGrid.sheetHtml )) {
-                __StBar.showWarning(__language.GridAction_NoRecord, 'MdPrintOptsController')
+                __StBar.showWarning(_SM.__language.GridAction_NoRecord, 'MdPrintOptsController')
                 return 
             }
             
@@ -125,7 +125,7 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
                 }
             }
             
-            getSheeReport( pGrid.protoOption, btn.sheetName , selectedKeys , options  )
+            _SM.getSheeReport( pGrid.protoOption, btn.sheetName , selectedKeys , options  )
             
         };
 
@@ -135,13 +135,13 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
 
             Ext.Ajax.request({
                 method: 'POST',
-                url: _PConfig.urlGetProtoCsv  ,
+                url: _SM._PConfig.urlGetProtoCsv  ,
                 params : pGrid.store.proxy.extraParams,
                 success: function(result, request) {
-                    errorMessage(__language.Grid_ExportCSV_Ok)
+                    _SM.errorMessage(_SM.__language.Grid_ExportCSV_Ok)
                 },
                 failure: function(result, request) {
-                    errorMessage(__language.Grid_ExportCSV_Err, result.status + ' ' + result.statusText)
+                    _SM.errorMessage(_SM.__language.Grid_ExportCSV_Err, result.status + ' ' + result.statusText)
                 },
                 scope: this,
                 timeout: 60000

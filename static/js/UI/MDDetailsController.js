@@ -45,7 +45,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
                 enableOverflow : true, 
                 items: [
                     {
-                        text: '<b>'+ __language.Grid_Detail_Title + ':<b>',
+                        text: '<b>'+ _SM.__language.Grid_Detail_Title + ':<b>',
                     iconCls : 'icon-panelDown',  
                     enableToggle : false ,
                     scope   :  mDet,                     
@@ -75,7 +75,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
             }
                 
             // PreCarga los detalles  
-            if (  loadPci( item.detailDefinition.conceptDetail, true, options ) ) {
+            if (  _SM.loadPci( item.detailDefinition.conceptDetail, true, options ) ) {
                 // El modelo ya ha sido cargado ( la cll meta es global )     
                 createDetailGrid(  item , myAction );
             }         
@@ -86,7 +86,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
         function createDummyPanel(  item , myAction  ) {
             // Si hubo error en la creacion del detalle 
             mDet.protoTabs.add( { 
-                html: __language.Grid_Detail_Error+' :'  + item.detailKey, 
+                html: _SM.__language.Grid_Detail_Error+' :'  + item.detailKey, 
                 ixDetail : mDet.protoTabs.items.length 
             } )
             myAction.show()
@@ -133,6 +133,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
             setActionPrp('tooltip', 'setTooltip', pDetail.menuText  );
 
             setActionPrp('iconCls', 'setIconCls', myMeta.protoIcon );
+            //setActionPrp('iconAlign', 'setIconAlign', 'top');
             setActionPrp('width', 'setWidth', 100 );
             myAction.show()
             
