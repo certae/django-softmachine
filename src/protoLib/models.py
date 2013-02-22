@@ -102,7 +102,13 @@ class ProtoModel(models.Model):
 
 class EntityMap(models.Model):
     """
-    Maneja los permisos a nivel de campo,
+    Capa adicional para manejar permisos 
+        a nivel de campo,
+        vista
+        acciones 
+        etc 
+        
+    Para manejar las vstas, se maneja directamente la protoOpcion,  (se prodria crear un conttenttype ) 
      
     ?Exluyente - Incluyente 
     El nvel de acceso al ser excluyente, no podria sumar los permisos de los grupos, 

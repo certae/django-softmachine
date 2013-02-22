@@ -170,7 +170,10 @@ Ext.define('ProtoUL.UI.GridController', {
     
     setEditMode: function ( bEdit) {
 
-        if ( ! _SM._UserInfo.isStaff  ) return 
+
+        var perms = _SM._UserInfo.perms[ this.myMeta.protoOption ]
+        if ( !( perms['add'] || perms['update'] || perms['delete'] )) return 
+        // if ( ! _SM._UserInfo.isStaff  ) return 
 
         this.myGrid.editable = bEdit
         var myExtGrid = this.myGrid._extGrid    

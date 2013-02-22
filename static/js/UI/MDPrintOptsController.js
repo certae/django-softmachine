@@ -68,6 +68,7 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
      
         } 
 
+        // Modificacion del entorno
         if ( myPrinterOpts.length > 0  ) {
 
             __MasterDetail.tbPrinterOpts = Ext.create('Ext.toolbar.Toolbar', {

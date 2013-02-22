@@ -72,17 +72,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
             },{
                 xtype: 'splitbutton', 
-                text:    _SM.__language.Text_Print,
-                tooltip: _SM.__language.Tooltip_Printing_Options,
-                iconCls: 'icon-print',
-                itemId : 'printerOpts', 
-                hidden : true,
-                enableToggle: true,
-                handler: toogleTb2,  
-                menu :  Ext.create( 'Ext.menu.Menu', {}) 
-
-            },{
-                xtype: 'splitbutton', 
                 text:    _SM.__language.Text_Actions_Button,
                 tooltip: _SM.__language.Tooltip_Actions_Button,
                 iconCls: 'icon-action',
@@ -135,6 +124,28 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 handler: toogleTb2,  
                 menu :  Ext.create( 'Ext.menu.Menu', {}) 
 
+            },{
+                xtype: 'splitbutton', 
+                text:    _SM.__language.Text_Print,
+                tooltip: _SM.__language.Tooltip_Printing_Options,
+                iconCls: 'icon-print',
+                itemId : 'printerOpts', 
+                hidden : true,
+                enableToggle: true,
+                handler: toogleTb2,  
+                menu :  Ext.create( 'Ext.menu.Menu', {}) 
+
+            },  { 
+                xtype: 'splitbutton', 
+                text:    _SM.__language.Text_Config,
+                tooltip: _SM.__language.Tooltip_Config_Button,
+                iconCls: 'icon-config',
+                itemId : 'configOpts', 
+                hidden : true,
+                enableToggle: true,
+                handler: toogleTb2,  
+                menu :  Ext.create( 'Ext.menu.Menu', {}) 
+
             },'->',{
                 iconCls : 'door_out', 
                 itemId:     'cancel',
@@ -146,7 +157,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             }, {
                 // text: 'Aide',
                 xtype: 'splitbutton', 
-                menu :  this.configCtrl.getUsrActs(),
                 iconCls: 'icon-help',
                 handler: toogleTb2,
                 itemId : 'tbHelp'
@@ -159,11 +169,15 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         });
 
         this.callParent();
+
+        // Guarda los permisos
+        me.perms = _SM._UserInfo.perms[ this.protoMeta.protoOption ]
+
         this.setEditMode( false ); 
 
-
         // permite la edicion 
-        if ( _SM._UserInfo.isStaff ) { 
+        // if ( _SM._UserInfo.isStaff ) { 
+        if ( me.perms['add'] || me.perms['update'] || me.perms['delete'] ) { 
             this.getComponent('edit').setVisible ( true  );
         }
 
@@ -208,6 +222,11 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             } else if ( but.itemId == 'printerOpts' ) {
                 if ( __MasterDetail.tbPrinterOpts ) {
                     __MasterDetail.tbPrinterOpts.setVisible( but.pressed  )
+                }
+
+            } else if ( but.itemId == 'configOpts' ) {
+                if ( __MasterDetail.tbConfigOpts ) {
+                    __MasterDetail.tbConfigOpts.setVisible( but.pressed  )
                 }
 
             } else if ( but.itemId == 'details' ) {
@@ -266,9 +285,10 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
     setEditMode: function( bEdit ) {
 
-        if ( ! _SM._UserInfo.isStaff  ) return 
-
-                
+        // if ( ! _SM._UserInfo.isStaff  ) return
+        var me = this
+        if (!( me.perms['add'] || me.perms['update'] || me.perms['delete'] )) return
+        
         // En modoEdicion los botones de accion son desactivados y los  edicion son apagados 
         Ext.suspendLayouts();
     
@@ -286,6 +306,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         // 'details', 'printerOpts', 'sorters', 'tbHelp', 'filterSet',
         setEditMode( this, 'details', bEdit );
         setEditMode( this, 'printerOpts', bEdit );
+        setEditMode( this, 'configOpts', bEdit );
         setEditMode( this, 'sorters', bEdit  );
         setEditMode( this, 'filterSet', bEdit );
         setEditMode( this, 'protoActions', bEdit );
@@ -325,6 +346,13 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         if ( this.__MasterDetail.myPrinterOpts ) {
             var bt = this.getComponent('printerOpts')
             bt.menu.add(  this.__MasterDetail.myPrinterOpts )
+            bt.protoEnable = true 
+            bt.show()            
+        }
+
+        if ( this.__MasterDetail.myConfigOpts ) {
+            var bt = this.getComponent('configOpts')
+            bt.menu.add(  this.__MasterDetail.myConfigOpts )
             bt.protoEnable = true 
             bt.show()            
         }

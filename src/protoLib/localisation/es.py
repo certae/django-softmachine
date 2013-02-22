@@ -92,6 +92,7 @@ __language ={
     'Text_Plug' : 'Conexión',
     'Text_Grid' : 'Grilla',
     'Text_Print' : 'Imprimir',
+    'Text_Config' : 'Config',
     'Grid_ExportCSV_Ok' : 'Exportado a CSV correctamente',
     'Grid_ExportCSV_Err' : 'Error al exportar a CSV',
 
@@ -105,6 +106,7 @@ __language ={
     'Text_Clasify_Button' : 'Clasificar',
     'Tooltip_Clasify_Button' : 'Opciones de ordenamiento',
     'Tooltip_Printing_Options' : 'Opciones de impresión',
+    'Tooltip_Config_Button' : 'Config Options',
     'Text_Actions_Button' : 'Acciones',
     'Tooltip_Actions_Button' : 'Flujo de trabajo básico',
     'Tooltip_Details_Button' : 'Ver detalles',

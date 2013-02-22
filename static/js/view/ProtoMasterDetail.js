@@ -51,15 +51,9 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         // Manejo de arbol 
         this.pciStyle = this.protoMasterGrid.myMeta.pciStyle || 'grid'; 
 
-
-        // config Controller 
-        var configCtrl = Ext.create('ProtoUL.UI.ConfigController', { protoOption : this.myMeta.protoOption });
-
-
         // Barra MD 
         var tb = Ext.create('ProtoUL.UI.TbMasterDetail', {
             protoMeta : this.myMeta,
-            configCtrl : configCtrl,  
             __MasterDetail : me  
         });
         
@@ -108,6 +102,8 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
         this.callParent();
 
+
+        // Controllers 
         
         Ext.create('ProtoUL.UI.MDDetailsController',   { __MasterDetail : me  });
         Ext.create('ProtoUL.UI.MDTbSortByController',   { myMeta : this.myMeta, __MasterDetail : me });
@@ -117,6 +113,8 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         Ext.create('ProtoUL.UI.MDSetFiltersController',  { myMeta : this.myMeta, __MasterDetail : me });
         Ext.create('ProtoUL.UI.MDSetSortersController',  { myMeta : this.myMeta, __MasterDetail : me });
         Ext.create('ProtoUL.UI.MDSetTabsController',  { myMeta : this.myMeta, __MasterDetail : me });
+
+        Ext.create('ProtoUL.UI.ConfigController',     { myMeta : this.myMeta, __MasterDetail : me });
         
         // Agrega los botones de actions 
         tb.addActions()
@@ -216,8 +214,8 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         // Apagar las barras 
         setDisabled( me.tbFilters )
         setDisabled( me.tbPrinterOpts )
+        setDisabled( me.tbConfigOpts )
         setDisabled( me.tbSorters )
-
 
         // Cambia el control de las grillas correspondientes 
         if ( detailPanel.collapsed  ) {

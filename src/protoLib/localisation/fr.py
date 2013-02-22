@@ -94,6 +94,7 @@ __language ={
 
     'Text_Plug' : 'Plug',
     'Text_Print' : 'Imprimer',
+    'Text_Config' : 'Config',
     'Text_Grid' :'Grille',
 
     'Grid_Sort_Title' : 'Classer par',
@@ -107,6 +108,7 @@ __language ={
     'Text_Clasify_Button' : 'Classer',
     'Tooltip_Clasify_Button' : 'Options de classement',
     'Tooltip_Printing_Options' : "Options d'impression",
+    'Tooltip_Config_Button' : 'Config Options',
     'Text_Actions_Button' : 'Actions',
     'Tooltip_Actions_Button' : 'Actions ( procedures )',
     'Tooltip_Details_Button' : 'Voir détails',

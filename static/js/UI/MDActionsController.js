@@ -8,15 +8,15 @@ Ext.define('ProtoUL.UI.MDActionsController', {
 
     getProtoActionsBar: function() {
 
-        if ( ! _SM._UserInfo.isStaff ) return  
-
+        var perms = _SM._UserInfo.perms[ this.myMeta.protoOption ]
+        if ( !( perms['add'] || perms['update'] || perms['delete'] )) return 
+        // if ( ! _SM._UserInfo.isStaff ) return  
         var me = this; 
         var myProtoActions = []  
         var __MasterDetail = this.__MasterDetail
 
 
         for (var ix in this.myMeta.actions  ) {       
-            // TODO: "actionType",  filtrar solo user  
             var pProtoAction = this.myMeta.actions[ ix ]
             myProtoActions.push (
                 new Ext.Action({

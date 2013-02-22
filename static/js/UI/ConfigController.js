@@ -1,32 +1,46 @@
-
 Ext.define('ProtoUL.UI.ConfigController', {
     extend: 'Ext.Base',
-
-    //@required
-    protoOption : null, 
-
-    
+    myMeta : null, 
     constructor: function (config) {
         Ext.apply(this, config || {});
-    },
+        this.getProtoConfigBar()
+    }, 
     
-    getUsrActs: function() {
-        // Se deben crear en forma indepnediente ( limitacion de Ext ) 
-        // var tbConfig = Ext.getCmp( ideTbConfig )
+    getProtoConfigBar: function() {
 
-        var me = this;         
-        var myOptions = [];
+        var me = this; 
+        var myConfigOpts = [];
+        var __MasterDetail = this.__MasterDetail
 
+        this.protoOption = this.myMeta.protoOption 
+        var perms = _SM._UserInfo.perms[ this.protoOption ]
 
-        // if ( _SM._UserInfo.isSuperUser ) { 
-            myOptions.push(myActionConfig('Meta', _SM.__language.MetaConfig_Meta_Config, 'icon-configMeta'))
-            myOptions.push(myActionConfig('Form', _SM.__language.MetaConfig_Form_Config, 'icon-configForm'))
-            myOptions.push(myActionConfig('Fields', _SM.__language.MetaConfig_Add_Fields, 'icon-configFields'))
-            myOptions.push(myActionConfig('Details', _SM.__language.MetaConfig_Add_Details, 'icon-configDetails'))
-            myOptions.push(myActionConfig('Reset', _SM.__language.MetaConfig_Reset_Meta, 'icon-configReset'))
-        // } 
+        if (  perms.config ) {             myConfigOpts.push(myActionConfig('Meta', _SM.__language.MetaConfig_Meta_Config, 'icon-configMeta'))
+            myConfigOpts.push(myActionConfig('Fields', _SM.__language.MetaConfig_Add_Fields, 'icon-configFields'))
+            myConfigOpts.push(myActionConfig('Details', _SM.__language.MetaConfig_Add_Details, 'icon-configDetails'))
+        }
+         
+        if (  perms.custom || perms.config ) {
+           myConfigOpts.push(myActionConfig('Form', _SM.__language.MetaConfig_Form_Config, 'icon-configForm'))
+        }  
+        // Modificacion del entorno
+        if ( myConfigOpts.length > 0  ) {
+            
+            __MasterDetail.tbConfigOpts = Ext.create('Ext.toolbar.Toolbar', {
+                dock: 'top',
+                hidden : true,
+                enableOverflow : true, 
+                items: [{
+                    xtype   : 'tbtext',
+                    text: '<b>'+_SM.__language.Text_Config+ ':<b>'
+                }]
+            });
 
-        return myOptions   
+            __MasterDetail.tbConfigOpts.add( myConfigOpts );
+            __MasterDetail.myConfigOpts = myConfigOpts;
+            __MasterDetail.protoMasterGrid.addDocked( __MasterDetail.tbConfigOpts );
+
+        };  
 
         function myActionConfig( action, name, icon ) {
             var myAction = Ext.create ( 'Ext.Action', {
@@ -60,9 +74,6 @@ Ext.define('ProtoUL.UI.ConfigController', {
             break;
         case 'Details':
             this.showDetailsTree();
-            break;
-        case 'Reset':
-            _SM._cllPCI = [];
             break;
         }
 
