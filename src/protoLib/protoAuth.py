@@ -58,7 +58,8 @@ def  getUserProfile( pUser, action, actionInfo  ):
     return uProfile 
 
 
-def getPermissions( pUser, model , perm = None ):
+
+def getModelPermissions( pUser, model , perm = None ):
     
     appName = model._meta.app_label
     modName = model._meta.module_name
@@ -74,8 +75,11 @@ def getPermissions( pUser, model , perm = None ):
         getIndPermission ( perm  )
         return permissions[ perm ] 
     
-    # Si son todos retorna un obejto 
-    getIndPermission ( 'view' )
+    # Si son todos retorna un objto
+    # get_all_permissions  no vale la pena, pues lo guarda en un cache y filtra por objeto, 
+    # la busqueda individual usa el mismo cache ya cargarda 
+    getIndPermission ( 'menu' )
+    getIndPermission ( 'list' )
     getIndPermission ( 'add' )
     getIndPermission ( 'change' )
     getIndPermission ( 'delete' )
@@ -87,6 +91,19 @@ def getPermissions( pUser, model , perm = None ):
 
     
 # ------------------
+
+#def hasModelPermissions( pUser, model  ):
+#    """  if user has any permission
+#    """
+#    appName = model._meta.app_label
+#    if not pUser.has_module_perms( appName  ): 
+#        return False  
+#
+#    return getModelPermissions( pUser, model, 'menu' ) 
+#
+#    if perms['list'] or perms['add'] or perms['change'] or perms['delete'] or perms['config'] or perms['custom']:
+#        return True 
+#    return False 
 
 """
 

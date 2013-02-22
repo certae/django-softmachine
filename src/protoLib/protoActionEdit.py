@@ -13,7 +13,7 @@ from utilsConvert import toInteger, toDate,toDateTime,toTime, toFloat, toDecimal
 from utilsBase import JSONEncoder, getReadableError, list2dict
 from protoUdp import verifyUdpDefinition, saveUDP
 from django.utils.encoding import smart_str
-from protoAuth import getUserProfile, getPermissions
+from protoAuth import getUserProfile, getModelPermissions 
 from utilsWeb import doReturn 
 
 # Error Constants 
@@ -35,7 +35,8 @@ def protoDelete(request):
 def _protoEdit(request, myAction ):
     
     message = '' 
-    if request.method != 'POST':  return
+    if request.method != 'POST':  
+        return doReturn ({'success':False, 'message' : 'invalid message'}) 
 
     if not request.user.is_authenticated():
         return doReturn ({'success':False ,'message' : 'readOnly User'})
@@ -47,7 +48,7 @@ def _protoEdit(request, myAction ):
     model = getDjangoModel(protoConcept)
 
 #   Autentica 
-    if not getPermissions( request.user, model, myAction ):
+    if not getModelPermissions( request.user, model, myAction ):
         return doReturn ({'success':False ,'message' : 'No ' +  myAction +  'permission'})
 
 
@@ -199,6 +200,7 @@ def setSecurityInfo( rec, data, userProfile, insAction  ):
 def setProtoData( rec, data, key, value  ):
     data[ key ] = value 
     setattr( rec, key, value  )
+
 
 
 def setRegister( model,  rec, key,  data   ):

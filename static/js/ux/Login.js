@@ -108,6 +108,10 @@ Ext.define('ProtoUL.ux.Login', {
                 success: function(result, request) {
                     _SM._UserInfo = request.result.userInfo
                     _SM.__language = request.result.language
+
+                    // Incializa los permisos 
+                    _SM._UserInfo.perms = {}
+                    
                     me.options.success.call( me.options.scope, result, request);                },
                 failure: function(result, request) {
                     // _SM._UserInfo = request.result.userInfo

@@ -7,10 +7,12 @@ from django.contrib.admin.util import  get_fields_from_path
 from django.utils.encoding import smart_str
 from django.db.models import Q
 
-from protoQbe import getSearcheableFields, getQbeStmt
 from utilsBase import JSONEncoder, getReadableError 
 from utilsBase import _PROTOFN_ , verifyStr, verifyList    
 from utilsConvert import getTypedValue
+
+from protoQbe import getSearcheableFields, getQbeStmt
+from protoAuth import getUserProfile, getModelPermissions
 
 from protoUdp import verifyUdpDefinition, readUdps 
 from protoField import TypeEquivalence
@@ -29,7 +31,7 @@ def protoList(request):
     message = ''
     
     if request.method != 'POST':
-        return 
+        return doReturn ({'success':False, 'message' : 'invalid message'}) 
 
 #   Los objetos vienen textoJson y hay q hacer el load para construirlos como objetos. 
     protoMeta = request.POST.get('protoMeta', '')
@@ -282,7 +284,6 @@ def copyValuesFromFields( protoMeta, rowdict, relModels, JsonField):
 
 
 def getUserNodes( pUser, protoConcept ):
-    from protoAuth import getUserProfile
     userProfile = getUserProfile( pUser, 'list', protoConcept  ) 
     userNodes = userProfile.userTree.split(',')   
         
@@ -294,6 +295,10 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
 #   Decodifica los eltos 
     protoConcept = protoMeta.get('protoConcept', '')
     model = getDjangoModel(protoConcept)
+
+#   Autentica '
+    if not getModelPermissions( pUser, model, 'list' ):
+        return model.objects.none(), [], False 
 
 #   modelo Administrado
     isProtoModel = hasattr( model , '_protoObj' )

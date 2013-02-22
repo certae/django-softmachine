@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from protoLib.models import ProtoDefinition, UserProfile, TeamHierarchy, UserShare, CustomDefinition
+from protoLib.models import ProtoDefinition, UserProfile, TeamHierarchy, UserShare, CustomDefinition, EntityMap, FieldMap
 from django.contrib  import admin
 
            
@@ -32,3 +32,7 @@ admin.site.register( Message )
 
 from django.contrib.contenttypes.models import ContentType
 admin.site.register( ContentType )
+
+admin.site.register( EntityMap )
+admin.site.register( FieldMap )
+

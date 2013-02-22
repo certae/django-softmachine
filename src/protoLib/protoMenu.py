@@ -11,11 +11,9 @@ from django.http import HttpResponse
 
 import django.utils.simplejson as json
 
-from models import getDjangoModel, CustomDefinition  
+from models import CustomDefinition  
 from protoActionEdit import setSecurityInfo
-from utilsWeb import JsonError 
-
-from protoAuth import getUserProfile
+from protoAuth import getUserProfile, getModelPermissions
 
 class cAux: pass 
 
@@ -46,9 +44,7 @@ def protoGetMenuData(request):
         appCode = model._meta.app_label
         
         # Verifica q el usuairo tenga permiso, considera el admin 
-        if not currentUser.is_superuser :  
-            if not currentUser.has_module_perms( appCode ): return  
-            if not currentUser.has_perm( appCode + '.view_' + model._meta.module_name ): return  
+        if not getModelPermissions( currentUser, model, 'menu' ) : return  
         
         # Define la rama del menu 
         menuLabel = protoAdmin.get('protoMenuOpt', appCode )

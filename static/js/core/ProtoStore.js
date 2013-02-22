@@ -791,7 +791,11 @@ _SM.loadPci = function ( protoOption, loadIfNot, options) {
                     
                     var myResult = Ext.decode( result.responseText );
                     _SM.savePclCache( protoOption, myResult.protoMeta )
-
+                    
+                    // Carga los permisos 
+                    _SM._UserInfo.perms[ protoOption ] = myResult.permissions
+                    
+                    // Continua con la carga
                     options.success.call( options.scope, result, request);
 
                 },
