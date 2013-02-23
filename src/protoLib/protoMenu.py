@@ -14,6 +14,7 @@ import django.utils.simplejson as json
 from models import CustomDefinition  
 from protoActionEdit import setSecurityInfo
 from protoAuth import getUserProfile, getModelPermissions
+from utilsWeb import JsonError, JsonSuccess 
 
 class cAux: pass 
 
@@ -27,7 +28,8 @@ def protoGetMenuData(request):
     el menu es a nivel de grupo  
     """
 
-    if request.method != 'GET': return 
+    if request.method != 'POST': 
+        return JsonError( 'invalid message' ) 
     
     currentUser  = request.user
     userProfile = getUserProfile( currentUser, 'getMenu', ''  ) 
@@ -85,7 +87,7 @@ def protoGetMenuData(request):
 
 #-- Lectura de la Db ------------------------------------------------------------- 
 
-    forceDefault = request.GET.get('forceDefault', '') 
+    forceDefault = request.POST.get('forceDefault', '') 
 
     protoOption = '__menu'
     protoDef = CustomDefinition.objects.get_or_create(

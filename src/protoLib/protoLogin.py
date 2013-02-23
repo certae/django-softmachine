@@ -6,13 +6,14 @@ from django.http import HttpResponse
 from django.contrib.auth import login, authenticate 
 
 from protoAuth import getUserProfile
+from utilsWeb import JsonError, JsonSuccess 
 
 def protoGetUserRights(request):
     """ return usr rihts 
     """
     
     if request.method != 'POST':
-        return 
+        return JsonError( 'invalid message' ) 
 
     userName = request.POST['login']
     userPwd  = request.POST['password']

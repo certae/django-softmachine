@@ -19,17 +19,19 @@ def doReturn( jsonDict ):
     context = json.dumps( jsonDict, cls=JSONEncoder )
     return HttpResponse(context, mimetype="application/json")
 
-def proxy_GetToPost(request):
-    """ transfer the GET into a POST form then submit to $target url """
-    data = request.GET.copy()
-    uri = data.get('target')
-    del data['target']
-    html  = '<body><form name=form method=POST action="%s" >' % uri
-    for item in data.keys():
-        html += '<input type=hidden name="%s" value="%s">' % (item, data[item])
-    html += '</form><script language="javascript">document.form.submit()</script></body>'
-    return HttpResponse(html)
-    
+def JsonResponse(contents, status=200):
+    # http://tools.ietf.org/html/rfc4627  ( text/javascript  obsoleto ) 
+    return HttpResponse(contents, mimetype='application/json', status=status)
+
+def JsonSuccess(params = {}):
+    d = {"success":True}
+    d.update(params)
+    return JsonResponse(JSONserialise(d))
+   
+def JsonError(error = ''):
+    return JsonResponse('{"success":false, "msg":%s}' % JSONserialise(error))
+
+
 
 def set_cookie(response, key, value, days_expire = 7):
     if days_expire is None:
@@ -47,18 +49,6 @@ def get_cookie(request, key):
     return request.COOKIES.get(key)
 
              
-def JsonResponse(contents, status=200):
-    # http://tools.ietf.org/html/rfc4627  ( text/javascript  obsoleto ) 
-    return HttpResponse(contents, mimetype='application/json', status=status)
-
-def JsonSuccess(params = {}):
-    d = {"success":True}
-    d.update(params)
-    return JsonResponse(JSONserialise(d))
-   
-def JsonError(error = ''):
-    return JsonResponse('{"success":false, "msg":%s}' % JSONserialise(error))
-
     
 def DownloadLocalFile(InFile):
     import mimetypes
@@ -77,24 +67,6 @@ def JSONserialise( obj ):
         except : obj = 'error JSONSerialise'
     return obj 
     
-
-def getUrl(url, data = None, method = 'GET', headers = {}):
-    #print 'getUrl', url
-    import urllib, urllib2
-    if data:
-        data = urllib.urlencode(data)
-        if method == 'GET':
-            url += '?%s' % data
-            data = None
-    #print 'getUrl', url , data
-    req = urllib2.Request(url, data, headers)
-    #try:
-    response = urllib2.urlopen(req)
-    #except urllib2.HTTPError, _code:
-    #    return _code
-    
-    return response.read()
-
 
 def my_send_mail(subject, txt, sender, to=[], files=[], charset='UTF-8'):
     import os

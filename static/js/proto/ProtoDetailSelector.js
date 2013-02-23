@@ -273,8 +273,8 @@ function definieProtoDetailsTreeModel( protoOption ) {
         extend: 'Ext.data.Model',
         proxy: {
             type: 'ajax',
-            method: 'GET',
             url: _SM._PConfig.urlGetDetailsTree , 
+            actionMethods: { read : 'POST' },     
             extraParams : {
                 protoOption : protoOption 
             },    

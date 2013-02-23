@@ -22,10 +22,10 @@ Ext.define('ProtoUL.view.MenuTree', {
         Ext.define('Proto.MenuModel', {
             extend: 'Ext.data.Model',
             proxy: {
-                method: 'GET',
                 type: 'ajax',
                 url: _SM._PConfig.urlMenu , 
-                extraParams : { forceDefault : 0 }
+                extraParams : { forceDefault : 0 }, 
+                actionMethods: { read : 'POST' }    
             }, 
         
             fields: [

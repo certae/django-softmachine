@@ -781,7 +781,7 @@ _SM.loadPci = function ( protoOption, loadIfNot, options) {
         
         
             Ext.Ajax.request({
-                method: 'GET',
+                method: 'POST',
                 url: _SM._PConfig.urlGetPCI  ,
                 params : { 
                     protoOption : protoOption 
@@ -875,7 +875,7 @@ _SM.loadJsonConfig = function ( fileName, options) {
     });
     
     Ext.Ajax.request({
-        method: 'GET',
+        method: 'POST',
         url: '/resources/' + fileName ,
         scope: options.scope,
         success: function(result, request) {
@@ -918,8 +918,8 @@ _SM.definieProtoFieldSelctionModel = function ( protoOption ) {
         extend: 'Ext.data.Model',
         proxy: {
             type: 'ajax',
-            method: 'GET',
             url: _SM._PConfig.urlGetFieldTree , 
+            actionMethods: { read : 'POST' },     
             extraParams : {
                 protoOption : protoOption 
             },    

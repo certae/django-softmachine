@@ -49,6 +49,7 @@
                     root: 'data',
                     totalProperty: 'totalCount'
                 },
+                actionMethods: { read : 'POST' },     
                 extraParams: {
                     //query:me.queryQbe
                     query: me.myMeta.sql,

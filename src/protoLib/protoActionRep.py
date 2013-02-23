@@ -11,6 +11,8 @@ from utilsBase import  getReadableError
 from django.utils.encoding import smart_str
 from protoQbe import addFilter
 
+from utilsWeb import JsonError, JsonSuccess 
+
 import csv
 import django.utils.simplejson as json
 
@@ -19,7 +21,7 @@ def protoSheetRep(request):
     """ Reporte basado en la definicion de plantillas ( sheets ) 
     """
     if request.method != 'POST':
-        return 
+        return JsonError('invalid message') 
     
     """  1.  
     Recibe  opcion, plantilla base,  Qs ( lista de ids )
@@ -248,7 +250,7 @@ def protoCsv(request):
     # Create the HttpResponse object with the appropriate CSV header, based of fieldDefinition 
     
     if request.method != 'POST':
-        return 
+        return JsonError( 'invalid message' ) 
     
     protoMeta = request.POST.get('protoMeta', '')
     protoMeta = json.loads(protoMeta)

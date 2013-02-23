@@ -596,3 +596,37 @@ def getUserRights(user_id):
         return perm[0]
     else:
         return PermissionAdmin()   
+
+
+
+def proxy_GetToPost(request):
+    """ transfer the GET into a POST form then submit to $target url """
+    data = request.GET.copy()
+    uri = data.get('target')
+    del data['target']
+    html  = '<body><form name=form method=POST action="%s" >' % uri
+    for item in data.keys():
+        html += '<input type=hidden name="%s" value="%s">' % (item, data[item])
+    html += '</form><script language="javascript">document.form.submit()</script></body>'
+    return HttpResponse(html)
+    
+    
+def getUrl(url, data = None, method = 'GET', headers = {}):
+    #print 'getUrl', url
+    import urllib, urllib2
+    if data:
+        data = urllib.urlencode(data)
+        if method == 'GET':
+            url += '?%s' % data
+            data = None
+    #print 'getUrl', url , data
+    req = urllib2.Request(url, data, headers)
+    #try:
+    response = urllib2.urlopen(req)
+    #except urllib2.HTTPError, _code:
+    #    return _code
+    
+    return response.read()
+
+
+    

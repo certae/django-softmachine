@@ -5,6 +5,7 @@ from protoField import TypeEquivalence
 from models import getDjangoModel 
 from utilsBase import getReadableError, verifyStr
 from protoGrid import  getProtoViewName, getModelDetails
+from utilsWeb import JsonError, JsonSuccess 
 
 import django.utils.simplejson as json
 
@@ -12,10 +13,10 @@ def protoGetDetailsTree(request):
     """ return full field tree 
     """
 
-    if request.method != 'GET':
-        return 
+    if request.method != 'POST':
+        return JsonError( 'invalid message' ) 
     
-    protoOption = request.GET.get('protoOption', '') 
+    protoOption = request.POST.get('protoOption', '') 
     protoConcept  = getProtoViewName( protoOption )
     
     try: 

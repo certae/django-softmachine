@@ -129,13 +129,6 @@ Ext.define('ProtoUL.UI.GridController', {
                 width : 20, 
                 scope: this,
                 handler: this.onEditAction
-            // }, {
-                // itemId: 'toolMetaConfig',
-                // tooltip: 'Show MetaConfig',  
-                // type: 'metaConfig',
-                // width : 20, 
-                // scope: this,
-                // handler: showMetaConfig
             },{
                 itemId: 'toolRowAdd',
                 tooltip: _SM.__language.GridBtn_Ttip_Add_Row,
@@ -158,12 +151,6 @@ Ext.define('ProtoUL.UI.GridController', {
             this.myGrid.addTools( editTools )
             this.setEditMode( false )
         
-            // function showMetaConfig() {
-                // if ( ! this.configCtrl  ) {
-                    // this.configCtrl = Ext.create('ProtoUL.UI.ConfigController', { protoOption : this.myMeta.protoOption });    
-                // }
-                // this.configCtrl.showMetaConfig()
-            // }
         
         
     }, 
@@ -178,12 +165,20 @@ Ext.define('ProtoUL.UI.GridController', {
         this.myGrid.editable = bEdit
         var myExtGrid = this.myGrid._extGrid    
 
-        setToolMode ( myExtGrid, '#toolRowAdd', bEdit )
-        setToolMode ( myExtGrid, '#toolRowCopy', bEdit )
-        setToolMode ( myExtGrid, '#toolRowDel', bEdit )
+        if ( perms['add'] ) {
+            setToolMode ( myExtGrid, '#toolRowAdd', bEdit )
+            setToolMode ( myExtGrid, '#toolRowCopy', bEdit )
+            setToolMode ( myExtGrid, '#toolFormAdd', bEdit ) 
+        } 
 
-        setToolMode ( myExtGrid, '#toolFormAdd', bEdit ) 
-        setToolMode ( myExtGrid, '#toolFormUpd', bEdit )
+        if ( perms['delete'] ) {
+            setToolMode ( myExtGrid, '#toolRowDel', bEdit )
+        } 
+
+        if ( perms['update'] ) {
+            setToolMode ( myExtGrid, '#toolFormUpd', bEdit )
+        }
+        
         setToolMode ( myExtGrid, '#toolFormView', !bEdit )
 
         // setToolMode ( myExtGrid, '#toolMetaConfig',  !bEdit ) 

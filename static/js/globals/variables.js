@@ -94,6 +94,7 @@ _SM._winX = 10
 _SM._winY = 10  
  
  
-  // *  Configuracion del metodo por defecto  
-  // Ext.data.Connection.prototype.method = 'GET';
+// *  Configuracion del metodo por defecto  
+// Ext.data.Connection.prototype.method = 'POST';
+// Ext.data.Connection.method = 'POST';
  

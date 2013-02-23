@@ -27,10 +27,10 @@ def protoGetPCI(request):
     """ return full metadata (columns, renderers, totalcount...)
     """
     
-    if request.method != 'GET':
-        return 
+    if request.method != 'POST':
+        return JsonError( 'invalid message' ) 
     
-    protoOption = request.GET.get('protoOption', '') 
+    protoOption = request.POST.get('protoOption', '') 
     protoConcept  = getProtoViewName( protoOption )
     
     try: 
@@ -235,12 +235,11 @@ def protoSaveProtoObj(request):
     """
 
     if request.method != 'POST':
-        return 
+        return JsonError( 'invalid message' ) 
 
     custom = False  
     protoOption = request.POST.get('protoOption', '')
 
-    from protoAuth import getUserProfile
     userProfile = getUserProfile( request.user, 'savePci', protoOption  ) 
 
     # Reglas para definir q se guarda  
@@ -283,10 +282,10 @@ def protoGetFieldTree(request):
     """ return full field tree 
     """
 
-    if request.method != 'GET':
-        return 
+    if request.method != 'POST':
+        return JsonError('Invalid message') 
     
-    protoOption = request.GET.get('protoOption', '') 
+    protoOption = request.POST.get('protoOption', '') 
     protoConcept  = getProtoViewName( protoOption )
     
     try: 
@@ -295,11 +294,24 @@ def protoGetFieldTree(request):
         return JsonError(  getReadableError( e ) ) 
     
     fieldList = []
+
+    # -----------------------------------------------------------------------------------------------------
+    # Prototipos 
+    if protoConcept == 'prototype.ProtoTable' and protoConcept != protoOption :
+        pass 
+
+
+
+
     
+    
+    
+    # -----------------------------------------------------------------------------------------------------
     # Se crean los campos con base al modelo ( trae todos los campos del modelo 
     for field in model._meta._fields():
         addFiedToList( fieldList,  field , '', [] )
         
+
     # Add __str__ 
     myField = { 
         'id'        : '__str__' ,  
@@ -313,13 +325,11 @@ def protoGetFieldTree(request):
     
     # FormLink redefinition to original view 
     # myField['zoomModel'] =  protoOption  
-
     
     fieldList.append( myField )
 
     # Las udps se agregan manualmente, pues habria q crear una tabla para manejar la dependecia con cada tabla  
     # addUpdToList( fieldList,  cUDP )
-
         
     # Codifica el mssage json 
     context = json.dumps( fieldList )
