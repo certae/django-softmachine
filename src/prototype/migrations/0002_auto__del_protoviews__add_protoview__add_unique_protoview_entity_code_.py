@@ -469,8 +469,8 @@ class Migration(SchemaMigration):
         # Deleting field 'Property.regStatus'
         db.delete_column('prototype_property', 'regStatus')
 
-        # Deleting field 'Property.cpFromModel'
-        db.delete_column('prototype_property', 'cpFromModel')
+        # Deleting field 'Property.cpFromZoom'
+        db.delete_column('prototype_property', 'cpFromZoom')
 
         # Deleting field 'Property.createdBy'
         db.delete_column('prototype_property', 'createdBy_id')
@@ -1013,8 +1013,8 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True),
                       keep_default=False)
 
-        # Adding field 'Property.cpFromModel'
-        db.add_column('prototype_property', 'cpFromModel',
+        # Adding field 'Property.cpFromZoom'
+        db.add_column('prototype_property', 'cpFromZoom',
                       self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True),
                       keep_default=False)
 

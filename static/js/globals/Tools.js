@@ -336,7 +336,7 @@ _SM.getSafeMeta = function (myMeta) {
     var safeMeta = { 
         "protoOption"  : myMeta.protoOption,      
         "protoConcept" : myMeta.protoConcept,      
-        "protoEntity"  : myMeta.protoEntity || myMeta.protoConcept,      
+        "protoEntityId": myMeta.protoEntityId,      
         "jsonField"    : myMeta.jsonField || ''  ,      
         // "pciStyle"     : myMeta.pciStyle, 
         // "sql"          : myMeta.sql,
@@ -347,7 +347,7 @@ _SM.getSafeMeta = function (myMeta) {
         "fields": _SM.clone( myMeta.fields, 0, [],  [ 
             'name', 'type', 
             'zoomModel', 'fkId', 
-            'crudType', 'cpFromField', 'cpFromModel'
+            'crudType', 'cpFromField', 'cpFromZoom'
             ] ),
         "protoUdp": _SM.clone( myMeta.protoUdp )  
     } 

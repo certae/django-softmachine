@@ -224,13 +224,13 @@ def protoSaveProtoObj(request):
     
     custom :  Los objetos de tipo custom, manejan la siguiente llave 
     
-        _ColSet.[protoEntity]        listDisplaySet  
-        _QrySet.[protoEntity]        filterSet
+        _ColSet.[protoOption]        listDisplaySet  
+        _QrySet.[protoOption]        filterSet
         _menu 
     
     Para manejar el modelo en las generacion de protoPci's  se usa :
     
-        prototype.protoTable.[protoModel-protoEntity]  --> al leer la pcl se leera prototype.protoTable.[protoModel-protoEntity]
+        prototype.protoTable.[protoModel-protoOption]  --> al leer la pcl se leera prototype.protoTable.[protoModel-protoOption]
     
     """
 
@@ -294,46 +294,49 @@ def protoGetFieldTree(request):
         return JsonError(  getReadableError( e ) ) 
     
     fieldList = []
-
-    # -----------------------------------------------------------------------------------------------------
-    # Prototipos 
     if protoConcept == 'prototype.ProtoTable' and protoConcept != protoOption :
-        pass 
+        # -----------------------------------------------------------------------------------------------------
+        # Prototipos 
+        protoEntityId = request.POST.get( 'protoEntityId' )
+        if not protoEntityId >= 0: return JsonError( 'invalid idEntity')
 
+        try:  
+            from prototype.actions.getViewDefinition import GetProtoFiedToList
+            fieldList = GetProtoFiedToList(  protoEntityId )
+        except: 
+            return JsonError( 'invalid idEntity')
 
-
-
-    
-    
-    
-    # -----------------------------------------------------------------------------------------------------
-    # Se crean los campos con base al modelo ( trae todos los campos del modelo 
-    for field in model._meta._fields():
-        addFiedToList( fieldList,  field , '', [] )
+    else: 
         
+        # -----------------------------------------------------------------------------------------------------
+        # Se crean los campos con base al modelo ( trae todos los campos del modelo 
+        for field in model._meta._fields():
+            addFiedToList( fieldList,  field , '', [] )
+            
+    
+        # Add __str__ 
+        myField = { 
+            'id'        : '__str__' ,  
+            'text'      : protoConcept , 
+            'checked'   : False,       
+            'leaf'      : True 
+         }
+        
+        # Defaults values
+        setDefaultField( myField, model , protoOption)
+        
+        # FormLink redefinition to original view 
+        # myField['zoomModel'] =  protoOption  
+        
+        fieldList.append( myField )
 
-    # Add __str__ 
-    myField = { 
-        'id'        : '__str__' ,  
-        'text'      : protoConcept , 
-        'checked'   : False,       
-        'leaf'      : True 
-     }
-    
-    # Defaults values
-    setDefaultField( myField, model , protoOption)
-    
-    # FormLink redefinition to original view 
-    # myField['zoomModel'] =  protoOption  
-    
-    fieldList.append( myField )
-
-    # Las udps se agregan manualmente, pues habria q crear una tabla para manejar la dependecia con cada tabla  
-    # addUpdToList( fieldList,  cUDP )
         
     # Codifica el mssage json 
     context = json.dumps( fieldList )
     return HttpResponse(context, mimetype="application/json")
+
+
+
 
 def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
     """ return parcial field tree  ( Called from protoGetFieldTree ) 

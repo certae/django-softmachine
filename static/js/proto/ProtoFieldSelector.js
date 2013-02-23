@@ -196,7 +196,7 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
         me = this; 
         me.addEvents('checkModif', 'loadComplete');
         
-        _SM.definieProtoFieldSelctionModel( me.protoOption  )
+        _SM.definieProtoFieldSelctionModel( me.protoOption , me.myMeta.protoEntityId )
         
         this.treeStore = Ext.create('Ext.data.TreeStore', {
             autoLoad: true,

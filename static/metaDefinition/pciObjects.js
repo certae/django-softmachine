@@ -167,8 +167,6 @@ _MetaObjects =  {
         "properties": [
             "protoOption", 
             "protoConcept" ,
-            "protoEntity" ,
-             
             "description" ,
             "shortTitle" ,
             "protoSheetSelector",
@@ -179,11 +177,12 @@ _MetaObjects =  {
             "idProperty", 
             "jsonField",
             "returnField",
-
-            "sql",
             "updateTime", 
             "metaVersion", 
             "userVersion",
+            "protoEntity" ,
+            "protoEntityId" ,
+            // "sql",
             "pciType" 
             ],
         "objects": [
@@ -199,7 +198,7 @@ _MetaObjects =  {
             "protoDetails", 
             "protoSheets"
             ],
-        "roProperties": [ "protoOption", "protoConcept", "idProperty" , "updateTime", "metaVersion", "protoEntity"]  
+        "roProperties": [ "protoOption", "protoConcept", "idProperty" , "updateTime", "metaVersion", "protoEntity", "protoEntityId"]  
         },
 
 
@@ -249,7 +248,7 @@ _MetaObjects =  {
 
             // Definien como heredar datos de otro campo ( ya se a de un zoom o del mismo rset ) 
             "cpFromField", 
-            "cpFromModel", 
+            "cpFromZoom", 
                         
             // Para los N2N
             // "conceptDetail", 

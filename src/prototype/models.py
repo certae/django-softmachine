@@ -97,10 +97,11 @@ class Entity(ProtoModel):
     
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
+    # Propieadad para ordenar el __str__ 
+    unicode_sort = ('domain', 'code',  )
+
     def __unicode__(self):
         return self.model.code + '-' + self.code 
-
-    unicode_sort = ('domain', 'code',  )
 
     class Meta:
         unique_together = ('model', 'code', 'smOwningTeam' )
@@ -220,7 +221,7 @@ class Property(PropertyBase):
     ** Ya no se usan pues aqui solo se mapean las entidades fisicas, 
        las copias se manejaran desde la generacion de la pcl;  
        
-    cpFromModel = models.CharField( blank = True, null = True, max_length=200)
+    cpFromZoom = models.CharField( blank = True, null = True, max_length=200)
     cpFromField = models.CharField( blank = True, null = True, max_length=200)
        
     """

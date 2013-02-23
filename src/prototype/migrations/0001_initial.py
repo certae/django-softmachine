@@ -93,7 +93,7 @@ class Migration(SchemaMigration):
             ('isReadOnly', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('isEssential', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('isForeign', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('cpFromModel', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
+            ('cpFromZoom', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
             ('cpFromField', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
         ))
         db.send_create_signal('prototype', ['Property'])
@@ -338,7 +338,7 @@ class Migration(SchemaMigration):
             'baseType': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
             'code': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             'cpFromField': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
-            'cpFromModel': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
+            'cpFromZoom': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'createdBy': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': "orm['auth.User']"}),
             'createdOn': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'null': 'True', 'blank': 'True'}),
             'defaultValue': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),

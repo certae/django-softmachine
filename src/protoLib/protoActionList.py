@@ -118,9 +118,9 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
         # Alimenta la coleccion de zooms, los campos heredados de otras tablas deben hacer 
         # referencia a un campo de zoom, el contendra el modelo y la llave para acceder al registro  
         myZoomModel = lField.get( 'zoomModel', '')   
-        if (len( myZoomModel ) > 0) and ( myZoomModel <> protoMeta['protoEntity']):
+        if (len( myZoomModel ) > 0) and ( myZoomModel <> protoMeta['protoConcept']):
             # dos campos puede apuntar al mismo zoom, la llave es el campo, 
-            # "cpFromModel"  contiene el campo q apunta al zoom y no el modelo    
+            # "cpFromZoom"  contiene el campo q apunta al zoom y no el modelo    
             relModels[ fName ] = { 'zoomModel' : myZoomModel, 'fkId' : lField.get( 'fkId', '') , 'loaded' : False }     
 
 
@@ -129,7 +129,7 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
     for lField in protoMeta['fields']:
         if bCopyFromFld and isAbsorbedField( lField, protoMeta  ) :
             try: 
-                relModel = relModels[ lField.get( 'cpFromModel' ) ]
+                relModel = relModels[ lField.get( 'cpFromZoom' ) ]
                 relModel[ 'loaded']  = True  
             except: pass
              
@@ -185,7 +185,7 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
             rowdict = copyValuesFromFields( protoMeta, rowdict, relModels, JsonField  )
 
 #        if pStyle == 'tree':
-#            rowdict[ 'protoEntity' ] = protoMeta.get('protoOption', '')
+#            rowdict[ 'protoConcept' ] = protoMeta.get('protoConcept', '')
 #            rowdict[ 'leaf' ] = False; rowdict[ 'children' ] = []
 
         # Agrega el Id Siempre como idInterno ( no representa una col, idProperty )
@@ -222,7 +222,7 @@ def isAbsorbedField( lField , protoMeta ):
     
     lField[ 'isAbsorbed' ] = False 
     if ( lField.get( 'cpFromField' ) is None ): return False  
-    if ( lField.get( 'cpFromModel' ) is None ): return False
+    if ( lField.get( 'cpFromZoom' ) is None ): return False
     lField[ 'isAbsorbed' ] = True 
 
     return True 
@@ -255,13 +255,13 @@ def copyValuesFromFields( protoMeta, rowdict, relModels, JsonField):
             if ( val is None ) : val = '' 
 
         else:
-            # Esta es la situacion de los prototipos q requieren el cpFromModel,
+            # Esta es la situacion de los prototipos q requieren el cpFromZoom,
             # se hace un select adicional para obtner el registro relacionado 
 
-            cpFromModel = lField.get( 'cpFromModel' )
+            cpFromZoom = lField.get( 'cpFromZoom' )
              
             try: 
-                relModel = relModels[ cpFromModel ]
+                relModel = relModels[ cpFromZoom ]
             except: 
                 # para envitar volverlo a leer, si son varios campos del mismo registro   
                 relModel = { 'loaded': True, 'rowData' : None   }

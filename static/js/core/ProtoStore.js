@@ -469,8 +469,8 @@ _SM.getColDefinition = function ( vFld ) {
         //@zoomFilter : TODO: Filtro de base fijo para el zoom ( puede venir definido en zoomView )
         //'zoomFilter', 
 
-        //@fromField : TODO: Campos q sera heredados a la entidad base  
-        'cpFromField', 'cpFromModel'
+        //@fromField :  Campos q sera heredados a la entidad base  
+        'cpFromField', 'cpFromZoom'
         ]
     var editor = _SM.copyProps ( {},  vFld, true, lstProps )
 
@@ -910,7 +910,7 @@ _SM.defineProtoPclTreeModel = function () {
     
 }
 
-_SM.definieProtoFieldSelctionModel = function ( protoOption ) {
+_SM.definieProtoFieldSelctionModel = function ( protoOption, protoEntityId ) {
 
     // Modelo usado en la lista de campos con la jerarquia completa de los de zoom ( detalle de fk ) 
     
@@ -921,9 +921,9 @@ _SM.definieProtoFieldSelctionModel = function ( protoOption ) {
             url: _SM._PConfig.urlGetFieldTree , 
             actionMethods: { read : 'POST' },     
             extraParams : {
-                protoOption : protoOption 
-            },    
-            
+                protoOption : protoOption,  
+                protoEntityId : protoEntityId 
+            }    
         }, 
     
         fields: [

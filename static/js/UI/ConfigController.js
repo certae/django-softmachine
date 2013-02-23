@@ -82,8 +82,11 @@ Ext.define('ProtoUL.UI.ConfigController', {
 
     showMetaConfig: function() {
 
+        var myMeta =  _SM._cllPCI[ this.protoOption ]
+        if ( ! myMeta ) return 
+
         var myPcl = Ext.widget('protoPcl', {
-            myMeta :  _SM._cllPCI[ this.protoOption ], 
+            myMeta :  myMeta,  
             editable : true  
         });
 
@@ -94,9 +97,12 @@ Ext.define('ProtoUL.UI.ConfigController', {
      
     showFieldTree: function() {
     
+        var myMeta =  _SM._cllPCI[ this.protoOption ]
+        if ( ! myMeta ) return 
+        
         var fieldsTree = Ext.create('ProtoUL.proto.ProtoFieldSelector', {
             protoOption : this.protoOption, 
-            myMeta :  _SM._cllPCI[ this.protoOption ] 
+            myMeta : myMeta 
         });
     
         this.showConfigWin( fieldsTree ) 
@@ -106,8 +112,11 @@ Ext.define('ProtoUL.UI.ConfigController', {
     
     showProtoDesigner: function() {
 
+        var myMeta =  _SM._cllPCI[ this.protoOption ]
+        if ( ! myMeta ) return 
+
         var protoDesigner = Ext.widget('protoDesigner', {
-            myMeta :  _SM._cllPCI[ this.protoOption ], 
+            myMeta :  myMeta,  
             protoOption : this.protoOption 
         });
 
@@ -117,9 +126,12 @@ Ext.define('ProtoUL.UI.ConfigController', {
 
     showDetailsTree: function() {
 
+        var myMeta =  _SM._cllPCI[ this.protoOption ]
+        if ( ! myMeta ) return 
+
         var detailsTree = Ext.create('ProtoUL.proto.ProtoDetailSelector', {
-            protoOption : this.protoOption, 
-            myMeta :  _SM._cllPCI[ this.protoOption ] 
+            myMeta :  myMeta,  
+            protoOption : this.protoOption 
         });
     
         this.showConfigWin( detailsTree ) 

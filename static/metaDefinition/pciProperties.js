@@ -77,7 +77,7 @@ _MetaProperties =  {
     "shortTitle.help" : "Titulo del menu y de la forma" ,
     "idProperty.help" : "Campo q sirve como Id en el modelo, Django definie por defecto un Id, no es necesario definirlo explitamente",
 
-    "protoEntity.help" : "Corresponde a la entidadBase en los prototipos ( prototype.protoTable.xxx )",
+    "protoEntity.help" : "Corresponde a la entidadBase en los prototipos ( prototype.protoTable.xxx ) acompana a protoEntityId",
      
     "pciStyle" : "grid", 
     "pciStyle.help" : "Presentacion de la pci [ form,  grid, tree]", 
@@ -248,7 +248,7 @@ _MetaProperties =  {
     "paramType.choices" : [ "", "string", "bool", "number"], 
 
     "cpFromField.help" : "Copia el contenido de un campo en otro, en el caso de zooms o valores por defecto",  
-    "cpFromModel.help" : "Campo q apunta al modelo referenciado ( no apunta al zoom pues varios campos pueden usar el mismo zoom )", 
+    "cpFromZoom.help" : "Campo q apunta al modelo referenciado ( no apunta al zoom pues varios campos pueden usar el mismo zoom )", 
     
     "crudType.help" : "Comportamiento del campo con la edicion en  Db", 
     // editable      : es un campo estandar de la Db ( default )  
@@ -257,8 +257,8 @@ _MetaProperties =  {
     // insertOnly    : campos invariables ( ej: nro documento, )      
     // updateOnly    : nulo al inicio, requerido en modificacion       
         
-    // linked        : no es editable, no se guarda en la Db, requiere cpFromField,  cpFromModel* ( *para prototipos, o zooms no relacionales )  
-    // copied        : toma el vr por defecto de cpFromField o cpFromModel ( similar a linked + editable )      
+    // linked        : no es editable, no se guarda en la Db, requiere cpFromField,  cpFromZoom* ( *para prototipos, o zooms no relacionales )  
+    // copied        : toma el vr por defecto de cpFromField o cpFromZoom ( similar a linked + editable )      
     "crudType.choices" : [ "", "editable", "screenOnly", "storeOnly", "insertOnly", "updateOnly", "linked", "copied" ], 
     
     "selectionMode.help" : "En las acciones determina el tipo de seleccion en la grilla",

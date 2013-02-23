@@ -337,11 +337,11 @@ Ext.define('ProtoUL.view.ProtoForm', {
             // Crea la coleccion de campos q deben heredarse 
             for (var ix in this.myMeta.fields ) {
                 var vFld = this.myMeta.fields[ix] 
-                if ( ! vFld.cpFromModel ) continue;
+                if ( ! vFld.cpFromZoom ) continue;
                 
                 var cpFrom = {
                     "name"    : vFld.fName,
-                    "cpFromModel" : vFld.cpFromModel,   
+                    "cpFromZoom" : vFld.cpFromZoom,   
                     "cpFromField" : vFld.cpFromField
                 } 
             }
@@ -354,7 +354,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
         for (var ix in this.zoomReturnDef ) {
             var cpFrom = this.zoomReturnDef[ix]
             
-            if ( cpForm.cpFromModel == zoomFld.name   ) {
+            if ( cpForm.cpFromZoom == zoomFld.name   ) {
                 this.updateFormField(  zoomFld.name , zoomFld[ cpForm.cpFromField ] )
             }
         }

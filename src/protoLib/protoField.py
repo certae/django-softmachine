@@ -142,7 +142,7 @@ def setFieldDict(protoFields ,  field ):
     #Lo retorna al diccionario
     tmpModel = field.model._meta
     
-    # Ahora se usa el cpFromModel,  si este campo contiene algo, no se evalua en el modelo 
+    # Ahora se usa el cpFromZoom,  si este campo contiene algo, no se evalua en el modelo 
     # solo se evaluan los q contienen el nombre de un campo Zoom  
     #pField['FromModel'] = tmpModel.app_label + '.' + tmpModel.object_name 
     protoFields[ pField['name'] ] = pField 
