@@ -89,7 +89,7 @@ def getViewCode( pEntity, viewTitle = None ):
 
 
 
-def GetProtoFiedToList(  protoEntityId ):
+def GetProtoFieldToList(  protoEntityId ):
     """  Obtiene la lista de campos q puedn heredarse de los zooms 
     """    
     
@@ -104,8 +104,6 @@ def GetProtoFiedToList(  protoEntityId ):
     addProtoFiedToList( fieldList,  properties , '' , '' )
 
         
-    pass 
-
 def addProtoFiedToList( fieldList,  properties , fieldBase, zoomBase   ): 
     """ Recorre los campos e itera con los fk ( solo un nivel 'fieldBase' )
     """    
@@ -123,7 +121,8 @@ def addProtoFiedToList( fieldList,  properties , fieldBase, zoomBase   ):
             "required": pProperty.isRequired or not pProperty.isNullable,
             "toolTip" : pProperty.description or '', 
             "header"  : pProperty.code ,
-            "type"    : pProperty.baseType or 'string'
+            "type"    : pProperty.baseType or 'string', 
+            
         }
 
         # Si es un campo heredado ( Se maneja ahora en la pci generada 
@@ -134,6 +133,8 @@ def addProtoFiedToList( fieldList,  properties , fieldBase, zoomBase   ):
             field["leaf"] = True
 
         elif pProperty.isForeign: 
+            
+            refEntity = 
             
             field["zoomModel"]= PROTO_PREFIX + getViewCode( pProperty.relationship.refEntity ) 
             field["fkId"]     = fName + "_id"
