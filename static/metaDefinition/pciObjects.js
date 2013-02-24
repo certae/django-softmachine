@@ -474,13 +474,14 @@ _MetaObjects =  {
         "description": "listDisplay predefinidos ",
         "addPrompt" : "Please enter the name of the columnSet:", 
         "allowDel" : true, 
+        "__ptStyle": "colList" 
         
-        "properties": [
-            "name" 
-        ], 
-        "lists" : [
-            "listDisplay" 
-        ]
+        // "properties": [
+            // "name" 
+        // ], 
+        // "lists" : [
+            // "listDisplay" 
+        // ]
          
     },
 

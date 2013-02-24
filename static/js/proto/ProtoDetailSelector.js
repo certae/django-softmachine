@@ -271,28 +271,7 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
             });
             
         }
-        
-        
     } 
-
-    // getCheckedList: function () {
-        // var names = [];
-        // var lView =  this.getView()
-        // var records = lView.getChecked()
-        // Ext.Array.each(records, function(rec){
-            // var rDet = {}
-            // rDet[ "menuText"  ]     =  rec.get( 'id' ) 
-            // rDet[ "conceptDetail" ] =  rec.get( 'conceptDetail' ) 
-            // rDet[ "masterField" ]   =  "pk" 
-            // rDet[ "detailField" ]   =  rec.get( 'detailField' )  
-            // rDet[ "detailTitleLbl"] =  rec.get( 'detailTitleLbl' )  
-            // rDet[ "detailTitlePattern"] = rec.get( 'detailTitlePattern' )  
-            
-            // names.push( rDet);
-        // });
-        // return names 
-    // }
-
 
 });
 

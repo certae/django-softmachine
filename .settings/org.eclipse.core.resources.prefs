@@ -1,28 +1,5 @@
-#Thu Feb 21 15:53:37 EST 2013
+#Sun Feb 24 17:42:53 EST 2013
 eclipse.preferences.version=1
-encoding//demoApps/CategoryCle/models.py=utf-8
-encoding//demoApps/TCO/models.py=utf-8
-encoding//demoApps/bestingenomics/models.py=utf-8
-encoding//demoApps/demo/models.py=utf-8
-encoding//demoApps/fpdf/__init__.py=utf-8
-encoding//demoApps/fpdf/fonts.py=latin1
-encoding//demoApps/fpdf/fpdf.py=latin1
-encoding//demoApps/fpdf/html.py=latin1
-encoding//demoApps/protoDict/admin_Model.py=utf-8
-encoding//demoApps/protoDict/admin_PropertyMod.py=utf-8
-encoding//demoApps/protoDict/models.py=utf-8
-encoding//demoApps/protoExt/admin_Concept.py=utf-8
-encoding//demoApps/protoExt/models.py=utf-8
-encoding//demoApps/protoFace/models.py=utf-8
-encoding//demoApps/protoOrganizer/models.py=utf-8
-encoding//demoApps/pruebas/admin.py=utf-8
-encoding//demoApps/pruebas/models.py=utf-8
-encoding//demoApps/pruebas/protoGetTree.py=utf-8
-encoding//demoApps/shiny/admin.py=utf-8
-encoding//demoApps/shiny/models.py=utf-8
-encoding//demoApps/snippets/jsonField02.py=utf-8
-encoding//demoApps/snippets/tmpLogSecure.py=utf-8
-encoding//demoApps/xml2db/main.py=utf-8
 encoding//docs/django/fieldSets.py.txt=utf-8
 encoding//docs/django/jsonDump.py.txt=utf-8
 encoding//src/protoLib/admin/__init__.py=utf-8
@@ -49,3 +26,4 @@ encoding//src/prototype/migrations/0001_initial.py=utf-8
 encoding//src/prototype/migrations/0002_auto__del_protoviews__add_protoview__add_unique_protoview_entity_code_.py=utf-8
 encoding//src/prototype/models.py=utf-8
 encoding//src/settings.py=utf-8
+encoding//xml2db/main.py=utf-8
