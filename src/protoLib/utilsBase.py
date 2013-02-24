@@ -278,6 +278,7 @@ def strNotNull(  sValue, sDefault ):
 
 def copyProps ( objBase, objNew ):
     "Adiciona las propiedades a un objeto base igual q Ext.apply "
+    "Todo: xxx.update : un metodo directo para hacerlo "
     for mProp in objNew:
         objBase[ mProp ] = objNew[ mProp ] 
 

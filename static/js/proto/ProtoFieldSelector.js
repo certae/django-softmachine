@@ -150,9 +150,10 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
                     readOnly :  rec.get( 'readOnly' ), 
                     required :  rec.get( 'required' ),
                     tooltip :  rec.get( 'tooltip' ),  
-
-                    // header :  rec.get( 'text' ),   
                     header :  rec.get( 'header' ),   
+
+                    cpFromZoom :  rec.get( 'cpFromZoom' ),   
+                    cpFromField :  rec.get( 'cpFromField' ),   
 
                     zoomModel :  rec.get( 'zoomModel' ),   
                     fkField :  rec.get( 'fkField' ),  
@@ -196,7 +197,7 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
         me = this; 
         me.addEvents('checkModif', 'loadComplete');
         
-        _SM.definieProtoFieldSelctionModel( me.protoOption , me.myMeta.protoEntityId )
+        definieProtoFieldSelctionModel( me.protoOption, me.myMeta.protoEntityId )
         
         this.treeStore = Ext.create('Ext.data.TreeStore', {
             autoLoad: true,
@@ -229,8 +230,8 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
                 dataIndex: 'text'
             },{
                 xtype: 'booleancolumn', 
-                trueText: '',
-                falseText: 'req', 
+                trueText: 'req',
+                falseText: '', 
                 width: 50,
                 text: _SM.__language.Protofield_Req,
                 dataIndex: 'required'
@@ -255,9 +256,18 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
                 dataIndex: 'fkId'
             },{
                 flex: 2,
-                // hidden : true, 
                 text: _SM.__language.Protofield_Ix,
                 dataIndex: 'id'
+
+            },{
+                flex: 2,
+                text: 'cpFromZoom',
+                dataIndex: 'cpFromZoom'
+            },{
+                flex: 2,
+                text: 'cpFromField',
+                dataIndex: 'cpFromField'
+
             },{
                 hidden : true, 
                 text: _SM.__language.Protofield_Header,
@@ -289,6 +299,54 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
         );
 
         me.callParent(arguments);
+        
+        
+        function definieProtoFieldSelctionModel( protoOption, protoEntityId ) {
+        
+            // Modelo usado en la lista de campos con la jerarquia completa de los de zoom ( detalle de fk ) 
+            
+            Ext.define('Proto.FieldSelectionModel', {
+                extend: 'Ext.data.Model',
+                proxy: {
+                    type: 'ajax',
+                    url: _SM._PConfig.urlGetFieldTree , 
+                    actionMethods: { read : 'POST' },     
+                    extraParams : {
+                        protoOption : protoOption,  
+                        protoEntityId : protoEntityId 
+                    }    
+                }, 
+            
+                fields: [
+        //         Contiene el nombre en notacion objeto ( django )
+                    {name: 'id', type: 'string'},
+                    
+        //         Contiene el nombre del campo dentro del modelo 
+                    {name: 'text', type: 'string'},  
+                    {name: 'type', type: 'string'},  
+        
+                    {name: 'readOnly', type: 'boolean'},
+                    {name: 'required', type: 'boolean'},
+                    {name: 'tooltip', type: 'string'},  
+                    {name: 'header', type: 'string'},  
+        
+                    {name: 'zoomModel', type: 'string'},  
+                    {name: 'fkField', type: 'string'},  
+                    {name: 'fkId', type: 'string'},  
+                    {name: 'vType', type: 'string'},  
+                    {name: 'defaultValue', type: 'string'},  
+                    {name: 'choices', type: 'string'},  
+        
+                    {name: 'cpFromZoom', type: 'string'},  
+                    {name: 'cpFromField', type: 'string'},  
+        
+                    {name: 'checked', type: 'boolean'},
+                    {name: 'leaf', type: 'boolean'}
+                ]
+                
+            });
+            
+        }
         
     }, 
     

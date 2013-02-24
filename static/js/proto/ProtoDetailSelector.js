@@ -157,7 +157,7 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
         me = this; 
         me.addEvents('checkModif', 'loadComplete');
         
-        definieProtoDetailsTreeModel( me.protoOption  )
+        definieProtoDetailsTreeModel( me.protoOption, me.myMeta.protoEntityId  )
         
         this.treeStore = Ext.create('Ext.data.TreeStore', {
             autoLoad: true,
@@ -240,7 +240,39 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
                     } 
                 }
              })
+        };
+        
+        function definieProtoDetailsTreeModel( protoOption , protoEntityId) {
+            // Modelo usado en la lista de campos con la jerarquia completa de los de zoom ( detalle de fk ) 
+            
+            Ext.define('Proto.DetailsTreeModel', {
+                extend: 'Ext.data.Model',
+                proxy: {
+                    type: 'ajax',
+                    url: _SM._PConfig.urlGetDetailsTree , 
+                    actionMethods: { read : 'POST' },     
+                    extraParams : {
+                        protoOption : protoOption, 
+                        protoEntityId : protoEntityId
+                    },    
+                }, 
+            
+                fields: [
+                    {name: 'id', type: 'string'},  
+                    {name: 'menuText', type: 'string'},  
+                    {name: 'masterField', type: 'string'},  
+                    {name: 'detailField', type: 'string'},  
+                    {name: 'conceptDetail', type: 'string'},  
+        
+                    {name: 'checked', type: 'boolean'},
+                    {name: 'leaf', type: 'boolean'}
+                ]
+                
+            });
+            
         }
+        
+        
     } 
 
     // getCheckedList: function () {
@@ -266,31 +298,3 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
 
 
 
-function definieProtoDetailsTreeModel( protoOption ) {
-    // Modelo usado en la lista de campos con la jerarquia completa de los de zoom ( detalle de fk ) 
-    
-    Ext.define('Proto.DetailsTreeModel', {
-        extend: 'Ext.data.Model',
-        proxy: {
-            type: 'ajax',
-            url: _SM._PConfig.urlGetDetailsTree , 
-            actionMethods: { read : 'POST' },     
-            extraParams : {
-                protoOption : protoOption 
-            },    
-        }, 
-    
-        fields: [
-            {name: 'id', type: 'string'},  
-            {name: 'menuText', type: 'string'},  
-            {name: 'masterField', type: 'string'},  
-            {name: 'detailField', type: 'string'},  
-            {name: 'conceptDetail', type: 'string'},  
-
-            {name: 'checked', type: 'boolean'},
-            {name: 'leaf', type: 'boolean'}
-        ]
-        
-    });
-    
-}

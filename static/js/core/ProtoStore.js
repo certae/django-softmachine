@@ -910,49 +910,6 @@ _SM.defineProtoPclTreeModel = function () {
     
 }
 
-_SM.definieProtoFieldSelctionModel = function ( protoOption, protoEntityId ) {
-
-    // Modelo usado en la lista de campos con la jerarquia completa de los de zoom ( detalle de fk ) 
-    
-    Ext.define('Proto.FieldSelectionModel', {
-        extend: 'Ext.data.Model',
-        proxy: {
-            type: 'ajax',
-            url: _SM._PConfig.urlGetFieldTree , 
-            actionMethods: { read : 'POST' },     
-            extraParams : {
-                protoOption : protoOption,  
-                protoEntityId : protoEntityId 
-            }    
-        }, 
-    
-        fields: [
-//         Contiene el nombre en notacion objeto ( django )
-            {name: 'id', type: 'string'},
-            
-//         Contiene el nombre del campo dentro del modelo 
-            {name: 'text', type: 'string'},  
-            {name: 'type', type: 'string'},  
-
-            {name: 'readOnly', type: 'boolean'},
-            {name: 'required', type: 'boolean'},
-            {name: 'tooltip', type: 'string'},  
-            {name: 'header', type: 'string'},  
-
-            {name: 'zoomModel', type: 'string'},  
-            {name: 'fkField', type: 'string'},  
-            {name: 'fkId', type: 'string'},  
-            {name: 'vType', type: 'string'},  
-            {name: 'defaultValue', type: 'string'},  
-            {name: 'choices', type: 'string'},  
-
-            {name: 'checked', type: 'boolean'},
-            {name: 'leaf', type: 'boolean'}
-        ]
-        
-    });
-    
-}
 
 
 

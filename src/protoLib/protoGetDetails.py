@@ -27,9 +27,22 @@ def protoGetDetailsTree(request):
         return HttpResponse(context, mimetype="application/json")
 
     detailList = []
-    modelDetails = getModelDetails( model )
-    for detail in modelDetails: 
-        addDetailToList( detailList,  detail ,  ''  )
+    if protoConcept == 'prototype.ProtoTable' and protoConcept != protoOption :
+        # -----------------------------------------------------------------------------------------------------
+        # Prototipos 
+        protoEntityId = request.POST.get( 'protoEntityId' )
+        if not protoEntityId >= 0: return JsonError( 'invalid idEntity')
+
+        try:  
+            from prototype.actions.viewDefinition import GetProtoDetailsTree
+            detailList = GetProtoDetailsTree(  protoEntityId )
+        except: 
+            return JsonError( 'invalid idEntity')
+
+    else: 
+        modelDetails = getModelDetails( model )
+        for detail in modelDetails: 
+            addDetailToList( detailList,  detail ,  ''  )
     
         
     # Codifica el mssage json 

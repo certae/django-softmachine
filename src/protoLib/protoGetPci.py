@@ -301,8 +301,8 @@ def protoGetFieldTree(request):
         if not protoEntityId >= 0: return JsonError( 'invalid idEntity')
 
         try:  
-            from prototype.actions.viewDefinition import GetProtoFieldToList
-            fieldList = GetProtoFieldToList(  protoEntityId )
+            from prototype.actions.viewDefinition import GetProtoFieldsTree
+            fieldList = GetProtoFieldsTree(  protoEntityId )
         except: 
             return JsonError( 'invalid idEntity')
 
