@@ -204,6 +204,12 @@ class CustomDefinition( ProtoModel ):
     class Meta:
         unique_together = ('smOwningTeam', 'code',  )
 
+    protoExt = { 
+        "gridConfig" : {
+            "listDisplay": ["__str__", "description", "smOwningTeam"]      
+        }
+    } 
+
 
 def getDjangoModel( modelName ):
 #   Obtiene el modelo 
