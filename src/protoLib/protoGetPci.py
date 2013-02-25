@@ -54,11 +54,17 @@ def protoGetPCI(request):
     else:
         # created : El objeto es nuevo
         # protoDef : PCI leida de la DB 
-        protoDef, created = ProtoDefinition.objects.get_or_create(code = viewCode, defaults={'code': viewCode})
+        protoDef, created = ProtoDefinition.objects.get_or_create(code = viewCode )
     
     
-    # El default solo parece funcionar al insertar en la Db
-    if created: protoDef.overWrite = True
+    # Verifica si es una version vieja 
+    if created: 
+        protoDef.overWrite = True
+#    else: 
+#        protoMeta = json.loads( protoDef.metaDefinition ) 
+#        version = protoMeta.get( 'metaVersion' )
+#        if ( version is None ) or ( version < PROTOVERSION ):
+#            created = True 
     
     # Si es nuevo o no esta activo lee Django 
     if created or ( not protoDef.active   ) :
@@ -68,7 +74,7 @@ def protoGetPCI(request):
 
         # La version determina q es una carga completa de la meta y no es necesario reconstruirla
         # solo en caso de q la definicion no este en la Db        
-        if ( not version ) or ( not protoDef.active ): 
+        if ( version is None ) or ( version < PROTOVERSION ): 
 
             # Verifica si existe una propiedad ProtoMeta es la copia de la meta cargada a la Db,
             grid = protoGrid.ProtoGridFactory( model, viewCode, model_admin, protoMeta )
@@ -82,7 +88,6 @@ def protoGetPCI(request):
 
 
     else:
-        
         protoMeta = json.loads( protoDef.metaDefinition ) 
         protoMeta['viewCode'] = viewCode  
 
@@ -171,8 +176,6 @@ def createProtoMeta( model, grid, viewEntity , viewCode ):
              'filterSetABC': grid.gridConfig.get( 'filterSetABC', ''),
 
              'hiddenFields': grid.protoMeta.get( 'hiddenFields', ['id', ]),
-             'gridSets': grid.protoMeta.get( 'grid.protoMeta', {}),
-#            'listDisplaySet':grid.gridConfig.get( 'listDisplaySet', []) ,     
          } 
 
 
@@ -196,16 +199,19 @@ def createProtoMeta( model, grid, viewEntity , viewCode ):
 
          'fields': grid.fields, 
          'gridConfig' : gridConfig,  
+         'gridSets': grid.protoMeta.get( 'gridSets', {}),
 
          'detailsConfig': grid.get_details() , 
          'formConfig': grid.getFieldSets(),  
+
+#        Estas no las carga pues ya estan en la meta 
+#         'helpPath': grid.protoMeta.get( 'helpPath',''),
+#         'sheetSelector' : grid.protoMeta.get( 'sheetSelector', ''), 
+#         'sheetConfig' : grid.protoMeta.get( 'sheetConfig', []), 
+#         'usrDefProps': grid.protoMeta.get( 'usrDefProps', {}), 
          }
     
 
-#         'helpPath': grid.protoMeta.get( 'helpPath',''),
-#         'sheetSelector' : grid.protoMeta.get( 'sheetSelector', ''), 
-#         'usrDefProps': grid.protoMeta.get( 'usrDefProps', {}), 
-#         'sheetConfig' : grid.protoMeta.get( 'sheetConfig', []), 
 
     return copyProps( grid.protoMeta, protoTmp ) 
 

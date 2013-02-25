@@ -15,14 +15,17 @@ Ext.define('ProtoUL.UI.ConfigController', {
         this.viewCode = this.myMeta.viewCode 
         var perms = _SM._UserInfo.perms[ this.viewCode ]
 
-        if (  perms.config ) {             myConfigOpts.push(myActionConfig('Meta', _SM.__language.MetaConfig_Meta_Config, 'icon-configMeta'))
-            myConfigOpts.push(myActionConfig('Fields', _SM.__language.MetaConfig_Add_Fields, 'icon-configFields'))
+        if (  perms.custom || perms.config ) {
+           myConfigOpts.push(myActionConfig('Custom', _SM.__language.MetaConfig_Custom_Config, 'icon-configCustom'))
+           myConfigOpts.push(myActionConfig('Form', _SM.__language.MetaConfig_Form_Config, 'icon-configForm'))
+        }  
+
+        if (  perms.config ) {             myConfigOpts.push(myActionConfig('Fields', _SM.__language.MetaConfig_Add_Fields, 'icon-configFields'))
             myConfigOpts.push(myActionConfig('Details', _SM.__language.MetaConfig_Add_Details, 'icon-configDetails'))
+            myConfigOpts.push(myActionConfig('Meta', _SM.__language.MetaConfig_Meta_Config, 'icon-configMeta'))
         }
          
-        if (  perms.custom || perms.config ) {
-           myConfigOpts.push(myActionConfig('Form', _SM.__language.MetaConfig_Form_Config, 'icon-configForm'))
-        }  
+
         // Modificacion del entorno
         if ( myConfigOpts.length > 0  ) {
             
@@ -66,6 +69,9 @@ Ext.define('ProtoUL.UI.ConfigController', {
         case 'Meta':
             this.showMetaConfig();
             break;
+        case 'Custom':
+            this.showCustomConfig();
+            break;
         case 'Form':
             this.showProtoDesigner();
             break;
@@ -95,13 +101,13 @@ Ext.define('ProtoUL.UI.ConfigController', {
     }, 
 
 
-    showMetaConfig: function() {
+    showCustomConfig: function() {
         var myMeta =  _SM._cllPCI[ this.viewCode ]
         if ( ! myMeta ) return 
 
         var myPcl = Ext.widget('protoPcl', {
             myMeta :  myMeta,
-            // branch :  listDispay,   
+            custom :  true,   
             editable : true  
         });
 

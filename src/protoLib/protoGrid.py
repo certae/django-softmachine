@@ -66,7 +66,7 @@ class ProtoGridFactory(object):
 
         #UDPs para poder determinar el valor por defecto ROnly 
         self.pUDP = self.protoMeta.get( 'usrDefProps', {}) 
-        cUDP = verifyUdpDefinition( self.pUDP )
+        verifyUdpDefinition( self.pUDP )
 
         # lista de campos para la presentacion en la grilla 
         pListDisplay = verifyList( self.gridConfig.get( 'listDisplay', []) )

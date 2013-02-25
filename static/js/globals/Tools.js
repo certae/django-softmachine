@@ -289,24 +289,10 @@ _SM.savePclCache = function (viewCode, protoMeta) {
    // console.log(protoMeta);
     protoMeta.viewCode = viewCode
 
-    _SM.verifyMetaVersion( protoMeta )
     _SM.DefineProtoModel(protoMeta, _SM.getModelName(viewCode));
 
     // Guarda el cache de  pcl's 
     _SM._cllPCI[viewCode] = protoMeta;
-}
-
-_SM.verifyMetaVersion = function (protoMeta) {
-    
-    // 121108  Se relocaliza sheetConfig,  sheetConfigProperties se crean dinamicamente.  
-    if ( protoMeta.sheetConfig )  { 
-        sheetConfig = protoMeta.sheetConfig; 
-        protoMeta.sheetSelector = sheetConfig.sheetSelector;
-        if ( sheetConfig.sheetConfig ) {
-            protoMeta.sheetConfig = sheetConfig.sheetConfig;    
-        }
-        delete protoMeta.sheetConfig 
-    }
 }
 
 _SM.getModelName = function (viewCode) {

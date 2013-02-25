@@ -216,8 +216,14 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 // ---------------------------------------------------------------------------------------------- 
 
         function getTreeData( me ) {
-          
-            var treeData = Meta2Tree( me.myMeta, 'pcl', 'pcl' );
+
+            if ( me.custom ) {
+                var treeData = Meta2Tree( me.myMeta.custom, 'custom', 'custom' );    
+            }   else {
+                var treeData = Meta2Tree( me.myMeta, 'pcl', 'pcl' );    
+            } 
+                   
+            
             treeData.expanded = true;
     
             // Para guardar las dos definiciones ( la data se modifica al generar el store )

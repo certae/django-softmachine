@@ -76,7 +76,6 @@ class usrProfileAdmin(django.contrib.admin.ModelAdmin):
         "menuText": "UserProfile_userSites",
         "masterField": "pk"
     }],
-    "sheetConfig": [],
     "gridConfig": {
         "__ptType": "gridConfig",
         "listDisplay": ["user", "userTeam"],

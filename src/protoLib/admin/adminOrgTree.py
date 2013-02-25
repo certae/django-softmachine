@@ -100,7 +100,6 @@ class orgTreeAdmin(django.contrib.admin.ModelAdmin):
         "detailField": "smOwningTeam__pk",
         "masterField": "pk"
     }],
-    "sheetConfig": [],
     "gridConfig": {
         "__ptType": "gridConfig",
         "listDisplay": ["code", "description", "site", "parentNode"],

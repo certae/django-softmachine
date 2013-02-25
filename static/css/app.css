@@ -106,6 +106,7 @@
 .icon-configPreview { background-image: url(../img/protoImg/config_preview.png ) !important;}
 .icon-configReset   { background-image: url(../img/protoImg/config_reset.png ) !important;}
 .icon-configReload  { background-image: url(../img/protoImg/config_reload.png ) !important;}
+.icon-configCustom  { background-image: url(../img/protoImg/config_custom.png ) !important;}
 
 .icon-nodeInsert  { background-image: url(../img/protoImg/node-insert.png ) !important;}
 .icon-nodeEdit    { background-image: url(../img/protoImg/node-edit.png ) !important;}

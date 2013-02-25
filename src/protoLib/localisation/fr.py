@@ -52,10 +52,11 @@ __language ={
     'Text_ComboFilterOp_Null_Value' : 'valeur nulle',
     'Text_Default_view' : 'Par défaut',
   
-    'MetaConfig_Meta_Config' : 'Méta config',
-    'MetaConfig_Form_Config' : 'Form config',
-    'MetaConfig_Add_Fields' : 'ajouter des champs',
-    'MetaConfig_Add_Details' : 'ajouter des détails',
+    'MetaConfig_Meta_Config' : 'Meta',
+    'MetaConfig_Form_Config' : 'Form',
+    'MetaConfig_Custom_Config' : 'Custom',
+    'MetaConfig_Add_Fields' : 'Fields',
+    'MetaConfig_Add_Details' : 'Details',
     'MetaConfig_Reset_Meta' : 'Réinitialiser métaData',
 
     'GridBtn_Ttip_Add_Form' : 'Ajouter (formulaire)',
