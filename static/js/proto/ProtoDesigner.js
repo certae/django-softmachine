@@ -76,7 +76,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         this.formPreview = me.down('#formPreview')
         
         this.formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });
-        this.formPreview.add( this.formController.newFormConfig() )  
+        this.formPreview.add( this.formController.newProtoForm() )  
 
         this.tBar =  this.toolsPanel.addDocked({
             xtype : 'toolbar',
@@ -299,7 +299,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                 this.myMeta.formConfig = formMeta
                 this.formController.myMeta.formConfig = formMeta  
                  
-                this.formPreview.add( this.formController.newFormConfig()  )
+                this.formPreview.add( this.formController.newProtoForm()  )
                 
             },me   );
 

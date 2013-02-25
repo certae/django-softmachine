@@ -137,10 +137,43 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                 _SM.savePclCache( me.myMeta.viewCode, me.myMeta )
             }, 
             'save': function ( ) {
-                me.myMeta =  Tree2Meta( me.treeGridStore.getRootNode() )
+                
+                var myCustom =  Tree2Meta( me.treeGridStore.getRootNode() )
+                if ( me.custom ) {
+                    if ( me.metaConfig ) {
+                        // Si escribe sobre la meta copia el list|Display para hacerlo mas facil 
+                        me.myMeta.gridConfig.listDisplay = myCustom.listDisplay
+                        delete myCustom.listDisplay
+
+                        me.myMeta.gridSets = myCustom
+
+                    }   else {
+                        // Aqui solmanete  manejara el custom
+                        me.myMeta.custom = myCustom
+
+                    }    
+
+                }   else {
+                    // Pcl completa ( forza el metaConfig )  
+                    me.metaConfig = true                  
+                    me.myMeta = myCustom   
+                } 
+
                 me.myMeta.metaVersion = _versionMeta
                 _SM.savePclCache( me.myMeta.viewCode, me.myMeta )
-                _SM.savePci( me.myMeta )         
+                
+                if ( me.metaConfig ) {  // La meta modificada
+                    _SM.savePci( me.myMeta )         
+                } else { 
+                    // Solo el custom, empaqueta el objeto para poder agregarle info de control 
+                    myCustom = {
+                        viewCode : '_custom.' + me.myMeta.viewCode, 
+                        metaVersion : _versionMeta, 
+                        custom   : myCustom 
+                    }
+                    _SM.savePci( myCustom )         
+                }
+                
             }, 
             'reload': function ( ) {
 
@@ -217,12 +250,21 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
         function getTreeData( me ) {
 
+            var treeData = {}
+            
             if ( me.custom ) {
-                var treeData = Meta2Tree( me.myMeta.custom, 'custom', 'custom' );    
+                if ( me.metaConfig ) {
+                // Si escribe sobre la meta copia el list|Display para hacerlo mas facil 
+                    var myCustom = { listDisplay : me.myMeta.gridConfig.listDisplay }
+                    myCustom = Ext.apply( myCustom, me.myMeta.gridSets )
+                    treeData = Meta2Tree( myCustom, 'custom', 'custom' );    
+                }   else {
+                // Aqui solmanete  manejara el custom 
+                    treeData = Meta2Tree( me.myMeta.custom, 'custom', 'custom' );
+                }    
             }   else {
-                var treeData = Meta2Tree( me.myMeta, 'pcl', 'pcl' );    
+                treeData = Meta2Tree( me.myMeta, 'pcl', 'pcl' );    
             } 
-                   
             
             treeData.expanded = true;
     

@@ -1,4 +1,8 @@
 
+	cambiar el nombre de FormConfig.js  
+	ordenamiento en la grilla 
+	separacion de los vinculos 
+
 	generacion de vistas por entidad 
 		configuracion de acciones 
 		formas dinamiocas para parametros de acciones ( ver iss )

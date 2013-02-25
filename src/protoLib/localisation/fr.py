@@ -55,6 +55,7 @@ __language ={
     'MetaConfig_Meta_Config' : 'Meta',
     'MetaConfig_Form_Config' : 'Form',
     'MetaConfig_Custom_Config' : 'Custom',
+    'MetaConfig_Base_Config' : 'Config',
     'MetaConfig_Add_Fields' : 'Fields',
     'MetaConfig_Add_Details' : 'Details',
     'MetaConfig_Reset_Meta' : 'Réinitialiser métaData',

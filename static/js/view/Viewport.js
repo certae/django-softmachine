@@ -65,7 +65,6 @@ Ext.define('ProtoUL.view.Viewport', {
 
         // Referencia a la ventana del viewPort 
         _SM._mainWin = this
-
                  
     },
     
@@ -182,7 +181,7 @@ Ext.define('ProtoUL.view.Viewport', {
 
         if ( myMeta.pciStyle == 'form' ) {
             var formController = Ext.create('ProtoUL.UI.FormController', {});
-            formController.openFormConfig.call( formController, viewCode, -1 , true  ) 
+            formController.openProtoForm.call( formController, viewCode, -1 , true  ) 
         } else {
             me.protoTabContainer.addTabPanel( viewCode );
         }                

@@ -134,8 +134,12 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         // Guarda la referencia de todas las columnas definidas 
         this.myColumns = myColumns; 
         
-        //   gridColumns: Es un subconjuto para poder manejar diferentes conf de columnas  
-        var gridColumns = this.getViewColumns( myMeta.gridConfig.listDisplay  ) 
+        //  gridColumns: Es un subconjuto para poder manejar diferentes conf de columnas  
+        var gridColumns = this.getViewColumns( myMeta.gridConfig.listDisplay  )
+        // En caso de q el usuario halla definido su vist por defecto la carga 
+        if ( myMeta.custom.listDisplay.length > 0  ) {
+            gridColumns = this.getViewColumns( myMeta.custom.listDisplay )  
+        } 
         
         // Manejo de seleccion multiple 
         if ( myMeta.gridConfig.multiSelect ) {
@@ -196,7 +200,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                                     } else {
                                         // es un vinculo a otro objeto 
                                         var formController = Ext.create('ProtoUL.UI.FormController', {});
-                                        formController.openFormConfig.call( formController, myZField.zoomModel , record.get( myZField.fkId ) , false )
+                                        formController.openProtoForm.call( formController, myZField.zoomModel , record.get( myZField.fkId ) , false )
                                     }
                                     
                                     

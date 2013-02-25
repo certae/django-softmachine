@@ -1,4 +1,4 @@
-/*  ---  FormConfig  
+/*  ---  ProtoForm  
  
     Se llama genericamente forma, y corresponde a un panel que puede ser adosado a una ventana 
     o a un contenedor cualquiera,
@@ -20,7 +20,7 @@
     renderer: this.formatDate,
  */
 
-Ext.define('ProtoUL.view.FormConfig', {
+Ext.define('ProtoUL.view.ProtoForm', {
     extend : 'Ext.form.Panel',
     alias : 'widget.protoform',
 
@@ -120,7 +120,7 @@ Ext.define('ProtoUL.view.FormConfig', {
     
     
 
-    showFormConfig: function () {
+    showProtoForm: function () {
         _SM.showConfig( 'Form Config' , this.myMeta.formConfig   )
        },
 

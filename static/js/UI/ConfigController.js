@@ -17,14 +17,14 @@ Ext.define('ProtoUL.UI.ConfigController', {
 
         if (  perms.custom || perms.config ) {
            myConfigOpts.push(myActionConfig('Custom', _SM.__language.MetaConfig_Custom_Config, 'icon-configCustom'))
-           myConfigOpts.push(myActionConfig('Form', _SM.__language.MetaConfig_Form_Config, 'icon-configForm'))
         }  
 
-        if (  perms.config ) {             myConfigOpts.push(myActionConfig('Fields', _SM.__language.MetaConfig_Add_Fields, 'icon-configFields'))
-            myConfigOpts.push(myActionConfig('Details', _SM.__language.MetaConfig_Add_Details, 'icon-configDetails'))
-            myConfigOpts.push(myActionConfig('Meta', _SM.__language.MetaConfig_Meta_Config, 'icon-configMeta'))
+        if (  perms.config ) {            myConfigOpts.push(myActionConfig('Form', _SM.__language.MetaConfig_Form_Config, 'icon-configForm'))
+           myConfigOpts.push(myActionConfig('Fields', _SM.__language.MetaConfig_Add_Fields, 'icon-configFields'))
+           myConfigOpts.push(myActionConfig('Details', _SM.__language.MetaConfig_Add_Details, 'icon-configDetails'))
+           myConfigOpts.push(myActionConfig('Config', _SM.__language.MetaConfig_Base_Config, 'icon-configCustom'))
+           myConfigOpts.push(myActionConfig('Meta', _SM.__language.MetaConfig_Meta_Config, 'icon-configMeta'))
         }
-         
 
         // Modificacion del entorno
         if ( myConfigOpts.length > 0  ) {
@@ -70,7 +70,10 @@ Ext.define('ProtoUL.UI.ConfigController', {
             this.showMetaConfig();
             break;
         case 'Custom':
-            this.showCustomConfig();
+            this.showCustomConfig( false );
+            break;
+        case 'Config':
+            this.showCustomConfig( true );
             break;
         case 'Form':
             this.showProtoDesigner();
@@ -101,15 +104,20 @@ Ext.define('ProtoUL.UI.ConfigController', {
     }, 
 
 
-    showCustomConfig: function() {
+    showCustomConfig: function( metaConfig ) {
         var myMeta =  _SM._cllPCI[ this.viewCode ]
         if ( ! myMeta ) return 
 
         var myPcl = Ext.widget('protoPcl', {
             myMeta :  myMeta,
-            custom :  true,   
+            custom :  true,
+            metaConfig : metaConfig,    
             editable : true  
         });
+
+        if ( metaConfig )  {
+            title = 'Base Config' 
+        } else { title = 'Custom Config' }
 
         this.showConfigWin( myPcl ) 
     }, 
@@ -158,11 +166,13 @@ Ext.define('ProtoUL.UI.ConfigController', {
     
     }, 
 
-    showConfigWin: function( CnfgItems ) {
+    showConfigWin: function( CnfgItems , title ) {
         
-         var myWin  = Ext.widget('window', {
+        if ( ! title ) { title = 'MetaDefinition' }
+        
+        var myWin  = Ext.widget('window', {
             constrain: true, 
-            title : 'MetaDefinition [ ' + this.viewCode + ' ]', 
+            title : title + ' [ ' + this.viewCode + ' ]', 
             // closeAction: 'hide',
             width: 900,
             height: 600,

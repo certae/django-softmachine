@@ -107,7 +107,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
         // console.log( ev, nd  )
         
         var formController = Ext.create('ProtoUL.UI.FormController', {});
-        formController.openFormConfig.call( formController, this.zoomModel, this.fkIdValue , false   ) 
+        formController.openProtoForm.call( formController, this.zoomModel, this.fkIdValue , false   ) 
 
     }, 
 

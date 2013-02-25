@@ -95,6 +95,14 @@ def protoGetPCI(request):
     # La definicion del arbol es fija, pues las cols deben ser siempre uniformes sin importar el tipo de modelo.
 #    pStyle = protoMeta.get( 'pciStyle', '')      
 #    if pStyle == 'tree':  setTreeDefinition()
+
+
+    customCode = '_custom.' + viewCode 
+    try:
+        custom = CustomDefinition.objects.get(code = customCode, smOwningTeam  = userProfile.userTeam )
+        custom = json.loads( custom.metaDefinition )
+        protoMeta['custom'] = custom['custom']  
+    except: pass
     
     jsondict = {
         'success':True,
@@ -204,17 +212,11 @@ def createProtoMeta( model, grid, viewEntity , viewCode ):
          'detailsConfig': grid.get_details() , 
          'formConfig': grid.getFieldSets(),  
 
-#        Estas no las carga pues ya estan en la meta 
-#         'helpPath': grid.protoMeta.get( 'helpPath',''),
-#         'sheetSelector' : grid.protoMeta.get( 'sheetSelector', ''), 
-#         'sheetConfig' : grid.protoMeta.get( 'sheetConfig', []), 
-#         'usrDefProps': grid.protoMeta.get( 'usrDefProps', {}), 
+#        El resto  no las carga pues ya estan en la meta ... 
          }
     
 
-
     return copyProps( grid.protoMeta, protoTmp ) 
-
     
 
 # ------------------------------------------------------------------------
@@ -246,11 +248,11 @@ def protoSaveProtoObj(request):
     custom = False  
     viewCode = request.POST.get('viewCode', '')
 
-    userProfile = getUserProfile( request.user, 'savePci', viewCode  ) 
+    userProfile = getUserProfile( request.user, 'saveObjs', viewCode  ) 
 
     # Reglas para definir q se guarda  
     if viewCode.find( '_' ) == 0  :  custom = True 
-    if viewCode.find( 'prototype.ProtoTable.' ) == 0  :  custom = True 
+    if (not custom) or viewCode.find( 'prototype.ProtoTable.' ) == 0  :  custom = True 
 
     # Carga la meta 
     sMeta = request.POST.get('protoMeta', '')

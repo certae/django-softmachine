@@ -2,14 +2,14 @@
  * @class ProtoUL.ux.FormController
  * @author  Dario Gomez 
 
- * Helper class for intancing FormConfig 
+ * Helper class for intancing ProtoForm 
 
  */
 
 Ext.define('ProtoUL.UI.FormController', {
     extend: 'Ext.Base',
 
-    // requires: [ 'ProtoUL.view.FormConfig' ],
+    // requires: [ 'ProtoUL.view.ProtoForm' ],
     // Required if linked,  retrived if zoom 
     myMeta : null, 
 
@@ -30,7 +30,7 @@ Ext.define('ProtoUL.UI.FormController', {
         Ext.apply(this, config || {});
     },
     
-    newFormConfig: function () {
+    newProtoForm: function () {
 
         this.defineFormLayout()
         this.myForm = Ext.widget('protoform', {
@@ -45,7 +45,7 @@ Ext.define('ProtoUL.UI.FormController', {
     
     newWindow: function ( me ) {
 
-        me.newFormConfig()
+        me.newProtoForm()
         
         _SM.updateWinPosition( me.myWidth, me.myHeight )
         
@@ -120,7 +120,7 @@ Ext.define('ProtoUL.UI.FormController', {
             }, {
                 type: 'gear',
                 scope: me.myForm, 
-                handler: me.myForm.showFormConfig
+                handler: me.myForm.showProtoForm
                 // handler: me.showLayoutConfig
             }] 
             me.myWin.addTools()
@@ -140,7 +140,7 @@ Ext.define('ProtoUL.UI.FormController', {
     }, 
     
 
-    openFormConfig: function ( myZoomModel, myRecordId , bEditable )   {
+    openProtoForm: function ( myZoomModel, myRecordId , bEditable )   {
 
         this.viewCode = myZoomModel
         this.isReadOnly  = ! bEditable  
@@ -241,11 +241,11 @@ Ext.define('ProtoUL.UI.FormController', {
             var lObj = myFormDefinition.items[ixV];
             
             // Envia el contenedor y el objeto   
-            var prItem = defineFormConfigItem( {__ptType : 'panel'}, lObj )
+            var prItem = defineProtoFormItem( {__ptType : 'panel'}, lObj )
             me.prFormLayout.push(prItem);
         }
         
-        function defineFormConfigItem ( parent, protoObj, protoIx ) {
+        function defineProtoFormItem ( parent, protoObj, protoIx ) {
         
             var prLayout , template, __ptType 
             var sDataType = _SM.typeOf(protoObj);
@@ -343,7 +343,7 @@ Ext.define('ProtoUL.UI.FormController', {
                         if ( ix.indexOf( "__pt" )  == 0 ) continue 
         
                         var prVar = prItems[ix];
-                        var prFld = defineFormConfigItem(  protoObj, prVar, ix )
+                        var prFld = defineProtoFormItem(  protoObj, prVar, ix )
                         if(prFld) prLayout.items.push(prFld);
                     }
                     
@@ -409,7 +409,7 @@ Ext.define('ProtoUL.UI.FormController', {
                     var prVar = protoObj[ix];
                     
                     // Si es un array el padre es ../..
-                    var prFld = defineFormConfigItem(  parent, prVar , ix)
+                    var prFld = defineProtoFormItem(  parent, prVar , ix)
                     if(prFld) prLayout.push(prFld);
                 }
         
