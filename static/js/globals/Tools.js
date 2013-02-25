@@ -321,7 +321,8 @@ _SM.getSafeMeta = function (myMeta) {
     // prepara la meta q retorna al BackEnd 
     var safeMeta = { 
         "viewCode"  : myMeta.viewCode,      
-        "viewEntity" : myMeta.viewEntity,      
+        "viewEntity" : myMeta.viewEntity, 
+        "localSort" :  myMeta.localSort || false,      
         "protoEntityId": myMeta.protoEntityId,      
         "jsonField"    : myMeta.jsonField || ''  ,      
         // "pciStyle"     : myMeta.pciStyle, 

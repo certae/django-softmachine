@@ -38,6 +38,7 @@ def getViewDefinition( pEntity, viewTitle  ):
         if pProperty.isEssential or pProperty.isPrimary or pProperty.isRequired: 
             infoEntity['gridConfig']['listDisplay'].append( fName )
     
+        infoEntity['gridConfig']['sortFields'].append( fName )
         infoEntity['formConfig']['items'][0]['items'].append( { "name": fName, "__ptType": "formField" } )
 
         

@@ -24,7 +24,7 @@ _SM.getStoreDefinition = function(  stDef  ){
         pageSize: stDef.pageSize,
         sorters:  stDef.sorters,    
 
-        remoteSort: true,
+        remoteSort: ! ( stDef.localSort || false ) ,
         autoSync: true, 
 
         proxy: _SM.getProxyDefinition( stDef ), 

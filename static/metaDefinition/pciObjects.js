@@ -170,6 +170,8 @@ _MetaObjects =  {
             "viewIcon",
             "description" ,
             "shortTitle" ,
+            "localSort", 
+            "pageSize", 
             "sheetSelector",
             "exportCsv",  
             "pciStyle", 

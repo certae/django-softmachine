@@ -56,7 +56,10 @@ def protoList(request):
 #   if ( ( page -1 ) *limit >= pRowsCount ): page = 1
     
     if orderBy: 
-        pRows =  Qs.order_by(*orderBy)[ start: page*limit ]
+        try: 
+            pRows =  Qs.order_by(*orderBy)[ start: page*limit ]
+        except: 
+            pRows =  Qs[ start: page*limit ]
     else: pRows =  Qs[ start: page*limit ]
 
 #   Prepara las cols del Query 
@@ -328,23 +331,25 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
         getReadableError( e ) 
 
 #   Order by 
+    localSort = protoMeta.get('localSort', False)
     orderBy = []
-    sort = verifyList( sort )
-    for sField in sort: 
-
-        # Verificar que el campo de sort haga parte de los campos del modelo   
-        # blacklist = [f.name for f in instance._meta.fields] + ['id', 'user']
-        
-        # Unicode sort 
-        if sField['property'] == '__str__' : 
-            unicodeSort = getUnicodeFields( model ) 
-            for sAux in unicodeSort:
-                if sField['direction'] == 'DESC': sAux = '-' + sAux
-                orderBy.append( sAux )
-                
-        else:
-            if sField['direction'] == 'DESC': sField['property'] = '-' + sField['property']
-            orderBy.append( sField['property'] )
+    if not localSort :
+        sort = verifyList( sort )
+        for sField in sort: 
+    
+            # Verificar que el campo de sort haga parte de los campos del modelo   
+            # blacklist = [f.name for f in instance._meta.fields] + ['id', 'user']
+            
+            # Unicode sort 
+            if sField['property'] == '__str__' : 
+                unicodeSort = getUnicodeFields( model ) 
+                for sAux in unicodeSort:
+                    if sField['direction'] == 'DESC': sAux = '-' + sAux
+                    orderBy.append( sAux )
+                    
+            else:
+                if sField['direction'] == 'DESC': sField['property'] = '-' + sField['property']
+                orderBy.append( sField['property'] )
                 
     orderBy = tuple( orderBy )
 
@@ -364,7 +369,7 @@ def getUnicodeFields( model ):
     unicodeSort = () 
     if hasattr( model , 'unicode_sort' ): 
         unicodeSort = model.unicode_sort
-    else: unicodeSort = model._meta.unique_together
+    else: unicodeSort = model._meta.unique_together[0]
     return unicodeSort 
     
 

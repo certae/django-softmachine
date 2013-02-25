@@ -1,14 +1,20 @@
 
-	cambiar el nombre de FormConfig.js  
-	ordenamiento en la grilla 
+	permisios a nivel de campo
 	separacion de los vinculos 
+	Canvas ( modelo grafico )
+	verificar permisos en el guardado de objetos de conf 
+
+
+	ordenamiento en la grilla 
+		store.remoteSort
+		sortOnLoad 
+
+
+	cambiar el nombre de FormConfig.js  
 
 	generacion de vistas por entidad 
 		configuracion de acciones 
 		formas dinamiocas para parametros de acciones ( ver iss )
-
-	permisios a nivel de campo
-
 
 
 	Ok en vez de carga storeProxu,  ejecutar un metodo  myLoadData( filter, sorter  )

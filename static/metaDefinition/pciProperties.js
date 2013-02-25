@@ -59,6 +59,12 @@ _MetaProperties =  {
     "exportCsv.help"   : "Permite exportar la definicion de fields en formato csv",   
     "exportCsv.type" : "boolean", 
 
+    "localSort.help" : "Ordenamiento local, por defecto para prototipos", 
+    "localSorttype" : "boolean",
+     
+    "pageSize,help" : "buffer de lectura ( 50 por defecto )", 
+    "pageSize.type": "number", 
+
 //QBE    
     "qbeHelp.type":"boolean",
     "qbeHelp.help": "determina si aparece o no el trigger para el select distinct",
@@ -137,6 +143,9 @@ _MetaProperties =  {
     "templateLp": '</body>' +
                   '</html>',  
 
+
+    "direction": "sort order",
+    "direction.choices": ["ASC", "DESC" ],
 
 //  Fields
     "required": false,

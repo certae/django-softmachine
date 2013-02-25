@@ -387,7 +387,7 @@ class ProtoView(ProtoModel):
     
     protoExt = { 
         "gridConfig" : {
-            "listDisplay": ["__str__", "entty", "smOwningTeam"]      
+            "listDisplay": ["__str__", "entity", "smOwningTeam"]      
         }
     } 
 

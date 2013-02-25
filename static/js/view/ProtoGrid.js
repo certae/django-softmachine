@@ -71,7 +71,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         var storeDefinition =  {
             viewCode : this.viewCode, 
             autoLoad    : this.autoLoad || true, 
-            pageSize    : _SM._PAGESIZE,
+
+            pageSize    : myMeta.pageSize || _SM._PAGESIZE,
+            localSort   : myMeta.localSort , 
 
             // proxy.extraParams, siempre deben ser string 
             baseFilter  : baseFilter , 
