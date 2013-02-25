@@ -38,7 +38,7 @@ def getViewDefinition( pEntity, viewTitle  ):
         if pProperty.isEssential or pProperty.isPrimary or pProperty.isRequired: 
             infoEntity['gridConfig']['listDisplay'].append( fName )
     
-        infoEntity['protoForm']['items'][0]['items'].append( { "name": fName, "__ptType": "formField" } )
+        infoEntity['formConfig']['items'][0]['items'].append( { "name": fName, "__ptType": "formField" } )
 
         
     #  __str__, __unicode__            
@@ -154,7 +154,7 @@ def addProtoFiedToList( fieldList,  pEntity , fieldBase, zoomName   ):
 
 
 
-def GetProtoDetailsTree( protoEntityId ):
+def GetDetailsConfigTree( protoEntityId ):
     
     lDetails = []
 

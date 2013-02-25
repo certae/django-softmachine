@@ -96,7 +96,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
             var QBE = Ext.create('Ext.ux.protoQBE', {
                 
                 campos: data.fields,
-                protoOption: data.protoOption,
+                viewCode: data.viewCode,
                 titulo: data.shortTitle,
                 aceptar: function (qbe) {
                     console.log('ok');

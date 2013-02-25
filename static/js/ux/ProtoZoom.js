@@ -107,7 +107,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
         // console.log( ev, nd  )
         
         var formController = Ext.create('ProtoUL.UI.FormController', {});
-        formController.openProtoForm.call( formController, this.zoomModel, this.fkIdValue , false   ) 
+        formController.openFormConfig.call( formController, this.zoomModel, this.fkIdValue , false   ) 
 
     }, 
 
@@ -120,7 +120,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
 
         // Crea la grilla 
         var zoomGrid = Ext.create('ProtoUL.view.ProtoGrid', { 
-            protoOption  : me.zoomModel,
+            viewCode  : me.zoomModel,
             initialFilter: [], 
             hideSheet    : true, 
             listDisplay  : '__str__'   
@@ -154,7 +154,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
         // referencia a la ventana modal
         me.win  = Ext.widget('window', {
             title : 'Zoom : ' + me.myMeta.shortTitle,
-            iconCls: me.myMeta.protoIcon , 
+            iconCls: me.myMeta.viewIcon , 
             closeAction : 'hide',
             layout : 'fit',
             modal : true,
@@ -225,7 +225,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
             if ( this.myMeta.returnField ) {
                 this.retField = record.data[ this.myMeta.returnField ]
             } else {
-                this.retField = record.data.__str__ || this.myMeta.protoOption + '.__str__ not found'
+                this.retField = record.data.__str__ || this.myMeta.viewCode + '.__str__ not found'
             }
             stBar.setText( '[' + rowIndex.toString() + ']  ' + this.retField )
         }     else  {

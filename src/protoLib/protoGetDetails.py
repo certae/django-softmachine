@@ -16,26 +16,26 @@ def protoGetDetailsTree(request):
     if request.method != 'POST':
         return JsonError( 'invalid message' ) 
     
-    protoOption = request.POST.get('protoOption', '') 
-    protoConcept  = getProtoViewName( protoOption )
+    viewCode = request.POST.get('viewCode', '') 
+    viewEntity  = getProtoViewName( viewCode )
     
     try: 
-        model = getDjangoModel(protoConcept)
+        model = getDjangoModel(viewEntity)
     except Exception,  e:
         jsondict = { 'success':False, 'message': getReadableError( e ) }
         context = json.dumps( jsondict)
         return HttpResponse(context, mimetype="application/json")
 
     detailList = []
-    if protoConcept == 'prototype.ProtoTable' and protoConcept != protoOption :
+    if viewEntity == 'prototype.ProtoTable' and viewEntity != viewCode :
         # -----------------------------------------------------------------------------------------------------
         # Prototipos 
         protoEntityId = request.POST.get( 'protoEntityId' )
         if not protoEntityId >= 0: return JsonError( 'invalid idEntity')
 
         try:  
-            from prototype.actions.viewDefinition import GetProtoDetailsTree
-            detailList = GetProtoDetailsTree(  protoEntityId )
+            from prototype.actions.viewDefinition import GetDetailsConfigTree
+            detailList = GetDetailsConfigTree(  protoEntityId )
         except: 
             return JsonError( 'invalid idEntity')
 

@@ -150,16 +150,16 @@ Ext.define('ProtoUL.view.Viewport', {
         
         
         // *** El truco es q no se crea el modelo, solo se define
-        var protoOption = menuOpt ;  
+        var viewCode = menuOpt ;  
         var me = this ;
         
-//        console.log( protoOption, ' Loading MasterPanel ...')
+//        console.log( viewCode, ' Loading MasterPanel ...')
 
         var options = {
             scope: this, 
             success: function (obj, result, request) {
 
-                me.openProtoOption( protoOption )                
+                me.openProtoOption( viewCode )                
                  
             },
             failure: function ( obj, result, request) { 
@@ -167,24 +167,24 @@ Ext.define('ProtoUL.view.Viewport', {
             }
         }
 
-        if (  _SM.loadPci( protoOption, true, options ) ) {
+        if (  _SM.loadPci( viewCode, true, options ) ) {
             // El modelo ya ha sido cargado ( la cll meta es global )     
-            me.openProtoOption( protoOption )                
+            me.openProtoOption( viewCode )                
             
         }   
 
     },   
 
-    openProtoOption: function( protoOption ){
+    openProtoOption: function( viewCode ){
       
         var me = this ;
-        var myMeta = _SM._cllPCI[ protoOption ] ;
+        var myMeta = _SM._cllPCI[ viewCode ] ;
 
         if ( myMeta.pciStyle == 'form' ) {
             var formController = Ext.create('ProtoUL.UI.FormController', {});
-            formController.openProtoForm.call( formController, protoOption, -1 , true  ) 
+            formController.openFormConfig.call( formController, viewCode, -1 , true  ) 
         } else {
-            me.protoTabContainer.addTabPanel( protoOption );
+            me.protoTabContainer.addTabPanel( viewCode );
         }                
         
     },   

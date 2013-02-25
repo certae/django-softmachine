@@ -11,7 +11,7 @@ from models import getDjangoModel
 from protoActionList import Q2Dict
 from utilsConvert import toInteger, toDate,toDateTime,toTime, toFloat, toDecimal, toBoolean
 from utilsBase import JSONEncoder, getReadableError, list2dict
-from protoUdp import verifyUdpDefinition, saveUDP
+from usrDefProps import verifyUdpDefinition, saveUDP
 from django.utils.encoding import smart_str
 from protoAuth import getUserProfile, getModelPermissions 
 from utilsWeb import doReturn 
@@ -44,15 +44,15 @@ def _protoEdit(request, myAction ):
 #   Carga el modelo
     protoMeta = request.POST.get('protoMeta', '')
     protoMeta = json.loads( protoMeta )
-    protoConcept = protoMeta.get('protoConcept', '')
-    model = getDjangoModel(protoConcept)
+    viewEntity = protoMeta.get('viewEntity', '')
+    model = getDjangoModel(viewEntity)
 
 #   Autentica 
     if not getModelPermissions( request.user, model, myAction ):
         return doReturn ({'success':False ,'message' : 'No ' +  myAction +  'permission'})
 
 
-    userProfile = getUserProfile( request.user, 'edit', protoConcept ) 
+    userProfile = getUserProfile( request.user, 'edit', viewEntity ) 
 
 #   Decodifica los eltos 
     rows = request.POST.get('rows', [])
@@ -65,7 +65,7 @@ def _protoEdit(request, myAction ):
     if not isinstance( jsonField, (str, unicode) ): jsonField = ''  
     
 #   Genera la clase UDP
-    pUDP = protoMeta.get('protoUdp', {})
+    pUDP = protoMeta.get('usrDefProps', {})
     cUDP = verifyUdpDefinition( pUDP )
 
     # Verifica q sea una lista de registros, (no deberia pasar, ya desde Extjs se controla )  

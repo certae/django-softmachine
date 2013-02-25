@@ -134,12 +134,12 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         tBar.on({
             'preview': function ( ) {
                 me.myMeta  =  Tree2Meta( me.treeGridStore.getRootNode() )
-                _SM.savePclCache( me.myMeta.protoOption, me.myMeta )
+                _SM.savePclCache( me.myMeta.viewCode, me.myMeta )
             }, 
             'save': function ( ) {
                 me.myMeta =  Tree2Meta( me.treeGridStore.getRootNode() )
                 me.myMeta.metaVersion = _versionMeta
-                _SM.savePclCache( me.myMeta.protoOption, me.myMeta )
+                _SM.savePclCache( me.myMeta.viewCode, me.myMeta )
                 _SM.savePci( me.myMeta )         
             }, 
             'reload': function ( ) {

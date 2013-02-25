@@ -14,7 +14,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     // iconCls: 'icon-grid',
 
     height : 200,
-    protoOption: null,
+    viewCode: null,
     
     // Internals 
     myMeta : null,  
@@ -33,16 +33,16 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         var me = this;         
 
-        if ( ! _SM.loadPci( this.protoOption, false ) ) {
+        if ( ! _SM.loadPci( this.viewCode, false ) ) {
             Ext.Msg.show({
-               title: this.protoOption ,
+               title: this.viewCode ,
                value: 'ERROR Pci  not loaded' 
             });
             return; 
         }
 
         // Recupera la clase para obtener la meta ------------------------------------------
-        var myMeta = _SM.clone( _SM._cllPCI[ this.protoOption ] );
+        var myMeta = _SM.clone( _SM._cllPCI[ this.viewCode ] );
         this.myMeta = myMeta;
         this.myFieldDict = _SM.getFieldDict( myMeta )            
         
@@ -69,7 +69,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 
         var storeDefinition =  {
-            protoOption : this.protoOption, 
+            viewCode : this.viewCode, 
             autoLoad    : this.autoLoad || true, 
             pageSize    : _SM._PAGESIZE,
 
@@ -95,7 +95,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         var myColumns = [];
 
 
-        // Si es un detalle, aqui viene la especificacion de conexion ( protoDetail ) 
+        // Si es un detalle, aqui viene la especificacion de conexion ( detailDef ) 
         if ( me.detailDefinition ) {
 
             // El estilo de los detalles es siemrpe grid             
@@ -187,7 +187,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                                 if ( ! myZField ) { return }
                                 if (  myZField.zoomModel && myZField.fkId ) {
                                     
-                                    if (( myZField.zoomModel == me.myMeta.protoConcept ) && ( myZField.fkId = me.myMeta.idProperty )) {
+                                    if (( myZField.zoomModel == me.myMeta.viewEntity ) && ( myZField.fkId = me.myMeta.idProperty )) {
                                         // Si es el mismo registro lo llama como un upd 
                                         // xxx.call Redefine el scope  
                                         var formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });
@@ -196,7 +196,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                                     } else {
                                         // es un vinculo a otro objeto 
                                         var formController = Ext.create('ProtoUL.UI.FormController', {});
-                                        formController.openProtoForm.call( formController, myZField.zoomModel , record.get( myZField.fkId ) , false )
+                                        formController.openFormConfig.call( formController, myZField.zoomModel , record.get( myZField.fkId ) , false )
                                     }
                                     
                                     

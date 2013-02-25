@@ -63,7 +63,7 @@ def DownloadLocalFile(InFile):
 def JSONserialise( obj ):
     if not isinstance( obj , basestring ):
         try: 
-            obj = json.dump( obj )  
+            obj = json.dumps( obj )  
         except : obj = 'error JSONSerialise'
     return obj 
     

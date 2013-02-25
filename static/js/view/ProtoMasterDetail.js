@@ -22,19 +22,19 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
     initComponent: function() {
 
         // Recupera la meta   ------------------------------------------------------------ 
-        this.myMeta = _SM._cllPCI[ this.protoOption ] ;                         
+        this.myMeta = _SM._cllPCI[ this.viewCode ] ;                         
         var me  = this ;         
         
         // Marca si viene de un detalle 
         if ( this.mdFilter ) {  this.isPromoted = true }
         
-        __StBar.showBusy( 'loading ' + this.protoOption + '...', 'prMD.init',  2000)
+        __StBar.showBusy( 'loading ' + this.viewCode + '...', 'prMD.init',  2000)
         
         // Master Grid    ========================================================== 
         // y la Guarda el store para efectos de eventos y referencias 
         this.protoMasterGrid = Ext.create('ProtoUL.view.ProtoGrid', {
             border : false, 
-            protoOption : this.protoOption,  
+            viewCode : this.viewCode,  
             mdFilter    : this.mdFilter, 
             detailTitle : this.detailTitle, 
             isPromoted  : this.isPromoted, 

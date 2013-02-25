@@ -5,11 +5,11 @@ class orgTreeAdmin(django.contrib.admin.ModelAdmin):
     protoExt = {
     "__ptType": "pcl",
     "description": "Organisation Tree",
-    "protoConcept": "protoLib.TeamHierarchy",
-    "protoIcon": "icon-1",
+    "viewEntity": "protoLib.TeamHierarchy",
+    "viewIcon": "icon-1",
     "metaVersion": "13.0111",
     "idProperty": "id",
-    "protoOption": "protoLib.TeamHierarchy",
+    "viewCode": "protoLib.TeamHierarchy",
     "shortTitle": "Organisation Tree",
     "fields": [{
         "__ptType": "field",
@@ -78,29 +78,29 @@ class orgTreeAdmin(django.contrib.admin.ModelAdmin):
         "hidden": True
     }],
     "actions": [],
-    "protoDetails": [{
-        "__ptType": "protoDetail",
+    "detailsConfig": [{
+        "__ptType": "detailDef",
         "menuText": "TeamHierarchy.parentNode",
         "conceptDetail": "protoLib.TeamHierarchy",
         "detailName": "parentNode",
         "detailField": "parentNode__pk",
         "masterField": "pk"
     }, {
-        "__ptType": "protoDetail",
+        "__ptType": "detailDef",
         "menuText": "Userprofile.userTeam",
         "conceptDetail": "protoLib.UserProfile",
         "detailName": "userTeam",
         "detailField": "userTeam__pk",
         "masterField": "pk"
     }, {
-        "__ptType": "protoDetail",
+        "__ptType": "detailDef",
         "menuText": "Domain.smOwningTeam",
         "conceptDetail": "protoDict.Domain",
         "detailName": "smOwningTeam",
         "detailField": "smOwningTeam__pk",
         "masterField": "pk"
     }],
-    "protoSheets": [],
+    "sheetConfig": [],
     "gridConfig": {
         "__ptType": "gridConfig",
         "listDisplay": ["code", "description", "site", "parentNode"],
@@ -111,15 +111,9 @@ class orgTreeAdmin(django.contrib.admin.ModelAdmin):
         "sortFields": ["code", "description"],
         "hiddenFields": ["id"],
         "readOnlyFields": ["__str__"],
-        "others": {
-            "__ptType": "others",
-            "filtersSet": [],
-            "listDisplaySet": [],
-            "sortersSet": []
-        }
     },
-    "protoForm": {
-        "__ptType": "protoForm",
+    "formConfig": {
+        "__ptType": "formConfig",
         "items": [{
             "__ptType": "fieldset",
             "fsLayout": "2col",
@@ -146,8 +140,8 @@ class orgTreeAdmin(django.contrib.admin.ModelAdmin):
             }]
         }]
     },
-    "protoUdp": {
-        "__ptType": "protoUdp"
+    "usrDefProps": {
+        "__ptType": "usrDefProps"
     },
     "custom": {
         "__ptType": "custom",

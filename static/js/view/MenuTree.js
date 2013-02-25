@@ -30,7 +30,7 @@ Ext.define('ProtoUL.view.MenuTree', {
         
             fields: [
                 {name: 'id', type: 'string'},
-                {name: 'protoOption', type: 'string'},
+                {name: 'viewCode', type: 'string'},
                 {name: 'text', type: 'string'},
                 {name: 'leaf', type: 'boolean'}
             ]
@@ -130,9 +130,9 @@ Ext.define('ProtoUL.view.MenuTree', {
         'itemclick': function( view, rec, item, index, evObj , eOpts ) {
             this.treeRecord  = rec;
             if ( rec.get('leaf') ) {
-                var protoOption = rec.data.protoOption || rec.data.id
-                this.fireEvent('menuSelect', this, protoOption );
-                this.ownerCt.loadPciFromMenu( protoOption );
+                var viewCode = rec.data.viewCode || rec.data.id
+                this.fireEvent('menuSelect', this, viewCode );
+                this.ownerCt.loadPciFromMenu( viewCode );
             }
         } 
         
@@ -229,12 +229,12 @@ Ext.define('ProtoUL.view.MenuTree', {
                      mData.expanded = tData.expanded
                      mData.children = getMenuChilds(tChilds)
                      mData.leaf = false
-                     mData.protoOption = tData.protoOption || tData.id
+                     mData.viewCode = tData.viewCode || tData.id
                 } else {
                      mData.expanded = false
                      mData.children = {}
                      mData.leaf = tData.leaf
-                     mData.protoOption =  tData.protoOption ||  tData.id 
+                     mData.viewCode =  tData.viewCode ||  tData.id 
                 }
             } 
             return mData 
@@ -291,7 +291,7 @@ Ext.define('ProtoUL.view.MenuTree', {
                 // },{
                     // fieldLabel: 'option',
                     // afterLabelTextTpl: _SM._requiredField,
-                    // name: 'protoOption', 
+                    // name: 'viewCode', 
                     // allowBlank:false, 
 //                     
                     // __ptType: "formField",

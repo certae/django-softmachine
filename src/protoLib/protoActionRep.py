@@ -17,7 +17,7 @@ import csv
 import django.utils.simplejson as json
 
 
-def protoSheetRep(request):
+def sheetConfigRep(request):
     """ Reporte basado en la definicion de plantillas ( sheets ) 
     """
     if request.method != 'POST':
@@ -29,13 +29,13 @@ def protoSheetRep(request):
     Los detalles no tienen selector, siempre se usara el template marcado en el detalle.
     """        
     
-    protoOption  = request.POST.get('protoOption', '') 
+    viewCode  = request.POST.get('viewCode', '') 
     sheetName    = request.POST.get('sheetName', '') 
     selectedKeys = request.POST.get('selectedKeys', [])
      
     selectedKeys = json.loads( selectedKeys )
 
-    protoMeta, Qs = getReportBase( protoOption )
+    protoMeta, Qs = getReportBase( viewCode )
 
     # Si no hay lista, los trae todos 
     if type( selectedKeys ).__name__ == type([]).__name__ and  selectedKeys.__len__() > 0:
@@ -72,13 +72,13 @@ def protoSheetRep(request):
     #------------
 
 def getSheetConf( protoMeta , sheetName ):
-    """ Obtiene un protoSheet dado su nombre
+    """ Obtiene un sheetConfig dado su nombre
         recibe  la definicion ( protoMeta ) y el nombre ( str )
-        retorna protoSheet ( obj ) 
+        retorna sheetConfig ( obj ) 
     """
         
     try:
-        pSheets = protoMeta.get( 'protoSheets', [] )
+        pSheets = protoMeta.get( 'sheetConfig', [] )
     except Exception as e:
         return {} 
 
@@ -97,19 +97,19 @@ def getSheetConf( protoMeta , sheetName ):
 
 #------------
 
-def getReportBase( protoOption ):
+def getReportBase( viewCode ):
     
-    protoConcept  = getProtoViewName( protoOption )
+    viewEntity  = getProtoViewName( viewCode )
     
     # Obtiene el modelo 
     try: 
-        model = getDjangoModel(protoConcept)
+        model = getDjangoModel(viewEntity)
     except Exception as e:
         pass 
     
     # Obtiene la definicion
     try:   
-        protoDef  = ProtoDefinition.objects.get (code = protoOption )
+        protoDef  = ProtoDefinition.objects.get (code = viewCode )
         protoMeta = json.loads( protoDef.metaDefinition ) 
     except Exception as e:
         pass 
@@ -217,7 +217,7 @@ def getProperties( fields, template ):
 def getDetailConf( protoMeta, detailName ):
     
     try:
-        pDetails = protoMeta.get( 'protoDetails', [])
+        pDetails = protoMeta.get( 'detailsConfig', [])
     except Exception as e:
         return None 
 
@@ -268,7 +268,7 @@ def protoCsv(request):
 
 #   -----------------------------------
     response = HttpResponse(mimetype='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="' + protoMeta.get('protoOption','export') +'.csv"'
+    response['Content-Disposition'] = 'attachment; filename="' + protoMeta.get('viewCode','export') +'.csv"'
     writer = csv.writer(response)
 
 

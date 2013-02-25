@@ -165,14 +165,14 @@ _MetaObjects =  {
     "pcl": {
         "description": "definicion de la meta",
         "properties": [
-            "protoOption", 
-            "protoConcept" ,
+            "viewCode", 
+            "viewEntity" ,
+            "viewIcon",
             "description" ,
             "shortTitle" ,
-            "protoSheetSelector",
+            "sheetSelector",
             "exportCsv",  
             "pciStyle", 
-            "protoIcon",
             "helpPath", 
             "idProperty", 
             "jsonField",
@@ -187,18 +187,19 @@ _MetaObjects =  {
             ],
         "objects": [
             "gridConfig", 
-            "protoForm", 
-            "protoUdp", 
+            "gridSets", 
+            "formConfig", 
+            "usrDefProps", 
             "custom", 
             "businessRules"
             ],
         "lists": [
             "fields", 
             "actions",
-            "protoDetails", 
-            "protoSheets"
+            "detailsConfig", 
+            "sheetConfig"
             ],
-        "roProperties": [ "protoOption", "protoConcept", "idProperty" , "updateTime", "metaVersion", "protoEntity", "protoEntityId"]  
+        "roProperties": [ "viewCode", "viewEntity", "idProperty" , "updateTime", "metaVersion", "protoEntity", "protoEntityId"]  
         },
 
 
@@ -330,7 +331,6 @@ _MetaObjects =  {
             
             ],
         "objects": [
-            "others",
          // "colShortcuts" 
             ]
             
@@ -352,20 +352,23 @@ _MetaObjects =  {
     },
 
 
-    "others": {
+    // Estos son actualizados por el staf ( admin de grupo )
+    "gridSets": {
         "description": "Configuraciones de adicionales ( filters, sorters, userViews )",
         "lists": [
-            "filtersSet",
             "listDisplaySet",
+            "filtersSet",
             "sortersSet"
             ]
     },
 
+    // Estos son actualizados por los usuarios de base 
     "custom": {
         "description": "Configuraciones de usuario",
         "lists": [
-            "filtersSet",
+            "listDisplay",
             "listDisplaySet",
+            "filtersSet",
             "sortersSet"
             ]
     },
@@ -419,7 +422,8 @@ _MetaObjects =  {
         "addPrompt" : "Please enter the name of the sorter:", 
         "allowDel" : true,
         "properties": [
-            "name" 
+            "name", 
+            "description" 
         ], 
         "lists": [
             "customSort" 
@@ -474,18 +478,15 @@ _MetaObjects =  {
         "description": "listDisplay predefinidos ",
         "addPrompt" : "Please enter the name of the columnSet:", 
         "allowDel" : true, 
-        "__ptStyle": "colList" 
-        
-        // "properties": [
-            // "name" 
-        // ], 
-        // "lists" : [
-            // "listDisplay" 
-        // ]
+        "properties": [
+            "name", 
+            "description" 
+        ], 
+        "lists" : [
+            "listDisplay" 
+        ]
          
     },
-
-
 
 
     "hiddenFields": {
@@ -518,14 +519,14 @@ _MetaObjects =  {
     },
 
 
-    "protoDetails": {
+    "detailsConfig": {
         "description": "Detalles en una relacion Master-Detail",
-        "listOf": "protoDetail",
+        "listOf": "detailDef",
         "allowAdd" : true 
     },
 
 
-    "protoDetail": {
+    "detailDef": {
         "description": "Detalle en una relacion Master-Detail",
         "properties": [
             "menuText", 
@@ -542,7 +543,7 @@ _MetaObjects =  {
         
     },
 
-    "protoUdp": {
+    "usrDefProps": {
         "description": "User defined properties ( se utilizan como campos y son creados por usr a voluntad, no participan en search, sort)",
         "properties": [
             "udpTable", 
@@ -554,19 +555,19 @@ _MetaObjects =  {
         ]
     },
 
-    "protoSheets": {
+    "sheetConfig": {
         "description": "Lista de plantillas",
-        "listOf": "protoSheet",
+        "listOf": "sheetDef",
         "allowAdd" : true       
     },
 
-    "protoSheet": {
+    "sheetDef": {
         "description": "Plantilla ( el nombre corresponde al selector )",
         "properties": [
             "name", 
             "template", 
             "title", 
-            "protoIcon", 
+            "viewIcon", 
             "sheetType", 
             "templateFp",  
             "templateBb",  
@@ -605,14 +606,14 @@ _MetaObjects =  {
     },
 
 
-    "protoForm": {
+    "formConfig": {
         "hideItems" : true,  
         "description": "definicion de formas",
         "properties": [
             "title", "tooltip", 
             "height","maxHeight","minHeight",
             "width", "maxWidth","minWidth",
-            "protoIcon","helpPath" ]
+            "viewIcon","helpPath" ]
         },
     
     "fieldset": {
@@ -642,7 +643,7 @@ _MetaObjects =  {
     "protoGrid": {
         "description": "A detail grid",
         "properties": [
-            "protoOption",  
+            "viewCode",  
             "height","maxHeight","minHeight","width", "maxWidth","minWidth"
             ]
     }, 

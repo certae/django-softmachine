@@ -114,23 +114,23 @@ class Entity(ProtoModel):
                                ] 
             },
         ], 
-        "protoDetails": [
+        "detailsConfig": [
         {
-            "__ptType": "protoDetail",
+            "__ptType": "detailDef",
             "menuText": "Properties",
             "conceptDetail": "prototype.Property",
             "detailName": "entity",
             "detailField": "entity__pk",
             "masterField": "pk"
         },{
-            "__ptType": "protoDetail",
+            "__ptType": "detailDef",
             "menuText": "Relationships",
             "conceptDetail": "prototype.Relationship",
             "detailName": "entity",
             "detailField": "entity__pk",
             "masterField": "pk"
         },{
-            "__ptType": "protoDetail",
+            "__ptType": "detailDef",
             "menuText": "Views",
             "conceptDetail": "prototype.ProtoView",
             "detailName": "entity",

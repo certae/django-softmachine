@@ -60,13 +60,13 @@ def protoGetMenuData(request):
         if menuDefinition.get('hidden', False ): return  
     
         # Icono por defecto
-        protoIcon = 'icon-%s' % protoAdmin.get( 'protoIcon',  '1')
+        viewIcon = 'icon-%s' % protoAdmin.get( 'viewIcon',  '1')
     
         model_dict = {
             'id': appCode + '.' + menuNode ,
             'text': pTitle ,
             'index': appAux.ixMod ,
-            'iconCls': protoIcon ,
+            'iconCls': viewIcon ,
             'leaf': True,
         }
         if menuLabel in app_dict:
@@ -89,10 +89,10 @@ def protoGetMenuData(request):
 
     forceDefault = request.POST.get('forceDefault', '') 
 
-    protoOption = '__menu'
+    viewCode = '__menu'
     protoDef = CustomDefinition.objects.get_or_create(
-           code = protoOption, smOwningTeam = userProfile.userTeam, 
-           defaults= {'active': False, 'code' : protoOption, 'smOwningTeam' : userProfile.userTeam }
+           code = viewCode, smOwningTeam = userProfile.userTeam, 
+           defaults= {'active': False, 'code' : viewCode, 'smOwningTeam' : userProfile.userTeam }
            )[0]
 
     # El default solo parece funcionar al insertar en la Db
@@ -137,7 +137,7 @@ def protoGetMenuData(request):
             prNodes['children'].append( {
                 'text':  nodeName,
                 'expanded': True ,
-                'protoOption': option.code,
+                'viewCode': option.code,
                 'index': 'prOtoTyPe.' + option.code,
                 'leaf': True 
                  })

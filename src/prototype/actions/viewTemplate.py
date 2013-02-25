@@ -13,13 +13,13 @@ def baseDefinition( pEntity , entityName, viewTitle  ):
 
     return  {
     "__ptType": "pcl",
-    "protoConcept": "prototype.ProtoTable",
-    "protoOption" : PROTO_PREFIX + viewName,
+    "viewEntity": "prototype.ProtoTable",
+    "viewCode" : PROTO_PREFIX + viewName,
     "protoEntity" : entityName,  
     "protoEntityId" : pEntity.id,  
     "description" : pEntity.description ,
     "jsonField"   : "info" ,
-    "protoIcon"   : "icon-1",
+    "viewIcon"   : "icon-1",
     "shortTitle"  : viewTitle,
     "updateTime"  : datetime.now(),
     "metaVersion" : "13.0224",
@@ -121,7 +121,7 @@ def baseDefinition( pEntity , entityName, viewTitle  ):
             "type": "string"
         }
     ],
-    "protoDetails": [],
+    "detailsConfig": [],
     "gridConfig": {
         "listDisplay": [],
         "baseFilter": [],
@@ -130,8 +130,8 @@ def baseDefinition( pEntity , entityName, viewTitle  ):
         "hiddenFields": [ "id", "info", "entity" ],
         "readOnlyFields": [],
     },
-    "protoForm": {
-        "__ptType": "protoForm",
+    "formConfig": {
+        "__ptType": "formConfig",
         "items": [
             {
                 "__ptType": "fieldset",

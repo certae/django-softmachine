@@ -17,9 +17,9 @@ Ext.define('ProtoUL.core.ProtoStore', {
 _SM.getStoreDefinition = function(  stDef  ){ 
 
     var myStore = Ext.create('Ext.data.Store', {
-        protoOption : stDef.protoOption,
+        viewCode : stDef.viewCode,
 
-        model: _SM.getModelName( stDef.protoOption  ),  
+        model: _SM.getModelName( stDef.viewCode  ),  
         autoLoad: stDef.autoLoad,
         pageSize: stDef.pageSize,
         sorters:  stDef.sorters,    
@@ -38,7 +38,7 @@ _SM.getStoreDefinition = function(  stDef  ){
             // buscar por getProxy, clearFilter, ....  
             // Dgt:  Agregar page??? 
             
-            // console.log( '-------  myLoadData ', this.protoOption ) 
+            // console.log( '-------  myLoadData ', this.viewCode ) 
             // console.log( myFilter, this.getProxy().extraParams ) 
             // console.log( mySorter, this.sorters.items  )
 
@@ -59,17 +59,17 @@ _SM.getStoreDefinition = function(  stDef  ){
 
             // Fires before a request is made for a new data object. ...
             beforeload: function(  store,  operation,  eOpts ) {
-                __StBar.showBusy(_SM.__language.StatusBar_Message_Loading + store.protoOption, 'beforeLoad');
+                __StBar.showBusy(_SM.__language.StatusBar_Message_Loading + store.viewCode, 'beforeLoad');
             },
      
             // Fired before a call to sync is executed. Return false from any listener to cancel the sync
             beforesync: function ( options, eOpts ) {
-                __StBar.showBusy(_SM.__language.StatusBar_Message_Sync + this.protoOption, 'beforeSync');
+                __StBar.showBusy(_SM.__language.StatusBar_Message_Sync + this.viewCode, 'beforeSync');
             },  
     
             // Fires whenever the records in the Store have changed in some way - this could include adding or removing records, or ...
             datachanged: function( store,  eOpts ) {
-                __StBar.clear( store.protoOption , 'dataChanged' ); 
+                __StBar.clear( store.viewCode , 'dataChanged' ); 
                 
                 // Guarda la info de sort 
                 try {
@@ -181,7 +181,7 @@ _SM.getProxyDefinition = function( stDef )  {
 
             // Parametros String para la conexion al backEnd 
             extraParams : {
-                protoOption : stDef.protoOption,
+                viewCode : stDef.viewCode,
                 protoFilter : _SM.obj2tx( stDef.protoFilter ),
                 baseFilter  : _SM.obj2tx( stDef.baseFilter ), 
                 protoMeta  :  _SM.obj2tx( stDef.sProtoMeta )     
@@ -220,8 +220,8 @@ _SM.getTreeStoreDefinition = function(  stDef  ){
 
 
     var myStore = Ext.create('Ext.data.TreeStore', {
-        protoOption : stDef.protoOption,
-        model: _SM.getModelName( stDef.protoOption  ),  
+        viewCode : stDef.viewCode,
+        model: _SM.getModelName( stDef.viewCode  ),  
         autoLoad: stDef.autoLoad,
         pageSize: stDef.pageSize,
         sorters: stDef.sorters,    
@@ -238,15 +238,15 @@ _SM.getTreeStoreDefinition = function(  stDef  ){
         // listeners: {
             // // Fires before a request is made for a new data object. ...
             // beforeload: function(  store,  operation,  eOpts ) {
-                // __StBar.showBusy( 'loading ..' + store.protoOption, 'beforeLoad' ); 
+                // __StBar.showBusy( 'loading ..' + store.viewCode, 'beforeLoad' ); 
             // },
             // // Fired before a call to sync is executed. Return false from any listener to cancel the sync
             // beforesync: function ( options, eOpts ) {
-                // __StBar.showBusy( 'sync ..' + this.protoOption, 'beforeSync'  );
+                // __StBar.showBusy( 'sync ..' + this.viewCode, 'beforeSync'  );
             // },  
             // // Fires whenever the records in the Store have changed in some way - this could include adding or removing records, or ...
             // datachanged: function( store,  eOpts ) {
-                // __StBar.clear( store.protoOption , 'dataChanged' ); 
+                // __StBar.clear( store.viewCode , 'dataChanged' ); 
             // } 
         // }
 
@@ -751,20 +751,20 @@ _SM.getFormFieldDefinition =  function ( vFld ) {
 
 // *********************************************************
 
-_SM.loadPci = function ( protoOption, loadIfNot, options) {
+_SM.loadPci = function ( viewCode, loadIfNot, options) {
 
 
         options = options || {};
         
         // Verificar si la opcion esta creada 
-        var myMeta = _SM._cllPCI[ protoOption ]
+        var myMeta = _SM._cllPCI[ viewCode ]
         
                 
         // Verifica modelo 
-        if  ( myMeta && Ext.ClassManager.isCreated(  _SM.getModelName( protoOption )  )){
+        if  ( myMeta && Ext.ClassManager.isCreated(  _SM.getModelName( viewCode )  )){
 
-            // Asigna la llave, pues si se hace una copia seguiria trayendo la misma protoOption de base 
-            myMeta.protoOption = protoOption 
+            // Asigna la llave, pues si se hace una copia seguiria trayendo la misma viewCode de base 
+            myMeta.viewCode = viewCode 
             return true
 
         } else { 
@@ -784,16 +784,16 @@ _SM.loadPci = function ( protoOption, loadIfNot, options) {
                 method: 'POST',
                 url: _SM._PConfig.urlGetPCI  ,
                 params : { 
-                    protoOption : protoOption 
+                    viewCode : viewCode 
                     },
                 scope: this,
                 success: function(result, request) {
                     
                     var myResult = Ext.decode( result.responseText );
-                    _SM.savePclCache( protoOption, myResult.protoMeta )
+                    _SM.savePclCache( viewCode, myResult.protoMeta )
                     
                     // Carga los permisos 
-                    _SM._UserInfo.perms[ protoOption ] = myResult.permissions
+                    _SM._UserInfo.perms[ viewCode ] = myResult.permissions
                     
                     // Continua con la carga
                     options.success.call( options.scope, result, request);
@@ -814,15 +814,15 @@ _SM.savePci = function ( protoMeta,  options) {
 
     if ( ! protoMeta ) return; 
 
-    var protoOption = protoMeta.protoOption
+    var viewCode = protoMeta.viewCode
     protoMeta.updateTime = _SM.getCurrentTime()
     
     var sMeta = Ext.encode(  protoMeta )
 
-    _SM.saveProtoObj( protoOption, sMeta ,  options)
+    _SM.saveProtoObj( viewCode, sMeta ,  options)
 }
 
-_SM.saveProtoObj = function ( protoOption, sMeta ,  options) {
+_SM.saveProtoObj = function ( viewCode, sMeta ,  options) {
 
 
         options = options || {};
@@ -839,7 +839,7 @@ _SM.saveProtoObj = function ( protoOption, sMeta ,  options) {
             method: 'POST',
             url: _SM._PConfig.urlSaveProtoObj  ,
             params : { 
-                protoOption : protoOption,  
+                viewCode : viewCode,  
                 protoMeta : sMeta  
                 },
             
@@ -913,7 +913,7 @@ _SM.defineProtoPclTreeModel = function () {
 
 
 
-_SM.getSheeReport = function ( protoOption, sheetName,  selectedKeys, options ) {
+_SM.getSheeReport = function ( viewCode, sheetName,  selectedKeys, options ) {
 
 
         options = options || {};
@@ -927,7 +927,7 @@ _SM.getSheeReport = function ( protoOption, sheetName,  selectedKeys, options ) 
             method: 'POST',
             url: _SM._PConfig.urlGetSheetReport  ,
             params : { 
-                protoOption : protoOption,  
+                viewCode : viewCode,  
                 sheetName   : sheetName, 
                 selectedKeys: Ext.encode( selectedKeys )    
                 },
@@ -945,7 +945,7 @@ _SM.getSheeReport = function ( protoOption, sheetName,  selectedKeys, options ) 
         
 }
 
-_SM.doProtoActions = function ( protoOption, actionName, selectedKeys, parameters, options ) {
+_SM.doProtoActions = function ( viewCode, actionName, selectedKeys, parameters, options ) {
 
         parameters = parameters || [];
         options = options || {};
@@ -960,7 +960,7 @@ _SM.doProtoActions = function ( protoOption, actionName, selectedKeys, parameter
             method: 'POST',
             url: _SM._PConfig.urlDoAction  ,
             params : { 
-                protoOption : protoOption,  
+                viewCode : viewCode,  
                 actionName  : actionName, 
                 parameters  : Ext.encode( parameters ), 
                 selectedKeys: Ext.encode( selectedKeys )    

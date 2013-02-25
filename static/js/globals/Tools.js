@@ -283,46 +283,46 @@ _SM.updateWinPosition = function (myWidth, myHeight) {
     }    
 }
 
-_SM.savePclCache = function (protoOption, protoMeta) {
+_SM.savePclCache = function (viewCode, protoMeta) {
 
-    // Asigna la llave, pues si se hace una copia seguiria trayendo la misma protoOption de base 
+    // Asigna la llave, pues si se hace una copia seguiria trayendo la misma viewCode de base 
    // console.log(protoMeta);
-    protoMeta.protoOption = protoOption
+    protoMeta.viewCode = viewCode
 
     _SM.verifyMetaVersion( protoMeta )
-    _SM.DefineProtoModel(protoMeta, _SM.getModelName(protoOption));
+    _SM.DefineProtoModel(protoMeta, _SM.getModelName(viewCode));
 
     // Guarda el cache de  pcl's 
-    _SM._cllPCI[protoOption] = protoMeta;
+    _SM._cllPCI[viewCode] = protoMeta;
 }
 
 _SM.verifyMetaVersion = function (protoMeta) {
     
-    // 121108  Se relocaliza protoSheets,  protoSheetProperties se crean dinamicamente.  
+    // 121108  Se relocaliza sheetConfig,  sheetConfigProperties se crean dinamicamente.  
     if ( protoMeta.sheetConfig )  { 
         sheetConfig = protoMeta.sheetConfig; 
-        protoMeta.protoSheetSelector = sheetConfig.protoSheetSelector;
-        if ( sheetConfig.protoSheets ) {
-            protoMeta.protoSheets = sheetConfig.protoSheets;    
+        protoMeta.sheetSelector = sheetConfig.sheetSelector;
+        if ( sheetConfig.sheetConfig ) {
+            protoMeta.sheetConfig = sheetConfig.sheetConfig;    
         }
         delete protoMeta.sheetConfig 
     }
 }
 
-_SM.getModelName = function (protoOption) {
+_SM.getModelName = function (viewCode) {
     // En principio traia un modelo de base q servia para todas las vistas construidas 
     // con el nuevo esquema de creacion dinamica, es mejor q el modelo corresponda a la 
     // opcion, pues las definiciones pueden ser totalmente diferentes. 
 
-    if ( ! protoOption ) {
+    if ( ! viewCode ) {
         console.log( 'undefined model??')
     }
 
-    var modelName = protoOption; 
+    var modelName = viewCode; 
     
     // Cuenta los "."
-    // if ( _SM.charCount( protoOption, ".")  > 2  ) {
-        // var n = protoOption.split(".", 2)         
+    // if ( _SM.charCount( viewCode, ".")  > 2  ) {
+        // var n = viewCode.split(".", 2)         
         // modelName = n[0] + '.' + n[1]
     // }
 
@@ -334,8 +334,8 @@ _SM.getSafeMeta = function (myMeta) {
     
     // prepara la meta q retorna al BackEnd 
     var safeMeta = { 
-        "protoOption"  : myMeta.protoOption,      
-        "protoConcept" : myMeta.protoConcept,      
+        "viewCode"  : myMeta.viewCode,      
+        "viewEntity" : myMeta.viewEntity,      
         "protoEntityId": myMeta.protoEntityId,      
         "jsonField"    : myMeta.jsonField || ''  ,      
         // "pciStyle"     : myMeta.pciStyle, 
@@ -349,7 +349,7 @@ _SM.getSafeMeta = function (myMeta) {
             'zoomModel', 'fkId', 
             'crudType', 'cpFromField', 'cpFromZoom'
             ] ),
-        "protoUdp": _SM.clone( myMeta.protoUdp )  
+        "usrDefProps": _SM.clone( myMeta.usrDefProps )  
     } 
         
     return Ext.encode( safeMeta )

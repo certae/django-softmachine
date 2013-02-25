@@ -5,11 +5,11 @@ class usrProfileAdmin(django.contrib.admin.ModelAdmin):
     protoExt = {
     "__ptType": "pcl",
     "description": "User Profile",
-    "protoConcept": "protoLib.UserProfile",
-    "protoIcon": "icon-1",
+    "viewEntity": "protoLib.UserProfile",
+    "viewIcon": "icon-1",
     "metaVersion": "13.0111",
     "idProperty": "id",
-    "protoOption": "protoLib.UserProfile",
+    "viewCode": "protoLib.UserProfile",
     "shortTitle": "User Profile",
     "fields": [{
         "__ptType": "field",
@@ -68,15 +68,15 @@ class usrProfileAdmin(django.contrib.admin.ModelAdmin):
         "type": "foreigntext"
     }],
     "actions": [],
-    "protoDetails": [{
-        "__ptType": "protoDetail",
+    "detailsConfig": [{
+        "__ptType": "detailDef",
         "detailField": "userprofile__pk",
         "conceptDetail": "protoLib.UserProfile_userSites",
         "detailName": "userprofile",
         "menuText": "UserProfile_userSites",
         "masterField": "pk"
     }],
-    "protoSheets": [],
+    "sheetConfig": [],
     "gridConfig": {
         "__ptType": "gridConfig",
         "listDisplay": ["user", "userTeam"],
@@ -87,15 +87,9 @@ class usrProfileAdmin(django.contrib.admin.ModelAdmin):
         "sortFields": [],
         "hiddenFields": ["id"],
         "readOnlyFields": [],
-        "others": {
-            "__ptType": "others",
-            "filtersSet": [],
-            "listDisplaySet": [],
-            "sortersSet": []
-        }
     },
-    "protoForm": {
-        "__ptType": "protoForm",
+    "formConfig": {
+        "__ptType": "formConfig",
         "items": [{
             "__ptType": "fieldset",
             "fsLayout": "2col",
@@ -119,8 +113,8 @@ class usrProfileAdmin(django.contrib.admin.ModelAdmin):
             }]
         }]
     },
-    "protoUdp": {
-        "__ptType": "protoUdp"
+    "usrDefProps": {
+        "__ptType": "usrDefProps"
     },
     "custom": {
         "__ptType": "custom",

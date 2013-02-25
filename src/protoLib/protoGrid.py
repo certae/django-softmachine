@@ -4,7 +4,7 @@ from django.contrib.admin.sites import  site
 
 
 from utilsBase import verifyList, copyProps, list2dict
-from protoUdp import verifyUdpDefinition 
+from usrDefProps import verifyUdpDefinition 
 from protoField import  setFieldDict
 
 
@@ -41,7 +41,7 @@ class ProtoGridFactory(object):
     """ Construye la definicion por defecto de la interface 
     """ 
 
-    def __init__(self, model, protoOption, model_admin, protoMeta  ):
+    def __init__(self, model, viewCode, model_admin, protoMeta  ):
             
         self.model = model              # the model to use as reference
         self.title = self.model._meta.verbose_name.title()
@@ -51,7 +51,7 @@ class ProtoGridFactory(object):
         self.protoMeta =  protoMeta
         
         # garantiza la llave 
-        self.protoOption = protoOption  
+        self.viewCode = viewCode  
 
         # Inicializa  
         self.fields = []                
@@ -65,7 +65,7 @@ class ProtoGridFactory(object):
 
 
         #UDPs para poder determinar el valor por defecto ROnly 
-        self.pUDP = self.protoMeta.get( 'protoUdp', {}) 
+        self.pUDP = self.protoMeta.get( 'usrDefProps', {}) 
         cUDP = verifyUdpDefinition( self.pUDP )
 
         # lista de campos para la presentacion en la grilla 
@@ -128,7 +128,7 @@ class ProtoGridFactory(object):
 #                        self.fieldsDict[ fName ] = fdict
 #
 #                        if fName == '__str__':
-#                            setDefaultField( fdict, self.model , self.protoOption  )
+#                            setDefaultField( fdict, self.model , self.viewCode  )
 #                                                        
 #                        # Si no es una UDP y no esta en diccionario debe ser ReadOnly 
 #                        if not (cUDP.udpTable and fName.startswith( cUDP.propertyPrefix + '__')):  
@@ -143,7 +143,7 @@ class ProtoGridFactory(object):
             fdict['name'] = fName
             self.fieldsDict[ fName ] = fdict
             
-            setDefaultField ( fdict, self.model, self.protoOption )
+            setDefaultField ( fdict, self.model, self.viewCode )
              
 
         # Genera la lista de campos y agrega el nombre al diccionario 
@@ -170,7 +170,7 @@ class ProtoGridFactory(object):
         """ El field set determina la distribucion de los campos en la forma
         """ 
         
-        pForm = self.protoMeta.get( 'protoForm', { 'items' : [] }) 
+        pForm = self.protoMeta.get( 'formConfig', { 'items' : [] }) 
         prFieldSet = pForm[ 'items' ]
         
         # Si no han sido definido genera por defecto  
@@ -285,7 +285,7 @@ class ProtoGridFactory(object):
     def get_details(self):  
 
         # Inicializa con los valores definidos,   
-        details = self.protoMeta.get( 'protoDetails', []) 
+        details = self.protoMeta.get( 'detailsConfig', []) 
 
 
         # Si no han sido definido genera por defecto  
@@ -344,7 +344,7 @@ def getModelDetails( model ):
     return details     
 
 
-def setDefaultField ( fdict, model, protoOption ): 
+def setDefaultField ( fdict, model, viewCode ): 
     """ 
         set __str__ properties   
     """
@@ -354,22 +354,22 @@ def setDefaultField ( fdict, model, protoOption ):
     fdict['sortable']  = True        
     fdict['flex']      = 1        
     fdict['cellLink']  = True 
-    fdict['zoomModel'] = protoOption
+    fdict['zoomModel'] = viewCode
     fdict['fkId']      =  'id'  
 
 
 
     
-def getProtoViewName( protoOption   ):
+def getProtoViewName( viewCode   ):
 #    Verifica si es una instancia del modelo ( vista )
 #    Concept Format :    app.model.view 
 #    Return :  app.model ,  view 
 
-    if protoOption.count(".") == 2:
-        app, model, view = protoOption.split(".")
-        protoOption = app + '.' +  model
+    if viewCode.count(".") == 2:
+        app, model, view = viewCode.split(".")
+        viewCode = app + '.' +  model
     
-    return protoOption  
+    return viewCode  
 
 
 def getFieldsInSet( self, prItems, formFields ):

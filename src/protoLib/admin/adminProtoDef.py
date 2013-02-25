@@ -5,18 +5,18 @@ import django.contrib.admin
 class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
     protoExt = {
     "description": "proto Definition",
-    "protoConcept": "protoLib.ProtoDefinition",
-    "protoIcon": "icon-1",
+    "viewEntity": "protoLib.ProtoDefinition",
+    "viewIcon": "icon-1",
     "idProperty": "id",
-    "protoOption": "protoLib.ProtoDefinition",
+    "viewCode": "protoLib.ProtoDefinition",
     "shortTitle": "Proto Definition",
     "metaVersion": "121001",
-    "protoSheets": [{
+    "sheetConfig": [{
         "name": "DEFAULT",
         "template": "{{metaDefinition}}",
         "title": "meta"
     }],
-    "protoUdp": {},
+    "usrDefProps": {},
     "gridConfig": {
         "baseFilter": [],
         "readOnlyFields": [],
@@ -26,16 +26,16 @@ class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
         "hiddenFields": [],
         "listDisplay": ["code", "description", "active", "overWrite"],
         "searchFields": ["code", "description", "metaDefinition"], 
-        "others": {
-            "filtersSet": [{
-                "name": "prototype",
-                "customFilter": [{
-                    "property": "code",
-                    "filterStmt": "^prototype"
-                }]
-            }],
-        }
     },
+    "gridSets": {
+        "filtersSet": [{
+            "name": "prototype",
+            "customFilter": [{
+                "property": "code",
+                "filterStmt": "^prototype"
+            }]
+        }],
+    }, 
     "fields": [{
         "zoomModel": "@cellValue",
         "cellLink": True,
@@ -76,9 +76,9 @@ class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
         "name": "overWrite",
         
     }],
-    "protoDetails": [],
-    "protoForm": {
-        "__ptType": "protoForm",
+    "detailsConfig": [],
+    "formConfig": {
+        "__ptType": "formConfig",
         "items": [{
             "fsLayout": "2col",
             "__ptType": "fieldset",

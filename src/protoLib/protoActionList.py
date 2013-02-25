@@ -14,7 +14,7 @@ from utilsConvert import getTypedValue
 from protoQbe import getSearcheableFields, getQbeStmt
 from protoAuth import getUserProfile, getModelPermissions
 
-from protoUdp import verifyUdpDefinition, readUdps 
+from usrDefProps import verifyUdpDefinition, readUdps 
 from protoField import TypeEquivalence
 from models import getDjangoModel 
 
@@ -92,7 +92,7 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
     JsonField = protoMeta.get( 'jsonField', '')
     if not isinstance( JsonField, ( str, unicode) ): JsonField = ''  
 
-    pUDP = protoMeta.get( 'protoUdp', {}) 
+    pUDP = protoMeta.get( 'usrDefProps', {}) 
     cUDP = verifyUdpDefinition( pUDP )
     rows = []
 
@@ -118,7 +118,7 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
         # Alimenta la coleccion de zooms, los campos heredados de otras tablas deben hacer 
         # referencia a un campo de zoom, el contendra el modelo y la llave para acceder al registro  
         myZoomModel = lField.get( 'zoomModel', '')   
-        if (len( myZoomModel ) > 0) and ( myZoomModel <> protoMeta['protoConcept']):
+        if (len( myZoomModel ) > 0) and ( myZoomModel <> protoMeta['viewEntity']):
             # dos campos puede apuntar al mismo zoom, la llave es el campo, 
             # "cpFromZoom"  contiene el campo q apunta al zoom y no el modelo    
             relModels[ fName ] = { 'zoomModel' : myZoomModel, 'fkId' : lField.get( 'fkId', '') , 'loaded' : False }     
@@ -185,7 +185,7 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
             rowdict = copyValuesFromFields( protoMeta, rowdict, relModels, JsonField  )
 
 #        if pStyle == 'tree':
-#            rowdict[ 'protoConcept' ] = protoMeta.get('protoConcept', '')
+#            rowdict[ 'viewEntity' ] = protoMeta.get('viewEntity', '')
 #            rowdict[ 'leaf' ] = False; rowdict[ 'children' ] = []
 
         # Agrega el Id Siempre como idInterno ( no representa una col, idProperty )
@@ -283,8 +283,8 @@ def copyValuesFromFields( protoMeta, rowdict, relModels, JsonField):
     return rowdict 
 
 
-def getUserNodes( pUser, protoConcept ):
-    userProfile = getUserProfile( pUser, 'list', protoConcept  ) 
+def getUserNodes( pUser, viewEntity ):
+    userProfile = getUserProfile( pUser, 'list', viewEntity  ) 
     userNodes = userProfile.userTree.split(',')   
         
     return userNodes
@@ -293,8 +293,8 @@ def getUserNodes( pUser, protoConcept ):
 def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
     
 #   Decodifica los eltos 
-    protoConcept = protoMeta.get('protoConcept', '')
-    model = getDjangoModel(protoConcept)
+    viewEntity = protoMeta.get('viewEntity', '')
+    model = getDjangoModel(viewEntity)
 
 #   Autentica '
     if not getModelPermissions( pUser, model, 'list' ):
@@ -303,7 +303,7 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
 #   modelo Administrado
     isProtoModel = hasattr( model , '_protoObj' )
     if isProtoModel: 
-        userNodes = getUserNodes( pUser, protoConcept )
+        userNodes = getUserNodes( pUser, viewEntity )
 
 #   JsonField
     JsonField = protoMeta.get( 'jsonField', '')

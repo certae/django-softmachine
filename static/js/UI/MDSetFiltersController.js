@@ -10,7 +10,7 @@ Ext.define('ProtoUL.UI.MDSetFiltersController', {
         
         var myFilters = []  
         var __MasterDetail = this.__MasterDetail
-        var tmpFilters = this.myMeta.gridConfig.others.filtersSet.concat( this.myMeta.custom.filtersSet ) 
+        var tmpFilters = this.myMeta.gridSets.filtersSet.concat( this.myMeta.custom.filtersSet ) 
 
         // Si no hay filtros definidos pero existe un filterAlph,
         if ((tmpFilters.length == 0)  &&  this.myMeta.gridConfig.filterSetABC  ) {

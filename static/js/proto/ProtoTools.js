@@ -66,7 +66,7 @@ function Meta2Tree( oData, pName, ptType   ) {
     return doFinalFormat( tData ) 
 
     function doFinalFormat( tData ) {
-        tData.text = oData.name || oData.menuText || oData.property ||  oData.protoConcept ||  ptType
+        tData.text = oData.name || oData.menuText || oData.property ||  oData.viewEntity ||  ptType
         return tData     
     }
 

@@ -16,8 +16,8 @@ def protoExecuteAction(request):
 
     actionName   = request.POST.get('actionName', '') 
     
-    protoOption  = request.POST.get('protoOption', '') 
-    protoConcept  = getProtoViewName( protoOption )
+    viewCode  = request.POST.get('viewCode', '') 
+    viewEntity  = getProtoViewName( viewCode )
 
     selectedKeys = request.POST.get('selectedKeys', [])
     selectedKeys = json.loads( selectedKeys )
@@ -27,7 +27,7 @@ def protoExecuteAction(request):
     
     # Obtiene el modelo 
     try: 
-        model = getDjangoModel(protoConcept)
+        model = getDjangoModel(viewEntity)
         modelAdmin = site._registry.get( model )
     except Exception as e:
         return doReturn ({'success':False, 'message' : 'Model notFound'}) 

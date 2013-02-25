@@ -7,12 +7,12 @@
 
 Ext.define('ProtoUL.proto.ProtoDetailSelector', {
     extend: 'Ext.panel.Panel',
-    alias: 'widget.protoDetailSelector',
+    alias: 'widget.detailsSelector',
 
 // Contenedor para probar el arbol de detalles 
     
-// @protoOption   Required 
-    protoOption : null, 
+// @viewCode   Required 
+    viewCode : null, 
 
  // @myMeta   Required 
     myMeta : null, 
@@ -24,7 +24,7 @@ Ext.define('ProtoUL.proto.ProtoDetailSelector', {
         var tBar =  Ext.create( 'ProtoUL.proto.ProtoToolBar', {dock : 'top'})
         
         var elemTree = Ext.create('ProtoUL.proto.ProtoDetailTree', {
-            protoOption : me.protoOption, 
+            viewCode : me.viewCode, 
             myMeta : me.myMeta 
            })
 
@@ -76,8 +76,8 @@ Ext.define('ProtoUL.proto.ProtoDetailSelector', {
         function configureCurrentDetails() {
 
             // Crea los campos activos en la grilla 
-            for (var ix in me.myMeta.protoDetails ) {
-                var vFld  =  me.myMeta.protoDetails[ix];
+            for (var ix in me.myMeta.detailsConfig ) {
+                var vFld  =  me.myMeta.detailsConfig[ix];
                 elemList.addDataItem ( vFld.menuText, true  ) 
             } 
         };
@@ -103,11 +103,11 @@ Ext.define('ProtoUL.proto.ProtoDetailSelector', {
             } 
             
             // Actualiza los nuevos detalles 
-            me.myMeta.protoDetails = details 
+            me.myMeta.detailsConfig = details 
             
             function getExistingDetail( name  ) {
-                for (var ix in me.myMeta.protoDetails ) {
-                    var vFld  =  me.myMeta.protoDetails[ix];
+                for (var ix in me.myMeta.detailsConfig ) {
+                    var vFld  =  me.myMeta.detailsConfig[ix];
                     if ( vFld.menuText == name ) {
                         return vFld 
                         break ; 
@@ -143,11 +143,11 @@ Ext.define('ProtoUL.proto.ProtoDetailSelector', {
 
 Ext.define('ProtoUL.proto.ProtoDetailTree', {
     extend: 'Ext.tree.Panel',
-    alias: 'widget.protoDetailTree',
+    alias: 'widget.detailDefTree',
     
 
- // @protoOption   Required 
-    protoOption : null, 
+ // @viewCode   Required 
+    viewCode : null, 
 
 //  @myMeta   Required 
     myMeta : null, 
@@ -157,7 +157,7 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
         me = this; 
         me.addEvents('checkModif', 'loadComplete');
         
-        definieProtoDetailsTreeModel( me.protoOption, me.myMeta.protoEntityId  )
+        definieDetailsConfigTreeModel( me.viewCode, me.myMeta.protoEntityId  )
         
         this.treeStore = Ext.create('Ext.data.TreeStore', {
             autoLoad: true,
@@ -224,8 +224,8 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
                 if ( lRec.conceptDetail )  {
                     
                     // Marca los campos activos en la grilla
-                    for (var ix in me.myMeta.protoDetails ) {
-                        var vFld  =  me.myMeta.protoDetails[ix];
+                    for (var ix in me.myMeta.detailsConfig ) {
+                        var vFld  =  me.myMeta.detailsConfig[ix];
                         
                         if (( vFld.conceptDetail == lRec.conceptDetail ) && ( vFld.detailField == lRec.detailField )) {
                             record.set( 'checked', true )
@@ -242,7 +242,7 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
              })
         };
         
-        function definieProtoDetailsTreeModel( protoOption , protoEntityId) {
+        function definieDetailsConfigTreeModel( viewCode , protoEntityId) {
             // Modelo usado en la lista de campos con la jerarquia completa de los de zoom ( detalle de fk ) 
             
             Ext.define('Proto.DetailsTreeModel', {
@@ -252,7 +252,7 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
                     url: _SM._PConfig.urlGetDetailsTree , 
                     actionMethods: { read : 'POST' },     
                     extraParams : {
-                        protoOption : protoOption, 
+                        viewCode : viewCode, 
                         protoEntityId : protoEntityId
                     },    
                 }, 

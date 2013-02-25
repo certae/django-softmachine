@@ -42,7 +42,7 @@ _SM._PConfig =  {
     urlGetFieldTree : 'protoLib/protoGetFieldTree/', 
     urlGetDetailsTree : 'protoLib/protoGetDetailsTree/', 
     urlGetUserRights : 'protoLib/protoGetUserRights/', 
-    urlGetSheetReport : 'protoLib/protoSheetRep/', 
+    urlGetSheetReport : 'protoLib/sheetConfigRep/', 
     urlGetProtoCsv : 'protoLib/protoCsv/', 
     urlDoAction   : 'protoLib/protoDoActions/', 
     urlHelpQbe: 'protoLib/protoGetHelpQbe/',

@@ -15,9 +15,9 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
         
         var myDetails = []                  
 
-        for (var vDet in mDet.myMeta.protoDetails) {        // Recorre y agrega los detalles al menu 
+        for (var vDet in mDet.myMeta.detailsConfig) {        // Recorre y agrega los detalles al menu 
 
-            var pDetail = mDet.myMeta.protoDetails[ vDet ]
+            var pDetail = mDet.myMeta.detailsConfig[ vDet ]
             if ( pDetail.menuText === undefined ) continue; 
 
             var myAction = new Ext.Action({
@@ -101,7 +101,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
             // Definicion grilla Detail 
             var detailGrid = Ext.create('ProtoUL.view.ProtoGrid', {
                 border : false, 
-                protoOption : pDetail.conceptDetail,  
+                viewCode : pDetail.conceptDetail,  
                 protoIsDetailGrid : true,
                 detailDefinition : pDetail,  
                 autoLoad : false,
@@ -132,7 +132,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
             // setActionPrp('tooltip', 'setTooltip', myMeta.description );
             setActionPrp('tooltip', 'setTooltip', pDetail.menuText  );
 
-            setActionPrp('iconCls', 'setIconCls', myMeta.protoIcon );
+            setActionPrp('iconCls', 'setIconCls', myMeta.viewIcon );
             //setActionPrp('iconAlign', 'setIconAlign', 'top');
             setActionPrp('width', 'setWidth', 100 );
             myAction.show()

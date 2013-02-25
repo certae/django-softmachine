@@ -8,7 +8,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
 
     getProtoActionsBar: function() {
 
-        var perms = _SM._UserInfo.perms[ this.myMeta.protoOption ]
+        var perms = _SM._UserInfo.perms[ this.myMeta.viewCode ]
         if ( !( perms['add'] || perms['update'] || perms['delete'] )) return 
         // if ( ! _SM._UserInfo.isStaff ) return  
         var me = this; 
@@ -22,7 +22,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
                 new Ext.Action({
                     text:           pProtoAction.menuText || pProtoAction.name,
                     actionName:     pProtoAction.name,
-                    iconCls :       pProtoAction.protoIcon, 
+                    iconCls :       pProtoAction.viewIcon, 
                     tooltip:        pProtoAction.description,
                     actionDef :     pProtoAction,
                     scope:          me,                     
@@ -66,12 +66,12 @@ Ext.define('ProtoUL.UI.MDActionsController', {
             // actionParams 
             pAction.actionParams = _SM.verifyList( pAction.actionParams )
             if ( pAction.actionParams.length == 0 ) {
-                this.doAction( me, pGrid.protoOption, btn.actionName , selectedKeys, [] )
+                this.doAction( me, pGrid.viewCode, btn.actionName , selectedKeys, [] )
             } else {  
                 var myOptions = {
                     scope : me,
                     acceptFn : function( parameters) {
-                        this.doAction( me, pGrid.protoOption, btn.actionName , selectedKeys, parameters )
+                        this.doAction( me, pGrid.viewCode, btn.actionName , selectedKeys, parameters )
                     }
                 }
                 
@@ -87,7 +87,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
         
     }, 
 
-    doAction: function ( me, protoOption, actionName , selectedKeys, parameters ) {
+    doAction: function ( me, viewCode, actionName , selectedKeys, parameters ) {
 
         var options = {
             scope : me,
@@ -105,7 +105,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
         }
         
         __StBar.showMessage( 'executing  ' + actionName + '...', 'MDActionsController' )
-        _SM.doProtoActions( protoOption, actionName, selectedKeys, parameters, options )
+        _SM.doProtoActions( viewCode, actionName, selectedKeys, parameters, options )
         
     }
     

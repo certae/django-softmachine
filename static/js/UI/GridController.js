@@ -85,7 +85,7 @@ Ext.define('ProtoUL.UI.GridController', {
             var detDef = me.detailDefinition 
 
             __TabContainer.addTabPanel(
-                   me.store.protoOption , 
+                   me.store.viewCode , 
                    me.protoFilter, 
                    me.detailTitle 
            ); 
@@ -158,7 +158,7 @@ Ext.define('ProtoUL.UI.GridController', {
     setEditMode: function ( bEdit) {
 
 
-        var perms = _SM._UserInfo.perms[ this.myMeta.protoOption ]
+        var perms = _SM._UserInfo.perms[ this.myMeta.viewCode ]
         if ( !( perms['add'] || perms['update'] || perms['delete'] )) return 
         // if ( ! _SM._UserInfo.isStaff  ) return 
 

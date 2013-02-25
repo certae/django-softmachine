@@ -5,7 +5,7 @@ Ext.define('Ext.ux.protoQBE', {
     alias: 'widget.protoqbe',
     iconCls: 'icon-filter',
     
-    protoOption: null,
+    viewCode: null,
     defaultType: 'textfield',
     autoHeigth: true,
 
@@ -47,7 +47,7 @@ Ext.define('Ext.ux.protoQBE', {
                     name: resp[i].name,
                     allowBlank: !resp[i].required,
                     width: 300,
-                    protoOption:  me.protoOption,
+                    viewCode:  me.viewCode,
                     editable: true,
                     xtype: "HelpQbe",
                     //hidden:!resp[i].searchable,
@@ -66,7 +66,7 @@ Ext.define('Ext.ux.protoQBE', {
 
         Ext.applyIf(me, {
 
-            title: me.protoOption + me.titulo,
+            title: me.viewCode + me.titulo,
             
 
 

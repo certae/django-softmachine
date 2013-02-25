@@ -11,7 +11,7 @@ Ext.define('ProtoUL.UI.MDSetSortersController', {
         var mySortersSet = []  
         var __MasterDetail = this.__MasterDetail
 
-        var tmpSorters = this.myMeta.gridConfig.others.sortersSet.concat( this.myMeta.custom.sortersSet )
+        var tmpSorters = this.myMeta.gridSets.sortersSet.concat( this.myMeta.custom.sortersSet )
 
         if ( this.myMeta.gridConfig.initialSort && ( tmpSorters.length > 0  )) {
             addSorters( [ {

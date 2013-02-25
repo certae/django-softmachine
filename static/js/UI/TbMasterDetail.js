@@ -171,7 +171,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         this.callParent();
 
         // Guarda los permisos
-        me.perms = _SM._UserInfo.perms[ this.protoMeta.protoOption ]
+        me.perms = _SM._UserInfo.perms[ this.protoMeta.viewCode ]
 
         this.setEditMode( false ); 
 

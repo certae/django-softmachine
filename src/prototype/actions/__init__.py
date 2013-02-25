@@ -75,15 +75,15 @@ def createView( pEntity, viewTitle, userProfile ):
     viewName    = stripAccents( viewTitle )
     infoEntity  = getViewDefinition( pEntity , viewTitle  )
 
-    # Debe corresponder al protoOptiongenerado en el template ( infoEntity[protoOption] ) 
-    protoOption = PROTO_PREFIX + viewName
+    # Debe corresponder al viewCodegenerado en el template ( infoEntity[viewCode] ) 
+    viewCode = PROTO_PREFIX + viewName
     
     try:
-        rec = CustomDefinition.objects.get(code = protoOption, smOwningTeam = userProfile.userTeam )
+        rec = CustomDefinition.objects.get(code = viewCode, smOwningTeam = userProfile.userTeam )
         created = False 
     except CustomDefinition.DoesNotExist:
         created = True 
-        rec = CustomDefinition( code = protoOption )
+        rec = CustomDefinition( code = viewCode )
     
     rec.metaDefinition = json.dumps( infoEntity, cls=JSONEncoder ) 
     rec.description = infoEntity['description'] 

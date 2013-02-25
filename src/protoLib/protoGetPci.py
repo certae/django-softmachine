@@ -30,31 +30,31 @@ def protoGetPCI(request):
     if request.method != 'POST':
         return JsonError( 'invalid message' ) 
     
-    protoOption = request.POST.get('protoOption', '') 
-    protoConcept  = getProtoViewName( protoOption )
+    viewCode = request.POST.get('viewCode', '') 
+    viewEntity  = getProtoViewName( viewCode )
     
     try: 
-        model = getDjangoModel(protoConcept)
+        model = getDjangoModel(viewEntity)
     except Exception as  e:
         return JsonError(  getReadableError( e ) ) 
     
     # 
-    userProfile = getUserProfile( request.user, 'getPci', protoConcept  ) 
+    userProfile = getUserProfile( request.user, 'getPci', viewEntity  ) 
 
 
     # PROTOTIPOS 
-    if protoConcept == 'prototype.ProtoTable' and protoConcept != protoOption :
+    if viewEntity == 'prototype.ProtoTable' and viewEntity != viewCode :
         try:
-            protoDef = CustomDefinition.objects.get(code = protoOption, smOwningTeam  = userProfile.userTeam )
+            protoDef = CustomDefinition.objects.get(code = viewCode, smOwningTeam  = userProfile.userTeam )
             created = False 
         except:
-            jsondict = { 'success':False, 'message': protoOption + ' notFound' } 
+            jsondict = { 'success':False, 'message': viewCode + ' notFound' } 
             return HttpResponse( json.dumps( jsondict), mimetype="application/json")
 
     else:
         # created : El objeto es nuevo
         # protoDef : PCI leida de la DB 
-        protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption, defaults={'code': protoOption})
+        protoDef, created = ProtoDefinition.objects.get_or_create(code = viewCode, defaults={'code': viewCode})
     
     
     # El default solo parece funcionar al insertar en la Db
@@ -71,8 +71,8 @@ def protoGetPCI(request):
         if ( not version ) or ( not protoDef.active ): 
 
             # Verifica si existe una propiedad ProtoMeta es la copia de la meta cargada a la Db,
-            grid = protoGrid.ProtoGridFactory( model, protoOption, model_admin, protoMeta )
-            protoMeta = createProtoMeta( model, grid, protoConcept, protoOption  )
+            grid = protoGrid.ProtoGridFactory( model, viewCode, model_admin, protoMeta )
+            protoMeta = createProtoMeta( model, grid, viewEntity, viewCode  )
     
         # Guarda la Meta si es nuevo o si se especifica overWrite
         if  created or protoDef.overWrite: 
@@ -84,7 +84,7 @@ def protoGetPCI(request):
     else:
         
         protoMeta = json.loads( protoDef.metaDefinition ) 
-        protoMeta['protoOption'] = protoOption  
+        protoMeta['viewCode'] = viewCode  
 
     
     # La definicion del arbol es fija, pues las cols deben ser siempre uniformes sin importar el tipo de modelo.
@@ -126,7 +126,7 @@ def protoGetPCI(request):
 # protoGetPCI ----------------------------
 
 
-def createProtoMeta( model, grid, protoConcept , protoOption ):
+def createProtoMeta( model, grid, viewEntity , viewCode ):
 
 
     # Los criterios de busqueda ni los ordenamientos son heredados del admin, 
@@ -171,13 +171,13 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
              'filterSetABC': grid.gridConfig.get( 'filterSetABC', ''),
 
              'hiddenFields': grid.protoMeta.get( 'hiddenFields', ['id', ]),
-             'others': grid.gridConfig.get( 'others', {}),
+             'gridSets': grid.protoMeta.get( 'grid.protoMeta', {}),
 #            'listDisplaySet':grid.gridConfig.get( 'listDisplaySet', []) ,     
          } 
 
 
     #---------- Ahora las propiedades generales de la PCI 
-    protoIcon  = grid.protoMeta.get( 'protoIcon', 'icon-1') 
+    viewIcon  = grid.protoMeta.get( 'viewIcon', 'icon-1') 
 
     pDescription = grid.protoMeta.get( 'description', '')
     if len(pDescription) == 0:  pDescription = grid.protoMeta.get( 'title', grid.title)
@@ -187,25 +187,25 @@ def createProtoMeta( model, grid, protoConcept , protoOption ):
 
     protoTmp = { 
          'metaVersion' : PROTOVERSION ,
-         'protoOption' : protoOption,           
-         'protoConcept' : protoConcept,           
+         'viewCode' : viewCode,           
+         'viewEntity' : viewEntity,           
          'idProperty': grid.protoMeta.get( 'idProperty', id_field ),
          'shortTitle': grid.protoMeta.get( 'shortTitle', grid.title ),
          'description': pDescription ,
-         'protoIcon': protoIcon,
+         'viewIcon': viewIcon,
 
          'fields': grid.fields, 
          'gridConfig' : gridConfig,  
 
-         'protoDetails': grid.get_details() , 
-         'protoForm': grid.getFieldSets(),  
+         'detailsConfig': grid.get_details() , 
+         'formConfig': grid.getFieldSets(),  
          }
     
 
 #         'helpPath': grid.protoMeta.get( 'helpPath',''),
-#         'protoSheetSelector' : grid.protoMeta.get( 'protoSheetSelector', ''), 
-#         'protoUdp': grid.protoMeta.get( 'protoUdp', {}), 
-#         'protoSheets' : grid.protoMeta.get( 'protoSheets', []), 
+#         'sheetSelector' : grid.protoMeta.get( 'sheetSelector', ''), 
+#         'usrDefProps': grid.protoMeta.get( 'usrDefProps', {}), 
+#         'sheetConfig' : grid.protoMeta.get( 'sheetConfig', []), 
 
     return copyProps( grid.protoMeta, protoTmp ) 
 
@@ -224,13 +224,13 @@ def protoSaveProtoObj(request):
     
     custom :  Los objetos de tipo custom, manejan la siguiente llave 
     
-        _ColSet.[protoOption]        listDisplaySet  
-        _QrySet.[protoOption]        filterSet
+        _ColSet.[viewCode]        listDisplaySet  
+        _QrySet.[viewCode]        filterSet
         _menu 
     
     Para manejar el modelo en las generacion de protoPci's  se usa :
     
-        prototype.protoTable.[protoModel-protoOption]  --> al leer la pcl se leera prototype.protoTable.[protoModel-protoOption]
+        prototype.protoTable.[protoModel-viewCode]  --> al leer la pcl se leera prototype.protoTable.[protoModel-viewCode]
     
     """
 
@@ -238,13 +238,13 @@ def protoSaveProtoObj(request):
         return JsonError( 'invalid message' ) 
 
     custom = False  
-    protoOption = request.POST.get('protoOption', '')
+    viewCode = request.POST.get('viewCode', '')
 
-    userProfile = getUserProfile( request.user, 'savePci', protoOption  ) 
+    userProfile = getUserProfile( request.user, 'savePci', viewCode  ) 
 
     # Reglas para definir q se guarda  
-    if protoOption.find( '_' ) == 0  :  custom = True 
-    if protoOption.find( 'prototype.ProtoTable.' ) == 0  :  custom = True 
+    if viewCode.find( '_' ) == 0  :  custom = True 
+    if viewCode.find( 'prototype.ProtoTable.' ) == 0  :  custom = True 
 
     # Carga la meta 
     sMeta = request.POST.get('protoMeta', '')
@@ -253,7 +253,7 @@ def protoSaveProtoObj(request):
     if custom: 
 
         try:
-            protoDef, created = CustomDefinition.objects.get_or_create(code = protoOption, smOwningTeam = userProfile.userTeam )
+            protoDef, created = CustomDefinition.objects.get_or_create(code = viewCode, smOwningTeam = userProfile.userTeam )
         except Exception as e:
             return JsonError(  getReadableError( e ) ) 
             
@@ -263,7 +263,7 @@ def protoSaveProtoObj(request):
     elif request.user.is_superuser: 
 
         try:
-            protoDef, created = ProtoDefinition.objects.get_or_create(code = protoOption )
+            protoDef, created = ProtoDefinition.objects.get_or_create(code = viewCode )
         except Exception as e:
             return JsonError(  getReadableError( e ) ) 
 
@@ -285,16 +285,16 @@ def protoGetFieldTree(request):
     if request.method != 'POST':
         return JsonError('Invalid message') 
     
-    protoOption = request.POST.get('protoOption', '') 
-    protoConcept  = getProtoViewName( protoOption )
+    viewCode = request.POST.get('viewCode', '') 
+    viewEntity  = getProtoViewName( viewCode )
     
     try: 
-        model = getDjangoModel(protoConcept)
+        model = getDjangoModel(viewEntity)
     except Exception as e:
         return JsonError(  getReadableError( e ) ) 
     
     fieldList = []
-    if protoConcept == 'prototype.ProtoTable' and protoConcept != protoOption :
+    if viewEntity == 'prototype.ProtoTable' and viewEntity != viewCode :
         # -----------------------------------------------------------------------------------------------------
         # Prototipos 
         protoEntityId = request.POST.get( 'protoEntityId' )
@@ -317,16 +317,16 @@ def protoGetFieldTree(request):
         # Add __str__ 
         myField = { 
             'id'        : '__str__' ,  
-            'text'      : protoConcept , 
+            'text'      : viewEntity , 
             'checked'   : False,       
             'leaf'      : True 
          }
         
         # Defaults values
-        setDefaultField( myField, model , protoOption)
+        setDefaultField( myField, model , viewCode)
         
         # FormLink redefinition to original view 
-        # myField['zoomModel'] =  protoOption  
+        # myField['zoomModel'] =  viewCode  
         
         fieldList.append( myField )
 

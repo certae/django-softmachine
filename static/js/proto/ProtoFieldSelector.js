@@ -12,8 +12,8 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.protoFieldSelector',
     
- // @protoOption   Required 
-    protoOption : null, 
+ // @viewCode   Required 
+    viewCode : null, 
 
  // @myMeta   Required 
     myMeta : null, 
@@ -27,7 +27,7 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
         
         
         var elemTree = Ext.create('ProtoUL.proto.ProtoFieldTree', {
-            protoOption : me.protoOption, 
+            viewCode : me.viewCode, 
             myMeta : me.myMeta 
            })
 
@@ -186,8 +186,8 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
     alias:    'widget.protoFieldTree',
     
 
- // @protoOption   Required 
-    protoOption : null, 
+ // @viewCode   Required 
+    viewCode : null, 
 
 //  @myMeta   Required 
     myMeta : null, 
@@ -197,7 +197,7 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
         me = this; 
         me.addEvents('checkModif', 'loadComplete');
         
-        definieProtoFieldSelctionModel( me.protoOption, me.myMeta.protoEntityId )
+        definieProtoFieldSelctionModel( me.viewCode, me.myMeta.protoEntityId )
         
         this.treeStore = Ext.create('Ext.data.TreeStore', {
             autoLoad: true,
@@ -301,7 +301,7 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
         me.callParent(arguments);
         
         
-        function definieProtoFieldSelctionModel( protoOption, protoEntityId ) {
+        function definieProtoFieldSelctionModel( viewCode, protoEntityId ) {
         
             // Modelo usado en la lista de campos con la jerarquia completa de los de zoom ( detalle de fk ) 
             
@@ -312,7 +312,7 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
                     url: _SM._PConfig.urlGetFieldTree , 
                     actionMethods: { read : 'POST' },     
                     extraParams : {
-                        protoOption : protoOption,  
+                        viewCode : viewCode,  
                         protoEntityId : protoEntityId 
                     }    
                 }, 

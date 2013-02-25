@@ -49,17 +49,17 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
         } 
 
         // Los diferentes formatos definidos para cada grilla, definiria impresion en maestro deltalle usando templates y las relaciones definidas.
-        if ( this.myMeta.protoSheets.length > 0 ) {
+        if ( this.myMeta.sheetConfig.length > 0 ) {
             
-            for (var ix in this.myMeta.protoSheets  ) {       
-                var pPrinterOpts = this.myMeta.protoSheets[ ix ]
+            for (var ix in this.myMeta.sheetConfig  ) {       
+                var pPrinterOpts = this.myMeta.sheetConfig[ ix ]
                 if ( pPrinterOpts.sheetStyle == 'gridOnly' ) continue; 
                 
                 myPrinterOpts.push (
                     new Ext.Action({
                         text:           pPrinterOpts.name,
                         sheetName :     pPrinterOpts.name, 
-                        iconCls :       pPrinterOpts.protoIcon || 'icon-printSheet', 
+                        iconCls :       pPrinterOpts.viewIcon || 'icon-printSheet', 
                         tooltip:        pPrinterOpts.title,
                         scope:          me,                     
                         handler:        onClickPrintSheetRep
@@ -126,7 +126,7 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
                 }
             }
             
-            _SM.getSheeReport( pGrid.protoOption, btn.sheetName , selectedKeys , options  )
+            _SM.getSheeReport( pGrid.viewCode, btn.sheetName , selectedKeys , options  )
             
         };
 

@@ -11,7 +11,7 @@ Ext.define('ProtoUL.UI.MDSetTabsController', {
         var myTabs = []  
         var __MasterDetail = this.__MasterDetail
 
-        var tmpTabs = this.myMeta.gridConfig.others.listDisplaySet.concat( this.myMeta.custom.listDisplaySet ) 
+        var tmpTabs = this.myMeta.gridSets.listDisplaySet.concat( this.myMeta.custom.listDisplaySet ) 
 
         if ( tmpTabs.length > 0 ) {
             addTabs( [ {

@@ -9,7 +9,7 @@
     initComponent: function () {
 
         var me = this;
-        me.myMeta = _SM._cllPCI[me.protoOption];
+        me.myMeta = _SM._cllPCI[me.viewCode];
         me.createHelpWindow(me);
         this.callParent(arguments);
 
@@ -93,7 +93,7 @@
         me.win = Ext.widget('window', {
             //title: 'Help : ' + me.myMeta.shortTitle,
             title: _SM.__language.HelpQBE_Window_Title+' : ',
-            // iconCls: me.myMeta.protoIcon,
+            // iconCls: me.myMeta.viewIcon,
             closeAction: 'hide',
             //layout: 'fit',
             modal: true,

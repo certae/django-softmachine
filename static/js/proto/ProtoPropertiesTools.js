@@ -30,7 +30,7 @@ function prepareProperties( record , myMeta,  propPanel  ){
         template = getTemplate( __ptType, false, myFieldDict[ __ptText  ] )
         __ptConfig[ 'name' ]  = __ptText 
 
-    // } else if ( __ptType  in _SM.objConv( [ 'protoDetail', 'protoSheet' ]) ) {
+    // } else if ( __ptType  in _SM.objConv( [ 'detailDef', 'sheetConfig' ]) ) {
         // template = getTemplate( __ptType, false  )
 
     }  else {

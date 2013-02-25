@@ -70,10 +70,10 @@ _MetaProperties =  {
     "readOnly.type"  : "boolean",
     
 // PCI
-    "protoConcept.help" : "Opcion de base de la pci (apunta directamente al modelo Django  app.modelo)",
-    "protoOption.help"  : "Definicion de view interface - puede ser = al protoConcpeto o definir un nivel adicional app.modelo.vista", 
+    "viewEntity.help" : "Opcion de base de la pci (apunta directamente al modelo Django  app.modelo)",
+    "viewCode.help"  : "Definicion de view interface - puede ser = al protoConcpeto o definir un nivel adicional app.modelo.vista", 
     "description.help"  : "Text descriptivo", 
-    "protoIcon.help"  : "iconName tal como se define en el css",
+    "viewIcon.help"  : "iconName tal como se define en el css",
     "shortTitle.help" : "Titulo del menu y de la forma" ,
     "idProperty.help" : "Campo q sirve como Id en el modelo, Django definie por defecto un Id, no es necesario definirlo explitamente",
 
@@ -111,7 +111,7 @@ _MetaProperties =  {
     "udpTable.help" : "Tabla que contiene las upds, <b>** Si es un vinculo directo corresponde al related_name q es el set de detalles, normalmente la tablaUdp comenzando por minuscula", 
 
 // sheets
-    "protoSheetSelector.help": "Campo de criterio para seleccionar el template, vacio para una unica plantilla por defecto DEFAULT",
+    "sheetSelector.help": "Campo de criterio para seleccionar el template, vacio para una unica plantilla por defecto DEFAULT",
     "template.help": "Definicion de la plantilla", 
 
     "templateFp.help": "Templante FirstPage", 

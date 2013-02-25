@@ -17,8 +17,8 @@ Ext.define('ProtoUL.UI.GridSheetController', {
 
         // Verifia q al menos una hoja sea visible en la grilla
         var hideSheet = true;      
-        for ( ix in myMeta.protoSheets  ) {
-            var sType = myMeta.protoSheets[ix].sheetType 
+        for ( ix in myMeta.sheetConfig  ) {
+            var sType = myMeta.sheetConfig[ix].sheetType 
             if ( sType == 'gridOnly'  ) continue;
             hideSheet = false; 
             break;  
@@ -68,8 +68,8 @@ Ext.define('ProtoUL.UI.GridSheetController', {
             return 
         }  
 
-        var pSheets = myMeta.protoSheets;
-        var pSheetSelector = myMeta.protoSheetSelector || '';
+        var pSheets = myMeta.sheetConfig;
+        var pSheetSelector = myMeta.sheetSelector || '';
         var pSheetCriteria = me.rowData[ pSheetSelector ] 
         var pSheet = undefined;  
         

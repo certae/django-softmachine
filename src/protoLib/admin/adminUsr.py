@@ -2,10 +2,10 @@
 
 AdminUser = {
     "__ptType": "pcl",
-    "protoOption": "auth.User",
+    "viewCode": "auth.User",
     "description": "Utilisateur",
-    "protoConcept": "auth.User",
-    "protoIcon": "icon-1",
+    "viewEntity": "auth.User",
+    "viewIcon": "icon-1",
     "shortTitle": "Utilisateur",
     "metaVersion": "13.0111",
     "idProperty": "id",
@@ -149,50 +149,50 @@ AdminUser = {
         "crudType": "screenOnly"
     }],
     "actions": [],
-    "protoDetails": [{
-        "__ptType": "protoDetail",
+    "detailsConfig": [{
+        "__ptType": "detailDef",
         "menuText": "Message.user",
         "conceptDetail": "auth.Message",
         "detailName": "user",
         "detailField": "user__pk",
         "masterField": "pk"
     }, {
-        "__ptType": "protoDetail",
+        "__ptType": "detailDef",
         "menuText": "Logentry.user",
         "conceptDetail": "admin.LogEntry",
         "detailName": "user",
         "detailField": "user__pk",
         "masterField": "pk"
     }, {
-        "__ptType": "protoDetail",
+        "__ptType": "detailDef",
         "menuText": "Userprofile.user",
         "conceptDetail": "protoLib.UserProfile",
         "detailName": "user",
         "detailField": "user__pk",
         "masterField": "pk"
     }, {
-        "__ptType": "protoDetail",
+        "__ptType": "detailDef",
         "menuText": "Usershare.user",
         "conceptDetail": "protoLib.UserShare",
         "detailName": "user",
         "detailField": "user__pk",
         "masterField": "pk"
     }, {
-        "__ptType": "protoDetail",
+        "__ptType": "detailDef",
         "detailField": "user__pk",
         "conceptDetail": "auth.User_groups",
         "detailName": "user",
         "menuText": "User_groups",
         "masterField": "pk"
     }, {
-        "__ptType": "protoDetail",
+        "__ptType": "detailDef",
         "detailField": "user__pk",
         "conceptDetail": "auth.User_user_permissions",
         "detailName": "user",
         "menuText": "User_user_permissions",
         "masterField": "pk"
     }],
-    "protoSheets": [],
+    "sheetConfig": [],
     "gridConfig": {
         "__ptType": "gridConfig",
         "listDisplay": ["username", "email", "first_name", "last_name", "is_staff", "is_active", "is_superuser"],
@@ -203,15 +203,9 @@ AdminUser = {
         "sortFields": ["username", "first_name", "last_name", "password", "is_staff", "is_active", "is_superuser", "last_login", "date_joined"],
         "hiddenFields": ["id"],
         "readOnlyFields": [],
-        "others": {
-            "__ptType": "others",
-            "filtersSet": [],
-            "listDisplaySet": [],
-            "sortersSet": []
-        }
     },
-    "protoForm": {
-        "__ptType": "protoForm",
+    "formConfig": {
+        "__ptType": "formConfig",
         "items": [{
             "__ptType": "fieldset",
             "fsLayout": "2col",
@@ -274,8 +268,8 @@ AdminUser = {
             }]
         }]
     },
-    "protoUdp": {
-        "__ptType": "protoUdp"
+    "usrDefProps": {
+        "__ptType": "usrDefProps"
     },
     "custom": {
         "__ptType": "custom",

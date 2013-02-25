@@ -1,4 +1,4 @@
-/*  ---  ProtoForm  
+/*  ---  FormConfig  
  
     Se llama genericamente forma, y corresponde a un panel que puede ser adosado a una ventana 
     o a un contenedor cualquiera,
@@ -20,7 +20,7 @@
     renderer: this.formatDate,
  */
 
-Ext.define('ProtoUL.view.ProtoForm', {
+Ext.define('ProtoUL.view.FormConfig', {
     extend : 'Ext.form.Panel',
     alias : 'widget.protoform',
 
@@ -29,8 +29,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
     //@myMeta   Base Definition  
     myMeta : null, 
 
-    //@protoForm  Objeto correspondiente a la forma en la meta ( forma parte de la meta ) 
-    protoForm : null, 
+    //@formConfig  Objeto correspondiente a la forma en la meta ( forma parte de la meta ) 
+    formConfig : null, 
 
     
     //@ Store asociado al registro de entrada linked o independiente
@@ -104,9 +104,9 @@ Ext.define('ProtoUL.view.ProtoForm', {
         // Indexa los stores con la info de los detalles copiando la info del detalle  
         for ( var ix in this.cllStoreDet ) {
             var lObj = this.cllStoreDet[ix];
-            for ( var ixD in this.myMeta.protoDetails ) {
-                var lDet = this.myMeta.protoDetails[ ixD ];
-                if ( lObj.protoOption == lDet.conceptDetail ) {
+            for ( var ixD in this.myMeta.detailsConfig ) {
+                var lDet = this.myMeta.detailsConfig[ ixD ];
+                if ( lObj.viewCode == lDet.conceptDetail ) {
                     lObj.detailDefinition = lDet 
                 }
             }
@@ -121,7 +121,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
     
 
     showFormConfig: function () {
-        _SM.showConfig( 'Form Config' , this.myMeta.protoForm   )
+        _SM.showConfig( 'Form Config' , this.myMeta.formConfig   )
        },
 
     showLayoutConfig: function () {

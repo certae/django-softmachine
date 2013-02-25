@@ -56,7 +56,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
 
     updateFormTree : function() {
         // Genera el arbol a partir de la meta 
-        var treeData = Meta2Tree( this.myMeta.protoForm, 'protoForm', 'protoForm'  )
+        var treeData = Meta2Tree( this.myMeta.formConfig, 'formConfig', 'formConfig'  )
         treeData.expanded = true
 
         this.formTree.getStore().setRootNode( treeData ) 
@@ -76,7 +76,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         this.formPreview = me.down('#formPreview')
         
         this.formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });
-        this.formPreview.add( this.formController.newProtoForm() )  
+        this.formPreview.add( this.formController.newFormConfig() )  
 
         this.tBar =  this.toolsPanel.addDocked({
             xtype : 'toolbar',
@@ -150,8 +150,8 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
 
         // Agrega los detalles 
         var treeNodAux = getTreeNodeByText( treeData,  'Details' )  
-        for (var ix in this.myMeta.protoDetails ) {
-            var vFld  =  this.myMeta.protoDetails[ix];
+        for (var ix in this.myMeta.detailsConfig ) {
+            var vFld  =  this.myMeta.detailsConfig[ix];
             var treeNodAuxData = {
                 "text": vFld.menuText ,
                 "qtip": vFld.toolTip,
@@ -159,7 +159,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                 "leaf": true, 
                 "__ptConfig": {
                     "menuText" : vFld.menuText, 
-                    "protoOption" : vFld.conceptDetail ,
+                    "viewCode" : vFld.conceptDetail ,
                     "masterField" : vFld.masterField,
                     "detailField" : vFld.detailField, 
                     "detailTitleLbl" : vFld.detailTitleLbl, 
@@ -296,10 +296,10 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                 this.formPreview.removeAll( true )
                 
                 var formMeta =  Tree2Meta( this.formTree.store.getRootNode() )
-                this.myMeta.protoForm = formMeta
-                this.formController.myMeta.protoForm = formMeta  
+                this.myMeta.formConfig = formMeta
+                this.formController.myMeta.formConfig = formMeta  
                  
-                this.formPreview.add( this.formController.newProtoForm()  )
+                this.formPreview.add( this.formController.newFormConfig()  )
                 
             },me   );
 
@@ -309,9 +309,9 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
             function(  btn , event,  eOpts) {
 
                 var formMeta =  Tree2Meta( this.formTree.store.getRootNode() )
-                this.myMeta.protoForm = formMeta
+                this.myMeta.formConfig = formMeta
 
-                _SM.savePclCache( this.myMeta.protoOption, this.myMeta )
+                _SM.savePclCache( this.myMeta.viewCode, this.myMeta )
                 _SM.savePci( this.myMeta )         
             },me   );
 

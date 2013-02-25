@@ -2,19 +2,19 @@
  * @class ProtoUL.ux.FormController
  * @author  Dario Gomez 
 
- * Helper class for intancing ProtoForm 
+ * Helper class for intancing FormConfig 
 
  */
 
 Ext.define('ProtoUL.UI.FormController', {
     extend: 'Ext.Base',
 
-    // requires: [ 'ProtoUL.view.ProtoForm' ],
+    // requires: [ 'ProtoUL.view.FormConfig' ],
     // Required if linked,  retrived if zoom 
     myMeta : null, 
 
     // Entry point if zoom 
-    protoOption : null, 
+    viewCode : null, 
 
     // if ReadOnly 
     isReadOnly : false, 
@@ -30,7 +30,7 @@ Ext.define('ProtoUL.UI.FormController', {
         Ext.apply(this, config || {});
     },
     
-    newProtoForm: function () {
+    newFormConfig: function () {
 
         this.defineFormLayout()
         this.myForm = Ext.widget('protoform', {
@@ -45,7 +45,7 @@ Ext.define('ProtoUL.UI.FormController', {
     
     newWindow: function ( me ) {
 
-        me.newProtoForm()
+        me.newFormConfig()
         
         _SM.updateWinPosition( me.myWidth, me.myHeight )
         
@@ -140,9 +140,9 @@ Ext.define('ProtoUL.UI.FormController', {
     }, 
     
 
-    openProtoForm: function ( myZoomModel, myRecordId , bEditable )   {
+    openFormConfig: function ( myZoomModel, myRecordId , bEditable )   {
 
-        this.protoOption = myZoomModel
+        this.viewCode = myZoomModel
         this.isReadOnly  = ! bEditable  
 
         if ( ! myRecordId ) {
@@ -162,23 +162,23 @@ Ext.define('ProtoUL.UI.FormController', {
         var options = {
             scope: this, 
             success: function ( obj, result, request ) {
-                this._openAndLoad( this.protoOption, myRecordId )
+                this._openAndLoad( this.viewCode, myRecordId )
             },
             failure: function ( obj, result, request) { 
                 _SM.errorMessage( 'ProtoDefinition Error :', myZoomModel + ': protoDefinition not found')
             }
         }
-        if (  _SM.loadPci( this.protoOption , true, options ) ) {
-                this._openAndLoad( this.protoOption, myRecordId )
+        if (  _SM.loadPci( this.viewCode , true, options ) ) {
+                this._openAndLoad( this.viewCode, myRecordId )
         }
 
 
     }, 
 
 
-    _openAndLoad: function( protoOption, myRecordId ) { 
+    _openAndLoad: function( viewCode, myRecordId ) { 
 
-        this.myMeta = _SM._cllPCI[ protoOption ] ;
+        this.myMeta = _SM._cllPCI[ viewCode ] ;
         this.formLoaded = true;
         this._loadFormData( myRecordId ) 
 
@@ -194,7 +194,7 @@ Ext.define('ProtoUL.UI.FormController', {
         // Filter 
         var myFilter = [{ "property" : "pk", "filterStmt" : myRecordId }]
         var storeDefinition =  {
-            protoOption : this.protoOption, 
+            viewCode : this.viewCode, 
             autoLoad: true, 
             baseFilter: myFilter, 
             sProtoMeta  : _SM.getSafeMeta( this.myMeta )    
@@ -225,7 +225,7 @@ Ext.define('ProtoUL.UI.FormController', {
     defineFormLayout: function( ){
         
         var me = this
-        var myFormDefinition = _SM.clone( this.myMeta.protoForm )
+        var myFormDefinition = _SM.clone( this.myMeta.formConfig )
         var myMeta = this.myMeta
         
         me.prFormLayout = [];
@@ -241,11 +241,11 @@ Ext.define('ProtoUL.UI.FormController', {
             var lObj = myFormDefinition.items[ixV];
             
             // Envia el contenedor y el objeto   
-            var prItem = defineProtoFormItem( {__ptType : 'panel'}, lObj )
+            var prItem = defineFormConfigItem( {__ptType : 'panel'}, lObj )
             me.prFormLayout.push(prItem);
         }
         
-        function defineProtoFormItem ( parent, protoObj, protoIx ) {
+        function defineFormConfigItem ( parent, protoObj, protoIx ) {
         
             var prLayout , template, __ptType 
             var sDataType = _SM.typeOf(protoObj);
@@ -343,7 +343,7 @@ Ext.define('ProtoUL.UI.FormController', {
                         if ( ix.indexOf( "__pt" )  == 0 ) continue 
         
                         var prVar = prItems[ix];
-                        var prFld = defineProtoFormItem(  protoObj, prVar, ix )
+                        var prFld = defineFormConfigItem(  protoObj, prVar, ix )
                         if(prFld) prLayout.items.push(prFld);
                     }
                     
@@ -409,7 +409,7 @@ Ext.define('ProtoUL.UI.FormController', {
                     var prVar = protoObj[ix];
                     
                     // Si es un array el padre es ../..
-                    var prFld = defineProtoFormItem(  parent, prVar , ix)
+                    var prFld = defineFormConfigItem(  parent, prVar , ix)
                     if(prFld) prLayout.push(prFld);
                 }
         
