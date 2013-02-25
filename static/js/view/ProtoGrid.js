@@ -283,6 +283,15 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         this.callParent(arguments);
         this.gridController.addNavigationPanel(); 
 
+
+        // 
+        // if ( myMeta.localSort &&  myMeta.gridConfig.initialSort.length > 0 ) {
+            // try {
+                // me.store.sort( myMeta.gridConfig.initialSort )    
+            // } catch(e) {}
+        // }
+        
+
         grid.on({
             // select: {fn: function ( rowModel , record,  rowIndex,  eOpts ) {
                 // // Select, presenta el rowIndex en  la grilla  

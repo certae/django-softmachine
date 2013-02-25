@@ -22,9 +22,12 @@ _SM.getStoreDefinition = function(  stDef  ){
         model: _SM.getModelName( stDef.viewCode  ),  
         autoLoad: stDef.autoLoad,
         pageSize: stDef.pageSize,
-        sorters:  stDef.sorters,    
 
         remoteSort: ! ( stDef.localSort || false ) ,
+        sorters:  stDef.sorters,    
+        defaultSortDirection : 'ASC', 
+        sortOnLoad: true, 
+
         autoSync: true, 
 
         proxy: _SM.getProxyDefinition( stDef ), 
