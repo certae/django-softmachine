@@ -1,194 +1,49 @@
-	property dom y model 
 	tyoe Money 
 	editer les languajes 
 	fieldSet  border = 0 
 	separar los campos de adm ( seguridad,  ids, jsons  )
-	?? por q no trae la jerarqua de modelos 
 
+	?? por q no trae la jerarqua de campos ( config fieldTree )
 
-
+	update form ( no aparece el boton )
 	recarga de la pcl 
 
 	prototipos 
 		typos de datos 
 		choices 
 
+	ToDo Por usuario
+	Seguridad de tabla ( usuario, grupo, all )
 
 	permisios a nivel de campo
-	separacion de los vinculos 
-	Canvas ( modelo grafico )
+
+	separacion de los vinculos y carga diferida 
+		panel adicional 
+
+	Canvas ( modelo grafico  ver  doc.Extjs.canvas )
+
 	verificar permisos en el guardado de objetos de conf 
 
-
 	ordenamiento en la grilla 
-		store.remoteSort
-		sortOnLoad 
+
+	Modiifcar en el menu solamente la parte de protoOption 
+	permitir crear menu en la raiz ( si esta en culquier opcion, para no agregar mas iconos  )
 
 
-	cambiar el nombre de FormConfig.js  
+	Verifcar por q algunos htmlset no quedan readOnly
 
-	generacion de vistas por entidad 
-		configuracion de acciones 
-		formas dinamiocas para parametros de acciones ( ver iss )
-
-
-	Ok en vez de carga storeProxu,  ejecutar un metodo  myLoadData( filter, sorter  )
-	   Los filtros se deben manejar siempre como objetos,  el manejo del store debe convertirlos a str 
-
-	Ok, South 
-	Ok, MD 
-
-	Ok,  campos absorbidos
-		Agregar el fromModel   
-		R/ se cambio por crudType  
-
-	    modelMeta = field.model._meta
-		pField['fromModel'] = modelMeta.app_label + '.' + modelMeta.object_name 
-
-	Ok menu por grupo 
+	Reportes 
+		por q se abre en un popUp y no en un tab como las otras impresiones 
 
 
----------------
-Canvas 
-
-Ext JS and Canvas can be used together very easily. One just needs to understand how Ext uses elements and how to gain access to the underlying DOM.
-
-Here is an example of a canvas element embedded in an Ext Panel:
-
-//draw function from https://developer.mozilla.org/en/Drawing_Graphics_with_Canvas
-function draw(el) {
-  var canvas = el;
-  var ctx = canvas.getContext("2d");
- 
-  ctx.fillStyle = "red";
- 
-  ctx.beginPath();
-  ctx.moveTo(30, 30);
-  ctx.lineTo(150, 150);
-  ctx.bezierCurveTo(60, 70, 60, 70, 70, 150);
-  ctx.lineTo(30, 30);
-  ctx.fill();
-}
- 
-Ext.BLANK_IMAGE_URL = '/inc/js/ext-3.2.1/resources/images/default/s.gif';
- 
-Ext.onReady(function(){
- 
-canvasPanel = new Ext.Panel({
-	title:'Ext JS Canvas Panel'
-	,height:200
-	,width:400
-	,frame:true
-	//,renderTo:'ext-canvas-container' //NOTICE: renderTo does not work because the var canvasPanel will not be available in the renderer yet
-	,items:{
-		xtype: 'box',
-		autoEl:{
-			tag: 'canvas'
-			,height:150
-		}
-		,listeners:{
-			render:{
-				scope:this
-				,fn:function(){
-					draw(canvasPanel.items.items[0].el.dom);
-				}
-			}
-		}
-	}
-});
-canvasPanel.render('ext-canvas-container');
- 
-});
-Ext JS Canvas Panel
-
-You can also do the same thing with an Ext style window using the Ext.Window class.
-
-Ext.onReady(function(){
- 
-	canvasWindow = new Ext.Window({
-		title:'Ext JS Canvas Window'
-		,height:200
-		,width:400
-		,items:{
-			xtype: 'box',
-			autoEl:{
-				tag: 'canvas'
-				,height:150
-			}
-			,listeners:{
-				render:{
-					scope:this
-					,fn:function(){
-						draw(canvasWindow.items.items[0].el.dom);
-					}
-				}
-			}
-		}
-	});
- 
-	canvasWindowButton = new Ext.Panel({
-		renderTo:'ext-canvas-window-button-container'
-		,frame:true
-		,width:400
-		,height:150
-		,items:{
-			xtype:'button'
-			,width:300
-			,text:'Launch Ext Canvas Window'
-			,handler:function(){
-				canvasWindow.show();
-			}
-		}
-	});
-});
+	JPlumb  Libreria a mirar con detenimiento 
+	DjangoReporter 
 
 
-
----------------------------------
-
-Verifcar por q algunos htmlset no quedan readOnly
-
-terminar de probar los repoirtes 
-
-por q se abre en un popUp y no en un tab como las otras impresiones 
+Prototipo
+	copiar modelos completos para simular versiones 
 
 
---------------------------
-
-
-
-PAra agregar un nodo en la pcl se debe definir en la lista padre 
-
-	listOf  esto encadena con el objeto hijo 
-	allowAdd  permite adicion en la pcl ( por defecto true )
-
-	El objeto a agregar debe contener el tipo de propiedades q maneja 
-
-	__ptStyle :  jsonText,  colList , object  ( por defecto )
-	addPrompt :  Mesnaje para el nombre del nodo 
-
-	En caso de ser un jsonText
-
-	addTemplate ( @name sera reemplazado por el valor ingresado por el usuario )
-
-
-
-------------------------
-
-
-
-JPlumb  Libreria a mirar con detenimiento 
-DjangoReporter 
-
-----------------
-
-
-
-
-
-Generacion de dictionartio, 
-    Las entidades tendran una funcion de generacion de su esquema Django de base, 
-    El modelo recogera todas las propieades y presentara el esquema. 
 
 ----
 parametrizacion de displaylust para el zoom y los detalles 
@@ -210,112 +65,76 @@ Forma
     Manejo de contenedores,  manejo de detalles 
     Actualizacion de details seleccionar y guardar 
 
-Tareas pendientes
 
-    Discretas 
-        Implementar manejo de variables discretas, 
-        
-    Icono
-        GetMenu debe traer el icono tambien de la definicion guardada si existe,  ahora lo trae solamente de la metadirecta 
-        
-    Detalles, 
-        la llave del detalle no permite actalmente montar dos referencias a partir de la misma tabla ( maestro1, maestro2 )
-        redefinir la llave.  
-        
-    DiplaySet 
-        q puede contener tambien un set  HiddenFields, ReadOnlyFields,  Los titulos y el resto de la 
-        definicion siempre seran las mimas
-        
-    Detalles - DisplaySet  
-        LA definicion de cada detalle puede invocar un displaylist ( elto de displayset )  de la entidad detalle, si no se especifica 
-        o no se encuentra se utilizara el listDisplay 
-        
-    forma 
-        Revisar el beforeDrop para limitar los contenedores de cada elto 
-        La edicion en forma considera los detalles en una sola transaccion,  ver la definicion del doc automatico  
+Discretas 
+    Implementar manejo de variables discretas, 
+    
+Icono
+    GetMenu debe traer el icono tambien de la definicion guardada si existe,  ahora lo trae solamente de la metadirecta 
+    
+Detalles, 
+    la llave del detalle no permite actalmente montar dos referencias a partir de la misma tabla ( maestro1, maestro2 )
+    redefinir la llave.  
+    
+DiplaySet 
+    q puede contener tambien un set  HiddenFields, ReadOnlyFields,  Los titulos y el resto de la 
+    definicion siempre seran las mimas
+    
+Detalles - DisplaySet  
+    LA definicion de cada detalle puede invocar un displaylist ( elto de displayset )  de la entidad detalle, si no se especifica 
+    o no se encuentra se utilizara el listDisplay 
+    
+forma 
+    Revisar el beforeDrop para limitar los contenedores de cada elto 
+    La edicion en forma considera los detalles en una sola transaccion,  ver la definicion del doc automatico  
 
-        
-**  Copiar una pci   -- Ok. 
-        Tener la posibilidad de copiar una pci, (  una vista dependiente de la entidad )
-       
-    Seguridad 
-        implementar     
      
-    Barra de estado,
-        Campo actual,  actividades, etc   
-	   
-    Login 
-        en la barra de estado y no en la parte superior 
-
-	Zoom 
-		@ZoomModel 	
-		El valor del zoom por defecto solo necesita la entidad base, este attr es automatico  
-		
-		Por defecto se configura una grilla con el valor __str__ y el ID. 
-
-		@ZoomView  ( app.model.zoom )
-		Luego se pueden manejar los campos del zoom q pueden ser asociados a una vista sobre la entidad  app.model.zoom ( vista )
-		esto permitira configurar los valores presentado, esta conf es manual 
-		
-		de ZoomView tomara sobre todo el listDisplay y la conf de campos ( flex entre otras )
-		
-		@ZoomOnly = True/False
-		Las vistas podran configurar si son zoomOnly para no aparecer en el menu 
-
-		@ZoomReturn 
-		se deben configurar el el fkey q llama por q depende siemrpe 
-		de la conf del objeto base, esto debe ser una llamada en el retorno del zoom, para buscar basado en la tabla foranea   		
-		no es need presentar los campos en el zoom para retornarlos, 
-
-	Tablero de control 
-
-		Se puede definir en el menu y definir la pseudo entidad como una coleccion adicional sobre la misma entidad, 
-		asi se manejaran vistas diferentes sobre un mismo modelo y un mismo admin. 
-		
-		Crear una pseudo entidad q cargue valores agrupados y permitir el manejo de dimensiones de detalle. 
-		
-		El menu tedra q manejar un campo para el modelo,  para no cambiar la definicion, 
-		podria ser manejar un nombre compuesto,   modelo.vista,  asi se mantendria la definicion.  
-		Si no existe la vista, entonces el modelo es la base, en caso contrario se revisa la coleccion de vistas q sera parte del admin.  
-		
-		De esta forma la misma tabla, el mimsmo modelo sirve para poder majar deiferentes presnetaciones incluso para manejar los agrapados.  verificar los agraupados.  y verificar si se puede hacer un grafico/ 
+Zoom 
+	@ZoomModel 	
+	El valor del zoom por defecto solo necesita la entidad base, este attr es automatico  
 	
+	Por defecto se configura una grilla con el valor __str__ y el ID. 
 
-	Varios 
-		Los campos tipo char/text tendran flex = 1/3 por defecto 
-		
+	@ZoomView  ( app.model.zoom )
+	Luego se pueden manejar los campos del zoom q pueden ser asociados a una vista sobre la entidad  app.model.zoom ( vista )
+	esto permitira configurar los valores presentado, esta conf es manual 
+	
+	de ZoomView tomara sobre todo el listDisplay y la conf de campos ( flex entre otras )
+	
+	@ZoomOnly = True/False
+	Las vistas podran configurar si son zoomOnly para no aparecer en el menu 
+
+	@ZoomReturn 
+	se deben configurar el el fkey q llama por q depende siemrpe 
+	de la conf del objeto base, esto debe ser una llamada en el retorno del zoom, para buscar basado en la tabla foranea   		
+	no es need presentar los campos en el zoom para retornarlos, 
+
+Tablero de control  ( cubos )
+
+	Se puede definir en el menu y definir la pseudo entidad como una coleccion adicional sobre la misma entidad, 
+	asi se manejaran vistas diferentes sobre un mismo modelo y un mismo admin. 
+	
+	Crear una pseudo entidad q cargue valores agrupados y permitir el manejo de dimensiones de detalle. 
+	
+	El menu tedra q manejar un campo para el modelo,  para no cambiar la definicion, 
+	podria ser manejar un nombre compuesto,   modelo.vista,  asi se mantendria la definicion.  
+	Si no existe la vista, entonces el modelo es la base, en caso contrario se revisa la coleccion de vistas q sera parte del admin.  
+	
+	De esta forma la misma tabla, el mimsmo modelo sirve para poder majar deiferentes presnetaciones incluso para manejar los agrapados.  verificar los agraupados.  y verificar si se puede hacer un grafico/ 
+
+
 
 	edicion 
-		Manejo del zoom FKey 
 		Revizar Allow Null
-		agregar __str__
-		 
-		** Separar colecciones de edicion de forma y grilla, dejar la meta tal cual
-		** displaylist vista por defecto   
-	 
-
-	vinculos a las formas  
-		** Creado el hipervinculo, 
-		abrir la forma correspondiente  
-	
-	seguridad y login
-		**  Ubicacion del boton 
-		Funciones de login 
-		Funciones de acceso 
-		Funciones de grupos organizacionales
-			Multiherencia con una tabla q maneje la seguridad por tipo de campo depediendo del propie 
-		 
 
 
-        // TODO: Manejo de edicion condicional segun datos
-        // Parametros: una coleccion ( CampoCriterio, Condicion, Lista de campos habilidatos ) 
-        // if (e.record.get('status') == "0")
-            // grid.getPlugin('rowEditing').editor.form.findField('xx').disable();
-        // else 
-            // grid.getPlugin('rowEditing').editor.form.findField('xx').enable();
+Manejo de edicion condicional segun datos
+// Parametros: una coleccion ( CampoCriterio, Condicion, Lista de campos habilidatos ) 
+// if (e.record.get('status') == "0")
+    // grid.getPlugin('rowEditing').editor.form.findField('xx').disable();
+// else 
+    // grid.getPlugin('rowEditing').editor.form.findField('xx').enable();
                 
-
-
 
 
     Reportes
@@ -339,69 +158,6 @@ Tareas pendientes
 	AGregar manejo de grupos ( permite agrupas incluso columnas ocultas )
 
 
----------------  ---------------------------------------------------------------------------------------------------------- 
-
-    Ok PCL Guardado, no agrega las propiedades. 
-
-
-** Redefinir meta2tree 
-        HAcerlo de manera jerarquica y no recursiva,  separar por lo menos en rutinas independientes el m2t de la forma y 
-        del list displayset
-
-
-** Pendiente reg nuevo, creacion desde el zoom 
-
-
-** Contenedores e items
-    
-    Para un manejo claro, un objeto no deberia mezclar arrays con propiedades,  o es un array o es un objeto. 
-    El manejo en el arbol de la pcl puede ser distinto,  se asocia el array con un determinado nombre a un hijo del objeto 
-    como si fuera un grupo de propiedades 
-    
-    No se pueden manejar los arrays como propieades pues se pierde el orden,  
-
-
-Edicion 
-	** MAnejo de un evento afer edito para marcar el registro como dirty y ademas quitarle es status, 
-	** Cargar los mensajes de regreso en un campo virutal como _ptStatus pero con el mensaje para cada campo 
-	** Campo tipo time 
-	** Actualizacion del estado de la grilla despues de sincronzar 
-	** Colores en la grilla para indicar el estado 
-	** Actualizacion de Fkey
-	** Evento de cambio en la grilla padre e indicador de refresh en la dependiente 
-
-**	Hay un error al cargar los tabs, el indice del tab corresponde al indice tab
-	buscar el tab segun el indice de los detalles o crear una estructura de equivalencia. 
-
-**	Al momento de abreir el tab y luego selecionar no esta pasando por el seteo del titulo, revizar si el setActiveTab esta pasando 
-
-
-** 	En la lectura del modelo carga una col con un vr significativo prara las FKey,
-	La ventana detalles debe contener un indicativo de cual es su filtro, 
-	al independizar la ventana,  debe desaparecer el boton de independizar 
-
-**    Agregar un boton y generar una nueva pagina totalmente Django con html de base,
-    
-**    Si genero una grilla en ext,  debe tener un heigt predeterminado,  la impresion automatica solo toma la 
-      informacion visible,  mientras que una grilla html se imprime completa. 
-    
-
-**    La otra alternativa es la impresion de la ficha,  en este caso solo se imprimira la ficha actual 
-      una linea inicial con los datos de la grilla y el espacio para generar el html de la ficha 
-        
-
-
-
----
-
-	** AGregar AutoLinksUp AutoLinksDown para descubrir las relaciones de cada tabla ( Detalles )
-
-	** Para el menu, cargar un Ajax con la config general de la app y luego pasar el store al menu,
-	   El autoload se definira aqui
-	
-	** Cargar el page_limit del admin, para cada entidad, si no se envia asumir el vr por defecto 
-	
-
 
 ---
 
@@ -413,7 +169,6 @@ Edicion
     **  Abrir un blog, estabelecer el roadmap, tomar codigo basico del admin 
     leer toda la definicion del admin. separar un proyecto aparte. 
 
-
 	
 	** Busqueda  QBE
     Agregar busqueda textual sobre campos predefinidos 
@@ -424,12 +179,8 @@ Edicion
 	file:///D:/data/ExtJs/ext-3.4.0/examples/grid-filtering/grid-filter-local.html
 
 
-	 	
-
 ------------------------------------------------------------------------
 
 	Manejar los modelos tambien dinamicamente Db
 	Independizar las DB 	
-
-
 

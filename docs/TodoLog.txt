@@ -1,0 +1,150 @@
+
+    property dom y model 
+
+
+    generacion de vistas por entidad 
+        configuracion de acciones 
+        formas dinamiocas para parametros de acciones (  )
+
+
+    ordenamiento en la grilla 
+        store.remoteSort
+        sortOnLoad 
+
+    Ok en vez de carga storeProxu,  ejecutar un metodo  myLoadData( filter, sorter  )
+       Los filtros se deben manejar siempre como objetos,  el manejo del store debe convertirlos a str 
+
+    Ok, South 
+    Ok, MD 
+
+    Ok,  campos absorbidos
+        Agregar el fromModel   
+        R/ se cambio por crudType  
+
+        modelMeta = field.model._meta
+        pField['fromModel'] = modelMeta.app_label + '.' + modelMeta.object_name 
+
+---------------------------------
+
+meta <-> tree
+
+PAra agregar un nodo en la pcl se debe definir en la lista padre 
+
+    listOf  esto encadena con el objeto hijo 
+    allowAdd  permite adicion en la pcl ( por defecto true )
+
+    El objeto a agregar debe contener el tipo de propiedades q maneja 
+
+    __ptStyle :  jsonText,  colList , object  ( por defecto )
+    addPrompt :  Mesnaje para el nombre del nodo 
+
+    En caso de ser un jsonText
+
+    addTemplate ( @name sera reemplazado por el valor ingresado por el usuario )
+
+** Contenedores e items 
+    Para un manejo claro, un objeto no deberia mezclar arrays con propiedades,  o es un array o es un objeto. 
+    El manejo en el arbol de la pcl puede ser distinto,  se asocia el array con un determinado nombre a un hijo del objeto 
+    como si fuera un grupo de propiedades 
+    
+    No se pueden manejar los arrays como propieades pues se pierde el orden,  
+
+
+-----------------------------------------------------------
+Generacion de dictionartio, 
+-----------------------------------------------------------
+    Las entidades tendran una funcion de generacion de su esquema Django de base, 
+    El modelo recogera todas las propieades y presentara el esquema. 
+
+
+        
+**  Copiar una pci   -- Ok. 
+        Tener la posibilidad de copiar una pci, (  una vista dependiente de la entidad )
+       
+    Seguridad 
+        implementar     
+
+
+    Barra de estado,
+        Campo actual,  actividades, etc   
+       
+    Login 
+        en la barra de estado y no en la parte superior 
+
+
+    Varios 
+        Los campos tipo char/text tendran flex = 1/3 por defecto 
+        
+        
+        Manejo del zoom FKey 
+        agregar __str__
+         
+        ** Separar colecciones de edicion de forma y grilla, dejar la meta tal cual
+        ** displaylist vista por defecto   
+     
+
+    vinculos a las formas  
+        ** Creado el hipervinculo, 
+        abrir la forma correspondiente  
+    
+    seguridad y login
+        **  Ubicacion del boton 
+        Funciones de login 
+        Funciones de acceso 
+        Funciones de grupos organizacionales
+            Multiherencia con una tabla q maneje la seguridad por tipo de campo depediendo del propie 
+         
+        
+** Redefinir meta2tree 
+        HAcerlo de manera jerarquica y no recursiva,  separar por lo menos en rutinas independientes el m2t de la forma y 
+        del list displayset
+
+
+** Pendiente reg nuevo, creacion desde el zoom 
+
+---------------  ---------------------------------------------------------------------------------------------------------- 
+
+Edicion 
+    ** MAnejo de un evento afer edito para marcar el registro como dirty y ademas quitarle es status, 
+    ** Cargar los mensajes de regreso en un campo virutal como _ptStatus pero con el mensaje para cada campo 
+    ** Campo tipo time 
+    ** Actualizacion del estado de la grilla despues de sincronzar 
+    ** Colores en la grilla para indicar el estado 
+    ** Actualizacion de Fkey
+    ** Evento de cambio en la grilla padre e indicador de refresh en la dependiente 
+
+**  Hay un error al cargar los tabs, el indice del tab corresponde al indice tab
+    buscar el tab segun el indice de los detalles o crear una estructura de equivalencia. 
+
+**  Al momento de abreir el tab y luego selecionar no esta pasando por el seteo del titulo, revizar si el setActiveTab esta pasando 
+
+
+**  En la lectura del modelo carga una col con un vr significativo prara las FKey,
+    La ventana detalles debe contener un indicativo de cual es su filtro, 
+    al independizar la ventana,  debe desaparecer el boton de independizar 
+
+**    Agregar un boton y generar una nueva pagina totalmente Django con html de base,
+    
+**    Si genero una grilla en ext,  debe tener un heigt predeterminado,  la impresion automatica solo toma la 
+      informacion visible,  mientras que una grilla html se imprime completa. 
+    
+
+**    La otra alternativa es la impresion de la ficha,  en este caso solo se imprimira la ficha actual 
+      una linea inicial con los datos de la grilla y el espacio para generar el html de la ficha 
+        
+
+
+
+---
+
+    ** AGregar AutoLinksUp AutoLinksDown para descubrir las relaciones de cada tabla ( Detalles )
+
+    ** Para el menu, cargar un Ajax con la config general de la app y luego pasar el store al menu,
+       El autoload se definira aqui
+    
+    ** Cargar el page_limit del admin, para cada entidad, si no se envia asumir el vr por defecto 
+    
+
+
+
+
