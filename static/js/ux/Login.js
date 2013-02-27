@@ -114,8 +114,11 @@ Ext.define('ProtoUL.ux.Login', {
                     
                     me.options.success.call( me.options.scope, result, request);                },
                 failure: function(result, request) {
-                    // _SM._UserInfo = request.result.userInfo
-                    me.showFormError( request.response.responseText );
+                    try {
+                        me.showFormError( request.result.message );
+                    } catch(e) {
+                        me.showFormError( request.response.responseText );
+                    }
                     me.options.failure.call( me.options.scope, result, request);                }
             });
         } else {

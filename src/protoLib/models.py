@@ -87,11 +87,12 @@ class ProtoModel(models.Model):
     smOwningTeam = models.ForeignKey( TeamHierarchy, null = True, blank=True, related_name='+', editable = False)
 
     smCreatedBy = models.ForeignKey( User, null = True, blank=True,related_name='+', editable = False)
-    smCreatedOn = models.DateTimeField( auto_now=True , null = True, blank=True,editable = False)
     smModifiedBy = models.ForeignKey( User, null = True, blank=True, related_name='+', editable = False)
-    smModifiedOn = models.DateTimeField( auto_now=True , null = True, blank=True, editable = False)
     smRegStatus  =  models.CharField( max_length=50,  null = True, blank=True, editable = False)
     smWflowStatus =  models.CharField( max_length=50,  null = True, blank=True, editable = False)
+
+    smCreatedOn = models.DateTimeField( auto_now=True , null = True, blank=True,editable = False)
+    smModifiedOn = models.DateTimeField( auto_now=True , null = True, blank=True, editable = False)
 
     # Indicador para manejo de seguridad 
     _protoObj = True 

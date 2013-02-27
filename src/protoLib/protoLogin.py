@@ -54,9 +54,7 @@ def protoGetUserRights(request):
         'success': success,
         'message': errMsg,
         'userInfo' : userInfo,
-        'language' : language,  
-        'rows':[],
-        'totalCount': 0, 
+        'language' : language  
     }
     
     # Codifica el mssage json 

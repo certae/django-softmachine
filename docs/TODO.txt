@@ -1,7 +1,18 @@
+	property dom y model 
 	tyoe Money 
 	editer les languajes 
 	fieldSet  border = 0 
-	
+	separar los campos de adm ( seguridad,  ids, jsons  )
+	?? por q no trae la jerarqua de modelos 
+
+
+
+	recarga de la pcl 
+
+	prototipos 
+		typos de datos 
+		choices 
+
 
 	permisios a nivel de campo
 	separacion de los vinculos 

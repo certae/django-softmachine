@@ -195,7 +195,7 @@ class Property(PropertyBase):
     entity = models.ForeignKey('Entity', related_name = 'propertySet')
     
     """propertyModel : corresponde a la especificacion en el modelo ( metodologia: user history )"""
-    propertyModel = models.ForeignKey('PropertyModel', blank = True, null = True )
+    propertyModel = models.ForeignKey('PropertyModel', blank = True, null = True, on_delete=models.SET_NULL )
 
     # -----------  caracteristicas propias de la instancia
     """isPrimary : La llave primaria siempre es artificial, se deja con propositos academicos, implica isUnique """  
@@ -264,10 +264,15 @@ def updatePropInfo( prop, propBase, inherit  ):
         'defaultValue' : prop.defaultValue,
         'propertyChoices' : prop.propertyChoices,
         'isSensitive' : prop.isSensitive, 
-        'description' : prop.description,
+        'description' : prop.description, 
+        
+        'smOwningUser' : prop.smOwningUser,
+        'smOwningTeam' : prop.smOwningTeam,
+        'smCreatedBy' : prop.smCreatedBy
     }
     
-    if propBase is None: 
+    if propBase is None:
+        # Crea los padres  
         if prop._meta.object_name == 'Property' : 
             pMod = PropertyModel.objects.get_or_create( model = prop.entity.model, code = prop.code, defaults=defValues  )[0]
             prop.propertyModel = pMod 
@@ -275,6 +280,23 @@ def updatePropInfo( prop, propBase, inherit  ):
         elif prop._meta.object_name == 'PropertyModel' : 
             pDom = PropertyDom.objects.get_or_create( domain = prop.model.domain, code = prop.code, defaults=defValues  )[0]
             prop.propertyDom = pDom 
+
+    # Se asegura q sea verdadero    
+    if inherit == True :
+
+        del defValues['smOwningUser']
+        del defValues['smOwningTeam'] 
+        del defValues['smCreatedBy'] 
+        defValues['smModifiedBy'] = prop.smModifiedBy
+             
+        if prop._meta.object_name == 'PropertyDom' :
+            # el update no genera eventos en los hijos 
+            prop.propertymodel_set.update( **defValues )
+            for pMod in prop.propertymodel_set.all():
+                pMod.property_set.update( **defValues ) 
+                            
+        elif prop._meta.object_name == 'PropertyModel' : 
+            prop.property_set.update( **defValues )
 
 # -----------------------------------------------------------------
 
@@ -342,6 +364,7 @@ class PropertyDom(PropertyBase):
     """
     domain = models.ForeignKey('Domain' )
     #code ( propertyBase ) 
+    inherit = models.BooleanField( default = False )
 
     def __unicode__(self):
         return self.domain.code + '.' + self.code 
@@ -349,9 +372,15 @@ class PropertyDom(PropertyBase):
     class Meta:
         unique_together = ('domain', 'code', 'smOwningTeam' )
 
+    def save(self, *args, **kwargs ):
+        # Envia el heredado y se asegura q sea Falso siempre 
+        updatePropInfo( self, self, self.inherit   )
+        self.inherit = False 
+        super(PropertyDom, self).save(*args, **kwargs) 
+
     protoExt = { 
         "gridConfig" : {
-            "listDisplay": ["__str__", "description", "smOwningTeam" ]      
+            "listDisplay": ["__str__", "description", "inherit", "smOwningTeam" ]      
         }
     } 
 
@@ -370,7 +399,8 @@ class PropertyModel(PropertyBase):
     model = models.ForeignKey('Model' )
     #code ( propertyBase ) 
 
-    propertyDom = models.ForeignKey('PropertyDom',blank = True, null = True )
+    propertyDom = models.ForeignKey('PropertyDom',blank = True, null = True, on_delete=models.SET_NULL )
+    inherit = models.BooleanField( default = False )
 
     def __unicode__(self):
         return self.model.code + '.' +  self.code
@@ -379,12 +409,14 @@ class PropertyModel(PropertyBase):
         unique_together = ('model', 'code', 'smOwningTeam' )
 
     def save(self, *args, **kwargs ):
-        updatePropInfo( self,  self.propertyDom, False )
+        # Envia el heredado y se asegura q sea Falso siempre 
+        updatePropInfo( self,  self.propertyDom, self.inherit   )
+        self.inherit = False 
         super(PropertyModel, self).save(*args, **kwargs) 
         
     protoExt = { 
         "gridConfig" : {
-            "listDisplay": ["__str__", "description", "smOwningTeam"]      
+            "listDisplay": ["__str__", "description", "inherit", "smOwningTeam"]      
         }
     } 
 
