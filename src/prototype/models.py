@@ -86,7 +86,7 @@ class Model(ProtoModel):
         }
     } 
     
-    
+
     
 class Entity(ProtoModel):
     """ 
@@ -98,7 +98,7 @@ class Entity(ProtoModel):
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
     # Propieadad para ordenar el __str__ 
-    unicode_sort = ('domain', 'code',  )
+    unicode_sort = ('model', 'code',  )
 
     def __unicode__(self):
         return self.model.code + '-' + self.code 
@@ -168,10 +168,12 @@ class PropertyBase(ProtoModel):
     
     """propertyChoices:  Lista de valores CSV ( idioma?? ) """ 
     propertyChoices = models.CharField( blank = True, null = True, max_length=200 )
-    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
     """isSensitive: Indica si las propiedades requieren un nivel mayor de seguridad """  
     isSensitive = models.BooleanField()
+
+    description = models.TextField( blank = True, null = True)
+    notes  = models.TextField( blank = True, null = True)
 
     class Meta:
         abstract = True
@@ -217,19 +219,20 @@ class Property(PropertyBase):
 
 
     """cpFrom____ : permite definir como heredar campos complejos (absorber JsonFields)
-
     ** Ya no se usan pues aqui solo se mapean las entidades fisicas, 
        las copias se manejaran desde la generacion de la pcl;  
        
     cpFromZoom = models.CharField( blank = True, null = True, max_length=200)
     cpFromField = models.CharField( blank = True, null = True, max_length=200)
-       
     """
     crudType    = models.CharField( blank = True, null = True, max_length=20, choices = CRUD_TYPES)
 
     """solo para ordenar los campos en la entidad"""
     secuence = models.IntegerField(blank = True, null = True,)
 
+    def save(self, *args, **kwargs ):
+        updatePropInfo( self,  self.propertyModel, False )
+        super(Property, self).save(*args, **kwargs) 
 
     class Meta:
         unique_together = ('entity', 'code', 'smOwningTeam' )
@@ -245,6 +248,35 @@ class Property(PropertyBase):
         }
     } 
 
+def updatePropInfo( prop, propBase, inherit  ):
+    """
+    self     :  propiedad q genera el cambio 
+    propBase :  campo de referencia a la entidad de base 
+    propModel:  modelo al cual copiar
+    inherit  :  heredar ( si es descendente Dom, Model, ...  )
+    
+    Solo actualiza subiendo de prop a model a dom 
+    """
+
+    defValues = {
+        'baseType' : prop.baseType, 
+        'prpLength' : prop.prpLength,
+        'defaultValue' : prop.defaultValue,
+        'propertyChoices' : prop.propertyChoices,
+        'isSensitive' : prop.isSensitive, 
+        'description' : prop.description,
+    }
+    
+    if propBase is None: 
+        if prop._meta.object_name == 'Property' : 
+            pMod = PropertyModel.objects.get_or_create( model = prop.entity.model, code = prop.code, defaults=defValues  )[0]
+            prop.propertyModel = pMod 
+
+        elif prop._meta.object_name == 'PropertyModel' : 
+            pDom = PropertyDom.objects.get_or_create( domain = prop.model.domain, code = prop.code, defaults=defValues  )[0]
+            prop.propertyDom = pDom 
+
+# -----------------------------------------------------------------
 
 ONDELETE_TYPES = (  
         ('CASCADE', 'Cascade deletes; the default' ), 
@@ -265,14 +297,16 @@ class Relationship(Property):
     """relatedName:  Nombre del set en la tabla primaria ( modelacion objeto )  """
     relatedName = models.CharField( blank = True, null = True, max_length=50)
 
-    # Caridanlidad 
+    # Cardanlidad 
     baseMin = models.CharField( blank = True, null = True, max_length=50)
     baseMax = models.CharField( blank = True, null = True, max_length=50)
     
     refMin = models.CharField( blank = True, null = True, max_length=50)
     refMax = models.CharField( blank = True, null = True, max_length=50)
 
+    # Comportamiento en la db ( typeRelation : Fort, Info )   
     onRefDelete = models.CharField( blank = True, null = True, max_length=50, choices = ONDELETE_TYPES)
+    typeRelation = models.CharField( blank = True, null = True, max_length=50)
 
     def __unicode__(self):
         return self.entity.code + '.' +  self.code     
@@ -307,6 +341,7 @@ class PropertyDom(PropertyBase):
             3. Property 
     """
     domain = models.ForeignKey('Domain' )
+    #code ( propertyBase ) 
 
     def __unicode__(self):
         return self.domain.code + '.' + self.code 
@@ -333,7 +368,9 @@ class PropertyModel(PropertyBase):
     * definicion semantica,   
     """
     model = models.ForeignKey('Model' )
-    propertyDom = models.ForeignKey('PropertyDom' )
+    #code ( propertyBase ) 
+
+    propertyDom = models.ForeignKey('PropertyDom',blank = True, null = True )
 
     def __unicode__(self):
         return self.model.code + '.' +  self.code
@@ -341,6 +378,10 @@ class PropertyModel(PropertyBase):
     class Meta:
         unique_together = ('model', 'code', 'smOwningTeam' )
 
+    def save(self, *args, **kwargs ):
+        updatePropInfo( self,  self.propertyDom, False )
+        super(PropertyModel, self).save(*args, **kwargs) 
+        
     protoExt = { 
         "gridConfig" : {
             "listDisplay": ["__str__", "description", "smOwningTeam"]      
@@ -380,7 +421,8 @@ class ProtoView(ProtoModel):
     """Nombre (str) de la vista a buscar en protoDefinition  """
     code   = models.CharField( blank = False, null = False, max_length=200, editable = False )
 
-    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
+    description = models.TextField( blank = True, null = True)
+    notes  = models.TextField( blank = True, null = True)
 
     def __unicode__(self):
         return self.code  
@@ -401,3 +443,109 @@ class ProtoView(ProtoModel):
         CustomDefinition.objects.filter( code = viewName ).delete()
         super(ProtoView, self).delete(*args, **kwargs)
         
+
+#   --------------------------------------------------------------------------------
+
+
+class Diagram(ProtoModel):
+    """ 
+    TODO: Diagrama o subModelo   
+    """    
+    model = models.ForeignKey('Model', blank = False, null = False )
+    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
+    
+    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
+    notes  = models.TextField( blank = True, null = True)
+
+    """Information graphique  ( labels, etc... ) """
+    info = JSONField( default = {} )
+    objects = JSONAwareManager(json_fields = ['info'])
+
+    # Propieadad para ordenar el __str__ 
+    unicode_sort = ('model', 'code',  )
+
+    def __unicode__(self):
+        return self.model.code + '-' + self.code 
+
+    class Meta:
+        unique_together = ('model', 'code', 'smOwningTeam' )
+
+
+class DiagramEntity(ProtoModel):
+    """ 
+    TODO: Entidades del diagrama  ( Relationship )    
+    """    
+    diagram = models.ForeignKey('Diagram', blank = False, null = False )
+    entity = models.ForeignKey( Entity, blank = False, null = False )
+
+    """Information graphique ( position, color, ... )  """
+    info = JSONField( default = {} )
+    objects = JSONAwareManager(json_fields = ['info'])
+
+    # Propieadad para ordenar el __str__ 
+    unicode_sort = ('diagram', 'entity',  )
+
+    def __unicode__(self):
+        return self.diagram.code + '-' + self.entity.code 
+
+    class Meta:
+        unique_together = ('diagram', 'entity', 'smOwningTeam' )
+
+    
+#   --------------------------------------------------------------------------------
+        
+
+class Service(ProtoModel):
+    """ 
+    TODO: Servicios entre modelos ( entidades virtuales )    
+    """    
+    model = models.ForeignKey('Model', blank = False, null = False )
+    code = models.CharField(verbose_name=u'Service',blank = False, null = False, max_length=200 )
+
+    """Binding : SOAP, RPC, REST, DCOM, CORBA, DDS, RMI, WCF """
+    Binding =  models.CharField(  blank = True, null = True, max_length = 20 )
+    typeMessage = models.CharField(  blank = True, null = True, max_length = 20 )
+       
+    description = models.TextField( blank = True, null = True)
+    notes  = models.TextField( blank = True, null = True)
+
+    """REST subtypes ( POST, GET ),  notation ( XML, JSON ), etc  ... """ 
+    infoMesage = JSONField( default = {} )
+
+    """Message information """
+    infoRequest = JSONField( default = {} )
+    infoReponse = JSONField( default = {} )
+    objects = JSONAwareManager(json_fields = ['infoMesage', 'infoRequest', 'infoReponse' ])
+
+    # Propieadad para ordenar el __str__ 
+    unicode_sort = ('model', 'code',  )
+
+    def __unicode__(self):
+        return self.model.code + '-' + self.code 
+
+    class Meta:
+        unique_together = ('model', 'code', 'smOwningTeam' )
+
+
+class ServiceRef(ProtoModel):
+    """ 
+    TODO: Cliente Servicios entre modelos ( entidades virtuales )    
+    """    
+    model = models.ForeignKey('Model', blank = False, null = False )
+    service = models.ForeignKey('Service', blank = False, null = False )
+
+    endpoint = models.CharField(  blank = True, null = True, max_length = 200 )
+
+    description = models.TextField( blank = True, null = True)
+    notes  = models.TextField( blank = True, null = True)
+
+    # Propieadad para ordenar el __str__ 
+    unicode_sort = ('model', 'service',  )
+
+    def __unicode__(self):
+        return self.model.code + '-' + self.service.code 
+
+    class Meta:
+        unique_together = ('model', 'service', 'smOwningTeam' )
+
+    

@@ -1,3 +1,7 @@
+	tyoe Money 
+	editer les languajes 
+	fieldSet  border = 0 
+	
 
 	permisios a nivel de campo
 	separacion de los vinculos 

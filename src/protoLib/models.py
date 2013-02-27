@@ -6,7 +6,7 @@ from django.db import models
 from django.contrib.auth.models import User 
 from django.contrib.sites.models import Site
 from django.db.models.signals import post_save
-
+from protoLib.fields import JSONField,  JSONAwareManager
 
 class TeamHierarchy(models.Model):
 # Jerarquia funcional ( de seguridad ) de la app     
@@ -102,7 +102,7 @@ class ProtoModel(models.Model):
 
 class EntityMap(models.Model):
     """
-    Capa adicional para manejar permisos 
+    TODO: Capa adicional para manejar permisos 
         a nivel de campo,
         vista
         acciones 
@@ -137,7 +137,8 @@ class EntityMap(models.Model):
 
 
 class FieldMap(models.Model):
-
+    #TODO: Implemenar con EntityMap 
+    
     entity = models.ForeignKey(EntityMap, blank=False, null=False)
     fieldName  = models.CharField(max_length=200, blank=False, null=False)
 
@@ -238,4 +239,50 @@ def getFullPath( record, parentField,  codeField, pathFunction  ):
         return pRec.__getattribute__( pathFunction  ) + ',' + unicode( record.__getattribute__(  codeField  ) ) 
     else: 
         return unicode( record.__getattribute__(  codeField ) )
+
+
+
+class DiscreteValue( models.Model ):
+    # TODO : Manejo de discretas  
+    # Ahora se hace como un arbol para por ejemplo manejar el idioma fr.ca  es.ca
+    # Arrancar con filtro inicial discreteValue = None   
+
+    code = models.CharField( blank = False, null = False, max_length=200 )
+    value = models.CharField( blank = False, null = False, max_length=200 )
+
+    description = models.TextField( blank = True, null = True)
+    title = models.ForeignKey('DiscreteValue',  blank = True, null = True)
+
+    def __unicode__(self):
+        if self.title is None:  
+            return self.code
+        else: return self.title.code + '.' + self.code 
+
+    class Meta:
+        unique_together = ('title', 'value',  )
+
+    protoExt = { 
+        "gridConfig" : {
+            "listDisplay": ["__str__", "description" ]      
+        }
+    } 
+
+
+class Languaje( models.Model ):
+    # TODO : Manejar una tabla con los diferentes lenguajes en formato Json    
+    # { 'es' : 'incio', 'en' : 'start', ..... } 
+
+    code = models.CharField( blank = False, null = False, max_length=200 , unique = True )
+
+    # para manejar un nombre de variable usr   
+    alias = models.CharField( blank = False, null = False, max_length=200 )
+
+    info = JSONField( default = {} )
+
+    def __unicode__(self):
+        return self.code + '.' + self.info.__str__()  
+    
+    objects = JSONAwareManager(json_fields = ['info'])
+
+
 

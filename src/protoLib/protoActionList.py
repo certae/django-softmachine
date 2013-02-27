@@ -59,8 +59,8 @@ def protoList(request):
         try: 
             pRows =  Qs.order_by(*orderBy)[ start: page*limit ]
         except: 
-            pRows =  Qs[ start: page*limit ]
-    else: pRows =  Qs[ start: page*limit ]
+            pRows =  Qs.all()[ start: page*limit ]
+    else: pRows =  Qs.all()[ start: page*limit ]
 
 #   Prepara las cols del Query 
     try:
@@ -313,7 +313,8 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
     if not isinstance( JsonField, ( str, unicode) ): JsonField = ''  
 
 #   QSEt
-    Qs = model.objects.select_related(depth=1)
+#   Qs = model.objects.select_related(depth=1)
+    Qs = model.objects
 
 #   Filtros por seguridad ( debe ser siempre a nivel de grupo ) 
     if isProtoModel and not pUser.is_superuser:  
