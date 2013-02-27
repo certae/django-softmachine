@@ -1,3 +1,5 @@
+To Do:  
+
 	tyoe Money 
 	editer les languajes 
 	fieldSet  border = 0 
@@ -5,7 +7,6 @@
 
 	?? por q no trae la jerarqua de campos ( config fieldTree )
 
-	update form ( no aparece el boton )
 	recarga de la pcl 
 
 	prototipos 

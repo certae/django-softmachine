@@ -354,6 +354,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
             beforeedit: {fn: function ( edPlugin, e, eOpts) {
                 if ( ! this.editable )  return false;
+                
+                var perms = _SM._UserInfo.perms[ this.myMeta.viewCode ]
+                if ( ! perms['change'] ) return false  
+                
                 // Resetea el zoom 
                 for (var ix in e.grid.columns ) {
                     var vFld = e.grid.columns[ix]

@@ -177,7 +177,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         // permite la edicion 
         // if ( _SM._UserInfo.isStaff ) { 
-        if ( me.perms['add'] || me.perms['update'] || me.perms['delete'] ) { 
+        if ( me.perms['add'] || me.perms['change'] || me.perms['delete'] ) { 
             this.getComponent('edit').setVisible ( true  );
         }
 
@@ -287,7 +287,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
         // if ( ! _SM._UserInfo.isStaff  ) return
         var me = this
-        if (!( me.perms['add'] || me.perms['update'] || me.perms['delete'] )) return
+        if (!( me.perms['add'] || me.perms['change'] || me.perms['delete'] )) return
         
         // En modoEdicion los botones de accion son desactivados y los  edicion son apagados 
         Ext.suspendLayouts();

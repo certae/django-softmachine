@@ -1,7 +1,11 @@
+Log : 
+
+
+    beforeEdit para controlar el permiso  en la grilla 
+    update form ( no aparece el boton )
+
 
     property dom y model 
-
-
     generacion de vistas por entidad 
         configuracion de acciones 
         formas dinamiocas para parametros de acciones (  )
