@@ -296,6 +296,23 @@ _SM.getRecordByDataIx = function( myStore, fieldName, value  )  {
 }; 
 
 
+
+_SM.IsAdmField = function  ( vFld , myMeta ){
+    
+    // this.indexOf(suffix, this.length - suffix.length) !== -1;
+    if (  /_id$/.test( vFld.name ))  return true; 
+     
+     // 'smOwningUser','smOwningTeam', 'smModifiedOn', 'smWflowStatus','smRegStatus',
+    if ( vFld.name  in _SM.objConv( [ 'id', 'smCreatedBy','smModifiedBy', 'smCreatedOn' ] ) ) return true; 
+
+    if ( myMeta.jsonField == vFld.name ) return true      
+
+    // prototipos 
+    if ( myMeta.protoEntityId && vFld.name == 'entity' ) return true      
+    
+    return false 
+};
+
     
 _SM.DefineProtoModel = function  ( myMeta , modelClassName ){
         
@@ -313,13 +330,23 @@ _SM.DefineProtoModel = function  ( myMeta , modelClassName ){
 
     // Verifica la conf del objeto de base 
     myMeta = verifyMeta ( myMeta, 'pcl' )
-    
-    
-    var myFields = [];           // model Fields 
-    for (var ix in myMeta.fields ) {
 
+    
+    var myModelFields = [];           // model Fields
+
+    // Separacion de campos para facilidad del administrador 
+    var fieldsBase = []    
+    var fieldsAdm = []    
+     
+    for (var ix in myMeta.fields ) {
         var vFld  =  myMeta.fields[ix];
         
+        if ( _SM.IsAdmField( vFld, myMeta  ) ) {
+            fieldsAdm.push( vFld )
+        } else {
+            fieldsBase.push( vFld )
+        }
+
         if ( !vFld.type )  vFld.type = 'string'
         
         // modelField  
@@ -386,27 +413,31 @@ _SM.DefineProtoModel = function  ( myMeta , modelClassName ){
         }
 
         // Asigna el modelo y el diccionario 
-        myFields.push(mField);
+        myModelFields.push(mField);
 
     }
     
     // Agrega el status y el interna ID 
     var mField = { name: '_ptStatus', type: 'string' };
-    myFields.push(mField);
+    myModelFields.push(mField);
 
     var mField = { name: '_ptId', type: 'string' };
-    myFields.push(mField);
+    myModelFields.push(mField);
 
-    // myFields = [{"name":"id","type":"int","useNull":true},{"name":"first","type":"string"}]
+    // myModelFields = [{"name":"id","type":"int","useNull":true},{"name":"first","type":"string"}]
     Ext.define(modelClassName, {
         extend: 'Ext.data.Model',
-        fields: myFields 
+        fields: myModelFields 
             
         //TODO: Validation, Validaciones             
         //    validations: [{ type: 'length', field: 'name', min: 1 }]
 
         });
         
+    // Adiciona las dos colecciones     
+    myMeta.fieldsBase = fieldsBase
+    myMeta.fieldsAdm  = fieldsAdm 
+         
 }
 
 
@@ -820,6 +851,13 @@ _SM.savePci = function ( protoMeta,  options) {
     var viewCode = protoMeta.viewCode
     protoMeta.updateTime = _SM.getCurrentTime()
     
+    if ( protoMeta.fieldsBase ) {
+        // Excluye las colecciones auxiliares de campos 
+       protoMeta = _SM.clone( protoMeta )
+       delete protoMeta.fieldsBase 
+       delete protoMeta.fieldsAdm 
+    }
+    
     var sMeta = Ext.encode(  protoMeta )
 
     _SM.saveProtoObj( viewCode, sMeta ,  options)
@@ -980,4 +1018,14 @@ _SM.doProtoActions = function ( viewCode, actionName, selectedKeys, parameters, 
             timeout: 60000
         })
         
+}
+
+
+_SM.sortObjByName = function(a, b){
+ var nameA=a.name.toLowerCase(), nameB=b.name.toLowerCase()
+ if (nameA < nameB) //sort string ascending
+  return -1 
+ if (nameA > nameB)
+  return 1
+ return 0 //default return value (no sorting)
 }

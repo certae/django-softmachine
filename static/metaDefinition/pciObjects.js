@@ -197,6 +197,8 @@ _MetaObjects =  {
             ],
         "lists": [
             "fields", 
+            "fieldsBase", 
+            "fieldsAdm", 
             "actions",
             "detailsConfig", 
             "sheetConfig"
@@ -207,6 +209,16 @@ _MetaObjects =  {
 
     "fields": {
         "description": "Definicion de los campos del store", 
+        "listOf" : "field" 
+    },
+
+    "fieldsBase": {
+        "description": "Definicion de los campos admon", 
+        "listOf" : "field" 
+    },
+
+    "fieldsAdm": {
+        "description": "Definicion de los campos admon", 
         "listOf" : "field" 
     },
 
@@ -476,6 +488,7 @@ _MetaObjects =  {
         "allowAdd" : true 
     },
 
+    // El esquema no soporta una lista de listas, tiene q ser un objeto para poder nombralo 
     "listDisplayDef": {
         "description": "listDisplay predefinidos ",
         "addPrompt" : "Please enter the name of the columnSet:", 
@@ -625,6 +638,7 @@ _MetaObjects =  {
             "title", 
             "fsLayout",
             "autoscroll",
+            "border",
             "collapsible", "collapsed", 
             "labelWidth","labelAlign","hideLabel",
             "height","maxHeight","minHeight","width", "maxWidth","minWidth"

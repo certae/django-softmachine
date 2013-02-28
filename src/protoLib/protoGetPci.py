@@ -14,6 +14,7 @@ from protoQbe import getSearcheableFields
 from protoAuth import getUserProfile, getModelPermissions
 
 import django.utils.simplejson as json
+import traceback
 
 
 #TODO: Vistas parametrizadas por el usuario ( custom ) 
@@ -319,9 +320,12 @@ def protoGetFieldTree(request):
         # -----------------------------------------------------------------------------------------------------
         # Se crean los campos con base al modelo ( trae todos los campos del modelo 
         for field in model._meta._fields():
-            addFiedToList( fieldList,  field , '', [] )
+            try: 
+                addFiedToList( fieldList,  field , ''  )
+            except Exception as  e:
+                traceback.print_exc()
+                return JsonError( getReadableError( e ) ) 
             
-    
         # Add __str__ 
         myField = { 
             'id'        : '__str__' ,  
@@ -344,9 +348,19 @@ def protoGetFieldTree(request):
     return HttpResponse(context, mimetype="application/json")
 
 
+def isAdmField( fName  ):
+
+    # Los campos de seguridad 
+    if ( fName in [ 'smOwningUser', 'smCreatedBy','smModifiedBy', 'smCreatedOn' ] ):  return True 
+    if ( fName in [ 'smOwningTeam', 'smModifiedOn', 'smWflowStatus','smRegStatus' ] ):  return True 
+
+    # los id de los campos heredados tampoco se presentan 
+    if ( fName == 'id' ):  return True 
+
+    return False 
 
 
-def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
+def addFiedToList(  fieldList , field, fieldBase   ):
     """ return parcial field tree  ( Called from protoGetFieldTree ) 
     """
 
@@ -359,91 +373,66 @@ def addFiedToList(  fieldList , field, fieldBase, fieldOcurrences  ):
     
     # fieldBase indica campos de llaves foraneas       
     if fieldBase != '': 
+
+        # Los campos heredados son siempre ro 
         pField[ 'readOnly' ] = True 
 
-        if pField['type'] == 'autofield':
-            pField['type'] = 'int'
-        
-    
-    #DGT :  Choices armar un string y descomponer al otro lado 
-    myField = { 
-        'id'         : fieldId , 
-        'text'       : field.name, 
-        'checked'    : False, 
-        'readOnly'   : pField.get( 'readOnly' , False ) , 
-        'required'   : pField.get( 'required' , False ),  
-        'tooltip'    : pField.get( 'tooltip', ''  ),  
-        'header'     : pField.get( 'header',  field.name  ),   
-        'type'       : pField.get( 'type',  'string'  )  
-     }
+        # un campo heredado no es jamas auto 
+        if pField['type'] == 'autofield': pField['type'] = 'int'
 
-    # Atributos adicionales de edicion 
-    if fieldBase == '': 
-#        if hasattr( pField, 'defaultValue' ):   FIX:  trae un proxy
-#            myField['defaultValue'] = pField['defaultValue'] 
+    pField['id']  = fieldId
+    pField['text'] =  field.name
 
-        if hasattr( pField, 'vType'): 
-            myField['vType'] = pField['vType'] 
+    pField['leaf'] = True
+    pField['checked'] = False
 
-#        if pField['type'] == 'combo':
-#            myField['choices'] = pField['choices'] 
+#    pField['readOnly'] = pField.get( 'readOnly' , False )
+#    pField['required'] = pField.get( 'required' , False )
 
     # Recursividad Fk 
     if pField['type'] != 'foreigntext':
-        myField['leaf'] = True
+        pass 
 
-    else:
+    # no se requiere subir sobre los campos de seguridad  
+    elif isAdmField( field.name  ): 
+        pass 
 
-        # Crea el Id para el fk 
-        myFieldId = protoFields[ pField['fkId'] ]
+    # Evita demasiada recursividad ( 5 niveles debe ser mas q suficiente ) 
+    elif fieldId.count( '__' ) > 5:   
+        pass 
 
-        # Agrega los eltos particulares  
+    else:  
+
+        # si es base, Agrega el campo id del zoom   
+        # en los campos heredados no se hace zoom ( no se requiere el id )   
         if ( fieldBase == '') :  
-            myField['fkId'] = pField['fkId']
 
-        else:      
-            myField['fkId'] = fieldBase + pField['fkId'] 
-            myFieldId['fkField']  = myField['id']                    
+            # Obtiene el fkId del diccionario  
+            pFieldId = protoFields[ pField['fkId'] ]
 
-        # Agrega los eltos del zoom ademas del FkId ( No importa si es base ) 
-        if ( True or fieldBase == '') :  
-            myField['zoomModel'] = pField['zoomModel']                    
+            pFieldId['id']  = pFieldId['name']
+            pFieldId['text'] =  pFieldId['name']  
+
+            pFieldId['required'] = pField.get( 'required', False )   
+            pFieldId['readOnly'] = True
+
+            pFieldId['leaf'] = True
+            pFieldId['checked'] = False
     
-            myFieldId['id' ]        = myField['fkId']
-            myFieldId['zoomModel']  = myField['zoomModel']                    
-            myFieldId['leaf'] = True
-            myFieldId['readOnly'] = True
-            myFieldId['checked'] = False
-            myFieldId['text'] =  pField['fkId']  
-            myFieldId['required'] = myField['required']  
-            myFieldId['type'] =  myFieldId['type']  
+            fieldList.append( pFieldId )
+
+
+        # itera sobre el campo para heredar de sus padres  
+        fkFieldList= []
+        model = field.rel.to
+        for fAux in model._meta._fields():
+            if isAdmField( fAux.name ): continue 
+            addFiedToList( fkFieldList,  fAux , fieldId + '__' )
+
+        pField['leaf'] = False 
+        pField['children'] = fkFieldList
     
-            fieldList.append( myFieldId )
-
-
-        # Evita el mismo campo recursivo sobre si mismo.  
-        # TODO:  Un mimsmo objeto puede ser refecenciado varias veces, ie  ciudad, etc, la solucion seria solo cortar la recurividad?? 
-        if fieldOcurrences.count( field.name ) > 1:
-            myField['leaf'] = True
-        
-        # Evita demasiada recursividad ( 5 niveles debe ser mas q suficiente ) 
-        elif len ( fieldOcurrences ) > 5:
-            myField['leaf'] = True
-            
-        else: 
-            fieldOcurrences.append( field.name )
-
-            fkFieldList= []
-            model = field.rel.to
-            for field in model._meta._fields():
-                addFiedToList( fkFieldList,  field , fieldId + '__' , fieldOcurrences)
-    
-            myField['leaf'] = False 
-            myField['children'] = fkFieldList
-    
-
-    fieldList.append( myField )
-
+    fieldList.append( pField )
 
 
 # --------------------------------------------------------------------------

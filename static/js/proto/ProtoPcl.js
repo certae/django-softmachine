@@ -154,7 +154,9 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                     }    
 
                 }   else {
-                    // Pcl completa ( forza el metaConfig )  
+                    // Pcl completa ( forza el metaConfig y reconstruye fields )
+                    myCustom.fields = myCustom.fieldsBase.concat( myCustom.fieldsAdm ) 
+                      
                     me.metaConfig = true                  
                     me.myMeta = myCustom   
                 } 
@@ -263,7 +265,21 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                     treeData = Meta2Tree( me.myMeta.custom, 'custom', 'custom' );
                 }    
             }   else {
-                treeData = Meta2Tree( me.myMeta, 'pcl', 'pcl' );    
+
+                // Prepara la PCL
+                // delete me.myMeta.fields
+                var tmpMeta = _SM.clone( me.myMeta, 0, ['fields'] )
+                tmpMeta.fieldsBase =  tmpMeta.fieldsBase.sort( _SM.sortObjByName )                
+                tmpMeta.fieldsAdm =  tmpMeta.fieldsAdm.sort( _SM.sortObjByName )                
+                 
+                treeData = Meta2Tree( tmpMeta, 'pcl', 'pcl' );
+                for (var ix in treeData.children ) {
+                    var vFld  =  treeData.children[ix]
+                    if ( vFld.text == 'fields' ) {
+                        treeData.children.splice(ix, 1);
+                        break; 
+                    }
+                } 
             } 
             
             treeData.expanded = true;
@@ -424,8 +440,8 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
             if ( ! fList )  {
                 // Crea los campos del store
                 fList= []
-                for (var ix in me.myMeta.fields ) {
-                    var vFld  =  me.myMeta.fields[ix];
+                for (var ix in me.myMeta.fieldsBase ) {
+                    var vFld  =  me.myMeta.fieldsBase[ix];
                     fList.push( vFld.name ) 
                 } 
             }                        

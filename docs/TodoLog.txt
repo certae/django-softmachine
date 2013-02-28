@@ -1,6 +1,14 @@
 Log : 
 
+-------------
+    demo Marc
+        tyoe Money 
+        Separacion de campos ADM 
+        fieldSet  border = 0 
 
+
+
+-------------
     beforeEdit para controlar el permiso  en la grilla 
     update form ( no aparece el boton )
 

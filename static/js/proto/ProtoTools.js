@@ -1,5 +1,6 @@
 
 
+
 function Meta2Tree( oData, pName, ptType   ) {
     /* Convierte la meta en treeStore ( Arbol )   
      * 

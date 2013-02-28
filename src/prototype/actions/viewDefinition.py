@@ -44,7 +44,7 @@ def getViewDefinition( pEntity, viewTitle  ):
         
     #  __str__, __unicode__            
     if infoEntity.get( 'returnField', '' ) ==  '': 
-        infoEntity['returnField'] = 'info' 
+        infoEntity['returnField'] = fName 
             
     return infoEntity
 

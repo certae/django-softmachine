@@ -90,7 +90,7 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
         function configureCurrentFields() {
 
             // Crea los campos activos en la grilla 
-            for (var ix in me.myMeta.fields ) {
+            for (var ix in me.myMeta.fieldsBase ) {
                 var vFld  =  me.myMeta.fields[ix];
 
                 elemList.addDataItem ( vFld.name, true  ) 
@@ -110,6 +110,8 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
         
         function savePreview() {
             
+            var myFieldDict = _SM.getFieldDict( me.myMeta )
+
             var names = elemList.getList(),
                 field = {},  
                 fields = []
@@ -131,6 +133,7 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
             me.myMeta.fields = fields 
             
             function getExistingField( name  ) {
+                // DGT: FIX: TODO myFieldDict
                 for (var ix in me.myMeta.fields ) {
                     var vFld  =  me.myMeta.fields[ix];
                     if ( vFld.name == name ) {

@@ -1,17 +1,19 @@
 To Do:  
 
-	tyoe Money 
-	editer les languajes 
-	fieldSet  border = 0 
-	separar los campos de adm ( seguridad,  ids, jsons  )
-
 	?? por q no trae la jerarqua de campos ( config fieldTree )
-
-	recarga de la pcl 
 
 	prototipos 
 		typos de datos 
 		choices 
+		vrDefault 
+
+	pasar la meta a python 
+
+	editer les languajes 
+
+
+	recarga de la pcl y hacer clear general
+
 
 	ToDo Por usuario
 	Seguridad de tabla ( usuario, grupo, all )
