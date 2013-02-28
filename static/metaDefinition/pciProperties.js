@@ -8,7 +8,7 @@
  *      choices      : lista de valores en caso de ser string 
  *      required     : 
  * 
- *  EL nombre de la propiedad contiene el defaultValue q solo se aplcia 
+ *  EL nombre de la propiedad contiene el prpDefault q solo se aplcia 
  *  si no existe y es requerida  
  * 
  */
@@ -173,9 +173,9 @@ _MetaProperties =  {
     "xtype.help" : "Tipo de objeto en el frontEnd ( puede ser manipulado con el vType)",
     "xtype.choices": ["", "textfield", "combobox", "checkbox", "numberfield", "textarea", "datefield" ],
     
-    "decimalPrecision": 0,
-    "decimalPrecision.help": "Cantidad de decimales permitidos ( 0 para enteros 2 para decimales )",
-    "defaultValue.help": "valor por defecto",
+    "prpScale": 0,
+    "prpScale.help": "Cantidad de decimales permitidos ( 0 para enteros 2 para decimales )",
+    "prpDefault.help": "valor por defecto",
     
     "fieldLabel.help": "label en la forma",
     "format.help": "mascara del campo ( automatico para las fechas, horas y numeros )",

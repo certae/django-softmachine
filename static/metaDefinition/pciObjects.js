@@ -23,7 +23,7 @@
  * Tambien se puede aplicar un valor por defecto, por 
  * ejemplo en listDisplay  = ['__str__']
  * 
- *      defaultValue : ['__str__']
+ *      prpDefault : ['__str__']
  * 
  * Si se desea cambiar el tipo de definicion: 
  * 
@@ -91,7 +91,7 @@ function verifyMeta( oMeta,  ptType, tNode ) {
                 continue ; 
 
             var listOfConf = _MetaObjects[ sKey ] || {}
-            oMeta[ sKey ]  = _SM.verifyList (  oMeta[ sKey ], listOfConf.defaultValue  )
+            oMeta[ sKey ]  = _SM.verifyList (  oMeta[ sKey ], listOfConf.prpDefault  )
 
             if ( tNode ) { 
                 // agrega una nueva lista al arbol 
@@ -228,23 +228,25 @@ _MetaObjects =  {
         "properties": [
             "name", 
             "required",
-            "decimalPrecision", 
-            "defaultValue",
+            "prpLength", 
+            "prpScale", 
+            "prpDefault",
             "fieldLabel",
             "format",
             "header" ,
             "sortable", 
             "searchable",
             "flex", 
-            "height","maxHeight","minHeight",
-            "width", "maxWidth","minWidth",
-            "hideLabel",
-            "labelAlign","labelWidth",
+            // "height","maxHeight","minHeight",
+            // "width", "maxWidth","minWidth",
+            // "hideLabel",
+            // "labelAlign","labelWidth",
+            
             "tooltip", 
-            "cellToolTip",
+            // "cellToolTip",
+            // "qbeHelp",
             "cellLink",  
             "wordWrap",
-            "qbeHelp",
 
             // manejo
             "crudType", 
@@ -288,11 +290,12 @@ _MetaObjects =  {
             "required",
             "readOnly",
             "hidden",
-            "defaultValue",
-            "height","maxHeight","minHeight","width", "maxWidth","minWidth",
+            "prpDefault",
+            // "height","maxHeight","minHeight",
+            // "width", "maxWidth","minWidth",
             
             "format",
-            "decimalPrecision", 
+            "prpLength", 
 
             // Para los campos del htmlSet            
             "collapsed",   
@@ -511,7 +514,7 @@ _MetaObjects =  {
 
     "listDisplay": {
         "description": "Lista de campos a desplegar en la grilla",
-        // "defaultValue" : ["__str__"], 
+        // "prpDefault" : ["__str__"], 
         "addPrompt" : "Please enter the name for your alternative listDisplay:", 
         "__ptStyle": "colList" 
     },
@@ -641,7 +644,8 @@ _MetaObjects =  {
             "border",
             "collapsible", "collapsed", 
             "labelWidth","labelAlign","hideLabel",
-            "height","maxHeight","minHeight","width", "maxWidth","minWidth"
+            "height","maxHeight","minHeight"
+            // "width", "maxWidth","minWidth"
         ]
     },
 
@@ -652,7 +656,8 @@ _MetaObjects =  {
             "title", 
             "collapsible", "collapsed", 
             "flex", 
-            "height","maxHeight","minHeight","width", "maxWidth","minWidth"
+            "height","maxHeight","minHeight"
+            // "width", "maxWidth","minWidth"
         ]
     },
 
@@ -660,7 +665,8 @@ _MetaObjects =  {
         "description": "A detail grid",
         "properties": [
             "viewCode",  
-            "height","maxHeight","minHeight","width", "maxWidth","minWidth"
+            "height","maxHeight","minHeight"
+            // ,"width", "maxWidth","minWidth"
             ]
     }, 
 
@@ -670,7 +676,8 @@ _MetaObjects =  {
         "description": "A simple panel with fit layout",
         "properties": [
             "title",
-            "height","maxHeight","minHeight","width", "maxWidth","minWidth"
+            "height","maxHeight","minHeight"
+            // ,"width", "maxWidth","minWidth"
             ]
     }, 
     
@@ -680,7 +687,8 @@ _MetaObjects =  {
         "description": "A Tab Container with many tabs",
         "properties": [
             "layout", "activeItem", 
-            "height","maxHeight","minHeight","width", "maxWidth","minWidth"
+            "height","maxHeight","minHeight"
+            // ,"width", "maxWidth","minWidth"
             ]
     }, 
     
@@ -718,13 +726,11 @@ _MetaObjects =  {
             "name", 
             "tooltip", 
             "fieldLabel",
-            "defaultValue",
+            "prpDefault",
             
             "required",
             "readOnly",
-            
             "format",
-            "decimalPrecision", 
 
             // Para el combo
             "choices",

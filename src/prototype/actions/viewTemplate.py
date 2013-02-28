@@ -36,7 +36,7 @@ def baseDefinition( pEntity , entityName, viewTitle  ):
             "name": "entity",
             "readOnly": True,
             "hidden": True,
-            "defaultValue" : entityName, 
+            "prpDefault" : entityName, 
         },
         {
             "name": "info",

@@ -153,7 +153,7 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
                     fkField :  rec.get( 'fkField' ),  
                     fkId :  rec.get( 'fkId' ), 
                     vType :  rec.get( 'vType' ),   
-                    defaultValue :  rec.get( 'defaultValue' ),  
+                    prpDefault :  rec.get( 'prpDefault' ),  
                     choices :  rec.get( 'choices' )  
                     
                 }  
@@ -276,7 +276,7 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
             },{
                 hidden : true, 
                 text: _SM.__language.Protofield_Default_Value,
-                dataIndex: 'defaultValue'
+                dataIndex: 'prpDefault'
             },{
                 hidden : true, 
                 text: _SM.__language.Protofield_vType,
@@ -331,7 +331,7 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
                     {name: 'fkField', type: 'string'},  
                     {name: 'fkId', type: 'string'},  
                     {name: 'vType', type: 'string'},  
-                    {name: 'defaultValue', type: 'string'},  
+                    {name: 'prpDefault', type: 'string'},  
                     {name: 'choices', type: 'string'},  
         
                     {name: 'cpFromZoom', type: 'string'},  

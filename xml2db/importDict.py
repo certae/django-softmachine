@@ -140,7 +140,7 @@ class importDict():
         
         fdsConcept= ( 'code', 'category',  'physicalName' )
 
-        fdsPropertyDom = ( 'code', 'category',  'baseType', 'defaultValue', )
+        fdsPropertyDom = ( 'code', 'category',  'baseType', 'prpDefault', )
         intPropertyDom = ( 'prpLength',  )
         
         fdsPropertyConcept = ( 'alias', 'physicalName', 'foreignConcept' )

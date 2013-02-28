@@ -70,12 +70,12 @@ def setFieldDict(protoFields ,  field ):
     # Defaults 
     if (field.default is not None) and (field.default is not NOT_PROVIDED):                     
         if pField['type'] == 'int' or pField['type'] == 'decimal':
-            setFieldProperty(  pField, 'defaultValue', 0 , field, 'default', 0  )
+            setFieldProperty(  pField, 'prpDefault', 0 , field, 'default', 0  )
   
 #        elif pField['type'] == 'bool':  FIX:  ( trae un proxy )
-#            setFieldProperty(  pField, 'defaultValue', False , field, 'default', False  )
+#            setFieldProperty(  pField, 'prpDefault', False , field, 'default', False  )
 #        else:
-#            setFieldProperty(  pField, 'defaultValue', '' , field, 'default', ''  )
+#            setFieldProperty(  pField, 'prpDefault', '' , field, 'default', ''  )
 
     # Comportamiento en la grilla por defecto 
     pField['searchable'] = True   
@@ -150,7 +150,7 @@ def setFieldDict(protoFields ,  field ):
 
 
 def setFieldProperty( pField, pProperty, pDefault, field, fProperty, fpDefault ):
-    # Lee la propiedad del campo,  si es igual al default no la carga, excepto para los defaultValue 
+    # Lee la propiedad del campo,  si es igual al default no la carga, excepto para los prpDefault 
     vAux = getattr( field, fProperty, fpDefault  )
     if ( type( vAux )  == type( pDefault )) and ( vAux != pDefault ):  
         pField[ pProperty ] = vAux

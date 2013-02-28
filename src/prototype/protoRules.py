@@ -47,8 +47,8 @@ def updatePropInfo( reg, propBase, modelBase, inherit  ):
     defValues = {
         'baseType' : reg.baseType, 
         'prpLength' : reg.prpLength,
-        'defaultValue' : reg.defaultValue,
-        'propertyChoices' : reg.propertyChoices,
+        'prpDefault' : reg.prpDefault,
+        'prpChoices' : reg.prpChoices,
         'isSensitive' : reg.isSensitive, 
         'description' : reg.description, 
         

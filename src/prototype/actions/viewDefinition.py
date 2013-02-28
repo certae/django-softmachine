@@ -60,10 +60,17 @@ def property2Field( fName, propDict, infoField = False, fBase = '' ):
     field =  { 
         "name"    : fName,
         "header"  : propDict.get('code', fName),
-        "readOnly": propDict.get('isReadOnly') ,
+        "readOnly": propDict.get('isReadOnly', False) ,
         "required": propDict.get('isRequired', False),
-        "toolTip" : propDict.get('description',''), 
-        "type"    : propDict.get('baseType', 'string')  
+        "tooltip" : propDict.get('description',''), 
+        "vType"   : propDict.get('vType',''),   
+        "type"    : propDict.get('baseType', 'string'), 
+        "choices" : propDict.get('prpChoices', '') ,
+        "prpDefault" : propDict.get('prpDefault', '') , 
+        "prpLength"  : propDict.get('prpLength', '') , 
+        "prpScale"   : propDict.get('prpScale', '') , 
+        "crudType"   : propDict.get('crudType', '') , 
+        
     }
     
     if infoField :  

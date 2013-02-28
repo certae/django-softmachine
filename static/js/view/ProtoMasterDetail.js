@@ -250,7 +250,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
                 return 
             } 
 
-            myDetField['defaultValue'] = me.idMasterGrid
+            myDetField['prpDefault'] = me.idMasterGrid
 
             // Obtiene el titulo del filtro para heredarlo
             nField = pDetail.masterTitleField || myDetField.fkField 
@@ -259,7 +259,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
                 var rowData = me.protoMasterGrid.rowData
                 if ( rowData )  {
                     var masterTitleField = pDetail.masterTitleField || '__str__' 
-                    myTitleField['defaultValue'] = rowData[ masterTitleField ]
+                    myTitleField['prpDefault'] = rowData[ masterTitleField ]
                 } 
 
             } 

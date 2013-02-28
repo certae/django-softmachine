@@ -270,10 +270,10 @@ _SM.getNewRecord = function( myMeta, myStore )  {
         var vDefault = {};
         for (var ix in myMeta.fields ) {
             var vFld = myMeta.fields[ix]; 
-            if ( ! vFld.defaultValue  ) { 
+            if ( ! vFld.prpDefault  ) { 
                 continue ; 
             }
-            vDefault[ vFld.name  ]  = vFld.defaultValue ;
+            vDefault[ vFld.name  ]  = vFld.prpDefault ;
         }
         return vDefault; 
     } 
@@ -325,7 +325,7 @@ _SM.DefineProtoModel = function  ( myMeta  ){
     // type: 'date', 'float', 'int', 'number'
 
     // useNull : vFld.allowNull,  ( solo para numeros, si no puede hacer la conversion )
-    // defaultValue: vFld.defaultValue,
+    // prpDefault: vFld.prpDefault,
     // persist: vFld.editPolicy,        ( falso = NoUpdate )
     
     // type: 'hasMany',
@@ -478,7 +478,7 @@ _SM.getColDefinition = function ( vFld ) {
     
     // Copia las propiedades de base al editor 
     var lstProps = [
-        'defaultValue', 
+        'prpDefault', 
     
         // string 
         'required', 'readOnly', 
@@ -944,7 +944,7 @@ _SM.defineProtoPclTreeModel = function () {
             {name: '__ptType',  type: 'string'},
             {name: 'text', type: 'string'},
             {name: 'id',  type: 'string'},
-            // {name: 'iconCls', type: 'string', defaultValue: null, persist: false }, 
+            // {name: 'iconCls', type: 'string', prpDefault: null, persist: false }, 
             // {name: 'ptValue', type: 'string'}, 
             
             // Referencia al modelo de base 

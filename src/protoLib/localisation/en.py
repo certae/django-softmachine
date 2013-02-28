@@ -168,7 +168,7 @@ __language ={
     'Protofield_Ix' : 'Ix',
     'Protofield_Header' : 'Header',
     'Protofield_Tooltip' : 'tooltip',
-    'Protofield_Default_Value' : 'defaultValue',
+    'Protofield_Default_Value' : 'prpDefault',
     'Protofield_vType' : 'vType',
     'Protofield_choices' : 'choices',
     'ProtoPcl_Edition_Tool' : 'Meta edition tool',

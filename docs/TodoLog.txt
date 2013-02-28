@@ -8,6 +8,23 @@ equivalencia a nivel de dominio
     smplificacion de fields 
         eliminacion de los id de seguridad en la pcl basica 
 
+    eliminar de la definicion de campo
+        height
+        maxheight
+        minheight 
+
+        hideLabel
+        labelAlign
+        labelWidth
+
+        cellTooltip
+        qbeHelp
+
+    Agregar 
+        vtype 
+        prpLength
+        prpScale 
+
 
 -------------
     demo Marc

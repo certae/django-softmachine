@@ -155,14 +155,18 @@ class PropertyBase(ProtoModel):
     code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
 
     """baseType, prpLength:  Caracteristicas generales q definen el campo """
-    baseType = models.CharField( blank = True, null = True, max_length=50, choices = BASE_TYPES)
+    baseType = models.CharField( blank = True, null = True, max_length=50, choices = BASE_TYPES, default = 'string')
     prpLength = models.IntegerField(blank = True, null = True )
+    prpScale = models.IntegerField(blank = True, null = True )
 
-    """defaultValue: Puede variar en cada instancia """ 
-    defaultValue = models.CharField( blank = True, null = True, max_length=50)
+    """vType : validation type ( formatos predefinidos email, .... ) """
+    vType = models.CharField( blank = True, null = True, max_length=50, choices = BASE_TYPES, default = 'string')
+
+    """prpDefault: Puede variar en cada instancia """ 
+    prpDefault = models.CharField( blank = True, null = True, max_length=50)
     
-    """propertyChoices:  Lista de valores CSV ( idioma?? ) """ 
-    propertyChoices = models.CharField( blank = True, null = True, max_length=200 )
+    """prpChoices:  Lista de valores CSV ( idioma?? ) """ 
+    prpChoices = models.CharField( blank = True, null = True, max_length=200 )
 
     """isSensitive: Indica si las propiedades requieren un nivel mayor de seguridad """  
     isSensitive = models.BooleanField()
@@ -172,7 +176,6 @@ class PropertyBase(ProtoModel):
 
     class Meta:
         abstract = True
-
 
 
 class Property(PropertyBase):
@@ -186,7 +189,7 @@ class Property(PropertyBase):
     propertyModel = models.ForeignKey('PropertyModel', blank = True, null = True, on_delete=models.SET_NULL )
 
     # -----------  caracteristicas propias de la instancia
-    """isPrimary : La llave primaria siempre es artificial, se deja con propositos academicos, implica isUnique """  
+    """isPrimary : en el prototipo siempre es artificial, implica isUnique """  
     isPrimary = models.BooleanField()
     isUnique = models.BooleanField()
 
@@ -216,7 +219,7 @@ class Property(PropertyBase):
     crudType    = models.CharField( blank = True, null = True, max_length=20, choices = CRUD_TYPES)
 
     """solo para ordenar los campos en la entidad"""
-    secuence = models.IntegerField(blank = True, null = True,)
+    #secuence = models.IntegerField(blank = True, null = True,)
 
     def save(self, *args, **kwargs ):
         updatePropInfo( self,  self.propertyModel, PropertyModel, False )
@@ -271,7 +274,7 @@ class Relationship(Property):
             "listDisplay": ["__str__", "description", "smOwningTeam" ]      
         }, 
         # Propiedades de propertyBase q no se usan aqui.
-        "exclude": [ "baseType","prpLength","defaultValue","propertyChoices"]
+        "exclude": [ "baseType","prpLength","prpDefault","prpChoices"]
         }
 
 
