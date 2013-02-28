@@ -276,6 +276,12 @@ def protoSaveProtoObj(request):
         except Exception as e:
             return JsonError(  getReadableError( e ) ) 
 
+        # borra el custom por q confunde haecer modif en un lado y otro 
+        try:
+            CustomDefinition.objects.filter(code = '_custom.' + viewCode, smOwningTeam = userProfile.userTeam ).delete()
+        except:  pass
+
+
     else: return JsonError('Q paso, como llego aqui?') 
  
     # El default solo parece funcionar al insertar en la Db

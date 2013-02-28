@@ -1,47 +1,46 @@
 To Do:  
 
-	?? por q no trae la jerarqua de campos ( config fieldTree )
-		sort de los campos al cargar 
-
-	intialsort en los prototipos 
-
-	secuencias para manejar los autonum 
-
-    type Money ( representacion )
-
-    mensajes de advertencia en la generacion de los prototios  
-
-    eliminacion de los id de seguridad en la pcl basica 
-
 	prototipos 
-		typos de datos 
+		typos de datos  ( string por default )
 		choices 
 		vrDefault 
+	    type Money ( representacion )
+
+		intialsort en los prototipos 
+		secuencias para manejar los autonum 
+
+    	mensajes de advertencia en la generacion de los prototios  
+
+	Modiifcar en el menu solamente la parte de protoOption 
+	permitir crear menu en la raiz ( si esta en culquier opcion, para no agregar mas iconos  )
+
+
+	Seguridad ------------------
+		diferentes niveles ( usuario, grupo, all )
+		permisios a nivel de campo
+		verificar permisos en el guardado de objetos de conf 
+
+
+		probar con un ToDo Por usuario
+			por ahora una pcl q se invoque desde statusbar 
+
+	----------------------------------
+	
 
 	pasar la meta a python 
-
 	editer les languajes 
 
-	recarga de la pcl y hacer clear general
 
-	ToDo Por usuario
-		por ahora una pcl q se invoque desde statusbar 
-
-	Seguridad de tabla ( usuario, grupo, all )
-
-	permisios a nivel de campo
 
 	separacion de los vinculos y carga diferida 
 		panel adicional 
 
+	
 	Canvas ( modelo grafico  ver  doc.Extjs.canvas )
 
-	verificar permisos en el guardado de objetos de conf 
-
+	
 	ordenamiento en la grilla 
 
-	Modiifcar en el menu solamente la parte de protoOption 
-	permitir crear menu en la raiz ( si esta en culquier opcion, para no agregar mas iconos  )
 
 
 	Verifcar por q algunos htmlset no quedan readOnly

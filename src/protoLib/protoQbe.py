@@ -72,7 +72,14 @@ def getQbeStmt( fieldName ,  sQBE, sType   ):
     if type( sQBE ).__name__ == 'str':  
         sQBE = sQBE.strip()
         if sQBE == '' : return QResult
-    else: sQBE = str( sQBE )  
+        
+    elif type( sQBE ).__name__ in ['int','long', 'float', 'decimal']:
+        # es un numero, no hay criterios posibles solo =
+        Qobj =  { "{0}".format( fieldName ) :   sQBE }  
+        return  Q( **Qobj ) 
+    
+    else:
+        sQBE = str( sQBE )  
          
 
     #  Negacion del criterio
@@ -107,7 +114,7 @@ def getQbeStmt( fieldName ,  sQBE, sType   ):
 
 
     # String:  \iexact, \icontains, \istartswith, isnull, search, TODO: \iendswith, \iregex 
-    if sType in ([ 'string', 'text', 'protojson']) : 
+    if sType in ([ 'string', 'text', 'protojson', 'foreigntext' ]) : 
         if sQBE.startswith('^'):
             Qobj =  { "{0}__istartswith".format( fieldName ) :  sQBE[1:]  }  
         

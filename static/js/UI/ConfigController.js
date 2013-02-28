@@ -15,16 +15,16 @@ Ext.define('ProtoUL.UI.ConfigController', {
         this.viewCode = this.myMeta.viewCode 
         var perms = _SM._UserInfo.perms[ this.viewCode ]
 
-        if (  perms.custom || perms.config ) {
-           myConfigOpts.push(myActionConfig('Custom', _SM.__language.MetaConfig_Custom_Config, 'icon-configCustom'))
-        }  
 
         if (  perms.config ) {            myConfigOpts.push(myActionConfig('Form', _SM.__language.MetaConfig_Form_Config, 'icon-configForm'))
            myConfigOpts.push(myActionConfig('Fields', _SM.__language.MetaConfig_Add_Fields, 'icon-configFields'))
            myConfigOpts.push(myActionConfig('Details', _SM.__language.MetaConfig_Add_Details, 'icon-configDetails'))
            myConfigOpts.push(myActionConfig('Config', _SM.__language.MetaConfig_Base_Config, 'icon-configCustom'))
            myConfigOpts.push(myActionConfig('Meta', _SM.__language.MetaConfig_Meta_Config, 'icon-configMeta'))
-        }
+           
+        } else if (  perms.custom  ) {
+           myConfigOpts.push(myActionConfig('Custom', _SM.__language.MetaConfig_Custom_Config, 'icon-configCustom'))
+        }  
 
         // Modificacion del entorno
         if ( myConfigOpts.length > 0  ) {

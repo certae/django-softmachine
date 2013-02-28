@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
+from django.db.models.signals import post_save
+
 from protoLib.models import ProtoModel, CustomDefinition  
 from protoLib.fields import JSONField,  JSONAwareManager
+
+from protoRules import  updatePropInfo, twoWayPropEquivalence
+from protoRules import  ONDELETE_TYPES, BASE_TYPES, CRUD_TYPES
 
 PROTO_PREFIX = "prototype.ProtoTable."
 
@@ -144,17 +149,6 @@ class Entity(ProtoModel):
     } 
 
 
-BASE_TYPES = ( ( 'string', 'string' ),
-               ( 'text', 'text' ),  
-               ( 'bool', 'bool' ), 
-               ( 'int', 'int' ),
-               ( 'decimal', 'decimal' ), 
-               ( 'money', 'money' ), 
-               ( 'combo', 'combo' ),  
-               ( 'date',  'date' ),
-               ( 'datetime', 'datetime' ), 
-               ( 'time', 'time' )
-              ) 
 
 class PropertyBase(ProtoModel):
 
@@ -179,13 +173,6 @@ class PropertyBase(ProtoModel):
     class Meta:
         abstract = True
 
-
-CRUD_TYPES = (  
-                ('storeOnly', 'No se presentan nunca (los id, jsonTypes, etc )' ),  
-                ('readOnly',  'No se guarda nunca (usado por reglas de gestion)' ), 
-                ('insertOnly','No se actualiza (un campo absorbido al momento de la creacion, ej:direccion de envio'),
-                ('updateOnly','Al insertar nulo o VrDefault, (estado inicial fijo)'),  
-              ) 
 
 
 class Property(PropertyBase):
@@ -232,7 +219,7 @@ class Property(PropertyBase):
     secuence = models.IntegerField(blank = True, null = True,)
 
     def save(self, *args, **kwargs ):
-        updatePropInfo( self,  self.propertyModel, False )
+        updatePropInfo( self,  self.propertyModel, PropertyModel, False )
         super(Property, self).save(*args, **kwargs) 
 
     class Meta:
@@ -249,65 +236,6 @@ class Property(PropertyBase):
         }
     } 
 
-def updatePropInfo( prop, propBase, inherit  ):
-    """
-    self     :  propiedad q genera el cambio 
-    propBase :  campo de referencia a la entidad de base 
-    propModel:  modelo al cual copiar
-    inherit  :  heredar ( si es descendente Dom, Model, ...  )
-    
-    Solo actualiza subiendo de prop a model a dom 
-    """
-
-    defValues = {
-        'baseType' : prop.baseType, 
-        'prpLength' : prop.prpLength,
-        'defaultValue' : prop.defaultValue,
-        'propertyChoices' : prop.propertyChoices,
-        'isSensitive' : prop.isSensitive, 
-        'description' : prop.description, 
-        
-        'smOwningUser' : prop.smOwningUser,
-        'smOwningTeam' : prop.smOwningTeam,
-        'smCreatedBy' : prop.smCreatedBy
-    }
-    
-    if propBase is None:
-        # Crea los padres  
-        if prop._meta.object_name == 'Property' : 
-            pMod = PropertyModel.objects.get_or_create( model = prop.entity.model, code = prop.code, defaults=defValues  )[0]
-            prop.propertyModel = pMod 
-
-        elif prop._meta.object_name == 'PropertyModel' : 
-            pDom = PropertyDom.objects.get_or_create( domain = prop.model.domain, code = prop.code, defaults=defValues  )[0]
-            prop.propertyDom = pDom 
-
-    # Se asegura q sea verdadero    
-    if inherit == True :
-
-        del defValues['smOwningUser']
-        del defValues['smOwningTeam'] 
-        del defValues['smCreatedBy'] 
-        defValues['smModifiedBy'] = prop.smModifiedBy
-             
-        if prop._meta.object_name == 'PropertyDom' :
-            # el update no genera eventos en los hijos 
-            prop.propertymodel_set.update( **defValues )
-            for pMod in prop.propertymodel_set.all():
-                pMod.property_set.update( **defValues ) 
-                            
-        elif prop._meta.object_name == 'PropertyModel' : 
-            prop.property_set.update( **defValues )
-
-# -----------------------------------------------------------------
-
-ONDELETE_TYPES = (  
-        ('CASCADE', 'Cascade deletes; the default' ), 
-        ('PROTECT', 'Prevent deletion of the referenced object by raising ProtectedError, a subclass of django.db.IntegrityError'),
-        ('SET_NULL', 'Set the ForeignKey null; this is only possible if null is True'), 
-        ('SET_DEFAULT', 'Set the ForeignKey to its default value; a default for the ForeignKey must be set.  @function si possible'), 
-        ('DO_NOTHING', 'Use default Db constraint')
-    ) 
 
 class Relationship(Property):
     """
@@ -375,14 +303,28 @@ class PropertyDom(PropertyBase):
 
     def save(self, *args, **kwargs ):
         # Envia el heredado y se asegura q sea Falso siempre 
-        updatePropInfo( self, self, self.inherit   )
+        updatePropInfo( self, self, None, self.inherit   )
         self.inherit = False 
         super(PropertyDom, self).save(*args, **kwargs) 
 
     protoExt = { 
         "gridConfig" : {
             "listDisplay": ["__str__", "description", "inherit", "smOwningTeam" ]      
-        }
+        }, 
+        "detailsConfig": [
+        {
+            "menuText": "Mdoels",
+            "conceptDetail": "prototype.PropertyModel",
+            "detailName": "propertyDom",
+            "detailField": "propertyDom__pk",
+            "masterField": "pk"
+        },
+        {
+            "menuText": "Entities",
+            "conceptDetail": "prototype.Property",
+            "masterField": "pk",
+            "detailField": "propertyModel__propertyDom__pk"
+        }]                
     } 
 
 
@@ -411,7 +353,7 @@ class PropertyModel(PropertyBase):
 
     def save(self, *args, **kwargs ):
         # Envia el heredado y se asegura q sea Falso siempre 
-        updatePropInfo( self,  self.propertyDom, self.inherit   )
+        updatePropInfo( self,  self.propertyDom, PropertyDom, self.inherit   )
         self.inherit = False 
         super(PropertyModel, self).save(*args, **kwargs) 
         
@@ -421,6 +363,53 @@ class PropertyModel(PropertyBase):
         }
     } 
 
+
+
+class PropertyEquivalence(ProtoModel):
+    """ 
+    Matriz de equivalencias "semantica"  entre propiedades
+    
+    Este es un caso particular de relacion donde en usa sola busqueda quisiera 
+    obtener donde es source y donde es target, 
+    
+    se podria agregar un manejador q hicer:   where = sourse UNION where target, 
+    o q al momento de guardar generara la relacion inversa y actualizara simpre los dos ( privilegiada )     
+    """    
+#   No es necesario pertenecer al mismo dominio,  
+#   domain = models.ForeignKey('Domain')
+
+    sourceProperty = models.ForeignKey('PropertyDom', blank = True, null = True, related_name = 'sourcePrp')
+    targetProperty = models.ForeignKey('PropertyDom', blank = True, null = True, related_name = 'targetPrp')
+
+    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
+
+    def __unicode__(self):
+        return self.sourceProperty.code + ' - ' + self.targetProperty.code   
+
+    class Meta:
+        unique_together = ('sourceProperty', 'targetProperty', 'smOwningTeam' )
+
+    def delete(self, *args, **kwargs):
+        twoWayPropEquivalence( self, PropertyEquivalence, True )
+        super(PropertyEquivalence, self).delete(*args, **kwargs)
+
+def propEquivalence_post_save(sender, instance, created, **kwargs):
+    twoWayPropEquivalence( instance, PropertyEquivalence, False )
+
+post_save.connect(propEquivalence_post_save, sender = PropertyEquivalence)
+
+
+#This way when the save() method is called, 
+#it never fires another post_save signal because we've disconnected it.
+#
+#def do_stuff(sender, **kwargs):
+#    post_save.disconnect(do_stuff, sender=User)
+#    kwargs['instance'].save()
+#    post_save.connect(do_stuff, sender=User)
+#
+#post_save.connect(do_stuff, sender=User)
+
+#   --------------------------------------------------------------------------------
 
 class ProtoTable(ProtoModel):
     """
@@ -441,7 +430,6 @@ class ProtoTable(ProtoModel):
         }
     } 
 
-#   --------------------------------------------------------------------------------
 
 
 class ProtoView(ProtoModel):

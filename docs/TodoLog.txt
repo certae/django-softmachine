@@ -1,5 +1,14 @@
 Log : 
 
+Manejo completo de herencia de propiedades y 
+equivalencia a nivel de dominio 
+
+------------
+
+    smplificacion de fields 
+        eliminacion de los id de seguridad en la pcl basica 
+
+
 -------------
     demo Marc
         tyoe Money 
@@ -8,6 +17,8 @@ Log :
 
     ?? por q no trae la jerarqua de campos ( config fieldTree )
         sort de los campos al cargar 
+
+    recarga de la pcl y hacer clear general
 
 
 

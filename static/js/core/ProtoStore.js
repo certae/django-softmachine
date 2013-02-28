@@ -861,7 +861,9 @@ _SM.savePci = function ( protoMeta,  options) {
        protoMeta = _SM.clone( protoMeta )
        delete protoMeta.fieldsBase 
        delete protoMeta.fieldsAdm 
+       delete protoMeta.custom  
     }
+
     
     var sMeta = Ext.encode(  protoMeta )
     _SM.saveProtoObj( viewCode, sMeta ,  options)

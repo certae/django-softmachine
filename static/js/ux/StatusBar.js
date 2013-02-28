@@ -82,23 +82,22 @@ Ext.define('ProtoUL.ux.StatusBar', {
                 scope: this,
                 iconCls: 'taskManager',
                 handler: this.openTaskForm
-            // },{
-                // xtype:'splitbutton',
-                // text: 'Login'
-            }, '-', {
-                xtype: 'button',
-                iconCls: 'icon-script_gear',
-                text: _SM.__language.StatusBar_Text_Command_Button,
-                handler: this.command
 
-            }, {
+            }, '-', {
+                // xtype: 'button',
+                // iconCls: 'icon-script_gear',
+                // text: _SM.__language.StatusBar_Text_Command_Button,
+                // handler: this.command
+            // }, {
 
                 xtype: 'splitbutton',
                 text: _SM._UserInfo.fullName || _SM._UserInfo.userName,
                 iconCls:'icon-user',
                 menu: new Ext.menu.Menu({
                     items: [
-                        { text: _SM.__language.StatusBar_Text_Close_Session, flex: 1, handler: this.closeSession, iconCls: 'icon-logout', }
+                        { text: _SM.__language.StatusBar_Text_Close_Session,  
+                         handler: this.closeSession, 
+                         iconCls: 'icon-logout' }
                     ]
                 })
             }])
