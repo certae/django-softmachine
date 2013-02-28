@@ -118,84 +118,82 @@
                 "__ptConfig": {
                     "__ptType": "htmlset"
                 }
-            }, {
-                "text": "Panel",
-                "qtip": "A simple panel with default layout",
-                "__ptType" : "panel", 
-                "children": [], 
-                "__ptConfig": {
-                    "layout": "fit",
-                    "xtype": "panel", 
-                    "__ptType" : "panel"
-                }
-            }, {
-                "text": "Tab Container",
-                "qtip": "A panel with many tabs",
-                "__ptType": "tabpanel",
-                "children": [], 
-                "__ptConfig": {
-                    "__ptType" : "tabpanel", 
-                    "layout": "fit",
-                    "title": "",
-                    "activeItem": 0
-                }
-            }, {
-                "text": "Tab Panel",
-                "qtip": "A tab panel",
-                "__ptType": "tab",
-                "children": [], 
-                "__ptConfig": {
-                    "__ptType": "tab",
-                    "layout": "fit",
-                    "title": ""
-                }
-
-            }, {
-                "text": "Accordion Panel",
-                "qtip": "Layout as accordion",
-                "__ptType": "accordion",
-                "children": [], 
-                "__ptConfig": {
-                    "__ptType" : "accordion", 
-                    "layout": "fit",
-                    "title": "",
-                    "activeItem": 0
-                }
-                
-            }, {
-                "text": "fieldcontainer",
-                "qtip": "A Fieldset, containing field elements",
-                "__ptType": "fieldcontainer",
-                "children": [], 
-                "__ptConfig": {
-                    "__ptType": "fieldcontainer"
-                    } 
+            // }, {
+                // "text": "Panel",
+                // "qtip": "A simple panel with default layout",
+                // "__ptType" : "panel", 
+                // "children": [], 
+                // "__ptConfig": {
+                    // "layout": "fit",
+                    // "xtype": "panel", 
+                    // "__ptType" : "panel"
+                // }
+            // }, {
+                // "text": "Tab Container",
+                // "qtip": "A panel with many tabs",
+                // "__ptType": "tabpanel",
+                // "children": [], 
+                // "__ptConfig": {
+                    // "__ptType" : "tabpanel", 
+                    // "layout": "fit",
+                    // "title": "",
+                    // "activeItem": 0
+                // }
+            // }, {
+                // "text": "Tab Panel",
+                // "qtip": "A tab panel",
+                // "__ptType": "tab",
+                // "children": [], 
+                // "__ptConfig": {
+                    // "__ptType": "tab",
+                    // "layout": "fit",
+                    // "title": ""
+                // }
+            // }, {
+                // "text": "Accordion Panel",
+                // "qtip": "Layout as accordion",
+                // "__ptType": "accordion",
+                // "children": [], 
+                // "__ptConfig": {
+                    // "__ptType" : "accordion", 
+                    // "layout": "fit",
+                    // "title": "",
+                    // "activeItem": 0
+                // }
+            // }, {
+                // "text": "fieldcontainer",
+                // "qtip": "A Fieldset, containing field elements",
+                // "__ptType": "fieldcontainer",
+                // "children": [], 
+                // "__ptConfig": {
+                    // "__ptType": "fieldcontainer"
+                    // } 
             }
         ]
     }, {
         "text": "Details",
         "children": []
-    }, {
-        "text": "Others",
-        "children": [
-            {
-                "text": "Label",
-                "qtip": "A textlabel",
-                "leaf": true,
-                "__ptConfig": {
-                    "xtype": "label",
-                    "text": "Label"
-                }
-            }, {
-                "text": "Button",
-                "qtip": "A button",
-                "leaf": true,
-                "__ptConfig": {
-                    "xtype": "button",
-                    "text": "Ok"
-                }
-            }
-        ]
+    // }, {
+        // "text": "Others",
+        // "children": [
+            // {
+                // "text": "Label",
+                // "qtip": "A textlabel",
+                // "leaf": true,
+                // "__ptConfig": {
+                    // "xtype": "label",
+                    // "text": "Label"
+                // }
+            // }, {
+                // "text": "Button",
+                // "qtip": "A button",
+                // "leaf": true,
+                // "__ptConfig": {
+                    // "xtype": "button",
+                    // "text": "Ok"
+                // }
+            // }
+        // ]
     }]    
 }
 

@@ -22,8 +22,8 @@ equivalencia a nivel de dominio
 
     Agregar 
         vtype 
-        prpLength
-        prpScale 
+        prpLength  
+        prpScale (  decimalPrecision  )
 
 
 -------------
@@ -37,6 +37,8 @@ equivalencia a nivel de dominio
 
     recarga de la pcl y hacer clear general
 
+    limpiar la conf de la forma \
+    hacer autorefresh 
 
 
 -------------

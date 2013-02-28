@@ -64,7 +64,16 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
     }, 
 
     onClickRedraw : function(myObj) {
-        // console.log( 'this')     }, 
+
+        this.formPreview.removeAll( true )
+        
+        var formMeta =  Tree2Meta( this.formTree.store.getRootNode() )
+        this.myMeta.formConfig = formMeta
+        this.formController.myMeta.formConfig = formMeta  
+         
+        this.formPreview.add( this.formController.newProtoForm()  )
+
+    }, 
     
     doFormatLayout : function(myObj) {
 
@@ -108,6 +117,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                 if ( _SM.typeOf(oData) ==  "object") 
                     oData[ prpName ]  = e.value 
 
+                me.onClickRedraw()
             }, 
             scope: me }
         );
@@ -267,6 +277,12 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
 
                 }
             },
+            'drop' : {
+                fn : function() {
+                    this.onClickRedraw()
+                }
+            },
+            
             scope : this
         });
 
@@ -292,15 +308,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         var btRedraw = this.tBar.down( '#redraw');
         btRedraw.on('click',
             function(  btn , event,  eOpts) {
-                
-                this.formPreview.removeAll( true )
-                
-                var formMeta =  Tree2Meta( this.formTree.store.getRootNode() )
-                this.myMeta.formConfig = formMeta
-                this.formController.myMeta.formConfig = formMeta  
-                 
-                this.formPreview.add( this.formController.newProtoForm()  )
-                
+                this.onClickRedraw()                
             },me   );
 
 

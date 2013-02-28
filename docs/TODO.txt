@@ -1,28 +1,6 @@
 To Do:  
 
-	decimalPrecision 
-
-	eliminar de la definicion de campo
-		height
-		maxheight
-		minheight 
-
-		hideLabel
-		labelAlign
-		labelWidth
-
-		cellTooltip
-		qbeHelp
-
-	Agregar 
-		vtype 
-		prpLength
-		prpScale 
-
-
-
-	Ordenar las props de los campos 
-	de paso ver como se hace el ordenamiento 
+	el search no funciona en proerte por el modelo_code
 
 	prototipos 
 		typos de datos  ( string por default )
