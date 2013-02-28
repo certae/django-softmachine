@@ -28,7 +28,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         // Marca si viene de un detalle 
         if ( this.mdFilter ) {  this.isPromoted = true }
         
-        __StBar.showBusy( 'loading ' + this.viewCode + '...', 'prMD.init',  2000)
+        _SM.__StBar.showBusy( 'loading ' + this.viewCode + '...', 'prMD.init',  2000)
         
         // Master Grid    ========================================================== 
         // y la Guarda el store para efectos de eventos y referencias 

@@ -12,8 +12,6 @@ Ext.define('ProtoUL.view.Viewport', {
     initComponent: function () {
 
 
-        // Global ref to VPort  
-        mainVP = this 
 
         Ext.apply(this, {
             layout: 'border',
@@ -40,13 +38,13 @@ Ext.define('ProtoUL.view.Viewport', {
     createFooterPanel: function() {
 
         // StatusBar Global 
-        __StBar = Ext.create('Ext.ux.StatusBar', {
+        _SM.__StBar = Ext.create('Ext.ux.StatusBar', {
                 region:'south', 
                 split: false,
                 collapsible: false
             }) 
             
-        return __StBar           
+        return _SM.__StBar           
 
     }, 
 
@@ -55,7 +53,7 @@ Ext.define('ProtoUL.view.Viewport', {
     afterRender: function () {
         this.callParent(arguments);
 
-        __StBar.showBusy( 'loading ... ', 'vPort', 3000)            
+        _SM.__StBar.showBusy( 'loading ... ', 'vPort', 3000)            
 
         // Carga las PCI de autoload
         // TODO: Esto podria ser un llamado configurado por usuario  

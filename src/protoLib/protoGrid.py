@@ -15,7 +15,7 @@ def getProtoAdmin( model ):
     * en el modelo 
     """ 
 
-    #DGT Siempre existe, la creacion del site la asigna por defecto 
+    # Siempre existe, la creacion del site la asigna por defecto 
     model_admin = site._registry.get( model )
 
     # Si no esta registrado genera una definicion en blanco         
@@ -110,30 +110,6 @@ class ProtoGridFactory(object):
         for field in self.model._meta._many_to_many():
             if field.name in protoExclude: continue
             setFieldDict (  self.fieldsDict , field )
-
-#       ** DGT: Antes de borrar considerar el caso de fields heredados especificados en el listDisplay
-#       ** de resto se puede borrar, pues lo q hacia era cargar solamente los campos del listDisplay 
-#        else : 
-#            for fName in pListDisplay:
-#                if fName in protoExclude: continue
-#                try:
-#                    # Recibe los parametros de los campos del modelo  
-#                    field = self.model._meta.get_field(fName )
-#                    setFieldDict (  self.fieldsDict , field )
-#                except: 
-#                    # Si no es parte del modelo, se asegura q exista en el diccionario
-#                    fdict = self.fieldsDict.get( fName, {} )
-#                    if not fdict: 
-#                        fdict['name'] = fName
-#                        self.fieldsDict[ fName ] = fdict
-#
-#                        if fName == '__str__':
-#                            setDefaultField( fdict, self.model , self.viewCode  )
-#                                                        
-#                        # Si no es una UDP y no esta en diccionario debe ser ReadOnly 
-#                        if not (cUDP.udpTable and fName.startswith( cUDP.propertyPrefix + '__')):  
-#                            fdict[ 'readOnly' ] = True
-                
 
 
         # Agrega el __str__ que sirve de base para los zooms

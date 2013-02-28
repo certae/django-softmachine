@@ -54,12 +54,26 @@ Ext.define('ProtoUL.ux.StatusBar', {
         // any standard Toolbar items:
         this.add( [{
                 itemId : 'errBt', 
-                xtype: 'button',
-                text: _SM.__language.StatusBar_Text_Clean_Button,
+                xtype  : 'splitbutton',
+                text   :  _SM.__language.StatusBar_Text_Clean_Button,
                 tooltip: _SM.__language.StatusBar_Tooltip_Clean_Button,
-                scope: this,
+                scope  : this,
                 iconCls: 'comment_delete',
-                handler: this.clearErrCount
+                handler: this.clearErrCount,
+
+                // TITLE 
+                menu:  new Ext.menu.Menu({
+                    items: [
+                        {text: 'ClearTabs', 
+                        tooltip : 'clear all tabs',      
+                        iconCls: 'icon-4',  
+                        handler: function(){ 
+                            _SM.__TabContainer.closeAllTabs() 
+                            _SM._cllPCI = [];
+                            }}
+                    ]                 
+                })
+                
             },{
                 itemId : 'openTaskForm', 
                 xtype: 'button',
@@ -84,7 +98,6 @@ Ext.define('ProtoUL.ux.StatusBar', {
                 iconCls:'icon-user',
                 menu: new Ext.menu.Menu({
                     items: [
-                        
                         { text: _SM.__language.StatusBar_Text_Close_Session, flex: 1, handler: this.closeSession, iconCls: 'icon-logout', }
                     ]
                 })
@@ -94,6 +107,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
         this.errBt = this.getComponent( 'errBt' )
         
     },
+
 
     command: function (){
         Ext.MessageBox.prompt('Comando', 'Digite El Comando',
@@ -130,7 +144,6 @@ Ext.define('ProtoUL.ux.StatusBar', {
 
     clearErrCount: function () {
         // this.errBt.hide()
-        _SM._cllPCI = [];
         
         this.errBt.tooltip = ''
         this.busyCount = 0; 

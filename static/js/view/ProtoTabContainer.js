@@ -3,8 +3,7 @@
 Ext.define('ProtoUL.view.ProtoTabContainer', {
     extend: 'Ext.tab.Panel',
     alias: 'widget.protoTabContainer',
-//    requires: ['ProtoUL.view.ProtoMasterDetail' ],
-    
+    // requires: ['ProtoUL.view.ProtoMasterDetail' ],
     // listeners: {
         // //DGT: Para arreglar un error reportado en ExtJs 4.0.7
         // 'tabchange': function(tabs, tab) { tab.down('gridpanel').view.refresh(); },
@@ -15,10 +14,10 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
     initComponent: function() {
         
         /*
-         * @gloale 
+         * @loCale 
          * __TabContainer : Referencia al objeto padre de la interface 
          */ 
-        __TabContainer = this; 
+        _SM.__TabContainer = this; 
         this.callParent();
     },
     
@@ -31,6 +30,7 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
 
         var tab = this.add({
             title: title ,
+            viewCode : viewCode, 
             border : false, 
             tabConfig: {
                 tooltip : title, 
@@ -56,7 +56,27 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
             detailTitle : detailTitle 
         });
         return MDPanel;
-    }
+    }, 
+    
+    
+    closeProtoTab : function( viewCode  ){
+
+        for (var ix = this.items.items.length;ix--;){
+            var xTab = this.items.items[ix] 
+            if ( xTab.viewCode == viewCode  ){
+              this.remove( xTab, true )
+            }     
+        }
+
+    }, 
+    
+    closeAllTabs : function(){
+        for (var ix = this.items.items.length;ix--;){
+          var xTab = this.items.items[ix] 
+          this.remove( xTab, true )
+        }
+    }, 
+ 
     
 
 });

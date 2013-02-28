@@ -41,10 +41,6 @@ _SM.getStoreDefinition = function(  stDef  ){
             // buscar por getProxy, clearFilter, ....  
             // Dgt:  Agregar page??? 
             
-            // console.log( '-------  myLoadData ', this.viewCode ) 
-            // console.log( myFilter, this.getProxy().extraParams ) 
-            // console.log( mySorter, this.sorters.items  )
-
             if ( myMasterId ){ this.protoMasterId = myMasterId  }
 
             if ( myFilter ) {
@@ -62,17 +58,17 @@ _SM.getStoreDefinition = function(  stDef  ){
 
             // Fires before a request is made for a new data object. ...
             beforeload: function(  store,  operation,  eOpts ) {
-                __StBar.showBusy(_SM.__language.StatusBar_Message_Loading + store.viewCode, 'beforeLoad');
+                _SM.__StBar.showBusy(_SM.__language.StatusBar_Message_Loading + store.viewCode, 'beforeLoad');
             },
      
             // Fired before a call to sync is executed. Return false from any listener to cancel the sync
             beforesync: function ( options, eOpts ) {
-                __StBar.showBusy(_SM.__language.StatusBar_Message_Sync + this.viewCode, 'beforeSync');
+                _SM.__StBar.showBusy(_SM.__language.StatusBar_Message_Sync + this.viewCode, 'beforeSync');
             },  
     
             // Fires whenever the records in the Store have changed in some way - this could include adding or removing records, or ...
             datachanged: function( store,  eOpts ) {
-                __StBar.clear( store.viewCode , 'dataChanged' ); 
+                _SM.__StBar.clear( store.viewCode , 'dataChanged' ); 
                 
                 // Guarda la info de sort 
                 try {
@@ -196,7 +192,7 @@ _SM.getProxyDefinition = function( stDef )  {
                 'exception': function(proxy, response, operation){
                     // var msg = operation.request.scope.reader.jsonData["message"] ;
                     var msg = 'REMOTE EXCEPTION: ' + operation.getError();
-                    __StBar.showError( msg , 'storeException'); 
+                    _SM.__StBar.showError( msg , 'storeException'); 
                 } 
             }
              
@@ -241,15 +237,15 @@ _SM.getTreeStoreDefinition = function(  stDef  ){
         // listeners: {
             // // Fires before a request is made for a new data object. ...
             // beforeload: function(  store,  operation,  eOpts ) {
-                // __StBar.showBusy( 'loading ..' + store.viewCode, 'beforeLoad' ); 
+                // _SM.__StBar.showBusy( 'loading ..' + store.viewCode, 'beforeLoad' ); 
             // },
             // // Fired before a call to sync is executed. Return false from any listener to cancel the sync
             // beforesync: function ( options, eOpts ) {
-                // __StBar.showBusy( 'sync ..' + this.viewCode, 'beforeSync'  );
+                // _SM.__StBar.showBusy( 'sync ..' + this.viewCode, 'beforeSync'  );
             // },  
             // // Fires whenever the records in the Store have changed in some way - this could include adding or removing records, or ...
             // datachanged: function( store,  eOpts ) {
-                // __StBar.clear( store.viewCode , 'dataChanged' ); 
+                // _SM.__StBar.clear( store.viewCode , 'dataChanged' ); 
             // } 
         // }
 
@@ -299,22 +295,31 @@ _SM.getRecordByDataIx = function( myStore, fieldName, value  )  {
 
 _SM.IsAdmField = function  ( vFld , myMeta ){
     
-    // this.indexOf(suffix, this.length - suffix.length) !== -1;
+    // Oculta las llaves de zooms 
     if (  /_id$/.test( vFld.name ))  return true; 
-     
-     // 'smOwningUser','smOwningTeam', 'smModifiedOn', 'smWflowStatus','smRegStatus',
-    if ( vFld.name  in _SM.objConv( [ 'id', 'smCreatedBy','smModifiedBy', 'smCreatedOn' ] ) ) return true; 
 
+    // Oculta el jsonField  
     if ( myMeta.jsonField == vFld.name ) return true      
 
     // prototipos 
-    if ( myMeta.protoEntityId && vFld.name == 'entity' ) return true      
+    if ( myMeta.protoEntityId ) {
+
+         // 'smOwningUser','smOwningTeam', 'smModifiedOn',  
+        if ( vFld.name in _SM.objConv( [ 
+                'smCreatedBy','smModifiedBy', 'smCreatedOn', 
+                'smWflowStatus','smRegStatus'
+             ] ) ) return true; 
     
+        if ( vFld.name == 'id'  ) return true; 
+        if ( vFld.name == 'entity' ) return true      
+    
+    }
+        
     return false 
 };
 
     
-_SM.DefineProtoModel = function  ( myMeta , modelClassName ){
+_SM.DefineProtoModel = function  ( myMeta  ){
         
     // dateFormat: 'Y-m-d'
     // type: 'date', 'float', 'int', 'number'
@@ -327,7 +332,7 @@ _SM.DefineProtoModel = function  ( myMeta , modelClassName ){
     // autoLoad: true
     // convert :  Campo Virtual calculado,  Apunta a una funcion q  genera el valor 
 
-
+    
     // Verifica la conf del objeto de base 
     myMeta = verifyMeta ( myMeta, 'pcl' )
 
@@ -425,7 +430,7 @@ _SM.DefineProtoModel = function  ( myMeta , modelClassName ){
     myModelFields.push(mField);
 
     // myModelFields = [{"name":"id","type":"int","useNull":true},{"name":"first","type":"string"}]
-    Ext.define(modelClassName, {
+    Ext.define( _SM.getModelName( myMeta.viewCode) , {
         extend: 'Ext.data.Model',
         fields: myModelFields 
             
@@ -806,7 +811,6 @@ _SM.loadPci = function ( viewCode, loadIfNot, options) {
             // Solo retorna algo cuando se usa para evaluar 
             if ( ! loadIfNot ) return false 
 
-            // DGT: reemplaza las funciones en caso de no existir  
             Ext.applyIf(options, {
                 scope: this,
                 success: Ext.emptyFn,
@@ -848,6 +852,7 @@ _SM.savePci = function ( protoMeta,  options) {
 
     if ( ! protoMeta ) return; 
 
+
     var viewCode = protoMeta.viewCode
     protoMeta.updateTime = _SM.getCurrentTime()
     
@@ -859,16 +864,14 @@ _SM.savePci = function ( protoMeta,  options) {
     }
     
     var sMeta = Ext.encode(  protoMeta )
-
     _SM.saveProtoObj( viewCode, sMeta ,  options)
+
+
 }
 
 _SM.saveProtoObj = function ( viewCode, sMeta ,  options) {
 
-
         options = options || {};
-                    
-        // DGT: reemplaza las funciones en caso de no existir  
         Ext.applyIf(options, {
             scope: this,
             success: Ext.emptyFn,
@@ -907,8 +910,6 @@ _SM.loadJsonConfig = function ( fileName, options) {
 
 
     options = options || {};
-    
-    // DGT: reemplaza las funciones en caso de no existir  
     Ext.applyIf(options, {
         scope: this,
         success: Ext.emptyFn,

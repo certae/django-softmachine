@@ -311,7 +311,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                 var formMeta =  Tree2Meta( this.formTree.store.getRootNode() )
                 this.myMeta.formConfig = formMeta
 
-                _SM.savePclCache( this.myMeta.viewCode, this.myMeta )
+                _SM.savePclCache( this.myMeta.viewCode, this.myMeta, true )
                 _SM.savePci( this.myMeta )         
             },me   );
 

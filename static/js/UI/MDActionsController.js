@@ -56,10 +56,10 @@ Ext.define('ProtoUL.UI.MDActionsController', {
 
             // "selectionMode", 
             if (( pAction.selectionMode == "single"  ) && ( selectedKeys.length != 1 )) {
-                __StBar.showMessage('TITLE_ACTION_SELECTION_SINLGLE', btn.actionName, 3000 )
+                _SM.__StBar.showMessage('TITLE_ACTION_SELECTION_SINLGLE', btn.actionName, 3000 )
                 return 
             } else if (( pAction.selectionMode == "multiple"  ) && ( selectedKeys.length < 1 )) {
-                __StBar.showMessage('TITLE_ACTION_SELECTION_MULTI', btn.actionName, 3000 )
+                _SM.__StBar.showMessage('TITLE_ACTION_SELECTION_MULTI', btn.actionName, 3000 )
                 return 
             }  
 
@@ -93,18 +93,18 @@ Ext.define('ProtoUL.UI.MDActionsController', {
             scope : me,
             success : function(result, request) {
                 var myResult = Ext.decode( result.responseText );
-                __StBar.showMessage( actionName + ' ' +  myResult.message , 'MDActionsController', 3000 )
+                _SM.__StBar.showMessage( actionName + ' ' +  myResult.message , 'MDActionsController', 3000 )
 
                 //TODO: "refreshOnComplete"
 
             }, 
             failure: function(result, request) {
-                __StBar.showError( actionName + ' ' +  result.statusText , 'MDActionsController' )
+                _SM.__StBar.showError( actionName + ' ' +  result.statusText , 'MDActionsController' )
 
             }
         }
         
-        __StBar.showMessage( 'executing  ' + actionName + '...', 'MDActionsController' )
+        _SM.__StBar.showMessage( 'executing  ' + actionName + '...', 'MDActionsController' )
         _SM.doProtoActions( viewCode, actionName, selectedKeys, parameters, options )
         
     }

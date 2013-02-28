@@ -55,6 +55,7 @@ Ext.define('ProtoUL.proto.ProtoDetailSelector', {
             }, 
             'save': function () {
                 savePreview(); 
+                _SM.savePclCache( me.myMeta.viewCode, me.myMeta, true )
                 _SM.savePci( me.myMeta )         
             }, 
             scope: me }

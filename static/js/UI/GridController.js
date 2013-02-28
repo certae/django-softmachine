@@ -84,7 +84,7 @@ Ext.define('ProtoUL.UI.GridController', {
 
             var detDef = me.detailDefinition 
 
-            __TabContainer.addTabPanel(
+            _SM.__TabContainer.addTabPanel(
                    me.store.viewCode , 
                    me.protoFilter, 
                    me.detailTitle 

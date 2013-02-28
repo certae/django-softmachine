@@ -28,7 +28,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
         var me = this;         
         if ( ! this.myMeta  ) {
-            __StBar.showError( 'not loaded???', 'protoPcl.init' );
+            _SM.__StBar.showError( 'not loaded???', 'protoPcl.init' );
             return; 
         }
 
@@ -42,8 +42,6 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         var treeData = getTreeData( me );
 
         var treeGridStore = Ext.create('Ext.data.TreeStore', { 
-            folderSort: false, 
-            // sorters: [{ property: 'text', direction: 'ASC' }], 
             model: 'Proto.PclTreeNode',
             root: treeData 
         });
@@ -134,7 +132,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
         tBar.on({
             'preview': function ( ) {
                 me.myMeta  =  Tree2Meta( me.treeGridStore.getRootNode() )
-                _SM.savePclCache( me.myMeta.viewCode, me.myMeta )
+                _SM.savePclCache( me.myMeta.viewCode, me.myMeta, true )
             }, 
             'save': function ( ) {
                 
@@ -162,7 +160,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                 } 
 
                 me.myMeta.metaVersion = _versionMeta
-                _SM.savePclCache( me.myMeta.viewCode, me.myMeta )
+                _SM.savePclCache( me.myMeta.viewCode, me.myMeta, true )
                 
                 if ( me.metaConfig ) {  // La meta modificada
                     _SM.savePci( me.myMeta )         

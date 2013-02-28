@@ -1,6 +1,17 @@
 To Do:  
 
 	?? por q no trae la jerarqua de campos ( config fieldTree )
+		sort de los campos al cargar 
+
+	intialsort en los prototipos 
+
+	secuencias para manejar los autonum 
+
+    type Money ( representacion )
+
+    mensajes de advertencia en la generacion de los prototios  
+
+    eliminacion de los id de seguridad en la pcl basica 
 
 	prototipos 
 		typos de datos 
@@ -11,11 +22,11 @@ To Do:
 
 	editer les languajes 
 
-
 	recarga de la pcl y hacer clear general
 
-
 	ToDo Por usuario
+		por ahora una pcl q se invoque desde statusbar 
+
 	Seguridad de tabla ( usuario, grupo, all )
 
 	permisios a nivel de campo

@@ -112,7 +112,7 @@ def setFieldDict(protoFields ,  field ):
         pField['masterField'] = 'pk'                                     
         
 
-    elif  field.__class__.__name__ == 'ForeignKey':
+    elif  field.__class__.__name__ == 'ForeignKey' and ( not isAdmField( field.name )):
 
 #       Verificado ( q pasa cuando existen dos ref al mismo maestro )  
         pField['fkId'] = field.attname                              # Campo q contiene el ID 
@@ -126,6 +126,7 @@ def setFieldDict(protoFields ,  field ):
              'name':       field.attname, 
              'fkField':    field.name ,                                 # Campo de base a mostrar 
              'hidden':     True,  
+             'readOnly':   True,  
              'type':  'foreignid',
              }
         protoFields[fKey['name']] = fKey 
@@ -156,6 +157,16 @@ def setFieldProperty( pField, pProperty, pDefault, field, fProperty, fpDefault )
     elif fProperty == 'default': 
         pField[ pProperty ] = vAux
         
+
+def isAdmField( fName  ):
+
+    # Los campos de seguridad 
+    if ( fName in [ 'smOwningUser', 'smCreatedBy','smModifiedBy', 'smCreatedOn',
+                    'smOwningTeam', 'smModifiedOn', 'smWflowStatus','smRegStatus'
+                   ] ):  return True 
+
+    return False 
+
 
 #----------------------------------------------------------
 #DGT:  choice,  Convierte las propiedades en una lista  

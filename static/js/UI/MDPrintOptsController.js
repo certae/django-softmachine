@@ -100,7 +100,7 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
                 pGrid = __MasterDetail.protoMasterGrid ;
             
             if ( (! pGrid) || (! pGrid.sheetHtml )) {
-                __StBar.showWarning(_SM.__language.GridAction_NoRecord, 'MdPrintOptsController')
+                _SM.__StBar.showWarning(_SM.__language.GridAction_NoRecord, 'MdPrintOptsController')
                 return 
             }
             

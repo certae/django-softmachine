@@ -69,7 +69,7 @@ USE_I18N = True
 # calendars according to the current locale
 USE_L10N = True
 
-#DGT: Formateo de numeros 
+# Formateo de numeros ???
 USE_THOUSAND_SEPARATOR = True 
 NUMBER_GROUPING = 1
 #DECIMAL_SEPARATOR = '.'

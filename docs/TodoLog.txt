@@ -6,6 +6,9 @@ Log :
         Separacion de campos ADM 
         fieldSet  border = 0 
 
+    ?? por q no trae la jerarqua de campos ( config fieldTree )
+        sort de los campos al cargar 
+
 
 
 -------------

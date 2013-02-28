@@ -57,6 +57,8 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
             }, 
             'save': function () {
                 savePreview(); 
+
+                _SM.savePclCache( me.myMeta.viewCode, me.myMeta, true )
                 _SM.savePci( me.myMeta )         
             }, 
             'add': function () {
@@ -90,7 +92,7 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
         function configureCurrentFields() {
 
             // Crea los campos activos en la grilla 
-            for (var ix in me.myMeta.fieldsBase ) {
+            for (var ix in me.myMeta.fields ) {
                 var vFld  =  me.myMeta.fields[ix];
 
                 elemList.addDataItem ( vFld.name, true  ) 
@@ -118,7 +120,7 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
                 
             for (var ix in names  ) {
                 
-                field = getExistingField( names[ix] )
+                field = myFieldDict[names[ix]] 
                 if ( ! field ) {
                     field = getDefaultField( names[ix] )
                 }
@@ -129,19 +131,8 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
                 
             } 
             
-            // Actualiza los nuevos detalles 
+            // Actualiza los nuevos campos 
             me.myMeta.fields = fields 
-            
-            function getExistingField( name  ) {
-                // DGT: FIX: TODO myFieldDict
-                for (var ix in me.myMeta.fields ) {
-                    var vFld  =  me.myMeta.fields[ix];
-                    if ( vFld.name == name ) {
-                        return vFld 
-                        break ; 
-                    }
-                } 
-            }
             
             function getDefaultField( name  ) {
                 
@@ -204,6 +195,9 @@ Ext.define('ProtoUL.proto.ProtoFieldTree', {
         
         this.treeStore = Ext.create('Ext.data.TreeStore', {
             autoLoad: true,
+            folderSort: false, 
+            sorters: [{ property: 'text', direction: 'ASC' }], 
+            
             model: 'Proto.FieldSelectionModel',
             root: {
                 text: _SM.__language.Protofield_Fields,

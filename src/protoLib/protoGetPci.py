@@ -3,7 +3,7 @@
 from django.http import HttpResponse
 from protoGrid import  getProtoViewName, setDefaultField , getProtoAdmin
 from protoLib import protoGrid
-from protoField import  setFieldDict
+from protoField import  setFieldDict, isAdmField
 from models import getDjangoModel, ProtoDefinition, CustomDefinition 
 from utilsBase import getReadableError, copyProps
 from utilsWeb import JsonError, JsonSuccess 
@@ -20,7 +20,7 @@ import traceback
 #TODO: Vistas parametrizadas por el usuario ( custom ) 
 
 
-# Dgt 12/10/28 Permite la carga directa de json de definicion. 
+# 12/10/28 Permite la carga directa de json de definicion. 
 PROTOVERSION = '130206'
 
 
@@ -253,7 +253,7 @@ def protoSaveProtoObj(request):
 
     # Reglas para definir q se guarda  
     if viewCode.find( '_' ) == 0  :  custom = True 
-    if (not custom) or viewCode.find( 'prototype.ProtoTable.' ) == 0  :  custom = True 
+    if viewCode.find( 'prototype.ProtoTable.' ) == 0  :  custom = True 
 
     # Carga la meta 
     sMeta = request.POST.get('protoMeta', '')
@@ -329,7 +329,7 @@ def protoGetFieldTree(request):
         # Add __str__ 
         myField = { 
             'id'        : '__str__' ,  
-            'text'      : viewEntity , 
+            'text'      : '__str__' , 
             'checked'   : False,       
             'leaf'      : True 
          }
@@ -348,17 +348,6 @@ def protoGetFieldTree(request):
     return HttpResponse(context, mimetype="application/json")
 
 
-def isAdmField( fName  ):
-
-    # Los campos de seguridad 
-    if ( fName in [ 'smOwningUser', 'smCreatedBy','smModifiedBy', 'smCreatedOn' ] ):  return True 
-    if ( fName in [ 'smOwningTeam', 'smModifiedOn', 'smWflowStatus','smRegStatus' ] ):  return True 
-
-    # los id de los campos heredados tampoco se presentan 
-    if ( fName == 'id' ):  return True 
-
-    return False 
-
 
 def addFiedToList(  fieldList , field, fieldBase   ):
     """ return parcial field tree  ( Called from protoGetFieldTree ) 
@@ -373,11 +362,9 @@ def addFiedToList(  fieldList , field, fieldBase   ):
     
     # fieldBase indica campos de llaves foraneas       
     if fieldBase != '': 
-
-        # Los campos heredados son siempre ro 
+        # Los campos heredados son siempre ro y no requeridos  
         pField[ 'readOnly' ] = True 
-
-        # un campo heredado no es jamas auto 
+        pField['required'] = False 
         if pField['type'] == 'autofield': pField['type'] = 'int'
 
     pField['id']  = fieldId
@@ -386,19 +373,16 @@ def addFiedToList(  fieldList , field, fieldBase   ):
     pField['leaf'] = True
     pField['checked'] = False
 
-#    pField['readOnly'] = pField.get( 'readOnly' , False )
-#    pField['required'] = pField.get( 'required' , False )
-
     # Recursividad Fk 
     if pField['type'] != 'foreigntext':
         pass 
 
-    # no se requiere subir sobre los campos de seguridad  
+    # no se requiere profundizar en los campos de seguridad ( usr, ... )   
     elif isAdmField( field.name  ): 
         pass 
 
     # Evita demasiada recursividad ( 5 niveles debe ser mas q suficiente ) 
-    elif fieldId.count( '__' ) > 5:   
+    elif fieldId.count( '__' ) > 3:   
         pass 
 
     else:  
@@ -412,21 +396,23 @@ def addFiedToList(  fieldList , field, fieldBase   ):
 
             pFieldId['id']  = pFieldId['name']
             pFieldId['text'] =  pFieldId['name']  
-
             pFieldId['required'] = pField.get( 'required', False )   
-            pFieldId['readOnly'] = True
 
             pFieldId['leaf'] = True
             pFieldId['checked'] = False
     
             fieldList.append( pFieldId )
 
-
         # itera sobre el campo para heredar de sus padres  
         fkFieldList= []
         model = field.rel.to
         for fAux in model._meta._fields():
+            # los id de los campos heredados tampoco se presentan 
+            if fAux.name  == 'id' :  continue 
+            
+            # los campos adm de los heredados no se presentan  
             if isAdmField( fAux.name ): continue 
+            
             addFiedToList( fkFieldList,  fAux , fieldId + '__' )
 
         pField['leaf'] = False 

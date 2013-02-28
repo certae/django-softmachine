@@ -265,7 +265,7 @@ _SM.clearProps = function (obj) {
 _SM.errorMessage = function (errTitle, errMsg) {
 
     // TODO: Log de errores, ya sea en stBar o en un panel del menu, habilitar un clear . 
-    __StBar.showError( errMsg , errTitle )
+    _SM.__StBar.showError( errMsg , errTitle )
     
     // Ext.MessageBox.show({
         // title: errTitle,
@@ -283,16 +283,23 @@ _SM.updateWinPosition = function (myWidth, myHeight) {
     }    
 }
 
-_SM.savePclCache = function (viewCode, protoMeta) {
+_SM.savePclCache = function (viewCode, protoMeta, reOpen ) {
 
     // Asigna la llave, pues si se hace una copia seguiria trayendo la misma viewCode de base 
    // console.log(protoMeta);
     protoMeta.viewCode = viewCode
 
-    _SM.DefineProtoModel(protoMeta, _SM.getModelName(viewCode));
+    _SM.DefineProtoModel(protoMeta );
 
     // Guarda el cache de  pcl's 
     _SM._cllPCI[viewCode] = protoMeta;
+    
+    // Cierra todas las instancias de esta pcl 
+    if ( reOpen ) {
+        _SM.CloseProtoTab( viewCode )
+        _SM._mainWin.loadPciFromMenu( viewCode ) 
+    }
+    
 }
 
 _SM.getModelName = function (viewCode) {
@@ -449,7 +456,6 @@ _SM.fireEvent = function (type, myMeta, eventData, scope, fn) {
     _SM.eventData.cancel = false;
     if (code != null) {
 
-
         if (type == "DblClick" || type == "default") {
 
             _SM.eventData.HDataField = scope._extGrid.columns[_SM.eventData.cellIndex].dataIndex;
@@ -477,4 +483,13 @@ _SM.GetRowValue = function (cellName) {
     }
 
 }
+
+
+_SM.CloseProtoTab = function( name  ) {
+    
+    // Cierra las instancias de una pcl 
+    _SM.__TabContainer.closeProtoTab( name )
+     
+}
+
 
