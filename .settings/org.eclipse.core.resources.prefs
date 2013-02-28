@@ -1,4 +1,4 @@
-#Thu Feb 28 08:33:15 EST 2013
+#Thu Feb 28 16:32:20 EST 2013
 eclipse.preferences.version=1
 encoding//docs/django/fieldSets.py.txt=utf-8
 encoding//docs/django/jsonDump.py.txt=utf-8
@@ -24,6 +24,7 @@ encoding//src/prototype/actions/viewDefinition.py=utf-8
 encoding//src/prototype/actions/viewTemplate.py=utf-8
 encoding//src/prototype/migrations/0001_initial.py=utf-8
 encoding//src/prototype/migrations/0002_auto__del_protoviews__add_protoview__add_unique_protoview_entity_code_.py=utf-8
+encoding//src/prototype/migrations/0011_auto__del_field_propertymodel_defaultValue__del_field_propertymodel_pr.py=utf-8
 encoding//src/prototype/models.py=utf-8
 encoding//src/prototype/protoRules.py=utf-8
 encoding//src/settings.py=utf-8
