@@ -168,10 +168,17 @@ Ext.define('ProtoUL.view.MenuTree', {
             
         var me = this,
             msg = _SM.__language.Msg_Window_New_Folder
+
         Ext.Msg.prompt(_SM.__language.Title_Window_New_Folder, msg, function (btn, pName) {
             if (btn != 'ok') return 
-            var record = me.treeRecord || me.store.getRootNode()
-            var tNode = {'text' :  pName, 'children': [] }
+
+            var tNode = {'text' :  pName, 'children': [] }, 
+                record 
+            
+            if ( me.treeRecord && ( ! me.treeRecord.get( 'leaf' ))) {
+                record =  me.treeRecord              
+            }  else { record = me.store.getRootNode() }
+
             record.appendChild( tNode )
         }, me, false );
 

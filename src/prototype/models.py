@@ -311,6 +311,7 @@ class PropertyDom(PropertyBase):
         super(PropertyDom, self).save(*args, **kwargs) 
 
     protoExt = { 
+        "menuApp" : "dictionary", 
         "gridConfig" : {
             "listDisplay": ["__str__", "description", "inherit", "smOwningTeam" ]      
         }, 
@@ -361,6 +362,7 @@ class PropertyModel(PropertyBase):
         super(PropertyModel, self).save(*args, **kwargs) 
         
     protoExt = { 
+        "menuApp" : "dictionary", 
         "gridConfig" : {
             "listDisplay": ["__str__", "description", "inherit", "smOwningTeam"]      
         }
@@ -396,12 +398,19 @@ class PropertyEquivalence(ProtoModel):
         twoWayPropEquivalence( self, PropertyEquivalence, True )
         super(PropertyEquivalence, self).delete(*args, **kwargs)
 
+    protoExt = { 
+        "menuApp" : "dictionary", 
+        "gridConfig" : {
+            "listDisplay": ["__str__", "description", "smOwningTeam"]      
+        }
+    } 
+
 def propEquivalence_post_save(sender, instance, created, **kwargs):
     twoWayPropEquivalence( instance, PropertyEquivalence, False )
 
 post_save.connect(propEquivalence_post_save, sender = PropertyEquivalence)
 
-
+    
 #This way when the save() method is called, 
 #it never fires another post_save signal because we've disconnected it.
 #
@@ -494,6 +503,10 @@ class Diagram(ProtoModel):
     class Meta:
         unique_together = ('model', 'code', 'smOwningTeam' )
 
+    protoExt = { 
+        "menuApp" : "roadMap",
+        } 
+
 
 class DiagramEntity(ProtoModel):
     """ 
@@ -514,6 +527,7 @@ class DiagramEntity(ProtoModel):
 
     class Meta:
         unique_together = ('diagram', 'entity', 'smOwningTeam' )
+
 
     
 #   --------------------------------------------------------------------------------
@@ -550,6 +564,9 @@ class Service(ProtoModel):
     class Meta:
         unique_together = ('model', 'code', 'smOwningTeam' )
 
+    protoExt = { 
+        "menuApp" : "roadMap",
+        } 
 
 class ServiceRef(ProtoModel):
     """ 

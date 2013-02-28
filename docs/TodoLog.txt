@@ -1,7 +1,10 @@
 Log : 
 
-Manejo completo de herencia de propiedades y 
-equivalencia a nivel de dominio 
+    Manejo completo de herencia de propiedades y 
+    equivalencia a nivel de dominio 
+
+    Modiifcar en el menu solamente la parte de protoOption 
+    permitir crear menu en la raiz ( si esta en culquier opcion, para no agregar mas iconos  )
 
 ------------
 

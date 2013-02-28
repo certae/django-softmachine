@@ -43,7 +43,8 @@ def protoGetMenuData(request):
 
     def getMenuItem( protoAdmin, model, menuNode ):
     
-        appCode = model._meta.app_label
+        try: appCode = model.protoExt["menuApp"]
+        except: appCode = model._meta.app_label
         
         # Verifica q el usuairo tenga permiso, considera el admin 
         if not getModelPermissions( currentUser, model, 'menu' ) : return  
@@ -75,7 +76,7 @@ def protoGetMenuData(request):
         else:
             app_dict[menuLabel] = {
                 'text': menuDefinition.get('title', menuLabel )  ,
-                'expanded': menuDefinition.get('expanded', True) ,
+                'expanded': menuDefinition.get('expanded', False) ,
                 'index': menuDefinition.get('menu_index', appAux.ixApp ),
                 'children': [model_dict],
             }

@@ -2,11 +2,11 @@
 # for project : "Modelibra.py" >
 
 
-from models import Domain,  Model, Entity, Property,  Relationship
+from models import Domain,  Model, Entity, Property #,  Relationship
 from models import PropertyDom, PropertyModel, PropertyEquivalence
-from models import ProtoTable, ProtoView
-from models import Diagram, DiagramEntity
-from models import Service, ServiceRef
+#from models import ProtoTable, ProtoView
+from models import Diagram #, DiagramEntity
+from models import Service #, ServiceRef
 
 
 from actions import doModelPrototype, doEntityPrototype
@@ -25,18 +25,18 @@ admin.site.register(Domain )
 admin.site.register(Model, MyModelAdmin)
 admin.site.register(Entity, MyEntityAdmin )
 
-admin.site.register(Relationship )
 
 admin.site.register(Property )
 admin.site.register(PropertyDom )
 admin.site.register(PropertyModel )
 admin.site.register(PropertyEquivalence )
 
-admin.site.register( ProtoTable )
-admin.site.register( ProtoView )
+#admin.site.register(Relationship )
+#admin.site.register( ProtoTable )
+#admin.site.register( ProtoView )
 
 admin.site.register( Diagram )
-admin.site.register( DiagramEntity )
+#admin.site.register( DiagramEntity )
 
 admin.site.register( Service )
-admin.site.register( ServiceRef )
+#admin.site.register( ServiceRef )
