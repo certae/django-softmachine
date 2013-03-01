@@ -341,7 +341,7 @@ _SM.getSafeMeta = function (myMeta) {
         "fields": _SM.clone( myMeta.fields, 0, [],  [ 
             'name', 'type', 
             'zoomModel', 'fkId', 
-            'crudType', 'cpFromField', 'cpFromZoom'
+            'crudType', 'cpFromField', 'cpFromZoom', 'physicalName'
             ] ),
         "usrDefProps": _SM.clone( myMeta.usrDefProps )  
     } 

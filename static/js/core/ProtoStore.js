@@ -539,17 +539,18 @@ _SM.getColDefinition = function ( vFld ) {
         colDefinition.renderer = columnWrap
         break;
 
-    case 'int':
+    case 'int', 'secuence':
         colDefinition['xtype'] = 'numbercolumn'
         colDefinition['align'] = 'right'
         colDefinition['format'] = '0,000'
 
         editor.xtype = 'numberfield'
         editor.format = colDefinition['format']
+        editor.align  = 'right'
         editor.allowDecimals = false
         break;
 
-    case 'decimal':
+    case 'decimal', 'money':
         colDefinition['xtype'] = 'numbercolumn'
         colDefinition['align'] = 'right'
         colDefinition['format'] = '0,000.00'
@@ -557,6 +558,7 @@ _SM.getColDefinition = function ( vFld ) {
 
         editor.xtype = 'numberfield'
         editor.format = colDefinition['format']
+        editor.align  = 'right'
         editor.allowDecimals = true
         editor.decimalPrecision = 2
         break;

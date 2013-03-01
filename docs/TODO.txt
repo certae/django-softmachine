@@ -1,6 +1,10 @@
 To Do:  
 
 	prototipos 
+
+		__str___   ( evaluar una funcion )
+
+
 		typos de datos  ( string por default )
 		choices 
 		vrDefault 

@@ -344,3 +344,133 @@ def update_or_create( myModel , **kwargs):
             # transaction.savepoint_rollback(sid)
             raise Exception
         
+        
+        
+def explode(s):
+    ''' Uso:   
+    explode( 'fName(p1,p2)' ) 
+    ['fName', 'p1,p2']
+    
+    alternativas mas poderosas 
+        http://docs.python.org/2/library/ast.html#ast.parse
+
+  
+    '''
+    import re
+    
+    pattern = r'(\w[\w\d_]*)\((.*)\)$'
+    match = re.match(pattern, s)
+    if match:
+        return list(match.groups())
+    else:
+        return []    
+
+def findBrackets( aString ):
+    # busca el primer paraentesis 
+   if '(' in aString:
+      match = aString.split('(',1)[1]
+      open = 1
+      for index in xrange(len(match)):
+         if match[index] in '()':
+            open = (open + 1) if match[index] == '(' else (open - 1)
+         if not open:
+            return match[:index]    
+
+
+# ------------  Alternativas para la evaluacion de parametros en ud funciones
+#
+#        
+#def balanced_braces(args):
+#    #t1 = balanced_braces(["{{ a } { b } { { { c } } } }"]);
+#    parts = []
+#    for arg in args:
+#        if '{' not in arg:
+#            continue
+#        chars = []
+#        n = 0
+#        for c in arg:
+#            if c == '{':
+#                if n > 0:
+#                    chars.append(c)
+#                n += 1
+#            elif c == '}':
+#                n -= 1
+#                if n > 0:
+#                    chars.append(c)
+#                elif n == 0:
+#                    parts.append(''.join(chars).lstrip().rstrip())
+#                    chars = []
+#            elif n > 0:
+#                chars.append(c)
+#    return parts
+#        
+#
+#_mbrack_rb = re.compile("([^{}]*)}") # re.match doesn't have a pos parameter
+#def mbrack(s):
+#  """Parse matching brackets.
+#
+#  >>> mbrack("{a}")
+#  'a'
+#  >>> mbrack("{{a}{b}}")
+#  ['a', 'b']
+#  >>> mbrack("{{a}{b}{{{c}}}}")
+#  ['a', 'b', [['c']]]
+#
+#  >>> mbrack("a")
+#  Traceback (most recent call last):
+#  ValueError: expected left bracket
+#  >>> mbrack("{a}{b}")
+#  Traceback (most recent call last):
+#  ValueError: more than one root
+#  >>> mbrack("{a")
+#  Traceback (most recent call last):
+#  ValueError: expected value then right bracket
+#  >>> mbrack("{a{}}")
+#  Traceback (most recent call last):
+#  ValueError: expected value then right bracket
+#  >>> mbrack("{a}}")
+#  Traceback (most recent call last):
+#  ValueError: unbalanced brackets (found right bracket)
+#  >>> mbrack("{{a}")
+#  Traceback (most recent call last):
+#  ValueError: unbalanced brackets (not enough right brackets)
+#  """
+#  stack = [[]]
+#  i, end = 0, len(s)
+#  while i < end:
+#    if s[i] != "{":
+#      raise ValueError("expected left bracket")
+#    elif i != 0 and len(stack) == 1:
+#      raise ValueError("more than one root")
+#    while i < end and s[i] == "{":
+#      L = []
+#      stack[-1].append(L)
+#      stack.append(L)
+#      i += 1
+#    stack.pop()
+#    stack[-1].pop()
+#    m = _mbrack_rb.match(s, i)
+#    if m is None:
+#      raise ValueError("expected value then right bracket")
+#    stack[-1].append(m.group(1))
+#    i = m.end(0)
+#    while i < end and s[i] == "}":
+#      if len(stack) == 1:
+#        raise ValueError("unbalanced brackets (found right bracket)")
+#      stack.pop()
+#      i += 1
+#  if len(stack) != 1:
+#    raise ValueError("unbalanced brackets (not enough right brackets)")
+#  return stack[0][0]
+#
+#
+#def main(args):
+#  if args:
+#    print >>sys.stderr, "unexpected arguments: %r" % args
+#  import doctest
+#  r = doctest.testmod()
+#  print r
+#  return r[0]
+#
+#if __name__ == "__main__":
+#  sys.exit(main(sys.argv[1:]))         

@@ -32,9 +32,6 @@ def getViewDefinition( pEntity, viewTitle  ):
         
         infoEntity['fields'].append( field )
 
-        if pProperty.isPrimary:
-            infoEntity['returnField'] = fName 
-
         # hace las veces de __str__ 
         if pProperty.isUnique or pProperty.isPrimary:
             __str__Base.append( fName )
@@ -57,7 +54,7 @@ def getViewDefinition( pEntity, viewTitle  ):
         "header": viewTitle,
         "readOnly": True,
         "type": "string",
-        "physicalName" : '@str(' + ','.join(__str__Base) + ')'
+        "physicalName" : '@myStr("' + '","'.join(__str__Base) + '")'
     }
     fName = '__str__'
     infoEntity['fields'].append( field )

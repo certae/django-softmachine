@@ -432,7 +432,15 @@ class ProtoTable(ProtoModel):
 
     def __unicode__(self):
         return self.entity + '.' + self.info.__str__()  
-    
+
+    def myStr(self, *args, **kwargs ):
+        # Evalua el string de prototipos
+        val = ''
+        for arg in args:
+            try: val = val + '.' + str( self.info.get( arg[6:] ) )
+            except: pass 
+        return  val[1:]
+
     objects = JSONAwareManager(json_fields = ['info'])
     protoExt = { 'jsonField' : 'info' }
    
@@ -441,7 +449,7 @@ class ProtoTable(ProtoModel):
             "listDisplay": ["__str__", "smOwningTeam"]      
         }
     } 
-
+    
 
 
 class ProtoView(ProtoModel):

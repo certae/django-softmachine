@@ -506,13 +506,6 @@ def getFieldValue( fName, fType, rowData, JsonField ):
             
         except: val = ''
 
-#    elif ( _PROTOFN_ in fName ):
-#        # para definir funciones en los modelos 
-#        try: 
-#            val = eval( 'rowData.' + fName.replace( _PROTOFN_,'.') + '()'  )
-#            val = verifyStr(val , '' )
-#        except: val = 'fn?'
-
         
     elif ( '__' in fName ):
         # Campo Absorbido modo objeto 
@@ -539,6 +532,18 @@ def getFieldValue( fName, fType, rowData, JsonField ):
 
 
 def evalueFuncion( fName, rowData ): 
-    """ para evaluar las funciones @ 
+    """ para evaluar las funciones @  declaradas en el modelo  
     """
     
+    # obtener el titulo y los parametros y enviar la tupla 
+    
+    try: 
+        expr = 'rowData.' + fName[1:]
+        val = eval(  expr  )
+        val = verifyStr(val , '' )
+    except: val =  fName + '?'
+    
+    return val 
+    
+
+
