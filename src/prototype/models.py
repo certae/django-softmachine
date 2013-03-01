@@ -186,7 +186,7 @@ class Property(PropertyBase):
     entity = models.ForeignKey('Entity', related_name = 'propertySet')
     
     """propertyModel : corresponde a la especificacion en el modelo ( metodologia: user history )"""
-    propertyModel = models.ForeignKey('PropertyModel', blank = True, null = True, on_delete=models.SET_NULL )
+    propertyModel = models.ForeignKey('PropertyModel', blank = True, null = True, on_delete=models.SET_NULL, editable = False, )
 
     # -----------  caracteristicas propias de la instancia
     """isPrimary : en el prototipo siempre es artificial, implica isUnique """  
@@ -280,7 +280,9 @@ class Relationship(Property):
 
 # ---------------------------
 
-class PropertyDom(PropertyBase):
+
+
+class PropertyModel(PropertyBase):
     """ A nivel conceptual encontraremos la lista de propiedadaes 
         qu corresponde a la definicion semantica del problema; 
         
@@ -288,65 +290,14 @@ class PropertyDom(PropertyBase):
         cuando el usuario ( piloto ) describe su problematica, 
         
         2. Si la definicion la realiza un modelizador, se hara a nivel de entidad, 
-        
-        En cualquier caso, la propiedad se copiara a sus instancias superiores 
-            1. PropertyDom 
-            2. PropertyModel 
-            3. Property 
-    """
-    project = models.ForeignKey('Project' )
-    #code ( propertyBase ) 
-    inherit = models.BooleanField( default = False )
 
-    def __unicode__(self):
-        return self.project.code + '.' + self.code 
-
-    class Meta:
-        unique_together = ('project', 'code', 'smOwningTeam' )
-
-    def save(self, *args, **kwargs ):
-        # Envia el heredado y se asegura q sea Falso siempre 
-        updatePropInfo( self, self, None, self.inherit   )
-        self.inherit = False 
-        super(PropertyDom, self).save(*args, **kwargs) 
-
-    protoExt = { 
-        "menuApp" : "dictionary", 
-        "gridConfig" : {
-            "listDisplay": ["__str__", "description", "inherit", "smOwningTeam" ]      
-        }, 
-        "detailsConfig": [
-        {
-            "menuText": "Mdoels",
-            "conceptDetail": "prototype.PropertyModel",
-            "detailName": "propertyDom",
-            "detailField": "propertyDom__pk",
-            "masterField": "pk"
-        },
-        {
-            "menuText": "Entities",
-            "conceptDetail": "prototype.Property",
-            "masterField": "pk",
-            "detailField": "propertyModel__propertyDom__pk"
-        }]                
-    } 
-
-
-
-class PropertyModel(PropertyBase):
-    """
-    * Propiedades por modelo, subdominio de propiedades a nivel de modelo, es solo informativo 
-    * se requiere para el diccionario MSSQ, podria generarse navegando model-entity-prop 
-    * pero el primer paso en la metodologia implica la definicion semantica de propiedades por modelo, 
-    * este entidad permite organizar esta informacion. 
+    * podria generarse navegando model-entity-prop 
+    * pero el primer paso en podria implicar la definicion semantica de propiedades por modelo, 
     
-    * La derivacion de prpConcpeto se toma desde el dominio, pues esta tabla es importante solo en la metodologia de 
-    * definicion semantica,   
     """
     model = models.ForeignKey('Model' )
-    #code ( propertyBase ) 
 
-    propertyDom = models.ForeignKey('PropertyDom',blank = True, null = True, on_delete=models.SET_NULL )
+    propertyDom = models.ForeignKey('PropertyModel',blank = True, null = True, on_delete=models.SET_NULL )
     inherit = models.BooleanField( default = False )
 
     def __unicode__(self):
@@ -357,7 +308,7 @@ class PropertyModel(PropertyBase):
 
     def save(self, *args, **kwargs ):
         # Envia el heredado y se asegura q sea Falso siempre 
-        updatePropInfo( self,  self.propertyDom, PropertyDom, self.inherit   )
+        updatePropInfo( self,  self.propertyDom, PropertyModel, self.inherit   )
         self.inherit = False 
         super(PropertyModel, self).save(*args, **kwargs) 
         
@@ -367,7 +318,6 @@ class PropertyModel(PropertyBase):
             "listDisplay": ["__str__", "description", "inherit", "smOwningTeam"]      
         }
     } 
-
 
 
 class PropertyEquivalence(ProtoModel):
@@ -380,11 +330,9 @@ class PropertyEquivalence(ProtoModel):
     se podria agregar un manejador q hicer:   where = sourse UNION where target, 
     o q al momento de guardar generara la relacion inversa y actualizara simpre los dos ( privilegiada )     
     """    
-#   No es necesario pertenecer al mismo dominio,  
-#   project = models.ForeignKey('Project')
 
-    sourceProperty = models.ForeignKey('PropertyDom', blank = True, null = True, related_name = 'sourcePrp')
-    targetProperty = models.ForeignKey('PropertyDom', blank = True, null = True, related_name = 'targetPrp')
+    sourceProperty = models.ForeignKey('PropertyModel', blank = True, null = True, related_name = 'sourcePrp')
+    targetProperty = models.ForeignKey('PropertyModel', blank = True, null = True, related_name = 'targetPrp')
 
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 

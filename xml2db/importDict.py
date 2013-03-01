@@ -140,8 +140,8 @@ class importDict():
         
         fdsConcept= ( 'code', 'category',  'physicalName' )
 
-        fdsPropertyProj = ( 'code', 'category',  'baseType', 'prpDefault', )
-        intPropertyProj = ( 'prpLength',  )
+        fdsPropertyModel = ( 'code', 'category',  'baseType', 'prpDefault', )
+        intPropertyModel = ( 'prpLength',  )
         
         fdsPropertyConcept = ( 'alias', 'physicalName', 'foreignConcept' )
         booPropertyConcept = ( 'isNullable', 'isRequired', 'isSensitive', 'isEssential', 'isUnique', 'isForeign')
@@ -229,14 +229,14 @@ class importDict():
                             prpUdps = []
 
                             for child in xProperty:
-                                if child.tag in fdsPropertyProj:
+                                if child.tag in fdsPropertyModel:
                                     if (child.text is not None):
                                         setattr( prpDom, child.tag, child.text )
 
                                 elif  ( child.tag == 'description' ):
                                     setattr( prpDom, child.tag, child.get('text'))
 
-                                elif child.tag in intPropertyProj:
+                                elif child.tag in intPropertyModel:
                                     iValue = toInteger(child.text , 0)
                                     setattr( prpDom, child.tag, iValue )
 
@@ -331,7 +331,7 @@ class importDict():
 
     def savePrpUdps(self, udps, dPrp ):
         for key, value  in udps:
-            dUdp = UdpPropertyProj()
+            dUdp = UdpPropertyModel()
             dUdp.propertyDom = dPrp
             dUdp.code = key
             dUdp.valueUdp = value
@@ -347,7 +347,7 @@ def getModelRef( dProject, modelName  ):
         return mAux[0] 
 
 def getPrpRef( dProject , propName  ):
-    mAux = PropertyProj.objects.filter( domain = dProject, code = propName  )
+    mAux = PropertyModel.objects.filter( domain = dProject, code = propName  )
     if mAux: 
         return mAux[0] 
 

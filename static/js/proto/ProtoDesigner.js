@@ -48,10 +48,6 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         _SM.loadJsonConfig('json/Designer.panels.json', options)
 
 
-        function onClickRedraw(myObj) {
-            // console.log( 'this')         } 
-
-
     },
 
     updateFormTree : function() {

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import traceback
-from protoLib.utilsBase import  getReadableError
+#from protoLib.utilsBase import  getReadableError
 
 
 ONDELETE_TYPES = (  
@@ -41,8 +41,6 @@ def updatePropInfo( reg, propBase, modelBase, inherit  ):
     propBase :  campo de referencia a la entidad de base 
     propModel:  modelo al cual copiar
     inherit  :  heredar ( si es descendente Dom, Model, ...  )
-    
-    Solo actualiza subiendo de prop a model a dom 
     """
 
     defValues = {
@@ -54,37 +52,22 @@ def updatePropInfo( reg, propBase, modelBase, inherit  ):
         'description' : reg.description, 
         
         'smOwningUser' : reg.smOwningUser,
-        'smOwningTeam' : reg.smOwningTeam,
         'smCreatedBy' : reg.smCreatedBy
     }
     
+    # Crea los padres  
     if ( propBase is None ) and ( not modelBase is None ):
-        # Crea los padres  
-        if reg._meta.object_name == 'Property' : 
-            pMod = modelBase.objects.get_or_create( model = reg.entity.model, code = reg.code, defaults=defValues  )[0]
-            reg.propertyModel = pMod 
-
-        elif reg._meta.object_name == 'PropertyModel' : 
-            pDom = modelBase.objects.get_or_create( project = reg.model.project, code = reg.code, defaults=defValues  )[0]
-            reg.propertyDom = pDom 
+        pMod=modelBase.objects.get_or_create(model=reg.entity.model,code=reg.code,smOwningTeam=reg.smOwningTeam,defaults=defValues)[0]
+        reg.propertyModel = pMod 
 
     # Se asegura q sea verdadero    
     if inherit == True :
-
         del defValues['smOwningUser']
-        del defValues['smOwningTeam'] 
         del defValues['smCreatedBy'] 
         defValues['smModifiedBy'] = reg.smModifiedBy
-             
-        if reg._meta.object_name == 'PropertyDom' :
-            # el update no genera eventos en los hijos 
-            reg.propertymodel_set.update( **defValues )
-            for pMod in reg.propertymodel_set.all():
-                pMod.property_set.update( **defValues ) 
                             
-        elif reg._meta.object_name == 'PropertyModel' : 
-            reg.property_set.update( **defValues )
-
+        #if reg._meta.object_name == 'PropertyModel' : 
+        reg.property_set.update( **defValues )
 
 
 def twoWayPropEquivalence( propEquiv, modelBase, deleted ):
