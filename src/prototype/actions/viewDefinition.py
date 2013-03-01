@@ -7,7 +7,6 @@ from prototype.models import Entity
 PROTO_PREFIX = "prototype.ProtoTable."
 
 
-
 def getViewDefinition( pEntity, viewTitle  ):
 
     entityName = getViewCode( pEntity  )
@@ -15,41 +14,60 @@ def getViewDefinition( pEntity, viewTitle  ):
     infoEntity = baseDefinition( pEntity, entityName, viewTitle  )
     infoEntity['gridConfig']['baseFilter'] = [ { 'property':'entity', 'filterStmt' : '=' + entityName } ]
 
+    #para crear el campo __str__:  se arma con las llaves definidas como primarias o unicas 
+    __str__Base = []
+    infoEntity['gridConfig']['listDisplay'].append( '__str__' )
+
     for pProperty in pEntity.propertySet.all():
 
         fName  = stripAccents( 'info__' + pProperty.code ) 
-        
         field = property2Field( fName, pProperty.__dict__ )
-        
-        # hace las veces de __str__ 
-        if pProperty.isUnique:
-            infoEntity['returnField'] = fName 
 
         if pProperty.isForeign: 
             field["zoomModel"]= PROTO_PREFIX + getViewCode( pProperty.relationship.refEntity ) 
             field["fkId"]     = fName + "_id"
             field["type"]     = "foreigntext"
 
-
             infoEntity['fields'].append( getFkId( fName ) )
         
         infoEntity['fields'].append( field )
 
-        if pProperty.isEssential or pProperty.isPrimary or pProperty.isRequired: 
+        if pProperty.isPrimary:
+            infoEntity['returnField'] = fName 
+
+        # hace las veces de __str__ 
+        if pProperty.isUnique or pProperty.isPrimary:
+            __str__Base.append( fName )
+
+        elif  pProperty.isEssential : 
             infoEntity['gridConfig']['listDisplay'].append( fName )
-    
+
+        # forma y ordenamiento    
         infoEntity['gridConfig']['sortFields'].append( fName )
         infoEntity['formConfig']['items'][0]['items'].append( { "name": fName, "__ptType": "formField" } )
 
-        
-    #  __str__, __unicode__            
-    if infoEntity.get( 'returnField', '' ) ==  '': 
-        infoEntity['returnField'] = fName 
+    #  __str__, __unicode__
+    field = {
+        "flex": 1,
+        "sortable": True,
+        "name": "__str__",
+        "fkId": "id",
+        "zoomModel": PROTO_PREFIX + stripAccents( viewTitle  ),
+        "cellLink": True,
+        "header": viewTitle,
+        "readOnly": True,
+        "type": "string",
+        "physicalName" : '@str(' + ','.join(__str__Base) + ')'
+    }
+    fName = '__str__'
+    infoEntity['fields'].append( field )
+    infoEntity['gridConfig']['sortFields'].append( fName )
             
     return infoEntity
 
     
 def getViewCode( pEntity, viewTitle = None ):
+
     if viewTitle is None: viewTitle = pEntity.code
     return stripAccents( pEntity.model.code + '-' + viewTitle )
 
@@ -102,6 +120,8 @@ def getFkId( fName, infoField = False, fBase = '' ):
     return field 
   
 
+#  ------------------------------------------------------------------
+
 def GetProtoFieldsTree(  protoEntityId ):
     """  Obtiene la lista de campos q puedn heredarse de los zooms 
     """    
@@ -114,6 +134,7 @@ def GetProtoFieldsTree(  protoEntityId ):
     
     addProtoFiedToList( fieldList,  pEntity , '' , '' )
     return fieldList 
+
 
         
 def addProtoFiedToList( fieldList,  pEntity , fieldBase, zoomName   ): 
@@ -160,6 +181,8 @@ def addProtoFiedToList( fieldList,  pEntity , fieldBase, zoomName   ):
             field = property2Field( fName, propDict, True  )
             fieldList.append( field )
 
+
+#  ------------------------------------------------------------------
 
 
 def GetDetailsConfigTree( protoEntityId ):

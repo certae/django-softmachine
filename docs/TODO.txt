@@ -1,7 +1,5 @@
 To Do:  
 
-	el search no funciona en proerte por el modelo_code
-
 	prototipos 
 		typos de datos  ( string por default )
 		choices 
@@ -12,7 +10,6 @@ To Do:
 		secuencias para manejar los autonum 
 
     	mensajes de advertencia en la generacion de los prototios  
-
 
 
 	Seguridad ------------------

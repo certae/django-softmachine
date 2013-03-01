@@ -272,7 +272,7 @@ _MetaObjects =  {
             // "relatedN2N",
             // "detailField",
             // "masterField",                                     
-            
+            "physicalName", 
             "type", 
             "xtype",
             "vType" 

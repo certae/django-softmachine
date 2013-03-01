@@ -1,5 +1,8 @@
 Log : 
 
+    el search no funciona en proerte por el modelo_code
+    -- ahora se verifican los ti[os de ] datos antes de Q
+
     Manejo completo de herencia de propiedades y 
     equivalencia a nivel de dominio 
 

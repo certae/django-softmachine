@@ -12,7 +12,7 @@ import django.utils.simplejson as json
 from django.utils.encoding import smart_str
 
 # Prefijo de las funciones ORM invocadas como campos, __unicode__ para las FK  
-_PROTOFN_ = '_protoFn_'
+#_PROTOFN_ = '_protoFn_'
 
 
 

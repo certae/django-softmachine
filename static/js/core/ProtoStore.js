@@ -525,6 +525,9 @@ _SM.getColDefinition = function ( vFld ) {
 
     // Determina el xType y otros parametros 
     if ( ! vFld.type )  vFld.type = 'string'
+    
+    if ( vFld.choices &&  vFld.choices.split( ",").length > 1 ) vFld.type = 'combo'  
+    
     switch( vFld.type )
     {
     case 'string':

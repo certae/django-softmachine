@@ -51,9 +51,9 @@ def getSearcheableFields(  model  ):
 # Obtiene los campos visibles del modelo base, se usa como valor por defecto para los searchFields 
 
     lFields = []
-    
-    filterableTypes = [ 'CharField', 'TextField', 'IntegerField', 'DecimalField', 'FloatField', 'JSONField' ]
-    filterableTypes.extend( [ 'DateField', 'TimeField', 'DateTimeField', 'BooleanField' ])
+    filterableTypes = [ 'CharField', 'TextField',  'JSONField' ]
+#    filterableTypes.extend( ['IntegerField', 'DecimalField', 'FloatField' ]
+#    filterableTypes.extend( [ 'DateField', 'TimeField', 'DateTimeField', 'BooleanField' ])
         
     for field in model._meta._fields():
         if field.__class__.__name__ in filterableTypes:
@@ -114,7 +114,7 @@ def getQbeStmt( fieldName ,  sQBE, sType   ):
 
 
     # String:  \iexact, \icontains, \istartswith, isnull, search, TODO: \iendswith, \iregex 
-    if sType in ([ 'string', 'text', 'protojson', 'foreigntext' ]) : 
+    if sType in ([ 'string', 'text', 'protojson' ]) : 
         if sQBE.startswith('^'):
             Qobj =  { "{0}__istartswith".format( fieldName ) :  sQBE[1:]  }  
         
@@ -133,9 +133,10 @@ def getQbeStmt( fieldName ,  sQBE, sType   ):
         QResult =  Q( **Qobj ) 
 
 
-    # TODO: Verificar q sea numerico 
+    # TODO: Verificar q sea numerico (
+    # foreignText es una simple representacion, es siempre el id 
     # Numericos : gt, gte, lt, lte,   TODO: in,   range, 
-    elif sType in ( [ 'int', 'foreignid', 'decimal' ]):
+    elif sType in ( [ 'int', 'foreignid', 'foreigntext',  'decimal' ]):
         
         if sQBE.startswith( ">=") :
             Qobj =  { "{0}__gte".format( fieldName ) :  sQBE[2:]  }  

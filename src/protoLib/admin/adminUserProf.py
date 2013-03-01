@@ -64,7 +64,6 @@ class usrProfileAdmin(django.contrib.admin.ModelAdmin):
         "name": "userTeam",
         "fkId": "userTeam_id",
         "header": "userTeam",
-        
         "type": "foreigntext"
     }],
     "actions": [],

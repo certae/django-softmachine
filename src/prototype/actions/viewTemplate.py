@@ -23,7 +23,7 @@ def baseDefinition( pEntity , entityName, viewTitle  ):
     "localSort"   : True, 
     "shortTitle"  : viewTitle,
     "updateTime"  : datetime.now(),
-    "metaVersion" : "13.0224",
+    "metaVersion" : "13.0301",
     "idProperty"  : "id",
     "fields": [
         {
@@ -48,7 +48,6 @@ def baseDefinition( pEntity , entityName, viewTitle  ):
         {
             "zoomModel": "auth.User",
             "name": "smOwningUser",
-#            "fkId": "smOwningUser_id",
             "readOnly": True,
             "type": "foreigntext"
         },
@@ -57,24 +56,9 @@ def baseDefinition( pEntity , entityName, viewTitle  ):
             "readOnly": True,
             "type": "datetime"
         },
-#        {
-#            "fkField": "smCreatedBy",
-#            "name": "smCreatedBy_id",
-#            "readOnly": True,
-#            "hidden": True,
-#            "type": "foreignid"
-#        },
-#        {
-#            "fkField": "smOwningUser",
-#            "name": "smOwningUser_id",
-#            "readOnly": True,
-#            "hidden": True,
-#            "type": "foreignid"
-#        },
         {
             "zoomModel": "protoLib.TeamHierarchy",
             "name": "smOwningTeam",
-#            "fkId": "smOwningTeam_id",
             "readOnly": True,
             "type": "foreigntext"
         },
@@ -86,7 +70,6 @@ def baseDefinition( pEntity , entityName, viewTitle  ):
         {
             "zoomModel": "auth.User",
             "name": "smModifiedBy",
-#            "fkId": "smModifiedBy_id",
             "readOnly": True,
             "type": "foreigntext"
         },
@@ -98,24 +81,9 @@ def baseDefinition( pEntity , entityName, viewTitle  ):
         {
             "zoomModel": "auth.User",
             "name": "smCreatedBy",
-#            "fkId": "smCreatedBy_id",
             "readOnly": True,
             "type": "foreigntext"
         },
-#        {
-#            "fkField": "smOwningTeam",
-#            "name": "smOwningTeam_id",
-#            "readOnly": True,
-#            "hidden": True,
-#            "type": "foreignid"
-#        },
-#        {
-#            "fkField": "smModifiedBy",
-#            "name": "smModifiedBy_id",
-#            "readOnly": True,
-#            "hidden": True,
-#            "type": "foreignid"
-#        },
         {
             "name": "smWflowStatus",
             "readOnly": True,

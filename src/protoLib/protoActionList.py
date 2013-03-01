@@ -8,7 +8,7 @@ from django.utils.encoding import smart_str
 from django.db.models import Q
 
 from utilsBase import JSONEncoder, getReadableError 
-from utilsBase import _PROTOFN_ , verifyStr, verifyList    
+from utilsBase import verifyStr, verifyList, list2dict    
 from utilsConvert import getTypedValue
 
 from protoQbe import getSearcheableFields, getQbeStmt
@@ -156,6 +156,8 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
         # recorre los campos para obtener su valor 
         for lField  in protoMeta['fields']:
             fName = lField['name']
+            pName = lField.get( 'physicalName', fName )  
+            
             if lField.get( 'crudType' ) == "screenOnly" : continue 
 
             # UDP Se evaluan despues 
@@ -174,7 +176,7 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
             elif bCopyFromFld and isAbsorbedField( lField, protoMeta  ) :
                 continue 
             
-            rowdict[ fName ] = getFieldValue( fName, lField[ 'type'], rowData, JsonField )
+            rowdict[ fName ] = getFieldValue( pName, lField[ 'type'], rowData, JsonField )
         
         if cUDP.udpTable:
             # rowDict : se actualizara con los datos de la UDP
@@ -324,9 +326,13 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
 #   TODO: Agregar solomente los campos definidos en el safeMeta  ( only,  o defer ) 
 #   Qs.query.select_fields = [f1, f2, .... ]     
 
+
+#   Le pega la meta al modelo para tomar por ejemplo searchFields 
+    model.protoMeta = protoMeta
+
 #   El filtro base viene en la configuracion MD 
     try:
-        Qs = addQbeFilter( baseFilter, model, Qs , JsonField)
+        Qs = addQbeFilter( baseFilter, model, Qs , JsonField )
     except Exception as e:
         traceback.print_exc()
         getReadableError( e ) 
@@ -450,9 +456,18 @@ def getTextSearch( sFilter, model , JsonField):
     
     QStmt = None 
     
-    pSearchFields = getSearcheableFields( model  )
-    for fName  in pSearchFields:
+    try: 
+        pSearchFields = model.protoMeta['gridConfig']['searchFields']
+        fieldsDict = list2dict( model.protoMeta[ 'fields' ], 'name')    
+    except: 
+        pSearchFields = getSearcheableFields( model  )
+        fieldsDict = {}
 
+
+    for fName in pSearchFields:
+        fAux = fieldsDict.get( fName, {})
+        if fAux.get( 'type', '' )  not in [ 'string', 'text',  'protojson' ]: continue   
+            
         QTmp = addQbeFilterStmt( {'property': fName, 'filterStmt': sFilter['filterStmt'] } , model, JsonField )
 
         if QStmt is None:  QStmt = QTmp
@@ -471,6 +486,9 @@ def getFieldValue( fName, fType, rowData, JsonField ):
         except: 
             val = 'Id#' + verifyStr(rowData.pk, '?')
 
+    elif fName.startswith( '@'):
+        val = evalueFuncion( fName, rowData ) 
+
     elif ( fName  == JsonField   ):
         # Master JSonField ( se carga texto ) 
         try: 
@@ -488,12 +506,12 @@ def getFieldValue( fName, fType, rowData, JsonField ):
             
         except: val = ''
 
-    elif ( _PROTOFN_ in fName ):
-        # para definir funciones en los modelos 
-        try: 
-            val = eval( 'rowData.' + fName.replace( _PROTOFN_,'.') + '()'  )
-            val = verifyStr(val , '' )
-        except: val = 'fn?'
+#    elif ( _PROTOFN_ in fName ):
+#        # para definir funciones en los modelos 
+#        try: 
+#            val = eval( 'rowData.' + fName.replace( _PROTOFN_,'.') + '()'  )
+#            val = verifyStr(val , '' )
+#        except: val = 'fn?'
 
         
     elif ( '__' in fName ):
@@ -518,3 +536,9 @@ def getFieldValue( fName, fType, rowData, JsonField ):
 
 
     return val 
+
+
+def evalueFuncion( fName, rowData ): 
+    """ para evaluar las funciones @ 
+    """
+    
