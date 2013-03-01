@@ -36,8 +36,8 @@ def protoGetPCI(request):
     
     try: 
         model = getDjangoModel(viewEntity)
-    except Exception as  e:
-        return JsonError(  getReadableError( e ) ) 
+    except :
+        return JsonError( 'model not found:' + viewEntity ) 
     
     # 
     userProfile = getUserProfile( request.user, 'getPci', viewEntity  ) 

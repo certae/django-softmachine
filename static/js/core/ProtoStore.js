@@ -833,16 +833,17 @@ _SM.loadPci = function ( viewCode, loadIfNot, options) {
                 success: function(result, request) {
                     
                     var myResult = Ext.decode( result.responseText );
-                    _SM.savePclCache( viewCode, myResult.protoMeta )
-                    
-                    // Carga los permisos 
-                    _SM._UserInfo.perms[ viewCode ] = myResult.permissions
-                    
-                    // Continua con la carga
-                    options.success.call( options.scope, result, request);
-
+                    if ( myResult.success ) {                    
+                        _SM.savePclCache( viewCode, myResult.protoMeta )
+                        _SM._UserInfo.perms[ viewCode ] = myResult.permissions
+                        options.success.call( options.scope, result, request);
+                    } else {
+                        _SM.errorMessage('loadPC', myResult.message)
+                        options.failure.call(options.scope, result, request);
+                    } 
                 },
                 failure: function(result, request) {
+                    _SM.errorMessage('loadPC', '')
                     options.failure.call(options.scope, result, request);
                 }
             })

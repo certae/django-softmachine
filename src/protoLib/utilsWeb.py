@@ -29,8 +29,7 @@ def JsonSuccess(params = {}):
     return JsonResponse(JSONserialise(d))
    
 def JsonError(error = ''):
-    return JsonResponse('{"success":false, "msg":%s}' % JSONserialise(error))
-
+    return JsonResponse('{"success":false, "message":"%s"}' % JSONserialise(error))
 
 
 def set_cookie(response, key, value, days_expire = 7):

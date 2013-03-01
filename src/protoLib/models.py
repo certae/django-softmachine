@@ -228,6 +228,9 @@ def getDjangoModel( modelName ):
     elif modelName.count(".") == 2:
         model = models.get_model( *modelName.split(".")[0:2] )
             
+    if model is None: 
+        raise Exception( 'model not found:' + modelName )  
+                
     return model 
 
 

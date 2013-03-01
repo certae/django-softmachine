@@ -42,7 +42,7 @@ PROTO_PREFIX = "prototype.ProtoTable."
         Model ( dependen del modelo, no se requiere declararlas en el admin ) 
 """
    
-class Domain(ProtoModel):
+class Project(ProtoModel):
     """El dominio corresponde a un nivel conceptual corportativo MCCD"""
     code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200  )
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
@@ -52,7 +52,7 @@ class Domain(ProtoModel):
 
     class Meta:
         unique_together = ( 'code', 'smOwningTeam' )
-        #permissions = (( "read_domain", "Can read domain"), )        
+        #permissions = (( "read_domain", "Can read project"), )        
 
     protoExt = { 
         "gridConfig" : {
@@ -69,7 +69,7 @@ class Model(ProtoModel):
     Los modelos son la unidad para generar una solucion ejecutable, 
     los modelos pueden tener prefijos especificos para todas sus componentes ( entidades ) 
     """
-    domain = models.ForeignKey('Domain', verbose_name=u'Domaine', blank = False, null = False )
+    project = models.ForeignKey('Project', blank = False, null = False )
     code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
 
     category = models.CharField(max_length=50, blank = True, null = True )
@@ -77,9 +77,9 @@ class Model(ProtoModel):
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
 
     class Meta:
-        unique_together = ('domain', 'code', 'smOwningTeam' )
+        unique_together = ('project', 'code', 'smOwningTeam' )
         
-    unicode_sort = ('domain', 'code',  )
+    unicode_sort = ('project', 'code',  )
 
     def __unicode__(self):
         return self.code 
@@ -294,15 +294,15 @@ class PropertyDom(PropertyBase):
             2. PropertyModel 
             3. Property 
     """
-    domain = models.ForeignKey('Domain' )
+    project = models.ForeignKey('Project' )
     #code ( propertyBase ) 
     inherit = models.BooleanField( default = False )
 
     def __unicode__(self):
-        return self.domain.code + '.' + self.code 
+        return self.project.code + '.' + self.code 
 
     class Meta:
-        unique_together = ('domain', 'code', 'smOwningTeam' )
+        unique_together = ('project', 'code', 'smOwningTeam' )
 
     def save(self, *args, **kwargs ):
         # Envia el heredado y se asegura q sea Falso siempre 
@@ -381,7 +381,7 @@ class PropertyEquivalence(ProtoModel):
     o q al momento de guardar generara la relacion inversa y actualizara simpre los dos ( privilegiada )     
     """    
 #   No es necesario pertenecer al mismo dominio,  
-#   domain = models.ForeignKey('Domain')
+#   project = models.ForeignKey('Project')
 
     sourceProperty = models.ForeignKey('PropertyDom', blank = True, null = True, related_name = 'sourcePrp')
     targetProperty = models.ForeignKey('PropertyDom', blank = True, null = True, related_name = 'targetPrp')

@@ -119,7 +119,7 @@ class importDict():
         self.__logger.info("Ecriture dans la base de donnee...")
 
         #Listas 
-#        fdsDomain = [field.name for field in Domain._meta.fields]
+#        fdsProject = [field.name for field in Project._meta.fields]
 #        fdsModel= [field.name for field in Model._meta.fields]
 #        fdsConcept= [field.name for field in Concept._meta.fields]
 #        fdsProperty= [field.name for field in Property._meta.fields]
@@ -133,15 +133,15 @@ class importDict():
         # Los elementos superXXX son referencias de tipo caracter,
         # fds  Field Description 
         # eqv  equivalences ( tupla con valores importados , vrCarga 
-        fdsDomain = ( 'code', 'category', 'description' )
-        #eqvDomain = ( ('origin', 'description')  )
+        fdsProject = ( 'code', 'category', 'description' )
+        #eqvProject = ( ('origin', 'description')  )
 
         fdsModel= ( 'code', 'category',  'modelPrefix', 'conectionPath',  )
         
         fdsConcept= ( 'code', 'category',  'physicalName' )
 
-        fdsPropertyDom = ( 'code', 'category',  'baseType', 'prpDefault', )
-        intPropertyDom = ( 'prpLength',  )
+        fdsPropertyProj = ( 'code', 'category',  'baseType', 'prpDefault', )
+        intPropertyProj = ( 'prpLength',  )
         
         fdsPropertyConcept = ( 'alias', 'physicalName', 'foreignConcept' )
         booPropertyConcept = ( 'isNullable', 'isRequired', 'isSensitive', 'isEssential', 'isUnique', 'isForeign')
@@ -153,28 +153,28 @@ class importDict():
         # We populate the database
         if (self.__tree != None):  # A file has been loaded
         
-            xDomains = self.__tree.getiterator("domain")
+            xProjects = self.__tree.getiterator("domain")
             
-            for xDomain in xDomains:
-                dDomain = Domain()
-                for child in xDomain:
-                    if child.tag in fdsDomain:
-                        setattr( dDomain, child.tag, child.text ) 
+            for xProject in xProjects:
+                dProject = Project()
+                for child in xProject:
+                    if child.tag in fdsProject:
+                        setattr( dProject, child.tag, child.text ) 
                         
                 try: 
-                    dDomain.save()
+                    dProject.save()
                 except:  
-                    self.__logger.info("Error dDomain.save")
+                    self.__logger.info("Error dProject.save")
                     return
                 
-                self.__logger.info("Domain..."  + dDomain.code)
+                self.__logger.info("Project..."  + dProject.code)
 
 
                 # ------------------------------------------------------------------------------
-                xModels = xDomain.getiterator("model")
+                xModels = xProject.getiterator("model")
                 for xModel in xModels:
                     dModel = Model()
-                    dModel.domain = dDomain
+                    dModel.domain = dProject
                     modelUdps = []
 
                     for child in xModel:
@@ -220,7 +220,6 @@ class importDict():
                         xPropertys = xConcept.getiterator("property")
                         for xProperty in xPropertys:
                             sCode = xProperty.find( 'code' ).text  
-                            prpDom = getPrpDom( dModel, sCode  )
                             
                             prpConcept = PropertyConcept()
                             prpConcept.concept = dConcept
@@ -230,14 +229,14 @@ class importDict():
                             prpUdps = []
 
                             for child in xProperty:
-                                if child.tag in fdsPropertyDom:
+                                if child.tag in fdsPropertyProj:
                                     if (child.text is not None):
                                         setattr( prpDom, child.tag, child.text )
 
                                 elif  ( child.tag == 'description' ):
                                     setattr( prpDom, child.tag, child.get('text'))
 
-                                elif child.tag in intPropertyDom:
+                                elif child.tag in intPropertyProj:
                                     iValue = toInteger(child.text , 0)
                                     setattr( prpDom, child.tag, iValue )
 
@@ -280,7 +279,7 @@ class importDict():
 #                                return
 
                 # ------------------------------------------------------------------------------
-#                xLinkModels = xDomain.getiterator("linkModel")
+#                xLinkModels = xProject.getiterator("linkModel")
 #                for xLinkModel in xLinkModels:
 #
 #                    xLinks = xLinkModel.getiterator("link")
@@ -289,10 +288,10 @@ class importDict():
 #                        dLink = PropertyEquivalence()
 #
 #                        #Obtiene las refs
-#                        oAux = getPrpRef( dDomain , xLink.find( 'sourceCol' ).text )
+#                        oAux = getPrpRef( dProject , xLink.find( 'sourceCol' ).text )
 #                        if oAux:  dLink.sourceProperty = oAux  
 #    
-#                        oAux = getPrpRef( dDomain , xLink.find( 'destinationCol').text )
+#                        oAux = getPrpRef( dProject , xLink.find( 'destinationCol').text )
 #                        if oAux:  dLink.targetProperty = oAux  
 #
 #                        for child in xLink:
@@ -332,7 +331,7 @@ class importDict():
 
     def savePrpUdps(self, udps, dPrp ):
         for key, value  in udps:
-            dUdp = UdpPropertyDom()
+            dUdp = UdpPropertyProj()
             dUdp.propertyDom = dPrp
             dUdp.code = key
             dUdp.valueUdp = value
@@ -342,21 +341,13 @@ class importDict():
                 pass
 
 
-def getPrpDom( dModel, prpCode  ):
-    
-    dPrpDom, created = PropertyDom.objects.get_or_create( domain = dModel.domain, code = prpCode )
-    dPrpMod, created = PropertyModel.objects.get_or_create( model = dModel, propertyDom = dPrpDom  )
-
-    return dPrpDom 
-
-
-def getModelRef( dDomain, modelName  ):
-    mAux = Model.objects.filter( domain = dDomain, code = modelName )
+def getModelRef( dProject, modelName  ):
+    mAux = Model.objects.filter( domain = dProject, code = modelName )
     if mAux: 
         return mAux[0] 
 
-def getPrpRef( dDomain , propName  ):
-    mAux = PropertyDom.objects.filter( domain = dDomain, code = propName  )
+def getPrpRef( dProject , propName  ):
+    mAux = PropertyProj.objects.filter( domain = dProject, code = propName  )
     if mAux: 
         return mAux[0] 
 

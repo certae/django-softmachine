@@ -94,8 +94,8 @@ class orgTreeAdmin(django.contrib.admin.ModelAdmin):
         "masterField": "pk"
     }, {
         "__ptType": "detailDef",
-        "menuText": "Domain.smOwningTeam",
-        "conceptDetail": "protoDict.Domain",
+        "menuText": "Project.smOwningTeam",
+        "conceptDetail": "protoDict.Project",
         "detailName": "smOwningTeam",
         "detailField": "smOwningTeam__pk",
         "masterField": "pk"

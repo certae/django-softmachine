@@ -65,7 +65,7 @@ def updatePropInfo( reg, propBase, modelBase, inherit  ):
             reg.propertyModel = pMod 
 
         elif reg._meta.object_name == 'PropertyModel' : 
-            pDom = modelBase.objects.get_or_create( domain = reg.model.domain, code = reg.code, defaults=defValues  )[0]
+            pDom = modelBase.objects.get_or_create( project = reg.model.project, code = reg.code, defaults=defValues  )[0]
             reg.propertyDom = pDom 
 
     # Se asegura q sea verdadero    

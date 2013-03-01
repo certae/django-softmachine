@@ -43,14 +43,14 @@ def protoGetMenuData(request):
 
     def getMenuItem( protoAdmin, model, menuNode ):
     
-        try: appCode = model.protoExt["menuApp"]
-        except: appCode = model._meta.app_label
+        appCode = model._meta.app_label
+        
+        # Define la rama del menu 
+        try: menuLabel = model.protoExt["menuApp"]
+        except: menuLabel = appCode  
         
         # Verifica q el usuairo tenga permiso, considera el admin 
         if not getModelPermissions( currentUser, model, 'menu' ) : return  
-        
-        # Define la rama del menu 
-        menuLabel = protoAdmin.get('protoMenuOpt', appCode )
         
         pTitle = protoAdmin.get('title', model._meta.verbose_name.title() )
     
