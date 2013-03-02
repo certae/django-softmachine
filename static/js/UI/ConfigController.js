@@ -105,7 +105,9 @@ Ext.define('ProtoUL.UI.ConfigController', {
 
 
     showCustomConfig: function( metaConfig ) {
-        var myMeta =  _SM._cllPCI[ this.viewCode ]
+        var myMeta =  _SM._cllPCI[ this.viewCode ], 
+            title 
+            
         if ( ! myMeta ) return 
 
         var myPcl = Ext.widget('protoPcl', {

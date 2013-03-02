@@ -45,7 +45,7 @@ Ext.define('ProtoUL.UI.MDSetTabsController', {
         }; 
         
         function onClickTab( btn ){
-            __MasterDetail.protoMasterGrid.configureColumns( btn.listDisplay );
+            __MasterDetail.protoMasterGrid.configureColumns( btn.listDisplay , btn.text );
         }
         
         function addTabs( tmpTabs ){

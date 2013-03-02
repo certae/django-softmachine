@@ -71,8 +71,6 @@ _MetaProperties =  {
 
 //  Types
     "required.type" : "boolean", 
-    "hideRowNumbers.type"  : "boolean",
-    "multiSelect.type"  : "boolean",
     "readOnly.type"  : "boolean",
     
 // PCI
@@ -195,8 +193,12 @@ _MetaProperties =  {
 
     "hideLabel.help": "presenta los campos sin label, util cuando se configura grupos como firstName, lastName",
     "hideSheet.help" : "Oculta la ficha descriptiva", 
+    
     "hideRowNumbers.help" : "Oculta la columna que numera los campos", 
-    "multiSelect.help" : "Permite seleccionar multiples registros", 
+    "hideRowNumbers.type"  : "boolean",
+    
+    "hideCheckSelect.type"  : "boolean",
+    "hideCheckSelect.help" : "Permite seleccionar multiples registros", 
 
     "filterSetABC.help" : "Genera automaticamente filtro alfabetico sobre la columna seleccionada", 
 

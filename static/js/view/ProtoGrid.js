@@ -28,6 +28,12 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     isPromoted : false, 
     mdFilter : [], 
     initialFilter : null, 
+    
+    // Para guardar la definicion de cols al cambiar de tabs
+    colDictDefinition : {},  
+    colSetName : '',
+    colSetDefinition : [], 
+    colSetCache : {}, 
         
     initComponent: function() {
 
@@ -93,9 +99,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         });
 
 
-        // Definicion de Columnas y Fields        ------------------------------------------
-        var myColumns = [];
-
 
         // Si es un detalle, aqui viene la especificacion de conexion ( detailDef ) 
         if ( me.detailDefinition ) {
@@ -112,44 +115,23 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             if ( vFld ) { nDetTitle = me.detailDefinition.masterTitleField || vFld.fkField; }  
         } 
 
+        createColDictionary()
 
-        // DGT** Copia las columnas   
-        for (var ix in myMeta.fields ) {
-            var vFld = myMeta.fields[ix] 
-            if ( vFld.crudType == 'storeOnly' ) continue;
-
-            // lee las props p
-            var col = _SM.getColDefinition( vFld  );
-
-            // Oculta los campos provenientes del maestroo en los detalles 
-            if ( col.dataIndex in _SM.objConv([nDetId , nDetTitle])  ) { 
-                col['readOnly'] = true  
-                delete col['editor']
-            }
-            
-            // DGT: No se necesita, la definicion viene automatica  
-            // if (( myMeta.pciStyle == 'tree' ) && ( col.dataIndex  == '__str__' )) { col.xtype = 'treecolumn' };  
-
-            myColumns.push( col  );
-        }
-        
-        // Guarda la referencia de todas las columnas definidas 
-        this.myColumns = myColumns; 
-        
-        //  gridColumns: Es un subconjuto para poder manejar diferentes conf de columnas  
-        var gridColumns = this.getViewColumns( myMeta.gridConfig.listDisplay  )
-        // En caso de q el usuario halla definido su vist por defecto la carga 
+        // gridColumns: Es un subconjuto para poder manejar diferentes conf de columnas
+        // tiene en cuenta siel usuario  definio su vist por defecto la carga 
+        var gridColumns  
         if ( myMeta.custom.listDisplay.length > 0  ) {
-            gridColumns = this.getViewColumns( myMeta.custom.listDisplay )  
+            gridColumns = this.getViewColumns( myMeta.custom.listDisplay , 'default')
+        } else { gridColumns = this.getViewColumns( myMeta.gridConfig.listDisplay , 'default' )
         } 
         
         // Manejo de seleccion multiple 
-        if ( myMeta.gridConfig.multiSelect ) {
-            this.selModel = Ext.create('Ext.selection.CheckboxModel');    
-        }            
+        this.selModel = Ext.create('Ext.selection.CheckboxModel', {
+                checkOnly: true,
+                injectCheckbox: 'last' 
+        });    
 
         this.editable = false; 
-
 
         // Definie el grid 
         var grid
@@ -166,9 +148,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 flex: 1,
                 layout: 'fit',
                 minSize: 50,
-                
-                
                 plugins: [    'headertooltip', this.rowEditing ],            
+
                 selModel: this.selModel,
                 columns : gridColumns,   
                 store : this.store,  
@@ -283,14 +264,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         this.callParent(arguments);
         this.gridController.addNavigationPanel(); 
 
-
-        // 
-        // if ( myMeta.localSort &&  myMeta.gridConfig.initialSort.length > 0 ) {
-            // try {
-                // me.store.sort( myMeta.gridConfig.initialSort )    
-            // } catch(e) {}
-        // }
-        
 
         grid.on({
             // select: {fn: function ( rowModel , record,  rowIndex,  eOpts ) {
@@ -408,6 +381,34 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         });         
         
+        function createColDictionary() {
+        // Crea el diccionario de columnas 
+            var gCol
+            for (var ix in myMeta.fields ) {
+                var vFld = myMeta.fields[ix] 
+                if ( vFld.crudType == 'storeOnly' ) continue;
+    
+                // lee las props p
+                gCol = _SM.getColDefinition( vFld  );
+    
+                // Oculta los campos provenientes del maestroo en los detalles 
+                if ( gCol.dataIndex in _SM.objConv([nDetId , nDetTitle])  ) { 
+                    gCol['readOnly'] = true  
+                    delete gCol['editor']
+                }
+                
+                // DGT: No se necesita, la definicion viene automatica  
+                // if (( myMeta.pciStyle == 'tree' ) && ( gCol.dataIndex  == '__str__' )) { gCol.xtype = 'treecolumn' };  
+                me.colDictDefinition[ gCol.dataIndex ]  = gCol ;
+    
+            }
+
+            // Crea el rowNumber 
+            gCol = { xtype: 'rownumberer', width:37, draggable:false,  sortable: false } // locked: true, lockable: false }
+            me.colDictDefinition[ '___numberCol' ]  = gCol ;
+
+        }
+        
          
     },
 
@@ -418,10 +419,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 
 
-    _getRowNumberDefinition: function () {
-        var rowNumberCol = { xtype: 'rownumberer', width:37, draggable:false,  sortable: false } // locked: true, lockable: false }
-        return rowNumberCol
-      },
     
     getSelectedIds: function() {
         // Lista de registros seleccionados ( id )
@@ -438,49 +435,57 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         return selectedIds
     }, 
     
-    getViewColumns: function (  viewCols  ) {
+    getViewColumns: function (  viewCols, tabName  ) {
+
+        // guarda la confAnterior 
+        if ( this.colSetName == tabName ) {
+            return this.colSetDefinition
+        } 
         
-        var vColumns = [];
-        //  adding RowNumberer  
+        // Lo inicia para volver a crearlo
+        this.colSetName = tabName  
+        this.colSetDefinition= [];
+        
+        var gCol 
+                
+        // Adding RowNumberer  
         if (( ! this.myMeta.gridConfig.hideRowNumbers ) && ( 'grid' == this.myMeta.pciStyle || 'grid' )) {
-            vColumns.push( this._getRowNumberDefinition());
+            gCol  = this.colDictDefinition[ '___numberCol' ]
+            this.colSetDefinition.push( gCol );
         }; 
 
-        // En caso de q no halla listDisplay 
-        if ( viewCols.length == 0 ) {
-            vColumns.concat ( this.myColumns )
-            return vColumns              
-        } 
-                
         for (var ixV in viewCols  ) {
-            gCol = getColByName(  viewCols[ ixV ], this.myColumns  ) 
-            if ( gCol ) { 
-              vColumns.push( gCol );
-            }
+            var dataIndex = viewCols[ ixV ]
+            var gCol = this.colDictDefinition[ dataIndex ] 
+            if ( gCol ) {  this.colSetDefinition.push( gCol ) }
         }
-        return vColumns
         
-        function getColByName( vCol , gColumns ) {
-            for (var ixC in gColumns  ) {
-                var gCol  =  gColumns[ixC];
-                if ( gCol.dataIndex == vCol ) {
-                    return gCol 
-                }
-            }
-        }
-
+        return this.colSetDefinition
     },
     
-    configureColumns: function (  viewCols  ) {
+    configureColumns: function (  viewCols, tabName  ) {
 
-        var vColumns = this.getViewColumns( viewCols )
-
-        //Fix: hay un error la primera vez q pasa por aqui??? 
+        var vColumns = this.getViewColumns( viewCols, tabName )
+        
+        // para corregir un error ( foros Ext )  
         this._extGrid.view.refresh();
 
-        // Configurar columnas de la grilla
-        this._extGrid.headerCt.removeAll()
-        this._extGrid.headerCt.add( vColumns );
+        // Configurar columnas de la grilla 
+        // Primero se borran todos exepto el check ( en vez de removeAll() )
+        var hCt = this._extGrid.headerCt 
+        var removeItems = hCt.items.items.slice(),
+            i = 0,
+            len = removeItems.length -1,
+            item;
+
+        hCt.suspendLayouts();
+        for (; i < len; i++) {
+            item = removeItems[i];
+            hCt.remove(item, true);
+        }
+        hCt.add( 0, vColumns );
+        hCt.resumeLayouts(!!len);
+        
         this._extGrid.view.refresh();
 
     }, 

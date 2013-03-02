@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete 
 
 from protoLib.models import ProtoModel, CustomDefinition  
 from protoLib.fields import JSONField,  JSONAwareManager
 
-from protoRules import  updatePropInfo, twoWayPropEquivalence
+from protoRules import  updatePropInfo, twoWayPropEquivalence, updProPropModel
 from protoRules import  ONDELETE_TYPES, BASE_TYPES, CRUD_TYPES
 
 PROTO_PREFIX = "prototype.ProtoTable."
@@ -43,9 +43,9 @@ PROTO_PREFIX = "prototype.ProtoTable."
 """
    
 class Project(ProtoModel):
-    """El dominio corresponde a un nivel conceptual corportativo MCCD"""
-    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200  )
-    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
+    """Corresponde a un nivel conceptual corportativo MCCD"""
+    code = models.CharField(blank = False, null = False, max_length=200  )
+    description = models.TextField( blank = True, null = True)
 
     def __unicode__(self):
         return self.code 
@@ -70,11 +70,11 @@ class Model(ProtoModel):
     los modelos pueden tener prefijos especificos para todas sus componentes ( entidades ) 
     """
     project = models.ForeignKey('Project', blank = False, null = False )
-    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
+    code = models.CharField(blank = False, null = False, max_length=200 )
 
     category = models.CharField(max_length=50, blank = True, null = True )
-    modelPrefix = models.CharField(verbose_name=u'modelPrefix', blank = True, null = True, max_length=50)
-    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
+    modelPrefix = models.CharField( blank = True, null = True, max_length=50)
+    description = models.TextField( blank = True, null = True)
 
     class Meta:
         unique_together = ('project', 'code', 'smOwningTeam' )
@@ -98,9 +98,9 @@ class Entity(ProtoModel):
     Entity corresponde a las entidades FISICA;  
     """    
     model = models.ForeignKey('Model', blank = False, null = False )
-    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
+    code = models.CharField( blank = False, null = False, max_length=200 )
     
-    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
+    description = models.TextField( blank = True, null = True)
 
     # Propieadad para ordenar el __str__ 
     unicode_sort = ('model', 'code',  )
@@ -152,7 +152,7 @@ class Entity(ProtoModel):
 
 class PropertyBase(ProtoModel):
 
-    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
+    code = models.CharField(blank = False, null = False, max_length=200 )
 
     """baseType, prpLength:  Caracteristicas generales q definen el campo """
     baseType = models.CharField( blank = True, null = True, max_length=50, choices = BASE_TYPES, default = 'string')
@@ -186,7 +186,7 @@ class Property(PropertyBase):
     entity = models.ForeignKey('Entity', related_name = 'propertySet')
     
     """propertyModel : corresponde a la especificacion en el modelo ( metodologia: user history )"""
-    propertyModel = models.ForeignKey('PropertyModel', blank = True, null = True, on_delete=models.SET_NULL, editable = False, )
+    propertyModel = models.ForeignKey('PropertyModel', blank = True, null = True, on_delete=models.SET_NULL )
 
     # -----------  caracteristicas propias de la instancia
     """isPrimary : en el prototipo siempre es artificial, implica isUnique """  
@@ -273,7 +273,6 @@ class Relationship(Property):
         "gridConfig" : {
             "listDisplay": ["__str__", "description", "smOwningTeam" ]      
         }, 
-        # Propiedades de propertyBase q no se usan aqui.
         "exclude": [ "baseType","prpLength","prpDefault","prpChoices"]
         }
 
@@ -296,8 +295,6 @@ class PropertyModel(PropertyBase):
     
     """
     model = models.ForeignKey('Model' )
-
-    propertyDom = models.ForeignKey('PropertyModel',blank = True, null = True, on_delete=models.SET_NULL )
     inherit = models.BooleanField( default = False )
 
     def __unicode__(self):
@@ -308,7 +305,7 @@ class PropertyModel(PropertyBase):
 
     def save(self, *args, **kwargs ):
         # Envia el heredado y se asegura q sea Falso siempre 
-        updatePropInfo( self,  self.propertyDom, PropertyModel, self.inherit   )
+        updatePropInfo( self,  None, PropertyModel, self.inherit   )
         self.inherit = False 
         super(PropertyModel, self).save(*args, **kwargs) 
         
@@ -318,6 +315,14 @@ class PropertyModel(PropertyBase):
             "listDisplay": ["__str__", "description", "inherit", "smOwningTeam"]      
         }
     } 
+
+def propModel_post_delete(sender, instance, **kwargs):
+    # En el postSave ya el registro de hijos no existe, 
+    # la solucion mas simple las props con propMod = None y tocarlos  
+    updProPropModel( Property )
+    pass
+
+post_delete.connect(propModel_post_delete, sender = PropertyModel)
 
 
 class PropertyEquivalence(ProtoModel):
@@ -334,7 +339,7 @@ class PropertyEquivalence(ProtoModel):
     sourceProperty = models.ForeignKey('PropertyModel', blank = True, null = True, related_name = 'sourcePrp')
     targetProperty = models.ForeignKey('PropertyModel', blank = True, null = True, related_name = 'targetPrp')
 
-    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
+    description = models.TextField( blank = True, null = True)
 
     def __unicode__(self):
         return self.sourceProperty.code + ' - ' + self.targetProperty.code   
@@ -441,9 +446,9 @@ class Diagram(ProtoModel):
     TODO: Diagrama o subModelo   
     """    
     model = models.ForeignKey('Model', blank = False, null = False )
-    code = models.CharField(verbose_name=u'Nom',blank = False, null = False, max_length=200 )
+    code = models.CharField(blank = False, null = False, max_length=200 )
     
-    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
+    description = models.TextField( blank = True, null = True)
     notes  = models.TextField( blank = True, null = True)
 
     """Information graphique  ( labels, etc... ) """
@@ -494,7 +499,7 @@ class Service(ProtoModel):
     TODO: Servicios entre modelos ( entidades virtuales )    
     """    
     model = models.ForeignKey('Model', blank = False, null = False )
-    code = models.CharField(verbose_name=u'Service',blank = False, null = False, max_length=200 )
+    code = models.CharField(blank = False, null = False, max_length=200 )
 
     """Binding : SOAP, RPC, REST, DCOM, CORBA, DDS, RMI, WCF """
     Binding =  models.CharField(  blank = True, null = True, max_length = 20 )

@@ -223,7 +223,7 @@ class importDict():
                             
                             prpConcept = PropertyConcept()
                             prpConcept.concept = dConcept
-                            prpConcept.propertyDom = prpDom
+                            prpConcept.PropertyModel = prpDom
 
                             # Inicializa el diccionaccionario para las UDPS 
                             prpUdps = []
@@ -332,7 +332,7 @@ class importDict():
     def savePrpUdps(self, udps, dPrp ):
         for key, value  in udps:
             dUdp = UdpPropertyModel()
-            dUdp.propertyDom = dPrp
+            dUdp.PropertyModel = dPrp
             dUdp.code = key
             dUdp.valueUdp = value
             try:

@@ -1,5 +1,20 @@
 Log : 
 
+    prototipos 
+
+        __str___   ( evaluar una funcion )
+        typos de datos  ( string por default )
+        choices 
+        vrDefault 
+        type Money ( representacion )
+
+
+        mensajes de advertencia en la generacion de los prototios  
+
+
+-----------
+
+
     el search no funciona en proerte por el modelo_code
     -- ahora se verifican los ti[os de ] datos antes de Q
 

@@ -92,13 +92,6 @@ class orgTreeAdmin(django.contrib.admin.ModelAdmin):
         "detailName": "userTeam",
         "detailField": "userTeam__pk",
         "masterField": "pk"
-    }, {
-        "__ptType": "detailDef",
-        "menuText": "Project.smOwningTeam",
-        "conceptDetail": "protoDict.Project",
-        "detailName": "smOwningTeam",
-        "detailField": "smOwningTeam__pk",
-        "masterField": "pk"
     }],
     "gridConfig": {
         "__ptType": "gridConfig",

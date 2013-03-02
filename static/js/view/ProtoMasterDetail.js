@@ -246,6 +246,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             var myDetField = myDetGrid.myFieldDict[ nField ]
             if ( ! myDetField ) {
                 // Si no hereda la llave, cancela la edicion 
+                _SM.__StBar.showError('parent key not found: ' + nField, 'MasterDetail') 
                 myDetGrid.setEditMode( false )
                 return 
             } 

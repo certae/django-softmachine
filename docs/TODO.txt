@@ -1,20 +1,24 @@
 To Do:  
 
+	en menu recorrer directamente los modelos 
+
+	Grid 
+		permitir agregar el check como un campo mas
+
+	propertyModel
+		implemtar la herencia de zoom en Property.propertyMod
+		proc para union de campos 
+
+		Ok onDelete generar el nuevo campo
+		Ok onDelete en Eqivalences 
+
+	Actions
+		permsiso por accion 
+
 	prototipos 
-
-		__str___   ( evaluar una funcion )
-
-
-		typos de datos  ( string por default )
-		choices 
-		vrDefault 
-	    type Money ( representacion )
-
+		limpiar el nombre de los campos de espacios y '@#$"'
 		intialsort en los prototipos 
 		secuencias para manejar los autonum 
-
-    	mensajes de advertencia en la generacion de los prototios  
-
 
 	Seguridad ------------------
 		diferentes niveles ( usuario, grupo, all )

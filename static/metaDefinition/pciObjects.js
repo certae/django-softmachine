@@ -173,7 +173,6 @@ _MetaObjects =  {
             "localSort", 
             "pageSize", 
             "sheetSelector",
-            "exportCsv",  
             "pciStyle", 
             "helpPath", 
             "idProperty", 
@@ -329,7 +328,9 @@ _MetaObjects =  {
         "description": "Propiedades de configuracion de la grilla",
         "properties": [ 
             'hideRowNumbers', 
-            'multiSelect', 
+            'hideCheckSelect', 
+            // 'multiSelect', 
+            // "exportCsv",  
             'hideSheet', 
             'denyAutoPrint', 
             'filterSetABC'
@@ -498,6 +499,8 @@ _MetaObjects =  {
         "allowDel" : true, 
         "properties": [
             "name", 
+            'hideRowNumbers', 
+            'hideCheckSelect', 
             "description" 
         ], 
         "lists" : [

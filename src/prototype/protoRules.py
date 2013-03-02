@@ -43,6 +43,7 @@ def updatePropInfo( reg, propBase, modelBase, inherit  ):
     inherit  :  heredar ( si es descendente Dom, Model, ...  )
     """
 
+
     defValues = {
         'baseType' : reg.baseType, 
         'prpLength' : reg.prpLength,
@@ -54,13 +55,15 @@ def updatePropInfo( reg, propBase, modelBase, inherit  ):
         'smOwningUser' : reg.smOwningUser,
         'smCreatedBy' : reg.smCreatedBy
     }
+
     
-    # Crea los padres  
-    if ( propBase is None ) and ( not modelBase is None ):
-        pMod=modelBase.objects.get_or_create(model=reg.entity.model,code=reg.code,smOwningTeam=reg.smOwningTeam,defaults=defValues)[0]
+    # Crea los PropertyModel correspondientes  
+    if ( propBase is None ) and ( reg._meta.object_name == 'Property' ):
+        pName = reg.entity.code + '.' + reg.code
+        pMod=modelBase.objects.get_or_create(model=reg.entity.model,code=pName,smOwningTeam=reg.smOwningTeam,defaults=defValues)[0]
         reg.propertyModel = pMod 
 
-    # Se asegura q sea verdadero    
+    # Se asegura q sea heredable  y actualiza los Property asociados    
     if inherit == True :
         del defValues['smOwningUser']
         del defValues['smCreatedBy'] 
@@ -119,3 +122,8 @@ def twoWayPropEquivalence( propEquiv, modelBase, deleted ):
         traceback.print_exc()
         raise e 
 
+
+def updProPropModel( Property ):
+    # recorre todas las props y las toca
+    for pProp in Property.objects.filter( propertyModel = None  ): 
+        pProp.save()

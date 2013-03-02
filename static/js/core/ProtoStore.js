@@ -191,7 +191,8 @@ _SM.getProxyDefinition = function( stDef )  {
                 // 'load' :  function(store,records,options) { this.loaded = true }
                 'exception': function(proxy, response, operation){
                     // var msg = operation.request.scope.reader.jsonData["message"] ;
-                    var msg = 'REMOTE EXCEPTION: ' + operation.getError();
+                    var myErr = operation.getError()
+                    var msg = 'REMOTE EXCEPTION: (' + myErr.status + ') ' + myErr.statusText
                     _SM.__StBar.showError( msg , 'storeException'); 
                 } 
             }
