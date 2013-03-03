@@ -49,7 +49,7 @@ class ExportDjangoModel(object):
         iniFileModel(iw)
         enu = self.m_proj.getComponents().elements(DbORDataModel.metaClass)
         while enu.hasMoreElements():
-            DbORDataModel model = (DbORDataModel)
+            DbORDataModel, model = (DbORDataModel)
             enu.nextElement()
             generateDataModel(iw, model, 0)
         enu.close()
@@ -91,14 +91,14 @@ class ExportDjangoModel(object):
         idRef = self.idModel
         enu = model.getComponents().elements(DbORTable.metaClass)
         while enu.hasMoreElements():
-            DbORTable table = (DbORTable)
+            DbORTable, table = (DbORTable)
             enu.nextElement()
             generateTable(iw, model, table)
         enu.close()
         iw.println("")
         enu2 = model.getComponents().elements(DbORDataModel.metaClass)
         while enu2.hasMoreElements():
-            DbORDataModel smodel = (DbORDataModel)
+            DbORDataModel, smodel = (DbORDataModel)
             enu2.nextElement()
             generateDataModel(iw, smodel, idRef)
         enu2.close()
@@ -117,7 +117,7 @@ class ExportDjangoModel(object):
         iw.println(msg)
         enu = table.getComponents().elements(DbORColumn.metaClass)
         while enu.hasMoreElements():
-            DbORColumn col = (DbORColumn)
+            DbORColumn, col = (DbORColumn)
             enu.nextElement()
             generateColumn(iw, wTable, col)
         enu.close()
@@ -150,7 +150,7 @@ class ExportDjangoModel(object):
         pattern = "force_unicode(self.{0})"
         enu = table.getComponents().elements(DbORColumn.metaClass)
         while enu.hasMoreElements():
-            DbORColumn col = (DbORColumn)
+            DbORColumn, col = (DbORColumn)
             enu.nextElement()
             wCol = DbColumnWrapper.DbColumnWrapper_unknown(wTable, col)
             if wTable.isPrimary(col):
@@ -176,7 +176,7 @@ class ExportDjangoModel(object):
         pattern = "\"{0}\""
         enu = table.getComponents().elements(DbORColumn.metaClass)
         while enu.hasMoreElements():
-            DbORColumn col = (DbORColumn)
+            DbORColumn, col = (DbORColumn)
             enu.nextElement()
             wCol = DbColumnWrapper.DbColumnWrapper_unknown(wTable, col)
             if wTable.isPrimary(col):

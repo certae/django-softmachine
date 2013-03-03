@@ -167,6 +167,7 @@ def isinteger(astring):
     for char in str(astring):
         if not char in string.digits:
             return False
-    return True
+    return True                 
 
 
+# --------------------  

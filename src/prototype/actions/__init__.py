@@ -1,20 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import django.utils.simplejson as json
-
-from django.contrib import admin
-from prototype.models import Model, Entity,  ProtoView
-
-from protoLib.models import CustomDefinition
-from protoLib.protoActionEdit import setSecurityInfo 
-from protoLib.utilsBase import JSONEncoder, stripAccents
-from protoLib.protoAuth import getUserProfile
-
-from viewDefinition import getViewDefinition, getViewCode
-
-PROTO_PREFIX = "prototype.ProtoTable."
-
-
+from viewDefinition import getViewDefinition, getViewCode, getEntities
+from propModelJoin import doPropModelJoin 
 
 def doModelPrototype( modeladmin, request, queryset, parameters):
     """ 
@@ -57,47 +44,20 @@ def doEntityPrototype( modeladmin, request, queryset, parameters ):
 
 # --------------------------------------------------------------------------------
 
-def getEntities( queryset , request, viewTitle  ):
+def doPropertyModelJoin( modeladmin, request, queryset, parameters):
+    """ 
+    funcion para unir dos propertyModel 
+    """
 
-    userProfile = getUserProfile( request.user, 'prototype', '' ) 
-    returnMsg = '' 
+#   El QSet viene con la lista de Ids  
+    if queryset.count() < 2:
+        return 'Multiple selection required' 
 
-#   Recorre los registros selccionados   
-    for pEntity in queryset:
-        returnMsg += pEntity.code  + ','    
-        createView(  pEntity , getViewCode( pEntity, viewTitle ) , userProfile )
+    if len( parameters ) != 1: 
+        return 'New PropertyModel Name is required!!'         
 
-    return returnMsg
+    return doPropModelJoin ( queryset, parameters[0]['value']  )
 
-
-def createView( pEntity, viewTitle, userProfile ):
-
-    viewName    = stripAccents( viewTitle )
-    infoEntity  = getViewDefinition( pEntity , viewTitle  )
-
-    # Debe corresponder al viewCodegenerado en el template ( infoEntity[viewCode] ) 
-    viewCode = PROTO_PREFIX + viewName
-    
-    try:
-        rec = CustomDefinition.objects.get(code = viewCode, smOwningTeam = userProfile.userTeam )
-        created = False 
-    except CustomDefinition.DoesNotExist:
-        created = True 
-        rec = CustomDefinition( code = viewCode )
-    
-    rec.metaDefinition = json.dumps( infoEntity, cls=JSONEncoder ) 
-    rec.description = infoEntity['description'] 
-    rec.active = True 
-    
-    setSecurityInfo( rec, {}, userProfile, created   )
-    rec.save()
-
-    # Crea el ProtoView ( mismo nombre q la vista : necesario para los zooms y los detalles automaticos  ) 
-    ProtoView.objects.get_or_create( entity = pEntity, code = viewName, smOwningTeam = userProfile.userTeam )
-
-
-# ----
-   
-
-
+doPropertyModelJoin.short_description = "Join PropModel"
+doPropertyModelJoin.selectionMode = "multiple"
     

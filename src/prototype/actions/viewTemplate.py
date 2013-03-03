@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-from protoLib.utilsBase import stripAccents
+from protoLib.utilsBase import slugify
 
 PROTO_PREFIX = "prototype.ProtoTable."
 
@@ -9,7 +9,7 @@ def baseDefinition( pEntity , entityName, viewTitle  ):
     """ protoEntity: Es la traza de la generacion del protipo  dominio.modelo.entidad  
     """ 
     
-    viewName   = stripAccents( viewTitle  )
+    viewName   = slugify( viewTitle  )
 
     return  {
     "__ptType": "pcl",

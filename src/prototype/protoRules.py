@@ -35,7 +35,7 @@ CRUD_TYPES = (
 # -----------------------------------------------------------------
 
 
-def updatePropInfo( reg, propBase, modelBase, inherit  ):
+def updatePropInfo( myBase, propBase, modelBase, inherit  ):
     """
     self     :  propiedad q genera el cambio 
     propBase :  campo de referencia a la entidad de base 
@@ -45,32 +45,44 @@ def updatePropInfo( reg, propBase, modelBase, inherit  ):
 
 
     defValues = {
-        'baseType' : reg.baseType, 
-        'prpLength' : reg.prpLength,
-        'prpDefault' : reg.prpDefault,
-        'prpChoices' : reg.prpChoices,
-        'isSensitive' : reg.isSensitive, 
-        'description' : reg.description, 
+        'baseType' : myBase.baseType, 
+        'prpLength' : myBase.prpLength,
+        'prpScale' : myBase.prpScale,
+
+        'vType' : myBase.vType,
+        'prpDefault' : myBase.prpDefault,
+        'prpChoices' : myBase.prpChoices,
+        'isSensitive' : myBase.isSensitive, 
         
-        'smOwningUser' : reg.smOwningUser,
-        'smCreatedBy' : reg.smCreatedBy
+        'description' : myBase.description, 
+        
+        'smOwningUser' : myBase.smOwningUser,
+        'smCreatedBy' : myBase.smCreatedBy
     }
 
     
     # Crea los PropertyModel correspondientes  
-    if ( propBase is None ) and ( reg._meta.object_name == 'Property' ):
-        pName = reg.entity.code + '.' + reg.code
-        pMod=modelBase.objects.get_or_create(model=reg.entity.model,code=pName,smOwningTeam=reg.smOwningTeam,defaults=defValues)[0]
-        reg.propertyModel = pMod 
+    if ( propBase is None ) and ( myBase._meta.object_name in ['Property', 'Relationship'] ):
+        
+        pName = myBase.entity.code + '.' + myBase.code
+        if myBase.isForeign: 
+            defValues['conceptType'] = 'ref'
+            if myBase._meta.object_name == 'Property':
+                pName = myBase.relationship.refEntity.code + '.pk'
+            if myBase._meta.object_name == 'Relationship':  
+                pName = myBase.refEntity.code + '.pk'
+
+        pMod=modelBase.objects.get_or_create(model=myBase.entity.model,code=pName,smOwningTeam=myBase.smOwningTeam,defaults=defValues)[0]
+        myBase.propertyModel = pMod 
 
     # Se asegura q sea heredable  y actualiza los Property asociados    
     if inherit == True :
         del defValues['smOwningUser']
         del defValues['smCreatedBy'] 
-        defValues['smModifiedBy'] = reg.smModifiedBy
+        defValues['smModifiedBy'] = myBase.smModifiedBy
                             
-        #if reg._meta.object_name == 'PropertyModel' : 
-        reg.property_set.update( **defValues )
+        #if myBase._meta.object_name == 'PropertyModel' : 
+        myBase.property_set.update( **defValues )
 
 
 def twoWayPropEquivalence( propEquiv, modelBase, deleted ):

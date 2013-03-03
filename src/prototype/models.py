@@ -294,8 +294,9 @@ class PropertyModel(PropertyBase):
     * pero el primer paso en podria implicar la definicion semantica de propiedades por modelo, 
     
     """
-    model = models.ForeignKey('Model' )
+    model = models.ForeignKey('Model', blank = False, null = False )
     inherit = models.BooleanField( default = False )
+    conceptType = models.CharField( blank = True, null = True, max_length=50, editable=False )
 
     def __unicode__(self):
         return self.model.code + '.' +  self.code

@@ -367,14 +367,14 @@ def explode(s):
 
 def findBrackets( aString ):
     # busca el primer paraentesis 
-   if '(' in aString:
-      match = aString.split('(',1)[1]
-      open = 1
-      for index in xrange(len(match)):
-         if match[index] in '()':
-            open = (open + 1) if match[index] == '(' else (open - 1)
-         if not open:
-            return match[:index]    
+    if '(' in aString:
+        match = aString.split('(',1)[1]
+        openB = 1
+        for index in xrange(len(match)):
+            if match[index] in '()':
+                openB = (openB + 1) if match[index] == '(' else (openB - 1)
+            if not openB:
+                return match[:index]    
 
 
 # ------------  Alternativas para la evaluacion de parametros en ud funciones
@@ -473,4 +473,41 @@ def findBrackets( aString ):
 #  return r[0]
 #
 #if __name__ == "__main__":
-#  sys.exit(main(sys.argv[1:]))         
+#  sys.exit(main(sys.argv[1:]))
+
+
+
+#import re
+from unicodedata import normalize
+
+_punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.:]+')
+
+def slugify(text, delim=u'-'):
+    """Generates an slightly worse ASCII-only slug.
+       Normaliza los nombres para usarlos como codigos
+       uso:  slugify(u'My International Text: åäö', delim='_')
+    """
+    result = []
+    for word in _punct_re.split(text.lower()):
+        word = normalize('NFKD', word).encode('ascii', 'ignore')
+        if word:
+            result.append(word)
+    
+    rText = unicode(delim.join(result)).replace( '--', '-')
+     
+    return rText 
+
+# #  Alternativa ----------------------------------
+#    # encoding: utf-8
+#    from unicodedata import normalize
+#    import re
+#    
+#    original = u'ľ š č ť ž ý á í é'
+#    decomposed = normalize("NFKD", original)
+#    no_accent = ''.join(c for c in decomposed if ord(c)<0x7f)
+#    no_spaces = re.sub(r'\s', '_', no_accent)
+#    
+#    print no_spaces
+#    # output: l_s_c_t_z_y_a_i_e
+
+

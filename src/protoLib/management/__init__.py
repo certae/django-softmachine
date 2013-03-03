@@ -12,11 +12,10 @@ def addProtoPermissions(sender, **kwargs):
         # build our permission slug
 
         codename = "menu_%s" % content_type.model
-        print "Added permission %s" % codename 
-
         name = name="Can see on menu %s" % content_type.name
         if not Permission.objects.filter(content_type=content_type, codename=codename):
             Permission.objects.create(content_type=content_type, codename=codename, name = name )
+            print "Added permission %s" % codename 
 
         codename = "list_%s" % content_type.model
         name = name="Can list %s" % content_type.name

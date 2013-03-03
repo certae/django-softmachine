@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from protoLib.utilsBase import stripAccents
+import django.utils.simplejson as json
+
 from viewTemplate import baseDefinition
-from prototype.models import Entity
+from prototype.models import Entity,  ProtoView
+
+from protoLib.models import CustomDefinition
+from protoLib.protoActionEdit import setSecurityInfo 
+from protoLib.utilsBase import JSONEncoder, slugify
+from protoLib.protoAuth import getUserProfile
 
 PROTO_PREFIX = "prototype.ProtoTable."
 
@@ -20,7 +26,7 @@ def getViewDefinition( pEntity, viewTitle  ):
 
     for pProperty in pEntity.propertySet.all():
 
-        fName  = stripAccents( 'info__' + pProperty.code ) 
+        fName  = slugify( 'info__' + pProperty.code ) 
         field = property2Field( fName, pProperty.__dict__ )
 
         if pProperty.isForeign: 
@@ -49,7 +55,7 @@ def getViewDefinition( pEntity, viewTitle  ):
         "sortable": True,
         "name": "__str__",
         "fkId": "id",
-        "zoomModel": PROTO_PREFIX + stripAccents( viewTitle  ),
+        "zoomModel": PROTO_PREFIX + slugify( viewTitle  ),
         "cellLink": True,
         "header": viewTitle,
         "readOnly": True,
@@ -66,7 +72,7 @@ def getViewDefinition( pEntity, viewTitle  ):
 def getViewCode( pEntity, viewTitle = None ):
 
     if viewTitle is None: viewTitle = pEntity.code
-    return stripAccents( pEntity.model.code + '-' + viewTitle )
+    return slugify( pEntity.model.code + '-' + viewTitle )
 
 
 def property2Field( fName, propDict, infoField = False, fBase = '' ):
@@ -140,7 +146,7 @@ def addProtoFiedToList( fieldList,  pEntity , fieldBase, zoomName   ):
 
     for pProperty in pEntity.propertySet.all():
 
-        fName  = stripAccents( 'info__' + pProperty.code ) 
+        fName  = slugify( 'info__' + pProperty.code ) 
 
         field = property2Field( fName, pProperty.__dict__ , True,  fieldBase  )
 
@@ -164,7 +170,7 @@ def addProtoFiedToList( fieldList,  pEntity , fieldBase, zoomName   ):
             field["type"]     = "foreigntext"
 
             fkFieldList= []
-            addProtoFiedToList( fkFieldList, zoomEntity, fName, stripAccents( zoomEntity.code ) )
+            addProtoFiedToList( fkFieldList, zoomEntity, fName, slugify( zoomEntity.code ) )
 
             field["leaf"] = False 
             field["children"] = fkFieldList
@@ -195,13 +201,13 @@ def GetDetailsConfigTree( protoEntityId ):
     for pDetail in pEntity.fKeysRefSet.all():
         
         detail =  {
-            "detailField": "info__" + stripAccents( pDetail.code ) + "_id",
+            "detailField": "info__" + slugify( pDetail.code ) + "_id",
             "conceptDetail": PROTO_PREFIX + getViewCode( pDetail.entity  ),
-            "detailName": stripAccents( pDetail.entity.code ),
+            "detailName": slugify( pDetail.entity.code ),
             "menuText": pDetail.entity.code ,
             "masterField": "pk", 
             
-            "id" : stripAccents( pDetail.entity.code ) ,  
+            "id" : slugify( pDetail.entity.code ) ,  
             "leaf" : True 
         }
 
@@ -210,4 +216,49 @@ def GetDetailsConfigTree( protoEntityId ):
         lDetails.append( detail ) 
                 
     return lDetails 
+    
+    
+
+def getEntities( queryset , request, viewTitle  ):
+    """ Recorre las entidades para generar las vistas en bache por modelo """
+
+    userProfile = getUserProfile( request.user, 'prototype', '' ) 
+    returnMsg = '' 
+
+#   Recorre los registros selccionados   
+    for pEntity in queryset:
+        returnMsg += pEntity.code  + ','    
+        createView(  pEntity , getViewCode( pEntity, viewTitle ) , userProfile )
+
+    return returnMsg
+
+
+def createView( pEntity, viewTitle, userProfile ):
+
+    viewName    = slugify( viewTitle )
+    infoEntity  = getViewDefinition( pEntity , viewTitle  )
+
+    # Debe corresponder al viewCodegenerado en el template ( infoEntity[viewCode] ) 
+    viewCode = PROTO_PREFIX + viewName
+    
+    try:
+        rec = CustomDefinition.objects.get(code = viewCode, smOwningTeam = userProfile.userTeam )
+        created = False 
+    except CustomDefinition.DoesNotExist:
+        created = True 
+        rec = CustomDefinition( code = viewCode )
+    
+    rec.metaDefinition = json.dumps( infoEntity, cls=JSONEncoder ) 
+    rec.description = infoEntity['description'] 
+    rec.active = True 
+    
+    setSecurityInfo( rec, {}, userProfile, created   )
+    rec.save()
+
+    # Crea el ProtoView ( mismo nombre q la vista : necesario para los zooms y los detalles automaticos  ) 
+    ProtoView.objects.get_or_create( entity = pEntity, code = viewName, smOwningTeam = userProfile.userTeam )
+
+
+# ----
+   
     
