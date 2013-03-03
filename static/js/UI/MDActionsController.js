@@ -66,12 +66,12 @@ Ext.define('ProtoUL.UI.MDActionsController', {
             // actionParams 
             pAction.actionParams = _SM.verifyList( pAction.actionParams )
             if ( pAction.actionParams.length == 0 ) {
-                this.doAction( me, pGrid.viewCode, btn.actionName , selectedKeys, [] )
+                this.doAction( me, pGrid.viewCode, btn.actionDef , selectedKeys, [] )
             } else {  
                 var myOptions = {
                     scope : me,
                     acceptFn : function( parameters) {
-                        this.doAction( me, pGrid.viewCode, btn.actionName , selectedKeys, parameters )
+                        this.doAction( me, pGrid.viewCode, btn.actionDef , selectedKeys, parameters )
                     }
                 }
                 
@@ -87,25 +87,24 @@ Ext.define('ProtoUL.UI.MDActionsController', {
         
     }, 
 
-    doAction: function ( me, viewCode, actionName , selectedKeys, parameters ) {
+    doAction: function ( me, viewCode, actionDef , selectedKeys, parameters ) {
 
         var options = {
             scope : me,
             success : function(result, request) {
                 var myResult = Ext.decode( result.responseText );
-                _SM.__StBar.showMessage( actionName + ' ' +  myResult.message , 'MDActionsController', 3000 )
+                _SM.__StBar.showMessage( actionDef.actionName + ' ' +  myResult.message , 'MDActionsController', 3000 )
 
-                //TODO: "refreshOnComplete"
-
+                if ( myResult.success && actionDef.refreshOnComplete )  this.__MasterDetail.mdGridReload()
             }, 
             failure: function(result, request) {
-                _SM.__StBar.showError( actionName + ' ' +  result.statusText , 'MDActionsController' )
+                _SM.__StBar.showError( actionDef.actionName + ' ' +  result.statusText , 'MDActionsController' )
 
             }
         }
         
-        _SM.__StBar.showMessage( 'executing  ' + actionName + '...', 'MDActionsController' )
-        _SM.doProtoActions( viewCode, actionName, selectedKeys, parameters, options )
+        _SM.__StBar.showMessage( 'executing  ' + actionDef.actionName + '...', 'MDActionsController' )
+        _SM.doProtoActions( viewCode, actionDef.actionName, selectedKeys, parameters, options )
         
     }
     

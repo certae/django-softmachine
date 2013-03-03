@@ -311,11 +311,33 @@ class PropertyModel(PropertyBase):
         super(PropertyModel, self).save(*args, **kwargs) 
         
     protoExt = { 
-        "menuApp" : "dictionary", 
-        "gridConfig" : {
-            "listDisplay": ["__str__", "description", "inherit", "smOwningTeam"]      
-        }
+    "menuApp" : "dictionary", 
+    "actions": [
+        { "name": "doPropertyModelJoin", 
+          "selectionMode" : "multiple",  
+          "refreshOnComplete" : True
+        },
+    ],
+    "gridConfig" : {
+        "listDisplay": ["__str__", "description", "inherit", "conceptType", "smOwningTeam"]      
+    }, 
+
+    "detailsConfig": [{
+        "menuText": "Properties",
+        "conceptDetail": "prototype.Property",
+        "detailName": "propertyModel",
+        "detailField": "propertyModel__pk",
+        "masterField": "pk"
+    }, {
+        "menuText": "Equivalences",
+        "conceptDetail": "prototype.PropertyEquivalence",
+        "detailName": "sourceProperty",
+        "detailField": "sourceProperty__pk",
+        "masterField": "pk"
+    }],
+                
     } 
+    
 
 def propModel_post_delete(sender, instance, **kwargs):
     # En el postSave ya el registro de hijos no existe, 

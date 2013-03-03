@@ -8,26 +8,39 @@ from models import PropertyModel, PropertyEquivalence
 from models import Diagram #, DiagramEntity
 from models import Service #, ServiceRef
 
-
-from actions import doModelPrototype, doEntityPrototype
-
 from django.contrib import admin
 
+
+# -----------------------------------------   Model  
+from actions import doModelPrototype
 
 class MyModelAdmin( admin.ModelAdmin ):
     actions = [ doModelPrototype  ]
 
+admin.site.register(Model, MyModelAdmin)
+
+# ------------------------------------------  Entity
+from actions import  doEntityPrototype
+
 class MyEntityAdmin( admin.ModelAdmin ):
     actions = [ doEntityPrototype  ]
 
-admin.site.register(Project )
-
-admin.site.register(Model, MyModelAdmin)
 admin.site.register(Entity, MyEntityAdmin )
 
+# ------------------------------------------  PropertyModel
 
+from actions import doPropertyModelJoin 
+
+class MyPropertyModelAdmin( admin.ModelAdmin ):
+    actions = [ doPropertyModelJoin  ]
+
+admin.site.register(PropertyModel, MyPropertyModelAdmin )
+
+# ------------------------------------------
+
+
+admin.site.register(Project )
 admin.site.register(Property )
-admin.site.register(PropertyModel )
 admin.site.register(PropertyEquivalence )
 
 #admin.site.register(Relationship )

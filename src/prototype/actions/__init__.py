@@ -11,8 +11,8 @@ def doModelPrototype( modeladmin, request, queryset, parameters):
 
 #   El QSet viene con la lista de Ids  
     if queryset.count() == 0:
-        return 'No record selected' 
-
+        return  {'success':False, 'message' : 'No record selected' }
+        
 #   Mensaje de retorno
     returnMsg = '' 
 
@@ -21,26 +21,22 @@ def doModelPrototype( modeladmin, request, queryset, parameters):
         returnTmp = getEntities( pModel.entity_set.all() , request , None  )
         returnMsg += 'Model : ' + pModel.code + ' Entts: ' + returnTmp + '; '    
 
-    return returnMsg
+    return {'success':True, 'message' : returnMsg } 
 
-doModelPrototype.short_description = "Create prototypes for the model"
-doModelPrototype.selectionMode = "multiple"
 
 
 def doEntityPrototype( modeladmin, request, queryset, parameters ):
 
 #   El QSet viene con la lista de Ids  
     if queryset.count() != 1:
-        return 'No record selected' 
+        return  {'success':False, 'message' : 'No record selected' }
 
     if len( parameters ) != 1: 
-        return 'ViewName required!!'         
+        return  {'success':False, 'message' : 'ViewName required!!' }
 
 #   Recorre los registros selccionados   
-    returnTmp = getEntities( queryset , request, parameters[0]['value']  )
-    return ' Entt: ' + returnTmp
-    
-
+    returnTmp = 'Entt: ' + getEntities( queryset , request, parameters[0]['value']  )
+    return {'success':True, 'message' :  returnTmp } 
 
 # --------------------------------------------------------------------------------
 
@@ -51,13 +47,6 @@ def doPropertyModelJoin( modeladmin, request, queryset, parameters):
 
 #   El QSet viene con la lista de Ids  
     if queryset.count() < 2:
-        return 'Multiple selection required' 
+        return  {'success':False, 'message' : 'Multiple selection required'}
 
-    if len( parameters ) != 1: 
-        return 'New PropertyModel Name is required!!'         
-
-    return doPropModelJoin ( queryset, parameters[0]['value']  )
-
-doPropertyModelJoin.short_description = "Join PropModel"
-doPropertyModelJoin.selectionMode = "multiple"
-    
+    return doPropModelJoin ( queryset )

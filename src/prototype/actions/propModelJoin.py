@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from prototype.models import PropertyModel 
+from datetime import datetime
 
 def doPropModelJoin( queryset ):
 
@@ -12,25 +13,32 @@ def doPropModelJoin( queryset ):
     de todas formas se puede establecer equivalencias entre proModel 
     """ 
     myBase = None 
+    sAux = ''
     
     # Verifica si todos son del mismo modelo y del mismo tipo    
     for propModel in queryset:
+        if propModel.conceptType == 'ref':
+            sAux = 'References are not machable :' +  propModel.code
+            return {'success':False , 'message' : sAux } 
+
+        sAux += '-' + propModel.code
+
         if myBase is None: 
             myBase = propModel 
             continue 
-
-        if propModel.conceptType == 'ref':
-            return 'References are not machable :' +  propModel.code
          
         if myBase.model.code != propModel.model.code:
-            return 'model mistMach :' + myBase.model.code + '-' + propModel.model.code 
+            sAux = 'model mistMach :' + myBase.model.code + '-' + propModel.model.code 
+            return {'success':False , 'message' : sAux } 
 
-            
 
     # Crea el nuevo propModel
-    # TODO: Implementar la seguridad real, esta copiando del registro base 
+    # TODO: Implementar la seguridad real, esta copiando del registro base
+    
+    if len( sAux ) > 40: sAux = sAux[:40] + str( datetime.now() ) 
+     
     defValues = {
-        'code' : myBase.code, 
+        'code' : sAux[1:], 
         'model' : myBase.model, 
 
         'baseType' : myBase.baseType, 
@@ -44,6 +52,7 @@ def doPropModelJoin( queryset ):
          
         'description' : myBase.description, 
 
+        'smOwningTeam' : myBase.smOwningTeam,
         'smOwningUser' : myBase.smOwningUser,
         'smCreatedBy'  : myBase.smCreatedBy,
 
@@ -56,15 +65,14 @@ def doPropModelJoin( queryset ):
     }
     
     myBase = PropertyModel( **defValues )
+    myBase.save()
     
     # Actualiza las Property dependeientes
-    returnMsg = ''
     for propModel in queryset:
         propModel.property_set.update(propertyModel= myBase  )
-        returnMsg +=  ' ' + propModel.code    
+        sAux +=  ' ' + propModel.code    
 
-    
     # Borra las propModels
     queryset.delete()
 
-    return returnMsg
+    return {'success':True , 'message' : sAux } 

@@ -178,6 +178,9 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         
     }, 
     
+    mdGridReload: function () { 
+        this.protoMasterGrid.reload()
+    },
 
     mdGridLoadData: function ( sFilter , sorter) { 
         // Refresh 

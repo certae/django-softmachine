@@ -47,8 +47,8 @@ def protoExecuteAction(request):
     Qs = Qs.filter( pk__in = selectedKeys  )
 
     try:
-        returnMsg  = action( modelAdmin, request, Qs , parameters )
-        return doReturn ({'success':True, 'message' : returnMsg }) 
+        returnObj  = action( modelAdmin, request, Qs , parameters )
+        return doReturn ( returnObj ) 
 
     except Exception as e:
         return doReturn ({'success':False, 'message' : str( e ) }) 

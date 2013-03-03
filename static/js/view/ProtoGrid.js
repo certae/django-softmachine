@@ -592,6 +592,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         this.store.sync();
         if ( autoSync != undefined )  this.store.autoSync = autoSync  
     }, 
+
+    reload: function() {
+        this.store.load(); 
+    }, 
     
     cancelChanges: function() {
         this.store.load(); 
