@@ -1,37 +1,30 @@
 To Do:  
 
-	en menu recorrer directamente los modelos 
 
-	Grid 
-		permitir agregar el check como un campo mas
-
-	propertyModel
-		implemtar la herencia de zoom en Property.propertyMod
-		proc para union de campos 
-
-		Ok onDelete generar el nuevo campo
-		Ok onDelete en Eqivalences 
+	prototipos 
+		intialsort en los prototipos 
+		secuencias para manejar los autonum 
 
 	Actions
 		permsiso por accion 
 
-	prototipos 
-		limpiar el nombre de los campos de espacios y '@#$"'
-		intialsort en los prototipos 
-		secuencias para manejar los autonum 
+	Pruebas 
+		Procedimiento automatico para cargar y descargar datos de prueba,  invocados desde el menu 
+
+	Proyecto de test 
+		generar proyecto de pruebas en Django y en Ext 
+
+	Exportar CSV
 
 	Seguridad ------------------
 		diferentes niveles ( usuario, grupo, all )
 		permisios a nivel de campo
 		verificar permisos en el guardado de objetos de conf 
 
-
-		probar con un ToDo Por usuario
-			por ahora una pcl q se invoque desde statusbar 
+		probar con un ToDo Por usuario en una pcl q se invoque desde statusbar 
 
 	----------------------------------
 	
-
 	pasar la meta a python 
 	editer les languajes 
 
@@ -40,11 +33,6 @@ To Do:
 
 	
 	Canvas ( modelo grafico  ver  doc.Extjs.canvas )
-
-	
-	ordenamiento en la grilla 
-
-
 
 	Verifcar por q algunos htmlset no quedan readOnly
 
@@ -60,9 +48,8 @@ Prototipo
 	copiar modelos completos para simular versiones 
 
 
-
 ----
-parametrizacion de displaylust para el zoom y los detalles 
+parametrizacion de displaylist para el zoom y los detalles 
 
 Organizador 
     Proyecto de agenda,  q puede convertise en un admin de proyectos 
@@ -87,10 +74,7 @@ Discretas
     
 Icono
     GetMenu debe traer el icono tambien de la definicion guardada si existe,  ahora lo trae solamente de la metadirecta 
-    
-Detalles, 
-    la llave del detalle no permite actalmente montar dos referencias a partir de la misma tabla ( maestro1, maestro2 )
-    redefinir la llave.  
+
     
 DiplaySet 
     q puede contener tambien un set  HiddenFields, ReadOnlyFields,  Los titulos y el resto de la 
@@ -103,7 +87,6 @@ Detalles - DisplaySet
 forma 
     Revisar el beforeDrop para limitar los contenedores de cada elto 
     La edicion en forma considera los detalles en una sola transaccion,  ver la definicion del doc automatico  
-
      
 Zoom 
 	@ZoomModel 	
@@ -145,7 +128,8 @@ Tablero de control  ( cubos )
 
 
 Manejo de edicion condicional segun datos
-// Parametros: una coleccion ( CampoCriterio, Condicion, Lista de campos habilidatos ) 
+-----------------------------------------
+   Parametros: una coleccion ( CampoCriterio, Condicion, Lista de campos habilidatos ) 
 // if (e.record.get('status') == "0")
     // grid.getPlugin('rowEditing').editor.form.findField('xx').disable();
 // else 
@@ -163,7 +147,6 @@ Manejo de edicion condicional segun datos
     y en la pagina se maneja el onready windows.print  de js 
 
 
-
     Criterios 
 ----------------
     En la barra de criterios agregar un boton Add, este boton solo creara nuevos elementos que se 
@@ -177,7 +160,6 @@ Manejo de edicion condicional segun datos
 
 ---
 
-    Login y manejo de edicion, autorizaciones 
 
     Copiar del admin producto a la comunidad Django 
     
@@ -200,3 +182,10 @@ Manejo de edicion condicional segun datos
 	Manejar los modelos tambien dinamicamente Db
 	Independizar las DB 	
 
+
+	en menu recorrer directamente los modelos 
+
+
+-----------------------------------------
+
+ 

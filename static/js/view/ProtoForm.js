@@ -328,6 +328,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
     
     updateZoomReturn: function (  zoomFld  ) {
 
+        // El problema es en q momento se dispara, 
+        // hay q capturar un evento para cerrar la ventana de zoom
         // verifica si esta definido y lo define a necesidad 
         if ( ! this.zoomReturnDef  ) {
 

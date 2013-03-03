@@ -1,16 +1,34 @@
 Log : 
 
-    prototipos 
+    propertyModel
+        implemtar la herencia de zoom en Property.propertyMod
+        proc para union de campos 
 
+        Ok onDelete generar el nuevo campo
+        Ok onDelete en Eqivalences 
+
+    Grid 
+        permitir agregar el check como un campo mas
+
+    prototipos 
+        limpiar el nombre de los campos de espacios y '@#$"'
         __str___   ( evaluar una funcion )
         typos de datos  ( string por default )
         choices 
         vrDefault 
         type Money ( representacion )
-
+        ordenamiento en la grilla 
 
         mensajes de advertencia en la generacion de los prototios  
 
+-----------
+
+    
+Detalles, 
+    la llave del detalle no permite actalmente montar dos referencias a partir de la misma tabla ( maestro1, maestro2 )
+    redefinir la llave.  
+
+Login y manejo de edicion, autorizaciones 
 
 -----------
 
