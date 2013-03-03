@@ -119,16 +119,17 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         // gridColumns: Es un subconjuto para poder manejar diferentes conf de columnas
         // tiene en cuenta siel usuario  definio su vist por defecto la carga 
-        var gridColumns  
-        if ( myMeta.custom.listDisplay.length > 0  ) {
-            gridColumns = this.getViewColumns( myMeta.custom.listDisplay , 'default')
-        } else { gridColumns = this.getViewColumns( myMeta.gridConfig.listDisplay , 'default' )
-        } 
+        var gridColumns,
+            tabConfig  
+
+        tabConfig = _SM.defineTabConfig(  myMeta.gridConfig  )          
+        if ( myMeta.custom.listDisplay.length > 0  ) tabConfig.listDispay = myMeta.custom.listDisplay             
+        gridColumns = this.getViewColumns( tabConfig )
         
         // Manejo de seleccion multiple 
         this.selModel = Ext.create('Ext.selection.CheckboxModel', {
-                checkOnly: true,
-                injectCheckbox: 'last' 
+            injectCheckbox: 'last', 
+            mode : myMeta.gridConfig.gridSelectionMode || 'multi' 
         });    
 
         this.editable = false; 
@@ -223,7 +224,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         this._extGrid = grid;
         this.setGridTitle( this ) ;
-
 
 // ---- GridControllers
 
@@ -377,6 +377,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                     }         
                     e.record.data[ idIndex ] = zoom.zoomRecord.data.id
                 }
+            // }, scope: me }, 
+            // afterrender: {fn: function( grid, eOpts) {
+                // this.setChekSelection( this, this.myMeta.gridConfig )
             }, scope: me } 
 
         });         
@@ -408,6 +411,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             me.colDictDefinition[ '___numberCol' ]  = gCol ;
 
         }
+
         
          
     },
@@ -417,9 +421,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         if ( this.IdeSheet ) { this.sheetCrl.prepareSheet(); }
     }, 
 
-
-
-    
     getSelectedIds: function() {
         // Lista de registros seleccionados ( id )
 
@@ -435,58 +436,73 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         return selectedIds
     }, 
     
-    getViewColumns: function (  viewCols, tabName  ) {
+    getViewColumns: function (  tabConfig  ) {
 
         // guarda la confAnterior 
-        if ( this.colSetName == tabName ) {
-            return this.colSetDefinition
-        } 
+        if ( this.colSetName == tabConfig.name ) return this.colSetDefinition
         
         // Lo inicia para volver a crearlo
-        this.colSetName = tabName  
+        this.colSetName = tabConfig.name  
         this.colSetDefinition= [];
         
-        var gCol 
+        var gCol, dataIndex 
                 
         // Adding RowNumberer  
-        if (( ! this.myMeta.gridConfig.hideRowNumbers ) && ( 'grid' == this.myMeta.pciStyle || 'grid' )) {
+        if ( ! tabConfig.hideRowNumbers )  {
             gCol  = this.colDictDefinition[ '___numberCol' ]
             this.colSetDefinition.push( gCol );
         }; 
 
-        for (var ixV in viewCols  ) {
-            var dataIndex = viewCols[ ixV ]
-            var gCol = this.colDictDefinition[ dataIndex ] 
+        for (var ixV in tabConfig.listDisplay  ) {
+            dataIndex = tabConfig.listDisplay[ ixV ]
+            gCol = this.colDictDefinition[ dataIndex ] 
             if ( gCol ) {  this.colSetDefinition.push( gCol ) }
         }
         
         return this.colSetDefinition
     },
     
-    configureColumns: function (  viewCols, tabName  ) {
+    configureColumns: function ( tabConfig ) {
 
-        var vColumns = this.getViewColumns( viewCols, tabName )
+        // guarda la confAnterior 
+        if ( this.colSetName == tabConfig.name ) return this.colSetDefinition
+
+        var vColumns = this.getViewColumns( tabConfig )
         
         // para corregir un error ( foros Ext )  
         this._extGrid.view.refresh();
 
         // Configurar columnas de la grilla 
         // Primero se borran todos exepto el check ( en vez de removeAll() )
-        var hCt = this._extGrid.headerCt 
-        var removeItems = hCt.items.items.slice(),
+        var hCt = this._extGrid.headerCt,  
+            removeItems = hCt.items.items.slice(),
             i = 0,
             len = removeItems.length -1,
             item;
 
-        hCt.suspendLayouts();
+        this.suspendLayouts();
         for (; i < len; i++) {
             item = removeItems[i];
             hCt.remove(item, true);
         }
+
         hCt.add( 0, vColumns );
-        hCt.resumeLayouts(!!len);
+        
+        // this.setChekSelection( this, tabConfig )
+        this.resumeLayouts( true );
         
         this._extGrid.view.refresh();
+
+    }, 
+
+    setChekSelection : function( me, tabConfig ) { 
+        // Hace visible o no checkColumn ( siempre es la ultima )
+        var hCt = me._extGrid.headerCt, 
+            ix = hCt.items.items.length -1
+        
+        if ( !! tabConfig.hideCheckSelect ) {
+            hCt.items.items[ix].hide()
+        } else { hCt.items.items[ix].show() }
 
     }, 
     

@@ -87,6 +87,9 @@ _MetaProperties =  {
     "pciStyle.help" : "Presentacion de la pci [ form,  grid, tree]", 
     "pciStyle.choices": ["grid", "form", "tree"],
 
+    "gridSelectionMode.choices": ["multi", "simple", "single" ], 
+    "gridSelectionMode.help":  "multi*: multiple selection con check o control; simple: selection on/off ; single: solo ultimo seleccionado", 
+
     "denyAutoPrint.type" : "boolean", 
     "denyAutoPrint.help" : "Impide la impresion automatica de la grilla", 
 

@@ -328,8 +328,8 @@ _MetaObjects =  {
         "description": "Propiedades de configuracion de la grilla",
         "properties": [ 
             'hideRowNumbers', 
-            'hideCheckSelect', 
-            // 'multiSelect', 
+            // 'hideCheckSelect', 
+            'gridSelectionMode', 
             // "exportCsv",  
             'hideSheet', 
             'denyAutoPrint', 
@@ -500,7 +500,7 @@ _MetaObjects =  {
         "properties": [
             "name", 
             'hideRowNumbers', 
-            'hideCheckSelect', 
+            // 'hideCheckSelect', 
             "description" 
         ], 
         "lists" : [
