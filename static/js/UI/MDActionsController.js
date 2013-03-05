@@ -18,9 +18,10 @@ Ext.define('ProtoUL.UI.MDActionsController', {
 
         for (var ix in this.myMeta.actions  ) {       
             var pProtoAction = this.myMeta.actions[ ix ]
+            pProtoAction.menuText = pProtoAction.menuText || pProtoAction.name
             myProtoActions.push (
                 new Ext.Action({
-                    text:           pProtoAction.menuText || pProtoAction.name,
+                    text:           pProtoAction.menuText,
                     actionName:     pProtoAction.name,
                     iconCls :       pProtoAction.viewIcon, 
                     tooltip:        pProtoAction.description,
@@ -93,18 +94,18 @@ Ext.define('ProtoUL.UI.MDActionsController', {
             scope : me,
             success : function(result, request) {
                 var myResult = Ext.decode( result.responseText );
-                _SM.__StBar.showMessage( actionDef.actionName + ' ' +  myResult.message , 'MDActionsController', 3000 )
+                _SM.__StBar.showMessage( actionDef.menuText + ' ' +  myResult.message , 'MDActionsController', 3000 )
 
                 if ( myResult.success && actionDef.refreshOnComplete )  this.__MasterDetail.mdGridReload()
             }, 
             failure: function(result, request) {
-                _SM.__StBar.showError( actionDef.actionName + ' ' +  result.statusText , 'MDActionsController' )
+                _SM.__StBar.showError( actionDef.menuText + ' ' +  result.statusText , 'MDActionsController' )
 
             }
         }
         
-        _SM.__StBar.showMessage( 'executing  ' + actionDef.actionName + '...', 'MDActionsController' )
-        _SM.doProtoActions( viewCode, actionDef.actionName, selectedKeys, parameters, options )
+        _SM.__StBar.showMessage( 'executing  ' + actionDef.menuText + '...', 'MDActionsController' )
+        _SM.doProtoActions( viewCode, actionDef.menuText, selectedKeys, parameters, options )
         
     }
     
