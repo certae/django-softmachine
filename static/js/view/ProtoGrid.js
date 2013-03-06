@@ -123,7 +123,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             tabConfig  
 
         tabConfig = _SM.defineTabConfig(  myMeta.gridConfig  )          
-        if ( myMeta.custom.listDisplay.length > 0  ) tabConfig.listDispay = myMeta.custom.listDisplay             
+        if ( myMeta.custom.listDisplay.length > 0  ) { 
+            tabConfig.listDisplay = myMeta.custom.listDisplay             
+        }
         gridColumns = this.getViewColumns( tabConfig )
         
         // Manejo de seleccion multiple 

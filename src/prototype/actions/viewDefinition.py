@@ -26,7 +26,7 @@ def getViewDefinition( pEntity, viewTitle  ):
 
     for pProperty in pEntity.propertySet.all():
 
-        fName  = slugify( 'info__' + pProperty.code ) 
+        fName  = 'info__' + slugify( pProperty.code ) 
         field = property2Field( fName, pProperty.__dict__ )
 
         if pProperty.isForeign: 
@@ -39,7 +39,7 @@ def getViewDefinition( pEntity, viewTitle  ):
         infoEntity['fields'].append( field )
 
         # hace las veces de __str__ 
-        if pProperty.isUnique or pProperty.isPrimary:
+        if pProperty.isPrimary or pProperty.isLookUpResult:
             __str__Base.append( fName )
 
         elif  pProperty.isEssential : 
@@ -146,7 +146,7 @@ def addProtoFiedToList( fieldList,  pEntity , fieldBase, zoomName   ):
 
     for pProperty in pEntity.propertySet.all():
 
-        fName  = slugify( 'info__' + pProperty.code ) 
+        fName  = 'info__' + slugify( pProperty.code ) 
 
         field = property2Field( fName, pProperty.__dict__ , True,  fieldBase  )
 

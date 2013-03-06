@@ -189,9 +189,9 @@ class Property(PropertyBase):
     propertyModel = models.ForeignKey('PropertyModel', blank = True, null = True, on_delete=models.SET_NULL )
 
     # -----------  caracteristicas propias de la instancia
-    """isPrimary : en el prototipo siempre es artificial, implica isUnique """  
+    """isPrimary : en el prototipo siempre es artificial, implica isLookUpResult"""  
     isPrimary = models.BooleanField()
-    isUnique = models.BooleanField()
+    isLookUpResult = models.BooleanField()
 
     """isNullable: tiene q ver con la Db"""    
     isNullable = models.BooleanField()
@@ -202,12 +202,12 @@ class Property(PropertyBase):
     """isReadOnly: ReadOnly field ( frontEnd"""
     isReadOnly = models.BooleanField()
 
+
     """isEssential: Indica si las propiedades saldran en la vista por defecto """ 
     isEssential = models.BooleanField()
 
     """isForeign: indica si la propiedad ha sido definida en  Relationship"""
     isForeign = models.BooleanField( editable = False, default = False )
-
 
     """cpFrom____ : permite definir como heredar campos complejos (absorber JsonFields)
     ** Ya no se usan pues aqui solo se mapean las entidades fisicas, 
@@ -222,6 +222,10 @@ class Property(PropertyBase):
     #secuence = models.IntegerField(blank = True, null = True,)
 
     def save(self, *args, **kwargs ):
+        if self.isPrimary: 
+            self.isRequired = True
+            self.isLookUpResult = True 
+  
         updatePropInfo( self,  self.propertyModel, PropertyModel, False )
         super(Property, self).save(*args, **kwargs) 
 

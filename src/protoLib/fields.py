@@ -105,6 +105,12 @@ class JSONAwareQuerySet(models.query.QuerySet):
         
     def count(self):
         return super(JSONAwareQuerySet, self).count()
+
+    def all(self):
+        return self
+
+    def order_by(self, *args, **kwargs):
+        return self
     
     def _clone(self, *args, **kwargs):
         clone = super(JSONAwareQuerySet, self)._clone(*args, **kwargs)

@@ -55,7 +55,7 @@ _SM._HELPpath = '/resources/help/index.html'
 
 
 // Collection of PCL's ( Proto Concept Definition )  
-_SM._cllPCI = [];
+_SM._cllPCI = {};
 
 
 // Define los tipos para el manejo de edicion  (type => xtype)

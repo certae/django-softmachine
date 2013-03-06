@@ -144,7 +144,7 @@ class importDict():
         intPropertyModel = ( 'prpLength',  )
         
         fdsPropertyConcept = ( 'alias', 'physicalName', 'foreignConcept' )
-        booPropertyConcept = ( 'isNullable', 'isRequired', 'isSensitive', 'isEssential', 'isUnique', 'isForeign')
+        booPropertyConcept = ( 'isNullable', 'isRequired', 'isSensitive', 'isEssential',  'isForeign')
         
         fdsRelationship = ( 'baseConcept', 'code', 'baseMin', 'baseMax', 'refMin', 'refMax', )
 

@@ -480,8 +480,8 @@ def findBrackets( aString ):
 #import re
 from unicodedata import normalize
 
-#_punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.:]+')
-_punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^`{|},.:]+')
+_punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.:]+')
+#_punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^`{|},.:]+')
 
 def slugify(text, delim=u'-'):
     """Generates an slightly worse ASCII-only slug.

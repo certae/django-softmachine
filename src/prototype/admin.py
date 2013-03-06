@@ -41,7 +41,7 @@ admin.site.register(PropertyModel, MyPropertyModelAdmin )
 
 admin.site.register(Project )
 admin.site.register(Property )
-admin.site.register(PropertyEquivalence )
+#admin.site.register(PropertyEquivalence )
 
 #admin.site.register(Relationship )
 admin.site.register( ProtoTable )

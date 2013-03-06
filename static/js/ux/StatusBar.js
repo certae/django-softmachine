@@ -69,7 +69,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
                         iconCls: 'icon-4',  
                         handler: function(){ 
                             _SM.__TabContainer.closeAllTabs() 
-                            _SM._cllPCI = [];
+                            _SM._cllPCI = {};
                             }}
                     ]                 
                 })
