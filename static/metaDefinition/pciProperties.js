@@ -72,6 +72,7 @@ _MetaProperties =  {
 //  Types
     "required.type" : "boolean", 
     "readOnly.type"  : "boolean",
+    "primary.type" : "boolean", 
     
 // PCI
     "viewEntity.help" : "Opcion de base de la pci (apunta directamente al modelo Django  app.modelo)",

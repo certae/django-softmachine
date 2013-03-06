@@ -9,6 +9,8 @@ from protoLib.fields import JSONField,  JSONAwareManager
 from protoRules import  updatePropInfo, twoWayPropEquivalence, updProPropModel
 from protoRules import  ONDELETE_TYPES, BASE_TYPES, CRUD_TYPES
 
+from protoLib.utilsBase import slugify
+
 PROTO_PREFIX = "prototype.ProtoTable."
 
 """
@@ -48,7 +50,7 @@ class Project(ProtoModel):
     description = models.TextField( blank = True, null = True)
 
     def __unicode__(self):
-        return self.code 
+        return slugify( self.code ) 
 
     class Meta:
         unique_together = ( 'code', 'smOwningTeam' )
@@ -82,7 +84,7 @@ class Model(ProtoModel):
     unicode_sort = ('project', 'code',  )
 
     def __unicode__(self):
-        return self.code 
+        return slugify( self.code ) 
     
     protoExt = { 
         "actions": [{ "name": "doModelPrototype" }],        
@@ -106,7 +108,7 @@ class Entity(ProtoModel):
     unicode_sort = ('model', 'code',  )
 
     def __unicode__(self):
-        return self.model.code + '-' + self.code 
+        return slugify( self.model.code + '-' +  self.code ) 
 
     class Meta:
         unique_together = ('model', 'code', 'smOwningTeam' )
@@ -233,7 +235,7 @@ class Property(PropertyBase):
         unique_together = ('entity', 'code', 'smOwningTeam' )
 
     def __unicode__(self):
-        return self.entity.code + '.' +  self.code     
+        return slugify( self.entity.code  + '.' +  self.code )      
 
     unicode_sort = ('entity', 'code',  )
 
@@ -267,7 +269,7 @@ class Relationship(Property):
     typeRelation = models.CharField( blank = True, null = True, max_length=50)
 
     def __unicode__(self):
-        return self.entity.code + '.' +  self.code     
+        return slugify( self.entity.code + '.' +  self.code )     
 
     def save(self, *args, **kwargs ):
         self.isForeign = True 
@@ -303,7 +305,7 @@ class PropertyModel(PropertyBase):
     conceptType = models.CharField( blank = True, null = True, max_length=50, editable=False )
 
     def __unicode__(self):
-        return self.model.code + '.' +  self.code
+        return slugify( self.model.code + '.' + self.code )
 
     class Meta:
         unique_together = ('model', 'code', 'smOwningTeam' )
@@ -369,7 +371,7 @@ class PropertyEquivalence(ProtoModel):
     description = models.TextField( blank = True, null = True)
 
     def __unicode__(self):
-        return self.sourceProperty.code + ' - ' + self.targetProperty.code   
+        return slugify( self.sourceProperty.code + ' - ' + self.targetProperty.code )   
 
     class Meta:
         unique_together = ('sourceProperty', 'targetProperty', 'smOwningTeam' )
@@ -411,7 +413,7 @@ class ProtoTable(ProtoModel):
     info = JSONField( default = {} )
 
     def __unicode__(self):
-        return self.entity + '.' + self.info.__str__()  
+        return slugify( self.entity + '.' +  self.info.__str__())  
 
     def myStr(self, *args, **kwargs ):
         # Evalua el string de prototipos
@@ -446,7 +448,7 @@ class ProtoView(ProtoModel):
     notes  = models.TextField( blank = True, null = True)
 
     def __unicode__(self):
-        return self.code  
+        return slugify( self.code )  
     
     protoExt = { 
         "gridConfig" : {
@@ -486,7 +488,7 @@ class Diagram(ProtoModel):
     unicode_sort = ('model', 'code',  )
 
     def __unicode__(self):
-        return self.model.code + '-' + self.code 
+        return slugify( self.model.code + '-' +  self.code ) 
 
     class Meta:
         unique_together = ('model', 'code', 'smOwningTeam' )
@@ -511,7 +513,7 @@ class DiagramEntity(ProtoModel):
     unicode_sort = ('diagram', 'entity',  )
 
     def __unicode__(self):
-        return self.diagram.code + '-' + self.entity.code 
+        return slugify( self.diagram.code + '-' +  self.entity.code ) 
 
     class Meta:
         unique_together = ('diagram', 'entity', 'smOwningTeam' )
@@ -547,7 +549,7 @@ class Service(ProtoModel):
     unicode_sort = ('model', 'code',  )
 
     def __unicode__(self):
-        return self.model.code + '-' + self.code 
+        return slugify( self.model.code + '-' +  self.code ) 
 
     class Meta:
         unique_together = ('model', 'code', 'smOwningTeam' )
@@ -572,7 +574,7 @@ class ServiceRef(ProtoModel):
     unicode_sort = ('model', 'service',  )
 
     def __unicode__(self):
-        return self.model.code + '-' + self.service.code 
+        return slugify( self.model.code + '-' +  self.service.code ) 
 
     class Meta:
         unique_together = ('model', 'service', 'smOwningTeam' )

@@ -25,9 +25,9 @@ User.protoExt = AdminUser
 
 
 # de aut 
-from django.contrib.auth.models import Permission, Message   
-admin.site.register( Permission )
-admin.site.register( Message )
+#from django.contrib.auth.models import Permission, Message   
+#admin.site.register( Permission )
+#admin.site.register( Message )
 
 
 from django.contrib.contenttypes.models import ContentType

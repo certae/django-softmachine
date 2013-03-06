@@ -33,20 +33,13 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         me.callParent(arguments);
 
         // Opciones del llamado AJAX
-        var options = {
-            scope : me,
-            success : function(result, request) {
-                var myObj = Ext.decode(result.responseText);
+        myObj = _SM.DesignerPanels
                 
-                // Defincion de los objetos del designer 
-                this.doFormatLayout(myObj);
+        // Defincion de los objetos del designer 
+        this.doFormatLayout(myObj);
 
-                // Definicion del arbol basado en la meta 
-                this.updateFormTree()
-            }
-        }
-        _SM.loadJsonConfig('json/Designer.panels.json', options)
-
+        // Definicion del arbol basado en la meta 
+        this.updateFormTree()
 
     },
 

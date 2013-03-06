@@ -248,6 +248,7 @@ _MetaObjects =  {
             "wordWrap",
 
             // manejo
+            "primary",
             "crudType", 
             "readOnly",
             "hidden",

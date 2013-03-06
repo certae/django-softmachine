@@ -754,6 +754,8 @@ _SM.getFormFieldDefinition =  function ( vFld ) {
     formEditor.fieldLabel =  vFld.fieldLabel || vFld.header || vFld.name 
     if ( vFld.required ) {
         formEditor.fieldLabel = '<b>' + formEditor.fieldLabel + '</b>'
+    }
+    if ( vFld.primary ) {
         formEditor.afterLabelTextTpl = _SM._requiredField;
     }
     formEditor.fieldLabel = Ext.util.Format.capitalize( formEditor.fieldLabel )    

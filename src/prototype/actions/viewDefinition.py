@@ -82,6 +82,7 @@ def property2Field( fName, propDict, infoField = False, fBase = '' ):
         "name"    : fName,
         "header"  : propDict.get('code', fName),
         "readOnly": propDict.get('isReadOnly', False) ,
+        "primary"  : propDict.get('isPrimary', False),
         "required": propDict.get('isRequired', False),
         "tooltip" : propDict.get('description',''), 
         "vType"   : propDict.get('vType',''),   
