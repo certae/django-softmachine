@@ -1,5 +1,10 @@
 To Do:  
 
+	Limpiar los iconos de edicion, 
+	permititr cambiar los detalles en edicion 
+
+	Filtros zoom 
+
 
 	prototipos 
 		intialsort en los prototipos 

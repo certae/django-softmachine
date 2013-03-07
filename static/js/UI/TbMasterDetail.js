@@ -40,27 +40,27 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 hidden : true,
                 handler:    editOpts
                 
-            }, {
-                iconCls : 'icon-tableSave', 
-                itemId:     'save',
-                text:       _SM.__language.Title_Save_Button,
-                tooltip:    _SM.__language.Grid_EditSave_Title,
-                handler:    editOpts,
-                hidden:     true  
-            }, {
-                iconCls : 'icon-saveDraft', 
-                itemId:     'saveDraft',
-                text:       _SM.__language.Grid_EditSaveCont_Title,
-                tooltip:    _SM.__language.Grid_EditSaveCont_Ttip,
-                handler:    editOpts,
-                hidden:     true   
-            },  {
-                iconCls : 'icon-tableAutoSync', 
-                itemId:     'autoSync',
-                text:      _SM.__language.Grid_EditAutoSync_Title,
-                enableToggle: true, 
-                handler:      editOpts, 
-                hidden : true
+            // }, {
+                // iconCls : 'icon-tableSave', 
+                // itemId:     'save',
+                // text:       _SM.__language.Title_Save_Button,
+                // tooltip:    _SM.__language.Grid_EditSave_Title,
+                // handler:    editOpts,
+                // hidden:     true  
+            // }, {
+                // iconCls : 'icon-saveDraft', 
+                // itemId:     'saveDraft',
+                // text:       _SM.__language.Grid_EditSaveCont_Title,
+                // tooltip:    _SM.__language.Grid_EditSaveCont_Ttip,
+                // handler:    editOpts,
+                // hidden:     true   
+            // },  {
+                // iconCls : 'icon-tableAutoSync', 
+                // itemId:     'autoSync',
+                // text:      _SM.__language.Grid_EditAutoSync_Title,
+                // enableToggle: true, 
+                // handler:      editOpts, 
+                // hidden : true
             },{
                 text:    _SM.__language.Text_Clasify_Button,
                 tooltip: _SM.__language.Tooltip_Clasify_Button,
@@ -148,8 +148,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
             },'->',{
                 iconCls : 'door_out', 
-                itemId:     'cancel',
-                text:    _SM.__language.Text_Close_Button,
+                itemId:     'editOff',
+                text:    _SM.__language.Text_Exit_Edit_Mode_Button,
                 tooltip: _SM.__language.Tooltip_Exit_Edit_Mode_Button,
                 hidden : true,
                 handler:    editOpts
@@ -253,34 +253,33 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 // ------------------------------------------------------------------------------------------------
 
         function editOpts( but  ) {
-            // 'edit', 'autoSync','cancel','save',
+            // 'edit', 'autoSync','editOff','save',
 
             if ( but.itemId == 'edit' ) {
                 me.setEditMode( true )
 
-            } else if ( but.itemId == 'save' ) {
-                __MasterDetail.saveChanges()
-                me.setEditMode( false  )
 
-            } else if ( but.itemId == 'saveDraft' ) {
-                __MasterDetail.saveChanges()
-
-            } else if ( but.itemId == 'cancel' ) {
+            } else if ( but.itemId == 'editOff' ) {
                 __MasterDetail.cancelChanges()
                 me.setEditMode( false  )
 
-            } else if ( but.itemId == 'autoSync' ) {
-                __MasterDetail.saveChanges()
-                me.setAutoSync( but.pressed )
+            // } else if ( but.itemId == 'save' ) {
+                // __MasterDetail.saveChanges()
+                // me.setEditMode( false  )
+            // } else if ( but.itemId == 'saveDraft' ) {
+                // __MasterDetail.saveChanges()
+            // } else if ( but.itemId == 'autoSync' ) {
+                // __MasterDetail.saveChanges()
+                // me.setAutoSync( but.pressed )
             }
         } 
     }, 
     
 
     setAutoSync: function( autoSync ) {
-        this.getComponent('saveDraft').setDisabled( autoSync );
-        this.getComponent('autoSync').toggle( autoSync, true  );
-        this.__MasterDetail.setAutoSync ( autoSync );
+        // this.getComponent('saveDraft').setDisabled( autoSync );
+        // this.getComponent('autoSync').toggle( autoSync, true  );
+        // this.__MasterDetail.setAutoSync ( autoSync );
     }, 
 
     setEditMode: function( bEdit ) {
@@ -292,12 +291,12 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         // En modoEdicion los botones de accion son desactivados y los  edicion son apagados 
         Ext.suspendLayouts();
     
-        // 'edit', 'cancel', 'save', 'autoSync'
+        // 'edit', 'editOff', 'save', 'autoSync'
         this.getComponent('edit').setVisible ( ! bEdit );
-        this.getComponent('cancel').setVisible( bEdit );
-        this.getComponent('save').setVisible( bEdit  );
-        this.getComponent('saveDraft').setVisible( bEdit  );
-        this.getComponent('autoSync').setVisible( bEdit );
+        this.getComponent('editOff').setVisible( bEdit );
+        // this.getComponent('save').setVisible( bEdit  );
+        // this.getComponent('saveDraft').setVisible( bEdit  );
+        // this.getComponent('autoSync').setVisible( bEdit );
         // this.getComponent('config').setVisible( !bEdit );
 
         this.searchBG.setVisible( ! bEdit )

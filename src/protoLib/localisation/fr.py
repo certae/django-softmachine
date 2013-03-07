@@ -117,6 +117,8 @@ __language ={
     'Text_Filters_Button' : 'Filtres',
     'Tooltip_Filters_Button' : 'Filtres personnalisés',
     'Text_Close_Button' : 'Fermer',
+    
+    'Text_Exit_Edit_Mode_Button' : 'Edit Off',
     'Tooltip_Exit_Edit_Mode_Button' : 'Fermer mode édition',
 
     'Text_Tabs_Button' : 'Tabs',
