@@ -75,9 +75,17 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
           var xTab = this.items.items[ix] 
           this.remove( xTab, true )
         }
-    }, 
+    }
  
     
 
 });
 
+_SM.closeTabListener = function() {
+    
+    var x = 'TODO:  liberar la memoria'
+    //_SM.__TabContainer.on 
+    // Ext.destroy(  Ext.ComponentQuery.query('protoZoom') ) 
+    // Ext.destroy(  Ext.ComponentQuery.query('protoGrid') ) 
+    
+}

@@ -12,7 +12,7 @@ Ext.define('ProtoUL.UI.FormController', {
     // requires: [ 'ProtoUL.view.ProtoForm' ],
     // Required if linked,  retrived if zoom 
     myMeta : null, 
-
+    
     // Entry point if zoom 
     viewCode : null, 
 
@@ -226,15 +226,19 @@ Ext.define('ProtoUL.UI.FormController', {
         
         var me = this
         var myFormDefinition = _SM.clone( this.myMeta.formConfig )
+
         var myMeta = this.myMeta
+        
+        //TODO: Verifricar si existe  la referencia a la meta de base 
+        var myFieldDict = _SM.getFieldDict( myMeta )
         
         me.prFormLayout = [];
         me.N2Nfields = []
 
         //FIx : Compatibilidad con la version vieja,  debe eliminarse  --- 
-        if ( ! myFormDefinition.items  ) {
-            myFormDefinition = { 'items': myFormDefinition }
-        }
+        // if ( ! myFormDefinition.items  ) {
+            // myFormDefinition = { 'items': myFormDefinition }
+        // }
         //FIx : Compatibilidad con la version vieja,  debe eliminarse ---/
          
         for ( var ixV in myFormDefinition.items) {
@@ -245,11 +249,11 @@ Ext.define('ProtoUL.UI.FormController', {
             me.prFormLayout.push(prItem);
         }
         
+        
         function defineProtoFormItem ( parent, protoObj, protoIx ) {
         
             var prLayout , template, __ptType 
             var sDataType = _SM.typeOf(protoObj);
-            var myFieldDict = _SM.getFieldDict( myMeta )
         
             if (sDataType == "object" ) { 
         

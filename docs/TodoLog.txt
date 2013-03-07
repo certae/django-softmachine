@@ -1,5 +1,10 @@
 Log : 
 
+    Edit Mode
+        Ok Limpiar los iconos de edicion, 
+        Ok permititr cambiar los detalles en edicion 
+
+
     propertyModel
         implemtar la herencia de zoom en Property.propertyMod
         proc para union de campos 

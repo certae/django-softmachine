@@ -104,7 +104,6 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
 
         // Controllers 
-        
         Ext.create('ProtoUL.UI.MDDetailsController',   { __MasterDetail : me  });
         Ext.create('ProtoUL.UI.MDTbSortByController',   { myMeta : this.myMeta, __MasterDetail : me });
         Ext.create('ProtoUL.UI.MDPrintOptsController', { myMeta : this.myMeta, __MasterDetail : me });
@@ -214,22 +213,28 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         // Solo el estado inicial 
         if ( ! detailPanel   )  return 
         
-        // Apagar las barras 
+        // Apagar las barras ( hacen parte de la grilla menos tbTabs y tbDetails )
+        // setDisabled( me.tbTabs )
         setDisabled( me.tbFilters )
         setDisabled( me.tbPrinterOpts )
         setDisabled( me.tbConfigOpts )
         setDisabled( me.tbSorters )
+        setDisabled( me.tbSortersSet )
+        setDisabled( me.tbProtoActions )
 
         // Cambia el control de las grillas correspondientes 
         if ( detailPanel.collapsed  ) {
- 
             me.protoMasterGrid.setEditMode(  bEdit )
             setDisabled( me.tbDetails )
 
         } else {
             
-            setDisabled( me.protoMasterGrid  )
-            setDisabled( me.tbDetails, false  )
+            // Solo es la grilla lo q tengo q desabilitar 
+            // setDisabled( me.protoMasterGrid  )
+            me.protoMasterGrid._extGrid.setDisabled( bEdit )
+
+            // Si los detalles estan activos puedo cambiar de detalle sin cambiar el maestro
+            // setDisabled( me.tbDetails, false  )
 
             //Recorrer las grillas, cambiar el modo, TODO: heredados ( Default,  RO )
             var detGrids = me.protoTabs.items.items

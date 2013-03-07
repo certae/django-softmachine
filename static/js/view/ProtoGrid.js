@@ -49,9 +49,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         // Recupera la clase para obtener la meta ------------------------------------------
         var myMeta = _SM.clone( _SM._cllPCI[ this.viewCode ] );
-        this.myMeta = myMeta;
-        this.myFieldDict = _SM.getFieldDict( myMeta )            
         
+        this.myMeta = myMeta;
+        this.myMeta.idProtoGrid = this.id ;
+        this.myFieldDict = _SM.getFieldDict( myMeta )            
         
         // VErifica si el store viene como parametro ( Detail )
         var baseFilter = [];
@@ -180,7 +181,11 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                                     if (( myZField.zoomModel == me.myMeta.viewEntity ) && ( myZField.fkId = me.myMeta.idProperty )) {
                                         // Si es el mismo registro lo llama como un upd 
                                         // xxx.call Redefine el scope  
-                                        var formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });
+                                        var formController = Ext.create('ProtoUL.UI.FormController', { 
+                                            myMeta : me.myMeta,
+                                            colDictDefinition  : me.colDictDefinition  
+                                         });
+                                             
                                         formController.openLinkedForm.call( formController, me.selected , ! me.editable    )
 
                                     } else {
@@ -395,7 +400,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     
                 // lee las props p
                 gCol = _SM.getColDefinition( vFld  );
-    
+                
                 // Oculta los campos provenientes del maestroo en los detalles 
                 if ( gCol.dataIndex in _SM.objConv([nDetId , nDetTitle])  ) { 
                     gCol['readOnly'] = true  

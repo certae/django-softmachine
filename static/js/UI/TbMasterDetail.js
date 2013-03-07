@@ -147,7 +147,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 menu :  Ext.create( 'Ext.menu.Menu', {}) 
 
             },'->',{
-                iconCls : 'door_out', 
+                iconCls : 'icon-editoff', 
                 itemId:     'editOff',
                 text:    _SM.__language.Text_Exit_Edit_Mode_Button,
                 tooltip: _SM.__language.Tooltip_Exit_Edit_Mode_Button,
@@ -300,21 +300,23 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         // this.getComponent('config').setVisible( !bEdit );
 
         this.searchBG.setVisible( ! bEdit )
-        this.setAutoSync( this.__MasterDetail.autoSync )
+        // this.setAutoSync( this.__MasterDetail.autoSync )
 
-        // 'details', 'printerOpts', 'sorters', 'tbHelp', 'filterSet',
-        setEditMode( this, 'details', bEdit );
-        setEditMode( this, 'printerOpts', bEdit );
-        setEditMode( this, 'configOpts', bEdit );
-        setEditMode( this, 'sorters', bEdit  );
-        setEditMode( this, 'filterSet', bEdit );
-        setEditMode( this, 'protoActions', bEdit );
+        // --------------------- 'details', 'printerOpts', 'sorters', 'tbHelp', 'filterSet',
+        setMdButton( this, 'details', bEdit );
+        setMdButton( this, 'printerOpts', bEdit );
+        setMdButton( this, 'configOpts', bEdit );
+        setMdButton( this, 'sorters', bEdit  );
+        setMdButton( this, 'filterSet', bEdit );
+        setMdButton( this, 'protoActions', bEdit );
+        setMdButton( this, 'sorterSet', bEdit );
+        setMdButton( this, 'tabSet', bEdit );
 
         var autoSync = this.__MasterDetail.autoSync
         this.__MasterDetail.setEditMode(  bEdit   )
 
         
-        function setEditMode( me, btId, bEdit ) {
+        function setMdButton( me, btId, bEdit ) {
             var bt = me.getComponent( btId )
             bt.setVisible ( (! bEdit ) && ( bt.protoEnable ));
         }; 

@@ -198,7 +198,9 @@ Ext.define('ProtoUL.UI.GridController', {
     onEditAction: function ( ev, obj, head, btn   ){
 
         if ( ! this.formController  ) {
-            this.formController = Ext.create('ProtoUL.UI.FormController', { myMeta: this.myMeta});
+            this.formController = Ext.create('ProtoUL.UI.FormController', { 
+                myMeta: this.myMeta 
+            });
         }  
 
         // 'toolFormAdd', 'toolFormUpd', 'toolFormView', 'toolRowAdd', 'toolRowCopy', 'toolRowDel',

@@ -30,7 +30,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
      * Zoom initialization
      */
     zoomModel: null, 
-
+    zommFilter : '', 
 
     /**
      * Zoom Record
@@ -118,10 +118,12 @@ Ext.define('ProtoUL.ux.protoZoom', {
         // Para identificar el StatusBar 
         me.idStBar = Ext.id();
 
+        var myZoomFilter = me.zoomFilter
+
         // Crea la grilla 
         var zoomGrid = Ext.create('ProtoUL.view.ProtoGrid', { 
             viewCode  : me.zoomModel,
-            initialFilter: [], 
+            initialFilter: myZoomFilter , 
             hideSheet    : true, 
             listDisplay  : '__str__'   
          }) ; 
@@ -201,7 +203,9 @@ Ext.define('ProtoUL.ux.protoZoom', {
                 _SM.errorMessage(_SM.__language.Title_Form_Panel, _SM.__language.GridAction_NoRecord)
                 return 
             }
-            var formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });
+            var formController = Ext.create('ProtoUL.UI.FormController', { 
+                myMeta : me.myMeta
+             });
             formController.openLinkedForm ( zoomGrid.selected    )
         }
         

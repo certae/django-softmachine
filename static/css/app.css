@@ -39,6 +39,7 @@
 .icon-logout  { background-image: url(../img/protoImg/logout.png )!important;}
 .icon-user    {	background-image: url(../img/protoImg/user.png )!important;}
 .icon-edit    { background-image: url(../img/protoImg/base-edit.png ) !important;}
+.icon-editoff { background-image: url(../img/protoImg/base-editoff.png ) !important;}
 .icon-order   { background-image: url(../img/protoImg/base-sort.png ) !important;  }
 .icon-print   { background-image: url(../img/protoImg/base-print.png ) !important;}
 .icon-action  { background-image: url(../img/protoImg/base-action.png ) !important;}

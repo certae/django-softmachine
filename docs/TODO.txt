@@ -1,10 +1,39 @@
 To Do:  
 
-	Limpiar los iconos de edicion, 
-	permititr cambiar los detalles en edicion 
+
+	form add
+		add other 
+		reset x close 
+		permisos 
+
 
 	Filtros zoom 
 
+		PAra pasar los filtro hay q tener una referencia al store de base 
+		todos los campos llevaran un 
+
+		openLinkedForm 
+	    **colDictDefinition, trae el idProtoGrid 
+
+	    reemplazar la creacion del diccionario si  
+
+
+	zooms,  
+		no cargar la pcl hasta q se crea el objeto 
+
+
+	tabClose
+		destruir los objetos asociados 
+
+---------------------------------------------------------------	   
+
+	Resaltar el boton de detalle activo 
+
+	default de direction = sortOrder ?? 
+
+	Menu
+		al generar menu crear proyectos, 
+		permir la creacion de opciones al adm 
 
 	prototipos 
 		intialsort en los prototipos 
