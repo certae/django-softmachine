@@ -2,7 +2,7 @@
 # for project : "Modelibra.py" >
 
 
-from models import Project,  Model, Entity, Property #,  Relationship, ProtoView
+from models import Project,  Model, Entity, Property,  Relationship #, ProtoView
 from models import PropertyModel, PropertyEquivalence
 from models import ProtoTable
 from models import Diagram #, DiagramEntity
@@ -43,7 +43,7 @@ admin.site.register(Project )
 admin.site.register(Property )
 #admin.site.register(PropertyEquivalence )
 
-#admin.site.register(Relationship )
+admin.site.register(Relationship )
 admin.site.register( ProtoTable )
 #admin.site.register( ProtoView )
 

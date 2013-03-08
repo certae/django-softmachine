@@ -118,12 +118,12 @@ Ext.define('ProtoUL.ux.protoZoom', {
         // Para identificar el StatusBar 
         me.idStBar = Ext.id();
 
-        var myZoomFilter = me.zoomFilter
 
         // Crea la grilla 
         var zoomGrid = Ext.create('ProtoUL.view.ProtoGrid', { 
             viewCode  : me.zoomModel,
-            initialFilter: myZoomFilter , 
+            initialFilter : [{ 'property' : 'pk', 'filterStmt' :  -1 }], 
+            
             hideSheet    : true, 
             listDisplay  : '__str__'   
          }) ; 
@@ -150,7 +150,6 @@ Ext.define('ProtoUL.ux.protoZoom', {
                 zoomGrid.gridLoadData( zoomGrid, sFilter, sorter );
             }, scope: this }
         });                 
-        
 
 
         // referencia a la ventana modal
@@ -184,7 +183,10 @@ Ext.define('ProtoUL.ux.protoZoom', {
 
         });
 
-        me.isLoaded = true; 
+        me.isLoaded = true;
+        
+        // La guarda en el objeto de base 
+        this.zoomGrid = zoomGrid 
         
         function doCancel() {
             me.resetZoom() 
@@ -217,8 +219,46 @@ Ext.define('ProtoUL.ux.protoZoom', {
     },
     
     showZoomForm : function(me) {
-        if ( ! me.isLoaded  ) return 
+        if ( ! me.isLoaded  ) return
+        
+        // verifica el zoomFilter 
+        var myZoomFilter = getFilter()
+        if ( myZoomFilter.length > 0 ) {
+            this.zoomGrid.store.mySetBaseFilter( myZoomFilter )
+        }
+
         me.win.show();
+        
+        function getFilter() {
+            
+            var myFilter = [], i , fName
+            if ( ! me.zoomFilter ) return myFilter 
+            if ( ! me.idProtoGrid ) return myFilter 
+                        
+            // zoomFilter = "campo : [refCampoBase], campo : 'vr', campo = @functionX( [refCampoBase] ) "
+            // zoomFilter = "model_id : @getEntityModel( [entity_id] )" 
+            var myFilter = me.zoomFilter
+            var lFilters = me.zoomFilter.match(/[^[\]]+(?=])/g)
+            if  ( lFilters.length > 0 ) { 
+                //obtiene la meta 
+                var myRecordBase = Ext.getCmp( me.idProtoGrid ).rowData
+                
+                // Remplaza en el filtro 
+                for ( i in lFilters ) {
+                    fName  = lFilters[i]
+                    myFilter = myFilter.replace( '[' + fName + ']', myRecordBase[ fName ] ) 
+                }
+            } 
+
+            // Separa el filtro para generar el array 
+            myFilter = myFilter.split( ',')
+            for ( i = 0; i < myFilter.length; i++) {
+                lFilter =  myFilter[i].split(':') 
+                myFilter[i] = { 'property' : lFilter[0].trim(), 'filterStmt' : lFilter[1].trim() }   
+            }
+            return myFilter
+        }
+        
     }, 
     
     setStatusBar: function  ( rowIndex, record ) {

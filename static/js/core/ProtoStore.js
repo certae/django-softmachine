@@ -30,7 +30,8 @@ _SM.getStoreDefinition = function(  stDef  ){
 
         autoSync: true, 
 
-        proxy: _SM.getProxyDefinition( stDef ), 
+        proxy: _SM.getProxyDefinition( stDef ),
+        storeDefinition : stDef, 
         
         // Redefinicion de metodos 
         // sort: function ( sorters ) {
@@ -38,9 +39,9 @@ _SM.getStoreDefinition = function(  stDef  ){
         // }, 
 
         myLoadData: function( myFilter, mySorter, myMasterId  ) {
-            // buscar por getProxy, clearFilter, ....  
-            // Dgt:  Agregar page??? 
-            
+            // Centraliza  los llamados para refrescar la grilla   
+
+            // Para la navegacion md 
             if ( myMasterId ){ this.protoMasterId = myMasterId  }
 
             if ( myFilter ) {
@@ -52,7 +53,19 @@ _SM.getStoreDefinition = function(  stDef  ){
                 this.sort( mySorter )
             }
             
-        },   
+        },
+        
+        mySetBaseFilter: function( myFilter ) { 
+            // Desde el zoom, para agregar el zoomFilter que debe ser parte de la base
+            // pues no debe modeficarse con el filtro de usuario 
+            // recibe el filtro y lo mezcla con el baseFilter ( por ejemplo un estado )
+
+            this.clearFilter();
+            this.getProxy().extraParams.protoFilter = _SM.obj2tx( [] )
+            this.getProxy().extraParams.baseFilter = _SM.obj2tx( myFilter.concat( this.storeDefinition.baseFilter  ) )
+            this.load();
+            
+        },    
 
         listeners: {
 
@@ -511,8 +524,8 @@ _SM.getColDefinition = function ( vFld ) {
         //@fkId : Llave correspondiente al zoom          
         'fkId', 
 
-        //@zoomFilter : TODO: Filtro de base fijo para el zoom ( puede venir definido en zoomView )
-        //'zoomFilter', 
+        //@zoomFilter : Filtro de base fijo para el zoom ( puede venir definido en zoomView )
+        'zoomFilter', 
 
         //@fromField :  Campos q sera heredados a la entidad base  
         'cpFromField', 'cpFromZoom', 

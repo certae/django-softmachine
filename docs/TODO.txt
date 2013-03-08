@@ -1,21 +1,36 @@
 To Do:  
 
 
+	form 
+		desaparecen los detalles al editar 
+		no se puede seleccionar una vista en el detalle 
+		la vista no entra en edicion 
+		probar la edicion 
+
+
 	form add
 		add other 
 		reset x close 
 		permisos 
 
+	funciones 
+		crear tabla de funciones q sea interpretada en Django al momento de hacer un select 
+
+		A;lternativas 
+			__import___
+			eval 
+			exec 
+
+		no sirven 
+			ast.literal_eval   solo evalua tipos de datos 
+
 
 	Filtros zoom 
 
 		PAra pasar los filtro hay q tener una referencia al store de base 
-		todos los campos llevaran un 
-
-		openLinkedForm 
-	    **colDictDefinition, trae el idProtoGrid 
-
-	    reemplazar la creacion del diccionario si  
+		todos los campos llevaran un idPRotoGrid 
+		como se hace cuando los dos campos se actualizan en la forma 
+			se debe actualizar el rowData  al momento de hacer el setValue 
 
 
 	zooms,  

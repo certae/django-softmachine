@@ -63,10 +63,14 @@ def getSearcheableFields(  model  ):
 
 
 
-
 def getQbeStmt( fieldName ,  sQBE, sType   ):  
 
     QResult = Q()
+
+    # Verifica si es una funcion 
+    if ( sQBE[0] == '@' ):
+        sQBE = doGenericFuntion ( sQBE )
+
 
     # Valida el tipo del criterio 
     if type( sQBE ).__name__ == 'str':  
@@ -169,47 +173,14 @@ def getQbeStmt( fieldName ,  sQBE, sType   ):
     return QResult
 
 
-#    if InStr(sQBE, "*") | InStr(sQBE, "?") :
-#        if sType = IssNormal Or sType = IssMemo Or sType = IssTime :
-#            sQBE = MarcaTipoQbe(sQBE, sType)
-#            if sQBE = vbNullString : Exit Function
-#            sTmp = fieldName & " like " & sQBE
-#        Else: Exit Function
-#    
-#    elif InStr(sQBE, "..")  :
-#        sCondicion = MarcaTipoQbe(TomaParametro(sQBE, ":"), sType)
-#        if sCondicion = vbNullString : Exit Function
-#        sQBE = MarcaTipoQbe(sQBE, sType)
-#        if sQBE = vbNullString : Exit Function
-#        sTmp = fieldName & " Between " & sCondicion & " And " & sQBE
-#        
-#       
-#    elif InStr(sQBE, "|") :
-#        sCondicion = TomaParametro(sQBE, "|")
-#        if sCondicion = vbNullString : Exit Function
-#        sTmp = sTmp & fieldName & " in ("
-#        Do While sCondicion <> vbNullString
-#            sCondicion = MarcaTipoQbe(sCondicion, sType)
-#            if sCondicion = vbNullString : Exit Function
-#            sTmp = sTmp & sCondicion & ","
-#            sCondicion = TomaParametro(sQBE, "|")
-#        Loop
-#        sTmp = Mid$(sTmp, 1, Len(sTmp) - 1) & ")"
-#       
-#    
-#    elif Operadores(sQBE, FOpe, sCondicion, fieldName, sType) :
-#        
-#        sTmp = sTmp & fieldName & FOpe & sCondicion
-#        
-#    Else
-#        if sQBE = vbNullString : Exit Function
-#        
-#        sQBE = MarcaTipoQbe(sQBE, sType)
-#        if sQBE = vbNullString Or sQBE = "-0" :
-#            ErrFlag = True
-#            ErrMsgQbe = "Error en tipo de datos [" & fieldName & "] (" & sAux & ")"
-#            Exit Function
-#        End if
-#        sTmp = sTmp & fieldName & " = " & sQBE
-#        
-
+def doGenericFuntion ( sQBE ):
+    """
+    Se define una tabla de funciones genericas q seran ejectua dinamicamente por pyton 
+    se ejectuan en el contexto actual, se deberia pasar algunas rutinas basicas en la medida q sean necesarias  
+        getModels 
+     
+    Esta rutina servira tambien para desencadenar reglas de gestion sobre modelos y podria ser la base 
+    de la ejecucion del wKflow
+    
+    """ 
+    pass 

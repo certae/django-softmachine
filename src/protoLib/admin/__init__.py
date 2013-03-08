@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from protoLib.models import ProtoDefinition, UserProfile, TeamHierarchy, UserShare, CustomDefinition, EntityMap, FieldMap
+from protoLib.models import ProtoDefinition, UserProfile, TeamHierarchy, UserShare
+from protoLib.models import CustomDefinition, PtFunction
+from protoLib.models import EntityMap, FieldMap
 from django.contrib  import admin
 
            
@@ -13,10 +15,12 @@ from adminOrgTree import orgTreeAdmin
 admin.site.register( TeamHierarchy )
 
 #from adminUserProf import usrProfileAdmin
-admin.site.register(UserProfile )
+admin.site.register( UserProfile )
 
 admin.site.register( UserShare )
+
 admin.site.register( CustomDefinition )
+admin.site.register( PtFunction )
 
 
 from django.contrib.auth.models import User 

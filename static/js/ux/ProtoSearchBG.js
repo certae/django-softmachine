@@ -30,11 +30,11 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
             handler: onClickSearchBtn
         });
 
-        var QBEBtn = new Ext.button.Button({
-            tooltip: _SM.__language.Text_Toolbar_Advanced_Filter,
-            iconCls: 'icon-filterqbe',
-            handler: onClickViewQBE
-        });
+        // var QBEBtn = new Ext.button.Button({
+            // tooltip: _SM.__language.Text_Toolbar_Advanced_Filter,
+            // iconCls: 'icon-filterqbe',
+            // handler: onClickViewQBE
+        // });
 
         var clearBtn = new Ext.button.Button({
             tooltip: _SM.__language.Text_Toolbar_Remove_Filters,
@@ -63,7 +63,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
             items:  [  
                 searchCr,
                 searchBtn,
-                QBEBtn,
+                // QBEBtn,
                 clearBtn 
             ]
         });
@@ -104,7 +104,6 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
                     me.fireEvent('qbeLoadData', me, qbe, '** qbe' );
                 }
             }).show();
-                      
                
         }
 

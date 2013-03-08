@@ -273,8 +273,10 @@ class DiscreteValue( models.Model ):
 
 
 class Languaje( models.Model ):
-    # TODO : Manejar una tabla con los diferentes lenguajes en formato Json    
-    # { 'es' : 'incio', 'en' : 'start', ..... } 
+    """ TODO : Manejar una tabla con los diferentes lenguajes en formato Json    
+        { 'es' : 'incio', 'en' : 'start', .....  }
+        se aprovecha la pseudo definicion como en prototipos  
+    """  
 
     code = models.CharField( blank = False, null = False, max_length=200 , unique = True )
 
@@ -290,3 +292,20 @@ class Languaje( models.Model ):
 
 
 
+class PtFunction( models.Model ):
+    """ TODO : En esta tabla se guardan funciones q seran ejectudas dinamicamente
+        deben reespetar la syntaxis python y se precargaran con funcione de base 
+        por ejemplo el perfil de usuario y el acceso a modelos 
+    """  
+
+    code = models.CharField( blank = False, null = False, max_length=200 , unique = True )
+
+    # para manejar un nombre de variable    
+    tag = models.CharField( blank = False, null = False, max_length=200 )
+    modelName = models.CharField( blank = False, null = False, max_length=200 )
+
+    functionBody = models.TextField( blank = True, null = True )
+
+    def __unicode__(self):
+        return self.code + '.' + self.tag  
+    

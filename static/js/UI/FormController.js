@@ -229,7 +229,7 @@ Ext.define('ProtoUL.UI.FormController', {
 
         var myMeta = this.myMeta
         
-        //TODO: Verifricar si existe  la referencia a la meta de base 
+        // Verifricar si existe  la referencia a la meta de base 
         var myFieldDict = _SM.getFieldDict( myMeta )
         
         me.prFormLayout = [];

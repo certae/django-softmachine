@@ -182,8 +182,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                                         // Si es el mismo registro lo llama como un upd 
                                         // xxx.call Redefine el scope  
                                         var formController = Ext.create('ProtoUL.UI.FormController', { 
-                                            myMeta : me.myMeta,
-                                            colDictDefinition  : me.colDictDefinition  
+                                            myMeta : me.myMeta
                                          });
                                              
                                         formController.openLinkedForm.call( formController, me.selected , ! me.editable    )
