@@ -68,9 +68,8 @@ def getQbeStmt( fieldName ,  sQBE, sType   ):
     QResult = Q()
 
     # Verifica si es una funcion 
-    if ( sQBE[0] == '@' ):
-        sQBE = doGenericFuntion ( sQBE )
-
+#    if ( sQBE[0] == '@' ):
+#        sQBE = doGenericFuntion ( sQBE )
 
     # Valida el tipo del criterio 
     if type( sQBE ).__name__ == 'str':  

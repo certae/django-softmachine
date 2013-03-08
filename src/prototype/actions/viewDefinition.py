@@ -22,7 +22,7 @@ def getViewDefinition( pEntity, viewTitle  ):
 
     #para crear el campo __str__:  se arma con las llaves definidas como primarias o unicas 
     __str__Base = []
-    infoEntity['gridConfig']['listDisplay'].append( '__str__' )
+    #infoEntity['gridConfig']['listDisplay'].append( '__str__' )
 
     for pProperty in pEntity.propertySet.all():
 
@@ -38,16 +38,22 @@ def getViewDefinition( pEntity, viewTitle  ):
         
         infoEntity['fields'].append( field )
 
-        # hace las veces de __str__ 
+        # hace las veces de __str__   
         if pProperty.isPrimary or pProperty.isLookUpResult:
             __str__Base.append( fName )
 
-        elif  pProperty.isEssential : 
+        # DP solicito se generaran todos los campos en la grilla 130308 )
+        if  True or pProperty.isEssential : 
             infoEntity['gridConfig']['listDisplay'].append( fName )
+
 
         # forma y ordenamiento    
         infoEntity['gridConfig']['sortFields'].append( fName )
         infoEntity['formConfig']['items'][0]['items'].append( { "name": fName, "__ptType": "formField" } )
+
+    # Al menos incluye el str
+    if len (  infoEntity['gridConfig']['listDisplay'] ) ==  0: 
+        infoEntity['gridConfig']['listDisplay'].append( '__str__' )
 
     #  __str__, __unicode__
     field = {

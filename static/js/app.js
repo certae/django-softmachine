@@ -98,6 +98,10 @@ Ext.application({
                 Ext.grid.RowEditor.prototype.cancelBtnText = _SM.__language.Text_Cancel_Button;
                 
                 var app = new ProtoUL.view.Viewport();
+                
+                // destruye el login 
+                Ext.destroy( Ext.ComponentQuery.query('protoLogin') )     
+
             }
             // failure: function ( obj, result, request) { 
                 // _SM.errorMessage( 'ProtoDefinition Error :', myZoomModel + ': protoDefinition not found')

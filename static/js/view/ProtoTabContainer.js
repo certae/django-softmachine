@@ -75,6 +75,15 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
           var xTab = this.items.items[ix] 
           this.remove( xTab, true )
         }
+        
+        Ext.destroy(  Ext.ComponentQuery.query('protoZoom') ) 
+        Ext.destroy(  Ext.ComponentQuery.query('protoForm') ) 
+        Ext.destroy(  Ext.ComponentQuery.query('protoGrid') ) 
+        Ext.destroy(  Ext.ComponentQuery.query('protoMasterDetail') ) 
+        
+        Ext.destroy( Ext.ComponentQuery.query('protoLogin') )     
+        Ext.destroy( Ext.ComponentQuery.query('protoSearch') )     
+       
     }
  
     

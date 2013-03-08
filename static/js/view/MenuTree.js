@@ -129,6 +129,9 @@ Ext.define('ProtoUL.view.MenuTree', {
         // .view.View , .data.Model record, HTMLElement item, Number index, .EventObject e, Object eOpts
         'itemclick': function( view, rec, item, index, evObj , eOpts ) {
             this.treeRecord  = rec;
+        }, 
+        'itemdblclick': function( view, rec, item, index, evObj , eOpts ) {
+            this.treeRecord  = rec;
             if ( rec.get('leaf') ) {
                 var viewCode = rec.data.viewCode || rec.data.id
                 this.fireEvent('menuSelect', this, viewCode );
@@ -161,11 +164,6 @@ Ext.define('ProtoUL.view.MenuTree', {
 
     newFolder: function( btn ) {
         // prompt por el nombre del menu y lo crea en el arbol 
-        if ( this.treeRecord && this.treeRecord.get( 'leaf' )  ) {
-            _SM.errorMessage('AddMenuOption', _SM.__language.Msg_Select_Folder)
-            return 
-        }
-            
         var me = this,
             msg = _SM.__language.Msg_Window_New_Folder
 

@@ -15,6 +15,7 @@ from models import CustomDefinition
 from protoActionEdit import setSecurityInfo
 from protoAuth import getUserProfile, getModelPermissions
 from utilsWeb import JsonError, JsonSuccess 
+from utilsBase import verifyList
 
 class cAux: pass 
 
@@ -49,6 +50,8 @@ def protoGetMenuData(request):
         try: menuLabel = model.protoExt["menuApp"]
         except: menuLabel = appCode  
         
+        if menuLabel in ['contenttypes', 'sites']: menuLabel= 'auth' 
+        
         # Verifica q el usuairo tenga permiso, considera el admin 
         if not getModelPermissions( currentUser, model, 'menu' ) : return  
         
@@ -64,7 +67,7 @@ def protoGetMenuData(request):
         viewIcon = 'icon-%s' % protoAdmin.get( 'viewIcon',  '1')
     
         model_dict = {
-            'id': appCode + '.' + menuNode ,
+            'viewCode': appCode + '.' + menuNode ,
             'text': pTitle ,
             'index': appAux.ixMod ,
             'iconCls': viewIcon ,
@@ -124,7 +127,6 @@ def protoGetMenuData(request):
 
             if ix == 0 :
                 prNodes = {  
-                    'id': 'prototype.auto.nodes' ,
                     'text': 'ProtoOptions' ,
                     'expanded': True ,
                     'index': 1000 ,
@@ -139,14 +141,33 @@ def protoGetMenuData(request):
                 'text':  nodeName,
                 'expanded': True ,
                 'viewCode': option.code,
+                'iconCls': 'icon-proto',
                 'index': 'prOtoTyPe.' + option.code,
                 'leaf': True 
                  })
 
             ix += 1 
 
-        # decodifica en string 
-        context = json.dumps( app_list ) 
+        # Pega el menu sobre la definicion anterior  
+        try: 
+            menuAux = []
+            menuTmp = verifyList( json.loads( protoDef.metaDefinition ))
+            for menuOp in menuTmp:
+                if menuOp.get( 'text', '') == 'AutoMenu': continue  
+                menuAux.append ( menuOp ) 
+
+            menuAux.append( {
+                    'id': 'prototype.auto.nodes' ,
+                    'text': 'AutoMenu' ,
+                    'expanded': True,
+                    'index': 1000 ,
+                    'children': app_list,
+                    'leaf': False 
+            })
+        except: 
+            menuAux = app_list 
+
+        context = json.dumps( menuAux ) 
 
         # Lo guarda  ( created : true  --> new
         protoDef.metaDefinition = context  
