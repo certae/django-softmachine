@@ -321,6 +321,8 @@ Ext.define('ProtoUL.UI.FormController', {
                     template = getTemplate( __ptType  , true  )
                     prLayout = Ext.apply( template.__ptConfig , protoObj.__ptConfig  ) 
                     
+                    if (( ! prLayout.minWidth ) || ( prLayout.minWidth < 100 )) prLayout.minWidth = 250   
+                    
                     // Inicia la grilla sin datos 
                     prLayout.initialFilter = [{ 'property' : 'pk', 'filterStmt' :  -1 }]
                     delete protoObj.__ptConfig.name 

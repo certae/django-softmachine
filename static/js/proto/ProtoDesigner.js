@@ -59,8 +59,10 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         var formMeta =  Tree2Meta( this.formTree.store.getRootNode() )
         this.myMeta.formConfig = formMeta
         this.formController.myMeta.formConfig = formMeta  
-         
-        this.formPreview.add( this.formController.newProtoForm()  )
+        
+        var myForm =  this.formController.newProtoForm()   
+        myForm.setFormReadOnly( true )
+        this.formPreview.add( myForm  )
 
     }, 
     
@@ -74,7 +76,10 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         this.formPreview = me.down('#formPreview')
         
         this.formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });
-        this.formPreview.add( this.formController.newProtoForm() )  
+
+        var myForm =  this.formController.newProtoForm()   
+        myForm.setFormReadOnly( true )
+        this.formPreview.add( myForm  )
 
         this.tBar =  this.toolsPanel.addDocked({
             xtype : 'toolbar',
@@ -159,11 +164,11 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                 "__ptConfig": {
                     "menuText" : vFld.menuText, 
                     "viewCode" : vFld.conceptDetail ,
-                    "masterField" : vFld.masterField,
-                    "detailField" : vFld.detailField, 
-                    "detailTitleLbl" : vFld.detailTitleLbl, 
-                    "detailTitleField" : vFld.detailTitleField, 
-                    "masterTitleField" : vFld.masterTitleField, 
+                    // "masterField" : vFld.masterField,
+                    // "detailField" : vFld.detailField, 
+                    // "detailTitleLbl" : vFld.detailTitleLbl, 
+                    // "detailTitleField" : vFld.detailTitleField, 
+                    // "masterTitleField" : vFld.masterTitleField, 
                     "xtype": "protoGrid",
                     "__ptType": "protoGrid"
                 }

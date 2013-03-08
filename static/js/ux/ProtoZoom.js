@@ -122,7 +122,8 @@ Ext.define('ProtoUL.ux.protoZoom', {
         // Crea la grilla 
         var zoomGrid = Ext.create('ProtoUL.view.ProtoGrid', { 
             viewCode  : me.zoomModel,
-            initialFilter : [{ 'property' : 'pk', 'filterStmt' :  -1 }], 
+            // initialFilter : [{ 'property' : 'pk', 'filterStmt' :  -1 }], 
+            initialFilter : [], 
             
             hideSheet    : true, 
             listDisplay  : '__str__'   

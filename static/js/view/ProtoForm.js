@@ -192,13 +192,10 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         // Refresca las grillas de detalle 
     linkDetail: function( record ) {
-    
         this.idMaster = -1
-        
         if ( record && !record.phantom ) {
             this.idMaster = record.get('id' ) ;
         }
-
         for ( var ixDet in this.cllStoreDet ) {
             var tmpStore = this.cllStoreDet[ixDet];
             var detField = tmpStore.detailDefinition.detailField, myFilter = {} 
@@ -207,7 +204,6 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
             var protoFilter = [{ "property" :  detField , "filterStmt" : this.idMaster  }];
             tmpStore.myLoadData( protoFilter, null,  this.idMaster )
-
         }
 
     },
@@ -325,22 +321,17 @@ Ext.define('ProtoUL.view.ProtoForm', {
     }, 
 
 /*
-    
     updateZoomReturn: function (  zoomFld  ) {
-
         // El problema es en q momento se dispara, 
         // hay q capturar un evento para cerrar la ventana de zoom
         // verifica si esta definido y lo define a necesidad 
         if ( ! this.zoomReturnDef  ) {
-
             // mantiene una lista con la definicion de los cpFromField 
             this.zoomReturnDef = []
-            
             // Crea la coleccion de campos q deben heredarse 
             for (var ix in this.myMeta.fields ) {
                 var vFld = this.myMeta.fields[ix] 
                 if ( ! vFld.cpFromZoom ) continue;
-                
                 var cpFrom = {
                     "name"    : vFld.fName,
                     "cpFromZoom" : vFld.cpFromZoom,   
@@ -355,7 +346,6 @@ Ext.define('ProtoUL.view.ProtoForm', {
         // Recorre las propiedades a heredar         
         for (var ix in this.zoomReturnDef ) {
             var cpFrom = this.zoomReturnDef[ix]
-            
             if ( cpForm.cpFromZoom == zoomFld.name   ) {
                 this.updateFormField(  zoomFld.name , zoomFld[ cpForm.cpFromField ] )
             }
@@ -402,16 +392,16 @@ Ext.define('ProtoUL.view.ProtoForm', {
         // this.setDisabled( bDisable )
 
         // desactiva el boton save 
-        this.btSave.setDisabled( true )
+        this.btSave.setDisabled( bDisable )
         this.setReadOnlyFields( bDisable )
     }, 
 
 
-    /* 
-     * @bReadOnly indica q toda la forma es readOnly, podria servir para prender y apagar el readOnly
-     * FIX: Una mascara seria mejor  
-     */
     setReadOnlyFields: function( bReadOnly , readOnlyFields ){
+        /* 
+         * @bReadOnly indica q toda la forma es readOnly, podria servir para prender y apagar el readOnly
+         * FIX: Una mascara seria mejor  
+         */
           
         // var readOnlyCls = 'protofield-readonly'
         var myFields = this.getForm().getFields();
@@ -442,9 +432,22 @@ Ext.define('ProtoUL.view.ProtoForm', {
             } else if ( ! readOnlyFields  || ( fDef.name in _SM.objConv( readOnlyFields )  )  ) {
                 obj.setReadOnly( bReadOnly );
             }; 
-
         } 
-        
+
+      },
+
+    setGridEditMode: function ( bEdit ) {
+
+        // TODO: recorre las grillas         
+        // for (var ix in this.htmlPanels  ) {
+            // var obj = this.htmlPanels[ix]
+            // var fDef = obj.__ptConfig 
+            // if ( fDef.readOnly ) {
+                // obj.setReadOnly( true );
+            // } else if ( ! readOnlyFields  || ( fDef.name in _SM.objConv( readOnlyFields )  )  ) {
+                // obj.setReadOnly( bReadOnly );
+            // }; 
+        // } 
         
       },
 

@@ -132,18 +132,20 @@ function Meta2Tree( oData, pName, ptType   ) {
     
                 t2Data = getNodeBase(  ptType, ptType, __ptConfig  )
                 t2Data['children'] = formContainer2Tree( oData.items )
-    
-                    tItems.push(  t2Data ) 
+                tItems.push(  t2Data ) 
      
-                }  else if ( ptType in _SM.objConv([ 'formField' ])) {  
+            }  else if ( ptType in _SM.objConv([ 'formField', 'protoGrid' ])) {  
     
-                t2Data = getNodeBase(  __ptConfig.name, ptType, __ptConfig  )
+                if ( ptType == 'protoGrid' )  {
+                    t2Data = getNodeBase(  __ptConfig.menuText, ptType, __ptConfig  )
+
+                } else {
+                    t2Data = getNodeBase(  __ptConfig.name, ptType, __ptConfig  )
+                }
                 t2Data['leaf'] =  true
-                  
                 tItems.push(  t2Data ) 
     
             } else {
-                
                 console.log( "Error formContainer2Tree", oData )
             } 
         }

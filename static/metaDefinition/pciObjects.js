@@ -669,8 +669,10 @@ _MetaObjects =  {
         "description": "A detail grid",
         "properties": [
             "viewCode",  
-            "height","maxHeight","minHeight"
-            // ,"width", "maxWidth","minWidth"
+            "menuText",  
+            "height","maxHeight","minHeight", 
+            "minWidth"
+            // ,"width", "maxWidth"
             ]
     }, 
 
