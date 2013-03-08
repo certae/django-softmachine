@@ -403,7 +403,6 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         // desactiva el boton save 
         this.btSave.setDisabled( true )
-                
         this.setReadOnlyFields( bDisable )
     }, 
 

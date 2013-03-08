@@ -107,47 +107,47 @@ def baseDefinition( pEntity , entityName, viewTitle  ):
                 "fsLayout": "2col",
                 "items": []
             },
-            {
-                "__ptType": "fieldset",
-                "collapsible": True,
-                "title": "Admin",
-                "collapsed": True,
-                "fsLayout": "2col",
-                "items": [
-                    {
-                        "__ptType": "formField",
-                        "name": "smOwningUser"
-                    },
-                    {
-                        "__ptType": "formField",
-                        "name": "smOwningTeam"
-                    },
-                    {
-                        "__ptType": "formField",
-                        "name": "smModifiedBy"
-                    },
-                    {
-                        "__ptType": "formField",
-                        "name": "smCreatedBy"
-                    },
-                    {
-                        "__ptType": "formField",
-                        "name": "smModifiedOn"
-                    },
-                    {
-                        "__ptType": "formField",
-                        "name": "smCreatedOn"
-                    },
-                    {
-                        "__ptType": "formField",
-                        "name": "smRegStatus"
-                    },
-                    {
-                        "__ptType": "formField",
-                        "name": "smWflowStatus"
-                    }
-                ]
-            }
+#            {
+#                "__ptType": "fieldset",
+#                "collapsible": True,
+#                "title": "Admin",
+#                "collapsed": True,
+#                "fsLayout": "2col",
+#                "items": [
+#                    {
+#                        "__ptType": "formField",
+#                        "name": "smOwningUser"
+#                    },
+#                    {
+#                        "__ptType": "formField",
+#                        "name": "smOwningTeam"
+#                    },
+#                    {
+#                        "__ptType": "formField",
+#                        "name": "smModifiedBy"
+#                    },
+#                    {
+#                        "__ptType": "formField",
+#                        "name": "smCreatedBy"
+#                    },
+#                    {
+#                        "__ptType": "formField",
+#                        "name": "smModifiedOn"
+#                    },
+#                    {
+#                        "__ptType": "formField",
+#                        "name": "smCreatedOn"
+#                    },
+#                    {
+#                        "__ptType": "formField",
+#                        "name": "smRegStatus"
+#                    },
+#                    {
+#                        "__ptType": "formField",
+#                        "name": "smWflowStatus"
+#                    }
+#                ]
+#            }
         ]
     }
 }    
