@@ -64,6 +64,10 @@ def _protoEdit(request, myAction ):
     jsonField = protoMeta.get('jsonField', '')
     if not isinstance( jsonField, (str, unicode) ): jsonField = ''  
     
+#   TOOD: Log 
+#   activityLog ( myAction, request.user , viewEntity,  {  'protoMeta' : protoMeta , 'rows' : rows })
+
+    
 #   Genera la clase UDP
     pUDP = protoMeta.get('usrDefProps', {})
     cUDP = verifyUdpDefinition( pUDP )
@@ -94,7 +98,7 @@ def _protoEdit(request, myAction ):
             # Upd, Ins 
             for key in data:
                 key = smart_str( key )
-                if  key == 'id' or key == '_ptStatus' or key == '_ptId': continue
+                if  key in ['id', '_ptStatus', '_ptId', '__str__']: continue
                 
                 vFld = fieldsDict[key]
                 if vFld.get( 'crudType' )  in ["screenOnly", "linked" ]: continue 

@@ -19,7 +19,7 @@ TypeEquivalence = {
         'AutoField'         :'autofield',
         'ManyToManyField'   :'protoN2N', 
         'OneToOneField'     :'proto121',
-        'JSONField'         :'protojson',
+        'JSONField'         :'jsonfield',
     }
 
 def setFieldDict(protoFields ,  field ):

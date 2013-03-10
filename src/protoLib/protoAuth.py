@@ -89,7 +89,15 @@ def getModelPermissions( pUser, model , perm = None ):
     return  permissions
 
 
-    
+def activityLog( action, user, option, info  ):
+    # TODO: 
+    # info es un json con el detalle de la opcion { rows, meta, etc .... } 
+    # Verificar en profile si tiene o no tiene log 
+    # verificar la definicion de la pcl si hace o no log 
+    # verificar el tipo de accion ( ej: logear solo los borrados .... )  
+    pass 
+
+     
 # ------------------
 
 #def hasModelPermissions( pUser, model  ):

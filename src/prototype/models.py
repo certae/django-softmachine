@@ -444,7 +444,7 @@ class ProtoTable(ProtoModel):
     info = JSONField( default = {} )
 
     def __unicode__(self):
-        return slugify( self.entity + ':' +  self.info.__str__())  
+        return self.entity.code + ':' +  self.info.__str__()  
 
     def myStr(self, *args, **kwargs ):
         # Evalua el string de prototipos

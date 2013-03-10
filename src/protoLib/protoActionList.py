@@ -466,7 +466,7 @@ def getTextSearch( sFilter, model , JsonField):
 
     for fName in pSearchFields:
         fAux = fieldsDict.get( fName, {})
-        if fAux.get( 'type', '' )  not in [ 'string', 'text',  'protojson' ]: continue   
+        if fAux.get( 'type', '' )  not in [ 'string', 'text',  'jsonfield' ]: continue   
             
         QTmp = addQbeFilterStmt( {'property': fName, 'filterStmt': sFilter['filterStmt'] } , model, JsonField )
 

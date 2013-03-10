@@ -4,7 +4,7 @@
 
 # Importa el sitio con las collecciones admin ya definidas
 from django.db import models
-from django.contrib.admin.sites import  site
+#from django.contrib.admin.sites import  site
 from django.conf import settings
 from django.http import HttpResponse
 
@@ -14,7 +14,7 @@ import django.utils.simplejson as json
 from models import CustomDefinition  
 from protoActionEdit import setSecurityInfo
 from protoAuth import getUserProfile, getModelPermissions
-from utilsWeb import JsonError, JsonSuccess 
+from utilsWeb import JsonError #, JsonSuccess 
 from utilsBase import verifyList
 
 from prototype.models import Prototype 
@@ -111,10 +111,9 @@ def protoGetMenuData(request):
         for model in models.get_models( include_auto_created = True ):
         #for model, model_admin in site._registry.items():
             #protoAdmin = getattr(model_admin, 'protoExt', {})
-            protoAdmin = model.get('protoExt', {}) 
             menuNode = model._meta.object_name
+            protoAdmin = getattr( model, 'protoExt', {}) 
             getMenuItem( protoAdmin, model, menuNode )
-
     
         # Sort the apps alphabetically.
         app_list = app_dict.values()

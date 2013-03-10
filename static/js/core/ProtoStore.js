@@ -411,7 +411,7 @@ _SM.DefineProtoModel = function  ( myMeta  ){
             mField.type = 'list';            
             break;
 
-        case 'protojson':
+        case 'jsonfield':
             mField.readOnly = true;            
             mField.type = 'json';            
             break;

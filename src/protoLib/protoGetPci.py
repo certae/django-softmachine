@@ -47,7 +47,7 @@ def protoGetPCI(request):
     # PROTOTIPOS
     if viewCode.startswith( PROTO_PREFIX )  and viewCode != viewEntity :
         try:
-            prototypeView = viewCode.remplace( PROTO_PREFIX, '')
+            prototypeView = viewCode.replace( PROTO_PREFIX, '')
             protoDef = Prototype.objects.get(code = prototypeView, smOwningTeam  = userProfile.userTeam )
             created = False   
         except:
@@ -69,9 +69,13 @@ def protoGetPCI(request):
 #        version = protoMeta.get( 'metaVersion' )
 #        if ( version is None ) or ( version < PROTOVERSION ):
 #            created = True 
-    
+
+    # active solo viene de protoDefinition     
+    try: active = protoDef.active
+    except:  active = True 
+        
     # Si es nuevo o no esta activo lee Django 
-    if created or ( not protoDef.active   ) :
+    if created or ( not  active  ) :
 
         model_admin, protoMeta  = getProtoAdmin( model )
         version = protoMeta.get( 'metaVersion' )

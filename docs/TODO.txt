@@ -6,29 +6,15 @@ To Do:
 **  BPMN4ws 
 **  fDroid ( catchNote. photoEditor, OpenDoc, dropBox, kinSoft, VuDroid, fbReader, OsmAnd )
 	
+-------------------
+	Bk db 
+	Borrar db( protoViews, protoTables, ) 
+	Borrar Migrations ( protoLib, prototype )
+	syncDb 
 
+	Log 
+		crear logs por utilizador q hizo sobre q tabla etc. 
 
-	Vistas 
-		las vistas en la misma tabla de view,  asi se evita el problema referencial
-		- Ok modelo  
-		- Ok getPci, savePci 
-		- Ok menu ( verificar admin )
-		protoTable tambien debe depender 
-		- Ok modelo 
-		- Ok generacion de vistas 
-		- Ok lectura y edicion 
-
-		PROTO_PREFIX = "prototype.ProtoTable."
-		if viewCode.startswith( PROTO_PREFIX )  and viewCode != viewEntity :
-
-
-	Menu 
-		si se deja en blanco al editar el nombre se vuelve loco 
-		No al generar menu crear proyectos, 
-		permir la creacion de opciones al adm 
-
-	Absorcion de cols 
-		Ok - no esta agregando el __ en el nombre 
 
 	form 
 		Ok no se ven los idtems de detalles al editar 

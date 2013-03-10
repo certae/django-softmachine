@@ -17,13 +17,13 @@ def getViewDefinition( pEntity, viewTitle  ):
     entityName = getViewCode( pEntity  )
 
     infoEntity = baseDefinition( pEntity, entityName, viewTitle  )
-    infoEntity['gridConfig']['baseFilter'] = [ { 'property':'entity_id', 'filterStmt' : '=' + pEntity.id } ]
+    infoEntity['gridConfig']['baseFilter'] = [ { 'property':'entity', 'filterStmt' : '=' + str( pEntity.id )  } ]
 
     #para crear el campo __str__:  se arma con las llaves definidas como primarias o unicas 
     __str__Base = []
     #infoEntity['gridConfig']['listDisplay'].append( '__str__' )
 
-    for pProperty in pEntity.propertySet.all():
+    for pProperty in pEntity.propertySet.order_by('id'):
 
         fName  = 'info__' + slugify( pProperty.code ) 
         field = property2Field( fName, pProperty.__dict__ )
@@ -42,7 +42,7 @@ def getViewDefinition( pEntity, viewTitle  ):
             __str__Base.append( fName )
 
         # DP solicito se generaran todos los campos en la grilla 130308 )
-        if  True or pProperty.isEssential : 
+        if  pProperty.isEssential or len( infoEntity['gridConfig']['listDisplay'] ) <= 7 : 
             infoEntity['gridConfig']['listDisplay'].append( fName )
 
 
@@ -82,7 +82,9 @@ def getViewCode( pEntity, viewTitle = None ):
 
 def property2Field( fName, propDict, infoField = False, fBase = '' ):
     """ Genera la definicion del campo en la pci """
-    
+   
+    if len( fBase ) > 0:  fBase += '__' 
+     
     field =  { 
         "name"    : fName,
         "header"  : propDict.get('code', fName),
@@ -101,7 +103,7 @@ def property2Field( fName, propDict, infoField = False, fBase = '' ):
     }
     
     if infoField :  
-        field["id"] = fBase + '__' + fName
+        field["id"] = fBase + fName
         field["text"] = fName
         field["leaf"] = True
         field["checked"] = False
@@ -248,12 +250,13 @@ def createView( pEntity, viewTitle, userProfile ):
     #viewCode = PROTO_PREFIX + viewName
     
     try:
-        # Crea el Prototype ( mismo nombre q la vista : necesario para los zooms y los detalles automaticos  ) 
-        rec = Prototype.objects.get_or_create( code = viewName, smOwningTeam = userProfile.userTeam )[0]
+        # Crea el Prototype ( mismo nombre q la vista : necesario para los zooms y los detalles automaticos  )
+        rec = Prototype.objects.get_or_create( code = viewName, 
+                                               smOwningTeam = userProfile.userTeam, 
+              defaults = { 'entity_id' :  pEntity.id } )[0]
     except Exception:
         raise Exception('can\'ot create the view') 
     
-    rec.entity = pEntity 
     rec.metaDefinition = json.dumps( infoEntity, cls=JSONEncoder ) 
     rec.description = infoEntity['description'] 
     

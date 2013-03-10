@@ -117,7 +117,7 @@ def getQbeStmt( fieldName ,  sQBE, sType   ):
 
 
     # String:  \iexact, \icontains, \istartswith, isnull, search, TODO: \iendswith, \iregex 
-    if sType in ([ 'string', 'text', 'protojson' ]) : 
+    if sType in ([ 'string', 'text', 'jsonfield' ]) : 
         if sQBE.startswith('^'):
             Qobj =  { "{0}__istartswith".format( fieldName ) :  sQBE[1:]  }  
         

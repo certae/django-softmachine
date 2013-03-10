@@ -1,5 +1,29 @@
 Log : 
 
+
+    Menu 
+        ok si se deja en blanco al editar el nombre se vuelve loco 
+        ok No al generar menu crear proyectos, 
+        ok permir la creacion de opciones al adm 
+        no agregar opciones q adicionales en protoDefinition ( hacer un vector y verificar contra la def)
+
+    Absorcion de cols 
+        Ok - no esta agregando el __ en el nombre 
+
+    Vistas prototypo
+        las vistas en la misma tabla de view,  asi se evita el problema referencial
+        - Ok modelo  
+        - Ok getPci, savePci 
+        - Ok menu ( verificar admin )
+        protoTable tambien debe depender 
+        - Ok modelo 
+        - Ok generacion de vistas 
+        - Ok lectura y edicion 
+
+        PROTO_PREFIX = "prototype.ProtoTable."
+        if viewCode.startswith( PROTO_PREFIX )  and viewCode != viewEntity :
+
+
     Edit Mode
         Ok Limpiar los iconos de edicion, 
         Ok permititr cambiar los detalles en edicion 

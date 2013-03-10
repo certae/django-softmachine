@@ -33,6 +33,11 @@ def baseDefinition( pEntity , entityName, viewTitle  ):
             "type": "autofield"
         },
         {
+            "name": "entity",
+            "readOnly": True,
+            "hidden": True,
+        },
+        {
             "name": "entity_id",
             "readOnly": True,
             "hidden": True,
@@ -43,21 +48,14 @@ def baseDefinition( pEntity , entityName, viewTitle  ):
             "searchable": True,
             "readOnly": True,
             "hidden": True,
-            "type": "text",
+            "type": "jsonfield",
         },               
         {
-            "zoomModel": "auth.User",
             "name": "smOwningUser",
             "readOnly": True,
             "type": "foreigntext"
         },
         {
-            "name": "smModifiedOn",
-            "readOnly": True,
-            "type": "datetime"
-        },
-        {
-            "zoomModel": "protoLib.TeamHierarchy",
             "name": "smOwningTeam",
             "readOnly": True,
             "type": "foreigntext"
@@ -67,28 +65,33 @@ def baseDefinition( pEntity , entityName, viewTitle  ):
             "readOnly": True,
             "type": "datetime"
         },
-        {
-            "zoomModel": "auth.User",
-            "name": "smModifiedBy",
-            "readOnly": True,
-            "type": "foreigntext"
-        },
-        {
-            "name": "smRegStatus",
-            "readOnly": True,
-            "type": "string"
-        },
-        {
-            "zoomModel": "auth.User",
-            "name": "smCreatedBy",
-            "readOnly": True,
-            "type": "foreigntext"
-        },
-        {
-            "name": "smWflowStatus",
-            "readOnly": True,
-            "type": "string"
-        }
+#        {
+#            "name": "smModifiedOn",
+#            "readOnly": True,
+#            "type": "datetime"
+#        },
+#        {
+#            "zoomModel": "auth.User",
+#            "name": "smModifiedBy",
+#            "readOnly": True,
+#            "type": "foreigntext"
+#        },
+#        {
+#            "name": "smRegStatus",
+#            "readOnly": True,
+#            "type": "string"
+#        },
+#        {
+#            "zoomModel": "auth.User",
+#            "name": "smCreatedBy",
+#            "readOnly": True,
+#            "type": "foreigntext"
+#        },
+#        {
+#            "name": "smWflowStatus",
+#            "readOnly": True,
+#            "type": "string"
+#        }
     ],
     "detailsConfig": [],
     "gridConfig": {
