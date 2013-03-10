@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib.admin.sites import  site
-from protoGrid import getProtoViewName
+from protoGrid import getBaseModelName
 from models import getDjangoModel
 
 import django.utils.simplejson as json
@@ -17,7 +17,7 @@ def protoExecuteAction(request):
     actionName   = request.POST.get('actionName', '') 
     
     viewCode  = request.POST.get('viewCode', '') 
-    viewEntity  = getProtoViewName( viewCode )
+    viewEntity  = getBaseModelName( viewCode )
 
     selectedKeys = request.POST.get('selectedKeys', [])
     selectedKeys = json.loads( selectedKeys )

@@ -6,7 +6,7 @@
 from django.http import HttpResponse
 from models import getDjangoModel, ProtoDefinition
 from protoActionList  import Q2Dict, getQSet  
-from protoGrid import  getProtoViewName 
+from protoGrid import  getBaseModelName 
 from utilsBase import  getReadableError  
 from django.utils.encoding import smart_str
 from protoQbe import addFilter
@@ -99,7 +99,7 @@ def getSheetConf( protoMeta , sheetName ):
 
 def getReportBase( viewCode ):
     
-    viewEntity  = getProtoViewName( viewCode )
+    viewEntity  = getBaseModelName( viewCode )
     
     # Obtiene el modelo 
     try: 

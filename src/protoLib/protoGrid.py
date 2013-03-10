@@ -336,7 +336,7 @@ def setDefaultField ( fdict, model, viewCode ):
 
 
     
-def getProtoViewName( viewCode   ):
+def getBaseModelName( viewCode   ):
 #    Verifica si es una instancia del modelo ( vista )
 #    Concept Format :    app.model.view 
 #    Return :  app.model ,  view 

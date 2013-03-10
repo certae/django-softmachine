@@ -123,24 +123,33 @@ function getTemplate( ptType, forForm,  metaField  )  {
 
 function getStoreDet( prItems  ) {
     // Obtiene los store de las grillas dependientes 
-    
     var cllStoreDet = []
-    
     for ( var ixV in prItems ) {
         var lObj = prItems[ixV];
-        
-        if ( lObj.items ) {
-            cllStoreDet = cllStoreDet.concat( getStoreDet( lObj.items ) );         
-        }
-
         if ( lObj.__ptType == "protoGrid" ) {
-            
             cllStoreDet.push(  lObj.store )
-        }
-
+        } else  if ( lObj.items &&  lObj.items.items ) {
+            cllStoreDet = cllStoreDet.concat( getStoreDet( lObj.items.items ) );         
+        } 
     }
-
     return cllStoreDet 
-    
 }
 
+
+// function getObjs( prItems ) {
+    // //recorrido geenerico de objetos 
+    // var key, obj, prop, owns = Object.prototype.hasOwnProperty;
+    // for (key in prItems ) {
+        // if (owns.call(prItems, key)) {
+            // obj = prItems[key];
+            // for (prop in obj ) {
+                // // using obj.hasOwnProperty might cause you headache if there is
+                // // obj.hasOwnProperty = function(){return false;}
+                // // but owns will always work 
+                // if (owns.call(obj, prop)) {
+                    // console.log(prop, "=", obj[prop]);
+                // }
+            // }
+        // }
+    // }    
+// }

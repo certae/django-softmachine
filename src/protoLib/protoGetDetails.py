@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from protoField import TypeEquivalence
 from models import getDjangoModel 
 from utilsBase import getReadableError, verifyStr
-from protoGrid import  getProtoViewName, getModelDetails
+from protoGrid import  getBaseModelName, getModelDetails
 from utilsWeb import JsonError, JsonSuccess 
 
 import django.utils.simplejson as json
@@ -17,7 +17,7 @@ def protoGetDetailsTree(request):
         return JsonError( 'invalid message' ) 
     
     viewCode = request.POST.get('viewCode', '') 
-    viewEntity  = getProtoViewName( viewCode )
+    viewEntity  = getBaseModelName( viewCode )
     
     try: 
         model = getDjangoModel(viewEntity)

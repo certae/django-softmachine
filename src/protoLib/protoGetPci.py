@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.http import HttpResponse
-from protoGrid import  getProtoViewName, setDefaultField , getProtoAdmin
+from protoGrid import  getBaseModelName, setDefaultField , getProtoAdmin
 from protoLib import protoGrid
 from protoField import  setFieldDict, isAdmField
 from models import getDjangoModel, ProtoDefinition, CustomDefinition 
@@ -32,7 +32,7 @@ def protoGetPCI(request):
         return JsonError( 'invalid message' ) 
     
     viewCode = request.POST.get('viewCode', '') 
-    viewEntity  = getProtoViewName( viewCode )
+    viewEntity  = getBaseModelName( viewCode )
     
     try: 
         model = getDjangoModel(viewEntity)
@@ -301,7 +301,7 @@ def protoGetFieldTree(request):
         return JsonError('Invalid message') 
     
     viewCode = request.POST.get('viewCode', '') 
-    viewEntity  = getProtoViewName( viewCode )
+    viewEntity  = getBaseModelName( viewCode )
     
     try: 
         model = getDjangoModel(viewEntity)

@@ -447,6 +447,8 @@ class ProtoView(ProtoModel):
     description = models.TextField( blank = True, null = True)
     notes  = models.TextField( blank = True, null = True)
 
+    metaDefinition = models.TextField( blank = True, null = True)
+
     def __unicode__(self):
         return slugify( self.code )  
     

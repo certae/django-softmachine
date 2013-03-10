@@ -92,14 +92,14 @@ Ext.define('ProtoUL.ux.StatusBar', {
 
                 xtype: 'splitbutton',
                 text: _SM._UserInfo.fullName || _SM._UserInfo.userName,
-                iconCls:'icon-user',
-                menu: new Ext.menu.Menu({
-                    items: [
-                        { text: _SM.__language.StatusBar_Text_Close_Session,  
-                         handler: this.closeSession, 
-                         iconCls: 'icon-logout' }
-                    ]
-                })
+                iconCls:'icon-user'
+                // menu: new Ext.menu.Menu({
+                    // items: [
+                        // { text: _SM.__language.StatusBar_Text_Close_Session,  
+                         // handler: this.closeSession, 
+                         // iconCls: 'icon-logout' }
+                    // ]
+                // })
             }])
 
         // TODO: Boton q permita clear del sb y guarde en el tooltip la informacion de errores 

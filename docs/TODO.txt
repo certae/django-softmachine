@@ -1,10 +1,19 @@
 To Do:  
 
+**  archivo de deploy 
 **  Fecha para el doctorado 
 **  recuperacion de gastos de estudio
 **  BPMN4ws 
 **  fDroid ( catchNote. photoEditor, OpenDoc, dropBox, kinSoft, VuDroid, fbReader, OsmAnd )
 	
+	Vistas 
+		las vistas en la misma tabla de view,  asi se evita el problema referencial 
+
+	Menu 
+		si se deja en blanco al editar el nombre se vuelve loco 
+
+	Hernecia de cols 
+		no esta agregando el __ en el nombre 
 
 	form 
 		desaparecen los detalles al editar 
