@@ -33,10 +33,10 @@ def baseDefinition( pEntity , entityName, viewTitle  ):
             "type": "autofield"
         },
         {
-            "name": "entity",
+            "name": "entity_id",
             "readOnly": True,
             "hidden": True,
-            "prpDefault" : entityName, 
+            "prpDefault" : pEntity.id, 
         },
         {
             "name": "info",
@@ -96,7 +96,7 @@ def baseDefinition( pEntity , entityName, viewTitle  ):
         "baseFilter": [],
         "searchFields": [ "info",],
         "sortFields": [],
-        "hiddenFields": [ "id", "info", "entity" ],
+        "hiddenFields": [ "id", "info", "entity_id" ],
         "readOnlyFields": [],
     },
     "formConfig": {

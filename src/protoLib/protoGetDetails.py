@@ -9,6 +9,8 @@ from utilsWeb import JsonError, JsonSuccess
 
 import django.utils.simplejson as json
 
+PROTO_PREFIX = "prototype.ProtoTable."
+
 def protoGetDetailsTree(request):
     """ return full field tree 
     """
@@ -27,9 +29,8 @@ def protoGetDetailsTree(request):
         return HttpResponse(context, mimetype="application/json")
 
     detailList = []
-    if viewEntity == 'prototype.ProtoTable' and viewEntity != viewCode :
-        # -----------------------------------------------------------------------------------------------------
-        # Prototipos 
+    if viewCode.startswith( PROTO_PREFIX )  and viewCode != viewEntity :
+        # -------------------------------------------------------------------------  Prototipos 
         protoEntityId = request.POST.get( 'protoEntityId' )
         if not protoEntityId >= 0: return JsonError( 'invalid idEntity')
 

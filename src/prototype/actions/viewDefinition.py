@@ -3,9 +3,8 @@
 import django.utils.simplejson as json
 
 from viewTemplate import baseDefinition
-from prototype.models import Entity,  ProtoView
+from prototype.models import Entity,  Prototype
 
-from protoLib.models import CustomDefinition
 from protoLib.protoActionEdit import setSecurityInfo 
 from protoLib.utilsBase import JSONEncoder, slugify
 from protoLib.protoAuth import getUserProfile
@@ -18,7 +17,7 @@ def getViewDefinition( pEntity, viewTitle  ):
     entityName = getViewCode( pEntity  )
 
     infoEntity = baseDefinition( pEntity, entityName, viewTitle  )
-    infoEntity['gridConfig']['baseFilter'] = [ { 'property':'entity', 'filterStmt' : '=' + entityName } ]
+    infoEntity['gridConfig']['baseFilter'] = [ { 'property':'entity_id', 'filterStmt' : '=' + pEntity.id } ]
 
     #para crear el campo __str__:  se arma con las llaves definidas como primarias o unicas 
     __str__Base = []
@@ -102,7 +101,7 @@ def property2Field( fName, propDict, infoField = False, fBase = '' ):
     }
     
     if infoField :  
-        field["id"] = fBase + fName
+        field["id"] = fBase + '__' + fName
         field["text"] = fName
         field["leaf"] = True
         field["checked"] = False
@@ -246,24 +245,21 @@ def createView( pEntity, viewTitle, userProfile ):
     infoEntity  = getViewDefinition( pEntity , viewTitle  )
 
     # Debe corresponder al viewCodegenerado en el template ( infoEntity[viewCode] ) 
-    viewCode = PROTO_PREFIX + viewName
+    #viewCode = PROTO_PREFIX + viewName
     
     try:
-        rec = CustomDefinition.objects.get(code = viewCode, smOwningTeam = userProfile.userTeam )
-        created = False 
-    except CustomDefinition.DoesNotExist:
-        created = True 
-        rec = CustomDefinition( code = viewCode )
+        # Crea el Prototype ( mismo nombre q la vista : necesario para los zooms y los detalles automaticos  ) 
+        rec = Prototype.objects.get_or_create( code = viewName, smOwningTeam = userProfile.userTeam )[0]
+    except Exception:
+        raise Exception('can\'ot create the view') 
     
+    rec.entity = pEntity 
     rec.metaDefinition = json.dumps( infoEntity, cls=JSONEncoder ) 
     rec.description = infoEntity['description'] 
-    rec.active = True 
     
-    setSecurityInfo( rec, {}, userProfile, created   )
+    setSecurityInfo( rec, {}, userProfile, True    )
     rec.save()
 
-    # Crea el ProtoView ( mismo nombre q la vista : necesario para los zooms y los detalles automaticos  ) 
-    ProtoView.objects.get_or_create( entity = pEntity, code = viewName, smOwningTeam = userProfile.userTeam )
 
 
 # ----

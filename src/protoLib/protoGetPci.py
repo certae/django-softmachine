@@ -13,15 +13,16 @@ from protoQbe import getSearcheableFields
 
 from protoAuth import getUserProfile, getModelPermissions
 
+from prototype.models import Prototype 
+PROTO_PREFIX = "prototype.ProtoTable."
+
+
 import django.utils.simplejson as json
 import traceback
 
 
-#TODO: Vistas parametrizadas por el usuario ( custom ) 
-
-
 # 12/10/28 Permite la carga directa de json de definicion. 
-PROTOVERSION = '130206'
+PROTOVERSION = '130310'
 
 
 def protoGetPCI(request):
@@ -43,11 +44,12 @@ def protoGetPCI(request):
     userProfile = getUserProfile( request.user, 'getPci', viewEntity  ) 
 
 
-    # PROTOTIPOS 
-    if viewEntity == 'prototype.ProtoTable' and viewEntity != viewCode :
+    # PROTOTIPOS
+    if viewCode.startswith( PROTO_PREFIX )  and viewCode != viewEntity :
         try:
-            protoDef = CustomDefinition.objects.get(code = viewCode, smOwningTeam  = userProfile.userTeam )
-            created = False 
+            prototypeView = viewCode.remplace( PROTO_PREFIX, '')
+            protoDef = Prototype.objects.get(code = prototypeView, smOwningTeam  = userProfile.userTeam )
+            created = False   
         except:
             jsondict = { 'success':False, 'message': viewCode + ' notFound' } 
             return HttpResponse( json.dumps( jsondict), mimetype="application/json")
@@ -61,6 +63,7 @@ def protoGetPCI(request):
     # Verifica si es una version vieja 
     if created: 
         protoDef.overWrite = True
+
 #    else: 
 #        protoMeta = json.loads( protoDef.metaDefinition ) 
 #        version = protoMeta.get( 'metaVersion' )
@@ -226,8 +229,8 @@ def createProtoMeta( model, grid, viewEntity , viewCode ):
 def protoSaveProtoObj(request):
     """ Save full metadata
     
-    * objetos del tipo _XXX                   se guardan siempre en customDefinition 
-    * objetos del tipo prototype.protoTable   se guardan siempre en customDefinition
+    * objetos del tipo _XXX                   se guardan siempre en CustomDefinition 
+    * objetos del tipo prototype.protoTable   se guardan siempre en Prototype 
      
     * Solo los adminstradores tienen el derecho de guardar pcls
     
@@ -247,13 +250,16 @@ def protoSaveProtoObj(request):
         return JsonError( 'invalid message' ) 
 
     custom = False  
+    prototype = False
+    create = False 
+     
     viewCode = request.POST.get('viewCode', '')
 
     userProfile = getUserProfile( request.user, 'saveObjs', viewCode  ) 
 
     # Reglas para definir q se guarda  
     if viewCode.find( '_' ) == 0  :  custom = True 
-    if viewCode.find( 'prototype.ProtoTable.' ) == 0  :  custom = True 
+    if viewCode.startswith( PROTO_PREFIX ) :  prototype = True 
 
     # Carga la meta 
     sMeta = request.POST.get('protoMeta', '')
@@ -262,19 +268,35 @@ def protoSaveProtoObj(request):
     if custom: 
 
         try:
-            protoDef, created = CustomDefinition.objects.get_or_create(code = viewCode, smOwningTeam = userProfile.userTeam )
+            protoDef, create  = CustomDefinition.objects.get_or_create(code = viewCode, smOwningTeam = userProfile.userTeam )
         except Exception as e:
             return JsonError(  getReadableError( e ) ) 
-            
-        setSecurityInfo( protoDef, {}, userProfile, created  )
 
-    # Solo los administradores pueden cargar en protoDefinition 
-    elif request.user.is_superuser: 
+    # Es prototype
+    elif prototype: 
 
         try:
-            protoDef, created = ProtoDefinition.objects.get_or_create(code = viewCode )
+            # debe existir previamente
+            protoDef = Prototype.objects.get(code = viewCode, smOwningTeam = userProfile.userTeam )
+            create = False 
         except Exception as e:
             return JsonError(  getReadableError( e ) ) 
+
+    else: 
+
+        # Verifica los permisos  
+        viewEntity  = getBaseModelName( viewCode )
+        model = getDjangoModel(viewEntity)
+        if not getModelPermissions( request.user, model, 'config' ) : 
+            return JsonError( 'permission denied' ) 
+
+        try:
+            protoDef  = ProtoDefinition.objects.get_or_create(code = viewCode )[0]
+        except Exception as e:
+            return JsonError(  getReadableError( e ) ) 
+
+        protoDef.active = True 
+        protoDef.overWrite = False 
 
         # borra el custom por q confunde haecer modif en un lado y otro 
         try:
@@ -282,11 +304,10 @@ def protoSaveProtoObj(request):
         except:  pass
 
 
-    else: return JsonError('Q paso, como llego aqui?') 
- 
-    # El default solo parece funcionar al insertar en la Db
-    protoDef.active = True 
-    protoDef.overWrite = False 
+    if custom or prototype: 
+        setSecurityInfo( protoDef, {}, userProfile, create )
+        
+
     protoDef.metaDefinition = sMeta 
     protoDef.save()    
 
@@ -309,9 +330,8 @@ def protoGetFieldTree(request):
         return JsonError(  getReadableError( e ) ) 
     
     fieldList = []
-    if viewEntity == 'prototype.ProtoTable' and viewEntity != viewCode :
-        # -----------------------------------------------------------------------------------------------------
-        # Prototipos 
+    if viewCode.startswith( PROTO_PREFIX ) and viewCode!= viewEntity :
+        # ---------------------------------------------------              Prototipos 
         protoEntityId = request.POST.get( 'protoEntityId' )
         if not protoEntityId >= 0: return JsonError( 'invalid idEntity')
 
@@ -322,7 +342,6 @@ def protoGetFieldTree(request):
             return JsonError( 'invalid idEntity')
 
     else: 
-        
         # -----------------------------------------------------------------------------------------------------
         # Se crean los campos con base al modelo ( trae todos los campos del modelo 
         for field in model._meta._fields():

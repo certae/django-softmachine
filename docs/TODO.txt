@@ -6,26 +6,40 @@ To Do:
 **  BPMN4ws 
 **  fDroid ( catchNote. photoEditor, OpenDoc, dropBox, kinSoft, VuDroid, fbReader, OsmAnd )
 	
+
+
 	Vistas 
-		las vistas en la misma tabla de view,  asi se evita el problema referencial 
+		las vistas en la misma tabla de view,  asi se evita el problema referencial
+		- Ok modelo  
+		- Ok getPci, savePci 
+		- Ok menu ( verificar admin )
+		protoTable tambien debe depender 
+		- Ok modelo 
+		- Ok generacion de vistas 
+		- Ok lectura y edicion 
+
+		PROTO_PREFIX = "prototype.ProtoTable."
+		if viewCode.startswith( PROTO_PREFIX )  and viewCode != viewEntity :
+
 
 	Menu 
 		si se deja en blanco al editar el nombre se vuelve loco 
+		No al generar menu crear proyectos, 
+		permir la creacion de opciones al adm 
 
-	Hernecia de cols 
-		no esta agregando el __ en el nombre 
+	Absorcion de cols 
+		Ok - no esta agregando el __ en el nombre 
 
 	form 
-		desaparecen los detalles al editar 
+		Ok no se ven los idtems de detalles al editar 
+
 		no se puede seleccionar una vista en el detalle 
-		la vista no entra en edicion 
-		probar la edicion 
+		la vista no entra en edicion ( probar la edicion  _
 
-
-	form add
-		add other 
+		agregar AddOther 
 		reset x close 
-		permisos 
+		verficar permisos 
+
 
 	funciones 
 		crear tabla de funciones q sea interpretada en Django al momento de hacer un select 
@@ -40,29 +54,27 @@ To Do:
 
 
 	Filtros zoom 
-
-		PAra pasar los filtro hay q tener una referencia al store de base 
-		todos los campos llevaran un idPRotoGrid 
+		Ok PAra pasar los filtro hay q tener una referencia al store de base 
+		Ok todos los campos llevaran un idPRotoGrid 
 		como se hace cuando los dos campos se actualizan en la forma 
 			se debe actualizar el rowData  al momento de hacer el setValue 
-
 
 	zooms,  
 		no cargar la pcl hasta q se crea el objeto 
 
-
 	tabClose
 		destruir los objetos asociados 
 
----------------------------------------------------------------	   
 
 	Resaltar el boton de detalle activo 
 
+---------------------------------------------------------------	   
+
+
+	Django - Sessions 
+
 	default de direction = sortOrder ?? 
 
-	Menu
-		al generar menu crear proyectos, 
-		permir la creacion de opciones al adm 
 
 	prototipos 
 		intialsort en los prototipos 

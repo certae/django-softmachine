@@ -2,12 +2,12 @@
 
 #import sys
 
-# Importa el sitio con las collecciones admin ya definidas 
+# Importa el sitio con las collecciones admin ya definidas
+from django.db import models
 from django.contrib.admin.sites import  site
 from django.conf import settings
 from django.http import HttpResponse
 
-#from protoGetPci import getProtoViewObj
 
 import django.utils.simplejson as json
 
@@ -16,6 +16,9 @@ from protoActionEdit import setSecurityInfo
 from protoAuth import getUserProfile, getModelPermissions
 from utilsWeb import JsonError, JsonSuccess 
 from utilsBase import verifyList
+
+from prototype.models import Prototype 
+PROTO_PREFIX = "prototype.ProtoTable."
 
 class cAux: pass 
 
@@ -64,7 +67,7 @@ def protoGetMenuData(request):
         if menuDefinition.get('hidden', False ): return  
     
         # Icono por defecto
-        viewIcon = 'icon-%s' % protoAdmin.get( 'viewIcon',  '1')
+        viewIcon =  protoAdmin.get( 'viewIcon', 'icon-1')
     
         model_dict = {
             'viewCode': appCode + '.' + menuNode ,
@@ -105,8 +108,10 @@ def protoGetMenuData(request):
 
     else:
 
-        for model, model_admin in site._registry.items():
-            protoAdmin = getattr(model_admin, 'protoExt', {}) 
+        for model in models.get_models( include_auto_created = True ):
+        #for model, model_admin in site._registry.items():
+            #protoAdmin = getattr(model_admin, 'protoExt', {})
+            protoAdmin = model.get('protoExt', {}) 
             menuNode = model._meta.object_name
             getMenuItem( protoAdmin, model, menuNode )
 
@@ -120,10 +125,10 @@ def protoGetMenuData(request):
             app['children'].sort(key=lambda x: x['index'])
 
 
-        # lee las opciones del prototipo 
-        protoOpts = CustomDefinition.objects.filter( code__startswith = 'prototype.ProtoTable.', smOwningTeam = userProfile.userTeam )
+        # lee las opciones del prototipo -----------------------------------------------
+        prototypes = Prototype.objects.filter( smOwningTeam = userProfile.userTeam )
         ix = 0 
-        for option in protoOpts:
+        for option in prototypes:
 
             if ix == 0 :
                 prNodes = {  
@@ -135,14 +140,12 @@ def protoGetMenuData(request):
                 }
                 app_list.append( prNodes )
 
-            nodeName = option.code.replace( 'prototype.ProtoTable.', '')
-            
             prNodes['children'].append( {
-                'text':  nodeName,
+                'text':  option.code,
                 'expanded': True ,
-                'viewCode': option.code,
+                'viewCode': PROTO_PREFIX + option.code,
                 'iconCls': 'icon-proto',
-                'index': 'prOtoTyPe.' + option.code,
+                'index':  ix,
                 'leaf': True 
                  })
 

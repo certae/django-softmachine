@@ -3,11 +3,12 @@
 from django.db import models
 from django.db.models.signals import post_save, post_delete 
 
-from protoLib.models import ProtoModel, CustomDefinition  
+from protoLib.models import ProtoModel   
 from protoLib.fields import JSONField,  JSONAwareManager
 
 from protoRules import  updatePropInfo, twoWayPropEquivalence, updProPropModel
 from protoRules import  ONDELETE_TYPES, BASE_TYPES, CRUD_TYPES
+
 
 from protoLib.utilsBase import slugify
 
@@ -139,7 +140,7 @@ class Entity(ProtoModel):
         },{
             "__ptType": "detailDef",
             "menuText": "Views",
-            "conceptDetail": "prototype.ProtoView",
+            "conceptDetail": "prototype.Prototype",
             "detailName": "entity",
             "detailField": "entity__pk",
             "masterField": "pk"
@@ -317,7 +318,7 @@ class PropertyModel(PropertyBase):
         super(PropertyModel, self).save(*args, **kwargs) 
         
     protoExt = { 
-    "menuApp" : "dictionary", 
+#    "menuApp" : "dictionary", 
     "actions": [
         { "name": "doPropertyModelJoin", 
           "selectionMode" : "multiple",  
@@ -381,7 +382,7 @@ class PropertyEquivalence(ProtoModel):
         super(PropertyEquivalence, self).delete(*args, **kwargs)
 
     protoExt = { 
-        "menuApp" : "dictionary", 
+#        "menuApp" : "dictionary", 
         "gridConfig" : {
             "listDisplay": ["__str__", "description", "smOwningTeam"]      
         }
@@ -405,36 +406,9 @@ post_save.connect(propEquivalence_post_save, sender = PropertyEquivalence)
 
 #   --------------------------------------------------------------------------------
 
-class ProtoTable(ProtoModel):
-    """
-    Esta es el store de los prototipos   
-    """
-    entity = models.CharField( blank = False, null = False, max_length=200  )
-    info = JSONField( default = {} )
-
-    def __unicode__(self):
-        return slugify( self.entity + '.' +  self.info.__str__())  
-
-    def myStr(self, *args, **kwargs ):
-        # Evalua el string de prototipos
-        val = ''
-        for arg in args:
-            try: val = val + '.' + str( self.info.get( arg[6:] ) )
-            except: pass 
-        return  val[1:]
-
-    objects = JSONAwareManager(json_fields = ['info'])
-    protoExt = { 'jsonField' : 'info' }
-   
-    protoExt = { 
-        "gridConfig" : {
-            "listDisplay": ["__str__", "smOwningTeam"]      
-        }
-    } 
-    
 
 
-class ProtoView(ProtoModel):
+class Prototype(ProtoModel):
     """
     Esta tabla manejar la lista de  prototypos almacenados en customDefinicion, 
     Genera la "proto" pci;  con la lista de campos a absorber y los detalles posibles        
@@ -462,11 +436,33 @@ class ProtoView(ProtoModel):
         unique_together = ( 'code', 'smOwningTeam' )
 
 
-    def delete(self, *args, **kwargs):
-        #Borra las ocurrencias en customDefinition
-        viewName = PROTO_PREFIX + self.code          
-        CustomDefinition.objects.filter( code = viewName ).delete()
-        super(ProtoView, self).delete(*args, **kwargs)
+class ProtoTable(ProtoModel):
+    """
+    Esta es el store de los prototipos   
+    """
+    entity = models.ForeignKey( Entity, blank = False, null = False )
+    info = JSONField( default = {} )
+
+    def __unicode__(self):
+        return slugify( self.entity + ':' +  self.info.__str__())  
+
+    def myStr(self, *args, **kwargs ):
+        # Evalua el string de prototipos
+        val = ''
+        for arg in args:
+            try: val = val + '.' + str( self.info.get( arg[6:] ) )
+            except: pass 
+        return  val[1:]
+
+    objects = JSONAwareManager(json_fields = ['info'])
+    protoExt = { 'jsonField' : 'info' }
+   
+    protoExt = { 
+        "gridConfig" : {
+            "listDisplay": ["__str__", "smOwningTeam"]      
+        }
+    } 
+    
         
 
 #   --------------------------------------------------------------------------------

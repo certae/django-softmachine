@@ -141,7 +141,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         var grid
         if ( myMeta.pciStyle == 'tree' ) {
             // me.store = _SM.getTreeStoreDefinition( storeDefinition )
-            // grid = Ext.create('Ext.tree.Panel', {border:false,region:'center',flex:1,layout:'fit',minSize:50,stripeRows:true,tools:[],useArrows:true,rootVisible:false,multiSelect:false,singleExpand:true,stripeRows:true,rowLines:true,store:me.store,columns:[{xtype:'treecolumn',text:myMeta.shortTitle,flex:3,dataIndex:'__str__'},{text:'protoView',dataIndex:'protoView'},{text:'id',dataIndex:'id'}]}); 
+            // grid = Ext.create('Ext.tree.Panel', {border:false,region:'center',flex:1,layout:'fit',minSize:50,stripeRows:true,tools:[],useArrows:true,rootVisible:false,multiSelect:false,singleExpand:true,stripeRows:true,rowLines:true,store:me.store,columns:[{xtype:'treecolumn',text:myMeta.shortTitle,flex:3,dataIndex:'__str__'},{text:'model',dataIndex:'model'},{text:'id',dataIndex:'id'}]}); 
         } else { 
 
             me.store = _SM.getStoreDefinition( storeDefinition )
