@@ -428,7 +428,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     }, 
 
     fireStartEdition: function (  editAction ) {
-        this.fireEvent('startEdition', this , editAction );
+       // this.fireEvent('startEdition', this , editAction );
     }, 
 
     getSelectedIds: function() {

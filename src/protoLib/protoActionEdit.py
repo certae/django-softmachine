@@ -4,7 +4,7 @@ import traceback
 
 from django.utils import simplejson as json
 from django.http import HttpResponse 
-
+from django.db import models 
 
 from datetime import datetime
 from models import getDjangoModel  
@@ -21,8 +21,9 @@ ERR_NOEXIST = '<b>ErrType:</b> KeyNotFound<br>The specifique record does not exi
 
 
 def protoCreate(request):
-    myAction = 'add' 
-    return _protoEdit(request, myAction ) 
+    myAction = 'add'
+    msg =  _protoEdit(request, myAction )
+    return  msg 
 
 def protoUpdate(request):
     myAction = 'change' 
@@ -151,13 +152,13 @@ def _protoEdit(request, myAction ):
                 # -- Los tipos complejos ie. date, generan un error, es necesario hacerlo detalladamente 
                 # Convierte el registro en una lista y luego toma solo el primer elto de la lista resultado. 
                 data = Q2Dict(protoMeta , [rec], False  )[0]
-
-
-            except Exception,  e:
-                data['_ptStatus'] =  data['_ptStatus'] +  getReadableError( e ) 
-                traceback.print_exc()
-            finally: 
                 data['_ptId'] =  _ptId
+
+            except Exception as  e:
+                data['_ptStatus'] =  data['_ptStatus'] +  getReadableError( e ) 
+                data['_ptId'] =  _ptId
+                #traceback.print_exc()
+                #return doReturn ({'success':False ,'message' : str( e )})
                 
         else:  # Action Delete
             try:
@@ -165,6 +166,7 @@ def _protoEdit(request, myAction ):
 
             except Exception,  e:
                 data['_ptStatus'] = data['_ptStatus'] +  getReadableError( e ) 
+                pass 
         
         pList.append( data )
         
@@ -202,9 +204,9 @@ def setSecurityInfo( rec, data, userProfile, insAction  ):
 # ---------------------
 
 def setProtoData( rec, data, key, value  ):
-    data[ key ] = value 
     setattr( rec, key, value  )
-
+    if not isinstance( value, models.Model ):  
+        data[ key ] = value
 
 
 def setRegister( model,  rec, key,  data   ):

@@ -431,8 +431,22 @@ Ext.define('ProtoUL.UI.FormController', {
             }
         } 
     
+        /* 
+        {
+            //TODO:  Agregar tooltip a los campos 
+              fieldLabel: 'test label'
+              allowBlank: false,
+              listeners: {
+                render: function(c) {
+                  Ext.QuickTips.register({
+                    target: c.getEl(),
+                    text: 'this is a test message'
+                  });
+                }
+              }
+            } 
+         */
+    
     } 
 
-
-      
 })

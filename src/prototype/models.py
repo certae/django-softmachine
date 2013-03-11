@@ -169,7 +169,7 @@ class PropertyBase(ProtoModel):
     prpDefault = models.CharField( blank = True, null = True, max_length=50)
     
     """prpChoices:  Lista de valores CSV ( idioma?? ) """ 
-    prpChoices = models.CharField( blank = True, null = True, max_length=200 )
+    prpChoices = models.TextField( blank = True, null = True)
 
     """isSensitive: Indica si las propiedades requieren un nivel mayor de seguridad """  
     isSensitive = models.BooleanField()
