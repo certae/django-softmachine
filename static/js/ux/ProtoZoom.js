@@ -26,21 +26,14 @@ Ext.define('ProtoUL.ux.protoZoom', {
     extend : 'Ext.form.field.Trigger',
     alias : 'widget.protoZoom',
     
-    /**
-     * Zoom initialization
-     */
+    // * Zoom initialization
     zoomModel: null, 
     zommFilter : '', 
 
-    /**
-     * Zoom Record
-     */
+    zoomGrid : null, 
     zoomRecord: null, 
 
-    /**
-     * @private
-     * trigger button cls 
-     */
+    //trigger button cls 
     triggerCls : Ext.baseCSSPrefix + 'form-search-trigger',
     // readOnlyCls : 'protoLink', 
     /**
@@ -48,37 +41,15 @@ Ext.define('ProtoUL.ux.protoZoom', {
      * Indica si todos los atributos de configuracion fueron cargados, permitiria reutilizar la forma solo cambiando el filtro 
      */
     isLoaded : false,
+    handleMouseEvents: true,
 
     /*  Formato de Link
     fieldStyle: 'color: -webkit-link !important;text-decoration: underline !important;cursor: auto !important;', 
     fieldCls: 'protoLink',
      */
 
-
-    /* 
-     * 
-     */     
     initComponent : function() {
-
         var me = this; 
-        
-        
-        // Opciones del llamado AJAX 
-        var options = {
-            scope: this, 
-            success: function ( obj, result, request ) {
-                me.createZoomWindow( me ); 
-            },
-            failure: function ( obj, result, request) { 
-                return ;  
-            }
-        };
-
-        if (  _SM.loadPci( me.zoomModel , true, options ) ) {
-            me.createZoomWindow( me ); 
-        }   
-
-        
         this.callParent(arguments);
         
         // Para activar el evento con ENTER 
@@ -89,38 +60,60 @@ Ext.define('ProtoUL.ux.protoZoom', {
                 }
             }, 
         this);
-
-        
     },
     
-    handleMouseEvents: true,
     listeners: {
         'render': function( cmp1 ) { 
             cmp1.getEl().on('click', this.onClickLink, this );}
     }, 
-    
-    onClickLink: function ( ev, nd ) {
 
+    onClickLink: function ( ev, nd ) {
         // La funcion Link solo se activa si es readOly 
         if ( ! this.readOnly  ) return 
         if ( nd.nodeName == "LABEL" ) return 
-        // console.log( ev, nd  )
-        
-        var formController = Ext.create('ProtoUL.UI.FormController', {});
-        formController.openProtoForm.call( formController, this.zoomModel, this.fkIdValue , false   ) 
 
+        this._loadZoom( this.doClickLink  )  
     }, 
 
+    _loadZoom: function( fnBase, opts  ) {
+        var me = this; 
+        var options = 
+        {
+            scope: me, 
+            success: function ( obj, result, request ) {
+                me.createZoomWindow( me );
+                fnBase.call( me, me, opts )
+            },
+            failure: function ( obj, result, request) { 
+                return ;  
+            }
+        };
+
+        if (  _SM.loadPci( me.zoomModel , true, options ) ) {
+            me.createZoomWindow( me ); 
+            fnBase.call( me, me, opts )
+        }   
+ 
+    }, 
+    
+
+    doClickLink: function ( me ) {
+        
+        var formController = Ext.create('ProtoUL.UI.FormController', {});
+        formController.openProtoForm.call( formController, me.zoomModel, me.fkIdValue , false   ) 
+        
+    }, 
+    
     createZoomWindow:  function ( me  ){
+        if ( me.isLoaded ) return 
 
         me.myMeta = _SM._cllPCI[ me.zoomModel ] ; 
 
         // Para identificar el StatusBar 
         me.idStBar = Ext.id();
 
-
         // Crea la grilla 
-        var zoomGrid = Ext.create('ProtoUL.view.ProtoGrid', { 
+        this.zoomGrid = Ext.create('ProtoUL.view.ProtoGrid', { 
             viewCode  : me.zoomModel,
             // initialFilter : [{ 'property' : 'pk', 'filterStmt' :  -1 }], 
             initialFilter : [], 
@@ -132,13 +125,13 @@ Ext.define('ProtoUL.ux.protoZoom', {
              
         var searchBG = Ext.create('ProtoUL.ux.ProtoSearchBG', { myMeta: me.myMeta })
 
-        zoomGrid.on({
+        this.zoomGrid.on({
             selectionChange: {fn: function ( rowModel, record, rowIndex,  eOpts ) {
                 me.setStatusBar( rowIndex, record )
             }, scope: this }
         });
 
-        zoomGrid.on({
+        this.zoomGrid.on({
             rowDblClick: {fn: function ( record, rowIndex ) {
                 me.setStatusBar( rowIndex, record )
                 me.doReturn()
@@ -148,7 +141,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
         searchBG.on({
             qbeLoadData: {fn: function ( searchBG , sFilter, sTitle , sorter ) {
                 me.resetZoom()                
-                zoomGrid.gridLoadData( zoomGrid, sFilter, sorter );
+                this.zoomGrid.gridLoadData( this.zoomGrid, sFilter, sorter );
             }, scope: this }
         });                 
 
@@ -165,7 +158,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
             resizable : true,
 
             tbar :  searchBG, 
-            items : zoomGrid, 
+            items : this.zoomGrid, 
 
             dockedItems: [{
                 xtype: 'toolbar',
@@ -186,47 +179,47 @@ Ext.define('ProtoUL.ux.protoZoom', {
 
         me.isLoaded = true;
         
-        // La guarda en el objeto de base 
-        this.zoomGrid = zoomGrid 
-        
         function doCancel() {
             me.resetZoom() 
             me.win.hide()
         }
 
-
         function doNew() {
             var formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });
-            formController.openNewForm ( zoomGrid.store   )
+            formController.openNewForm ( this.zoomGrid.store   )
         }
 
 
         function doEdit() {
-            if ( ! zoomGrid.selected ) {
+            if ( ! this.zoomGrid.selected ) {
                 _SM.errorMessage(_SM.__language.Title_Form_Panel, _SM.__language.GridAction_NoRecord)
                 return 
             }
             var formController = Ext.create('ProtoUL.UI.FormController', { 
                 myMeta : me.myMeta
              });
-            formController.openLinkedForm ( zoomGrid.selected    )
+            formController.openLinkedForm ( this.zoomGrid.selected    )
         }
         
     }, 
     
-    onTriggerClick : function( obj ) {
+    onTriggerClick : function (  ) {
+        this._loadZoom( this.doTriggerClick )  
+    }, 
+    
+    doTriggerClick : function( me ) {
 
-        this.showZoomForm( this );
+        me.showZoomForm( me );
     },
     
     showZoomForm : function(me) {
         if ( ! me.isLoaded  ) return
         
-        // verifica el zoomFilter 
-        var myZoomFilter = getFilter()
-        if ( myZoomFilter.length > 0 ) {
-            this.zoomGrid.store.mySetBaseFilter( myZoomFilter )
-        }
+        // TODO: verifica el zoomFilter 
+        // var myZoomFilter = getFilter()
+        // if ( myZoomFilter.length > 0 ) {
+            // this.zoomGrid.store.mySetBaseFilter( myZoomFilter )
+        // }
 
         me.win.show();
         

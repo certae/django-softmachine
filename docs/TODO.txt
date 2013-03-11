@@ -12,9 +12,8 @@ To Do:
 	Borrar Migrations ( protoLib, prototype )
 	syncDb 
 
-	Log 
-		crear logs por utilizador q hizo sobre q tabla etc. 
 
+	navegacion al link del zoom ( eliminada para carga dinamica )
 
 	form 
 		Ok no se ven los idtems de detalles al editar 
@@ -50,6 +49,9 @@ To Do:
 
 	tabClose
 		destruir los objetos asociados 
+
+	Log 
+		crear logs por utilizador q hizo sobre q tabla etc. 
 
 
 	Resaltar el boton de detalle activo 

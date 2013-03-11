@@ -37,6 +37,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
     // Mantiene el IdMaster para las operaciones maestro detalle  
     idMaster : -1,
     masterRecord : null, 
+    masterDetail : false, 
     isReadOnly : false, 
     
     //@ Store asociado al registro de entrada linked o independiente
@@ -110,16 +111,17 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         // Obtiene los store de las grillas dependientes y asigna el listener startEdition 
         this.cllDetails = getDetails( this.items.items , me ); 
-        asignaDetailDefinition( me )
-    
-        // Si tiene detalles habilita el boton de segundo guardado     
-        if ( this.cllDetails.length > 0 )  this.btSaveDet.show()
+        if ( this.cllDetails.length > 0 ) { 
+            this.masterDetail = true  
+            this.btSaveDet.show() 
+            asignaDetailDefinition( me )
+        }
         
         // Lo genera de nuevo, quedaban componentes mal ubicados 
         this.doLayout()
 
         function getDetails( prItems , me  ) {
-            // Obtiene los store de las grillas dependientes 
+            // Obtiene los store de las grillas recursivamente 
             var cllDetails = []
             for ( var ixV in prItems ) {
                 var lGrid = prItems[ixV];
@@ -145,10 +147,6 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 }
             }; 
         }
-
-        // -------------------------------------------------------------   Eventos 
-
-
     },
     
     // startGridEdition : function ( grid, editAction , opts  ) {
@@ -157,11 +155,11 @@ Ext.define('ProtoUL.view.ProtoForm', {
     
     showProtoForm: function () {
         _SM.showConfig( 'Form Config' , this.myMeta.formConfig   )
-       },
+    },
 
     showLayoutConfig: function () {
         _SM.showConfig( 'LayoutConfig' , this.prFormLayout   )
-       },
+    },
         
     updateHtmlPanels: function( record ) {
         var sHtml 
@@ -306,6 +304,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
         
         // desactiva el boton save 
         this.btSave.setDisabled( bReadOnly )
+        this.btSaveDet.setDisabled( bReadOnly )
         this.setReadOnlyFields( bReadOnly )
         this.setDetailsReadOnly( bReadOnly  )
 
@@ -390,10 +389,11 @@ Ext.define('ProtoUL.view.ProtoForm', {
         // -------------------------------------------------- --------  evento del store
         this.store.on({
         update: function( store, record, operation, eOpts ) {
-            if ( record && !record.phantom && ( this.cllDetails.length > 0 ) )  { 
-                this.idMaster = record.get('id' ) ;
+            if ( record && !record.phantom && this.masterDetail )  {
+                this.idMaster = record.get('id' ) ; 
                 this.myFormController.newForm = false; 
                 this.linkDetail( record );
+
                 this.btSave.setDisabled( true );
                 this.btSaveDet.setDisabled( false );
                 this.setDetailsReadOnly( false );
@@ -402,9 +402,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
     },
 
     linkDetail: function( record ) {
-    // Refresca las grillas de detalle 
-        if ( record && !record.phantom )  this.idMaster = record.get('id' ) ;
-        else this.idMaster = -1
+        if ( ! this.masterDetail ) return  
 
         for ( var ixDet in this.cllDetails ) {
             var lGrid = this.cllDetails[ixDet];
@@ -441,7 +439,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 myTitleField['readOnly'] = true
                 
                 myDetGrid.detailTitle = myTitleField['prpDefault']
-                myDetGrid._extGrid.setTitle( myTitleField['prpDefault'] )   
+                myDetGrid.setGridTitle( myDetGrid )   
             } 
         }
     },
@@ -502,7 +500,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
         }
          
         if ( this.store.autoSync != true   )  this._doSyncMasterStore()  
-        if ( this.cllDetails.length == 0 )  this.fireEvent('close', this );
+        if ( ! this.masterDetail )  this.fireEvent('close', this );
     }
 
     
