@@ -111,7 +111,7 @@ function openHtmlEditorWin( myPanel   )  {
             items : ['->', {
                 iconCls : 'icon-save',
                 itemId : 'save',
-                text:   _SM.__language.Title_Save_Button,
+                text:   _SM.__language.Text_Save_Button,
                 scope : this,
                 handler : onSave
             }, {

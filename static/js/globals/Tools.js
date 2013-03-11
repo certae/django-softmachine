@@ -19,7 +19,7 @@ _SM.objConv=function ( a ){
     // Object converter: Para testear si un elto hace parte de un array se convierte el array en objeto 
   var o = {};
   if ( ! a ) {
-      console.log( '_SM.objConv : no list!!! ')
+      // console.log( '_SM.objConv : no list!!! ')
       return o ;
   }
   for(var i=0;i<a.length;i++)
@@ -307,12 +307,8 @@ _SM.getModelName = function (viewCode) {
     // con el nuevo esquema de creacion dinamica, es mejor q el modelo corresponda a la 
     // opcion, pues las definiciones pueden ser totalmente diferentes. 
 
-    if ( ! viewCode ) {
-        console.log( 'undefined model??')
-    }
 
-    var modelName = viewCode; 
-    
+    // var modelName = viewCode; 
     // Cuenta los "."
     // if ( _SM.charCount( viewCode, ".")  > 2  ) {
         // var n = viewCode.split(".", 2)         
@@ -320,7 +316,7 @@ _SM.getModelName = function (viewCode) {
     // }
 
 
-    return _SM._PConfig.clsBaseModel + modelName
+    return _SM._PConfig.clsBaseModel + viewCode
 }
 
 _SM.getSafeMeta = function (myMeta) {
@@ -450,7 +446,7 @@ _SM.openScript = function (url) {
 _SM.fireEvent = function (type, myMeta, eventData, scope, fn) {
     me = scope;
     var code = myMeta.businessRules[type] || null;
-    console.log(code + "-->" + type);
+    // console.log(code + "-->" + type);
     eventData.type = type;
     _SM.eventData = eventData;
     _SM.eventData.cancel = false;

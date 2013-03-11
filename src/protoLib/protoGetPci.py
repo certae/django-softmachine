@@ -281,7 +281,8 @@ def protoSaveProtoObj(request):
 
         try:
             # debe existir previamente
-            protoDef = Prototype.objects.get(code = viewCode, smOwningTeam = userProfile.userTeam )
+            protoCode  = viewCode.replace( PROTO_PREFIX, '' )
+            protoDef = Prototype.objects.get(code = protoCode, smOwningTeam = userProfile.userTeam )
             create = False 
         except Exception as e:
             return JsonError(  getReadableError( e ) ) 

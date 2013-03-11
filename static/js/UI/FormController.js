@@ -113,18 +113,18 @@ Ext.define('ProtoUL.UI.FormController', {
         me.myForm.store = myRecord.store
         
         // Si la forma es visible no salen los tools 
-        if ( me.isReadOnly ) {
-            me.myWin.tools = [{
-                type: 'readOnly',
-                tooltip: 'readOnly' 
-            }, {
-                type: 'gear',
-                scope: me.myForm, 
-                handler: me.myForm.showProtoForm
-                // handler: me.showLayoutConfig
-            }] 
-            me.myWin.addTools()
-        }         
+        // if ( me.isReadOnly ) {
+            // me.myWin.tools = [{
+                // type: 'readOnly',
+                // tooltip: 'readOnly' 
+            // }, {
+                // type: 'gear',
+                // scope: me.myForm, 
+                // handler: me.myForm.showProtoForm
+                // // handler: me.showLayoutConfig
+            // }] 
+            // me.myWin.addTools()
+        // }         
          
         // me.myWin.show();
         
@@ -188,7 +188,8 @@ Ext.define('ProtoUL.UI.FormController', {
     _loadFormData: function( myRecordId ) {
 
         if ( ! this.formLoaded ) {
-            console.log( 'FormController:  Form is not ready')
+            // console.log( 'FormController:  Form is not ready')
+            return 
         }  
 
         // Filter 
@@ -268,7 +269,7 @@ Ext.define('ProtoUL.UI.FormController', {
                 __ptType = protoObj.__ptConfig.__ptType || protoObj.__ptType
                 
                 if ( ! __ptType   ) {
-                    console.log( 'El objeto no tiene tipo definido' , protoObj )
+                    // console.log( 'El objeto no tiene tipo definido' , protoObj )
                     return {}
 
                 } else if ( __ptType == 'formField'  ) {

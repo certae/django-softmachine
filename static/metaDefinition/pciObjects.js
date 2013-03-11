@@ -150,7 +150,7 @@ function clearPhantonProps( __ptConfig ,  __ptType ) {
     for (var ix in __ptConfig ) {   
         if ( ! objConfig.properties ) continue; 
         if ( !( ix  in _SM.objConv( objConfig.properties.concat ( ['name', '__ptValue', '__ptList', '__ptType' ] )))) {
-            console.log( ix )
+            // console.log( ix )
             delete __ptConfig[ ix ]
         }
     } 

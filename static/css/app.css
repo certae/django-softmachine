@@ -54,6 +54,8 @@
 
 .icon-accept      { background-image: url(../img/protoImg/st-accept.png ) !important;}
 .icon-cancel      { background-image: url(../img/protoImg/edit_cancel.png ) !important;}
+.icon-reset       { background-image:url(../img/protoDesigner/broom.png) !important; }
+
 .door_out         { background-image: url(../img/protoImg/door_out.png ) !important;}
 
 .icon-filter       { background-image: url(../img/protoImg/filter.png ) !important; }
@@ -89,6 +91,9 @@
 .icon-tableSave         { background-image: url(../img/protoImg/edit_save.png ) !important;}
 .icon-tableCancel       { background-image: url(../img/protoImg/edit_cancel.png ) !important;}
 .icon-saveDraft         { background-image: url(../img/protoImg/edit_draft.png ) !important;}
+
+.icon-saveMs            { background-image: url(../img/protoImg/edit_save.png ) !important;}
+.icon-saveDt            { background-image: url(../img/protoImg/table_save.png ) !important;}
 
 .icon-tableAdd          { background-image: url(../img/protoImg/table_row_insert.png ) !important;}
 .icon-tableDelete       { background-image: url(../img/protoImg/table_row_delete.png ) !important;}

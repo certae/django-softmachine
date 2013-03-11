@@ -121,19 +121,6 @@ function getTemplate( ptType, forForm,  metaField  )  {
 
 
 
-function getStoreDet( prItems  ) {
-    // Obtiene los store de las grillas dependientes 
-    var cllStoreDet = []
-    for ( var ixV in prItems ) {
-        var lObj = prItems[ixV];
-        if ( lObj.__ptType == "protoGrid" ) {
-            cllStoreDet.push(  lObj.store )
-        } else  if ( lObj.items &&  lObj.items.items ) {
-            cllStoreDet = cllStoreDet.concat( getStoreDet( lObj.items.items ) );         
-        } 
-    }
-    return cllStoreDet 
-}
 
 
 // function getObjs( prItems ) {

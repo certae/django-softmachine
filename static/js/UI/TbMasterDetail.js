@@ -43,7 +43,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             // }, {
                 // iconCls : 'icon-tableSave', 
                 // itemId:     'save',
-                // text:       _SM.__language.Title_Save_Button,
+                // text:       _SM.__language.Text_Save_Button,
                 // tooltip:    _SM.__language.Grid_EditSave_Title,
                 // handler:    editOpts,
                 // hidden:     true  

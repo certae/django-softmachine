@@ -16,7 +16,8 @@ function Meta2Tree( oData, pName, ptType   ) {
 
     var nodeDef     =   _MetaObjects[ ptType ]
     if ( ! nodeDef ) { 
-        console.log( 'Meta2Tree: definicion no encontrada para ' + ptType , oData )
+        // console.log( 'Meta2Tree: definicion no encontrada para ' + ptType , oData )
+        return 
      }
     
     var __ptConfig  =   getSimpleProperties( oData, ptType )  
@@ -145,8 +146,8 @@ function Meta2Tree( oData, pName, ptType   ) {
                 t2Data['leaf'] =  true
                 tItems.push(  t2Data ) 
     
-            } else {
-                console.log( "Error formContainer2Tree", oData )
+            // } else {
+                // console.log( "Error formContainer2Tree", oData )
             } 
         }
         return tItems 
@@ -157,19 +158,19 @@ function Meta2Tree( oData, pName, ptType   ) {
         // Verifica las listas y objetos  
         if ( nodeDef.lists ) { 
             if ( _SM.typeOf( nodeDef.lists ) != 'array' ) {
-                console.log( 'pciObjects definicion errada de listas para ' + ptType )
+                // console.log( 'pciObjects definicion errada de listas para ' + ptType )
                 nodeDef.lists = []
             } else { 
                 for ( var ix in nodeDef.lists  ) {
                     var sKey = nodeDef.lists[ix]
                     if ( typeof( sKey)  !=  'string' ) {
-                        console.log( 'pciObjects definicion errada en listas ' + ptType + ' key ' , sKey  )
+                        // console.log( 'pciObjects definicion errada en listas ' + ptType + ' key ' , sKey  )
                         delete nodeDef.lists[ix]
                         continue } 
                     var childConf = _MetaObjects[ sKey ]
                     if ( childConf.__ptStyle  == 'colList' || childConf.__ptStyle  == 'jsonText' ) continue;
                     if ( ! childConf.listOf ) {
-                        console.log( 'pciObjects no se encontro listOf para ' + sKey  )
+                        // console.log( 'pciObjects no se encontro listOf para ' + sKey  )
                         nodeDef.lists[ix]
                         continue } 
                 }
@@ -178,13 +179,13 @@ function Meta2Tree( oData, pName, ptType   ) {
                        
         if (  nodeDef.objects ) { 
             if  ( _SM.typeOf( nodeDef.objects ) != 'array' ) {
-                console.log( 'pciObjects definicion errada de objects para ' + ptType )
+                // console.log( 'pciObjects definicion errada de objects para ' + ptType )
                 nodeDef.lists = [] 
             } else {
                 for ( var ix in nodeDef.objects  ) {
                     var sKey = nodeDef.objects[ix]
                     if ( typeof( sKey)  !=  'string' ) {
-                        console.log( 'pciObjects definicion errada en objects ' + ptType + ' key ' , sKey  )
+                        // console.log( 'pciObjects definicion errada en objects ' + ptType + ' key ' , sKey  )
                         nodeDef.lists[ix]
                         continue } 
                 }
@@ -207,7 +208,7 @@ function Tree2Meta( tNode  ) {
     var myObj = getNodeInfo( tNode  )
     
     if ( ! myObj.__ptConfig )  { 
-        console.log( 'Nodo sin configuracion ', tNode )
+        // console.log( 'Nodo sin configuracion ', tNode )
         return 
     }  
 
@@ -231,8 +232,8 @@ function Tree2Meta( tNode  ) {
             }  
         }
 
-    } else {
-        console.log( 'tre2meta no considera esta conf ', nodeConf,  tNode )
+    // } else {
+        // console.log( 'tre2meta no considera esta conf ', nodeConf,  tNode )
     }
 
     return mData 
@@ -264,7 +265,7 @@ function Tree2Meta( tNode  ) {
         
         myObj.__ptType =   tData.__ptType
         if ( !tData.__ptConfig ) {
-            console.log( 'getNodeInfo: __ptConfig ni encotrado ', tNode )
+            // console.log( 'getNodeInfo: __ptConfig ni encotrado ', tNode )
             myObj.__ptConfig = {}
             return myObj 
         }
@@ -278,7 +279,7 @@ function Tree2Meta( tNode  ) {
         } else if ( lNode.data && lNode.data.__ptType ) {
             return lNode.data.__ptType  
         }     
-        console.log ( 'getPtType: Tipo de dato no encontrado' , lNode )                
+        // console.log ( 'getPtType: Tipo de dato no encontrado' , lNode )                
     }
 
 }
@@ -289,7 +290,7 @@ function getSimpleProperties( oData, ptType   ) {
 
     // Solo deben llegar objetos, si llega un array no hay props q mostrar     
     if ( _SM.typeOf( oData )  == 'array' ) {
-        console.log( 'getSimpleProperties  array???', oData  )
+        // console.log( 'getSimpleProperties  array???', oData  )
         return []
     }   
 
@@ -309,7 +310,7 @@ function getSimpleProperties( oData, ptType   ) {
             try {
                 cData = Ext.decode( cValue )    
             } catch (e) {  
-                console.log( "Error de encodage", cValue )
+                // console.log( "Error de encodage", cValue )
             }
             
         } else {

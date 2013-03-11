@@ -17,13 +17,17 @@ __language ={
     'Msg_Select_Folder' : 'Not selected folder',
     'Title_Window_Add_Option' : 'Add menu option',
     'MenuTree_Title_Fieldset' : 'Basic Information',
+    
     'Text_Cancel_Button' : 'Cancel',
-    'Title_Save_Button' : 'Save',
+    'Text_Save_Button' : 'Save',
+    'Text_SaveMs_Button' : 'SvMaster',
+    'Text_SaveDt_Button' : 'SvDetails',
+    
     'MenuTree_Text_Add_Event' : 'Add Event',
     'MenuTree_Text_Edit_Event' : 'Edit Event',
     'Msg_Saved' : 'Saving changes...',
     'Msg_Deleted_Event' : 'Deleting event...',
-    'Toolbar_Text_Reset_Button' : 'Reset',
+
     'Msg_Invalid_Form' : 'OOPs!! Form is not valid',
     'Msg_Error_Save_Form' : 'Save form Failed',
     'Msg_Failed_Operation' : 'Operation failure',

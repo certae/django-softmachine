@@ -41,11 +41,12 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
     // Mantiene el IdMaster para las operaciones maestro detalle  
     idMaster : null,
-      
+    isReadOnly : false, 
+          
     // Coleccion de campos html definidos en htmlSet
+    cllDetails : [], 
     htmlPanels : {},     
       
-
     // Defne como manejar  maneja los campos heredados de los zoom 
     zoomReturnDef : null, 
 
@@ -61,12 +62,22 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
 
         this.btSave = Ext.create( 'Ext.Button', {
-            iconCls : 'icon-save',
+            iconCls : 'icon-saveMs',
             id : this.idSaveBt,
-            text: _SM.__language.Title_Save_Button,
+            text: _SM.__language.Text_SaveMs_Button,
             scope : this,
             handler : this.onSave
         });
+
+        this.btSaveDet = Ext.create( 'Ext.Button', {
+            iconCls : 'icon-saveDt',
+            id :  this.idSaveBtDt,
+            text: _SM.__language.Text_SaveDt_Button,
+            hidden : true, 
+            scope : this,
+            handler : this.onSaveDet 
+        });
+
 
         this.stMsg = Ext.create('Ext.toolbar.TextItem');
 
@@ -83,9 +94,9 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 xtype : 'toolbar',
                 dock : 'bottom',
                 ui : 'footer',
-                items : [ this.stMsg, '->',  this.btSave , {
-                    iconCls : 'icon-reset',
-                    text: _SM.__language.Toolbar_Text_Reset_Button,
+                items : [ this.stMsg, '->',  this.btSave , this.btSaveDet,  {
+                    iconCls : 'icon-cancel',
+                    text: _SM.__language.Text_Cancel_Button,
                     scope : this,
                     handler : this.onReset
                 }]
@@ -98,28 +109,46 @@ Ext.define('ProtoUL.view.ProtoForm', {
         // obtiene la coleccion de panles html para su manipulacion 
         this.getHtmlPanels(); 
 
-        // Obtiene los store de las grillas dependientes
-        this.cllStoreDet = getStoreDet( this.items.items  ); 
+        // Obtiene los store de las grillas dependientes y asigna el listener startEdition 
+        this.cllDetails = getDetails( this.items.items , me ); 
+        asignaDetailDefinition( me )
         
-        // Indexa los stores con la info de los detalles copiando la info del detalle  
-        for ( var ix in this.cllStoreDet ) {
-            var lObj = this.cllStoreDet[ix];
-            for ( var ixD in this.myMeta.detailsConfig ) {
-                var lDet = this.myMeta.detailsConfig[ ixD ];
-                if ( lObj.viewCode == lDet.conceptDetail ) {
-                    lObj.detailDefinition = lDet 
-                }
+        this.doLayout()
+
+        function getDetails( prItems , me  ) {
+            // Obtiene los store de las grillas dependientes 
+            var cllDetails = []
+            for ( var ixV in prItems ) {
+                var lGrid = prItems[ixV];
+                if ( lGrid.__ptType == "protoGrid" ) {
+                    cllDetails.push(  lGrid  )
+                    lGrid.addListener('startEdition', me.startGridEdition, me ) 
+                } else  if ( lGrid.items &&  lGrid.items.items ) {
+                    cllDetails = cllDetails.concat( getDetails( lGrid.items.items, me ) );         
+                } 
             }
+            return cllDetails 
         }; 
         
-        
-        // FIX:  las 2 cols no se marcan bien 
-        this.doLayout()
+        function asignaDetailDefinition( me) {
+            // Indexa los stores con la info de los detalles copiando la info del detalle  
+            for ( var ix in me.cllDetails ) {
+                var lObj = me.cllDetails[ix];
+                for ( var ixD in me.myMeta.detailsConfig ) {
+                    var lDet = me.myMeta.detailsConfig[ ixD ];
+                    if ( lObj.viewCode == lDet.conceptDetail ) {
+                        lObj.detailDefinition = lDet 
+                    }
+                }
+            }; 
+        }
 
     },
     
+    startGridEdition : function ( grid, editAction , opts  ) {
+        // console.log('xx')
+    },
     
-
     showProtoForm: function () {
         _SM.showConfig( 'Form Config' , this.myMeta.formConfig   )
        },
@@ -190,23 +219,6 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
     },
 
-        // Refresca las grillas de detalle 
-    linkDetail: function( record ) {
-        this.idMaster = -1
-        if ( record && !record.phantom ) {
-            this.idMaster = record.get('id' ) ;
-        }
-        for ( var ixDet in this.cllStoreDet ) {
-            var tmpStore = this.cllStoreDet[ixDet];
-            var detField = tmpStore.detailDefinition.detailField, myFilter = {} 
-
-            // myFilter[ detField ] = this.idMaster
-
-            var protoFilter = [{ "property" :  detField , "filterStmt" : this.idMaster  }];
-            tmpStore.myLoadData( protoFilter, null,  this.idMaster )
-        }
-
-    },
 
     setText : function ( sText ) {
          
@@ -214,26 +226,12 @@ Ext.define('ProtoUL.view.ProtoForm', {
          
     }, 
     
+    onSaveDet : function() {
+        // Guardado de las grillas y cierre de la forma 
+
+    }, 
+    
     onSave : function() {
-
-        /**
-         *      this.activeRecord  es la copia de mi registro, 
-         *      
-         *      this.getForm().getValues()  Obtiene una copia de los campos presentes en la forma, 
-         *          para actualizarlos en el registro se deben recorrer uno a uno,  
-         *          es una coleccion estandar
-
-         *      this.getForm().setValues()  permite mostrar valores sobre los campos presentes
-         *          si el campo no existe, no hace nada 
-         *   
-         *      La actualizacion de campos debe hacerse sobre el activeRecord y con setValues, 
-         *      de esta forma no hay necesidad de incluir campos ocultos, al momento de guardar la forma 
-         *      se traeran los campos visibles  (  getValues  ) y se actualizan uno a uno, sobre activeRecord  
-         *      se guarda siempre el activeRecord 
-         * 
-         *      La actualizacion BackEnd se puede hacer con  submit ( action.submit )
-         *      o trabajando directamente con el modelo mediante  updateRecord 
-         */
 
 
         this.updateZoomIds()
@@ -320,39 +318,6 @@ Ext.define('ProtoUL.view.ProtoForm', {
         
     }, 
 
-/*
-    updateZoomReturn: function (  zoomFld  ) {
-        // El problema es en q momento se dispara, 
-        // hay q capturar un evento para cerrar la ventana de zoom
-        // verifica si esta definido y lo define a necesidad 
-        if ( ! this.zoomReturnDef  ) {
-            // mantiene una lista con la definicion de los cpFromField 
-            this.zoomReturnDef = []
-            // Crea la coleccion de campos q deben heredarse 
-            for (var ix in this.myMeta.fields ) {
-                var vFld = this.myMeta.fields[ix] 
-                if ( ! vFld.cpFromZoom ) continue;
-                var cpFrom = {
-                    "name"    : vFld.fName,
-                    "cpFromZoom" : vFld.cpFromZoom,   
-                    "cpFromField" : vFld.cpFromField
-                } 
-            }
-        } 
-        
-        // Verifica si hay elementos a heredar 
-        if ( this.zoomReturnDef.length  == 0 ) { return } 
-
-        // Recorre las propiedades a heredar         
-        for (var ix in this.zoomReturnDef ) {
-            var cpFrom = this.zoomReturnDef[ix]
-            if ( cpForm.cpFromZoom == zoomFld.name   ) {
-                this.updateFormField(  zoomFld.name , zoomFld[ cpForm.cpFromField ] )
-            }
-        }
-
-    }, 
-*/
 
     updateFkId: function (  zoomField, fkId ) {
         // Actualiza el IdValue en el zoom para hacer los vinculos  
@@ -386,14 +351,21 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
     },
 
-    setFormReadOnly: function( bDisable ){
+    setFormReadOnly: function( bReadOnly ){
         
-        // Fix : Error ExtJs ??? dice q el obj no tiene metodo isXType 
-        // this.setDisabled( bDisable )
-
+        // por defecto viene editable 
+        this.isReadOnly = bReadOnly
+        
         // desactiva el boton save 
-        this.btSave.setDisabled( bDisable )
-        this.setReadOnlyFields( bDisable )
+        this.btSave.setDisabled( bReadOnly )
+        this.setReadOnlyFields( bReadOnly )
+
+        // Recorre las grillas          
+        for (var ix in this.cllDetails  ) {
+            var lGrid = this.cllDetails[ix]
+            lGrid.setEditMode( ! bReadOnly ) 
+        }
+
     }, 
 
 
@@ -406,21 +378,15 @@ Ext.define('ProtoUL.view.ProtoForm', {
         // var readOnlyCls = 'protofield-readonly'
         var myFields = this.getForm().getFields();
     
-        Ext.Array.forEach( myFields.items , function( obj ) {
-        
+        for (var ix in myFields.items   ) {
+            var obj = myFields.items[ix]
             if ( obj.readOnly ) {
                 obj.setReadOnly( true );
-                // obj[bReadOnly ? 'addCls' : 'removeCls']( readOnlyCls );
-                // if ( obj.xtype != 'htmlfield' ) obj.setDisabled( true  );
-                
             } else if ( ! readOnlyFields  || ( obj.name in _SM.objConv( readOnlyFields )  )  ) {
-                // El obj no es readOnly pero la forma si,  
-                // FIX: poner una mascara, pero q pasa con el zoom  
+                // El obj no es readOnly pero la forma si, se podria poner una mascara, pero q pasa con el zoom  
                 obj.setReadOnly( bReadOnly );
-                
             }; 
-        
-        });
+        };
 
         // Recorre los htmlPanels         
         for (var ix in this.htmlPanels  ) {
@@ -432,24 +398,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
             } else if ( ! readOnlyFields  || ( fDef.name in _SM.objConv( readOnlyFields )  )  ) {
                 obj.setReadOnly( bReadOnly );
             }; 
-        } 
-
-      },
-
-    setGridEditMode: function ( bEdit ) {
-
-        // TODO: recorre las grillas         
-        // for (var ix in this.htmlPanels  ) {
-            // var obj = this.htmlPanels[ix]
-            // var fDef = obj.__ptConfig 
-            // if ( fDef.readOnly ) {
-                // obj.setReadOnly( true );
-            // } else if ( ! readOnlyFields  || ( fDef.name in _SM.objConv( readOnlyFields )  )  ) {
-                // obj.setReadOnly( bReadOnly );
-            // }; 
-        // } 
-        
-      },
+        }
+    },
 
     getHtmlPanels: function () {
         // Busca si tiene htmlSets podria agregarse los paneles como campos, 
@@ -457,23 +407,107 @@ Ext.define('ProtoUL.view.ProtoForm', {
         // setear propiedad  isFormField : true 
         // implementar por lo menos los metodos : valueToRaw, setRawValue
         
-        this.getHtmlPanelDefinition( this.items.items )
-    },
+        getHtmlPanelDefinition( this.items.items , this )
 
-    getHtmlPanelDefinition: function ( formItems ) {
-        for (var ix in formItems   ) {
-            var vFld = formItems[ix]
-            
-            if ( vFld.xtype ==  "htmlset" ) {
-                Ext.apply(  this.htmlPanels, vFld.htmlPanels  )
-            } else if ( vFld.xtype ==  "fieldset" ) {
-                this.getHtmlPanelDefinition( vFld.items.items )     
+        function getHtmlPanelDefinition( formItems, me ) {
+            for (var ix in formItems   ) {
+                var vFld = formItems[ix]
+                
+                if ( vFld.xtype ==  "htmlset" ) {
+                    Ext.apply(  me.htmlPanels, vFld.htmlPanels  )
+                } else if ( vFld.xtype ==  "fieldset" ) {
+                    getHtmlPanelDefinition( vFld.items.items, me )     
+                }
+            } 
+        }
+    }, 
+    
+    linkDetail: function( record ) {
+    // Refresca las grillas de detalle 
+        this.idMaster = -1
+        if ( record && !record.phantom ) {
+            this.idMaster = record.get('id' ) ;
+        }
+        for ( var ixDet in this.cllDetails ) {
+            var lGrid = this.cllDetails[ixDet];
+            var detField = lGrid.detailDefinition.detailField,  
+                myFilter = {}  
+
+            var protoFilter = [{ "property" :  detField , "filterStmt" : this.idMaster  }];
+            lGrid.store.myLoadData( protoFilter, null,  this.idMaster )
+
+            if ( this.idMaster >= 0 && ( ! this.isReadOnly ))  {
+                lGrid.setEditMode( ! this.isReadOnly ) 
+                setDetDefaults( this, lGrid, record )
             }
-        } 
+        }
+        
+        function setDetDefaults( me, myDetGrid, record  ) {
+            var pDetail = myDetGrid.detailDefinition 
+            var nField = pDetail.detailField.replace( /__pk$/, '_id' ) 
+                 
+            // Obtiene el campo de filtro ( heredado )                  
+            var myDetField = myDetGrid.myFieldDict[ nField ]
+            if ( ! myDetField ) {
+                // Si no hereda la llave, cancela la edicion 
+                _SM.__StBar.showError('parent key not found: ' + nField, 'MasterDetail') 
+                myDetGrid.setEditMode( false )
+                return 
+            } 
+
+            myDetField['prpDefault'] = me.idMaster
+
+            // Obtiene el titulo del filtro para heredarlo
+            nField = pDetail.masterTitleField || myDetField.fkField 
+            if ( nField ) var myTitleField = myDetGrid.myFieldDict[ nField ]
+            if ( myTitleField ) { 
+                if ( record )  {
+                    var masterTitleField = pDetail.masterTitleField || '__str__' 
+                    myTitleField['prpDefault'] = record[ masterTitleField ]
+                } 
+
+            } 
+        }
+        
     }
+    
     
 });
 
+
+/*
+    updateZoomReturn: function (  zoomFld  ) {
+        // El problema es en q momento se dispara, 
+        // hay q capturar un evento para cerrar la ventana de zoom
+        // verifica si esta definido y lo define a necesidad 
+        if ( ! this.zoomReturnDef  ) {
+            // mantiene una lista con la definicion de los cpFromField 
+            this.zoomReturnDef = []
+            // Crea la coleccion de campos q deben heredarse 
+            for (var ix in this.myMeta.fields ) {
+                var vFld = this.myMeta.fields[ix] 
+                if ( ! vFld.cpFromZoom ) continue;
+                var cpFrom = {
+                    "name"    : vFld.fName,
+                    "cpFromZoom" : vFld.cpFromZoom,   
+                    "cpFromField" : vFld.cpFromField
+                } 
+            }
+        } 
+        
+        // Verifica si hay elementos a heredar 
+        if ( this.zoomReturnDef.length  == 0 ) { return } 
+
+        // Recorre las propiedades a heredar         
+        for (var ix in this.zoomReturnDef ) {
+            var cpFrom = this.zoomReturnDef[ix]
+            if ( cpForm.cpFromZoom == zoomFld.name   ) {
+                this.updateFormField(  zoomFld.name , zoomFld[ cpForm.cpFromField ] )
+            }
+        }
+
+    }, 
+*/
 
 //TODO:  Agregar tooltip a los campos 
 

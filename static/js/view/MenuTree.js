@@ -72,7 +72,7 @@ Ext.define('ProtoUL.view.MenuTree', {
                         {
                         // Solo para los admins  
                             id: 'newOption',
-                            hide : true,
+                            hidden : true,
                             scope: this,
                             handler: this.newOption,
                             iconCls: 'menu_new_option',
@@ -122,7 +122,7 @@ Ext.define('ProtoUL.view.MenuTree', {
         this.callParent(arguments);
         this.addEvents('menuSelect');
 
-        if ( _SM._UserInfo.isStaff )  Ext.getCmp( 'newOption').show() 
+        if ( _SM._UserInfo.isSuperUser )  Ext.getCmp( 'newOption').show() 
 
     }, 
 
@@ -332,7 +332,7 @@ Ext.define('ProtoUL.view.form.MenuOption', {
                 scope : this, 
                 handler : this.onCancel 
             },{
-                text: _SM.__language.Title_Save_Button,
+                text: _SM.__language.Text_Save_Button,
                 scope : this, 
                 handler : this.onSave 
             }]

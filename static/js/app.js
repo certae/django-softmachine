@@ -94,7 +94,7 @@ Ext.application({
                 myWin.hide()
                 
                 // Globally changing the text of Cancel and Save buttons;
-                Ext.grid.RowEditor.prototype.saveBtnText = _SM.__language.Title_Save_Button;
+                Ext.grid.RowEditor.prototype.saveBtnText = _SM.__language.Text_Save_Button;
                 Ext.grid.RowEditor.prototype.cancelBtnText = _SM.__language.Text_Cancel_Button;
                 
                 var app = new ProtoUL.view.Viewport();

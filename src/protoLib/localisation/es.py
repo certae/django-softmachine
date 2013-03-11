@@ -18,13 +18,16 @@ __language ={
     'Msg_Select_Folder' : 'Ninguna carpeta seleccionada',
     'Title_Window_Add_Option' : 'Agregar opción al menu',
     'MenuTree_Title_Fieldset' :'Información Básica',
+
     'Text_Cancel_Button' : 'Cancelar',
-    'Title_Save_Button' : 'Guardar',
+    'Text_Save_Button' : 'Guardar',
+    'Text_SaveMs_Button' : 'SvMaster',
+    'Text_SaveDt_Button' : 'SvDetails',
+    
     'MenuTree_Text_Add_Event' : 'Agregar Evento',
     'MenuTree_Text_Edit_Event' : 'Modificar Evento',
     'Msg_Saved' : 'Guardando cambios...',
     'Msg_Deleted_Event' : 'Eliminando evento...',
-    'Toolbar_Text_Reset_Button' : 'Reiniciar',
 
     'Msg_Invalid_Form' : 'OOPs!! Formulario no es válido',
     'Msg_Error_Save_Form' : 'Error al guardar formulario',

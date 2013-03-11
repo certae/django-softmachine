@@ -203,6 +203,10 @@ Ext.define('ProtoUL.UI.GridController', {
             });
         }  
 
+        // Lanza el evento de inicio de edicion 
+        this.myGrid.fireStartEdition( btn.itemId  )
+
+
         // 'toolFormAdd', 'toolFormUpd', 'toolFormView', 'toolRowAdd', 'toolRowCopy', 'toolRowDel',
         switch( btn.itemId ){ 
             case 'toolFormAdd' :

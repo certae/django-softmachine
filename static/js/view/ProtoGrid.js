@@ -264,7 +264,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
 
         this.addEvents(
-            'selectionChange', 'rowDblClick', 'promoteDetail'
+            'selectionChange', 'rowDblClick', 'promoteDetail', 'startEdition'
         );
 
         this.callParent(arguments);
@@ -425,6 +425,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     fireSelectionChange: function ( rowModel, record, rowIndex,  eOpts ) {
         this.fireEvent('selectionChange', rowModel, record, rowIndex,  eOpts );
         if ( this.IdeSheet ) { this.sheetCrl.prepareSheet(); }
+    }, 
+
+    fireStartEdition: function (  editAction ) {
+        this.fireEvent('startEdition', this , editAction );
     }, 
 
     getSelectedIds: function() {
