@@ -389,13 +389,10 @@ Ext.define('ProtoUL.view.ProtoForm', {
         // -------------------------------------------------- --------  evento del store
         this.store.on({
         update: function( store, record, operation, eOpts ) {
-            if ( record && !record.phantom && this.masterDetail )  {
+            if ( record && !record.phantom && this.masterDetail && this.myFormController.newForm ){
                 this.idMaster = record.get('id' ) ; 
                 this.myFormController.newForm = false; 
                 this.linkDetail( record );
-
-                this.btSave.setDisabled( true );
-                this.btSaveDet.setDisabled( false );
                 this.setDetailsReadOnly( false );
             }
         }, scope: me });  
@@ -475,9 +472,9 @@ Ext.define('ProtoUL.view.ProtoForm', {
           
      */ 
          
-    	this.onSave()
+        this.onSave()
         this.fireEvent('close', this );
-    	
+        
     }, 
     
     onSave : function() {
@@ -500,9 +497,12 @@ Ext.define('ProtoUL.view.ProtoForm', {
         }
          
         if ( this.store.autoSync != true   )  this._doSyncMasterStore()  
-        if ( ! this.masterDetail )  this.fireEvent('close', this );
-    }
+        if (  this.masterDetail )  {
+            this.btSave.setDisabled( true );
+            this.btSaveDet.setDisabled( false );
+        } else this.fireEvent('close', this );
 
+    }
     
 });
 
