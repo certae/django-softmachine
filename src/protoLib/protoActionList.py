@@ -112,34 +112,37 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
                 udpTypes[ fName ]  =  lField['type'] 
 
 
-    # Verifica si existen reemplazos por hacer ( cpFromField )
-    bCopyFromFld = False
+    # Alimenta la coleccion de zooms, por cada campo pues hay q hacer un select para esto  
     for lField  in protoMeta['fields']:
         fName = lField['name']
-        if lField.get( 'cpFromField' ) is not None: bCopyFromFld = True
-
-        # Alimenta la coleccion de zooms, los campos heredados de otras tablas deben hacer 
-        # referencia a un campo de zoom, el contendra el modelo y la llave para acceder al registro  
         myZoomModel = lField.get( 'zoomModel', '')   
         if (len( myZoomModel ) > 0) and ( myZoomModel <> protoMeta['viewEntity']):
-            # dos campos puede apuntar al mismo zoom, la llave es el campo, 
-            # "cpFromZoom"  contiene el campo q apunta al zoom y no el modelo    
             relModels[ fName ] = { 'zoomModel' : myZoomModel, 'fkId' : lField.get( 'fkId', '') , 'loaded' : False }     
 
 
-    # recorre para borrar los zooms q no tienen referencias
-    # 1. recorre los campos y verifica si alguno hace referencia y lo marca  
-    for lField in protoMeta['fields']:
-        if bCopyFromFld and isAbsorbedField( lField, protoMeta  ) :
-            try: 
-                relModel = relModels[ lField.get( 'cpFromZoom' ) ]
-                relModel[ 'loaded']  = True  
-            except: pass
+    # Verifica si existen reemplazos por hacer ( cpFromField ) 
+    # 1.  Marca los zooms q estan referenciados 
+    bCopyFromFld = False
+    for lField  in protoMeta['fields']:
+        fName = lField['name']
+        if ( lField.get( 'cpFromField' ) is None or lField.get( 'cpFromZoom' ) is None ): continue  
+        bCopyFromFld = True
+        
+        # Marca el campo
+        lField[ 'isAbsorbed' ] = True
+
+        # Marca el zoom
+        try:          
+            relModel = relModels[ lField.get( 'cpFromZoom' ) ]
+            relModel[ 'loaded']  = True  
+        except: pass
+            
              
     # 2.  borra los q no tienen marca   
     for relName in relModels.keys():
         relModel = relModels[ relName ] 
         if not relModel[ 'loaded']: del relModels[ relName ]  
+    
     
     #   Esta forma permite agregar las funciones entre ellas el __unicode__
     rowId = 0 
@@ -223,14 +226,10 @@ def isAbsorbedField( lField , protoMeta ):
     Las herencias manejadas aqui son las q implican un select adicional al otro registro, 
     utilizan la logica del zoom para traer la llave correspondiente 
     """
-    if ( lField.get( 'isAbsorbed' )  ): return True 
     
-    lField[ 'isAbsorbed' ] = False 
-    if ( lField.get( 'cpFromField' ) is None ): return False  
-    if ( lField.get( 'cpFromZoom' ) is None ): return False
-    lField[ 'isAbsorbed' ] = True 
-
-    return True 
+    # Si esta marcado lo retorna 
+    if ( lField.get( 'isAbsorbed', False )  ): return True 
+    return False  
 
 
 def copyValuesFromFields( protoMeta, rowdict, relModels, JsonField):
@@ -251,7 +250,7 @@ def copyValuesFromFields( protoMeta, rowdict, relModels, JsonField):
             # esta es la situacion normal cuando no se idetifica un modelo y se cargan los datos por jerarquia
             # por ahora requiere q el campo este tambien en el modelo ( se puede cambiar si hay la necesidad )
             
-            # Se uso para copiar cosas de discretas y debia mostrar y al editar deberia guardar el valor    
+            # Se uso para copiar cosas de discretas,  debia poner por defecto el vr en el campo     
             # Si ya contiene algun valor, sale, solo copia cuando es nulo. 
             val = rowdict.get( fName, None )  
             if ( val ) and smart_str( val ).__len__() > 0: continue
@@ -281,7 +280,7 @@ def copyValuesFromFields( protoMeta, rowdict, relModels, JsonField):
             if rowData is not None  : 
                 # interpreta los datos del registro 
                 val  =  getFieldValue( cpFromField, lField[ 'type'], rowData  , JsonField )
-            else: val = 'pt??'
+            else: val = ''
              
         rowdict[ fName ] = val 
 

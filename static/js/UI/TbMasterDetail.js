@@ -256,8 +256,11 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             // 'edit', 'autoSync','editOff','save',
 
             if ( but.itemId == 'edit' ) {
+                // Evitar la edicion en detalles si no hay un registro seleccioando 
+                if ( ! __MasterDetail.isDetailCollapsed() ) 
+                    if ( ! _SM.validaSelected( __MasterDetail.protoMasterGrid.selected )) return  
+                 
                 me.setEditMode( true )
-
 
             } else if ( but.itemId == 'editOff' ) {
                 __MasterDetail.cancelChanges()

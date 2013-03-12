@@ -135,7 +135,8 @@ Ext.define('ProtoUL.UI.FormController', {
             me.myForm.setReadOnlyFields( true, me.myMeta.gridConfig.readOnlyFields );            
         }
 
-        me.myWin.show();        me.myWin.updateLayout()
+        me.myWin.show();
+        me.myForm.setDetailsTilte()
         
     }, 
     

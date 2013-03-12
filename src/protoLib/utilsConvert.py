@@ -9,7 +9,7 @@ def getTypedValue ( sAux , sType):
     """ Retorna valores tipados segun el tipo definido 
     * se usa sobre todo para las UDP y los JsonField 
     """  
-    
+
     if sAux == 'None': sAux = ''
     sAux = smart_str( sAux )
     
@@ -25,6 +25,8 @@ def getTypedValue ( sAux , sType):
         sAux = toDateTime( sAux )
     elif sType == 'time':
         sAux = toTime( sAux )
+    elif sType == 'foreigntext':
+        if sAux == 'None': sAux = ''
     
     return sAux 
 

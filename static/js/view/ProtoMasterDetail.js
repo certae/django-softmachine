@@ -124,11 +124,9 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         this.protoMasterGrid.on({
             selectionChange: {fn: function ( rowModel, record, rowIndex,  eOpts  ) {
                 if ( record ) { this.idMasterGrid = record.get('id');    
-                } else { this.idMasterGrid = -1 
-                }
-                
+                } else { this.idMasterGrid = -1 }
                 this.linkDetail();
-                }, 
+            }, 
             scope: me }
         });                 
 
@@ -205,13 +203,17 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
     },
     
 
+    isDetailCollapsed: function() { 
+
+        var detailPanel = Ext.getCmp( this.IDdetailPanel);
+        if ( ! detailPanel   )  return true  
+        return ( detailPanel.collapsed  )
+
+    }, 
+
     setEditMode: function( bEdit ) {
 
         var me = this
-        var detailPanel = Ext.getCmp( me.IDdetailPanel);
-
-        // Solo el estado inicial 
-        if ( ! detailPanel   )  return 
         
         // Apagar las barras ( hacen parte de la grilla menos tbTabs y tbDetails )
         // setDisabled( me.tbTabs )
@@ -223,7 +225,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         setDisabled( me.tbProtoActions )
 
         // Cambia el control de las grillas correspondientes 
-        if ( detailPanel.collapsed  ) {
+        if ( this.isDetailCollapsed()  ) {
             me.protoMasterGrid.setEditMode(  bEdit )
             setDisabled( me.tbDetails )
 
@@ -247,33 +249,28 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         }
         
         function setDetDefaults( myDetGrid ) {
-            var pDetail = myDetGrid.detailDefinition 
-            var nField = pDetail.detailField.replace( /__pk$/, '_id' ) 
+            var pDetail = myDetGrid.detailDefinition,  
+                rowData = me.protoMasterGrid.rowData, 
+                nField =  pDetail.detailField.replace( /__pk$/, '_id' ) 
                  
-            // Obtiene el campo de filtro ( heredado )                  
+            // Obtiene el campo de filtro ( heredado ); Si no hereda la llave, cancela la edicion                  
             var myDetField = myDetGrid.myFieldDict[ nField ]
-            if ( ! myDetField ) {
-                // Si no hereda la llave, cancela la edicion 
+            if ( ! myDetField  || ! rowData  ) {
                 _SM.__StBar.showError('parent key not found: ' + nField, 'MasterDetail') 
-                myDetGrid.setEditMode( false )
-                return 
+                myDetGrid.setEditMode( false );  return 
             } 
 
             myDetField['prpDefault'] = me.idMasterGrid
 
             // Obtiene el titulo del filtro para heredarlo
-            nField = pDetail.masterTitleField || myDetField.fkField 
-            if ( nField ) var myTitleField = myDetGrid.myFieldDict[ nField ]
+            nField = pDetail.masterTitleField || nField.replace( /_id$/, '' ) 
+            var myTitleField = myDetGrid.myFieldDict[ nField ]
             if ( myTitleField ) { 
-                var rowData = me.protoMasterGrid.rowData
-                if ( rowData )  {
-                    var masterTitleField = pDetail.masterTitleField || '__str__' 
-                    myTitleField['prpDefault'] = rowData[ masterTitleField ]
-                } 
-
+                var masterTitleField = pDetail.masterTitleField || '__str__' 
+                myTitleField['prpDefault'] = rowData[ masterTitleField ]
+                myTitleField['readOnly'] = true
             } 
         }
-        
 
         function setDisabled( tbar, bDisable ) {
             // Por defecto es el edit mode
@@ -289,9 +286,8 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
     
     saveChanges: function( autoSync ) {
         var me = this
-        var detailPanel = Ext.getCmp( me.IDdetailPanel);
         
-        if ( detailPanel.collapsed  ) {
+        if ( this.isDetailCollapsed()  ) {
             me.protoMasterGrid.saveChanges( autoSync )
         } else {
             var detGrids = me.protoTabs.items.items
@@ -304,9 +300,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
     
     cancelChanges: function() {
         var me = this
-        var detailPanel = Ext.getCmp( me.IDdetailPanel);
-        
-        if ( detailPanel.collapsed  ) {
+        if ( this.isDetailCollapsed()  ) {
             me.protoMasterGrid.cancelChanges()
         } else {
             var detGrids = me.protoTabs.items.items
@@ -316,5 +310,4 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             }
         }
     }
-
 });

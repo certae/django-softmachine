@@ -7,6 +7,9 @@ To Do:
 **  fDroid ( catchNote. photoEditor, OpenDoc, dropBox, kinSoft, VuDroid, fbReader, OsmAnd )
 	
 -------------------
+PythonPaht Vars 
+	DJANGO_SETTINGS_MODULE	protoExt.src.settings
+
 	Bk db 
 	Borrar db( protoViews, protoTables, ) 
 	Borrar Migrations ( protoLib, prototype )

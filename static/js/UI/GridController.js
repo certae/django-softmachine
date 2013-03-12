@@ -214,13 +214,13 @@ Ext.define('ProtoUL.UI.GridController', {
                 break;
 
             case 'toolFormUpd' : 
-                if ( validaSelected( this.myGrid.selected )) {
+                if ( _SM.validaSelected( this.myGrid.selected )) {
                      this.formController.openLinkedForm ( this.myGrid.selected    )
                 } 
                 break;
 
             case 'toolFormView' : 
-                if ( validaSelected( this.myGrid.selected )) {
+                if ( _SM.validaSelected( this.myGrid.selected )) {
                      this.formController.openLinkedForm ( this.myGrid.selected , true   )
                 } 
                 break;
@@ -237,17 +237,16 @@ Ext.define('ProtoUL.UI.GridController', {
                 this.myGrid.deleteCurrentRecord()
                 break;
         }        
-
-        function validaSelected( myReg )  {
-            if ( ! myReg ) {
-                _SM.errorMessage(_SM.__language.Title_Form_Panel, _SM.__language.GridAction_NoRecord)
-                return false 
-            }
-            return true 
-        }
         
     } 
     
     
 })
 
+_SM.validaSelected = function ( myReg )  {
+    if ( ! myReg ) {
+        _SM.errorMessage(_SM.__language.Title_Form_Panel, _SM.__language.GridAction_NoRecord)
+        return false 
+    }
+    return true 
+}

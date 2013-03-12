@@ -166,7 +166,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                     // Manejo de rows y cells  
                    
                     listeners: {
-
+  
 
                         cellclick: function (view, cell, cellIndex, record, row, rowIndex, e) {
                             // Esto maneja los vinculos en los campos 

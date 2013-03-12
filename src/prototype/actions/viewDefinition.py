@@ -71,6 +71,18 @@ def getViewDefinition( pEntity, viewTitle  ):
     infoEntity['fields'].append( field )
     infoEntity['gridConfig']['sortFields'].append( fName )
             
+    # Details
+    for pDetail in pEntity.fKeysRefSet.all():
+        detail =  {
+            "detailField": "info__" + slugify( pDetail.code ) + "_id",
+            "conceptDetail": PROTO_PREFIX + getViewCode( pDetail.entity  ),
+            "detailName": slugify( pDetail.entity.code ),
+            "menuText": pDetail.entity.code ,
+            "masterField": "pk"
+        }
+                    
+        infoEntity['detailsConfig'].append( detail )             
+            
     return infoEntity
 
     
@@ -160,7 +172,7 @@ def addProtoFiedToList( fieldList,  pEntity , fieldBase, zoomName   ):
 
         # Si es un campo heredado ( Se maneja ahora en la pci generada 
         if len( fieldBase ) > 0 :  
-            field["cpFromZoom"] = 'info__' + zoomName   
+            field["cpFromZoom"] = fieldBase   
             field["cpFromField"] = fName 
             field["required"] = False 
             field["readOnly"] = True 
@@ -255,7 +267,7 @@ def createView( pEntity, viewTitle, userProfile ):
                                                smOwningTeam = userProfile.userTeam, 
               defaults = { 'entity_id' :  pEntity.id } )[0]
     except Exception:
-        raise Exception('can\'ot create the view') 
+        raise Exception('can\'t create the view') 
     
     rec.metaDefinition = json.dumps( infoEntity, cls=JSONEncoder ) 
     rec.description = infoEntity['description'] 

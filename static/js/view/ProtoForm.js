@@ -149,9 +149,12 @@ Ext.define('ProtoUL.view.ProtoForm', {
         }
     },
     
-    // startGridEdition : function ( grid, editAction , opts  ) {
-        // console.log('Evento generado por los botones de edicion de la grilla')
-    // },
+    setDetailsTilte : function () {
+        for ( var ix in this.cllDetails ) {
+            var lGrid = this.cllDetails[ix];
+            lGrid.setGridTitle( lGrid )   
+        }; 
+    },
     
     showProtoForm: function () {
         _SM.showConfig( 'Form Config' , this.myMeta.formConfig   )
@@ -389,7 +392,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
         // -------------------------------------------------- --------  evento del store
         this.store.on({
         update: function( store, record, operation, eOpts ) {
-            if ( record && !record.phantom && this.masterDetail && this.myFormController.newForm ){
+            // console.log ( record , this.masterDetail  )
+            if ( record && this.masterDetail ){
                 this.idMaster = record.get('id' ) ; 
                 this.myFormController.newForm = false; 
                 this.linkDetail( record );
@@ -492,11 +496,9 @@ Ext.define('ProtoUL.view.ProtoForm', {
         this.readHtmlPanels( this.masterRecord )
        
         // Si es nuevo 
-        if ( this.myFormController.newForm ) {
-            this.store.add( this.masterRecord ); 
-        }
-         
+        if ( this.myFormController.newForm )  this.store.add( this.masterRecord ); 
         if ( this.store.autoSync != true   )  this._doSyncMasterStore()  
+
         if (  this.masterDetail )  {
             this.btSave.setDisabled( true );
             this.btSaveDet.setDisabled( false );
