@@ -60,7 +60,6 @@ Ext.define('ProtoUL.view.ProtoForm', {
         var myMeta = this.myMeta;
         var _pForm = this;
 
-
         this.btSave = Ext.create( 'Ext.Button', {
             iconCls : 'icon-saveMs',
             id : this.idSaveBt,
@@ -125,9 +124,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
             var cllDetails = []
             for ( var ixV in prItems ) {
                 var lGrid = prItems[ixV];
-                if ( lGrid.__ptType == "protoGrid" ) {
-                    cllDetails.push(  lGrid  )
-                    lGrid.addListener('startEdition', me.startGridEdition, me ) 
+                if ( lGrid.__ptType == "protoGrid"  ) {
+                    if ( lGrid.myMeta ) cllDetails.push(  lGrid  )
                 } else  if ( lGrid.items &&  lGrid.items.items ) {
                     cllDetails = cllDetails.concat( getDetails( lGrid.items.items, me ) );         
                 } 

@@ -40,10 +40,11 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         var me = this;         
 
         if ( ! _SM.loadPci( this.viewCode, false ) ) {
-            Ext.Msg.show({
-               title: this.viewCode ,
-               value: 'ERROR Pci  not loaded' 
+            Ext.apply(this, {
+                title : this.viewCode + ' Not found!' 
             });
+            this.callParent(arguments);
+            _SM.errorMessage( 'initGrid',  this.viewCode + ' not found!!' );
             return; 
         }
 
@@ -260,7 +261,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             defaults: { collapsible: false, split: false },
             items: myItems
         });
-
 
 
         this.addEvents(

@@ -319,17 +319,28 @@ Ext.define('ProtoUL.UI.FormController', {
         
         
                 } else if ( __ptType == 'protoGrid'  ) {
+                    if ( _SM.loadPci( protoObj.viewCode, false ) ) { 
                     
-                    template = getTemplate( __ptType  , true  )
-                    prLayout = Ext.apply( template.__ptConfig , protoObj.__ptConfig  ) 
-                    
-                    if (( ! prLayout.minWidth ) || ( prLayout.minWidth < 100 )) prLayout.minWidth = 250   
-                    
-                    // Inicia la grilla sin datos 
-                    prLayout.initialFilter = [{ 'property' : 'pk', 'filterStmt' :  -1 }]
-                    delete protoObj.__ptConfig.name 
-
-
+                        template = getTemplate( __ptType  , true  )
+                        prLayout = Ext.apply( template.__ptConfig , protoObj.__ptConfig  ) 
+                        
+                        if (( ! prLayout.minWidth ) || ( prLayout.minWidth < 100 )) prLayout.minWidth = 250   
+                        
+                        // Inicia la grilla sin datos 
+                        prLayout.initialFilter = [{ 'property' : 'pk', 'filterStmt' :  -1 }]
+                        delete protoObj.__ptConfig.name 
+                    } else {
+                        prLayout =   {
+                            xtype: 'label', margin: '4', padding: '4', border: 1,
+                            text : 'ERROR: grid definition not found ' + protoObj.viewCode , 
+                            style: {
+                                borderColor: 'red',
+                                borderStyle: 'solid', 
+                                bodyStyle:';border-right:none;border-left:none;border-top:none;'
+                            }       
+                        }
+                        _SM.errorMessage( 'defineFormLayout', protoObj.viewCode + ' not found!!' )
+                    }
                 } else if ( __ptType == 'htmlset'  ) {
                     
                     template = getTemplate( __ptType  , true  )

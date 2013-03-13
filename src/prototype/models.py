@@ -213,14 +213,11 @@ class Property(PropertyBase):
     isForeign = models.BooleanField( editable = False, default = False )
 
     """cpFrom____ : permite definir como heredar campos complejos (absorber JsonFields)
-    ** Ya no se usan pues aqui solo se mapean las entidades fisicas, 
-       las copias se manejaran desde la generacion de la pcl;  
-       
+    """
     cpFromZoom = models.CharField( blank = True, null = True, max_length=200)
     cpFromField = models.CharField( blank = True, null = True, max_length=200)
-    """
     crudType    = models.CharField( blank = True, null = True, max_length=20, choices = CRUD_TYPES)
-
+    
     """solo para ordenar los campos en la entidad"""
     #secuence = models.IntegerField(blank = True, null = True,)
 

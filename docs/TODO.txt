@@ -7,8 +7,10 @@ To Do:
 **  fDroid ( catchNote. photoEditor, OpenDoc, dropBox, kinSoft, VuDroid, fbReader, OsmAnd )
 	
 -------------------
-PythonPaht Vars 
-	DJANGO_SETTINGS_MODULE	protoExt.src.settings
+    title: 'Hello',
+    width: 200,
+    html: '<p>World!</p>',
+
 
 	Bk db 
 	Borrar db( protoViews, protoTables, ) 
