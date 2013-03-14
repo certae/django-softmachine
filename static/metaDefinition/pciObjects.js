@@ -331,7 +331,7 @@ _MetaObjects =  {
             'hideRowNumbers', 
             // 'hideCheckSelect', 
             'gridSelectionMode', 
-            // "exportCsv",  
+            "exportCsv",  
             'hideSheet', 
             'denyAutoPrint', 
             'filterSetABC'
