@@ -35,12 +35,13 @@ def protoDelete(request):
 
 def _protoEdit(request, myAction ):
     
-    message = '' 
+    if not request.user.is_authenticated(): 
+        return doReturn ({'success':False ,'message' : 'readOnly User'})
+
     if request.method != 'POST':  
         return doReturn ({'success':False, 'message' : 'invalid message'}) 
 
-    if not request.user.is_authenticated():
-        return doReturn ({'success':False ,'message' : 'readOnly User'})
+    message = '' 
 
 #   Carga el modelo
     protoMeta = request.POST.get('protoMeta', '')

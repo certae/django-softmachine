@@ -7,24 +7,8 @@ To Do:
 **  fDroid ( catchNote. photoEditor, OpenDoc, dropBox, kinSoft, VuDroid, fbReader, OsmAnd )
 	
 -------------------
-    title: 'Hello',
-    width: 200,
-    html: '<p>World!</p>',
-
-
-	Bk db 
-	Borrar db( protoViews, protoTables, ) 
-	Borrar Migrations ( protoLib, prototype )
-	syncDb 
-
-
-	navegacion al link del zoom ( eliminada para carga dinamica )
 
 	form 
-		Ok no se ven los idtems de detalles al editar 
-
-		no se puede seleccionar una vista en el detalle 
-		la vista no entra en edicion ( probar la edicion  _
 
 		agregar AddOther 
 		reset x close 

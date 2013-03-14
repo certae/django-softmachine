@@ -1,5 +1,20 @@
 Log : 
 
+    seguridad
+
+        if not request.user.is_authenticated(): 
+            return JsonError('readOnly User')
+
+        if not request.user.is_authenticated(): 
+            return doReturn ({'success':False ,'message' : 'readOnly User'})
+
+    form 
+
+        Ok no se ven los idtems de detalles al editar 
+
+        no se puede seleccionar una vista en el detalle 
+        la vista no entra en edicion ( probar la edicion  _
+
 
     Menu 
         ok si se deja en blanco al editar el nombre se vuelve loco 

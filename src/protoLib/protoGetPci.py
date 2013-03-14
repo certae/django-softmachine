@@ -28,6 +28,9 @@ PROTOVERSION = '130310'
 def protoGetPCI(request):
     """ return full metadata (columns, renderers, totalcount...)
     """
+
+    if not request.user.is_authenticated(): 
+        return JsonError('readOnly User')
     
     if request.method != 'POST':
         return JsonError( 'invalid message' ) 

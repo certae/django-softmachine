@@ -24,7 +24,7 @@ urlpatterns = patterns('',
     url(r'media/(?P<path>.*)$', 'django.views.static.serve',{'document_root': PPATH + '/static'}),
 
 #   Archivos generados     
-    url(r'output/(?P<path>.*)$', 'protoLib.downloadFile.getFile', {'document_root': PPATH + '/output'}),
+    url(r'getFile/(?P<path>.*)$', 'protoLib.downloadFile.getFile', {}),
 )
 
 

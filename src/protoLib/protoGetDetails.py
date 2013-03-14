@@ -15,6 +15,9 @@ def protoGetDetailsTree(request):
     """ return full field tree 
     """
 
+    if not request.user.is_authenticated(): 
+        return JsonError('readOnly User')
+
     if request.method != 'POST':
         return JsonError( 'invalid message' ) 
     

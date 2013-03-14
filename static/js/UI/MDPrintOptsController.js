@@ -140,7 +140,7 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
                 params : pGrid.store.proxy.extraParams,
                 success: function(result, request) {
                     var myResult = Ext.decode( result.responseText );
-                    _SM.getFile(myResult.message )
+                    _SM.getFile(myResult.message, false )
                 },
                 failure: function(result, request) {
                     _SM.errorMessage(_SM.__language.Grid_ExportCSV_Err, result.status + ' ' + result.statusText)
@@ -155,8 +155,6 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
     }, 
     
     openHtmlWin : function(  sHtml  ) { 
-    
-    
         //open up a new printing window, write to it, print it and close
         var win = window.open('', 'printgrid');
         win.document.write( sHtml );
@@ -165,8 +163,6 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
             win.print();
             // win.close();
         }
-
-        
     } 
     
     
@@ -175,7 +171,7 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
 
 _SM.getFile = function( fName , newWindow ) {
     //  contentType = 'octet-stream'
-    var dataURL = '/output/' + fName
+    var dataURL = '/getFile/' + fName
     
     // Not useful for application/octet-stream type
     if (newWindow) { window.open(dataURL); // To open in a new tab/window

@@ -18,11 +18,15 @@ from protoQbe import addFilter
 from utilsWeb import JsonError, JsonSuccess 
 
 import django.utils.simplejson as json
-
+import os 
 
 def sheetConfigRep(request):
     """ Reporte basado en la definicion de plantillas ( sheets ) 
     """
+    
+    if not request.user.is_authenticated(): 
+        return JsonError('readOnly User')
+    
     if request.method != 'POST':
         return JsonError('invalid message') 
     
@@ -251,7 +255,10 @@ def getReport( props, template, row  ):
 
 def protoCsv(request):
     # Create the HttpResponse object with the appropriate CSV header, based of fieldDefinition 
-    
+
+    if not request.user.is_authenticated(): 
+        return JsonError('readOnly User')
+
     if request.method != 'POST':
         return JsonError( 'invalid message' ) 
     
@@ -269,12 +276,6 @@ def protoCsv(request):
         pRows =  Qs.order_by(*orderBy)
     else: pRows =  Qs.all()
 
-#   -----------------------------------
-#   response = HttpResponse(mimetype='application/x-download')  # 'text/csv', 'application/octet-stream'
-#   response['Content-Disposition'] = 'attachment; 
-#   writer = csv.writer(response)
-
-
 #   Prepara las cols del Query 
     try:
         pList = Q2Dict(protoMeta , pRows, fakeId  )
@@ -282,10 +283,11 @@ def protoCsv(request):
         message = getReadableError( e ) 
         pList = [ message ]
 
-    filename = protoMeta.get('viewCode','export') + '.csv'
+    filename = protoMeta.get('viewCode', '') + '.csv'
+    fullpath = os.path.join( PPATH , 'output', request.user.username + '.' + filename )
 
     import csv
-    with open( PPATH + '/output/' + filename , 'wb') as f:
+    with open( fullpath , 'wb') as f:
         writer = csv.writer(f)
         writer.writerow( pList[0].keys() )        
         for row in pList:
@@ -293,5 +295,3 @@ def protoCsv(request):
         
     return  JsonSuccess( { 'message':  filename } )
     
-
-
