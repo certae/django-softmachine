@@ -13,7 +13,7 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
         var __MasterDetail = this.__MasterDetail
 
 
-        if (  this.myMeta.exportCsv  ) {
+        if (  this.myMeta.gridConfig.exportCsv  ) {
             
             myPrinterOpts.push (
                 new Ext.Action({
@@ -132,14 +132,15 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
 
         function onClickExportCsv( btn ){
             
-            var pGrid = __MasterDetail.protoMasterGrid ;
+            var pGrid = __MasterDetail.protoMasterGrid;
 
             Ext.Ajax.request({
                 method: 'POST',
                 url: _SM._PConfig.urlGetProtoCsv  ,
                 params : pGrid.store.proxy.extraParams,
                 success: function(result, request) {
-                    _SM.errorMessage(_SM.__language.Grid_ExportCSV_Ok)
+                    var myResult = Ext.decode( result.responseText );
+                    _SM.getFile(myResult.message )
                 },
                 failure: function(result, request) {
                     _SM.errorMessage(_SM.__language.Grid_ExportCSV_Err, result.status + ' ' + result.statusText)
@@ -172,3 +173,13 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
 }) 
 
 
+_SM.getFile = function( fName , newWindow ) {
+    //  contentType = 'octet-stream'
+    var dataURL = '/output/' + fName
+    
+    // Not useful for application/octet-stream type
+    if (newWindow) { window.open(dataURL); // To open in a new tab/window
+    } else { window.location = dataURL; 
+    }
+    
+}

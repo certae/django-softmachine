@@ -103,7 +103,7 @@ STATIC_URL = '/static/'
 
 # DGT: Al cambiar esto deja de funcionar (alguna relacion con STATIC_URL? )
 #ADMIN_MEDIA_PREFIX = '/static/'
-ADMIN_MEDIA_PREFIX = '/static/admin/'
+#ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 #DAJAXICE_MEDIA_PREFIX="dajaxice"
 USE_DJANGO_JQUERY = True

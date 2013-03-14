@@ -3,17 +3,20 @@
 #Manejo de reportes basdaos en plantillas ( sheets )
 #Dg 121105   --------------------------------------------------
 
-from django.http import HttpResponse
+from django.core.files import File
+from settings import PPATH 
+
+from django.http import HttpResponse, HttpResponseRedirect
+from django.utils.encoding import smart_str
+
 from models import getDjangoModel, ProtoDefinition
 from protoActionList  import Q2Dict, getQSet  
 from protoGrid import  getBaseModelName 
 from utilsBase import  getReadableError  
-from django.utils.encoding import smart_str
 from protoQbe import addFilter
 
 from utilsWeb import JsonError, JsonSuccess 
 
-import csv
 import django.utils.simplejson as json
 
 
@@ -264,12 +267,12 @@ def protoCsv(request):
 
     if orderBy: 
         pRows =  Qs.order_by(*orderBy)
-    else: pRows =  Qs
+    else: pRows =  Qs.all()
 
 #   -----------------------------------
-    response = HttpResponse(mimetype='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="' + protoMeta.get('viewCode','export') +'.csv"'
-    writer = csv.writer(response)
+#   response = HttpResponse(mimetype='application/x-download')  # 'text/csv', 'application/octet-stream'
+#   response['Content-Disposition'] = 'attachment; 
+#   writer = csv.writer(response)
 
 
 #   Prepara las cols del Query 
@@ -279,16 +282,16 @@ def protoCsv(request):
         message = getReadableError( e ) 
         pList = [ message ]
 
+    filename = protoMeta.get('viewCode','export') + '.csv'
 
-    # Recorre los registros y genera el CSV  
-    rIx = 0 
-    for row in pList: 
-
-        if rIx == 0:  
-            writer.writerow( row.keys() )    
-            rIx += 1 
-
-        writer.writerow( row.values() )    
+    import csv
+    with open( PPATH + '/output/' + filename , 'wb') as f:
+        writer = csv.writer(f)
+        writer.writerow( pList[0].keys() )        
+        for row in pList:
+            writer.writerow( row.values() )        
+        
+    return  JsonSuccess( { 'message':  filename } )
     
-    return response
+
 
