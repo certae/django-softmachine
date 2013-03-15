@@ -7,7 +7,7 @@ from django.core.files import File
 from settings import PPATH 
 
 from django.http import HttpResponse, HttpResponseRedirect
-from django.utils.encoding import smart_str
+from django.utils.encoding import smart_str, smart_unicode
 
 from models import getDjangoModel, ProtoDefinition
 from protoActionList  import Q2Dict, getQSet  
@@ -253,6 +253,12 @@ def getReport( props, template, row  ):
 
 # -----------------------------------------------------------------------------------------------
 
+def getLineCsv( line ):
+    sAux = u''
+    for e in line:
+        sAux = sAux + ',"' + smart_unicode( e ) + '"' 
+    return sAux[1:] + '\n'  
+
 
 def protoCsv(request):
     # Create the HttpResponse object with the appropriate CSV header, based of fieldDefinition 
@@ -287,12 +293,19 @@ def protoCsv(request):
     filename = protoMeta.get('viewCode', '') + '.csv'
     fullpath = getFullPath( request, filename )
 
-    import csv
-    with open( fullpath , 'wb') as f:
-        writer = csv.writer(f)
-        writer.writerow( pList[0].keys() )        
+#    ---  No maneja utf-8 
+#    import csv
+#    with open( fullpath , 'wb') as f:
+#        writer = csv.writer(f)
+#        writer.writerow( pList[0].keys() )        
+#        for row in pList:
+#            writer.writerow( row.values() )        
+
+    import codecs         
+    with codecs.open(fullpath , 'w', 'utf-8') as outfile:
+        outfile.write( getLineCsv( pList[0].keys()) )        
         for row in pList:
-            writer.writerow( row.values() )        
+            outfile.write( getLineCsv( row.values() ))
         
     return  JsonSuccess( { 'message':  filename } )
     

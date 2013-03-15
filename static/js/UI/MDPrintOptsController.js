@@ -171,7 +171,7 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
 
 _SM.getFile = function( fName , newWindow ) {
     //  contentType = 'octet-stream'
-    var dataURL = '/getFile/' + fName
+    var dataURL = 'getFile/' + fName
     
     // Not useful for application/octet-stream type
     if (newWindow) { window.open(dataURL); // To open in a new tab/window

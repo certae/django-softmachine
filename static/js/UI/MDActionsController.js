@@ -97,7 +97,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
                 _SM.__StBar.showMessage( actionDef.menuText + ' ' +  myResult.message , 'MDActionsController', 3000 )
 
                 if ( myResult.success && actionDef.refreshOnComplete )  this.__MasterDetail.mdGridReload()
-                if ( myResult.fileName )  _SM.getFile(myResult.fileName, false )
+                if ( myResult.fileName )  _SM.getFile(myResult.fileName, true )
             }, 
             failure: function(result, request) {
                 _SM.__StBar.showError( actionDef.menuText + ' ' +  result.statusText , 'MDActionsController' )

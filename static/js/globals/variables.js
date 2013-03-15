@@ -46,7 +46,7 @@ _SM._PConfig =  {
     urlGetProtoCsv : 'protoLib/protoCsv/', 
     urlDoAction   : 'protoLib/protoDoActions/', 
     urlHelpQbe: 'protoLib/protoGetHelpQbe/',
-    urlLogOut:'/Login/cerrarSesion',
+    urlLogOut:'login/cerrarSesion',
    
     clsBaseModel: 'ProtoUL.model.' 
 }; 
