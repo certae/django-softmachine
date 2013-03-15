@@ -85,9 +85,9 @@ def doModelGraph( modeladmin, request, queryset, parameters):
         fo.write( dotdata.encode('utf-8'))
         fo.close()
 
-    def render_output(ns , dotdata, **kwargs):
+    def render_output(ns , dotdata):
         
-        def do_render( ns, dotdata, **kwargs):
+        def do_render( ns, dotdata):
             fullPath = getFullPath( ns.request, ns.fileName )
             vizdata = ' '.join(dotdata.split("\n")).strip().encode('utf-8')
             version = pygraphviz.__version__.rstrip("-svn")
@@ -104,21 +104,18 @@ def doModelGraph( modeladmin, request, queryset, parameters):
                 return
     
             graph = pygraphviz.AGraph(vizdata)
-            #graph.layout( prog=kwargs['layout'])
-            graph.draw( fullPath, format ='pdf', prog= 'dot')
+            graph.layout( prog= 'dot' )
+            graph.draw( fullPath, format ='pdf')
+            
         try:
             import pygraphviz
-            do_render( ns, dotdata, **kwargs)
+            do_render( ns, dotdata)
 
         except ImportError:
             print_output( ns, dotdata )
             
-        
 #   Envia el QSet con la lista de modelos, 
     dotdata = generateDotModels ( queryset )
-    if False : # parameters['outputfile']:
-        render_output(ns , dotdata, **parameters)
-    else:
-        print_output(ns , dotdata)
+    render_output(ns , dotdata )
 
     return  {'success':True , 'message' : ns.fileName,  'fileName' : ns.fileName }

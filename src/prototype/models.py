@@ -214,8 +214,8 @@ class Property(PropertyBase):
 
     """cpFrom____ : permite definir como heredar campos complejos (absorber JsonFields)
     """
-    cpFromZoom = models.CharField( blank = True, null = True, max_length=200)
-    cpFromField = models.CharField( blank = True, null = True, max_length=200)
+#    cpFromZoom = models.CharField( blank = True, null = True, max_length=200)
+#    cpFromField = models.CharField( blank = True, null = True, max_length=200)
     crudType    = models.CharField( blank = True, null = True, max_length=20, choices = CRUD_TYPES)
     
     """solo para ordenar los campos en la entidad"""

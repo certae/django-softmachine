@@ -21,7 +21,7 @@ def generateDotModels( queryset ):
     gModels = []
     for pModel in queryset:
         
-        modelCode = slugify( pModel.code )
+        modelCode = slugify( pModel.code, '_' )
         
         gModel = Context({
             'name': '"%s"' % modelCode ,
@@ -33,10 +33,11 @@ def generateDotModels( queryset ):
         })
 
         for pEntity in pModel.entitySet.all():
-            enttCode = slugify( pEntity.code )
+            enttCode = slugify( pEntity.code , '_')
             gEntity = {
                 'app_name': modelCode,
                 'name': enttCode,
+                'label': enttCode,
                 'abstracts': [],
                 'fields': [],
                 'relations': []
@@ -44,15 +45,15 @@ def generateDotModels( queryset ):
 
             for pProperty in pEntity.propertySet.all():
 
-                pptCode =  slugify( pProperty.code ) 
+                pptCode =  slugify( pProperty.code, '_' ) 
                 if pProperty.isForeign:
-                    pType = slugify( pProperty.relationship.refEntity.code ) 
-                else: pType = slugify( pProperty.baseType )
+                    pType = slugify( pProperty.relationship.refEntity.code , '_') 
+                else: pType = slugify( pProperty.baseType , '_')
 
                 gEntity['fields'].append({
                     'name': pptCode,
                     'label': pptCode,
-                    'type': pType,
+                    'type': pType or 'string',
                     'blank': not pProperty.isPrimary,
                     'abstract': not pProperty.isRequired,
                 })
@@ -70,7 +71,7 @@ def generateDotModels( queryset ):
                         'target_app': modelCode ,
                         'target': pType ,
                         'type': pType,
-                        'name': pptCode,
+                        'name': pptCode + '_' + pType,
                         'label': label,
                         'arrows': extras,
                         'needs_node': True

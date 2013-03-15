@@ -75,3 +75,46 @@ whereis graphviz
 Finally, install:
 
 sudo python setup.py install
+
+
+---------------------------------------------------------------  win 
+
+Here's what worked for me in Python 2.7. I assume it should work similarly in Python 2.6. Precondition: Install mingw32 (included in pythonxy distrib if you're using it), Graphviz
+
+1) Download pygraphviz sources
+
+2) Edit setup.py to change paths to smth like
+
+library_path=r"c:\Program Files (x86)\Graphviz 2.28\bin"
+include_path=r"c:\Program Files (x86)\Graphviz 2.28\include\graphviz"
+Note that it's \bin, not \lib. Linking with libs didn't work for me.
+
+3) run python setup.py build -c mingw32
+
+Result of step 3:
+
+c:\Python27\Lib\site-packages\pygraphviz-1.1>python setup.py build -c mingw32
+library_path=c:\Program Files (x86)\Graphviz 2.28\bin
+include_path=c:\Program Files (x86)\Graphviz 2.28\include\graphviz
+running build
+running build_py
+running build_ext
+building 'pygraphviz._graphviz' extension
+C:\MinGW32-xy\bin\gcc.exe -mno-cygwin -mdll -O -Wall "-Ic:\Program Files (x86)\G
+raphviz 2.28\include\graphviz" -Ic:\Python27\include -Ic:\Python27\PC -c pygraph
+viz/graphviz_wrap.c -o build\temp.win32-2.7\Release\pygraphviz\graphviz_wrap.o
+pygraphviz/graphviz_wrap.c: In function 'agattr_label':
+pygraphviz/graphviz_wrap.c:2855:5: warning: return makes integer from pointer wi
+thout a cast
+writing build\temp.win32-2.7\Release\pygraphviz\_graphviz.def
+C:\MinGW32-xy\bin\gcc.exe -mno-cygwin -shared -s build\temp.win32-2.7\Release\py
+graphviz\graphviz_wrap.o build\temp.win32-2.7\Release\pygraphviz\_graphviz.def "
+-Lc:\Program Files (x86)\Graphviz 2.28\bin" -Lc:\Python27\libs -Lc:\Python27\PCb
+uild "-Wl,-Rc:\Program Files (x86)\Graphviz 2.28\bin" -lcgraph -lcdt -lpython27
+-lmsvcr90 -o build\lib.win32-2.7\pygraphviz\_graphviz.pyd
+4) copy the result from the just built lib.win32-2.7 (single sub-folder called pygraphviz) into your Python's site-packages folder
+
+Enjoy!
+
+
+C:\Program Files (x86)\MiKTeX 2.9\miktex\bin;C:\Program Files (x86)\Python272\Lib\site-packages\PyQt4;%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;C:\SWTOOLS\ReadyApps;C:\Program Files (x86)\QuickTime\QTSystem\;C:\Program Files (x86)\Common Files\Roxio Shared\10.0\DLLShared\;C:\Program Files (x86)\Common Files\Roxio Shared\DLLShared\;C:\Program Files (x86)\Common Files\Roxio Shared\DLLShared\;C:\Program Files (x86)\Common Files\Roxio Shared\10.0\DLLShared\;"C:\Program Files (x86)\Python272";"C:\Program Files (x86)\Python272\Scripts";C:\Program Files (x86)\Common Files\GTK\2.0\bin;%systemroot%\System32\WindowsPowerShell\v1.0\;c:\MingGW\bin
