@@ -24,7 +24,7 @@ def getFile(request, path ):
     if not request.user.is_authenticated(): 
         return JsonError('readOnly User')
 
-    fullpath = os.path.join( PPATH , 'output', request.user.username + '.' + path )
+    fullpath = getFullPath( request, path )
     if not os.path.exists(fullpath):
         return JsonError('"%s" does not exist' % path)
 
@@ -41,3 +41,5 @@ def getFile(request, path ):
     return response
 
 
+def getFullPath( request, filename ):
+    return os.path.join( PPATH , 'output', request.user.username + '.' + filename )

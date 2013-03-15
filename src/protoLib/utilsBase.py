@@ -511,4 +511,3 @@ def slugify(text, delim=u'-'):
 #    print no_spaces
 #    # output: l_s_c_t_z_y_a_i_e
 
-

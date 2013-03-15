@@ -12,10 +12,10 @@ from django.contrib import admin
 
 
 # -----------------------------------------   Model  
-from actions import doModelPrototype
+from actions import doModelPrototype, doModelGraph
 
 class MyModelAdmin( admin.ModelAdmin ):
-    actions = [ doModelPrototype  ]
+    actions = [ doModelPrototype, doModelGraph  ]
 
 admin.site.register(Model, MyModelAdmin)
 

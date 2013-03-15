@@ -19,7 +19,7 @@ class TeamHierarchy(models.Model):
 
     @property
     def fullPath(self):
-        return getFullPath( self , 'parentNode',  'id', 'fullPath'  )
+        return getNodeHierarchy( self , 'parentNode',  'id', 'fullPath'  )
 
     @property
     def treeHierarchy(self):
@@ -235,7 +235,7 @@ def getDjangoModel( modelName ):
 
 
 
-def getFullPath( record, parentField,  codeField, pathFunction  ):
+def getNodeHierarchy( record, parentField,  codeField, pathFunction  ):
     "Returns the full hierarchy path."
 
     pRec  = record.__getattribute__(  parentField )

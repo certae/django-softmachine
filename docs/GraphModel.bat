@@ -39,3 +39,39 @@ Durée du séjour :         jours
 Date de départ du Canada :  AAAA-MM-JJ
 
 
+----------------------------------
+
+pygraphviz
+Make sure that libgraphviz-dev is installed
+
+sudo apt-get install python-dev
+sudo apt-get install swig
+sudo apt-get install libgraphviz-dev
+
+
+python-dev and swig are also needed — see above for install information
+
+This project does version control with svn
+Move to directory where you want to download code. For example,
+
+cd ~/svnLocal
+
+Checkout the repository
+svn checkout http://networkx.lanl.gov/svn/pygraphviz/trunk pygraphviz
+
+Change to main directory
+cd pygraphviz/
+
+** I had to update setup.py file so that library_path and include_path were correct. 
+Look for lines to uncomment (library_path and include_path are commented out by default):
+
+# Linux, generic UNIX
+library_path='/usr/lib/graphviz'
+include_path='/usr/include/graphviz'
+
+** You can check if these are the correct paths by looking at the output of the following command:
+
+whereis graphviz
+Finally, install:
+
+sudo python setup.py install

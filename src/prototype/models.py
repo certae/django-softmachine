@@ -88,7 +88,7 @@ class Model(ProtoModel):
         return slugify( self.code ) 
     
     protoExt = { 
-        "actions": [{ "name": "doModelPrototype" }],        
+        "actions": [{ "name": "doModelPrototype" }, { "name": "doModelGraph" } ],        
         "gridConfig" : {
             "listDisplay": ["__str__", "description", "smOwningTeam"]      
         }
@@ -100,7 +100,7 @@ class Entity(ProtoModel):
     """ 
     Entity corresponde a las entidades FISICA;  
     """    
-    model = models.ForeignKey('Model', blank = False, null = False )
+    model = models.ForeignKey('Model', blank = False, null = False, related_name = 'entitySet' )
     code = models.CharField( blank = False, null = False, max_length=200 )
     
     description = models.TextField( blank = True, null = True)

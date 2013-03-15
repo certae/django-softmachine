@@ -14,6 +14,7 @@ from protoActionList  import Q2Dict, getQSet
 from protoGrid import  getBaseModelName 
 from utilsBase import  getReadableError  
 from protoQbe import addFilter
+from downloadFile import getFullPath 
 
 from utilsWeb import JsonError, JsonSuccess 
 
@@ -284,7 +285,7 @@ def protoCsv(request):
         pList = [ message ]
 
     filename = protoMeta.get('viewCode', '') + '.csv'
-    fullpath = os.path.join( PPATH , 'output', request.user.username + '.' + filename )
+    fullpath = getFullPath( request, filename )
 
     import csv
     with open( fullpath , 'wb') as f:
