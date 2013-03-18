@@ -355,3 +355,4 @@ def getConceptRef( dModel , cName  ):
     mAux = Concept.objects.filter( model = dModel, code = cName  )
     if mAux: 
         return mAux[0] 
+

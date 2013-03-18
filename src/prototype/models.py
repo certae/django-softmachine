@@ -100,7 +100,7 @@ class Entity(ProtoModel):
     """ 
     Entity corresponde a las entidades FISICA;  
     """    
-    model = models.ForeignKey('Model', blank = False, null = False, related_name = 'entitySet' )
+    model = models.ForeignKey('Model', blank = False, null = False, related_name = 'entity_set' )
     code = models.CharField( blank = False, null = False, max_length=200 )
     
     description = models.TextField( blank = True, null = True)
@@ -186,7 +186,7 @@ class Property(PropertyBase):
     Propiedades por tabla, definicion a nivel de modelo de datos.
     Las relaciones heredan de las propriedades y definien la cardinalidad 
     """
-    entity = models.ForeignKey('Entity', related_name = 'propertySet')
+    entity = models.ForeignKey('Entity', related_name = 'property_set')
     
     """propertyModel : corresponde a la especificacion en el modelo ( metodologia: user history )"""
     propertyModel = models.ForeignKey('PropertyModel', blank = True, null = True, on_delete=models.SET_NULL )
@@ -250,7 +250,7 @@ class Relationship(Property):
     """
 
     """refEntity : entidad referenciada""" 
-    refEntity = models.ForeignKey('Entity', related_name = 'fKeysRefSet')
+    refEntity = models.ForeignKey('Entity', related_name = 'refEntity_set')
 
     """relatedName:  Nombre del set en la tabla primaria ( modelacion objeto )  """
     relatedName = models.CharField( blank = True, null = True, max_length=50)

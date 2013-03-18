@@ -68,8 +68,12 @@ def getQbeStmt( fieldName ,  sQBE, sType   ):
     QResult = Q()
 
     # Verifica si es una funcion 
-#    if ( sQBE[0] == '@' ):
-#        sQBE = doGenericFuntion ( sQBE )
+    if ( sQBE[0] == '@' ):
+        try: 
+            sQBE = doGenericFuntion ( sQBE )
+        except Exception as e: 
+            #Log error 
+            return None 
 
     # Valida el tipo del criterio 
     if type( sQBE ).__name__ == 'str':  
@@ -172,7 +176,7 @@ def getQbeStmt( fieldName ,  sQBE, sType   ):
     return QResult
 
 
-def doGenericFuntion ( sQBE ):
+def doGenericFuntion( sQBE ):
     """
     Se define una tabla de funciones genericas q seran ejectua dinamicamente por pyton 
     se ejectuan en el contexto actual, se deberia pasar algunas rutinas basicas en la medida q sean necesarias  
@@ -182,4 +186,23 @@ def doGenericFuntion ( sQBE ):
     de la ejecucion del wKflow
     
     """ 
-    pass 
+    from utilsBase import explode
+    
+    # obtiene los parametros  
+    fCall = explode( sQBE[1:] )
+    
+    # obtiene la definicion de la funcion
+    from models import PtFunction, getDjangoModel
+    fBase = PtFunction.objects.get( code = fCall[0] )
+
+    # Construyte las variables de entorno
+    myVars = { 'model' : getDjangoModel( fBase.modelName ) } 
+
+    arguments = fBase.arguments.split( ',' )
+    params = fCall[1].split(',') 
+    for i  in range( 0 , len( arguments ) ):
+        myVars[ arguments[i] ]  =  params[i]     
+
+    # ejecta y toma la base 
+    exec( fBase.functionBody, myVars )   
+    return myVars [ 'ret' ] 

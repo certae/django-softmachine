@@ -32,7 +32,7 @@ def generateDotModels( queryset ):
             'models': []
         })
 
-        for pEntity in pModel.entitySet.all():
+        for pEntity in pModel.entity_set.all():
             enttCode = slugify( pEntity.code , '_')
             gEntity = {
                 'app_name': modelCode,
@@ -43,7 +43,7 @@ def generateDotModels( queryset ):
                 'relations': []
             }
 
-            for pProperty in pEntity.propertySet.all():
+            for pProperty in pEntity.property_set.all():
 
                 pptCode =  slugify( pProperty.code, '_' ) 
                 if pProperty.isForeign:

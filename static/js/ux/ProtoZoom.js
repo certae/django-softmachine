@@ -216,38 +216,48 @@ Ext.define('ProtoUL.ux.protoZoom', {
         if ( ! me.isLoaded  ) return
         
         // TODO: verifica el zoomFilter 
-        // var myZoomFilter = getFilter()
-        // if ( myZoomFilter.length > 0 ) {
-            // this.zoomGrid.store.mySetBaseFilter( myZoomFilter )
-        // }
+        var myZoomFilter = getFilter()
+        if ( myZoomFilter.length > 0 ) {
+            this.zoomGrid.store.mySetBaseFilter( myZoomFilter )
+        }
 
         me.win.show();
         
         function getFilter() {
             
-            var myFilter = [], i , fName
             if ( ! me.zoomFilter ) return myFilter 
             if ( ! me.idProtoGrid ) return myFilter 
                         
-            // zoomFilter = "campo : [refCampoBase], campo : 'vr', campo = @functionX( [refCampoBase] ) "
-            // zoomFilter = "model_id : @getEntityModel( [entity_id] )" 
+            /*  zoomFilter = "field1 : condition ; 
+             *                field2 : [refCampoBase]; campo : 'vr'; 
+             *                field3 = @functionX( [refCampoBase], [refCampoBase] ); .. "
+             *  Ej:          "model_id : @getEntityModel( [entity_id]) "
+            */ 
             var myFilter = me.zoomFilter
-            var lFilters = me.zoomFilter.match(/[^[\]]+(?=])/g)
-            if  ( lFilters.length > 0 ) { 
+            
+            // Obtiene los parametros ( campos en el registro base )
+            // var lFilters = me.zoomFilter.match(/[^[\]]+(?=])/g)
+            var lFilters = me.zoomFilter.match(/\(([^()]+)\)/g)
+            
+            if ( lFilters ) if  ( lFilters.length > 0 ) { 
                 //obtiene la meta 
                 var myRecordBase = Ext.getCmp( me.idProtoGrid ).rowData
                 
                 // Remplaza en el filtro 
-                for ( i in lFilters ) {
-                    fName  = lFilters[i]
-                    myFilter = myFilter.replace( '[' + fName + ']', myRecordBase[ fName ] ) 
+                for ( var i in lFilters ) {
+                    var fStmt = lFilters[i].replace('(', '').replace(')', '').split(',')
+                    for ( var ix in fStmt ) {
+                        var fName = fStmt[ix]
+                        var fVal =  myRecordBase[ fName.trim() ]
+                        myFilter = myFilter.replace( '{0}'.format( fName ),  '{0}'.format( fVal)  )
+                     }
                 }
             } 
 
             // Separa el filtro para generar el array 
-            myFilter = myFilter.split( ',')
+            myFilter = myFilter.split( ';')
             for ( i = 0; i < myFilter.length; i++) {
-                lFilter =  myFilter[i].split(':') 
+                var lFilter =  myFilter[i].split(':') 
                 myFilter[i] = { 'property' : lFilter[0].trim(), 'filterStmt' : lFilter[1].trim() }   
             }
             return myFilter
@@ -300,4 +310,20 @@ Ext.define('ProtoUL.ux.protoZoom', {
     // }
 });
 
+
+if (!String.prototype.format) {
+  String.prototype.format = function() {
+    var args = arguments;
+    return this.replace(/{(\d+)}/g, function(match, number) { 
+      return typeof args[number] != 'undefined'
+        ? args[number]
+        : match
+      ;
+    });
+  };
+}
+
+// _SM.trim = function ( str ) { 
+    // return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+// }
 

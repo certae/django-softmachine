@@ -296,15 +296,24 @@ class PtFunction( models.Model ):
     """ TODO : En esta tabla se guardan funciones q seran ejectudas dinamicamente
         deben reespetar la syntaxis python y se precargaran con funcione de base 
         por ejemplo el perfil de usuario y el acceso a modelos 
+        
+        Siempre deb retornar algo
     """  
 
+    # nombre de la funcion     
     code = models.CharField( blank = False, null = False, max_length=200 , unique = True )
 
-    # para manejar un nombre de variable    
-    tag = models.CharField( blank = False, null = False, max_length=200 )
+    # este modelo se importa y se ofrece a la funcion 
     modelName = models.CharField( blank = False, null = False, max_length=200 )
+    
+    # lista separada por comas de los nombres de los argumentos 
+    arguments = models.CharField( blank = False, null = False, max_length=400 )
 
     functionBody = models.TextField( blank = True, null = True )
+
+    tag = models.CharField( blank = False, null = False, max_length=200 )
+    description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
+
 
     def __unicode__(self):
         return self.code + '.' + self.tag  

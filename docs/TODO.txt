@@ -8,12 +8,21 @@ To Do:
 	
 -------------------
 
+	Project ( MCCD ) 
+		Ahor el concepto de proyecto es la db, 
+		Agregar una tabla para asociar entidades,  
+			q vienen de otros modelos con un flag, y un nombre solo para 
+			verlas en el diagrama ( aunque se ven si hago la relacion )
+			pero esto permitira definir las dependencias entre modelos 
+			puede ser una vista de las reltationshp.refEntity  
+			
+		Property Dom a nivel de proyecto
+		Filtros a nivel de project para relacione
+
+
 	form 
-
 		agregar AddOther 
-		reset x close 
 		verficar permisos 
-
 
 	funciones 
 		crear tabla de funciones q sea interpretada en Django al momento de hacer un select 

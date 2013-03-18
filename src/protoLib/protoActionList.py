@@ -420,7 +420,7 @@ def addQbeFilterStmt( sFilter, model, JsonField ):
     """ Verifica casos especiales y obtiene el QStmt 
         retorna un objeto Q
     """
-    fieldName  =  sFilter['property']
+    fieldName  =  sFilter['property'].replace( '.', '__')
     
     if fieldName.endswith('__pk') or fieldName.endswith('_id') or fieldName == 'pk': 
         # Los id por ahora son numericos 
@@ -546,6 +546,4 @@ def evalueFuncion( fName, rowData ):
     except: val =  fName + '?'
     
     return val 
-    
-
 

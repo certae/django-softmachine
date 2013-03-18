@@ -23,7 +23,7 @@ def getViewDefinition( pEntity, viewTitle  ):
     __str__Base = []
     #infoEntity['gridConfig']['listDisplay'].append( '__str__' )
 
-    for pProperty in pEntity.propertySet.order_by('id'):
+    for pProperty in pEntity.property_set.order_by('id'):
 
         fName  = 'info__' + slugify( pProperty.code ) 
         field = property2Field( fName, pProperty.__dict__ )
@@ -72,7 +72,7 @@ def getViewDefinition( pEntity, viewTitle  ):
     infoEntity['gridConfig']['sortFields'].append( fName )
             
     # Details
-    for pDetail in pEntity.fKeysRefSet.all():
+    for pDetail in pEntity.refEntity_set.all():
         detail =  {
             "detailField": "info__" + slugify( pDetail.code ) + "_id",
             "conceptDetail": PROTO_PREFIX + getViewCode( pDetail.entity  ),
@@ -164,7 +164,7 @@ def addProtoFiedToList( fieldList,  pEntity , fieldBase, zoomName   ):
     """ Recorre los campos e itera con los fk ( solo un nivel 'fieldBase' )
     """    
 
-    for pProperty in pEntity.propertySet.all():
+    for pProperty in pEntity.property_set.all():
 
         fName  = 'info__' + slugify( pProperty.code ) 
 
@@ -218,7 +218,7 @@ def GetDetailsConfigTree( protoEntityId ):
         return lDetails 
     
     # Details
-    for pDetail in pEntity.fKeysRefSet.all():
+    for pDetail in pEntity.refEntity_set.all():
         
         detail =  {
             "detailField": "info__" + slugify( pDetail.code ) + "_id",
