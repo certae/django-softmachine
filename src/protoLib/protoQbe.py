@@ -67,17 +67,18 @@ def getQbeStmt( fieldName ,  sQBE, sType   ):
 
     QResult = Q()
 
-    # Verifica si es una funcion 
-    if ( sQBE[0] == '@' ):
-        try: 
-            sQBE = doGenericFuntion ( sQBE )
-        except Exception as e: 
-            #Log error 
-            return None 
-
     # Valida el tipo del criterio 
-    if type( sQBE ).__name__ == 'str':  
+    if type( sQBE ).__name__ in ['str', 'unicode']:   
         sQBE = sQBE.strip()
+
+        # Verifica si es una funcion 
+        if ( sQBE[0] == '@' ):
+            try: 
+                sQBE = doGenericFuntion ( sQBE )
+            except Exception as e: 
+                #TODO: Log error y seguimeinto para hacer nulo el Qs  
+                return None 
+        
         if sQBE == '' : return QResult
         
     elif type( sQBE ).__name__ in ['int','long', 'float', 'decimal']:

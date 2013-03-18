@@ -129,14 +129,14 @@ Ext.define('ProtoUL.UI.GridController', {
                 width : 20, 
                 scope: this,
                 handler: this.onEditAction
-            },{
-                itemId: 'toolRowAdd',
-                tooltip: _SM.__language.GridBtn_Ttip_Add_Row,
-                type: 'rowAdd',
-                hidden: true,
-                width : 20, 
-                scope: this,
-                handler: this.onEditAction
+            // },{
+                // itemId: 'toolRowAdd',
+                // tooltip: _SM.__language.GridBtn_Ttip_Add_Row,
+                // type: 'rowAdd',
+                // hidden: true,
+                // width : 20, 
+                // scope: this,
+                // handler: this.onEditAction
             }, {
                 itemId: 'toolRowCopy',
                 tooltip: _SM.__language.GridBtn_Ttip_Copy_Row,
@@ -166,7 +166,7 @@ Ext.define('ProtoUL.UI.GridController', {
         var myExtGrid = this.myGrid._extGrid    
 
         if ( perms['add'] ) {
-            setToolMode ( myExtGrid, '#toolRowAdd', bEdit )
+            // setToolMode ( myExtGrid, '#toolRowAdd', bEdit )
             setToolMode ( myExtGrid, '#toolRowCopy', bEdit )
             setToolMode ( myExtGrid, '#toolFormAdd', bEdit ) 
         } 
@@ -225,9 +225,9 @@ Ext.define('ProtoUL.UI.GridController', {
                 } 
                 break;
 
-            case 'toolRowAdd' : 
-                this.myGrid.addNewRecord()
-                break;
+            // case 'toolRowAdd' : 
+                // this.myGrid.addNewRecord()
+                // break;
 
             case 'toolRowCopy' :
                 this.myGrid.duplicateRecord()

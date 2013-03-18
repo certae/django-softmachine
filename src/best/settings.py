@@ -5,7 +5,7 @@ import os.path, sys
 PPATH = os.path.abspath( os.path.join( os.path.dirname(__file__), os.pardir )).replace('\\','/')
 
 if PPATH.startswith('/'): 
-    EXT_PATH = '/u/data/ExtJs' 
+    EXT_PATH = '/home/jotform/ExtJs/ext-4.1.1a' 
 else:  
     EXT_PATH = 'd:/data/ExtJs'
 
@@ -24,21 +24,13 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASES = {
-#    'test': {
-#        'ENGINE': 'mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-#        'NAME':   'dictionnaire',
-#        'USER': 'root',                      # Not used with sqlite3.
-#        'PASSWORD': '1214moi',               # Not used with sqlite3.
-#        'HOST': '132.203.51.190',             # Set to empty string for localhost. Not used with sqlite3.
-#        'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
-#    }, 
 #    'default': {
-#        'ENGINE': 'mysql', 
-#        'NAME':   'protogn',
-#        'USER': 'root',
-#        'PASSWORD': 'certae1',
-#        'HOST': '127.0.0.1',
-#        'PORT': '3306',
+#       'ENGINE': 'django.db.backends.mysql', 
+#        'NAME':   'bestCertae',
+#        'USER': 'certae',
+#        'PASSWORD': 'X3$va3*',
+#        'HOST': 'waconda.ibis.ulaval.ca',
+#        'PORT': '',
 #    }, 
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
@@ -172,13 +164,14 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.auth',
     'django.contrib.admin',
-    'django.contrib.admindocs',
-    'south', 
-    'protoLib', 
-    'prototype', 
-#    'best', 
-#    'shiny', 
-#    'CategoryCle', 
+#   'django.contrib.admindocs',
+    'south',
+    'protoLib',
+    'prototype',
+    'best',
+#    'bestingenomics',
+#    'shiny',
+#    'CategoryCle',
 #    'TCO'
 #    'django_extensions',
 #    'django_qbe'

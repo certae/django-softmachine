@@ -83,7 +83,7 @@ __language ={
     'Textfield_Password_Login' : 'Contraseña',
     'Title_Window_Email_Request' : 'su email',
     'Message_Enter_Email' : 'Ingrese su email',
-    'Message_Success' : 'Éxito',
+    'Message_Success' : 'Todo bien',
     'Message_Email_Forgotten_Password' : 'Un email se ha enviado con las instrucciones',
     'Message_Error' : 'Error',
     'Message_Error_Login' : 'Imposible',
@@ -100,12 +100,13 @@ __language ={
     'Grid_ExportCSV_Err' : 'Error al exportar a CSV',
 
     'Grid_Sort_Title' : 'Ordenar por',
-    'Grid_Edit_Title' : 'Modificar',
+    'Grid_Edit_Title' : 'Editar',
     'Grid_Edit_Ttip' : 'Cambiar a modo edición',
     'Grid_EditSave_Title' : 'Guardar y salir de modo edición',
     'Grid_EditSaveCont_Title' :'Continuar',
     'Grid_EditSaveCont_Ttip' : 'Guardar y continuar',
     'Grid_EditAutoSync_Title' : 'Sincronización automática',
+    
     'Text_Clasify_Button' : 'Clasificar',
     'Tooltip_Clasify_Button' : 'Opciones de ordenamiento',
     'Tooltip_Printing_Options' : 'Opciones de impresión',

@@ -217,7 +217,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
         
         // TODO: verifica el zoomFilter 
         var myZoomFilter = getFilter()
-        if ( myZoomFilter.length > 0 ) {
+        if ( myZoomFilter) if ( myZoomFilter.length > 0 ) {
             this.zoomGrid.store.mySetBaseFilter( myZoomFilter )
         }
 

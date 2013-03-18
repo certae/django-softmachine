@@ -1,0 +1,474 @@
+{
+    "__ptType": "pcl",
+    "viewCode": "prototype.Relationship",
+    "updateTime": "2013-03-17 23:36:53",
+    "description": "Relationship",
+    "shortTitle": "Relationship",
+    "viewIcon": "icon-1",
+    "metaVersion": "13.0111",
+    "viewEntity": "prototype.Relationship",
+    "idProperty": "id",
+    "actions": [],
+    "detailsConfig": [],
+    "sheetConfig": [],
+    "gridConfig": {
+        "__ptType": "gridConfig",
+        "listDisplay": [
+            "code",
+            "description",
+            "entity",
+            "refEntity"
+        ],
+        "baseFilter": [],
+        "initialFilter": [],
+        "initialSort": [],
+        "searchFields": [
+            "smRegStatus",
+            "smWflowStatus",
+            "code",
+            "baseType",
+            "vType",
+            "prpDefault",
+            "prpChoices",
+            "description",
+            "notes",
+            "crudType",
+            "relatedName",
+            "baseMin",
+            "baseMax",
+            "refMin",
+            "refMax",
+            "onRefDelete",
+            "typeRelation"
+        ],
+        "sortFields": [
+            "smRegStatus",
+            "smWflowStatus",
+            "code",
+            "baseType",
+            "vType",
+            "prpDefault",
+            "prpChoices",
+            "description",
+            "notes",
+            "crudType",
+            "relatedName",
+            "baseMin",
+            "baseMax",
+            "refMin",
+            "refMax",
+            "onRefDelete",
+            "typeRelation"
+        ],
+        "hiddenFields": [
+            "id"
+        ],
+        "readOnlyFields": []
+    },
+    "gridSets": {
+        "__ptType": "gridSets",
+        "listDisplaySet": [],
+        "filtersSet": [],
+        "sortersSet": []
+    },
+    "formConfig": {
+        "__ptType": "formConfig",
+        "items": [
+            {
+                "__ptType": "fieldset",
+                "fsLayout": "1col",
+                "items": [
+                    {
+                        "__ptType": "formField",
+                        "name": "code"
+                    },
+                    {
+                        "__ptType": "formField",
+                        "name": "entity"
+                    },
+                    {
+                        "__ptType": "formField",
+                        "name": "refEntity"
+                    }
+                ]
+            },
+            {
+                "__ptType": "fieldset",
+                "fsLayout": "2col",
+                "items": [
+                    {
+                        "__ptType": "formField",
+                        "name": "isPrimary"
+                    },
+                    {
+                        "__ptType": "formField",
+                        "name": "isForeign"
+                    }
+                ]
+            },
+            {
+                "__ptType": "fieldset",
+                "fsLayout": "1col",
+                "items": [
+                    {
+                        "__ptType": "formField",
+                        "name": "description"
+                    }
+                ]
+            }
+        ]
+    },
+    "usrDefProps": {
+        "__ptType": "usrDefProps"
+    },
+    "businessRules": {
+        "__ptType": "businessRules"
+    },
+    "fields": [
+        {
+            "__ptType": "field",
+            "flex": 1,
+            "sortable": true,
+            "name": "__str__",
+            "fkId": "id",
+            "zoomModel": "prototype.Relationship",
+            "cellLink": true,
+            "header": "Relationship",
+            "readOnly": true,
+            "type": "string"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "baseMax",
+            "searchable": true,
+            "header": "baseMax",
+            "type": "string"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "baseMin",
+            "searchable": true,
+            "header": "baseMin",
+            "type": "string"
+        },
+        {
+            "__ptType": "field",
+            "flex": 100,
+            "sortable": true,
+            "name": "code",
+            "searchable": true,
+            "required": true,
+            "header": "Nom relation",
+            "fieldLabel": "<b>Nom relation</b>",
+            "type": "string"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "crudType",
+            "searchable": true,
+            "choices": "storeOnly,readOnly,insertOnly,updateOnly",
+            "header": "crudType",
+            "type": "combo"
+        },
+        {
+            "__ptType": "field",
+            "flex": 150,
+            "vType": "plainText",
+            "sortable": true,
+            "name": "description",
+            "searchable": true,
+            "header": "Description",
+            "type": "text"
+        },
+        {
+            "__ptType": "field",
+            "zoomModel": "prototype.Entity",
+            "sortable": true,
+            "name": "entity",
+            "fkId": "entity_id",
+            "flex": 100,
+            "required": true,
+            "cellLink": true,
+            "header": "Entité enfant",
+            "fieldLabel": "<b>Entité enfant</b>",
+            "type": "foreigntext"
+        },
+        {
+            "__ptType": "field",
+            "name": "id",
+            "header": "ID",
+            "readOnly": true,
+            "hidden": true,
+            "type": "autofield"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "isEssential",
+            "searchable": true,
+            "header": "isEssential",
+            "type": "bool"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "isForeign",
+            "searchable": true,
+            "header": "isForeign",
+            "readOnly": true,
+            "type": "bool"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "isLookUpResult",
+            "searchable": true,
+            "header": "isLookUpResult",
+            "type": "bool"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "isNullable",
+            "searchable": true,
+            "header": "isNullable",
+            "type": "bool"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "isPrimary",
+            "searchable": true,
+            "header": "isPrimary",
+            "type": "bool"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "isReadOnly",
+            "searchable": true,
+            "header": "isReadOnly",
+            "type": "bool"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "isRequired",
+            "searchable": true,
+            "header": "isRequired",
+            "type": "bool"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "isSensitive",
+            "searchable": true,
+            "header": "isSensitive",
+            "type": "bool"
+        },
+        {
+            "__ptType": "field",
+            "vType": "plainText",
+            "sortable": true,
+            "name": "notes",
+            "searchable": true,
+            "header": "notes",
+            "type": "text"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "onRefDelete",
+            "searchable": true,
+            "choices": "CASCADE,PROTECT,SET_NULL,SET_DEFAULT,DO_NOTHING",
+            "header": "onRefDelete",
+            "type": "combo"
+        },
+        {
+            "__ptType": "field",
+            "header": "property ptr",
+            "readOnly": true,
+            "type": "autofield",
+            "name": "property_ptr"
+        },
+        {
+            "__ptType": "field",
+            "zoomModel": "prototype.PropertyModel",
+            "sortable": true,
+            "name": "propertyModel",
+            "fkId": "propertyModel_id",
+            "cellLink": true,
+            "header": "propertyModel",
+            "type": "foreigntext"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "prpScale",
+            "searchable": true,
+            "header": "prpScale",
+            "type": "int"
+        },
+        {
+            "__ptType": "field",
+            "zoomModel": "prototype.Entity",
+            "sortable": true,
+            "name": "refEntity",
+            "fkId": "refEntity_id",
+            "flex": 100,
+            "required": true,
+            "cellLink": true,
+            "zoomFilter": "model.project_id : @getEntityProject( entity_id )",
+            "header": "Entité parent",
+            "fieldLabel": "<b>Entité parent</b>",
+            "type": "foreigntext"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "refMax",
+            "searchable": true,
+            "header": "refMax",
+            "type": "string"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "refMin",
+            "searchable": true,
+            "header": "refMin",
+            "type": "string"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "relatedName",
+            "searchable": true,
+            "header": "relatedName",
+            "type": "string"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "smCreatedBy",
+            "searchable": true,
+            "cellLink": true,
+            "header": "smCreatedBy",
+            "readOnly": true,
+            "type": "foreigntext"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "smCreatedOn",
+            "searchable": true,
+            "header": "smCreatedOn",
+            "readOnly": true,
+            "type": "datetime"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "smModifiedBy",
+            "searchable": true,
+            "cellLink": true,
+            "header": "smModifiedBy",
+            "readOnly": true,
+            "type": "foreigntext"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "smModifiedOn",
+            "searchable": true,
+            "header": "smModifiedOn",
+            "readOnly": true,
+            "type": "datetime"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "smOwningTeam",
+            "searchable": true,
+            "cellLink": true,
+            "header": "smOwningTeam",
+            "readOnly": true,
+            "type": "foreigntext"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "smOwningUser",
+            "searchable": true,
+            "cellLink": true,
+            "header": "smOwningUser",
+            "readOnly": true,
+            "type": "foreigntext"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "smRegStatus",
+            "searchable": true,
+            "header": "smRegStatus",
+            "readOnly": true,
+            "type": "string"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "smWflowStatus",
+            "searchable": true,
+            "header": "smWflowStatus",
+            "readOnly": true,
+            "type": "string"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "typeRelation",
+            "searchable": true,
+            "header": "typeRelation",
+            "type": "string"
+        },
+        {
+            "__ptType": "field",
+            "sortable": true,
+            "name": "vType",
+            "searchable": true,
+            "choices": "string,text,bool,int,secuence,decimal,money,combo,date,datetime,time",
+            "header": "vType",
+            "type": "combo"
+        },
+        {
+            "__ptType": "field",
+            "fkField": "entity",
+            "name": "entity_id",
+            "header": "entity_id",
+            "readOnly": true,
+            "hidden": true,
+            "type": "foreignid"
+        },
+        {
+            "__ptType": "field",
+            "fkField": "propertyModel",
+            "name": "propertyModel_id",
+            "header": "propertyModel_id",
+            "readOnly": true,
+            "hidden": true,
+            "type": "foreignid"
+        },
+        {
+            "__ptType": "field",
+            "fkField": "refEntity",
+            "name": "refEntity_id",
+            "header": "refEntity_id",
+            "readOnly": true,
+            "hidden": true,
+            "type": "foreignid"
+        }
+    ]
+}
