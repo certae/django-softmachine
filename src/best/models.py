@@ -4,7 +4,7 @@ from django.db import models
 
 class Questionnaire(models.Model):
     ID_Questionnaire = models.CharField(blank = False, null = False, max_length=50 )
-    Libelle_Questionnaire = models.CharField(blank = True, null = True, max_length=200 )
+    Libelle_Questionnaire = models.CharField(blank = True, null = True, max_length=100 )
     
     def __unicode__(self):
         return self.ID_Questionnaire
@@ -22,7 +22,8 @@ class Question(models.Model):
 class Repondant(models.Model):
     ID_Repondant = models.IntegerField(blank = False, null = False )
     IDUL_Repondant = models.CharField(blank = True, null = True, max_length=20 )
-    
+    Nom_Repondant = models.CharField(blank = True, null = True, max_length=150 )
+    Prenom_Repondant = models.CharField(blank = True, null = True, max_length=150 )
     def __unicode__(self):
         return self.ID_Repondant.__str__()
 
