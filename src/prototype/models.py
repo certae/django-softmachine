@@ -7,7 +7,7 @@ from protoLib.models import ProtoModel
 from protoLib.fields import JSONField,  JSONAwareManager
 
 from protoRules import  updatePropInfo, twoWayPropEquivalence, updProPropModel
-from protoRules import  ONDELETE_TYPES, BASE_TYPES, CRUD_TYPES
+from protoRules import  ONDELETE_TYPES, BASE_TYPES, CRUD_TYPES, DB_ENGINE
 
 
 from protoLib.utilsBase import slugify
@@ -46,9 +46,18 @@ PROTO_PREFIX = "prototype.ProtoTable."
 """
    
 class Project(ProtoModel):
+    
     """Corresponde a un nivel conceptual corportativo MCCD"""
     code = models.CharField(blank = False, null = False, max_length=200  )
     description = models.TextField( blank = True, null = True)
+
+    """Info de la Db """
+    dbEngine = models.CharField(blank = True, null = True, max_length=20, choices = DB_ENGINE, default = 'sqlite3'  )
+    dbName = models.CharField(blank = True, null = True, max_length=200  )
+    dbUser = models.CharField(blank = True, null = True, max_length=200  )
+    dbPassword = models.CharField(blank = True, null = True, max_length=200  )
+    dbHost = models.CharField(blank = True, null = True, max_length=200  )
+    dbPort = models.CharField(blank = True, null = True, max_length=200  )
 
     def __unicode__(self):
         return slugify( self.code ) 
@@ -58,6 +67,7 @@ class Project(ProtoModel):
         #permissions = (( "read_domain", "Can read project"), )        
 
     protoExt = { 
+        "actions": [{ "name": "doImportSchema" },],        
         "gridConfig" : {
             "listDisplay": ["__str__", "description", "smOwningTeam"]      
         }
@@ -103,6 +113,7 @@ class Entity(ProtoModel):
     model = models.ForeignKey('Model', blank = False, null = False, related_name = 'entity_set' )
     code = models.CharField( blank = False, null = False, max_length=200 )
     
+    dbName = models.CharField(blank = True, null = True, max_length=200  )
     description = models.TextField( blank = True, null = True)
 
     # Propieadad para ordenar el __str__ 
@@ -212,11 +223,8 @@ class Property(PropertyBase):
     """isForeign: indica si la propiedad ha sido definida en  Relationship"""
     isForeign = models.BooleanField( editable = False, default = False )
 
-    """cpFrom____ : permite definir como heredar campos complejos (absorber JsonFields)
-    """
-#    cpFromZoom = models.CharField( blank = True, null = True, max_length=200)
-#    cpFromField = models.CharField( blank = True, null = True, max_length=200)
     crudType    = models.CharField( blank = True, null = True, max_length=20, choices = CRUD_TYPES)
+    dbName = models.CharField(blank = True, null = True, max_length=200  )
     
     """solo para ordenar los campos en la entidad"""
     #secuence = models.IntegerField(blank = True, null = True,)

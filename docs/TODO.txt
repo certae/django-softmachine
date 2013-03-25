@@ -7,6 +7,16 @@ To Do:
 **  fDroid ( catchNote. photoEditor, OpenDoc, dropBox, kinSoft, VuDroid, fbReader, OsmAnd )
 	
 -------------------
+	
+	inspectdb desde projecto; 
+
+	edicion n-n  ( seleccion multiple )
+	edicion abierta sin restriccion de navegacion 
+
+	error zoomFilter en edicion MD 
+
+	cmabiar los ID por UUID, 
+	agregar typo de dat para createO, modifiedOn ( datetime automatico )
 
 	Project ( MCCD ) 
 		Ahor el concepto de proyecto es la db, 
@@ -101,7 +111,7 @@ To Do:
 		por q se abre en un popUp y no en un tab como las otras impresiones 
 
 
-	JPlumb  Libreria a mirar con detenimiento 
+	JPlumb  Libreria a mirar con detenimiento
 	DjangoReporter 
 
 

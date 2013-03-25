@@ -24,13 +24,13 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASES = {
-#    'test': {
-#        'ENGINE': 'mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-#        'NAME':   'dictionnaire',
-#        'USER': 'root',                      # Not used with sqlite3.
-#        'PASSWORD': '1214moi',               # Not used with sqlite3.
-#        'HOST': '132.203.51.190',             # Set to empty string for localhost. Not used with sqlite3.
-#        'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
+#    'openERP': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME':   'bitnami_openerp',
+#        'USER':   'postgres',                      # Not used with sqlite3.
+#        'PASSWORD': '1',               # Not used with sqlite3.
+#        'HOST': '127.0.0.1',             # Set to empty string for localhost. Not used with sqlite3.
+#        'PORT': '9432',                      # Set to empty string for default. Not used with sqlite3.
 #    }, 
 #    'default': {
 #        'ENGINE': 'mysql', 
@@ -42,6 +42,10 @@ DATABASES = {
 #    }, 
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': PPATH + '/db/protoMeta.db',
+    }, 
+    'protoExt': {
+        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql',  'oracle'.
         'NAME': PPATH + '/db/protoMeta.db',
     }
 }
@@ -176,7 +180,7 @@ INSTALLED_APPS = (
     'south', 
     'protoLib', 
     'prototype', 
-    'best', 
+#    'best', 
 #    'shiny', 
 #    'CategoryCle', 
 #    'TCO'

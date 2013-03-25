@@ -95,10 +95,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         // ---------------------------------------------------------
 
         // Start Row Editing PlugIn
-        me.rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
-            clicksToMoveEditor: 1,
-            autoCancel: false
-        });
+        // me.rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
+            // clicksToMoveEditor: 1,
+            // autoCancel: false
+        // });
 
 
 
@@ -153,7 +153,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 flex: 1,
                 layout: 'fit',
                 minSize: 50,
-                plugins: [    'headertooltip', this.rowEditing ],            
+                // plugins: [    'headertooltip', this.rowEditing ],            
+                plugins: [    'headertooltip' ],            
 
                 selModel: this.selModel,
                 columns : gridColumns,   
@@ -326,67 +327,59 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 // event.fn();
 
                 me.fireEvent('rowDblClick', record, rowIndex  );
-            }, scope: me }, 
+            }, scope: me } 
 
 
-            //   E D I C I O N    --------------------------------------------------------------- 
-
-            beforeedit: {fn: function ( edPlugin, e, eOpts) {
-                if ( ! this.editable )  return false;
-                
-                var perms = _SM._UserInfo.perms[ this.myMeta.viewCode ]
-                if ( ! perms['change'] ) return false  
-                
-                // Resetea el zoom 
-                for (var ix in e.grid.columns ) {
-                    var vFld = e.grid.columns[ix]
-                    var initialConf = vFld.initialConfig 
-                    if (! initialConf.editor ) continue;
-                    if (  initialConf.editor.xtype != 'protoZoom' ) continue;
-                    
-                    var zoom = vFld.getEditor()
-                    zoom.resetZoom()
-                }
-            }, scope: me }, 
+            //   E D I C I O N  directa en la GRILLA   -------------------------------------------- 
+            // beforeedit: {fn: function ( edPlugin, e, eOpts) {
+                // if ( ! this.editable )  return false;
+                // var perms = _SM._UserInfo.perms[ this.myMeta.viewCode ]
+                // if ( ! perms['change'] ) return false  
+                // // Resetea el zoom 
+                // for (var ix in e.grid.columns ) {
+                    // var vFld = e.grid.columns[ix]
+                    // var initialConf = vFld.initialConfig 
+                    // if (! initialConf.editor ) continue;
+                    // if (  initialConf.editor.xtype != 'protoZoom' ) continue;
+                    // var zoom = vFld.getEditor()
+                    // zoom.resetZoom()
+                // }
+            // }, scope: me }, 
             
             // canceledit :  function(editor, e, eOpts) {
             // Fires when the user started editing but then cancelled the edit. ...
 
 
-            validateedit: {fn:  function(editor, e, eOpts) {
-                // Fires after editing, but before the value is set in the record. ...
-            
-                // Resetea el status despues de la edicion 
-                if ( ! e.record.getId() ) {
-                    e.record.phantom = true;                           
-                    e.record.data._ptStatus = _SM._ROW_ST.NEWROW 
-                } else {
-                    e.record.data._ptStatus = '' 
-                }
-                e.record.dirty = true;
-    
-                // Manejo del retorno del zoom 
-                for (var ix in e.grid.columns ) {
-                    var vFld = e.grid.columns[ix]
-                    var initialConf = vFld.initialConfig 
-                    if (! initialConf.editor ) continue;
-                    if (  initialConf.editor.xtype != 'protoZoom' ) continue;
-                    
-                    var zoom = vFld.getEditor()
-                    var idIndex = initialConf.editor.fkId 
-                                
-                    if ( ! zoom.zoomRecord ) continue; 
-                    // Actualiza el Id con el dato proveniente del zoom 
-                    // fix: Agrega el modificado en caso de q no se encuentre         
-                    if ( ! e.record.modified[ idIndex ]  ) {
-                        e.record.modified[ idIndex ] = e.record.data[ idIndex ]  
-                    }         
-                    e.record.data[ idIndex ] = zoom.zoomRecord.data.id
-                }
-            // }, scope: me }, 
-            // afterrender: {fn: function( grid, eOpts) {
-                // this.setChekSelection( this, this.myMeta.gridConfig )
-            }, scope: me } 
+            // validateedit: {fn:  function(editor, e, eOpts) {
+                // // Fires after editing, but before the value is set in the record. ...
+                // // Resetea el status despues de la edicion 
+                // if ( ! e.record.getId() ) {
+                    // e.record.phantom = true;                           
+                    // e.record.data._ptStatus = _SM._ROW_ST.NEWROW 
+                // } else {
+                    // e.record.data._ptStatus = '' 
+                // }
+                // e.record.dirty = true;
+                // // Manejo del retorno del zoom 
+                // for (var ix in e.grid.columns ) {
+                    // var vFld = e.grid.columns[ix]
+                    // var initialConf = vFld.initialConfig 
+                    // if (! initialConf.editor ) continue;
+                    // if (  initialConf.editor.xtype != 'protoZoom' ) continue;
+                    // var zoom = vFld.getEditor()
+                    // var idIndex = initialConf.editor.fkId 
+                    // if ( ! zoom.zoomRecord ) continue; 
+                    // // Actualiza el Id con el dato proveniente del zoom 
+                    // // fix: Agrega el modificado en caso de q no se encuentre         
+                    // if ( ! e.record.modified[ idIndex ]  ) {
+                        // e.record.modified[ idIndex ] = e.record.data[ idIndex ]  
+                    // }         
+                    // e.record.data[ idIndex ] = zoom.zoomRecord.data.id
+                // }
+            // // }, scope: me }, 
+            // // afterrender: {fn: function( grid, eOpts) {
+                // // this.setChekSelection( this, this.myMeta.gridConfig )
+            // }, scope: me } 
 
         });         
         
@@ -505,16 +498,14 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
     }, 
 
-    setChekSelection : function( me, tabConfig ) { 
-        // Hace visible o no checkColumn ( siempre es la ultima )
-        var hCt = me._extGrid.headerCt, 
-            ix = hCt.items.items.length -1
-        
-        if ( !! tabConfig.hideCheckSelect ) {
-            hCt.items.items[ix].hide()
-        } else { hCt.items.items[ix].show() }
-
-    }, 
+    // setChekSelection : function( me, tabConfig ) { 
+        // // Hace visible o no checkColumn ( siempre es la ultima )
+        // var hCt = me._extGrid.headerCt, 
+            // ix = hCt.items.items.length -1
+        // if ( !! tabConfig.hideCheckSelect ) {
+            // hCt.items.items[ix].hide()
+        // } else { hCt.items.items[ix].show() }
+    // }, 
     
     setGridTitle: function( me ){
         var gridTitle = ''; 
@@ -576,8 +567,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     
     deleteCurrentRecord: function() {
         if ((! this._extGrid ) || ( ! this.editable )) return; 
-        if ( this.rowEditing ) { this.rowEditing.cancelEdit(); }
-
+        // if ( this.rowEditing ) { this.rowEditing.cancelEdit(); }
 
         var rowIndex = this.getRowIndex();  
 

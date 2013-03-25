@@ -432,6 +432,7 @@ def slugify(text, delim=u'-'):
        Normaliza los nombres para usarlos como codigos
        uso:  slugify(u'My International Text: åäö', delim='_')
     """
+    text = unicode( text )
     result = []
     for word in _punct_re.split(text.lower()):
         word = normalize('NFKD', word).encode('ascii', 'ignore')

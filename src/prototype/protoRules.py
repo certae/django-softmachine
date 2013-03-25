@@ -32,6 +32,12 @@ CRUD_TYPES = (
                 ('updateOnly','Al insertar nulo o VrDefault, (estado inicial fijo)'),  
               ) 
 
+DB_ENGINE = (  
+                ('sqlite3', 'sqlLite3' ),  
+                ('postgres',  'Postgress' ), 
+                ('mysql','mySQL'),
+              ) 
+
 # -----------------------------------------------------------------
 
 

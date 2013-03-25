@@ -1,0 +1,229 @@
+Dynamic models
+https://code.djangoproject.com/wiki/DynamicModels
+-----------------------------------------------------------
+
+For an updated information about dynamic models in Django 1.2 and later ​checkout this guide.
+
+this works with django 0.96. There are some modification that make it hard to adjust it with django version 1.0
+
+TOC?
+
+As of [5163], Django models can now be created dynamically at run-time, rather than being defined in a Python source file. While this may seem useless on the surface, it actually provides a powerful way to prototype a Django project, even by users who don't know a thing about Python! This page lists the basic technique involved in creating models at run-time, as well as some examples of how it could be used. It is not meant to be exhaustive, nor is it meant to be drop-in code for your own project. Read and learn, don't copy.
+
+The basic technique
+Internally, Django uses metaclasses to create models based on a class you provide in your source code. Without getting into too many details, that means that rather than your classes being the actual models, Django receives a description of your class, which it uses to create a model in its place. For more details, see the writeup on Model Creation.
+
+Thankfully, Python treats classes like any other object, so we can force this process to occur even when the class wasn't defined in source. All we really need is to give Django a description of a class, and let it do all the work of creating the model for us. Here's some bare-bones code.
+
+model = type(name, (models.Model,), attrs)
+As you can see, describing a model for the purposes of metaclasses involves three pieces of information:
+
+The intended name of the class
+A tuple containing any classes it inherits from
+A dictionary containing the attributes of the class
+Python then processes that description as if it came from a normal class declaration, automatically triggering Django's metaclass along the way. In fact, these three bits of information correspond exactly to standard definitions, as shown in the following comparison.
+
+This:
+
+class Person(models.Model):
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+is functionally equivalent to this:
+
+Person = type('Person', (models.Model,), {
+    'first_name': models.CharField(max_length=255),
+    'last_name': models.CharField(max_length=255),
+})
+
+
+-------------------
+
+def create_model(name, fields=None, app_label='', module='', options=None, admin_opts=None):
+    """
+    Create specified model
+    """
+    class Meta:
+        # Using type('Meta', ...) gives a dictproxy error during model creation
+        pass
+
+    if app_label:
+        # app_label must be set using the Meta inner class
+        setattr(Meta, 'app_label', app_label)
+
+    # Update Meta with any options that were provided
+    if options is not None:
+        for key, value in options.iteritems():
+            setattr(Meta, key, value)
+
+    # Set up a dictionary to simulate declarations within a class
+    attrs = {'__module__': module, 'Meta': Meta}
+
+    # Add in any fields that were provided
+    if fields:
+        attrs.update(fields)
+
+    # Create the class, which automatically triggers ModelBase processing
+    model = type(name, (models.Model,), attrs)
+
+    # Create an Admin class if admin options were provided
+    if admin_opts is not None:
+        class Admin(admin.ModelAdmin):
+            pass
+        for key, value in admin_opts:
+            setattr(Admin, key, value)
+        admin.site.register(model, Admin)
+
+    return model
+    
+
+----------------------
+
+
+A database-driven approach
+Much more useful, however, is the ability to manage models using data contained in other models. This would allow model prototypes to be created and shared using the standard admin interface, even by users with no Python knowledge. Consider the following models.
+
+from django.core.validators import ValidationError
+
+class App(models.Model):
+    name = models.CharField(max_length=255)
+    module = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+class Model(models.Model):
+    app = models.ForeignKey(App, related_name='models')
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+    def get_django_model(self):
+        "Returns a functional Django model based on current data"
+        # Get all associated fields into a list ready for dict()
+        fields = [(f.name, f.get_django_field()) for f in self.fields.all()]
+
+        # Use the create_model function defined above
+        return create_model(self.name, dict(fields), self.app.name, self.app.module)
+
+    class Meta:
+        unique_together = (('app', 'name'),)
+
+def is_valid_field(self, field_data, all_data):
+    if hasattr(models, field_data) and issubclass(getattr(models, field_data), models.Field):
+        # It exists and is a proper field type
+        return
+    raise ValidationError("This is not a valid field type.")
+
+class Field(models.Model):
+    model = models.ForeignKey(Model, related_name='fields')
+    name = models.CharField(max_length=255)
+    type = models.CharField(max_length=255, validators=[is_valid_field])
+
+    def get_django_field(self):
+        "Returns the correct field type, instantiated with applicable settings"
+        # Get all associated settings into a list ready for dict()
+        settings = [(s.name, s.value) for s in self.settings.all()]
+
+        # Instantiate the field with the settings as **kwargs
+        return getattr(models, self.type)(**dict(settings))
+
+    class Meta:
+        unique_together = (('model', 'name'),)
+
+class Setting(models.Model):
+    field = models.ForeignKey(Field, related_name='settings')
+    name = models.CharField(max_length=255)
+    value = models.CharField(max_length=255)
+
+    class Meta:
+        unique_together = (('field', 'name'),)
+
+------------------
+This doesn't take Meta or Admin options into account, nor does it allow for the creation of any model methods, but it's a decent example of how it could be done. Now a model can be created based on a database-backed description, as simply as this (but see the syncdb section for more details):
+
+>>> model = Model.objects.get(app__name='fake_project', name='FakeModel')
+>>> model
+<Model: FakeModel>
+>>> model._meta.app_label
+'fake_project'
+>>> model.objects.count()
+45
+
+-------------------
+
+Syncdb
+The standard syncdb function provided by manage.py relies on crawling through apps that are registered during Django's startup. This means that dynamic models (likely) won't even be found by the time syncdb runs. Even if a dynamic model is found and loaded, its app_label (whether calculated based on its __module__ or provided through Meta) must match an entry in your INSTALLED_APPS setting in order to be processed properly.
+
+This is by design, and should not be considered a bug of any kind. It's just a fact of life when dealing with models in this manner. Without having a table in the database, however, dynamic models will be unable to perform any queries; they just sit there looking shiny. One workaround for basic models uses an internal portion of django.core.management to install a basic table definition to the database.
+
+def install(model):
+	# DGT: Se le pasa el modelo 
+    from django.core.management import sql, color
+    from django.db import connection
+
+    # Standard syncdb expects models to be in reliable locations,
+    # so dynamic models need to bypass django.core.management.syncdb.
+    # On the plus side, this allows individual models to be installed
+    # without installing the entire project structure.
+    # On the other hand, this means that things like relationships and
+    # indexes will have to be handled manually.
+    # This installs only the basic table definition.
+
+    # disable terminal colors in the sql statements
+    style = color.no_style()
+
+    cursor = connection.cursor()
+    statements, pending = sql.sql_model_create(model, style)
+    for sql in statements:
+        cursor.execute(sql)
+        
+---------------------
+
+Admin interface
+Django's built-in admin interface also relies on your project's INSTALLED_APPS setting, so models created dynamically will not show up in the admin unless their app_labels match up with packages listed in INSTALLED_APPS. This is again by design, and should not be considered a bug. Applications which make use of dynamic models should either create a placeholder app and put it in the project settings, or create a custom data interface for accessing the dynamic models.
+
+manage.py startapp my_placeholder
+INSTALLED_APPS = (
+    ...
+    ('myproject.myapp.my_placeholder'),
+    ...
+)
+model = create_model('Model', app_label='my_placeholder')
+
+
+===========================================================================================
+DYNAMO 
+http://stackoverflow.com/questions/7933596/django-dynamic-model-fields/7934577#7934577
+===========================================================================================
+
+from dynamo import models
+
+test_app, created = models.DynamicApp.objects.get_or_create(
+                      name='dynamo'
+                    )
+test, created = models.DynamicModel.objects.get_or_create(
+                  name='Test',
+                  verbose_name='Test Model',
+                  app=test_app
+               )
+foo, created = models.DynamicModelField.objects.get_or_create(
+                  name = 'foo',
+                  verbose_name = 'Foo Field',
+                  model = test,
+                  field_type = 'dynamiccharfield',
+                  null = True,
+                  blank = True,
+                  unique = False,
+                  help_text = 'Test field for Foo',
+               )
+bar, created = models.DynamicModelField.objects.get_or_create(
+                  name = 'bar',
+                  verbose_name = 'Bar Field',
+                  model = test,
+                  field_type = 'dynamicintegerfield',
+                  null = True,
+                  blank = True,
+                  unique = False,
+                  help_text = 'Test field for Bar',
+               )

@@ -36,10 +36,17 @@ class MyPropertyModelAdmin( admin.ModelAdmin ):
 
 admin.site.register(PropertyModel, MyPropertyModelAdmin )
 
+# ------------------------------------------  Entity
+from actions import doImportSchema 
+
+class MyProjectAdmin( admin.ModelAdmin ):
+    actions = [ doImportSchema  ]
+
+admin.site.register(Project, MyProjectAdmin )
+
 # ------------------------------------------
 
 
-admin.site.register(Project )
 admin.site.register(Property )
 #admin.site.register(PropertyEquivalence )
 

@@ -257,14 +257,15 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
             if ( but.itemId == 'edit' ) {
                 // Evitar la edicion en detalles si no hay un registro seleccioando 
-                if ( ! __MasterDetail.isDetailCollapsed() ) 
-                    if ( ! _SM.validaSelected( __MasterDetail.protoMasterGrid.selected )) return  
+                // if ( ! __MasterDetail.isDetailCollapsed() ) 
+                    // if ( ! _SM.validaSelected( __MasterDetail.protoMasterGrid.selected )) return  
                  
                 me.setEditMode( true )
 
             } else if ( but.itemId == 'editOff' ) {
-                __MasterDetail.cancelChanges()
+                // __MasterDetail.cancelChanges()
                 me.setEditMode( false  )
+
 
             // } else if ( but.itemId == 'save' ) {
                 // __MasterDetail.saveChanges()
@@ -306,14 +307,16 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         // this.setAutoSync( this.__MasterDetail.autoSync )
 
         // --------------------- 'details', 'printerOpts', 'sorters', 'tbHelp', 'filterSet',
-        setMdButton( this, 'details', bEdit );
         setMdButton( this, 'printerOpts', bEdit );
         setMdButton( this, 'configOpts', bEdit );
         setMdButton( this, 'sorters', bEdit  );
         setMdButton( this, 'filterSet', bEdit );
         setMdButton( this, 'protoActions', bEdit );
         setMdButton( this, 'sorterSet', bEdit );
-        setMdButton( this, 'tabSet', bEdit );
+
+		// DGT 1303 Con el autosyn, se permite la edicion en todos los objetos 
+        // setMdButton( this, 'tabSet', bEdit );
+        // setMdButton( this, 'details', bEdit );
 
         var autoSync = this.__MasterDetail.autoSync
         this.__MasterDetail.setEditMode(  bEdit   )

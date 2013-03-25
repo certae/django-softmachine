@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import traceback
+
 from protoLib.utilsBase import slugify
 from protoLib.downloadFile import getFullPath 
 
 from viewDefinition import getViewDefinition, getViewCode, getEntities
-from propModelJoin import doPropModelJoin 
-from graphModel import generateDotModels
-
-#from protoLib.utilsWeb import JsonError, JsonSuccess 
 
 
 def doModelPrototype( modeladmin, request, queryset, parameters):
@@ -31,7 +29,6 @@ def doModelPrototype( modeladmin, request, queryset, parameters):
     return {'success':True, 'message' : returnMsg } 
 
 
-
 def doEntityPrototype( modeladmin, request, queryset, parameters ):
 
 #   El QSet viene con la lista de Ids  
@@ -51,6 +48,8 @@ def doPropertyModelJoin( modeladmin, request, queryset, parameters):
     funcion para unir dos propertyModel 
     """
 
+    from propModelJoin import doPropModelJoin 
+
 #   El QSet viene con la lista de Ids  
     if queryset.count() < 2:
         return  {'success':False, 'message' : 'Multiple selection required'}
@@ -58,7 +57,7 @@ def doPropertyModelJoin( modeladmin, request, queryset, parameters):
     return doPropModelJoin ( queryset )
 
 
-# --------------------------------------------------------------------------------
+# -----------  Models  
 
 def doModelGraph( modeladmin, request, queryset, parameters):
     """ 
@@ -66,6 +65,8 @@ def doModelGraph( modeladmin, request, queryset, parameters):
     a partir de Model ( doModel )   
     el proyecto enviara la el QSet de todos los modelos 
     """
+
+    from graphModel import generateDotModels
 
 #   El QSet viene con la lista de Ids  
     if queryset.count() != 1:
@@ -97,3 +98,26 @@ def doModelGraph( modeladmin, request, queryset, parameters):
         pass
 
     return  {'success':True , 'message' : fileName,  'fileName' : fileName }
+
+
+# ----------------   Project  
+
+def doImportSchema( modeladmin, request, queryset, parameters):
+    """ 
+    funcion para Importar la def de una Db ( basado en inspectDb ) 
+    """
+
+    from reverseDb import getDbSchemaDef 
+
+#   El QSet viene con la lista de Ids  
+    if queryset.count() != 1:
+        return  {'success':False, 'message' : 'No record selected' }
+
+#   Recorre los registros selccionados   
+    try: 
+        getDbSchemaDef( queryset[0] , request  )
+    except Exception as e:
+        traceback.print_exc()
+        pass
+        
+    return {'success':True, 'message' :  'Ok' } 

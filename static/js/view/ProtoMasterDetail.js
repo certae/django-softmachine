@@ -173,6 +173,9 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         myDetGrid.protoFilter = protoFilter 
         myDetGrid.setGridTitle( myDetGrid  )
         
+        // Asigna los vr por defecto 
+        me.setDetDefaults( me, myDetGrid )
+        
     }, 
     
     mdGridReload: function () { 
@@ -224,31 +227,45 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         setDisabled( me.tbSortersSet )
         setDisabled( me.tbProtoActions )
 
-        // Cambia el control de las grillas correspondientes 
-        if ( this.isDetailCollapsed()  ) {
+        // Cambia el control de las grillas correspondientes
+        // Con el autosync se permite la edicion en todos los controles  
+        // if ( this.isDetailCollapsed()  ) {
             me.protoMasterGrid.setEditMode(  bEdit )
-            setDisabled( me.tbDetails )
+            // setDisabled( me.tbDetails )
 
-        } else {
+        // } else {
             
             // Solo es la grilla lo q tengo q desabilitar 
-            // setDisabled( me.protoMasterGrid  )
-            me.protoMasterGrid._extGrid.setDisabled( bEdit )
+            // me.protoMasterGrid._extGrid.setDisabled( bEdit )
 
             // Si los detalles estan activos puedo cambiar de detalle sin cambiar el maestro
             // setDisabled( me.tbDetails, false  )
 
             //Recorrer las grillas, cambiar el modo, TODO: heredados ( Default,  RO )
-            var detGrids = me.protoTabs.items.items
-            for (var ix in detGrids ) {
-                var myDetGrid = detGrids[ix]
-                myDetGrid.setEditMode( bEdit )
-                if ( bEdit ) setDetDefaults( myDetGrid )
-            }
+            var detGrids = null 
+            try { 
+            	detGrids = me.protoTabs.items.items
+            } 	catch(e) {}
             
+            if ( detGrids )  { 
+	            for (var ix in detGrids ) {
+	                var myDetGrid = detGrids[ix]
+	                myDetGrid.setEditMode( bEdit )
+	                // if ( bEdit ) me.setDetDefaults( me, myDetGrid )
+	            }
+        	}
+            
+        // }
+        
+        function setDisabled( tbar, bDisable ) {
+            // Por defecto es el edit mode
+            if ( bDisable === undefined  ) bDisable = bEdit 
+            if ( tbar ) tbar.setDisabled( bDisable )
         }
         
-        function setDetDefaults( myDetGrid ) {
+    }, 
+
+    setDetDefaults : function( me, myDetGrid ) {
             var pDetail = myDetGrid.detailDefinition,  
                 rowData = me.protoMasterGrid.rowData, 
                 nField =  pDetail.detailField.replace( /__pk$/, '_id' ) 
@@ -256,8 +273,9 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             // Obtiene el campo de filtro ( heredado ); Si no hereda la llave, cancela la edicion                  
             var myDetField = myDetGrid.myFieldDict[ nField ]
             if ( ! myDetField  || ! rowData  ) {
-                _SM.__StBar.showError('parent key not found: ' + nField, 'MasterDetail') 
-                myDetGrid.setEditMode( false );  return 
+                // _SM.__StBar.showError('parent key not found: ' + nField, 'MasterDetail') 
+                // myDetGrid.setEditMode( false );  
+                return 
             } 
 
             myDetField['prpDefault'] = me.idMasterGrid
@@ -270,15 +288,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
                 myTitleField['prpDefault'] = rowData[ masterTitleField ]
                 myTitleField['readOnly'] = true
             } 
-        }
-
-        function setDisabled( tbar, bDisable ) {
-            // Por defecto es el edit mode
-            if ( bDisable === undefined  ) bDisable = bEdit 
-            if ( tbar ) tbar.setDisabled( bDisable )
-        }
-        
-    }, 
+  	}, 
     
     setAutoSync: function( bMode ) {
         this.autoSync = bMode 

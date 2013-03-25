@@ -317,4 +317,18 @@ class PtFunction( models.Model ):
 
     def __unicode__(self):
         return self.code + '.' + self.tag  
+
+    
+#class sb2reglesentite(models.Model):
+#    description = models.CharField(max_length=250 ,blank=True)
+#    declancheur = models.CharField(max_length=5 ,blank=True)
+#    sequence = models.IntegerField(null=True ,blank=True)
+#    typeregle = models.CharField(max_length=50 ,blank=True)
+#    regle = models.CharField(max_length=50 ,blank=True)
+#    messageok = models.CharField(max_length=50 ,blank=True)
+#    messageerr = models.CharField(max_length=50)
+#    actionerr = models.CharField(max_length=50 ,blank=True)
+#    statut = models.CharField(max_length=10)
+#    entite = models.ForeignKey(sb1entites)
+#    
     

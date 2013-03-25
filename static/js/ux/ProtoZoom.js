@@ -240,15 +240,17 @@ Ext.define('ProtoUL.ux.protoZoom', {
             var lFilters = me.zoomFilter.match(/\(([^()]+)\)/g)
             
             if ( lFilters ) if  ( lFilters.length > 0 ) { 
+
                 //obtiene la meta 
-                var myRecordBase = Ext.getCmp( me.idProtoGrid ).rowData
+                var myGridBase = Ext.getCmp( me.idProtoGrid ) 
                 
                 // Remplaza en el filtro 
                 for ( var i in lFilters ) {
                     var fStmt = lFilters[i].replace('(', '').replace(')', '').split(',')
                     for ( var ix in fStmt ) {
-                        var fName = fStmt[ix]
-                        var fVal =  myRecordBase[ fName.trim() ]
+                        var fName = fStmt[ix], 
+						    fVal = getValueOrDefault(  myGridBase, fName ) 
+                        
                         myFilter = myFilter.replace( '{0}'.format( fName ),  '{0}'.format( fVal)  )
                      }
                 }
@@ -261,6 +263,19 @@ Ext.define('ProtoUL.ux.protoZoom', {
                 myFilter[i] = { 'property' : lFilter[0].trim(), 'filterStmt' : lFilter[1].trim() }   
             }
             return myFilter
+        }
+        
+        function getValueOrDefault( myGridBase, fName ) {
+         	var fVal
+         	try {
+	            if ( myGridBase.rowData ) { 
+	                fVal =  myGridBase.rowData[ fName.trim() ]
+	        	} else {
+	        		fVal  = myGridBase.myFieldDict[ fName.trim() ]['prpDefault']
+	    		}
+	    	} catch(e)  { fVal = '-1' } 
+ 
+			return fVal 
         }
         
     }, 
