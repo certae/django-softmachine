@@ -60,8 +60,11 @@ Ext.define('ProtoUL.UI.FormController', {
             minHeight: 400,
             minWidth: 400,
             layout: 'fit',
+
+            maximizable: true, 
             resizable: true,
             modal: true,
+
             items: me.myForm 
         });
 

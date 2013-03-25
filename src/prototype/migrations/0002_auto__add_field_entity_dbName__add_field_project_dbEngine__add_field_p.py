@@ -8,370 +8,56 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         
-        # Adding model 'Project'
-        db.create_table('prototype_project', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('smOwningUser', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smOwningTeam', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['protoLib.TeamHierarchy'])),
-            ('smCreatedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smModifiedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smRegStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smWflowStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smCreatedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('smModifiedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('code', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-        ))
-        db.send_create_signal('prototype', ['Project'])
+        # Adding field 'Entity.dbName'
+        db.add_column('prototype_entity', 'dbName', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True), keep_default=False)
 
-        # Adding unique constraint on 'Project', fields ['code', 'smOwningTeam']
-        db.create_unique('prototype_project', ['code', 'smOwningTeam_id'])
+        # Adding field 'Project.dbEngine'
+        db.add_column('prototype_project', 'dbEngine', self.gf('django.db.models.fields.CharField')(default='sqlite3', max_length=20, null=True, blank=True), keep_default=False)
 
-        # Adding model 'Model'
-        db.create_table('prototype_model', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('smOwningUser', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smOwningTeam', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['protoLib.TeamHierarchy'])),
-            ('smCreatedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smModifiedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smRegStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smWflowStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smCreatedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('smModifiedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['prototype.Project'])),
-            ('code', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('category', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('modelPrefix', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-        ))
-        db.send_create_signal('prototype', ['Model'])
+        # Adding field 'Project.dbName'
+        db.add_column('prototype_project', 'dbName', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True), keep_default=False)
 
-        # Adding unique constraint on 'Model', fields ['project', 'code', 'smOwningTeam']
-        db.create_unique('prototype_model', ['project_id', 'code', 'smOwningTeam_id'])
+        # Adding field 'Project.dbUser'
+        db.add_column('prototype_project', 'dbUser', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True), keep_default=False)
 
-        # Adding model 'Entity'
-        db.create_table('prototype_entity', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('smOwningUser', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smOwningTeam', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['protoLib.TeamHierarchy'])),
-            ('smCreatedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smModifiedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smRegStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smWflowStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smCreatedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('smModifiedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('model', self.gf('django.db.models.fields.related.ForeignKey')(related_name='entity_set', to=orm['prototype.Model'])),
-            ('code', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-        ))
-        db.send_create_signal('prototype', ['Entity'])
+        # Adding field 'Project.dbPassword'
+        db.add_column('prototype_project', 'dbPassword', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True), keep_default=False)
 
-        # Adding unique constraint on 'Entity', fields ['model', 'code', 'smOwningTeam']
-        db.create_unique('prototype_entity', ['model_id', 'code', 'smOwningTeam_id'])
+        # Adding field 'Project.dbHost'
+        db.add_column('prototype_project', 'dbHost', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True), keep_default=False)
 
-        # Adding model 'Property'
-        db.create_table('prototype_property', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('smOwningUser', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smOwningTeam', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['protoLib.TeamHierarchy'])),
-            ('smCreatedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smModifiedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smRegStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smWflowStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smCreatedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('smModifiedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('code', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('baseType', self.gf('django.db.models.fields.CharField')(default='string', max_length=50, null=True, blank=True)),
-            ('prpLength', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
-            ('prpScale', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
-            ('vType', self.gf('django.db.models.fields.CharField')(default='string', max_length=50, null=True, blank=True)),
-            ('prpDefault', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('prpChoices', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('isSensitive', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('notes', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('entity', self.gf('django.db.models.fields.related.ForeignKey')(related_name='property_set', to=orm['prototype.Entity'])),
-            ('propertyModel', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['prototype.PropertyModel'], null=True, blank=True)),
-            ('isPrimary', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('isLookUpResult', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('isNullable', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('isRequired', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('isReadOnly', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('isEssential', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('isForeign', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('crudType', self.gf('django.db.models.fields.CharField')(max_length=20, null=True, blank=True)),
-        ))
-        db.send_create_signal('prototype', ['Property'])
+        # Adding field 'Project.dbPort'
+        db.add_column('prototype_project', 'dbPort', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True), keep_default=False)
 
-        # Adding unique constraint on 'Property', fields ['entity', 'code', 'smOwningTeam']
-        db.create_unique('prototype_property', ['entity_id', 'code', 'smOwningTeam_id'])
-
-        # Adding model 'Relationship'
-        db.create_table('prototype_relationship', (
-            ('property_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['prototype.Property'], unique=True, primary_key=True)),
-            ('refEntity', self.gf('django.db.models.fields.related.ForeignKey')(related_name='refEntity_set', to=orm['prototype.Entity'])),
-            ('relatedName', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('baseMin', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('baseMax', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('refMin', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('refMax', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('onRefDelete', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('typeRelation', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-        ))
-        db.send_create_signal('prototype', ['Relationship'])
-
-        # Adding model 'PropertyModel'
-        db.create_table('prototype_propertymodel', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('smOwningUser', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smOwningTeam', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['protoLib.TeamHierarchy'])),
-            ('smCreatedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smModifiedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smRegStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smWflowStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smCreatedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('smModifiedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('code', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('baseType', self.gf('django.db.models.fields.CharField')(default='string', max_length=50, null=True, blank=True)),
-            ('prpLength', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
-            ('prpScale', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
-            ('vType', self.gf('django.db.models.fields.CharField')(default='string', max_length=50, null=True, blank=True)),
-            ('prpDefault', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('prpChoices', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('isSensitive', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('notes', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('model', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['prototype.Model'])),
-            ('inherit', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('conceptType', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-        ))
-        db.send_create_signal('prototype', ['PropertyModel'])
-
-        # Adding unique constraint on 'PropertyModel', fields ['model', 'code', 'smOwningTeam']
-        db.create_unique('prototype_propertymodel', ['model_id', 'code', 'smOwningTeam_id'])
-
-        # Adding model 'PropertyEquivalence'
-        db.create_table('prototype_propertyequivalence', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('smOwningUser', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smOwningTeam', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['protoLib.TeamHierarchy'])),
-            ('smCreatedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smModifiedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smRegStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smWflowStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smCreatedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('smModifiedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('sourceProperty', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='sourcePrp', null=True, to=orm['prototype.PropertyModel'])),
-            ('targetProperty', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='targetPrp', null=True, to=orm['prototype.PropertyModel'])),
-            ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-        ))
-        db.send_create_signal('prototype', ['PropertyEquivalence'])
-
-        # Adding unique constraint on 'PropertyEquivalence', fields ['sourceProperty', 'targetProperty', 'smOwningTeam']
-        db.create_unique('prototype_propertyequivalence', ['sourceProperty_id', 'targetProperty_id', 'smOwningTeam_id'])
-
-        # Adding model 'Prototype'
-        db.create_table('prototype_prototype', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('smOwningUser', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smOwningTeam', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['protoLib.TeamHierarchy'])),
-            ('smCreatedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smModifiedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smRegStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smWflowStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smCreatedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('smModifiedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('entity', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['prototype.Entity'])),
-            ('code', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('notes', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('metaDefinition', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-        ))
-        db.send_create_signal('prototype', ['Prototype'])
-
-        # Adding unique constraint on 'Prototype', fields ['code', 'smOwningTeam']
-        db.create_unique('prototype_prototype', ['code', 'smOwningTeam_id'])
-
-        # Adding model 'ProtoTable'
-        db.create_table('prototype_prototable', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('smOwningUser', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smOwningTeam', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['protoLib.TeamHierarchy'])),
-            ('smCreatedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smModifiedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smRegStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smWflowStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smCreatedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('smModifiedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('entity', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['prototype.Entity'])),
-            ('info', self.gf('protoLib.fields.JSONField')(default={})),
-        ))
-        db.send_create_signal('prototype', ['ProtoTable'])
-
-        # Adding model 'Diagram'
-        db.create_table('prototype_diagram', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('smOwningUser', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smOwningTeam', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['protoLib.TeamHierarchy'])),
-            ('smCreatedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smModifiedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smRegStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smWflowStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smCreatedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('smModifiedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('model', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['prototype.Model'])),
-            ('code', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('notes', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('info', self.gf('protoLib.fields.JSONField')(default={})),
-        ))
-        db.send_create_signal('prototype', ['Diagram'])
-
-        # Adding unique constraint on 'Diagram', fields ['model', 'code', 'smOwningTeam']
-        db.create_unique('prototype_diagram', ['model_id', 'code', 'smOwningTeam_id'])
-
-        # Adding model 'DiagramEntity'
-        db.create_table('prototype_diagramentity', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('smOwningUser', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smOwningTeam', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['protoLib.TeamHierarchy'])),
-            ('smCreatedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smModifiedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smRegStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smWflowStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smCreatedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('smModifiedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('diagram', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['prototype.Diagram'])),
-            ('entity', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['prototype.Entity'])),
-            ('info', self.gf('protoLib.fields.JSONField')(default={})),
-        ))
-        db.send_create_signal('prototype', ['DiagramEntity'])
-
-        # Adding unique constraint on 'DiagramEntity', fields ['diagram', 'entity', 'smOwningTeam']
-        db.create_unique('prototype_diagramentity', ['diagram_id', 'entity_id', 'smOwningTeam_id'])
-
-        # Adding model 'Service'
-        db.create_table('prototype_service', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('smOwningUser', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smOwningTeam', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['protoLib.TeamHierarchy'])),
-            ('smCreatedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smModifiedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smRegStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smWflowStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smCreatedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('smModifiedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('model', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['prototype.Model'])),
-            ('code', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('Binding', self.gf('django.db.models.fields.CharField')(max_length=20, null=True, blank=True)),
-            ('typeMessage', self.gf('django.db.models.fields.CharField')(max_length=20, null=True, blank=True)),
-            ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('notes', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('infoMesage', self.gf('protoLib.fields.JSONField')(default={})),
-            ('infoRequest', self.gf('protoLib.fields.JSONField')(default={})),
-            ('infoReponse', self.gf('protoLib.fields.JSONField')(default={})),
-        ))
-        db.send_create_signal('prototype', ['Service'])
-
-        # Adding unique constraint on 'Service', fields ['model', 'code', 'smOwningTeam']
-        db.create_unique('prototype_service', ['model_id', 'code', 'smOwningTeam_id'])
-
-        # Adding model 'ServiceRef'
-        db.create_table('prototype_serviceref', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('smOwningUser', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smOwningTeam', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['protoLib.TeamHierarchy'])),
-            ('smCreatedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smModifiedBy', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='+', null=True, to=orm['auth.User'])),
-            ('smRegStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smWflowStatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('smCreatedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('smModifiedOn', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, null=True, blank=True)),
-            ('model', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['prototype.Model'])),
-            ('service', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['prototype.Service'])),
-            ('endpoint', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
-            ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('notes', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-        ))
-        db.send_create_signal('prototype', ['ServiceRef'])
-
-        # Adding unique constraint on 'ServiceRef', fields ['model', 'service', 'smOwningTeam']
-        db.create_unique('prototype_serviceref', ['model_id', 'service_id', 'smOwningTeam_id'])
+        # Adding field 'Property.dbName'
+        db.add_column('prototype_property', 'dbName', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True), keep_default=False)
 
 
     def backwards(self, orm):
         
-        # Removing unique constraint on 'ServiceRef', fields ['model', 'service', 'smOwningTeam']
-        db.delete_unique('prototype_serviceref', ['model_id', 'service_id', 'smOwningTeam_id'])
+        # Deleting field 'Entity.dbName'
+        db.delete_column('prototype_entity', 'dbName')
 
-        # Removing unique constraint on 'Service', fields ['model', 'code', 'smOwningTeam']
-        db.delete_unique('prototype_service', ['model_id', 'code', 'smOwningTeam_id'])
+        # Deleting field 'Project.dbEngine'
+        db.delete_column('prototype_project', 'dbEngine')
 
-        # Removing unique constraint on 'DiagramEntity', fields ['diagram', 'entity', 'smOwningTeam']
-        db.delete_unique('prototype_diagramentity', ['diagram_id', 'entity_id', 'smOwningTeam_id'])
+        # Deleting field 'Project.dbName'
+        db.delete_column('prototype_project', 'dbName')
 
-        # Removing unique constraint on 'Diagram', fields ['model', 'code', 'smOwningTeam']
-        db.delete_unique('prototype_diagram', ['model_id', 'code', 'smOwningTeam_id'])
+        # Deleting field 'Project.dbUser'
+        db.delete_column('prototype_project', 'dbUser')
 
-        # Removing unique constraint on 'Prototype', fields ['code', 'smOwningTeam']
-        db.delete_unique('prototype_prototype', ['code', 'smOwningTeam_id'])
+        # Deleting field 'Project.dbPassword'
+        db.delete_column('prototype_project', 'dbPassword')
 
-        # Removing unique constraint on 'PropertyEquivalence', fields ['sourceProperty', 'targetProperty', 'smOwningTeam']
-        db.delete_unique('prototype_propertyequivalence', ['sourceProperty_id', 'targetProperty_id', 'smOwningTeam_id'])
+        # Deleting field 'Project.dbHost'
+        db.delete_column('prototype_project', 'dbHost')
 
-        # Removing unique constraint on 'PropertyModel', fields ['model', 'code', 'smOwningTeam']
-        db.delete_unique('prototype_propertymodel', ['model_id', 'code', 'smOwningTeam_id'])
+        # Deleting field 'Project.dbPort'
+        db.delete_column('prototype_project', 'dbPort')
 
-        # Removing unique constraint on 'Property', fields ['entity', 'code', 'smOwningTeam']
-        db.delete_unique('prototype_property', ['entity_id', 'code', 'smOwningTeam_id'])
-
-        # Removing unique constraint on 'Entity', fields ['model', 'code', 'smOwningTeam']
-        db.delete_unique('prototype_entity', ['model_id', 'code', 'smOwningTeam_id'])
-
-        # Removing unique constraint on 'Model', fields ['project', 'code', 'smOwningTeam']
-        db.delete_unique('prototype_model', ['project_id', 'code', 'smOwningTeam_id'])
-
-        # Removing unique constraint on 'Project', fields ['code', 'smOwningTeam']
-        db.delete_unique('prototype_project', ['code', 'smOwningTeam_id'])
-
-        # Deleting model 'Project'
-        db.delete_table('prototype_project')
-
-        # Deleting model 'Model'
-        db.delete_table('prototype_model')
-
-        # Deleting model 'Entity'
-        db.delete_table('prototype_entity')
-
-        # Deleting model 'Property'
-        db.delete_table('prototype_property')
-
-        # Deleting model 'Relationship'
-        db.delete_table('prototype_relationship')
-
-        # Deleting model 'PropertyModel'
-        db.delete_table('prototype_propertymodel')
-
-        # Deleting model 'PropertyEquivalence'
-        db.delete_table('prototype_propertyequivalence')
-
-        # Deleting model 'Prototype'
-        db.delete_table('prototype_prototype')
-
-        # Deleting model 'ProtoTable'
-        db.delete_table('prototype_prototable')
-
-        # Deleting model 'Diagram'
-        db.delete_table('prototype_diagram')
-
-        # Deleting model 'DiagramEntity'
-        db.delete_table('prototype_diagramentity')
-
-        # Deleting model 'Service'
-        db.delete_table('prototype_service')
-
-        # Deleting model 'ServiceRef'
-        db.delete_table('prototype_serviceref')
+        # Deleting field 'Property.dbName'
+        db.delete_column('prototype_property', 'dbName')
 
 
     models = {
@@ -390,7 +76,7 @@ class Migration(SchemaMigration):
         },
         'auth.user': {
             'Meta': {'object_name': 'User'},
-            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 3, 25, 14, 46, 36, 533000)'}),
+            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 3, 25, 14, 49, 9, 924000)'}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'groups': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.Group']", 'symmetrical': 'False', 'blank': 'True'}),
@@ -398,7 +84,7 @@ class Migration(SchemaMigration):
             'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 3, 25, 14, 46, 36, 533000)'}),
+            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 3, 25, 14, 49, 9, 924000)'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
             'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'}),
@@ -454,6 +140,7 @@ class Migration(SchemaMigration):
         'prototype.entity': {
             'Meta': {'unique_together': "(('model', 'code', 'smOwningTeam'),)", 'object_name': 'Entity'},
             'code': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
+            'dbName': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'model': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'entity_set'", 'to': "orm['prototype.Model']"}),
@@ -486,6 +173,12 @@ class Migration(SchemaMigration):
         'prototype.project': {
             'Meta': {'unique_together': "(('code', 'smOwningTeam'),)", 'object_name': 'Project'},
             'code': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
+            'dbEngine': ('django.db.models.fields.CharField', [], {'default': "'sqlite3'", 'max_length': '20', 'null': 'True', 'blank': 'True'}),
+            'dbHost': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
+            'dbName': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
+            'dbPassword': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
+            'dbPort': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
+            'dbUser': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'smCreatedBy': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'+'", 'null': 'True', 'to': "orm['auth.User']"}),
@@ -502,6 +195,7 @@ class Migration(SchemaMigration):
             'baseType': ('django.db.models.fields.CharField', [], {'default': "'string'", 'max_length': '50', 'null': 'True', 'blank': 'True'}),
             'code': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             'crudType': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'blank': 'True'}),
+            'dbName': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'entity': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'property_set'", 'to': "orm['prototype.Entity']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
