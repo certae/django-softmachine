@@ -14,31 +14,31 @@ from prototype.models import Model, Entity, Property, Relationship
 from protoLib.protoAuth import getUserProfile
 
 
-def getDbSchemaDef( pProject , request  ):
+def getDbSchemaDef( dProject , request  ):
 
-    if pProject.dbEngine == 'sqlite3': 
-        pProject.dbEngine = 'django.db.backends.sqlite3'
-    elif  pProject.dbEngine == 'mysql':
-        pProject.dbEngine = 'django.db.backends.mysql'
-    elif  pProject.dbEngine == 'postgres':
-        pProject.dbEngine = 'django.db.backends.postgresql_psycopg2'
-    elif  pProject.dbEngine == 'oracle':
-        pProject.dbEngine = 'django.db.backends.oracle'
+    if dProject.dbEngine == 'sqlite3': 
+        dProject.dbEngine = 'django.db.backends.sqlite3'
+    elif  dProject.dbEngine == 'mysql':
+        dProject.dbEngine = 'django.db.backends.mysql'
+    elif  dProject.dbEngine == 'postgres':
+        dProject.dbEngine = 'django.db.backends.postgresql_psycopg2'
+    elif  dProject.dbEngine == 'oracle':
+        dProject.dbEngine = 'django.db.backends.oracle'
 
 
     # Add connection information dynamically..
-    connections.databases[ pProject.code ] = {
-            'ENGINE': pProject.dbEngine ,
-            'NAME':  pProject.dbName ,
-            'USER':  pProject.dbUser ,
-            'PASSWORD': pProject.dbPassword ,
-            'HOST': pProject.dbHost ,
-            'PORT':pProject.dbPort,
+    connections.databases[ dProject.code ] = {
+            'ENGINE': dProject.dbEngine ,
+            'NAME':  dProject.dbName ,
+            'USER':  dProject.dbUser ,
+            'PASSWORD': dProject.dbPassword ,
+            'HOST': dProject.dbHost ,
+            'PORT':dProject.dbPort,
           }
     
     # Ensure the remaining default connection information is defined.
     # connections.databases.ensure_defaults('new-alias')
-    connection = connections[ pProject.code ]
+    connection = connections[ dProject.code ]
     
     table2model = lambda table_name: table_name.title().replace('_', '').replace(' ', '').replace('-', '')
 
@@ -128,29 +128,45 @@ def getDbSchemaDef( pProject , request  ):
         'smCreatedBy' :  userProfile.user
     }
 
-    pModel = Model.objects.get_or_create( project = pProject, 
+    dModel = Model.objects.get_or_create( project = dProject, 
                                           code = 'inspectDb', 
                                           smOwningTeam = userProfile.userTeam,
                                           defaults = defValues )[0]
 
-    for pEntity in pEntities: 
-
+    for entityName in pEntities: 
+        pEntity = pEntities[ entityName  ]
         pEntity.update( defValues  )
-        dEntity = getEntity(  pEntity.code , pEntity, pProject.id,  pModel.id  )
+        dEntity = getEntity(  entityName , pEntity, dProject,  dModel  )
 
         for pProperty in pEntity[ 'properties' ]: 
-            if pProperty['refEntity']:
-                dRefEntity =  getEntity(pProperty['refEntity'], defValues, pProject.id,  pModel.id  )
-                pass
+            if 'refEntity' in pProperty:
+                dRefEntity =  getEntity(pProperty['refEntity'], defValues, dProject,  dModel   )
+
+                try: 
+                    dRelation = Relationship.objects.get( code = pProperty['code'], smOwningTeam = userProfile.userTeam )
+                except Relationship.DoesNotExist:  
+                    dRelation = Relationship( code = pProperty['code'], smOwningTeam = userProfile.userTeam )
+
+                dRelation.entity = dEntity 
+                dRelation.refEntity = dRefEntity 
+                dRelation.smOwningUser  = userProfile.user
+                dRelation.smCreatedBy =  userProfile.user
+                dRelation.save()
 
             else:  
-                pass 
+                dEntity.property_set.get_or_create( code = pProperty['code'], 
+                                          smOwningTeam = userProfile.userTeam,
+                                          defaults = defValues )
 
 
-def getEntity(  entityCode , defValues, projectId,  modelId  ):
+def getEntity(  entityCode , pEntity, project,  model  ):
 
-    defValues['model'] = modelId
-    dEntity = Entity.objects.get_or_create( model__project_id = projectId , 
+    defValues = pEntity.copy()
+    defValues['model'] = model
+    if 'properties' in defValues: 
+        del defValues['properties']
+    
+    dEntity = Entity.objects.get_or_create( model__project = project , 
                                             code = entityCode,  
                                             defaults = defValues )[0]
     return dEntity
