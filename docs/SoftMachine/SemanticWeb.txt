@@ -1,0 +1,5 @@
+Semantic Web :  Se basa en la idea de añadir metadatos semánticos y ontológicos a la World Wide Web. Esas informaciones adicionales —que describen el contenido, el significado y la relación de los datos— se deben proporcionar de manera formal, para que así sea posible evaluarlas automáticamente por máquinas de procesamiento. El objetivo es mejorar Internet ampliando la interoperabilidad entre los sistemas informáticos usando "agentes inteligentes". Agentes inteligentes son programas en las computadoras que buscan información sin operadores humanos.
+
+Actualmente, existen nichos piloto que han comenzado con la transformación hacia la web semántica:
+
+Sistemas de Datos Abiertos gubernamentales en varios países, se encuentran en formato Rdf.
