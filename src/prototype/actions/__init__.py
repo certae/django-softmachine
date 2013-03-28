@@ -118,6 +118,7 @@ def doImportSchema( modeladmin, request, queryset, parameters):
         getDbSchemaDef( queryset[0] , request  )
     except Exception as e:
         traceback.print_exc()
+        return  {'success':False, 'message' : 'Load error' }
         pass
         
     return {'success':True, 'message' :  'Ok' } 

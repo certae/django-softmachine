@@ -7,13 +7,20 @@
 
 # ----------------------------------------------------
 
-
 import keyword
+import traceback
 from django.db import connections
 from prototype.models import Model, Entity, Property, Relationship
 from protoLib.protoAuth import getUserProfile
+from protoLib.utilsDb import setDefaults2Obj
+
+from django.db import transaction
 
 
+# Coleccion de entidades a importar 
+pEntities  = {}
+
+@transaction.commit_manually
 def getDbSchemaDef( dProject , request  ):
 
     if dProject.dbEngine == 'sqlite3': 
@@ -44,7 +51,6 @@ def getDbSchemaDef( dProject , request  ):
 
     #  
     cursor = connection.cursor()
-    pEntities  = {}
     for table_name in connection.introspection.get_table_list(cursor):
 
         pEntity =  { 'code' : table2model( table_name )  }
@@ -71,22 +77,15 @@ def getDbSchemaDef( dProject , request  ):
             pProperty = { 'code' :  att_name , 'notes' : ''}
             pProperties.append( pProperty )  
 
-            if att_name.endswith('_id'):
-                att_name = att_name[:-3]  
-                pProperty['code'] = att_name
-                pProperty['notes'] += ';id removed from colName'
-
-            if keyword.iskeyword(att_name):
-                att_name += '_field'
-                pProperty['code'] = att_name
-                pProperty['notes'] += ';Field renamed because it was a Python reserved word'
-            
-            if  unicode( column_name )  !=  unicode( att_name ) :
-                pProperty['dbName'] = column_name
                 
             if i in relations:
                 rel_to = relations[i][1] == table_name and "'self'" or table2model(relations[i][1])
                 pProperty['refEntity']  = rel_to 
+
+                if att_name.endswith('_id'):
+                    att_name = att_name[:-3]  
+                    pProperty['code'] = att_name
+                    pProperty['notes'] += ';id removed from colName'
 
             else:
 
@@ -100,6 +99,15 @@ def getDbSchemaDef( dProject , request  ):
                         pProperty['isPrimary'] = True
                     elif indexes[column_name]['unique']:
                         pProperty['isRequired'] = True
+
+
+            if keyword.iskeyword(att_name):
+                att_name += '_field'
+                pProperty['code'] = att_name
+                pProperty['notes'] += ';Field renamed because it was a Python reserved word'
+            
+            if  unicode( column_name )  !=  unicode( att_name ) :
+                pProperty['dbName'] = column_name
 
             # Don't output 'id = meta.AutoField(isPrimary=True)', because
             # that's assumed if it doesn't exist.
@@ -120,6 +128,7 @@ def getDbSchemaDef( dProject , request  ):
                 del pProperty['notes']  
 
 
+    # ===================================================================================================================
     # -----------------------------  Aqui arranca la escritura en la Db 
     userProfile = getUserProfile( request.user, 'prototype', '' ) 
     defValues = {
@@ -128,37 +137,104 @@ def getDbSchemaDef( dProject , request  ):
         'smCreatedBy' :  userProfile.user
     }
 
-    dModel = Model.objects.get_or_create( project = dProject, 
-                                          code = 'inspectDb', 
-                                          smOwningTeam = userProfile.userTeam,
-                                          defaults = defValues )[0]
+    # Borra y crea el modelo 
+    Model.objects.filter( project = dProject, 
+                          code = 'inspectDb', smOwningTeam = userProfile.userTeam).delete() 
 
+    dModel = Model.objects.get_or_create( project = dProject, code = 'inspectDb', 
+                          smOwningTeam = userProfile.userTeam, defaults = defValues )[0]
+
+    # Guarda todas las entidades 
     for entityName in pEntities: 
         pEntity = pEntities[ entityName  ]
         pEntity.update( defValues  )
-        dEntity = getEntity(  entityName , pEntity, dProject,  dModel  )
+        pEntity['dataEntity']  = getEntity(  entityName , pEntity, dProject,  dModel  )
 
-        for pProperty in pEntity[ 'properties' ]: 
+    transaction.commit()
+
+    # Guarda las relaciones 
+    for entityName in pEntities: 
+        pEntity = pEntities[ entityName  ]
+        dEntity = pEntity['dataEntity']
+
+        for pProperty in pEntity[ 'properties' ]:
+            prpName = pProperty['code']
             if 'refEntity' in pProperty:
-                dRefEntity =  getEntity(pProperty['refEntity'], defValues, dProject,  dModel   )
-
-                try: 
-                    dRelation = Relationship.objects.get( code = pProperty['code'], smOwningTeam = userProfile.userTeam )
-                except Relationship.DoesNotExist:  
-                    dRelation = Relationship( code = pProperty['code'], smOwningTeam = userProfile.userTeam )
-
-                dRelation.entity = dEntity 
-                dRelation.refEntity = dRefEntity 
-                dRelation.smOwningUser  = userProfile.user
-                dRelation.smCreatedBy =  userProfile.user
-                dRelation.save()
-
+                saveRelation( dProject, dEntity, dModel, pProperty,  defValues, userProfile, prpName, 1 )
+                
             else:  
-                dEntity.property_set.get_or_create( code = pProperty['code'], 
-                                          smOwningTeam = userProfile.userTeam,
-                                          defaults = defValues )
+
+                saveProperty( dEntity, pProperty, defValues, userProfile, prpName,  1   )
+
+        transaction.commit()
 
 
+def saveProperty( dEntity, pProperty, defValues, userProfile, prpName, seq   ):
+
+    Qs = dEntity.property_set.filter( code = prpName, smOwningTeam = userProfile.userTeam ) 
+
+    # si ya existe, debe crear una nueva 
+    if Qs.count() > 0 : 
+        prpName = '{0}_{1}'.format( prpName.split('.')[0] , seq ) 
+        saveProperty( dEntity, pProperty, defValues, userProfile, prpName,  seq +1 )
+        return 
+
+
+    try: 
+        dProperty =  dEntity.property_set.create( code = prpName, smOwningTeam = userProfile.userTeam )
+
+        setDefaults2Obj( dProperty, pProperty )    
+        setDefaults2Obj( dProperty, defValues )    
+        dProperty.save()
+
+    except Exception as e:
+        #TODO: Log 
+        pass 
+
+
+def saveRelation( dProject, dEntity, dModel, pProperty,  defValues, userProfile, prpName, seq   ):
+
+    refName = pProperty['refEntity']                
+    if refName == 'self':  refName = dEntity.code 
+    
+    try: 
+        dRefEntity =  pEntities[ refName ]
+        
+        
+    except Exception as e:
+        anotar q la entiad no existe  y gardar una propiedad 
+        npProperty['notes']  ) == 0: 
+            del pProperty['notes']  
+
+        pass 
+         
+
+    Qs = Relationship.objects.filter( code = prpName, 
+                                      entity = dEntity , 
+                                      smOwningTeam = userProfile.userTeam )
+
+    if Qs.count() > 0 : 
+        prpName = '{0}_{1}'.format( prpName.split('.')[0] , seq ) 
+        saveRelation( dProject, dEntity, dModel, pProperty,  defValues, userProfile, prpName, seq + 1 )
+        return 
+
+    try: 
+        dRelation =  Relationship(  
+                         code = prpName ,
+                         entity = dEntity , 
+                         refEntity = dRefEntity ,  
+                         smOwningTeam = userProfile.userTeam 
+                         )
+
+        setDefaults2Obj( dRelation, pProperty, ['refEntity'] )    
+        setDefaults2Obj( dRelation, defValues )    
+        dRelation.save()
+
+    except Exception as e:
+        #TODO: Log 
+        pass 
+
+    
 def getEntity(  entityCode , pEntity, project,  model  ):
 
     defValues = pEntity.copy()
