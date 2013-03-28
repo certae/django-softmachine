@@ -113,12 +113,16 @@ def doImportSchema( modeladmin, request, queryset, parameters):
     if queryset.count() != 1:
         return  {'success':False, 'message' : 'No record selected' }
 
-#   Recorre los registros selccionados   
     try: 
         getDbSchemaDef( queryset[0] , request  )
+#        from multiprocessing import Process
+#        p = Process (target= getDbSchemaDef ,args=( queryset[0] , request ))
+#        p.start()
+    
+#   Recorre los registros selccionados   
     except Exception as e:
         traceback.print_exc()
         return  {'success':False, 'message' : 'Load error' }
         pass
         
-    return {'success':True, 'message' :  'Ok' } 
+    return {'success':True, 'message' :  'runing ...' } 

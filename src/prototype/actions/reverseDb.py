@@ -9,12 +9,12 @@
 
 import keyword
 import traceback
-from django.db import connections
 from prototype.models import Model, Entity, Property, Relationship
 from protoLib.protoAuth import getUserProfile
 from protoLib.utilsDb import setDefaults2Obj
 
-from django.db import transaction
+from django.db import connections, transaction, IntegrityError, DatabaseError
+from django.db.transaction import TransactionManagementError 
 
 
 # Coleccion de entidades a importar 
@@ -42,15 +42,15 @@ def getDbSchemaDef( dProject , request  ):
             'HOST': dProject.dbHost ,
             'PORT':dProject.dbPort,
           }
-    
+
+    # Prepara el nombre de la tabla 
+    table2model = lambda table_name: table_name.title().replace('_', '').replace(' ', '').replace('-', '')
+
     # Ensure the remaining default connection information is defined.
     # connections.databases.ensure_defaults('new-alias')
     connection = connections[ dProject.code ]
-    
-    table2model = lambda table_name: table_name.title().replace('_', '').replace(' ', '').replace('-', '')
-
-    #  
     cursor = connection.cursor()
+
     for table_name in connection.introspection.get_table_list(cursor):
 
         pEntity =  { 'code' : table2model( table_name )  }
@@ -85,13 +85,13 @@ def getDbSchemaDef( dProject , request  ):
                 if att_name.endswith('_id'):
                     att_name = att_name[:-3]  
                     pProperty['code'] = att_name
-                    pProperty['notes'] += ';id removed from colName'
+                    pProperty['notes'] += 'id removed from colName;'
 
             else:
 
                 field_type, field_params, field_notes = get_field_type(connection, table_name, row )
                 pProperty.update(field_params)
-                pProperty['notes'] += ';'.join( field_notes ) 
+                pProperty['notes'] += field_notes 
 
                 # Add primary_key and unique, if necessary.
                 if column_name in indexes:
@@ -104,7 +104,7 @@ def getDbSchemaDef( dProject , request  ):
             if keyword.iskeyword(att_name):
                 att_name += '_field'
                 pProperty['code'] = att_name
-                pProperty['notes'] += ';Field renamed because it was a Python reserved word'
+                pProperty['notes'] += 'field renamed because it was a reserved word;'
             
             if  unicode( column_name )  !=  unicode( att_name ) :
                 pProperty['dbName'] = column_name
@@ -148,7 +148,16 @@ def getDbSchemaDef( dProject , request  ):
     for entityName in pEntities: 
         pEntity = pEntities[ entityName  ]
         pEntity.update( defValues  )
-        pEntity['dataEntity']  = getEntity(  entityName , pEntity, dProject,  dModel  )
+        
+        defValuesEnt = pEntity.copy()
+        defValuesEnt['model'] = dModel
+        if 'properties' in defValuesEnt: del defValuesEnt['properties']
+        
+        pEntity['dataEntity']  = Entity.objects.get_or_create( 
+                                              model = dModel,  
+                                              code = entityName,  
+                                              defaults = defValuesEnt )[0]
+
 
     transaction.commit()
 
@@ -166,57 +175,38 @@ def getDbSchemaDef( dProject , request  ):
 
                 saveProperty( dEntity, pProperty, defValues, userProfile, prpName,  1   )
 
-        transaction.commit()
 
-
+@transaction.commit_manually
 def saveProperty( dEntity, pProperty, defValues, userProfile, prpName, seq   ):
-
-    Qs = dEntity.property_set.filter( code = prpName, smOwningTeam = userProfile.userTeam ) 
-
-    # si ya existe, debe crear una nueva 
-    if Qs.count() > 0 : 
-        prpName = '{0}_{1}'.format( prpName.split('.')[0] , seq ) 
-        saveProperty( dEntity, pProperty, defValues, userProfile, prpName,  seq +1 )
-        return 
-
 
     try: 
         dProperty =  dEntity.property_set.create( code = prpName, smOwningTeam = userProfile.userTeam )
 
-        setDefaults2Obj( dProperty, pProperty )    
+        setDefaults2Obj( dProperty, pProperty, ['code'] )    
         setDefaults2Obj( dProperty, defValues )    
         dProperty.save()
+        transaction.commit()
 
     except Exception as e:
-        #TODO: Log 
-        pass 
+        transaction.rollback()
+        prpName = '{0}.{1}'.format( prpName.split('.')[0] , seq ) 
+        saveProperty( dEntity, pProperty, defValues, userProfile, prpName,  seq +1 )
+        return 
 
-
+@transaction.commit_manually
 def saveRelation( dProject, dEntity, dModel, pProperty,  defValues, userProfile, prpName, seq   ):
 
     refName = pProperty['refEntity']                
-    if refName == 'self':  refName = dEntity.code 
+    if refName in  ['self', "'self'"]:  refName = dEntity.code 
     
-    try: 
-        dRefEntity =  pEntities[ refName ]
-        
-        
-    except Exception as e:
-        anotar q la entiad no existe  y gardar una propiedad 
-        npProperty['notes']  ) == 0: 
-            del pProperty['notes']  
-
-        pass 
-         
-
-    Qs = Relationship.objects.filter( code = prpName, 
-                                      entity = dEntity , 
-                                      smOwningTeam = userProfile.userTeam )
-
-    if Qs.count() > 0 : 
-        prpName = '{0}_{1}'.format( prpName.split('.')[0] , seq ) 
-        saveRelation( dProject, dEntity, dModel, pProperty,  defValues, userProfile, prpName, seq + 1 )
+    pRefEntity =  pEntities.get(  refName , None )
+    if pRefEntity is None:
+        if not 'notes' in pProperty: pProperty[ 'notes' ] = ''  
+        pProperty[ 'notes' ] += 'refEntity ( {0} ) not found;'.format( refName )   
+        saveProperty( dEntity, pProperty, defValues, userProfile, prpName,  seq  )
         return 
+
+    dRefEntity =  pRefEntity['dataEntity']
 
     try: 
         dRelation =  Relationship(  
@@ -226,27 +216,25 @@ def saveRelation( dProject, dEntity, dModel, pProperty,  defValues, userProfile,
                          smOwningTeam = userProfile.userTeam 
                          )
 
-        setDefaults2Obj( dRelation, pProperty, ['refEntity'] )    
+        setDefaults2Obj( dRelation, pProperty, ['refEntity', 'code'] )    
         setDefaults2Obj( dRelation, defValues )    
         dRelation.save()
+        transaction.commit()
 
-    except Exception as e:
-        #TODO: Log 
-        pass 
+    except IntegrityError:
+        transaction.rollback()
+        prpName = '{0}.{1}'.format( prpName.split('.')[0] , seq ) 
+        if not 'notes' in pProperty: pProperty[ 'notes' ] = ''  
+        pProperty[ 'notes' ] += 'duplicate field {0} rename to {1};'.format( prpName.split('.')[0], prpName )
+           
+        saveRelation( dProject, dEntity, dModel, pProperty,  defValues, userProfile, prpName, seq + 1 )
+        return 
 
+    except Exception as e:  
+        transaction.rollback()
+        #log 
+        return  
     
-def getEntity(  entityCode , pEntity, project,  model  ):
-
-    defValues = pEntity.copy()
-    defValues['model'] = model
-    if 'properties' in defValues: 
-        del defValues['properties']
-    
-    dEntity = Entity.objects.get_or_create( model__project = project , 
-                                            code = entityCode,  
-                                            defaults = defValues )[0]
-    return dEntity
-
 
 def get_field_type( connection, table_name, row):
     """
@@ -255,13 +243,13 @@ def get_field_type( connection, table_name, row):
     well as any additional keyword parameters and notes for the field.
     """
     field_params = {}
-    field_notes = []
+    field_notes = ''
 
     try:
         field_type = connection.introspection.get_field_type(row[1], row)
     except KeyError:
         field_type = 'TextField'
-        field_notes.append('This field type is a guess.')
+        field_notes += 'This field type is a guess (specific type);'
 
     # This is a hook for DATA_TYPES_REVERSE to return a tuple of
     # (field_type, field_params_dict).
