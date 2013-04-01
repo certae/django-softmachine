@@ -17,23 +17,6 @@
  */
 
 
-#   Order by 
-    orderBy = []
-    if sort:
-        sort = eval ( sort ) 
-        for sField in sort: 
-            if sField['direction'] == 'DESC': sField['property'] = '-' + sField['property']  
-            orderBy.append( sField['property'] )
-    orderBy = tuple( orderBy )
-
-       # Sort Info 
-        sortInfo = []
-        for sField in pSortFields:
-            sortOrder = 'ASC'
-            if sField[0] == '-':
-                sortOrder =  'DESC'
-                sField = sField[1:]
-            sortInfo.append({ 'field': sField, 'direction' : sortOrder })
 
 Scroll Html 
 -----------------------------------
@@ -56,44 +39,6 @@ var myExtJSPanel_1 = new Ext.Panel({
 -----------------------------------
 
 
-Ejemplos 
-
-
-Buffered 
------------------------------------
-
-    var store = Ext.create('Ext.data.Store', {
-        pageSize: 200,
-        model: 'ForumThread',
-        remoteSort: true,
- 
-        // allow the grid to interact with the paging scroller by buffering
-        buffered: true,
-        // never purge any data, we prefetch all up front default 5 
-        purgePageCount: 0,
-         
-        .... 
-        
-
-    var grid = Ext.create('Ext.grid.Panel', {
-        disableSelection: true,
-        loadMask: true,
-        invalidateScrollerOnRefresh: false,
-        viewConfig: {
-            trackOver: false
-        },        
-
-        verticalScrollerType: 'paginggridscroller',
-O//
-        verticalScroller: {
-            xtype: 'paginggridscroller',
-            activePrefetch: false
-        },
-           
-
-    // trigger the data store load
-    store.guaranteeRange(0, 199);
-    
 
 http://dev.sencha.com/deploy/ext-4.0.0/examples/grid/array-grid.html
 -----------------------------------------------------------------------
@@ -176,7 +121,7 @@ Linea adicional
                 '<p><b>Summary:</b> {desc}</p>'
             ]
 
-Check Boxpara el manejo de acciones         
+Check Bo xpara el manejo de acciones         
 ----------------
         
 	var sm = Ext.create('Ext.selection.CheckboxModel', {
@@ -325,115 +270,7 @@ Bindigs, Templates
 
 
 
-http://dev.sencha.com/deploy/ext-4.0.0/examples/grid/multiple-sorting.html
------------------------------------------------------------------------
 
-****  Espectacular MAnejo de sort haciendo drag de los encabezados sobre la barra 
-
-
-
-http://dev.sencha.com/deploy/ext-4.0.0/examples/grid/group-summary-grid.html
-
-Editable con totales 
-
-
-http://dev.sencha.com/deploy/ext-4.0.0/examples/grid/live-search-grid.html
------------------------------------------------------------------------
-
-
-Busca en el texto y resalta los valores coincidentes, ***
-
-
-
-http://dev.sencha.com/deploy/ext-4.0.0/examples/writer/writer.html
------------------------------------------------------------------------
-
-***********     MAnejo de edicion completa en una forma independiente
-
-
-http://dev.sencha.com/deploy/ext-4.0.0/examples/menu/action-grid.html
------------------------------------------------------------------------
-
-Acciones con click derecho en la grilla 
-
-
-http://dev.sencha.com/deploy/ext-4.0.0/examples/form/forum-search.html
------------------------------------------------------------------------
-
-Combo con template de varias columnas, descripcion y paginas  ( grilla completa ) 
-
-
-
-====================================================================================
-xtype Class
-------------- ------------------
-button Ext.button.Button
-buttongroup Ext.container.ButtonGroup
-colorpalette Ext.picker.Color
-component Ext.Component
-container Ext.container.Container
-cycle Ext.button.Cycle
-dataview Ext.view.View
-datepicker Ext.picker.Date
-editor Ext.Editor
-editorgrid Ext.grid.plugin.Editing
-grid Ext.grid.Panel
-multislider Ext.slider.Multi
-panel Ext.panel.Panel
-progress Ext.ProgressBar
-slider Ext.slider.Single
-spacer Ext.toolbar.Spacer
-splitbutton Ext.button.Split
-tabpanel Ext.tab.Panel
-treepanel Ext.tree.Panel
-viewport Ext.container.Viewport
-window Ext.window.Window
-
-Toolbar components
----------------------------------------
-paging Ext.toolbar.Paging
-toolbar Ext.toolbar.Toolbar
-tbfill Ext.toolbar.Fill
-tbitem Ext.toolbar.Item
-tbseparator Ext.toolbar.Separator
-tbspacer Ext.toolbar.Spacer
-tbtext Ext.toolbar.TextItem
-
-Menu components
----------------------------------------
-menu Ext.menu.Menu
-menucheckitem Ext.menu.CheckItem
-menuitem Ext.menu.Item
-menuseparator Ext.menu.Separator
-menutextitem Ext.menu.Item
-
-Form components
----------------------------------------
-form Ext.form.Panel
-checkbox Ext.form.field.Checkbox
-combo Ext.form.field.ComboBox
-datefield Ext.form.field.Date
-displayfield Ext.form.field.Display
-field Ext.form.field.Base
-fieldset Ext.form.FieldSet
-hidden Ext.form.field.Hidden
-htmleditor Ext.form.field.HtmlEditor
-label Ext.form.Label
-numberfield Ext.form.field.Number
-radio Ext.form.field.Radio
-radiogroup Ext.form.RadioGroup
-textarea Ext.form.field.TextArea
-textfield Ext.form.field.Text
-timefield Ext.form.field.Time
-trigger Ext.form.field.Trigger
-
-Chart components
----------------------------------------
-chart Ext.chart.Chart
-barchart Ext.chart.series.Bar
-columnchart Ext.chart.series.Column
-linechart Ext.chart.series.Line
-piechart Ext.chart.series.Pie
 
 
 ================================================================

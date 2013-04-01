@@ -12,6 +12,9 @@ Ext.define('ProtoUL.UI.FormController', {
     // requires: [ 'ProtoUL.view.ProtoForm' ],
     // Required if linked,  retrived if zoom 
     myMeta : null, 
+
+	// metaDict : contiene las metas de los detalles 
+	myMetaDict : null, 
     
     // Entry point if zoom 
     viewCode : null, 
@@ -26,11 +29,102 @@ Ext.define('ProtoUL.UI.FormController', {
     myWidth : 620, 
     myHeight : 460, 
 
+
     constructor: function (config) {
         Ext.apply(this, config || {});
+        this.myMetaDict = {}
     },
+
+
+
+    _loadFormDefinition: function () {
+        // antes de cargar la forma, requiere la carga de detalles 
+        // llama a waitForDetails q llama a newProtoForm  
+
+        // lo marca como cargado 
+		this.myMetaDict[ this.myMeta.viewCode  ] = false       
+
+		// Carga el dictionario de detalles
+		var me = this, 
+		    detConfig = me.myMeta.detailsConfig
+		      
+        for ( var ixV in detConfig  ) {
+            var pDetail = detConfig[ixV];
+			this.myMetaDict[ pDetail.conceptDetail ] = false     
+        }
+        
+        // ahora carga las definiciones 
+        me.loaded = false 
+        for ( var detCode in me.myMetaDict  ) {
+            if ( detCode in _SM._cllPCI ) {
+                me.myMetaDict[ detCode ] = true
+            } else { loadDetailDefinition( me, detCode  ) } 
+        }
+
+        // si np esta cargada la manda en nulo para forzar la carga 
+        if ( ! me.loaded  )   me._waitForDetails( me ) 
+
+
+        function loadDetailDefinition( me, detCode ) {
+
+            // Opciones del llamado AJAX para precargar los detalles  
+	        var options = {
+	            scope: me, 
+	            success: function ( obj, result, request ) {
+	                me._waitForDetails( me, detCode )
+	            },
+	            failure: function ( obj, result, request) { 
+	                me._waitForDetails( me, detCode )
+	                _SM.errorMessage( 'ProtoDefinition Error :', detCode  + ': protoDefinition not found')
+	            }
+	        }
+
+            // PreCarga los detalles  
+            if (  _SM.loadPci( detCode , true, options ) )  me._waitForDetails( me, detCode  )
+                  
+        };
+
+
+    }, 
+
+	_waitForDetails: function( me, detCode ) {
+
+        if ( detCode ) me.myMetaDict[ detCode ] = true      
+		
+		// espera todas las definiciones
+        for ( var detCode in me.myMetaDict  ) {
+            if ( ! me.myMetaDict[ detCode ] )  return 
+        }
+
+        if (  me.loaded  )  return  
+
+        me.loaded = true 
+		me.newProtoForm.call( me )
+
+        // ---------------  
+        
+        me.myForm.setActiveRecord( this.myRecordBase  );
+        me.myForm.store = this.myRecordBase.store
+        
+        // Si la forma es visible no salen los tools 
+        // if ( me.isReadOnly ) {me.myWin.tools = [{type: 'readOnly', tooltip: 'readOnly'}, {type: 'gear', scope: me.myForm, handler: me.myForm.showProtoForm }] me.myWin.addTools() }; 
+        
+        // Si la forma no esta visible no puede desactivar los headers 
+        if ( me.isReadOnly ) {
+            me.myForm.setFormReadOnly( true );
+        } else {
+            me.myForm.setReadOnlyFields( true, me.myMeta.gridConfig.readOnlyFields );            
+        }
+
+        me.newWindowLoad.call( me, me )
+        me.myWin.show();
+        me.myForm.setDetailsTilte()
+
+
+	}, 
     
     newProtoForm: function () {
+    	// llamado tambien desde formConfig  (protoDesigner) 
 
         this.defineFormLayout()
         this.myForm = Ext.widget('protoform', {
@@ -45,7 +139,10 @@ Ext.define('ProtoUL.UI.FormController', {
     
     newWindow: function ( me ) {
 
-        me.newProtoForm()
+        me._loadFormDefinition( )
+    },
+    
+    newWindowLoad: function ( me ) {
         
         _SM.updateWinPosition( me.myWidth, me.myHeight )
         
@@ -75,12 +172,7 @@ Ext.define('ProtoUL.UI.FormController', {
             scope: me }
         );
 
-        // // Tools 
-        // this.myWin.tools = [{
-            // type: 'readOnly',
-            // tooltip: 'readOnly' 
-        // }] 
-        // this.myWin.addTools()
+        // Tools this.myWin.tools = [{type: 'readOnly', tooltip: 'readOnly'}] this.myWin.addTools(
 
     },
 
@@ -109,37 +201,8 @@ Ext.define('ProtoUL.UI.FormController', {
             return 
         }
 
-        var me = this;
-
-        me.newWindow( me ); 
-        me.myForm.setActiveRecord( myRecord );
-        me.myForm.store = myRecord.store
-        
-        // Si la forma es visible no salen los tools 
-        // if ( me.isReadOnly ) {
-            // me.myWin.tools = [{
-                // type: 'readOnly',
-                // tooltip: 'readOnly' 
-            // }, {
-                // type: 'gear',
-                // scope: me.myForm, 
-                // handler: me.myForm.showProtoForm
-                // // handler: me.showLayoutConfig
-            // }] 
-            // me.myWin.addTools()
-        // }         
-         
-        // me.myWin.show();
-        
-        // Si la forma no esta visible no puede desactivar los headers 
-        if ( me.isReadOnly ) {
-            me.myForm.setFormReadOnly( true );
-        } else {
-            me.myForm.setReadOnlyFields( true, me.myMeta.gridConfig.readOnlyFields );            
-        }
-
-        me.myWin.show();
-        me.myForm.setDetailsTilte()
+        this.myRecordBase = myRecord
+        this.newWindow( this ); 
         
     }, 
     
@@ -176,15 +239,16 @@ Ext.define('ProtoUL.UI.FormController', {
                 this._openAndLoad( this.viewCode, myRecordId )
         }
 
-
     }, 
+
 
 
     _openAndLoad: function( viewCode, myRecordId ) { 
 
         this.myMeta = _SM._cllPCI[ viewCode ] ;
+ 
         this.formLoaded = true;
-        this._loadFormData( myRecordId ) 
+        this._loadFormData( myRecordId )
 
     }, 
     
@@ -342,7 +406,7 @@ Ext.define('ProtoUL.UI.FormController', {
                                 bodyStyle:';border-right:none;border-left:none;border-top:none;'
                             }       
                         }
-                        _SM.errorMessage( 'defineFormLayout', protoObj.viewCode + ' not found!!' )
+                        _SM.errorMessage( 'defineProtoFormItem', protoObj.viewCode + ' not found!!' )
                     }
                 } else if ( __ptType == 'htmlset'  ) {
                     

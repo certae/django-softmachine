@@ -1,0 +1,29 @@
+Installing JSLint on Eclipse IDE   ( No hace un carajo !!!! )
+http://www.andyjamesdavies.com/javascript/installing-jslint-on-eclipse-ide
+
+Posted on June 9, 2011 by Andy
+For those don’t know, JSLint is a great tool written in javascript that allows you to validate your javascript code against a set of best practises. Written by one of the gurus of the js world Douglas Crockford it is a must for anyone wanting to improve their scripting skills.
+
+So how do you go about using this tool? Well there are a few different ways, you can validate using the website www.jslint.com, you can download the source code and run it on command line or preferably you can run it within your development program of choice. My preferred IDE is Eclipse, mainly because it is java based so runs on Mac, Linux and Windows, but also due to its plugin architecture which means you are not limited to the core feature set.
+
+When searching the internet for a jslint plugin for Eclipse I was somewhat surprised to find there were none to hand. A real shame, but after some digging I found that you can actually install it as a subset from another plugin.
+
+How to do it
+---------------------------------------------------------------------------------------------------
+Step One:   ‘Help’ -> ‘Install New Software’
+
+Step Two:   ‘add’  location add the following link: 
+	https://svn.codespot.com/a/eclipselabs.org/mobile-web-development-with-phonegap/tags/jslint4java1/download 
+
+Step Three:  selecting 
+
+	‘Javascript Development Tools’ 
+	‘jslint4java’ 
+
+	and click next.
+
+Step Four: accept any license terms  
+
+Step Five:  Eclipse should restart jslint will now be installed. 
+	To enable it you can right click on any open project and you’ll see an option that says ‘Enable jslint4java’ as the screen below shows. Once you have chosen this option errors and warnings should appear from jslint onto your errors / warnings bar.
+
