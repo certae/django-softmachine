@@ -148,7 +148,7 @@ Ext.define('ProtoUL.UI.FormController', {
         
         me.myWin  = Ext.widget('window', {
             // constrain: true, 
-            title : me.myMeta.description,
+            title : me.myMeta.viewCode,
             closeAction: 'hide',
             width: me.myWidth,
             height: me.myHeight,

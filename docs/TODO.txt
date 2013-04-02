@@ -8,12 +8,8 @@ To Do:
 	
 -------------------
 	
-	inspectdb desde projecto; 
 
 	edicion n-n  ( seleccion multiple )
-	edicion abierta sin restriccion de navegacion 
-
-	error zoomFilter en edicion MD 
 
 	cmabiar los ID por UUID, 
 	agregar typo de dat para createO, modifiedOn ( datetime automatico )

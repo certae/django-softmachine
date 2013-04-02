@@ -16,29 +16,6 @@ demo canvis
 http://hfopi.org/files/temp/hello_canviz/index.html
 
 
-VISITEUR :
-Prénom et nom complet du visiteur : prénom NOM
-
-Date de naissance : AAAA-MM-JJ
-
-Adresse du visiteur :            
-
-Numéro de téléphone :        
-
-Numéro de passeport :        
-
-Lien de parenté avec le répondant :      
-
-But de la visite :       
-
-Lieu d’hébergement durant le séjour :   0 hébergé(e) chez le répondant
-0 autre, précisez
-
-Durée du séjour :         jours
-
-Date de départ du Canada :  AAAA-MM-JJ
-
-
 ----------------------------------
 
 pygraphviz
