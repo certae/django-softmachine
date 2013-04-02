@@ -3,45 +3,74 @@
 from django.db import models
 
 class Questionnaire(models.Model):
-    ID_Questionnaire = models.CharField(blank = False, null = False, max_length=50 )
-    Libelle_Questionnaire = models.CharField(blank = True, null = True, max_length=100 )
+    code_questionnaire = models.CharField(blank = False, null = False, max_length=50 )
+    libelle_questionnaire = models.CharField(blank = True, null = True, max_length=100 )
     
     def __unicode__(self):
-        return self.ID_Questionnaire
+        return self.code_questionnaire
+
+    unicode_sort = ( 'code_questionnaire', )
+
 
 class Question(models.Model):
-    ID_Question = models.CharField(blank = False, null = False, max_length=20 )
-    Libelle_Question = models.TextField(blank = True, null = True, max_length=200 )
-    Invertion = models.BooleanField()
-    QUESTION_ID_Question = models.ForeignKey( 'Question', blank = True, null = True )
-    ID_Questionnaire = models.ForeignKey( Questionnaire, blank = True, null = True)
-        
+    code_question = models.CharField(blank = False, null = False, max_length=20 )
+    libelle_question = models.TextField(blank = True, null = True, max_length=200 )
+    invertion = models.BooleanField()
+    question_parent = models.ForeignKey( 'Question', blank = True, null = True )
+    questionnaire = models.ForeignKey( Questionnaire, blank = True, null = True)
+
     def __unicode__(self):
-        return self.ID_Question
+        return self.code_question
+
+    unicode_sort = ( 'code_question', )
+
 
 class Repondant(models.Model):
-    ID_Repondant = models.IntegerField(blank = False, null = False )
-    IDUL_Repondant = models.CharField(blank = True, null = True, max_length=20 )
-    Nom_Repondant = models.CharField(blank = True, null = True, max_length=150 )
-    Prenom_Repondant = models.CharField(blank = True, null = True, max_length=150 )
+    idul_repondant = models.CharField(blank = True, null = True, max_length=20 )
+    nom_repondant = models.CharField(blank = True, null = True, max_length=150 )
+    prenom_repondant = models.CharField(blank = True, null = True, max_length=150 )
+
     def __unicode__(self):
-        return self.ID_Repondant.__str__()
+        return self.idul_repondant
+
+    unicode_sort = ( 'idul_repondant' )
 
 class Reponse(models.Model):
-    ID_Repondant = models.ForeignKey( Repondant, blank = True, null = True )
-    ID_Questionnaire = models.ForeignKey( Questionnaire, blank = True, null = True)
-    Date_soumission = models.DateField(blank = True, null = True, max_length=20 )
-        
+    date_soumission = models.DateField(blank = True, null = True, max_length=20 )
+    repondant = models.ForeignKey( Repondant, blank = True, null = True )
+    questionnaire = models.ForeignKey( Questionnaire, blank = True, null = True)
+            
     def __unicode__(self):
-        return self.ID_Repondant + self.ID_Questionnaire
+        return self.repondant + '.' + self.questionnaire
+
+    unicode_sort = ( 'repondant', 'questionnaire' )
     
 class Reponseligne(models.Model):
-    ID_Reponseligne = models.IntegerField(blank = False, null = False )
-    Texte_Reponselgine = models.TextField(blank = True, null = True, max_length=200 )
-    Valeurnumerique = models.IntegerField(blank = True, null = True)
-    ID_Repondant = models.ForeignKey( Repondant, blank = True, null = True )
-    ID_Question = models.ForeignKey( Question, blank = True, null = True )
-    ID_Questionnaire = models.ForeignKey( Questionnaire, blank = True, null = True)
+    texte_reponselgine = models.TextField(blank = True, null = True, max_length=200 )
+    valeurnumerique = models.IntegerField(blank = True, null = True)
+    repondant = models.ForeignKey( Repondant, blank = True, null = True )
+    question = models.ForeignKey( Question, blank = True, null = True )
+    questionnaire = models.ForeignKey( Questionnaire, blank = True, null = True)
         
     def __unicode__(self):
-        return self.ID_Reponseligne.__str__()
+        return self.id.__str__()
+        
+    unicode_sort = ( 'id' )
+        
+class Concept(models.Model):
+    nom_variableaditive = models.CharField(blank = True, null = True, max_length=20 )
+    
+    def __unicode__(self):
+        return self.nom_variableaditive
+        
+    unicode_sort = ( 'nom_variableaditive' )
+        
+class Conceptquestion(models.Model):
+    concept = models.ForeignKey( Concept, blank = True, null = True )
+    question = models.ForeignKey( Question, blank = True, null = True)
+        
+    def __unicode__(self):
+        return self.question + '.' + self.concept
+    
+    unicode_sort = ( 'question', 'concept' )
+    

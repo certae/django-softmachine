@@ -378,7 +378,8 @@ def getUnicodeFields( model ):
     unicodeSort = () 
     if hasattr( model , 'unicode_sort' ): 
         unicodeSort = model.unicode_sort
-    else: unicodeSort = model._meta.unique_together[0]
+    elif hasattr( model._meta , 'unique_together' ): 
+        unicodeSort = model._meta.unique_together[0]
     return unicodeSort 
     
 

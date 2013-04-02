@@ -1,11 +1,13 @@
-To Do:  
+To Do:
 
 **  archivo de deploy 
 **  Fecha para el doctorado 
 **  recuperacion de gastos de estudio
 **  BPMN4ws 
 **  fDroid ( catchNote. photoEditor, OpenDoc, dropBox, kinSoft, VuDroid, fbReader, OsmAnd )
-	
+
+Manejo de sorts,   unicode_sort no funciona 
+
 -------------------
 	
 
