@@ -6,14 +6,20 @@ To Do:
 **  BPMN4ws 
 **  fDroid ( catchNote. photoEditor, OpenDoc, dropBox, kinSoft, VuDroid, fbReader, OsmAnd )
 
-Manejo de sorts,   unicode_sort no funciona 
 
 -------------------
+
+	Manejo de sorts,   unicode_sort no funciona 
 	
+	CMS 
+
+	Workflow,  
 
 	edicion n-n  ( seleccion multiple )
 
 	cmabiar los ID por UUID, 
+	verificar llaves no numericas 
+
 	agregar typo de dat para createO, modifiedOn ( datetime automatico )
 
 	Project ( MCCD ) 

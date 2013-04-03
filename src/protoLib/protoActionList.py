@@ -60,13 +60,15 @@ def protoList(request):
     
     if orderBy: 
         try: 
-            pRows =  Qs.order_by(*orderBy)[ start: page*limit ]
+            Qs =  Qs.order_by(*orderBy)
         except: 
-            pRows =  Qs.all()[ start: page*limit ]
-    else: pRows =  Qs.all()[ start: page*limit ]
+            pass
+    
+    pRows =  Qs.all()[ start: page*limit ]
 
 #   Prepara las cols del Query 
     try:
+        #TODO: improve performance 
         pList = Q2Dict(protoMeta , pRows, fakeId  )
         bResult = True 
     except Exception,  e:
