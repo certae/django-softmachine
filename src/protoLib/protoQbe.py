@@ -2,6 +2,17 @@
 
 from django.db.models import Q
 from utilsConvert import isNumeric, toInteger
+from django.contrib.admin.util import  get_fields_from_path
+
+
+from django.db import models
+from protoField import TypeEquivalence
+
+from utilsBase import verifyList    
+#from utilsConvert import getTypedValue
+
+#from protoQbe import getSearcheableFields, getQbeStmt
+import traceback
 import re
 
 
@@ -207,3 +218,99 @@ def doGenericFuntion( sQBE ):
     # ejecta y toma la base 
     exec( fBase.functionBody, myVars )   
     return myVars [ 'ret' ] 
+
+def addQbeFilter( protoFilter, model, Qs, JsonField ):
+
+    # No hay criterios 
+    if len( protoFilter) == 0: 
+        return Qs
+
+    protoFilter =  verifyList(  protoFilter )
+
+    for sFilter in protoFilter: 
+        
+        if sFilter[ 'property' ] == '_allCols':
+            # debe descomponer la busqueda usando el objeto Q 
+            QTmp = getTextSearch( sFilter, model, model.protoMeta )
+            if QTmp is None:  QTmp = models.Q()
+
+            try:
+                Qs = Qs.filter( QTmp  )
+            except:
+                traceback.print_exc()
+
+        else: 
+            # Los campos simples se filtran directamente, se require para el JSonField 
+            QTmp = addQbeFilterStmt( sFilter, model, JsonField )
+            QTmp = dict((x, y) for x, y in QTmp.children)
+            try:
+                Qs = Qs.filter( **QTmp  )
+            except:
+                traceback.print_exc()
+    
+
+    return Qs
+
+
+def addQbeFilterStmt( sFilter, model, JsonField ):
+    """ Verifica casos especiales y obtiene el QStmt 
+        retorna un objeto Q
+    """
+    fieldName  =  sFilter['property'].replace( '.', '__')
+    
+    if JsonField: JsonFieldName = JsonField
+    else: JsonField = ''  
+    
+    if fieldName.endswith('__pk') or fieldName.endswith('_id') or fieldName == 'pk': 
+        # Los id por ahora son numericos 
+        sType = 'int' 
+
+    elif fieldName == '__str__': 
+        # El campo especial __str__ debe ser descompuesto en los seachFields en forma explicita  
+        return Q()
+
+    elif fieldName.startswith( JsonFieldName + '__'):  
+        sType = 'string'
+
+    else:
+        try: 
+            # Obtiene el tipo de dato, si no existe la col retorna elimina la condicion
+            field = get_fields_from_path( model, fieldName )[-1]
+            sType = TypeEquivalence.get( field.__class__.__name__, 'string')
+        except :
+            return Q()
+        
+    QStmt = getQbeStmt( fieldName , sFilter['filterStmt'], sType  )
+    
+    return QStmt 
+
+
+def getTextSearch( sFilter, model , protoMeta ):        
+    #   Busqueda Textual ( no viene con ningun tipo de formato solo el texto a buscar
+    #   Si no trae nada deja el Qs con el filtro de base
+    #   Si trae algo y comienza por  "{" trae la estructura del filtro   
+
+    # Si solo viene el texto, se podria tomar la "lista" de campos "mostrados"
+    # ya los campos q veo deben coincidir con el criterio, q pasa con los __str__ ?? 
+    # Se busca sobre los campos del combo ( filtrables  )
+
+    QStmt = None 
+    try: 
+        pSearchFields = protoMeta['gridConfig']['searchFields']
+    except: 
+        pSearchFields = getSearcheableFields( model  )
+
+    fieldsDict = protoMeta[ 'fieldsDict' ]    
+    JsonField = protoMeta[ 'jsonField']    
+
+    for fName in pSearchFields:
+        fAux = fieldsDict.get( fName, {})
+        if fAux.get( 'type', '' )  not in [ 'string', 'text',  'jsonfield' ]: continue   
+            
+        QTmp = addQbeFilterStmt( {'property': fName, 'filterStmt': sFilter['filterStmt'] } , model, JsonField )
+
+        if QStmt is None:  QStmt = QTmp
+        else: QStmt = QStmt | QTmp 
+
+    return QStmt 
+

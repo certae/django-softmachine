@@ -49,32 +49,28 @@ def _protoEdit(request, myAction ):
     viewEntity = protoMeta.get('viewEntity', '')
     model = getDjangoModel(viewEntity)
 
-
 #   Autentica 
     if not getModelPermissions( request.user, model, myAction ):
         return doReturn ({'success':False ,'message' : 'No ' +  myAction +  'permission'})
 
-
     userProfile = getUserProfile( request.user, 'edit', viewEntity ) 
-    PrepareMeta2Load( protoMeta  )
 
 #   Decodifica los eltos 
     rows = request.POST.get('rows', [])
     rows = json.loads( rows )
     
-    fieldsDict = list2dict( protoMeta[ 'fields' ], 'name')    
+    PrepareMeta2Load( protoMeta  )
+    fieldsDict = protoMeta['fieldsDict']    
 
 #   JsonField 
-    jsonField = protoMeta.get('jsonField', '')
-    if not isinstance( jsonField, (str, unicode) ): jsonField = ''  
-    
-#   TOOD: Log 
-#   activityLog ( myAction, request.user , viewEntity,  {  'protoMeta' : protoMeta , 'rows' : rows })
-
+    jsonField = protoMeta['jsonField']
+    if not jsonField: jsonField = ''
     
 #   Genera la clase UDP
-    pUDP = protoMeta.get('usrDefProps', {})
-    cUDP = verifyUdpDefinition( pUDP )
+    cUDP = protoMeta[ 'udpClass' ] 
+
+#   TOOD: Log 
+#   activityLog ( myAction, request.user , viewEntity,  {  'protoMeta' : protoMeta , 'rows' : rows })
 
     # Verifica q sea una lista de registros, (no deberia pasar, ya desde Extjs se controla )  
     if type(rows).__name__=='dict':
@@ -109,15 +105,22 @@ def _protoEdit(request, myAction ):
 
                 #  Los campos de seguridad se manejan a nivel registro
                 if isProtoModel:
-                    if key in ['smOwningUser','smOwningTeam','smCreatedBy','smModifiedBy','smWflowStatus','smRegStatus','smCreatedOn','smModifiedOn']: continue 
-                    if key in ['smOwningUser_id','smOwningTeam_id','smCreatedBy_id','smModifiedBy_id']: continue 
+                    if key in ['smOwningUser','smOwningTeam','smCreatedBy','smModifiedBy',
+                               'smWflowStatus','smRegStatus','smCreatedOn','smModifiedOn',  
+                               'smOwningUser_id','smOwningTeam_id','smCreatedBy_id','smModifiedBy_id']: 
+                        continue 
                 
                 #  Udps
-                if (cUDP.udpTable and key.startswith( cUDP.propertyPrefix + '__')): continue 
+                if cUDP: 
+                    if key.startswith( cUDP.propertyPrefix + '__'): continue 
 
                 #  JsonField 
                 if key ==  jsonField: continue 
                 if key.startswith( jsonField + '__'): continue 
+                
+                # FKeys 
+                if key.endswith('_id'): 
+                    key = key[:-3]
                 
                 try:
                     setRegister( model,  rec, key,  data )
@@ -146,7 +149,7 @@ def _protoEdit(request, myAction ):
                 rec.save()
                 
                 # Guardar las Udps
-                if cUDP.udpTable:  
+                if cUDP :  
                     try: 
                         saveUDP( rec, data, cUDP  )
                     except Exception as e:
@@ -226,18 +229,18 @@ def setRegister( model,  rec, key,  data   ):
     if  cName == 'AutoField': return
     
     # Obtiene el valor 
-    value = data[key]
     
     try: 
 
-        if cName == 'CharField' or cName == 'TextField':
-            setattr( rec, key, value  )
-            return 
-         
-        elif  cName  == 'ForeignKey':
+        if  cName  == 'ForeignKey':
             keyId = key + '_id'
             value = data[keyId]
             exec( 'rec.' + keyId + ' =  ' + smart_str( value ) )
+            return 
+
+        value = data[key]
+        if cName == 'CharField' or cName == 'TextField':
+            setattr( rec, key, value  )
             return 
 
         elif cName == 'DateField':     value = toDate( value  )
