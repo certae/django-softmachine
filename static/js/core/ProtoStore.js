@@ -303,7 +303,6 @@ _SM.getRecordByDataIx = function( myStore, fieldName, value  )  {
     if ( ix == -1 ) return 
     
     return myStore.getAt( ix  ) 
-    
 }; 
 
 
@@ -363,9 +362,8 @@ _SM.DefineProtoModel = function  ( myMeta  ){
         
         if ( _SM.IsAdmField( vFld, myMeta  ) ) {
             fieldsAdm.push( vFld )
-        } else {
-            fieldsBase.push( vFld )
-        }
+        } else {  fieldsBase.push( vFld ) }
+        
 
         if ( !vFld.type )  vFld.type = 'string'
         

@@ -268,11 +268,14 @@ _MetaObjects =  {
             "cpFromZoom", 
                         
             // Para los N2N
-            // "conceptDetail", 
-            // "relatedN2N",
-            // "detailField",
-            // "masterField",                                     
-            "physicalName", 
+            "conceptDetail", 
+            "relatedN2N",
+            "detailField",
+            "masterField",
+
+            // Formula para manejar campos calculados                                                   
+            "pyEval",
+             
             "type", 
             "xtype",
             "vType" 

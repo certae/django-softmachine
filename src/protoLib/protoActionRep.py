@@ -10,7 +10,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.encoding import smart_str, smart_unicode
 
 from models import getDjangoModel, ProtoDefinition
-from protoActionList  import Q2Dict, getQSet  
+from protoActionList  import Q2Dict, getQSet, PrepareMeta2Load
 from protoGrid import  getBaseModelName 
 from utilsBase import  getReadableError  
 from protoQbe import addFilter
@@ -123,6 +123,7 @@ def getReportBase( viewCode ):
         pass 
 
     # hace el QSet de los registros seleccionados
+    PrepareMeta2Load( protoMeta )
     Qs = model.objects.select_related(depth=1)
 
     return protoMeta, Qs 
@@ -277,6 +278,7 @@ def protoCsv(request):
     sort = request.POST.get('sort', '')
 
 #   Obtiene las filas del modelo 
+    PrepareMeta2Load( protoMeta )
     Qs, orderBy, fakeId = getQSet( protoMeta, protoFilter, baseFilter , sort , request.user  )
 
     if orderBy: 

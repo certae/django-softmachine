@@ -65,7 +65,7 @@ def getViewDefinition( pEntity, viewTitle  ):
         "header": viewTitle,
         "readOnly": True,
         "type": "string",
-        "physicalName" : '@myStr("' + '","'.join(__str__Base) + '")'
+        "pyEval" : '@myStr("' + '","'.join(__str__Base) + '")'
     }
     fName = '__str__'
     infoEntity['fields'].append( field )
@@ -199,8 +199,10 @@ def addProtoFiedToList( fieldList,  pEntity , fieldBase, zoomName   ):
         
     # agrega las props de seguridad         
     if len( fieldBase ) == 0 :  
-        for fName in ['smOwningUser','smOwningTeam','smCreatedBy','smModifiedBy','smWflowStatus','smRegStatus','smCreatedOn','smModifiedOn']: 
-            propDict = { "name" : fName, "readOnly": True }
+        #lBase = [ 'smCreatedBy','smModifiedBy','smWflowStatus','smRegStatus','smModifiedOn']
+        lBase = [ '__str__', 'info', 'id', 'entity_id', 'smOwningUser','smOwningTeam','smCreatedOn']
+        for fName in lBase : 
+            propDict = { "name" : fName, "isReadOnly": True , 'isRequired' : True, 'crudType' : 'adm' }
             field = property2Field( fName, propDict, True  )
             fieldList.append( field )
 

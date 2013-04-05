@@ -8,7 +8,7 @@ from django.db import models
 
 from datetime import datetime
 from models import getDjangoModel  
-from protoActionList import Q2Dict
+from protoActionList import Q2Dict, PrepareMeta2Load
 from utilsConvert import toInteger, toDate,toDateTime,toTime, toFloat, toDecimal, toBoolean
 from utilsBase import JSONEncoder, getReadableError, list2dict
 from usrDefProps import verifyUdpDefinition, saveUDP
@@ -49,12 +49,14 @@ def _protoEdit(request, myAction ):
     viewEntity = protoMeta.get('viewEntity', '')
     model = getDjangoModel(viewEntity)
 
+
 #   Autentica 
     if not getModelPermissions( request.user, model, myAction ):
         return doReturn ({'success':False ,'message' : 'No ' +  myAction +  'permission'})
 
 
     userProfile = getUserProfile( request.user, 'edit', viewEntity ) 
+    PrepareMeta2Load( protoMeta  )
 
 #   Decodifica los eltos 
     rows = request.POST.get('rows', [])

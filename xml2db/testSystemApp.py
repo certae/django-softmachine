@@ -14,7 +14,7 @@ Content :
 
 <project name="Exemple de raccordement" >
   <datamodel name="Modele Conceptuel Corporatif" idmodel="1" idref="0">
-    <table name="CONTACT" alias="" physicalName="" superTable="Table" >
+    <table name="CONTACT" alias="" pyEval="" superTable="Table" >
       <column name="Identifiant contact" >
         <type></type>
         <nullAllowed>False</nullAllowed>
@@ -32,7 +32,7 @@ Content :
 
 <project name="Exemple de raccordement" >
   <datamodel name="Modele Conceptuel Corporatif" idmodel="1" idref="0">
-    <table name="CONTACT" alias="" physicalName="" superTable="Table" >
+    <table name="CONTACT" alias="" pyEval="" superTable="Table" >
       <column name="Identifiant contact" >
         <type></type>
         <nullAllowed>False</nullAllowed>
@@ -64,7 +64,7 @@ class testSystemApp(unittest.TestCase):
         self.assertEqual(self.__systemCore.getFilename(), filename1)
         
         # We verify the equality
-        contentFile = '<project name="Exemple de raccordement">\n'+'<datamodel idmodel="1" idref="0" name="Modele Conceptuel Corporatif">\n'+'<table alias="" name="CONTACT" physicalName="" superTable="Table">\n'+'<column name="Identifiant contact">\n'+'<type />\n'+'<nullAllowed>False</nullAllowed>\n'+'<fullDisplayName>Exemple de raccordement COMPLET.sms: Modele Conceptuel Corporatif.CONTACT.Identifiant contact</fullDisplayName>\n'+'</column>\n'+'</table>\n'+'</datamodel>\n'+'</project>'
+        contentFile = '<project name="Exemple de raccordement">\n'+'<datamodel idmodel="1" idref="0" name="Modele Conceptuel Corporatif">\n'+'<table alias="" name="CONTACT" pyEval="" superTable="Table">\n'+'<column name="Identifiant contact">\n'+'<type />\n'+'<nullAllowed>False</nullAllowed>\n'+'<fullDisplayName>Exemple de raccordement COMPLET.sms: Modele Conceptuel Corporatif.CONTACT.Identifiant contact</fullDisplayName>\n'+'</column>\n'+'</table>\n'+'</datamodel>\n'+'</project>'
         self.assertEqual(self.__systemCore.getContentFile(),contentFile)
       
         

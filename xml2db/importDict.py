@@ -138,12 +138,12 @@ class importDict():
 
         fdsModel= ( 'code', 'category',  'modelPrefix', 'conectionPath',  )
         
-        fdsConcept= ( 'code', 'category',  'physicalName' )
+        fdsConcept= ( 'code', 'category',  'pyEval' )
 
         fdsPropertyModel = ( 'code', 'category',  'baseType', 'prpDefault', )
         intPropertyModel = ( 'prpLength',  )
         
-        fdsPropertyConcept = ( 'alias', 'physicalName', 'foreignConcept' )
+        fdsPropertyConcept = ( 'alias', 'pyEval', 'foreignConcept' )
         booPropertyConcept = ( 'isNullable', 'isRequired', 'isSensitive', 'isEssential',  'isForeign')
         
         fdsRelationship = ( 'baseConcept', 'code', 'baseMin', 'baseMax', 'refMin', 'refMax', )

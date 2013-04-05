@@ -33,11 +33,6 @@ def baseDefinition( pEntity , entityName, viewTitle  ):
             "type": "autofield"
         },
         {
-            "name": "entity",
-            "readOnly": True,
-            "hidden": True,
-        },
-        {
             "name": "entity_id",
             "readOnly": True,
             "hidden": True,
@@ -65,6 +60,11 @@ def baseDefinition( pEntity , entityName, viewTitle  ):
             "readOnly": True,
             "type": "datetime"
         },
+#        {
+#            "name": "entity",
+#            "readOnly": True,
+#            "hidden": True,
+#        },
 #        {
 #            "name": "smModifiedOn",
 #            "readOnly": True,

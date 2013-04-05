@@ -6,6 +6,8 @@ Adapted from  django-extensions ( by  Antonio Cavedoni )
 """
 
 from django.template import Context, loader
+
+# no permite '-' en el nombre, debe ser llamado siempre con '_'
 from protoLib.utilsBase import slugify
 
 def generateDotModels( queryset ):
@@ -21,7 +23,7 @@ def generateDotModels( queryset ):
     gModels = []
     for pModel in queryset:
         
-        modelCode = slugify( pModel.code, '_' )
+        modelCode = slugify( pModel.code,'_')
         
         gModel = Context({
             'name': '"%s"' % modelCode ,
@@ -33,7 +35,7 @@ def generateDotModels( queryset ):
         })
 
         for pEntity in pModel.entity_set.all():
-            enttCode = slugify( pEntity.code , '_')
+            enttCode = slugify( pEntity.code,'_')
             gEntity = {
                 'app_name': modelCode,
                 'name': enttCode,
@@ -45,10 +47,10 @@ def generateDotModels( queryset ):
 
             for pProperty in pEntity.property_set.all():
 
-                pptCode =  slugify( pProperty.code, '_' ) 
+                pptCode =  slugify( pProperty.code, '_') 
                 if pProperty.isForeign:
-                    pType = slugify( pProperty.relationship.refEntity.code , '_') 
-                else: pType = slugify( pProperty.baseType , '_')
+                    pType = slugify( pProperty.relationship.refEntity.code, '_') 
+                else: pType = slugify( pProperty.baseType, '_' )
 
                 gEntity['fields'].append({
                     'name': pptCode,

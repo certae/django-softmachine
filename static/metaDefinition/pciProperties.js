@@ -150,7 +150,7 @@ _MetaProperties =  {
     "direction.choices": ["ASC", "DESC" ],
 
 //  Fields
-    "physicalName.help" : "Nombre fisico o funcion por ejemplo @str( f1,f2 )", 
+    "pyEval.help" : "Nombre fisico o funcion por ejemplo @myStr( f1,f2 )", 
     "required": false,
     "required.help": "Requiere valores la forma",
     "allowDecimals.help": "NO USAR : si permite o no decimales, si decimalPReciosion = 0 implica falso",

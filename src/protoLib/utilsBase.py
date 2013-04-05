@@ -284,12 +284,6 @@ def copyProps ( objBase, objNew ):
 
     return objBase 
 
-import unicodedata
-def stripAccents(s):
-    return ''.join((c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn'))
-
-
-        
         
 def explode(s):
     ''' Uso:   
@@ -408,51 +402,18 @@ def findBrackets( aString ):
 #  return stack[0][0]
 #
 #
-#def main(args):
-#  if args:
-#    print >>sys.stderr, "unexpected arguments: %r" % args
-#  import doctest
-#  r = doctest.testmod()
-#  print r
-#  return r[0]
-#
-#if __name__ == "__main__":
-#  sys.exit(main(sys.argv[1:]))
 
-
-
-#import re
-from unicodedata import normalize
-
-_punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.:]+')
-#_punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^`{|},.:]+')
-
-def slugify(text, delim=u'-'):
+def slugify(text, delim= '-'):
     """Generates an slightly worse ASCII-only slug.
        Normaliza los nombres para usarlos como codigos
        uso:  slugify(u'My International Text: åäö', delim='_')
     """
-    text = unicode( text )
-    result = []
-    for word in _punct_re.split(text.lower()):
-        word = normalize('NFKD', word).encode('ascii', 'ignore')
-        if word:
-            result.append(word)
     
-    rText = unicode(delim.join(result)).replace( '--', '-')
-     
-    return rText 
+    from django.template.defaultfilters import slugify as slugifyer
+    sText = slugifyer( text  )
 
-# #  Alternativa ----------------------------------
-#    # encoding: utf-8
-#    from unicodedata import normalize
-#    import re
-#    
-#    original = u'ľ š č ť ž ý á í é'
-#    decomposed = normalize("NFKD", original)
-#    no_accent = ''.join(c for c in decomposed if ord(c)<0x7f)
-#    no_spaces = re.sub(r'\s', '_', no_accent)
-#    
-#    print no_spaces
-#    # output: l_s_c_t_z_y_a_i_e
+    if delim != '-': 
+        sText = re.sub(r'([_])(\1+)', r'\1', sText.replace( '-' , delim )  )
+
+    return sText 
 

@@ -120,7 +120,7 @@ class Entity(ProtoModel):
     unicode_sort = ('model', 'code',  )
 
     def __unicode__(self):
-        return slugify( self.model.code + '-' +  self.code ) 
+        return slugify( self.code ) 
 
     class Meta:
         unique_together = ('model', 'code', 'smOwningTeam' )
@@ -241,7 +241,7 @@ class Property(PropertyBase):
         unique_together = ('entity', 'code', 'smOwningTeam' )
 
     def __unicode__(self):
-        return slugify( self.entity.code  + '.' +  self.code )      
+        return  slugify( self.code  )      
 
     unicode_sort = ('entity', 'code',  )
 

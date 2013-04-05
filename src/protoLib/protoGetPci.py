@@ -5,7 +5,7 @@ from protoGrid import  getBaseModelName, setDefaultField , getProtoAdmin
 from protoLib import protoGrid
 from protoField import  setFieldDict, isAdmField
 from models import getDjangoModel, ProtoDefinition, CustomDefinition 
-from utilsBase import getReadableError, copyProps
+from utilsBase import getReadableError, copyProps, verifyList 
 from utilsWeb import JsonError, JsonSuccess 
 
 from protoActionEdit import setSecurityInfo
@@ -101,6 +101,16 @@ def protoGetPCI(request):
     else:
         protoMeta = json.loads( protoDef.metaDefinition ) 
         protoMeta['viewCode'] = viewCode  
+        
+        # Verifica versiones ( cambios de version en la meta ) 
+        protoMeta['fields']  = verifyList( protoMeta.get( 'fields', [] ))
+        for field in protoMeta['fields']: 
+
+            # 130405  Cambio de nombre  physicalName --> pyEval             
+            if field.get( 'physicalName', None ) : 
+                field['pyEval'] = field['physicalName'] 
+                del field['physicalName']   
+    
 
     
     # La definicion del arbol es fija, pues las cols deben ser siempre uniformes sin importar el tipo de modelo.
