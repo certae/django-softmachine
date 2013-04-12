@@ -43,9 +43,9 @@ def doEntityPrototype( modeladmin, request, queryset, parameters ):
     return {'success':True, 'message' :  returnTmp } 
 
 
-def doPropertyModelJoin( modeladmin, request, queryset, parameters):
+def doPropertyProjectJoin( modeladmin, request, queryset, parameters):
     """ 
-    funcion para unir dos propertyModel 
+    funcion para unir dos propertyProject 
     """
 
     from propModelJoin import doPropModelJoin 

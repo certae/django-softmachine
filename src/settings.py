@@ -177,7 +177,7 @@ INSTALLED_APPS = (
     'south', 
     'protoLib', 
     'prototype', 
-    'best', 
+    # 'best', 
 #    'shiny', 
 #    'CategoryCle', 
 #    'TCO'

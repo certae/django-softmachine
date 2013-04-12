@@ -6,13 +6,16 @@ from django.db.models.signals import post_save, post_delete
 from protoLib.models import ProtoModel   
 from protoLib.fields import JSONField,  JSONAwareManager
 
-from protoRules import  updatePropInfo, twoWayPropEquivalence, updProPropModel
+from protoRules import  updatePropInfo, twoWayPropEquivalence, updPropertyProject
 from protoRules import  ONDELETE_TYPES, BASE_TYPES, CRUD_TYPES, DB_ENGINE
 
 
 from protoLib.utilsBase import slugify
 
+
 PROTO_PREFIX = "prototype.ProtoTable."
+
+UPD_PROPERTY_PROJECT = True  
 
 """
     la generacion de las VISTAS se hace como una creacion de una pcl,
@@ -108,9 +111,67 @@ class Model(ProtoModel):
     
 class Entity(ProtoModel):
     """ 
-    Entity corresponde a las entidades FISICA;  
+    Entity corresponde a las entidades ;
+    
+    La asoaciacion al modelo es puramente por motivos de clasificacion, pues una entidad puede 
+    ser referenciada en cualquier parte del proyecto,
+
+    Una entidad de cualaquier modelo dentro del proyecto puede ser llamada desde cualquier otro 
+    modelo,  EntityModel permite agregar tablas creadas en otros modelos 
+    
+    Algunas de las alternativas fueron 
+
+    1.  Entity (  directamente asociada al proyecto )
+        Teniendo en cuenta q la forma de uso mass comun es la creacion a partir de un modelo 
+        y q normalmente una tabla esta asociada a una funcion particular q es definida dentro de un modelo 
+        
+        1.1 EntityModel hereda de EntityProject ( Entity )  
+            existe la necesidad de poder crear la tabla directamente dentro del modelo, 
+            la relacion  Entity <->  Model  podria ser una entidad heredada de Entity ( 1. asociada al proyecto )
+
+            el manejo de la herencia deja a la programacion  el problema de establecer poder crear las equivalencias entre entidads 
+            q se crearon de maneraa separada en diferentes modelos, 
+              
+            de igual forma se pierde la referencia del modelo asociado a una entidad, lo cual ya se discutio como una ventaja  
+            
+        1.2 Asociacion EntityModel 
+            En el medodo de trabajo,  no es intuitivo crear una entidad y luego crear la asociacion 
+            El manejo de la asociaciaon se deja a la programacion el problema de establecer poder crear las equivalencias entre entidads
+            de igual forma se pierde la referencia del modelo asociado a una entidad, lo cual ya se discutio como una ventaja  
+            
+    2. Entity ( asociada al projecto con relacion transparente  EntityModel ) 
+
+        Tiene casi los mismos problemas q el caso anterior,  
+        Es evidente cuando crear la relacion, pero q hacer al  borrarla, 
+
+        El manejo de la asociaciaon se deja a la programacion el problema de establecer poder crear las equivalencias entre entidads
+        de igual forma se pierde la referencia del modelo asociado a una entidad, lo cual ya se discutio como una ventaja  
+    
+        la navegacion MD es contra la asociacion, la edicion entonces se vuelve un problema de programacion, pues hay q editar en una 
+        tabla q no corresponde al detalle definido,  
+        se podria crear  un pattern pero es mas una aberracion de diseno q una situacion real 
+         
+    Solucion retenida 
+    
+    Crear la tabla Entity dependiente del modelo ( q a su vez depende del proyecto ) 
+    Crear una tabla de ForeingEntity q "invita" tablas definidas en otros modelos ( del proyecto ) al modelo de referencia,  
+    estas tablas son antes invocadas por las FKey q pueden hacer referencia a cualquier tabla del proyecto;
+    
+    Cuando la tabla es solo referenciada aparece el nombre en el diagrama,  
+    el hecho de poder manejar a voluntad las tablas refereciadas( ForeingEntity ) permite decidir q tablas van explciitamente 
+    en el diagram y cuales no. 
+    
+    Esto deja todo la responsabilidad al analista,  no exige un parche de programacion y permite mayor flexibildiad 
+    al momento de la generacion del modelo grafico.  
+    
+    A tener en cuenta  **** 
+
+    1. Las tablas no invocan nodos adicioanales en sus FKey 
+    2. Los diagramas son un tipo especial de modelo q solo maneja tablas referencias, 
+    3. Las vistas de DataRun son simplemente diagrams   
+        
     """    
-    model = models.ForeignKey('Model', blank = False, null = False, related_name = 'entity_set' )
+    model = models.ForeignKey('Model', blank = False, null = False  )
     code = models.CharField( blank = False, null = False, max_length=200 )
     
     dbName = models.CharField(blank = True, null = True, max_length=200  )
@@ -163,6 +224,31 @@ class Entity(ProtoModel):
     } 
 
 
+class ForeignEntity(ProtoModel):
+    """ 
+    Entidades que han sido creadas en otros modelos, pero que guardan relacion con el modelo,
+       
+    """    
+    model = models.ForeignKey('Model', blank = False, null = False  )
+    entity = models.ForeignKey( 'Entity', blank = False, null = False )
+
+    # indica si debe o no mostrarse en el diagrama,    
+    hideEntity =  models.BooleanField()
+
+    # indica si los atributos se muestran en el diagrama     
+    hideProperties =  models.BooleanField()
+    
+    notes  = models.TextField( blank = True, null = True)
+
+    # Propieadad para ordenar el __str__ 
+    unicode_sort = ( 'entity',  )
+
+    def __unicode__(self):
+        return slugify( self.entity.code ) 
+
+    class Meta:
+        unique_together = ('model', 'entity', 'smOwningTeam' )
+
 
 class PropertyBase(ProtoModel):
 
@@ -199,8 +285,8 @@ class Property(PropertyBase):
     """
     entity = models.ForeignKey('Entity', related_name = 'property_set')
     
-    """propertyModel : corresponde a la especificacion en el modelo ( metodologia: user history )"""
-    propertyModel = models.ForeignKey('PropertyModel', blank = True, null = True, on_delete=models.SET_NULL )
+    """propertyProject : corresponde a la especificacion en el modelo ( metodologia: user history )"""
+    propertyProject = models.ForeignKey('PropertyProject', blank = True, null = True, on_delete=models.SET_NULL )
 
     # -----------  caracteristicas propias de la instancia
     """isPrimary : en el prototipo siempre es artificial, implica isLookUpResult"""  
@@ -234,7 +320,9 @@ class Property(PropertyBase):
             self.isRequired = True
             self.isLookUpResult = True 
   
-        updatePropInfo( self,  self.propertyModel, PropertyModel, False )
+        if UPD_PROPERTY_PROJECT: 
+            updatePropInfo( self,  self.propertyProject, PropertyProject, False )
+
         super(Property, self).save(*args, **kwargs) 
 
     class Meta:
@@ -293,39 +381,40 @@ class Relationship(Property):
 
 
 
-class PropertyModel(PropertyBase):
+class PropertyProject(PropertyBase):
     """ A nivel conceptual encontraremos la lista de propiedadaes 
         qu corresponde a la definicion semantica del problema; 
         
-        1. Estas propiedades normalmente se definien a nivel de modelo 
+        1. Estas propiedades normalmente se definien a nivel de proyecto  
         cuando el usuario ( piloto ) describe su problematica, 
         
         2. Si la definicion la realiza un modelizador, se hara a nivel de entidad, 
 
     * podria generarse navegando model-entity-prop 
-    * pero el primer paso en podria implicar la definicion semantica de propiedades por modelo, 
+    * pero el primer paso en podria implicar la definicion semantica de propiedades por modelo,
+    * ademas la definicion de sinimos se realiza aqui  
     
     """
-    model = models.ForeignKey('Model', blank = False, null = False )
+    project = models.ForeignKey('Project', blank = False, null = False )
     inherit = models.BooleanField( default = False )
     conceptType = models.CharField( blank = True, null = True, max_length=50, editable=False )
 
     def __unicode__(self):
-        return slugify( self.model.code + '.' + self.code )
+        return slugify( self.project.code + '.' + self.code )
 
     class Meta:
-        unique_together = ('model', 'code', 'smOwningTeam' )
+        unique_together = ('project', 'code', 'smOwningTeam' )
 
     def save(self, *args, **kwargs ):
         # Envia el heredado y se asegura q sea Falso siempre 
-        updatePropInfo( self,  None, PropertyModel, self.inherit   )
+        updatePropInfo( self,  None, PropertyProject, self.inherit   )
         self.inherit = False 
-        super(PropertyModel, self).save(*args, **kwargs) 
+        super(PropertyProject, self).save(*args, **kwargs) 
         
     protoExt = { 
 #    "menuApp" : "dictionary", 
     "actions": [
-        { "name": "doPropertyModelJoin", 
+        { "name": "doPropertyProjectJoin", 
           "selectionMode" : "multiple",  
           "refreshOnComplete" : True
         },
@@ -337,8 +426,8 @@ class PropertyModel(PropertyBase):
     "detailsConfig": [{
         "menuText": "Properties",
         "conceptDetail": "prototype.Property",
-        "detailName": "propertyModel",
-        "detailField": "propertyModel__pk",
+        "detailName": "propertyProject",
+        "detailField": "propertyProject__pk",
         "masterField": "pk"
     }, {
         "menuText": "Equivalences",
@@ -354,10 +443,11 @@ class PropertyModel(PropertyBase):
 def propModel_post_delete(sender, instance, **kwargs):
     # En el postSave ya el registro de hijos no existe, 
     # la solucion mas simple las props con propMod = None y tocarlos  
-    updProPropModel( Property )
+    updPropertyProject( Property )
     pass
 
-post_delete.connect(propModel_post_delete, sender = PropertyModel)
+post_delete.connect(propModel_post_delete, sender = PropertyProject)
+
 
 
 class PropertyEquivalence(ProtoModel):
@@ -369,12 +459,15 @@ class PropertyEquivalence(ProtoModel):
     
     se podria agregar un manejador q hicer:   where = sourse UNION where target, 
     o q al momento de guardar generara la relacion inversa y actualizara simpre los dos ( privilegiada )     
+    
+    No se incluye el proyecto, pues la equivalencias pueden darse entre diferentes proyectos 
     """    
 
-    sourceProperty = models.ForeignKey('PropertyModel', blank = True, null = True, related_name = 'sourcePrp')
-    targetProperty = models.ForeignKey('PropertyModel', blank = True, null = True, related_name = 'targetPrp')
+    sourceProperty = models.ForeignKey('PropertyProject', blank = True, null = True, related_name = 'sourcePrp')
+    targetProperty = models.ForeignKey('PropertyProject', blank = True, null = True, related_name = 'targetPrp')
 
     description = models.TextField( blank = True, null = True)
+    notes  = models.TextField( blank = True, null = True)
 
     def __unicode__(self):
         return slugify( self.sourceProperty.code + ' - ' + self.targetProperty.code )   
@@ -393,11 +486,13 @@ class PropertyEquivalence(ProtoModel):
         }
     } 
 
+
 def propEquivalence_post_save(sender, instance, created, **kwargs):
     twoWayPropEquivalence( instance, PropertyEquivalence, False )
 
 post_save.connect(propEquivalence_post_save, sender = PropertyEquivalence)
 
+    
     
 #This way when the save() method is called, 
 #it never fires another post_save signal because we've disconnected it.
@@ -418,7 +513,7 @@ class Prototype(ProtoModel):
     Esta tabla manejar la lista de  prototypos almacenados en customDefinicion, 
     Genera la "proto" pci;  con la lista de campos a absorber y los detalles posibles        
     """
-    entity = models.ForeignKey( Entity, blank = False, null = False )
+    entity = models.ForeignKey( 'Entity', blank = False, null = False )
     
     """Nombre (str) de la vista a buscar en protoDefinition  """
     code   = models.CharField( blank = False, null = False, max_length=200, editable = False )
@@ -445,7 +540,7 @@ class ProtoTable(ProtoModel):
     """
     Esta es el store de los prototipos   
     """
-    entity = models.ForeignKey( Entity, blank = False, null = False )
+    entity = models.ForeignKey( 'Entity', blank = False, null = False )
     info = JSONField( default = {} )
 
     def __unicode__(self):

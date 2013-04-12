@@ -9,9 +9,13 @@
 
 import keyword
 import traceback
+from prototype import models 
 from prototype.models import Model, Entity, Property, Relationship
+from prototype.protoRules import updPropertyProject
+
 from protoLib.protoAuth import getUserProfile
 from protoLib.utilsDb import setDefaults2Obj
+
 
 from django.db import connections, transaction, IntegrityError, DatabaseError
 from django.db.transaction import TransactionManagementError 
@@ -141,8 +145,12 @@ def getDbSchemaDef( dProject , request  ):
     Model.objects.filter( project = dProject, 
                           code = 'inspectDb', smOwningTeam = userProfile.userTeam).delete() 
 
+    transaction.commit()
+
     dModel = Model.objects.get_or_create( project = dProject, code = 'inspectDb', 
                           smOwningTeam = userProfile.userTeam, defaults = defValues )[0]
+
+    transaction.commit()
 
     # Guarda todas las entidades 
     for entityName in pEntities: 
@@ -161,6 +169,11 @@ def getDbSchemaDef( dProject , request  ):
 
     transaction.commit()
 
+
+    UPD_PROPERTY_PROJECT_BAK =  models.UPD_PROPERTY_PROJECT
+    models.UPD_PROPERTY_PROJECT     = False 
+    
+
     # Guarda las relaciones 
     for entityName in pEntities: 
         pEntity = pEntities[ entityName  ]
@@ -170,18 +183,26 @@ def getDbSchemaDef( dProject , request  ):
             prpName = pProperty['code']
             if 'refEntity' in pProperty:
                 saveRelation( dProject, dEntity, dModel, pProperty,  defValues, userProfile, prpName, 1 )
-                
             else:  
-
                 saveProperty( dEntity, pProperty, defValues, userProfile, prpName,  1   )
+
+
+    # Actualiza los PropertyProject 
+    models.UPD_PROPERTY_PROJECT =  UPD_PROPERTY_PROJECT_BAK
+    updPropertyProject( Property )
+    transaction.commit()
 
 
 @transaction.commit_manually
 def saveProperty( dEntity, pProperty, defValues, userProfile, prpName, seq   ):
 
     try: 
-        dProperty =  dEntity.property_set.create( code = prpName, smOwningTeam = userProfile.userTeam )
-
+        dProperty =  Property(  
+                         code = prpName ,
+                         entity = dEntity , 
+                         smOwningTeam = userProfile.userTeam 
+                         )
+        
         setDefaults2Obj( dProperty, pProperty, ['code'] )    
         setDefaults2Obj( dProperty, defValues )    
         dProperty.save()

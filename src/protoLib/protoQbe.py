@@ -259,7 +259,7 @@ def addQbeFilterStmt( sFilter, model, JsonField ):
     fieldName  =  sFilter['property'].replace( '.', '__')
     
     if JsonField: JsonFieldName = JsonField
-    else: JsonField = ''  
+    else: JsonFieldName = ''  
     
     if fieldName.endswith('__pk') or fieldName.endswith('_id') or fieldName == 'pk': 
         # Los id por ahora son numericos 

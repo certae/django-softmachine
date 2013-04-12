@@ -1,5 +1,9 @@
 ## -*- coding: utf-8 -*-
-#
+#  
+
+#  Debe ser  copyProject   ( lo modelos son clasificaciones simplemente  ) 
+
+
 #from django.contrib import admin
 #from django.core.exceptions import PermissionDenied
 #from django.contrib.admin import helpers
@@ -15,21 +19,21 @@
 #    funcion de pannier para crear un nuevo modelo, 
 #    """
 #
-##   El QSet viene con la lista de Ids de PropertyModel 
+##   El QSet viene con la lista de Ids de PropertyProject 
 #    if queryset.count() == 0:
 #        return 'No record selected' 
 #
 #    opts = modeladmin.opts 
 #    dModel = None 
 #
-##   es invocada desde propertyModel ( el Qset es propModel )  
+##   es invocada desde PropertyProject ( el Qset es propProject )  
 #    for objPropModel  in queryset:
 #
 #        dPropDom = objPropModel.propertyDom
 #        if dModel == None :   
 #            dModel = getModel( dPropDom.domain, 'New Model' )
 #
-#        dPropModel = PropertyModel()
+#        dPropModel = PropertyProject()
 #        dPropModel.model = dModel
 #        dPropModel.propertyDom = dPropDom
 #        dPropModel.save() 

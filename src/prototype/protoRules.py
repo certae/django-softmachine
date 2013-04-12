@@ -44,8 +44,7 @@ DB_ENGINE = (
 def updatePropInfo( myBase, propBase, modelBase, inherit  ):
     """
     self     :  propiedad q genera el cambio 
-    propBase :  campo de referencia a la entidad de base 
-    propModel:  modelo al cual copiar
+    propBase :  campo de referencia a la entidad de base ( property normalmente ) 
     inherit  :  heredar ( si es descendente Dom, Model, ...  )
     """
 
@@ -67,19 +66,23 @@ def updatePropInfo( myBase, propBase, modelBase, inherit  ):
     }
 
     
-    # Crea los PropertyModel correspondientes  
+    # Crea los PropertyProject correspondientes  
     if ( propBase is None ) and ( myBase._meta.object_name in ['Property', 'Relationship'] ):
         
-        pName = myBase.entity.code + '.' + myBase.code
+        pName = myBase.entity.code + '_' + myBase.code
         if myBase.isForeign: 
             defValues['conceptType'] = 'ref'
             if myBase._meta.object_name == 'Property':
-                pName = myBase.relationship.refEntity.code + '.pk'
+                pName = myBase.relationship.refEntity.code + '_pk'
             if myBase._meta.object_name == 'Relationship':  
-                pName = myBase.refEntity.code + '.pk'
+                pName = myBase.refEntity.code + '_pk'
 
-        pMod=modelBase.objects.get_or_create(model=myBase.entity.model,code=pName,smOwningTeam=myBase.smOwningTeam,defaults=defValues)[0]
-        myBase.propertyModel = pMod 
+        pMod = modelBase.objects.get_or_create(
+                project = myBase.entity.model.project,
+                code = pName,
+                smOwningTeam=myBase.smOwningTeam,
+                defaults=defValues)[0]
+        myBase.propertyProject = pMod 
 
     # Se asegura q sea heredable  y actualiza los Property asociados    
     if inherit == True :
@@ -87,7 +90,7 @@ def updatePropInfo( myBase, propBase, modelBase, inherit  ):
         del defValues['smCreatedBy'] 
         defValues['smModifiedBy'] = myBase.smModifiedBy
                             
-        #if myBase._meta.object_name == 'PropertyModel' : 
+        #if myBase._meta.object_name == 'PropertyProject' : 
         myBase.property_set.update( **defValues )
 
 
@@ -141,7 +144,7 @@ def twoWayPropEquivalence( propEquiv, modelBase, deleted ):
         raise e 
 
 
-def updProPropModel( Property ):
-    # recorre todas las props y las toca
-    for pProp in Property.objects.filter( propertyModel = None  ): 
+def updPropertyProject( Property ):
+    # recorre todas las props y las toca para q refresquen el PropertyProject 
+    for pProp in Property.objects.filter( propertyProject = None  ): 
         pProp.save()

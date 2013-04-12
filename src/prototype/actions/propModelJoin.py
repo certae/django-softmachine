@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from prototype.models import PropertyModel 
+from prototype.models import PropertyProject 
 from datetime import datetime
 
 def doPropModelJoin( queryset ):
-
-    
     """
     No se pueden crear props de diferentes modelos, pues el modelo hace parte de la llave
     y aunq yo pienso q deberia factorisarse todo a nivel de proeyecto, es importante saber 
@@ -16,23 +14,23 @@ def doPropModelJoin( queryset ):
     sAux = ''
     
     # Verifica si todos son del mismo modelo y del mismo tipo    
-    for propModel in queryset:
-        if propModel.conceptType == 'ref':
-            sAux = 'References are not machable :' +  propModel.code
+    for propProject in queryset:
+        if propProject.conceptType == 'ref':
+            sAux = 'References are not machable :' +  propProject.code
             return {'success':False , 'message' : sAux } 
 
-        sAux += '-' + propModel.code
+        sAux += '-' + propProject.code
 
         if myBase is None: 
-            myBase = propModel 
+            myBase = propProject 
             continue 
          
-        if myBase.model.code != propModel.model.code:
-            sAux = 'model mistMach :' + myBase.model.code + '-' + propModel.model.code 
+        if myBase.model.code != propProject.model.code:
+            sAux = 'model mistMach :' + myBase.model.code + '-' + propProject.model.code 
             return {'success':False , 'message' : sAux } 
 
 
-    # Crea el nuevo propModel
+    # Crea el nuevo propProject
     # TODO: Implementar la seguridad real, esta copiando del registro base
     
     if len( sAux ) > 40: sAux = sAux[:40] + str( datetime.now() ) 
@@ -64,13 +62,13 @@ def doPropModelJoin( queryset ):
         'smModifiedOn' : myBase.smModifiedOn 
     }
     
-    myBase = PropertyModel( **defValues )
+    myBase = PropertyProject( **defValues )
     myBase.save()
     
     # Actualiza las Property dependeientes
-    for propModel in queryset:
-        propModel.property_set.update(propertyModel= myBase  )
-        sAux +=  ' ' + propModel.code    
+    for propProject in queryset:
+        propProject.property_set.update(propertyProject= myBase  )
+        sAux +=  ' ' + propProject.code    
 
     # Borra las propModels
     queryset.delete()

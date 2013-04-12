@@ -140,8 +140,8 @@ class importDict():
         
         fdsConcept= ( 'code', 'category',  'pyEval' )
 
-        fdsPropertyModel = ( 'code', 'category',  'baseType', 'prpDefault', )
-        intPropertyModel = ( 'prpLength',  )
+        fdsPropertyProject = ( 'code', 'category',  'baseType', 'prpDefault', )
+        intPropertyProject = ( 'prpLength',  )
         
         fdsPropertyConcept = ( 'alias', 'pyEval', 'foreignConcept' )
         booPropertyConcept = ( 'isNullable', 'isRequired', 'isSensitive', 'isEssential',  'isForeign')
@@ -223,20 +223,20 @@ class importDict():
                             
                             prpConcept = PropertyConcept()
                             prpConcept.concept = dConcept
-                            prpConcept.PropertyModel = prpDom
+                            prpConcept.PropertyProject = prpDom
 
                             # Inicializa el diccionaccionario para las UDPS 
                             prpUdps = []
 
                             for child in xProperty:
-                                if child.tag in fdsPropertyModel:
+                                if child.tag in fdsPropertyProject:
                                     if (child.text is not None):
                                         setattr( prpDom, child.tag, child.text )
 
                                 elif  ( child.tag == 'description' ):
                                     setattr( prpDom, child.tag, child.get('text'))
 
-                                elif child.tag in intPropertyModel:
+                                elif child.tag in intPropertyProject:
                                     iValue = toInteger(child.text , 0)
                                     setattr( prpDom, child.tag, iValue )
 
@@ -331,8 +331,8 @@ class importDict():
 
     def savePrpUdps(self, udps, dPrp ):
         for key, value  in udps:
-            dUdp = UdpPropertyModel()
-            dUdp.PropertyModel = dPrp
+            dUdp = UdpPropertyProject()
+            dUdp.PropertyProject = dPrp
             dUdp.code = key
             dUdp.valueUdp = value
             try:
@@ -347,7 +347,7 @@ def getModelRef( dProject, modelName  ):
         return mAux[0] 
 
 def getPrpRef( dProject , propName  ):
-    mAux = PropertyModel.objects.filter( domain = dProject, code = propName  )
+    mAux = PropertyProject.objects.filter( domain = dProject, code = propName  )
     if mAux: 
         return mAux[0] 
 
