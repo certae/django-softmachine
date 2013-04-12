@@ -193,6 +193,23 @@ class Entity(ProtoModel):
                                 "tooltip" : "option de menu (msi)" }
                                ] 
             },
+            { "name": "doEntityChangeModel", 
+              "selectionMode" : "multiple",  
+              "refreshOnComplete" : True, 
+              "actionParams": [{"name" : "newModelName", "type" : "string", "required": True, 
+                                "tooltip" : "new model name" }
+                               ] 
+            },
+            { "name": "doFindReplace", 
+              "selectionMode" : "multiple",  
+              "refreshOnComplete" : True, 
+              "actionParams": [
+                {"name" : "fieldName", "type" : "string", "required": True }, 
+                {"name" : "findText", "type" : "string", "required": True }, 
+                {"name" : "newText", "type" : "string", "required": False }, 
+               ]     
+            },
+
         ], 
         "detailsConfig": [
         {
@@ -572,7 +589,7 @@ class Diagram(ProtoModel):
     """ 
     TODO: Diagrama o subModelo   
     """    
-    model = models.ForeignKey('Model', blank = False, null = False )
+    project = models.ForeignKey('Project', blank = False, null = False )
     code = models.CharField(blank = False, null = False, max_length=200 )
     
     description = models.TextField( blank = True, null = True)
@@ -583,13 +600,13 @@ class Diagram(ProtoModel):
     objects = JSONAwareManager(json_fields = ['info'])
 
     # Propieadad para ordenar el __str__ 
-    unicode_sort = ('model', 'code',  )
+    unicode_sort = ('project', 'code',  )
 
     def __unicode__(self):
-        return slugify( self.model.code + '-' +  self.code ) 
+        return slugify(  self.code ) 
 
     class Meta:
-        unique_together = ('model', 'code', 'smOwningTeam' )
+        unique_together = ('project', 'code', 'smOwningTeam' )
 
     protoExt = { 
         "menuApp" : "roadMap",
@@ -608,14 +625,17 @@ class DiagramEntity(ProtoModel):
     objects = JSONAwareManager(json_fields = ['info'])
 
     # Propieadad para ordenar el __str__ 
-    unicode_sort = ('diagram', 'entity',  )
+    unicode_sort = ( 'entity',  )
 
     def __unicode__(self):
-        return slugify( self.diagram.code + '-' +  self.entity.code ) 
+        return slugify( self.entity.code ) 
 
     class Meta:
         unique_together = ('diagram', 'entity', 'smOwningTeam' )
 
+    protoExt = { 
+        "menuApp" : "roadMap",
+        } 
 
     
 #   --------------------------------------------------------------------------------
@@ -625,7 +645,7 @@ class Service(ProtoModel):
     """ 
     TODO: Servicios entre modelos ( entidades virtuales )    
     """    
-    model = models.ForeignKey('Model', blank = False, null = False )
+    project = models.ForeignKey('Project', blank = False, null = False )
     code = models.CharField(blank = False, null = False, max_length=200 )
 
     """Binding : SOAP, RPC, REST, DCOM, CORBA, DDS, RMI, WCF """
@@ -647,10 +667,10 @@ class Service(ProtoModel):
     unicode_sort = ('model', 'code',  )
 
     def __unicode__(self):
-        return slugify( self.model.code + '-' +  self.code ) 
+        return slugify(   self.code ) 
 
     class Meta:
-        unique_together = ('model', 'code', 'smOwningTeam' )
+        unique_together = ('project', 'code', 'smOwningTeam' )
 
     protoExt = { 
         "menuApp" : "roadMap",
@@ -658,23 +678,30 @@ class Service(ProtoModel):
 
 class ServiceRef(ProtoModel):
     """ 
-    TODO: Cliente Servicios entre modelos ( entidades virtuales )    
+    TODO: Cliente Servicios entre proyectos ( entidades virtuales )    
     """    
-    model = models.ForeignKey('Model', blank = False, null = False )
-    service = models.ForeignKey('Service', blank = False, null = False )
+    project = models.ForeignKey('Project', blank = False, null = False )
 
-    endpoint = models.CharField(  blank = True, null = True, max_length = 200 )
+    """EndPoint code""" 
+    code = models.CharField(blank = False, null = False, max_length=200 )
+
+    # Servicio al q se hace referencia 
+    service = models.ForeignKey('Service', blank = False, null = False )
 
     description = models.TextField( blank = True, null = True)
     notes  = models.TextField( blank = True, null = True)
 
     # Propieadad para ordenar el __str__ 
-    unicode_sort = ('model', 'service',  )
+    unicode_sort = ('project', 'service',  )
 
     def __unicode__(self):
-        return slugify( self.model.code + '-' +  self.service.code ) 
+        return slugify(  self.code ) 
 
     class Meta:
-        unique_together = ('model', 'service', 'smOwningTeam' )
+        unique_together = ('project', 'code', 'smOwningTeam' )
 
+
+    protoExt = { 
+        "menuApp" : "roadMap",
+        } 
     

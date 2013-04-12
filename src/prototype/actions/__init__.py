@@ -43,6 +43,7 @@ def doEntityPrototype( modeladmin, request, queryset, parameters ):
     return {'success':True, 'message' :  returnTmp } 
 
 
+
 def doPropertyProjectJoin( modeladmin, request, queryset, parameters):
     """ 
     funcion para unir dos propertyProject 
@@ -126,3 +127,26 @@ def doImportSchema( modeladmin, request, queryset, parameters):
         pass
         
     return {'success':True, 'message' :  'runing ...' } 
+
+
+# ----------------   Entity  
+
+
+def doEntityChangeModel( modeladmin, request, queryset, parameters):
+    """ 
+    funcion para cambiar el model de una entidad 
+    """
+
+    from entityActions import doEttyChangeModel
+
+#   El QSet viene con la lista de Ids  
+    if queryset.count() < 1:
+        return  {'success':False, 'message' : 'Multiple selection required'}
+
+    if len( parameters ) != 1: 
+        return  {'success':False, 'message' : 'ViewName required!!' }
+
+
+    return doEttyChangeModel( request,  queryset, parameters )
+
+

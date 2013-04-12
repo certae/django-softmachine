@@ -20,10 +20,13 @@ class MyModelAdmin( admin.ModelAdmin ):
 admin.site.register(Model, MyModelAdmin)
 
 # ------------------------------------------  Entity
-from actions import  doEntityPrototype
+
+from actions import  doEntityPrototype, doEntityChangeModel
+from protoLib.actions import doFindReplace
+
 
 class MyEntityAdmin( admin.ModelAdmin ):
-    actions = [ doEntityPrototype  ]
+    actions = [ doEntityPrototype, doEntityChangeModel , doFindReplace  ]
 
 admin.site.register(Entity, MyEntityAdmin )
 
@@ -36,7 +39,7 @@ class MyPropertyProjectAdmin( admin.ModelAdmin ):
 
 admin.site.register(PropertyProject, MyPropertyProjectAdmin )
 
-# ------------------------------------------  Entity
+# ------------------------------------------  Project 
 from actions import doImportSchema 
 
 class MyProjectAdmin( admin.ModelAdmin ):

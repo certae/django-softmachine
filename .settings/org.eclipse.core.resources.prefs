@@ -1,9 +1,11 @@
-#Thu Apr 11 20:29:17 EDT 2013
+#Fri Apr 12 16:51:00 EDT 2013
 eclipse.preferences.version=1
 encoding//docs/django/fieldSets.py.txt=utf-8
 encoding//docs/django/jsonDump.py.txt=utf-8
 encoding//src/best/models.py=utf-8
 encoding//src/best/settings.py=utf-8
+encoding//src/protoLib/actions/__init__.py=utf-8
+encoding//src/protoLib/actions/findReplace.py=utf-8
 encoding//src/protoLib/admin/__init__.py=utf-8
 encoding//src/protoLib/admin/adminProtoDef.py=utf-8
 encoding//src/protoLib/admin/adminUsr.py=utf-8
@@ -25,7 +27,7 @@ encoding//src/protoLib/utilsConvert.py=utf-8
 encoding//src/protoLib/utilsDb.py=utf-8
 encoding//src/protoLib/utilsWeb.py=utf-8
 encoding//src/prototype/actions/__init__.py=utf-8
-encoding//src/prototype/actions/copyModel.py=utf-8
+encoding//src/prototype/actions/entityActions.py=utf-8
 encoding//src/prototype/actions/propModelJoin.py=utf-8
 encoding//src/prototype/actions/reverseDb.py=utf-8
 encoding//src/prototype/actions/viewDefinition.py=utf-8
