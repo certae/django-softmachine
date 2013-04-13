@@ -32,10 +32,10 @@ admin.site.register(Entity, MyEntityAdmin )
 
 # ------------------------------------------  PropertyProject
 
-from actions import doPropertyProjectJoin 
+from actions import doPropertyProjectJoin, doPropertyProjectPurge
 
 class MyPropertyProjectAdmin( admin.ModelAdmin ):
-    actions = [ doPropertyProjectJoin  ]
+    actions = [ doPropertyProjectJoin , doPropertyProjectPurge ]
 
 admin.site.register(PropertyProject, MyPropertyProjectAdmin )
 

@@ -439,6 +439,10 @@ class PropertyProject(PropertyBase):
           "selectionMode" : "multiple",  
           "refreshOnComplete" : True
         },
+        { "name": "doPropertyProjectPurge", 
+          "selectionMode" : "none",  
+          "refreshOnComplete" : True
+        },
     ],
     "gridConfig" : {
         "listDisplay": ["__str__", "description", "inherit", "conceptType", "smOwningTeam"]      

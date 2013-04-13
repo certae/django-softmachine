@@ -58,6 +58,19 @@ def doPropertyProjectJoin( modeladmin, request, queryset, parameters):
     return doPropModelJoin ( queryset )
 
 
+def doPropertyProjectPurge( modeladmin, request, queryset, parameters):
+    """ 
+    funcion para unir dos propertyProject 
+    """
+
+    from django.db.models import Count
+    from prototype.models import PropertyProject 
+
+    PropertyProject.objects.annotate( n_prop = Count('property' )).filter( n_prop = 0 ).delete()
+
+    return  {'success':True, 'message' : 'Ok'}
+
+
 # -----------  Models  
 
 def doModelGraph( modeladmin, request, queryset, parameters):
@@ -70,7 +83,7 @@ def doModelGraph( modeladmin, request, queryset, parameters):
     from graphModel import generateDotModels
 
 #   El QSet viene con la lista de Ids  
-    if queryset.count() != 1:
+    if queryset.count() < 1:
         return  {'success':False, 'message' : 'No record selected' }
 
             

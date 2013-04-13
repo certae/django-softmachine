@@ -13,7 +13,7 @@ from protoLib.utilsBase import slugify
 def generateDotModels( queryset ):
     
     disable_fields = False  
-    use_subgraph =  True   
+    use_subgraph =  False   
 
     # Abre el template 
     t = loader.get_template('graph_models/head.html')
@@ -30,7 +30,7 @@ def generateDotModels( queryset ):
         gModel = Context({
             'name': '"%s"' % modelCode ,
             'app_name': "%s" % modelCode ,
-            'cluster_app_name': modelCode,
+            'cluster_app_name': 'softMachine',
             'disable_fields': disable_fields,
             'use_subgraph': use_subgraph,
             'models': []

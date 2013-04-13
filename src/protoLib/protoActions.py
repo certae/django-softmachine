@@ -43,11 +43,10 @@ def protoExecuteAction(request):
         return doReturn ({'success':False, 'message' : 'Action notFound'}) 
 
     
-    # hace el QSet de los registros seleccionados
-    if selectedKeys.__len__() == 0:
-        return doReturn ({'success':False, 'message' : 'No record selected'}) 
-    
     Qs = model.objects.select_related(depth=1)
+
+    # hace el QSet de los registros seleccionados
+    if selectedKeys.__len__() == 0: selectedKeys = [ -1 ]
     Qs = Qs.filter( pk__in = selectedKeys  )
 
     try:

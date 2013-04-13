@@ -5,10 +5,9 @@ from datetime import datetime
 
 def doPropModelJoin( queryset ):
     """
-    No se pueden crear props de diferentes modelos, pues el modelo hace parte de la llave
-    y aunq yo pienso q deberia factorisarse todo a nivel de proeyecto, es importante saber 
-    saber cual es el modelo, es posible q la vision de un analista sea limitada a modelos especificos
-    de todas formas se puede establecer equivalencias entre proModel 
+    todo se factoriza a nivel de proeyecto, es importante saber 
+    la vision de un analista sea limitada a proyectos especificos
+    de todas formas se puede establecer equivalencias entre proProject 
     """ 
     myBase = None 
     sAux = ''
@@ -25,7 +24,7 @@ def doPropModelJoin( queryset ):
             myBase = propProject 
             continue 
          
-        if myBase.model.code != propProject.model.code:
+        if myBase.project.code != propProject.project.code:
             sAux = 'model mistMach :' + myBase.model.code + '-' + propProject.model.code 
             return {'success':False , 'message' : sAux } 
 
@@ -37,7 +36,7 @@ def doPropModelJoin( queryset ):
      
     defValues = {
         'code' : sAux[1:], 
-        'model' : myBase.model, 
+        'project' : myBase.project, 
 
         'baseType' : myBase.baseType, 
         'prpLength' : myBase.prpLength,
