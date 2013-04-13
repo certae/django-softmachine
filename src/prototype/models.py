@@ -101,7 +101,11 @@ class Model(ProtoModel):
         return slugify( self.code ) 
     
     protoExt = { 
-        "actions": [{ "name": "doModelPrototype" }, { "name": "doModelGraph" } ],        
+        "actions": [
+            { "name": "doModelPrototype" }, 
+            { "name": "doModelGraph" }, 
+            { "name": "doAutoForeingEntity" }, 
+        ],        
         "gridConfig" : {
             "listDisplay": ["__str__", "description", "smOwningTeam"]      
         }

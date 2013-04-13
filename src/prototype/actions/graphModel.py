@@ -13,7 +13,7 @@ from protoLib.utilsBase import slugify
 def generateDotModels( queryset ):
     
     disable_fields = False  
-    use_subgraph =  False  
+    use_subgraph =  True   
 
     # Abre el template 
     t = loader.get_template('graph_models/head.html')
@@ -21,6 +21,8 @@ def generateDotModels( queryset ):
     dot = t.render(c)
 
     gModels = []
+    gForeignEntities = []
+     
     for pModel in queryset:
         
         modelCode = slugify( pModel.code,'_')
@@ -34,6 +36,15 @@ def generateDotModels( queryset ):
             'models': []
         })
 
+
+        # refEntities 
+        for pFEntity in pModel.foreignentity_set.all():
+            if not pFEntity.hideEntity : continue  
+            enttCode = slugify( pFEntity.entity.code,'_')
+            if not enttCode in gForeignEntities : 
+                gForeignEntities.append( enttCode )
+
+        # Entities 
         for pEntity in pModel.entity_set.all():
             enttCode = slugify( pEntity.code,'_')
             gEntity = {
@@ -91,11 +102,19 @@ def generateDotModels( queryset ):
         nodes.extend([e['name'] for e in gModel['models']])
 
     for gModel in gModels:
+        
         # don't draw duplication nodes because of relations
         for gEntity in gModel['models']:
-            for relation in gEntity['relations']:
+            for ix, relation in reversed(list(enumerate(  gEntity['relations'] ))) :
+                
                 if relation['target'] in nodes:
                     relation['needs_node'] = False
+
+                # Elimina las relaciones de entidades invitadas 
+                elif relation['target'] in gForeignEntities:
+                    del gEntity['relations'][ix]  
+                   
+                   
         # render templates
         t = loader.get_template('graph_models/body.html')
         dot += '\n' + t.render(gModel)

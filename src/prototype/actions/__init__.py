@@ -101,6 +101,21 @@ def doModelGraph( modeladmin, request, queryset, parameters):
     return  {'success':True , 'message' : fileName,  'fileName' : fileName }
 
 
+
+def doAutoForeingEntity( modeladmin, request, queryset, parameters):
+    """ 
+    funcion para generar las entidades foraneas ( invitadas ) y definir 
+    su comportamiento en el grafico 
+    """
+
+    if queryset.count() < 1:
+        return  {'success':False, 'message' : 'No record selected' }
+
+    from modelActions import actionAutoForeingEntity
+
+    return actionAutoForeingEntity(  queryset  )
+
+
 # ----------------   Project  
 
 def doImportSchema( modeladmin, request, queryset, parameters):

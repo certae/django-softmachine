@@ -14,7 +14,7 @@ class TeamHierarchy(models.Model):
 
     code = models.CharField( unique=True, blank = False, null = False, max_length=200 )
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
-    parentNode = models.ForeignKey( 'TeamHierarchy', blank = True, null = True , related_name='downHierachy')
+    parentNode = models.ForeignKey( self , blank = True, null = True , related_name='downHierachy')
     site = models.ForeignKey( Site, blank = True, null = True)
 
     @property
