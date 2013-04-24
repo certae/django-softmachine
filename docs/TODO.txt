@@ -20,6 +20,8 @@ To Do:
 	cmabiar los ID por UUID, 
 	verificar llaves no numericas 
 
+    Exportar Project ( utilizar UUID )
+
 	agregar typo de dat para createO, modifiedOn ( datetime automatico )
 
 	Project ( MCCD ) 
