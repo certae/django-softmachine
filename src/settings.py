@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 
 # Django settings for PROTO project.
-import os.path, sys 
+import os.path, sys
 PPATH = os.path.abspath( os.path.join( os.path.dirname(__file__), os.pardir )).replace('\\','/')
 
-if PPATH.startswith('/'): 
-    EXT_PATH = '/u/data/ExtJs' 
-else:  
+if PPATH.startswith('/'):
+    EXT_PATH = '/u/data/ExtJs'
+else:
     EXT_PATH = 'd:/data/ExtJs'
 
 
-if ('/src' in PPATH): 
+if ('/src' in PPATH):
     PPATH = os.path.abspath(os.path.join( PPATH, os.pardir )).replace('\\','/')
-         
+
 # Django settings for modelibra project.
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -31,15 +31,15 @@ DATABASES = {
 #        'PASSWORD': '1',               # Not used with sqlite3.
 #        'HOST': '127.0.0.1',             # Set to empty string for localhost. Not used with sqlite3.
 #        'PORT': '9432',                      # Set to empty string for default. Not used with sqlite3.
-#    }, 
+#    },
 #    'default': {
-#        'ENGINE': 'django.db.backends.mysql', 
+#        'ENGINE': 'django.db.backends.mysql',
 #        'NAME':   'protogn',
 #        'USER': 'root',
 #        'PASSWORD': 'certae1',
 #        'HOST': '127.0.0.1',
 #        'PORT': '3306',
-#    }, 
+#    },
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql',  'oracle'.
 #        'NAME': PPATH + '/db/protoMeta.db',
@@ -71,7 +71,7 @@ USE_I18N = True
 USE_L10N = True
 
 # Formateo de numeros ???
-USE_THOUSAND_SEPARATOR = True 
+USE_THOUSAND_SEPARATOR = True
 NUMBER_GROUPING = 1
 #DECIMAL_SEPARATOR = '.'
 #THOUSAND_SEPARATOR = ','
@@ -156,8 +156,8 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
-    PPATH + '/templates',          
-    
+    PPATH + '/templates',
+
 #    '/home/dario/data/PyDjango/protoExt/src/django_qbe/templates',
 #    'D:/data/PyDjango/protoExt/src/django_qbe   /templates',
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -174,12 +174,12 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'south', 
-    'protoLib', 
-    'prototype', 
-    'best', 
-#    'shiny', 
-#    'CategoryCle', 
+    'south',
+    'protoLib',
+    'prototype',
+    'best',
+#    'shiny',
+#    'CategoryCle',
 #    'TCO'
 #    'django_extensions',
 #    'django_qbe'
@@ -215,18 +215,18 @@ AUTH_PROFILE_MODULE = 'protoLib.UserProfile'
 PROTO_APP = {}
 
 #Los menus se manejan a dos niveles:  app, opcion
-#La app por defecto es la app definida en django y las opciones son los modelos 
-#un modelo puede definir un nombre de app diferente, el titulo se tomara de esta variable 
+#La app por defecto es la app definida en django y las opciones son los modelos
+#un modelo puede definir un nombre de app diferente, el titulo se tomara de esta variable
 #
-#Las propiedades de app_menu son :   hidden,   title,  expanded  
+#Las propiedades de app_menu son :   hidden,   title,  expanded
 
 # app_menu se usa para ordenar la pre
 #PROTO_APP['app_menu'] = {
-#    'auth' : { 'hidden': True, },  
-#    'sites' : { 'hidden': True },  
+#    'auth' : { 'hidden': True, },
+#    'sites' : { 'hidden': True },
 #    'admin': { 'hidden': True },
-#    'protoDict' : { 'hidden': False, 'title': 'Dictionnaire', 'expanded':False , 'menu_index' : 30  }, 
+#    'protoDict' : { 'hidden': False, 'title': 'Dictionnaire', 'expanded':False , 'menu_index' : 30  },
 #    'protoLib': { 'hidden': False, 'title': 'Métadonnée', 'expanded':False, 'menu_index' : 99  },
-#    } 
+#    }
 
 
