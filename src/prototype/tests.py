@@ -3,7 +3,7 @@ from django.test import TestCase
 from prototype.models import Project
 
 
-class ProtoExtModelTest(TestCase):
+class ProjectModelTest(TestCase):
 
     def setUp(self):
         self.project = Project()
