@@ -120,7 +120,9 @@ def createTestRelationShip():
 
 def createTestPropertyEquivalence():
     testProperty1 = createTestProperty()
+    testProperty1.save()
     testProperty2 = createTestProperty()
+    testProperty2.save()
 
     testPropertyEquivalence = PropertyEquivalence()
     testPropertyEquivalence.sourceProperty = testProperty1
@@ -128,6 +130,20 @@ def createTestPropertyEquivalence():
     testPropertyEquivalence.description = 'testDescription'
 
     return testPropertyEquivalence
+
+
+def createTestPrototype():
+    testEntity = createTestEntity()
+    testEntity.save()
+
+    testPrototype = Prototype()
+    testPrototype.entity = testEntity
+    testPrototype.code = 'testCode'
+    testPrototype.description = 'testDescription'
+    testPrototype.notes  = 'testNotes'
+    testPrototype.metaDefinition = 'testMetaDefinition'
+
+    return testPrototype
 
 
 class Project_ModelTest(TestCase):
@@ -315,32 +331,49 @@ class PropertyEquivalence_ModelTest(ProtoModel):
         self.propertyEquivalence = createTestPropertyEquivalence()
         self.propertyEquivalence.save()
 
-
-#class Prototype_ModelTest(ProtoModel):
-    #entity = models.ForeignKey( Entity, blank = False, null = False )
-    #code   = models.CharField( blank = False, null = False, max_length=200, editable = False )
-    #description = models.TextField( blank = True, null = True)
-    #notes  = models.TextField( blank = True, null = True)
-    #metaDefinition = models.TextField( blank = True, null = True)
+    def tearDown(self):
+        self.propertyEquivalence.delete()
 
 
-#class ProtoTable_ModelTest(ProtoModel):
-    #entity = models.ForeignKey( Entity, blank = False, null = False )
+class Prototype_ModelTest(ProtoModel):
+
+    def setUp(self):
+        self.prototype = createTestPrototype()
+        self.prototype.save()
+
+    def tearDown(self):
+        self.prototype.delete()
 
 
-#class Diagram_ModelTest(ProtoModel):
-    #model = models.ForeignKey('Model', blank = False, null = False )
-    #code = models.CharField(blank = False, null = False, max_length=200 )
-    #description = models.TextField( blank = True, null = True)
-    #notes  = models.TextField( blank = True, null = True)
+class ProtoTable_ModelTest(ProtoModel):
+
+    def setUp(self):
+        self.entity = createTestEntity()
+        self.entity.save()
+
+    def tearDown(self):
+        self.entity.delete()
+
+
+class Diagram_ModelTest(ProtoModel):
+
+    #def setUp(self):
+        #model = models.ForeignKey('Model', blank = False, null = False )
+        #code = models.CharField(blank = False, null = False, max_length=200 )
+        #description = models.TextField( blank = True, null = True)
+        #notes  = models.TextField( blank = True, null = True)
 
 
 #class DiagramEntity_ModelTest(ProtoModel):
-    #diagram = models.ForeignKey('Diagram', blank = False, null = False )
+
+    #def setUp(self):
+        #diagram = models.ForeignKey('Diagram', blank = False, null = False )
     #entity = models.ForeignKey( Entity, blank = False, null = False )
 
 
 #class Service_ModelTest(ProtoModel):
+
+    #def setUp(self):
     #model = models.ForeignKey('Model', blank = False, null = False )
     #code = models.CharField(blank = False, null = False, max_length=200 )
     #Binding =  models.CharField(  blank = True, null = True, max_length = 20 )
@@ -350,7 +383,9 @@ class PropertyEquivalence_ModelTest(ProtoModel):
 
 
 #class ServiceRef_ModelTest(ProtoModel):
-    #model = models.ForeignKey('Model', blank = False, null = False )
+
+    #def setUp(self):
+        #model = models.ForeignKey('Model', blank = False, null = False )
     #service = models.ForeignKey('Service', blank = False, null = False )
     #endpoint = models.CharField(  blank = True, null = True, max_length = 200 )
     #description = models.TextField( blank = True, null = True)
