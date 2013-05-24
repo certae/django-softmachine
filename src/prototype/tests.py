@@ -364,7 +364,7 @@ class Diagram_ModelTest(ProtoModel):
         #notes  = models.TextField( blank = True, null = True)
 
 
-#class DiagramEntity_ModelTest(ProtoModel):
+class DiagramEntity_ModelTest(ProtoModel):
 
     #def setUp(self):
         #diagram = models.ForeignKey('Diagram', blank = False, null = False )
