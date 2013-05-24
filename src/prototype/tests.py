@@ -1,9 +1,12 @@
 from django.test import TestCase
 
-from prototype.models import Project
-from prototype.models import Model
 from protoLib.models import ProtoModel
+from prototype.models import Model
+from prototype.models import Project
+from prototype.models import Property
 from prototype.models import PropertyBase
+from prototype.models import PropertyEquivalence
+from prototype.models import Relationship
 
 
 def createTestProject():
@@ -96,6 +99,35 @@ def createTestProperty():
     testProperty.dbName = 'testDbName'
 
     return testProperty
+
+
+def createTestRelationShip():
+    testEntity = createTestEntity()
+    testEntity.save()
+
+    testRelationShip = Relationship()
+    testRelationShip.refEntity = testEntity
+    testRelationShip.relatedName = 'testRelatedName'
+    testRelationShip.baseMin = 'testBaseMin'
+    testRelationShip.baseMax = 'testBaseMax'
+    testRelationShip.refMin = 'testRefMin'
+    testRelationShip.refMax = 'testRefMax'
+    testRelationShip.onRefDelete = 'testOnRefDelete'
+    testRelationShip.typeRelation = 'testTypeRelation'
+
+    return testRelationShip
+
+
+def createTestPropertyEquivalence():
+    testProperty1 = createTestProperty()
+    testProperty2 = createTestProperty()
+
+    testPropertyEquivalence = PropertyEquivalence()
+    testPropertyEquivalence.sourceProperty = testProperty1
+    testPropertyEquivalence.targetProperty = testProperty2
+    testPropertyEquivalence.description = 'testDescription'
+
+    return testPropertyEquivalence
 
 
 class Project_ModelTest(TestCase):
@@ -220,7 +252,7 @@ class PropertyBase_ModelTest(ProtoModel):
         self.propertybase.save()
 
     def tearDown(self):
-        self.PropertyBase.delete()
+        self.propertybase.delete()
 
 
 class Property_ModelTest(PropertyBase):
@@ -248,15 +280,15 @@ class Property_ModelTest(PropertyBase):
         self.model.delete()
         self.project.delete()
 
-#class Relationship_ModelTest(Property):
-    #refEntity = models.ForeignKey('Entity', related_name = 'refEntity_set')
-    #relatedName = models.CharField( blank = True, null = True, max_length=50)
-    #baseMin = models.CharField( blank = True, null = True, max_length=50)
-    #baseMax = models.CharField( blank = True, null = True, max_length=50)
-    #refMin = models.CharField( blank = True, null = True, max_length=50)
-    #refMax = models.CharField( blank = True, null = True, max_length=50)
-    #onRefDelete = models.CharField( blank = True, null = True, max_length=50, choices = ONDELETE_TYPES)
-    #typeRelation = models.CharField( blank = True, null = True, max_length=50)
+
+class Relationship_ModelTest(Property):
+
+    def setUp(self):
+        self.entity = createTestEntity()
+        self.entity.save()
+
+        self.relationship = createTestRelationShip()
+        self.relationship.save()
 
 
 class PropertyModel_ModelTest(PropertyBase):
@@ -276,10 +308,12 @@ class PropertyModel_ModelTest(PropertyBase):
         self.model.delete()
         self.project.delete()
 
-#class PropertyEquivalence_ModelTest(ProtoModel):
-    #sourceProperty = models.ForeignKey('PropertyModel', blank = True, null = True, related_name = 'sourcePrp')
-    #targetProperty = models.ForeignKey('PropertyModel', blank = True, null = True, related_name = 'targetPrp')
-    #description = models.TextField( blank = True, null = True)
+
+class PropertyEquivalence_ModelTest(ProtoModel):
+
+    def setUp(self):
+        self.propertyEquivalence = createTestPropertyEquivalence()
+        self.propertyEquivalence.save()
 
 
 #class Prototype_ModelTest(ProtoModel):
