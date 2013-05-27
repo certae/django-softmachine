@@ -65,13 +65,14 @@ def updatePropInfo(myBase, propBase, modelBase, inherit):
     # Crea los PropertyModel correspondientes
     if (propBase is None) and (myBase._meta.object_name in ['Property', 'Relationship']):
 
-        pName = myBase.entity.code + '.' + myBase.code
         if myBase.isForeign:
             defValues['conceptType'] = 'ref'
             if myBase._meta.object_name == 'Property':
                 pName = myBase.relationship.refEntity.code + '.pk'
             if myBase._meta.object_name == 'Relationship':
                 pName = myBase.refEntity.code + '.pk'
+        else:
+            pName = myBase.entity.code + '.' + myBase.code
 
         pMod = modelBase.objects.get_or_create(model=myBase.entity.model, code=pName, smOwningTeam=myBase.smOwningTeam, defaults=defValues)[0]
         myBase.propertyModel = pMod

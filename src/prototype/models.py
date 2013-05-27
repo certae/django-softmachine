@@ -6,8 +6,8 @@ from django.db.models.signals import post_save, post_delete
 from protoLib.models import ProtoModel
 from protoLib.fields import JSONField,  JSONAwareManager
 
-from protoRules import  updatePropInfo, twoWayPropEquivalence, updProPropModel
-from protoRules import  ONDELETE_TYPES, BASE_TYPES, CRUD_TYPES, DB_ENGINE
+from protoRules import updatePropInfo, twoWayPropEquivalence, updProPropModel
+from protoRules import ONDELETE_TYPES, BASE_TYPES, CRUD_TYPES, DB_ENGINE
 
 
 from protoLib.utilsBase import slugify
@@ -45,30 +45,31 @@ PROTO_PREFIX = "prototype.ProtoTable."
         Model ( dependen del modelo, no se requiere declararlas en el admin )
 """
 
+
 class Project(ProtoModel):
 
     """Corresponde a un nivel conceptual corportativo MCCD"""
-    code = models.CharField(blank = False, null = False, max_length=200  )
-    description = models.TextField( blank = True, null = True)
+    code = models.CharField(blank=False, null=False, max_length=200)
+    description = models.TextField(blank=True, null=True)
 
     """Info de la Db """
-    dbEngine = models.CharField(blank = True, null = True, max_length=20, choices = DB_ENGINE, default = 'sqlite3'  )
-    dbName = models.CharField(blank = True, null = True, max_length=200  )
-    dbUser = models.CharField(blank = True, null = True, max_length=200  )
-    dbPassword = models.CharField(blank = True, null = True, max_length=200  )
-    dbHost = models.CharField(blank = True, null = True, max_length=200  )
-    dbPort = models.CharField(blank = True, null = True, max_length=200  )
+    dbEngine = models.CharField(blank=True, null=True, max_length=20, choices=DB_ENGINE, default='sqlite3')
+    dbName = models.CharField(blank=True, null=True, max_length=200)
+    dbUser = models.CharField(blank=True, null=True, max_length=200)
+    dbPassword = models.CharField(blank=True, null=True, max_length=200)
+    dbHost = models.CharField(blank=True, null=True, max_length=200)
+    dbPort = models.CharField(blank=True, null=True, max_length=200)
 
     def __unicode__(self):
-        return slugify( self.code )
+        return slugify(self.code)
 
     class Meta:
-        unique_together = ( 'code', 'smOwningTeam' )
+        unique_together = ('code', 'smOwningTeam')
         #permissions = (( "read_domain", "Can read project"), )
 
     protoExt = {
-        "actions": [{"name": "doImportSchema" },],
-        "gridConfig" : {
+        "actions": [{"name": "doImportSchema"}, ],
+        "gridConfig": {
             "listDisplay": ["__str__", "description", "smOwningTeam"]
         }
     }
@@ -82,56 +83,55 @@ class Model(ProtoModel):
     Los modelos son la unidad para generar una solucion ejecutable,
     los modelos pueden tener prefijos especificos para todas sus componentes ( entidades )
     """
-    project = models.ForeignKey('Project', blank = False, null = False )
-    code = models.CharField(blank = False, null = False, max_length=200 )
+    project = models.ForeignKey('Project', blank=False, null=False)
+    code = models.CharField(blank=False, null=False, max_length=200)
 
-    category = models.CharField(max_length=50, blank = True, null = True )
-    modelPrefix = models.CharField( blank = True, null = True, max_length=50)
-    description = models.TextField( blank = True, null = True)
+    category = models.CharField(max_length=50, blank=True, null=True)
+    modelPrefix = models.CharField(blank=True, null=True, max_length=50)
+    description = models.TextField(blank=True, null=True)
 
     class Meta:
-        unique_together = ('project', 'code', 'smOwningTeam' )
+        unique_together = ('project', 'code', 'smOwningTeam')
 
-    unicode_sort = ('project', 'code',  )
+    unicode_sort = ('project', 'code',)
 
     def __unicode__(self):
-        return slugify( self.code )
+        return slugify(self.code)
 
     protoExt = {
-        "actions": [{ "name": "doModelPrototype" }, { "name": "doModelGraph" } ],
-        "gridConfig" : {
+        "actions": [{"name": "doModelPrototype" }, {"name": "doModelGraph"}],
+        "gridConfig": {
             "listDisplay": ["__str__", "description", "smOwningTeam"]
         }
     }
-
 
 
 class Entity(ProtoModel):
     """
     Entity corresponde a las entidades FISICA;
     """
-    model = models.ForeignKey('Model', blank = False, null = False, related_name = 'entity_set' )
-    code = models.CharField( blank = False, null = False, max_length=200 )
+    model = models.ForeignKey('Model', blank=False, null=False, related_name='entity_set')
+    code = models.CharField(blank=False, null=False, max_length=200)
 
-    dbName = models.CharField(blank = True, null = True, max_length=200  )
-    description = models.TextField( blank = True, null = True)
+    dbName = models.CharField(blank=True, null=True, max_length=200)
+    description = models.TextField(blank=True, null=True)
 
     # Propieadad para ordenar el __str__
-    unicode_sort = ('model', 'code',  )
+    unicode_sort = ('model', 'code',)
 
     def __unicode__(self):
-        return slugify( self.model.code + '-' +  self.code )
+        return slugify(self.model.code + '-' + self.code)
 
     class Meta:
-        unique_together = ('model', 'code', 'smOwningTeam' )
+        unique_together = ('model', 'code', 'smOwningTeam')
 
     protoExt = {
         "actions": [
-            { "name": "doEntityPrototype", "selectionMode" : "single",
-              "actionParams": [{"name" : "viewCode", "type" : "string", "required": True,
-                                "tooltip" : "option de menu (msi)" }
-                               ]
-            },
+            {"name": "doEntityPrototype",
+             "selectionMode": "single",
+             "actionParams": [{"name": "viewCode", "type": "string", "required": True,
+             "tooltip": "option de menu (msi)"}]
+             },
         ],
         "detailsConfig": [
         {
@@ -141,14 +141,14 @@ class Entity(ProtoModel):
             "detailName": "entity",
             "detailField": "entity__pk",
             "masterField": "pk"
-        },{
+        }, {
             "__ptType": "detailDef",
             "menuText": "Relationships",
             "conceptDetail": "prototype.Relationship",
             "detailName": "entity",
             "detailField": "entity__pk",
             "masterField": "pk"
-        },{
+        }, {
             "__ptType": "detailDef",
             "menuText": "Views",
             "conceptDetail": "prototype.Prototype",
@@ -157,36 +157,35 @@ class Entity(ProtoModel):
             "masterField": "pk"
         }
         ],
-        "gridConfig" : {
+        "gridConfig": {
             "listDisplay": ["__str__", "description", "smOwningTeam"]
         }
     }
 
 
-
 class PropertyBase(ProtoModel):
 
-    code = models.CharField(blank = False, null = False, max_length=200 )
+    code = models.CharField(blank=False, null=False, max_length=200)
 
     """baseType, prpLength:  Caracteristicas generales q definen el campo """
-    baseType = models.CharField( blank = True, null = True, max_length=50, choices = BASE_TYPES, default = 'string')
-    prpLength = models.IntegerField(blank = True, null = True )
-    prpScale = models.IntegerField(blank = True, null = True )
+    baseType = models.CharField(blank=True, null=True, max_length=50, choices=BASE_TYPES, default='string')
+    prpLength = models.IntegerField(blank=True, null=True)
+    prpScale = models.IntegerField(blank=True, null=True)
 
     """vType : validation type ( formatos predefinidos email, .... ) """
-    vType = models.CharField( blank = True, null = True, max_length=50, choices = BASE_TYPES, default = 'string')
+    vType = models.CharField(blank=True, null=True, max_length=50, choices=BASE_TYPES, default='string')
 
     """prpDefault: Puede variar en cada instancia """
-    prpDefault = models.CharField( blank = True, null = True, max_length=50)
+    prpDefault = models.CharField(blank=True, null=True, max_length=50)
 
     """prpChoices:  Lista de valores CSV ( idioma?? ) """
-    prpChoices = models.TextField( blank = True, null = True)
+    prpChoices = models.TextField(blank=True, null=True)
 
     """isSensitive: Indica si las propiedades requieren un nivel mayor de seguridad """
     isSensitive = models.BooleanField()
 
-    description = models.TextField( blank = True, null = True)
-    notes  = models.TextField( blank = True, null = True)
+    description = models.TextField(blank=True, null=True)
+    notes = models.TextField(blank=True, null=True)
 
     class Meta:
         abstract = True
@@ -197,10 +196,10 @@ class Property(PropertyBase):
     Propiedades por tabla, definicion a nivel de modelo de datos.
     Las relaciones heredan de las propriedades y definien la cardinalidad
     """
-    entity = models.ForeignKey('Entity', related_name = 'property_set')
+    entity = models.ForeignKey('Entity', related_name='property_set')
 
     """propertyModel : corresponde a la especificacion en el modelo ( metodologia: user history )"""
-    propertyModel = models.ForeignKey('PropertyModel', blank = True, null = True, on_delete=models.SET_NULL )
+    propertyModel = models.ForeignKey('PropertyModel', blank=True, null=True, on_delete=models.SET_NULL)
 
     # -----------  caracteristicas propias de la instancia
     """isPrimary : en el prototipo siempre es artificial, implica isLookUpResult"""
@@ -216,29 +215,28 @@ class Property(PropertyBase):
     """isReadOnly: ReadOnly field ( frontEnd"""
     isReadOnly = models.BooleanField()
 
-
     """isEssential: Indica si las propiedades saldran en la vista por defecto """
     isEssential = models.BooleanField()
 
     """isForeign: indica si la propiedad ha sido definida en  Relationship"""
-    isForeign = models.BooleanField( editable = False, default = False )
+    isForeign = models.BooleanField(editable=False, default=False)
 
-    crudType    = models.CharField( blank = True, null = True, max_length=20, choices = CRUD_TYPES)
-    dbName = models.CharField(blank = True, null = True, max_length=200  )
+    crudType = models.CharField(blank=True, null=True, max_length=20, choices=CRUD_TYPES)
+    dbName = models.CharField(blank=True, null=True, max_length=200)
 
     """solo para ordenar los campos en la entidad"""
     #secuence = models.IntegerField(blank = True, null = True,)
 
-    def save(self, *args, **kwargs ):
+    def save(self, *args, **kwargs):
         if self.isPrimary:
             self.isRequired = True
             self.isLookUpResult = True
 
-        updatePropInfo( self,  self.propertyModel, PropertyModel, False )
+        updatePropInfo(self,  self.propertyModel, PropertyModel, False)
         super(Property, self).save(*args, **kwargs)
 
     class Meta:
-        unique_together = ('entity', 'code', 'smOwningTeam' )
+        unique_together = ('entity', 'code', 'smOwningTeam')
 
     def __unicode__(self):
         return slugify( self.entity.code  + '.' +  self.code )

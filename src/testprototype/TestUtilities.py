@@ -12,6 +12,8 @@ def createTestProject():
     testProject.dbHost = 'testlocalhost'
     testProject.dbPort = 'testPort'
 
+    testProject.save()
+
     return testProject
 
 
@@ -26,6 +28,8 @@ def createTestModel():
     testModel.modelPrefix = 'testPrefix'
     testModel.description = 'Model used for tests'
 
+    testModel.save()
+
     return testModel
 
 
@@ -38,6 +42,8 @@ def createTestEntity():
     testEntity.code = 'testEntityCode'
     testEntity.dbName = 'testEntitydbName'
     testEntity.description = 'testEntityDescription'
+
+    testEntity.save()
 
     return testEntity
 
@@ -55,6 +61,8 @@ def createTestPropertyBase():
     testPropertyBase.description = 'testDescription'
     testPropertyBase.notes = 'testNotes'
 
+    testPropertyBase.save()
+
     return testPropertyBase
 
 
@@ -66,6 +74,8 @@ def createTestPropertyModel():
     testPropertyModel.model = testModel
     testPropertyModel.inherit = False
     testPropertyModel.conceptType = 'testConceptType'
+
+    testPropertyModel.save()
 
     return testPropertyModel
 
@@ -90,24 +100,28 @@ def createTestProperty():
     testProperty.crudType = 'testCrudType'
     testProperty.dbName = 'testDbName'
 
+    testProperty.save()
+
     return testProperty
 
 
-def createTestRelationship():
-    testEntity = createTestEntity()
-    testEntity.save()
+#def createTestRelationship():
+    #testEntity = createTestEntity()
+    #testEntity.save()
 
-    testRelationShip = Relationship()
-    testRelationShip.refEntity = testEntity
-    testRelationShip.relatedName = 'testRelatedName'
-    testRelationShip.baseMin = 'testBaseMin'
-    testRelationShip.baseMax = 'testBaseMax'
-    testRelationShip.refMin = 'testRefMin'
-    testRelationShip.refMax = 'testRefMax'
-    testRelationShip.onRefDelete = 'testOnRefDelete'
-    testRelationShip.typeRelation = 'testTypeRelation'
+    #testRelationShip = Relationship()
+    #testRelationShip.refEntity = testEntity
+    #testRelationShip.relatedName = 'testRelatedName'
+    #testRelationShip.baseMin = 'testBaseMin'
+    #testRelationShip.baseMax = 'testBaseMax'
+    #testRelationShip.refMin = 'testRefMin'
+    #testRelationShip.refMax = 'testRefMax'
+    #testRelationShip.onRefDelete = 'testOnRefDelete'
+    #testRelationShip.typeRelation = 'testTypeRelation'
 
-    return testRelationShip
+    #testRelationShip.save()
+
+    #return testRelationShip
 
 
 def createTestPropertyEquivalence():
@@ -120,6 +134,8 @@ def createTestPropertyEquivalence():
     testPropertyEquivalence.sourceProperty = testPropertyModel1
     testPropertyEquivalence.targetProperty = testPropertyModel2
     testPropertyEquivalence.description = 'testDescription'
+
+    testPropertyEquivalence.save()
 
     return testPropertyEquivalence
 
@@ -135,6 +151,8 @@ def createTestPrototype():
     testPrototype.notes = 'testNotes'
     testPrototype.metaDefinition = 'testMetaDefinition'
 
+    testPrototype.save()
+
     return testPrototype
 
 
@@ -147,6 +165,8 @@ def createTestDiagram():
     testDiagram.code = 'testCode'
     testDiagram.description = 'testDescription'
     testDiagram.notes = 'testNotes'
+
+    testDiagram.save()
 
     return testDiagram
 
@@ -162,6 +182,8 @@ def createTestDiagramEntity():
     testDiagramEntity.diagram = testDiagram
     testDiagramEntity.entity = testEntity
 
+    testDiagramEntity.save()
+
     return testDiagramEntity
 
 
@@ -176,6 +198,8 @@ def createTestService():
     testService.typeMessage = 'testMessage'
     testService.description = 'testDescription'
     testService.notes = 'testNotes'
+
+    testService.save()
 
     return testService
 
@@ -194,6 +218,8 @@ def createTestServiceRef():
     testServiceRef.description = 'testDescription'
     testServiceRef.notes = 'testNotes'
 
+    testServiceRef.save()
+
     return testServiceRef
 
 
@@ -203,5 +229,7 @@ def createTestProtoTable():
 
     testProtoTable = ProtoTable()
     testProtoTable.entity = testEntity
+
+    testProtoTable.save()
 
     return testProtoTable

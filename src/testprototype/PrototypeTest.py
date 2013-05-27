@@ -7,7 +7,6 @@ class PrototypeTest(TestCase):
 
     def setUp(self):
         self.prototype = createTestPrototype()
-        self.prototype.save()
 
     def tearDown(self):
         self.prototype.delete()

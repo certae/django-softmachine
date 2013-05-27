@@ -7,7 +7,6 @@ class ProjectTest(TestCase):
 
     def setUp(self):
         self.project = createTestProject()
-        self.project.save()
 
     def tearDown(self):
         self.project.delete()

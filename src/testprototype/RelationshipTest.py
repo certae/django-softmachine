@@ -1,15 +1,13 @@
 from django.test import TestCase
 from prototype.models import Relationship
-from testprototype.TestUtilities import createTestRelationship
+#from testprototype.TestUtilities import createTestRelationship
 
 
-# Error with save()
 class RelationshipTest(TestCase):
 
     def setUp(self):
-        print('\n' + __file__ + 'Erreur dans le fichier prototype/protoRules.py ligne 73. \n')
+        pass
         #self.relationship = createTestRelationship()
-        #self.relationship.save()
 
     def tearDown(self):
         pass

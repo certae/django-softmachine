@@ -3,7 +3,7 @@ from testprototype.ModelTest import ModelTest
 from testprototype.EntityTest import EntityTest
 #from prototype.PropertyBaseTest import PropertyBaseTest
 from testprototype.PropertyTest import PropertyTest
-from testprototype.RelationshipTest import RelationshipTest
+#from testprototype.RelationshipTest import RelationshipTest
 from testprototype.PropertyModelTest import PropertyModelTest
 from testprototype.PropertyEquivalenceTest import PropertyEquivalenceTest
 from testprototype.PrototypeTest import PrototypeTest

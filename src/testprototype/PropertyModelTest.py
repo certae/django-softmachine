@@ -7,7 +7,6 @@ class PropertyModelTest(TestCase):
 
     def setUp(self):
         self.propertymodel = createTestPropertyModel()
-        self.propertymodel.save()
 
     def tearDown(self):
         self.propertymodel.delete()

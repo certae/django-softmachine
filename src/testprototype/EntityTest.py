@@ -7,7 +7,6 @@ class EntityTest(TestCase):
 
     def setUp(self):
         self.entity = createTestEntity()
-        self.entity.save()
 
     def tearDown(self):
         self.entity.delete()

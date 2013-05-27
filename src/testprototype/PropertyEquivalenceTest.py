@@ -7,7 +7,6 @@ class PropertyEquivalenceTest(TestCase):
 
     def setUp(self):
         self.propertyequivalence = createTestPropertyEquivalence()
-        self.propertyequivalence.save()
 
     def tearDown(self):
         self.propertyequivalence.delete()

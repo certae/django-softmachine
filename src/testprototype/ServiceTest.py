@@ -7,7 +7,6 @@ class ServiceTest(TestCase):
 
     def setUp(self):
         self.service = createTestService()
-        self.service.save()
 
     def tearDown(self):
         self.service.delete()

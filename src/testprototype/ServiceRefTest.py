@@ -7,7 +7,6 @@ class ServiceRefTest(TestCase):
 
     def setUp(self):
         self.serviceRef = createTestServiceRef()
-        self.serviceRef.save()
 
     def tearDown(self):
         self.serviceRef.delete()

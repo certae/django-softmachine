@@ -3,12 +3,10 @@ from prototype.models import ProtoTable
 from testprototype.TestUtilities import createTestProtoTable
 
 
-# AttributeError: 'NoneType' object has no attribute 'save'
 class ProtoTableTest(TestCase):
 
     def setUp(self):
         self.protoTable = createTestProtoTable()
-        self.protoTable.save()
 
     def tearDown(self):
         self.protoTable.delete()

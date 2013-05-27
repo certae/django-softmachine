@@ -7,7 +7,6 @@ class DiagramTest(TestCase):
 
     def setUp(self):
         self.diagram = createTestDiagram()
-        self.diagram.save()
 
     def tearDown(self):
         self.diagram.delete()

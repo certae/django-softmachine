@@ -7,7 +7,6 @@ class ModelTest(TestCase):
 
     def setUp(self):
         self.model = createTestModel()
-        self.model.save()
 
     def tearDown(self):
         self.model.delete()
