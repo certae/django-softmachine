@@ -41,7 +41,7 @@ DATABASES = {
 #        'PORT': '3306',
 #    },
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql',  'oracle'.
+        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql',  'oracle'.
 #        'NAME': PPATH + '/db/protoMeta.db',
         'NAME': PPATH + '/db/protoMetaCertae.db',
     }
