@@ -2,7 +2,6 @@
 
 # Django settings for PROTO project.
 import os.path
-import sys
 PPATH = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)).replace('\\', '/')
 
 if PPATH.startswith('/'):
