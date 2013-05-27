@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 # Django settings for PROTO project.
-import os.path, sys
-PPATH = os.path.abspath( os.path.join( os.path.dirname(__file__), os.pardir )).replace('\\','/')
+import os.path
+import sys
+PPATH = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)).replace('\\', '/')
 
 if PPATH.startswith('/'):
     EXT_PATH = '/u/data/ExtJs'
@@ -11,38 +12,38 @@ else:
 
 
 if ('/src' in PPATH):
-    PPATH = os.path.abspath(os.path.join( PPATH, os.pardir )).replace('\\','/')
+    PPATH = os.path.abspath(os.path.join(PPATH, os.pardir)).replace('\\', '/')
 
 # Django settings for modelibra project.
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-     ('Dario Gomez', 'certae_dariogomez@gmail.com'),
+    ('Dario Gomez', 'certae_dariogomez@gmail.com'),
 )
 
 MANAGERS = ADMINS
 
 DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#        'NAME':   'protoExt',
-#        'USER':   'postgres',                      # Not used with sqlite3.
-#        'PASSWORD': '1',               # Not used with sqlite3.
-#        'HOST': '127.0.0.1',             # Set to empty string for localhost. Not used with sqlite3.
-#        'PORT': '9432',                      # Set to empty string for default. Not used with sqlite3.
-#    },
-#    'default': {
-#        'ENGINE': 'django.db.backends.mysql',
-#        'NAME':   'protogn',
-#        'USER': 'root',
-#        'PASSWORD': 'certae1',
-#        'HOST': '127.0.0.1',
-#        'PORT': '3306',
-#    },
+    #    'default': {
+    #        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #        'NAME':   'protoExt',
+    #        'USER':   'postgres',                      # Not used with sqlite3.
+    #        'PASSWORD': '1',               # Not used with sqlite3.
+    #        'HOST': '127.0.0.1',             # Set to empty string for localhost. Not used with sqlite3.
+    #        'PORT': '9432',                      # Set to empty string for default. Not used with sqlite3.
+    #    },
+    #    'default': {
+    #        'ENGINE': 'django.db.backends.mysql',
+    #        'NAME':   'protogn',
+    #        'USER': 'root',
+    #        'PASSWORD': 'certae1',
+    #        'HOST': '127.0.0.1',
+    #        'PORT': '3306',
+    #    },
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql',  'oracle'.
-#        'NAME': PPATH + '/db/protoMeta.db',
+    #   'NAME': PPATH + '/db/protoMeta.db',
         'NAME': PPATH + '/db/protoMetaCertae.db',
     }
 }
@@ -123,7 +124,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    #'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -136,14 +137,14 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.eggs.Loader',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
-                               "django.core.context_processors.debug",
-                               "django.core.context_processors.i18n",
-                               "django.core.context_processors.media",
-                               "django.core.context_processors.static",
-                               "django.core.context_processors.request",
-                               "django.contrib.messages.context_processors.messages"
-                               )
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.request",
+    "django.contrib.messages.context_processors.messages")
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -158,8 +159,8 @@ ROOT_URLCONF = 'urls'
 TEMPLATE_DIRS = (
     PPATH + '/templates',
 
-#    '/home/dario/data/PyDjango/protoExt/src/django_qbe/templates',
-#    'D:/data/PyDjango/protoExt/src/django_qbe   /templates',
+    #'/home/dario/data/PyDjango/protoExt/src/django_qbe/templates',
+    #'D:/data/PyDjango/protoExt/src/django_qbe   /templates',
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -178,11 +179,11 @@ INSTALLED_APPS = (
     'protoLib',
     'prototype',
     'best',
-#    'shiny',
-#    'CategoryCle',
-#    'TCO'
-#    'django_extensions',
-#    'django_qbe'
+    #'shiny',
+    #'CategoryCle',
+    #'TCO'
+    #'django_extensions',
+    #'django_qbe'
 )
 
 # A sample logging configuration. The only tangible logging
@@ -228,5 +229,3 @@ PROTO_APP = {}
 #    'protoDict' : { 'hidden': False, 'title': 'Dictionnaire', 'expanded':False , 'menu_index' : 30  },
 #    'protoLib': { 'hidden': False, 'title': 'Métadonnée', 'expanded':False, 'menu_index' : 99  },
 #    }
-
-
