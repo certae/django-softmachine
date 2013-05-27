@@ -664,6 +664,16 @@ class DiagramEntity_ModelTest(TestCase):
         diagramentity_in_database = DiagramEntity.objects.all()
         self.assertEqual(len(diagramentity_in_database), 1)
 
+    def test_verifying_diagramentity_attribute_diagram_in_database(self):
+        diagramentity_in_database = DiagramEntity.objects.all()
+        only_entry_in_database = diagramentity_in_database[0]
+        self.assertEqual(only_entry_in_database.diagram, self.diagramEntity.diagram)
+
+    def test_verifying_diagramentity_attribute_entity_in_database(self):
+        diagramentity_in_database = DiagramEntity.objects.all()
+        only_entry_in_database = diagramentity_in_database[0]
+        self.assertEqual(only_entry_in_database.entity, self.diagramEntity.entity)
+
 
 class Service_ModelTest(TestCase):
 
@@ -678,6 +688,36 @@ class Service_ModelTest(TestCase):
         service_in_database = Service.objects.all()
         self.assertEqual(len(service_in_database), 1)
 
+    def test_verifying_service_attribute_model_in_database(self):
+        service_in_database = Service.objects.all()
+        only_entry_in_database = service_in_database[0]
+        self.assertEqual(only_entry_in_database.model, self.service.model)
+
+    def test_verifying_service_attribute_code_in_database(self):
+        service_in_database = Service.objects.all()
+        only_entry_in_database = service_in_database[0]
+        self.assertEqual(only_entry_in_database.code, self.service.code)
+
+    def test_verifying_service_attribute_binding_in_database(self):
+        service_in_database = Service.objects.all()
+        only_entry_in_database = service_in_database[0]
+        self.assertEqual(only_entry_in_database.Binding, self.service.Binding)
+
+    def test_verifying_service_attribute_typemessage_in_database(self):
+        service_in_database = Service.objects.all()
+        only_entry_in_database = service_in_database[0]
+        self.assertEqual(only_entry_in_database.typeMessage, self.service.typeMessage)
+
+    def test_verifying_service_attribute_description_in_database(self):
+        service_in_database = Service.objects.all()
+        only_entry_in_database = service_in_database[0]
+        self.assertEqual(only_entry_in_database.description, self.service.description)
+
+    def test_verifying_service_attribute_notes_in_database(self):
+        service_in_database = Service.objects.all()
+        only_entry_in_database = service_in_database[0]
+        self.assertEqual(only_entry_in_database.notes, self.service.notes)
+
 
 class ServiceRef_ModelTest(TestCase):
 
@@ -691,3 +731,28 @@ class ServiceRef_ModelTest(TestCase):
     def test_creating_a_new_serviceref_and_saving_it_to_the_database(self):
         serviceref_in_database = ServiceRef.objects.all()
         self.assertEqual(len(serviceref_in_database), 1)
+
+    def test_verifying_serviceref_attribute_model_in_database(self):
+        serviceref_in_database = ServiceRef.objects.all()
+        only_entry_in_database = serviceref_in_database[0]
+        self.assertEqual(only_entry_in_database.model, self.serviceRef.model)
+
+    def test_verifying_serviceref_attribute_service_in_database(self):
+        serviceref_in_database = ServiceRef.objects.all()
+        only_entry_in_database = serviceref_in_database[0]
+        self.assertEqual(only_entry_in_database.service, self.serviceRef.service)
+
+    def test_verifying_serviceref_attribute_endpoint_in_database(self):
+        serviceref_in_database = ServiceRef.objects.all()
+        only_entry_in_database = serviceref_in_database[0]
+        self.assertEqual(only_entry_in_database.endpoint, self.serviceRef.endpoint)
+
+    def test_verifying_serviceref_attribute_description_in_database(self):
+        serviceref_in_database = ServiceRef.objects.all()
+        only_entry_in_database = serviceref_in_database[0]
+        self.assertEqual(only_entry_in_database.description, self.serviceRef.description)
+
+    def test_verifying_serviceref_attribute_notes_in_database(self):
+        serviceref_in_database = ServiceRef.objects.all()
+        only_entry_in_database = serviceref_in_database[0]
+        self.assertEqual(only_entry_in_database.notes, self.serviceRef.notes)
