@@ -1,11 +1,10 @@
 from prototype.models import *
-#from testprototype.PropertyBaseTest import PropertyBaseChild
 
 
 def createTestProject():
     testProject = Project()
 
-    #testProject = {
+    #data = {
         #'code': 'testCode',
         #'description': 'Project used for tests',
         #'dbEngine': 'MySQL',
@@ -25,6 +24,9 @@ def createTestProject():
     testProject.dbHost = 'testlocalhost'
     testProject.dbPort = 'testPort'
 
+    #print(type(testProject))
+
+    #testProject = data
     #print(type(testProject))
 
     testProject.save()
@@ -122,23 +124,23 @@ def createTestProperty():
     return testProperty
 
 
-#def createTestRelationship():
-    #testEntity = createTestEntity()
-    #testEntity.save()
+def createTestRelationship():
+    testEntity = createTestEntity()
+    testEntity.save()
 
-    #testRelationShip = Relationship()
-    #testRelationShip.refEntity = testEntity
-    #testRelationShip.relatedName = 'testRelatedName'
-    #testRelationShip.baseMin = 'testBaseMin'
-    #testRelationShip.baseMax = 'testBaseMax'
-    #testRelationShip.refMin = 'testRefMin'
-    #testRelationShip.refMax = 'testRefMax'
-    #testRelationShip.onRefDelete = 'testOnRefDelete'
-    #testRelationShip.typeRelation = 'testTypeRelation'
+    testRelationShip = Relationship()
+    testRelationShip.refEntity = testEntity
+    testRelationShip.relatedName = 'testPropertyModel'
+    testRelationShip.baseMin = 'testBaseMin'
+    testRelationShip.baseMax = 'testBaseMax'
+    testRelationShip.refMin = 'testRefMin'
+    testRelationShip.refMax = 'testRefMax'
+    testRelationShip.onRefDelete = 'testOnRefDelete'
+    testRelationShip.typeRelation = 'testTypeRelation'
 
-    #testRelationShip.save()
+    testRelationShip.save()
 
-    #return testRelationShip
+    return testRelationShip
 
 
 def createTestPropertyEquivalence():

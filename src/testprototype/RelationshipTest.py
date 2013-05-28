@@ -1,17 +1,17 @@
 from django.test import TestCase
 from prototype.models import Relationship
-#from testprototype.TestUtilities import createTestRelationship
+from testprototype.TestUtilities import createTestRelationship
 
 
 class RelationshipTest(TestCase):
 
     def setUp(self):
-        pass
-        #self.relationship = createTestRelationship()
+        #pass
+        self.relationship = createTestRelationship()
 
     def tearDown(self):
-        pass
-        #self.relationship.delete()
+        #pass
+        self.relationship.delete()
 
     def test_annule(self):
         pass
