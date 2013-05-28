@@ -1,8 +1,21 @@
 from prototype.models import *
+#from testprototype.PropertyBaseTest import PropertyBaseChild
 
 
 def createTestProject():
     testProject = Project()
+
+    #testProject = {
+        #'code': 'testCode',
+        #'description': 'Project used for tests',
+        #'dbEngine': 'MySQL',
+        #'dbName': 'testDatabase',
+        #'dbUser': 'testdbUser',
+        #'dbPassword': 'testdbPassword',
+        #'dbHost': 'testlocalhost',
+        #'dbPort': 'testPort'
+    #}
+
     testProject.code = 'testCode'
     testProject.description = 'Project used for tests'
     testProject.dbEngine = 'MySQL'
@@ -11,6 +24,8 @@ def createTestProject():
     testProject.dbPassword = 'testdbPassword'
     testProject.dbHost = 'testlocalhost'
     testProject.dbPort = 'testPort'
+
+    #print(type(testProject))
 
     testProject.save()
 
@@ -48,22 +63,24 @@ def createTestEntity():
     return testEntity
 
 
-def createTestPropertyBase():
-    testPropertyBase = PropertyBase()
-    testPropertyBase.code = 'testCode'
-    testPropertyBase.baseType = 'testBaseType'
-    testPropertyBase.prpLength = 'testPrpLength'
-    testPropertyBase.prpScale = 'testPrpScale'
-    testPropertyBase.vType = 'testVType'
-    testPropertyBase.prpDefault = 'testPrpDefault'
-    testPropertyBase.prpChoices = 'testPrpChoises'
-    testPropertyBase.isSensitive = True
-    testPropertyBase.description = 'testDescription'
-    testPropertyBase.notes = 'testNotes'
+def createTestPropertyBaseChild():
+    someInteger = 25
 
-    testPropertyBase.save()
+    testPropertyBaseChild = PropertyBaseChild()
+    testPropertyBaseChild.code = 'testCode'
+    testPropertyBaseChild.baseType = 'testBaseType'
+    testPropertyBaseChild.prpLength = someInteger
+    testPropertyBaseChild.prpScale = someInteger
+    testPropertyBaseChild.vType = 'testVType'
+    testPropertyBaseChild.prpDefault = 'testPrpDefault'
+    testPropertyBaseChild.prpChoices = 'testPrpChoises'
+    testPropertyBaseChild.isSensitive = True
+    testPropertyBaseChild.description = 'testDescription'
+    testPropertyBaseChild.notes = 'testNotes'
 
-    return testPropertyBase
+    testPropertyBaseChild.save()
+
+    return testPropertyBaseChild
 
 
 def createTestPropertyModel():

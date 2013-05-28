@@ -2,7 +2,7 @@ from testprototype.ProjectTest import ProjectTest
 from testprototype.ModelTest import ModelTest
 from testprototype.EntityTest import EntityTest
 
-#from prototype.PropertyBaseTest import PropertyBaseTest
+from testprototype.PropertyBaseTest import PropertyBaseChildTest
 
 from testprototype.PropertyTest import PropertyTest
 
