@@ -522,7 +522,6 @@ class DiagramEntity(ProtoModel):
 
 
 
-
 class Service(ProtoModel):
     """
     TODO: Servicios entre modelos ( entidades virtuales )
