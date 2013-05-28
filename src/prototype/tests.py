@@ -15,6 +15,7 @@ from testprototype.DiagramEntityTest import DiagramEntityTest
 from testprototype.ServiceTest import ServiceTest
 from testprototype.ServiceRefTest import ServiceRefTest
 
+# Probleme car Project herite de protoModel et non de models.Model
 
 #from unittest import TestSuite
 #from unittest import makeSuite
