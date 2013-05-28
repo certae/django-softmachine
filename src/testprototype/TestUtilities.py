@@ -2,32 +2,19 @@ from prototype.models import *
 
 
 def createTestProject():
-    testProject = Project()
 
-    #data = {
-        #'code': 'testCode',
-        #'description': 'Project used for tests',
-        #'dbEngine': 'MySQL',
-        #'dbName': 'testDatabase',
-        #'dbUser': 'testdbUser',
-        #'dbPassword': 'testdbPassword',
-        #'dbHost': 'testlocalhost',
-        #'dbPort': 'testPort'
-    #}
+    projectdata = {
+        'code': 'testCode',
+        'description': 'Project used for tests',
+        'dbEngine': 'MySQL',
+        'dbName': 'testDatabase',
+        'dbUser': 'testdbUser',
+        'dbPassword': 'testdbPassword',
+        'dbHost': 'testlocalhost',
+        'dbPort': 'testPort'
+    }
 
-    testProject.code = 'testCode'
-    testProject.description = 'Project used for tests'
-    testProject.dbEngine = 'MySQL'
-    testProject.dbName = 'testDatabase'
-    testProject.dbUser = 'testdbUser'
-    testProject.dbPassword = 'testdbPassword'
-    testProject.dbHost = 'testlocalhost'
-    testProject.dbPort = 'testPort'
-
-    #print(type(testProject))
-
-    #testProject = data
-    #print(type(testProject))
+    testProject = Project(**projectdata)
 
     testProject.save()
 
@@ -125,11 +112,17 @@ def createTestProperty():
 
 
 def createTestRelationship():
-    testEntity = createTestEntity()
-    testEntity.save()
+    testEntity1 = createTestEntity()
+    testEntity1.save()
+
+    testEntity2 = createTestEntity()
+    testEntity2.save()
+
+    testPropertyModel = createTestPropertyModel()
+    testPropertyModel.save()
 
     testRelationShip = Relationship()
-    testRelationShip.refEntity = testEntity
+    testRelationShip.refEntity = testEntity1
     testRelationShip.relatedName = 'testPropertyModel'
     testRelationShip.baseMin = 'testBaseMin'
     testRelationShip.baseMax = 'testBaseMax'
@@ -137,6 +130,18 @@ def createTestRelationship():
     testRelationShip.refMax = 'testRefMax'
     testRelationShip.onRefDelete = 'testOnRefDelete'
     testRelationShip.typeRelation = 'testTypeRelation'
+
+    testRelationShip.entity = testEntity2
+    testRelationShip.propertyModel = testPropertyModel
+    testRelationShip.isPrimary = True
+    testRelationShip.isLookUpResult = True
+    testRelationShip.isNullable = True
+    testRelationShip.isRequired = True
+    testRelationShip.isReadOnly = True
+    testRelationShip.isEssential = True
+    testRelationShip.isForeign = False
+    testRelationShip.crudType = 'testCrudType'
+    testRelationShip.dbName = 'testDbName'
 
     testRelationShip.save()
 
