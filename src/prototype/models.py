@@ -99,7 +99,7 @@ class Model(ProtoModel):
         return slugify(self.code)
 
     protoExt = {
-        "actions": [{"name": "doModelPrototype" }, {"name": "doModelGraph"}],
+        "actions": [{"name": "doModelPrototype"}, {"name": "doModelGraph"}],
         "gridConfig": {
             "listDisplay": ["__str__", "description", "smOwningTeam"]
         }
@@ -239,12 +239,12 @@ class Property(PropertyBase):
         unique_together = ('entity', 'code', 'smOwningTeam')
 
     def __unicode__(self):
-        return slugify( self.entity.code  + '.' +  self.code )
+        return slugify(self.entity.code + '.' + self.code)
 
-    unicode_sort = ('entity', 'code',  )
+    unicode_sort = ('entity', 'code',)
 
     protoExt = {
-        "gridConfig" : {
+        "gridConfig": {
             "listDisplay": ["__str__", "description", "smOwningTeam"]
         }
     }
@@ -256,39 +256,35 @@ class Relationship(Property):
     """
 
     """refEntity : entidad referenciada"""
-    refEntity = models.ForeignKey('Entity', related_name = 'refEntity_set')
+    refEntity = models.ForeignKey('Entity', related_name='refEntity_set')
 
     """relatedName:  Nombre del set en la tabla primaria ( modelacion objeto )  """
-    relatedName = models.CharField( blank = True, null = True, max_length=50)
+    relatedName = models.CharField(blank=True, null=True, max_length=50)
 
     # Cardanlidad
-    baseMin = models.CharField( blank = True, null = True, max_length=50)
-    baseMax = models.CharField( blank = True, null = True, max_length=50)
+    baseMin = models.CharField(blank=True, null=True, max_length=50)
+    baseMax = models.CharField(blank=True, null=True, max_length=50)
 
-    refMin = models.CharField( blank = True, null = True, max_length=50)
-    refMax = models.CharField( blank = True, null = True, max_length=50)
+    refMin = models.CharField(blank=True, null=True, max_length=50)
+    refMax = models.CharField(blank=True, null=True, max_length=50)
 
     # Comportamiento en la db ( typeRelation : Fort, Info )
-    onRefDelete = models.CharField( blank = True, null = True, max_length=50, choices = ONDELETE_TYPES)
-    typeRelation = models.CharField( blank = True, null = True, max_length=50)
+    onRefDelete = models.CharField(blank=True, null=True, max_length=50, choices=ONDELETE_TYPES)
+    typeRelation = models.CharField(blank=True, null=True, max_length=50)
 
     def __unicode__(self):
-        return slugify( self.entity.code + '.' +  self.code )
+        return slugify(self.entity.code + '.' + self.code)
 
-    def save(self, *args, **kwargs ):
+    def save(self, *args, **kwargs):
         self.isForeign = True
         super(Relationship, self).save(*args, **kwargs)
 
     protoExt = {
-        "gridConfig" : {
-            "listDisplay": ["__str__", "description", "smOwningTeam" ]
+        "gridConfig": {
+            "listDisplay": ["__str__", "description", "smOwningTeam"]
         },
-        "exclude": [ "baseType","prpLength","prpDefault","prpChoices"]
-        }
-
-
-# ---------------------------
-
+        "exclude": ["baseType", "prpLength", "prpDefault", "prpChoices"]
+    }
 
 
 class PropertyModel(PropertyBase):
@@ -304,47 +300,49 @@ class PropertyModel(PropertyBase):
     * pero el primer paso en podria implicar la definicion semantica de propiedades por modelo,
 
     """
-    model = models.ForeignKey('Model', blank = False, null = False )
-    inherit = models.BooleanField( default = False )
-    conceptType = models.CharField( blank = True, null = True, max_length=50, editable=False )
+    model = models.ForeignKey('Model', blank=False, null=False)
+    inherit = models.BooleanField(default=False)
+    conceptType = models.CharField(blank=True, null=True, max_length=50, editable=False)
 
     def __unicode__(self):
-        return slugify( self.model.code + '.' + self.code )
+        return slugify(self.model.code + '.' + self.code)
 
     class Meta:
-        unique_together = ('model', 'code', 'smOwningTeam' )
+        unique_together = ('model', 'code', 'smOwningTeam')
 
-    def save(self, *args, **kwargs ):
+    def save(self, *args, **kwargs):
         # Envia el heredado y se asegura q sea Falso siempre
-        updatePropInfo( self,  None, PropertyModel, self.inherit   )
+        updatePropInfo(self, None, PropertyModel, self.inherit)
         self.inherit = False
         super(PropertyModel, self).save(*args, **kwargs)
 
     protoExt = {
-#    "menuApp" : "dictionary",
-    "actions": [
-        { "name": "doPropertyModelJoin",
-          "selectionMode" : "multiple",
-          "refreshOnComplete" : True
-        },
-    ],
-    "gridConfig" : {
+        #"menuApp" : "dictionary",
+        "actions": [
+            {
+                "name": "doPropertyModelJoin",
+                "selectionMode": "multiple",
+                "refreshOnComplete": True
+            },
+        ],
+        "gridConfig": {
         "listDisplay": ["__str__", "description", "inherit", "conceptType", "smOwningTeam"]
-    },
+        },
 
-    "detailsConfig": [{
-        "menuText": "Properties",
-        "conceptDetail": "prototype.Property",
-        "detailName": "propertyModel",
-        "detailField": "propertyModel__pk",
-        "masterField": "pk"
-    }, {
-        "menuText": "Equivalences",
-        "conceptDetail": "prototype.PropertyEquivalence",
-        "detailName": "sourceProperty",
-        "detailField": "sourceProperty__pk",
-        "masterField": "pk"
-    }],
+        "detailsConfig": [
+            {
+                "menuText": "Properties",
+                "conceptDetail": "prototype.Property",
+                "detailName": "propertyModel",
+                "detailField": "propertyModel__pk",
+                "masterField": "pk"
+            }, {
+                "menuText": "Equivalences",
+                "conceptDetail": "prototype.PropertyEquivalence",
+                "detailName": "sourceProperty",
+                "detailField": "sourceProperty__pk",
+                "masterField": "pk"
+            }],
 
     }
 
@@ -352,10 +350,10 @@ class PropertyModel(PropertyBase):
 def propModel_post_delete(sender, instance, **kwargs):
     # En el postSave ya el registro de hijos no existe,
     # la solucion mas simple las props con propMod = None y tocarlos
-    updProPropModel( Property )
+    updProPropModel(Property)
     pass
 
-post_delete.connect(propModel_post_delete, sender = PropertyModel)
+post_delete.connect(propModel_post_delete, sender=PropertyModel)
 
 
 class PropertyEquivalence(ProtoModel):
@@ -369,32 +367,33 @@ class PropertyEquivalence(ProtoModel):
     o q al momento de guardar generara la relacion inversa y actualizara simpre los dos ( privilegiada )
     """
 
-    sourceProperty = models.ForeignKey('PropertyModel', blank = True, null = True, related_name = 'sourcePrp')
-    targetProperty = models.ForeignKey('PropertyModel', blank = True, null = True, related_name = 'targetPrp')
+    sourceProperty = models.ForeignKey('PropertyModel', blank=True, null=True, related_name='sourcePrp')
+    targetProperty = models.ForeignKey('PropertyModel', blank=True, null=True, related_name='targetPrp')
 
-    description = models.TextField( blank = True, null = True)
+    description = models.TextField(blank=True, null=True)
 
     def __unicode__(self):
-        return slugify( self.sourceProperty.code + ' - ' + self.targetProperty.code )
+        return slugify(self.sourceProperty.code + ' - ' + self.targetProperty.code)
 
     class Meta:
-        unique_together = ('sourceProperty', 'targetProperty', 'smOwningTeam' )
+        unique_together = ('sourceProperty', 'targetProperty', 'smOwningTeam')
 
     def delete(self, *args, **kwargs):
-        twoWayPropEquivalence( self, PropertyEquivalence, True )
+        twoWayPropEquivalence(self, PropertyEquivalence, True)
         super(PropertyEquivalence, self).delete(*args, **kwargs)
 
     protoExt = {
-#        "menuApp" : "dictionary",
-        "gridConfig" : {
+        #"menuApp" : "dictionary",
+        "gridConfig": {
             "listDisplay": ["__str__", "description", "smOwningTeam"]
         }
     }
 
-def propEquivalence_post_save(sender, instance, created, **kwargs):
-    twoWayPropEquivalence( instance, PropertyEquivalence, False )
 
-post_save.connect(propEquivalence_post_save, sender = PropertyEquivalence)
+def propEquivalence_post_save(sender, instance, created, **kwargs):
+    twoWayPropEquivalence(instance, PropertyEquivalence, False)
+
+post_save.connect(propEquivalence_post_save, sender=PropertyEquivalence)
 
 
 #This way when the save() method is called,
@@ -410,63 +409,62 @@ post_save.connect(propEquivalence_post_save, sender = PropertyEquivalence)
 #   --------------------------------------------------------------------------------
 
 
-
 class Prototype(ProtoModel):
     """
     Esta tabla manejar la lista de  prototypos almacenados en customDefinicion,
     Genera la "proto" pci;  con la lista de campos a absorber y los detalles posibles
     """
-    entity = models.ForeignKey( Entity, blank = False, null = False )
+    entity = models.ForeignKey(Entity, blank=False, null=False)
 
     """Nombre (str) de la vista a buscar en protoDefinition  """
-    code   = models.CharField( blank = False, null = False, max_length=200, editable = False )
+    code = models.CharField(blank=False, null=False, max_length=200, editable=False)
 
-    description = models.TextField( blank = True, null = True)
-    notes  = models.TextField( blank = True, null = True)
+    description = models.TextField(blank=True, null=True)
+    notes = models.TextField(blank=True, null=True)
 
-    metaDefinition = models.TextField( blank = True, null = True)
+    metaDefinition = models.TextField(blank=True, null=True)
 
     def __unicode__(self):
-        return slugify( self.code )
+        return slugify(self.code)
 
     protoExt = {
-        "gridConfig" : {
+        "gridConfig": {
             "listDisplay": ["__str__", "entity", "smOwningTeam"]
         }
     }
 
     class Meta:
-        unique_together = ( 'code', 'smOwningTeam' )
+        unique_together = ('code', 'smOwningTeam')
 
 
 class ProtoTable(ProtoModel):
     """
     Esta es el store de los prototipos
     """
-    entity = models.ForeignKey( Entity, blank = False, null = False )
-    info = JSONField( default = {} )
+    entity = models.ForeignKey(Entity, blank=False, null=False)
+    info = JSONField(default={})
 
     def __unicode__(self):
-        return self.entity.code + ':' +  self.info.__str__()
+        return self.entity.code + ':' + self.info.__str__()
 
-    def myStr(self, *args, **kwargs ):
+    def myStr(self, *args, **kwargs):
         # Evalua el string de prototipos
         val = ''
         for arg in args:
-            try: val = val + '.' + str( self.info.get( arg[6:] ) )
-            except: pass
-        return  val[1:]
+            try:
+                val = val + '.' + str(self.info.get(arg[6:]))
+            except:
+                pass
+        return val[1:]
 
-    objects = JSONAwareManager(json_fields = ['info'])
-    protoExt = { 'jsonField' : 'info' }
+    objects = JSONAwareManager(json_fields=['info'])
+    protoExt = {'jsonField': 'info'}
 
     protoExt = {
-        "gridConfig" : {
+        "gridConfig": {
             "listDisplay": ["__str__", "smOwningTeam"]
         }
     }
-
-
 
 #   --------------------------------------------------------------------------------
 
@@ -475,50 +473,49 @@ class Diagram(ProtoModel):
     """
     TODO: Diagrama o subModelo
     """
-    model = models.ForeignKey('Model', blank = False, null = False )
-    code = models.CharField(blank = False, null = False, max_length=200 )
+    model = models.ForeignKey('Model', blank=False, null=False)
+    code = models.CharField(blank=False, null=False, max_length=200)
 
-    description = models.TextField( blank = True, null = True)
-    notes  = models.TextField( blank = True, null = True)
+    description = models.TextField(blank=True, null=True)
+    notes = models.TextField(blank=True, null=True)
 
     """Information graphique  ( labels, etc... ) """
-    info = JSONField( default = {} )
-    objects = JSONAwareManager(json_fields = ['info'])
+    info = JSONField(default={})
+    objects = JSONAwareManager(json_fields=['info'])
 
     # Propieadad para ordenar el __str__
-    unicode_sort = ('model', 'code',  )
+    unicode_sort = ('model', 'code',)
 
     def __unicode__(self):
-        return slugify( self.model.code + '-' +  self.code )
+        return slugify(self.model.code + '-' + self.code)
 
     class Meta:
-        unique_together = ('model', 'code', 'smOwningTeam' )
+        unique_together = ('model', 'code', 'smOwningTeam')
 
     protoExt = {
-        "menuApp" : "roadMap",
-        }
+        "menuApp": "roadMap",
+    }
 
 
 class DiagramEntity(ProtoModel):
     """
     TODO: Entidades del diagrama  ( Relationship )
     """
-    diagram = models.ForeignKey('Diagram', blank = False, null = False )
-    entity = models.ForeignKey( Entity, blank = False, null = False )
+    diagram = models.ForeignKey('Diagram', blank=False, null=False)
+    entity = models.ForeignKey(Entity, blank=False, null=False)
 
     """Information graphique ( position, color, ... )  """
-    info = JSONField( default = {} )
-    objects = JSONAwareManager(json_fields = ['info'])
+    info = JSONField(default={})
+    objects = JSONAwareManager(json_fields=['info'])
 
     # Propieadad para ordenar el __str__
-    unicode_sort = ('diagram', 'entity',  )
+    unicode_sort = ('diagram', 'entity',)
 
     def __unicode__(self):
-        return slugify( self.diagram.code + '-' +  self.entity.code )
+        return slugify(self.diagram.code + '-' + self.entity.code)
 
     class Meta:
-        unique_together = ('diagram', 'entity', 'smOwningTeam' )
-
+        unique_together = ('diagram', 'entity', 'smOwningTeam')
 
 
 #   --------------------------------------------------------------------------------
@@ -528,55 +525,55 @@ class Service(ProtoModel):
     """
     TODO: Servicios entre modelos ( entidades virtuales )
     """
-    model = models.ForeignKey('Model', blank = False, null = False )
-    code = models.CharField(blank = False, null = False, max_length=200 )
+    model = models.ForeignKey('Model', blank=False, null=False)
+    code = models.CharField(blank=False, null=False, max_length=200)
 
     """Binding : SOAP, RPC, REST, DCOM, CORBA, DDS, RMI, WCF """
-    Binding =  models.CharField(  blank = True, null = True, max_length = 20 )
-    typeMessage = models.CharField(  blank = True, null = True, max_length = 20 )
+    Binding = models.CharField(blank=True, null=True, max_length=20)
+    typeMessage = models.CharField(blank=True, null=True, max_length=20)
 
-    description = models.TextField( blank = True, null = True)
-    notes  = models.TextField( blank = True, null = True)
+    description = models.TextField(blank=True, null=True)
+    notes = models.TextField(blank=True, null=True)
 
     """REST subtypes ( POST, GET ),  notation ( XML, JSON ), etc  ... """
-    infoMesage = JSONField( default = {} )
+    infoMesage = JSONField(default={})
 
     """Message information """
-    infoRequest = JSONField( default = {} )
-    infoReponse = JSONField( default = {} )
-    objects = JSONAwareManager(json_fields = ['infoMesage', 'infoRequest', 'infoReponse' ])
+    infoRequest = JSONField(default={})
+    infoReponse = JSONField(default={})
+    objects = JSONAwareManager(json_fields=['infoMesage', 'infoRequest', 'infoReponse'])
 
     # Propieadad para ordenar el __str__
-    unicode_sort = ('model', 'code',  )
+    unicode_sort = ('model', 'code',)
 
     def __unicode__(self):
-        return slugify( self.model.code + '-' +  self.code )
+        return slugify(self.model.code + '-' + self.code)
 
     class Meta:
-        unique_together = ('model', 'code', 'smOwningTeam' )
+        unique_together = ('model', 'code', 'smOwningTeam')
 
     protoExt = {
-        "menuApp" : "roadMap",
-        }
+        "menuApp": "roadMap",
+    }
+
 
 class ServiceRef(ProtoModel):
     """
     TODO: Cliente Servicios entre modelos ( entidades virtuales )
     """
-    model = models.ForeignKey('Model', blank = False, null = False )
-    service = models.ForeignKey('Service', blank = False, null = False )
+    model = models.ForeignKey('Model', blank=False, null=False)
+    service = models.ForeignKey('Service', blank=False, null=False)
 
-    endpoint = models.CharField(  blank = True, null = True, max_length = 200 )
+    endpoint = models.CharField(blank=True, null=True, max_length=200)
 
-    description = models.TextField( blank = True, null = True)
-    notes  = models.TextField( blank = True, null = True)
+    description = models.TextField(blank=True, null=True)
+    notes = models.TextField(blank=True, null=True)
 
     # Propieadad para ordenar el __str__
-    unicode_sort = ('model', 'service',  )
+    unicode_sort = ('model', 'service',)
 
     def __unicode__(self):
-        return slugify( self.model.code + '-' +  self.service.code )
+        return slugify(self.model.code + '-' + self.service.code)
 
     class Meta:
-        unique_together = ('model', 'service', 'smOwningTeam' )
-
+        unique_together = ('model', 'service', 'smOwningTeam')
