@@ -1,3 +1,4 @@
+#Wed Apr 24 13:07:23 EDT 2013
 eclipse.preferences.version=1
 encoding//docs/django/fieldSets.py.txt=utf-8
 encoding//docs/django/jsonDump.py.txt=utf-8
@@ -7,6 +8,7 @@ encoding//src/protoLib/admin/__init__.py=utf-8
 encoding//src/protoLib/admin/adminProtoDef.py=utf-8
 encoding//src/protoLib/admin/adminUsr.py=utf-8
 encoding//src/protoLib/downloadFile.py=utf-8
+encoding//src/protoLib/models.py=utf-8
 encoding//src/protoLib/protoActionEdit.py=utf-8
 encoding//src/protoLib/protoActionList.py=utf-8
 encoding//src/protoLib/protoActionRep.py=utf-8

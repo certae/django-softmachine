@@ -32,19 +32,18 @@ DATABASES = {
 #        'HOST': '127.0.0.1',             # Set to empty string for localhost. Not used with sqlite3.
 #        'PORT': '9432',                      # Set to empty string for default. Not used with sqlite3.
 #    }, 
-#    'default': {
-#        'ENGINE': 'django.db.backends.mysql', 
-#        'NAME':   'protogn',
-#        'USER': 'root',
-#        'PASSWORD': 'certae1',
-#        'HOST': '127.0.0.1',
-#        'PORT': '3306',
-#    }, 
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql',  'oracle'.
-#        'NAME': PPATH + '/db/protoMeta.db',
-        'NAME': PPATH + '/db/protoMetaCertae.db',
-    }
+        'ENGINE': 'django.db.backends.mysql', 
+        'NAME':   'protoext',
+        'USER': 'root',
+        'PASSWORD': '1214moi',
+        'HOST': '132.203.51.190',
+        'PORT': '3306',
+    }, 
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql',  'oracle'.
+#        'NAME': PPATH + '/db/protoMetaSIDI.db',
+#    }
 }
 
 # Local time zone for this installation. Choices can be found here:
@@ -177,7 +176,7 @@ INSTALLED_APPS = (
     'south', 
     'protoLib', 
     'prototype', 
-    'best', 
+#    'best', 
 #    'shiny', 
 #    'CategoryCle', 
 #    'TCO'
