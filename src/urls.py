@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import patterns, include, url
-from django.views.generic.simple import direct_to_template
+#from django.views.generic.simple import direct_to_template
+from django.views.generic import TemplateView  # Necessaire avec Django 1.5
 from settings import PPATH
 
 # Uncomment the next two lines to enable the admin:
@@ -11,7 +12,9 @@ urlpatterns = patterns(
     '',
     url(r'^admin/', include(django.contrib.admin.site.urls)),
 
-    url(r'^protoExt$', direct_to_template, {'template': 'protoExt.html'}),
+    #url(r'^protoExt$', direct_to_template, {'template': 'protoExt.html'}),
+    url(r'^protoExt$', TemplateView.as_view(template_name="protoExt.html")),  # Necessaire avec Django1.5
+
     url(r'^protoLib/', include('protoLib.urls')),
 
 #    url(r'^prueba$', direct_to_template, { 'template': 'prueba.html' }),

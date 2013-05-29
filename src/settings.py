@@ -5,7 +5,7 @@ import os.path
 PPATH = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)).replace('\\', '/')
 
 if PPATH.startswith('/'):
-    EXT_PATH = '/u/data/ExtJs'
+    EXT_PATH = '/home/antoine/Stage/Prototypeur/ProtoExt'
 else:
     EXT_PATH = 'd:/data/ExtJs'
 
@@ -178,6 +178,7 @@ INSTALLED_APPS = (
     'protoLib',
     'prototype',
     'best',
+    'alltests'
     #'shiny',
     #'CategoryCle',
     #'TCO'
