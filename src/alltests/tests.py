@@ -41,6 +41,6 @@ def suite():
     suite.addTest(makeSuite(ServiceTest, 'test'))
     suite.addTest(makeSuite(ServiceRefTest, 'test'))
 
-    suite.addTest(makeSuite(LoginTest, 'test'))
+    #suite.addTest(makeSuite(LoginTest, 'test'))
 
     return suite
