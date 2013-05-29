@@ -2,6 +2,8 @@ from django.test import LiveServerTestCase
 from pyvirtualdisplay import Display
 from selenium import webdriver
 
+#from requests import post
+
 
 class LoginTest(LiveServerTestCase):
 
@@ -19,3 +21,15 @@ class LoginTest(LiveServerTestCase):
         self.browser.get('http://localhost:8000/protoExt/')
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('', body.text)
+
+    #def test_can_perform_authorisation(self):
+        #url = 'http://localhost:8000/protoLib/protoGetUserRights'
+
+        #postdata = {
+            #'login': 'e',
+            #'password': '1'
+        #}
+
+        #req = post(url, data=postdata)
+
+        #print(req.text)
