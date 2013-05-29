@@ -6,25 +6,51 @@ from testprototype.TestUtilities import createTestRelationship
 class RelationshipTest(TestCase):
 
     def setUp(self):
-        #pass
         self.relationship = createTestRelationship()
 
     def tearDown(self):
-        #pass
         self.relationship.delete()
 
-    def test_annule(self):
-        pass
+    def test_creating_a_new_relationship_and_saving_it_to_the_database(self):
+        relationship_in_database = Relationship.objects.all()
+        self.assertEqual(len(relationship_in_database), 1)
 
-    #def test_creating_a_new_relationship_and_saving_it_to_the_database(self):
-        #relationship_in_database = Relationship.objects.all()
-        #self.assertEqual(len(relationship_in_database), 1)
+    def test_verifying_relationship_attribute_refentity_in_database(self):
+        relationship_in_database = Relationship.objects.all()
+        only_entry_in_database = relationship_in_database[0]
+        self.assertEqual(only_entry_in_database.refEntity, self.relationship.refEntity)
 
-    #refEntity = models.ForeignKey('Entity', related_name = 'refEntity_set')
-    #relatedName = models.CharField( blank = True, null = True, max_length=50)
-    #baseMin = models.CharField( blank = True, null = True, max_length=50)
-    #baseMax = models.CharField( blank = True, null = True, max_length=50)
-    #refMin = models.CharField( blank = True, null = True, max_length=50)
-    #refMax = models.CharField( blank = True, null = True, max_length=50)
-    #onRefDelete = models.CharField( blank = True, null = True, max_length=50, choices = ONDELETE_TYPES)
-    #typeRelation = models.CharField( blank = True, null = True, max_length=50)
+    def test_verifying_relationship_attribute_relatedname_in_database(self):
+        relationship_in_database = Relationship.objects.all()
+        only_entry_in_database = relationship_in_database[0]
+        self.assertEqual(only_entry_in_database.relatedName, self.relationship.relatedName)
+
+    def test_verifying_relationship_attribute_basemin_in_database(self):
+        relationship_in_database = Relationship.objects.all()
+        only_entry_in_database = relationship_in_database[0]
+        self.assertEqual(only_entry_in_database.baseMin, self.relationship.baseMin)
+
+    def test_verifying_relationship_attribute_basemax_in_database(self):
+        relationship_in_database = Relationship.objects.all()
+        only_entry_in_database = relationship_in_database[0]
+        self.assertEqual(only_entry_in_database.baseMax, self.relationship.baseMax)
+
+    def test_verifying_relationship_attribute_refmin_in_database(self):
+        relationship_in_database = Relationship.objects.all()
+        only_entry_in_database = relationship_in_database[0]
+        self.assertEqual(only_entry_in_database.refMin, self.relationship.refMin)
+
+    def test_verifying_relationship_attribute_refmax_in_database(self):
+        relationship_in_database = Relationship.objects.all()
+        only_entry_in_database = relationship_in_database[0]
+        self.assertEqual(only_entry_in_database.refMax, self.relationship.refMax)
+
+    def test_verifying_relationship_attribute_onrefdelete_in_database(self):
+        relationship_in_database = Relationship.objects.all()
+        only_entry_in_database = relationship_in_database[0]
+        self.assertEqual(only_entry_in_database.onRefDelete, self.relationship.onRefDelete)
+
+    def test_verifying_relationship_attribute_typerelation_in_database(self):
+        relationship_in_database = Relationship.objects.all()
+        only_entry_in_database = relationship_in_database[0]
+        self.assertEqual(only_entry_in_database.typeRelation, self.relationship.typeRelation)
