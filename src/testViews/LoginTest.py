@@ -12,8 +12,6 @@ class LoginTest(LiveServerTestCase):
         self.browser.quit()
 
     def test_can_display_page_with_empty_body_section(self):
-        self.browser.get(self.live_server_url + '/protoExt/')
-
+        self.browser.get('http://localhost:8000/protoExt/')
         body = self.browser.find_element_by_tag_name('body')
-        print(body)
         self.assertIn('', body.text)

@@ -133,7 +133,7 @@ SECRET_KEY = 'z7jc&(scfm-c5lt-h#(m*epqis54tc)lxm=g+&5+ud$3w783dx'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-    'django.template.loaders.eggs.Loader',
+    #'django.template.loaders.eggs.Loader',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (

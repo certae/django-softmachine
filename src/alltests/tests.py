@@ -22,25 +22,25 @@ from testViews.LoginTest import LoginTest
 def suite():
     suite = TestSuite()
 
-    suite.addTest(makeSuite(ProjectTest, 'test'))
-    suite.addTest(makeSuite(ModelTest, 'test'))
-    suite.addTest(makeSuite(EntityTest, 'test'))
+    #suite.addTest(makeSuite(ProjectTest, 'test'))
+    #suite.addTest(makeSuite(ModelTest, 'test'))
+    #suite.addTest(makeSuite(EntityTest, 'test'))
 
-    suite.addTest(makeSuite(PropertyBaseChildTest, 'test'))
-    suite.addTest(makeSuite(ProjectTest, 'test'))
-    suite.addTest(makeSuite(RelationshipTest, 'test'))
+    #suite.addTest(makeSuite(PropertyBaseChildTest, 'test'))
+    #suite.addTest(makeSuite(ProjectTest, 'test'))
+    #suite.addTest(makeSuite(RelationshipTest, 'test'))
 
-    suite.addTest(makeSuite(PropertyModelTest, 'test'))
-    suite.addTest(makeSuite(PropertyEquivalenceTest, 'test'))
-    suite.addTest(makeSuite(PrototypeTest, 'test'))
+    #suite.addTest(makeSuite(PropertyModelTest, 'test'))
+    #suite.addTest(makeSuite(PropertyEquivalenceTest, 'test'))
+    #suite.addTest(makeSuite(PrototypeTest, 'test'))
 
-    suite.addTest(makeSuite(ProtoTableTest, 'test'))
-    suite.addTest(makeSuite(DiagramTest, 'test'))
-    suite.addTest(makeSuite(DiagramEntityTest, 'test'))
+    #suite.addTest(makeSuite(ProtoTableTest, 'test'))
+    #suite.addTest(makeSuite(DiagramTest, 'test'))
+    #suite.addTest(makeSuite(DiagramEntityTest, 'test'))
 
-    suite.addTest(makeSuite(ServiceTest, 'test'))
-    suite.addTest(makeSuite(ServiceRefTest, 'test'))
+    #suite.addTest(makeSuite(ServiceTest, 'test'))
+    #suite.addTest(makeSuite(ServiceRefTest, 'test'))
 
-    #suite.addTest(makeSuite(LoginTest, 'test'))
+    suite.addTest(makeSuite(LoginTest, 'test'))
 
     return suite

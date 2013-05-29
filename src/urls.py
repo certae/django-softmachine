@@ -1,4 +1,6 @@
-from django.conf.urls.defaults import patterns, include, url
+#from django.conf.urls.defaults import patterns, include, url
+from django.conf.urls import patterns, include, url  # Necessaire avec Django 1.5
+
 #from django.views.generic.simple import direct_to_template
 from django.views.generic import TemplateView  # Necessaire avec Django 1.5
 from settings import PPATH
