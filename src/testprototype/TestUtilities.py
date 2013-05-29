@@ -15,7 +15,6 @@ def createTestProject():
     }
 
     testProject = Project(**projectdata)
-
     testProject.save()
 
     return testProject
@@ -25,13 +24,15 @@ def createTestModel():
     testProject = createTestProject()
     testProject.save()
 
-    testModel = Model()
-    testModel.project = testProject
-    testModel.code = 'testCode'
-    testModel.category = 'testCategory'
-    testModel.modelPrefix = 'testPrefix'
-    testModel.description = 'Model used for tests'
+    modeldata = {
+        'project': testProject,
+        'code': 'testCode',
+        'category': 'testCategory',
+        'modelPrefix': 'testPrefix',
+        'description': 'Model used for tests'
+    }
 
+    testModel = Model(**modeldata)
     testModel.save()
 
     return testModel
@@ -41,12 +42,14 @@ def createTestEntity():
     testModel = createTestModel()
     testModel.save()
 
-    testEntity = Entity()
-    testEntity.model = testModel
-    testEntity.code = 'testEntityCode'
-    testEntity.dbName = 'testEntitydbName'
-    testEntity.description = 'testEntityDescription'
+    entitydata = {
+        'model': testModel,
+        'code': 'testEntityCode',
+        'dbName': 'testEntitydbName',
+        'description': 'testEntityDescription'
+    }
 
+    testEntity = Entity(**entitydata)
     testEntity.save()
 
     return testEntity
@@ -55,18 +58,20 @@ def createTestEntity():
 def createTestPropertyBaseChild():
     someInteger = 25
 
-    testPropertyBaseChild = PropertyBaseChild()
-    testPropertyBaseChild.code = 'testCode'
-    testPropertyBaseChild.baseType = 'testBaseType'
-    testPropertyBaseChild.prpLength = someInteger
-    testPropertyBaseChild.prpScale = someInteger
-    testPropertyBaseChild.vType = 'testVType'
-    testPropertyBaseChild.prpDefault = 'testPrpDefault'
-    testPropertyBaseChild.prpChoices = 'testPrpChoises'
-    testPropertyBaseChild.isSensitive = True
-    testPropertyBaseChild.description = 'testDescription'
-    testPropertyBaseChild.notes = 'testNotes'
+    propertybasechilddata = {
+        'code': 'testCode',
+        'baseType': 'testBaseType',
+        'prpLength': someInteger,
+        'prpScale': someInteger,
+        'vType': 'testVType',
+        'prpDefault': 'testPrpDefault',
+        'prpChoices': 'testPrpChoises',
+        'isSensitive': True,
+        'description': 'testDescription',
+        'notes': 'testNotes'
+    }
 
+    testPropertyBaseChild = PropertyBaseChild(**propertybasechilddata)
     testPropertyBaseChild.save()
 
     return testPropertyBaseChild
@@ -76,11 +81,13 @@ def createTestPropertyModel():
     testModel = createTestModel()
     testModel.save()
 
-    testPropertyModel = PropertyModel()
-    testPropertyModel.model = testModel
-    testPropertyModel.inherit = False
-    testPropertyModel.conceptType = 'testConceptType'
+    propertymodeldata = {
+        'model': testModel,
+        'inherit': False,
+        'conceptType': 'testConceptType'
+    }
 
+    testPropertyModel = PropertyModel(**propertymodeldata)
     testPropertyModel.save()
 
     return testPropertyModel
@@ -93,19 +100,21 @@ def createTestProperty():
     testPropertyModel = createTestPropertyModel()
     testPropertyModel.save()
 
-    testProperty = Property()
-    testProperty.entity = testEntity
-    testProperty.propertyModel = testPropertyModel
-    testProperty.isPrimary = True
-    testProperty.isLookUpResult = True
-    testProperty.isNullable = True
-    testProperty.isRequired = True
-    testProperty.isReadOnly = True
-    testProperty.isEssential = True
-    testProperty.isForeign = False
-    testProperty.crudType = 'testCrudType'
-    testProperty.dbName = 'testDbName'
+    propertydata = {
+        'entity': testEntity,
+        'propertyModel': testPropertyModel,
+        'isPrimary': True,
+        'isLookUpResult': True,
+        'isNullable': True,
+        'isRequired': True,
+        'isReadOnly': True,
+        'isEssential': True,
+        'isForeign': False,
+        'crudType': 'testCrudType',
+        'dbName': 'testDbName'
+    }
 
+    testProperty = Property(**propertydata)
     testProperty.save()
 
     return testProperty
@@ -121,28 +130,30 @@ def createTestRelationship():
     testPropertyModel = createTestPropertyModel()
     testPropertyModel.save()
 
-    testRelationShip = Relationship()
-    testRelationShip.refEntity = testEntity1
-    testRelationShip.relatedName = 'testPropertyModel'
-    testRelationShip.baseMin = 'testBaseMin'
-    testRelationShip.baseMax = 'testBaseMax'
-    testRelationShip.refMin = 'testRefMin'
-    testRelationShip.refMax = 'testRefMax'
-    testRelationShip.onRefDelete = 'testOnRefDelete'
-    testRelationShip.typeRelation = 'testTypeRelation'
+    relationshipdata = {
+        'refEntity': testEntity1,
+        'relatedName': 'testPropertyModel',
+        'baseMin': 'testBaseMin',
+        'baseMax': 'testBaseMax',
+        'refMin': 'testRefMin',
+        'refMax': 'testRefMax',
+        'onRefDelete': 'testOnRefDelete',
+        'typeRelation': 'testTypeRelation',
 
-    testRelationShip.entity = testEntity2
-    testRelationShip.propertyModel = testPropertyModel
-    testRelationShip.isPrimary = True
-    testRelationShip.isLookUpResult = True
-    testRelationShip.isNullable = True
-    testRelationShip.isRequired = True
-    testRelationShip.isReadOnly = True
-    testRelationShip.isEssential = True
-    testRelationShip.isForeign = False
-    testRelationShip.crudType = 'testCrudType'
-    testRelationShip.dbName = 'testDbName'
+        'entity': testEntity2,
+        'propertyModel': testPropertyModel,
+        'isPrimary': True,
+        'isLookUpResult': True,
+        'isNullable': True,
+        'isRequired': True,
+        'isReadOnly': True,
+        'isEssential': True,
+        'isForeign': False,
+        'crudType': 'testCrudType',
+        'dbName': 'testDbName'
+    }
 
+    testRelationShip = Relationship(**relationshipdata)
     testRelationShip.save()
 
     return testRelationShip
@@ -154,11 +165,13 @@ def createTestPropertyEquivalence():
     testPropertyModel2 = createTestPropertyModel()
     testPropertyModel2.save()
 
-    testPropertyEquivalence = PropertyEquivalence()
-    testPropertyEquivalence.sourceProperty = testPropertyModel1
-    testPropertyEquivalence.targetProperty = testPropertyModel2
-    testPropertyEquivalence.description = 'testDescription'
+    propertyequivalencedata = {
+        'sourceProperty': testPropertyModel1,
+        'targetProperty': testPropertyModel2,
+        'description': 'testDescription'
+    }
 
+    testPropertyEquivalence = PropertyEquivalence(**propertyequivalencedata)
     testPropertyEquivalence.save()
 
     return testPropertyEquivalence
@@ -168,13 +181,15 @@ def createTestPrototype():
     testEntity = createTestEntity()
     testEntity.save()
 
-    testPrototype = Prototype()
-    testPrototype.entity = testEntity
-    testPrototype.code = 'testCode'
-    testPrototype.description = 'testDescription'
-    testPrototype.notes = 'testNotes'
-    testPrototype.metaDefinition = 'testMetaDefinition'
+    prototypedata = {
+        'entity': testEntity,
+        'code': 'testCode',
+        'description': 'testDescription',
+        'notes': 'testNotes',
+        'metaDefinition': 'testMetaDefinition'
+    }
 
+    testPrototype = Prototype(**prototypedata)
     testPrototype.save()
 
     return testPrototype
@@ -184,12 +199,14 @@ def createTestDiagram():
     testModel = createTestModel()
     testModel.save()
 
-    testDiagram = Diagram()
-    testDiagram.model = testModel
-    testDiagram.code = 'testCode'
-    testDiagram.description = 'testDescription'
-    testDiagram.notes = 'testNotes'
+    diagramdata = {
+        'model': testModel,
+        'code': 'testCode',
+        'description': 'testDescription',
+        'notes': 'testNotes'
+    }
 
+    testDiagram = Diagram(**diagramdata)
     testDiagram.save()
 
     return testDiagram
@@ -202,10 +219,12 @@ def createTestDiagramEntity():
     testEntity = createTestEntity()
     testEntity.save()
 
-    testDiagramEntity = DiagramEntity()
-    testDiagramEntity.diagram = testDiagram
-    testDiagramEntity.entity = testEntity
+    diagramentitydata = {
+        'diagram': testDiagram,
+        'entity': testEntity
+    }
 
+    testDiagramEntity = DiagramEntity(**diagramentitydata)
     testDiagramEntity.save()
 
     return testDiagramEntity
@@ -215,14 +234,16 @@ def createTestService():
     testModel = createTestModel()
     testModel.save()
 
-    testService = Service()
-    testService.model = testModel
-    testService.code = 'testCode'
-    testService.Binding = 'testBinding'
-    testService.typeMessage = 'testMessage'
-    testService.description = 'testDescription'
-    testService.notes = 'testNotes'
+    servicedata = {
+        'model': testModel,
+        'code': 'testCode',
+        'Binding': 'testBinding',
+        'typeMessage': 'testMessage',
+        'description': 'testDescription',
+        'notes': 'testNotes'
+    }
 
+    testService = Service(**servicedata)
     testService.save()
 
     return testService
@@ -235,13 +256,15 @@ def createTestServiceRef():
     testService = createTestService()
     testService.save()
 
-    testServiceRef = ServiceRef()
-    testServiceRef.model = testModel
-    testServiceRef.service = testService
-    testServiceRef.endpoint = 'testEndPoint'
-    testServiceRef.description = 'testDescription'
-    testServiceRef.notes = 'testNotes'
+    servicerefdata = {
+        'model': testModel,
+        'service': testService,
+        'endpoint': 'testEndPoint',
+        'description': 'testDescription',
+        'notes': 'testNotes'
+    }
 
+    testServiceRef = ServiceRef(**servicerefdata)
     testServiceRef.save()
 
     return testServiceRef
@@ -251,9 +274,11 @@ def createTestProtoTable():
     testEntity = createTestEntity()
     testEntity.save()
 
-    testProtoTable = ProtoTable()
-    testProtoTable.entity = testEntity
+    prototabledata = {
+        'entity': testEntity
+    }
 
+    testProtoTable = ProtoTable(**prototabledata)
     testProtoTable.save()
 
     return testProtoTable
