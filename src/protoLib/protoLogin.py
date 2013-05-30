@@ -19,6 +19,8 @@ def protoGetUserRights(request):
     userName = request.POST['login']
     userPwd = request.POST['password']
 
+    #print('In method protoGetUserRights : ', userName, userPwd)
+
     errMsg = ''
     success = False
     language = None
