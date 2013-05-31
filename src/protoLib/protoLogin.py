@@ -16,6 +16,7 @@ def protoGetUserRights(request):
     """
 
     logging.info('File : protoLogin.py -- protoGetUserRights()')
+    logging.info(vars(request))
 
     if request.method != 'POST':
         return JsonError('invalid message')
