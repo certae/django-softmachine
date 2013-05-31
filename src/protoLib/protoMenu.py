@@ -18,6 +18,9 @@ from utilsWeb import JsonError  # JsonSuccess
 from utilsBase import verifyList
 
 from prototype.models import Prototype
+
+import logging
+
 PROTO_PREFIX = "prototype.ProtoTable."
 
 
@@ -26,6 +29,9 @@ class cAux:
 
 
 def protoGetMenuData(request):
+
+    logging.info('File : protoMenu.py -- protoGetMenuData()')
+
     """
     Cada grupo tiene su propio menu q se construye con las app a las cuales tiene derecho
     se guarda siempre por grupo en customDefinition,
@@ -48,60 +54,6 @@ def protoGetMenuData(request):
     appAux = cAux()
     appAux.ixApp = 1
     appAux.ixMod = 1
-
-    def getMenuItem(protoAdmin, model, menuNode):
-
-        appCode = model._meta.app_label
-
-        # Define la rama del menu
-        try:
-            menuLabel = model.protoExt["menuApp"]
-        except:
-            menuLabel = appCode
-
-        if menuLabel in ['contenttypes', 'sites']:
-            menuLabel = 'auth'
-
-        # Verifica q el usuairo tenga permiso, considera el admin
-        if not getModelPermissions(currentUser, model, 'menu'):
-            return
-
-        pTitle = protoAdmin.get('title', model._meta.verbose_name.title())
-
-        # Obtiene el menu de settigs.PROTO_APP
-        try:
-            menuDefinition = settings.PROTO_APP.get('app_menu', {}).get(menuLabel, {})
-        except:
-            menuDefinition = {}
-
-        if menuDefinition.get('hidden', False):
-            return
-
-        # Icono por defecto
-        viewIcon = protoAdmin.get('viewIcon', 'icon-1')
-
-        model_dict = {
-            'viewCode': appCode + '.' + menuNode,
-            'text': pTitle,
-            'index': appAux.ixMod,
-            'iconCls': viewIcon,
-            'leaf': True,
-        }
-
-        if menuLabel in app_dict:
-            app_dict[menuLabel]['children'].append(model_dict)
-
-        else:
-            app_dict[menuLabel] = {
-                'text': menuDefinition.get('title', menuLabel),
-                'expanded': menuDefinition.get('expanded', False),
-                'index': menuDefinition.get('menu_index', appAux.ixApp),
-                'children': [model_dict],
-            }
-
-            appAux.ixApp += 1
-
-        appAux.ixMod += 1
 
 #-- Lectura de la Db -------------------------------------------------------------
 
@@ -197,3 +149,60 @@ def protoGetMenuData(request):
         protoDef.save()
 
     return HttpResponse(context, mimetype="application/json")
+
+
+def getMenuItem(protoAdmin, model, menuNode):
+
+    logging.info('File : protoMenu.py -- getMenuItem()')
+
+    appCode = model._meta.app_label
+
+    # Define la rama del menu
+    try:
+        menuLabel = model.protoExt["menuApp"]
+    except:
+        menuLabel = appCode
+
+    if menuLabel in ['contenttypes', 'sites']:
+        menuLabel = 'auth'
+
+    # Verifica q el usuairo tenga permiso, considera el admin
+    if not getModelPermissions(currentUser, model, 'menu'):
+        return
+
+    pTitle = protoAdmin.get('title', model._meta.verbose_name.title())
+
+    # Obtiene el menu de settigs.PROTO_APP
+    try:
+        menuDefinition = settings.PROTO_APP.get('app_menu', {}).get(menuLabel, {})
+    except:
+        menuDefinition = {}
+
+    if menuDefinition.get('hidden', False):
+        return
+
+    # Icono por defecto
+    viewIcon = protoAdmin.get('viewIcon', 'icon-1')
+
+    model_dict = {
+        'viewCode': appCode + '.' + menuNode,
+        'text': pTitle,
+        'index': appAux.ixMod,
+        'iconCls': viewIcon,
+        'leaf': True,
+    }
+
+    if menuLabel in app_dict:
+        app_dict[menuLabel]['children'].append(model_dict)
+
+    else:
+        app_dict[menuLabel] = {
+            'text': menuDefinition.get('title', menuLabel),
+            'expanded': menuDefinition.get('expanded', False),
+            'index': menuDefinition.get('menu_index', appAux.ixApp),
+            'children': [model_dict],
+        }
+
+        appAux.ixApp += 1
+
+    appAux.ixMod += 1

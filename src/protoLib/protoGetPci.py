@@ -27,6 +27,9 @@ PROTOVERSION = '130310'
 
 
 def protoGetPCI(request):
+
+    logging.info('File : protoGetPci.py -- protoGetPCI()')
+
     """ return full metadata (columns, renderers, totalcount...)
     """
 
@@ -148,6 +151,8 @@ def protoGetPCI(request):
 
 def createProtoMeta(model, grid, viewEntity, viewCode):
 
+    logging.info('File : protoGetPci.py -- createProtoMeta()')
+
     # Los criterios de busqueda ni los ordenamientos son heredados del admin,
     pSearchFields = grid.gridConfig.get('searchFields', [])
     if len(pSearchFields) == 0:
@@ -230,6 +235,9 @@ def createProtoMeta(model, grid, viewEntity, viewCode):
 
 
 def protoSaveProtoObj(request):
+
+    logging.info('File : protoGetPci.py -- protoSaveProtoObj()')
+
     """ Save full metadata
 
     * objetos del tipo _XXX                   se guardan siempre en CustomDefinition
@@ -320,6 +328,9 @@ def protoSaveProtoObj(request):
 
 
 def protoGetFieldTree(request):
+
+    logging.info('File : protoGetPci.py -- protoGetFieldTree()')
+
     """ return full field tree
     """
 
@@ -379,6 +390,9 @@ def protoGetFieldTree(request):
 
 
 def addFiedToList(fieldList, field, fieldBase):
+
+    logging.info('File : protoGetPci.py -- addFiedToList()')
+
     """ return parcial field tree  ( Called from protoGetFieldTree )
     """
 
@@ -456,6 +470,9 @@ def addFiedToList(fieldList, field, fieldBase):
 # --------------------------------------------------------------------------
 
 def isFieldDefined(pFields, fName):
+
+    logging.info('File : protoGetPci.py -- isFieldDefined()')
+
     # Verifica si un campo esta en la lista
     for pField in pFields:
         if pField.get('name') == fName:
