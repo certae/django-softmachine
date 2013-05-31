@@ -12,7 +12,6 @@ from protoRules import ONDELETE_TYPES, BASE_TYPES, CRUD_TYPES, DB_ENGINE
 
 from protoLib.utilsBase import slugify
 
-import logging
 
 PROTO_PREFIX = "prototype.ProtoTable."
 

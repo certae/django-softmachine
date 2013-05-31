@@ -16,7 +16,9 @@ from testprototype.DiagramEntityTest import DiagramEntityTest
 from testprototype.ServiceTest import ServiceTest
 from testprototype.ServiceRefTest import ServiceRefTest
 
-from testViews.LoginTest import LoginTest
+#from testViews.LoginTest import LoginTest
+
+from testViews.AuthentificationTest import AuthenticationTest
 
 
 def suite():
@@ -42,5 +44,7 @@ def suite():
     suite.addTest(makeSuite(ServiceRefTest, 'test'))
 
     #suite.addTest(makeSuite(LoginTest, 'test'))
+
+    suite.addTest(makeSuite(AuthenticationTest, 'test'))
 
     return suite
