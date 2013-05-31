@@ -8,18 +8,20 @@ from django.contrib.auth import login, authenticate
 from protoAuth import getUserProfile
 from utilsWeb import JsonError, JsonSuccess
 
+import logging
+
 
 def protoGetUserRights(request):
     """ return user rights
     """
+
+    logging.info('File : protoLogin.py -- protoGetUserRights()')
 
     if request.method != 'POST':
         return JsonError('invalid message')
 
     userName = request.POST['login']
     userPwd = request.POST['password']
-
-    print('In method protoGetUserRights : ', userName, userPwd)
 
     errMsg = ''
     success = False
