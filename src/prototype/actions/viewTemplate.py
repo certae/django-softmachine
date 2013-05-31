@@ -12,6 +12,7 @@ def baseDefinition(pEntity, entityName, viewTitle):
     """ protoEntity: Es la traza de la generacion del protipo  dominio.modelo.entidad
     """
 
+    print('Inside baseDefinition()')
     logging.info('File : viewTemplate.py -- baseDefinition()')
     logging.info(pEntity)
     logging.info(entityName)
