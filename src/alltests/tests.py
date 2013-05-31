@@ -20,6 +20,8 @@ from testprototype.ServiceRefTest import ServiceRefTest
 
 from testViews.AuthentificationTest import AuthenticationTest
 
+from testViews.BaseDefinitionTest import BaseDefinitionTest
+
 
 def suite():
     suite = TestSuite()
@@ -46,5 +48,7 @@ def suite():
     #suite.addTest(makeSuite(LoginTest, 'test'))
 
     suite.addTest(makeSuite(AuthenticationTest, 'test'))
+
+    suite.addTest(makeSuite(BaseDefinitionTest, 'test'))
 
     return suite
