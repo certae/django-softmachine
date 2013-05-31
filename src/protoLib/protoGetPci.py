@@ -20,6 +20,7 @@ PROTO_PREFIX = "prototype.ProtoTable."
 
 import django.utils.simplejson as json
 import traceback
+import logging
 
 
 # 12/10/28 Permite la carga directa de json de definicion.

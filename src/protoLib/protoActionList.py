@@ -22,6 +22,7 @@ from utilsWeb import doReturn
 
 import django.utils.simplejson as json
 import traceback
+import logging
 
 
 def protoList(request):
