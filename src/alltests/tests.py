@@ -52,11 +52,10 @@ def suite():
     #suite.addTest(makeSuite(LoginTest, 'test'))
 
     suite.addTest(makeSuite(AuthenticationTest, 'test'))
-
     suite.addTest(makeSuite(BaseDefinitionTest, 'test'))
-
     suite.addTest(makeSuite(GetViewCodeTest, 'test'))
-
     suite.addTest(makeSuite(Property2FieldTest, 'test'))
+
+    #suite.addTest(makeSuite(UpdatePropInfoTest, 'test'))
 
     return suite

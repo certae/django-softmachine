@@ -4,7 +4,6 @@ from testprototype.testmodels.TestUtilities import createTestProject
 
 
 class ProjectTest(TestCase):
-
     def setUp(self):
         self.project = createTestProject()
 
