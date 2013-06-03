@@ -1,6 +1,6 @@
 from django.test import TestCase
 from prototype.models import Relationship
-from testprototype.TestUtilities import createTestRelationship
+from testprototype.testmodels.TestUtilities import createTestRelationship
 
 
 class RelationshipTest(TestCase):

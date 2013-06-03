@@ -1,6 +1,6 @@
 from django.test import TestCase
 from prototype.models import PropertyModel
-from testprototype.TestUtilities import createTestPropertyModel
+from testprototype.testmodels.TestUtilities import createTestPropertyModel
 
 
 class PropertyModelTest(TestCase):
