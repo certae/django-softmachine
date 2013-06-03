@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import traceback
-#from protoLib.utilsBase import  getReadableError
 
 
 ONDELETE_TYPES = (
@@ -38,8 +37,6 @@ DB_ENGINE = (
     ('postgres',  'Postgress'),
     ('mysql', 'mySQL'),
 )
-
-# -----------------------------------------------------------------
 
 
 def updatePropInfo(myBase, propBase, modelBase, inherit):

@@ -32,6 +32,7 @@ def suite():
     suite.addTest(makeSuite(EntityTest, 'test'))
 
     suite.addTest(makeSuite(PropertyBaseChildTest, 'test'))
+    suite.addTest(makeSuite(PropertyTest, 'test'))
     suite.addTest(makeSuite(ProjectTest, 'test'))
     suite.addTest(makeSuite(RelationshipTest, 'test'))
 

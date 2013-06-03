@@ -3,3 +3,7 @@
 *.pyo
 .deployables
 static/pruebas/tmp.js
+.coverage
+db/protoMetaCertae.db.backup
+htmlcov/
+logs/
