@@ -2,30 +2,31 @@
 """
 Prototype to DOT (Graphviz) converter
 by dariogomez
-Adapted from  django-extensions ( by  Antonio Cavedoni ) 
+Adapted from  django-extensions ( by  Antonio Cavedoni )
 """
 
 from django.template import Context, loader
 from protoLib.utilsBase import slugify
 
-def generateDotModels( queryset ):
-    
-    disable_fields = False  
-    use_subgraph =  False  
 
-    # Abre el template 
+def generateDotModels(queryset):
+
+    disable_fields = False
+    use_subgraph = False
+
+    # Abre el template
     t = loader.get_template('graph_models/head.html')
     c = Context({})
     dot = t.render(c)
 
     gModels = []
     for pModel in queryset:
-        
-        modelCode = slugify( pModel.code, '_' )
-        
+
+        modelCode = slugify(pModel.code, '_')
+
         gModel = Context({
-            'name': '"%s"' % modelCode ,
-            'app_name': "%s" % modelCode ,
+            'name': '"%s"' % modelCode,
+            'app_name': "%s" % modelCode,
             'cluster_app_name': modelCode,
             'disable_fields': disable_fields,
             'use_subgraph': use_subgraph,
@@ -33,7 +34,7 @@ def generateDotModels( queryset ):
         })
 
         for pEntity in pModel.entity_set.all():
-            enttCode = slugify( pEntity.code , '_')
+            enttCode = slugify(pEntity.code, '_')
             gEntity = {
                 'app_name': modelCode,
                 'name': enttCode,
@@ -45,10 +46,11 @@ def generateDotModels( queryset ):
 
             for pProperty in pEntity.property_set.all():
 
-                pptCode =  slugify( pProperty.code, '_' ) 
+                pptCode = slugify(pProperty.code, '_')
                 if pProperty.isForeign:
-                    pType = slugify( pProperty.relationship.refEntity.code , '_') 
-                else: pType = slugify( pProperty.baseType , '_')
+                    pType = slugify(pProperty.relationship.refEntity.code, '_')
+                else:
+                    pType = slugify(pProperty.baseType, '_')
 
                 gEntity['fields'].append({
                     'name': pptCode,
@@ -60,16 +62,17 @@ def generateDotModels( queryset ):
 
                 # relations
                 if pProperty.isForeign:
-                    if not pProperty.isRequired: 
+                    if not pProperty.isRequired:
                         extras = '[arrowhead=empty, arrowtail=dot]'
-                    else: extras  = ''  # [arrowhead=none, arrowtail=none]
-    
+                    else:
+                        extras = ''  # [arrowhead=none, arrowtail=none]
+
                     label = pptCode + ' (%s)' % pType
-    
+
                     # handle self-relationships
                     _rel = {
-                        'target_app': modelCode ,
-                        'target': pType ,
+                        'target_app': modelCode,
+                        'target': pType,
                         'type': pType,
                         'name': pptCode + '_' + pType,
                         'label': label,

@@ -7,40 +7,40 @@
 #from django.db import router
 #from django.utils.encoding import force_unicode
 #from django.utils.translation import ugettext_lazy, ugettext as _
-#from models import * 
+#from models import *
 #
 #
 #def createNewModel( modeladmin, request, queryset):
-#    """ 
-#    funcion de pannier para crear un nuevo modelo, 
+#    """
+#    funcion de pannier para crear un nuevo modelo,
 #    """
 #
-##   El QSet viene con la lista de Ids de PropertyModel 
+##   El QSet viene con la lista de Ids de PropertyModel
 #    if queryset.count() == 0:
-#        return 'No record selected' 
+#        return 'No record selected'
 #
-#    opts = modeladmin.opts 
-#    dModel = None 
+#    opts = modeladmin.opts
+#    dModel = None
 #
-##   es invocada desde propertyModel ( el Qset es propModel )  
+##   es invocada desde propertyModel ( el Qset es propModel )
 #    for objPropModel  in queryset:
 #
 #        dPropDom = objPropModel.propertyDom
-#        if dModel == None :   
+#        if dModel == None :
 #            dModel = getModel( dPropDom.domain, 'New Model' )
 #
 #        dPropModel = PropertyModel()
 #        dPropModel.model = dModel
 #        dPropModel.propertyDom = dPropDom
-#        dPropModel.save() 
-#        
-#    return 
-#    
+#        dPropModel.save()
+#
+#    return
+#
 #createNewModel.short_description = "Create a new model whit the selected properties"
 #
 #
 #def getModel( objDomain, modelCode  ):
-#    """ Obtiene un modelo, dado el dominio y el codigo 
-#    """ 
+#    """ Obtiene un modelo, dado el dominio y el codigo
+#    """
 #    dModel, created  = Model.objects.get_or_create( domain = objDomain, code = modelCode )
 #    return dModel
