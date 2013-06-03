@@ -20,6 +20,8 @@ from testprototype.testactions.ViewTemplateTest import BaseDefinitionTest
 from testprototype.testactions.ViewDefinitionTest import GetViewCodeTest
 from testprototype.testactions.ViewDefinitionTest import Property2FieldTest
 
+#from testprototype.ProtoRulesTest import UpdatePropInfoTest
+
 #from testViews.LoginTest import LoginTest
 from testViews.AuthentificationTest import AuthenticationTest
 
