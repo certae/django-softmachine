@@ -3,16 +3,59 @@
 import random
 from django.test import TestCase
 
+from pprint import pprint
+
 from protoLib.utilsBase import slugify
 from prototype.actions.viewDefinition import getViewCode
 from prototype.actions.viewDefinition import property2Field
+from prototype.actions.viewDefinition import getViewDefinition
 from testprototype.Utils import random_string_generator
-from testprototype.Utils import pEntityForTest
+from testprototype.testmodels.TestUtilities import createTestEntity
+
+
+class GetViewDefinitionTest(TestCase):
+    def setUp(self):
+        self.pEntity = createTestEntity()
+        self.infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
+
+    def test_GetViewDefinition_returns_valid_gridconfig_and_basefilter_values(self):
+        self.assertEqual(self.infoEntity['gridConfig']['baseFilter'], [{'property': 'entity', 'filterStmt':  '=' + str(self.pEntity.id)}])
+
+    def test_GetViewDefinition_returns_valid_fields_values(self):
+        print(self.infoEntity)
+        print('\n')
+        print('fields 0')
+        print(self.infoEntity['fields'][0])
+        print('fields 1')
+        print(self.infoEntity['fields'][1])
+        print('fields 2')
+        print(self.infoEntity['fields'][2])
+        print('fields 3')
+        print(self.infoEntity['fields'][3])
+        print('fields 4')
+        print(self.infoEntity['fields'][4])
+        print('fields 5')
+        print(self.infoEntity['fields'][5])
+        print('fields 6')
+        print(self.infoEntity['fields'][6])
+        print('fields 7')
+        print(self.infoEntity['fields'][7])
+        print('\n')
+        print('gridConfig, listDisplay')
+        print(self.infoEntity['gridConfig']['listDisplay'])
+        print('gridConfig, sortFields')
+        print(self.infoEntity['gridConfig']['sortFields'])
+        print('fromConfig, items, 0, items')
+        print(self.infoEntity['formConfig']['items'][0]['items'])
+        print('detailsConfig')
+        print(self.infoEntity['detailsConfig'])
+        print('\n')
 
 
 class GetViewCodeTest(TestCase):
     def setUp(self):
-        self.pEntity = pEntityForTest()
+        pass
+        self.pEntity = createTestEntity()
 
     def test_GetViewCode_with_viewtitle_none(self):
         viewCode = getViewCode(self.pEntity)

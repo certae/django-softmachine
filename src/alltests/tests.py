@@ -19,6 +19,7 @@ from testprototype.testmodels.ServiceRefTest import ServiceRefTest
 from testprototype.testactions.ViewTemplateTest import BaseDefinitionTest
 from testprototype.testactions.ViewDefinitionTest import GetViewCodeTest
 from testprototype.testactions.ViewDefinitionTest import Property2FieldTest
+from testprototype.testactions.ViewDefinitionTest import GetViewDefinitionTest
 
 from testViews.LoginTest import LoginTest
 
@@ -51,5 +52,6 @@ def suite():
     suite.addTest(makeSuite(BaseDefinitionTest, 'test'))
     suite.addTest(makeSuite(GetViewCodeTest, 'test'))
     suite.addTest(makeSuite(Property2FieldTest, 'test'))
+    suite.addTest(makeSuite(GetViewDefinitionTest, 'test'))
 
     return suite

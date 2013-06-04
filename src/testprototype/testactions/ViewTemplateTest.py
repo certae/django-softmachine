@@ -5,13 +5,13 @@ from django.test import TestCase
 from protoLib.utilsBase import slugify
 from prototype.actions.viewTemplate import baseDefinition
 from testprototype.Utils import random_string_generator
-from testprototype.Utils import pEntityForTest
+from testprototype.testmodels.TestUtilities import createTestEntity
 
 
 class BaseDefinitionTest(TestCase):
 
     def setUp(self):
-        self.pEntity = pEntityForTest()
+        self.pEntity = createTestEntity()
         self.entityName = random_string_generator(10)
         self.viewTitle = random_string_generator(3) + str(' ') + random_string_generator(4)
         self.baseDef = baseDefinition(self.pEntity, self.entityName, self.viewTitle)

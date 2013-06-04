@@ -14,7 +14,7 @@ import logging
 PROTO_PREFIX = "prototype.ProtoTable."
 
 
-def getViewDefinition(pEntity, viewTitle):
+def getViewDefinition(pEntity, viewTitle):  # type(pEntity) = models.Entity
 
     logging.info('File : viewDefinition.py -- getViewDefinition()')
     logging.info(pEntity)
@@ -89,7 +89,7 @@ def getViewDefinition(pEntity, viewTitle):
 
         infoEntity['detailsConfig'].append(detail)
 
-    return infoEntity
+    return infoEntity  # type(infoEntity) = models.Prototype
 
 
 def getViewCode(pEntity, viewTitle=None):
