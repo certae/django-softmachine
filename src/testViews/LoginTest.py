@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.test.client import RequestFactory
-from django.views.generic import TemplateView
+from django.test.client import Client
 
 from protoLib.protoLogin import protoGetUserRights
 
@@ -17,4 +17,9 @@ class LoginTest(TestCase):
         data = {'login': 'e', 'password': '1'}
         request = self.factory.post('/protoLib/protoGetUserRights/', data)
         response = protoGetUserRights(request)
+        self.assertEqual(response.status_code, 200)
+
+    def test_can_retrieve_javascript_app_files(self):
+        client = Client(enforce_csrf_checks=False)
+        response = client.get('/static/js/app.js')
         self.assertEqual(response.status_code, 200)

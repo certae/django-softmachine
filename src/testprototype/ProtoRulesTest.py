@@ -16,6 +16,7 @@ class UpdatePropInfoTest(TestCase):
         #self.inherit = True
 
     def test_mock(self):
+        pass
         #UpdatePropInfoTest(self.myBase, self.propBase, self.modelBase, self.inherit)
         #print(self.myBase.call_args_list)
         #print(self.modelBase.call_args_list)
