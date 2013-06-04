@@ -20,10 +20,7 @@ from testprototype.testactions.ViewTemplateTest import BaseDefinitionTest
 from testprototype.testactions.ViewDefinitionTest import GetViewCodeTest
 from testprototype.testactions.ViewDefinitionTest import Property2FieldTest
 
-#from testprototype.ProtoRulesTest import UpdatePropInfoTest
-
-#from testViews.LoginTest import LoginTest
-from testViews.AuthentificationTest import AuthenticationTest
+from testViews.LoginTest import LoginTest
 
 
 def suite():
@@ -49,13 +46,10 @@ def suite():
     suite.addTest(makeSuite(ServiceTest, 'test'))
     suite.addTest(makeSuite(ServiceRefTest, 'test'))
 
-    #suite.addTest(makeSuite(LoginTest, 'test'))
+    suite.addTest(makeSuite(LoginTest, 'test'))
 
-    suite.addTest(makeSuite(AuthenticationTest, 'test'))
     suite.addTest(makeSuite(BaseDefinitionTest, 'test'))
     suite.addTest(makeSuite(GetViewCodeTest, 'test'))
     suite.addTest(makeSuite(Property2FieldTest, 'test'))
-
-    #suite.addTest(makeSuite(UpdatePropInfoTest, 'test'))
 
     return suite
