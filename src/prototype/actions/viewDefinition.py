@@ -30,6 +30,7 @@ def getViewDefinition(pEntity, viewTitle):  # type(pEntity) = models.Entity
     __str__Base = []
     #infoEntity['gridConfig']['listDisplay'].append( '__str__' )
 
+    # type(pProperty) = models.Property
     for pProperty in pEntity.property_set.order_by('id'):
 
         fName = 'info__' + slugify(pProperty.code)
