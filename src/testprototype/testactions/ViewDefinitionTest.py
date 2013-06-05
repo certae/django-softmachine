@@ -3,54 +3,63 @@
 import random
 from django.test import TestCase
 
-from pprint import pprint
-
 from protoLib.utilsBase import slugify
 from prototype.actions.viewDefinition import getViewCode
 from prototype.actions.viewDefinition import property2Field
 from prototype.actions.viewDefinition import getViewDefinition
+from protoLib.utilsBase import slugify
 from testprototype.Utils import random_string_generator
 from testprototype.testmodels.TestUtilities import createTestEntity
+from testprototype.testmodels.TestUtilities import createTestRelationship
+from prototype.models import Property
+from prototype.models import Entity
 
 
 class GetViewDefinitionTest(TestCase):
     def setUp(self):
         self.pEntity = createTestEntity()
-        self.infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
 
-    def test_GetViewDefinition_returns_valid_gridconfig_and_basefilter_values(self):
-        self.assertEqual(self.infoEntity['gridConfig']['baseFilter'], [{'property': 'entity', 'filterStmt':  '=' + str(self.pEntity.id)}])
+    def test_GetViewDefinition_gridconfig_and_basefilter(self):
+        infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
+        self.assertEqual(infoEntity['gridConfig']['baseFilter'], [{'property': 'entity', 'filterStmt':  '=' + str(self.pEntity.id)}])
 
-    def test_GetViewDefinition_returns_valid_fields_values(self):
-        pass
-        #print(self.infoEntity)
-        #print('\n')
-        #print('fields 0')
-        #print(self.infoEntity['fields'][0])
-        #print('fields 1')
-        #print(self.infoEntity['fields'][1])
-        #print('fields 2')
-        #print(self.infoEntity['fields'][2])
-        #print('fields 3')
-        #print(self.infoEntity['fields'][3])
-        #print('fields 4')
-        #print(self.infoEntity['fields'][4])
-        #print('fields 5')
-        #print(self.infoEntity['fields'][5])
-        #print('fields 6')
-        #print(self.infoEntity['fields'][6])
-        #print('fields 7')
-        #print(self.infoEntity['fields'][7])
-        #print('\n')
-        #print('gridConfig, listDisplay')
-        #print(self.infoEntity['gridConfig']['listDisplay'])
-        #print('gridConfig, sortFields')
-        #print(self.infoEntity['gridConfig']['sortFields'])
-        #print('fromConfig, items, 0, items')
-        #print(self.infoEntity['formConfig']['items'][0]['items'])
-        #print('detailsConfig')
-        #print(self.infoEntity['detailsConfig'])
-        #print('\n')
+    def test_GetViewDefinition_IsForeignTrue(self):
+        testRelationShip = createTestRelationship()
+        testRelationShip.refEntity = createTestEntity()
+        testRelationShip.entity = self.pEntity
+        testRelationShip.isForeign = True
+        testRelationShip.save()
+
+        self.assertTrue(self.pEntity.property_set.get(isForeign=True).isForeign)
+
+        infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
+        self.assertEqual(infoEntity['fields'][-2]['type'], 'foreigntext')
+
+    def test_GetViewDefinition_IsEssentialTrue(self):
+        testRelationShip = createTestRelationship()
+        testRelationShip.refEntity = createTestEntity()
+        testRelationShip.code = 'GVD_TestCode'
+        testRelationShip.entity = self.pEntity
+        testRelationShip.isEssential = True
+        testRelationShip.save()
+
+        self.assertTrue(self.pEntity.property_set.get(isEssential=True).isEssential)
+
+        infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
+        self.assertEqual(''.join(infoEntity['gridConfig']['listDisplay']), 'info__' + slugify(testRelationShip.code))
+
+    def test_GetViewDefinition_IsPrimaryTrue(self):
+        testRelationShip = createTestRelationship()
+        testRelationShip.refEntity = createTestEntity()
+        testRelationShip.code = 'GVD_TestCode'
+        testRelationShip.entity = self.pEntity
+        testRelationShip.isPrimary = True
+        testRelationShip.save()
+
+        self.assertTrue(self.pEntity.property_set.get(isPrimary=True).isPrimary)
+
+        infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
+        self.assertEqual(infoEntity['fields'][-1]['physicalName'], '@myStr("info__' + slugify(testRelationShip.code) + '")')
 
 
 class GetViewCodeTest(TestCase):
