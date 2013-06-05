@@ -48,18 +48,11 @@ def getViewDefinition(pEntity, viewTitle):
         if pProperty.isPrimary or pProperty.isLookUpResult:
             __str__Base.append(fName)
 
-        # DP solicito se generaran todos los campos en la grilla 130308 )
-        if pProperty.isEssential or len(infoEntity['gridConfig']['listDisplay']) <= 7:
-            infoEntity['gridConfig']['listDisplay'].append(fName)
+        infoEntity['gridConfig']['listDisplay'].append(fName)
 
         # forma y ordenamiento
         infoEntity['gridConfig']['sortFields'].append(fName)
         infoEntity['formConfig']['items'][0]['items'].append({"name": fName, "__ptType": "formField"})
-
-    # Al menos incluye el str
-    if len(infoEntity['gridConfig']['listDisplay']) == 0:
-        # Ne rentre jamais dans ce bloc car la condition de la ligne 52 est toujours vrai : len(...) est toujours zero
-        infoEntity['gridConfig']['listDisplay'].append('__str__')
 
     #  __str__, __unicode__
     field = {

@@ -55,15 +55,6 @@ class GetViewDefinitionTest(TestCase):
         infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
         self.assertEqual(infoEntity['fields'][-1]['physicalName'], '@myStr("info__' + slugify(self.testRelationShip.code) + '")')
 
-    def test_autre(self):
-        print('Start')
-        self.testRelationShip.isEssential = False
-        self.testRelationShip.code = 'SomeVeryVeryLongCodeToTriggerConditionInProdCode'
-        self.testRelationShip.save()
-        infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
-        print(infoEntity['gridConfig']['listDisplay'])
-        print('End')
-
     def test_GetViewCode_AnyCombination(self):
         infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
         self.assertEqual(infoEntity['gridConfig']['sortFields'][-1], '__str__')
