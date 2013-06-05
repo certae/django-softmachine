@@ -20,6 +20,7 @@ from testprototype.testactions.ViewTemplateTest import BaseDefinitionTest
 from testprototype.testactions.ViewDefinitionTest import GetViewCodeTest
 from testprototype.testactions.ViewDefinitionTest import Property2FieldTest
 from testprototype.testactions.ViewDefinitionTest import GetViewDefinitionTest
+from testprototype.testactions.ViewDefinitionTest import GetFkIdTest
 
 from testViews.LoginTest import LoginTest
 
@@ -53,5 +54,6 @@ def suite():
     suite.addTest(makeSuite(GetViewCodeTest, 'test'))
     suite.addTest(makeSuite(Property2FieldTest, 'test'))
     suite.addTest(makeSuite(GetViewDefinitionTest, 'test'))
+    suite.addTest(makeSuite(GetFkIdTest, 'test'))
 
     return suite

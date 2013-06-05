@@ -2,17 +2,19 @@
 
 import random
 from django.test import TestCase
-
 from protoLib.utilsBase import slugify
+
+from prototype.models import Property
+from prototype.models import Entity
+
 from prototype.actions.viewDefinition import getViewCode
 from prototype.actions.viewDefinition import property2Field
 from prototype.actions.viewDefinition import getViewDefinition
-from protoLib.utilsBase import slugify
+from prototype.actions.viewDefinition import getFkId
+
 from testprototype.Utils import random_string_generator
 from testprototype.testmodels.TestUtilities import createTestEntity
 from testprototype.testmodels.TestUtilities import createTestRelationship
-from prototype.models import Property
-from prototype.models import Entity
 
 
 class GetViewDefinitionTest(TestCase):
@@ -75,30 +77,27 @@ class GetViewCodeTest(TestCase):
         self.assertEqual(viewCode, slugify(self.pEntity.model.code + '-' + viewTitle))
 
 
-# fName, propDict, infoField=False, fBase=''
-# Test with values. Another test with defaults
 class Property2FieldTest(TestCase):
     def setUp(self):
         self.fName = random_string_generator(5)
         self.fBase = random_string_generator(5)
 
     def test_Property2Field_with_nonempty_arguments(self):
-        self.propDict = dict(
-            [
-                ('code', self.fName),
-                ('isReadOnly', True),
-                ('isPrimary', True),
-                ('isRequired', True),
-                ('description', random_string_generator(5)),
-                ('vType', random_string_generator(5)),
-                ('baseType', random_string_generator(5)),
-                ('prpChoices', random_string_generator(5)),
-                ('prpDefault', random_string_generator(5)),
-                ('prpLength', random.randrange(0, 10)),
-                ('prpScale', random.randrange(0, 10)),
-                ('crudType', random_string_generator(5))
-            ]
-        )
+        self.propDict = {
+            'code': self.fName,
+            'isReadOnly': True,
+            'isPrimary': True,
+            'isRequired': True,
+            'description': random_string_generator(5),
+            'vType': random_string_generator(5),
+            'baseType': random_string_generator(5),
+            'prpChoices': random_string_generator(5),
+            'prpDefault': random_string_generator(5),
+            'prpLength': random.randrange(0, 10),
+            'prpScale': random.randrange(0, 10),
+            'crudType': random_string_generator(5)
+        }
+
         self.infoField = True
 
         testField = property2Field(self.fName, self.propDict, self.infoField, self.fBase)
@@ -139,3 +138,25 @@ class Property2FieldTest(TestCase):
         self.assertEqual(testField['prpLength'], '')
         self.assertEqual(testField['prpScale'], '')
         self.assertEqual(testField['crudType'], '')
+
+
+class GetFkIdTest(TestCase):
+    def setUp(self):
+        self.name = random_string_generator(5)
+        self.base = random_string_generator(5)
+
+    def test_GetFkId_InfoField_Any(self):
+        fields = getFkId(self.name)
+        self.assertEqual(fields['fkField'], self.name + '_id')
+        self.assertEqual(fields['name'], self.name + '_id')
+
+    def test_GetFkId_InfoField_True(self):
+        fields = getFkId(self.name, True, self.base)
+        self.assertEqual(fields['id'], self.base + self.name + '_id')
+
+    def test_GetFkId_InfoField_False(self):
+        fields = getFkId(self.name, False, self.base)
+        self.assertNotIn('id', fields)
+        self.assertNotIn('text', fields)
+        self.assertNotIn('leaf', fields)
+        self.assertNotIn('checked', fields)
