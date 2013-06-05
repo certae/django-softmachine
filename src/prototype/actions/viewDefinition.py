@@ -83,7 +83,7 @@ def getViewDefinition(pEntity, viewTitle):
 
         infoEntity['detailsConfig'].append(detail)
 
-    return infoEntity  # type(infoEntity) = models.Prototype
+    return infoEntity
 
 
 def getViewCode(pEntity, viewTitle=None):
