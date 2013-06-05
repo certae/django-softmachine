@@ -18,17 +18,19 @@ from prototype.models import Entity
 class GetViewDefinitionTest(TestCase):
     def setUp(self):
         self.pEntity = createTestEntity()
+        self.testRelationShip = createTestRelationship()
+        self.testRelationShip.refEntity = createTestEntity()
+        self.testRelationShip.code = 'GVD_TestCode'
+        self.testRelationShip.entity = self.pEntity
+        self.testRelationShip.save()
 
     def test_GetViewDefinition_gridconfig_and_basefilter(self):
         infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
         self.assertEqual(infoEntity['gridConfig']['baseFilter'], [{'property': 'entity', 'filterStmt':  '=' + str(self.pEntity.id)}])
 
     def test_GetViewDefinition_IsForeignTrue(self):
-        testRelationShip = createTestRelationship()
-        testRelationShip.refEntity = createTestEntity()
-        testRelationShip.entity = self.pEntity
-        testRelationShip.isForeign = True
-        testRelationShip.save()
+        self.testRelationShip.isForeign = True
+        self.testRelationShip.save()
 
         self.assertTrue(self.pEntity.property_set.get(isForeign=True).isForeign)
 
@@ -36,30 +38,35 @@ class GetViewDefinitionTest(TestCase):
         self.assertEqual(infoEntity['fields'][-2]['type'], 'foreigntext')
 
     def test_GetViewDefinition_IsEssentialTrue(self):
-        testRelationShip = createTestRelationship()
-        testRelationShip.refEntity = createTestEntity()
-        testRelationShip.code = 'GVD_TestCode'
-        testRelationShip.entity = self.pEntity
-        testRelationShip.isEssential = True
-        testRelationShip.save()
+        self.testRelationShip.isEssential = True
+        self.testRelationShip.save()
 
         self.assertTrue(self.pEntity.property_set.get(isEssential=True).isEssential)
 
         infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
-        self.assertEqual(''.join(infoEntity['gridConfig']['listDisplay']), 'info__' + slugify(testRelationShip.code))
+        self.assertEqual(''.join(infoEntity['gridConfig']['listDisplay']), 'info__' + slugify(self.testRelationShip.code))
 
     def test_GetViewDefinition_IsPrimaryTrue(self):
-        testRelationShip = createTestRelationship()
-        testRelationShip.refEntity = createTestEntity()
-        testRelationShip.code = 'GVD_TestCode'
-        testRelationShip.entity = self.pEntity
-        testRelationShip.isPrimary = True
-        testRelationShip.save()
+        self.testRelationShip.isPrimary = True
+        self.testRelationShip.save()
 
         self.assertTrue(self.pEntity.property_set.get(isPrimary=True).isPrimary)
 
         infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
-        self.assertEqual(infoEntity['fields'][-1]['physicalName'], '@myStr("info__' + slugify(testRelationShip.code) + '")')
+        self.assertEqual(infoEntity['fields'][-1]['physicalName'], '@myStr("info__' + slugify(self.testRelationShip.code) + '")')
+
+    def test_autre(self):
+        print('Start')
+        self.testRelationShip.isEssential = False
+        self.testRelationShip.code = 'SomeVeryVeryLongCodeToTriggerConditionInProdCode'
+        self.testRelationShip.save()
+        infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
+        print(infoEntity['gridConfig']['listDisplay'])
+        print('End')
+
+    def test_GetViewCode_AnyCombination(self):
+        infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
+        self.assertEqual(infoEntity['gridConfig']['sortFields'][-1], '__str__')
 
 
 class GetViewCodeTest(TestCase):

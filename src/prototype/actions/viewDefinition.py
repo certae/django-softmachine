@@ -14,7 +14,7 @@ import logging
 PROTO_PREFIX = "prototype.ProtoTable."
 
 
-def getViewDefinition(pEntity, viewTitle):  # type(pEntity) = models.Entity
+def getViewDefinition(pEntity, viewTitle):
 
     logging.info('File : viewDefinition.py -- getViewDefinition()')
     logging.info(pEntity)
@@ -30,7 +30,6 @@ def getViewDefinition(pEntity, viewTitle):  # type(pEntity) = models.Entity
     __str__Base = []
     #infoEntity['gridConfig']['listDisplay'].append( '__str__' )
 
-    # type(pProperty) = models.Property
     for pProperty in pEntity.property_set.order_by('id'):
 
         fName = 'info__' + slugify(pProperty.code)
@@ -59,6 +58,7 @@ def getViewDefinition(pEntity, viewTitle):  # type(pEntity) = models.Entity
 
     # Al menos incluye el str
     if len(infoEntity['gridConfig']['listDisplay']) == 0:
+        # Ne rentre jamais dans ce bloc car la condition de la ligne 52 est toujours vrai : len(...) est toujours zero
         infoEntity['gridConfig']['listDisplay'].append('__str__')
 
     #  __str__, __unicode__
@@ -79,7 +79,7 @@ def getViewDefinition(pEntity, viewTitle):  # type(pEntity) = models.Entity
     infoEntity['gridConfig']['sortFields'].append(fName)
 
     # Details
-    for pDetail in pEntity.refEntity_set.all():
+    for pDetail in pEntity.refEntity_set.all():  # Ne semble jamais entrer cette boucle.
         detail = {
             "detailField": "info__" + slugify(pDetail.code) + "_id",
             "conceptDetail": PROTO_PREFIX + getViewCode(pDetail.entity),
