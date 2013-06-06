@@ -1,161 +1,156 @@
 // @Author : Dario Gomez /  Certae U. Laval Quebec, Qc, Canada
-    
-
 /* Objetos utilizados por la pci,
  *
- * Sirve para generar y validar la estructura de un json a partir de la definicion q se haga aqui 
- * tambien debe servir para la creacion del arbol de la plc y las validaciones necesarias  
+ * Sirve para generar y validar la estructura de un json a partir de la definicion q se haga aqui
+ * tambien debe servir para la creacion del arbol de la plc y las validaciones necesarias
  *
- * El marcador ( atrr ) del objeto corresponde al "__ptType" y es el nombre del objeto aqui definido 
- * 
+ * El marcador ( atrr ) del objeto corresponde al "__ptType" y es el nombre del objeto aqui definido
+ *
  * La definicion tiene las siguientes propiedades
- * 
- *      description 
- *      lists                       
+ *
+ *      description
+ *      lists
  *      objects
- *      properties              # Son valores simples: string, number, bool 
- *      roProperties            # readOnly en la pcl, deben preexistir en properties 
- *  
- * Los objetos de tipo list contienen ademas, esto permite agregar instancias en la pcl   
- * 
+ *      properties              # Son valores simples: string, number, bool
+ *      roProperties            # readOnly en la pcl, deben preexistir en properties
+ *
+ * Los objetos de tipo list contienen ademas, esto permite agregar instancias en la pcl
+ *
  *       listOf
- * 
- * Tambien se puede aplicar un valor por defecto, por 
+ *
+ * Tambien se puede aplicar un valor por defecto, por
  * ejemplo en listDisplay  = ['__str__']
- * 
+ *
  *      prpDefault : ['__str__']
- * 
- * Si se desea cambiar el tipo de definicion: 
- * 
- *       __ptType  lleva a la definicion correcta   
- * 
- * Para la edicion en la pcl contienen 
- * 
+ *
+ * Si se desea cambiar el tipo de definicion:
+ *
+ *       __ptType  lleva a la definicion correcta
+ *
+ * Para la edicion en la pcl contienen
+ *
  *       __ptStyle  [ jsonText, colList ]
- * 
- * --- Una plantilla de la form  
- 
+ *
+ * --- Una plantilla de la form
+
     "": {
-        "description": "Lista de acciones backend", 
+        "description": "Lista de acciones backend",
         "listOf" : "actionDef"
         "properties": [
-          ], 
+          ],
         "roProperties" : [
-          ], 
+          ],
         "objects": [
             ],
         "lists": [
             ],
-        "roProperties": []  
+        "roProperties": []
         },
 
--- Determina el nombre del nodo en las listas 
- 
-        "nodeName" : "filterName", 
+-- Determina el nombre del nodo en las listas
 
--- Permite agregar un template en caso de nodos json  
+        "nodeName" : "filterName",
+
+-- Permite agregar un template en caso de nodos json
     "__ptStyle" : "jsonText"
     "addTemplate" : "{\"listDisplay\":{},\"name\": \"@name\"}",
-    
 
---  Creacion de nodos 
 
-        "allowAdd" : true            //  requiere un listOf  
+--  Creacion de nodos
+
+        "allowAdd" : true            //  requiere un listOf
         "listOf" : "filtersSetDef",
-    
-    
- */ 
 
 
-//  FieldSet 
-//  El layout column permite un manejo flexible 
-//  fluid:  Si no se especifica el "columnWidth"  es flexible 
+ */
+//  FieldSet
+//  El layout column permite un manejo flexible
+//  fluid:  Si no se especifica el "columnWidth"  es flexible
 //  xCol :Dependiendo el numero de columnas el "columnWidth"  puede ser 1, 0.5, 0.33
-//  fix  : Se especifica el "width"  ( si se especifica el width prima sobre la definicion ) 
+//  fix  : Se especifica el "width"  ( si se especifica el width prima sobre la definicion )
 
 
 function verifyMeta( oMeta,  ptType, tNode ) {
-
 //  Verifica un objeto de acuerdo a la estructura
-//  Si es un objeto asociado a un arbol tNode es el nodo base,       
+//  Si es un objeto asociado a un arbol tNode es el nodo base,
 
-    var __ptConfig = _MetaObjects[ ptType ]
-    if ( ! __ptConfig ) 
-        return oMeta ; 
+    var __ptConfig = _MetaObjects[ptType]
+    if (!__ptConfig)
+        return oMeta ;
 
-    // Verifica las listas 
-    if ( __ptConfig.lists &&  ( _SM.typeOf( __ptConfig.lists ) == 'array' ))  { 
-        for ( var ix in __ptConfig.lists  ) {
+    // Verifica las listas
+    if (__ptConfig.lists &&  (_SM.typeOf(__ptConfig.lists)=='array')) {
+        for (var ix in __ptConfig.lists) {
             var sKey = __ptConfig.lists[ix]
-            if ( typeof( sKey)  !=  'string' ) 
-                continue ; 
+            if (typeof(sKey)!='string')
+                continue ;
 
-            var listOfConf = _MetaObjects[ sKey ] || {}
-            oMeta[ sKey ]  = _SM.verifyList (  oMeta[ sKey ], listOfConf.prpDefault  )
+            var listOfConf = _MetaObjects[sKey] || {}
+            oMeta[sKey] = _SM.verifyList(oMeta[sKey], listOfConf.prpDefault)
 
-            if ( tNode ) { 
-                // agrega una nueva lista al arbol 
+            if ( tNode ) {
+                // agrega una nueva lista al arbol
                 var nBranch =  {
                     'text'     :  sKey,
-                    '__ptType' :  sKey, 
-                    '__ptConfig':  { '__ptType' : sKey }, 
+                    '__ptType' :  sKey,
+                    '__ptConfig':  { '__ptType' : sKey },
                     'children' : [] }
-                    
+
                 tNode.children.push( nBranch )
             }
-                        
-        }
-    } 
 
-    // Verifica los Objetos ( no aplica los default, pues la config puede eliminarlos )  
-    if ( __ptConfig.objects &&  ( _SM.typeOf( __ptConfig.objects  ) == 'array' ))  { 
+        }
+    }
+
+    // Verifica los Objetos ( no aplica los default, pues la config puede eliminarlos )
+    if ( __ptConfig.objects &&  ( _SM.typeOf( __ptConfig.objects  ) == 'array' ))  {
         for ( var ix in __ptConfig.objects  ) {
             var sKey = __ptConfig.objects[ix]
-            if ( typeof( sKey)  !=  'string' ) 
-                continue ; 
+            if ( typeof( sKey)  !=  'string' )
+                continue ;
 
             var myObj = oMeta[ sKey ]
-            if ( _SM.typeOf( myObj ) != 'object' )  { 
+            if ( _SM.typeOf( myObj ) != 'object' )  {
                 myObj = {} }
 
-            if ( tNode ) { 
-                
-                // agrega un nuevo objeto al arbol 
+            if ( tNode ) {
+
+                // agrega un nuevo objeto al arbol
                 var nBranch  = getNodeBase( sKey, sKey, { '__ptType' : sKey } )
                 tNode.children.push( nBranch )
-                
-                // Agrega los hijos tambein al arbol 
-                oMeta[ sKey ] = verifyMeta( myObj,  sKey, nBranch   )    
+
+                // Agrega los hijos tambein al arbol
+                oMeta[ sKey ] = verifyMeta( myObj,  sKey, nBranch   )
 
             } else {
-            
-                oMeta[ sKey ] = verifyMeta( myObj,  sKey  )    
+
+                oMeta[ sKey ] = verifyMeta( myObj,  sKey  )
             }
 
         }
-    } 
+    }
 
-    // No es necesario verificar las propiedades pues se hace al momento de guardar la pcl  
+    // No es necesario verificar las propiedades pues se hace al momento de guardar la pcl
     // if ( __ptConfig.properties  &&  ( _SM.typeOf( __ptConfig.properties  ) == 'array' ))  {
 
-    return oMeta 
+    return oMeta
 
-}; 
+};
 
 
 function clearPhantonProps( __ptConfig ,  __ptType ) {
-    /* Borra las propieades q no hacen parte de la config de base 
-     */ 
+    /* Borra las propieades q no hacen parte de la config de base
+     */
     var objConfig = _MetaObjects[ __ptType ] || {}
-    for (var ix in __ptConfig ) {   
-        if ( ! objConfig.properties ) continue; 
+    for (var ix in __ptConfig ) {
+        if ( ! objConfig.properties ) continue;
         if ( !( ix  in _SM.objConv( objConfig.properties.concat ( ['name', '__ptValue', '__ptList', '__ptType' ] )))) {
             // console.log( ix )
             delete __ptConfig[ ix ]
         }
-    } 
-    return __ptConfig 
-}; 
+    }
+    return __ptConfig
+};
 
 
 _versionMeta = '13.0111'
@@ -165,126 +160,126 @@ _MetaObjects =  {
     "pcl": {
         "description": "definicion de la meta",
         "properties": [
-            "viewCode", 
+            "viewCode",
             "viewEntity" ,
             "viewIcon",
             "description" ,
             "shortTitle" ,
-            "localSort", 
-            "pageSize", 
+            "localSort",
+            "pageSize",
             "sheetSelector",
-            "pciStyle", 
-            "helpPath", 
-            "idProperty", 
+            "pciStyle",
+            "helpPath",
+            "idProperty",
             "jsonField",
             "returnField",
-            "updateTime", 
-            "metaVersion", 
+            "updateTime",
+            "metaVersion",
             "userVersion",
             "protoEntity" ,
             "protoEntityId" ,
             // "sql",
-            "pciType" 
+            "pciType"
             ],
         "objects": [
-            "gridConfig", 
-            "gridSets", 
-            "formConfig", 
-            "usrDefProps", 
-            "custom", 
+            "gridConfig",
+            "gridSets",
+            "formConfig",
+            "usrDefProps",
+            "custom",
             "businessRules"
             ],
         "lists": [
-            "fields", 
-            "fieldsBase", 
-            "fieldsAdm", 
+            "fields",
+            "fieldsBase",
+            "fieldsAdm",
             "actions",
-            "detailsConfig", 
+            "detailsConfig",
             "sheetConfig"
             ],
-        "roProperties": [ "viewCode", "viewEntity", "idProperty" , "updateTime", "metaVersion", "protoEntity", "protoEntityId"]  
+        "roProperties": [ "viewCode", "viewEntity", "idProperty" , "updateTime", "metaVersion", "protoEntity", "protoEntityId"]
         },
 
 
     "fields": {
-        "description": "Definicion de los campos del store", 
-        "listOf" : "field" 
+        "description": "Definicion de los campos del store",
+        "listOf" : "field"
     },
 
     "fieldsBase": {
-        "description": "Definicion de los campos admon", 
-        "listOf" : "field" 
+        "description": "Definicion de los campos admon",
+        "listOf" : "field"
     },
 
     "fieldsAdm": {
-        "description": "Definicion de los campos admon", 
-        "listOf" : "field" 
+        "description": "Definicion de los campos admon",
+        "listOf" : "field"
     },
 
 
     "field": {
         "description": "A store field element",
         "properties": [
-            "name", 
+            "name",
             "required",
-            "prpLength", 
-            "prpScale", 
+            "prpLength",
+            "prpScale",
             "prpDefault",
             "fieldLabel",
             "format",
             "header" ,
-            "sortable", 
+            "sortable",
             "searchable",
-            "flex", 
+            "flex",
             // "height","maxHeight","minHeight",
             // "width", "maxWidth","minWidth",
             // "hideLabel",
             // "labelAlign","labelWidth",
-            
-            "tooltip", 
+
+            "tooltip",
             // "cellToolTip",
             // "qbeHelp",
-            "cellLink",  
+            "cellLink",
             "wordWrap",
 
             // manejo
             "primary",
-            "crudType", 
+            "crudType",
             "readOnly",
             "hidden",
 
             // Para el combo
             "choices",
 
-            // Para el zoom 
-            "fkId", 
+            // Para el zoom
+            "fkId",
             "fkField",
-            "cellLink", 
-            "zoomModel", 
-            "zoomFilter", 
+            "cellLink",
+            "zoomModel",
+            "zoomFilter",
 
-            // Definien como heredar datos de otro campo ( ya se a de un zoom o del mismo rset ) 
-            "cpFromField", 
-            "cpFromZoom", 
-                        
+            // Definien como heredar datos de otro campo ( ya se a de un zoom o del mismo rset )
+            "cpFromField",
+            "cpFromZoom",
+
             // Para los N2N
-            // "conceptDetail", 
+            // "conceptDetail",
             // "relatedN2N",
             // "detailField",
-            // "masterField",                                     
-            "physicalName", 
-            "type", 
+            // "masterField",
+            "physicalName",
+            "type",
             "xtype",
-            "vType" 
+            "vType"
             ],
-        "roProperties": [ ]  
+        "roProperties": [ ]
     },
 
     "formField": {
         "description": "A field element",
         "properties": [
-            "name", 
-            "tooltip", 
+            "name",
+            "tooltip",
             "fieldLabel",
             "labelWidth","labelAlign","hideLabel",
             "required",
@@ -293,70 +288,70 @@ _MetaObjects =  {
             "prpDefault",
             // "height","maxHeight","minHeight",
             // "width", "maxWidth","minWidth",
-            
-            "format",
-            "prpLength", 
 
-            // Para los campos del htmlSet            
-            "collapsed",   
-            
+            "format",
+            "prpLength",
+
+            // Para los campos del htmlSet
+            "collapsed",
+
             // Para el combo
             "choices",
 
-            // Para el zoom 
-            "fkId", 
+            // Para el zoom
+            "fkId",
             "fkField",
-            "zoomModel", 
-            "zoomFilter", 
+            "zoomModel",
+            "zoomFilter",
             "cellLink",
 
             // Para los N2N
-            // "conceptDetail", 
+            // "conceptDetail",
             // "relatedN2N",
             // "detailField",
-            // "masterField",                                     
+            // "masterField",
 
-            // tipos              
-            "type", 
-            "xtype", 
+            // tipos
+            "type",
+            "xtype",
             "vType"
-            ], 
-        "roProperties": [ "type "]  
-            
-    }, 
+            ],
+        "roProperties": [ "type "]
+
+    },
 
     "gridConfig": {
         "description": "Propiedades de configuracion de la grilla",
-        "properties": [ 
-            'hideRowNumbers', 
-            // 'hideCheckSelect', 
-            'gridSelectionMode', 
-            "exportCsv",  
-            'hideSheet', 
-            'denyAutoPrint', 
+        "properties": [
+            'hideRowNumbers',
+            // 'hideCheckSelect',
+            'gridSelectionMode',
+            "exportCsv",
+            'hideSheet',
+            'denyAutoPrint',
             'filterSetABC'
-             ], 
+             ],
         "lists": [
             "listDisplay",
-            "baseFilter", 
-            "initialFilter", 
-            "initialSort", 
+            "baseFilter",
+            "initialFilter",
+            "initialSort",
 
-        // TODO: Eliminar de aqui y pasar a obj  colShortcuts             
+        // TODO: Eliminar de aqui y pasar a obj  colShortcuts
             "searchFields",     // TODO: Cambiar por sercheable
             "sortFields",       // TODO: Cambiar por sortable
             "hiddenFields",
             "readOnlyFields"
-            
+
             ],
         "objects": [
-         // "colShortcuts" 
+         // "colShortcuts"
             ]
-            
+
     },
 
     // TODO: Caundo se agrega aqui, al guardar actualiza fieldDefinition,
-    // el agregar o borrar prevalece sobre la condicion del campo. 
+    // el agregar o borrar prevalece sobre la condicion del campo.
     "colShortcuts": {
         "description": "Column configuration shortcuts",
         "lists": [
@@ -364,9 +359,9 @@ _MetaObjects =  {
             "sortFields",       // TODO: Cambiar por sortable
             "hiddenFields",
             "readOnlyFields"
-            
+
             // qbeAllowFields
-            // textSearchFields  
+            // textSearchFields
             ]
     },
 
@@ -381,7 +376,7 @@ _MetaObjects =  {
             ]
     },
 
-    // Estos son actualizados por los usuarios de base 
+    // Estos son actualizados por los usuarios de base
     "custom": {
         "description": "Configuraciones de usuario",
         "lists": [
@@ -396,93 +391,93 @@ _MetaObjects =  {
     "baseFilter": {
         "description": "Filtro de base. Se adiciona a cualquier filtro posterior, no modificable por el usuario",
         "listOf" : "filterDef",
-        "allowAdd" : true 
+        "allowAdd" : true
     },
 
     "customFilter": {
         "description": "Filtro predefinido ",
         "listOf" : "filterDef",
-        "allowAdd" : true 
+        "allowAdd" : true
     },
 
 
     "initialFilter": {
         "description": "Filtro inicial, reescribible al seleccionar otro filtro  Ej: { \"status__exact\":\"0\" } ",
         "listOf" : "filterDef",
-        "allowAdd" : true 
+        "allowAdd" : true
     },
 
     "initialSort": {
         "description": "Ordenamiento por defecto  Ej: [{\"direction\":\"ASC\",\"property\":\"code\"}, ... ] ",
         "listOf" : "sorterDef",
-        "allowAdd" : true 
+        "allowAdd" : true
     },
 
 
     "sorterDef": {
         "description": "Definicion de ordenamiento  ",
-        "addPrompt" : "Please enter the name of the property for your sorter:", 
+        "addPrompt" : "Please enter the name of the property for your sorter:",
         "allowDel" : true,
-        "nodeName" : "property", 
+        "nodeName" : "property",
         "properties": [
-            "property", 
-            "direction" 
-        ] 
+            "property",
+            "direction"
+        ]
     },
 
     "sortersSet": {
         "description": "Conjunto de ordenamientos predefinidos ",
         "listOf" : "sortersSetDef",
-        "allowAdd" : true 
+        "allowAdd" : true
     },
 
     "sortersSetDef": {
         "description": "Ordenamientos predefinidos  ",
-        "addPrompt" : "Please enter the name of the sorter:", 
+        "addPrompt" : "Please enter the name of the sorter:",
         "allowDel" : true,
         "properties": [
-            "name", 
-            "description" 
-        ], 
+            "name",
+            "description"
+        ],
         "lists": [
-            "customSort" 
+            "customSort"
         ]
     },
 
     "customSort": {
         "description": "Ordenamiento predefinido",
         "listOf" : "sorterDef",
-        "allowAdd" : true 
+        "allowAdd" : true
     },
 
 
     "filterDef": {
         "description": "Filtro predefinido  ",
-        "addPrompt" : "Please enter the name of the property for your filter:", 
+        "addPrompt" : "Please enter the name of the property for your filter:",
         "allowDel" : true,
-        "nodeName" : "property", 
+        "nodeName" : "property",
         "properties": [
-            "property", 
-            "filterStmt" 
-        ] 
+            "property",
+            "filterStmt"
+        ]
     },
 
 
     "filtersSet": {
         "description": "Conjunto de filtros predefinidos ( *x*, ><=, !=,  aa:bb ) ",
         "listOf" : "filtersSetDef",
-        "allowAdd" : true 
+        "allowAdd" : true
     },
 
     "filtersSetDef": {
         "description": "Filtros predefinidos  ",
-        "addPrompt" : "Please enter the name of the filterSet:", 
+        "addPrompt" : "Please enter the name of the filterSet:",
         "allowDel" : true,
         "properties": [
-            "name" 
-        ], 
+            "name"
+        ],
         "lists": [
-            "customFilter" 
+            "customFilter"
         ]
     },
 
@@ -490,88 +485,88 @@ _MetaObjects =  {
     "listDisplaySet": {
         "description": "Configuraciones alternativas para la grilla  ( Aparecen bajo el icono 'ViewCols' de la barra principal )",
         "listOf" : "listDisplayDef",
-        "allowAdd" : true 
+        "allowAdd" : true
     },
 
-    // El esquema no soporta una lista de listas, tiene q ser un objeto para poder nombralo 
+    // El esquema no soporta una lista de listas, tiene q ser un objeto para poder nombralo
     "listDisplayDef": {
         "description": "listDisplay predefinidos ",
-        "addPrompt" : "Please enter the name of the columnSet:", 
-        "allowDel" : true, 
+        "addPrompt" : "Please enter the name of the columnSet:",
+        "allowDel" : true,
         "properties": [
-            "name", 
-            'hideRowNumbers', 
-            // 'hideCheckSelect', 
-            "description" 
-        ], 
+            "name",
+            'hideRowNumbers',
+            // 'hideCheckSelect',
+            "description"
+        ],
         "lists" : [
-            "listDisplay" 
+            "listDisplay"
         ]
-         
+
     },
 
 
     "hiddenFields": {
         "description": "Lista de campos ocultos  ( TODO: hidden = true or not at all? )",
-        "__ptStyle": "colList" 
+        "__ptStyle": "colList"
     },
 
     "listDisplay": {
         "description": "Lista de campos a desplegar en la grilla",
-        // "prpDefault" : ["__str__"], 
-        "addPrompt" : "Please enter the name for your alternative listDisplay:", 
-        "__ptStyle": "colList" 
+        // "prpDefault" : ["__str__"],
+        "addPrompt" : "Please enter the name for your alternative listDisplay:",
+        "__ptStyle": "colList"
     },
 
 
     "readOnlyFields": {
         "description": "Lista de campos a marcar como readOnly ( tambien se puede utilzar la prop ReadOnly es igual )",
-        "__ptStyle": "colList" 
+        "__ptStyle": "colList"
     },
 
 
     "searchFields": {
         "description": "Campos habilitados para busqueda",
-        "__ptStyle": "colList" 
+        "__ptStyle": "colList"
     },
 
     "sortFields": {
         "description": "Campos habilitados para ordenamiento",
-        "__ptStyle": "colList" 
+        "__ptStyle": "colList"
     },
 
 
     "detailsConfig": {
         "description": "Detalles en una relacion Master-Detail",
         "listOf": "detailDef",
-        "allowAdd" : true 
+        "allowAdd" : true
     },
 
 
     "detailDef": {
         "description": "Detalle en una relacion Master-Detail",
         "properties": [
-            "menuText", 
+            "menuText",
             "conceptDetail",
             "masterField",
-            "detailField", 
-            "detailName", 
-            "detailTitleLbl", 
-            "masterTitleField", 
+            "detailField",
+            "detailName",
+            "detailTitleLbl",
+            "masterTitleField",
             "detailTitleField"
-        ], 
-        "addPrompt" : "Please enter the name for your detail:", 
-        "allowDel" : true  
-        
+        ],
+        "addPrompt" : "Please enter the name for your detail:",
+        "allowDel" : true
+
     },
 
     "usrDefProps": {
         "description": "User defined properties ( se utilizan como campos y son creados por usr a voluntad, no participan en search, sort)",
         "properties": [
-            "udpTable", 
-            "propertyRef", 
+            "udpTable",
+            "propertyRef",
             "keyField",
-            "propertyPrefix", 
+            "propertyPrefix",
             "propertyName",
             "propertyValue"
         ]
@@ -580,73 +575,73 @@ _MetaObjects =  {
     "sheetConfig": {
         "description": "Lista de plantillas",
         "listOf": "sheetDef",
-        "allowAdd" : true       
+        "allowAdd" : true
     },
 
     "sheetDef": {
         "description": "Plantilla ( el nombre corresponde al selector )",
         "properties": [
-            "name", 
-            "template", 
-            "title", 
-            "viewIcon", 
-            "sheetType", 
-            "templateFp",  
-            "templateBb",  
-            "templateEr", 
-            "templateAb",  
-            "templateLp"  
-        ], 
+            "name",
+            "template",
+            "title",
+            "viewIcon",
+            "sheetType",
+            "templateFp",
+            "templateBb",
+            "templateEr",
+            "templateAb",
+            "templateLp"
+        ],
         "lists" : [
-            "sheetDetails" 
-        ], 
-        "addPrompt" : "Please enter the name for your sheet:", 
-        "allowDel" : true  
+            "sheetDetails"
+        ],
+        "addPrompt" : "Please enter the name for your sheet:",
+        "allowDel" : true
     },
 
     "sheetDetails": {
         "description": "Lista de detalles por hoja ( sheet )",
-        "listOf": "sheetDetail", 
+        "listOf": "sheetDetail",
         "allowAdd" : true
     },
 
     "sheetDetail": {
         "description": "Detalles por hoja ( sheet )",
         "properties": [
-            "name", 
-            "detailName", 
-            "detailSort", 
-            "templateBb",  
-            "templateEr",  
-            "templateAb" 
-        ], 
+            "name",
+            "detailName",
+            "detailSort",
+            "templateBb",
+            "templateEr",
+            "templateAb"
+        ],
         "lists" : [
-            "sheetDetails" 
-        ], 
-        "addPrompt" : "Please enter the detailName:", 
+            "sheetDetails"
+        ],
+        "addPrompt" : "Please enter the detailName:",
         "allowDel" : true
     },
 
 
     "formConfig": {
-        "hideItems" : true,  
+        "hideItems" : true,
         "description": "definicion de formas",
         "properties": [
-            "title", "tooltip", 
+            "title", "tooltip",
             "height","maxHeight","minHeight",
             "width", "maxWidth","minWidth",
             "viewIcon","helpPath" ]
         },
-    
+
     "fieldset": {
-        "hideItems" : true,  
+        "hideItems" : true,
         "description": "A Fieldset, containing field elements",
         "properties": [
-            "title", 
+            "title",
             "fsLayout",
             "autoscroll",
             "border",
-            "collapsible", "collapsed", 
+            "collapsible", "collapsed",
             "labelWidth","labelAlign","hideLabel",
             "height","maxHeight","minHeight"
             // "width", "maxWidth","minWidth"
@@ -654,12 +649,12 @@ _MetaObjects =  {
     },
 
     "htmlset": {
-        "hideItems" : true,  
+        "hideItems" : true,
         "description": "A Fieldset, containing HtmlField elements",
         "properties": [
-            "title", 
-            "collapsible", "collapsed", 
-            "flex", 
+            "title",
+            "collapsible", "collapsed",
+            "flex",
             "height","maxHeight","minHeight"
             // "width", "maxWidth","minWidth"
         ]
@@ -668,72 +663,72 @@ _MetaObjects =  {
     "protoGrid": {
         "description": "A detail grid",
         "properties": [
-            "viewCode",  
-            "menuText",  
-            "height","maxHeight","minHeight", 
+            "viewCode",
+            "menuText",
+            "height","maxHeight","minHeight",
             "minWidth"
             // ,"width", "maxWidth"
             ]
-    }, 
+    },
 
 
     "panel": {
-        "hideItems" : true,  
+        "hideItems" : true,
         "description": "A simple panel with fit layout",
         "properties": [
             "title",
             "height","maxHeight","minHeight"
             // ,"width", "maxWidth","minWidth"
             ]
-    }, 
-    
+    },
 
-  "tabpanel": { 
-        "hideItems" : true,  
+
+  "tabpanel": {
+        "hideItems" : true,
         "description": "A Tab Container with many tabs",
         "properties": [
-            "layout", "activeItem", 
+            "layout", "activeItem",
             "height","maxHeight","minHeight"
             // ,"width", "maxWidth","minWidth"
             ]
-    }, 
-    
+    },
+
     "actions": {
-        "description": "Lista de acciones backend", 
+        "description": "Lista de acciones backend",
         "listOf" : "actionDef",
-        "allowAdd" : true  
+        "allowAdd" : true
     },
 
     "actionDef" : {
         "description": "Actions backend",
         "properties": [
-          "name", 
-          "title", 
-          "actionType", 
-          "selectionMode", 
+          "name",
+          "title",
+          "actionType",
+          "selectionMode",
           "refreshOnComplete"
-          ], 
+          ],
         "lists": [
             "actionParams"
-          ], 
-        "addPrompt" : "Please enter the name for your action:", 
-        "allowDel" : true  
-         
-    }, 
+          ],
+        "addPrompt" : "Please enter the name for your action:",
+        "allowDel" : true
+
+    },
 
     "actionParams": {
         "description": "Propiedades de las actions backend",
-        "listOf" : "actionParam", 
-        "allowAdd" : true  
-    }, 
+        "listOf" : "actionParam",
+        "allowAdd" : true
+    },
 
     "actionParam": {
         "properties": [
-            "name", 
-            "tooltip", 
+            "name",
+            "tooltip",
             "fieldLabel",
             "prpDefault",
-            
+
             "required",
             "readOnly",
             "format",
@@ -741,21 +736,21 @@ _MetaObjects =  {
             // Para el combo
             "choices",
 
-            // Para el zoom 
-            "fkId", 
+            // Para el zoom
+            "fkId",
             "fkField",
-            "zoomModel", 
-            "zoomFilter", 
+            "zoomModel",
+            "zoomFilter",
             "cellLink",
 
-            // tipos              
-            "type", 
-            "xtype", 
+            // tipos
+            "type",
+            "xtype",
             "vType"
-          ], 
-        "addPrompt" : "Parametros de acciones", 
+          ],
+        "addPrompt" : "Parametros de acciones",
         "allowDel" : true
-        }, 
+        },
 
 
     "businessRules": {
@@ -785,15 +780,15 @@ _MetaObjects =  {
 
     "businessRule": {
         "properties": [
-          "name", 
+          "name",
           "handler",
           "src",
           "type",
           "field"
-          ], 
-        "addPrompt" : "Parametros de acciones", 
+          ],
+        "addPrompt" : "Parametros de acciones",
         "allowDel" : true
-        }, 
+        },
 
 
   "businessRulesText": {
@@ -818,8 +813,8 @@ _MetaObjects =  {
       ]
   }
 
-    
-    
+
+
 };
 
 

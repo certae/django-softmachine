@@ -1,58 +1,4 @@
-/*
- * Definicion de las propiedades,
- *
- * las propiedades tienen
- *
- *      help         : description
- *      type
- *      choices      : lista de valores en caso de ser string
- *      required     :
- *
- *  EL nombre de la propiedad contiene el prpDefault q solo se aplcia
- *  si no existe y es requerida
- *
- */
-
-// La defincion de tipos es   xxx.type = [ 'boolean' | 'date' | 'string' | 'number' ]
-
-
-function verifyPrpType(  lKey,  cValue ) {
-    /* Verifica los tipos de las  propiedades
-     * recibe el valor y el tipo y verifica si
-     * corresponden entre si
-     *
-     * Intenta la conversion, sin no regresa nulo
-     */
-
-    var pType = _MetaProperties[ lKey + '.type' ]
-    if ( ! pType )  {
-        if ( typeof ( cValue ) == 'string') { return cValue.trimRight()  }
-        else { return cValue }
-    }
-
-    if ( pType == typeof( cValue ) )
-    { return cValue  }
-
-    switch ( pType ) {
-    case "boolean":
-        if  ( (typeof( cValue ) == 'number') ){ cValue = cValue.toString() }
-        if  ( (typeof( cValue ) == 'string') ){
-            if ( cValue.substr(1,1).toLowerCase()  in oc([ 'y', 's', '1','o' ]) )
-            { return true } else { return false }
-        } else { return false }
-    case "number":
-        return parseFloat( cValue );
-    case "null":
-        return null
-    default:
-        return cValue
-    }
-}
-
-
-
-_MetaProperties =  {
-
+{
     "metaVersion.help" : "Version interna de la meta",
     "userVersion.help" : "Version de usuario ( editable )",
 
@@ -144,7 +90,6 @@ _MetaProperties =  {
 
     "templateLp": '</body>' +
                   '</html>',
-
 
     "direction": "sort order",
     "direction.choices": ["ASC", "DESC" ],
@@ -282,5 +227,4 @@ _MetaProperties =  {
     // single : Exige un unico reg
     // multiple : Exige al menos un reg
     "selectionMode.choices" : [ "none", "single", "multiple" ]
-
 };
