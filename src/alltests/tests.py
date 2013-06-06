@@ -22,38 +22,42 @@ from testprototype.testactions.ViewDefinitionTest import Property2FieldTest
 from testprototype.testactions.ViewDefinitionTest import GetViewDefinitionTest
 from testprototype.testactions.ViewDefinitionTest import GetFkIdTest
 
+from testMetaDefinitions.ObjectsTest import ProjectStructureTest
+
 from testViews.LoginTest import LoginTest
 
 
 def suite():
     suite = TestSuite()
 
-    suite.addTest(makeSuite(ProjectTest, 'test'))
-    suite.addTest(makeSuite(ModelTest, 'test'))
-    suite.addTest(makeSuite(EntityTest, 'test'))
+    #suite.addTest(makeSuite(ProjectTest, 'test'))
+    #suite.addTest(makeSuite(ModelTest, 'test'))
+    #suite.addTest(makeSuite(EntityTest, 'test'))
 
-    suite.addTest(makeSuite(PropertyBaseChildTest, 'test'))
-    suite.addTest(makeSuite(PropertyTest, 'test'))
-    suite.addTest(makeSuite(ProjectTest, 'test'))
-    suite.addTest(makeSuite(RelationshipTest, 'test'))
+    #suite.addTest(makeSuite(PropertyBaseChildTest, 'test'))
+    #suite.addTest(makeSuite(PropertyTest, 'test'))
+    #suite.addTest(makeSuite(ProjectTest, 'test'))
+    #suite.addTest(makeSuite(RelationshipTest, 'test'))
 
-    suite.addTest(makeSuite(PropertyModelTest, 'test'))
-    suite.addTest(makeSuite(PropertyEquivalenceTest, 'test'))
-    suite.addTest(makeSuite(PrototypeTest, 'test'))
+    #suite.addTest(makeSuite(PropertyModelTest, 'test'))
+    #suite.addTest(makeSuite(PropertyEquivalenceTest, 'test'))
+    #suite.addTest(makeSuite(PrototypeTest, 'test'))
 
-    suite.addTest(makeSuite(ProtoTableTest, 'test'))
-    suite.addTest(makeSuite(DiagramTest, 'test'))
-    suite.addTest(makeSuite(DiagramEntityTest, 'test'))
+    #suite.addTest(makeSuite(ProtoTableTest, 'test'))
+    #suite.addTest(makeSuite(DiagramTest, 'test'))
+    #suite.addTest(makeSuite(DiagramEntityTest, 'test'))
 
-    suite.addTest(makeSuite(ServiceTest, 'test'))
-    suite.addTest(makeSuite(ServiceRefTest, 'test'))
+    #suite.addTest(makeSuite(ServiceTest, 'test'))
+    #suite.addTest(makeSuite(ServiceRefTest, 'test'))
 
-    suite.addTest(makeSuite(LoginTest, 'test'))
+    #suite.addTest(makeSuite(LoginTest, 'test'))
 
-    suite.addTest(makeSuite(BaseDefinitionTest, 'test'))
-    suite.addTest(makeSuite(GetViewCodeTest, 'test'))
-    suite.addTest(makeSuite(Property2FieldTest, 'test'))
-    suite.addTest(makeSuite(GetViewDefinitionTest, 'test'))
-    suite.addTest(makeSuite(GetFkIdTest, 'test'))
+    #suite.addTest(makeSuite(BaseDefinitionTest, 'test'))
+    #suite.addTest(makeSuite(GetViewCodeTest, 'test'))
+    #suite.addTest(makeSuite(Property2FieldTest, 'test'))
+    #suite.addTest(makeSuite(GetViewDefinitionTest, 'test'))
+    #suite.addTest(makeSuite(GetFkIdTest, 'test'))
+
+    suite.addTest(makeSuite(ProjectStructureTest, 'test'))
 
     return suite

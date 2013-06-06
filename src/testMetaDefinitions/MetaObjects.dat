@@ -20,7 +20,6 @@
             "userVersion",
             "protoEntity" ,
             "protoEntityId" ,
-            // "sql",
             "pciType"
         ],
         "objects": [
@@ -79,42 +78,21 @@
             "sortable",
             "searchable",
             "flex",
-            // "height","maxHeight","minHeight",
-            // "width", "maxWidth","minWidth",
-            // "hideLabel",
-            // "labelAlign","labelWidth",
-
             "tooltip",
-            // "cellToolTip",
-            // "qbeHelp",
             "cellLink",
             "wordWrap",
-
-            // manejo
             "primary",
             "crudType",
             "readOnly",
             "hidden",
-
-            // Para el combo
             "choices",
-
-            // Para el zoom
             "fkId",
             "fkField",
             "cellLink",
             "zoomModel",
             "zoomFilter",
-
-            // Definien como heredar datos de otro campo ( ya se a de un zoom o del mismo rset )
             "cpFromField",
             "cpFromZoom",
-
-            // Para los N2N
-            // "conceptDetail",
-            // "relatedN2N",
-            // "detailField",
-            // "masterField",
             "physicalName",
             "type",
             "xtype",
@@ -134,32 +112,15 @@
             "readOnly",
             "hidden",
             "prpDefault",
-            // "height","maxHeight","minHeight",
-            // "width", "maxWidth","minWidth",
-
             "format",
             "prpLength",
-
-            // Para los campos del htmlSet
             "collapsed",
-
-            // Para el combo
             "choices",
-
-            // Para el zoom
             "fkId",
             "fkField",
             "zoomModel",
             "zoomFilter",
             "cellLink",
-
-            // Para los N2N
-            // "conceptDetail",
-            // "relatedN2N",
-            // "detailField",
-            // "masterField",
-
-            // tipos
             "type",
             "xtype",
             "vType"
@@ -171,49 +132,35 @@
     "gridConfig": {
         "description": "Propiedades de configuracion de la grilla",
         "properties": [
-            'hideRowNumbers',
-            // 'hideCheckSelect',
-            'gridSelectionMode',
+            "hideRowNumbers",
+            "gridSelectionMode",
             "exportCsv",
-            'hideSheet',
-            'denyAutoPrint',
-            'filterSetABC'
+            "hideSheet",
+            "denyAutoPrint",
+            "filterSetABC"
         ],
         "lists": [
             "listDisplay",
             "baseFilter",
             "initialFilter",
             "initialSort",
-
-        // TODO: Eliminar de aqui y pasar a obj  colShortcuts
-            "searchFields",     // TODO: Cambiar por sercheable
-            "sortFields",       // TODO: Cambiar por sortable
+            "searchFields",
+            "sortFields",
             "hiddenFields",
             "readOnlyFields"
-
         ],
-        "objects": [
-         // "colShortcuts"
-        ]
-
+        "objects": [ ]
     },
-
-    // TODO: Caundo se agrega aqui, al guardar actualiza fieldDefinition,
-    // el agregar o borrar prevalece sobre la condicion del campo.
     "colShortcuts": {
         "description": "Column configuration shortcuts",
         "lists": [
-            "searchFields",     // TODO: Cambiar por sercheable
-            "sortFields",       // TODO: Cambiar por sortable
+            "searchFields",
+            "sortFields",
             "hiddenFields",
             "readOnlyFields"
-
-            // qbeAllowFields
-            // textSearchFields
         ]
     },
 
-    // Estos son actualizados por el staf ( admin de grupo )
     "gridSets": {
         "description": "Configuraciones de adicionales ( filters, sorters, userViews )",
         "lists": [
@@ -223,7 +170,6 @@
         ]
     },
 
-    // Estos son actualizados por los usuarios de base
     "custom": {
         "description": "Configuraciones de usuario",
         "lists": [
@@ -245,7 +191,6 @@
         "listOf" : "filterDef",
         "allowAdd" : true
     },
-
 
     "initialFilter": {
         "description": "Filtro inicial, reescribible al seleccionar otro filtro  Ej: { \"status__exact\":\"0\" } ",
@@ -325,20 +270,18 @@
     },
 
     "listDisplaySet": {
-        "description": "Configuraciones alternativas para la grilla  ( Aparecen bajo el icono 'ViewCols' de la barra principal )",
+        "description": "Configuraciones alternativas para la grilla  ( Aparecen bajo el icono ViewCols de la barra principal )",
         "listOf" : "listDisplayDef",
         "allowAdd" : true
     },
 
-    // El esquema no soporta una lista de listas, tiene q ser un objeto para poder nombralo
     "listDisplayDef": {
         "description": "listDisplay predefinidos ",
         "addPrompt" : "Please enter the name of the columnSet:",
         "allowDel" : true,
         "properties": [
             "name",
-            'hideRowNumbers',
-            // 'hideCheckSelect',
+            "hideRowNumbers",
             "description"
         ],
         "lists" : [
@@ -354,17 +297,14 @@
 
     "listDisplay": {
         "description": "Lista de campos a desplegar en la grilla",
-        // "prpDefault" : ["__str__"],
         "addPrompt" : "Please enter the name for your alternative listDisplay:",
         "__ptStyle": "colList"
     },
-
 
     "readOnlyFields": {
         "description": "Lista de campos a marcar como readOnly ( tambien se puede utilzar la prop ReadOnly es igual )",
         "__ptStyle": "colList"
     },
-
 
     "searchFields": {
         "description": "Campos habilitados para busqueda",
@@ -375,7 +315,6 @@
         "description": "Campos habilitados para ordenamiento",
         "__ptStyle": "colList"
     },
-
 
     "detailsConfig": {
         "description": "Detalles en una relacion Master-Detail",
@@ -485,7 +424,6 @@
             "collapsible", "collapsed",
             "labelWidth","labelAlign","hideLabel",
             "height","maxHeight","minHeight"
-            // "width", "maxWidth","minWidth"
         ]
     },
 
@@ -497,7 +435,6 @@
             "collapsible", "collapsed",
             "flex",
             "height","maxHeight","minHeight"
-            // "width", "maxWidth","minWidth"
         ]
     },
 
@@ -508,7 +445,6 @@
             "menuText",
             "height","maxHeight","minHeight",
             "minWidth"
-            // ,"width", "maxWidth"
         ]
     },
 
@@ -518,7 +454,6 @@
         "properties": [
             "title",
             "height","maxHeight","minHeight"
-            // ,"width", "maxWidth","minWidth"
         ]
     },
 
@@ -528,7 +463,6 @@
         "properties": [
             "layout", "activeItem",
             "height","maxHeight","minHeight"
-            // ,"width", "maxWidth","minWidth"
         ]
     },
 
@@ -567,22 +501,15 @@
             "tooltip",
             "fieldLabel",
             "prpDefault",
-
             "required",
             "readOnly",
             "format",
-
-            // Para el combo
             "choices",
-
-            // Para el zoom
             "fkId",
             "fkField",
             "zoomModel",
             "zoomFilter",
             "cellLink",
-
-            // tipos
             "type",
             "xtype",
             "vType"
@@ -594,18 +521,15 @@
     "businessRules": {
         "properties": [
             "dblClick",
-
             "afterCellUpdate",
             "afterRowDelete",
             "afterSave",
-
             "beforeCellEdit",
             "beforeCellUpdate",
             "beforeRowDelete",
             "beforeRowInsert",
             "beforeOpSave",
             "beforeValidate",
-
             "zoomConfigure",
             "zoomReturn",
             "issRowLoad",
@@ -648,4 +572,4 @@
             "issValidationComplete"
         ]
     }
-};
+}

@@ -127,36 +127,39 @@ class Entity(ProtoModel):
         unique_together = ('model', 'code', 'smOwningTeam')
 
     protoExt = {
-        "actions": [
-            {"name": "doEntityPrototype",
-             "selectionMode": "single",
-             "actionParams": [{"name": "viewCode", "type": "string", "required": True,
-             "tooltip": "option de menu (msi)"}]
-             },
-        ],
+        "actions": [{
+            "name": "doEntityPrototype",
+            "selectionMode": "single",
+            "actionParams": [{
+                "name": "viewCode",
+                "type": "string",
+                "required": True,
+                "tooltip": "option de menu (msi)"
+            }]
+        }, ],
         "detailsConfig": [
-        {
-            "__ptType": "detailDef",
-            "menuText": "Properties",
-            "conceptDetail": "prototype.Property",
-            "detailName": "entity",
-            "detailField": "entity__pk",
-            "masterField": "pk"
-        }, {
-            "__ptType": "detailDef",
-            "menuText": "Relationships",
-            "conceptDetail": "prototype.Relationship",
-            "detailName": "entity",
-            "detailField": "entity__pk",
-            "masterField": "pk"
-        }, {
-            "__ptType": "detailDef",
-            "menuText": "Views",
-            "conceptDetail": "prototype.Prototype",
-            "detailName": "entity",
-            "detailField": "entity__pk",
-            "masterField": "pk"
-        }
+            {
+                "__ptType": "detailDef",
+                "menuText": "Properties",
+                "conceptDetail": "prototype.Property",
+                "detailName": "entity",
+                "detailField": "entity__pk",
+                "masterField": "pk"
+            }, {
+                "__ptType": "detailDef",
+                "menuText": "Relationships",
+                "conceptDetail": "prototype.Relationship",
+                "detailName": "entity",
+                "detailField": "entity__pk",
+                "masterField": "pk"
+            }, {
+                "__ptType": "detailDef",
+                "menuText": "Views",
+                "conceptDetail": "prototype.Prototype",
+                "detailName": "entity",
+                "detailField": "entity__pk",
+                "masterField": "pk"
+            }
         ],
         "gridConfig": {
             "listDisplay": ["__str__", "description", "smOwningTeam"]
