@@ -9,7 +9,6 @@ from protoLib.fields import JSONField,  JSONAwareManager
 from protoRules import updatePropInfo, twoWayPropEquivalence, updProPropModel
 from protoRules import ONDELETE_TYPES, BASE_TYPES, CRUD_TYPES, DB_ENGINE
 
-
 from protoLib.utilsBase import slugify
 
 

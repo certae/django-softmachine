@@ -34,7 +34,6 @@ def suite():
 
     suite.addTest(makeSuite(PropertyBaseChildTest, 'test'))
     suite.addTest(makeSuite(PropertyTest, 'test'))
-    suite.addTest(makeSuite(ProjectTest, 'test'))
     suite.addTest(makeSuite(RelationshipTest, 'test'))
 
     suite.addTest(makeSuite(PropertyModelTest, 'test'))
@@ -59,9 +58,7 @@ def suite():
     suite.addTest(makeSuite(ProjectStructureTest, 'test'))
     suite.addTest(makeSuite(ModelStructureTest, 'test'))
     suite.addTest(makeSuite(EntityStructureTest, 'test'))
-
     suite.addTest(makeSuite(PropertyStructureTest, 'test'))
-    suite.addTest(makeSuite(ProjectStructureTest, 'test'))
     suite.addTest(makeSuite(RelationshipStructureTest, 'test'))
     suite.addTest(makeSuite(PropertyModelStructureTest, 'test'))
     suite.addTest(makeSuite(PropertyEquivalenceStructureTest, 'test'))
@@ -69,5 +66,13 @@ def suite():
     suite.addTest(makeSuite(ProtoTableStructureTest, 'test'))
 
     suite.addTest(makeSuite(ProjectPropertiesTest, 'test'))
+    suite.addTest(makeSuite(ModelPropertiesTest, 'test'))
+    suite.addTest(makeSuite(EntityPropertiesTest, 'test'))
+    suite.addTest(makeSuite(PropertyPropertiesTest, 'test'))
+    suite.addTest(makeSuite(RelationshipPropertiesTest, 'test'))
+    suite.addTest(makeSuite(PropertyModelPropertiesTest, 'test'))
+    suite.addTest(makeSuite(PropertyEquivalencePropertiesTest, 'test'))
+    suite.addTest(makeSuite(PrototypePropertiesTest, 'test'))
+    suite.addTest(makeSuite(ProtoTablePropertiesTest, 'test'))
 
     return suite

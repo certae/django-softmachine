@@ -24,28 +24,41 @@ function verifyPrpType(  lKey,  cValue ) {
      * Intenta la conversion, sin no regresa nulo
      */
 
-    var pType = _MetaProperties[ lKey + '.type' ]
-    if ( ! pType )  {
-        if ( typeof ( cValue ) == 'string') { return cValue.trimRight()  }
-        else { return cValue }
+    var pType = _MetaProperties[lKey + '.type']
+    if (!pType) {
+        if (typeof(cValue) == 'string') {
+            return cValue.trimRight()
+        }
+        else {
+            return cValue
+        }
     }
 
-    if ( pType == typeof( cValue ) )
-    { return cValue  }
-
-    switch ( pType ) {
-    case "boolean":
-        if  ( (typeof( cValue ) == 'number') ){ cValue = cValue.toString() }
-        if  ( (typeof( cValue ) == 'string') ){
-            if ( cValue.substr(1,1).toLowerCase()  in oc([ 'y', 's', '1','o' ]) )
-            { return true } else { return false }
-        } else { return false }
-    case "number":
-        return parseFloat( cValue );
-    case "null":
-        return null
-    default:
+    if (pType == typeof(cValue)) {
         return cValue
+    }
+
+    switch (pType) {
+        case "boolean":
+            if ((typeof(cValue) == 'number')) {
+                cValue = cValue.toString()
+            }
+            else if ((typeof(cValue) == 'string')) {
+                if (cValue.substr(1,1).toLowerCase() in oc([ 'y', 's', '1','o' ])) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+            else {
+                return false
+            }
+        case "number":
+            return parseFloat( cValue );
+        case "null":
+            return null
+        default:
+            return cValue
     }
 }
 
