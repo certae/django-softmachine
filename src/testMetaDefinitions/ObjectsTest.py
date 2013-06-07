@@ -130,35 +130,3 @@ class ProtoTableStructureTest(TestCase):
 
     def test_field_and_value(self):
         self.assertTrue(checkAllFields(ProtoTable, self.MetaObjects))
-
-
-class DiagramStructureTest(TestCase):
-    def setUp(self):
-        self.MetaObjects = json.loads(open('src/testMetaDefinitions/MetaObjects.dat').read())
-
-    def test_field_and_value(self):
-        self.assertTrue(checkAllFields(Diagram, self.MetaObjects))
-
-
-class DiagramEntityStructureTest(TestCase):
-    def setUp(self):
-        self.MetaObjects = json.loads(open('src/testMetaDefinitions/MetaObjects.dat').read())
-
-    def test_field_and_value(self):
-        self.assertTrue(checkAllFields(DiagramEntity, self.MetaObjects))
-
-
-class ServiceStructureTest(TestCase):
-    def setUp(self):
-        self.MetaObjects = json.loads(open('src/testMetaDefinitions/MetaObjects.dat').read())
-
-    def test_field_and_value(self):
-        self.assertTrue(checkAllFields(Service, self.MetaObjects))
-
-
-class ServiceRefStructureTest(TestCase):
-    def setUp(self):
-        self.MetaObjects = json.loads(open('src/testMetaDefinitions/MetaObjects.dat').read())
-
-    def test_field_and_value(self):
-        self.assertTrue(checkAllFields(ServiceRef, self.MetaObjects))

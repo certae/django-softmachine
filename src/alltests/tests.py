@@ -17,12 +17,10 @@ from testprototype.testmodels.ServiceTest import ServiceTest
 from testprototype.testmodels.ServiceRefTest import ServiceRefTest
 
 from testprototype.testactions.ViewTemplateTest import BaseDefinitionTest
-from testprototype.testactions.ViewDefinitionTest import GetViewCodeTest
-from testprototype.testactions.ViewDefinitionTest import Property2FieldTest
-from testprototype.testactions.ViewDefinitionTest import GetViewDefinitionTest
-from testprototype.testactions.ViewDefinitionTest import GetFkIdTest
+from testprototype.testactions.ViewDefinitionTest import *
 
 from testMetaDefinitions.ObjectsTest import *
+from testMetaDefinitions.PropertiesTest import *
 
 from testViews.LoginTest import LoginTest
 
@@ -69,9 +67,7 @@ def suite():
     suite.addTest(makeSuite(PropertyEquivalenceStructureTest, 'test'))
     suite.addTest(makeSuite(PrototypeStructureTest, 'test'))
     suite.addTest(makeSuite(ProtoTableStructureTest, 'test'))
-    #suite.addTest(makeSuite(DiagramStructureTest, 'test'))  # Champ et valeur non present dans MetaObjects
-    #suite.addTest(makeSuite(DiagramEntityStructureTest, 'test'))  # Aucun champ a valider
-    #suite.addTest(makeSuite(ServiceStructureTest, 'test'))  # Champ et valeur non present dans MetaObjects
-    #suite.addTest(makeSuite(ServiceRefStructureTest, 'test'))  # Aucun champ a valider
+
+    suite.addTest(makeSuite(ProjectPropertiesTest, 'test'))
 
     return suite
