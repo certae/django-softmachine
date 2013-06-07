@@ -4,7 +4,7 @@ from django.utils.unittest.loader import makeSuite
 from testprototype.testmodels.TestSuiteUtils import ModelsTestSuite
 
 from testprototype.testactions.ViewTemplateTest import BaseDefinitionTest
-from testprototype.testactions.ViewDefinitionTest import *
+from testprototype.testactions.ViewDefinitionTest import ViewDefinitionTestSuite
 
 from testMetaDefinitions.ObjectsTest import StructureTestSuite
 from testMetaDefinitions.PropertiesTest import PropertiesTestSuite
@@ -18,13 +18,9 @@ def suite():
     suite.addTest(ModelsTestSuite())
 
     suite.addTest(makeSuite(LoginTest, 'test'))
-
     suite.addTest(makeSuite(BaseDefinitionTest, 'test'))
 
-    suite.addTest(makeSuite(GetViewCodeTest, 'test'))
-    suite.addTest(makeSuite(Property2FieldTest, 'test'))
-    suite.addTest(makeSuite(GetViewDefinitionTest, 'test'))
-    suite.addTest(makeSuite(GetFkIdTest, 'test'))
+    suite.addTest(ViewDefinitionTestSuite())
 
     suite.addTest(StructureTestSuite())
 

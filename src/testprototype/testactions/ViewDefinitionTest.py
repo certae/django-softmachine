@@ -2,6 +2,8 @@
 
 import random
 from django.test import TestCase
+from django.utils.unittest.suite import TestSuite
+from django.utils.unittest.loader import makeSuite
 from protoLib.utilsBase import slugify
 
 from prototype.models import Property
@@ -12,6 +14,16 @@ from prototype.actions.viewDefinition import *
 from testprototype.Utils import random_string_generator
 from testprototype.testmodels.TestUtilities import createTestEntity
 from testprototype.testmodels.TestUtilities import createTestRelationship
+
+
+def ViewDefinitionTestSuite():
+    suite = TestSuite()
+    suite.addTest(makeSuite(GetViewCodeTest, 'test'))
+    suite.addTest(makeSuite(Property2FieldTest, 'test'))
+    suite.addTest(makeSuite(GetViewDefinitionTest, 'test'))
+    suite.addTest(makeSuite(GetFkIdTest, 'test'))
+
+    return suite
 
 
 class GetViewDefinitionTest(TestCase):
