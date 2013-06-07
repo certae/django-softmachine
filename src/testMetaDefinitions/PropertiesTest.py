@@ -3,9 +3,25 @@
 from pprint import pprint
 import re
 from django.test import TestCase
+from django.utils.unittest.suite import TestSuite
+from django.utils.unittest.loader import makeSuite
 import django.utils.simplejson as json
 
 from prototype.models import *
+
+
+def PropertiesTestSuite():
+    suite = TestSuite()
+    suite.addTest(makeSuite(ProjectPropertiesTest, 'test'))
+    suite.addTest(makeSuite(ModelPropertiesTest, 'test'))
+    suite.addTest(makeSuite(EntityPropertiesTest, 'test'))
+    suite.addTest(makeSuite(PropertyPropertiesTest, 'test'))
+    suite.addTest(makeSuite(RelationshipPropertiesTest, 'test'))
+    suite.addTest(makeSuite(PropertyModelPropertiesTest, 'test'))
+    suite.addTest(makeSuite(PropertyEquivalencePropertiesTest, 'test'))
+    suite.addTest(makeSuite(PrototypePropertiesTest, 'test'))
+    suite.addTest(makeSuite(ProtoTablePropertiesTest, 'test'))
+    return suite
 
 
 def getFields(modelclass):

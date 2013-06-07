@@ -7,10 +7,7 @@ from protoLib.utilsBase import slugify
 from prototype.models import Property
 from prototype.models import Entity
 
-from prototype.actions.viewDefinition import getViewCode
-from prototype.actions.viewDefinition import property2Field
-from prototype.actions.viewDefinition import getViewDefinition
-from prototype.actions.viewDefinition import getFkId
+from prototype.actions.viewDefinition import *
 
 from testprototype.Utils import random_string_generator
 from testprototype.testmodels.TestUtilities import createTestEntity

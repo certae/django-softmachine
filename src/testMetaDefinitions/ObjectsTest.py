@@ -2,9 +2,25 @@
 
 from pprint import pprint
 from django.test import TestCase
+from django.utils.unittest.suite import TestSuite
+from django.utils.unittest.loader import makeSuite
 import django.utils.simplejson as json
 
 from prototype.models import *
+
+
+def StructureTestSuite():
+    suite = TestSuite()
+    suite.addTest(makeSuite(ProjectStructureTest, 'test'))
+    suite.addTest(makeSuite(ModelStructureTest, 'test'))
+    suite.addTest(makeSuite(EntityStructureTest, 'test'))
+    suite.addTest(makeSuite(PropertyStructureTest, 'test'))
+    suite.addTest(makeSuite(RelationshipStructureTest, 'test'))
+    suite.addTest(makeSuite(PropertyModelStructureTest, 'test'))
+    suite.addTest(makeSuite(PropertyEquivalenceStructureTest, 'test'))
+    suite.addTest(makeSuite(PrototypeStructureTest, 'test'))
+    suite.addTest(makeSuite(ProtoTableStructureTest, 'test'))
+    return suite
 
 
 def getFields(modelclass):
