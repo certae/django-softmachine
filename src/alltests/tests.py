@@ -64,14 +64,14 @@ def suite():
 
     suite.addTest(makeSuite(PropertyStructureTest, 'test'))
     suite.addTest(makeSuite(ProjectStructureTest, 'test'))
-    #suite.addTest(makeSuite(RelationshipStructureTest, 'test'))
+    suite.addTest(makeSuite(RelationshipStructureTest, 'test'))
     suite.addTest(makeSuite(PropertyModelStructureTest, 'test'))
     suite.addTest(makeSuite(PropertyEquivalenceStructureTest, 'test'))
     suite.addTest(makeSuite(PrototypeStructureTest, 'test'))
     suite.addTest(makeSuite(ProtoTableStructureTest, 'test'))
-    #suite.addTest(makeSuite(DiagramStructureTest, 'test'))
-    #suite.addTest(makeSuite(DiagramEntityStructureTest, 'test'))
-    #suite.addTest(makeSuite(ServiceStructureTest, 'test'))
-    #suite.addTest(makeSuite(ServiceRefStructureTest, 'test'))
+    #suite.addTest(makeSuite(DiagramStructureTest, 'test'))  # Champ et valeur non present dans MetaObjects
+    #suite.addTest(makeSuite(DiagramEntityStructureTest, 'test'))  # Aucun champ a valider
+    #suite.addTest(makeSuite(ServiceStructureTest, 'test'))  # Champ et valeur non present dans MetaObjects
+    #suite.addTest(makeSuite(ServiceRefStructureTest, 'test'))  # Aucun champ a valider
 
     return suite

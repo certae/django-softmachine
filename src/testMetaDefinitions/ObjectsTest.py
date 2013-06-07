@@ -31,6 +31,9 @@ def validatePair(field, value, datatree):
             status = True
             break
 
+    if field is 'exclude':
+        return True
+
     if 'listOf' in datatree[field]:
         field = datatree[field]['listOf']
 
