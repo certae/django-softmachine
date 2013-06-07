@@ -22,12 +22,9 @@ from utilsWeb import doReturn
 
 import django.utils.simplejson as json
 import traceback
-import logging
 
 
 def protoList(request):
-
-    logging.info('File : protoActionList.py -- protoList()')
 
 #   Vista simple para cargar la informacion,
 
@@ -94,8 +91,6 @@ def protoList(request):
 
 # Obtiene el diccionario basado en el Query Set
 def Q2Dict(protoMeta, pRows, fakeId):
-
-    logging.info('File : protoActionList.py -- Q2Dict()')
 
     """
         return the row list from given queryset
@@ -221,8 +216,6 @@ def Q2Dict(protoMeta, pRows, fakeId):
 
 def getRowById(myModelName, myId):
 
-    logging.info('File : protoActionList.py -- getRowById()')
-
     """
     Retorna un registro dado un modelo y un id
     """
@@ -238,8 +231,6 @@ def getRowById(myModelName, myId):
 
 def isAbsorbedField(lField, protoMeta):
 
-    logging.info('File : protoActionList.py -- isAbsorbedField()')
-
     """ Determina si el campo es heredado de un zoom,
     Pueden existir herencias q no tienen modelo, estas se manejar directamente por el ORM
     Las herencias manejadas aqui son las q implican un select adicional al otro registro,
@@ -253,8 +244,6 @@ def isAbsorbedField(lField, protoMeta):
 
 
 def copyValuesFromFields(protoMeta, rowdict, relModels, JsonField):
-
-    logging.info('File : protoActionList.py -- copyValuesFromFields()')
 
     """
     Permite copiar campos q vienen de los zooms,
@@ -316,8 +305,6 @@ def copyValuesFromFields(protoMeta, rowdict, relModels, JsonField):
 
 def getUserNodes(pUser, viewEntity):
 
-    logging.info('File : protoActionList.py -- getUserNodes()')
-
     userProfile = getUserProfile(pUser, 'list', viewEntity)
     userNodes = userProfile.userTree.split(',')
 
@@ -325,8 +312,6 @@ def getUserNodes(pUser, viewEntity):
 
 
 def getQSet(protoMeta, protoFilter, baseFilter, sort, pUser):
-
-    logging.info('File : protoActionList.py -- getQSet()')
 
 #   Decodifica los eltos
     viewEntity = protoMeta.get('viewEntity', '')
@@ -407,8 +392,6 @@ def getQSet(protoMeta, protoFilter, baseFilter, sort, pUser):
 
 def getUnicodeFields(model):
 
-    logging.info('File : protoActionList.py -- getUnicodeFields()')
-
     unicodeSort = ()
     if hasattr(model, 'unicode_sort'):
         unicodeSort = model.unicode_sort
@@ -418,8 +401,6 @@ def getUnicodeFields(model):
 
 
 def addQbeFilter(protoFilter, model, Qs, JsonField):
-
-    logging.info('File : protoActionList.py -- addQbeFilter()')
 
     # No hay criterios
     if len(protoFilter) == 0:
@@ -454,8 +435,6 @@ def addQbeFilter(protoFilter, model, Qs, JsonField):
 
 def addQbeFilterStmt(sFilter, model, JsonField):
 
-    logging.info('File : protoActionList.py -- addQbeFilterStmt()')
-
     """ Verifica casos especiales y obtiene el QStmt
         retorna un objeto Q
     """
@@ -486,8 +465,6 @@ def addQbeFilterStmt(sFilter, model, JsonField):
 
 
 def getTextSearch(sFilter, model, JsonField):
-
-    logging.info('File : protoActionList.py -- getTextSearch()')
 
     #   Busqueda Textual ( no viene con ningun tipo de formato solo el texto a buscar
     #   Si no trae nada deja el Qs con el filtro de base
@@ -522,8 +499,6 @@ def getTextSearch(sFilter, model, JsonField):
 
 
 def getFieldValue(fName, fType, rowData, JsonField):
-
-    logging.info('File : protoActionList.py -- getFieldValue()')
 
     #Es una funcion
     if (fName == '__str__'):
@@ -581,8 +556,6 @@ def getFieldValue(fName, fType, rowData, JsonField):
 
 
 def evalueFuncion(fName, rowData):
-
-    logging.info('File : protoActionList.py -- evalueFuncion()')
 
     """ para evaluar las funciones @  declaradas en el modelo
     """

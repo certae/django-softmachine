@@ -9,17 +9,10 @@ from protoLib.protoActionEdit import setSecurityInfo
 from protoLib.utilsBase import JSONEncoder, slugify
 from protoLib.protoAuth import getUserProfile
 
-import logging
-
 PROTO_PREFIX = "prototype.ProtoTable."
 
 
 def getViewDefinition(pEntity, viewTitle):
-
-    logging.info('File : viewDefinition.py -- getViewDefinition()')
-    logging.info(pEntity)
-    logging.info(viewTitle)
-    logging.info('\n\n')
 
     entityName = getViewCode(pEntity)
 
@@ -88,16 +81,12 @@ def getViewDefinition(pEntity, viewTitle):
 
 def getViewCode(pEntity, viewTitle=None):
 
-    logging.info('File : viewDefinition.py -- getViewCode()')
-
     if viewTitle is None:
         viewTitle = pEntity.code
     return slugify(pEntity.model.code + '-' + viewTitle)
 
 
 def property2Field(fName, propDict, infoField=False, fBase=''):
-
-    logging.info('File : viewDefinition.py -- property2Field()')
 
     """ Genera la definicion del campo en la pci """
 
@@ -130,8 +119,6 @@ def property2Field(fName, propDict, infoField=False, fBase=''):
 
 def getFkId(fName, infoField=False, fBase=''):
 
-    logging.info('File : viewDefinition.py -- getFkId()')
-
     """ Crea el id de los zooms """
 
     fNameId = fName + "_id"
@@ -156,8 +143,6 @@ def getFkId(fName, infoField=False, fBase=''):
 
 def GetProtoFieldsTree(protoEntityId):
 
-    logging.info('File : viewDefinition.py -- GetProtoFieldsTree()')
-
     """  Obtiene la lista de campos q puedn heredarse de los zooms
     """
 
@@ -172,8 +157,6 @@ def GetProtoFieldsTree(protoEntityId):
 
 
 def addProtoFiedToList(fieldList, pEntity, fieldBase, zoomName):
-
-    logging.info('File : viewDefinition.py -- addProtoFiedToList()')
 
     """ Recorre los campos e itera con los fk ( solo un nivel 'fieldBase' )
     """
@@ -224,8 +207,6 @@ def addProtoFiedToList(fieldList, pEntity, fieldBase, zoomName):
 
 def GetDetailsConfigTree(protoEntityId):
 
-    logging.info('File : viewDefinition.py -- GetDetailsConfigTree()')
-
     lDetails = []
 
     try:
@@ -254,8 +235,6 @@ def GetDetailsConfigTree(protoEntityId):
 
 def getEntities(queryset, request, viewTitle):
 
-    logging.info('File : viewDefinition.py -- getEntities()')
-
     """ Recorre las entidades para generar las vistas en bache por modelo """
 
     userProfile = getUserProfile(request.user, 'prototype', '')
@@ -270,8 +249,6 @@ def getEntities(queryset, request, viewTitle):
 
 
 def createView(pEntity, viewTitle, userProfile):
-
-    logging.info('File : viewDefinition.py -- createView()')
 
     viewName = slugify(viewTitle)
     infoEntity = getViewDefinition(pEntity, viewTitle)

@@ -1,15 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
-import logging
 from prototype.models import PropertyModel
 
 
 def doPropModelJoin(queryset):
-
-    logging.info('File : propModelJoin.py -- doPropModelJoin()')
-    logging.info(queryset)
-
     """
     No se pueden crear props de diferentes modelos, pues el modelo hace parte de la llave
     y aunq yo pienso q deberia factorisarse todo a nivel de proeyecto, es importante saber

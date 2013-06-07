@@ -19,8 +19,6 @@ from utilsBase import verifyList
 
 from prototype.models import Prototype
 
-import logging
-
 PROTO_PREFIX = "prototype.ProtoTable."
 
 
@@ -29,8 +27,6 @@ class cAux:
 
 
 def protoGetMenuData(request):
-
-    logging.info('File : protoMenu.py -- protoGetMenuData()')
 
     """
     Cada grupo tiene su propio menu q se construye con las app a las cuales tiene derecho
@@ -152,8 +148,6 @@ def protoGetMenuData(request):
 
 
 def getMenuItem(protoAdmin, model, menuNode):
-
-    logging.info('File : protoMenu.py -- getMenuItem()')
 
     appCode = model._meta.app_label
 

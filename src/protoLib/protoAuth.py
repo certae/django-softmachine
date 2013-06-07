@@ -1,12 +1,9 @@
 # -*- encoding: UTF-8 -*-
 
 from models import UserProfile, TeamHierarchy
-import logging
 
 
 def getUserProfile(pUser, action, actionInfo):
-
-    logging.info('File : protoAuth.py -- getUserProfile()')
 
     """
     Obtiene el profile de usuario, permitira retornar valores como el
@@ -64,8 +61,6 @@ def getUserProfile(pUser, action, actionInfo):
 
 def getModelPermissions(pUser, model, perm=None):
 
-    logging.info('File : protoAuth.py -- getModelPermissions()')
-
     appName = model._meta.app_label
     modName = model._meta.module_name
 
@@ -95,8 +90,6 @@ def getModelPermissions(pUser, model, perm=None):
 
 
 def activityLog(action, user, option, info):
-
-    logging.info('File : protoAuth.py -- activityLog()')
 
     # TODO:
     # info es un json con el detalle de la opcion { rows, meta, etc .... }

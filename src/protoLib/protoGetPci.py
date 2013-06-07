@@ -20,7 +20,6 @@ PROTO_PREFIX = "prototype.ProtoTable."
 
 import django.utils.simplejson as json
 import traceback
-import logging
 
 
 # 12/10/28 Permite la carga directa de json de definicion.
@@ -28,8 +27,6 @@ PROTOVERSION = '130310'
 
 
 def protoGetPCI(request):
-
-    logging.info('File : protoGetPci.py -- protoGetPCI()')
 
     """ return full metadata (columns, renderers, totalcount...)
     """
@@ -152,8 +149,6 @@ def protoGetPCI(request):
 
 def createProtoMeta(model, grid, viewEntity, viewCode):
 
-    logging.info('File : protoGetPci.py -- createProtoMeta()')
-
     # Los criterios de busqueda ni los ordenamientos son heredados del admin,
     pSearchFields = grid.gridConfig.get('searchFields', [])
     if len(pSearchFields) == 0:
@@ -236,8 +231,6 @@ def createProtoMeta(model, grid, viewEntity, viewCode):
 
 
 def protoSaveProtoObj(request):
-
-    logging.info('File : protoGetPci.py -- protoSaveProtoObj()')
 
     """ Save full metadata
 
@@ -330,8 +323,6 @@ def protoSaveProtoObj(request):
 
 def protoGetFieldTree(request):
 
-    logging.info('File : protoGetPci.py -- protoGetFieldTree()')
-
     """ return full field tree
     """
 
@@ -391,8 +382,6 @@ def protoGetFieldTree(request):
 
 
 def addFiedToList(fieldList, field, fieldBase):
-
-    logging.info('File : protoGetPci.py -- addFiedToList()')
 
     """ return parcial field tree  ( Called from protoGetFieldTree )
     """
@@ -471,8 +460,6 @@ def addFiedToList(fieldList, field, fieldBase):
 # --------------------------------------------------------------------------
 
 def isFieldDefined(pFields, fName):
-
-    logging.info('File : protoGetPci.py -- isFieldDefined()')
 
     # Verifica si un campo esta en la lista
     for pField in pFields:

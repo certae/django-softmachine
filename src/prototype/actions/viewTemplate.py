@@ -3,19 +3,12 @@
 from datetime import datetime
 from protoLib.utilsBase import slugify
 
-import logging
-
 PROTO_PREFIX = "prototype.ProtoTable."
 
 
 def baseDefinition(pEntity, entityName, viewTitle):
     """ protoEntity: Es la traza de la generacion del protipo  dominio.modelo.entidad
     """
-
-    logging.info('File : viewTemplate.py -- baseDefinition()')
-    logging.info(pEntity)
-    logging.info(entityName)
-    logging.info(viewTitle)
 
     viewName = slugify(viewTitle)
 
