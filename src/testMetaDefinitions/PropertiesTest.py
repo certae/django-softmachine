@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from pprint import pprint
 import re
 from django.test import TestCase
 from django.utils.unittest.suite import TestSuite
@@ -8,6 +7,19 @@ from django.utils.unittest.loader import makeSuite
 import django.utils.simplejson as json
 
 from prototype.models import *
+from protoLib.models import *
+
+# Peut-etre ajoute un class setup (?)
+PossibleTypes = ['list', 'string']
+MetaObjects = json.loads(open('src/testMetaDefinitions/MetaObjects.dat').read())
+MetaProperties = json.loads(open('src/testMetaDefinitions/MetaProperties.dat').read())
+DataTypes = dict()
+
+for fields in MetaProperties:
+    if '.type' in fields:
+        type = MetaProperties[fields]
+        field = re.sub(r'\.type$', '', fields)
+        DataTypes[field] = type
 
 
 def PropertiesTestSuite():
@@ -21,6 +33,9 @@ def PropertiesTestSuite():
     suite.addTest(makeSuite(PropertyEquivalencePropertiesTest, 'test'))
     suite.addTest(makeSuite(PrototypePropertiesTest, 'test'))
     suite.addTest(makeSuite(ProtoTablePropertiesTest, 'test'))
+
+    suite.addTest(makeSuite(TeamHierarchyPropertiesTest, 'test'))
+    suite.addTest(makeSuite(ProtoDefinitionPropertiesTest, 'test'))
     return suite
 
 
@@ -49,195 +64,108 @@ def getFieldType(field, value, modelclass, metaobjects, metaproperties):
         type = metaproperties[value]
     elif field in metaobjects['pcl']['objects']:
         type = getObjectType(field, value, metaobjects, metaproperties)
+
+    if type is None:
+        type = 'string'
     return type
 
 
 class ProjectPropertiesTest(TestCase):
-    def setUp(self):
-        self.MetaObjects = json.loads(open('src/testMetaDefinitions/MetaObjects.dat').read())
-
-        MetaProperties = json.loads(open('src/testMetaDefinitions/MetaProperties.dat').read())
-        self.datatypes = dict()
-
-        for fields in MetaProperties:
-            if '.type' in fields:
-                type = MetaProperties[fields]
-                field = re.sub(r'\.type$', '', fields)
-                self.datatypes[field] = type
-
     def test_structure(self):
         fields = getFields(Project)
         for field in fields:
             for value in Project.protoExt[field]:
-                fieldtype = getFieldType(field, value, Project, self.MetaObjects, self.datatypes)
-                self.assertIn(fieldtype, ['list'])
+                fieldtype = getFieldType(field, value, Project, MetaObjects, DataTypes)
+                self.assertIn(fieldtype, PossibleTypes)
 
 
 class ModelPropertiesTest(TestCase):
-    def setUp(self):
-        self.MetaObjects = json.loads(open('src/testMetaDefinitions/MetaObjects.dat').read())
-
-        MetaProperties = json.loads(open('src/testMetaDefinitions/MetaProperties.dat').read())
-        self.datatypes = dict()
-
-        for fields in MetaProperties:
-            if '.type' in fields:
-                type = MetaProperties[fields]
-                field = re.sub(r'\.type$', '', fields)
-                self.datatypes[field] = type
-
     def test_structure(self):
         fields = getFields(Model)
         for field in fields:
             for value in Model.protoExt[field]:
-                fieldtype = getFieldType(field, value, Model, self.MetaObjects, self.datatypes)
-                self.assertIn(fieldtype, ['list'])
+                fieldtype = getFieldType(field, value, Model, MetaObjects, DataTypes)
+                self.assertIn(fieldtype, PossibleTypes)
 
 
 class EntityPropertiesTest(TestCase):
-    def setUp(self):
-        self.MetaObjects = json.loads(open('src/testMetaDefinitions/MetaObjects.dat').read())
-
-        MetaProperties = json.loads(open('src/testMetaDefinitions/MetaProperties.dat').read())
-        self.datatypes = dict()
-
-        for fields in MetaProperties:
-            if '.type' in fields:
-                type = MetaProperties[fields]
-                field = re.sub(r'\.type$', '', fields)
-                self.datatypes[field] = type
-
     def test_structure(self):
         fields = getFields(Entity)
         for field in fields:
             for value in Entity.protoExt[field]:
-                fieldtype = getFieldType(field, value, Entity, self.MetaObjects, self.datatypes)
-                self.assertIn(fieldtype, ['list'])
+                fieldtype = getFieldType(field, value, Entity, MetaObjects, DataTypes)
+                self.assertIn(fieldtype, PossibleTypes)
 
 
 class PropertyPropertiesTest(TestCase):
-    def setUp(self):
-        self.MetaObjects = json.loads(open('src/testMetaDefinitions/MetaObjects.dat').read())
-
-        MetaProperties = json.loads(open('src/testMetaDefinitions/MetaProperties.dat').read())
-        self.datatypes = dict()
-
-        for fields in MetaProperties:
-            if '.type' in fields:
-                type = MetaProperties[fields]
-                field = re.sub(r'\.type$', '', fields)
-                self.datatypes[field] = type
-
     def test_structure(self):
         fields = getFields(Property)
         for field in fields:
             for value in Property.protoExt[field]:
-                fieldtype = getFieldType(field, value, Property, self.MetaObjects, self.datatypes)
-                self.assertIn(fieldtype, ['list'])
+                fieldtype = getFieldType(field, value, Property, MetaObjects, DataTypes)
+                self.assertIn(fieldtype, PossibleTypes)
 
 
 class RelationshipPropertiesTest(TestCase):
-    def setUp(self):
-        self.MetaObjects = json.loads(open('src/testMetaDefinitions/MetaObjects.dat').read())
-
-        MetaProperties = json.loads(open('src/testMetaDefinitions/MetaProperties.dat').read())
-        self.datatypes = dict()
-
-        for fields in MetaProperties:
-            if '.type' in fields:
-                type = MetaProperties[fields]
-                field = re.sub(r'\.type$', '', fields)
-                self.datatypes[field] = type
-
     def test_structure(self):
         fields = getFields(Relationship)
         for field in fields:
             if field is 'exclude':
                 continue
             for value in Relationship.protoExt[field]:
-                fieldtype = getFieldType(field, value, Relationship, self.MetaObjects, self.datatypes)
-                self.assertIn(fieldtype, ['list'])
+                fieldtype = getFieldType(field, value, Relationship, MetaObjects, DataTypes)
+                self.assertIn(fieldtype, PossibleTypes)
 
 
 class PropertyModelPropertiesTest(TestCase):
-    def setUp(self):
-        self.MetaObjects = json.loads(open('src/testMetaDefinitions/MetaObjects.dat').read())
-
-        MetaProperties = json.loads(open('src/testMetaDefinitions/MetaProperties.dat').read())
-        self.datatypes = dict()
-
-        for fields in MetaProperties:
-            if '.type' in fields:
-                type = MetaProperties[fields]
-                field = re.sub(r'\.type$', '', fields)
-                self.datatypes[field] = type
-
     def test_structure(self):
         fields = getFields(PropertyModel)
         for field in fields:
             for value in PropertyModel.protoExt[field]:
-                fieldtype = getFieldType(field, value, PropertyModel, self.MetaObjects, self.datatypes)
-                self.assertIn(fieldtype, ['list'])
+                fieldtype = getFieldType(field, value, PropertyModel, MetaObjects, DataTypes)
+                self.assertIn(fieldtype, PossibleTypes)
 
 
 class PropertyEquivalencePropertiesTest(TestCase):
-    def setUp(self):
-        self.MetaObjects = json.loads(open('src/testMetaDefinitions/MetaObjects.dat').read())
-
-        MetaProperties = json.loads(open('src/testMetaDefinitions/MetaProperties.dat').read())
-        self.datatypes = dict()
-
-        for fields in MetaProperties:
-            if '.type' in fields:
-                type = MetaProperties[fields]
-                field = re.sub(r'\.type$', '', fields)
-                self.datatypes[field] = type
-
     def test_structure(self):
         fields = getFields(PropertyEquivalence)
         for field in fields:
             for value in PropertyEquivalence.protoExt[field]:
-                fieldtype = getFieldType(field, value, PropertyEquivalence, self.MetaObjects, self.datatypes)
-                self.assertIn(fieldtype, ['list'])
+                fieldtype = getFieldType(field, value, PropertyEquivalence, MetaObjects, DataTypes)
+                self.assertIn(fieldtype, PossibleTypes)
 
 
 class PrototypePropertiesTest(TestCase):
-    def setUp(self):
-        self.MetaObjects = json.loads(open('src/testMetaDefinitions/MetaObjects.dat').read())
-
-        MetaProperties = json.loads(open('src/testMetaDefinitions/MetaProperties.dat').read())
-        self.datatypes = dict()
-
-        for fields in MetaProperties:
-            if '.type' in fields:
-                type = MetaProperties[fields]
-                field = re.sub(r'\.type$', '', fields)
-                self.datatypes[field] = type
-
     def test_structure(self):
         fields = getFields(Prototype)
         for field in fields:
             for value in Prototype.protoExt[field]:
-                fieldtype = getFieldType(field, value, Prototype, self.MetaObjects, self.datatypes)
-                self.assertIn(fieldtype, ['list'])
+                fieldtype = getFieldType(field, value, Prototype, MetaObjects, DataTypes)
+                self.assertIn(fieldtype, PossibleTypes)
 
 
 class ProtoTablePropertiesTest(TestCase):
-    def setUp(self):
-        self.MetaObjects = json.loads(open('src/testMetaDefinitions/MetaObjects.dat').read())
-
-        MetaProperties = json.loads(open('src/testMetaDefinitions/MetaProperties.dat').read())
-        self.datatypes = dict()
-
-        for fields in MetaProperties:
-            if '.type' in fields:
-                type = MetaProperties[fields]
-                field = re.sub(r'\.type$', '', fields)
-                self.datatypes[field] = type
-
     def test_structure(self):
         fields = getFields(ProtoTable)
         for field in fields:
             for value in ProtoTable.protoExt[field]:
-                fieldtype = getFieldType(field, value, ProtoTable, self.MetaObjects, self.datatypes)
-                self.assertIn(fieldtype, ['list'])
+                fieldtype = getFieldType(field, value, ProtoTable, MetaObjects, DataTypes)
+                self.assertIn(fieldtype, PossibleTypes)
+
+
+class TeamHierarchyPropertiesTest(TestCase):
+    def test_structure(self):
+        fields = getFields(TeamHierarchy)
+        for field in fields:
+            for value in TeamHierarchy.protoExt[field]:
+                fieldtype = getFieldType(field, value, TeamHierarchy, MetaObjects, DataTypes)
+                self.assertIn(fieldtype, PossibleTypes)
+
+
+class ProtoDefinitionPropertiesTest(TestCase):
+    def test_structure(self):
+        fields = getFields(ProtoDefinition)
+        for field in fields:
+            for value in ProtoDefinition.protoExt[field]:
+                fieldtype = getFieldType(field, value, ProtoDefinition, MetaObjects, DataTypes)
+                self.assertIn(fieldtype, PossibleTypes)

@@ -4,9 +4,5 @@ import string
 import random
 
 
-def __init__():
-    pass
-
-
 def random_string_generator(size=6, chars=string.ascii_uppercase):
     return ''.join(random.choice(chars) for x in range(size))
