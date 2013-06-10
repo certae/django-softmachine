@@ -41,11 +41,12 @@ def getObjectType(field, value, metaobjects, metaproperties):
     return type
 
 
-def getFieldType(field, modelclass, metaobjects, metaproperties):
-    value = modelclass.protoExt[field]
-    for element in value:
-        value = element
-        break
+def getFieldType(field, value, modelclass, metaobjects, metaproperties):
+    #value = modelclass.protoExt[field]
+    #print(len(value))
+    #for element in value:
+        #value = element
+        #break
     type = None
     if field in metaobjects['pcl']['lists']:
         type = 'list'
@@ -72,9 +73,10 @@ class ProjectPropertiesTest(TestCase):
     def test_structure(self):
         fields = getFields(Project)
         for field in fields:
-            fieldtype = getFieldType(field, Project, self.MetaObjects, self.datatypes)
-            #print(fieldtype)
-            self.assertIn(fieldtype, ['list'])
+            for value in Project.protoExt[field]:
+                fieldtype = getFieldType(field, value, Project, self.MetaObjects, self.datatypes)
+                #print(fieldtype)
+                self.assertIn(fieldtype, ['list'])
 
 
 class ModelPropertiesTest(TestCase):
@@ -93,9 +95,10 @@ class ModelPropertiesTest(TestCase):
     def test_structure(self):
         fields = getFields(Model)
         for field in fields:
-            fieldtype = getFieldType(field, Model, self.MetaObjects, self.datatypes)
-            #print(fieldtype)
-            self.assertIn(fieldtype, ['list'])
+            for value in Model.protoExt[field]:
+                fieldtype = getFieldType(field, value, Model, self.MetaObjects, self.datatypes)
+                #print(fieldtype)
+                self.assertIn(fieldtype, ['list'])
 
 
 class EntityPropertiesTest(TestCase):
@@ -114,9 +117,10 @@ class EntityPropertiesTest(TestCase):
     def test_structure(self):
         fields = getFields(Entity)
         for field in fields:
-            fieldtype = getFieldType(field, Entity, self.MetaObjects, self.datatypes)
-            #print(fieldtype)
-            self.assertIn(fieldtype, ['list'])
+            for value in Entity.protoExt[field]:
+                fieldtype = getFieldType(field, value, Entity, self.MetaObjects, self.datatypes)
+                #print(fieldtype)
+                self.assertIn(fieldtype, ['list'])
 
 
 class PropertyPropertiesTest(TestCase):
@@ -135,9 +139,10 @@ class PropertyPropertiesTest(TestCase):
     def test_structure(self):
         fields = getFields(Property)
         for field in fields:
-            fieldtype = getFieldType(field, Property, self.MetaObjects, self.datatypes)
-            #print(fieldtype)
-            self.assertIn(fieldtype, ['list'])
+            for value in Property.protoExt[field]:
+                fieldtype = getFieldType(field, value, Property, self.MetaObjects, self.datatypes)
+                #print(fieldtype)
+                self.assertIn(fieldtype, ['list'])
 
 
 class RelationshipPropertiesTest(TestCase):
@@ -158,9 +163,10 @@ class RelationshipPropertiesTest(TestCase):
         for field in fields:
             if field is 'exclude':
                 continue
-            fieldtype = getFieldType(field, Relationship, self.MetaObjects, self.datatypes)
-            #print(fieldtype)
-            self.assertIn(fieldtype, ['list'])
+            for value in Relationship.protoExt[field]:
+                fieldtype = getFieldType(field, value, Relationship, self.MetaObjects, self.datatypes)
+                #print(fieldtype)
+                self.assertIn(fieldtype, ['list'])
 
 
 class PropertyModelPropertiesTest(TestCase):
@@ -179,9 +185,10 @@ class PropertyModelPropertiesTest(TestCase):
     def test_structure(self):
         fields = getFields(PropertyModel)
         for field in fields:
-            fieldtype = getFieldType(field, PropertyModel, self.MetaObjects, self.datatypes)
-            #print(fieldtype)
-            self.assertIn(fieldtype, ['list'])
+            for value in PropertyModel.protoExt[field]:
+                fieldtype = getFieldType(field, value, PropertyModel, self.MetaObjects, self.datatypes)
+                #print(fieldtype)
+                self.assertIn(fieldtype, ['list'])
 
 
 class PropertyEquivalencePropertiesTest(TestCase):
@@ -200,9 +207,10 @@ class PropertyEquivalencePropertiesTest(TestCase):
     def test_structure(self):
         fields = getFields(PropertyEquivalence)
         for field in fields:
-            fieldtype = getFieldType(field, PropertyEquivalence, self.MetaObjects, self.datatypes)
-            #print(fieldtype)
-            self.assertIn(fieldtype, ['list'])
+            for value in PropertyEquivalence.protoExt[field]:
+                fieldtype = getFieldType(field, value, PropertyEquivalence, self.MetaObjects, self.datatypes)
+                #print(fieldtype)
+                self.assertIn(fieldtype, ['list'])
 
 
 class PrototypePropertiesTest(TestCase):
@@ -221,9 +229,10 @@ class PrototypePropertiesTest(TestCase):
     def test_structure(self):
         fields = getFields(Prototype)
         for field in fields:
-            fieldtype = getFieldType(field, Prototype, self.MetaObjects, self.datatypes)
-            #print(fieldtype)
-            self.assertIn(fieldtype, ['list'])
+            for value in Prototype.protoExt[field]:
+                fieldtype = getFieldType(field, value, Prototype, self.MetaObjects, self.datatypes)
+                #print(fieldtype)
+                self.assertIn(fieldtype, ['list'])
 
 
 class ProtoTablePropertiesTest(TestCase):
@@ -242,6 +251,7 @@ class ProtoTablePropertiesTest(TestCase):
     def test_structure(self):
         fields = getFields(ProtoTable)
         for field in fields:
-            fieldtype = getFieldType(field, ProtoTable, self.MetaObjects, self.datatypes)
-            #print(fieldtype)
-            self.assertIn(fieldtype, ['list'])
+            for value in ProtoTable.protoExt[field]:
+                fieldtype = getFieldType(field, value, ProtoTable, self.MetaObjects, self.datatypes)
+                #print(fieldtype)
+                self.assertIn(fieldtype, ['list'])
