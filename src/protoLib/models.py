@@ -42,8 +42,8 @@ class TeamHierarchy(models.Model):
 
     protoExt = {
         'fields': {
-        'fullPath': {'readOnly': True},
-        'treeHierarchy': {'readOnly': True},
+            'fullPath': {'readOnly': True},
+            'treeHierarchy': {'readOnly': True},
         }
     }
 

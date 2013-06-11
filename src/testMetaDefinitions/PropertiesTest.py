@@ -22,6 +22,15 @@ for fields in MetaProperties:
         DataTypes[field] = type
 
 
+#class Test(unittest.TestCase):
+    #@classmethod
+    #def setUpClass(cls):
+        #pass
+    #@classmethod
+        #def tearDownClass(cls):
+            #pass
+
+
 def PropertiesTestSuite():
     suite = TestSuite()
     suite.addTest(makeSuite(ProjectPropertiesTest, 'test'))
@@ -36,6 +45,9 @@ def PropertiesTestSuite():
 
     suite.addTest(makeSuite(TeamHierarchyPropertiesTest, 'test'))
     suite.addTest(makeSuite(ProtoDefinitionPropertiesTest, 'test'))
+    suite.addTest(makeSuite(CustomDefinitionPropertiesTest, 'test'))
+    suite.addTest(makeSuite(DiscreteValuePropertiesTest, 'test'))
+
     return suite
 
 
@@ -168,4 +180,22 @@ class ProtoDefinitionPropertiesTest(TestCase):
         for field in fields:
             for value in ProtoDefinition.protoExt[field]:
                 fieldtype = getFieldType(field, value, ProtoDefinition, MetaObjects, DataTypes)
+                self.assertIn(fieldtype, PossibleTypes)
+
+
+class CustomDefinitionPropertiesTest(TestCase):
+    def test_structure(self):
+        fields = getFields(CustomDefinition)
+        for field in fields:
+            for value in CustomDefinition.protoExt[field]:
+                fieldtype = getFieldType(field, value, CustomDefinition, MetaObjects, DataTypes)
+                self.assertIn(fieldtype, PossibleTypes)
+
+
+class DiscreteValuePropertiesTest(TestCase):
+    def test_structure(self):
+        fields = getFields(DiscreteValue)
+        for field in fields:
+            for value in DiscreteValue.protoExt[field]:
+                fieldtype = getFieldType(field, value, DiscreteValue, MetaObjects, DataTypes)
                 self.assertIn(fieldtype, PossibleTypes)
