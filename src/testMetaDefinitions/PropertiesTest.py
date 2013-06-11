@@ -22,15 +22,6 @@ for fields in MetaProperties:
         DataTypes[field] = type
 
 
-#class Test(unittest.TestCase):
-    #@classmethod
-    #def setUpClass(cls):
-        #pass
-    #@classmethod
-        #def tearDownClass(cls):
-            #pass
-
-
 def PropertiesTestSuite():
     suite = TestSuite()
     suite.addTest(makeSuite(ProjectPropertiesTest, 'test'))
