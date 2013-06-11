@@ -9,18 +9,6 @@ import django.utils.simplejson as json
 from prototype.models import *
 from protoLib.models import *
 
-# Peut-etre ajoute un class setup (?)
-PossibleTypes = ['list', 'string']
-MetaObjects = json.loads(open('src/testMetaDefinitions/MetaObjects.dat').read())
-MetaProperties = json.loads(open('src/testMetaDefinitions/MetaProperties.dat').read())
-DataTypes = dict()
-
-for fields in MetaProperties:
-    if '.type' in fields:
-        type = MetaProperties[fields]
-        field = re.sub(r'\.type$', '', fields)
-        DataTypes[field] = type
-
 
 def PropertiesTestSuite():
     suite = TestSuite()
@@ -40,6 +28,19 @@ def PropertiesTestSuite():
     suite.addTest(makeSuite(DiscreteValuePropertiesTest, 'test'))
 
     return suite
+
+
+# Peut-etre ajoute un class setup (?)
+PossibleTypes = ['list', 'string']
+MetaObjects = json.loads(open('src/testMetaDefinitions/MetaObjects.dat').read())
+MetaProperties = json.loads(open('src/testMetaDefinitions/MetaProperties.dat').read())
+DataTypes = dict()
+
+for fields in MetaProperties:
+    if '.type' in fields:
+        type = MetaProperties[fields]
+        field = re.sub(r'\.type$', '', fields)
+        DataTypes[field] = type
 
 
 def getFields(modelclass):
