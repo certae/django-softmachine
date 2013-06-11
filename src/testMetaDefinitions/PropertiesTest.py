@@ -34,8 +34,8 @@ def PropertiesTestSuite():
 PossibleTypes = ['list', 'string']
 MetaObjects = json.loads(open('src/testMetaDefinitions/MetaObjects.dat').read())
 MetaProperties = json.loads(open('src/testMetaDefinitions/MetaProperties.dat').read())
-DataTypes = dict()
 
+DataTypes = dict()
 for fields in MetaProperties:
     if '.type' in fields:
         type = MetaProperties[fields]
@@ -50,24 +50,24 @@ def getFields(modelclass):
     return fields
 
 
-def getObjectType(field, value, metaobjects, metaproperties):
+def getObjectType(field, value):
     type = None
-    if 'lists' in metaobjects[field] and value in metaobjects[field]['lists']:
+    if 'lists' in MetaObjects[field] and value in MetaObjects[field]['lists']:
         type = 'list'
-    elif 'properties' in metaobjects[field] and value in metaobjects[field]['properties']:
-        type = metaproperties[value]
+    elif 'properties' in MetaObjects[field] and value in MetaObjects[field]['properties']:
+        type = DataTypes[value]
 
     return type
 
 
-def getFieldType(field, value, modelclass, metaobjects, metaproperties):
+def getFieldType(field, value, modelclass):
     type = None
-    if field in metaobjects['pcl']['lists']:
+    if field in MetaObjects['pcl']['lists']:
         type = 'list'
-    elif field in metaobjects['pcl']['properties']:
-        type = metaproperties[value]
-    elif field in metaobjects['pcl']['objects']:
-        type = getObjectType(field, value, metaobjects, metaproperties)
+    elif field in MetaObjects['pcl']['properties']:
+        type = DataTypes[value]
+    elif field in MetaObjects['pcl']['objects']:
+        type = getObjectType(field, value)
 
     if type is None:
         type = 'string'
@@ -79,7 +79,7 @@ class ProjectPropertiesTest(TestCase):
         fields = getFields(Project)
         for field in fields:
             for value in Project.protoExt[field]:
-                fieldtype = getFieldType(field, value, Project, MetaObjects, DataTypes)
+                fieldtype = getFieldType(field, value, Project)
                 self.assertIn(fieldtype, PossibleTypes)
 
 
@@ -88,7 +88,7 @@ class ModelPropertiesTest(TestCase):
         fields = getFields(Model)
         for field in fields:
             for value in Model.protoExt[field]:
-                fieldtype = getFieldType(field, value, Model, MetaObjects, DataTypes)
+                fieldtype = getFieldType(field, value, Model)
                 self.assertIn(fieldtype, PossibleTypes)
 
 
@@ -97,7 +97,7 @@ class EntityPropertiesTest(TestCase):
         fields = getFields(Entity)
         for field in fields:
             for value in Entity.protoExt[field]:
-                fieldtype = getFieldType(field, value, Entity, MetaObjects, DataTypes)
+                fieldtype = getFieldType(field, value, Entity)
                 self.assertIn(fieldtype, PossibleTypes)
 
 
@@ -106,7 +106,7 @@ class PropertyPropertiesTest(TestCase):
         fields = getFields(Property)
         for field in fields:
             for value in Property.protoExt[field]:
-                fieldtype = getFieldType(field, value, Property, MetaObjects, DataTypes)
+                fieldtype = getFieldType(field, value, Property)
                 self.assertIn(fieldtype, PossibleTypes)
 
 
@@ -117,7 +117,7 @@ class RelationshipPropertiesTest(TestCase):
             if field is 'exclude':
                 continue
             for value in Relationship.protoExt[field]:
-                fieldtype = getFieldType(field, value, Relationship, MetaObjects, DataTypes)
+                fieldtype = getFieldType(field, value, Relationship)
                 self.assertIn(fieldtype, PossibleTypes)
 
 
@@ -126,7 +126,7 @@ class PropertyModelPropertiesTest(TestCase):
         fields = getFields(PropertyModel)
         for field in fields:
             for value in PropertyModel.protoExt[field]:
-                fieldtype = getFieldType(field, value, PropertyModel, MetaObjects, DataTypes)
+                fieldtype = getFieldType(field, value, PropertyModel)
                 self.assertIn(fieldtype, PossibleTypes)
 
 
@@ -135,7 +135,7 @@ class PropertyEquivalencePropertiesTest(TestCase):
         fields = getFields(PropertyEquivalence)
         for field in fields:
             for value in PropertyEquivalence.protoExt[field]:
-                fieldtype = getFieldType(field, value, PropertyEquivalence, MetaObjects, DataTypes)
+                fieldtype = getFieldType(field, value, PropertyEquivalence)
                 self.assertIn(fieldtype, PossibleTypes)
 
 
@@ -144,7 +144,7 @@ class PrototypePropertiesTest(TestCase):
         fields = getFields(Prototype)
         for field in fields:
             for value in Prototype.protoExt[field]:
-                fieldtype = getFieldType(field, value, Prototype, MetaObjects, DataTypes)
+                fieldtype = getFieldType(field, value, Prototype)
                 self.assertIn(fieldtype, PossibleTypes)
 
 
@@ -153,7 +153,7 @@ class ProtoTablePropertiesTest(TestCase):
         fields = getFields(ProtoTable)
         for field in fields:
             for value in ProtoTable.protoExt[field]:
-                fieldtype = getFieldType(field, value, ProtoTable, MetaObjects, DataTypes)
+                fieldtype = getFieldType(field, value, ProtoTable)
                 self.assertIn(fieldtype, PossibleTypes)
 
 
@@ -162,7 +162,7 @@ class TeamHierarchyPropertiesTest(TestCase):
         fields = getFields(TeamHierarchy)
         for field in fields:
             for value in TeamHierarchy.protoExt[field]:
-                fieldtype = getFieldType(field, value, TeamHierarchy, MetaObjects, DataTypes)
+                fieldtype = getFieldType(field, value, TeamHierarchy)
                 self.assertIn(fieldtype, PossibleTypes)
 
 
@@ -171,7 +171,7 @@ class ProtoDefinitionPropertiesTest(TestCase):
         fields = getFields(ProtoDefinition)
         for field in fields:
             for value in ProtoDefinition.protoExt[field]:
-                fieldtype = getFieldType(field, value, ProtoDefinition, MetaObjects, DataTypes)
+                fieldtype = getFieldType(field, value, ProtoDefinition)
                 self.assertIn(fieldtype, PossibleTypes)
 
 
@@ -180,7 +180,7 @@ class CustomDefinitionPropertiesTest(TestCase):
         fields = getFields(CustomDefinition)
         for field in fields:
             for value in CustomDefinition.protoExt[field]:
-                fieldtype = getFieldType(field, value, CustomDefinition, MetaObjects, DataTypes)
+                fieldtype = getFieldType(field, value, CustomDefinition)
                 self.assertIn(fieldtype, PossibleTypes)
 
 
@@ -189,5 +189,5 @@ class DiscreteValuePropertiesTest(TestCase):
         fields = getFields(DiscreteValue)
         for field in fields:
             for value in DiscreteValue.protoExt[field]:
-                fieldtype = getFieldType(field, value, DiscreteValue, MetaObjects, DataTypes)
+                fieldtype = getFieldType(field, value, DiscreteValue)
                 self.assertIn(fieldtype, PossibleTypes)
