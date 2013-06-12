@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from pprint import pprint
 import random
 from django.test import TestCase
 from django.utils.unittest.suite import TestSuite
@@ -7,6 +8,7 @@ from django.utils.unittest.loader import makeSuite
 
 from prototype.models import Project
 from prototype.models import PropertyModel
+from prototype.models import Property
 from prototype.models import Model
 from prototype.models import Entity
 from prototype.models import Relationship
@@ -51,21 +53,13 @@ class UpdatePropInfoTest(TestCase):
         testRefEntity.save()
 
         propertymodel_values = {
-            'model': testModel
-        }
-        testPropertyModel = PropertyModel(**propertymodel_values)
-        testPropertyModel.save()
-
-        relationship_values = {
-            'isForeign': True,
-            'entity': testEntity,
-            'refEntity': testRefEntity,
-            'propertyModel': testPropertyModel
+            'model': testModel,
+            'baseType': 'valueInPropertyModel'
         }
 
-        self.myBase = Relationship(**relationship_values)
+        self.myBase = PropertyModel(**propertymodel_values)
         self.myBase.save()
 
-    def test_isForeign_true_inherit_false(self):
+    def test_PropertyModel_isForeign_false_inherit_True(self):
         updatePropInfo(self.myBase, None, PropertyModel, False)
-        self.assertEqual(str(self.myBase.propertyModel), self.myBase.refEntity.code.lower() + '-pk')
+        pprint(dir(self.myBase.property_set))

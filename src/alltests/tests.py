@@ -25,9 +25,8 @@ def suite():
     suite.addTest(ViewDefinitionTestSuite())
 
     suite.addTest(StructureTestSuite())
-
     suite.addTest(PropertiesTestSuite())
 
-    suite.addTest(ProtoRulesTestSuite())
+    #suite.addTest(ProtoRulesTestSuite())
 
     return suite
