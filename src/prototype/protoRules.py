@@ -74,7 +74,6 @@ def updatePropInfo(myBase, propBase, modelBase, inherit):
                 pName = myBase.refEntity.code + '.pk'
         else:
             pName = myBase.entity.code + '.' + myBase.code
-
         pMod = modelBase.objects.get_or_create(model=myBase.entity.model, code=pName, smOwningTeam=myBase.smOwningTeam, defaults=defValues)[0]
         myBase.propertyModel = pMod
 

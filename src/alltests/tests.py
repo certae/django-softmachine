@@ -11,6 +11,8 @@ from testMetaDefinitions.PropertiesTest import PropertiesTestSuite
 
 from testViews.LoginTest import LoginTest
 
+from testprototype.ProtoRulesTest import ProtoRulesTestSuite
+
 
 def suite():
     suite = TestSuite()
@@ -25,5 +27,7 @@ def suite():
     suite.addTest(StructureTestSuite())
 
     suite.addTest(PropertiesTestSuite())
+
+    suite.addTest(ProtoRulesTestSuite())
 
     return suite
