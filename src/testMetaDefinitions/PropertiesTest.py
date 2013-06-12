@@ -30,7 +30,6 @@ def PropertiesTestSuite():
     return suite
 
 
-# Peut-etre ajoute un class setup (?)
 PossibleTypes = ['list', 'string']
 MetaObjects = json.loads(open('src/testMetaDefinitions/MetaObjects.dat').read())
 MetaProperties = json.loads(open('src/testMetaDefinitions/MetaProperties.dat').read())
