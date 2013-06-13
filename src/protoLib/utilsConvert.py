@@ -80,6 +80,7 @@ def toDecimal(s, iDefault=None):
 def toBoolean(s):
     """
     Conversion a boolean,  utilizada antes de cargar la Db
+    Conversion en booléen, utilisé avant le chargement du Db
     """
     if type(s).__name__ in ['str', 'unicode']:
         return (s.lower()[0] in ("y", "t", "o", "s", "1"))

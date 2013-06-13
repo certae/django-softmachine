@@ -5,7 +5,6 @@ from utilsConvert import isNumeric, toInteger
 import re
 
 
-# Verifier le isinstance() dans cette methode
 def addFilter(Qs, sFilter):
 #   Agrega un filtro q viene en modo texto a un Qset
     if (len(sFilter) == 0):

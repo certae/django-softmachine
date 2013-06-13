@@ -14,6 +14,7 @@ import django.utils.simplejson as json
 from django.utils.encoding import smart_str
 
 # Prefijo de las funciones ORM invocadas como campos, __unicode__ para las FK
+# Fonctions ORM de préfixe invoquées comme des champs, __ unicode__ pour FK
 #_PROTOFN_ = '_protoFn_'
 
 

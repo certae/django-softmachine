@@ -48,7 +48,10 @@ PROTO_PREFIX = "prototype.ProtoTable."
 
 class Project(ProtoModel):
 
-    """Corresponde a un nivel conceptual corportativo MCCD"""
+    """
+    Corresponde a un nivel conceptual corportativo MCCD
+    Correspond à une MCCD entreprise de niveau conceptuel
+    """
     code = models.CharField(blank=False, null=False, max_length=200)
     description = models.TextField(blank=True, null=True)
 
@@ -82,6 +85,12 @@ class Model(ProtoModel):
 
     Los modelos son la unidad para generar una solucion ejecutable,
     los modelos pueden tener prefijos especificos para todas sus componentes ( entidades )
+
+    Le modèle correspond à une solution spécifique,
+    Plusieurs modèles peuvent être encadrées dans un domaine
+
+    Les modèles sont l'unité pour générer une solution d'exécutable,
+    modèles peuvent avoir des préfixes spécifiques pour tous les composants (entités)
     """
     project = models.ForeignKey('Project', blank=False, null=False)
     code = models.CharField(blank=False, null=False, max_length=200)
@@ -108,7 +117,9 @@ class Model(ProtoModel):
 
 class Entity(ProtoModel):
     """
-    Entity corresponde a las entidades FISICA;
+    Entity corresponde a las entidades FISICA
+
+    Entité correspondant aux entités physiques
     """
     model = models.ForeignKey('Model', blank=False, null=False, related_name='entity_set')
     code = models.CharField(blank=False, null=False, max_length=200)
@@ -205,6 +216,9 @@ class Property(PropertyBase):
     """
     Propiedades por tabla, definicion a nivel de modelo de datos.
     Las relaciones heredan de las propriedades y definien la cardinalidad
+
+    Propriétés pour le modèle de données de définition au niveau table.
+    Relations héritées des propriétés et la définition de cardinalité
     """
     entity = models.ForeignKey('Entity', related_name='property_set')
 
@@ -262,7 +276,9 @@ class Property(PropertyBase):
 
 class Relationship(Property):
     """
-    * Tipo particula de propiedad q define las relaciones,  la definicion de la cardinlaidad y otras
+    Tipo particula de propiedad q define las relaciones,  la definicion de la cardinlaidad y otras
+
+    Type particulier de propriété qui définit les relations, la définition de la cardinalité et autres
     """
 
     """refEntity : entidad referenciada"""
@@ -298,16 +314,29 @@ class Relationship(Property):
 
 
 class PropertyModel(PropertyBase):
-    """ A nivel conceptual encontraremos la lista de propiedadaes
-        qu corresponde a la definicion semantica del problema;
+    """
+    A nivel conceptual encontraremos la lista de propiedadaes
+    qu corresponde a la definicion semantica del problema;
 
-        1. Estas propiedades normalmente se definien a nivel de modelo
-        cuando el usuario ( piloto ) describe su problematica,
+    1. Estas propiedades normalmente se definien a nivel de modelo
+    cuando el usuario ( piloto ) describe su problematica,
 
-        2. Si la definicion la realiza un modelizador, se hara a nivel de entidad,
+    2. Si la definicion la realiza un modelizador, se hara a nivel de entidad,
 
     * podria generarse navegando model-entity-prop
-    * pero el primer paso en podria implicar la definicion semantica de propiedades por modelo,
+    * pero el primer paso en podria implicar la definicion semantica de propiedades por modelo
+
+
+    Au niveau conceptuel, nous trouvons la liste des propriétés
+    ce qui correspond à la définition sémantique du problème;
+
+    1. Ces propriétés modèle généralement definien niveau
+    lorsque l'utilisateur (pilote) décrit la problématique,
+
+    Deux. Si la définition est réalisée par un modeleur, seront réalisés au niveau de l'entité,
+
+    * Navigation pourrait générer un modèle entité-prop
+    * Mais la première étape dans la définition pourrait impliquer sémantique des propriétés par modèle
 
     """
     model = models.ForeignKey('Model', blank=False, null=False)
@@ -375,6 +404,14 @@ class PropertyEquivalence(ProtoModel):
 
     se podria agregar un manejador q hicer:   where = sourse UNION where target,
     o q al momento de guardar generara la relacion inversa y actualizara simpre los dos ( privilegiada )
+
+    Matrice de "sémantique" d'équivalence entre les propriétés
+
+    C'est un cas particulier de la relation où la recherche serait utilisé seul
+    arriver là où est la source et qui est la cible,
+
+    vous pouvez ajouter un gestionnaire hicer Q: Où = Sourse où la cible UNION,
+    q lors de l'enregistrement de générer et mettre à jour la relation inverse simpre deux (privilégié)
     """
 
     sourceProperty = models.ForeignKey('PropertyModel', blank=True, null=True, related_name='sourcePrp')
@@ -423,6 +460,9 @@ class Prototype(ProtoModel):
     """
     Esta tabla manejar la lista de  prototypos almacenados en customDefinicion,
     Genera la "proto" pci;  con la lista de campos a absorber y los detalles posibles
+
+    Cette liste tableau prototypos poignée stockés dans customDefinicion,
+    Génère le pci "proto", avec la liste des champs d'absorber et de détail possible
     """
     entity = models.ForeignKey(Entity, blank=False, null=False)
 
@@ -450,7 +490,10 @@ class Prototype(ProtoModel):
 class ProtoTable(ProtoModel):
     """
     Esta es el store de los prototipos
+
+    C'est le magasin des prototypes
     """
+
     entity = models.ForeignKey(Entity, blank=False, null=False)
     info = JSONField(default={})
 

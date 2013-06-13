@@ -8,10 +8,16 @@ from protoField import setFieldDict
 
 
 def getProtoAdmin(model):
-    """ Carga la protoDefinicion, del modelo y luego del admin,
-    * La definicion del admin sirve para definir los EntryPoint,
-    * pero no es necesario, la protoDefinicion se puede guardar directamente
-    * en el modelo
+    """
+    Carga la protoDefinicion, del modelo y luego del admin,
+    La definicion del admin sirve para definir los EntryPoint,
+    pero no es necesario, la protoDefinicion se puede guardar directamente
+    en el modelo
+
+    Charges protoDefinicion, le modèle, puis l'administrateur,
+    La définition d'administration est utilisé pour définir le point d'entrée,
+    mais pas nécessaire, peuvent être sauvegardés directement protoDefinicion
+    dans le modèle
     """
 
     # Siempre existe, la creacion del site la asigna por defecto
@@ -40,7 +46,8 @@ def getProtoAdmin(model):
 
 
 class ProtoGridFactory(object):
-    """ Construye la definicion por defecto de la interface
+    """
+    Construye la definicion por defecto de la interface
     """
 
     def __init__(self, model, viewCode, model_admin, protoMeta):

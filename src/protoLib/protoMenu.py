@@ -34,6 +34,13 @@ def protoGetMenuData(request):
 
     Cada usuario tendra una rama de  favoritos para sus opciones frecuentes,
     el menu es a nivel de grupo
+
+
+    Chaque groupe a son propre menu q est construit avec l'application à laquelle il a droit
+    toujours sauvé groupe customDefinition,
+
+    Chaque utilisateur aura un secteur de prédilection pour des choix fréquents,
+    le menu est au niveau du groupe
     """
 
     if not request.user.is_authenticated():

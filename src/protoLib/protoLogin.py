@@ -10,9 +10,6 @@ from utilsWeb import JsonError, JsonSuccess
 
 
 def protoGetUserRights(request):
-    """ return user rights
-    """
-
     if request.method != 'POST':
         return JsonError('invalid message')
 
@@ -37,16 +34,11 @@ def protoGetUserRights(request):
             userInfo['isStaff'] = pUser.is_staff
             userInfo['isSuperUser'] = pUser.is_superuser
             userInfo['fullName'] = pUser.get_full_name()
-
-            # Si es login retorna la lengua del usuario
             language = getUserProfile(pUser, 'login', userName)
-
         else:
-            # Return a 'disabled account' error message
             errMsg = "Cet utilisateur est desactiv&eacute;"
 
     else:
-        # Return an 'invalid login' error message.
         errMsg = "Mauvais utilisateur ou mot de passe"
 
     jsondict = {
@@ -56,6 +48,5 @@ def protoGetUserRights(request):
         'language': language
     }
 
-    # Codifica el mssage json
     context = json.dumps(jsondict)
     return HttpResponse(context, mimetype="application/json")

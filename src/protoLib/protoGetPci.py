@@ -27,8 +27,8 @@ PROTOVERSION = '130310'
 
 
 def protoGetPCI(request):
-
-    """ return full metadata (columns, renderers, totalcount...)
+    """
+    return full metadata (columns, renderers, totalcount...)
     """
 
     if not request.user.is_authenticated():
@@ -47,7 +47,6 @@ def protoGetPCI(request):
 
     userProfile = getUserProfile(request.user, 'getPci', viewEntity)
 
-    # PROTOTIPOS
     if viewCode.startswith(PROTO_PREFIX) and viewCode != viewEntity:
         try:
             prototypeView = viewCode.replace(PROTO_PREFIX, '')
@@ -58,8 +57,6 @@ def protoGetPCI(request):
             return HttpResponse(json.dumps(jsondict), mimetype="application/json")
 
     else:
-        # created : El objeto es nuevo
-        # protoDef : PCI leida de la DB
         protoDef, created = ProtoDefinition.objects.get_or_create(code=viewCode)
 
     # Verifica si es una version vieja

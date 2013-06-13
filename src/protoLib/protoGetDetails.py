@@ -34,7 +34,6 @@ def protoGetDetailsTree(request):
 
     detailList = []
     if viewCode.startswith(PROTO_PREFIX) and viewCode != viewEntity:
-        # -------------------------------------------------------------------------  Prototipos
         protoEntityId = request.POST.get('protoEntityId')
         if not protoEntityId >= 0:
             return JsonError('invalid idEntity')
@@ -50,7 +49,6 @@ def protoGetDetailsTree(request):
         for detail in modelDetails:
             addDetailToList(detailList, detail, '')
 
-    # Codifica el mssage json
     context = json.dumps(detailList)
     return HttpResponse(context, mimetype="application/json")
 
