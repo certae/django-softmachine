@@ -6,8 +6,8 @@ from django.db.models.signals import post_save, post_delete
 from protoLib.models import ProtoModel
 from protoLib.fields import JSONField,  JSONAwareManager
 
-from protoRules import updatePropInfo, twoWayPropEquivalence, updProPropModel
-from protoRules import ONDELETE_TYPES, BASE_TYPES, CRUD_TYPES, DB_ENGINE
+from prototype.protoRules import updatePropInfo, twoWayPropEquivalence, updProPropModel
+from prototype.protoRules import ONDELETE_TYPES, BASE_TYPES, CRUD_TYPES, DB_ENGINE
 
 from protoLib.utilsBase import slugify
 
@@ -43,6 +43,41 @@ PROTO_PREFIX = "prototype.ProtoTable."
     Las acciones,
         General
         Model ( dependen del modelo, no se requiere declararlas en el admin )
+
+
+
+
+
+
+    la génération de points de vue est une création d'un PCL,
+
+    Le PCI contiendra maintenant:
+        - Liste des champs à partir duquel hériter;
+        - Détails qui peuvent être définis;
+
+    Type PCL définira la structure
+
+    La structure est envoyé à partir du serveur lorsque nécessaire;
+    La validation du PCI se fait dans le backend
+    La validation sur le terrain se fait en toute sécurité dans le backend) sécurité FieldLevel
+
+    Menus supplémentaires Configuarar (paramétrique?)
+        groupe
+        bouton
+        procédure
+        type de fenêtre
+        données
+
+    Laisser protipos Menu
+        Détails
+        Campos absorbé
+
+    L'édition de la PCL fermé et ouvrira la possibilité
+
+    Les actions,
+        général
+        Modèle (dépendant du modèle n'est pas tenu de les déclarer dans l'admin)
+
 """
 
 
@@ -90,7 +125,7 @@ class Model(ProtoModel):
     Plusieurs modèles peuvent être encadrées dans un domaine
 
     Les modèles sont l'unité pour générer une solution d'exécutable,
-    modèles peuvent avoir des préfixes spécifiques pour tous les composants (entités)
+    les modèles peuvent avoir des préfixes spécifiques pour tous les composants (entités)
     """
     project = models.ForeignKey('Project', blank=False, null=False)
     code = models.CharField(blank=False, null=False, max_length=200)
@@ -182,20 +217,25 @@ class PropertyBase(ProtoModel):
     code = models.CharField(blank=False, null=False, max_length=200)
 
     """baseType, prpLength:  Caracteristicas generales q definen el campo """
+    """baseType, prpLength:  Caractéristiques générales qui définissent le champ """
     baseType = models.CharField(blank=True, null=True, max_length=50, choices=BASE_TYPES, default='string')
     prpLength = models.IntegerField(blank=True, null=True)
     prpScale = models.IntegerField(blank=True, null=True)
 
     """vType : validation type ( formatos predefinidos email, .... ) """
+    """vType :Type de validation (formats prédéfinis, email, ....) """
     vType = models.CharField(blank=True, null=True, max_length=50, choices=BASE_TYPES, default='string')
 
     """prpDefault: Puede variar en cada instancia """
+    """prpDefault: Il peut varier dans chaque cas """
     prpDefault = models.CharField(blank=True, null=True, max_length=50)
 
     """prpChoices:  Lista de valores CSV ( idioma?? ) """
+    """prpChoices:  Liste CSV des valeurs (langue?) """
     prpChoices = models.TextField(blank=True, null=True)
 
     """isSensitive: Indica si las propiedades requieren un nivel mayor de seguridad """
+    """isSensitive: Indique si les propriétés requièrent un niveau de sécurité plus élevé """
     isSensitive = models.BooleanField()
 
     description = models.TextField(blank=True, null=True)
@@ -227,22 +267,27 @@ class Property(PropertyBase):
 
     # -----------  caracteristicas propias de la instancia
     """isPrimary : en el prototipo siempre es artificial, implica isLookUpResult"""
+    """isPrimary : le prototype est toujours un moyen artificiel isLookUpResult"""
     isPrimary = models.BooleanField()
     isLookUpResult = models.BooleanField()
 
     """isNullable: tiene q ver con la Db"""
+    """isNullable: q est liée à la Db"""
     isNullable = models.BooleanField()
 
     """isRequired: tiene q ver con el llenado de datos"""
+    """isRequired: a q faire avec la population des données"""
     isRequired = models.BooleanField()
 
     """isReadOnly: ReadOnly field ( frontEnd"""
     isReadOnly = models.BooleanField()
 
     """isEssential: Indica si las propiedades saldran en la vista por defecto """
+    """isEssential: Indique si les propriétés vont sortir dans la vue par défaut """
     isEssential = models.BooleanField()
 
     """isForeign: indica si la propiedad ha sido definida en  Relationship"""
+    """isForeign: indique si la propriété a été définie en relation"""
     isForeign = models.BooleanField(editable=False, default=False)
 
     crudType = models.CharField(blank=True, null=True, max_length=20, choices=CRUD_TYPES)
@@ -461,7 +506,7 @@ class Prototype(ProtoModel):
     Esta tabla manejar la lista de  prototypos almacenados en customDefinicion,
     Genera la "proto" pci;  con la lista de campos a absorber y los detalles posibles
 
-    Cette liste tableau prototypos poignée stockés dans customDefinicion,
+    Cette liste tableau prototypos poignée stockés dans customDefinition,
     Génère le pci "proto", avec la liste des champs d'absorber et de détail possible
     """
     entity = models.ForeignKey(Entity, blank=False, null=False)
