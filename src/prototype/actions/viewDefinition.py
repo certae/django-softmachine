@@ -89,7 +89,10 @@ def getViewCode(pEntity, viewTitle=None):
 
 def property2Field(fName, propDict, infoField=False, fBase=''):
 
-    """ Genera la definicion del campo en la pci """
+    """
+    Genera la definicion del campo en la pci
+    Génère la définition du champ dans le pci
+    """
 
     if len(fBase) > 0:
         fBase += '__'
@@ -120,7 +123,10 @@ def property2Field(fName, propDict, infoField=False, fBase=''):
 
 def getFkId(fName, infoField=False, fBase=''):
 
-    """ Crea el id de los zooms """
+    """
+    Crea el id de los zooms
+    Créer l'ID des zooms
+    """
 
     fNameId = fName + "_id"
     field = {
@@ -144,7 +150,9 @@ def getFkId(fName, infoField=False, fBase=''):
 
 def GetProtoFieldsTree(protoEntityId):
 
-    """  Obtiene la lista de campos q puedn heredarse de los zooms
+    """
+    Obtiene la lista de campos q puedn heredarse de los zooms
+    Obtient la liste des champs qui peuvent être hérité dans les zooms
     """
 
     fieldList = []
@@ -153,13 +161,15 @@ def GetProtoFieldsTree(protoEntityId):
     except:
         return fieldList
 
-    addProtoFiedToList(fieldList, pEntity, '', '')
+    addProtoFieldToList(fieldList, pEntity, '', '')
     return fieldList
 
 
-def addProtoFiedToList(fieldList, pEntity, fieldBase, zoomName):
+def addProtoFieldToList(fieldList, pEntity, fieldBase, zoomName):
 
-    """ Recorre los campos e itera con los fk ( solo un nivel 'fieldBase' )
+    """
+    Recorre los campos e itera con los fk ( solo un nivel 'fieldBase' )
+    Grâce à la campagne et une itération avec fk (un seul niveau 'fieldBase ')
     """
 
     for pProperty in pEntity.property_set.all():
@@ -188,7 +198,7 @@ def addProtoFiedToList(fieldList, pEntity, fieldBase, zoomName):
             field["type"] = "foreigntext"
 
             fkFieldList = []
-            addProtoFiedToList(fkFieldList, zoomEntity, fName, slugify(zoomEntity.code))
+            addProtoFieldToList(fkFieldList, zoomEntity, fName, slugify(zoomEntity.code))
 
             field["leaf"] = False
             field["children"] = fkFieldList
@@ -201,9 +211,6 @@ def addProtoFiedToList(fieldList, pEntity, fieldBase, zoomName):
             propDict = {"name": fName, "readOnly": True}
             field = property2Field(fName, propDict, True)
             fieldList.append(field)
-
-
-#  ------------------------------------------------------------------
 
 
 def GetDetailsConfigTree(protoEntityId):
@@ -236,7 +243,10 @@ def GetDetailsConfigTree(protoEntityId):
 
 def getEntities(queryset, request, viewTitle):
 
-    """ Recorre las entidades para generar las vistas en bache por modelo """
+    """
+    Recorre las entidades para generar las vistas en bache por modelo
+    Marchez dans les entités de générer des vues en plein marasme par modèle
+    """
 
     userProfile = getUserProfile(request.user, 'prototype', '')
     returnMsg = ''

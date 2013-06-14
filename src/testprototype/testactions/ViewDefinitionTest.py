@@ -24,6 +24,7 @@ def ViewDefinitionTestSuite():
     suite.addTest(makeSuite(GetFkIdTest, 'test'))
     #suite.addTest(makeSuite(GetProtoFieldsTreeTest, 'test'))
     suite.addTest(makeSuite(GetDetailsConfigTreeTest, 'test'))
+    suite.addTest(makeSuite(addProtoFieldToListTest, 'test'))
 
     return suite
 
@@ -194,3 +195,11 @@ class GetDetailsConfigTreeTest(TestCase):
         testRelationShip.save()
 
         self.assertEqual(len(GetDetailsConfigTree(1)), 1)
+
+
+class addProtoFieldToListTest(TestCase):
+    def setUp(self):
+        pass
+
+    def test_addprotoFieldToList_(self):
+        pass
