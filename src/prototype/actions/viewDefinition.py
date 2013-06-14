@@ -2,8 +2,9 @@
 
 import django.utils.simplejson as json
 
-from viewTemplate import baseDefinition
-from prototype.models import Entity,  Prototype
+from prototype.actions.viewTemplate import baseDefinition
+from prototype.models import Entity
+from prototype.models import Prototype
 
 from protoLib.protoActionEdit import setSecurityInfo
 from protoLib.utilsBase import JSONEncoder, slugify

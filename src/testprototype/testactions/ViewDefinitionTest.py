@@ -22,6 +22,8 @@ def ViewDefinitionTestSuite():
     suite.addTest(makeSuite(Property2FieldTest, 'test'))
     suite.addTest(makeSuite(GetViewDefinitionTest, 'test'))
     suite.addTest(makeSuite(GetFkIdTest, 'test'))
+    #suite.addTest(makeSuite(GetProtoFieldsTreeTest, 'test'))
+    #suite.addTest(makeSuite(GetDetailsConfigTreeTest, 'test'))
 
     return suite
 
@@ -169,3 +171,30 @@ class GetFkIdTest(TestCase):
         self.assertNotIn('text', fields)
         self.assertNotIn('leaf', fields)
         self.assertNotIn('checked', fields)
+
+
+class GetProtoFieldsTreeTest(TestCase):
+    def setUp(self):
+        pass
+        # Create necessary Entity
+
+    def test_GetProtoFieldsTree_Valid(self):
+        pass
+
+    def test_GetProtoFieldsTree_Invalid(self):
+        pass
+
+
+class GetDetailsConfigTreeTest(TestCase):
+    def setUp(self):
+        pass
+        # Create necessary Entity
+
+    def test_GetDetailsConfigTree_Empty(self):
+        self.assertEqual(len(GetDetailsConfigTree(0)), 0)
+
+    def test_GetDetailsConfigTree_SingleEntry(self):
+        testRelationShip = createTestRelationship()
+        testRelationShip.save()
+
+        self.assertEqual(len(GetDetailsConfigTree(0)), 1)
