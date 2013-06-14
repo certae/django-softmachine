@@ -8,13 +8,13 @@ from django.db import models
 
 from datetime import datetime
 from models import getDjangoModel
-from protoActionList import Q2Dict
-from utilsConvert import toInteger, toDate, toDateTime, toTime, toFloat, toDecimal, toBoolean
-from utilsBase import JSONEncoder, getReadableError, list2dict
-from usrDefProps import verifyUdpDefinition, saveUDP
+from protoLib.protoActionList import Q2Dict
+from protoLib.utilsConvert import toInteger, toDate, toDateTime, toTime, toFloat, toDecimal, toBoolean
+from protoLib.utilsBase import JSONEncoder, getReadableError, list2dict
+from protoLib.usrDefProps import verifyUdpDefinition, saveUDP
 from django.utils.encoding import smart_str
 from protoAuth import getUserProfile, getModelPermissions
-from utilsWeb import doReturn
+from protoLib.utilsWeb import doReturn
 
 # Error Constants
 ERR_NOEXIST = '<b>ErrType:</b> KeyNotFound<br>The specifique record does not exist'

@@ -2,9 +2,9 @@
 
 from django.contrib.admin.sites import site
 
-from utilsBase import verifyList, copyProps, list2dict
-from usrDefProps import verifyUdpDefinition
-from protoField import setFieldDict
+from protoLib.utilsBase import verifyList, copyProps, list2dict
+from protoLib.usrDefProps import verifyUdpDefinition
+from protoLib.protoField import setFieldDict
 
 
 def getProtoAdmin(model):

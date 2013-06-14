@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 from django.db.models import Q
-from utilsConvert import isNumeric, toInteger
+from protoLib.utilsConvert import isNumeric, toInteger
 import re
 
 
@@ -185,7 +185,7 @@ def doGenericFuntion(sQBE):
     de la ejecucion del wKflow
 
     """
-    from utilsBase import explode
+    from protoLib.utilsBase import explode
 
     # obtiene los parametros
     fCall = explode(sQBE[1:])

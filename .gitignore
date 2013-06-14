@@ -8,3 +8,4 @@ db/protoMetaCertae.db.backup
 htmlcov/
 logs/
 Prototypeur.kdev4
+output/

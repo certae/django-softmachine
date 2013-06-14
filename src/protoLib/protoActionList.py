@@ -7,18 +7,18 @@ from django.contrib.admin.util import get_fields_from_path
 from django.utils.encoding import smart_str
 from django.db.models import Q
 
-from utilsBase import JSONEncoder, getReadableError
-from utilsBase import verifyStr, verifyList, list2dict
-from utilsConvert import getTypedValue
+from protoLib.utilsBase import JSONEncoder, getReadableError
+from protoLib.utilsBase import verifyStr, verifyList, list2dict
+from protoLib.utilsConvert import getTypedValue
 
-from protoQbe import getSearcheableFields, getQbeStmt
-from protoAuth import getUserProfile, getModelPermissions
+from protoLib.protoQbe import getSearcheableFields, getQbeStmt
+from protoLib.protoAuth import getUserProfile, getModelPermissions
 
-from usrDefProps import verifyUdpDefinition, readUdps
-from protoField import TypeEquivalence
-from models import getDjangoModel
+from protoLib.usrDefProps import verifyUdpDefinition, readUdps
+from protoLib.protoField import TypeEquivalence
+from protoLib.models import getDjangoModel
 
-from utilsWeb import doReturn
+from protoLib.utilsWeb import doReturn
 
 import django.utils.simplejson as json
 import traceback

@@ -1,10 +1,9 @@
-
-"""http://djangosnippets.org/snippets/1151/
+"""
+http://djangosnippets.org/snippets/1151/
 
 def excelview(request):
     objs = SomeModel.objects.all()
     return ExcelResponse(objs)
-
 """
 import datetime
 
@@ -13,10 +12,9 @@ from django.http import HttpResponse
 
 
 class ExcelResponse(HttpResponse):
-    
-    def __init__(self, data, output_name='excel_data', headers=None,
-                 force_csv=False, encoding='utf8'):
-        
+
+    def __init__(self, data, output_name='excel_data', headers=None, force_csv=False, encoding='utf8'):
+
         # Make sure we've got the right type of data to work with
         valid_data = False
         if isinstance(data, ValuesQuerySet):
@@ -32,12 +30,22 @@ class ExcelResponse(HttpResponse):
             if hasattr(data[0], '__getitem__'):
                 valid_data = True
         assert valid_data is True, "ExcelResponse requires a sequence of sequences"
-        
+
         import StringIO
         output = StringIO.StringIO()
+
+        # Pour Python 3 : Quelquechose du genre :
+        #from io import StringIO
+        #output = StringIO()
+
         # Excel has a limit on number of rows; if we have more than that, make a csv
         use_xls = False
         if len(data) <= 65536 and force_csv is not True:
+            try:
+                import xlwt3
+            except ImportError:
+                # xlwt3 doesn't exist; fall back to csv
+                pass
             try:
                 import xlwt
             except ImportError:
@@ -48,11 +56,13 @@ class ExcelResponse(HttpResponse):
         if use_xls:
             book = xlwt.Workbook(encoding=encoding)
             sheet = book.add_sheet('Sheet 1')
-            styles = {'datetime': xlwt.easyxf(num_format_str='yyyy-mm-dd hh:mm:ss'),
-                      'date': xlwt.easyxf(num_format_str='yyyy-mm-dd'),
-                      'time': xlwt.easyxf(num_format_str='hh:mm:ss'),
-                      'default': xlwt.Style.default_style}
-            
+            styles = {
+                'datetime': xlwt.easyxf(num_format_str='yyyy-mm-dd hh:mm:ss'),
+                'date': xlwt.easyxf(num_format_str='yyyy-mm-dd'),
+                'time': xlwt.easyxf(num_format_str='hh:mm:ss'),
+                'default': xlwt.Style.default_style
+            }
+
             for rowx, row in enumerate(data):
                 for colx, value in enumerate(row):
                     if isinstance(value, datetime.datetime):
@@ -76,7 +86,7 @@ class ExcelResponse(HttpResponse):
                     value = value.encode(encoding)
                     out_row.append(value.replace('"', '""'))
                 output.write('"%s"\n' %
-                             '","'.join(out_row))            
+                             '","'.join(out_row))
             mimetype = 'text/csv'
             file_ext = 'csv'
         output.seek(0)

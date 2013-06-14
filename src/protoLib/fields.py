@@ -27,7 +27,7 @@ import itertools
 
 from django.db import models
 from django.utils import simplejson as json
-from utilsBase import JSONEncoder
+from protoLib.utilsBase import JSONEncoder
 
 
 class JSONDict(dict):

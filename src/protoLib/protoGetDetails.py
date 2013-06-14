@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from django.http import HttpResponse
-from protoField import TypeEquivalence
-from models import getDjangoModel
-from utilsBase import getReadableError, verifyStr
-from protoGrid import getBaseModelName, getModelDetails
-from utilsWeb import JsonError, JsonSuccess
+from protoLib.protoField import TypeEquivalence
+from protoLib.models import getDjangoModel
+from protoLib.utilsBase import getReadableError, verifyStr
+from protoLib.protoGrid import getBaseModelName, getModelDetails
+from protoLib.utilsWeb import JsonError, JsonSuccess
 
 import django.utils.simplejson as json
 

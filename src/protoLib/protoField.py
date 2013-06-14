@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-from utilsBase import verifyStr
+from protoLib.utilsBase import verifyStr
 from django.db.models.fields import NOT_PROVIDED
 
 

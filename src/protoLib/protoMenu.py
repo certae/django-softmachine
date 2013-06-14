@@ -11,11 +11,11 @@ from django.http import HttpResponse
 
 import django.utils.simplejson as json
 
-from models import CustomDefinition
-from protoActionEdit import setSecurityInfo
-from protoAuth import getUserProfile, getModelPermissions
-from utilsWeb import JsonError  # JsonSuccess
-from utilsBase import verifyList
+from protoLib.models import CustomDefinition
+from protoLib.protoActionEdit import setSecurityInfo
+from protoLib.protoAuth import getUserProfile, getModelPermissions
+from protoLib.utilsWeb import JsonError  # JsonSuccess
+from protoLib.utilsBase import verifyList
 
 from prototype.models import Prototype
 

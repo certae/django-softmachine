@@ -9,14 +9,14 @@ from settings import PPATH
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.encoding import smart_str, smart_unicode
 
-from models import getDjangoModel, ProtoDefinition
-from protoActionList import Q2Dict, getQSet
-from protoGrid import getBaseModelName
-from utilsBase import getReadableError
-from protoQbe import addFilter
-from downloadFile import getFullPath
+from protoLib.models import getDjangoModel, ProtoDefinition
+from protoLib.protoActionList import Q2Dict, getQSet
+from protoLib.protoGrid import getBaseModelName
+from protoLib.utilsBase import getReadableError
+from protoLib.protoQbe import addFilter
+from protoLib.downloadFile import getFullPath
 
-from utilsWeb import JsonError, JsonSuccess
+from protoLib.utilsWeb import JsonError, JsonSuccess
 
 import django.utils.simplejson as json
 import os

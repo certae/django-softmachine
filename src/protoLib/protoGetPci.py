@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 
 from django.http import HttpResponse
-from protoGrid import getBaseModelName, setDefaultField, getProtoAdmin
+from protoLib.protoGrid import getBaseModelName, setDefaultField, getProtoAdmin
 from protoLib import protoGrid
-from protoField import setFieldDict, isAdmField
-from models import getDjangoModel, ProtoDefinition, CustomDefinition
-from utilsBase import getReadableError, copyProps
-from utilsWeb import JsonError, JsonSuccess
+from protoLib.protoField import setFieldDict, isAdmField
+from protoLib.models import getDjangoModel, ProtoDefinition, CustomDefinition
+from protoLib.utilsBase import getReadableError, copyProps
+from protoLib.utilsWeb import JsonError, JsonSuccess
 
-from protoActionEdit import setSecurityInfo
-from protoQbe import getSearcheableFields
+from protoLib.protoActionEdit import setSecurityInfo
+from protoLib.protoQbe import getSearcheableFields
 
-from protoAuth import getUserProfile, getModelPermissions
+from protoLib.protoAuth import getUserProfile, getModelPermissions
 
 from prototype.models import Prototype
 
