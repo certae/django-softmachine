@@ -23,7 +23,7 @@ def ViewDefinitionTestSuite():
     suite.addTest(makeSuite(GetViewDefinitionTest, 'test'))
     suite.addTest(makeSuite(GetFkIdTest, 'test'))
     #suite.addTest(makeSuite(GetProtoFieldsTreeTest, 'test'))
-    #suite.addTest(makeSuite(GetDetailsConfigTreeTest, 'test'))
+    suite.addTest(makeSuite(GetDetailsConfigTreeTest, 'test'))
 
     return suite
 
@@ -186,15 +186,11 @@ class GetProtoFieldsTreeTest(TestCase):
 
 
 class GetDetailsConfigTreeTest(TestCase):
-    def setUp(self):
-        pass
-        # Create necessary Entity
-
     def test_GetDetailsConfigTree_Empty(self):
-        self.assertEqual(len(GetDetailsConfigTree(0)), 0)
+        self.assertEqual(len(GetDetailsConfigTree(1)), 0)
 
     def test_GetDetailsConfigTree_SingleEntry(self):
         testRelationShip = createTestRelationship()
         testRelationShip.save()
 
-        self.assertEqual(len(GetDetailsConfigTree(0)), 1)
+        self.assertEqual(len(GetDetailsConfigTree(1)), 1)
