@@ -31,12 +31,13 @@ class ExcelResponse(HttpResponse):
                 valid_data = True
         assert valid_data is True, "ExcelResponse requires a sequence of sequences"
 
+        # Python 2 :
         import StringIO
         output = StringIO.StringIO()
 
-        # Pour Python 3 : Quelquechose du genre :
-        #from io import StringIO
-        #output = StringIO()
+        # Pour Python 3 : Quelque chose du genre :
+        #import io
+        #output = io.StringIO()
 
         # Excel has a limit on number of rows; if we have more than that, make a csv
         use_xls = False
