@@ -27,10 +27,10 @@ DATABASES = {
     #    'default': {
     #        'ENGINE': 'django.db.backends.postgresql_psycopg2',
     #        'NAME':   'protoExt',
-    #        'USER':   'postgres',                      # Not used with sqlite3.
+    #        'USER':   'postgres',          # Not used with sqlite3.
     #        'PASSWORD': '1',               # Not used with sqlite3.
-    #        'HOST': '127.0.0.1',             # Set to empty string for localhost. Not used with sqlite3.
-    #        'PORT': '9432',                      # Set to empty string for default. Not used with sqlite3.
+    #        'HOST': '127.0.0.1',           # Set to empty string for localhost. Not used with sqlite3.
+    #        'PORT': '9432',                # Set to empty string for default. Not used with sqlite3.
     #    },
     #    'default': {
     #        'ENGINE': 'django.db.backends.mysql',
@@ -147,8 +147,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
@@ -184,6 +184,11 @@ INSTALLED_APPS = (
     #'TCO'
     #'django_extensions',
     #'django_qbe'
+)
+
+
+FIXTURE_DIRS = (
+    'src/fixtures/',
 )
 
 # A sample logging configuration. The only tangible logging

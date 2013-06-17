@@ -19,7 +19,6 @@ def suite():
 
     suite.addTest(ModelsTestSuite())
 
-    suite.addTest(makeSuite(LoginTest, 'test'))
     suite.addTest(makeSuite(BaseDefinitionTest, 'test'))
 
     suite.addTest(ViewDefinitionTestSuite())
@@ -28,5 +27,7 @@ def suite():
     suite.addTest(PropertiesTestSuite())
 
     #suite.addTest(ProtoRulesTestSuite())
+
+    #suite.addTest(makeSuite(LoginTest, 'test'))
 
     return suite
