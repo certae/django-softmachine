@@ -26,8 +26,8 @@ def suite():
     suite.addTest(StructureTestSuite())
     suite.addTest(PropertiesTestSuite())
 
-    #suite.addTest(ProtoRulesTestSuite())
+    suite.addTest(ProtoRulesTestSuite())
 
-    #suite.addTest(makeSuite(LoginTest, 'test'))
+    suite.addTest(makeSuite(LoginTest, 'test'))
 
     return suite

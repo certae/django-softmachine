@@ -1,6 +1,7 @@
 # -*- encoding: UTF-8 -*-
 
-from models import UserProfile, TeamHierarchy
+from protoLib.models import UserProfile
+from protoLib.models import TeamHierarchy
 
 
 def getUserProfile(pUser, action, actionInfo):
