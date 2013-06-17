@@ -1,3 +1,5 @@
+# -*- encoding: UTF-8 -*-
+
 from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
 
@@ -26,7 +28,7 @@ def suite():
     suite.addTest(StructureTestSuite())
     suite.addTest(PropertiesTestSuite())
 
-    suite.addTest(ProtoRulesTestSuite())
+    #suite.addTest(ProtoRulesTestSuite())
 
     suite.addTest(makeSuite(LoginTest, 'test'))
 
