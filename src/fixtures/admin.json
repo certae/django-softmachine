@@ -960,5 +960,31 @@
         "user": 25, 
         "content_type": 6
     }
+},
+{
+    "pk": 75, 
+    "model": "admin.logentry", 
+    "fields": {
+        "action_flag": 2, 
+        "action_time": "2013-06-19T09:47:02.958", 
+        "object_repr": "adube", 
+        "object_id": "26", 
+        "change_message": "Modifi\u00e9 password et groups.", 
+        "user": 25, 
+        "content_type": 6
+    }
+},
+{
+    "pk": 76, 
+    "model": "admin.logentry", 
+    "fields": {
+        "action_flag": 2, 
+        "action_time": "2013-06-19T09:51:05.674", 
+        "object_repr": "adube", 
+        "object_id": "26", 
+        "change_message": "Modifi\u00e9 password, is_staff et groups.", 
+        "user": 25, 
+        "content_type": 6
+    }
 }
 ]

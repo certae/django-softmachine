@@ -1,9 +1,10 @@
 # -*- encoding: UTF-8 -*-
 
+from pprint import pprint
 from django.test import TestCase
-from django.test.client import RequestFactory
 from django.test.client import Client
 
+from django.http import HttpRequest
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 
@@ -14,13 +15,14 @@ class LoginTest(TestCase):
     fixtures = ['auth.json']
 
     def setUp(self):
-        factory = RequestFactory()
-        data = {'login': 'e', 'password': '1'}
+        # Utiliser HttpRequest object
+        data = {'login': 'adube', 'password': '123'}
 
         self.user = authenticate(username=data['login'], password=data['password'])
 
-        self.request = factory.post('/protoLib/protoGetUserRights/', data)
-        #self.response = protoGetUserRights(request)
+        self.request = HttpRequest()
+        self.request.method = 'POST'
+        self.request.POST = data
 
     def tearDown(self):
         pass
@@ -33,7 +35,7 @@ class LoginTest(TestCase):
         self.assertTrue(user is None)
 
     def test_can_login_user(self):
-        if hasattr(self.request, 'session'):
-            login(self.request, self.user)
-        else:
-            pass
+        pass
+
+    def test_can_retrieve_user_rights(self):
+        pass
