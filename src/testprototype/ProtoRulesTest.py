@@ -62,4 +62,4 @@ class UpdatePropInfoTest(TestCase):
 
     def test_PropertyModel_isForeign_false_inherit_True(self):
         updatePropInfo(self.myBase, None, PropertyModel, False)
-        pprint(dir(self.myBase.property_set))
+        #pprint(dir(self.myBase.property_set))

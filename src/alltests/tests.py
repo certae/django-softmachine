@@ -15,6 +15,8 @@ from testViews.LoginTest import LoginTest
 
 from testprototype.ProtoRulesTest import ProtoRulesTestSuite
 
+from testSampleProject.MetaDefinitionsTest import MetaDefinitionsTestSuite
+
 
 def suite():
     suite = TestSuite()
@@ -30,6 +32,8 @@ def suite():
 
     #suite.addTest(ProtoRulesTestSuite())
 
-    suite.addTest(makeSuite(LoginTest, 'test'))
+    #suite.addTest(makeSuite(LoginTest, 'test'))
+
+    suite.addTest(MetaDefinitionsTestSuite())
 
     return suite
