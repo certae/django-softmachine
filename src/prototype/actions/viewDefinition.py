@@ -21,6 +21,7 @@ def getViewDefinition(pEntity, viewTitle):
     infoEntity['gridConfig']['baseFilter'] = [{'property': 'entity', 'filterStmt': '=' + str(pEntity.id)}]
 
     #para crear el campo __str__:  se arma con las llaves definidas como primarias o unicas
+    #pour créer le champ __ str__: arme est défini comme clés primaires ou uniques
     __str__Base = []
     #infoEntity['gridConfig']['listDisplay'].append( '__str__' )
 
@@ -39,12 +40,14 @@ def getViewDefinition(pEntity, viewTitle):
         infoEntity['fields'].append(field)
 
         # hace las veces de __str__
+        # agit comme __str__
         if pProperty.isPrimary or pProperty.isLookUpResult:
             __str__Base.append(fName)
 
         infoEntity['gridConfig']['listDisplay'].append(fName)
 
         # forma y ordenamiento
+        # forme et l'ordre
         infoEntity['gridConfig']['sortFields'].append(fName)
         infoEntity['formConfig']['items'][0]['items'].append({"name": fName, "__ptType": "formField"})
 
@@ -146,8 +149,6 @@ def getFkId(fName, infoField=False, fBase=''):
     return field
 
 
-#  ------------------------------------------------------------------
-
 def GetProtoFieldsTree(protoEntityId):
 
     """
@@ -178,7 +179,8 @@ def addProtoFieldToList(fieldList, pEntity, fieldBase, zoomName):
 
         field = property2Field(fName, pProperty.__dict__, True, fieldBase)
 
-        # Si es un campo heredado ( Se maneja ahora en la pci generada
+        # Si es un campo heredado : Se maneja ahora en la pci generada
+        # Si un champ est héritée : Il gère maintenant le pci généré
         if len(fieldBase) > 0:
             field["cpFromZoom"] = fieldBase
             field["cpFromField"] = fName
@@ -188,9 +190,11 @@ def addProtoFieldToList(fieldList, pEntity, fieldBase, zoomName):
 
         elif pProperty.isForeign:
             # Agrega el Id
+            # Ajouter l'Id
             fieldList.append(getFkId(fName, True, fieldBase))
 
             # Agrega los parametros del zoom
+            # Ajouter des paramètres de zoom
             zoomEntity = pProperty.relationship.refEntity
 
             field["zoomModel"] = PROTO_PREFIX + getViewCode(zoomEntity)
@@ -206,6 +210,7 @@ def addProtoFieldToList(fieldList, pEntity, fieldBase, zoomName):
         fieldList.append(field)
 
     # agrega las props de seguridad
+    # ajoute des accessoires de sécurité
     if len(fieldBase) == 0:
         for fName in ['smOwningUser', 'smOwningTeam', 'smCreatedBy', 'smModifiedBy', 'smWflowStatus', 'smRegStatus', 'smCreatedOn', 'smModifiedOn']:
             propDict = {"name": fName, "readOnly": True}
@@ -252,6 +257,7 @@ def getEntities(queryset, request, viewTitle):
     returnMsg = ''
 
 #   Recorre los registros selccionados
+#   Parcourir les dossiers sélectionnés
     for pEntity in queryset:
         returnMsg += pEntity.code + ','
         createView(pEntity, getViewCode(pEntity, viewTitle), userProfile)
@@ -265,10 +271,12 @@ def createView(pEntity, viewTitle, userProfile):
     infoEntity = getViewDefinition(pEntity, viewTitle)
 
     # Debe corresponder al viewCodegenerado en el template ( infoEntity[viewCode] )
+    # Doit correspondre à la viewCodegenerado dans le modèle (infoEntity [VIEWCODE])
     #viewCode = PROTO_PREFIX + viewName
 
     try:
         # Crea el Prototype ( mismo nombre q la vista : necesario para los zooms y los detalles automaticos  )
+        # Créez le Prototype (même nom q vue: nécessité pour les zooms automatiques et les détails)
         rec = Prototype.objects.get_or_create(
             code=viewName,
             smOwningTeam=userProfile.userTeam,

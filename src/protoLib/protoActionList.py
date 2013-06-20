@@ -26,7 +26,8 @@ import traceback
 
 def protoList(request):
 
-#   Vista simple para cargar la informacion,
+#   Vista simple para cargar la informacion
+#   Simple vue pour charger les informations
 
     PAGESIZE = 50
     message = ''
@@ -38,6 +39,7 @@ def protoList(request):
         return doReturn({'success': False, 'message': 'invalid message'})
 
 #   Los objetos vienen textoJson y hay q hacer el load para construirlos como objetos.
+#   Objets de texte JSON et il ya q font le chargeur pour les construire comme des objets.
     protoMeta = request.POST.get('protoMeta', '')
     protoMeta = json.loads(protoMeta)
 
@@ -51,10 +53,12 @@ def protoList(request):
     limit = int(request.POST.get('limit', PAGESIZE))
 
 #   Obtiene las filas del modelo
+#   Obtenir le rang de modèle
     Qs, orderBy, fakeId = getQSet(protoMeta, protoFilter, baseFilter, sort, request.user)
     pRowsCount = Qs.count()
 
 #   Fix: Cuando esta en la pagina el filtro continua en la pagina 2 y no muestra nada.
+#   Correction: Lorsque le filtre à la page suite à la page 2 et ne montre rien.
 #   if ( ( page -1 ) *limit >= pRowsCount ): page = 1
 
     if orderBy:

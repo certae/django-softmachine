@@ -5,7 +5,7 @@ from protoGrid import getBaseModelName
 from models import getDjangoModel
 
 import django.utils.simplejson as json
-from utilsWeb import doReturn
+from protoLib.utilsWeb import doReturn
 
 
 def protoExecuteAction(request):
