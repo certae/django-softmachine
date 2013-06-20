@@ -10,11 +10,12 @@ from viewDefinition import getViewDefinition, getViewCode, getEntities
 
 def doModelPrototype(modeladmin, request, queryset, parameters):
     """
-    funcion para crear el prototipo sobre 'protoTable' con la definicion del diccionario
-    a partir de Model
+    Funcion para crear el prototipo sobre 'protoTable' con la definicion del diccionario a partir de Model
+    Fonction pour créer le prototype sur «protoTable» avec la définition du dictionnaire du modèle
     """
 
 #   El QSet viene con la lista de Ids
+#   Le QSet est livré avec une liste d'ID
     if queryset.count() == 0:
         return {'success': False, 'message': 'No record selected'}
 
@@ -32,6 +33,7 @@ def doModelPrototype(modeladmin, request, queryset, parameters):
 def doEntityPrototype(modeladmin, request, queryset, parameters):
 
 #   El QSet viene con la lista de Ids
+#   Le QSet est livré avec une liste d'ID
     if queryset.count() != 1:
         return {'success': False, 'message': 'No record selected'}
 
@@ -45,12 +47,14 @@ def doEntityPrototype(modeladmin, request, queryset, parameters):
 
 def doPropertyModelJoin(modeladmin, request, queryset, parameters):
     """
-    funcion para unir dos propertyModel
+    Funcion para unir dos propertyModel
+    Fonctionner à rejoindre le propertyModel
     """
 
     from propModelJoin import doPropModelJoin
 
 #   El QSet viene con la lista de Ids
+#   Le QSet est livré avec une liste d'ID
     if queryset.count() < 2:
         return {'success': False, 'message': 'Multiple selection required'}
 
@@ -64,18 +68,25 @@ def doModelGraph(modeladmin, request, queryset, parameters):
     funcion para crear el modelo grafico
     a partir de Model ( doModel )
     el proyecto enviara la el QSet de todos los modelos
+
+    fonctionner pour créer le modèle graphique
+    à partir du modèle (DOMODEL)
+    le projet envoyer le QSet de tous les modèles
     """
 
     from graphModel import generateDotModels
 
 #   El QSet viene con la lista de Ids
+#   Le QSet est livré avec une liste d'ID
     if queryset.count() != 1:
         return {'success': False, 'message': 'No record selected'}
 
 #   Envia el QSet con la lista de modelos,
+#   Envoyer QSet avec la liste des modèles,
     dotdata = generateDotModels(queryset)
 
-#   Genera el archvivo dot
+#   Genera el archvivo .dot
+#   Génère le fichier .dot
     fileName = 'gm_' + slugify(queryset[0].code) + '.dot'
     fullPath = getFullPath(request, fileName)
 
@@ -104,11 +115,13 @@ def doModelGraph(modeladmin, request, queryset, parameters):
 def doImportSchema(modeladmin, request, queryset, parameters):
     """
     funcion para Importar la def de una Db ( basado en inspectDb )
+    def Importer fonction à un dB (basé sur inspectdb)
     """
 
     from reverseDb import getDbSchemaDef
 
 #   El QSet viene con la lista de Ids
+#   Le QSet est livré avec une liste d'ID
     if queryset.count() != 1:
         return {'success': False, 'message': 'No record selected'}
 
@@ -119,6 +132,7 @@ def doImportSchema(modeladmin, request, queryset, parameters):
 #        p.start()
 
 #   Recorre los registros selccionados
+#   Parcourir les dossiers sélectionnés
     except Exception as e:
         traceback.print_exc()
         return {'success': False, 'message': 'Load error'}
