@@ -5,7 +5,7 @@ import traceback
 from protoLib.utilsBase import slugify
 from protoLib.downloadFile import getFullPath
 
-from viewDefinition import getViewDefinition, getViewCode, getEntities
+from prototype.actions.viewDefinition import getViewDefinition, getViewCode, getEntities
 
 
 def doModelPrototype(modeladmin, request, queryset, parameters):
@@ -20,9 +20,11 @@ def doModelPrototype(modeladmin, request, queryset, parameters):
         return {'success': False, 'message': 'No record selected'}
 
 #   Mensaje de retorno
+#   Message de retour
     returnMsg = ''
 
 #   Recorre los registros selccionados
+#   Parcourir les dossiers sélectionnés
     for pModel in queryset:
         returnTmp = getEntities(pModel.entity_set.all(), request, None)
         returnMsg += 'Model : ' + pModel.code + ' Entts: ' + returnTmp + '; '
@@ -41,6 +43,7 @@ def doEntityPrototype(modeladmin, request, queryset, parameters):
         return {'success': False, 'message': 'ViewName required!!'}
 
 #   Recorre los registros selccionados
+#   Parcourir les dossiers sélectionnés
     returnTmp = 'Entt: ' + getEntities(queryset, request, parameters[0]['value'])
     return {'success': True, 'message': returnTmp}
 

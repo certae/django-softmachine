@@ -35,6 +35,7 @@ class LoginTest(TestCase):
         self.assertTrue(user is None)
 
     def test_can_login_user(self):
+        #pprint(repr(self.request))
         pass
 
     def test_can_retrieve_user_rights(self):
