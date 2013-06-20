@@ -32,8 +32,8 @@ def suite():
 
     #suite.addTest(ProtoRulesTestSuite())
 
-    #suite.addTest(makeSuite(LoginTest, 'test'))
+    suite.addTest(makeSuite(LoginTest, 'test'))
 
-    suite.addTest(MetaDefinitionsTestSuite())
+    #suite.addTest(MetaDefinitionsTestSuite())
 
     return suite

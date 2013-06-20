@@ -6,8 +6,7 @@ from django.db.models.signals import post_save, post_delete
 from protoLib.models import ProtoModel
 from protoLib.fields import JSONField,  JSONAwareManager
 
-from prototype.protoRules import updatePropInfo, twoWayPropEquivalence, updProPropModel
-from prototype.protoRules import ONDELETE_TYPES, BASE_TYPES, CRUD_TYPES, DB_ENGINE
+from prototype.protoRules import *
 
 from protoLib.utilsBase import slugify
 
@@ -412,7 +411,6 @@ class PropertyModel(PropertyBase):
         "gridConfig": {
         "listDisplay": ["__str__", "description", "inherit", "conceptType", "smOwningTeam"]
         },
-
         "detailsConfig": [
             {
                 "menuText": "Properties",
@@ -427,7 +425,6 @@ class PropertyModel(PropertyBase):
                 "detailField": "sourceProperty__pk",
                 "masterField": "pk"
             }],
-
     }
 
 
