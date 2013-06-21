@@ -6,73 +6,68 @@ from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
 
 from prototype.models import *
+from prototype.actions.viewDefinition import *
+
+from protoLib.protoAuth import getUserProfile
+from protoLib.utilsBase import slugify
 
 
-def MetaDefinitionsTestSuite():
+def ViewCreationTestSuite():
     suite = TestSuite()
 
-    suite.addTest(makeSuite(MetaDefinitionsTest, 'test'))
+    suite.addTest(makeSuite(GetViewDefinitionTest, 'test'))
+    suite.addTest(makeSuite(GetViewCodeTest, 'test'))
+    suite.addTest(makeSuite(CreateViewTest, 'test'))
 
     return suite
 
 
-class MetaDefinitionsTest(TestCase):
+class GetViewDefinitionTest(TestCase):
     fixtures = ['auth.json', 'protoLib.json', 'prototype.json']
 
     def setUp(self):
-        pass
+        self.entity = Entity.objects.all()
 
     def tearDown(self):
         pass
 
-    def test_project_meta(self):
-        for entry in Project.objects.all():
-            pprint(entry.protoExt)
+    def test_protoentity_value_contains_entity_name(self):
+        for entries in self.entity:
+            infoEntity = getViewDefinition(entries, 'metaTestView')
+            self.assertEqual(slugify(entries.model.code + '-' + entries.code), infoEntity['protoEntity'])
 
-    def test_model_meta(self):
-        for entry in Model.objects.all():
-            pprint(entry.protoExt)
 
-    def test_entity_meta(self):
-        for entry in Entity.objects.all():
-            pprint(entry.protoExt)
+class GetViewCodeTest(TestCase):
+    fixtures = ['auth.json', 'protoLib.json', 'prototype.json']
 
-    def test_property_meta(self):
-        for entry in Property.objects.all():
-            pprint(entry.protoExt)
+    def setUp(self):
+        self.entity = Entity.objects.all()
 
-    def test_relationship_meta(self):
-        for entry in Relationship.objects.all():
-            pprint(entry.protoExt)
+    def tearDown(self):
+        pass
 
-    def test_propertymodel_meta(self):
-        for entry in PropertyModel.objects.all():
-            pprint(entry.protoExt)
+    def test_viewtitle_none(self):
+        for entries in self.entity:
+            returnValue = getViewCode(entries)
+            self.assertEqual(slugify(entries.model.code + '-' + entries.code), returnValue)
 
-    def test_propertyequivalence_meta(self):
-        for entry in PropertyEquivalence.objects.all():
-            pprint(entry.protoExt)
+    def test_viewtitle_specified(self):
+        titleString = 'viewTitleViewTest'
+        for entries in self.entity:
+            returnValue = getViewCode(entries, titleString)
+            self.assertEqual(slugify(entries.model.code + '-' + titleString), returnValue)
 
-    def test_prototype_meta(self):
-        for entry in Prototype.objects.all():
-            pprint(entry.protoExt)
 
-    def test_prototable_meta(self):
-        for entry in ProtoTable.objects.all():
-            pprint(entry.protoExt)
+class CreateViewTest(TestCase):
+    fixtures = ['auth.json', 'protoLib.json', 'prototype.json']
 
-    def test_diagram_meta(self):
-        for entry in Diagram.objects.all():
-            pprint(entry.protoExt)
+    def setUp(self):
+        self.entity = Entity.objects.all()
 
-    def test_diagramentity_meta(self):
-        for entry in DiagramEntity.objects.all():
-            pprint(entry.protoExt)
+    def tearDown(self):
+        pass
 
-    def test_service_meta(self):
-        for entry in Service.objects.all():
-            pprint(entry.protoExt)
-
-    def test_serviceref_meta(self):
-        for entry in ServiceRef.objects.all():
-            pprint(entry.protoExt)
+    def test_something(self):
+        for entries in self.entity:
+            print(entries)
+            createView(entries, getViewCode(entries), getUserProfile(26, 'prototype', ''))

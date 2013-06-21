@@ -15,25 +15,25 @@ from testViews.LoginTest import LoginTest
 
 from testprototype.ProtoRulesTest import ProtoRulesTestSuite
 
-from testSampleProject.MetaDefinitionsTest import MetaDefinitionsTestSuite
+from testSampleProject.MetaDefinitionsTest import ViewCreationTestSuite
 
 
 def suite():
     suite = TestSuite()
 
-    suite.addTest(ModelsTestSuite())
+    #suite.addTest(ModelsTestSuite())
 
-    suite.addTest(makeSuite(BaseDefinitionTest, 'test'))
+    #suite.addTest(makeSuite(BaseDefinitionTest, 'test'))
 
-    suite.addTest(ViewDefinitionTestSuite())
+    #suite.addTest(ViewDefinitionTestSuite())
 
-    suite.addTest(StructureTestSuite())
-    suite.addTest(PropertiesTestSuite())
+    #suite.addTest(StructureTestSuite())
+    #suite.addTest(PropertiesTestSuite())
 
     #suite.addTest(ProtoRulesTestSuite())
 
-    suite.addTest(makeSuite(LoginTest, 'test'))
+    #suite.addTest(makeSuite(LoginTest, 'test'))
 
-    #suite.addTest(MetaDefinitionsTestSuite())
+    suite.addTest(ViewCreationTestSuite())
 
     return suite

@@ -252,7 +252,6 @@ def getEntities(queryset, request, viewTitle):
     Recorre las entidades para generar las vistas en bache por modelo
     Marchez dans les entités de générer des vues en plein marasme par modèle
     """
-
     userProfile = getUserProfile(request.user, 'prototype', '')
     returnMsg = ''
 
@@ -276,7 +275,7 @@ def createView(pEntity, viewTitle, userProfile):
 
     try:
         # Crea el Prototype ( mismo nombre q la vista : necesario para los zooms y los detalles automaticos  )
-        # Créez le Prototype (même nom q vue: nécessité pour les zooms automatiques et les détails)
+        # Créez le Prototype (même nom que vue: nécessité pour les zooms automatiques et les détails)
         rec = Prototype.objects.get_or_create(
             code=viewName,
             smOwningTeam=userProfile.userTeam,
