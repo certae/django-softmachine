@@ -21,18 +21,18 @@ from testSampleProject.MetaDefinitionsTest import ViewCreationTestSuite
 def suite():
     suite = TestSuite()
 
-    #suite.addTest(ModelsTestSuite())
+    suite.addTest(ModelsTestSuite())
 
-    #suite.addTest(makeSuite(BaseDefinitionTest, 'test'))
+    suite.addTest(makeSuite(BaseDefinitionTest, 'test'))
 
-    #suite.addTest(ViewDefinitionTestSuite())
+    suite.addTest(ViewDefinitionTestSuite())
 
-    #suite.addTest(StructureTestSuite())
-    #suite.addTest(PropertiesTestSuite())
+    suite.addTest(StructureTestSuite())
+    suite.addTest(PropertiesTestSuite())
 
-    #suite.addTest(ProtoRulesTestSuite())
+    suite.addTest(ProtoRulesTestSuite())
 
-    #suite.addTest(makeSuite(LoginTest, 'test'))
+    suite.addTest(makeSuite(LoginTest, 'test'))
 
     suite.addTest(ViewCreationTestSuite())
 
