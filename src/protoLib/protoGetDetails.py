@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from django.http import HttpResponse
-from protoField import TypeEquivalence
 from models import getDjangoModel 
-from utilsBase import getReadableError, verifyStr
+from utilsBase import getReadableError
 from protoGrid import  getBaseModelName, getModelDetails
 from utilsWeb import JsonError, JsonSuccess 
 
@@ -38,8 +37,8 @@ def protoGetDetailsTree(request):
         if not protoEntityId >= 0: return JsonError( 'invalid idEntity')
 
         try:  
-            from prototype.actions.viewDefinition import GetDetailsConfigTree
-            detailList = GetDetailsConfigTree(  protoEntityId )
+            from prototype.actions.viewDefinition import GetDetailsConfigTreeById
+            detailList = GetDetailsConfigTreeById(  protoEntityId )
         except: 
             return JsonError( 'invalid idEntity')
 

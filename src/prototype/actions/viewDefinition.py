@@ -70,21 +70,50 @@ def getViewDefinition( pEntity, viewTitle  ):
     fName = '__str__'
     infoEntity['fields'].append( field )
     infoEntity['gridConfig']['sortFields'].append( fName )
-            
-    # Details
-    for pDetail in pEntity.refEntity_set.all():
-        detail =  {
-            "detailField": "info__" + slugify( pDetail.code ) + "_id",
-            "conceptDetail": PROTO_PREFIX + getViewCode( pDetail.entity  ),
-            "detailName": slugify( pDetail.entity.code ),
-            "menuText": pDetail.entity.code ,
-            "masterField": "pk"
-        }
-                    
-        infoEntity['detailsConfig'].append( detail )             
+    infoEntity['detailsConfig'] =  GetDetailsConfigTree( pEntity  )
             
     return infoEntity
 
+
+def GetDetailsConfigTreeById( protoEntityId ):
+    """  Call by the config option  
+    """
+    
+    lDetails = []
+
+    try:
+        pEntity = Entity.objects.get( id = protoEntityId )
+        lDetails = GetDetailsConfigTree( pEntity )
+    except: pass
+     
+    return lDetails 
+    
+    
+def GetDetailsConfigTree( pEntity ):
+    """ Details auto config 
+    """ 
+
+    lDetails = []
+    
+    # Details
+    for pDetail in pEntity.refEntity_set.all():
+        dName = pDetail.entity.code + '.' + pDetail.code
+        detail =  {
+            "detailField": "info__" + slugify( pDetail.code ) + "_id",
+            "conceptDetail": PROTO_PREFIX + getViewCode( pDetail.entity  ),
+            "detailName": slugify( dName ),
+            "menuText": dName,
+            "masterField": "pk", 
+            
+            # for detail config selection 
+            "id" : slugify( dName ) ,  
+            "leaf" : True 
+        }
+                    
+        lDetails.append( detail ) 
+                
+    return lDetails 
+    
     
 def getViewCode( pEntity, viewTitle = None ):
 
@@ -210,36 +239,6 @@ def addProtoFiedToList( fieldList,  pEntity , fieldBase, zoomName   ):
 #  ------------------------------------------------------------------
 
 
-def GetDetailsConfigTree( protoEntityId ):
-    
-    lDetails = []
-
-    try:
-        pEntity = Entity.objects.get( id = protoEntityId )
-    except: 
-        return lDetails 
-    
-    # Details
-    for pDetail in pEntity.refEntity_set.all():
-        
-        detail =  {
-            "detailField": "info__" + slugify( pDetail.code ) + "_id",
-            "conceptDetail": PROTO_PREFIX + getViewCode( pDetail.entity  ),
-            "detailName": slugify( pDetail.entity.code ),
-            "menuText": pDetail.entity.code ,
-            "masterField": "pk", 
-            
-            "id" : slugify( pDetail.entity.code ) ,  
-            "leaf" : True 
-        }
-
-
-                    
-        lDetails.append( detail ) 
-                
-    return lDetails 
-    
-    
 
 def getEntities( queryset , request, viewTitle  ):
     """ Recorre las entidades para generar las vistas en bache por modelo """
