@@ -281,6 +281,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 // Expone la fila seleccionada. 
                 this.selected = selected[0] || null;
 
+                //TODO:  Hay dos eventos q se producen en sequencia, se deberia posponer el q pierde el foco   
+                // para esperar el del nuevo foco,  si este ocurre cancelar de lostSelection 
                 if ( this.selected  ) {
                     me.rowData = this.selected.data 
                     me.fireSelectionChange( selModel, this.selected,  this.selected.index + 1,  eOpts   ) 

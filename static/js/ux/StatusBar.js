@@ -275,9 +275,10 @@ Ext.define('ProtoUL.ux.StatusBar', {
         this.showBusyI( text ); 
         
         if( clear ) { 
-            Ext.defer(function(){
-                this.clearStatus({useDefaults:true});
-            }, clear, this);
+            Ext.defer(
+                function(){
+                    this.clearStatus({useDefaults:true});
+                }, clear, this);
         } else { 
             // console.log( 'busy: ' + origin,  text, this.busyCount )
             this.busyCount ++;     

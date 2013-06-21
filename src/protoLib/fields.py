@@ -69,7 +69,8 @@ class JSONAwareQuerySet(models.query.QuerySet):
         return clone
         
     def _evaluate_json_lookup(self, item, lookup, value):
-        oper = 'exact'
+        """ El lookup contiene la expresion  jsofield__campo__operador 
+        """
         
         evaluators = {
             'icontains': lambda item, value: item.lower() in value.lower(),
@@ -89,6 +90,11 @@ class JSONAwareQuerySet(models.query.QuerySet):
                 return obj[key]
             return getattr(obj, key)
 
+        # Asigna un operador por defecto 
+        oper = 'exact'
+
+        # Obtiene el operador del lookup  json__campo__[operador] 
+        # y deja el campo base  json__campo
         if lookup.split('__')[-1] in evaluators.keys():
             oper = lookup.split('__')[-1]
             lookup = '__'.join(lookup.split('__')[:-1])
