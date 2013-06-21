@@ -15,7 +15,7 @@ from testViews.LoginTest import LoginTest
 
 from testprototype.ProtoRulesTest import ProtoRulesTestSuite
 
-from testSampleProject.MetaDefinitionsTest import ViewCreationTestSuite
+from testSampleProject.ViewCreationTest import ViewCreationTestSuite
 
 
 def suite():
