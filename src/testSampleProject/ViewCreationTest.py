@@ -8,6 +8,7 @@ from django.http import HttpRequest
 
 from prototype.models import *
 from prototype.actions.viewDefinition import *
+from prototype.actions.__init__ import doModelPrototype
 
 from protoLib.protoAuth import getUserProfile
 from protoLib.utilsBase import slugify
@@ -20,6 +21,7 @@ def ViewCreationTestSuite():
     suite.addTest(makeSuite(GetViewCodeTest, 'test'))
     suite.addTest(makeSuite(CreateViewTest, 'test'))
     suite.addTest(makeSuite(GetEntitiesTest, 'test'))
+    suite.addTest(makeSuite(DoModelPrototypeTest, 'test'))
 
     return suite
 
@@ -84,9 +86,41 @@ class GetEntitiesTest(TestCase):
     def tearDown(self):
         pass
 
-    def test_something(self):
+    def test_getentities(self):
         request = HttpRequest()
         request.user = 26
         viewTitleString = 'testViewTitle'
         returnMessage = getEntities(self.entity, request, viewTitleString)
         self.assertEqual(self.entity[0].code + ',' + self.entity[1].code + ',', returnMessage)
+
+
+class DoModelPrototypeTest(TestCase):
+    fixtures = ['auth.json', 'protoLib.json', 'prototype.json']
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test_DoModelPrototype_NonEmptyQuerySet(self):
+        model = Model.objects.all()
+        request = HttpRequest()
+        request.user = 26
+        returnMessage = doModelPrototype('', request, model, '')
+        self.assertEqual(returnMessage['message'], 'Model : t_model Entts: t_entity,t_other_entity,; ')
+        self.assertTrue(returnMessage['success'])
+
+    def test_DoModelPrototype_EmptyQuerySet(self):
+        request = HttpRequest()
+        request.user = 26
+
+        model = Model.objects.all()
+        for entries in model:
+            entries.delete()
+        model = Model.objects.all()
+        self.assertTrue(model.count() == 0)
+
+        returnMessage = doModelPrototype('', request, model, '')
+        self.assertEqual(returnMessage['message'], 'No record selected')
+        self.assertFalse(returnMessage['success'])
