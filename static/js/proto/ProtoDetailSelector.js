@@ -92,28 +92,34 @@ Ext.define('ProtoUL.proto.ProtoDetailSelector', {
                 
             for (var ix in names  ) {
                 
-                detail = getExistingDetail( names[ix] )
-                if ( ! detail ) {
-                    detail = getDefaultDetail( names[ix] )
-                }
-                if ( detail ) {
-                    details.push( detail )   
-                } else { 
-                    // console.log( "Detalle no encontrado", names[ix]  )                } 
+                var detAux = getDefaultDetail( names[ix] )
+                
+                // Si ya existe trae el ya configurado  
+                detail = getExistingDetail( detAux )
+                details.push( detail )   
                 
             } 
             
             // Actualiza los nuevos detalles 
             me.myMeta.detailsConfig = details 
             
-            function getExistingDetail( name  ) {
+            function getExistingDetail( detAux   ) {
+                
+                var detKeyConf =  getDetKey( detAux ) 
+                
                 for (var ix in me.myMeta.detailsConfig ) {
-                    var vFld  =  me.myMeta.detailsConfig[ix];
-                    if ( vFld.menuText == name ) {
-                        return vFld 
-                        break ; 
+                    var detKeyBase = getDetKey( me.myMeta.detailsConfig[ix]  )  
+                    if ( detKeyConf == detKeyBase ) {
+                        return me.myMeta.detailsConfig[ix]
                     }
                 } 
+                
+                return detAux 
+                
+                function getDetKey( detAux ) {
+                    // Arma el identiificador del detalle 
+                    return detAux.masterField + '=' + detAux.conceptDetail + '.' + detAux.detailField
+                }
             }
             
             function getDefaultDetail( name  ) {
@@ -186,17 +192,22 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
             columns: [{
                 xtype: 'treecolumn', //this is so we know which column will show the tree
                 text: _SM.__language.Tree_Concept_Details_Text,
-                flex: 2,
+                flex: 3,
                 sortable: true,
                 minWidth: 200,
                 dataIndex: 'id'
             },{
+                flex: 4,
                 text: _SM.__language.Tree_Concept_Details_Detail,
                 dataIndex: 'conceptDetail'
             },{
                 flex: 2,
                 text: _SM.__language.Tree_Details_Field,
                 dataIndex: 'detailField'
+            },{
+                flex: 1,
+                text: _SM.__language.Tree_Concept_Details_MasterFld,
+                dataIndex: 'masterField'
             }] 
              
         })
@@ -218,8 +229,11 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
                 
                 var lRec = { 
                     'conceptDetail'  : record.get('conceptDetail' ), 
-                    'detailField' : record.get('detailField' )
+                    'detailField'    : record.get('detailField' ),
+                    'masterField'    : record.get('masterField' )
                     }
+
+                var detKeyConf = getDetKey( lRec ) 
 
                 // Evita iterar en el root 
                 if ( lRec.conceptDetail )  {
@@ -227,8 +241,9 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
                     // Marca los campos activos en la grilla
                     for (var ix in me.myMeta.detailsConfig ) {
                         var vFld  =  me.myMeta.detailsConfig[ix];
-                        
-                        if (( vFld.conceptDetail == lRec.conceptDetail ) && ( vFld.detailField == lRec.detailField )) {
+                        var detKeyBase = getDetKey( vFld ) 
+
+                        if ( detKeyBase == detKeyConf ) {
                             record.set( 'checked', true )
                             
                             // Agrega los campos personalisados 
@@ -243,6 +258,11 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
              })
         };
         
+        function getDetKey( detAux ) {
+            // Arma el identiificador del detalle 
+            return detAux.masterField + '=' + detAux.conceptDetail + '.' + detAux.detailField
+        }
+
         function definieDetailsConfigTreeModel( viewCode , protoEntityId) {
             // Modelo usado en la lista de campos con la jerarquia completa de los de zoom ( detalle de fk ) 
             

@@ -156,8 +156,9 @@ __language ={
     'Title_Panel_Tools' : 'Outils du formulaire',
 
     'Tree_Concept_Details_Text' : 'texte',
-    'Tree_Concept_Details_Detail' : 'détail du concept',
-    'Tree_Details_Field' : 'détail du champ',
+    'Tree_Concept_Details_Detail' : 'Éntité détail',
+    'Tree_Details_Field' : 'Champ détail',
+    'Tree_Concept_Details_MasterFld' : 'MasterFld',
 
     'Protofield_Fields' : 'champs',
     'Protofield_Text' : 'Nom champ',
