@@ -115,6 +115,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             // Asigna el titulo 
             var nDetTitle =  nDetId;
             if ( vFld ) { nDetTitle = me.detailDefinition.masterTitleField || vFld.fkField; }  
+            
+            myMeta.shortTitle = me.detailDefinition.menuText 
         } 
 
         createColDictionary()
@@ -279,18 +281,31 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             // }, scope: this }, 
             selectionchange: {fn: function(selModel, selected,  eOpts ) {
                 // Expone la fila seleccionada. 
-                this.selected = selected[0] || null;
-
-                //TODO:  Hay dos eventos q se producen en sequencia, se deberia posponer el q pierde el foco   
+                // Hay dos eventos q se producen en sequencia, se deberia posponer el q pierde el foco   
                 // para esperar el del nuevo foco,  si este ocurre cancelar de lostSelection 
+                this.selected = selected[0] || null;
+                
+                // Cancela las tareas pendientes 
+                if ( me.fireDeSelect ) {
+                    me.fireDeSelect.cancel()
+                    me.fireDeSelect = null 
+                }                       
+
                 if ( this.selected  ) {
-                    me.rowData = this.selected.data 
+                    me.rowData = this.selected.data
                     me.fireSelectionChange( selModel, this.selected,  this.selected.index + 1,  eOpts   ) 
                 } else { 
-                    me.rowData = null 
-                    me.fireSelectionChange( selModel, null,  null,  eOpts   )
+                    me.rowData = null
+
+                    // Programa la tarea para deseleccionar  
+                    me.fireDeSelect = new Ext.util.DelayedTask(function(){
+                        me.fireSelectionChange( selModel, null,  null,  eOpts   )
+                    });
+    
+                    // establece el tiempo de espera 
+                    me.fireDeSelect.delay(500);
                 } 
-                                // Si hay botones o eltos de la interface a modificar 
+                // Si hay botones o eltos de la interface a modificar 
                 // grid4.down('#removeButton').setDisabled(selections.length == 0);
             }, scope: this }, 
             
@@ -524,7 +539,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             gridTitle +=  me.filterTitle ; 
         } 
 
-        if ( gridTitle ) { gridTitle = ' filtrés par ' +  gridTitle + '' };
+        if ( gridTitle ) { gridTitle = ' « ' +  gridTitle + ' »' };
         gridTitle = me.myMeta.shortTitle + gridTitle ; 
 
         me._extGrid.setTitle( gridTitle )  

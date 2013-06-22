@@ -344,6 +344,9 @@ def PrepareMeta2Load( protoMeta ):
     """IDenfifica los typos de campos para optimizar la carga de datos
     """
 
+    #Nombre de la entidad de trabajo 
+    viewEntity = protoMeta['viewEntity']
+
     protoMeta[ 'fieldsDict' ] = list2dict( protoMeta[ 'fields' ], 'name')    
 
     pUDP = protoMeta.get( 'usrDefProps', {}) 
@@ -397,7 +400,10 @@ def PrepareMeta2Load( protoMeta ):
         pName = lField.get( 'pyEval', '' )  
 
         myZoomModel = lField.get( 'zoomModel', '')   
-        if (len( myZoomModel ) > 0) and  ( myZoomModel <> protoMeta['viewEntity']):
+        
+        if (len( myZoomModel) > 0) and (myZoomModel != viewEntity) :
+            #por q debe ser diferente del viewEntity, podria ser una autoreferencia, acaso viene cargada sin ser un zoom
+            #Dgt! los cellZoom usan el zoomModel ( _str_ )  
             protoMeta['relModels'][ fName ] = { 
                                'zoomModel' : myZoomModel, 
                                'fkId' : lField.get( 'fkId', '') , 
@@ -420,9 +426,10 @@ def PrepareMeta2Load( protoMeta ):
         elif fName.startswith( JsonField + '__'): 
             protoMeta['fJson'].append( fName )
             
-        elif lField['type'] == 'foreigntext':
-            protoMeta['fZooms'].append( fName ) 
-            if not myZoomModel.startswith( 'prototype.ProtoTable') : 
+        elif lField['type'] == 'foreigntext' :
+            protoMeta['fZooms'].append( fName )
+            # No aplica para  prototypos
+            if not viewEntity.startswith( 'prototype.ProtoTable'):  
                 protoMeta['relZooms'].append( fName )
 
         elif ( '__' in fName or '.' in fName )   :

@@ -119,19 +119,17 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
             mDet.protoTabs.add( detailGrid )
     
             //Definicion del detalle TODO: pasarlo a una clase 
-
             detailGrid.ixDetail = item.ixDetail;
                 
             // Asigna el store y lo agrega a los tabs 
             mDet.cllStoreDet[item.ixDetail] = detailGrid.store ;
-            
+
             // Configura el panel 
             var myMeta = detailGrid.myMeta
             
             // setActionPrp('text', 'setText',  myMeta.shortTitle );
             // setActionPrp('tooltip', 'setTooltip', myMeta.description );
             setActionPrp('tooltip', 'setTooltip', pDetail.menuText  );
-
             setActionPrp('iconCls', 'setIconCls', myMeta.viewIcon );
             //setActionPrp('iconAlign', 'setIconAlign', 'top');
             setActionPrp('width', 'setWidth', 100 );
