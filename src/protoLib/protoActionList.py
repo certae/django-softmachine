@@ -43,7 +43,6 @@ def protoList(request):
     protoMeta = request.POST.get('protoMeta', '')
     protoMeta = json.loads(protoMeta)
 
-#
     protoFilter = request.POST.get('protoFilter', '')
     baseFilter = request.POST.get('baseFilter', '')
     sort = request.POST.get('sort', '')
