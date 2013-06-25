@@ -8,7 +8,9 @@ from django.http import HttpRequest
 
 from prototype.models import *
 from prototype.actions.viewDefinition import *
+
 from prototype.actions.__init__ import doModelPrototype
+from prototype.actions.__init__ import doEntityPrototype
 
 from protoLib.protoAuth import getUserProfile
 from protoLib.utilsBase import slugify
@@ -22,6 +24,7 @@ def ViewCreationTestSuite():
     suite.addTest(makeSuite(CreateViewTest, 'test'))
     suite.addTest(makeSuite(GetEntitiesTest, 'test'))
     suite.addTest(makeSuite(DoModelPrototypeTest, 'test'))
+    suite.addTest(makeSuite(DoEntityPrototypeTest, 'test'))
 
     return suite
 
@@ -124,3 +127,38 @@ class DoModelPrototypeTest(TestCase):
         returnMessage = doModelPrototype('', request, model, '')
         self.assertEqual(returnMessage['message'], 'No record selected')
         self.assertFalse(returnMessage['success'])
+
+
+class DoEntityPrototypeTest(TestCase):
+    fixtures = ['auth.json', 'protoLib.json', 'prototype.json']
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test_DoEntityPrototype_validquery_validparameters(self):
+        request = HttpRequest()
+        request.user = 26
+
+        model = Model.objects.all()
+
+        parameters = []
+        parameters.append({'value': 'valueOfParameter'})
+
+        for pModel in model:
+            pModel.entity_set.all()[1].delete()  # Doit avoir seulement 1 entity
+            returnMessage = doEntityPrototype('', request, pModel.entity_set.all(), parameters)
+            self.assertTrue(returnMessage['success'])
+
+    def test_DoEntityPrototype_validquery_invalidparameters(self):
+        request = HttpRequest()
+        request.user = 26
+
+        model = Model.objects.all()
+
+        for pModel in model:
+            pModel.entity_set.all()[1].delete()  # Doit avoir seulement 1 entity
+            returnMessage = doEntityPrototype('', request, pModel.entity_set.all(), '')
+            self.assertFalse(returnMessage['success'])
