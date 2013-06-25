@@ -25,7 +25,6 @@ import traceback
 
 
 def protoList(request):
-
 #   Vista simple para cargar la informacion
 #   Simple vue pour charger les informations
 
@@ -41,6 +40,8 @@ def protoList(request):
 #   Los objetos vienen textoJson y hay q hacer el load para construirlos como objetos.
 #   Objets de texte JSON et il ya q font le chargeur pour les construire comme des objets.
     protoMeta = request.POST.get('protoMeta', '')
+
+    # Devrait probablement transformer en dictionnaire
     protoMeta = json.loads(protoMeta)
 
     protoFilter = request.POST.get('protoFilter', '')
@@ -57,7 +58,7 @@ def protoList(request):
     pRowsCount = Qs.count()
 
 #   Fix: Cuando esta en la pagina el filtro continua en la pagina 2 y no muestra nada.
-#   Correction: Lorsque le filtre à la page suite à la page 2 et ne montre rien.
+#   Correction: Lorsque le filtre à la page suivante à la page 2 et ne montre rien.
 #   if ( ( page -1 ) *limit >= pRowsCount ): page = 1
 
     if orderBy:
@@ -74,6 +75,7 @@ def protoList(request):
         pList = Q2Dict(protoMeta, pRows, fakeId)
         bResult = True
     except Exception,  e:
+        print('Caught exception')
         traceback.print_exc()
         message = getReadableError(e)
         bResult = False

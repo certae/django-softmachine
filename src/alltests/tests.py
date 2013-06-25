@@ -12,10 +12,9 @@ from testMetaDefinitions.ObjectsTest import StructureTestSuite
 from testMetaDefinitions.PropertiesTest import PropertiesTestSuite
 
 from testViews.LoginTest import LoginTest
-
 from testprototype.ProtoRulesTest import ProtoRulesTestSuite
-
 from testSampleProject.ViewCreationTest import ViewCreationTestSuite
+from testprotoLib.ProtoActionListTest import ProtoActionListTestSuite
 
 
 def suite():
@@ -35,5 +34,7 @@ def suite():
     suite.addTest(makeSuite(LoginTest, 'test'))
 
     suite.addTest(ViewCreationTestSuite())
+
+    suite.addTest(ProtoActionListTestSuite())
 
     return suite
