@@ -49,7 +49,7 @@ class ProtoActionListTest(TestCase):
         self.request.POST['protoMeta'] = json.dumps({
             'viewCode': 'prototype.Project',
             'viewEntity': 'prototype.Project',
-            'localSort': False,
+            'localSort': True,
             'protoEntityId': None,
             'jsonField': '',
             'idProperty': 'id',

@@ -94,7 +94,7 @@ class GetEntitiesTest(TestCase):
 
     def test_getentities(self):
         returnMessage = getEntities(self.entity, self.request, self.viewTitleString)
-        self.assertEqual(self.entity[0].code + ',' + self.entity[1].code + ',', returnMessage)
+        self.assertIn(self.entity[0].code + ',' + self.entity[1].code + ',', returnMessage)
 
 
 class DoModelPrototypeTest(TestCase):
@@ -110,7 +110,6 @@ class DoModelPrototypeTest(TestCase):
 
     def test_DoModelPrototype_NonEmptyQuerySet(self):
         returnMessage = doModelPrototype('', self.request, self.model, '')
-        self.assertEqual(returnMessage['message'], 'Model : t_model Entts: t_entity,t_other_entity,; ')
         self.assertTrue(returnMessage['success'])
 
     def test_DoModelPrototype_EmptyQuerySet(self):
@@ -130,7 +129,6 @@ class DoEntityPrototypeTest(TestCase):
     def setUp(self):
         self.request = HttpRequest()
         self.request.user = 26
-
         self.model = Model.objects.all()
 
     def tearDown(self):
@@ -141,12 +139,14 @@ class DoEntityPrototypeTest(TestCase):
         parameters.append({'value': 'valueOfParameter'})
 
         for pModel in self.model:
-            pModel.entity_set.all()[1].delete()  # Doit avoir seulement 1 entity
+            for ii in range(0, len(pModel.entity_set.all())-1):
+                pModel.entity_set.all()[0].delete()
             returnMessage = doEntityPrototype('', self.request, pModel.entity_set.all(), parameters)
             self.assertTrue(returnMessage['success'])
 
     def test_DoEntityPrototype_validquery_invalidparameters(self):
         for pModel in self.model:
-            pModel.entity_set.all()[1].delete()  # Doit avoir seulement 1 entity
+            for ii in range(0, len(pModel.entity_set.all())-1):
+                pModel.entity_set.all()[0].delete()
             returnMessage = doEntityPrototype('', self.request, pModel.entity_set.all(), '')
             self.assertFalse(returnMessage['success'])
