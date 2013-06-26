@@ -41,8 +41,6 @@ def protoList(request):
 #   Los objetos vienen textoJson y hay q hacer el load para construirlos como objetos.
 #   Objets de texte JSON et il ya q font le chargeur pour les construire comme des objets.
     protoMeta = request.POST.get('protoMeta', '')
-
-    # Devrait probablement transformer en dictionnaire
     protoMeta = json.loads(protoMeta)
 
     protoFilter = request.POST.get('protoFilter', '')
@@ -97,7 +95,6 @@ def protoList(request):
 
 # Obtiene el diccionario basado en el Query Set
 def Q2Dict(protoMeta, pRows, fakeId):
-
     """
         return the row list from given queryset
     """

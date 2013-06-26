@@ -110,6 +110,7 @@ class ProtoActionListTest(TestCase):
             ],
             'usrDefProps': {'__ptType': 'usrDefProps'}
         })
+
         response = protoList(self.request)
         data = json.loads(response.content)
         self.assertTrue(data['success'])

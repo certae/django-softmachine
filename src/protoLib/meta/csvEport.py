@@ -36,8 +36,8 @@ class ExcelResponse(HttpResponse):
         output = StringIO.StringIO()
 
         # Pour Python 3 : Quelque chose du genre :
-        #import io
-        #output = io.StringIO()
+        #from io import StringIO
+        #output = StringIO()
 
         # Excel has a limit on number of rows; if we have more than that, make a csv
         use_xls = False
