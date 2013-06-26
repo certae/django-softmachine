@@ -16,7 +16,10 @@ class LoginTest(TestCase):
 
     def setUp(self):
         # Utiliser HttpRequest object
-        data = {'login': 'adube', 'password': '123'}
+        data = {
+            'login': 'adube',
+            'password': '123'
+        }
 
         self.user = authenticate(username=data['login'], password=data['password'])
 
