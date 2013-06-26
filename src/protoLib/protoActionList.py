@@ -23,11 +23,12 @@ from protoLib.utilsWeb import doReturn
 import django.utils.simplejson as json
 import traceback
 
+from django.utils.html import escape
+
 
 def protoList(request):
 #   Vista simple para cargar la informacion
 #   Simple vue pour charger les informations
-
     PAGESIZE = 50
     message = ''
 

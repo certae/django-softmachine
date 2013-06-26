@@ -43,7 +43,73 @@ class ProtoActionListTest(TestCase):
 
     def test_user_is_authenticated_and_method_is_POST(self):
         self.request.method = 'POST'
-        pass
-        #response = protoList(self.request)
-        #data = json.loads(response.content)
-        #print(data)
+        self.request.POST['start'] = 0
+        self.request.POST['page'] = 1
+        self.request.POST['limit'] = 50
+        self.request.POST['protoMeta'] = json.dumps({
+            'viewCode': 'prototype.Project',
+            'viewEntity': 'prototype.Project',
+            'localSort': False,
+            'protoEntityId': None,
+            'jsonField': '',
+            'idProperty': 'id',
+            'gridConfig': {
+                'searchFields': ['smRegStatus', 'smWflowStatus', 'code', 'description']
+            },
+            'fields': [
+                {
+                    'name': '__str__',
+                    'fkId': 'id',
+                    'zoomModel': 'prototype.Project',
+                    'type': 'string'
+                },
+                {
+                    'name': 'code',
+                    'type': 'string'
+                },
+                {
+                    'name': 'description',
+                    'type': 'text'
+                },
+                {
+                    'name': 'id',
+                    'type': 'autofield'
+                },
+                {
+                    'name': 'smCreatedBy',
+                    'type': 'foreigntext'
+                },
+                {
+                    'name': 'smCreatedOn',
+                    'type': 'datetime'
+                },
+                {
+                    'name': 'smModifiedBy',
+                    'type': 'foreigntext'
+                },
+                {
+                    'name': 'smModifiedOn',
+                    'type': 'datetime'
+                },
+                {
+                    'name': 'smOwningTeam',
+                    'type': 'foreigntext'
+                },
+                {
+                    'name': 'smOwningUser',
+                    'type': 'foreigntext'
+                },
+                {
+                    'name': 'smRegStatus',
+                    'type': 'string'
+                },
+                {
+                    'name': 'smWflowStatus',
+                    'type': 'string'
+                }
+            ],
+            'usrDefProps': {'__ptType': 'usrDefProps'}
+        })
+        response = protoList(self.request)
+        data = json.loads(response.content)
+        self.assertTrue(data['success'])
