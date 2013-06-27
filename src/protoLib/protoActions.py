@@ -9,7 +9,9 @@ from protoLib.utilsWeb import doReturn
 
 
 def protoExecuteAction(request):
-    """ Ejecuta una opcion
+    """
+        Ejecuta una opcion
+        Exécute une option
     """
 
     if not request.user.is_authenticated():
@@ -30,6 +32,7 @@ def protoExecuteAction(request):
     parameters = json.loads(parameters)
 
     # Obtiene el modelo
+    # Obtient le modèle
     try:
         model = getDjangoModel(viewEntity)
         modelAdmin = site._registry.get(model)
@@ -44,6 +47,7 @@ def protoExecuteAction(request):
         return doReturn({'success': False, 'message': 'Action notFound'})
 
     # hace el QSet de los registros seleccionados
+    # rend le QSet des enregistrements sélectionnés
     if selectedKeys.__len__() == 0:
         return doReturn({'success': False, 'message': 'No record selected'})
 

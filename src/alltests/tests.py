@@ -16,6 +16,7 @@ from testprototype.ProtoRulesTest import ProtoRulesTestSuite
 from testSampleProject.ViewCreationTest import ViewCreationTestSuite
 from testprotoLib.ProtoActionListTest import ProtoActionListTestSuite
 from testprotoLib.ProtoActionRepTest import ProtoActionRepTestSuite
+from testprotoLib.ProtoActionsTest import ProtoActionsTestSuite
 
 
 def suite():
@@ -39,5 +40,7 @@ def suite():
     suite.addTest(ProtoActionListTestSuite())
 
     suite.addTest(ProtoActionRepTestSuite())
+
+    suite.addTest(ProtoActionsTestSuite())
 
     return suite
