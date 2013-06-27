@@ -312,7 +312,7 @@ def getLineCsv(line):
 
 
 def protoCsv(request):
-    # Create the HttpResponse object with the appropriate CSV header, based of fieldDefinition
+    # Create the HttpResponse object with the appropriate CSV header, based on fieldDefinition
 
     if not request.user.is_authenticated():
         return JsonError('readOnly User')
@@ -340,6 +340,11 @@ def protoCsv(request):
     # Préparer la requête cols
     try:
         pList = Q2Dict(protoMeta, pRows, fakeId)
+        print('type of pList is  : ')
+        print(type(pList))
+        print('length of pList is  : ')
+        print(len(pList))
+
     except Exception,  e:
         message = getReadableError(e)
         pList = [message]

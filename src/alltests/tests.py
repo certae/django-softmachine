@@ -38,6 +38,6 @@ def suite():
 
     suite.addTest(ProtoActionListTestSuite())
 
-    #suite.addTest(ProtoActionRepTestSuite())
+    suite.addTest(ProtoActionRepTestSuite())
 
     return suite
