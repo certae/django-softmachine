@@ -3,6 +3,7 @@
 from django.test import TestCase
 from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
+from django.utils.unittest import skip
 from django.http import HttpRequest
 from django.contrib.auth import authenticate
 import django.utils.simplejson as json
@@ -36,6 +37,7 @@ class SheetConfigRepTest(TestCase):
     def tearDown(self):
         pass
 
+    @skip("Test is not ready")
     def test_sheetconfig(self):
         self.assertTrue(self.request.user.is_authenticated())
         #response = sheetConfigRep(self.request)
@@ -118,6 +120,7 @@ class ProtoCSVTest(TestCase):
     def tearDown(self):
         pass
 
+    @skip("Test is not ready")
     def test_protocsv(self):
         self.assertTrue(self.request.user.is_authenticated())
         #returnMessage = protoCsv(self.request)

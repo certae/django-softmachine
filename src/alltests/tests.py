@@ -17,6 +17,7 @@ from testSampleProject.ViewCreationTest import ViewCreationTestSuite
 from testprotoLib.ProtoActionListTest import ProtoActionListTestSuite
 from testprotoLib.ProtoActionRepTest import ProtoActionRepTestSuite
 from testprotoLib.ProtoActionsTest import ProtoActionsTestSuite
+from testprotoLib.ProtoActionEditTest import ProtoActionEditTestSuite
 
 
 def suite():
@@ -42,5 +43,7 @@ def suite():
     suite.addTest(ProtoActionRepTestSuite())
 
     suite.addTest(ProtoActionsTestSuite())
+
+    suite.addTest(ProtoActionEditTestSuite())
 
     return suite

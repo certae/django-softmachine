@@ -17,7 +17,7 @@ from protoAuth import getUserProfile, getModelPermissions
 from protoLib.utilsWeb import doReturn
 
 # Error Constants
-ERR_NOEXIST = '<b>ErrType:</b> KeyNotFound<br>The specifique record does not exist'
+ERR_NOEXIST = '<b>ErrType:</b> KeyNotFound<br>The specific record does not exist'
 
 
 def protoCreate(request):

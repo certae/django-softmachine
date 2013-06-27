@@ -1,5 +1,4 @@
-#from django.conf.urls.defaults import patterns, url
-from django.conf.urls import patterns, url  # Necessaire avec Django 1.5
+from django.conf.urls import patterns, url
 
 from protoLib.protoMenu import protoGetMenuData
 from protoLib.protoGetPci import protoGetPCI, protoSaveProtoObj, protoGetFieldTree
@@ -10,6 +9,7 @@ from protoLib.protoActionList import protoList
 from protoLib.protoActionRep import sheetConfigRep, protoCsv
 from protoLib.protoActionEdit import protoCreate, protoUpdate, protoDelete
 from protoLib.protoActions import protoExecuteAction
+
 
 urlpatterns = patterns(
     '',
