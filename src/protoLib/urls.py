@@ -27,6 +27,7 @@ urlpatterns = patterns(
     url('protoGetPCI/$', protoGetPCI),
     url('protoSaveProtoObj/$', protoSaveProtoObj),
     url('protoGetFieldTree/$', protoGetFieldTree),
+
     url('protoGetDetailsTree/$', protoGetDetailsTree),
 
     url('protoGetUserRights/$', protoGetUserRights),

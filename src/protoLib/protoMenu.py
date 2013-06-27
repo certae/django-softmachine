@@ -1,20 +1,15 @@
 # -*- coding: utf-8 -*-
 
-#import sys
-
-# Importa el sitio con las collecciones admin ya definidas
 from django.db import models
-#from django.contrib.admin.sites import  site
 from django.conf import settings
 from django.http import HttpResponse
-
 
 import django.utils.simplejson as json
 
 from protoLib.models import CustomDefinition
 from protoLib.protoActionEdit import setSecurityInfo
 from protoLib.protoAuth import getUserProfile, getModelPermissions
-from protoLib.utilsWeb import JsonError  # JsonSuccess
+from protoLib.utilsWeb import JsonError
 from protoLib.utilsBase import verifyList
 
 from prototype.models import Prototype

@@ -18,6 +18,8 @@ from testprotoLib.ProtoActionListTest import ProtoActionListTestSuite
 from testprotoLib.ProtoActionRepTest import ProtoActionRepTestSuite
 from testprotoLib.ProtoActionsTest import ProtoActionsTestSuite
 from testprotoLib.ProtoActionEditTest import ProtoActionEditTestSuite
+from testprotoLib.ProtoMenuTest import ProtoMenuTestSuite
+from testprotoLib.ProtoGetPciTest import ProtoGetPciTestSuite
 
 
 def suite():
@@ -39,11 +41,10 @@ def suite():
     suite.addTest(ViewCreationTestSuite())
 
     suite.addTest(ProtoActionListTestSuite())
-
     suite.addTest(ProtoActionRepTestSuite())
-
     suite.addTest(ProtoActionsTestSuite())
-
     suite.addTest(ProtoActionEditTestSuite())
+    suite.addTest(ProtoMenuTestSuite())
+    suite.addTest(ProtoGetPciTestSuite())
 
     return suite

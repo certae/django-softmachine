@@ -28,7 +28,7 @@ PROTOVERSION = '130310'
 
 def protoGetPCI(request):
     """
-    return full metadata (columns, renderers, totalcount...)
+        return full metadata (columns, renderers, totalcount...)
     """
 
     if not request.user.is_authenticated():
@@ -141,8 +141,6 @@ def protoGetPCI(request):
     context = json.dumps(jsondict)
     return HttpResponse(context, mimetype="application/json")
 
-# protoGetPCI ----------------------------
-
 
 def createProtoMeta(model, grid, viewEntity, viewCode):
 
@@ -222,9 +220,6 @@ def createProtoMeta(model, grid, viewEntity, viewCode):
     }
 
     return copyProps(grid.protoMeta, protoTmp)
-
-
-# ------------------------------------------------------------------------
 
 
 def protoSaveProtoObj(request):
@@ -336,7 +331,6 @@ def protoGetFieldTree(request):
 
     fieldList = []
     if viewCode.startswith(PROTO_PREFIX) and viewCode != viewEntity:
-        # ---------------------------------------------------              Prototipos
         protoEntityId = request.POST.get('protoEntityId')
         if not protoEntityId >= 0:
             return JsonError('invalid idEntity')
@@ -348,7 +342,6 @@ def protoGetFieldTree(request):
             return JsonError('invalid idEntity')
 
     else:
-        # -----------------------------------------------------------------------------------------------------
         # Se crean los campos con base al modelo ( trae todos los campos del modelo
         for field in model._meta._fields():
             try:
@@ -380,7 +373,8 @@ def protoGetFieldTree(request):
 
 def addFiedToList(fieldList, field, fieldBase):
 
-    """ return parcial field tree  ( Called from protoGetFieldTree )
+    """
+        return partial field tree (Called from protoGetFieldTree)
     """
 
     fieldId = fieldBase + field.name
@@ -454,10 +448,7 @@ def addFiedToList(fieldList, field, fieldBase):
     fieldList.append(pField)
 
 
-# --------------------------------------------------------------------------
-
 def isFieldDefined(pFields, fName):
-
     # Verifica si un campo esta en la lista
     for pField in pFields:
         if pField.get('name') == fName:
