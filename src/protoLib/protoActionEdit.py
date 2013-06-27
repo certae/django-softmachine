@@ -46,13 +46,15 @@ def _protoEdit(request, myAction):
 
     message = ''
 
-#   Carga el modelo
+    # Carga el modelo
+    # Chargez le modèle
     protoMeta = request.POST.get('protoMeta', '')
     protoMeta = json.loads(protoMeta)
     viewEntity = protoMeta.get('viewEntity', '')
     model = getDjangoModel(viewEntity)
 
-#   Autentica
+    # Autentica
+    # Authentification
     if not getModelPermissions(request.user, model, myAction):
         return doReturn({'success': False, 'message': 'No ' + myAction + 'permission'})
 
@@ -69,18 +71,18 @@ def _protoEdit(request, myAction):
     if not isinstance(jsonField, (str, unicode)):
         jsonField = ''
 
-#   TOOD: Log
-#   activityLog ( myAction, request.user , viewEntity,  {  'protoMeta' : protoMeta , 'rows' : rows })
-
-#   Genera la clase UDP
+    # Genera la clase UDP
+    # Génère classe UDP
     pUDP = protoMeta.get('usrDefProps', {})
     cUDP = verifyUdpDefinition(pUDP)
 
     # Verifica q sea una lista de registros, (no deberia pasar, ya desde Extjs se controla )
+    # Vérifiez que c'est une liste de dossiers (ne devrait pas arriver, car Extjs est contrôlé)
     if type(rows).__name__ == 'dict':
         rows = [rows]
 
     # Verfica si es un protoModel ( maneja TeamHierarchy )
+    # Vérifiez s'il s'agit d'un protoModel (gère l'équipe hiérarchie)
     isProtoModel = hasattr(model, '_protoObj')
 
     pList = []
@@ -94,7 +96,7 @@ def _protoEdit(request, myAction):
             try:
                 rec = model.objects.get(pk=data['id'])
             except:
-                data['_ptStatus'] = data['_ptStatus'] + ERR_NOEXIST + '<br>'
+                data['_ptStatus'] = ERR_NOEXIST + '<br>'
                 pList.append(data)
                 continue
 
@@ -106,14 +108,16 @@ def _protoEdit(request, myAction):
                     continue
 
                 vFld = fieldsDict[key]
-                if vFld.get('crudType') in ["screenOnly", "linked"]:
+                if vFld.get('crudType') in ['screenOnly', 'linked']:
                     continue
 
-                #  Los campos de seguridad se manejan a nivel registro
+                # Los campos de seguridad se manejan a nivel registro
+                # Domaines de sécurité sont traitées lors de l'inscription
                 if isProtoModel:
-                    if key in ['smOwningUser', 'smOwningTeam', 'smCreatedBy', 'smModifiedBy', 'smWflowStatus', 'smRegStatus', 'smCreatedOn', 'smModifiedOn']:
-                        continue
-                    if key in ['smOwningUser_id', 'smOwningTeam_id', 'smCreatedBy_id', 'smModifiedBy_id']:
+                    if key in ['smOwningUser', 'smOwningTeam', 'smCreatedBy',
+                               'smModifiedBy', 'smWflowStatus', 'smRegStatus',
+                               'smCreatedOn', 'smModifiedOn', 'smOwningUser_id',
+                               'smOwningTeam_id', 'smCreatedBy_id', 'smModifiedBy_id']:
                         continue
 
                 #  Udps
@@ -144,6 +148,7 @@ def _protoEdit(request, myAction):
                 setattr(rec, jsonField, jsonInfo)
 
             # Guarda el idInterno para concatenar registros nuevos en la grilla
+            # Conserve l'identifiant interne de concaténer de nouveaux records dans la grille
             try:
                 _ptId = data['_ptId']
             except:
@@ -153,28 +158,30 @@ def _protoEdit(request, myAction):
                 rec.save()
 
                 # Guardar las Udps
+                # Enregistrer l'UDPS
                 if cUDP.udpTable:
                     try:
                         saveUDP(rec, data, cUDP)
                     except Exception as e:
                         raise Exception('UdpError: saveActiob')
 
-                # -- Los tipos complejos ie. date, generan un error, es necesario hacerlo detalladamente
+                # Los tipos complejos ie. date, generan un error, es necesario hacerlo detalladamente
                 # Convierte el registro en una lista y luego toma solo el primer elto de la lista resultado.
+
+                # Les types complexes de l'IE. jour, de générer une erreur, il est nécessaire de faire détaillée
+                # Convertir le dossier dans une liste, puis prenez seulement la première liste de résultats elto.
                 data = Q2Dict(protoMeta, [rec], False)[0]
                 data['_ptId'] = _ptId
 
             except Exception as e:
                 data['_ptStatus'] = data['_ptStatus'] + getReadableError(e)
                 data['_ptId'] = _ptId
-                #traceback.print_exc()
-                #return doReturn ({'success':False ,'message' : str( e )})
 
         else:  # Action Delete
             try:
                 rec.delete()
 
-            except Exception,  e:
+            except Exception, e:
                 data['_ptStatus'] = data['_ptStatus'] + getReadableError(e)
                 pass
 
@@ -190,13 +197,17 @@ def _protoEdit(request, myAction):
         'success': True
     }
 
-    return HttpResponse(json.dumps(context, cls=JSONEncoder), mimetype="application/json")
+    return HttpResponse(json.dumps(context, cls=JSONEncoder), mimetype='application/json')
 
 
 def setSecurityInfo(rec, data, userProfile, insAction):
     """
-    rec      : registro al q se agrega la info de seguridad
-    data     : objeto buffer q puede ser {} utilizado para retornar la info guardad
+    rec: registro al q se agrega la info de seguridad
+    data: objeto buffer q puede ser {} utilizado para retornar la info guardad
+    insAction: True if insert,  False if update
+
+    rec: enregistrement qui ajoute des informations de sécurité
+    data: buffer objet q {} peut être utilisée pour retourner les informations dont vous garderez
     insAction: True if insert,  False if update
     """
     setProtoData(rec, data, 'smModifiedBy', userProfile.user)
@@ -224,15 +235,18 @@ def setRegister(model, rec, key, data):
         return
 
     # Tipo de attr
+    # Type d'attribut
     cName = field.__class__.__name__
 
     # Si es definido como no editable en el modelo
+    # Si elle est définie comme étant modifiables dans le modèle
     if getattr(field, 'editable', False) is False:
         return
     if cName == 'AutoField':
         return
 
     # Obtiene el valor
+    # Obtient la valeur
     value = data[key]
 
     try:

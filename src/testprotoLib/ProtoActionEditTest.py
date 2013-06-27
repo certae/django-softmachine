@@ -7,6 +7,8 @@ from django.utils.unittest import skip
 from django.http import HttpRequest
 from django.contrib.auth import authenticate
 
+from protoLib.protoActionEdit import *
+
 
 def ProtoActionEditTestSuite():
     suite = TestSuite()
@@ -23,6 +25,7 @@ class ProtoCreateTest(TestCase):
 
     def setUp(self):
         self.request = HttpRequest()
+        self.request.method = 'POST'
         self.request.POST['login'] = 'adube'
         self.request.POST['password'] = '123'
         self.request.user = authenticate(username=self.request.POST['login'], password=self.request.POST['password'])
@@ -32,7 +35,9 @@ class ProtoCreateTest(TestCase):
 
     @skip("Test is not ready")
     def test_protocreate(self):
-        pass
+        #pass
+        returnMessage = protoCreate(self.request)
+        print(returnMessage)
 
 
 class ProtoUpdateTest(TestCase):
@@ -40,6 +45,7 @@ class ProtoUpdateTest(TestCase):
 
     def setUp(self):
         self.request = HttpRequest()
+        self.request.method = 'POST'
         self.request.POST['login'] = 'adube'
         self.request.POST['password'] = '123'
         self.request.user = authenticate(username=self.request.POST['login'], password=self.request.POST['password'])
@@ -57,6 +63,7 @@ class ProtoDeleteTest(TestCase):
 
     def setUp(self):
         self.request = HttpRequest()
+        self.request.method = 'POST'
         self.request.POST['login'] = 'adube'
         self.request.POST['password'] = '123'
         self.request.user = authenticate(username=self.request.POST['login'], password=self.request.POST['password'])
