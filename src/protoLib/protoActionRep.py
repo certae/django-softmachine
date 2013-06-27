@@ -5,19 +5,23 @@
 #Dg 121105   --------------------------------------------------
 
 from django.core.files import File
-from settings import PPATH
 
-from django.http import HttpResponse, HttpResponseRedirect
-from django.utils.encoding import smart_str, smart_unicode
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.utils.encoding import smart_str
+from django.utils.encoding import smart_unicode
 
-from protoLib.models import getDjangoModel, ProtoDefinition
-from protoLib.protoActionList import Q2Dict, getQSet
+from protoLib.models import getDjangoModel
+from protoLib.models import ProtoDefinition
+from protoLib.protoActionList import Q2Dict
+from protoLib.protoActionList import getQSet
 from protoLib.protoGrid import getBaseModelName
 from protoLib.utilsBase import getReadableError
 from protoLib.protoQbe import addFilter
 from protoLib.downloadFile import getFullPath
 
-from protoLib.utilsWeb import JsonError, JsonSuccess
+from protoLib.utilsWeb import JsonError
+from protoLib.utilsWeb import JsonSuccess
 
 import django.utils.simplejson as json
 import os
@@ -43,6 +47,12 @@ def sheetConfigRep(request):
     Le modèle de base sera appliqué à l'utilisateur, s'il est laissé vide ou utilisé le sheetSelector par défaut
     Les détails n'ont pas de sélecteur, toujours utilisé le modèle marqué en détail.
     """
+    print('viewCode')
+    print(request.POST.get('viewCode', ''))
+    print('sheetName')
+    print(request.POST.get('sheetName', ''))
+    print('selectedKeys')
+    print(request.POST.get('selectedKeys', []))
 
     viewCode = request.POST.get('viewCode', '')
     sheetName = request.POST.get('sheetName', '')

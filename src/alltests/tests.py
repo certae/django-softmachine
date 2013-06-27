@@ -15,6 +15,7 @@ from testViews.LoginTest import LoginTest
 from testprototype.ProtoRulesTest import ProtoRulesTestSuite
 from testSampleProject.ViewCreationTest import ViewCreationTestSuite
 from testprotoLib.ProtoActionListTest import ProtoActionListTestSuite
+from testprotoLib.ProtoActionRepTest import ProtoActionRepTestSuite
 
 
 def suite():
@@ -36,5 +37,7 @@ def suite():
     suite.addTest(ViewCreationTestSuite())
 
     suite.addTest(ProtoActionListTestSuite())
+
+    #suite.addTest(ProtoActionRepTestSuite())
 
     return suite
