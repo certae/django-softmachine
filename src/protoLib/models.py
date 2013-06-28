@@ -58,8 +58,8 @@ class UserProfile(models.Model):
     userTree = models.CharField(blank=True, null=True, max_length=500)
     language = models.CharField(blank=True, null=True, max_length=500)
 
-    #TODO: si  el usuario pertenece a varios grupos podria cambiar su grupo de trabajo
-    #workigTeam = models.ForeignKey( TeamHierarchy, blank = True, null = True )
+    # TODO: si  el usuario pertenece a varios grupos podria cambiar su grupo de trabajo
+    # workingTeam = models.ForeignKey(TeamHierarchy, blank=True, null=True)
 
     def __unicode__(self):
         return self.user.username

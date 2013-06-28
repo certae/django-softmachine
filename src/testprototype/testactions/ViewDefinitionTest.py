@@ -22,7 +22,7 @@ def ViewDefinitionTestSuite():
     suite.addTest(makeSuite(Property2FieldTest, 'test'))
     suite.addTest(makeSuite(GetViewDefinitionTest, 'test'))
     suite.addTest(makeSuite(GetFkIdTest, 'test'))
-    #suite.addTest(makeSuite(GetProtoFieldsTreeTest, 'test'))
+    suite.addTest(makeSuite(GetProtoFieldsTreeTest, 'test'))
     suite.addTest(makeSuite(GetDetailsConfigTreeTest, 'test'))
     suite.addTest(makeSuite(addProtoFieldToListTest, 'test'))
 

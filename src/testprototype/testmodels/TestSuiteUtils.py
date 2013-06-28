@@ -17,7 +17,7 @@ from testprototype.testmodels.ServiceTest import ServiceTest
 from testprototype.testmodels.ServiceRefTest import ServiceRefTest
 
 
-def ModelsTestSuite():
+def prototypeModelsTestSuite():
     suite = TestSuite()
 
     suite.addTest(makeSuite(ProjectTest, 'test'))

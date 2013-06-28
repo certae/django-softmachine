@@ -3,7 +3,8 @@
 from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
 
-from testprototype.testmodels.TestSuiteUtils import ModelsTestSuite
+from testprototype.testmodels.TestSuiteUtils import prototypeModelsTestSuite
+from testprotoLib.ModelsTest import protoLibModelsTestSuite
 
 from testprototype.testactions.ViewTemplateTest import BaseDefinitionTest
 from testprototype.testactions.ViewDefinitionTest import ViewDefinitionTestSuite
@@ -25,7 +26,8 @@ from testprotoLib.ProtoGetPciTest import ProtoGetPciTestSuite
 def suite():
     suite = TestSuite()
 
-    suite.addTest(ModelsTestSuite())
+    suite.addTest(prototypeModelsTestSuite())
+    suite.addTest(protoLibModelsTestSuite())
 
     suite.addTest(makeSuite(BaseDefinitionTest, 'test'))
 

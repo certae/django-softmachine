@@ -5,7 +5,6 @@ from django.db import models
 from django.test import TestCase
 from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
-from django.utils.unittest import skip
 from django.http import HttpRequest
 from django.contrib.auth import authenticate
 import django.utils.simplejson as json
@@ -33,16 +32,12 @@ class SheetConfigRepTest(TestCase):
         self.request.POST['password'] = '123'
         self.request.user = authenticate(username=self.request.POST['login'], password=self.request.POST['password'])
         self.request.POST['viewCode'] = 't_project'
-        #self.request.POST['sheetName'] =
-        #self.request.POST['selectedKeys'] =
 
     def tearDown(self):
         pass
 
-    #@skip("Test is not ready")
     def test_sheetconfig(self):
         self.assertTrue(self.request.user.is_authenticated())
-        #response = sheetConfigRep(self.request)
 
 
 class ProtoCSVTest(TestCase):
@@ -122,8 +117,5 @@ class ProtoCSVTest(TestCase):
     def tearDown(self):
         pass
 
-    @skip("Test is not ready")
     def test_protocsv(self):
         self.assertTrue(self.request.user.is_authenticated())
-        #returnMessage = protoCsv(self.request)
-        #print(returnMessage)
