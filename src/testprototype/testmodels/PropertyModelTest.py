@@ -29,3 +29,6 @@ class PropertyModelTest(TestCase):
         propertymodel_in_database = PropertyModel.objects.all()
         only_entry_in_database = propertymodel_in_database[0]
         self.assertEqual(only_entry_in_database.conceptType, self.propertymodel.conceptType)
+
+    def test_verifying_string_representation(self):
+        self.assertEqual('testcode', str(self.propertymodel))

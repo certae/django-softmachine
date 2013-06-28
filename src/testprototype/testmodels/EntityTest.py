@@ -34,3 +34,6 @@ class EntityTest(TestCase):
         entity_in_database = Entity.objects.all()
         only_entry_in_database = entity_in_database[0]
         self.assertEqual(only_entry_in_database.description, self.entity.description)
+
+    def test_verifying_string_representation(self):
+        self.assertEqual('testcode-testentitycode', str(self.entity))

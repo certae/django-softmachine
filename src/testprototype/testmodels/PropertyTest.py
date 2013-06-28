@@ -69,3 +69,6 @@ class PropertyTest(TestCase):
         property_in_database = Property.objects.all()
         only_entry_in_database = property_in_database[0]
         self.assertEqual(only_entry_in_database.dbName, self.property.dbName)
+
+    def test_verifying_string_representation(self):
+        self.assertEqual('testentitycode', str(self.property))

@@ -39,3 +39,6 @@ class ServiceRefTest(TestCase):
         serviceref_in_database = ServiceRef.objects.all()
         only_entry_in_database = serviceref_in_database[0]
         self.assertEqual(only_entry_in_database.notes, self.serviceRef.notes)
+
+    def test_verifying_string_representation(self):
+        self.assertEqual('testcode-testcode', str(self.serviceRef))

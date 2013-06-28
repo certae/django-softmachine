@@ -29,3 +29,6 @@ class PropertyEquivalenceTest(TestCase):
         propertyequivalence_in_database = PropertyEquivalence.objects.all()
         only_entry_in_database = propertyequivalence_in_database[0]
         self.assertEqual(only_entry_in_database.description, self.propertyequivalence.description)
+
+    def test_verifying_string_representation(self):
+        self.assertEqual('', str(self.propertyequivalence))

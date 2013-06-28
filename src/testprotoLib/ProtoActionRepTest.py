@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from django.db import models
+
 from django.test import TestCase
 from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
@@ -30,14 +32,14 @@ class SheetConfigRepTest(TestCase):
         self.request.POST['login'] = 'adube'
         self.request.POST['password'] = '123'
         self.request.user = authenticate(username=self.request.POST['login'], password=self.request.POST['password'])
-        #self.request.PPOST['viewCode'] =
-        #self.request.PPOST['sheetName'] =
-        #self.request.PPOST['selectedKeys'] =
+        self.request.POST['viewCode'] = 't_project'
+        #self.request.POST['sheetName'] =
+        #self.request.POST['selectedKeys'] =
 
     def tearDown(self):
         pass
 
-    @skip("Test is not ready")
+    #@skip("Test is not ready")
     def test_sheetconfig(self):
         self.assertTrue(self.request.user.is_authenticated())
         #response = sheetConfigRep(self.request)

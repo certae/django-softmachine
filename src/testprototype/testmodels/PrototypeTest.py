@@ -39,3 +39,6 @@ class PrototypeTest(TestCase):
         prototype_in_database = Prototype.objects.all()
         only_entry_in_database = prototype_in_database[0]
         self.assertEqual(only_entry_in_database.metaDefinition, self.prototype.metaDefinition)
+
+    def test_verifying_string_representation(self):
+        self.assertEqual('testcode', str(self.prototype))

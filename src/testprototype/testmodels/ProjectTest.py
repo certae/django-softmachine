@@ -53,3 +53,6 @@ class ProjectTest(TestCase):
         project_in_database = Project.objects.all()
         only_entry_in_database = project_in_database[0]
         self.assertEqual(only_entry_in_database.dbPort, self.project.dbPort)
+
+    def test_verifying_string_representation(self):
+        self.assertEqual('testcode', str(self.project))

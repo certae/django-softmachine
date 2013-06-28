@@ -54,3 +54,6 @@ class RelationshipTest(TestCase):
         relationship_in_database = Relationship.objects.all()
         only_entry_in_database = relationship_in_database[0]
         self.assertEqual(only_entry_in_database.typeRelation, self.relationship.typeRelation)
+
+    def test_verifying_string_representation(self):
+        self.assertEqual('testentitycode', str(self.relationship))

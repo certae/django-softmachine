@@ -39,3 +39,6 @@ class ModelTest(TestCase):
         model_in_database = Model.objects.all()
         only_entry_in_database = model_in_database[0]
         self.assertEqual(only_entry_in_database.description, self.model.description)
+
+    def test_verifying_string_representation(self):
+        self.assertEqual('testcode', str(self.model))

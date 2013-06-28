@@ -1,14 +1,14 @@
 from django.conf.urls import patterns, url
 
-from protoLib.protoMenu import protoGetMenuData
-from protoLib.protoGetPci import protoGetPCI, protoSaveProtoObj, protoGetFieldTree
-from protoLib.protoGetDetails import protoGetDetailsTree
-from protoLib.protoLogin import protoGetUserRights
-
+from protoLib.protoActionEdit import protoCreate, protoUpdate, protoDelete
 from protoLib.protoActionList import protoList
 from protoLib.protoActionRep import sheetConfigRep, protoCsv
-from protoLib.protoActionEdit import protoCreate, protoUpdate, protoDelete
 from protoLib.protoActions import protoExecuteAction
+
+from protoLib.protoGetDetails import protoGetDetailsTree
+from protoLib.protoGetPci import protoGetPCI, protoSaveProtoObj, protoGetFieldTree
+from protoLib.protoLogin import protoGetUserRights
+from protoLib.protoMenu import protoGetMenuData
 
 
 urlpatterns = patterns(

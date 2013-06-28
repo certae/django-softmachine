@@ -28,7 +28,8 @@ import os
 
 
 def sheetConfigRep(request):
-    """ Reporte basado en la definicion de plantillas ( sheets )
+    """
+        Reporte basado en la definicion de plantillas ( sheets )
         Rapport basé sur la définition de modèles
     """
 
@@ -47,13 +48,6 @@ def sheetConfigRep(request):
     Le modèle de base sera appliqué à l'utilisateur, s'il est laissé vide ou utilisé le sheetSelector par défaut
     Les détails n'ont pas de sélecteur, toujours utilisé le modèle marqué en détail.
     """
-    print('viewCode')
-    print(request.POST.get('viewCode', ''))
-    print('sheetName')
-    print(request.POST.get('sheetName', ''))
-    print('selectedKeys')
-    print(request.POST.get('selectedKeys', []))
-
     viewCode = request.POST.get('viewCode', '')
     sheetName = request.POST.get('sheetName', '')
     selectedKeys = request.POST.get('selectedKeys', [])
@@ -65,7 +59,6 @@ def sheetConfigRep(request):
     # Si no hay lista, los trae todos
     # S'il n'y a pas de liste, apporte toute
     #if type(selectedKeys).__name__ == type([]).__name__ and selectedKeys.__len__() > 0:
-    print('Verifier le comportement du code : protoActionRep.py, ligne 52')
     if selectedKeys.isinstance([]) and len(selectedKeys) > 0:
         pFilter = {'pk__in': selectedKeys}
         Qs = addFilter(Qs, pFilter)

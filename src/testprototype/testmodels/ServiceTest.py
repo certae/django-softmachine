@@ -44,3 +44,6 @@ class ServiceTest(TestCase):
         service_in_database = Service.objects.all()
         only_entry_in_database = service_in_database[0]
         self.assertEqual(only_entry_in_database.notes, self.service.notes)
+
+    def test_verifying_string_representation(self):
+        self.assertEqual('testcode-testcode', str(self.service))
