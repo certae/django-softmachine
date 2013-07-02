@@ -14,7 +14,7 @@ from protoLib.protoMenu import protoGetMenuData
 urlpatterns = patterns(
     '',
     url('protoList/$', protoList),
-    url('sheetConfigRep/$', sheetConfigRep),
+    url('sheetConfigRep/$', sheetConfigRep),  #
     url('protoCsv/$', protoCsv),
 
     url('protoDoActions/$', protoExecuteAction),

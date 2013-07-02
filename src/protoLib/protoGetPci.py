@@ -38,10 +38,10 @@ def protoGetPCI(request):
         return JsonError('invalid message')
 
     viewCode = request.POST.get('viewCode', '')
-    viewEntity = getBaseModelName(viewCode)
+    viewEntity = getBaseModelName(viewCode)  # app.model.view -> app.model
 
     try:
-        model = getDjangoModel(viewEntity)
+        model = getDjangoModel(viewEntity)  # models.get_model(viewEntity)
     except:
         return JsonError('model not found:' + viewEntity)
 
@@ -216,7 +216,7 @@ def createProtoMeta(model, grid, viewEntity, viewCode):
         'detailsConfig': grid.get_details(),
         'formConfig': grid.getFieldSets(),
 
-#        El resto  no las carga pues ya estan en la meta ...
+        # El resto  no las carga pues ya estan en la meta ...
     }
 
     return copyProps(grid.protoMeta, protoTmp)
