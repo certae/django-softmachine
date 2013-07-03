@@ -46,69 +46,59 @@ class ProtoActionListTest(TestCase):
         self.request.POST['start'] = 0
         self.request.POST['page'] = 1
         self.request.POST['limit'] = 50
+        self.request.POST['viewCode'] = 'prototype.Project'
+        self.request.POST['baseFilter'] = []
+        self.request.POST['protoFilter'] = []
         self.request.POST['protoMeta'] = json.dumps({
-            'viewCode': 'prototype.Project',
-            'viewEntity': 'prototype.Project',
-            'localSort': True,
-            'protoEntityId': None,
-            'jsonField': '',
-            'idProperty': 'id',
-            'gridConfig': {
-                'searchFields': ['smRegStatus', 'smWflowStatus', 'code', 'description']
+            "viewCode": "prototype.Project",
+            "viewEntity": "prototype.Project",
+            "localSort": False,
+            "protoEntityId": None,
+            "jsonField": "",
+            "idProperty": "id",
+            "gridConfig": {
+                "searchFields": ["smRegStatus", "smWflowStatus", "code", "description"]
             },
-            'fields': [
-                {
-                    'name': '__str__',
-                    'fkId': 'id',
-                    'zoomModel': 'prototype.Project',
-                    'type': 'string'
-                },
-                {
-                    'name': 'code',
-                    'type': 'string'
-                },
-                {
-                    'name': 'description',
-                    'type': 'text'
-                },
-                {
-                    'name': 'id',
-                    'type': 'autofield'
-                },
-                {
-                    'name': 'smCreatedBy',
-                    'type': 'foreigntext'
-                },
-                {
-                    'name': 'smCreatedOn',
-                    'type': 'datetime'
-                },
-                {
-                    'name': 'smModifiedBy',
-                    'type': 'foreigntext'
-                },
-                {
-                    'name': 'smModifiedOn',
-                    'type': 'datetime'
-                },
-                {
-                    'name': 'smOwningTeam',
-                    'type': 'foreigntext'
-                },
-                {
-                    'name': 'smOwningUser',
-                    'type': 'foreigntext'
-                },
-                {
-                    'name': 'smRegStatus',
-                    'type': 'string'
-                },
-                {
-                    'name': 'smWflowStatus',
-                    'type': 'string'
-                }
-            ],
-            'usrDefProps': {'__ptType': 'usrDefProps'}
+            "fields": [{
+                "name": "__str__",
+                "fkId": "id",
+                "zoomModel": "prototype.Project",
+                "type": "string"
+            }, {
+                "name": "code",
+                "type": "string"
+            }, {
+                "name": "description",
+                "type": "text"
+            }, {
+                "name": "id",
+                "type": "autofield"
+            }, {
+                "name": "smCreatedBy",
+                "type": "foreigntext"
+            }, {
+                "name": "smCreatedOn",
+                "type": "datetime"
+            }, {
+                "name": "smModifiedBy",
+                "type": "foreigntext"
+            }, {
+                "name": "smModifiedOn",
+                "type": "datetime"
+            }, {
+                "name": "smOwningTeam",
+                "type": "foreigntext"
+            }, {
+                "name": "smOwningUser",
+                "type": "foreigntext"
+            }, {
+                "name": "smRegStatus",
+                "type": "string"
+            }, {
+                "name": "smWflowStatus",
+                "type": "string"
+            }],
+            "usrDefProps": {"__ptType": "usrDefProps"}
         })
 
         response = protoList(self.request)
