@@ -1,0 +1,13 @@
+POST :
+
+baseFilter  []
+limit   50
+page    1
+protoFilter []
+protoMeta   {"viewCode":"prototype.Project","viewEntity":"prototype.Project","localSort":false,"protoEntityId":null,"jsonField":"","idProperty":"id","gridConfig":{"searchFields":["smRegStatus","smWflowStatus","code","description"]},"fields":[{"name":"__str__","fkId":"id","zoomModel":"prototype.Project","type":"string"},{"name":"code","type":"string"},{"name":"description","type":"text"},{"name":"id","type":"autofield"},{"name":"smCreatedBy","type":"foreigntext"},{"name":"smCreatedOn","type":"datetime"},{"name":"smModifiedBy","type":"foreigntext"},{"name":"smModifiedOn","type":"datetime"},{"name":"smOwningTeam","type":"foreigntext"},{"name":"smOwningUser","type":"foreigntext"},{"name":"smRegStatus","type":"string"},{"name":"smWflowStatus","type":"string"}],"usrDefProps":{"__ptType":"usrDefProps"}}
+start   0
+viewCode    prototype.Project
+
+
+Response :
+{"filter": "[]", "totalCount": 1, "message": "", "rows": [{"smCreatedBy": "adube", "code": "t_project", "smCreatedOn": "2013-06-19T10:09:30.960191", "description": "", "__str__": "t-project", "smWflowStatus": "", "smOwningTeam": "proto", "smModifiedOn": "2013-06-19T10:09:30.960246", "smOwningUser": "adube", "smRegStatus": "0", "id": 25, "smModifiedBy": "adube"}], "success": true}
