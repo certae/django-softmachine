@@ -17,7 +17,7 @@ urlpatterns = patterns(
     url('sheetConfigRep/$', sheetConfigRep),  #
     url('protoCsv/$', protoCsv),
 
-    url('protoDoActions/$', protoExecuteAction),
+    url('protoDoActions/$', protoExecuteAction),  # menu Action, methode associee a un objet
 
     url('protoAdd/$', protoCreate),
     url('protoUpd/$', protoUpdate),
@@ -25,10 +25,10 @@ urlpatterns = patterns(
 
     url('protoGetMenuData/$', protoGetMenuData),
     url('protoGetPCI/$', protoGetPCI),
-    url('protoSaveProtoObj/$', protoSaveProtoObj),
-    url('protoGetFieldTree/$', protoGetFieldTree),
+    url('protoSaveProtoObj/$', protoSaveProtoObj),  # Changement de la meta/config + save
+    url('protoGetFieldTree/$', protoGetFieldTree),  # Changement de la meta/config
 
-    url('protoGetDetailsTree/$', protoGetDetailsTree),
+    url('protoGetDetailsTree/$', protoGetDetailsTree),  # Changement de la meta/config
 
     url('protoGetUserRights/$', protoGetUserRights),
 )
