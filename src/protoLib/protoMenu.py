@@ -53,6 +53,61 @@ def protoGetMenuData(request):
     appAux.ixApp = 1
     appAux.ixMod = 1
 
+    # A changer, ne pas definir une methode a l'interieur d'une autre
+    def getMenuItem(protoAdmin, model, menuNode):
+
+        appCode = model._meta.app_label
+
+        # Define la rama del menu
+        try:
+            menuLabel = model.protoExt["menuApp"]
+        except:
+            menuLabel = appCode
+
+        if menuLabel in ['contenttypes', 'sites']:
+            menuLabel = 'auth'
+
+        # Verifica q el usuairo tenga permiso, considera el admin
+        if not getModelPermissions(currentUser, model, 'menu'):
+            return
+
+        pTitle = protoAdmin.get('title', model._meta.verbose_name.title())
+
+        # Obtiene el menu de settigs.PROTO_APP
+        try:
+            menuDefinition = settings.PROTO_APP.get('app_menu', {}).get(menuLabel, {})
+        except:
+            menuDefinition = {}
+
+        if menuDefinition.get('hidden', False):
+            return
+
+        # Icono por defecto
+        viewIcon = protoAdmin.get('viewIcon', 'icon-1')
+
+        model_dict = {
+            'viewCode': appCode + '.' + menuNode,
+            'text': pTitle,
+            'index': appAux.ixMod,
+            'iconCls': viewIcon,
+            'leaf': True,
+        }
+
+        if menuLabel in app_dict:
+            app_dict[menuLabel]['children'].append(model_dict)
+
+        else:
+            app_dict[menuLabel] = {
+                'text': menuDefinition.get('title', menuLabel),
+                'expanded': menuDefinition.get('expanded', False),
+                'index': menuDefinition.get('menu_index', appAux.ixApp),
+                'children': [model_dict],
+            }
+
+            appAux.ixApp += 1
+
+        appAux.ixMod += 1
+
 #-- Lectura de la Db -------------------------------------------------------------
 
     forceDefault = request.POST.get('forceDefault', '')
@@ -147,58 +202,3 @@ def protoGetMenuData(request):
         protoDef.save()
 
     return HttpResponse(context, mimetype="application/json")
-
-
-def getMenuItem(protoAdmin, model, menuNode):
-
-    appCode = model._meta.app_label
-
-    # Define la rama del menu
-    try:
-        menuLabel = model.protoExt["menuApp"]
-    except:
-        menuLabel = appCode
-
-    if menuLabel in ['contenttypes', 'sites']:
-        menuLabel = 'auth'
-
-    # Verifica q el usuairo tenga permiso, considera el admin
-    if not getModelPermissions(currentUser, model, 'menu'):
-        return
-
-    pTitle = protoAdmin.get('title', model._meta.verbose_name.title())
-
-    # Obtiene el menu de settigs.PROTO_APP
-    try:
-        menuDefinition = settings.PROTO_APP.get('app_menu', {}).get(menuLabel, {})
-    except:
-        menuDefinition = {}
-
-    if menuDefinition.get('hidden', False):
-        return
-
-    # Icono por defecto
-    viewIcon = protoAdmin.get('viewIcon', 'icon-1')
-
-    model_dict = {
-        'viewCode': appCode + '.' + menuNode,
-        'text': pTitle,
-        'index': appAux.ixMod,
-        'iconCls': viewIcon,
-        'leaf': True,
-    }
-
-    if menuLabel in app_dict:
-        app_dict[menuLabel]['children'].append(model_dict)
-
-    else:
-        app_dict[menuLabel] = {
-            'text': menuDefinition.get('title', menuLabel),
-            'expanded': menuDefinition.get('expanded', False),
-            'index': menuDefinition.get('menu_index', appAux.ixApp),
-            'children': [model_dict],
-        }
-
-        appAux.ixApp += 1
-
-    appAux.ixMod += 1
