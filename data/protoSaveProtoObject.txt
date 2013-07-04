@@ -1,0 +1,74 @@
+POST:
+protoMeta: [{
+    "text": "prototype",
+    "qtip": "",
+    "qtitle": "",
+    "iconCls": "",
+    "id": "protoMenu-ext-gen1448",
+    "index": 0,
+    "expanded": true,
+    "children":[{
+        "text": "Relationship",
+        "qtip": "",
+        "qtitle": "",
+        "iconCls": "icon-1",
+        "id": "protoMenu-ext-gen1449",
+        "index": 0,
+        "expanded": false,
+        "children": [],
+        "leaf": true,
+        "viewCode": "prototype.Relationship"
+    }, {
+        "text": "Entity",
+        "qtip": "",
+        "qtitle": "",
+        "iconCls": "icon-1",
+        "id": "protoMenu-ext-gen1450",
+        "index": 1,
+        "expanded": false,
+        "children": [],
+        "leaf": true,
+        "viewCode":
+        "prototype.Entity"
+    }, {
+        "text": "Property",
+        "qtip": "",
+        "qtitle": "",
+        "iconCls": "icon-1",
+        "id": "protoMenu-ext-gen1451",
+        "index": 2,
+        "expanded": false,
+        "children": [],
+        "leaf": true,
+        "viewCode": "prototype.Property"
+    }, {
+        "text": "Project",
+        "qtip": "",
+        "qtitle": "",
+        "iconCls": "icon-1",
+        "id": "protoMenu-ext-gen1452",
+        "index": 3,
+        "expanded": false,
+        "children": [],
+        "leaf": true,
+        "viewCode": "prototype.Project"
+    }, {
+        "text": "Model",
+        "qtip": "",
+        "qtitle": "",
+        "iconCls": "icon-1",
+        "id": "protoMenu-ext-gen1453",
+        "index": 4,
+        "expanded": false,
+        "children": [],
+        "leaf": true,
+        "viewCode": "prototype.Model"
+    }],
+    "leaf": false,
+    "viewCode":"protoMenu-ext-gen4397"
+}]
+
+viewCode:_menu
+
+Response:
+{"message": "Ok", "success": true}

@@ -25,10 +25,10 @@ urlpatterns = patterns(
 
     url('protoGetMenuData/$', protoGetMenuData),
     url('protoGetPCI/$', protoGetPCI),
-    url('protoSaveProtoObj/$', protoSaveProtoObj),  # Changement de la meta/config + save
-    url('protoGetFieldTree/$', protoGetFieldTree),  # Changement de la meta/config
+    url('protoSaveProtoObj/$', protoSaveProtoObj),  # Changement de la meta/config + save : ok
+    url('protoGetFieldTree/$', protoGetFieldTree),  # Changement de la meta/config : ok
 
-    url('protoGetDetailsTree/$', protoGetDetailsTree),  # Changement de la meta/config
+    url('protoGetDetailsTree/$', protoGetDetailsTree),  # Changement de la meta/config : ok
 
     url('protoGetUserRights/$', protoGetUserRights),
 )

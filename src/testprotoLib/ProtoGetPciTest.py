@@ -16,8 +16,8 @@ def ProtoGetPciTestSuite():
     suite = TestSuite()
 
     suite.addTest(makeSuite(ProtoGetPciTest, 'test'))
-    #suite.addTest(makeSuite(ProtoSaveProtoObjTest, 'test'))
-    #suite.addTest(makeSuite(ProtoGetFieldTreeTest, 'test'))
+    suite.addTest(makeSuite(ProtoSaveProtoObjTest, 'test'))
+    suite.addTest(makeSuite(ProtoGetFieldTreeTest, 'test'))
 
     return suite
 

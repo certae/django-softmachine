@@ -53,7 +53,7 @@ def protoList(request):
 
 #   Obtiene las filas del modelo
 #   Obtenir le rang de modèle
-    Qs, orderBy, fakeId = getQSet(protoMeta, protoFilter, baseFilter, sort, request.user)
+    Qs, orderBy, fakeId = getQSet(protoMeta, protoFilter, baseFilter, sort, request.user)  # Ici
     pRowsCount = Qs.count()
 
 #   Fix: Cuando esta en la pagina el filtro continua en la pagina 2 y no muestra nada.

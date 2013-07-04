@@ -105,4 +105,5 @@ class ProtoActionListTest(TestCase):
 
         response = protoList(self.request)
         data = json.loads(response.content)
+        self.assertTrue(self.request.user.is_authenticated())
         self.assertTrue(data['success'])

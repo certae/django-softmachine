@@ -1,0 +1,205 @@
+POST:
+id: root
+node: root
+protoEntityId
+sort: [{"property":"text","direction":"ASC"}]
+viewCode: prototype.Project
+
+Response:
+[{
+    "sortable": false,
+    "name": "id",
+    "searchable": false,
+    "text": "id",
+    "required": false,
+    "header": "ID",
+    "readOnly": true,
+    "checked": false,
+    "leaf": true,
+    "type": "autofield",
+    "id": "id"
+}, {
+    "sortable": true,
+    "name": "smOwningUser",
+    "searchable": true,
+    "text": "smOwningUser",
+    "header": "smOwningUser",
+    "readOnly": true,
+    "checked": false,
+    "leaf": true,
+    "type": "foreigntext",
+    "id": "smOwningUser"
+}, {
+    "sortable": true,
+    "name": "smOwningTeam",
+    "searchable": true,
+    "text": "smOwningTeam",
+    "header": "smOwningTeam",
+    "readOnly": true,
+    "checked": false,
+    "leaf": true,
+    "type": "foreigntext",
+    "id": "smOwningTeam"
+}, {
+    "sortable": true,
+    "name": "smCreatedBy",
+    "searchable": true,
+    "text": "smCreatedBy",
+    "header": "smCreatedBy",
+    "readOnly": true,
+    "checked": false,
+    "leaf": true,
+    "type": "foreigntext",
+    "id": "smCreatedBy"
+}, {
+    "sortable": true,
+    "name": "smModifiedBy",
+    "searchable": true,
+    "text": "smModifiedBy",
+    "header": "smModifiedBy",
+    "readOnly": true,
+    "checked": false,
+    "leaf": true,
+    "type": "foreigntext",
+    "id": "smModifiedBy"
+}, {
+    "sortable": true,
+    "name": "smRegStatus",
+    "searchable": true,
+    "text": "smRegStatus",
+    "header": "smRegStatus",
+    "readOnly": true,
+    "checked": false,
+    "leaf": true,
+    "type": "string",
+    "id": "smRegStatus"
+}, {
+    "sortable": true,
+    "name": "smWflowStatus",
+    "searchable": true,
+    "text": "smWflowStatus",
+    "header": "smWflowStatus",
+    "readOnly": true,
+    "checked": false,
+    "leaf": true,
+    "type": "string",
+    "id": "smWflowStatus"
+}, {
+    "sortable": true,
+    "name": "smCreatedOn",
+    "searchable": true,
+    "text": "smCreatedOn",
+    "header": "smCreatedOn",
+    "readOnly": true,
+    "checked": false,
+    "leaf": true,
+    "type": "datetime",
+    "id": "smCreatedOn"
+}, {
+    "sortable": true,
+    "name": "smModifiedOn",
+    "searchable": true,
+    "text": "smModifiedOn",
+    "header": "smModifiedOn",
+    "readOnly": true,
+    "checked": false,
+    "leaf": true,
+    "type": "datetime",
+    "id": "smModifiedOn"
+}, {
+    "sortable": true,
+    "name": "code",
+    "searchable": true,
+    "text": "code",
+    "required": true,
+    "header": "code",
+    "checked": false,
+    "leaf": true,
+    "type": "string",
+    "id": "code"
+}, {
+    "vType": "plainText",
+    "sortable": true,
+    "name": "description",
+    "searchable": true,
+    "text": "description",
+    "header": "description",
+    "checked": false,
+    "leaf": true,
+    "type": "text",
+    "id": "description"
+}, {
+    "sortable": true,
+    "name": "dbEngine",
+    "searchable": true,
+    "text": "dbEngine",
+    "choices": "sqlite3,postgres,mysql",
+    "header": "dbEngine",
+    "checked": false,
+    "leaf": true,
+    "type": "combo",
+    "id": "dbEngine"
+}, {
+    "sortable": true,
+    "name": "dbName",
+    "searchable": true,
+    "text": "dbName",
+    "header": "dbName",
+    "checked": false,
+    "leaf": true,
+    "type": "string",
+    "id": "dbName"
+}, {
+    "sortable": true,
+    "name": "dbUser",
+    "searchable": true,
+    "text": "dbUser",
+    "header": "dbUser",
+    "checked": false,
+    "leaf": true,
+    "type": "string",
+    "id": "dbUser"
+}, {
+    "sortable": true,
+    "name": "dbPassword",
+    "searchable": true,
+    "text": "dbPassword",
+    "header": "dbPassword",
+    "checked": false,
+    "leaf": true,
+    "type": "string",
+    "id": "dbPassword"
+}, {
+    "sortable": true,
+    "name": "dbHost",
+    "searchable": true,
+    "text": "dbHost",
+    "header": "dbHost",
+    "checked": false,
+    "leaf": true,
+    "type": "string",
+    "id": "dbHost"
+}, {
+    "sortable": true,
+    "name": "dbPort",
+    "searchable": true,
+    "text": "dbPort",
+    "header": "dbPort",
+    "checked": false,
+    "leaf": true,
+    "type": "string",
+    "id": "dbPort"
+}, {
+    "flex": 1,
+    "leaf": true,
+    "fkId": "id",
+    "zoomModel": "prototype.Project",
+    "text": "__str__",
+    "cellLink": true,
+    "header": "Project",
+    "readOnly": true,
+    "sortable": true,
+    "checked": false,
+    "type": "string",
+    "id": "__str__"
+}]
