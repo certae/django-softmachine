@@ -29,9 +29,16 @@ class ProtoExecuteActionTest(TestCase):
         self.request.POST['password'] = '123'
         self.request.user = authenticate(username=self.request.POST['login'], password=self.request.POST['password'])
 
+        self.request.POST['actionName'] = 'doModelPrototype'
+        self.request.POST['parameters'] = '[]'
+        self.request.POST['selectedKeys'] = '[23]'
+        self.request.POST['viewCode'] = 'prototype.Model'
+
     def tearDown(self):
         pass
 
-    @skip("Test is not ready")
+    @skip("modelAdmin is None")
     def test_protoexecuteaction(self):
-        self.assertTrue(False)
+        response = json.loads(protoExecuteAction(self.request).content)
+        print(response)
+        #self.assertTrue(False)

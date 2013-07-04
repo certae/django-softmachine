@@ -35,9 +35,16 @@ def protoExecuteAction(request):
     # Obtient le modèle
     try:
         model = getDjangoModel(viewEntity)
+        print('\n')
+        print(model)
         modelAdmin = site._registry.get(model)
+        print(modelAdmin)
+        print('\n')
     except Exception as e:
         return doReturn({'success': False, 'message': 'Model notFound'})
+
+    if not modelAdmin:
+        return doReturn({'success': False, 'message': 'modelAdmin is undefined'})
 
     for action in modelAdmin.actions:
         if action.__name__ == actionName:
