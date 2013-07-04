@@ -4,7 +4,6 @@ from pprint import pprint
 from django.test import TestCase
 from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
-from django.utils.unittest import skip
 from django.http import HttpRequest
 from django.contrib.auth import authenticate
 import django.utils.simplejson as json
@@ -144,10 +143,16 @@ class ProtoGetFieldTreeTest(TestCase):
         self.request.POST['login'] = 'adube'
         self.request.POST['password'] = '123'
         self.request.user = authenticate(username=self.request.POST['login'], password=self.request.POST['password'])
+        self.request.POST['id'] = 'root'
+        self.request.POST['node'] = 'root'
+        self.request.POST['sort'] = json.dumps({"property": "text", "direction": "ASC"})
+        self.request.POST['viewCode'] = 'prototype.Project'
 
     def tearDown(self):
         pass
 
-    @skip("Test is not ready")
     def test_protogetfieldtree(self):
-        pass
+        response = json.loads(protoGetFieldTree(self.request).content)
+        #pprint(response)
+        for element in response:
+            self.assertFalse(element['checked'])
