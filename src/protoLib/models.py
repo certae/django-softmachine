@@ -223,6 +223,7 @@ def getDjangoModel(modelName):
         model = models.get_model(*modelName.split('.'))
 
     elif modelName.count('.') == 0:
+        print 'No period in name ', modelName
         for m in models.get_models(include_auto_created=True):
             if m._meta.object_name.lower() == modelName.lower():
                 model = m
@@ -231,7 +232,11 @@ def getDjangoModel(modelName):
     elif modelName.count(".") == 2:
         model = models.get_model(*modelName.split(".")[0:2])
 
-    if model is None:
+    #if model is None:
+        #raise Exception('model not found:' + modelName)
+    try:
+        model
+    except NameError:
         raise Exception('model not found:' + modelName)
 
     return model

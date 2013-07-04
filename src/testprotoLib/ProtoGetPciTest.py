@@ -57,12 +57,82 @@ class ProtoSaveProtoObjTest(TestCase):
         self.request.POST['password'] = '123'
         self.request.user = authenticate(username=self.request.POST['login'], password=self.request.POST['password'])
 
+        self.request.POST['viewCode'] = '__menu'
+        self.request.POST['protoMeta'] = json.dumps({
+            "text": "prototype",
+            "qtip": "",
+            "qtitle": "",
+            "iconCls": "",
+            "id": "protoMenu-ext-gen1448",
+            "index": 0,
+            "expanded": True,
+            "children": [{
+                "text": "Relationship",
+                "qtip": "",
+                "qtitle": "",
+                "iconCls": "icon-1",
+                "id": "protoMenu-ext-gen1449",
+                "index": 0,
+                "expanded": False,
+                "children": [],
+                "leaf": True,
+                "viewCode": "prototype.Relationship"
+            }, {
+                "text": "Entity",
+                "qtip": "",
+                "qtitle": "",
+                "iconCls": "icon-1",
+                "id": "protoMenu-ext-gen1450",
+                "index": 1,
+                "expanded": False,
+                "children": [],
+                "leaf": True,
+                "viewCode":
+                "prototype.Entity"
+            }, {
+                "text": "Property",
+                "qtip": "",
+                "qtitle": "",
+                "iconCls": "icon-1",
+                "id": "protoMenu-ext-gen1451",
+                "index": 2,
+                "expanded": False,
+                "children": [],
+                "leaf": True,
+                "viewCode": "prototype.Property"
+            }, {
+                "text": "Project",
+                "qtip": "",
+                "qtitle": "",
+                "iconCls": "icon-1",
+                "id": "protoMenu-ext-gen1452",
+                "index": 3,
+                "expanded": False,
+                "children": [],
+                "leaf": True,
+                "viewCode": "prototype.Project"
+            }, {
+                "text": "Model",
+                "qtip": "",
+                "qtitle": "",
+                "iconCls": "icon-1",
+                "id": "protoMenu-ext-gen1453",
+                "index": 4,
+                "expanded": False,
+                "children": [],
+                "leaf": True,
+                "viewCode": "prototype.Model"
+            }],
+            "leaf": False,
+            "viewCode": "protoMenu-ext-gen4397"
+        })
+
     def tearDown(self):
         pass
 
-    @skip("Test is not ready")
     def test_protosaveprotoobj(self):
-        pass
+        response = json.loads(protoSaveProtoObj(self.request).content)
+        self.assertTrue(response['success'])
 
 
 class ProtoGetFieldTreeTest(TestCase):
