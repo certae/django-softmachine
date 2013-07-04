@@ -1,25 +1,25 @@
 # -*- coding: utf-8 -*-
 
+from pprint import pprint
 from django.test import TestCase
 from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
-from django.utils.unittest import skip
 from django.http import HttpRequest
 from django.contrib.auth import authenticate
 import django.utils.simplejson as json
 
-from protoLib.protoActions import protoExecuteAction
+from protoLib.protoGetDetails import protoGetDetailsTree
 
 
-def ProtoActionsTestSuite():
+def ProtoGetDetailsTestSuite():
     suite = TestSuite()
 
-    suite.addTest(makeSuite(ProtoExecuteActionTest, 'test'))
+    suite.addTest(makeSuite(ProtoGetDetailsTreeTest, 'test'))
 
     return suite
 
 
-class ProtoExecuteActionTest(TestCase):
+class ProtoGetDetailsTreeTest(TestCase):
     fixtures = ['auth.json']
 
     def setUp(self):
@@ -28,17 +28,13 @@ class ProtoExecuteActionTest(TestCase):
         self.request.POST['login'] = 'adube'
         self.request.POST['password'] = '123'
         self.request.user = authenticate(username=self.request.POST['login'], password=self.request.POST['password'])
-
-        self.request.POST['actionName'] = 'doModelPrototype'
-        self.request.POST['parameters'] = '[]'
-        self.request.POST['selectedKeys'] = '[23]'
-        self.request.POST['viewCode'] = 'prototype.Model'
+        self.request.POST['viewCode'] = 'prototype.Project'
+        self.request.POST['id'] = 'root'
+        self.request.POST['node'] = 'root'
 
     def tearDown(self):
         pass
 
-    @skip("modelAdmin is None")
-    def test_protoexecuteaction(self):
-        response = json.loads(protoExecuteAction(self.request).content)
-        print(response)
-        self.assertTrue(False)
+    def test_protogetdetailstree(self):
+        response = json.loads(protoGetDetailsTree(self.request).content)
+        self.assertEqual(response[0]['id'], 'Model.project')
