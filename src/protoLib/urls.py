@@ -14,10 +14,10 @@ from protoLib.protoMenu import protoGetMenuData
 urlpatterns = patterns(
     '',
     url('protoList/$', protoList),
-    url('sheetConfigRep/$', sheetConfigRep),  #
+    url('sheetConfigRep/$', sheetConfigRep),
     url('protoCsv/$', protoCsv),
 
-    url('protoDoActions/$', protoExecuteAction),  # menu Action, methode associee a un objet
+    url('protoDoActions/$', protoExecuteAction),
 
     url('protoAdd/$', protoCreate),
     url('protoUpd/$', protoUpdate),
@@ -28,7 +28,7 @@ urlpatterns = patterns(
     url('protoSaveProtoObj/$', protoSaveProtoObj),
     url('protoGetFieldTree/$', protoGetFieldTree),
 
-    url('protoGetDetailsTree/$', protoGetDetailsTree),  # Changement de la meta/config : ok
+    url('protoGetDetailsTree/$', protoGetDetailsTree),
 
     url('protoGetUserRights/$', protoGetUserRights),
 )

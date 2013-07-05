@@ -50,8 +50,10 @@ class TeamHierarchy(models.Model):
 
 # here is the profile model
 class UserProfile(models.Model):
-#Es necesario inlcuir el ususario en un BUnit, cada registro copiara el Bunit
-#del usuario para dar permisos tambien a la jerarquia ( ascendente )
+# Es necesario inlcuir el ususario en un BUnit, cada registro copiara el Bunit
+# del usuario para dar permisos tambien a la jerarquia ( ascendente )
+# Vous devez inclure l'utilisateur dans un BUnit, chaque enregistrement copie le BUnit
+# L'utilisateur de donner des autorisations à la hiérarchie aussi (ascendant)
 
     user = models.ForeignKey(User, unique=True)
     userTeam = models.ForeignKey(TeamHierarchy, blank=True, null=True)
@@ -152,9 +154,6 @@ class FieldMap(models.Model):
 
     class Meta:
         unique_together = ("entity", "fieldName")
-
-
-# -------------------------------------------
 
 
 class ProtoDefinition(models.Model):
@@ -326,7 +325,7 @@ class PtFunction(models.Model):
 
 #class sb2reglesentite(models.Model):
 #    description = models.CharField(max_length=250 ,blank=True)
-#    declancheur = models.CharField(max_length=5 ,blank=True)
+#    declencheur = models.CharField(max_length=5 ,blank=True)
 #    sequence = models.IntegerField(null=True ,blank=True)
 #    typeregle = models.CharField(max_length=50 ,blank=True)
 #    regle = models.CharField(max_length=50 ,blank=True)
