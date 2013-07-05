@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from pprint import pprint
+from datetime import datetime
+
 from django.test import TestCase
 from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
@@ -18,6 +20,11 @@ def protoLibModelsTestSuite():
     suite.addTest(makeSuite(TeamHierarchyTest, 'test'))
     suite.addTest(makeSuite(UserProfileTest, 'test'))
     suite.addTest(makeSuite(UserShareTest, 'test'))
+    suite.addTest(makeSuite(ProtoDefinitionTest, 'test'))
+    suite.addTest(makeSuite(CustomDefinitionTest, 'test'))
+    suite.addTest(makeSuite(DiscreteValueTest, 'test'))
+    suite.addTest(makeSuite(LanguajeTest, 'test'))
+    suite.addTest(makeSuite(PtFunctionTest, 'test'))
 
     return suite
 
@@ -113,3 +120,96 @@ class UserShareTest(TestCase):
 
     def test_verifying_string_representation(self):
         self.assertEqual(self.userShare.user.username + '-' + self.userShare.userTeam.code, str(self.userShare))
+
+
+class ProtoDefinitionTest(TestCase):
+    def setUp(self):
+        protodefinitiondata = {
+            'code': 'test_code',
+            'description': 'description protodefinition',
+            'metaDefinition': 'metadef',
+            'active': True,
+            'overWrite': True
+        }
+        self.protoDefinition = ProtoDefinition(**protodefinitiondata)
+        self.protoDefinition.save()
+
+    def tearDown(self):
+        self.protoDefinition.delete()
+
+    def test_verifying_string_representation(self):
+        self.assertEqual('test_code', str(self.protoDefinition))
+
+
+class CustomDefinitionTest(TestCase):
+    def setUp(self):
+        customdefinitiondata = {
+            'code': 'test_code',
+            'description': 'description protodefinition',
+            'metaDefinition': 'metadef',
+            'active': True,
+            'overWrite': True
+        }
+        self.customDefinition = CustomDefinition(**customdefinitiondata)
+        self.customDefinition.save()
+
+    def tearDown(self):
+        self.customDefinition.delete()
+
+    def test_verifying_string_representation(self):
+        self.assertEqual('test_code', str(self.customDefinition))
+
+
+class DiscreteValueTest(TestCase):
+    def setUp(self):
+        discretevaluedata = {
+            'code': 'test_code',
+            'value': 'test_value',
+            'description': 'description of discrete value',
+            'title': None
+        }
+        self.discreteValue = DiscreteValue(**discretevaluedata)
+        self.discreteValue.save()
+
+    def tearDown(self):
+        self.discreteValue.delete()
+
+    def test_verifying_string_representation(self):
+        self.assertEqual('test_code', str(self.discreteValue))
+
+
+class LanguajeTest(TestCase):
+    def setUp(self):
+        languajedata = {
+            'code': 'test_code',
+            'alias': 'alias of languaje',
+            'info': dict({'information': 'quelque chose'})
+        }
+        self.langaje = Languaje(**languajedata)
+        self.langaje.save()
+
+    def tearDown(self):
+        self.langaje.delete()
+
+    def test_verifying_string_representation(self):
+        self.assertEqual(self.langaje.code + '.' + str(self.langaje.info), str(self.langaje))
+
+
+class PtFunctionTest(TestCase):
+    def setUp(self):
+        ptfunctiondata = {
+            'code': 'test_code',
+            'modelName': 'name of model',
+            'arguments': 'test arguments',
+            'functionBody': 'body of function',
+            'tag': 'test tag',
+            'description': 'description of function'
+        }
+        self.ptFunction = PtFunction(**ptfunctiondata)
+        self.ptFunction.save()
+
+    def tearDown(self):
+        self.ptFunction.delete()
+
+    def test_verifying_string_representation(self):
+        self.assertEqual(self.ptFunction.code + '.' + self.ptFunction.tag, str(self.ptFunction))

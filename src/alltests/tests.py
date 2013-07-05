@@ -27,28 +27,28 @@ from testprotoLib.ProtoGetDetailsTest import ProtoGetDetailsTestSuite
 def suite():
     suite = TestSuite()
 
-    #suite.addTest(prototypeModelsTestSuite())
+    suite.addTest(prototypeModelsTestSuite())
     suite.addTest(protoLibModelsTestSuite())
 
-    #suite.addTest(makeSuite(BaseDefinitionTest, 'test'))
+    suite.addTest(makeSuite(BaseDefinitionTest, 'test'))
 
-    #suite.addTest(ViewDefinitionTestSuite())
+    suite.addTest(ViewDefinitionTestSuite())
 
-    #suite.addTest(StructureTestSuite())
-    #suite.addTest(PropertiesTestSuite())
+    suite.addTest(StructureTestSuite())
+    suite.addTest(PropertiesTestSuite())
 
-    #suite.addTest(ProtoRulesTestSuite())
+    suite.addTest(ProtoRulesTestSuite())
 
-    #suite.addTest(makeSuite(LoginTest, 'test'))
+    suite.addTest(makeSuite(LoginTest, 'test'))
 
-    #suite.addTest(ViewCreationTestSuite())
+    suite.addTest(ViewCreationTestSuite())
 
-    #suite.addTest(ProtoActionListTestSuite())
-    #suite.addTest(ProtoActionRepTestSuite())
-    #suite.addTest(ProtoActionsTestSuite())
-    #suite.addTest(ProtoActionEditTestSuite())
-    #suite.addTest(ProtoMenuTestSuite())
-    #suite.addTest(ProtoGetPciTestSuite())
-    #suite.addTest(ProtoGetDetailsTestSuite())
+    suite.addTest(ProtoActionListTestSuite())
+    suite.addTest(ProtoActionRepTestSuite())
+    suite.addTest(ProtoActionsTestSuite())
+    suite.addTest(ProtoActionEditTestSuite())
+    suite.addTest(ProtoMenuTestSuite())
+    suite.addTest(ProtoGetPciTestSuite())
+    suite.addTest(ProtoGetDetailsTestSuite())
 
     return suite
