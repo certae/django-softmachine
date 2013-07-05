@@ -34,7 +34,7 @@ class TeamHierarchyTest(TestCase):
         teamhierarchydata = {
             'code': 'SomeValue',
             'description': 'Description of TeamHierarchy',
-            'parentNode': None,
+            'parentNode': TeamHierarchy(),
             'site': Site()
         }
 
@@ -46,6 +46,16 @@ class TeamHierarchyTest(TestCase):
 
     def test_verifying_string_representation(self):
         self.assertEqual(self.teamHierarchy.code, str(self.teamHierarchy))
+
+    @skip('unicode is not callable')
+    def test_fullpath(self):
+        returnValue = self.teamHierarchy.fullPath()
+        print(returnValue)
+
+    @skip('unicode is not callable')
+    def test_treehierarchy(self):
+        returnValue = self.teamHierarchy.treeHierarchy()
+        print(returnValue)
 
 
 class UserProfileTest(TestCase):

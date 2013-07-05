@@ -24,7 +24,6 @@ class TeamHierarchy(models.Model):
 
     @property
     def treeHierarchy(self):
-        "Returns the full down-hierarchy"
         sTree = unicode(self.id)
         for item in self.downHierachy.all():
             sTree += ',' + item.treeHierarchy
@@ -36,8 +35,6 @@ class TeamHierarchy(models.Model):
     def save(self, *args, **kwargs):
         if self.parentNode is not None:
             self.site = self.parentNode.site
-#        if self.site is None:
-#            raise Exception( 'site required')
         super(TeamHierarchy, self).save(*args, **kwargs)
 
     protoExt = {
