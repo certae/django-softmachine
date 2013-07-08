@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 
 from protoLib.models import *
+from prototype.models import Project
 
 
 def protoLibModelsTestSuite():
@@ -25,6 +26,7 @@ def protoLibModelsTestSuite():
     suite.addTest(makeSuite(DiscreteValueTest, 'test'))
     suite.addTest(makeSuite(LanguajeTest, 'test'))
     suite.addTest(makeSuite(PtFunctionTest, 'test'))
+    suite.addTest(makeSuite(GetDjangoModelTest, 'test'))
 
     return suite
 
@@ -241,3 +243,34 @@ class PtFunctionTest(TestCase):
 
     def test_verifying_string_representation(self):
         self.assertEqual(self.ptFunction.code + '.' + self.ptFunction.tag, str(self.ptFunction))
+
+
+class GetDjangoModelTest(TestCase):
+    def setUp(self):
+        modeldata = {
+            'code': 'test Code',
+            'description': 'test Description',
+            'dbEngine': 'test dbEngine',
+            'dbName': 'test dbName',
+            'dbUser': 'test dbUser',
+            'dbPassword': 'test dbPassword',
+            'dbHost': 'test dbHost',
+            'dbPort': 'test dbPort'
+        }
+        self.testProject = Project(**modeldata)
+        self.testProject.save()
+
+    def tearDown(self):
+        pass
+
+    def test_method_with_no_dot_in_name(self):
+        returnMessage = getDjangoModel('Project')
+        self.assertTrue(returnMessage is not None)
+
+    def test_method_with_single_dot_in_name(self):
+        returnMessage = getDjangoModel('prototype.Project')
+        self.assertTrue(returnMessage is not None)
+
+    def test_method_with_two_dots_in_name(self):
+        returnMessage = getDjangoModel('prototype.Project.ExtraStuffInName')
+        self.assertTrue(returnMessage is not None)

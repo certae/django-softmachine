@@ -215,18 +215,17 @@ class CustomDefinition(ProtoModel):
 def getDjangoModel(modelName):
 #   Obtiene el modelo
 
-    if modelName.count('.') == 1:
-        model = models.get_model(*modelName.split('.'))
-
-    elif modelName.count('.') == 0:
-        print 'No period in name ', modelName
+    if modelName.count('.') == 0:
         for m in models.get_models(include_auto_created=True):
             if m._meta.object_name.lower() == modelName.lower():
                 model = m
                 break
 
-    elif modelName.count(".") == 2:
-        model = models.get_model(*modelName.split(".")[0:2])
+    elif modelName.count('.') == 1:
+        model = models.get_model(*modelName.split('.'))
+
+    elif modelName.count('.') == 2:
+        model = models.get_model(*modelName.split('.')[0:2])
 
     #if model is None:
         #raise Exception('model not found:' + modelName)
