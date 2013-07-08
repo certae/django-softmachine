@@ -172,6 +172,12 @@ class CustomDefinitionTest(TestCase):
 
 class DiscreteValueTest(TestCase):
     def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test_verifying_string_representation_with_title_as_none(self):
         discretevaluedata = {
             'code': 'test_code',
             'value': 'test_value',
@@ -181,11 +187,23 @@ class DiscreteValueTest(TestCase):
         self.discreteValue = DiscreteValue(**discretevaluedata)
         self.discreteValue.save()
 
-    def tearDown(self):
+        self.assertEqual('test_code', str(self.discreteValue))
+
         self.discreteValue.delete()
 
-    def test_verifying_string_representation(self):
-        self.assertEqual('test_code', str(self.discreteValue))
+    def test_verifying_string_representation_with_title_not_none(self):
+        discretevaluedata = {
+            'code': 'test_code',
+            'value': 'test_value',
+            'description': 'description of discrete value',
+            'title': DiscreteValue()
+        }
+        self.discreteValue = DiscreteValue(**discretevaluedata)
+        self.discreteValue.save()
+
+        self.assertEqual('.test_code', str(self.discreteValue))
+
+        self.discreteValue.delete()
 
 
 class LanguajeTest(TestCase):

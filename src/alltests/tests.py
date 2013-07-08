@@ -12,9 +12,9 @@ from testprototype.testactions.ViewDefinitionTest import ViewDefinitionTestSuite
 from testMetaDefinitions.ObjectsTest import StructureTestSuite
 from testMetaDefinitions.PropertiesTest import PropertiesTestSuite
 
-from testViews.LoginTest import LoginTest
-from testprototype.ProtoRulesTest import ProtoRulesTestSuite
 from testSampleProject.ViewCreationTest import ViewCreationTestSuite
+
+from testprototype.ProtoRulesTest import ProtoRulesTestSuite
 from testprotoLib.ProtoActionListTest import ProtoActionListTestSuite
 from testprotoLib.ProtoActionRepTest import ProtoActionRepTestSuite
 from testprotoLib.ProtoActionsTest import ProtoActionsTestSuite
@@ -22,6 +22,7 @@ from testprotoLib.ProtoActionEditTest import ProtoActionEditTestSuite
 from testprotoLib.ProtoMenuTest import ProtoMenuTestSuite
 from testprotoLib.ProtoGetPciTest import ProtoGetPciTestSuite
 from testprotoLib.ProtoGetDetailsTest import ProtoGetDetailsTestSuite
+from testprotoLib.ProtoLoginTest import ProtoLoginTestSuite
 
 
 def suite():
@@ -39,8 +40,6 @@ def suite():
 
     suite.addTest(ProtoRulesTestSuite())
 
-    suite.addTest(makeSuite(LoginTest, 'test'))
-
     suite.addTest(ViewCreationTestSuite())
 
     suite.addTest(ProtoActionListTestSuite())
@@ -50,5 +49,6 @@ def suite():
     suite.addTest(ProtoMenuTestSuite())
     suite.addTest(ProtoGetPciTestSuite())
     suite.addTest(ProtoGetDetailsTestSuite())
+    suite.addTest(ProtoLoginTestSuite())
 
     return suite
