@@ -69,3 +69,19 @@ class LoginTest(TestCase):
     def test_can_retrieve_user_rights(self):
         returnMessage = json.loads(protoGetUserRights(self.request).content)
         self.assertTrue(returnMessage['success'])
+
+    def test_returns_error_when_user_does_not_exist(self):
+        userdata = {
+            'login': 'Bob',
+            'password': 'BobPasswd'
+        }
+
+        self.user = authenticate(username=userdata['login'], password=userdata['password'])
+        self.request.POST = userdata
+        returnMessage = json.loads(protoGetUserRights(self.request).content)
+        self.assertFalse(returnMessage['success'])
+
+    def test_returns_error_when_method_is_not_post(self):
+        self.request.method = 'GET'
+        returnMessage = json.loads(protoGetUserRights(self.request).content)
+        self.assertFalse(returnMessage['success'])

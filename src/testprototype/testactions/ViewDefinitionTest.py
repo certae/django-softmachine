@@ -1,18 +1,22 @@
 # -*- coding: utf-8 -*-
 
+from pprint import pprint
 import random
+
 from django.test import TestCase
 from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
+from django.utils.unittest import skip
+
 from protoLib.utilsBase import slugify
 
 from prototype.models import Property
 from prototype.models import Entity
-
 from prototype.actions.viewDefinition import *
 
 from testprototype.Utils import random_string_generator
 from testprototype.testmodels.TestUtilities import createTestEntity
+from testprototype.testmodels.TestUtilities import createTestProperty
 from testprototype.testmodels.TestUtilities import createTestRelationship
 
 
@@ -116,21 +120,8 @@ class Property2FieldTest(TestCase):
 
         self.assertEqual(testField['name'], self.fName)
         self.assertEqual(testField['header'], self.propDict['code'])
-        self.assertEqual(testField['readOnly'], self.propDict['isReadOnly'])
-        self.assertEqual(testField['primary'], self.propDict['isPrimary'])
-        self.assertEqual(testField['required'], self.propDict['isRequired'])
-        self.assertEqual(testField['tooltip'], self.propDict['description'])
-        self.assertEqual(testField['vType'], self.propDict['vType'])
-        self.assertEqual(testField['type'], self.propDict['baseType'])
-        self.assertEqual(testField['choices'], self.propDict['prpChoices'])
-        self.assertEqual(testField['prpDefault'], self.propDict['prpDefault'])
-        self.assertEqual(testField['prpLength'], self.propDict['prpLength'])
-        self.assertEqual(testField['prpScale'], self.propDict['prpScale'])
-        self.assertEqual(testField['crudType'], self.propDict['crudType'])
         self.assertEqual(testField['id'], self.fBase + '__' + self.fName)
         self.assertEqual(testField['text'], self.fName)
-        self.assertEqual(testField['leaf'], True)
-        self.assertEqual(testField['checked'], False)
 
     def test_Property2Field_with_empty_arguments(self):
         self.propDict = dict([])
@@ -139,17 +130,6 @@ class Property2FieldTest(TestCase):
 
         self.assertEqual(testField['name'], self.fName)
         self.assertEqual(testField['header'], self.fName)
-        self.assertEqual(testField['readOnly'], False)
-        self.assertEqual(testField['primary'], False)
-        self.assertEqual(testField['required'], False)
-        self.assertEqual(testField['tooltip'], '')
-        self.assertEqual(testField['vType'], '')
-        self.assertEqual(testField['type'], 'string')
-        self.assertEqual(testField['choices'], '')
-        self.assertEqual(testField['prpDefault'], '')
-        self.assertEqual(testField['prpLength'], '')
-        self.assertEqual(testField['prpScale'], '')
-        self.assertEqual(testField['crudType'], '')
 
 
 class GetFkIdTest(TestCase):
@@ -169,21 +149,19 @@ class GetFkIdTest(TestCase):
     def test_GetFkId_InfoField_False(self):
         fields = getFkId(self.name, False, self.base)
         self.assertNotIn('id', fields)
-        self.assertNotIn('text', fields)
-        self.assertNotIn('leaf', fields)
-        self.assertNotIn('checked', fields)
 
 
 class GetProtoFieldsTreeTest(TestCase):
     def setUp(self):
-        pass
-        # Create necessary Entity
+        self.pEntity = createTestEntity()
 
     def test_GetProtoFieldsTree_Valid(self):
-        pass
+        returnMessage = GetProtoFieldsTree(1)
+        self.assertTrue(len(returnMessage) > 0)
 
     def test_GetProtoFieldsTree_Invalid(self):
-        pass
+        returnMessage = GetProtoFieldsTree(2)
+        self.assertTrue(len(returnMessage) is 0)
 
 
 class GetDetailsConfigTreeTest(TestCase):
@@ -199,7 +177,30 @@ class GetDetailsConfigTreeTest(TestCase):
 
 class addProtoFieldToListTest(TestCase):
     def setUp(self):
-        pass
+        self.testProperty = createTestProperty()
+        self.testProperty.isForeign = True
+        self.testProperty.save()
 
-    def test_addprotoFieldToList_(self):
-        pass
+    def tearDown(self):
+        self.testProperty.delete()
+
+    def test_addprotoFieldToList_non_empty_fieldbase(self):
+        fieldList = []
+        pEntity = Entity.objects.get(id=1)
+
+        for pProperty in pEntity.property_set.all():
+            self.assertTrue(pProperty.isForeign)
+
+        addProtoFieldToList(fieldList, pEntity, 'anyString', '')
+        self.assertNotEqual(fieldList, [])
+
+    @skip('Error when calling addProtoFieldToList with empty fieldBase')
+    def test_addprotoFieldToList_empty_fieldbase(self):
+        fieldList = []
+        pEntity = Entity.objects.get(id=1)
+
+        for pProperty in pEntity.property_set.all():
+            self.assertTrue(pProperty.isForeign)
+
+        addProtoFieldToList(fieldList, pEntity, '', '')
+        self.assertNotEqual(fieldList, [])
