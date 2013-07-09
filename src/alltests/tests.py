@@ -19,6 +19,7 @@ from testprotoLib.ProtoActionListTest import ProtoActionListTestSuite
 from testprotoLib.ProtoActionRepTest import ProtoActionRepTestSuite
 from testprotoLib.ProtoActionsTest import ProtoActionsTestSuite
 from testprotoLib.ProtoActionEditTest import ProtoActionEditTestSuite
+from testprotoLib.ProtoAuthTest import ProtoAuthTestSuite
 from testprotoLib.ProtoMenuTest import ProtoMenuTestSuite
 from testprotoLib.ProtoGetPciTest import ProtoGetPciTestSuite
 from testprotoLib.ProtoGetDetailsTest import ProtoGetDetailsTestSuite
@@ -46,6 +47,9 @@ def suite():
     suite.addTest(ProtoActionRepTestSuite())
     suite.addTest(ProtoActionsTestSuite())
     suite.addTest(ProtoActionEditTestSuite())
+
+    suite.addTest(ProtoAuthTestSuite())
+
     suite.addTest(ProtoMenuTestSuite())
     suite.addTest(ProtoGetPciTestSuite())
     suite.addTest(ProtoGetDetailsTestSuite())
