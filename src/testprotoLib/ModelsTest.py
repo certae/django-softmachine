@@ -274,3 +274,6 @@ class GetDjangoModelTest(TestCase):
     def test_method_with_two_dots_in_name(self):
         returnMessage = getDjangoModel('prototype.Project.ExtraStuffInName')
         self.assertTrue(returnMessage is not None)
+
+    def test_method_with_user_none(self):
+        self.assertRaises(Exception, getDjangoModel, 'SomeInvalidName')
