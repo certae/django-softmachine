@@ -1,11 +1,11 @@
 # This is an auto-generated model module by CeRTAE OMS PlugIn
 # for project : "Modelibra.py" >
 
-from models import Project,  Model, Entity, Property,  Relationship  # Prototype
-from models import PropertyModel, PropertyEquivalence
-from models import ProtoTable
-from models import Diagram  # DiagramEntity
-from models import Service  # ServiceRef
+from prototype.models import Project,  Model, Entity, Property,  Relationship
+from prototype.models import PropertyModel, PropertyEquivalence
+from prototype.models import ProtoTable
+from prototype.models import Diagram
+from prototype.models import Service
 
 from django.contrib import admin
 
