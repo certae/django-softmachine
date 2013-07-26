@@ -19,13 +19,15 @@ urlpatterns = patterns(
 
     url(r'^protoLib/', include('protoLib.urls')),
 
-#    url(r'^prueba$', direct_to_template, { 'template': 'prueba.html' }),
+    # url(r'^prueba$', direct_to_template, { 'template': 'prueba.html' }),
 
-#    Use for production instalation and for load json configuration files
+    # Use for production instalation and for load json configuration files
     url(r'static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': PPATH + '/static'}),
     url(r'resources/(?P<path>.*)$', 'django.views.static.serve', {'document_root': PPATH + '/static'}),
     url(r'media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': PPATH + '/static'}),
 
-#   Archivos generados
+    # Archivos generados
     url(r'getFile/(?P<path>.*)$', 'protoLib.downloadFile.getFile', {}),
+
+    url(r'^extjs-tests', TemplateView.as_view(template_name='extjs-tests.html'))
 )
