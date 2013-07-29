@@ -1,4 +1,6 @@
 # -*- encoding: UTF-8 -*-
+# Pour rouler les tests a la ligne de commandes :
+#  python manage.py test alltests
 
 from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
@@ -27,32 +29,32 @@ from testprotoLib.ProtoLoginTest import ProtoLoginTestSuite
 
 
 def suite():
-    suite = TestSuite()
+    alltests = TestSuite()
 
-    suite.addTest(prototypeModelsTestSuite())
-    suite.addTest(protoLibModelsTestSuite())
+    alltests.addTest(prototypeModelsTestSuite())
+    alltests.addTest(protoLibModelsTestSuite())
 
-    suite.addTest(makeSuite(BaseDefinitionTest, 'test'))
+    alltests.addTest(makeSuite(BaseDefinitionTest, 'test'))
 
-    suite.addTest(ViewDefinitionTestSuite())
+    alltests.addTest(ViewDefinitionTestSuite())
 
-    suite.addTest(StructureTestSuite())
-    suite.addTest(PropertiesTestSuite())
+    alltests.addTest(StructureTestSuite())
+    alltests.addTest(PropertiesTestSuite())
 
-    suite.addTest(ProtoRulesTestSuite())
+    alltests.addTest(ProtoRulesTestSuite())
 
-    suite.addTest(ViewCreationTestSuite())
+    alltests.addTest(ViewCreationTestSuite())
 
-    suite.addTest(ProtoActionListTestSuite())
-    suite.addTest(ProtoActionRepTestSuite())
-    suite.addTest(ProtoActionsTestSuite())
-    suite.addTest(ProtoActionEditTestSuite())
+    alltests.addTest(ProtoActionListTestSuite())
+    alltests.addTest(ProtoActionRepTestSuite())
+    alltests.addTest(ProtoActionsTestSuite())
+    alltests.addTest(ProtoActionEditTestSuite())
 
-    suite.addTest(ProtoAuthTestSuite())
+    alltests.addTest(ProtoAuthTestSuite())
 
-    suite.addTest(ProtoMenuTestSuite())
-    suite.addTest(ProtoGetPciTestSuite())
-    suite.addTest(ProtoGetDetailsTestSuite())
-    suite.addTest(ProtoLoginTestSuite())
+    alltests.addTest(ProtoMenuTestSuite())
+    alltests.addTest(ProtoGetPciTestSuite())
+    alltests.addTest(ProtoGetDetailsTestSuite())
+    alltests.addTest(ProtoLoginTestSuite())
 
-    return suite
+    return alltests

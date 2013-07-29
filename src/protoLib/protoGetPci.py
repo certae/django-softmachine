@@ -224,23 +224,40 @@ def createProtoMeta(model, grid, viewEntity, viewCode):
 
 def protoSaveProtoObj(request):
 
-    """ Save full metadata
+    """
+        Save full metadata
 
-    * objetos del tipo _XXX                   se guardan siempre en CustomDefinition
-    * objetos del tipo prototype.protoTable   se guardan siempre en Prototype
+        * objetos del tipo _XXX                   se guardan siempre en CustomDefinition
+        * objetos del tipo prototype.protoTable   se guardan siempre en Prototype
 
-    * Solo los adminstradores tienen el derecho de guardar pcls
+        * Solo los adminstradores tienen el derecho de guardar pcls
 
-    custom :  Los objetos de tipo custom, manejan la siguiente llave
+        custom :  Los objetos de tipo custom, manejan la siguiente llave
 
-        _ColSet.[viewCode]        listDisplaySet
-        _QrySet.[viewCode]        filterSet
-        _menu
+            _ColSet.[viewCode]        listDisplaySet
+            _QrySet.[viewCode]        filterSet
+            _menu
 
-    Para manejar el modelo en las generacion de protoPci's  se usa :
+        Para manejar el modelo en las generacion de protoPci's  se usa :
 
         prototype.protoTable.[protoModel-viewCode]  --> al leer la pcl se leera prototype.protoTable.[protoModel-viewCode]
 
+        Enregistrer des métadonnées complètes
+
+        * _xxx Objets de type sont toujours stockés dans CustomDefinition
+        * Objets de type Prototype.protoTable sont toujours stockés dans Prototype
+
+        * Seuls les administrateurs ont le droit de rester PCLS
+
+        coutume: Les objets de types personnalisés, de gérer la clé suivante
+
+            _ColSet. [VIEWCODE] listDisplaySet
+            _QrySet. [VIEWCODE] FILTERSET
+            _menu
+
+        Pour gérer le modèle de génération de protoPci est utilisé:
+
+        prototype.protoTable [protoModel-VIEWCODE] -..> lire la prototype.protoTable PCL sera lu [protoModel-VIEWCODE]
     """
 
     if request.method != 'POST':
@@ -277,6 +294,7 @@ def protoSaveProtoObj(request):
         try:
             # debe existir previamente
             protoCode = viewCode.replace(PROTO_PREFIX, '')
+            print('protoCode is : ' + protoCode)
             protoDef = Prototype.objects.get(code=protoCode, smOwningTeam=userProfile.userTeam)
             create = False
         except Exception as e:
