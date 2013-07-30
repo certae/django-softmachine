@@ -1,6 +1,6 @@
 # -*- encoding: UTF-8 -*-
 # Pour rouler les tests a la ligne de commandes :
-#  python manage.py test alltests
+#  python src/manage.py test alltests
 
 from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
@@ -27,6 +27,8 @@ from testprotoLib.ProtoGetPciTest import ProtoGetPciTestSuite
 from testprotoLib.ProtoGetDetailsTest import ProtoGetDetailsTestSuite
 from testprotoLib.ProtoLoginTest import ProtoLoginTestSuite
 
+#from test.SampleTest import SampleTest
+
 
 def suite():
     alltests = TestSuite()
@@ -35,6 +37,8 @@ def suite():
     alltests.addTest(protoLibModelsTestSuite())
 
     alltests.addTest(makeSuite(BaseDefinitionTest, 'test'))
+
+    #alltests.addTest(makeSuite(SampleTest, 'test'))
 
     alltests.addTest(ViewDefinitionTestSuite())
 

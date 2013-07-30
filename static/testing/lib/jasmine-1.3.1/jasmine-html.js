@@ -529,9 +529,9 @@ jasmine.TrivialReporter.prototype.reportRunnerStarting = function(runner) {
             this.createDom('span', { className: 'version' }, runner.env.versionString())),
         this.createDom('div', { className: 'options' },
             "Show ",
-            showPassed = this.createDom('input', { id: "__jasmine_TrivialReporter_showPassed__", type: 'checkbox' }),
+            showPassed = this.createDom('input', { id: "__jasmine_TrivialReporter_showPassed__", type: 'checkbox'}),
             this.createDom('label', { "for": "__jasmine_TrivialReporter_showPassed__" }, " passed "),
-            showSkipped = this.createDom('input', { id: "__jasmine_TrivialReporter_showSkipped__", type: 'checkbox' }),
+            showSkipped = this.createDom('input', { id: "__jasmine_TrivialReporter_showSkipped__", type: 'checkbox'}),
             this.createDom('label', { "for": "__jasmine_TrivialReporter_showSkipped__" }, " skipped")
             )
           ),

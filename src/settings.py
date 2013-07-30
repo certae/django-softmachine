@@ -9,7 +9,6 @@ if PPATH.startswith('/'):
 else:
     EXT_PATH = 'd:/data/ExtJs'
 
-
 if ('/src' in PPATH):
     PPATH = os.path.abspath(os.path.join(PPATH, os.pardir)).replace('\\', '/')
 
@@ -42,7 +41,7 @@ DATABASES = {
     #    },
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql',  'oracle'.
-    #   'NAME': PPATH + '/db/protoMeta.db',
+        #'NAME': PPATH + '/db/protoMeta.db',
         'NAME': PPATH + '/db/protoMetaCertae.db',
         #'NAME': PPATH + '/db/PrototypeurTest.db',
     }

@@ -8,6 +8,8 @@ import django.utils.simplejson as json
 from prototype.models import *
 from protoLib.models import *
 
+from settings import PPATH
+
 
 def StructureTestSuite():
     suite = TestSuite()
@@ -29,6 +31,7 @@ def StructureTestSuite():
     return suite
 
 
+#DataTree = json.loads(open(PPATH + '/src/testMetaDefinitions/MetaObjects.dat').read())
 DataTree = json.loads(open('src/testMetaDefinitions/MetaObjects.dat').read())
 
 

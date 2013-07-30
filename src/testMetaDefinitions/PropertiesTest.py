@@ -9,6 +9,8 @@ import django.utils.simplejson as json
 from prototype.models import *
 from protoLib.models import *
 
+from settings import PPATH
+
 
 def PropertiesTestSuite():
     suite = TestSuite()
@@ -31,8 +33,11 @@ def PropertiesTestSuite():
 
 
 PossibleTypes = ['list', 'string']
+#MetaObjects = json.loads(open(PPATH + '/src/testMetaDefinitions/MetaObjects.dat').read())
+#MetaProperties = json.loads(open(PPATH + '/src/testMetaDefinitions/MetaProperties.dat').read())
 MetaObjects = json.loads(open('src/testMetaDefinitions/MetaObjects.dat').read())
 MetaProperties = json.loads(open('src/testMetaDefinitions/MetaProperties.dat').read())
+
 
 DataTypes = dict()
 for fields in MetaProperties:
