@@ -15,11 +15,13 @@ describe("On page load, Login module", function() {
     });
 });
 
-xdescribe("On submit, Login module", function() {
+
+describe("On submit, Login module", function() {
 
     it("makes a call to submitButton", function() {
         var loginWindow = new ProtoUL.ux.Login();
         spyOn(loginWindow, 'submitButton');
+//         spyOn(btn, 'disable');
         loginWindow.submitLogin();
         expect(loginWindow.submitButton).toHaveBeenCalled();
     });

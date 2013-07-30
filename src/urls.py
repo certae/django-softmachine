@@ -29,5 +29,6 @@ urlpatterns = patterns(
     # Archivos generados
     url(r'getFile/(?P<path>.*)$', 'protoLib.downloadFile.getFile', {}),
 
+    # Pour executer les tests avec Jasmine
     url(r'^extjs-tests', TemplateView.as_view(template_name='extjs-tests.html'))
 )

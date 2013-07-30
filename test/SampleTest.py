@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 
 from django.test import TestCase
 
@@ -9,5 +10,5 @@ class SampleTest(TestCase):
     def tearDown(self):
         pass
 
-    def test_creating_a_new_project_and_saving_it_to_the_database(self):
+    def test_doing_nothing(self):
         print('Modification de la structure de fichiers')

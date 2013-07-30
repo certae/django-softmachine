@@ -27,8 +27,6 @@ from testprotoLib.ProtoGetPciTest import ProtoGetPciTestSuite
 from testprotoLib.ProtoGetDetailsTest import ProtoGetDetailsTestSuite
 from testprotoLib.ProtoLoginTest import ProtoLoginTestSuite
 
-#from test.SampleTest import SampleTest
-
 
 def suite():
     alltests = TestSuite()
@@ -37,8 +35,6 @@ def suite():
     alltests.addTest(protoLibModelsTestSuite())
 
     alltests.addTest(makeSuite(BaseDefinitionTest, 'test'))
-
-    #alltests.addTest(makeSuite(SampleTest, 'test'))
 
     alltests.addTest(ViewDefinitionTestSuite())
 
