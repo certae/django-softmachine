@@ -18,11 +18,64 @@ describe("On page load, Login module", function() {
 
 describe("On submit, Login module", function() {
 
-    it("makes a call to submitButton", function() {
-        var loginWindow = new ProtoUL.ux.Login();
-        spyOn(loginWindow, 'submitButton');
-//         spyOn(btn, 'disable');
+    it("makes a call to submitLogin", function() {
+        var loginWindow = Ext.create('ProtoUL.ux.Login');
+        var loginForm = loginWindow.getForm();
+
+        spyOn(loginWindow, 'submitLogin');
+        spyOn(loginForm, 'submit');
+
+        loginWindow.submitLogin(null);
+        expect(loginWindow.submitLogin).toHaveBeenCalledWith(null);
+    });
+
+    it("disables button by default", function() {
+        var loginWindow = Ext.create('ProtoUL.ux.Login');
+        var loginForm = loginWindow.getForm();
+        var button = Ext.create('Ext.Button');
+
+        spyOn(button, 'disable');
+        spyOn(loginForm, 'submit');
+
+        loginWindow.submitLogin(button);
+        expect(button.disable).toHaveBeenCalled();
+    });
+
+    it("checks if form is valid", function() {
+        var loginWindow = Ext.create('ProtoUL.ux.Login');
+        var loginForm = loginWindow.getForm();
+        var button = Ext.create('Ext.Button');
+
+        spyOn(loginForm, 'isValid');
+        spyOn(loginForm, 'submit');
+
+        loginWindow.submitLogin(button);
+        expect(loginForm.isValid).toHaveBeenCalled();
+    });
+
+    it("sends form through a POST request", function() {
+        var loginWindow = Ext.create('ProtoUL.ux.Login');
+        var loginForm = loginWindow.getForm();
+
+        spyOn(loginForm, 'isValid').andReturn(true);
+        spyOn(loginForm, 'submit');
+
         loginWindow.submitLogin();
-        expect(loginWindow.submitButton).toHaveBeenCalled();
+
+        expect(loginForm.submit).toHaveBeenCalled();
+    });
+
+    it("enables button when form is invalid", function() {
+        var loginWindow = Ext.create('ProtoUL.ux.Login');
+        var loginForm = loginWindow.getForm();
+        var button = Ext.create('Ext.Button');
+
+        spyOn(loginForm, 'isValid').andReturn(false);
+        spyOn(button, 'enable');
+        spyOn(loginForm, 'submit');
+
+        loginWindow.submitLogin(button);
+
+        expect(button.enable).toHaveBeenCalled();
     });
 });

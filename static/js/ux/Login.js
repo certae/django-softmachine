@@ -82,11 +82,13 @@ Ext.define('ProtoUL.ux.Login', {
     },
 
     submitLogin: function (btn) {
-        if ( ! btn ) { btn = this.submitButton }
+        if ( !btn ) {
+            btn = this.submitButton;
+        }
         btn.disable();
 
         var form = this.getForm(),
-            me = this
+            me = this;
 
         Ext.applyIf(this.options, {
             scope: this,
