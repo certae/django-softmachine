@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib.admin.sites import site
-from protoGrid import getBaseModelName
-from models import getDjangoModel
+from protoLib.protoGrid import getBaseModelName
+from protoLib.models import getDjangoModel
 
 import django.utils.simplejson as json
 from protoLib.utilsWeb import doReturn

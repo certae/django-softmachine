@@ -38,7 +38,9 @@ def getTypedValue(sAux, sType):
 def isNumeric(s):
     try:
         i = float(s)
-    except ValueError, TypeError:
+    except ValueError:
+        return False
+    except TypeError:
         return False
     else:
         return True

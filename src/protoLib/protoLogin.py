@@ -5,8 +5,8 @@ import django.utils.simplejson as json
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate
 
-from protoAuth import getUserProfile
-from utilsWeb import JsonError, JsonSuccess
+from protoLib.protoAuth import getUserProfile
+from protoLib.utilsWeb import JsonError, JsonSuccess
 
 
 def protoGetUserRights(request):

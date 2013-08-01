@@ -11,7 +11,7 @@ from django.contrib import admin
 
 
 # -----------------------------------------   Model
-from actions import doModelPrototype, doModelGraph
+from prototype.actions import doModelPrototype, doModelGraph
 
 
 class MyModelAdmin(admin.ModelAdmin):
@@ -20,7 +20,7 @@ class MyModelAdmin(admin.ModelAdmin):
 admin.site.register(Model, MyModelAdmin)
 
 # ------------------------------------------  Entity
-from actions import doEntityPrototype
+from prototype.actions import doEntityPrototype
 
 
 class MyEntityAdmin(admin.ModelAdmin):
@@ -30,7 +30,7 @@ admin.site.register(Entity, MyEntityAdmin)
 
 # ------------------------------------------  PropertyModel
 
-from actions import doPropertyModelJoin
+from prototype.actions import doPropertyModelJoin
 
 
 class MyPropertyModelAdmin(admin.ModelAdmin):
@@ -39,7 +39,7 @@ class MyPropertyModelAdmin(admin.ModelAdmin):
 admin.site.register(PropertyModel, MyPropertyModelAdmin)
 
 # ------------------------------------------  Entity
-from actions import doImportSchema
+from prototype.actions import doImportSchema
 
 
 class MyProjectAdmin(admin.ModelAdmin):

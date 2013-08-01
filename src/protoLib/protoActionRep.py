@@ -9,7 +9,7 @@ from django.core.files import File
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.utils.encoding import smart_str
-from django.utils.encoding import smart_unicode
+#from django.utils.encoding import smart_unicode
 
 from protoLib.models import getDjangoModel
 from protoLib.models import ProtoDefinition
@@ -300,7 +300,8 @@ def getReport(props, template, row):
 def getLineCsv(line):
     sAux = u''
     for e in line:
-        sAux = sAux + ',"' + smart_unicode(e) + '"'
+        #sAux = sAux + ',"' + smart_unicode(e) + '"'  # No need for unicode in Python3
+        sAux = sAux + ',"' + smart_str(e) + '"'
     return sAux[1:] + '\n'
 
 
@@ -338,7 +339,7 @@ def protoCsv(request):
         print('length of pList is  : ')
         print(len(pList))
 
-    except Exception,  e:
+    except Exception as e:
         message = getReadableError(e)
         pList = [message]
 

@@ -73,7 +73,7 @@ def protoList(request):
         #TODO: improve performance
         pList = Q2Dict(protoMeta, pRows, fakeId)
         bResult = True
-    except Exception,  e:
+    except Exception as e:
         print('Caught exception')
         traceback.print_exc()
         message = getReadableError(e)

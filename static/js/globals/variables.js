@@ -35,6 +35,7 @@ _SM.__language = {
     'Message_Error_Login' : 'Impossible'
 }
 
+
 // Config Variables
 _SM._PConfig =  {
     urlMenu         : 'protoLib/protoGetMenuData/',
@@ -52,6 +53,7 @@ _SM._PConfig =  {
     clsBaseModel: 'ProtoUL.model.'
 };
 
+
 _SM._HELPpath = '/resources/help/index.html'
 
 
@@ -68,6 +70,7 @@ _SM._gridTypeEditor = {
     'date'  : 'datefield',
     'boolean' : 'checkbox'
 };
+
 
 // PageSize par default
 _SM._PAGESIZE = 50;
@@ -291,4 +294,10 @@ _SM.DesignerPanels = {
         // ]
     }]
 }
+
+
+// User info
+_SM._UserInfo = ''
+_SM._UserInfo.fullName = ''
+_SM._UserInfo.userName = ''
 

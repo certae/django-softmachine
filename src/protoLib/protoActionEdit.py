@@ -7,13 +7,13 @@ from django.http import HttpResponse
 from django.db import models
 
 from datetime import datetime
-from models import getDjangoModel
+from protoLib.models import getDjangoModel
 from protoLib.protoActionList import Q2Dict
 from protoLib.utilsConvert import toInteger, toDate, toDateTime, toTime, toFloat, toDecimal, toBoolean
 from protoLib.utilsBase import JSONEncoder, getReadableError, list2dict
 from protoLib.usrDefProps import verifyUdpDefinition, saveUDP
 from django.utils.encoding import smart_str
-from protoAuth import getUserProfile, getModelPermissions
+from protoLib.protoAuth import getUserProfile, getModelPermissions
 from protoLib.utilsWeb import doReturn
 
 # Error Constants
@@ -181,7 +181,7 @@ def _protoEdit(request, myAction):
             try:
                 rec.delete()
 
-            except Exception, e:
+            except Exception as e:
                 data['_ptStatus'] = data['_ptStatus'] + getReadableError(e)
                 pass
 

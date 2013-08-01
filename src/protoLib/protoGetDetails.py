@@ -27,7 +27,7 @@ def protoGetDetailsTree(request):
 
     try:
         model = getDjangoModel(viewEntity)
-    except Exception,  e:
+    except Exception as e:
         jsondict = {'success': False, 'message': getReadableError(e)}
         context = json.dumps(jsondict)
         return HttpResponse(context, mimetype="application/json")
