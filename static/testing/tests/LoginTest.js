@@ -18,17 +18,6 @@ describe("On page load, Login module", function() {
 
 describe("On submit, Login module", function() {
 
-    it("makes a call to submitLogin", function() {
-        var loginWindow = Ext.create('ProtoUL.ux.Login');
-        var loginForm = loginWindow.getForm();
-
-        spyOn(loginWindow, 'submitLogin');
-        spyOn(loginForm, 'submit');
-
-        loginWindow.submitLogin(null);
-        expect(loginWindow.submitLogin).toHaveBeenCalledWith(null);
-    });
-
     it("disables button by default", function() {
         var loginWindow = Ext.create('ProtoUL.ux.Login');
         var loginForm = loginWindow.getForm();
