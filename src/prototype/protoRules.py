@@ -68,6 +68,8 @@ def updatePropInfo( myBase, propBase, modelBase, inherit  ):
 
     
     # Crea los PropertyModel correspondientes  
+    # Si el propertyModel ( propBase ) viene nulo y 
+    # si es un objeto pertinente ( Property, Relationship ) Historico, para manejar las diferentes niveles de props.  
     if ( propBase is None ) and ( myBase._meta.object_name in ['Property', 'Relationship'] ):
         
         pName = myBase.entity.code + '.' + myBase.code
