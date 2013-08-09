@@ -42,7 +42,7 @@ DATABASES = {
 #    }, 
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql',  'oracle'.
-        'NAME': PPATH + '/db/protoMeta-Certae.db',
+        'NAME': PPATH + '/db/protoMeta.db',
     }
 }
 
