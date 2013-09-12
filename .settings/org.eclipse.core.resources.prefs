@@ -1,9 +1,7 @@
-#Fri Apr 12 18:22:46 EDT 2013
+#Wed Sep 11 20:00:07 EDT 2013
 eclipse.preferences.version=1
 encoding//docs/django/fieldSets.py.txt=utf-8
 encoding//docs/django/jsonDump.py.txt=utf-8
-encoding//src/best/models.py=utf-8
-encoding//src/best/settings.py=utf-8
 encoding//src/protoLib/actions/__init__.py=utf-8
 encoding//src/protoLib/actions/findReplace.py=utf-8
 encoding//src/protoLib/admin/__init__.py=utf-8

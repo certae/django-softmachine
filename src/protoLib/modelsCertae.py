@@ -152,9 +152,6 @@ class FieldMap(models.Model):
         unique_together = ("entity", "fieldName")
 
 
-# -------------------------------------------
-
-
 class ProtoDefinition(models.Model):
     # Esta tabla guarda las definiciones de las pcls y del menu,
     # es un contenedor generico para manejar documentos json modificados de lo q 
@@ -260,7 +257,8 @@ class DiscreteValue( models.Model ):
     def __unicode__(self):
         if self.title is None:  
             return self.code
-        else: return self.title.code + '.' + self.code 
+        else:
+            return self.title.code + '.' + self.code
 
     class Meta:
         unique_together = ('title', 'value',  )

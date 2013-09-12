@@ -1,0 +1,19 @@
+[
+{
+    "model": "auth.user",
+    "pk": 10000,
+    "fields": {
+        "id": 26,
+        "username": "adube",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "password": "pbkdf2_sha256$10000$SpR7WXsY2okJ$jcRtdhImOYq5mnzubcK8KKSNoQl+8qdKuaNDkUEsnxo=",
+        "is_staff": 1,
+        "is_active": 1,
+        "is_superuser": 0,
+        "last_login": "2013-06-19 11:31:01.094150",
+        "date_joined": "2013-06-14 15:43:55"
+    }
+}
+]

@@ -1,5 +1,10 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.views.generic.simple import direct_to_template
+
+# Necessaire avec Django 1.5
+# from django.conf.urls import patterns, include, url  
+# from django.views.generic import TemplateView  
+
 from settings import PPATH 
 
 # Uncomment the next two lines to enable the admin:
@@ -8,10 +13,14 @@ django.contrib.admin.autodiscover()
 
 
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^admin/', include(django.contrib.admin.site.urls)) ,
 
-    url(r'^protoExt$', direct_to_template, { 'template': 'protoExt.html' }),
+    #url(r'^protoExt$', direct_to_template, {'template': 'protoExt.html'}),
+	# Necessaire avec Django1.5
+    url(r'^protoExt$', TemplateView.as_view(template_name="protoExt.html")),  
+
     url(r'^protoLib/', include('protoLib.urls')),
 
 #    url(r'^prueba$', direct_to_template, { 'template': 'prueba.html' }),
@@ -23,5 +32,9 @@ urlpatterns = patterns('',
     
 #   Archivos generados     
     url(r'getFile/(?P<path>.*)$', 'protoLib.downloadFile.getFile', {}),
+
+    # Pour executer les tests avec Jasmine
+    url(r'^extjs-tests', TemplateView.as_view(template_name='extjs-tests.html'))
+
 )
 

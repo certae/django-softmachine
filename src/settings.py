@@ -135,7 +135,8 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.eggs.Loader',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
+TEMPLATE_CONTEXT_PROCESSORS = (
+                               "django.contrib.auth.context_processors.auth",
                                "django.core.context_processors.debug",
                                "django.core.context_processors.i18n",
                                "django.core.context_processors.media",
@@ -176,12 +177,18 @@ INSTALLED_APPS = (
     'south', 
     'protoLib', 
     'prototype', 
+    'alltests'
     # 'best', 
 #    'shiny', 
 #    'CategoryCle', 
 #    'TCO'
 #    'django_extensions',
 #    'django_qbe'
+)
+
+
+FIXTURE_DIRS = (
+    'src/fixtures/',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -192,9 +199,15 @@ INSTALLED_APPS = (
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+#    'filters': {
+#        'require_debug_false': {
+#            '()': 'django.utils.log.RequireDebugFalse'
+#        }
+#    },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
+#            'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         }
     },
