@@ -177,8 +177,7 @@ INSTALLED_APPS = (
     'south', 
     'protoLib', 
     'prototype', 
-    'alltests'
-    # 'best', 
+    'tests'
 #    'shiny', 
 #    'CategoryCle', 
 #    'TCO'
@@ -199,15 +198,15 @@ FIXTURE_DIRS = (
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-#    'filters': {
-#        'require_debug_false': {
-#            '()': 'django.utils.log.RequireDebugFalse'
-#        }
-#    },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
-#            'filters': ['require_debug_false'],
+            'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         }
     },

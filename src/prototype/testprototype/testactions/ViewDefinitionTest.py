@@ -14,10 +14,10 @@ from prototype.models import Property
 from prototype.models import Entity
 from prototype.actions.viewDefinition import *
 
-from testprototype.Utils import random_string_generator
-from testprototype.testmodels.TestUtilities import createTestEntity
-from testprototype.testmodels.TestUtilities import createTestProperty
-from testprototype.testmodels.TestUtilities import createTestRelationship
+from prototype.testprototype.Utils import random_string_generator
+from prototype.testprototype.testmodels.TestUtilities import createTestEntity
+from prototype.testprototype.testmodels.TestUtilities import createTestProperty
+from prototype.testprototype.testmodels.TestUtilities import createTestRelationship
 
 
 def ViewDefinitionTestSuite():
@@ -28,7 +28,7 @@ def ViewDefinitionTestSuite():
     suite.addTest(makeSuite(GetFkIdTest, 'test'))
     suite.addTest(makeSuite(GetProtoFieldsTreeTest, 'test'))
     suite.addTest(makeSuite(GetDetailsConfigTreeTest, 'test'))
-    suite.addTest(makeSuite(addProtoFieldToListTest, 'test'))
+#     suite.addTest(makeSuite(addProtoFieldToListTest, 'test'))
 
     return suite
 
@@ -175,40 +175,40 @@ class GetDetailsConfigTreeTest(TestCase):
         self.assertEqual(len(GetDetailsConfigTree(1)), 1)
 
 
-class addProtoFieldToListTest(TestCase):
-    def setUp(self):
-        self.testRelationShip = createTestRelationship()
-        self.testRelationShip.isForeign = True
-        self.testRelationShip.save()
-
-    def tearDown(self):
-        self.testRelationShip.delete()
-
-    @skip('Must redefine testRelationShip')
-    def test_addprotoFieldToList_non_empty_fieldbase(self):
-        fieldList = []
-        pEntity = Entity.objects.all()[0]
-
-        pprint(dir(pEntity.property_set))
-        #pprint(dir(pEntity))
-
-        self.assertTrue(len(pEntity.property_set.all()) > 0)
-
-        for pProperty in pEntity.property_set.all():
-            self.assertTrue(pProperty.isForeign)
-
-        addProtoFieldToList(fieldList, pEntity, 'anyString', '')
-        self.assertNotEqual(fieldList, [])
-
-    @skip('Currently debugging other test')
-    def test_addprotoFieldToList_empty_fieldbase(self):
-        fieldList = []
-        pEntity = Entity.objects.get(id=1)
-
-        self.assertTrue(len(pEntity.property_set.all()) > 0)
-
-        for pProperty in pEntity.property_set.all():
-            self.assertTrue(pProperty.isForeign)
-
-        addProtoFieldToList(fieldList, pEntity, '', '')
-        self.assertNotEqual(fieldList, [])
+# class addProtoFieldToListTest(TestCase):
+#     def setUp(self):
+#         self.testRelationShip = createTestRelationship()
+#         self.testRelationShip.isForeign = True
+#         self.testRelationShip.save()
+# 
+#     def tearDown(self):
+#         self.testRelationShip.delete()
+# 
+#     @skip('Must redefine testRelationShip')
+#     def test_addprotoFieldToList_non_empty_fieldbase(self):
+#         fieldList = []
+#         pEntity = Entity.objects.all()[0]
+# 
+#         pprint(dir(pEntity.property_set))
+#         #pprint(dir(pEntity))
+# 
+#         self.assertTrue(len(pEntity.property_set.all()) > 0)
+# 
+#         for pProperty in pEntity.property_set.all():
+#             self.assertTrue(pProperty.isForeign)
+# 
+#         addProtoFieldToList(fieldList, pEntity, 'anyString', '')
+#         self.assertNotEqual(fieldList, [])
+# 
+#     @skip('Currently debugging other test')
+#     def test_addprotoFieldToList_empty_fieldbase(self):
+#         fieldList = []
+#         pEntity = Entity.objects.get(id=1)
+# 
+#         self.assertTrue(len(pEntity.property_set.all()) > 0)
+# 
+#         for pProperty in pEntity.property_set.all():
+#             self.assertTrue(pProperty.isForeign)
+# 
+#         addProtoFieldToList(fieldList, pEntity, '', '')
+#         self.assertNotEqual(fieldList, [])
