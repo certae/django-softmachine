@@ -240,5 +240,3 @@ PROTO_APP = {}
 #    'protoDict' : { 'hidden': False, 'title': 'Dictionnaire', 'expanded':False , 'menu_index' : 30  }, 
 #    'protoLib': { 'hidden': False, 'title': 'Métadonnée', 'expanded':False, 'menu_index' : 99  },
 #    } 
-
-

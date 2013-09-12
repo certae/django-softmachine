@@ -129,12 +129,13 @@ class EntityMap(models.Model):
           
            
     """
-    class Meta:
-        unique_together = ("appName", "modelName" )
-
     appName = models.CharField(max_length=200, blank=False, null=False)
     modelName = models.CharField(max_length=200, blank=False, null=False)
     fieldLevelSecurity = models.BooleanField( default = True )
+
+#    class Meta:
+#        unique_together = ("appName", "modelName" )
+
 
 
 class FieldMap(models.Model):
