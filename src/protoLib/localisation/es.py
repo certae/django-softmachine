@@ -1,7 +1,7 @@
 ﻿# -*- coding' : utf-8 -*-
 
-__language ={
-    'languaje' : 'es', 
+__language = {
+    'languaje' : 'es',
     
     'Title_Main_Menu' : 'Menu Principal',
     'MenuTree_DD_Text' : 'Arrastre para reordenar',
@@ -157,7 +157,7 @@ __language ={
     'Tree_Concept_Details_Text' : 'texto',
     'Tree_Concept_Details_Detail' : 'ConceptoDetalle',
     'Tree_Details_Field' : 'campoDetalle',
-    'Tree_Concept_Details_MasterFld' : 'MasteFld',
+    'Tree_Concept_Details_MasterFld' : 'MasterFld',
 
 
     'Protofield_Fields' : 'campos',
@@ -213,6 +213,6 @@ __language ={
     'HelpQBE_Tooltip_Containing_Button' : 'contiene',
 
     'HelpQBE_GridNav_DisplayMsg' : 'registros {0} - {1} de {2}',
-    'HelpQBE_GridNav_EmptyMsg' : 'no hay registros', 
+    'HelpQBE_GridNav_EmptyMsg' : 'no hay registros',
     'HelpQBE_Window_Title' : 'Asistente QBE'
 }

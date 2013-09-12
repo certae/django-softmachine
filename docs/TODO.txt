@@ -23,6 +23,8 @@ To Do:
     Exportar Project ( utilizar UUID )
 
 	agregar typo de dat para createO, modifiedOn ( datetime automatico )
+	
+	Manejo de versiones a nivel de registro, log de cambios 
 
 	Project ( MCCD ) 
 		Ahor el concepto de proyecto es la db, 

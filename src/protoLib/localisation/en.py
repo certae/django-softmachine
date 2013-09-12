@@ -162,7 +162,7 @@ __language ={
     'Tree_Concept_Details_Text' : 'text',
     'Tree_Concept_Details_Detail' : 'conceptDetail',
     'Tree_Details_Field' : 'detailField',
-    'Tree_Concept_Details_MasterFld' : 'MasteFld',
+    'Tree_Concept_Details_MasterFld' : 'MasterFld',
 
     'Protofield_Fields' : 'fields',
     'Protofield_Text' : 'text',
