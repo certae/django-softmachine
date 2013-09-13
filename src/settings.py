@@ -18,7 +18,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-     ('Dario Gomez', 'certae_dariogomez@gmail.com'),
+     ('Dario Gomez', 'dariogomezt@hotmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -27,9 +27,9 @@ DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.postgresql_psycopg2',
 #        'NAME':   'protoExt',
-#        'USER':   'postgres',                      # Not used with sqlite3.
-#        'PASSWORD': '1',               # Not used with sqlite3.
-#        'HOST': '127.0.0.1',             # Set to empty string for localhost. Not used with sqlite3.
+#        'USER':   'postgres',                
+#        'PASSWORD': '1',                     
+#        'HOST': '127.0.0.1',                 # Set to empty string for localhost. Not used with sqlite3.
 #        'PORT': '9432',                      # Set to empty string for default. Not used with sqlite3.
 #    }, 
 #    'default': {
@@ -41,7 +41,7 @@ DATABASES = {
 #        'PORT': '3306',
 #    }, 
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql',  'oracle'.
+        'ENGINE': 'django.db.backends.sqlite3', 
         'NAME': PPATH + '/db/protoMeta.db',
     }
 }
@@ -187,7 +187,7 @@ INSTALLED_APPS = (
 
 
 FIXTURE_DIRS = (
-    'src/fixtures/',
+    'data/fixtures/',
 )
 
 # A sample logging configuration. The only tangible logging

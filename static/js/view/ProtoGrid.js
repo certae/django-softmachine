@@ -620,7 +620,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     
     gridLoadData: function( grid,  sFilter, sorter  ) {
         
-        grid.store.myLoadData( sFilter, sorter  )
+        grid.store.myLoadData( sFilter, sorter  ); 
         
         // Para evitar q al filtrar se quede en una pagina vacia 
         if ( grid.store.currentPage != 1 )  grid.store.loadPage(1);
@@ -628,7 +628,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     
     addTools: function( myTools ) {
         // Controles de edicion en el panel de titulo de la grilla 
-        this._extGrid.addTool( myTools )
+        // @Fix 4.2
+        this._extGrid.addTool( myTools );
     } 
 
 

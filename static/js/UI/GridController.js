@@ -1,5 +1,7 @@
+  
 
 Ext.define('ProtoUL.UI.GridController', {
+
     extend: 'Ext.Base',
 
     // Parametros de entrada 
@@ -179,15 +181,16 @@ Ext.define('ProtoUL.UI.GridController', {
             setToolMode ( myExtGrid, '#toolFormUpd', bEdit )
         }
         
-        setToolMode ( myExtGrid, '#toolFormView', !bEdit )
+        setToolMode ( myExtGrid, '#toolFormView', !bEdit );
 
         // setToolMode ( myExtGrid, '#toolMetaConfig',  !bEdit ) 
 
         function setToolMode( myExtGrid, myToolBt, bEdit ) {
-            if ( bEdit ) { myExtGrid.down( myToolBt ).show(); }
-            else  { myExtGrid.down( myToolBt ).hide(); }
+            // @Fix 4.2
+            // if ( bEdit ) { myExtGrid.down( myToolBt ).show(); }
+            // else  { myExtGrid.down( myToolBt ).hide(); }
             
-        }
+        };
 
     }, 
     
@@ -241,7 +244,7 @@ Ext.define('ProtoUL.UI.GridController', {
     } 
     
     
-})
+}) ;
 
 _SM.validaSelected = function ( myReg )  {
     if ( ! myReg ) {
@@ -249,4 +252,4 @@ _SM.validaSelected = function ( myReg )  {
         return false 
     }
     return true 
-}
+} ; 
