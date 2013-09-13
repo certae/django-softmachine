@@ -1,6 +1,6 @@
 from django.test import TestCase
 from prototype.models import Service
-from testprototype.testmodels.TestUtilities import createTestService
+from prototype.testprototype.testmodels.TestUtilities import createTestService
 
 
 class ServiceTest(TestCase):

@@ -1,6 +1,6 @@
 from django.test import TestCase
 from prototype.models import ServiceRef
-from testprototype.testmodels.TestUtilities import createTestServiceRef
+from prototype.testprototype.testmodels.TestUtilities import createTestServiceRef
 
 
 class ServiceRefTest(TestCase):

@@ -1,20 +1,20 @@
 from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
 
-from testprototype.testmodels.ProjectTest import ProjectTest
-from testprototype.testmodels.ModelTest import ModelTest
-from testprototype.testmodels.EntityTest import EntityTest
-from testprototype.testmodels.PropertyBaseTest import PropertyBaseChildTest
-from testprototype.testmodels.PropertyTest import PropertyTest
-from testprototype.testmodels.RelationshipTest import RelationshipTest
-from testprototype.testmodels.PropertyModelTest import PropertyModelTest
-from testprototype.testmodels.PropertyEquivalenceTest import PropertyEquivalenceTest
-from testprototype.testmodels.PrototypeTest import PrototypeTest
-from testprototype.testmodels.ProtoTableTest import ProtoTableTest
-from testprototype.testmodels.DiagramTest import DiagramTest
-from testprototype.testmodels.DiagramEntityTest import DiagramEntityTest
-from testprototype.testmodels.ServiceTest import ServiceTest
-from testprototype.testmodels.ServiceRefTest import ServiceRefTest
+from prototype.testprototype.testmodels.ProjectTest import ProjectTest
+from prototype.testprototype.testmodels.ModelTest import ModelTest
+from prototype.testprototype.testmodels.EntityTest import EntityTest
+from prototype.testprototype.testmodels.PropertyBaseTest import PropertyBaseChildTest
+from prototype.testprototype.testmodels.PropertyTest import PropertyTest
+from prototype.testprototype.testmodels.RelationshipTest import RelationshipTest
+from prototype.testprototype.testmodels.PropertyModelTest import PropertyModelTest
+from prototype.testprototype.testmodels.PropertyEquivalenceTest import PropertyEquivalenceTest
+from prototype.testprototype.testmodels.PrototypeTest import PrototypeTest
+from prototype.testprototype.testmodels.ProtoTableTest import ProtoTableTest
+from prototype.testprototype.testmodels.DiagramTest import DiagramTest
+from prototype.testprototype.testmodels.DiagramEntityTest import DiagramEntityTest
+from prototype.testprototype.testmodels.ServiceTest import ServiceTest
+from prototype.testprototype.testmodels.ServiceRefTest import ServiceRefTest
 
 
 def prototypeModelsTestSuite():
