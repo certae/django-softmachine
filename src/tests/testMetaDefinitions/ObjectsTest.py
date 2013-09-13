@@ -32,7 +32,7 @@ def StructureTestSuite():
 
 
 #DataTree = json.loads(open(PPATH + '/src/testMetaDefinitions/MetaObjects.dat').read())
-DataTree = json.loads(open('src/testMetaDefinitions/MetaObjects.dat').read())
+DataTree = json.loads(open('src/tests/testMetaDefinitions/MetaObjects.dat').read())
 
 
 def getFields(modelclass):

@@ -16,7 +16,7 @@ from testMetaDefinitions.PropertiesTest import PropertiesTestSuite
 
 from testSampleProject.ViewCreationTest import ViewCreationTestSuite
 
-from prototype.testprototype.ProtoRulesTest import ProtoRulesTestSuite
+#from prototype.testprototype.ProtoRulesTest import ProtoRulesTestSuite
 from protoLib.testprotoLib.ProtoActionListTest import ProtoActionListTestSuite
 from protoLib.testprotoLib.ProtoActionRepTest import ProtoActionRepTestSuite
 from protoLib.testprotoLib.ProtoActionsTest import ProtoActionsTestSuite
@@ -41,7 +41,7 @@ def suite():
     alltests.addTest(StructureTestSuite())
     alltests.addTest(PropertiesTestSuite())
 
-    alltests.addTest(ProtoRulesTestSuite())
+    #alltests.addTest(ProtoRulesTestSuite())
 
     alltests.addTest(ViewCreationTestSuite())
 

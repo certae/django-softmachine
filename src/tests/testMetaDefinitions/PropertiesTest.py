@@ -35,9 +35,8 @@ def PropertiesTestSuite():
 PossibleTypes = ['list', 'string']
 #MetaObjects = json.loads(open(PPATH + '/src/testMetaDefinitions/MetaObjects.dat').read())
 #MetaProperties = json.loads(open(PPATH + '/src/testMetaDefinitions/MetaProperties.dat').read())
-MetaObjects = json.loads(open('src/testMetaDefinitions/MetaObjects.dat').read())
-MetaProperties = json.loads(open('src/testMetaDefinitions/MetaProperties.dat').read())
-
+MetaObjects = json.loads(open('src/tests/testMetaDefinitions/MetaObjects.dat').read())
+MetaProperties = json.loads(open('src/tests/testMetaDefinitions/MetaProperties.dat').read())
 
 DataTypes = dict()
 for fields in MetaProperties:

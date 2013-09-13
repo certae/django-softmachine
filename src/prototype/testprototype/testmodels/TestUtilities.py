@@ -97,12 +97,12 @@ def createTestProperty():
     testEntity = createTestEntity()
     testEntity.save()
 
-    testPropertyModel = createTestPropertyModel()
-    testPropertyModel.save()
+    #testPropertyModel = createTestPropertyModel()
+    #testPropertyModel.save()
 
     propertydata = {
         'entity': testEntity,
-        'propertyModel': testPropertyModel,
+        #'propertyModel': testPropertyModel,
         'isPrimary': True,
         'isLookUpResult': True,
         'isNullable': True,
