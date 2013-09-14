@@ -152,9 +152,6 @@ Ext.define('ProtoUL.UI.GridController', {
         
             this.myGrid.addTools( editTools )
             this.setEditMode( false )
-        
-        
-        
     }, 
     
     setEditMode: function ( bEdit) {

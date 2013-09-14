@@ -9,6 +9,6 @@
 <value>src.settings</value>
 </pydev_variables_property>
 <pydev_pathproperty name="org.python.pydev.PROJECT_SOURCE_PATH">
-<path>/ProtoExt/src</path>
+<path>/protoExt/src</path>
 </pydev_pathproperty>
 </pydev_project>

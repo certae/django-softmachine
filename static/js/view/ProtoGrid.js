@@ -209,7 +209,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                                     _SM.errorMessage( 'LinkedForm definition error : ' +  clickedDataIndex, 
                                                   'zoomModel : ' + myZField.zoomModel + '<br>' +
                                                   'fkId : ' + myZField.fkId  
-                                                   )
+                                               );
                                 }; 
                                 
                             }
@@ -247,10 +247,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 store : this.store  
             }); 
         }
-        this.gridController.addGridTools()
 
+        this.gridController.addGridTools();
         this.sheetCrl = Ext.create('ProtoUL.UI.GridSheetController', { myGrid : this }); 
-        
 
 // ---
 
@@ -272,7 +271,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         this.callParent(arguments);
         this.gridController.addNavigationPanel(); 
-
 
         grid.on({
             // select: {fn: function ( rowModel , record,  rowIndex,  eOpts ) {
@@ -629,7 +627,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     addTools: function( myTools ) {
         // Controles de edicion en el panel de titulo de la grilla 
         // @Fix 4.2
-        this._extGrid.addTool( myTools );
+        var xx = myTools;
+        //        this._extGrid.addTool( myTools );
     } 
 
 
