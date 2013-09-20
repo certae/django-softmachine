@@ -1,60 +1,62 @@
 # This is an auto-generated model module by CeRTAE OMS PlugIn
 # for project : "Modelibra.py" >
 
-
-from models import Project,  Model, Entity, Property,  Relationship #, Prototype
+from models import Project,  Model, Entity, Property,  Relationship
 from models import PropertyProject, PropertyEquivalence
 from models import ProtoTable
-from models import Diagram #, DiagramEntity
-from models import Service #, ServiceRef
+from models import Diagram
+from models import Service
 
 from django.contrib import admin
 
 
-# -----------------------------------------   Model  
+# -----------------------------------------   Model
 from actions import doModelPrototype, doModelGraph, doAutoForeingEntity
 
-class MyModelAdmin( admin.ModelAdmin ):
-    actions = [ doModelPrototype, doModelGraph, doAutoForeingEntity  ]
+
+class MyModelAdmin(admin.ModelAdmin):
+    actions = [doModelPrototype, doModelGraph, doAutoForeingEntity]
 
 admin.site.register(Model, MyModelAdmin)
 
 # ------------------------------------------  Entity
 
-from actions import  doEntityPrototype, doEntityChangeModel
+from actions import doEntityPrototype, doEntityChangeModel
 from protoLib.actions import doFindReplace
 
 
-class MyEntityAdmin( admin.ModelAdmin ):
-    actions = [ doEntityPrototype, doEntityChangeModel , doFindReplace  ]
+class MyEntityAdmin(admin.ModelAdmin):
+    actions = [doEntityPrototype, doEntityChangeModel, doFindReplace]
 
-admin.site.register(Entity, MyEntityAdmin )
+admin.site.register(Entity, MyEntityAdmin)
 
 # ------------------------------------------  PropertyProject
 
 from actions import doPropertyProjectJoin, doPropertyProjectPurge
 
-class MyPropertyProjectAdmin( admin.ModelAdmin ):
-    actions = [ doPropertyProjectJoin , doPropertyProjectPurge ]
 
-admin.site.register(PropertyProject, MyPropertyProjectAdmin )
+class MyPropertyProjectAdmin(admin.ModelAdmin):
+    actions = [doPropertyProjectJoin, doPropertyProjectPurge]
 
-# ------------------------------------------  Project 
-from actions import doImportSchema 
+admin.site.register(PropertyProject, MyPropertyProjectAdmin)
 
-class MyProjectAdmin( admin.ModelAdmin ):
-    actions = [ doImportSchema  ]
+# ------------------------------------------  Project
+from actions import doImportSchema
 
-admin.site.register(Project, MyProjectAdmin )
+
+class MyProjectAdmin(admin.ModelAdmin):
+    actions = [doImportSchema]
+
+admin.site.register(Project, MyProjectAdmin)
 
 # ------------------------------------------
 
 
-admin.site.register(Property )
+admin.site.register(Property)
 #admin.site.register(PropertyEquivalence )
 
-admin.site.register(Relationship )
-admin.site.register( ProtoTable )
+admin.site.register(Relationship)
+admin.site.register(ProtoTable)
 #admin.site.register( Prototype )
 
 #admin.site.register( Diagram )

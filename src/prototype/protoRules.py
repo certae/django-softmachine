@@ -4,147 +4,142 @@ import traceback
 #from protoLib.utilsBase import  getReadableError
 
 
-ONDELETE_TYPES = (  
-        ('CASCADE', 'Cascade deletes; the default' ), 
-        ('PROTECT', 'Prevent deletion of the referenced object by raising ProtectedError, a subclass of django.db.IntegrityError'),
-        ('SET_NULL', 'Set the ForeignKey null; this is only possible if null is True'), 
-        ('SET_DEFAULT', 'Set the ForeignKey to its default value; a default for the ForeignKey must be set.  @function si possible'), 
-        ('DO_NOTHING', 'Use default Db constraint')
-    ) 
+ONDELETE_TYPES = (
+    ('CASCADE', 'Cascade deletes; the default'),
+    ('PROTECT', 'Prevent deletion of the referenced object by raising ProtectedError, a subclass of django.db.IntegrityError'),
+    ('SET_NULL', 'Set the ForeignKey null; this is only possible if null is True'),
+    ('SET_DEFAULT', 'Set the ForeignKey to its default value; a default for the ForeignKey must be set.  @function si possible'),
+    ('DO_NOTHING', 'Use default Db constraint')
+    )
 
-BASE_TYPES = ( ( 'string', 'string' ),
-               ( 'text', 'text' ),  
-               ( 'bool', 'bool' ), 
-               ( 'int', 'int' ),
-               ( 'secuence', 'secuence' ),
-               ( 'decimal', 'decimal' ), 
-               ( 'money', 'money' ), 
-               ( 'combo', 'combo' ),  
-               ( 'date',  'date' ),
-               ( 'datetime', 'datetime' ), 
-               ( 'time', 'time' )
-              ) 
+BASE_TYPES = (('string', 'string'),
+              ('text', 'text'),
+              ('bool', 'bool'),
+              ('int', 'int'),
+              ('secuence', 'secuence'),
+              ('decimal', 'decimal'),
+              ('money', 'money'),
+              ('combo', 'combo'),
+              ('date',  'date'),
+              ('datetime', 'datetime'),
+              ('time', 'time')
+              )
 
-CRUD_TYPES = (  
-                ('storeOnly', 'No se presentan nunca (los id, jsonTypes, etc )' ),  
-                ('readOnly',  'No se guarda nunca (usado por reglas de gestion)' ), 
-                ('insertOnly','No se actualiza (un campo absorbido al momento de la creacion, ej:direccion de envio'),
-                ('updateOnly','Al insertar nulo o VrDefault, (estado inicial fijo)'),  
-              ) 
+CRUD_TYPES = (('storeOnly', 'No se presentan nunca (los id, jsonTypes, etc )'),
+              ('readOnly',  'No se guarda nunca (usado por reglas de gestion)'),
+              ('insertOnly', 'No se actualiza (un campo absorbido al momento de la creacion, ej:direccion de envio'),
+              ('updateOnly', 'Al insertar nulo o VrDefault, (estado inicial fijo)'),
+              )
 
-DB_ENGINE = (  
-                ('sqlite3', 'sqlLite3' ),  
-                ('postgres',  'Postgress' ), 
-                ('mysql','mySQL'),
-              ) 
-
-# -----------------------------------------------------------------
+DB_ENGINE = (('sqlite3', 'sqlLite3'),
+             ('postgres',  'Postgress'),
+             ('mysql', 'mySQL'),
+             )
 
 
-def updatePropInfo( myBase, propBase, modelBase, inherit  ):
+def updatePropInfo(myBase, propBase, modelBase, inherit):
     """
-    self     :  propiedad q genera el cambio 
-    propBase :  campo de referencia a la entidad de base ( property normalmente ) 
+    self     :  propiedad q genera el cambio
+    propBase :  campo de referencia a la entidad de base ( property normalmente )
     inherit  :  heredar ( si es descendente Dom, Model, ...  )
     """
 
-
     defValues = {
-        'baseType' : myBase.baseType, 
-        'prpLength' : myBase.prpLength,
-        'prpScale' : myBase.prpScale,
+        'baseType': myBase.baseType,
+        'prpLength': myBase.prpLength,
+        'prpScale': myBase.prpScale,
 
-        'vType' : myBase.vType,
-        'prpDefault' : myBase.prpDefault,
-        'prpChoices' : myBase.prpChoices,
-        'isSensitive' : myBase.isSensitive, 
-        
-        'description' : myBase.description, 
-        
-        'smOwningUser' : myBase.smOwningUser,
-        'smCreatedBy' : myBase.smCreatedBy
+        'vType': myBase.vType,
+        'prpDefault': myBase.prpDefault,
+        'prpChoices': myBase.prpChoices,
+        'isSensitive': myBase.isSensitive,
+
+        'description': myBase.description,
+
+        'smOwningUser': myBase.smOwningUser,
+        'smCreatedBy': myBase.smCreatedBy
     }
 
-    
-    # Crea los PropertyProject correspondientes  
-    if ( propBase is None ) and ( myBase._meta.object_name in ['Property', 'Relationship'] ):
-        
+    # Crea los PropertyProject correspondientes
+    if (propBase is None) and (myBase._meta.object_name in ['Property', 'Relationship']):
+
         pName = myBase.entity.code + '_' + myBase.code
-        if myBase.isForeign: 
+        if myBase.isForeign:
             defValues['conceptType'] = 'ref'
             if myBase._meta.object_name == 'Property':
                 pName = myBase.relationship.refEntity.code + '_pk'
-            if myBase._meta.object_name == 'Relationship':  
+            if myBase._meta.object_name == 'Relationship':
                 pName = myBase.refEntity.code + '_pk'
 
         pMod = modelBase.objects.get_or_create(
-                project = myBase.entity.model.project,
-                code = pName,
-                smOwningTeam=myBase.smOwningTeam,
-                defaults=defValues)[0]
-        myBase.propertyProject = pMod 
+            project=myBase.entity.model.project,
+            code=pName,
+            smOwningTeam=myBase.smOwningTeam,
+            defaults=defValues)[0]
+        myBase.propertyProject = pMod
 
-    # Se asegura q sea heredable  y actualiza los Property asociados    
-    if inherit == True :
+    # Se asegura q sea heredable  y actualiza los Property asociados
+    #if inherit == True:
+    if inherit is True:
         del defValues['smOwningUser']
-        del defValues['smCreatedBy'] 
+        del defValues['smCreatedBy']
         defValues['smModifiedBy'] = myBase.smModifiedBy
-                            
-        #if myBase._meta.object_name == 'PropertyProject' : 
-        myBase.property_set.update( **defValues )
+
+        #if myBase._meta.object_name == 'PropertyProject' :
+        myBase.property_set.update(**defValues)
 
 
-def twoWayPropEquivalence( propEquiv, modelBase, deleted ):
+def twoWayPropEquivalence(propEquiv, modelBase, deleted):
     """La actualizacion doble sobre la misma tabla plante un acertijo intersante
-    cada vez q se crea o actualiza un registro, genera los eventos q inicial 
-    la creacion o actualizacion de su gemelo,  no importa en q evento ( senal ) 
-    se conecte, siempre habra un loop infinito 
-    
-    Django maneja metodo update q no genera eventos de actualizacion  
-    """
-    
-    updKeys = {
-        'sourceProperty' : propEquiv.targetProperty, 
-        'targetProperty' : propEquiv.sourceProperty, 
-        'smOwningTeam' : propEquiv.smOwningTeam
-        }
-    
-    if deleted : 
-        modelBase.objects.filter( **updKeys ).delete() 
-        return 
-    
-    updDefaults = { 
-        'description'    : propEquiv.description,
-        'smOwningUser' : propEquiv.smOwningUser,
-        'smCreatedBy'  : propEquiv.smCreatedBy,
+    cada vez q se crea o actualiza un registro, genera los eventos q inicial
+    la creacion o actualizacion de su gemelo,  no importa en q evento ( senal )
+    se conecte, siempre habra un loop infinito
 
-        'smModifiedBy' : propEquiv.smModifiedBy ,
-        'smRegStatus'  : propEquiv.smRegStatus ,
-        'smWflowStatus' : propEquiv.smWflowStatus ,
-        
-        'smCreatedOn' : propEquiv.smCreatedOn ,
-        'smModifiedOn' : propEquiv.smModifiedOn 
+    Django maneja metodo update q no genera eventos de actualizacion
+    """
+
+    updKeys = {
+        'sourceProperty': propEquiv.targetProperty,
+        'targetProperty': propEquiv.sourceProperty,
+        'smOwningTeam': propEquiv.smOwningTeam
+        }
+
+    if deleted:
+        modelBase.objects.filter(**updKeys).delete()
+        return
+
+    updDefaults = {
+        'description': propEquiv.description,
+        'smOwningUser': propEquiv.smOwningUser,
+        'smCreatedBy': propEquiv.smCreatedBy,
+
+        'smModifiedBy': propEquiv.smModifiedBy,
+        'smRegStatus': propEquiv.smRegStatus,
+        'smWflowStatus': propEquiv.smWflowStatus,
+
+        'smCreatedOn': propEquiv.smCreatedOn,
+        'smModifiedOn': propEquiv.smModifiedOn
     }
 
     try:
         # lo busca
-        obj = modelBase.objects.get( **updKeys)
-        
-        # lo actualiza 
-        modelBase.objects.filter( pk = obj.pk ).update( **updDefaults ) 
-        
+        obj = modelBase.objects.get(**updKeys)
+
+        # lo actualiza
+        modelBase.objects.filter(pk=obj.pk).update(**updDefaults)
+
     except modelBase.DoesNotExist:
-        # lo crea 
-        updKeys.update( updDefaults )
-        obj = modelBase( **updKeys )
+        # lo crea
+        updKeys.update(updDefaults)
+        obj = modelBase(**updKeys)
         obj.save()
 
     except Exception as e:
         traceback.print_exc()
-        raise e 
+        raise e
 
 
-def updPropertyProject( Property ):
-    # recorre todas las props y las toca para q refresquen el PropertyProject 
-    for pProp in Property.objects.filter( propertyProject = None  ): 
+def updPropertyProject(Property):
+    # recorre todas las props y las toca para q refresquen el PropertyProject
+    for pProp in Property.objects.filter(propertyProject=None):
         pProp.save()

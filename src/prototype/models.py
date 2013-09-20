@@ -587,118 +587,111 @@ class Diagram(ProtoModel):
     """
     TODO: Diagrama o subModelo
     """
-    project = models.ForeignKey('Project', blank = False, null = False )
-    code = models.CharField(blank = False, null = False, max_length=200 )
+    project = models.ForeignKey('Project', blank=False, null=False)
+    code = models.CharField(blank=False, null=False, max_length=200)
 
-    description = models.TextField( blank = True, null = True)
-    notes  = models.TextField( blank = True, null = True)
+    description = models.TextField(blank=True, null=True)
+    notes = models.TextField(blank=True, null=True)
 
     """Information graphique  ( labels, etc... ) """
-    info = JSONField( default = {} )
-    objects = JSONAwareManager(json_fields = ['info'])
+    info = JSONField(default={})
+    objects = JSONAwareManager(json_fields=['info'])
 
     # Propieadad para ordenar el __str__
-    unicode_sort = ('project', 'code',  )
+    unicode_sort = ('project', 'code',)
 
     def __unicode__(self):
-        return slugify(  self.code )
+        return slugify(self.code)
 
     class Meta:
-        unique_together = ('project', 'code', 'smOwningTeam' )
+        unique_together = ('project', 'code', 'smOwningTeam')
 
-    protoExt = {
-        "menuApp" : "roadMap",
-        }
+    protoExt = {"menuApp": "roadMap", }
 
 
 class DiagramEntity(ProtoModel):
     """
     TODO: Entidades del diagrama  ( Relationship )
     """
-    diagram = models.ForeignKey('Diagram', blank = False, null = False )
-    entity = models.ForeignKey( Entity, blank = False, null = False )
+    diagram = models.ForeignKey('Diagram', blank=False, null=False)
+    entity = models.ForeignKey(Entity, blank=False, null=False)
 
     """Information graphique ( position, color, ... )  """
-    info = JSONField( default = {} )
-    objects = JSONAwareManager(json_fields = ['info'])
+    info = JSONField(default={})
+    objects = JSONAwareManager(json_fields=['info'])
 
     # Propieadad para ordenar el __str__
-    unicode_sort = ( 'entity',  )
+    unicode_sort = ('entity', )
 
     def __unicode__(self):
-        return slugify( self.entity.code )
+        return slugify(self.entity.code)
 
     class Meta:
-        unique_together = ('diagram', 'entity', 'smOwningTeam' )
+        unique_together = ('diagram', 'entity', 'smOwningTeam')
 
     protoExt = {
-        "menuApp" : "roadMap",
+        "menuApp": "roadMap",
         }
-
-
-#   --------------------------------------------------------------------------------
 
 
 class Service(ProtoModel):
     """
     TODO: Servicios entre modelos ( entidades virtuales )
     """
-    project = models.ForeignKey('Project', blank = False, null = False )
-    code = models.CharField(blank = False, null = False, max_length=200 )
+    project = models.ForeignKey('Project', blank=False, null=False)
+    code = models.CharField(blank=False, null=False, max_length=200)
 
     """Binding : SOAP, RPC, REST, DCOM, CORBA, DDS, RMI, WCF """
-    Binding =  models.CharField(  blank = True, null = True, max_length = 20 )
-    typeMessage = models.CharField(  blank = True, null = True, max_length = 20 )
+    Binding = models.CharField(blank=True, null=True, max_length=20)
+    typeMessage = models.CharField(blank=True, null=True, max_length=20)
 
-    description = models.TextField( blank = True, null = True)
-    notes  = models.TextField( blank = True, null = True)
+    description = models.TextField(blank=True, null=True)
+    notes = models.TextField(blank=True, null=True)
 
     """REST subtypes ( POST, GET ),  notation ( XML, JSON ), etc  ... """
-    infoMesage = JSONField( default = {} )
+    infoMesage = JSONField(default={})
 
     """Message information """
-    infoRequest = JSONField( default = {} )
-    infoReponse = JSONField( default = {} )
-    objects = JSONAwareManager(json_fields = ['infoMesage', 'infoRequest', 'infoReponse' ])
+    infoRequest = JSONField(default={})
+    infoReponse = JSONField(default={})
+    objects = JSONAwareManager(json_fields=['infoMesage', 'infoRequest', 'infoReponse'])
 
     # Propieadad para ordenar el __str__
-    unicode_sort = ('model', 'code',  )
+    unicode_sort = ('model', 'code', )
 
     def __unicode__(self):
-        return slugify(   self.code )
+        return slugify(self.code)
 
     class Meta:
-        unique_together = ('project', 'code', 'smOwningTeam' )
+        unique_together = ('project', 'code', 'smOwningTeam')
 
     protoExt = {
-        "menuApp" : "roadMap",
+        "menuApp": "roadMap",
         }
+
 
 class ServiceRef(ProtoModel):
     """
     TODO: Cliente Servicios entre proyectos ( entidades virtuales )
     """
-    project = models.ForeignKey('Project', blank = False, null = False )
+    project = models.ForeignKey('Project', blank=False, null=False)
 
     """EndPoint code"""
-    code = models.CharField(blank = False, null = False, max_length=200 )
+    code = models.CharField(blank=False, null=False, max_length=200)
 
     # Servicio al q se hace referencia
-    service = models.ForeignKey('Service', blank = False, null = False )
+    service = models.ForeignKey('Service', blank=False, null=False)
 
-    description = models.TextField( blank = True, null = True)
-    notes  = models.TextField( blank = True, null = True)
+    description = models.TextField(blank=True, null=True)
+    notes = models.TextField(blank=True, null=True)
 
     # Propieadad para ordenar el __str__
-    unicode_sort = ('project', 'service',  )
+    unicode_sort = ('project', 'service', )
 
     def __unicode__(self):
-        return slugify(  self.code )
+        return slugify(self.code)
 
     class Meta:
-        unique_together = ('project', 'code', 'smOwningTeam' )
+        unique_together = ('project', 'code', 'smOwningTeam')
 
-
-    protoExt = {
-        "menuApp" : "roadMap",
-        }
+    protoExt = {"menuApp": "roadMap", }
