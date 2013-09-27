@@ -3,61 +3,59 @@
 import django.utils.simplejson as json
 
 from django.http import HttpResponse
-from django.contrib.auth import login, authenticate 
+from django.contrib.auth import login, authenticate
 
 from protoAuth import getUserProfile
-from utilsWeb import JsonError, JsonSuccess 
+from utilsWeb import JsonError, JsonSuccess
+
 
 def protoGetUserRights(request):
-    """ return usr rihts 
+    """ return usr rihts
     """
-    
+
     if request.method != 'POST':
-        return JsonError( 'invalid message' ) 
+        return JsonError('invalid message')
 
     userName = request.POST['login']
-    userPwd  = request.POST['password']
+    userPwd = request.POST['password']
 
     errMsg = ''
     success = False
-    language = None   
+    language = None
 
     try:
-        pUser = authenticate(username = userName, password = userPwd )
+        pUser = authenticate(username=userName, password=userPwd)
     except:
         pUser = None
-        
 
-    userInfo = { 'userName' : userName } 
-                 
+    userInfo = {'userName': userName}
+
     if pUser is not None:
         if pUser.is_active:
             login(request, pUser)
             success = True
-            userInfo[ 'isStaff' ] = pUser.is_staff  
-            userInfo[ 'isSuperUser' ] = pUser.is_superuser  
-            userInfo[ 'fullName' ] = pUser.get_full_name()  
+            userInfo['isStaff'] = pUser.is_staff
+            userInfo['isSuperUser'] = pUser.is_superuser
+            userInfo['fullName'] = pUser.get_full_name()
 
-            # Si es login retorna la lengua del usuario  
-            language = getUserProfile( pUser, 'login', userName ) 
-            
+            # Si es login retorna la lengua del usuario
+            language = getUserProfile(pUser, 'login', userName)
+
         else:
             # Return a 'disabled account' error message
-            errMsg =  "Cet utilisateur est desactiv&eacute;"   
+            errMsg = "Cet utilisateur est desactiv&eacute;"
 
     else:
         # Return an 'invalid login' error message.
-        errMsg =  "Mauvais utilisateur ou mot de passe"  
-    
-    
+        errMsg = "Mauvais utilisateur ou mot de passe"
+
     jsondict = {
         'success': success,
         'message': errMsg,
-        'userInfo' : userInfo,
-        'language' : language  
+        'userInfo': userInfo,
+        'language': language
     }
-    
-    # Codifica el mssage json 
-    context = json.dumps( jsondict)
-    return HttpResponse(context, mimetype="application/json")
 
+    # Codifica el mssage json
+    context = json.dumps(jsondict)
+    return HttpResponse(context, mimetype="application/json")

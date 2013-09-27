@@ -1,45 +1,39 @@
 # -*- coding: utf-8 -*-
 
 
-from prototype.models import Model  
+from prototype.models import Model
 from protoLib.protoAuth import getUserProfile
 
 
-def doEttyChangeModel( request,  queryset , parameters ):
+def doEttyChangeModel(request, queryset, parameters):
     """
-    Permite cambiar una entidad de modelo,  inicialmente se hace al momento de hacer instrospeccion 
-    de una Db, luego cada modelo se relocaliza para poder analizarlo 
-    """ 
+    Permite cambiar una entidad de modelo,  inicialmente se hace al momento de hacer instrospeccion
+    de una Db, luego cada modelo se relocaliza para poder analizarlo
+    """
 
     newModelName = parameters[0]['value']
     dProject = None
-        
-    # Obtiene el proyecto y se asegura q sean todas de un mismo proyecto 
+
+    # Obtiene el proyecto y se asegura q sean todas de un mismo proyecto
     for dEntity in queryset:
-        if  dProject is None :   dProject = dEntity.model.project 
-        if dProject.pk  <>  dEntity.model.project.pk: 
-            return  {'success':False, 'message' : 'Must be in the same project' }
+        if dProject is None:
+            dProject = dEntity.model.project
+        if dProject.pk != dEntity.model.project.pk:
+            return {'success': False, 'message': 'Must be in the same project'}
 
-
-    userProfile = getUserProfile( request.user, 'prototype', '' ) 
+    userProfile = getUserProfile(request.user, 'prototype', '')
     defValues = {
-        'smOwningTeam' : userProfile.userTeam,
-        'smOwningUser' : userProfile.user,
-        'smCreatedBy' :  userProfile.user
+        'smOwningTeam': userProfile.userTeam,
+        'smOwningUser': userProfile.user,
+        'smCreatedBy': userProfile.user
     }
 
-    # crea u obtiene el  modelo 
-    dModel = Model.objects.get_or_create( project = dProject, 
-            code =  newModelName, 
-            smOwningTeam = userProfile.userTeam, 
-            defaults = defValues 
-        )[0]
+    # crea u obtiene el  modelo
+    dModel = Model.objects.get_or_create(
+        project=dProject, code=newModelName, smOwningTeam=userProfile.userTeam, defaults=defValues)[0]
 
-
-    # 
     for dEntity in queryset:
         dEntity.model = dModel
         dEntity.save()
 
-    return  {'success':True , 'message' :  'Ok' }
-
+    return {'success': True, 'message': 'Ok'}

@@ -35,19 +35,22 @@ R. White, 2006 November 6
 """
 
 import xml.etree.cElementTree as ET
-import simplejson, optparse, sys, os
+import simplejson
+import optparse
+import sys
+import os
 
-def elem_to_internal(elem,strip=1):
 
+def elem_to_internal(elem, strip=1):
     """Convert an Element into an internal dictionary (not JSON!)."""
 
     d = {}
     for key, value in elem.attrib.items():
-        d['@'+key] = value
+        d['@' + key] = value
 
     # loop over subelements to merge them
     for subelem in elem:
-        v = elem_to_internal(subelem,strip=strip)
+        v = elem_to_internal(subelem, strip=strip)
         tag = subelem.tag
         value = v[tag]
         try:
@@ -63,15 +66,18 @@ def elem_to_internal(elem,strip=1):
     tail = elem.tail
     if strip:
         # ignore leading and trailing whitespace
-        if text: text = text.strip()
-        if tail: tail = tail.strip()
+        if text:
+            text = text.strip()
+        if tail:
+            tail = tail.strip()
 
     if tail:
         d['#tail'] = tail
 
     if d:
         # use #text element if other attributes exist
-        if text: d["#text"] = text
+        if text:
+            d["#text"] = text
     else:
         # text is the value if no attributes
         d = text or None
@@ -79,7 +85,6 @@ def elem_to_internal(elem,strip=1):
 
 
 def internal_to_elem(pfsh, factory=ET.Element):
-
     """Convert an internal dictionary (not JSON!) into an Element.
 
     Whatever Element implementation we could import will be
@@ -106,9 +111,9 @@ def internal_to_elem(pfsh, factory=ET.Element):
                 tail = v
             elif isinstance(v, list):
                 for v2 in v:
-                    sublist.append(internal_to_elem({k:v2}, factory=factory))
+                    sublist.append(internal_to_elem({k: v2}, factory=factory))
             else:
-                sublist.append(internal_to_elem({k:v}, factory=factory))
+                sublist.append(internal_to_elem({k: v}, factory=factory))
     else:
         text = value
     e = factory(tag, attribs)
@@ -120,7 +125,6 @@ def internal_to_elem(pfsh, factory=ET.Element):
 
 
 def elem2json(elem, strip=1):
-
     """Convert an ElementTree or Element into a JSON string."""
 
     if hasattr(elem, 'getroot'):
@@ -129,7 +133,6 @@ def elem2json(elem, strip=1):
 
 
 def json2elem(json, factory=ET.Element):
-
     """Convert a JSON string into an Element.
 
     Whatever Element implementation we could import will be used by
@@ -141,7 +144,6 @@ def json2elem(json, factory=ET.Element):
 
 
 def xml2json(xmlstring, strip=1):
-
     """Convert an XML string into a JSON string."""
 
     elem = ET.fromstring(xmlstring)
@@ -149,7 +151,6 @@ def xml2json(xmlstring, strip=1):
 
 
 def json2xml(json, factory=ET.Element):
-
     """Convert a JSON string into an XML string.
 
     Whatever Element implementation we could import will be used by

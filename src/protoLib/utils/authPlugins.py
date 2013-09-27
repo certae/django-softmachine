@@ -1,4 +1,5 @@
 class PluginMount(type):
+
     def __init__(cls, name, bases, attrs):
         if not hasattr(cls, 'plugins'):
             # This branch only executes when processing the mount point itself.
@@ -12,18 +13,21 @@ class PluginMount(type):
             # track of it later.
             cls.plugins.append(cls)
 
+
 class PasswordValidator(object):
+
     """
     Plugins extending this class will be used to validate passwords.
     Valid plugins must provide the following method.
-    
+
     validate(self, password)
-    
+
     Receives a password to test, and either finishes silently or raises a
     ValueError if the password was invalid. The exception may be displayed
     to the user, so make sure it adequately describes what's wrong.
     """
     __metaclass__ = PluginMount
+
 
 def is_valid_password(password):
     """
@@ -35,6 +39,7 @@ def is_valid_password(password):
         except ValueError:
             return False
     return True
+
 
 def get_password_errors(password):
     """
@@ -49,19 +54,25 @@ def get_password_errors(password):
             errors.append(str(e))
     return errors
 
+
 class MinimumLength(PasswordValidator):
+
     def validate(self, password):
         "Raises ValueError if the password is too short."
         if len(password) < 6:
             raise ValueError('Passwords must be at least 6 characters.')
 
+
 class SpecialCharacters(PasswordValidator):
+
     def validate(self, password):
         "Raises ValueError if the password doesn't contain any special characters."
         if password.isalnum():
-            raise ValueError('Passwords must contain at least one special character.')
+            raise ValueError(
+                'Passwords must contain at least one special character.')
 
 if __name__ == '__main__':
-    assert get_password_errors('pass') == ['Passwords must be at least 6 characters.',
-                                           'Passwords must contain at least one special character.']
+    assert get_password_errors(
+        'pass') == ['Passwords must be at least 6 characters.',
+                    'Passwords must contain at least one special character.']
     assert is_valid_password('p@ssword')

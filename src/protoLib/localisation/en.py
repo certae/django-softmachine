@@ -46,7 +46,7 @@ __language = {
 
     'GridNav_Refresh': 'Refresh',
     'Text_Toolbar_Remove_Filters': 'Remove filters',
-    'Text_UserInfo_Fullname' :'readOnly User',
+    'Text_UserInfo_Fullname': 'readOnly User',
     'Text_ComboFilterOp_Equal': 'equal',
     'Text_ComboFilterOp_Containing': 'containing',
     'Text_ComboFilterOp_Finishing': 'ending with',

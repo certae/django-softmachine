@@ -39,7 +39,8 @@ def doEntityPrototype(modeladmin, request, queryset, parameters):
         return {'success': False, 'message': 'ViewName required!!'}
 
 #   Recorre los registros selccionados
-    returnTmp = 'Entt: ' + getEntities(queryset, request, parameters[0]['value'])
+    returnTmp = 'Entt: ' + \
+        getEntities(queryset, request, parameters[0]['value'])
     return {'success': True, 'message':  returnTmp}
 
 
@@ -65,7 +66,8 @@ def doPropertyProjectPurge(modeladmin, request, queryset, parameters):
     from django.db.models import Count
     from prototype.models import PropertyProject
 
-    PropertyProject.objects.annotate(n_prop=Count('property')).filter(n_prop=0).delete()
+    PropertyProject.objects.annotate(
+        n_prop=Count('property')).filter(n_prop=0).delete()
 
     return {'success': True, 'message': 'Ok'}
 
