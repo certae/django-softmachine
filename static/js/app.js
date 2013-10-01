@@ -5,6 +5,7 @@
 
  */
 "use strict";
+/*jslint nomen: true */
 /*global Ext */
 /*global _SM */
 /*global ProtoUL */
@@ -131,5 +132,3 @@ Ext.application({
         myWin.show();
     }
 });
-
-

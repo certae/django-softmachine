@@ -1,39 +1,45 @@
+"use strict";
+/*jslint nomen: true */
+/*global Ext */
+/*global _SM */
+/*global ProtoUL */
+
 Ext.define('ProtoUL.UI.MDPrintOptsController', {
     extend: 'Ext.Base',
-    myMeta : null, 
+    myMeta : null,
     constructor: function (config) {
         Ext.apply(this, config || {});
         this.getPrinterOptsBar()
-    }, 
+    },
 
     getPrinterOptsBar: function() {
 
-        var me = this; 
-        var myPrinterOpts = []  
+        var me = this;
+        var myPrinterOpts = []
         var __MasterDetail = this.__MasterDetail
 
 
         if (  this.myMeta.gridConfig.exportCsv  ) {
-            
+
             myPrinterOpts.push (
                 new Ext.Action({
                     text:       _SM.__language.Grid_ExportCSV,
-                    iconCls :   'icon-printGrid', 
+                    iconCls :   'icon-printGrid',
                     tooltip:    _SM.__language.Grid_ExportCSV_Ttip,
-                    scope:      me,                     
+                    scope:      me,
                     handler:    onClickExportCsv
                 }));
 
-        } 
+        }
 
 
         if ( ! this.myMeta.gridConfig.denyAutoPrint  ) {
-            
+
             myPrinterOpts.push (
                 new Ext.Action({
                     text:       _SM.__language.Text_Grid,
-                    iconCls :   'icon-printGrid', 
-                    scope:      me,                     
+                    iconCls :   'icon-printGrid',
+                    scope:      me,
                     handler:    onClickPrintGrid
                 }));
 
@@ -41,32 +47,32 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
                 myPrinterOpts.push (
                     new Ext.Action({
                         text    : 'Fiche',
-                        iconCls : 'icon-printSheet', 
-                        scope   :  me,                     
+                        iconCls : 'icon-printSheet',
+                        scope   :  me,
                         handler :  onClickPrintSheet
                     }));
             };
-        } 
+        }
 
         // Los diferentes formatos definidos para cada grilla, definiria impresion en maestro deltalle usando templates y las relaciones definidas.
         if ( this.myMeta.sheetConfig.length > 0 ) {
-            
-            for (var ix in this.myMeta.sheetConfig  ) {       
+
+            for (var ix in this.myMeta.sheetConfig  ) {
                 var pPrinterOpts = this.myMeta.sheetConfig[ ix ]
-                if ( pPrinterOpts.sheetStyle == 'gridOnly' ) continue; 
-                
+                if ( pPrinterOpts.sheetStyle == 'gridOnly' ) continue;
+
                 myPrinterOpts.push (
                     new Ext.Action({
                         text:           pPrinterOpts.name,
-                        sheetName :     pPrinterOpts.name, 
-                        iconCls :       pPrinterOpts.viewIcon || 'icon-printSheet', 
+                        sheetName :     pPrinterOpts.name,
+                        iconCls :       pPrinterOpts.viewIcon || 'icon-printSheet',
                         tooltip:        pPrinterOpts.title,
-                        scope:          me,                     
+                        scope:          me,
                         handler:        onClickPrintSheetRep
                     }));
             };
-     
-        } 
+
+        }
 
         // Modificacion del entorno
         if ( myPrinterOpts.length > 0  ) {
@@ -74,7 +80,7 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
             __MasterDetail.tbPrinterOpts = Ext.create('Ext.toolbar.Toolbar', {
                 dock: 'top',
                 hidden : true,
-                enableOverflow : true, 
+                enableOverflow : true,
                 items: [{
                     xtype   : 'tbtext',
                     text: '<b>'+_SM.__language.Text_Print+ ':<b>'
@@ -85,8 +91,8 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
             __MasterDetail.myPrinterOpts = myPrinterOpts
             __MasterDetail.protoMasterGrid.addDocked( __MasterDetail.tbPrinterOpts )
 
-        }; 
-        
+        };
+
         function onClickProtoPrinterOpt( btn ){
         };
 
@@ -96,14 +102,14 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
         };
 
         function onClickPrintSheet( btn ){
-            var prn = ProtoUL.ux.Printer, 
+            var prn = ProtoUL.ux.Printer,
                 pGrid = __MasterDetail.protoMasterGrid ;
-            
+
             if ( (! pGrid) || (! pGrid.sheetHtml )) {
                 _SM.__StBar.showWarning(_SM.__language.GridAction_NoRecord, 'MdPrintOptsController')
-                return 
+                return
             }
-            
+
             // prn.sheetPrint( pGrid._extGrid, pGrid.sheetHtml  )
            me.openHtmlWin( pGrid.sheetHtml )
 
@@ -111,7 +117,7 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
 
 
         function onClickPrintSheetRep( btn ){
-            var prn = ProtoUL.ux.Printer, 
+            var prn = ProtoUL.ux.Printer,
                 pGrid = __MasterDetail.protoMasterGrid ;
 
             var win = window.open('', 'printgrid');
@@ -125,13 +131,13 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
                     // me.openHtmlWin( result.responseText )
                 }
             }
-            
+
             _SM.getSheeReport( pGrid.viewCode, btn.sheetName , selectedKeys , options  )
-            
+
         };
 
         function onClickExportCsv( btn ){
-            
+
             var pGrid = __MasterDetail.protoMasterGrid;
 
             Ext.Ajax.request({
@@ -151,31 +157,31 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
 
         };
 
-        
-    }, 
-    
-    openHtmlWin : function(  sHtml  ) { 
+
+    },
+
+    openHtmlWin : function(  sHtml  ) {
         //open up a new printing window, write to it, print it and close
         var win = window.open('', 'printgrid');
         win.document.write( sHtml );
-        
+
         if (this.printAutomatically){
             win.print();
             // win.close();
         }
-    } 
-    
-    
-}) 
+    }
+
+
+})
 
 
 _SM.getFile = function( fName , newWindow ) {
     //  contentType = 'octet-stream'
     var dataURL = 'getFile/' + fName
-    
+
     // Not useful for application/octet-stream type
     if (newWindow) { window.open(dataURL); // To open in a new tab/window
-    } else { window.location = dataURL; 
+    } else { window.location = dataURL;
     }
-    
+
 }

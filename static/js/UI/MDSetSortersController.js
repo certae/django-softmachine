@@ -1,22 +1,28 @@
+"use strict";
+/*jslint nomen: true */
+/*global Ext */
+/*global _SM */
+/*global ProtoUL */
+
 Ext.define('ProtoUL.UI.MDSetSortersController', {
     extend: 'Ext.Base',
-    myMeta : null, 
+    myMeta : null,
     constructor: function (config) {
         Ext.apply(this, config || {});
         this.getCustomOptsBar()
-    }, 
+    },
 
     getCustomOptsBar: function() {
-        
-        var mySortersSet = []  
+
+        var mySortersSet = []
         var __MasterDetail = this.__MasterDetail
 
         var tmpSorters = this.myMeta.gridSets.sortersSet.concat( this.myMeta.custom.sortersSet )
 
         if ( this.myMeta.gridConfig.initialSort && ( tmpSorters.length > 0  )) {
             addSorters( [ {
-                'name' : 'Initial', 
-                'icon' : 'soterIcon', 
+                'name' : 'Initial',
+                'icon' : 'soterIcon',
                 'customSort' :  this.myMeta.gridConfig.initialSort
                 } ] )
 
@@ -29,7 +35,7 @@ Ext.define('ProtoUL.UI.MDSetSortersController', {
             __MasterDetail.tbSortersSet = Ext.create('Ext.toolbar.Toolbar', {
                 dock: 'top',
                 hidden : true,
-                enableOverflow : true, 
+                enableOverflow : true,
                 items: [
                     {
                     xtype   : 'tbtext',
@@ -42,29 +48,29 @@ Ext.define('ProtoUL.UI.MDSetSortersController', {
             __MasterDetail.mySortersSet = mySortersSet
             __MasterDetail.protoMasterGrid.addDocked( __MasterDetail.tbSortersSet )
 
-        }; 
-        
+        };
+
         function onClickSorter( btn ){
             __MasterDetail.protoMasterStore.sort( btn.sorter );
         }
-        
+
         function addSorters( tmpSorters ){
             var Sorter
-            for (var vDet in tmpSorters ) {       
+            for (var vDet in tmpSorters ) {
                 Sorter = tmpSorters[ vDet ]
                 mySortersSet.push (
                     new Ext.Action({
-                        maxWidth :      100, 
+                        maxWidth :      100,
                         text:           Sorter.name,
-                        iconCls :       Sorter.icon, 
+                        iconCls :       Sorter.icon,
                         sorter:         Sorter.customSort,
-                        scope:          this,                     
+                        scope:          this,
                         handler:        onClickSorter
                     }));
             };
         }
     }
-    
-}) 
+
+})
 
 

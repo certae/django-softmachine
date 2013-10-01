@@ -1,153 +1,152 @@
-/*
- * 
- */
-
-// Ext.Loader.setConfig({enabled: true});
-
+"use strict";
+/*jslint nomen: true */
+/*global Ext */
+/*global _SM */
+/*global ProtoUL */
 
 Ext.define('ProtoUL.UI.TbMasterDetail', {
     extend: 'Ext.Toolbar',
     alias: 'widget.tbMasterDetail',
-    
+
     // isToolbar: true,
     // baseCls  : Ext.baseCSSPrefix + 'toolbar',
 
     initComponent: function() {
 
-        var me = this; 
+        var me = this;
 
-        // Asigna una referencia al objeto 
-        var myMeta = this.protoMeta; 
-        var __MasterDetail = this.__MasterDetail; 
+        // Asigna una referencia al objeto
+        var myMeta = this.protoMeta;
+        var __MasterDetail = this.__MasterDetail;
 
         //--------------------------------------------------------
 
         this.searchBG = Ext.create('ProtoUL.ux.ProtoSearchBG', { myMeta: myMeta })
 
-        // La edicion se hara sobre el master si los detalles estan apagados, 
-        // si los detalles estan abiertos,  se bloqua el master y se editan detalles 
+        // La edicion se hara sobre el master si los detalles estan apagados,
+        // si los detalles estan abiertos,  se bloqua el master y se editan detalles
 
         Ext.apply(this, {
             dock: 'top',
-            defaults : { scope: me }, 
+            defaults : { scope: me },
             items: [
-                this.searchBG, 
-            { 
+                this.searchBG,
+            {
                 iconCls: 'icon-edit',
-                itemId : 'edit', 
+                itemId : 'edit',
                 tooltip: _SM.__language.Grid_Edit_Ttip,
                 text:    _SM.__language.Grid_Edit_Title,
                 hidden : true,
                 handler:    editOpts
-                
+
             // }, {
-                // iconCls : 'icon-tableSave', 
+                // iconCls : 'icon-tableSave',
                 // itemId:     'save',
                 // text:       _SM.__language.Text_Save_Button,
                 // tooltip:    _SM.__language.Grid_EditSave_Title,
                 // handler:    editOpts,
-                // hidden:     true  
+                // hidden:     true
             // }, {
-                // iconCls : 'icon-saveDraft', 
+                // iconCls : 'icon-saveDraft',
                 // itemId:     'saveDraft',
                 // text:       _SM.__language.Grid_EditSaveCont_Title,
                 // tooltip:    _SM.__language.Grid_EditSaveCont_Ttip,
                 // handler:    editOpts,
-                // hidden:     true   
+                // hidden:     true
             // },  {
-                // iconCls : 'icon-tableAutoSync', 
+                // iconCls : 'icon-tableAutoSync',
                 // itemId:     'autoSync',
                 // text:      _SM.__language.Grid_EditAutoSync_Title,
-                // enableToggle: true, 
-                // handler:      editOpts, 
+                // enableToggle: true,
+                // handler:      editOpts,
                 // hidden : true
             },{
                 text:    _SM.__language.Text_Clasify_Button,
                 tooltip: _SM.__language.Tooltip_Clasify_Button,
                 iconCls: 'icon-order',
-                itemId : 'sorters', 
+                itemId : 'sorters',
                 hidden : true,
                 enableToggle: true,
-                handler: toogleTb2 
+                handler: toogleTb2
 
             },{
-                xtype: 'splitbutton', 
+                xtype: 'splitbutton',
                 text:    _SM.__language.Text_Actions_Button,
                 tooltip: _SM.__language.Tooltip_Actions_Button,
                 iconCls: 'icon-action',
-                itemId : 'protoActions', 
+                itemId : 'protoActions',
                 hidden : true,
                 enableToggle: true,
-                handler: toogleTb2,  
-                menu :  Ext.create( 'Ext.menu.Menu', {}) 
+                handler: toogleTb2,
+                menu :  Ext.create( 'Ext.menu.Menu', {})
 
             }, {
-                xtype: 'splitbutton', 
+                xtype: 'splitbutton',
                 text:   _SM.__language.Grid_Detail_Title,
                 tooltip: _SM.__language.Tooltip_Details_Button,
-                iconCls: 'icon-details', 
-                itemId : 'details', 
+                iconCls: 'icon-details',
+                itemId : 'details',
                 hidden : true,
                 enableToggle: true,
-                handler: toogleTb2,  
-                menu :  Ext.create( 'Ext.menu.Menu', {}) 
-            },  { 
-                xtype: 'splitbutton', 
+                handler: toogleTb2,
+                menu :  Ext.create( 'Ext.menu.Menu', {})
+            },  {
+                xtype: 'splitbutton',
                 text:    _SM.__language.Text_Filters_Button,
                 tooltip: _SM.__language.Tooltip_Filters_Button,
                 iconCls: 'icon-filters',
-                itemId : 'filterSet', 
+                itemId : 'filterSet',
                 hidden : true,
                 enableToggle: true,
-                handler: toogleTb2,  
-                menu :  Ext.create( 'Ext.menu.Menu', {}) 
+                handler: toogleTb2,
+                menu :  Ext.create( 'Ext.menu.Menu', {})
 
-            },  { 
-                xtype: 'splitbutton', 
+            },  {
+                xtype: 'splitbutton',
                 text:    _SM.__language.Text_Tabs_Button,
                 tooltip: _SM.__language.Tooltip_Tabs_Button,
                 iconCls: 'icon-tabs',
-                itemId : 'tabSet', 
+                itemId : 'tabSet',
                 hidden : true,
                 enableToggle: true,
-                handler: toogleTb2,  
-                menu :  Ext.create( 'Ext.menu.Menu', {}) 
+                handler: toogleTb2,
+                menu :  Ext.create( 'Ext.menu.Menu', {})
 
-            },  { 
-                xtype: 'splitbutton', 
+            },  {
+                xtype: 'splitbutton',
                 text:    _SM.__language.Text_Sorters_Button,
                 tooltip: _SM.__language.Tooltip_Sorters_Button,
                 iconCls: 'icon-sorters',
-                itemId : 'sorterSet', 
+                itemId : 'sorterSet',
                 hidden : true,
                 enableToggle: true,
-                handler: toogleTb2,  
-                menu :  Ext.create( 'Ext.menu.Menu', {}) 
+                handler: toogleTb2,
+                menu :  Ext.create( 'Ext.menu.Menu', {})
 
             },{
-                xtype: 'splitbutton', 
+                xtype: 'splitbutton',
                 text:    _SM.__language.Text_Print,
                 tooltip: _SM.__language.Tooltip_Printing_Options,
                 iconCls: 'icon-print',
-                itemId : 'printerOpts', 
+                itemId : 'printerOpts',
                 hidden : true,
                 enableToggle: true,
-                handler: toogleTb2,  
-                menu :  Ext.create( 'Ext.menu.Menu', {}) 
+                handler: toogleTb2,
+                menu :  Ext.create( 'Ext.menu.Menu', {})
 
-            },  { 
-                xtype: 'splitbutton', 
+            },  {
+                xtype: 'splitbutton',
                 text:    _SM.__language.Text_Config,
                 tooltip: _SM.__language.Tooltip_Config_Button,
                 iconCls: 'icon-config',
-                itemId : 'configOpts', 
+                itemId : 'configOpts',
                 hidden : true,
                 enableToggle: true,
-                handler: toogleTb2,  
-                menu :  Ext.create( 'Ext.menu.Menu', {}) 
+                handler: toogleTb2,
+                menu :  Ext.create( 'Ext.menu.Menu', {})
 
             },'->',{
-                iconCls : 'icon-editoff', 
+                iconCls : 'icon-editoff',
                 itemId:     'editOff',
                 text:    _SM.__language.Text_Exit_Edit_Mode_Button,
                 tooltip: _SM.__language.Tooltip_Exit_Edit_Mode_Button,
@@ -156,16 +155,16 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
             }, {
                 // text: 'Aide',
-                xtype: 'splitbutton', 
+                xtype: 'splitbutton',
                 iconCls: 'icon-help',
                 handler: toogleTb2,
                 itemId : 'tbHelp'
             // },{
                 // handler:    toogleTb2,
-                // iconCls: 'icon-config', 
+                // iconCls: 'icon-config',
                 // itemId : 'config'
             }]
-        
+
         });
 
         this.callParent();
@@ -173,31 +172,31 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         // Guarda los permisos
         me.perms = _SM._UserInfo.perms[ this.protoMeta.viewCode ]
 
-        this.setEditMode( false ); 
+        this.setEditMode( false );
 
-        // permite la edicion 
-        // if ( _SM._UserInfo.isStaff ) { 
-        if ( me.perms['add'] || me.perms['change'] || me.perms['delete'] ) { 
+        // permite la edicion
+        // if ( _SM._UserInfo.isStaff ) {
+        if ( me.perms['add'] || me.perms['change'] || me.perms['delete'] ) {
             this.getComponent('edit').setVisible ( true  );
         }
 
         //--------------------------------------------------------
-        
-        
+
+
         this.searchBG.on({
             qbeLoadData: {fn: function ( tbar , sFilter, sTitle, sorter ) {
                 __MasterDetail.mdGridLoadData( sFilter, sorter );
-                __MasterDetail.protoMasterGrid.filterTitle = sTitle; 
-                __MasterDetail.protoMasterGrid.setGridTitle( __MasterDetail.protoMasterGrid ) 
+                __MasterDetail.protoMasterGrid.filterTitle = sTitle;
+                __MasterDetail.protoMasterGrid.setGridTitle( __MasterDetail.protoMasterGrid )
                 }, scope: this }
-        });                 
-            
+        });
+
         // -----------------------------------------------------------
-        
+
 
 
         function toogleTb2( but ) {
-            // 'details', 'printerOpts', 'sorters', 'tbHelp', 'filterSet',  
+            // 'details', 'printerOpts', 'sorters', 'tbHelp', 'filterSet',
 
             if ( but.itemId == 'sorters' ) {
                 if ( __MasterDetail.tbSorters ) {
@@ -246,8 +245,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             } else if ( but.itemId == 'tbHelp' ) {
                 window.open( _SM._HELPpath ,'protoHelp','left=50,top=20,width=1000,height=600,resizable=0')
             }
-            
-        } 
+
+        }
 
 
 // ------------------------------------------------------------------------------------------------
@@ -256,10 +255,10 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             // 'edit', 'autoSync','editOff','save',
 
             if ( but.itemId == 'edit' ) {
-                // Evitar la edicion en detalles si no hay un registro seleccioando 
-                // if ( ! __MasterDetail.isDetailCollapsed() ) 
-                    // if ( ! _SM.validaSelected( __MasterDetail.protoMasterGrid.selected )) return  
-                 
+                // Evitar la edicion en detalles si no hay un registro seleccioando
+                // if ( ! __MasterDetail.isDetailCollapsed() )
+                    // if ( ! _SM.validaSelected( __MasterDetail.protoMasterGrid.selected )) return
+
                 me.setEditMode( true )
 
             } else if ( but.itemId == 'editOff' ) {
@@ -276,25 +275,25 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 // __MasterDetail.saveChanges()
                 // me.setAutoSync( but.pressed )
             }
-        } 
-    }, 
-    
+        }
+    },
+
 
     setAutoSync: function( autoSync ) {
         // this.getComponent('saveDraft').setDisabled( autoSync );
         // this.getComponent('autoSync').toggle( autoSync, true  );
         // this.__MasterDetail.setAutoSync ( autoSync );
-    }, 
+    },
 
     setEditMode: function( bEdit ) {
 
         // if ( ! _SM._UserInfo.isStaff  ) return
         var me = this
         if (!( me.perms['add'] || me.perms['change'] || me.perms['delete'] )) return
-        
-        // En modoEdicion los botones de accion son desactivados y los  edicion son apagados 
+
+        // En modoEdicion los botones de accion son desactivados y los  edicion son apagados
         Ext.suspendLayouts();
-    
+
         // 'edit', 'editOff', 'save', 'autoSync'
         this.getComponent('edit').setVisible ( ! bEdit );
         this.getComponent('editOff').setVisible( bEdit );
@@ -314,85 +313,85 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         setMdButton( this, 'protoActions', bEdit );
         setMdButton( this, 'sorterSet', bEdit );
 
-		// DGT 1303 Con el autosyn, se permite la edicion en todos los objetos 
+		// DGT 1303 Con el autosyn, se permite la edicion en todos los objetos
         // setMdButton( this, 'tabSet', bEdit );
         // setMdButton( this, 'details', bEdit );
 
         var autoSync = this.__MasterDetail.autoSync
         this.__MasterDetail.setEditMode(  bEdit   )
 
-        
+
         function setMdButton( me, btId, bEdit ) {
             var bt = me.getComponent( btId )
             bt.setVisible ( (! bEdit ) && ( bt.protoEnable ));
-        }; 
+        };
 
         Ext.resumeLayouts(true);
 
-    },  
-    
+    },
+
     addActions:  function () {
 
         // Permite agregar las acciones despues de haber configurado el MD
-        // bt.protoEnable  indica si el boton es valido en esta instancia 
-     
+        // bt.protoEnable  indica si el boton es valido en esta instancia
+
         if ( this.__MasterDetail.myDetails ) {
             var bt = this.getComponent('details')
             bt.menu.add(  this.__MasterDetail.myDetails )
-            bt.protoEnable = true 
-            bt.show()            
+            bt.protoEnable = true
+            bt.show()
         }
 
         if ( this.__MasterDetail.myFilters ) {
             var bt = this.getComponent('filterSet')
             bt.menu.add(  this.__MasterDetail.myFilters )
-            bt.protoEnable = true 
-            bt.show()            
+            bt.protoEnable = true
+            bt.show()
         }
 
         if ( this.__MasterDetail.myPrinterOpts ) {
             var bt = this.getComponent('printerOpts')
             bt.menu.add(  this.__MasterDetail.myPrinterOpts )
-            bt.protoEnable = true 
-            bt.show()            
+            bt.protoEnable = true
+            bt.show()
         }
 
         if ( this.__MasterDetail.myConfigOpts ) {
             var bt = this.getComponent('configOpts')
             bt.menu.add(  this.__MasterDetail.myConfigOpts )
-            bt.protoEnable = true 
-            bt.show()            
+            bt.protoEnable = true
+            bt.show()
         }
 
         if ( this.__MasterDetail.myProtoActions ) {
             var bt = this.getComponent('protoActions')
             bt.menu.add(  this.__MasterDetail.myProtoActions )
-            bt.protoEnable = true 
-            bt.show()            
+            bt.protoEnable = true
+            bt.show()
         }
 
         if ( this.__MasterDetail.tbSorters ) {
             var bt = this.getComponent('sorters')
-            bt.protoEnable = true 
-            bt.show()            
+            bt.protoEnable = true
+            bt.show()
         }
 
         if ( this.__MasterDetail.myTabs ) {
             var bt = this.getComponent('tabSet')
             bt.menu.add(  this.__MasterDetail.myTabs )
-            bt.protoEnable = true 
-            bt.show()            
+            bt.protoEnable = true
+            bt.show()
         }
 
         if ( this.__MasterDetail.mySortersSet ) {
             var bt = this.getComponent('sorterSet')
             bt.menu.add(  this.__MasterDetail.mySortersSet )
-            bt.protoEnable = true 
-            bt.show()            
+            bt.protoEnable = true
+            bt.show()
         }
 
-        
-    }
-  
 
-}); 
+    }
+
+
+});
