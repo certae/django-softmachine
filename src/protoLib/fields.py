@@ -27,7 +27,7 @@ import itertools
 
 from django.db import models
 from django.utils import simplejson as json
-from utilsBase import JSONEncoder
+from protoLib.utilsBase import JSONEncoder
 
 
 class JSONDict(dict):
@@ -37,7 +37,10 @@ class JSONDict(dict):
 
 
 class JSONAwareQuerySet(models.query.QuerySet):
+<<<<<<< HEAD
 
+=======
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     def __init__(self, json_fields=[], *args, **kwargs):
         self.json_fields = json_fields
         super(JSONAwareQuerySet, self).__init__(*args, **kwargs)
@@ -52,8 +55,12 @@ class JSONAwareQuerySet(models.query.QuerySet):
         for key in extra_lookups:
             kwargs.pop(key)
 
+<<<<<<< HEAD
         clone = super(JSONAwareQuerySet, self)._filter_or_exclude(
             negate, *args, **kwargs)
+=======
+        clone = super(JSONAwareQuerySet, self)._filter_or_exclude(negate, *args, **kwargs)
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
         result = []
 
@@ -71,8 +78,12 @@ class JSONAwareQuerySet(models.query.QuerySet):
         return clone
 
     def _evaluate_json_lookup(self, item, lookup, value):
+<<<<<<< HEAD
         """ El lookup contiene la expresion  jsofield__campo__operador
         """
+=======
+        oper = 'exact'
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
         evaluators = {
             'icontains': lambda item, value: item.lower() in value.lower(),
@@ -127,7 +138,10 @@ class JSONAwareQuerySet(models.query.QuerySet):
 
 
 class JSONAwareManager(models.Manager):
+<<<<<<< HEAD
 
+=======
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     def __init__(self, json_fields=[], *args, **kwargs):
         self.json_fields = json_fields
         super(JSONAwareManager, self).__init__(*args, **kwargs)

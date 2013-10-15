@@ -2,29 +2,46 @@
 
 # Django settings for PROTO project.
 import os.path
+<<<<<<< HEAD
 import sys
 PPATH = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)).replace('\\', '/')
 
 if PPATH.startswith('/'):
     EXT_PATH = '/u/data/ExtJs'
+=======
+PPATH = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)).replace('\\', '/')
+
+if PPATH.startswith('/'):
+    EXT_PATH = '/home/antoine/Stage/Prototypeur/ProtoExt'
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 else:
     EXT_PATH = 'd:/data/ExtJs'
-
 
 if ('/src' in PPATH):
     PPATH = os.path.abspath(os.path.join(PPATH, os.pardir)).replace('\\', '/')
 
+<<<<<<< HEAD
+if ('/src' in PPATH):
+    PPATH = os.path.abspath(os.path.join(PPATH, os.pardir)).replace('\\', '/')
+
+=======
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 # Django settings for modelibra project.
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
+<<<<<<< HEAD
     ('Dario Gomez', 'dariogomezt@hotmail.com'),
+=======
+    ('Dario Gomez', 'certae_dariogomez@gmail.com'),
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 )
 
 MANAGERS = ADMINS
 
 DATABASES = {
+<<<<<<< HEAD
     #'default': {
     #'ENGINE': 'django.db.backends.postgresql_psycopg2',
     #'NAME':   'protoExt',
@@ -44,6 +61,29 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': PPATH + '/db/protoMeta.db',
+=======
+    #    'default': {
+    #        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #        'NAME':   'protoExt',
+    #        'USER':   'postgres',          # Not used with sqlite3.
+    #        'PASSWORD': '1',               # Not used with sqlite3.
+    #        'HOST': '127.0.0.1',           # Set to empty string for localhost. Not used with sqlite3.
+    #        'PORT': '9432',                # Set to empty string for default. Not used with sqlite3.
+    #    },
+    #    'default': {
+    #        'ENGINE': 'django.db.backends.mysql',
+    #        'NAME':   'protogn',
+    #        'USER': 'root',
+    #        'PASSWORD': 'certae1',
+    #        'HOST': '127.0.0.1',
+    #        'PORT': '3306',
+    #    },
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql',  'oracle'.
+        #'NAME': PPATH + '/db/protoMeta.db',
+        'NAME': PPATH + '/db/protoMetaCertae.db',
+        #'NAME': PPATH + '/db/PrototypeurTest.db',
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     }
 }
 
@@ -133,22 +173,23 @@ SECRET_KEY = 'z7jc&(scfm-c5lt-h#(m*epqis54tc)lxm=g+&5+ud$3w783dx'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-    'django.template.loaders.eggs.Loader',
+    #'django.template.loaders.eggs.Loader',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
-                               "django.core.context_processors.debug",
-                               "django.core.context_processors.i18n",
-                               "django.core.context_processors.media",
-                               "django.core.context_processors.static",
-                               "django.core.context_processors.request",
-                               "django.contrib.messages.context_processors.messages"
-                               )
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.request",
+    "django.contrib.messages.context_processors.messages"
+)
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
@@ -177,7 +218,12 @@ INSTALLED_APPS = (
     'south',
     'protoLib',
     'prototype',
+<<<<<<< HEAD
     'tests'
+=======
+    'alltests'
+    #'best',
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     #'shiny',
     #'CategoryCle',
     #'TCO'
@@ -187,7 +233,11 @@ INSTALLED_APPS = (
 
 
 FIXTURE_DIRS = (
+<<<<<<< HEAD
     'data/fixtures/',
+=======
+    'src/fixtures/',
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 )
 
 # A sample logging configuration. The only tangible logging

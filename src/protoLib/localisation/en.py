@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ﻿# -*- coding': utf-8 -*-
+=======
+﻿# -*- coding' : utf-8 -*-
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
 __language = {
     'languaje': 'en',
@@ -162,7 +166,10 @@ __language = {
     'Tree_Concept_Details_Text': 'text',
     'Tree_Concept_Details_Detail': 'conceptDetail',
     'Tree_Details_Field': 'detailField',
+<<<<<<< HEAD
     'Tree_Concept_Details_MasterFld': 'MasterFld',
+=======
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     'Protofield_Fields': 'fields',
     'Protofield_Text': 'text',

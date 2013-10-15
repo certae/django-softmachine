@@ -1,12 +1,17 @@
 # -*- encoding: utf-8 -*-
 
 from django.db.models import Q
+<<<<<<< HEAD
 from utilsConvert import isNumeric, toInteger
 from django.contrib.admin.util import get_fields_from_path
 
 
 from django.db import models
 from protoField import TypeEquivalence
+=======
+from protoLib.utilsConvert import isNumeric, toInteger
+import re
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
 from utilsBase import verifyList
 # from utilsConvert import getTypedValue
@@ -15,7 +20,10 @@ from utilsBase import verifyList
 import traceback
 import re
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 def addFilter(Qs, sFilter):
 #   Agrega un filtro q viene en modo texto a un Qset
     if (len(sFilter) == 0):
@@ -24,13 +32,22 @@ def addFilter(Qs, sFilter):
     protoStmt = ''
 
     # Tipo array
+<<<<<<< HEAD
     #if type(sFilter) == type([]):
     if sFilter.isInstance([]):
+=======
+#    if type(sFilter) == type([]):
+    if sFilter.isinstance([]):
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         protoStmt = ''
 
     # Tipo dictionario viene conformado @property[_contain],  .....
     #elif type(sFilter) == type({}):
+<<<<<<< HEAD
     elif sFilter.isInstance({}):
+=======
+    elif sFilter.isinstance({}):
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         protoStmt = sFilter
 
     # Filtro String
@@ -62,23 +79,40 @@ def construct_search(field_name):
 
 
 def getSearcheableFields(model):
+<<<<<<< HEAD
 # Obtiene los campos visibles del modelo base, se usa como valor por
 # defecto para los searchFields
+=======
+# Obtiene los campos visibles del modelo base, se usa como valor por defecto para los searchFields
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     lFields = []
     filterableTypes = ['CharField', 'TextField',  'JSONField']
 #    filterableTypes.extend( ['IntegerField', 'DecimalField', 'FloatField' ]
+<<<<<<< HEAD
 # filterableTypes.extend( [ 'DateField', 'TimeField', 'DateTimeField',
 # 'BooleanField' ])
+=======
+#    filterableTypes.extend( [ 'DateField', 'TimeField', 'DateTimeField', 'BooleanField' ])
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     for field in model._meta._fields():
         if field.__class__.__name__ in filterableTypes:
             lFields.append(field.name)
+<<<<<<< HEAD
+
+    return lFields
+=======
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     return lFields
 
-
+<<<<<<< HEAD
 def getQbeStmt(fieldName,  sQBE, sType):
+=======
+
+def getQbeStmt(fieldName, sQBE, sType):
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     QResult = Q()
 
@@ -91,7 +125,11 @@ def getQbeStmt(fieldName,  sQBE, sType):
             try:
                 sQBE = doGenericFuntion(sQBE)
             except Exception as e:
+<<<<<<< HEAD
                 # TODO: Log error y seguimeinto para hacer nulo el Qs
+=======
+                #TODO: Log error y seguimeinto para hacer nulo el Qs
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
                 return None
 
         if sQBE == '':
@@ -99,7 +137,11 @@ def getQbeStmt(fieldName,  sQBE, sType):
 
     elif type(sQBE).__name__ in ['int', 'long', 'float', 'decimal']:
         # es un numero, no hay criterios posibles solo =
+<<<<<<< HEAD
         Qobj = {"{0}".format(fieldName):   sQBE}
+=======
+        Qobj = {"{0}".format(fieldName): sQBE}
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         return Q(**Qobj)
 
     else:
@@ -134,16 +176,24 @@ def getQbeStmt(fieldName,  sQBE, sType):
             QResult = ~ QResult
         return QResult
 
+<<<<<<< HEAD
     # String:  \iexact, \icontains, \istartswith, isnull, search, TODO:
     # \iendswith, \iregex
     if sType in (['string', 'text', 'jsonfield']):
         if sQBE.startswith('^'):
             Qobj = {"{0}__istartswith".format(fieldName):  sQBE[1:]}
+=======
+    # String:  \iexact, \icontains, \istartswith, isnull, search, TODO: \iendswith, \iregex
+    if sType in (['string', 'text', 'jsonfield']):
+        if sQBE.startswith('^'):
+            Qobj = {"{0}__istartswith".format(fieldName): sQBE[1:]}
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
         elif sQBE == '=':
             Qobj = {"{0}__isnnull".format(fieldName): True}
 
         elif sQBE.startswith('='):
+<<<<<<< HEAD
             Qobj = {"{0}__iexact".format(fieldName):  sQBE[1:]}
 
         elif sQBE.startswith('@'):
@@ -151,12 +201,22 @@ def getQbeStmt(fieldName,  sQBE, sType):
 
         else:
             Qobj = {"{0}__icontains".format(fieldName):  sQBE}
+=======
+            Qobj = {"{0}__iexact".format(fieldName): sQBE[1:]}
+
+        elif sQBE.startswith('@'):
+            Qobj = {"{0}__search".format(fieldName): sQBE[1:]}
+
+        else:
+            Qobj = {"{0}__icontains".format(fieldName): sQBE}
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
         QResult = Q(**Qobj)
 
     # TODO: Verificar q sea numerico (
     # foreignText es una simple representacion, es siempre el id
     # Numericos : gt, gte, lt, lte,   TODO: in,   range,
+<<<<<<< HEAD
     elif sType in (['int', 'foreignid', 'foreigntext',  'decimal']):
 
         if sQBE.startswith(">="):
@@ -175,6 +235,25 @@ def getQbeStmt(fieldName,  sQBE, sType):
             Qobj = {"{0}".format(fieldName):  sQBE[1:]}
         else:
             Qobj = {"{0}".format(fieldName):  toInteger(sQBE)}
+=======
+    elif sType in (['int', 'foreignid', 'foreigntext', 'decimal']):
+
+        if sQBE.startswith(">="):
+            Qobj = {"{0}__gte".format(fieldName): sQBE[2:]}
+        elif sQBE.startswith("<="):
+            Qobj = {"{0}__lte".format(fieldName): sQBE[2:]}
+        elif sQBE.startswith("<>") | sQBE.startswith("!="):
+            bNot = ~ bNot
+            Qobj = {"{0}".format(fieldName): sQBE[2:]}
+        elif sQBE.startswith(">"):
+            Qobj = {"{0}__gt".format(fieldName): sQBE[1:]}
+        elif sQBE.startswith("<"):
+            Qobj = {"{0}__lt".format(fieldName): sQBE[1:]}
+        elif sQBE.startswith("="):
+            Qobj = {"{0}".format(fieldName): sQBE[1:]}
+        else:
+            Qobj = {"{0}".format(fieldName): toInteger(sQBE)}
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
         if not isNumeric(re.sub(r'[=><!]', '', sQBE)):
             return QResult
@@ -200,7 +279,11 @@ def doGenericFuntion(sQBE):
     de la ejecucion del wKflow
 
     """
+<<<<<<< HEAD
     from utilsBase import explode
+=======
+    from protoLib.utilsBase import explode
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     # obtiene los parametros
     fCall = explode(sQBE[1:])
@@ -211,6 +294,7 @@ def doGenericFuntion(sQBE):
 
     # Construyte las variables de entorno
     myVars = {'model': getDjangoModel(fBase.modelName)}
+<<<<<<< HEAD
 
     arguments = fBase.arguments.split(',')
     params = fCall[1].split(',')
@@ -325,3 +409,14 @@ def getTextSearch(sFilter, model, protoMeta):
             QStmt = QStmt | QTmp
 
     return QStmt
+=======
+
+    arguments = fBase.arguments.split(',')
+    params = fCall[1].split(',')
+    for i in range(0, len(arguments)):
+        myVars[arguments[i]] = params[i]
+
+    # ejecta y toma la base
+    exec(fBase.functionBody, myVars)
+    return myVars['ret']
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e

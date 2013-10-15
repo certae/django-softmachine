@@ -5,9 +5,14 @@ try:
     imp.find_module('settings')  # Assumed to be in the same directory.
 except ImportError:
     import sys
+<<<<<<< HEAD
     sys.stderr.write("Error: Can't find the file 'settings.py' in the directory containing %r."
                      " It appears you've customized things.\nYou'll have to run django-admin.py,"
                      " passing it your settings module.\n" % __file__)
+=======
+    sys.stderr.write("Error: Can't find the file 'settings.py' in the directory containing %r. \
+        It appears you've customized things.\nYou'll have to run django-admin.py, passing it your settings module.\n" % __file__)
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     sys.exit(1)
 
 import settings

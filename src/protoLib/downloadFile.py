@@ -9,7 +9,7 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect, HttpRespons
 from django.template import loader, Template, Context, TemplateDoesNotExist
 from django.utils.http import http_date, parse_http_date
 
-from utilsWeb import JsonError, JsonSuccess
+from protoLib.utilsWeb import JsonError, JsonSuccess
 
 """
 Views and functions for serving downloads files

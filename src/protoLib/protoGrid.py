@@ -2,12 +2,31 @@
 
 from django.contrib.admin.sites import site
 
+from protoLib.utilsBase import verifyList, copyProps, list2dict
+from protoLib.usrDefProps import verifyUdpDefinition
+from protoLib.protoField import setFieldDict
 
+<<<<<<< HEAD
 from utilsBase import verifyList, copyProps, list2dict
 from usrDefProps import verifyUdpDefinition
 from protoField import setFieldDict
+=======
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
+def getProtoAdmin(model):
+    """
+    Carga la protoDefinicion, del modelo y luego del admin,
+    La definicion del admin sirve para definir los EntryPoint,
+    pero no es necesario, la protoDefinicion se puede guardar directamente
+    en el modelo
 
+    Charges protoDefinicion, le modèle, puis l'administrateur,
+    La définition d'administration est utilisé pour définir le point d'entrée,
+    mais pas nécessaire, peuvent être sauvegardés directement protoDefinicion
+    dans le modèle
+    """
+
+<<<<<<< HEAD
 def getProtoAdmin(model):
     """ Carga la protoDefinicion, del modelo y luego del admin,
     * La definicion del admin sirve para definir los EntryPoint,
@@ -37,22 +56,56 @@ def getProtoAdmin(model):
 
     protoMeta = copyProps(protoMeta, protoExt)
 
+=======
+    # Siempre existe, la creacion del site la asigna por defecto
+    model_admin = site._registry.get(model)
+
+    # Si no esta registrado genera una definicion en blanco
+    if not model_admin:
+        model_admin = {}
+    protoExclude = getattr(model_admin, 'exclude', [])
+    if protoExclude is None:
+        protoExclude = []
+
+    protoMeta = getattr(model, 'protoExt', {})
+    protoExt = getattr(model_admin, 'protoExt', {})
+
+    protoMeta['exclude'] = protoMeta.get('exclude', []) + protoExclude
+
+    if not isinstance(protoMeta, dict):
+        protoMeta = {}
+    if not isinstance(protoExt, dict):
+        protoExt = {}
+
+    protoMeta = copyProps(protoMeta, protoExt)
+
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     return model_admin, protoMeta
 
 
 class ProtoGridFactory(object):
+<<<<<<< HEAD
 
     """ Construye la definicion por defecto de la interface
     """
 
     def __init__(self, model, viewCode, model_admin, protoMeta):
 
+=======
+    """
+    Construye la definicion por defecto de la interface
+    """
+
+    def __init__(self, model, viewCode, model_admin, protoMeta):
+
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         self.model = model              # the model to use as reference
         self.title = self.model._meta.verbose_name.title()
 
         # importa las definiciones del modelo y del admin
         self.model_admin = model_admin
         self.protoMeta = protoMeta
+<<<<<<< HEAD
 
         # garantiza la llave
         self.viewCode = viewCode
@@ -69,14 +122,35 @@ class ProtoGridFactory(object):
             self.fieldsDict = list2dict(protoMeta['fields'], 'name')
 
         # UDPs para poder determinar el valor por defecto ROnly
+=======
+
+        # garantiza la llave
+        self.viewCode = viewCode
+
+        # Inicializa
+        self.fields = []
+        self.fieldsDict = {}
+        self.gridConfig = self.protoMeta.get('gridConfig', {})
+
+        # Los campos deben ser inicialmente un diccionario para poder validarlos
+        protoMeta['fields'] = protoMeta.get('fields', [])
+        if isinstance(protoMeta['fields'], list):
+            self.fieldsDict = list2dict(protoMeta['fields'], 'name')
+
+        #UDPs para poder determinar el valor por defecto ROnly
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         self.pUDP = self.protoMeta.get('usrDefProps', {})
         verifyUdpDefinition(self.pUDP)
 
         # lista de campos para la presentacion en la grilla
         pListDisplay = verifyList(self.gridConfig.get('listDisplay', []))
         if not pListDisplay:
+<<<<<<< HEAD
             pListDisplay = verifyList(
                 getattr(self.model_admin, 'list_display', []))
+=======
+            pListDisplay = verifyList(getattr(self.model_admin, 'list_display', []))
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
             # Por defecto solo vienen  Chk, _str_
             try:
@@ -84,8 +158,12 @@ class ProtoGridFactory(object):
             except ValueError:
                 pass
 
+<<<<<<< HEAD
             # if pListDisplay and (pListDisplay[0] == '__str__'): pListDisplay
             # = []
+=======
+            # if pListDisplay and (pListDisplay[0] == '__str__'): pListDisplay = []
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
         self.gridConfig['listDisplay'] = pListDisplay
 
@@ -93,11 +171,18 @@ class ProtoGridFactory(object):
         # en la protoDef, pues los campos se enumeran explicitamente
         protoExclude = verifyList(self.protoMeta.get('exclude', []))
 
+<<<<<<< HEAD
         # Se leen los readonly fields para setear el attr readOnly = true
         pReadOnlyFlds = verifyList(self.gridConfig.get('readOnlyFields', []))
         if not pReadOnlyFlds:
             pReadOnlyFlds = verifyList(
                 getattr(self.model_admin, 'readonly_fields', []))
+=======
+        #Se leen los readonly fields para setear el attr readOnly = true
+        pReadOnlyFlds = verifyList(self.gridConfig.get('readOnlyFields', []))
+        if not pReadOnlyFlds:
+            pReadOnlyFlds = verifyList(getattr(self.model_admin, 'readonly_fields', []))
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
         self.gridConfig['readOnlyFields'] = pReadOnlyFlds
 
@@ -106,6 +191,12 @@ class ProtoGridFactory(object):
 
         # La lista de campos del admin sirve de base, pues puede haber muchos mas campos en proto q en admin
         # Si solo queda el __str__ , asume todos los campos del modelo
+<<<<<<< HEAD
+=======
+
+#        iCount = len( pListDisplay )
+#        if ( iCount == 0  ) or ( iCount == 1 and (pListDisplay[0] == '__str__')) :
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
 #        iCount = len( pListDisplay )
 # if ( iCount == 0  ) or ( iCount == 1 and (pListDisplay[0] == '__str__'))
@@ -141,16 +232,25 @@ class ProtoGridFactory(object):
             if key in pReadOnlyFlds:
                 fdict['readOnly'] = True
 
+<<<<<<< HEAD
             # Repasa las propiedades de base, ver por q no esta pasando
             # trayendo las props de base ( ie:  defaulValue )
             if (not (key.startswith('udp__'))):
+=======
+            # Repasa las propiedades de base, ver por q no esta pasando trayendo las props de base ( ie:  defaulValue )
+            if (not(key.startswith('udp__'))):
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
                 try:
                     field = self.model._meta.get_field(key)
                     setFieldDict(self.fieldsDict, field)
                     fdict = self.fieldsDict[key]
                 except:
+<<<<<<< HEAD
                     # Es posible q se puedan configuar propiedades no
                     # pertenecientes a la tabla como editables???
+=======
+                    #Es posible q se puedan configuar propiedades no pertenecientes a la tabla como editables???
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
                     fdict['readOnly'] = True
                     pass
 
@@ -167,8 +267,12 @@ class ProtoGridFactory(object):
         if (len(prFieldSet) == 0):
 
             # Toma la lista del field set si no existe lo crea de base,
+<<<<<<< HEAD
             baseFieldSet = verifyList(
                 getattr(self.model_admin, 'fieldsets', []))
+=======
+            baseFieldSet = verifyList(getattr(self.model_admin, 'fieldsets', []))
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
             if (len(baseFieldSet) == 0):
                 # Genera la lista de campos y agrega el nombre al diccionario
@@ -189,6 +293,7 @@ class ProtoGridFactory(object):
                         continue
 
                     if (key in ['smOwningUser', 'smOwningTeam', 'smCreatedBy', 'smModifiedBy', 'smWflowStatus', 'smRegStatus', 'smCreatedOn', 'smModifiedOn']):
+<<<<<<< HEAD
                         prAdmin.append(
                             {'name': key, '__ptType': 'formField'})
 
@@ -223,36 +328,90 @@ class ProtoGridFactory(object):
                 if prItems:
                     prSection = {
                         '__ptType': 'fieldset', 'fsLayout': '2col'}
+=======
+                        prAdmin.append({'name': key, '__ptType': 'formField'})
+
+                    elif (fType == 'text'):
+                        prTexts.append({'name': key, '__ptType': 'formField'})
+
+                    elif (fType in ['autofield', 'foreignid']):
+#                        prIds.append( { 'name' : key  , '__ptType' : 'formField'} )
+                        continue
+
+                    elif (fType == 'bool'):
+                        prChecks.append({'name': key, '__ptType': 'formField'})
+
+                    elif (fType == 'protoN2N'):
+                        prN2N.append({'name': key, '__ptType': 'formField'})
+
+                    elif (key == '__str__'):
+#                        prTexts.insert( 0, { 'name' : key  , '__ptType' : 'formField'} )
+                        continue
+
+                    elif (vFld.get('required', False) is False):
+                        prBlank.append({'name': key, '__ptType': 'formField'})
+
+                    else:
+                        prItems.append({'name': key, '__ptType': 'formField'})
+
+                if prItems:
+                    prSection = {'__ptType': 'fieldset', 'fsLayout': '2col'}
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
                     prSection['items'] = prItems
                     prFieldSet.append(prSection)
 
                 if prChecks:
+<<<<<<< HEAD
                     prSection = {
                         '__ptType': 'fieldset', 'fsLayout': '2col'}
+=======
+                    prSection = {'__ptType': 'fieldset', 'fsLayout': '2col'}
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
                     prSection['items'] = prChecks
                     prFieldSet.append(prSection)
 
                 if prBlank:
+<<<<<<< HEAD
                     prSection = {
                         '__ptType': 'fieldset', 'fsLayout': '2col'}
+=======
+                    prSection = {'__ptType': 'fieldset', 'fsLayout': '2col'}
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
                     prSection['items'] = prBlank
                     prFieldSet.append(prSection)
 
                 if prTexts:
+<<<<<<< HEAD
                     prSection = {
                         '__ptType': 'fieldset', 'fsLayout': '1col'}
+=======
+                    prSection = {'__ptType': 'fieldset', 'fsLayout': '1col'}
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
                     prSection['items'] = prTexts
                     prFieldSet.append(prSection)
 
                 if prN2N:
+<<<<<<< HEAD
                     prSection = {
                         '__ptType': 'fieldset', 'fsLayout': '1col'}
+=======
+                    prSection = {'__ptType': 'fieldset', 'fsLayout': '1col'}
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
                     prSection['items'] = prN2N
                     prFieldSet.append(prSection)
 
                 if prAdmin:
+<<<<<<< HEAD
                     prSection = {'__ptType': 'fieldset', 'fsLayout': '2col',
                                  'title': 'Admin', 'collapsible': True, 'collapsed': True}
+=======
+                    prSection = {'__ptType': 'fieldset',
+                                 'fsLayout': '2col',
+                                 'title': 'Admin',
+                                 'collapsible': True,
+                                 'collapsed': True
+                                 }
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
                     prSection['items'] = prAdmin
                     prFieldSet.append(prSection)
 
@@ -279,6 +438,7 @@ class ProtoGridFactory(object):
 
                     prSection['items'] = prItems
                     prFieldSet.append(prSection)
+<<<<<<< HEAD
 
         return pForm
 
@@ -293,6 +453,22 @@ class ProtoGridFactory(object):
 
         return details
 
+=======
+
+        return pForm
+
+    def get_details(self):
+
+        # Inicializa con los valores definidos,
+        details = self.protoMeta.get('detailsConfig', [])
+
+        # Si no han sido definido genera por defecto
+        if (len(details) == 0):
+            details = getModelDetails(self.model)
+
+        return details
+
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
 def getModelDetails(model):
 
@@ -325,7 +501,11 @@ def getModelDetails(model):
             "masterField": 'pk',
         })
 
+<<<<<<< HEAD
     # Campos N2N
+=======
+    #Campos N2N
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     for field in opts._many_to_many():
         tmpTable = field.rel.through._meta
         if not tmpTable.auto_created:
@@ -345,9 +525,15 @@ def getModelDetails(model):
 
 
 def setDefaultField(fdict, model, viewCode):
+<<<<<<< HEAD
     """
         set __str__ properties
     """
+=======
+    """
+        set __str__ properties
+    """
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     fdict['header'] = model._meta.verbose_name.title()
     fdict['type'] = 'string'
     fdict['readOnly'] = True
@@ -366,13 +552,23 @@ def getBaseModelName(viewCode):
     if viewCode.count(".") == 2:
         app, model, view = viewCode.split(".")
         viewCode = app + '.' + model
+<<<<<<< HEAD
+
+    return viewCode
+=======
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     return viewCode
 
-
+<<<<<<< HEAD
 def getFieldsInSet(self, prItems, formFields):
     # Al recorrer el fieldset pueden venir tuplas o arrays anidados, se
     # manejan en una unica lista
+=======
+
+def getFieldsInSet(self, prItems, formFields):
+    # Al recorrer el fieldset pueden venir tuplas o arrays anidados, se manejan en una unica lista
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     if type(formFields).__name__ == 'str':
         if verifyField(self, formFields):

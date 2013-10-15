@@ -6,8 +6,12 @@ from django.db.models.signals import post_save, post_delete
 from protoLib.models import ProtoModel
 from protoLib.fields import JSONField,  JSONAwareManager
 
+<<<<<<< HEAD
 from protoRules import updatePropInfo, twoWayPropEquivalence, updPropertyProject
 from protoRules import ONDELETE_TYPES, BASE_TYPES, CRUD_TYPES, DB_ENGINE
+=======
+from prototype.protoRules import *
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
 from protoLib.utilsBase import slugify
 
@@ -45,12 +49,57 @@ UPD_PROPERTY_PROJECT = True
     Las acciones,
         General
         Model ( dependen del modelo, no se requiere declararlas en el admin )
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+    la génération de points de vue est une création d'un PCL,
+
+    Le PCI contiendra maintenant:
+        - Liste des champs à partir duquel hériter;
+        - Détails qui peuvent être définis;
+
+    Type PCL définira la structure
+
+    La structure est envoyé à partir du serveur lorsque nécessaire;
+    La validation du PCI se fait dans le backend
+    La validation sur le terrain se fait en toute sécurité dans le backend) sécurité FieldLevel
+
+    Menus supplémentaires Configuarar (paramétrique?)
+        groupe
+        bouton
+        procédure
+        type de fenêtre
+        données
+
+    Laisser protipos Menu
+        Détails
+        Campos absorbé
+
+    L'édition de la PCL fermé et ouvrira la possibilité
+
+    Les actions,
+        général
+        Modèle (dépendant du modèle n'est pas tenu de les déclarer dans l'admin)
+
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 """
 
 
 class Project(ProtoModel):
 
+<<<<<<< HEAD
     """Corresponde a un nivel conceptual corportativo MCCD"""
+=======
+    """
+    Corresponde a un nivel conceptual corportativo MCCD
+    Correspond à une MCCD entreprise de niveau conceptuel
+    """
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     code = models.CharField(blank=False, null=False, max_length=200)
     description = models.TextField(blank=True, null=True)
 
@@ -84,6 +133,15 @@ class Model(ProtoModel):
 
     Los modelos son la unidad para generar una solucion ejecutable,
     los modelos pueden tener prefijos especificos para todas sus componentes ( entidades )
+<<<<<<< HEAD
+=======
+
+    Le modèle correspond à une solution spécifique,
+    Plusieurs modèles peuvent être encadrées dans un domaine
+
+    Les modèles sont l'unité pour générer une solution d'exécutable,
+    les modèles peuvent avoir des préfixes spécifiques pour tous les composants (entités)
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     """
     project = models.ForeignKey('Project', blank=False, null=False)
     code = models.CharField(blank=False, null=False, max_length=200)
@@ -101,11 +159,15 @@ class Model(ProtoModel):
         return slugify(self.code)
 
     protoExt = {
+<<<<<<< HEAD
         "actions": [
             {"name": "doModelPrototype"},
             {"name": "doModelGraph"},
             {"name": "doAutoForeingEntity"},
         ],
+=======
+        "actions": [{"name": "doModelPrototype"}, {"name": "doModelGraph"}],
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         "gridConfig": {
             "listDisplay": ["__str__", "description", "smOwningTeam"]
         }
@@ -114,6 +176,7 @@ class Model(ProtoModel):
 
 class Entity(ProtoModel):
     """
+<<<<<<< HEAD
     Entity corresponde a las entidades ;
 
     La asoaciacion al modelo es puramente por motivos de clasificacion, pues una entidad puede
@@ -175,6 +238,13 @@ class Entity(ProtoModel):
 
     """
     model = models.ForeignKey('Model', blank=False, null=False)
+=======
+    Entity corresponde a las entidades FISICA
+
+    Entité correspondant aux entités physiques
+    """
+    model = models.ForeignKey('Model', blank=False, null=False, related_name='entity_set')
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     code = models.CharField(blank=False, null=False, max_length=200)
 
     dbName = models.CharField(blank=True, null=True, max_length=200)
@@ -184,12 +254,17 @@ class Entity(ProtoModel):
     unicode_sort = ('model', 'code',)
 
     def __unicode__(self):
+<<<<<<< HEAD
         return slugify(self.code)
+=======
+        return slugify(self.model.code + '-' + self.code)
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     class Meta:
         unique_together = ('model', 'code', 'smOwningTeam')
 
     protoExt = {
+<<<<<<< HEAD
         "actions": [
             {"name": "doEntityPrototype", "selectionMode": "single",
              "actionParams": [{"name": "viewCode", "type": "string", "required": True,
@@ -211,6 +286,18 @@ class Entity(ProtoModel):
              },
 
         ],
+=======
+        "actions": [{
+            "name": "doEntityPrototype",
+            "selectionMode": "single",
+            "actionParams": [{
+                "name": "viewCode",
+                "type": "string",
+                "required": True,
+                "tooltip": "option de menu (msi)"
+            }]
+        }, ],
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         "detailsConfig": [
             {
                 "__ptType": "detailDef",
@@ -239,6 +326,7 @@ class Entity(ProtoModel):
             "listDisplay": ["__str__", "description", "smOwningTeam"]
         }
     }
+<<<<<<< HEAD
 
 
 class ForeignEntity(ProtoModel):
@@ -265,6 +353,8 @@ class ForeignEntity(ProtoModel):
 
     class Meta:
         unique_together = ('model', 'entity', 'smOwningTeam')
+=======
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
 
 class PropertyBase(ProtoModel):
@@ -272,11 +362,16 @@ class PropertyBase(ProtoModel):
     code = models.CharField(blank=False, null=False, max_length=200)
 
     """baseType, prpLength:  Caracteristicas generales q definen el campo """
+<<<<<<< HEAD
+=======
+    """baseType, prpLength:  Caractéristiques générales qui définissent le champ """
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     baseType = models.CharField(blank=True, null=True, max_length=50, choices=BASE_TYPES, default='string')
     prpLength = models.IntegerField(blank=True, null=True)
     prpScale = models.IntegerField(blank=True, null=True)
 
     """vType : validation type ( formatos predefinidos email, .... ) """
+<<<<<<< HEAD
     vType = models.CharField(blank=True, null=True, max_length=50, choices=BASE_TYPES, default='string')
 
     """prpDefault: Puede variar en cada instancia """
@@ -286,6 +381,21 @@ class PropertyBase(ProtoModel):
     prpChoices = models.TextField(blank=True, null=True)
 
     """isSensitive: Indica si las propiedades requieren un nivel mayor de seguridad """
+=======
+    """vType :Type de validation (formats prédéfinis, email, ....) """
+    vType = models.CharField(blank=True, null=True, max_length=50, choices=BASE_TYPES, default='string')
+
+    """prpDefault: Puede variar en cada instancia """
+    """prpDefault: Il peut varier dans chaque cas """
+    prpDefault = models.CharField(blank=True, null=True, max_length=50)
+
+    """prpChoices:  Lista de valores CSV ( idioma?? ) """
+    """prpChoices:  Liste CSV des valeurs (langue?) """
+    prpChoices = models.TextField(blank=True, null=True)
+
+    """isSensitive: Indica si las propiedades requieren un nivel mayor de seguridad """
+    """isSensitive: Indique si les propriétés requièrent un niveau de sécurité plus élevé """
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     isSensitive = models.BooleanField()
 
     description = models.TextField(blank=True, null=True)
@@ -306,6 +416,7 @@ class Property(PropertyBase):
     """
     Propiedades por tabla, definicion a nivel de modelo de datos.
     Las relaciones heredan de las propriedades y definien la cardinalidad
+<<<<<<< HEAD
     """
     entity = models.ForeignKey('Entity', related_name='property_set')
 
@@ -314,22 +425,49 @@ class Property(PropertyBase):
 
     # -----------  caracteristicas propias de la instancia
     """isPrimary : en el prototipo siempre es artificial, implica isLookUpResult"""
+=======
+
+    Propriétés pour le modèle de données de définition au niveau table.
+    Relations héritées des propriétés et la définition de cardinalité
+    """
+    entity = models.ForeignKey('Entity', related_name='property_set')
+
+    """propertyModel : corresponde a la especificacion en el modelo ( metodologia: user history )"""
+    propertyModel = models.ForeignKey('PropertyModel', blank=True, null=True, on_delete=models.SET_NULL)
+
+    # -----------  caracteristicas propias de la instancia
+    """isPrimary : en el prototipo siempre es artificial, implica isLookUpResult"""
+    """isPrimary : le prototype est toujours un moyen artificiel isLookUpResult"""
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     isPrimary = models.BooleanField()
     isLookUpResult = models.BooleanField()
 
     """isNullable: tiene q ver con la Db"""
+<<<<<<< HEAD
+=======
+    """isNullable: q est liée à la Db"""
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     isNullable = models.BooleanField()
 
     """isRequired: tiene q ver con el llenado de datos"""
+    """isRequired: a q faire avec la population des données"""
     isRequired = models.BooleanField()
 
     """isReadOnly: ReadOnly field ( frontEnd"""
     isReadOnly = models.BooleanField()
 
     """isEssential: Indica si las propiedades saldran en la vista por defecto """
+<<<<<<< HEAD
     isEssential = models.BooleanField()
 
     """isForeign: indica si la propiedad ha sido definida en  Relationship"""
+=======
+    """isEssential: Indique si les propriétés vont sortir dans la vue par défaut """
+    isEssential = models.BooleanField()
+
+    """isForeign: indica si la propiedad ha sido definida en  Relationship"""
+    """isForeign: indique si la propriété a été définie en relation"""
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     isForeign = models.BooleanField(editable=False, default=False)
 
     crudType = models.CharField(blank=True, null=True, max_length=20, choices=CRUD_TYPES)
@@ -343,16 +481,24 @@ class Property(PropertyBase):
             self.isRequired = True
             self.isLookUpResult = True
 
+<<<<<<< HEAD
         if UPD_PROPERTY_PROJECT:
             updatePropInfo(self, self.propertyProject, PropertyProject, False)
 
+=======
+        updatePropInfo(self,  self.propertyModel, PropertyModel, False)
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         super(Property, self).save(*args, **kwargs)
 
     class Meta:
         unique_together = ('entity', 'code', 'smOwningTeam')
 
     def __unicode__(self):
+<<<<<<< HEAD
         return slugify(self.code)
+=======
+        return slugify(self.entity.code + '.' + self.code)
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     unicode_sort = ('entity', 'code',)
 
@@ -365,7 +511,9 @@ class Property(PropertyBase):
 
 class Relationship(Property):
     """
-    * Tipo particula de propiedad q define las relaciones,  la definicion de la cardinlaidad y otras
+    Tipo particula de propiedad q define las relaciones,  la definicion de la cardinlaidad y otras
+
+    Type particulier de propriété qui définit les relations, la définition de la cardinalité et autres
     """
 
     """refEntity : entidad referenciada"""
@@ -397,6 +545,7 @@ class Relationship(Property):
             "listDisplay": ["__str__", "description", "smOwningTeam"]
         },
         "exclude": ["baseType", "prpLength", "prpDefault", "prpChoices"]
+<<<<<<< HEAD
         }
 
 
@@ -415,10 +564,43 @@ class PropertyProject(PropertyBase):
 
     """
     project = models.ForeignKey('Project', blank=False, null=False)
+=======
+    }
+
+
+class PropertyModel(PropertyBase):
+    """
+    A nivel conceptual encontraremos la lista de propiedadaes
+    qu corresponde a la definicion semantica del problema;
+
+    1. Estas propiedades normalmente se definien a nivel de modelo
+    cuando el usuario ( piloto ) describe su problematica,
+
+    2. Si la definicion la realiza un modelizador, se hara a nivel de entidad,
+
+    * podria generarse navegando model-entity-prop
+    * pero el primer paso en podria implicar la definicion semantica de propiedades por modelo
+
+
+    Au niveau conceptuel, nous trouvons la liste des propriétés
+    ce qui correspond à la définition sémantique du problème;
+
+    1. Ces propriétés modèle généralement definien niveau
+    lorsque l'utilisateur (pilote) décrit la problématique,
+
+    Deux. Si la définition est réalisée par un modeleur, seront réalisés au niveau de l'entité,
+
+    * Navigation pourrait générer un modèle entité-prop
+    * Mais la première étape dans la définition pourrait impliquer sémantique des propriétés par modèle
+
+    """
+    model = models.ForeignKey('Model', blank=False, null=False)
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     inherit = models.BooleanField(default=False)
     conceptType = models.CharField(blank=True, null=True, max_length=50, editable=False)
 
     def __unicode__(self):
+<<<<<<< HEAD
         return slugify(self.project.code + '.' + self.code)
 
     class Meta:
@@ -429,10 +611,23 @@ class PropertyProject(PropertyBase):
         updatePropInfo(self, None, PropertyProject, self.inherit)
         self.inherit = False
         super(PropertyProject, self).save(*args, **kwargs)
+=======
+        return slugify(self.model.code + '.' + self.code)
+
+    class Meta:
+        unique_together = ('model', 'code', 'smOwningTeam')
+
+    def save(self, *args, **kwargs):
+        # Envia el heredado y se asegura q sea Falso siempre
+        updatePropInfo(self, None, PropertyModel, self.inherit)
+        self.inherit = False
+        super(PropertyModel, self).save(*args, **kwargs)
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     protoExt = {
         #"menuApp" : "dictionary",
         "actions": [
+<<<<<<< HEAD
             {"name": "doPropertyProjectJoin",
              "selectionMode": "multiple",
              "refreshOnComplete": True
@@ -460,16 +655,48 @@ class PropertyProject(PropertyBase):
             "masterField": "pk"
         }],
 
+=======
+            {
+                "name": "doPropertyModelJoin",
+                "selectionMode": "multiple",
+                "refreshOnComplete": True
+            },
+        ],
+        "gridConfig": {
+        "listDisplay": ["__str__", "description", "inherit", "conceptType", "smOwningTeam"]
+        },
+        "detailsConfig": [
+            {
+                "menuText": "Properties",
+                "conceptDetail": "prototype.Property",
+                "detailName": "propertyModel",
+                "detailField": "propertyModel__pk",
+                "masterField": "pk"
+            }, {
+                "menuText": "Equivalences",
+                "conceptDetail": "prototype.PropertyEquivalence",
+                "detailName": "sourceProperty",
+                "detailField": "sourceProperty__pk",
+                "masterField": "pk"
+            }],
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     }
 
 
 def propModel_post_delete(sender, instance, **kwargs):
     # En el postSave ya el registro de hijos no existe,
     # la solucion mas simple las props con propMod = None y tocarlos
+<<<<<<< HEAD
     updPropertyProject(Property)
     pass
 
 post_delete.connect(propModel_post_delete, sender=PropertyProject)
+=======
+    updProPropModel(Property)
+    pass
+
+post_delete.connect(propModel_post_delete, sender=PropertyModel)
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
 
 class PropertyEquivalence(ProtoModel):
@@ -478,6 +705,7 @@ class PropertyEquivalence(ProtoModel):
 
     Este es un caso particular de relacion donde en usa sola busqueda quisiera
     obtener donde es source y donde es target,
+<<<<<<< HEAD
 
     se podria agregar un manejador q hicer:   where = sourse UNION where target,
     o q al momento de guardar generara la relacion inversa y actualizara simpre los dos ( privilegiada )
@@ -490,6 +718,25 @@ class PropertyEquivalence(ProtoModel):
 
     description = models.TextField(blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
+=======
+
+    se podria agregar un manejador q hicer:   where = sourse UNION where target,
+    o q al momento de guardar generara la relacion inversa y actualizara simpre los dos ( privilegiada )
+
+    Matrice de "sémantique" d'équivalence entre les propriétés
+
+    C'est un cas particulier de la relation où la recherche serait utilisé seul
+    arriver là où est la source et qui est la cible,
+
+    vous pouvez ajouter un gestionnaire hicer Q: Où = Sourse où la cible UNION,
+    q lors de l'enregistrement de générer et mettre à jour la relation inverse simpre deux (privilégié)
+    """
+
+    sourceProperty = models.ForeignKey('PropertyModel', blank=True, null=True, related_name='sourcePrp')
+    targetProperty = models.ForeignKey('PropertyModel', blank=True, null=True, related_name='targetPrp')
+
+    description = models.TextField(blank=True, null=True)
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     def __unicode__(self):
         return slugify(self.sourceProperty.code + ' - ' + self.targetProperty.code)
@@ -511,8 +758,14 @@ class PropertyEquivalence(ProtoModel):
 
 def propEquivalence_post_save(sender, instance, created, **kwargs):
     twoWayPropEquivalence(instance, PropertyEquivalence, False)
+<<<<<<< HEAD
 
 post_save.connect(propEquivalence_post_save, sender=PropertyEquivalence)
+=======
+
+post_save.connect(propEquivalence_post_save, sender=PropertyEquivalence)
+
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
 #This way when the save() method is called,
 #it never fires another post_save signal because we've disconnected it.
@@ -524,13 +777,26 @@ post_save.connect(propEquivalence_post_save, sender=PropertyEquivalence)
 #
 #post_save.connect(do_stuff, sender=User)
 
+<<<<<<< HEAD
+=======
+#   --------------------------------------------------------------------------------
+
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
 class Prototype(ProtoModel):
     """
     Esta tabla manejar la lista de  prototypos almacenados en customDefinicion,
     Genera la "proto" pci;  con la lista de campos a absorber y los detalles posibles
+<<<<<<< HEAD
     """
     entity = models.ForeignKey('Entity', blank=False, null=False)
+=======
+
+    Cette liste tableau prototypos poignée stockés dans customDefinition,
+    Génère le pci "proto", avec la liste des champs d'absorber et de détail possible
+    """
+    entity = models.ForeignKey(Entity, blank=False, null=False)
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     """Nombre (str) de la vista a buscar en protoDefinition  """
     code = models.CharField(blank=False, null=False, max_length=200, editable=False)
@@ -556,8 +822,16 @@ class Prototype(ProtoModel):
 class ProtoTable(ProtoModel):
     """
     Esta es el store de los prototipos
+<<<<<<< HEAD
     """
     entity = models.ForeignKey('Entity', blank=False, null=False)
+=======
+
+    C'est le magasin des prototypes
+    """
+
+    entity = models.ForeignKey(Entity, blank=False, null=False)
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     info = JSONField(default={})
 
     def __unicode__(self):
@@ -581,13 +855,22 @@ class ProtoTable(ProtoModel):
             "listDisplay": ["__str__", "smOwningTeam"]
         }
     }
+<<<<<<< HEAD
+=======
+
+#   --------------------------------------------------------------------------------
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
 
 class Diagram(ProtoModel):
     """
     TODO: Diagrama o subModelo
     """
+<<<<<<< HEAD
     project = models.ForeignKey('Project', blank=False, null=False)
+=======
+    model = models.ForeignKey('Model', blank=False, null=False)
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     code = models.CharField(blank=False, null=False, max_length=200)
 
     description = models.TextField(blank=True, null=True)
@@ -598,6 +881,7 @@ class Diagram(ProtoModel):
     objects = JSONAwareManager(json_fields=['info'])
 
     # Propieadad para ordenar el __str__
+<<<<<<< HEAD
     unicode_sort = ('project', 'code',)
 
     def __unicode__(self):
@@ -607,6 +891,19 @@ class Diagram(ProtoModel):
         unique_together = ('project', 'code', 'smOwningTeam')
 
     protoExt = {"menuApp": "roadMap", }
+=======
+    unicode_sort = ('model', 'code',)
+
+    def __unicode__(self):
+        return slugify(self.model.code + '-' + self.code)
+
+    class Meta:
+        unique_together = ('model', 'code', 'smOwningTeam')
+
+    protoExt = {
+        "menuApp": "roadMap",
+    }
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
 
 class DiagramEntity(ProtoModel):
@@ -621,10 +918,17 @@ class DiagramEntity(ProtoModel):
     objects = JSONAwareManager(json_fields=['info'])
 
     # Propieadad para ordenar el __str__
+<<<<<<< HEAD
     unicode_sort = ('entity', )
 
     def __unicode__(self):
         return slugify(self.entity.code)
+=======
+    unicode_sort = ('diagram', 'entity',)
+
+    def __unicode__(self):
+        return slugify(self.diagram.code + '-' + self.entity.code)
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     class Meta:
         unique_together = ('diagram', 'entity', 'smOwningTeam')
@@ -633,21 +937,37 @@ class DiagramEntity(ProtoModel):
         "menuApp": "roadMap",
         }
 
+<<<<<<< HEAD
+=======
+#   --------------------------------------------------------------------------------
+
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
 class Service(ProtoModel):
     """
     TODO: Servicios entre modelos ( entidades virtuales )
     """
+<<<<<<< HEAD
     project = models.ForeignKey('Project', blank=False, null=False)
+=======
+    model = models.ForeignKey('Model', blank=False, null=False)
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     code = models.CharField(blank=False, null=False, max_length=200)
 
     """Binding : SOAP, RPC, REST, DCOM, CORBA, DDS, RMI, WCF """
     Binding = models.CharField(blank=True, null=True, max_length=20)
     typeMessage = models.CharField(blank=True, null=True, max_length=20)
+<<<<<<< HEAD
 
     description = models.TextField(blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
 
+=======
+
+    description = models.TextField(blank=True, null=True)
+    notes = models.TextField(blank=True, null=True)
+
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     """REST subtypes ( POST, GET ),  notation ( XML, JSON ), etc  ... """
     infoMesage = JSONField(default={})
 
@@ -657,6 +977,7 @@ class Service(ProtoModel):
     objects = JSONAwareManager(json_fields=['infoMesage', 'infoRequest', 'infoReponse'])
 
     # Propieadad para ordenar el __str__
+<<<<<<< HEAD
     unicode_sort = ('model', 'code', )
 
     def __unicode__(self):
@@ -668,10 +989,24 @@ class Service(ProtoModel):
     protoExt = {
         "menuApp": "roadMap",
         }
+=======
+    unicode_sort = ('model', 'code',)
+
+    def __unicode__(self):
+        return slugify(self.model.code + '-' + self.code)
+
+    class Meta:
+        unique_together = ('model', 'code', 'smOwningTeam')
+
+    protoExt = {
+        "menuApp": "roadMap",
+    }
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
 
 class ServiceRef(ProtoModel):
     """
+<<<<<<< HEAD
     TODO: Cliente Servicios entre proyectos ( entidades virtuales )
     """
     project = models.ForeignKey('Project', blank=False, null=False)
@@ -681,11 +1016,20 @@ class ServiceRef(ProtoModel):
 
     # Servicio al q se hace referencia
     service = models.ForeignKey('Service', blank=False, null=False)
+=======
+    TODO: Cliente Servicios entre modelos ( entidades virtuales )
+    """
+    model = models.ForeignKey('Model', blank=False, null=False)
+    service = models.ForeignKey('Service', blank=False, null=False)
+
+    endpoint = models.CharField(blank=True, null=True, max_length=200)
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     description = models.TextField(blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
 
     # Propieadad para ordenar el __str__
+<<<<<<< HEAD
     unicode_sort = ('project', 'service', )
 
     def __unicode__(self):
@@ -695,3 +1039,12 @@ class ServiceRef(ProtoModel):
         unique_together = ('project', 'code', 'smOwningTeam')
 
     protoExt = {"menuApp": "roadMap", }
+=======
+    unicode_sort = ('model', 'service',)
+
+    def __unicode__(self):
+        return slugify(self.model.code + '-' + self.service.code)
+
+    class Meta:
+        unique_together = ('model', 'service', 'smOwningTeam')
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e

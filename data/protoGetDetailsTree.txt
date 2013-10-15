@@ -1,0 +1,119 @@
+POST:
+id: root
+node: root
+protoEntityId
+viewCode: prototype.Project
+
+
+Response:
+[{
+    "leaf": false,
+    "detailField": "project__pk",
+    "id": "Model.project",
+    "conceptDetail": "prototype.Model",
+    "masterField": "pk",
+    "children": [{
+        "leaf": false,
+        "detailField": "model__project__pk",
+        "id": "Model.project/Entity.model",
+        "conceptDetail": "prototype.Entity",
+        "masterField": "pk",
+        "children": [{
+            "leaf": false,
+            "detailField": "entity__model__project__pk",
+            "id": "Model.project/Entity.model/Property.entity",
+            "conceptDetail": "prototype.Property",
+            "masterField": "pk",
+            "children": [{
+                "conceptDetail": "prototype.Relationship",
+                "detailField": "property_ptr__entity__model__project__pk",
+                "leaf": true,
+                "id": "Model.project/Entity.model/Property.entity/Relationship.property_ptr",
+                "masterField": "pk"
+            }]
+        }, {
+            "conceptDetail": "prototype.Relationship",
+            "detailField": "refEntity__model__project__pk",
+            "leaf": true,
+            "id": "Model.project/Entity.model/Relationship.refEntity",
+            "masterField": "pk"
+        }, {
+            "conceptDetail": "prototype.Prototype",
+            "detailField": "entity__model__project__pk",
+            "leaf": true,
+            "id": "Model.project/Entity.model/Prototype.entity",
+            "masterField": "pk"
+        }, {
+            "conceptDetail": "prototype.ProtoTable",
+            "detailField": "entity__model__project__pk",
+            "leaf": true,
+            "id": "Model.project/Entity.model/Prototable.entity",
+            "masterField": "pk"
+        }, {
+            "conceptDetail": "prototype.DiagramEntity",
+            "detailField": "entity__model__project__pk",
+            "leaf": true,
+            "id": "Model.project/Entity.model/Diagramentity.entity",
+            "masterField": "pk"
+        } ]},
+        {
+        "leaf": false,
+        "detailField": "model__project__pk",
+        "id": "Model.project/Propertymodel.model",
+        "conceptDetail": "prototype.PropertyModel",
+        "masterField": "pk",
+        "children": [{
+            "leaf": false,
+            "detailField": "propertyModel__model__project__pk",
+            "id": "Model.project/Propertymodel.model/Property.propertyModel",
+            "conceptDetail": "prototype.Property",
+            "masterField": "pk",
+            "children": [{
+                "conceptDetail": "prototype.Relationship",
+                "detailField": "property_ptr__propertyModel__model__project__pk",
+                "leaf": true,
+                "id": "Model.project/Propertymodel.model/Property.propertyModel/Relationship.property_ptr",
+                "masterField": "pk"
+            }]}, {
+                "conceptDetail": "prototype.PropertyEquivalence",
+                "detailField": "sourceProperty__model__project__pk",
+                "leaf": true,
+                "id": "Model.project/Propertymodel.model/Propertyequivalence.sourceProperty",
+                "masterField": "pk"
+            }, {
+                "conceptDetail": "prototype.PropertyEquivalence",
+                "detailField": "targetProperty__model__project__pk",
+                "leaf": true,
+                "id": "Model.project/Propertymodel.model/Propertyequivalence.targetProperty",
+                "masterField": "pk"
+            }]}, {
+            "leaf": false,
+            "detailField": "model__project__pk",
+            "id": "Model.project/Diagram.model",
+            "conceptDetail": "prototype.Diagram",
+            "masterField": "pk",
+            "children": [{
+                "conceptDetail": "prototype.DiagramEntity",
+                "detailField": "diagram__model__project__pk",
+                "leaf": true,
+                "id": "Model.project/Diagram.model/Diagramentity.diagram",
+                "masterField": "pk"
+            }]}, {
+            "leaf": false,
+            "detailField": "model__project__pk",
+            "id": "Model.project/Service.model",
+            "conceptDetail": "prototype.Service",
+            "masterField": "pk",
+            "children": [{
+                "conceptDetail": "prototype.ServiceRef",
+                "detailField": "service__model__project__pk",
+                "leaf": true,
+                "id": "Model.project/Service.model/Serviceref.service",
+                "masterField": "pk"
+            }]}, {
+                "conceptDetail": "prototype.ServiceRef",
+                "detailField": "model__project__pk",
+                "leaf": true,
+                "id": "Model.project/Serviceref.model",
+                "masterField": "pk"
+            }]}]

@@ -1,9 +1,18 @@
 # -*- encoding: UTF-8 -*-
 
+from protoLib.models import UserProfile
+from protoLib.models import TeamHierarchy
 
-from models import UserProfile, TeamHierarchy
 
+def getUserProfile(pUser, action, actionInfo):
 
+    """
+    Obtiene el profile de usuario, permitira retornar valores como el
+    idioma y otros eltos del entorno,
+
+    Permitira tambien el manejo de logs,
+
+<<<<<<< HEAD
 def getUserProfile(pUser, action, actionInfo):
     """
     Obtiene el profile de usuario, permitira retornar valores como el
@@ -11,6 +20,8 @@ def getUserProfile(pUser, action, actionInfo):
 
     Permitira tambien el manejo de logs,
 
+=======
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     action :
     - login
     - saveData
@@ -34,8 +45,12 @@ def getUserProfile(pUser, action, actionInfo):
 
     if uProfile.userTeam is None:
         # verifica el grupo  ( proto por defecto )
+<<<<<<< HEAD
         uProfile.userTeam = TeamHierarchy.objects.get_or_create(
             code='proto')[0]
+=======
+        uProfile.userTeam = TeamHierarchy.objects.get_or_create(code='proto')[0]
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         uProfile.save()
 
     if action == 'login':
@@ -53,8 +68,12 @@ def getUserProfile(pUser, action, actionInfo):
         if usrLanguage not in ['es', 'en', 'fr']:
             usrLanguage = 'fr'
         usrLanguage = 'protoLib.localisation.' + usrLanguage
+<<<<<<< HEAD
         myModule = __import__(
             usrLanguage,  globals(), locals(), ['__language'], -1)
+=======
+        myModule = __import__(usrLanguage, globals(), locals(), ['__language'], -1)
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
         return myModule.__language
 
@@ -70,8 +89,12 @@ def getModelPermissions(pUser, model, perm=None):
     permissions = {}
 
     def getIndPermission(perm):
+<<<<<<< HEAD
         permissions[perm] = pUser.is_superuser or pUser.has_perm(
             appName + '.' + perm + '_' + modName)
+=======
+        permissions[perm] = pUser.is_superuser or pUser.has_perm(appName + '.' + perm + '_' + modName)
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     # Si es un solo permiso retorna true / false
     if not (perm is None):
@@ -93,6 +116,10 @@ def getModelPermissions(pUser, model, perm=None):
 
 
 def activityLog(action, user, option, info):
+<<<<<<< HEAD
+=======
+
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     # TODO:
     # info es un json con el detalle de la opcion { rows, meta, etc .... }
     # Verificar en profile si tiene o no tiene log
@@ -100,7 +127,10 @@ def activityLog(action, user, option, info):
     # verificar el tipo de accion ( ej: logear solo los borrados .... )
     pass
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 # ------------------
 
 # def hasModelPermissions( pUser, model  ):

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ﻿# -*- coding': utf-8 -*-
+=======
+﻿# -*- coding' : utf-8 -*-
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
 __language = {
     'languaje': 'fr',
@@ -156,9 +160,14 @@ __language = {
     'Title_Panel_Tools': 'Outils du formulaire',
 
     'Tree_Concept_Details_Text': 'texte',
+<<<<<<< HEAD
     'Tree_Concept_Details_Detail': 'Éntité détail',
     'Tree_Details_Field': 'Champ détail',
     'Tree_Concept_Details_MasterFld': 'MasterFld',
+=======
+    'Tree_Concept_Details_Detail': 'détail du concept',
+    'Tree_Details_Field': 'détail du champ',
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     'Protofield_Fields': 'champs',
     'Protofield_Text': 'Nom champ',
@@ -178,7 +187,11 @@ __language = {
     'ProtoPcl_Add_Instance': 'Ajouter une instance de',
     'ProtoPcl_Del_Current': 'Supprimer instance actuelle',
     'ProtoToolbar_Save_Preview': 'Enregistrer la prévisualisation',
+<<<<<<< HEAD
     'ProtoToolbar_Upd_Def': "Mettre à jour la définition",
+=======
+    'ProtoToolbar_Upd_Def': 'Mettre à jour la définition',
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     'ProtoToolbar_Reload': 'Recharger',
     'ProtoToolbar_Add_Node': 'Ajouter noeud',
     'ProtoToolbar_Del_Current_Node': 'Effacer noeud actuel',
@@ -188,7 +201,11 @@ __language = {
     'Text_Enter_User_Login': 'Vous devez entrer un nom',
     'Text_Validating_Info_User': 'Authentification en procès ...',
     'Text_No_Aplications': 'Aucune application affectée',
+<<<<<<< HEAD
     'Text_General_Information': "Information",
+=======
+    'Text_General_Information': 'Information',
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     'Text_Error_In_Action': "L'action n'a pas été possible",
 
     'Title_Aut_View': 'Autorisation',
@@ -214,4 +231,8 @@ __language = {
     'HelpQBE_GridNav_DisplayMsg': 'registres {0} - {1} de {2}',
     'HelpQBE_GridNav_EmptyMsg': 'no registres',
     'HelpQBE_Window_Title': 'Aider QBE'
+<<<<<<< HEAD
+=======
+
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 }

@@ -4,16 +4,27 @@
 def setDefaults2Obj(pObj, defaults, exclude=[]):
     """ Asignas las props q vienen en un dict a un objeto
     """
+<<<<<<< HEAD
+=======
+
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     for key in defaults:
         if key in exclude:
             continue
         try:
             setattr(pObj, key, defaults[key])
         except:
+<<<<<<< HEAD
             # TODO: Log
             pass
 
 
+=======
+            #TODO: Log
+            pass
+
+
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 def update_or_create(myModel, **kwargs):
     """
     Use the snippet like this:
@@ -44,7 +55,11 @@ def update_or_create(myModel, **kwargs):
     try:
         obj, created = myModel.objects.get_or_create(**kwargs)
     except Exception as e:
+<<<<<<< HEAD
         # print getReadableError( e )
+=======
+        #print getReadableError( e )
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 #        traceback.print_exc()
         raise e
 

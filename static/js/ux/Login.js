@@ -49,7 +49,7 @@ Ext.define('ProtoUL.ux.Login', {
                     scope: this,
                     keydown: this.onKeyEnter
                 }
-            }], 
+            }],
             dockedItems: [{
                 xtype: 'toolbar',
                 dock: 'bottom',
@@ -59,12 +59,12 @@ Ext.define('ProtoUL.ux.Login', {
                     this.submitButton, this.resetButton
                 ]
             }]
-            
+
         });
 
         this.callParent(arguments);
-        this.stLogin = this.dockedItems.items[0].getComponent( 'stLogin' ) 
-        
+        this.stLogin = this.dockedItems.items[0].getComponent( 'stLogin' )
+
         this.on('afterlayout', function () {
             if (this.username == '') {
                 this.getForm().findField('login').focus();
@@ -82,44 +82,49 @@ Ext.define('ProtoUL.ux.Login', {
     },
 
     submitLogin: function (btn) {
-        if ( ! btn ) { btn = this.submitButton }
+        if ( !btn ) {
+            btn = this.submitButton;
+        }
         btn.disable();
-        
-        var form = this.getForm(), 
-            me = this
+
+        var form = this.getForm(),
+            me = this;
 
         Ext.applyIf(this.options, {
             scope: this,
             success: Ext.emptyFn,
             failure: Ext.emptyFn
         });
-        
-        
+
+
         if (form.isValid()) {
             btn.setIconCls("st-loading");
             form.submit({
                 method: 'POST',
-                // waitTitle:'Connecting', 
-                // waitMsg:'Sending data...',             
+                // waitTitle:'Connecting',
+                // waitMsg:'Sending data...',
+
                 url: _SM._PConfig.urlGetUserRights ,
                 scope: me,
                 // success: this.submitLoginCallback,
-                // failure: this.submitLoginCallback, 
+                // failure: this.submitLoginCallback,
                 success: function(result, request) {
                     _SM._UserInfo = request.result.userInfo
                     _SM.__language = request.result.language
 
-                    // Incializa los permisos 
+                    // Incializa los permisos
                     _SM._UserInfo.perms = {}
-                    
-                    me.options.success.call( me.options.scope, result, request);                },
+
+                    me.options.success.call( me.options.scope, result, request);
+                },
                 failure: function(result, request) {
                     try {
                         me.showFormError( request.result.message );
                     } catch(e) {
                         me.showFormError( request.response.responseText );
                     }
-                    me.options.failure.call( me.options.scope, result, request);                }
+                    me.options.failure.call( me.options.scope, result, request);
+                }
             });
         } else {
            btn.enable();
@@ -133,11 +138,11 @@ Ext.define('ProtoUL.ux.Login', {
             // // window.location = json.redirect;
         // }  else {
             // this.error(result, request);
-        // } 
+        // }
     // },
 
     showFormError: function ( errMsg ) {
-        this.stLogin.setText( errMsg  ); 
+        this.stLogin.setText( errMsg  );
         this.submitButton.enable();
         this.submitButton.setIconCls("icon-ok");
         this.getForm().findField('login').focus();
@@ -201,7 +206,7 @@ Ext.define('ProtoUL.ux.Login', {
             // labelAlign: 'right',
             // labelWidth: 150,
             // disabled: false,
-            // border: false, 
+            // border: false,
             // items: [{
                 // html: 'Changement de votre mot de passe',
                 // style: 'margin:20px',
@@ -264,4 +269,4 @@ Ext.define('ProtoUL.ux.Login', {
         // Ext.ux.ChangePass.superclass.initComponent.apply(this, arguments);
         // this.addEvents(['submitSuccess']);
     // }
-// });
+// });

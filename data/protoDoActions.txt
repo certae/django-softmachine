@@ -1,0 +1,27 @@
+POST header:
+POST /protoLib/protoDoActions/ HTTP/1.1
+Host: localhost:8000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:22.0) Gecko/20100101 Firefox/22.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+DNT: 1
+X-CSRFToken: knc9X8HdqroP1sAvJr9i8JTN5pcI5rh5
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+X-Requested-With: XMLHttpRequest
+Referer: http://localhost:8000/protoExt
+Content-Length: 92
+Cookie: csrftoken=knc9X8HdqroP1sAvJr9i8JTN5pcI5rh5; sessionid=7gy1du71m4l45rjioj9qzpuu882gs6px
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+
+POST:
+actionName  doModelPrototype
+parameters  []
+selectedKeys    [23]
+viewCode    prototype.Model
+
+Response:
+{"message": "Model : t_model Entts: t_other_entity,; ", "success": true}

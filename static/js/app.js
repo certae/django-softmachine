@@ -59,7 +59,11 @@ Ext.application({
         //
         Ext.QuickTips.init();
 
+<<<<<<< HEAD
         this.showLogin();
+=======
+        this.showLogin()
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
 /*
        Ext.Ajax.request({
@@ -88,6 +92,7 @@ Ext.application({
 */
 
         // var app = new ProtoUL.view.Viewport();
+<<<<<<< HEAD
 
     },
 
@@ -99,6 +104,19 @@ Ext.application({
             scope: me,
             success: function (obj, result, request) {
                 myWin.hide();
+=======
+
+    },
+
+    showLogin: function(  ) {
+
+        var me = this
+
+        var options = {
+            scope: me,
+            success: function ( obj, result, request ) {
+                myWin.hide()
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
                 // Globally changing the text of Cancel and Save buttons;
                 Ext.grid.RowEditor.prototype.saveBtnText = _SM.__language.Text_Save_Button;
@@ -107,15 +125,25 @@ Ext.application({
                 var app = new ProtoUL.view.Viewport();
 
                 // destruye el login
+<<<<<<< HEAD
                 Ext.destroy(Ext.ComponentQuery.query('protoLogin'));
+=======
+                Ext.destroy( Ext.ComponentQuery.query('protoLogin') )
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
             }
             // failure: function ( obj, result, request) {
                 // _SM.errorMessage( 'ProtoDefinition Error :', myZoomModel + ': protoDefinition not found')
             // }
+<<<<<<< HEAD
         };
 
         var myWin = Ext.widget('window', {
+=======
+        }
+
+        var myWin  = Ext.widget('window', {
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
             constrain: true,
             iconCls: 'st-user-who',
             title: 'ART - Identification',
@@ -128,7 +156,17 @@ Ext.application({
             modal: true,
             items: [{xtype: 'protoLogin', options: options}]
         });
+<<<<<<< HEAD
 
         myWin.show();
     }
+=======
+
+        myWin.show()
+
+    },
+
+
+
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 });

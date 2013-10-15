@@ -8,7 +8,7 @@ from datetime import datetime
 from django.conf import settings
 from django.http import HttpResponse
 
-from utilsBase import JSONEncoder
+from protoLib.utilsBase import JSONEncoder
 
 import django.utils.simplejson as json
 import os
@@ -21,7 +21,10 @@ def doReturn(jsonDict):
 
 
 def JsonResponse(contents, status=200):
+<<<<<<< HEAD
     # http://tools.ietf.org/html/rfc4627  ( text/javascript  obsoleto )
+=======
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     return HttpResponse(contents, mimetype='application/json', status=status)
 
 
@@ -37,6 +40,7 @@ def JsonError(error=''):
 
 def set_cookie(response, key, value, days_expire=7):
     if days_expire is None:
+<<<<<<< HEAD
         max_age = 365 * 24 * 60 * 60  # one year
     else:
         max_age = days_expire * 24 * 60 * 60
@@ -45,6 +49,14 @@ def set_cookie(response, key, value, days_expire=7):
         datetime.datetime.utcnow() + datetime.timedelta(seconds=max_age), "%a, %d-%b-%Y %H:%M:%S GMT")
     response.set_cookie(key, value, max_age=max_age, expires=expires,
                         domain=settings.SESSION_COOKIE_DOMAIN, secure=settings.SESSION_COOKIE_SECURE or None)
+=======
+        max_age = 365*24*60*60   # one year
+    else:
+        max_age = days_expire*24*60*60
+
+    expires = datetime.datetime.strftime(datetime.datetime.utcnow() + datetime.timedelta(seconds=max_age), "%a, %d-%b-%Y %H:%M:%S GMT")
+    response.set_cookie(key, value, max_age=max_age, expires=expires, domain=settings.SESSION_COOKIE_DOMAIN, secure=settings.SESSION_COOKIE_SECURE or None)
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 #   response.set_cookie(key, value, max_age=max_age, expires=expires)
     return response
 
@@ -93,7 +105,11 @@ def my_send_mail(subject, txt, sender, to=[], files=[], charset='UTF-8'):
         msg.attach(msgAlternative)
         msgAlternative.attach(MIMEText(txt, _charset=charset))
         msgAlternative.attach(MIMEText(txt, 'html', _charset=charset))
+<<<<<<< HEAD
         # msg.attach_alternative(txt, "text/html")
+=======
+        #msg.attach_alternative(txt, "text/html")
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
         for f in files:
             part = MIMEBase('application', "octet-stream")

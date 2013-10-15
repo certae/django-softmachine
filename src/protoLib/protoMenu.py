@@ -1,16 +1,20 @@
 # -*- coding: utf-8 -*-
 
+<<<<<<< HEAD
 # import sys
 
 # Importa el sitio con las collecciones admin ya definidas
 from django.db import models
 # from django.contrib.admin.sites import  site
+=======
+from django.db import models
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 from django.conf import settings
 from django.http import HttpResponse
 
-
 import django.utils.simplejson as json
 
+<<<<<<< HEAD
 from models import CustomDefinition
 from protoActionEdit import setSecurityInfo
 from protoAuth import getUserProfile, getModelPermissions
@@ -18,6 +22,16 @@ from utilsWeb import JsonError  # , JsonSuccess
 from utilsBase import verifyList
 
 from prototype.models import Prototype
+=======
+from protoLib.models import CustomDefinition
+from protoLib.protoActionEdit import setSecurityInfo
+from protoLib.protoAuth import getUserProfile, getModelPermissions
+from protoLib.utilsWeb import JsonError
+from protoLib.utilsBase import verifyList
+
+from prototype.models import Prototype
+
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 PROTO_PREFIX = "prototype.ProtoTable."
 
 
@@ -26,12 +40,23 @@ class cAux:
 
 
 def protoGetMenuData(request):
+
     """
     Cada grupo tiene su propio menu q se construye con las app a las cuales tiene derecho
     se guarda siempre por grupo en customDefinition,
 
     Cada usuario tendra una rama de  favoritos para sus opciones frecuentes,
     el menu es a nivel de grupo
+<<<<<<< HEAD
+=======
+
+
+    Chaque groupe a son propre menu q est construit avec l'application à laquelle il a droit
+    toujours sauvé groupe customDefinition,
+
+    Chaque utilisateur aura un secteur de prédilection pour des choix fréquents,
+    le menu est au niveau du groupe
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     """
 
     if not request.user.is_authenticated():
@@ -49,6 +74,10 @@ def protoGetMenuData(request):
     appAux.ixApp = 1
     appAux.ixMod = 1
 
+<<<<<<< HEAD
+=======
+    # A changer, ne pas definir une methode a l'interieur d'une autre
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     def getMenuItem(protoAdmin, model, menuNode):
 
         appCode = model._meta.app_label
@@ -70,8 +99,12 @@ def protoGetMenuData(request):
 
         # Obtiene el menu de settigs.PROTO_APP
         try:
+<<<<<<< HEAD
             menuDefinition = settings.PROTO_APP.get(
                 'app_menu', {}).get(menuLabel, {})
+=======
+            menuDefinition = settings.PROTO_APP.get('app_menu', {}).get(menuLabel, {})
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         except:
             menuDefinition = {}
 
@@ -88,6 +121,7 @@ def protoGetMenuData(request):
             'iconCls': viewIcon,
             'leaf': True,
         }
+
         if menuLabel in app_dict:
             app_dict[menuLabel]['children'].append(model_dict)
 
@@ -102,15 +136,31 @@ def protoGetMenuData(request):
             appAux.ixApp += 1
 
         appAux.ixMod += 1
+<<<<<<< HEAD
 
 #-- Lectura de la Db -----------------------------------------------------
+=======
+
+#-- Lectura de la Db -------------------------------------------------------------
+
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     forceDefault = request.POST.get('forceDefault', '')
 
     viewCode = '__menu'
     protoDef = CustomDefinition.objects.get_or_create(
+<<<<<<< HEAD
         code=viewCode, smOwningTeam=userProfile.userTeam,
         defaults={'active': False, 'code': viewCode,
                   'smOwningTeam': userProfile.userTeam}
+=======
+        code=viewCode,
+        smOwningTeam=userProfile.userTeam,
+        defaults={
+            'active': False,
+            'code': viewCode,
+            'smOwningTeam': userProfile.userTeam
+        }
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     )[0]
 
     # El default solo parece funcionar al insertar en la Db
@@ -120,8 +170,13 @@ def protoGetMenuData(request):
     else:
 
         for model in models.get_models(include_auto_created=True):
+<<<<<<< HEAD
         # for model, model_admin in site._registry.items():
             # protoAdmin = getattr(model_admin, 'protoExt', {})
+=======
+        #for model, model_admin in site._registry.items():
+            #protoAdmin = getattr(model_admin, 'protoExt', {})
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
             menuNode = model._meta.object_name
             protoAdmin = getattr(model, 'protoExt', {})
             getMenuItem(protoAdmin, model, menuNode)
@@ -134,9 +189,14 @@ def protoGetMenuData(request):
         for app in app_list:
             app['children'].sort(key=lambda x: x['index'])
 
+<<<<<<< HEAD
         # lee las opciones del prototipo --------------------------------------
         prototypes = Prototype.objects.filter(
             smOwningTeam=userProfile.userTeam)
+=======
+        # lee las opciones del prototipo -----------------------------------------------
+        prototypes = Prototype.objects.filter(smOwningTeam=userProfile.userTeam)
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         ix = 0
         for option in prototypes:
 
@@ -188,11 +248,18 @@ def protoGetMenuData(request):
         protoDef.active = True
         protoDef.description = 'Menu'
 
+<<<<<<< HEAD
         setSecurityInfo(protoDef, {}, userProfile,  True)
+=======
+        setSecurityInfo(protoDef, {}, userProfile, True)
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
         protoDef.save()
 
     return HttpResponse(context, mimetype="application/json")
+<<<<<<< HEAD
 
 
 #   ---------------------------------------------------------------------------
+=======
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e

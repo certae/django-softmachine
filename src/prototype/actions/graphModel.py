@@ -31,7 +31,11 @@ def generateDotModels(queryset):
         gModel = Context({
             'name': '"%s"' % modelCode,
             'app_name': "%s" % modelCode,
+<<<<<<< HEAD
             'cluster_app_name': 'softMachine',
+=======
+            'cluster_app_name': modelCode,
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
             'disable_fields': disable_fields,
             'use_subgraph': use_subgraph,
             'models': []

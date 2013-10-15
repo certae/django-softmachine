@@ -1,9 +1,9 @@
-
-from models import getDjangoModel
-from protoQbe import addFilter
-from utilsConvert import getTypedValue
+from protoLib.models import getDjangoModel
+from protoLib.protoQbe import addFilter
+from protoLib.utilsConvert import getTypedValue
 from django.utils.encoding import smart_str
 
+<<<<<<< HEAD
 # Para pasar atributos en forma de clase
 
 
@@ -14,6 +14,17 @@ class cAux:
 def verifyUdpDefinition(pUDP):
     """ Verifica q todos los valores tengan su definicion y retorna una clase
 
+=======
+
+# Para pasar atributos en forma de clase
+class cAux:
+    pass
+
+
+def verifyUdpDefinition(pUDP):
+    """ Verifica q todos los valores tengan su definicion y retorna una clase
+
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     @udpTable         : Tabla q aloja las UDPs o el set del objeto padre
     @propertyName     : Nombre de la UDP
     @propertyValue    : Valor str donde se almacenara la Udp
@@ -32,16 +43,24 @@ def verifyUdpDefinition(pUDP):
     if (cUDP.udpTable):
         cUDP.udpTable = smart_str(cUDP.udpTable)
         cUDP.propertyName = smart_str(pUDP.get('propertyName', 'code'))
+<<<<<<< HEAD
         cUDP.propertyValue = smart_str(
             pUDP.get('propertyValue', 'valueUdp'))
+=======
+        cUDP.propertyValue = smart_str(pUDP.get('propertyValue', 'valueUdp'))
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         cUDP.propertyPrefix = smart_str(pUDP.get('propertyPrefix', 'udp'))
 
         cUDP.propertyRef = smart_str(pUDP.get('propertyRef', ''))
         cUDP.keyField = smart_str(pUDP.get('keyField', ''))
 
         if len(cUDP.propertyRef) == 0:
+<<<<<<< HEAD
             raise Exception(
                 'UdpError: Undefined properteRef for: ' + cUDP.udpTable)
+=======
+            raise Exception('UdpError: Undefined properteRef for: ' + cUDP.udpTable)
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     else:
         cUDP.udpTable = None
@@ -51,12 +70,17 @@ def verifyUdpDefinition(pUDP):
     return cUDP
 
 
+<<<<<<< HEAD
 def saveUDP(regBase,  data, cUDP):
+=======
+def saveUDP(regBase, data, cUDP):
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     try:
         UdpModel = getDjangoModel(cUDP.udpTable)
     except:
         raise Exception('UdpError: Invalid model ' + UdpModel)
+<<<<<<< HEAD
 
     # si keyField no esta definido implica una relacion MD
     if not cUDP.keyField:
@@ -74,6 +98,23 @@ def saveUDP(regBase,  data, cUDP):
             raise Exception(
                 'UdpError: Key not found ' + cUDP.keyField + ' in masterReg')
 
+=======
+
+    # si keyField no esta definido implica una relacion MD
+    if not cUDP.keyField:
+        try:
+            Qs = eval('regBase.' + cUDP.udpTable.lower() + '_set.all()')
+        except:
+            raise Exception('UdpError: related_name set not found ' + cUDP.udpTable.lower())
+
+    else:
+        keyValue = data.get(cUDP.keyField)
+        keyValue = smart_str(keyValue)
+
+        if not keyValue:
+            raise Exception('UdpError: Key not found ' + cUDP.keyField + ' in masterReg')
+
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         Qs = UdpModel.objects
         Qs = addFilter(Qs, {cUDP.propertyRef: keyValue})
 
@@ -91,13 +132,21 @@ def saveUDP(regBase,  data, cUDP):
             if not cUDP.keyField:
                 setattr(rUdp, cUDP.propertyRef, regBase)
             else:
+<<<<<<< HEAD
                 # Fix: deberia ser un parametro
+=======
+                #Fix: deberia ser un parametro
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
                 setattr(rUdp, cUDP.propertyRef + '_id', keyValue)
 
             setattr(rUdp, cUDP.propertyName, UdpCode)
 
+<<<<<<< HEAD
         # Genera el ISO para la fecha y valores estandares para numeros y
         # booleanos
+=======
+        # Genera el ISO para la fecha y valores estandares para numeros y booleanos
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         sAux = smart_str(data[key])
         if sAux == 'None':
             sAux = ''
@@ -105,6 +154,7 @@ def saveUDP(regBase,  data, cUDP):
         rUdp.save()
 
 
+<<<<<<< HEAD
 def readUdps(rowdict, regBase, cUDP, udpList,  udpTypes):
 
     if cUDP.keyField:
@@ -116,6 +166,18 @@ def readUdps(rowdict, regBase, cUDP, udpList,  udpTypes):
             raise Exception(
                 'UdpError: Key not found ' + cUDP.keyField + ' in masterReg')
 
+=======
+def readUdps(rowdict, regBase, cUDP, udpList, udpTypes):
+
+    if cUDP.keyField:
+        # si la creacion del detalle no es relacional,
+        # se requiere hacer un verdadero Query sobre udpTable
+        UdpModel = getDjangoModel(cUDP.udpTable)
+        keyValue = rowdict.get(cUDP.keyField, '')
+        if not keyValue:
+            raise Exception('UdpError: Key not found ' + cUDP.keyField + ' in masterReg')
+
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         keyValue = smart_str(keyValue)
         bAux = True
         Qs = UdpModel.objects
@@ -128,14 +190,22 @@ def readUdps(rowdict, regBase, cUDP, udpList,  udpTypes):
             bAux = eval('regBase.' + cUDP.udpTable.lower() + '_set.exists()')
             cllUDP = eval('regBase.' + cUDP.udpTable.lower() + '_set.all()')
         except:
+<<<<<<< HEAD
             raise Exception(
                 'UdpError:  related_name  set not found ' + cUDP.udpTable.lower())
+=======
+            raise Exception('UdpError:  related_name  set not found ' + cUDP.udpTable.lower())
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     if bAux:
 
         for lUDP in cllUDP:
+<<<<<<< HEAD
             udpName = cUDP.propertyPrefix + '__' + \
                 getattr(lUDP, cUDP.propertyName, '')
+=======
+            udpName = cUDP.propertyPrefix + '__' + getattr(lUDP, cUDP.propertyName, '')
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
             if udpName in udpList:
                 sAux = getattr(lUDP, cUDP.propertyValue, '')
                 sAux = getTypedValue(sAux, udpTypes[udpName])
@@ -144,6 +214,7 @@ def readUdps(rowdict, regBase, cUDP, udpList,  udpTypes):
                 if udpTypes[udpName] == 'html' and type(sAux).__name__ == 'string':
                     sAux = sAux.replace('\n', '<br>').replace('\r', '<br>')
                     sAux = sAux.replace('<br><br>', '<br>')
+<<<<<<< HEAD
                     sAux = sAux.replace('<td><br>', '<td>').replace(
                         '</td><br>', '</td>')
                     sAux = sAux.replace('<th><br>', '<th>').replace(
@@ -156,5 +227,13 @@ def readUdps(rowdict, regBase, cUDP, udpList,  udpTypes):
                         '<br></th>', '</th>')
                     sAux = sAux.replace('<br><tr>', '<tr>').replace(
                         '<br></tr>', '</tr>')
+=======
+                    sAux = sAux.replace('<td><br>', '<td>').replace('</td><br>', '</td>')
+                    sAux = sAux.replace('<th><br>', '<th>').replace('</th><br>', '</th>')
+                    sAux = sAux.replace('<tr><br>', '<tr>').replace('</tr><br>', '</tr>')
+                    sAux = sAux.replace('<br><td>', '<td>').replace('<br></td>', '</td>')
+                    sAux = sAux.replace('<br><th>', '<th>').replace('<br></th>', '</th>')
+                    sAux = sAux.replace('<br><tr>', '<tr>').replace('<br></tr>', '</tr>')
+>>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
                 rowdict[udpName] = sAux
