@@ -13,11 +13,7 @@ def baseDefinition(pEntity, entityName, viewTitle):
     viewName = slugify(viewTitle)
 
     return {
-<<<<<<< HEAD
-        "__ptType": "pcl",
-=======
         "ptType": "pcl",
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         "viewEntity": "prototype.ProtoTable",
         "viewCode": PROTO_PREFIX + viewName,
         "protoEntity": entityName,
@@ -31,21 +27,6 @@ def baseDefinition(pEntity, entityName, viewTitle):
         "metaVersion": "13.0301",
         "idProperty": "id",
         "fields": [
-<<<<<<< HEAD
-            {
-                "name": "id",
-                "readOnly": True,
-                "hidden": True,
-                "type": "autofield"
-            },
-            {
-                "name": "entity_id",
-                "readOnly": True,
-                "hidden": True,
-                "prpDefault": pEntity.id,
-            },
-            {
-=======
             {
                 "name": "id",
                 "readOnly": True,
@@ -64,7 +45,6 @@ def baseDefinition(pEntity, entityName, viewTitle):
                 "prpDefault": pEntity.id,
             },
             {
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
                 "name": "info",
                 "searchable": True,
                 "readOnly": True,
@@ -86,40 +66,6 @@ def baseDefinition(pEntity, entityName, viewTitle):
                 "readOnly": True,
                 "type": "datetime"
             },
-<<<<<<< HEAD
-            #        {
-            #            "name": "entity",
-            #            "readOnly": True,
-            #            "hidden": True,
-            #        },
-            #        {
-            #            "name": "smModifiedOn",
-            #            "readOnly": True,
-            #            "type": "datetime"
-            #        },
-            #        {
-            #            "zoomModel": "auth.User",
-            #            "name": "smModifiedBy",
-            #            "readOnly": True,
-            #            "type": "foreigntext"
-            #        },
-            #        {
-            #            "name": "smRegStatus",
-            #            "readOnly": True,
-            #            "type": "string"
-            #        },
-            #        {
-            #            "zoomModel": "auth.User",
-            #            "name": "smCreatedBy",
-            #            "readOnly": True,
-            #            "type": "foreigntext"
-            #        },
-            #        {
-            #            "name": "smWflowStatus",
-            #            "readOnly": True,
-            #            "type": "string"
-            #        }
-=======
             #{
             #"name": "smModifiedOn",
             #"readOnly": True,
@@ -147,7 +93,6 @@ def baseDefinition(pEntity, entityName, viewTitle):
             #"readOnly": True,
             #"type": "string"
             #}
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         ],
         "detailsConfig": [],
         "gridConfig": {
@@ -166,49 +111,6 @@ def baseDefinition(pEntity, entityName, viewTitle):
                     "fsLayout": "2col",
                     "items": []
                 },
-<<<<<<< HEAD
-                #            {
-                #                "__ptType": "fieldset",
-                #                "collapsible": True,
-                #                "title": "Admin",
-                #                "collapsed": True,
-                #                "fsLayout": "2col",
-                #                "items": [
-                #                    {
-                #                        "__ptType": "formField",
-                #                        "name": "smOwningUser"
-                #                    },
-                #                    {
-                #                        "__ptType": "formField",
-                #                        "name": "smOwningTeam"
-                #                    },
-                #                    {
-                #                        "__ptType": "formField",
-                #                        "name": "smModifiedBy"
-                #                    },
-                #                    {
-                #                        "__ptType": "formField",
-                #                        "name": "smCreatedBy"
-                #                    },
-                #                    {
-                #                        "__ptType": "formField",
-                #                        "name": "smModifiedOn"
-                #                    },
-                #                    {
-                #                        "__ptType": "formField",
-                #                        "name": "smCreatedOn"
-                #                    },
-                #                    {
-                #                        "__ptType": "formField",
-                #                        "name": "smRegStatus"
-                #                    },
-                #                    {
-                #                        "__ptType": "formField",
-                #                        "name": "smWflowStatus"
-                #                    }
-                #                ]
-                #            }
-=======
                 #{
                 #"__ptType": "fieldset",
                 #"collapsible": True,
@@ -250,7 +152,6 @@ def baseDefinition(pEntity, entityName, viewTitle):
                 #}
                 #]
                 #}
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
             ]
         }
     }

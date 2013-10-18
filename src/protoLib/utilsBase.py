@@ -14,10 +14,7 @@ import django.utils.simplejson as json
 from django.utils.encoding import smart_str
 
 # Prefijo de las funciones ORM invocadas como campos, __unicode__ para las FK
-<<<<<<< HEAD
-=======
 # Fonctions ORM de préfixe invoquées comme des champs, __ unicode__ pour FK
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 #_PROTOFN_ = '_protoFn_'
 
 
@@ -30,13 +27,8 @@ class JSONEncoder(json.JSONEncoder):
             return str(obj)
         else:
             return json.JSONEncoder.default(self, obj)
-<<<<<<< HEAD
 
 
-=======
-
-
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 def verifyList(obj):
 #   Los objetos del admin son en su mayoria del tipo tuple,
 #   Es necesario convertirlos a listas por facilidad de trabajo
@@ -57,13 +49,8 @@ def verifyList(obj):
 def verifyStr(vrBase, vrDefault):
     sAux = vrBase or vrDefault
     return u'%s' % sAux
-<<<<<<< HEAD
 
 
-=======
-
-
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 def parseEmailAddress(fullemail, delimitorLeft='<', delimitorRight='>'):
     """
         split a full name/email pair to name/email tuple
@@ -78,12 +65,7 @@ def parseEmailAddress(fullemail, delimitorLeft='<', delimitorRight='>'):
     if delimitorRight == ')':
         delimitorRight = '\\)'
 
-<<<<<<< HEAD
-    reg = re.compile('([^%s\n]+) ?%s?([^%s\r\n]+)?%s?' %
-                     (delimitorLeft, delimitorLeft, delimitorRight, delimitorRight))
-=======
     reg = re.compile('([^%s\n]+) ?%s?([^%s\r\n]+)?%s?' % (delimitorLeft, delimitorLeft, delimitorRight, delimitorRight))
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     matches = reg.findall(fullemail)
 
@@ -150,11 +132,7 @@ def list2dict(alist, key):
     aDict = {}
     for item in alist:
 
-<<<<<<< HEAD
-        # Verifica si es un dict
-=======
         #Verifica si es un dict
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         if isinstance(item, dict):
             aDict[item[key]] = item
 
@@ -244,27 +222,17 @@ def strip_euro(inStr):
     inStr = u'%s' % inStr
     inStr = inStr.replace(u'€', u'euro(s)')
     return inStr
-<<<<<<< HEAD
-
-
-def DateFormatConverter(to_extjs=None, to_python=None):
-=======
 
 
 def DateFormatConverter(to_extjs=None, to_python=None):
 
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     """ convert date formats between ext and python """
     f = {}
     f['a'] = 'D'
     f['A'] = 'l'
     f['b'] = 'M'
     f['B'] = 'F'
-<<<<<<< HEAD
-    # f['c'] =
-=======
     #f['c'] =
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     f['d'] = 'd'
     f['H'] = 'H'
     f['I'] = 'h'
@@ -274,17 +242,10 @@ def DateFormatConverter(to_extjs=None, to_python=None):
     f['p'] = 'A'
     f['S'] = 's'
     f['U'] = 'W'
-<<<<<<< HEAD
-    # f['w'] =
-    f['W'] = 'W'
-    # f['x'] =
-    # f['X'] =
-=======
     #f['w'] =
     f['W'] = 'W'
     #f['x'] =
     #f['X'] =
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     f['y'] = 'y'
     f['Y'] = 'Y'
     f['Z'] = 'T'
@@ -337,9 +298,6 @@ def copyProps(objBase, objNew):
 
     return objBase
 
-<<<<<<< HEAD
-
-=======
 import unicodedata
 
 
@@ -347,7 +305,6 @@ def stripAccents(s):
     return ''.join((c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn'))
 
 
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 def explode(s):
     ''' Uso:
     explode( 'fName(p1,p2)' )
@@ -382,13 +339,8 @@ def findBrackets(aString):
 # ------------  Alternativas para la evaluacion de parametros en ud funciones
 #
 #
-<<<<<<< HEAD
-# def balanced_braces(args):
-# t1 = balanced_braces(["{{ a } { b } { { { c } } } }"]);
-=======
 #def balanced_braces(args):
 #    #t1 = balanced_braces(["{{ a } { b } { { { c } } } }"]);
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 #    parts = []
 #    for arg in args:
 #        if '{' not in arg:
@@ -410,10 +362,6 @@ def findBrackets(aString):
 #            elif n > 0:
 #                chars.append(c)
 #    return parts
-<<<<<<< HEAD
-=======
-#
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 #
 #
 # _mbrack_rb = re.compile("([^{}]*)}") # re.match doesn't have a pos parameter
@@ -476,9 +424,6 @@ def findBrackets(aString):
 #
 #
 
-<<<<<<< HEAD
-def slugify(text, delim='-'):
-=======
 
 #import re
 from unicodedata import normalize
@@ -488,21 +433,10 @@ _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.:]+')
 
 
 def slugify(text, delim=u'-'):
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     """Generates an slightly worse ASCII-only slug.
        Normaliza los nombres para usarlos como codigos
        uso:  slugify(u'My International Text: åäö', delim='_')
     """
-<<<<<<< HEAD
-
-    from django.template.defaultfilters import slugify as slugifyer
-    sText = slugifyer(text)
-
-    if delim != '-':
-        sText = re.sub(r'([_])(\1+)', r'\1', sText.replace('-', delim))
-
-    return sText
-=======
     text = unicode(text)
     result = []
     for word in _punct_re.split(text.lower()):
@@ -526,4 +460,3 @@ def slugify(text, delim=u'-'):
 #
 #    print no_spaces
 #    # output: l_s_c_t_z_y_a_i_e
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e

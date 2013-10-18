@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-﻿# -*- coding': utf-8 -*-
-=======
 ﻿# -*- coding' : utf-8 -*-
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
 __language = {
     'languaje': 'es',
@@ -159,15 +155,8 @@ __language = {
     'Title_Panel_Tools': 'Herramientas del formulario',
 
     'Tree_Concept_Details_Text': 'texto',
-<<<<<<< HEAD
-    'Tree_Concept_Details_Detail': 'ConceptoDetalle',
-    'Tree_Details_Field': 'campoDetalle',
-    'Tree_Concept_Details_MasterFld': 'MasterFld',
-=======
     'Tree_Concept_Details_Detail': 'detalle del concepto',
     'Tree_Details_Field': 'detalle del campo',
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
-
 
     'Protofield_Fields': 'campos',
     'Protofield_Text': 'texto',

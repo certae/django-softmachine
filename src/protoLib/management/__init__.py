@@ -10,14 +10,8 @@ def addProtoPermissions(sender, **kwargs):
 
     def addEntityPermission(label, title):
         if not Permission.objects.filter(content_type=content_type, codename=label):
-<<<<<<< HEAD
-            Permission.objects.create(
-                content_type=content_type, codename=label, name=title)
-            print "Added permission %s" % label
-=======
-            Permission.objects.create(content_type=content_type, codename=label, name = title )
+            Permission.objects.create(content_type=content_type, codename=label, name=title)
             #print "Added permission %s" % label
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     # for each of our content types "Adding  permissions"
     for content_type in ContentType.objects.all():

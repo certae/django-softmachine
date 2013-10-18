@@ -38,29 +38,17 @@ def getDbSchemaDef(dProject, request):
         dProject.dbEngine = 'django.db.backends.oracle'
 
     # Add connection information dynamically..
-<<<<<<< HEAD
-    connections.databases[dProject.code] = {
-        'ENGINE': dProject.dbEngine,
-        'NAME':  dProject.dbName,
-        'USER':  dProject.dbUser,
-=======
     connections.databases[Project.code] = {
         'ENGINE': dProject.dbEngine,
         'NAME': dProject.dbName,
         'USER': dProject.dbUser,
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         'PASSWORD': dProject.dbPassword,
         'HOST': dProject.dbHost,
         'PORT': dProject.dbPort,
     }
 
     # Prepara el nombre de la tabla
-<<<<<<< HEAD
-    table2model = lambda table_name: table_name.title().replace(
-        '_', '').replace(' ', '').replace('-', '')
-=======
     table2model = lambda table_name: table_name.title().replace('_', '').replace(' ', '').replace('-', '')
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     # Ensure the remaining default connection information is defined.
     # connections.databases.ensure_defaults('new-alias')
@@ -91,20 +79,11 @@ def getDbSchemaDef(dProject, request):
             column_name = row[0]
             att_name = column_name.lower()
 
-<<<<<<< HEAD
-            pProperty = {'code':  att_name, 'notes': ''}
-            pProperties.append(pProperty)
-
-            if i in relations:
-                rel_to = relations[i][
-                    1] == table_name and "'self'" or table2model(relations[i][1])
-=======
             pProperty = {'code': att_name, 'notes': ''}
             pProperties.append(pProperty)
 
             if i in relations:
                 rel_to = relations[i][1] == table_name and "'self'" or table2model(relations[i][1])
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
                 pProperty['refEntity'] = rel_to
 
                 if att_name.endswith('_id'):
@@ -114,12 +93,7 @@ def getDbSchemaDef(dProject, request):
 
             else:
 
-<<<<<<< HEAD
-                field_type, field_params, field_notes = get_field_type(
-                    connection, table_name, row)
-=======
                 field_type, field_params, field_notes = get_field_type(connection, table_name, row)
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
                 pProperty.update(field_params)
                 pProperty['notes'] += field_notes
 
@@ -133,12 +107,7 @@ def getDbSchemaDef(dProject, request):
             if keyword.iskeyword(att_name):
                 att_name += '_field'
                 pProperty['code'] = att_name
-<<<<<<< HEAD
-                pProperty[
-                    'notes'] += 'field renamed because it was a reserved word;'
-=======
                 pProperty['notes'] += 'field renamed because it was a reserved word;'
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
             if unicode(column_name) != unicode(att_name):
                 pProperty['dbName'] = column_name
@@ -167,22 +136,6 @@ def getDbSchemaDef(dProject, request):
     defValues = {
         'smOwningTeam': userProfile.userTeam,
         'smOwningUser': userProfile.user,
-<<<<<<< HEAD
-        'smCreatedBy':  userProfile.user
-    }
-
-    # Borra y crea el modelo
-    Model.objects.filter(project=dProject,
-                         code='inspectDb', smOwningTeam=userProfile.userTeam).delete()
-
-    transaction.commit()
-
-    dModel = Model.objects.get_or_create(
-        project=dProject, code='inspectDb',
-        smOwningTeam=userProfile.userTeam, defaults=defValues)[0]
-
-    transaction.commit()
-=======
         'smCreatedBy': userProfile.user
     }
 
@@ -199,7 +152,6 @@ def getDbSchemaDef(dProject, request):
         smOwningTeam=userProfile.userTeam,
         defaults=defValues
     )[0]
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     # Guarda todas las entidades
     for entityName in pEntities:
@@ -214,21 +166,11 @@ def getDbSchemaDef(dProject, request):
         pEntity['dataEntity'] = Entity.objects.get_or_create(
             model=dModel,
             code=entityName,
-<<<<<<< HEAD
-            defaults=defValuesEnt)[0]
-
-    transaction.commit()
-
-    UPD_PROPERTY_PROJECT_BAK = models.UPD_PROPERTY_PROJECT
-    models.UPD_PROPERTY_PROJECT = False
-
-=======
             defaults=defValuesEnt
         )[0]
 
     transaction.commit()
 
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     # Guarda las relaciones
     for entityName in pEntities:
         pEntity = pEntities[entityName]
@@ -237,37 +179,16 @@ def getDbSchemaDef(dProject, request):
         for pProperty in pEntity['properties']:
             prpName = pProperty['code']
             if 'refEntity' in pProperty:
-<<<<<<< HEAD
-                saveRelation(
-                    dProject, dEntity, dModel, pProperty,  defValues, userProfile, prpName, 1)
-            else:
-                saveProperty(
-                    dEntity, pProperty, defValues, userProfile, prpName,  1)
-
-    # Actualiza los PropertyProject
-    models.UPD_PROPERTY_PROJECT = UPD_PROPERTY_PROJECT_BAK
-    updPropertyProject(Property)
-    transaction.commit()
-=======
                 saveRelation(dProject, dEntity, dModel, pProperty,  defValues, userProfile, prpName, 1)
             else:
                 saveProperty(dEntity, pProperty, defValues, userProfile, prpName, 1)
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
 
 @transaction.commit_manually
 def saveProperty(dEntity, pProperty, defValues, userProfile, prpName, seq):
 
     try:
-<<<<<<< HEAD
-        dProperty = Property(
-            code=prpName,
-            entity=dEntity,
-            smOwningTeam=userProfile.userTeam
-        )
-=======
         dProperty = dEntity.property_set.create(code=prpName, smOwningTeam=userProfile.userTeam)
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
         setDefaults2Obj(dProperty, pProperty, ['code'])
         setDefaults2Obj(dProperty, defValues)
@@ -277,12 +198,7 @@ def saveProperty(dEntity, pProperty, defValues, userProfile, prpName, seq):
     except Exception as e:
         transaction.rollback()
         prpName = '{0}.{1}'.format(prpName.split('.')[0], seq)
-<<<<<<< HEAD
-        saveProperty(
-            dEntity, pProperty, defValues, userProfile, prpName,  seq + 1)
-=======
         saveProperty(dEntity, pProperty, defValues, userProfile, prpName,  seq + 1)
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         return
 
 
@@ -298,12 +214,8 @@ def saveRelation(dProject, dEntity, dModel, pProperty,  defValues, userProfile, 
         if not 'notes' in pProperty:
             pProperty['notes'] = ''
         pProperty['notes'] += 'refEntity ( {0} ) not found;'.format(refName)
-<<<<<<< HEAD
-        saveProperty(
-            dEntity, pProperty, defValues, userProfile, prpName,  seq)
-=======
+
         saveProperty(dEntity, pProperty, defValues, userProfile, prpName, seq)
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         return
 
     dRefEntity = pRefEntity['dataEntity']
@@ -326,32 +238,18 @@ def saveRelation(dProject, dEntity, dModel, pProperty,  defValues, userProfile, 
         prpName = '{0}.{1}'.format(prpName.split('.')[0], seq)
         if not 'notes' in pProperty:
             pProperty['notes'] = ''
-<<<<<<< HEAD
-        pProperty['notes'] += 'duplicate field {0} rename to {1};'.format(
-            prpName.split('.')[0], prpName)
 
-        saveRelation(dProject, dEntity, dModel, pProperty,
-                     defValues, userProfile, prpName, seq + 1)
-=======
         pProperty['notes'] += 'duplicate field {0} rename to {1};'.format(prpName.split('.')[0], prpName)
 
         saveRelation(dProject, dEntity, dModel, pProperty,  defValues, userProfile, prpName, seq + 1)
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         return
 
     except Exception as e:
         transaction.rollback()
-<<<<<<< HEAD
-        # log
-        return
-
-
-=======
         #log
         return
 
 
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 def get_field_type(connection, table_name, row):
     """
     Given the database connection, the table name, and the cursor row

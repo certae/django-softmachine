@@ -38,13 +38,9 @@ def getTypedValue(sAux, sType):
 def isNumeric(s):
     try:
         i = float(s)
-<<<<<<< HEAD
-    except ValueError, TypeError:
-=======
     except ValueError:
         return False
     except TypeError:
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         return False
     else:
         return True
@@ -86,10 +82,7 @@ def toDecimal(s, iDefault=None):
 def toBoolean(s):
     """
     Conversion a boolean,  utilizada antes de cargar la Db
-<<<<<<< HEAD
-=======
     Conversion en booléen, utilisé avant le chargement du Db
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     """
     if type(s).__name__ in ['str', 'unicode']:
         return (s.lower()[0] in ("y", "t", "o", "s", "1"))
@@ -153,25 +146,6 @@ def toDate__(sVal):
     # Este metodo usa eltos propios del typo datetime,
     # podria seria interesante para iterar sobre diferentes formatos
 
-<<<<<<< HEAD
-    # For DateField() :
-    # '%Y-%m-%d', '%m/%d/%Y', '%m/%d/%y', # '2006-10-25', '10/25/2006', '10/25/06'
-    # '%b %d %Y', '%b %d, %Y',            # 'Oct 25 2006', 'Oct 25, 2006'
-    # '%d %b %Y', '%d %b, %Y',            # '25 Oct 2006', '25 Oct, 2006'
-    # '%B %d %Y', '%B %d, %Y',            # 'October 25 2006', 'October 25, 2006'
-    # '%d %B %Y', '%d %B, %Y',            # '25 October 2006', '25 October, 2006'
-
-    # For DateTimeField():
-    # '%Y-%m-%d %H:%M:%S',     # '2006-10-25 14:30:59'
-    # '%Y-%m-%d %H:%M',        # '2006-10-25 14:30'
-    # '%Y-%m-%d',              # '2006-10-25'
-    # '%m/%d/%Y %H:%M:%S',     # '10/25/2006 14:30:59'
-    # '%m/%d/%Y %H:%M',        # '10/25/2006 14:30'
-    # '%m/%d/%Y',              # '10/25/2006'
-    # '%m/%d/%y %H:%M:%S',     # '10/25/06 14:30:59'
-    # '%m/%d/%y %H:%M',        # '10/25/06 14:30'
-    # '%m/%d/%y',              # '10/25/06'
-=======
     #For DateField() :
     #'%Y-%m-%d', '%m/%d/%Y', '%m/%d/%y', # '2006-10-25', '10/25/2006', '10/25/06'
     #'%b %d %Y', '%b %d, %Y',            # 'Oct 25 2006', 'Oct 25, 2006'
@@ -189,7 +163,6 @@ def toDate__(sVal):
     #'%m/%d/%y %H:%M:%S',     # '10/25/06 14:30:59'
     #'%m/%d/%y %H:%M',        # '10/25/06 14:30'
     #'%m/%d/%y',              # '10/25/06'
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     strp_time = time.strptime(sVal, "%m/%d/%Y %H:%M:%S")
     date_django = datetime.datetime.fromtimestamp(time.mktime(strp_time))
@@ -204,9 +177,3 @@ def isinteger(astring):
         if not char in string.digits:
             return False
     return True
-<<<<<<< HEAD
-
-
-# --------------------
-=======
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e

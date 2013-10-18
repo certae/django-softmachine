@@ -14,34 +14,19 @@ class TeamHierarchy(models.Model):
 # Jerarquia funcional ( de seguridad ) de la app
 # Es la base de la seguridad por registro
 
-<<<<<<< HEAD
-    code = models.CharField(
-        unique=True, blank=False, null=False, max_length=200)
-    description = models.TextField(
-        verbose_name=u'Descriptions', blank=True, null=True)
-    parentNode = models.ForeignKey(
-        'TeamHierarchy', blank=True, null=True, related_name='downHierachy')
-=======
+
     code = models.CharField(unique=True, blank=False, null=False, max_length=200)
     description = models.TextField(verbose_name=u'Descriptions', blank=True, null=True)
     parentNode = models.ForeignKey('TeamHierarchy', blank=True, null=True, related_name='downHierachy')
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     site = models.ForeignKey(Site, blank=True, null=True)
 
     @property
     def fullPath(self):
-<<<<<<< HEAD
-        return getNodeHierarchy(self, 'parentNode',  'id', 'fullPath')
 
-    @property
-    def treeHierarchy(self):
-        "Returns the full down-hierarchy"
-=======
         return getNodeHierarchy(self, 'parentNode', 'id', 'fullPath')
 
     @property
     def treeHierarchy(self):
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         sTree = unicode(self.id)
         for item in self.downHierachy.all():
             sTree += ',' + item.treeHierarchy
@@ -53,16 +38,6 @@ class TeamHierarchy(models.Model):
     def save(self, *args, **kwargs):
         if self.parentNode is not None:
             self.site = self.parentNode.site
-<<<<<<< HEAD
-#        if self.site is None:
-#            raise Exception( 'site required')
-        super(TeamHierarchy, self).save(*args, **kwargs)
-
-    protoExt = {'fields': {
-                'fullPath': {'readOnly': True},
-                'treeHierarchy': {'readOnly': True},
-                }}
-=======
         super(TeamHierarchy, self).save(*args, **kwargs)
 
     protoExt = {
@@ -71,31 +46,21 @@ class TeamHierarchy(models.Model):
             'treeHierarchy': {'readOnly': True},
         }
     }
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
 
 # here is the profile model
 class UserProfile(models.Model):
 # Es necesario inlcuir el ususario en un BUnit, cada registro copiara el Bunit
 # del usuario para dar permisos tambien a la jerarquia ( ascendente )
-<<<<<<< HEAD
-=======
 # Vous devez inclure l'utilisateur dans un BUnit, chaque enregistrement copie le BUnit
 # L'utilisateur de donner des autorisations à la hiérarchie aussi (ascendant)
 
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     user = models.ForeignKey(User, unique=True)
     userTeam = models.ForeignKey(TeamHierarchy, blank=True, null=True)
     userTree = models.CharField(blank=True, null=True, max_length=500)
     language = models.CharField(blank=True, null=True, max_length=500)
 
     # TODO: si  el usuario pertenece a varios grupos podria cambiar su grupo de trabajo
-<<<<<<< HEAD
-    # workigTeam = models.ForeignKey( TeamHierarchy, blank = True, null = True
-    # )
-=======
-    # workingTeam = models.ForeignKey(TeamHierarchy, blank=True, null=True)
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     def __unicode__(self):
         return self.user.username
@@ -103,11 +68,7 @@ class UserProfile(models.Model):
 
 def user_post_save(sender, instance, created, **kwargs):
     """Create a user profile when a new user account is created"""
-<<<<<<< HEAD
-    if (created):
-=======
     if created is True:
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         p = UserProfile()
         p.user = instance
         p.save()
@@ -124,29 +85,6 @@ class UserShare(models.Model):
         return self.user.username + '-' + self.userTeam.code
 
 
-<<<<<<< HEAD
-# Tabla modelo para la creacion de entidades de usuario     ( sm  security mark )
-# related_name="%(app_label)s_%(class)s
-class ProtoModel(models.Model):
-    smOwningUser = models.ForeignKey(
-        User, null=True, blank=True, related_name='+', editable=False)
-    smOwningTeam = models.ForeignKey(
-        TeamHierarchy, null=True, blank=True, related_name='+', editable=False)
-
-    smCreatedBy = models.ForeignKey(
-        User, null=True, blank=True, related_name='+', editable=False)
-    smModifiedBy = models.ForeignKey(
-        User, null=True, blank=True, related_name='+', editable=False)
-    smRegStatus = models.CharField(
-        max_length=50,  null=True, blank=True, editable=False)
-    smWflowStatus = models.CharField(
-        max_length=50,  null=True, blank=True, editable=False)
-
-    smCreatedOn = models.DateTimeField(
-        auto_now=True, null=True, blank=True, editable=False)
-    smModifiedOn = models.DateTimeField(
-        auto_now=True, null=True, blank=True, editable=False)
-=======
 #Tabla modelo para la creacion de entidades de usuario     ( sm  security mark )
 #related_name="%(app_label)s_%(class)s
 class ProtoModel(models.Model):
@@ -160,7 +98,6 @@ class ProtoModel(models.Model):
 
     smCreatedOn = models.DateTimeField(auto_now=True, null=True, blank=True, editable=False)
     smModifiedOn = models.DateTimeField(auto_now=True, null=True, blank=True, editable=False)
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     # Indicador para manejo de seguridad
     _protoObj = True
@@ -202,7 +139,6 @@ class EntityMap(models.Model):
 
     class Meta:
         unique_together = ("appName", "modelName")
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     """
     appName = models.CharField(max_length=200, blank=False, null=False)
@@ -410,10 +346,8 @@ class Languaje(models.Model):
 
 =======
 >>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
-    """ TODO : Manejar una tabla con los diferentes lenguajes en formato Json
-        { 'es' : 'incio', 'en' : 'start', .....  }
-        se aprovecha la pseudo definicion como en prototipos
-    """
+        #TODO : Manejar una tabla con los diferentes lenguajes en formato Json
+        #{ 'es' : 'incio', 'en' : 'start', .....  }
 
 <<<<<<< HEAD
     code = models.CharField(
@@ -438,11 +372,12 @@ class PtFunction(models.Model):
 
 =======
 >>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
-    """ TODO : En esta tabla se guardan funciones q seran ejectudas dinamicamente
-        deben reespetar la syntaxis python y se precargaran con funcione de base
-        por ejemplo el perfil de usuario y el acceso a modelos
+    """
+    #TODO : En esta tabla se guardan funciones q seran ejectudas dinamicamente
+        #deben reespetar la syntaxis python y se precargaran con funcione de base
+        #por ejemplo el perfil de usuario y el acceso a modelos
 
-        Siempre deb retornar algo
+        #Siempre deb retornar algo
     """
 
     # nombre de la funcion

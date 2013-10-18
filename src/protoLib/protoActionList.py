@@ -5,26 +5,9 @@
 # from protoField import TypeEquivalence
 
 from django.http import HttpResponse
-<<<<<<< HEAD
-=======
 from django.contrib.admin.util import get_fields_from_path
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 from django.utils.encoding import smart_str
 
-<<<<<<< HEAD
-from utilsBase import JSONEncoder, getReadableError
-from utilsBase import verifyStr, verifyList, list2dict
-# from utilsConvert import getTypedValue
-
-from protoQbe import addQbeFilter
-from protoAuth import getUserProfile, getModelPermissions
-
-from usrDefProps import verifyUdpDefinition, readUdps
-from models import getDjangoModel
-
-from utilsWeb import doReturn
-from utilsBase import slugify
-=======
 from protoLib.utilsBase import JSONEncoder, getReadableError
 from protoLib.utilsBase import verifyStr, verifyList, list2dict
 from protoLib.utilsConvert import getTypedValue
@@ -37,7 +20,6 @@ from protoLib.protoField import TypeEquivalence
 from protoLib.models import getDjangoModel
 
 from protoLib.utilsWeb import doReturn
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
 import django.utils.simplejson as json
 import traceback
@@ -46,13 +28,8 @@ from django.utils.html import escape
 
 
 def protoList(request):
-<<<<<<< HEAD
-#   Vista simple para cargar la informacion,
-
-=======
 #   Vista simple para cargar la informacion
 #   Simple vue pour charger les informations
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     PAGESIZE = 50
     message = ''
 
@@ -62,20 +39,11 @@ def protoList(request):
     if request.method != 'POST':
         return doReturn({'success': False, 'message': 'invalid message'})
 
-<<<<<<< HEAD
-# Los objetos vienen textoJson y hay q hacer el load para construirlos
-# como objetos.
-    protoMeta = request.POST.get('protoMeta', '')
-    protoMeta = json.loads(protoMeta)
-
-#
-=======
 #   Los objetos vienen textoJson y hay q hacer el load para construirlos como objetos.
 #   Objets de texte JSON et il ya q font le chargeur pour les construire comme des objets.
     protoMeta = request.POST.get('protoMeta', '')
     protoMeta = json.loads(protoMeta)
 
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     protoFilter = request.POST.get('protoFilter', '')
     baseFilter = request.POST.get('baseFilter', '')
     sort = request.POST.get('sort', '')
@@ -85,21 +53,12 @@ def protoList(request):
     limit = int(request.POST.get('limit', PAGESIZE))
 
 #   Obtiene las filas del modelo
-<<<<<<< HEAD
-    PrepareMeta2Load(protoMeta)
-    Qs, orderBy, fakeId = getQSet(
-        protoMeta, protoFilter, baseFilter, sort, request.user)
-    pRowsCount = Qs.count()
-
-#   Fix: Cuando esta en la pagina el filtro continua en la pagina 2 y no muestra nada.
-=======
 #   Obtenir le rang de modèle
     Qs, orderBy, fakeId = getQSet(protoMeta, protoFilter, baseFilter, sort, request.user)  # Ici
     pRowsCount = Qs.count()
 
 #   Fix: Cuando esta en la pagina el filtro continua en la pagina 2 y no muestra nada.
 #   Correction: Lorsque le filtre à la page suivante à la page 2 et ne montre rien.
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 #   if ( ( page -1 ) *limit >= pRowsCount ): page = 1
 
     if orderBy:
@@ -108,17 +67,6 @@ def protoList(request):
         except:
             pass
 
-<<<<<<< HEAD
-    if len(protoMeta['relZooms']) > 0:
-        Qs = Qs.prefetch_related(*protoMeta['relZooms'])
-
-    dataRows = Qs.all()[start: page * limit]
-
-    try:
-        pList = Q2Dict(protoMeta, dataRows, fakeId)
-        bResult = True
-    except Exception,  e:
-=======
     pRows = Qs.all()[start: page*limit]
 
 #   Prepara las cols del Query
@@ -128,7 +76,6 @@ def protoList(request):
         bResult = True
     except Exception as e:
         print('Caught exception')
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         traceback.print_exc()
         message = getReadableError(e)
         bResult = False
@@ -140,66 +87,20 @@ def protoList(request):
         'totalCount': pRowsCount,
         'filter': protoFilter,
         'rows': pList,
-<<<<<<< HEAD
-    }, cls=JSONEncoder)
-=======
     },
         cls=JSONEncoder
     )
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     return HttpResponse(context, mimetype="application/json")
 
 
 # Obtiene el diccionario basado en el Query Set
-<<<<<<< HEAD
-def Q2Dict(protoMeta, dataRows, fakeId):
-=======
 def Q2Dict(protoMeta, pRows, fakeId):
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     """
         return the row list from given queryset
     """
 
 #    pStyle = protoMeta.get( 'pciStyle', '')
-<<<<<<< HEAD
-    rows = []
-
-    if protoMeta['jsonField']:
-        jsonPrefix = protoMeta['jsonField'] + '__'
-    else:
-        jsonPrefix = ''
-    jPrefLen = len(jsonPrefix)
-
-    #   Esta forma permite agregar las funciones entre ellas el __unicode__
-    rowId = 0
-    for dataReg in dataRows:
-        rowId += 1
-
-        # Obtiene los campos base
-        rowdict = {
-            k: v for k, v in dataReg.__dict__.iteritems() if k in protoMeta['fBase']}
-        rows.append(rowdict)
-
-        # se asegura q tenga un id
-        if fakeId:
-            rowdict['id'] = rowId
-        elif 'id' not in protoMeta['fBase']:
-            rowdict['id'] = dataReg.pk
-
-        # str
-        if protoMeta['getStr']:
-            try:
-                val = dataReg.__str__()
-#                val = eval("'{0}'.format( rowdict['code']) ")
-            except:
-                val = '__str#' + verifyStr(dataReg.pk, '?')
-            rowdict['__str__'] = val
-
-        for fName in protoMeta['fZooms']:
-            val = getattr(dataReg, fName,  fName + '?')
-            rowdict[fName] = verifyStr(val, '')
-=======
     JsonField = protoMeta.get('jsonField', '')
     if not isinstance(JsonField, (str, unicode)):
         JsonField = ''
@@ -301,7 +202,6 @@ def Q2Dict(protoMeta, pRows, fakeId):
         # Realiza la absorcion de datos provenientes de un zoom
         if bCopyFromFld:
             rowdict = copyValuesFromFields(protoMeta, rowdict, relModels, JsonField)
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
         for fName in protoMeta['fRels']:
             try:
@@ -310,120 +210,7 @@ def Q2Dict(protoMeta, pRows, fakeId):
                 val = fName + '?'
             rowdict[fName] = verifyStr(val, '')
 
-<<<<<<< HEAD
-        # @   Evalua una funcion del modelo  ( dataReg.function )
-        # @@  TODO: evalua una funcion almacenada
-        for fName, pName in protoMeta['fEvals']:
-            rowdict[fName] = evalueFuncion(pName, dataReg)
 
-        for fName in protoMeta['n2n']:
-            try:
-                val = list(dataReg.__getattribute__(fName).values_list())
-            except:
-                val = '[]'
-            rowdict[fName] = val
-
-        if protoMeta['jsonField']:
-            try:
-                jDoc = getattr(dataReg, protoMeta['jsonField'], {})
-                for fName in protoMeta['fJson']:
-                    val = jDoc.get(fName[jPrefLen:])
-                    # val = getTypedValue( val, fType )
-                    rowdict[fName] = val
-            except:
-                pass
-
-        if protoMeta['udps']:
-            readUdps(rowdict, dataReg, protoMeta['cUDP'], protoMeta[
-                     'udpList'],  protoMeta['udpTypes'])
-
-        # construye un cache de los zooms invocados ( prototype )
-        for relName in protoMeta['relModels']:
-            relModel = protoMeta['relModels'][relName]
-
-            # Obtiene el id
-            relFKey = relModel.get('fkId', '')
-            relId = rowdict.get(relFKey,  None)
-            if relId is None:
-                continue
-
-            # Obtiene la fila
-            relRow = relModel['rows'].get(relId, None)
-            if relRow is None:
-                relRow = getRowById(relModel['zoomModel'], relId)
-                relModel['rows'][relId] = relRow
-                relModel['currentRow'] = relRow
-            else:
-                relModel['currentRow'] = relRow
-
-        # Realiza la absorcion de datos provenientes de un zoom
-        for fName in protoMeta['fCopys']:
-
-            # Verificar si hay un dict
-            lField = protoMeta['fieldsDict'][fName]
-
-            # Solo los campos son slugify, los modelos no
-            cpFromField = slugify(lField.get('cpFromField'))
-            cpFromZoom = lField.get('cpFromZoom', '')
-
-            if len(cpFromZoom) == 0:
-                # Es un copy q puede ser resuelto a partir del modelo objeto
-                # esta es la situacion normal cuando no se idetifica un modelo y se cargan los datos por jerarquia
-                # se requiere q el campo este precargado en el modelo
-
-                # Se uso para copiar de discretas,  respeta el vr por defecto
-                # el vr en el campo
-                val = rowdict.get(fName, '')
-                if smart_str(val).__len__() > 0:
-                    continue
-
-                rowdict[fName] = rowdict.get(cpFromField, '')
-
-            else:
-
-                # Esta es la situacion de los prototipos q requieren el cpFromZoom,
-                # se toman los datos del cache
-                try:
-                    relModel = protoMeta['relModels'][cpFromZoom]
-                except:
-                    continue
-
-                zoomReg = relModel['currentRow']
-                if zoomReg:
-                    if cpFromField.startswith(jsonPrefix):
-                        try:
-                            jDoc = getattr(
-                                zoomReg, protoMeta['jsonField'], {})
-                            val = jDoc.get(cpFromField[jPrefLen:])
-                            rowdict[fName] = val
-                        except:
-                            pass
-                    else:
-                        rowdict[fName] = getattr(zoomReg, cpFromField,  '')
-
-#        if pStyle == 'tree':
-#            rowdict[ 'viewEntity' ] = protoMeta.get('viewEntity', '')
-#            rowdict[ 'leaf' ] = False; rowdict[ 'children' ] = []
-
-    return rows
-
-
-def getRowById(myModelName, myId):
-    """ Retorna un registro dado un modelo y un id
-    """
-    model = getDjangoModel(myModelName)
-    myQs = model.objects.filter(pk=myId)
-    if len(myQs) > 0:
-        return myQs[0]
-    else:
-        return None
-
-
-def getUserNodes(pUser, viewEntity):
-    userProfile = getUserProfile(pUser, 'list', viewEntity)
-    userNodes = userProfile.userTree.split(',')
-
-=======
         # Agrega el Id Siempre como idInterno ( no representa una col, idProperty )
         rowdict['id'] = rowData.pk
         if fakeId:
@@ -529,7 +316,6 @@ def getUserNodes(pUser, viewEntity):
     userProfile = getUserProfile(pUser, 'list', viewEntity)
     userNodes = userProfile.userTree.split(',')
 
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     return userNodes
 
 
@@ -558,13 +344,7 @@ def getQSet(protoMeta, protoFilter, baseFilter, sort, pUser):
 
 #   Filtros por seguridad ( debe ser siempre a nivel de grupo )
     if isProtoModel and not pUser.is_superuser:
-<<<<<<< HEAD
-# Qs = Qs.filter( Q( smOwningTeam__in = userNodes ) | Q( smOwningUser =
-# pUser  ) )
-        Qs = Qs.filter(smOwningTeam__in=userNodes)
 
-#   FIX??  Le pega la meta al modelo para tomar por ejemplo searchFields
-=======
 #       Qs = Qs.filter( Q( smOwningTeam__in = userNodes ) | Q( smOwningUser = pUser  ) )
         Qs = Qs.filter(smOwningTeam__in=userNodes)
 
@@ -572,7 +352,6 @@ def getQSet(protoMeta, protoFilter, baseFilter, sort, pUser):
 #   Qs.query.select_fields = [f1, f2, .... ]
 
 #   Le pega la meta al modelo para tomar por ejemplo searchFields
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     model.protoMeta = protoMeta
 
 #   El filtro base viene en la configuracion MD
@@ -590,12 +369,7 @@ def getQSet(protoMeta, protoFilter, baseFilter, sort, pUser):
         for sField in sort:
 
             # Verificar que el campo de sort haga parte de los campos del modelo
-<<<<<<< HEAD
-            # blacklist = [f.name for f in instance._meta.fields] + ['id',
-            # 'user']
-=======
             # blacklist = [f.name for f in instance._meta.fields] + ['id', 'user']
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
             # Unicode sort
             if sField['property'] == '__str__':
@@ -625,37 +399,6 @@ def getQSet(protoMeta, protoFilter, baseFilter, sort, pUser):
 
 
 def getUnicodeFields(model):
-<<<<<<< HEAD
-    unicodeSort = ()
-    # TODO: Se debe redefinir para cargarse en la meta
-#    if hasattr( model , 'unicode_sort' ):
-#        unicodeSort = model.unicode_sort
-#    elif hasattr( model._meta , 'unique_together' ):
-#        unicodeSort = model._meta.unique_together[0]
-    return unicodeSort
-
-
-def evalueFuncion(fName, dataReg):
-    """ para evaluar las funciones @  declaradas en el modelo
-    """
-    try:
-        expr = 'dataReg.' + fName[1:]
-        val = eval(expr)
-        val = verifyStr(val, '')
-    except:
-        val = fName + '?'
-    return val
-
-
-def PrepareMeta2Load(protoMeta):
-    """IDenfifica los typos de campos para optimizar la carga de datos
-    """
-
-    # Nombre de la entidad de trabajo
-    viewEntity = protoMeta['viewEntity']
-
-    protoMeta['fieldsDict'] = list2dict(protoMeta['fields'], 'name')
-=======
 
     unicodeSort = ()
     if hasattr(model, 'unicode_sort'):
@@ -694,7 +437,6 @@ def addQbeFilter(protoFilter, model, Qs, JsonField):
                 Qs = Qs.filter(**QTmp)
             except:
                 traceback.print_exc()
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     pUDP = protoMeta.get('usrDefProps', {})
     cUDP = verifyUdpDefinition(pUDP)
@@ -717,65 +459,7 @@ def addQbeFilter(protoFilter, model, Qs, JsonField):
         protoMeta['udps'] = False
         protoMeta['udpClass'] = None
 
-<<<<<<< HEAD
-    # Alimenta la coleccion de zooms, por cada campo pues hay q hacer un select para esto
-    # Determina el tipo de campo para no estar haciendo verificacion en todos
-    # lados
-    protoMeta['getStr'] = False
 
-    JsonField = protoMeta.get('jsonField', '')
-    if len(JsonField) == 0:
-        protoMeta['jsonField'] = False
-    else:
-        protoMeta['jsonField'] = JsonField
-
-    protoMeta['fBase'] = []
-        # directos de la Db ( solo se aplican los valores )
-    protoMeta['fZooms'] = []     # el __str__ del fk
-    protoMeta['fRels'] = []      # provenientes de un fk ( __ , . )
-    protoMeta['fJson'] = []      # sub campos en un doc json
-    protoMeta['fEvals'] = []     # calculados python
-    protoMeta['fCopys'] = []     # Copiados ( necesario en prototypos )
-    protoMeta['n2n'] = []
-        # lista relacionada, esto se debe cargar en un objeto aparte
-
-    protoMeta['relZooms'] = []   # los zooms a los q debe hacer prefetch
-    protoMeta['relModels'] = {}
-        # los zooms a los q debe llamar manualmente ( prototipos )
-
-    for lField in protoMeta['fields']:
-        """"el manejo de physical name permite definir funciones,
-            por ejemplo la redefinicion de un _str__ o
-            calculos en el backEnd
-        """
-        fName = lField['name']
-        pName = lField.get('pyEval', '')
-
-        myZoomModel = lField.get('zoomModel', '')
-
-        if (len(myZoomModel) > 0) and (myZoomModel != viewEntity):
-            # por q debe ser diferente del viewEntity, podria ser una autoreferencia, acaso viene cargada sin ser un zoom
-            # Dgt! los cellZoom usan el zoomModel ( _str_ )
-            protoMeta['relModels'][fName] = {
-                'zoomModel': myZoomModel,
-                'fkId': lField.get('fkId', ''),
-                'loaded': False}
-
-        # Separar los tipos de campo para evaluacion
-        # ------------------------------------------------------
-        if lField.get('crudType') == "screenOnly":
-            pass
-
-        elif (lField['type'] == 'protoN2N'):
-            pass
-
-        elif (fName == JsonField):
-            pass
-
-        elif (fName == '__str__'):
-            if not pName.startswith('@'):
-                protoMeta['getStr'] = True
-=======
 def addQbeFilterStmt(sFilter, model, JsonField):
 
     """ Verifica casos especiales y obtiene el QStmt
@@ -895,53 +579,12 @@ def getFieldValue(fName, fType, rowData, JsonField):
         if val is None:
             val = ''
 
-    return val
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
+            return val
 
         elif fName.startswith(JsonField + '__'):
             protoMeta['fJson'].append(fName)
 
-<<<<<<< HEAD
-        elif lField['type'] == 'foreigntext':
-            protoMeta['fZooms'].append(fName)
-            # No aplica para  prototypos
-            if not viewEntity.startswith('prototype.ProtoTable'):
-                protoMeta['relZooms'].append(fName)
 
-        elif ('__' in fName or '.' in fName):
-            protoMeta['fRels'].append(fName)
-
-        else:
-            protoMeta['fBase'].append(fName)
-
-        # cp from field ( respeta el default )
-        if len(lField.get('cpFromField', '')) > 0:
-            protoMeta['fCopys'].append(fName)
-
-        # phisicalName
-        if pName.startswith('@'):
-            protoMeta['fEvals'].append((fName, pName))
-
-    # Verifica si existen reemplazos por hacer ( cpFromField )
-    # 1.  Marca los zooms q estan referenciados
-    for lField in protoMeta['fields']:
-        fName = lField['name']
-        if (lField.get('cpFromField') is None or lField.get('cpFromZoom') is None):
-            continue
-        try:
-            relModel = protoMeta['relModels'][lField.get('cpFromZoom')]
-            relModel['loaded'] = True
-        except:
-            pass
-
-    # 2.  borra los q no tienen marca pues no se usan
-    for relName in protoMeta['relModels'].keys():
-        relModel = protoMeta['relModels'][relName]
-        if not relModel['loaded']:
-            del protoMeta['relModels'][relName]
-        else:
-            relModel['rows'] = {}
-=======
 def evalueFuncion(fName, rowData):
 
     """ para evaluar las funciones @  declaradas en el modelo
@@ -957,4 +600,3 @@ def evalueFuncion(fName, rowData):
         val = fName + '?'
 
     return val
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e

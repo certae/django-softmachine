@@ -2,66 +2,31 @@
 
 # Django settings for PROTO project.
 import os.path
-<<<<<<< HEAD
 import sys
 PPATH = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)).replace('\\', '/')
 
 if PPATH.startswith('/'):
-    EXT_PATH = '/u/data/ExtJs'
-=======
-PPATH = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)).replace('\\', '/')
-
-if PPATH.startswith('/'):
-    EXT_PATH = '/home/antoine/Stage/Prototypeur/ProtoExt'
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
+    EXT_PATH = '/home/antoine/PrototypeurCertae/ProtoExt'
 else:
     EXT_PATH = 'd:/data/ExtJs'
 
 if ('/src' in PPATH):
     PPATH = os.path.abspath(os.path.join(PPATH, os.pardir)).replace('\\', '/')
 
-<<<<<<< HEAD
-if ('/src' in PPATH):
     PPATH = os.path.abspath(os.path.join(PPATH, os.pardir)).replace('\\', '/')
 
-=======
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 # Django settings for modelibra project.
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-<<<<<<< HEAD
-    ('Dario Gomez', 'dariogomezt@hotmail.com'),
-=======
+    ('Antoine Dubé', 'antoine.dube@hotmail.com'),
     ('Dario Gomez', 'certae_dariogomez@gmail.com'),
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 )
 
 MANAGERS = ADMINS
 
 DATABASES = {
-<<<<<<< HEAD
-    #'default': {
-    #'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #'NAME':   'protoExt',
-    #'USER':   'postgres',
-    #'PASSWORD': '1',
-    #'HOST': '127.0.0.1',                 # Set to empty string for localhost. Not used with sqlite3.
-    #'PORT': '9432',                      # Set to empty string for default. Not used with sqlite3.
-    #},
-    #'default': {
-    #'ENGINE': 'django.db.backends.mysql',
-    #'NAME':   'protogn',
-    #'USER': 'root',
-    #'PASSWORD': 'certae1',
-    #'HOST': '127.0.0.1',
-    #'PORT': '3306',
-    #},
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': PPATH + '/db/protoMeta.db',
-=======
     #    'default': {
     #        'ENGINE': 'django.db.backends.postgresql_psycopg2',
     #        'NAME':   'protoExt',
@@ -83,7 +48,6 @@ DATABASES = {
         #'NAME': PPATH + '/db/protoMeta.db',
         'NAME': PPATH + '/db/protoMetaCertae.db',
         #'NAME': PPATH + '/db/PrototypeurTest.db',
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     }
 }
 
@@ -218,12 +182,8 @@ INSTALLED_APPS = (
     'south',
     'protoLib',
     'prototype',
-<<<<<<< HEAD
-    'tests'
-=======
     'alltests'
     #'best',
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     #'shiny',
     #'CategoryCle',
     #'TCO'
@@ -233,11 +193,8 @@ INSTALLED_APPS = (
 
 
 FIXTURE_DIRS = (
-<<<<<<< HEAD
     'data/fixtures/',
-=======
     'src/fixtures/',
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 )
 
 # A sample logging configuration. The only tangible logging

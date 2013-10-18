@@ -10,32 +10,18 @@ from django.db.models.signals import post_save
 from protoLib.fields import JSONField, JSONAwareManager
 
 
-
 class TeamHierarchy(models.Model):
 # Jerarquia funcional ( de seguridad ) de la app
 # Es la base de la seguridad por registro
 
-<<<<<<< HEAD
-    code = models.CharField(
-        unique=True, blank=False, null=False, max_length=200)
-    description = models.TextField(
-        verbose_name=u'Descriptions', blank=True, null=True)
-    parentNode = models.ForeignKey(
-        'TeamHierarchy', blank=True, null=True, related_name='downHierachy')
-=======
     code = models.CharField(unique=True, blank=False, null=False, max_length=200)
     description = models.TextField(verbose_name=u'Descriptions', blank=True, null=True)
     parentNode = models.ForeignKey('TeamHierarchy', blank=True, null=True, related_name='downHierachy')
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     site = models.ForeignKey(Site, blank=True, null=True)
 
     @property
     def fullPath(self):
-<<<<<<< HEAD
-        return getNodeHierarchy(self, 'parentNode',  'id', 'fullPath')
-=======
         return getNodeHierarchy(self, 'parentNode', 'id', 'fullPath')
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     @property
     def treeHierarchy(self):
@@ -55,57 +41,30 @@ class TeamHierarchy(models.Model):
 #            raise Exception( 'site required')
         super(TeamHierarchy, self).save(*args, **kwargs)
 
-<<<<<<< HEAD
-    protoExt = {'fields': {
-                'fullPath': {'readOnly': True},
-                'treeHierarchy': {'readOnly': True},
-                }}
-=======
     protoExt = {'fields':
                 {
                     'fullPath': {'readOnly': True},
                     'treeHierarchy': {'readOnly': True},
                 }
                 }
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
 
 # here is the profile model
 class UserProfile(models.Model):
-<<<<<<< HEAD
-# Es necesario inlcuir el ususario en un BUnit, cada registro copiara el Bunit
-# del usuario para dar permisos tambien a la jerarquia ( ascendente )
-=======
 #Es necesario inlcuir el ususario en un BUnit, cada registro copiara el Bunit
 #del usuario para dar permisos tambien a la jerarquia ( ascendente )
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     user = models.ForeignKey(User, unique=True)
     userTeam = models.ForeignKey(TeamHierarchy, blank=True, null=True)
     userTree = models.CharField(blank=True, null=True, max_length=500)
     language = models.CharField(blank=True, null=True, max_length=500)
-<<<<<<< HEAD
 
-    # TODO: si  el usuario pertenece a varios grupos podria cambiar su grupo de trabajo
-    # workigTeam = models.ForeignKey( TeamHierarchy, blank = True, null = True
-    # )
-
-=======
-
-    #TODO: si  el usuario pertenece a varios grupos podria cambiar su grupo de trabajo
-    #workigTeam = models.ForeignKey( TeamHierarchy, blank = True, null = True )
-
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     def __unicode__(self):
         return self.user.username
 
 
 def user_post_save(sender, instance, created, **kwargs):
     """Create a user profile when a new user account is created"""
-<<<<<<< HEAD
-    if created:
-=======
     if created is True:
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         p = UserProfile()
         p.user = instance
         p.save()
@@ -122,29 +81,6 @@ class UserShare(models.Model):
         return self.user.username + '-' + self.userTeam.code
 
 
-<<<<<<< HEAD
-# Tabla modelo para la creacion de entidades de usuario     ( sm  security mark )
-# related_name="%(app_label)s_%(class)s
-class ProtoModel(models.Model):
-    smOwningUser = models.ForeignKey(
-        User, null=True, blank=True, related_name='+', editable=False)
-    smOwningTeam = models.ForeignKey(
-        TeamHierarchy, null=True, blank=True, related_name='+', editable=False)
-
-    smCreatedBy = models.ForeignKey(
-        User, null=True, blank=True, related_name='+', editable=False)
-    smModifiedBy = models.ForeignKey(
-        User, null=True, blank=True, related_name='+', editable=False)
-    smRegStatus = models.CharField(
-        max_length=50,  null=True, blank=True, editable=False)
-    smWflowStatus = models.CharField(
-        max_length=50,  null=True, blank=True, editable=False)
-
-    smCreatedOn = models.DateTimeField(
-        auto_now=True, null=True, blank=True, editable=False)
-    smModifiedOn = models.DateTimeField(
-        auto_now=True, null=True, blank=True, editable=False)
-=======
 #Tabla modelo para la creacion de entidades de usuario     ( sm  security mark )
 #related_name="%(app_label)s_%(class)s
 class ProtoModel(models.Model):
@@ -158,7 +94,6 @@ class ProtoModel(models.Model):
 
     smCreatedOn = models.DateTimeField(auto_now=True, null=True, blank=True, editable=False)
     smModifiedOn = models.DateTimeField(auto_now=True, null=True, blank=True, editable=False)
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     # Indicador para manejo de seguridad
     _protoObj = True
@@ -205,21 +140,10 @@ class EntityMap(models.Model):
 
 
 class FieldMap(models.Model):
-<<<<<<< HEAD
-    # TODO: Implemenar con EntityMap
-=======
-    #TODO: Implemenar con EntityMap
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     entity = models.ForeignKey(EntityMap, blank=False, null=False)
     fieldName = models.CharField(max_length=200, blank=False, null=False)
 
-<<<<<<< HEAD
-    # Permisos a nivel de campo ( se marcan como enteros para sumarlos 0 =
-    # False )
-=======
-    # Permisos a nivel de campo ( se marcan como enteros para sumarlos 0 = False )
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     canRead = models.IntegerField(default=0, blank=False, null=False)
     canIns = models.IntegerField(default=0, blank=False, null=False)
     canUpd = models.IntegerField(default=0, blank=False, null=False)
@@ -232,20 +156,6 @@ class ProtoDefinition(models.Model):
     # Esta tabla guarda las definiciones de las pcls y del menu,
     # es un contenedor generico para manejar documentos json modificados de lo q
     # en principio es la definicion de base de los modelos Django.
-<<<<<<< HEAD
-    code = models.CharField(
-        unique=True, blank=False, null=False, max_length=200)
-    description = models.TextField(
-        verbose_name=u'Descriptions', blank=True, null=True)
-    metaDefinition = models.TextField(blank=True, null=True)
-
-    # Si esta activo toma la definicion de la Db, si no esta activa usa la
-    # definicion por defecto
-    active = models.BooleanField(default=False)
-
-    # Elto de control para sobre escribir,  podria ser un error el solo hecho
-    # de inactivarlo
-=======
     code = models.CharField(unique=True, blank=False, null=False, max_length=200)
     description = models.TextField(verbose_name=u'Descriptions', blank=True, null=True)
     metaDefinition = models.TextField(blank=True, null=True)
@@ -254,7 +164,6 @@ class ProtoDefinition(models.Model):
     active = models.BooleanField(default=False)
 
     # Elto de control para sobre escribir,  podria ser un error el solo hecho de inactivarlo
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     overWrite = models.BooleanField(default=True)
 
     def __unicode__(self):
@@ -279,17 +188,9 @@ class ProtoDefinition(models.Model):
 class CustomDefinition(ProtoModel):
     # maneja las definiciones por grupo
     # aqui se guardan los menus personalizados, y las customOptions
-<<<<<<< HEAD
-    # DGT: por ahora el manejo es solo a nivel de grupos, pero dependiendo el
-    # nivel de amdin, se guardara como grupo o usuario
-    code = models.CharField(blank=False, null=False, max_length=200)
-    description = models.TextField(
-        verbose_name=u'Descriptions', blank=True, null=True)
-=======
     # DGT: por ahora el manejo es solo a nivel de grupos, pero dependiendo el nivel de amdin, se guardara como grupo o usuario
     code = models.CharField(blank=False, null=False, max_length=200)
     description = models.TextField(verbose_name=u'Descriptions', blank=True, null=True)
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     metaDefinition = models.TextField(blank=True, null=True)
 
@@ -331,11 +232,7 @@ def getDjangoModel(modelName):
     return model
 
 
-<<<<<<< HEAD
-def getNodeHierarchy(record, parentField,  codeField, pathFunction):
-=======
 def getNodeHierarchy(record, parentField, codeField, pathFunction):
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     "Returns the full hierarchy path."
 
     pRec = record.__getattribute__(parentField)
@@ -354,11 +251,7 @@ class DiscreteValue(models.Model):
     value = models.CharField(blank=False, null=False, max_length=200)
 
     description = models.TextField(blank=True, null=True)
-<<<<<<< HEAD
-    title = models.ForeignKey('DiscreteValue',  blank=True, null=True)
-=======
     title = models.ForeignKey('DiscreteValue', blank=True, null=True)
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     def __unicode__(self):
         if self.title is None:
@@ -374,28 +267,16 @@ class DiscreteValue(models.Model):
             "listDisplay": ["__str__", "description"]
         }
     }
-<<<<<<< HEAD
 
-=======
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
 class Languaje(models.Model):
 
-<<<<<<< HEAD
-=======
-class Languaje(models.Model):
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     """ TODO : Manejar una tabla con los diferentes lenguajes en formato Json
         { 'es' : 'incio', 'en' : 'start', .....  }
         se aprovecha la pseudo definicion como en prototipos
     """
 
-<<<<<<< HEAD
-    code = models.CharField(
-        blank=False, null=False, max_length=200, unique=True)
-=======
     code = models.CharField(blank=False, null=False, max_length=200, unique=True)
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     # para manejar un nombre de variable usr
     alias = models.CharField(blank=False, null=False, max_length=200)
@@ -404,20 +285,12 @@ class Languaje(models.Model):
 
     def __unicode__(self):
         return self.code + '.' + self.info.__str__()
-<<<<<<< HEAD
-
-    objects = JSONAwareManager(json_fields=['info'])
-=======
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     objects = JSONAwareManager(json_fields=['info'])
 
+
 class PtFunction(models.Model):
 
-<<<<<<< HEAD
-=======
-class PtFunction(models.Model):
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     """ TODO : En esta tabla se guardan funciones q seran ejectudas dinamicamente
         deben reespetar la syntaxis python y se precargaran con funcione de base
         por ejemplo el perfil de usuario y el acceso a modelos
@@ -426,12 +299,7 @@ class PtFunction(models.Model):
     """
 
     # nombre de la funcion
-<<<<<<< HEAD
-    code = models.CharField(
-        blank=False, null=False, max_length=200, unique=True)
-=======
     code = models.CharField(blank=False, null=False, max_length=200, unique=True)
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     # este modelo se importa y se ofrece a la funcion
     modelName = models.CharField(blank=False, null=False, max_length=200)
@@ -442,23 +310,12 @@ class PtFunction(models.Model):
     functionBody = models.TextField(blank=True, null=True)
 
     tag = models.CharField(blank=False, null=False, max_length=200)
-<<<<<<< HEAD
-    description = models.TextField(
-        verbose_name=u'Descriptions', blank=True, null=True)
-
-    def __unicode__(self):
-        return self.code + '.' + self.tag
-
-
-# class sb2reglesentite(models.Model):
-=======
     description = models.TextField(verbose_name=u'Descriptions', blank=True, null=True)
 
     def __unicode__(self):
         return self.code + '.' + self.tag
 
 #class sb2reglesentite(models.Model):
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 #    description = models.CharField(max_length=250 ,blank=True)
 #    declancheur = models.CharField(max_length=5 ,blank=True)
 #    sequence = models.IntegerField(null=True ,blank=True)

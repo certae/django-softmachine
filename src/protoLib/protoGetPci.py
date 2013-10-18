@@ -1,21 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from django.http import HttpResponse
-<<<<<<< HEAD
-from protoGrid import getBaseModelName, setDefaultField, getProtoAdmin
-from protoLib import protoGrid
-from protoField import setFieldDict, isAdmField
-from models import getDjangoModel, ProtoDefinition, CustomDefinition
-from utilsBase import getReadableError, copyProps, verifyList
-from utilsWeb import JsonError, JsonSuccess
-=======
 from protoLib.protoGrid import getBaseModelName, setDefaultField, getProtoAdmin
 from protoLib import protoGrid
 from protoLib.protoField import setFieldDict, isAdmField
 from protoLib.models import getDjangoModel, ProtoDefinition, CustomDefinition
 from protoLib.utilsBase import getReadableError, copyProps
 from protoLib.utilsWeb import JsonError, JsonSuccess
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
 from protoLib.protoActionEdit import setSecurityInfo
 from protoLib.protoQbe import getSearcheableFields
@@ -24,10 +15,6 @@ from protoLib.protoAuth import getUserProfile, getModelPermissions
 
 from prototype.models import Prototype
 
-<<<<<<< HEAD
-from prototype.models import Prototype
-=======
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 PROTO_PREFIX = "prototype.ProtoTable."
 
 
@@ -49,26 +36,6 @@ def protoGetPCI(request):
 
     if request.method != 'POST':
         return JsonError('invalid message')
-<<<<<<< HEAD
-
-    viewCode = request.POST.get('viewCode', '')
-    viewEntity = getBaseModelName(viewCode)
-
-    try:
-        model = getDjangoModel(viewEntity)
-    except:
-        return JsonError('model not found:' + viewEntity)
-
-    #
-    userProfile = getUserProfile(request.user, 'getPci', viewEntity)
-
-    # PROTOTIPOS
-    if viewCode.startswith(PROTO_PREFIX) and viewCode != viewEntity:
-        try:
-            prototypeView = viewCode.replace(PROTO_PREFIX, '')
-            protoDef = Prototype.objects.get(
-                code=prototypeView, smOwningTeam=userProfile.userTeam)
-=======
 
     viewCode = request.POST.get('viewCode', '')
     viewEntity = getBaseModelName(viewCode)  # app.model.view -> app.model
@@ -84,21 +51,13 @@ def protoGetPCI(request):
         try:
             prototypeView = viewCode.replace(PROTO_PREFIX, '')
             protoDef = Prototype.objects.get(code=prototypeView, smOwningTeam=userProfile.userTeam)
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
             created = False
         except:
             jsondict = {'success': False, 'message': viewCode + ' notFound'}
             return HttpResponse(json.dumps(jsondict), mimetype="application/json")
 
     else:
-<<<<<<< HEAD
-        # created : El objeto es nuevo
-        # protoDef : PCI leida de la DB
-        protoDef, created = ProtoDefinition.objects.get_or_create(
-            code=viewCode)
-=======
         protoDef, created = ProtoDefinition.objects.get_or_create(code=viewCode)
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     # Verifica si es una version vieja
     if created:
@@ -109,7 +68,6 @@ def protoGetPCI(request):
 #        version = protoMeta.get( 'metaVersion' )
 #        if ( version is None ) or ( version < PROTOVERSION ):
 #            created = True
-<<<<<<< HEAD
 
     # active solo viene de protoDefinition
     try:
@@ -117,15 +75,6 @@ def protoGetPCI(request):
     except:
         active = True
 
-=======
-
-    # active solo viene de protoDefinition
-    try:
-        active = protoDef.active
-    except:
-        active = True
-
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     # Si es nuevo o no esta activo lee Django
     if created or (not active):
 
@@ -136,15 +85,8 @@ def protoGetPCI(request):
         # solo en caso de q la definicion no este en la Db
         if (version is None) or (version < PROTOVERSION):
 
-<<<<<<< HEAD
-            # Verifica si existe una propiedad ProtoMeta es la copia de la meta
-            # cargada a la Db,
-            grid = protoGrid.ProtoGridFactory(
-                model, viewCode, model_admin, protoMeta)
-=======
             # Verifica si existe una propiedad ProtoMeta es la copia de la meta cargada a la Db,
             grid = protoGrid.ProtoGridFactory(model, viewCode, model_admin, protoMeta)
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
             protoMeta = createProtoMeta(model, grid, viewEntity, viewCode)
 
         # Guarda la Meta si es nuevo o si se especifica overWrite
@@ -157,24 +99,6 @@ def protoGetPCI(request):
         protoMeta = json.loads(protoDef.metaDefinition)
         protoMeta['viewCode'] = viewCode
 
-<<<<<<< HEAD
-        # Verifica versiones ( cambios de version en la meta )
-        protoMeta['fields'] = verifyList(protoMeta.get('fields', []))
-        for field in protoMeta['fields']:
-
-            # 130405  Cambio de nombre  physicalName --> pyEval
-            if field.get('physicalName', None):
-                field['pyEval'] = field['physicalName']
-                del field['physicalName']
-
-    # La definicion del arbol es fija, pues las cols deben ser siempre uniformes sin importar el tipo de modelo.
-#    pStyle = protoMeta.get( 'pciStyle', '')
-#    if pStyle == 'tree':  setTreeDefinition()
-    customCode = '_custom.' + viewCode
-    try:
-        custom = CustomDefinition.objects.get(
-            code=customCode, smOwningTeam=userProfile.userTeam)
-=======
     # La definicion del arbol es fija, pues las cols deben ser siempre uniformes sin importar el tipo de modelo.
 #    pStyle = protoMeta.get( 'pciStyle', '')
 #    if pStyle == 'tree':  setTreeDefinition()
@@ -182,7 +106,6 @@ def protoGetPCI(request):
     customCode = '_custom.' + viewCode
     try:
         custom = CustomDefinition.objects.get(code=customCode, smOwningTeam=userProfile.userTeam)
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         custom = json.loads(custom.metaDefinition)
         protoMeta['custom'] = custom['custom']
     except:
@@ -192,30 +115,13 @@ def protoGetPCI(request):
         'success': True,
         'message': '',
         'metaData': {
-<<<<<<< HEAD
-            # The name of the property which contains the Array of row objects.
-            # ...
-=======
             # The name of the property which contains the Array of row objects. ...
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
             'root': 'rows',
 
             # Name of the property within a row object that contains a record
             # identifier value. ...
             'idProperty': protoMeta['idProperty'],
 
-<<<<<<< HEAD
-            # Name of the property from which to retrieve the total number of
-            # records in t
-            'totalProperty': 'totalCount',
-
-            # Name of the property from which to retrieve the success
-            # attribute. ...
-            'successProperty': 'success',
-
-            # The name of the property which contains a response message.
-            # (optional)
-=======
             #Name of the property from which to retrieve the total number of records in t
             'totalProperty': 'totalCount',
 
@@ -223,12 +129,10 @@ def protoGetPCI(request):
             'successProperty': 'success',
 
             #The name of the property which contains a response message. (optional)
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
             'messageProperty': 'message',
         },
         'protoMeta': protoMeta,
         'permissions': getModelPermissions(request.user, model),
-<<<<<<< HEAD
 
         'rows': [],
         'totalCount': 0,
@@ -237,22 +141,8 @@ def protoGetPCI(request):
     # Codifica el mssage json
     context = json.dumps(jsondict)
     return HttpResponse(context, mimetype="application/json")
-=======
 
-        'rows': [],
-        'totalCount': 0,
-    }
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
-    # Codifica el mssage json
-    context = json.dumps(jsondict)
-    return HttpResponse(context, mimetype="application/json")
-
-<<<<<<< HEAD
-# protoGetPCI ----------------------------
-=======
-
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 def createProtoMeta(model, grid, viewEntity, viewCode):
 
     # Los criterios de busqueda ni los ordenamientos son heredados del admin,
@@ -270,13 +160,8 @@ def createProtoMeta(model, grid, viewEntity, viewCode):
     sortInfo = []
     for sField in initialSort:
         # Si es un string lo convierte en objeto
-<<<<<<< HEAD
-        #if type(sField).__name__ == type('').__name__:
-        if sField.isInstance(''):
-=======
         #if type(sField).__name__ == type( '' ).__name__ :
         if type(sField).__name__.isinstance(type('').__name__):  # Verifier si valide
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
             sortOrder = 'ASC'
             if sField[0] == '-':
                 sortOrder = 'DESC'
@@ -313,11 +198,7 @@ def createProtoMeta(model, grid, viewEntity, viewCode):
     if len(pDescription) == 0:
         pDescription = grid.protoMeta.get('title', grid.title)
 
-<<<<<<< HEAD
-    # FIX: busca el id en la META  ( id_field = model._meta.pk.name )
-=======
     #FIX: busca el id en la META  ( id_field = model._meta.pk.name )
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     id_field = u'id'
 
     protoTmp = {
@@ -328,21 +209,6 @@ def createProtoMeta(model, grid, viewEntity, viewCode):
         'shortTitle': grid.protoMeta.get('shortTitle', grid.title),
         'description': pDescription,
         'viewIcon': viewIcon,
-<<<<<<< HEAD
-
-        'fields': grid.fields,
-        'gridConfig': gridConfig,
-        'gridSets': grid.protoMeta.get('gridSets', {}),
-
-        'detailsConfig': grid.get_details(),
-        'formConfig': grid.getFieldSets(),
-
-        #        El resto  no las carga pues ya estan en la meta ...
-    }
-
-    return copyProps(grid.protoMeta, protoTmp)
-
-=======
 
         'fields': grid.fields,
         'gridConfig': gridConfig,
@@ -353,31 +219,11 @@ def createProtoMeta(model, grid, viewEntity, viewCode):
 
         # El resto  no las carga pues ya estan en la meta ...
     }
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
     return copyProps(grid.protoMeta, protoTmp)
 
 
 def protoSaveProtoObj(request):
-<<<<<<< HEAD
-    """ Save full metadata
-
-    * objetos del tipo _XXX                   se guardan siempre en CustomDefinition
-    * objetos del tipo prototype.protoTable   se guardan siempre en Prototype
-
-    * Solo los adminstradores tienen el derecho de guardar pcls
-
-    custom :  Los objetos de tipo custom, manejan la siguiente llave
-
-        _ColSet.[viewCode]        listDisplaySet
-        _QrySet.[viewCode]        filterSet
-        _menu
-
-    Para manejar el modelo en las generacion de protoPci's  se usa :
-
-        prototype.protoTable.[protoModel-viewCode]  --> al leer la pcl se leera prototype.protoTable.[protoModel-viewCode]
-
-=======
 
     """
         Save full metadata
@@ -413,7 +259,6 @@ def protoSaveProtoObj(request):
         Pour gérer le modèle de génération de protoPci est utilisé:
 
         prototype.protoTable [protoModel-VIEWCODE] -..> lire la prototype.protoTable PCL sera lu [protoModel-VIEWCODE]
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     """
 
     if request.method != 'POST':
@@ -440,12 +285,7 @@ def protoSaveProtoObj(request):
     if custom:
 
         try:
-<<<<<<< HEAD
-            protoDef, create = CustomDefinition.objects.get_or_create(
-                code=viewCode, smOwningTeam=userProfile.userTeam)
-=======
             protoDef, create = CustomDefinition.objects.get_or_create(code=viewCode, smOwningTeam=userProfile.userTeam)
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         except Exception as e:
             return JsonError(getReadableError(e))
 
@@ -455,13 +295,8 @@ def protoSaveProtoObj(request):
         try:
             # debe existir previamente
             protoCode = viewCode.replace(PROTO_PREFIX, '')
-<<<<<<< HEAD
-            protoDef = Prototype.objects.get(
-                code=protoCode, smOwningTeam=userProfile.userTeam)
-=======
             print('protoCode is : ' + protoCode)
             protoDef = Prototype.objects.get(code=protoCode, smOwningTeam=userProfile.userTeam)
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
             create = False
         except Exception as e:
             return JsonError(getReadableError(e))
@@ -475,12 +310,7 @@ def protoSaveProtoObj(request):
             return JsonError('permission denied')
 
         try:
-<<<<<<< HEAD
-            protoDef = ProtoDefinition.objects.get_or_create(
-                code=viewCode)[0]
-=======
             protoDef = ProtoDefinition.objects.get_or_create(code=viewCode)[0]
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         except Exception as e:
             return JsonError(getReadableError(e))
 
@@ -489,12 +319,7 @@ def protoSaveProtoObj(request):
 
         # borra el custom por q confunde haecer modif en un lado y otro
         try:
-<<<<<<< HEAD
-            CustomDefinition.objects.filter(
-                code='_custom.' + viewCode, smOwningTeam=userProfile.userTeam).delete()
-=======
             CustomDefinition.objects.filter(code='_custom.' + viewCode, smOwningTeam=userProfile.userTeam).delete()
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         except:
             pass
 
@@ -508,10 +333,6 @@ def protoSaveProtoObj(request):
 
 
 def protoGetFieldTree(request):
-<<<<<<< HEAD
-=======
-
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     """ return full field tree
     """
 
@@ -528,10 +349,6 @@ def protoGetFieldTree(request):
 
     fieldList = []
     if viewCode.startswith(PROTO_PREFIX) and viewCode != viewEntity:
-<<<<<<< HEAD
-        # ---------------------------------------------------              Prototipos
-=======
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
         protoEntityId = request.POST.get('protoEntityId')
         if not protoEntityId >= 0:
             return JsonError('invalid idEntity')
@@ -543,19 +360,10 @@ def protoGetFieldTree(request):
             return JsonError('invalid idEntity')
 
     else:
-<<<<<<< HEAD
-        # -----------------------------------------------------------------------------------------------------
-        # Se crean los campos con base al modelo ( trae todos los campos del
-        # modelo
-        for field in model._meta._fields():
-            try:
-                addFiedToList(fieldList,  field, '')
-=======
         # Se crean los campos con base al modelo ( trae todos los campos del modelo
         for field in model._meta._fields():
             try:
                 addFiedToList(fieldList, field, '')
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
             except Exception as e:
                 traceback.print_exc()
                 return JsonError(getReadableError(e))
@@ -573,15 +381,6 @@ def protoGetFieldTree(request):
 
         # FormLink redefinition to original view
         # myField['zoomModel'] =  viewCode
-<<<<<<< HEAD
-=======
-
-        fieldList.append(myField)
-
-    # Codifica el mssage json
-    context = json.dumps(fieldList)
-    return HttpResponse(context, mimetype="application/json")
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
         fieldList.append(myField)
 
@@ -589,15 +388,11 @@ def protoGetFieldTree(request):
     context = json.dumps(fieldList)
     return HttpResponse(context, mimetype="application/json")
 
+
 def addFiedToList(fieldList, field, fieldBase):
 
-<<<<<<< HEAD
-def addFiedToList(fieldList, field, fieldBase):
-    """ return parcial field tree  ( Called from protoGetFieldTree )
-=======
     """
         return partial field tree (Called from protoGetFieldTree)
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
     """
 
     fieldId = fieldBase + field.name
@@ -662,18 +457,6 @@ def addFiedToList(fieldList, field, fieldBase):
             # los campos adm de los heredados no se presentan
             if isAdmField(fAux.name):
                 continue
-<<<<<<< HEAD
-
-            addFiedToList(fkFieldList,  fAux, fieldId + '__')
-
-        pField['leaf'] = False
-        pField['children'] = fkFieldList
-
-    fieldList.append(pField)
-
-
-# --------------------------------------------------------------------------
-=======
 
             addFiedToList(fkFieldList, fAux, fieldId + '__')
 
@@ -682,7 +465,6 @@ def addFiedToList(fieldList, field, fieldBase):
 
     fieldList.append(pField)
 
->>>>>>> ddde2e02188f5f2479e408d6944f6e863db9832e
 
 def isFieldDefined(pFields, fName):
     # Verifica si un campo esta en la lista
