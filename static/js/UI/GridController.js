@@ -159,7 +159,7 @@ Ext.define('ProtoUL.UI.GridController', {
 
 
         var perms = _SM._UserInfo.perms[ this.myMeta.viewCode ]
-        if ( !( perms['add'] || perms['change'] || perms['delete'] )) return 
+        if ( !( perms['add'] || perms['change'] || perms['delete'] )) { return } 
         // if ( ! _SM._UserInfo.isStaff  ) return 
 
         this.myGrid.editable = bEdit

@@ -9,7 +9,9 @@ Ext.define('ProtoUL.UI.MDActionsController', {
     getProtoActionsBar: function() {
 
         var perms = _SM._UserInfo.perms[ this.myMeta.viewCode ]
-        if ( !( perms['add'] || perms['change'] || perms['delete'] )) return 
+        if (!(perms['add'] || perms['change'] || perms['delete'])) {
+            return
+        } 
         // if ( ! _SM._UserInfo.isStaff ) return  
         var me = this; 
         var myProtoActions = []  

@@ -99,10 +99,11 @@ Ext.define('ProtoUL.ux.Login', {
             btn.setIconCls("st-loading");
             form.submit({
                 method: 'POST',
-                // waitTitle:'Connecting', 
-                // waitMsg:'Sending data...',             
                 url: _SM._PConfig.urlGetUserRights ,
                 scope: me,
+
+                // waitTitle:'Connecting', 
+                // waitMsg:'Sending data...',
                 // success: this.submitLoginCallback,
                 // failure: this.submitLoginCallback, 
                 success: function(result, request) {

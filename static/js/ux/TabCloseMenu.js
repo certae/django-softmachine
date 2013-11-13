@@ -11,7 +11,7 @@ Ext.define('Ext.ux.TabCloseMenu', {
 
     mixins: {
         observable: 'Ext.util.Observable'
-    },
+    }, 
 
     /**
      * @cfg {String} closeTabText

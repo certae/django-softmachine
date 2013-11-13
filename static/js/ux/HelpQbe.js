@@ -35,7 +35,7 @@
             extend: 'Ext.data.Model',
             fields: [
                ''+me.name
-            ],
+            ]
             
         });
 
@@ -64,8 +64,7 @@
             region:'center',
             store: this.myStore,
             columns: [
-                { text: me.fieldLabel, dataIndex: me.name, flex: 1 },
-               
+                { text: me.fieldLabel, dataIndex: me.name, flex: 1 }
             ],
             height: 400,
             width: 400,
@@ -73,11 +72,9 @@
                 store: this.myStore,
                 displayInfo: true,
                 displayMsg: _SM.__language.HelpQBE_GridNav_DisplayMsg,
-                emptyMsg: _SM.__language.HelpQBE_GridNav_EmptyMsg,
-                
+                emptyMsg: _SM.__language.HelpQBE_GridNav_EmptyMsg
             })
         });
-
 
         HelpGrid.on({
             itemdblclick: {
@@ -192,7 +189,7 @@
                     { xtype: 'tbtext', text: '', id: me.idStBar },
                     { xtype: 'component', flex: 1 },
                     { xtype: 'button', text: _SM.__language.Text_Accept_Button, scope: me, handler: me.doReturn, iconCls: 'icon-accept' },
-                    { xtype: 'button', text: _SM.__language.Text_Cancel_Button, scope: me, handler: doCancel, iconCls: 'icon-cancel' },
+                    { xtype: 'button', text: _SM.__language.Text_Cancel_Button, scope: me, handler: doCancel, iconCls: 'icon-cancel' }
 
                  //   { xtype: 'button', text: 'Edit', scope: me, handler: doEdit },
                  //   { xtype: 'button', text: 'New', scope: me, handler: doNew },

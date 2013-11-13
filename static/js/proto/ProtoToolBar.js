@@ -73,7 +73,7 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
                     me.fireEvent('help') 
                     }
                 
-            }],
+            }]
  
         });
 

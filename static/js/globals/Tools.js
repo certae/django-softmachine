@@ -1,6 +1,10 @@
 // Definicion del modelo, 
 
-// TODO:  Traer aqui  manejo de la carga de la PCI 
+/*global Ext */
+/*global _SM */
+/*global ProtoUL */
+/*global verifyMeta */
+
 _SM.typeOf=function (value) {
     var s = typeof value;
     if (s === 'object') {
@@ -13,7 +17,7 @@ _SM.typeOf=function (value) {
         }
     }
     return s;
-}
+};
 
 _SM.objConv=function ( a ){
     // Object converter: Para testear si un elto hace parte de un array se convierte el array en objeto 
@@ -456,17 +460,13 @@ _SM.fireEvent = function (type, myMeta, eventData, scope, fn) {
 
             _SM.eventData.HDataField = scope._extGrid.columns[_SM.eventData.cellIndex].dataIndex;
         }
-
         eval(code);
         if (!_SM.eventData.cancel) {
             fn();
         }
-
     } else {
         fn();
     }
-   
-   
 
 }
 

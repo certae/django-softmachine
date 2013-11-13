@@ -81,7 +81,7 @@ Ext.define('ProtoUL.proto.ProtoDetailSelector', {
                 var vFld  =  me.myMeta.detailsConfig[ix];
                 elemList.addDataItem ( vFld.menuText, true  ) 
             } 
-        };
+        }
         
         
         function savePreview() {
@@ -99,7 +99,7 @@ Ext.define('ProtoUL.proto.ProtoDetailSelector', {
                 if ( detail ) {
                     details.push( detail )   
                 } else { 
-                    // console.log( "Detalle no encontrado", names[ix]  )                } 
+					console.log( "Detalle no encontrado", names[ix]  )                } 
                 
             } 
             
@@ -118,7 +118,7 @@ Ext.define('ProtoUL.proto.ProtoDetailSelector', {
             
             function getDefaultDetail( name  ) {
                 
-                var rec =  elemTree.treeStore.getNodeById( name ) 
+                var rec =  elemTree.treeStore.getNodeById( name ); 
                 return  {
                     menuText : rec.get( 'id' ), 
                     conceptDetail :  rec.get( 'conceptDetail' ), 
@@ -128,9 +128,7 @@ Ext.define('ProtoUL.proto.ProtoDetailSelector', {
                     // detailTitlePattern :  rec.get( 'detailTitlePattern' )
                 }  
             }
-            
-        }; 
-        
+        } 
     } 
 
 
@@ -158,7 +156,7 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
         me = this; 
         me.addEvents('checkModif', 'loadComplete');
         
-        definieDetailsConfigTreeModel( me.viewCode, me.myMeta.protoEntityId  )
+        definieDetailsConfigTreeModel( me.viewCode, me.myMeta.protoEntityId  );
         
         this.treeStore = Ext.create('Ext.data.TreeStore', {
             autoLoad: true,
@@ -236,12 +234,12 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
                             // record.set( 'detailTitleLbl', vFld.detailTitleLbl ) 
                             // record.set( 'detailTitlePattern', vFld.detailTitlePattern )
                              
-                            break ; 
+                            break; 
                         }
                     } 
                 }
              })
-        };
+        }
         
         function definieDetailsConfigTreeModel( viewCode , protoEntityId) {
             // Modelo usado en la lista de campos con la jerarquia completa de los de zoom ( detalle de fk ) 
@@ -255,7 +253,7 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
                     extraParams : {
                         viewCode : viewCode, 
                         protoEntityId : protoEntityId
-                    },    
+                    }    
                 }, 
             
                 fields: [

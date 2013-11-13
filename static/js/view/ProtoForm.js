@@ -183,7 +183,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
     loadN2N: function( record ) {
         var myN2N = this.myFormController.N2Nfields 
-        if ( ! myN2N )  return 
+        if ( ! myN2N )  { return } 
         for ( var ixV in myN2N ) {
             var lObj = myN2N[ixV];
             var prList = Ext.getCmp( lObj.id )
@@ -401,7 +401,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
     },
 
     linkDetail: function( record ) {
-        if ( ! this.masterDetail ) return  
+        if ( ! this.masterDetail ) { return }  
 
         for ( var ixDet in this.cllDetails ) {
             var lGrid = this.cllDetails[ixDet];

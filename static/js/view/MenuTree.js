@@ -170,7 +170,7 @@ Ext.define('ProtoUL.view.MenuTree', {
             msg = _SM.__language.Msg_Window_New_Folder
 
         Ext.Msg.prompt(_SM.__language.Title_Window_New_Folder, msg, function (btn, pName) {
-            if (btn != 'ok') return 
+            if (btn != 'ok') { return } 
 
             var tNode = {'text' :  pName, 'children': [] }, 
                 record 
@@ -229,7 +229,7 @@ Ext.define('ProtoUL.view.MenuTree', {
                         "qtitle": tData.qtitle, 
                         "iconCls": tData.iconCls ,
                         "id":  'protoMenu-' + Ext.id() ,
-                        "index": tData.index, 
+                        "index": tData.index
                     }
                 // Es un menu 
                 if ( tChilds.length > 0 ) {

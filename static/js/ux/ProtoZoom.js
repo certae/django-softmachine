@@ -69,8 +69,8 @@ Ext.define('ProtoUL.ux.protoZoom', {
 
     onClickLink: function ( ev, nd ) {
         // La funcion Link solo se activa si es readOly 
-        if ( ! this.readOnly  ) return 
-        if ( nd.nodeName == "LABEL" ) return 
+        if ( ! this.readOnly  ) { return } 
+        if ( nd.nodeName == "LABEL" ) { return } 
 
         this._loadZoom( this.doClickLink  )  
     }, 
@@ -105,7 +105,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
     }, 
     
     createZoomWindow:  function ( me  ){
-        if ( me.isLoaded ) return 
+        if ( me.isLoaded ) { return } 
 
         me.myMeta = _SM._cllPCI[ me.zoomModel ] ; 
 
@@ -171,7 +171,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
                     { xtype: 'button', text: 'Cancel', scope: me, handler: doCancel   }, 
                     { xtype: 'button', text: 'Ok', scope: me, handler: me.doReturn }, 
                     { xtype: 'button', text: 'Edit', scope: me, handler: doEdit  }, 
-                    { xtype: 'button', text: 'New', scope: me, handler: doNew   }, 
+                    { xtype: 'button', text: 'New', scope: me, handler: doNew   }
                 ]
             }]            
 
@@ -213,7 +213,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
     },
     
     showZoomForm : function(me) {
-        if ( ! me.isLoaded  ) return
+        if ( ! me.isLoaded  ) { return }
         
         // TODO: verifica el zoomFilter 
         var myZoomFilter = getFilter()

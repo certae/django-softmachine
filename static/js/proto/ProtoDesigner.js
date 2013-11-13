@@ -33,13 +33,13 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         me.callParent(arguments);
 
         // Opciones del llamado AJAX
-        myObj = _SM.DesignerPanels
+        myObj = _SM.DesignerPanels;
                 
         // Defincion de los objetos del designer 
         this.doFormatLayout(myObj);
 
         // Definicion del arbol basado en la meta 
-        this.updateFormTree()
+        this.updateFormTree();
 
     },
 
@@ -102,15 +102,18 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         propsGrid.on({
             'edit': function ( editor, e, eOpts) {
 
-                if ( e.value == e.originalValue ) return; 
+                if (e.value == e.originalValue) {
+                    return
+                } 
 
                 var oData = me.treeRecord.data.__ptConfig 
                 var prpName = e.record.data.name
 
                 // ****  Solo llegan objetos, los Array se manejan en otro lado
-                if ( _SM.typeOf(oData) ==  "object") 
-                    oData[ prpName ]  = e.value 
-
+                if ( _SM.typeOf(oData) ==  "object") {
+                    oData[ prpName ]  = e.value
+                } 
+                     
                 me.onClickRedraw()
             }, 
             scope: me }
@@ -130,7 +133,9 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
             // recupera un nodo del arbol segun su texto, para los fields y los details  
             for (var ix in treeData ) {
                 var vNod  =  treeData[ix];
-                if ( vNod.text == textKey ) return vNod 
+                if (vNod.text == textKey) {
+                    return vNod; 
+                } 
             }
             // No deberia nunca llegar aqui 
             return {}

@@ -73,6 +73,11 @@
 //  xCol :Dependiendo el numero de columnas el "columnWidth"  puede ser 1, 0.5, 0.33
 //  fix  : Se especifica el "width"  ( si se especifica el width prima sobre la definicion ) 
 
+/*global Ext */
+/*global _SM */
+/*global ProtoUL */
+/*global _MetaObjects */
+
 
 function verifyMeta( oMeta,  ptType, tNode ) {
 
@@ -80,15 +85,15 @@ function verifyMeta( oMeta,  ptType, tNode ) {
 //  Si es un objeto asociado a un arbol tNode es el nodo base,       
 
     var __ptConfig = _MetaObjects[ ptType ]
-    if ( ! __ptConfig ) 
-        return oMeta ; 
+    if ( ! __ptConfig ) { return oMeta;} 
+         
 
     // Verifica las listas 
     if ( __ptConfig.lists &&  ( _SM.typeOf( __ptConfig.lists ) == 'array' ))  { 
         for ( var ix in __ptConfig.lists  ) {
             var sKey = __ptConfig.lists[ix]
-            if ( typeof( sKey)  !=  'string' ) 
-                continue ; 
+            if ( typeof( sKey)  !=  'string' ) { continue ; } 
+                 
 
             var listOfConf = _MetaObjects[ sKey ] || {}
             oMeta[ sKey ]  = _SM.verifyList (  oMeta[ sKey ], listOfConf.prpDefault  )
@@ -138,9 +143,9 @@ function verifyMeta( oMeta,  ptType, tNode ) {
     // No es necesario verificar las propiedades pues se hace al momento de guardar la pcl  
     // if ( __ptConfig.properties  &&  ( _SM.typeOf( __ptConfig.properties  ) == 'array' ))  {
 
-    return oMeta 
+    return oMeta;  
 
-}; 
+} 
 
 
 function clearPhantonProps( __ptConfig ,  __ptType ) {
@@ -148,14 +153,14 @@ function clearPhantonProps( __ptConfig ,  __ptType ) {
      */ 
     var objConfig = _MetaObjects[ __ptType ] || {}
     for (var ix in __ptConfig ) {   
-        if ( ! objConfig.properties ) continue; 
+        if ( ! objConfig.properties ) { continue; } 
         if ( !( ix  in _SM.objConv( objConfig.properties.concat ( ['name', '__ptValue', '__ptList', '__ptType' ] )))) {
             // console.log( ix )
             delete __ptConfig[ ix ]
         }
     } 
     return __ptConfig 
-}; 
+}
 
 
 _versionMeta = '13.0111'

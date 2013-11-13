@@ -1,35 +1,28 @@
 
-Como Comenzar
+How to begin 
 
 Aptana Stuio 
 
 File - Import - Git Repository 
-
 	URI	 :  https://github.com/certae/ProtoExt
 	HOME : 
 	
 
-Python Config  2.6 Minimo 	
+Python Config > 2.6 
 
-** Snippets.git
 
-Indicar donde queda la instalation  ExtJS  ( ver 4.07 min  )
+Set ExtJS  ( ver 4.13   )
 
 settings.py 
 
 STATICFILES_DIRS = (
     PPATH + '/static',
-    '/u/data/ExtJs/ext-4.0.7-gpl',		#  Linux 
-    'D:/data/ExtJs/ext-4.0.7-gpl',		#  Windows 
+    '/u/data/ExtJs/ext-4.13-gpl',		#  Linux 
+    'D:/data/ExtJs/ext-4.13-gpl',		#  Windows 
 )
 	 
-Reemplazarlo por el directorio q corresponda segun el s.o. de trabajo 
 
-
-Configurar ejecucion
-
-Run 
-Debug Configuratio / Run Configuration 
+Debug Configuration / Run Configuration 
 
 Python Run ( Icon New )
 
@@ -41,5 +34,5 @@ Python Run ( Icon New )
        Prog Arguments :  runserver --noreload 
        
 
-Abrir explorador 
+Open chrome or firefox 
 http://127.0.0.1:8000/protoExt

@@ -115,9 +115,10 @@ function getTemplate( ptType, forForm,  metaField  )  {
             '__ptHelp' : qtips, 
             '__ppChoices' : choices, 
             '__ppTypes' : ppTypes, 
-            '__roProperties' : objConfig.roProperties || []  }     
+            '__roProperties' : objConfig.roProperties || []  
+            };     
     
-}; 
+}
 
 
 

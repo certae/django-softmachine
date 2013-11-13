@@ -57,7 +57,7 @@ Ext.define('ProtoUL.ux.ProtoProperty' ,{
     }, 
     
     setCombos: function( __ptCombos ) {
-        if ( ! __ptCombos ) return 
+        if ( ! __ptCombos ) {return} 
 
         // Recorre los objetos y busca la definicion de combos 
         for (var prp in __ptCombos ) {
@@ -82,7 +82,7 @@ Ext.define('ProtoUL.ux.ProtoProperty' ,{
     
     setTypes: function( __ptTypes ) {
         //  _pTypes = { 'attr1' : 'boolean',  'attr2' : 'number' , ... }
-        if ( ! __ptTypes ) return 
+        if ( ! __ptTypes ) { return } 
 
         // La idea es generar un customEditor para los campos definidos, 
         // copiando el editor que define por defecto el objeto 

@@ -140,10 +140,9 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
                 if ( me.custom ) {
                     if ( me.metaConfig ) {
                         // Si escribe sobre la meta copia el list|Display para hacerlo mas facil 
-                        me.myMeta.gridConfig.listDisplay = myCustom.listDisplay
-                        delete myCustom.listDisplay
-
-                        me.myMeta.gridSets = myCustom
+                        me.myMeta.gridConfig.listDisplay = myCustom.listDisplay;
+                        delete myCustom.listDisplay;
+                        me.myMeta.gridSets = myCustom;
 
                     }   else {
                         // Aqui solmanete  manejara el custom

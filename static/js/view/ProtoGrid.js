@@ -211,9 +211,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                                 }; 
                                 
                             }
-                        }, 
-                        
-                    },                
+                        } 
+                    },            
                    
                     getRowClass: function(record, rowIndex, rowParams, store){
                         //    Esto permite marcar los registros despues de la actualizacion 
@@ -388,15 +387,15 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             var gCol
             for (var ix in myMeta.fields ) {
                 var vFld = myMeta.fields[ix] 
-                if ( vFld.crudType == 'storeOnly' ) continue;
+                if ( vFld.crudType == 'storeOnly' ) {continue};
     
                 // lee las props p
                 gCol = _SM.getColDefinition( vFld  );
                 
                 // Oculta los campos provenientes del maestroo en los detalles 
                 if ( gCol.dataIndex in _SM.objConv([nDetId , nDetTitle])  ) { 
-                    gCol['readOnly'] = true  
-                    delete gCol['editor']
+                    gCol['readOnly'] = true;  
+                    delete gCol['editor'];
                 }
                 
                 // DGT: No se necesita, la definicion viene automatica  

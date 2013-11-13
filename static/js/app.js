@@ -123,10 +123,7 @@ Ext.application({
         });
         
         myWin.show()
-
-    }, 
-    
-    
+    }
     
 });
 

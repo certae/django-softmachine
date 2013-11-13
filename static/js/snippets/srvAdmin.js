@@ -18,7 +18,7 @@ Ext.define('PVE.button.Button', {
     confirmMsg: false,
 
     // take special care in confirm box (select no as default).
-    dangerous: false,
+    dangerous: false, 
 
     initComponent: function () {
         /*jslint confusion: true */

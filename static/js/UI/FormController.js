@@ -89,14 +89,16 @@ Ext.define('ProtoUL.UI.FormController', {
 
 	_waitForDetails: function( me, detCode ) {
 
-        if ( detCode ) me.myMetaDict[ detCode ] = true      
+        if ( detCode ) { me.myMetaDict[ detCode ] = true }       
 		
 		// espera todas las definiciones
-        for ( var detCode in me.myMetaDict  ) {
+        for ( detCode in me.myMetaDict  ) {
             if ( ! me.myMetaDict[ detCode ] )  return 
         }
 
-        if (  me.loaded  )  return  
+        if (me.loaded) {
+            return
+        }   
 
         me.loaded = true 
 		me.newProtoForm.call( me )
@@ -391,10 +393,11 @@ Ext.define('ProtoUL.UI.FormController', {
                         template = getTemplate( __ptType  , true  )
                         prLayout = Ext.apply( template.__ptConfig , protoObj.__ptConfig  ) 
                         
-                        if (( ! prLayout.minWidth ) || ( prLayout.minWidth < 100 )) prLayout.minWidth = 250   
-                        
+                        if ((!prLayout.minWidth) || (prLayout.minWidth < 100)) {
+                            prLayout.minWidth = 250
+                        }
                         // Inicia la grilla sin datos 
-                        prLayout.initialFilter = [{ 'property' : 'pk', 'filterStmt' :  -1 }]
+                        prLayout.initialFilter = [{ 'property' : 'pk', 'filterStmt' :  -1 }]; 
                         delete protoObj.__ptConfig.name 
                     } else {
                         prLayout =   {
@@ -413,8 +416,7 @@ Ext.define('ProtoUL.UI.FormController', {
                     template = getTemplate( __ptType  , true  )
                     prLayout = Ext.apply( template.__ptConfig , protoObj.__ptConfig  ) 
                     
-                    prLayout.htlmFields = protoObj.items 
-                    
+                    prLayout.htlmFields = protoObj.items;  
                     delete protoObj.__ptConfig.name 
                     
                 } else {
@@ -444,13 +446,13 @@ Ext.define('ProtoUL.UI.FormController', {
                     prLayout.layout =  'column'
                     prLayout.defaults = { padding: '2 2' }
                     
-                    if ( sAux == "1col"  )  
+                    if (sAux == "1col") {
                         prLayout.defaults.columnWidth = 1
-                    else if ( sAux == "2col"  )  
+                    } else if ( sAux == "2col"  ) {  
                         prLayout.defaults.columnWidth = 0.5
-                    else if ( sAux == "3col"  )  
+                    } else if ( sAux == "3col"  ) {
                         prLayout.defaults.columnWidth = 0.33
-        
+                    }
                     delete prLayout.fsLayout 
         
                     // Parametros de labels

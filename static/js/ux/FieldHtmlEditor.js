@@ -12,7 +12,7 @@ Ext.define('ProtoUL.ux.FieldHtmlEditor', {
     initComponent: function() {
         
         Ext.apply(this, {
-            plugins  : getPlugins(),
+            plugins  : getPlugins()
             // viewConfig: {
                 // plugins  : getPlugins()
             // }

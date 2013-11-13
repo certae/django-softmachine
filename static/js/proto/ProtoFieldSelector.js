@@ -65,8 +65,10 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
 
                 var msg = _SM.__language.Msg_Window_New_Folder
                 Ext.Msg.prompt(_SM.__language.MetaConfig_Add_Fields, msg, function (btn, pName) {
-                    if (btn != 'ok') return 
-                    elemTree.addUdpField( {'name' : pName , 'checked' : false } ) 
+                    if (btn != 'ok') {
+                        return;
+                    }
+                    elemTree.addUdpField( {'name' : pName , 'checked' : false } ); 
 
                 }, me, false , 'udp__');
 
@@ -105,9 +107,8 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
                     vFld.checked = true 
                     elemTree.addUdpField( vFld )
                 }
-
             } 
-        }; 
+        }
         
         
         function savePreview() {
@@ -126,9 +127,8 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
                 }
                 if ( field ) {
                     fields.push( _SM.clearProps( field ))   
-                } else { 
-                    // console.log( "Field no encontrado", names[ix]  )                } 
-                
+//                  console.log( "Field no encontrado", names[ix]  )
+                }  
             } 
             
             // Actualiza los nuevos campos 
@@ -155,17 +155,10 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
                     vType :  rec.get( 'vType' ),   
                     prpDefault :  rec.get( 'prpDefault' ),  
                     choices :  rec.get( 'choices' )  
-                    
-                }  
+                };  
             }
-            
-        }; 
-        
-        
+        }
     } 
-    
-     
-
 
 });
 

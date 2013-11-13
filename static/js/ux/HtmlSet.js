@@ -138,4 +138,4 @@ function openHtmlEditorWin( myPanel   )  {
     
     myWin.show();    
     
-};
+}
