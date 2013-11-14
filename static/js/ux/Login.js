@@ -22,12 +22,16 @@ Ext.define('ProtoUL.ux.Login', {
             handler: this.submitLogin
         });
 
+/*
+
         this.resetButton = new Ext.Button({
             text: _SM.__language.Text_Forgotten_Password,
             iconCls: "st-key-go",
             scope: this,
             handler: this.resetPassword
         });
+
+*/
 
         // this.buttons = [this.submitButton, this.resetButton];
 
@@ -55,8 +59,9 @@ Ext.define('ProtoUL.ux.Login', {
                 dock: 'bottom',
                 ui: 'footer',
                 items: [
-                    { xtype: 'tbtext', flex: 1, itemId : 'stLogin' },
-                    this.submitButton, this.resetButton
+                    { xtype: 'tbtext', flex: 1, itemId : 'stLogin' }, 
+                    this.submitButton 
+//                    this.resetButton
                 ]
             }]
             

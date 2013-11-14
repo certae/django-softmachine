@@ -8,6 +8,10 @@
  * 
  */
 
+/*jslint nomen: true, sloppy : true, white : true, sub : true */
+/*global Ext */
+/*global _SM */
+
 Ext.define('ProtoUL.ux.StatusBar', {
     extend: 'Ext.toolbar.Toolbar',
     alternateClassName: 'Ext.ux.StatusBar',
@@ -92,14 +96,15 @@ Ext.define('ProtoUL.ux.StatusBar', {
 
                 xtype: 'splitbutton',
                 text: _SM._UserInfo.fullName || _SM._UserInfo.userName,
-                iconCls:'icon-user'
-                // menu: new Ext.menu.Menu({
-                    // items: [
-                        // { text: _SM.__language.StatusBar_Text_Close_Session,  
-                         // handler: this.closeSession, 
-                         // iconCls: 'icon-logout' }
-                    // ]
-                // })
+                iconCls:'icon-user', 
+                 menu: new Ext.menu.Menu({
+                 items: [
+                    { text: _SM.__language.StatusBar_Text_Close_Session,  
+                     handler: this.closeSession, 
+                     iconCls: 'icon-logout' 
+                     }
+                 ]
+                 })
             }])
 
         // TODO: Boton q permita clear del sb y guarde en el tooltip la informacion de errores 
@@ -118,25 +123,13 @@ Ext.define('ProtoUL.ux.StatusBar', {
     },
 
     closeSession:function(){
-    
         Ext.Ajax.request({
             url: _SM._PConfig.urlLogOut,
-            
             success: function (response) {
-
-                var resp = Ext.decode(response.responseText);
-
-                if (resp.success) {
-
-                    document.location = '/Home';
-
-
-                } else {
-                    Ext.Msg.alert(_SM.__language.Message_Error, _SM.__language.StatusBar_Error_When_Close_Session);
-                }
+                location.reload( true );
             },
             failure: function () {
-
+                location.reload( true );
             }
         });
     },

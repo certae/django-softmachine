@@ -3,6 +3,10 @@
  *  
  */
 
+/*jslint nomen: true, sloppy : true, white : true, sub : true */
+/*global Ext */
+/*global _SM */
+
 _SM = {}
 
 // Estados en cada fila de la grilla al iteractuar con el BackEnd  
@@ -12,10 +16,9 @@ _SM._ROW_ST = {
     }
 
 // afterLabelTextTpl: _SM._requiredField,
-_SM._requiredField = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
+_SM._requiredField = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>' ;
 
-// _SM._siteTitle = 'ART Atelier de Référentiel pour Togaf'_SM._versionProto = 'Version 1.00.' + _versionMeta
-_SM._siteTitle = 'Best in Genomics  by CeRTAE'
+_SM._siteTitle = 'ART Atelier de Référentiel pour Togaf'; _SM._versionProto = 'Version 1.00.' + _versionMeta;
 _SM._siteTitleCollapsed = false 
 
 
@@ -46,7 +49,7 @@ _SM._PConfig =  {
     urlGetProtoCsv : 'protoLib/protoCsv/', 
     urlDoAction   : 'protoLib/protoDoActions/', 
     urlHelpQbe: 'protoLib/protoGetHelpQbe/',
-    urlLogOut:'login/cerrarSesion',
+    urlLogOut:  'protoLib/protoLogout',
    
     clsBaseModel: 'ProtoUL.model.' 
 }; 
