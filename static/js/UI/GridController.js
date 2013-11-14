@@ -233,9 +233,14 @@ Ext.define('ProtoUL.UI.GridController', {
                 this.myGrid.duplicateRecord()
                 break;
 
-            case 'toolRowDel' :         
-                this.myGrid.deleteCurrentRecord()
-                break;
+
+            case 'toolRowDel' :    
+                var me = this ;      
+                function doDelete( btn ){
+                    if(btn == 'yes') { me.myGrid.deleteCurrentRecord() }
+                }
+                Ext.MessageBox.confirm('Confirm Delete', 'Are you sure?', doDelete ); 
+                break;                
         }        
         
     } 

@@ -1,3 +1,8 @@
+/*jslint nomen: true, sloppy : true, white : true, sub : true */
+/*global Ext */
+/*global _SM */
+
+
 Ext.define('ProtoUL.UI.ConfigController', {
     extend: 'Ext.Base',
     myMeta : null, 
@@ -7,8 +12,22 @@ Ext.define('ProtoUL.UI.ConfigController', {
     }, 
     
     getProtoConfigBar: function() {
-
         var me = this; 
+        function onClickConfigAction( btn ){
+            me.configAction( btn.prCfgAction )
+        }
+
+        function myActionConfig( action, name, icon ) {
+            var myAction = Ext.create ( 'Ext.Action', {
+                text:         name,
+                iconCls :     icon, 
+                prCfgAction : action,
+                scope:        me,                     
+                handler:      onClickConfigAction
+            })
+            return myAction   
+        } 
+
         var myConfigOpts = [];
         var __MasterDetail = this.__MasterDetail
 
@@ -43,24 +62,7 @@ Ext.define('ProtoUL.UI.ConfigController', {
             __MasterDetail.myConfigOpts = myConfigOpts;
             __MasterDetail.protoMasterGrid.addDocked( __MasterDetail.tbConfigOpts );
 
-        };  
-
-        function myActionConfig( action, name, icon ) {
-            var myAction = Ext.create ( 'Ext.Action', {
-                text:         name,
-                iconCls :     icon, 
-                prCfgAction : action,
-                scope:        me,                     
-                handler:      onClickConfigAction
-            })
-            return myAction   
-        } 
-        
-        function onClickConfigAction( btn ){
-            
-            me.configAction( btn.prCfgAction )
         }
-        
     }, 
 
     configAction: function( prCfgAction ) {
@@ -91,8 +93,8 @@ Ext.define('ProtoUL.UI.ConfigController', {
 
     showMetaConfig: function() {
 
-        var myMeta =  _SM._cllPCI[ this.viewCode ]
-        if ( ! myMeta ) { return }; 
+        var myMeta =  _SM._cllPCI[ this.viewCode ];
+        if ( ! myMeta ) { return; } 
 
         var myPcl = Ext.widget('protoPcl', {
             myMeta :  myMeta,  
@@ -108,7 +110,7 @@ Ext.define('ProtoUL.UI.ConfigController', {
         var myMeta =  _SM._cllPCI[ this.viewCode ], 
             title 
             
-        if ( ! myMeta ) { return };
+        if ( ! myMeta ) { return }
 
         var myPcl = Ext.widget('protoPcl', {
             myMeta :  myMeta,
@@ -128,7 +130,7 @@ Ext.define('ProtoUL.UI.ConfigController', {
     showFieldTree: function() {
     
         var myMeta =  _SM._cllPCI[ this.viewCode ]
-        if ( ! myMeta ) { return };
+        if ( ! myMeta ) { return }
         
         var fieldsTree = Ext.create('ProtoUL.proto.ProtoFieldSelector', {
             viewCode : this.viewCode, 
@@ -139,11 +141,10 @@ Ext.define('ProtoUL.UI.ConfigController', {
     
     }, 
     
-    
     showProtoDesigner: function() {
 
         var myMeta =  _SM._cllPCI[ this.viewCode ]
-        if ( ! myMeta ) { return }; 
+        if ( ! myMeta ) { return; } 
 
         var protoDesigner = Ext.widget('protoDesigner', {
             myMeta :  myMeta,  
@@ -156,7 +157,7 @@ Ext.define('ProtoUL.UI.ConfigController', {
 
     showDetailsTree: function() {
 
-        var myMeta =  _SM._cllPCI[ this.viewCode ]
+        var myMeta =  _SM._cllPCI[ this.viewCode ];
         if ( ! myMeta ) { return };
 
         var detailsTree = Ext.create('ProtoUL.proto.ProtoDetailSelector', {
@@ -181,6 +182,8 @@ Ext.define('ProtoUL.UI.ConfigController', {
             minHeight: 400,
             minWidth: 400,
             layout: 'fit',
+            
+            constrainHeader: true,
             resizable: true,
             maximizable: true, 
 

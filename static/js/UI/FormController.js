@@ -6,6 +6,14 @@
 
  */
 
+
+/*jslint nomen: true, sloppy : true, white : true, sub : true */
+/*global Ext */
+/*global _SM */
+/*global ProtoUL */
+/*global getSimpleProperties */
+
+
 Ext.define('ProtoUL.UI.FormController', {
     extend: 'Ext.Base',
 
@@ -41,6 +49,25 @@ Ext.define('ProtoUL.UI.FormController', {
         // antes de cargar la forma, requiere la carga de detalles 
         // llama a waitForDetails q llama a newProtoForm  
 
+        function loadDetailDefinition( me, detCode ) {
+
+            // Opciones del llamado AJAX para precargar los detalles  
+            var options = {
+                scope: me, 
+                success: function ( obj, result, request ) {
+                    me._waitForDetails( me, detCode )
+                },
+                failure: function ( obj, result, request) { 
+                    me._waitForDetails( me, detCode )
+                    _SM.errorMessage( 'ProtoDefinition Error :', detCode  + ': protoDefinition not found')
+                }
+            }
+
+            // PreCarga los detalles  
+            if (  _SM.loadPci( detCode , true, options ) )  {me._waitForDetails( me, detCode );}
+                  
+        }
+
         // lo marca como cargado 
 		this.myMetaDict[ this.myMeta.viewCode  ] = false       
 
@@ -62,28 +89,7 @@ Ext.define('ProtoUL.UI.FormController', {
         }
 
         // si np esta cargada la manda en nulo para forzar la carga 
-        if ( ! me.loaded  )   me._waitForDetails( me ) 
-
-
-        function loadDetailDefinition( me, detCode ) {
-
-            // Opciones del llamado AJAX para precargar los detalles  
-	        var options = {
-	            scope: me, 
-	            success: function ( obj, result, request ) {
-	                me._waitForDetails( me, detCode )
-	            },
-	            failure: function ( obj, result, request) { 
-	                me._waitForDetails( me, detCode )
-	                _SM.errorMessage( 'ProtoDefinition Error :', detCode  + ': protoDefinition not found')
-	            }
-	        }
-
-            // PreCarga los detalles  
-            if (  _SM.loadPci( detCode , true, options ) )  me._waitForDetails( me, detCode  )
-                  
-        };
-
+        if ( ! me.loaded  ) {  me._waitForDetails( me );}   
 
     }, 
 
@@ -93,12 +99,10 @@ Ext.define('ProtoUL.UI.FormController', {
 		
 		// espera todas las definiciones
         for ( detCode in me.myMetaDict  ) {
-            if ( ! me.myMetaDict[ detCode ] )  return 
+            if ( ! me.myMetaDict[ detCode ] ) { return } 
         }
 
-        if (me.loaded) {
-            return
-        }   
+        if (me.loaded) {return;}   
 
         me.loaded = true 
 		me.newProtoForm.call( me )
@@ -112,17 +116,12 @@ Ext.define('ProtoUL.UI.FormController', {
         // if ( me.isReadOnly ) {me.myWin.tools = [{type: 'readOnly', tooltip: 'readOnly'}, {type: 'gear', scope: me.myForm, handler: me.myForm.showProtoForm }] me.myWin.addTools() }; 
         
         // Si la forma no esta visible no puede desactivar los headers 
-        if ( me.isReadOnly ) {
-            me.myForm.setFormReadOnly( true );
-        } else {
-            me.myForm.setReadOnlyFields( true, me.myMeta.gridConfig.readOnlyFields );            
-        }
+        if ( me.isReadOnly ) { me.myForm.setFormReadOnly( true ); }
+        else { me.myForm.setReadOnlyFields( true, me.myMeta.gridConfig.readOnlyFields ); }
 
         me.newWindowLoad.call( me, me )
         me.myWin.show();
         me.myForm.setDetailsTilte()
-
-
 	}, 
     
     newProtoForm: function () {
@@ -140,7 +139,6 @@ Ext.define('ProtoUL.UI.FormController', {
     },
     
     newWindow: function ( me ) {
-
         me._loadFormDefinition( )
     },
     
@@ -160,6 +158,7 @@ Ext.define('ProtoUL.UI.FormController', {
             minWidth: 400,
             layout: 'fit',
 
+            constrainHeader: true,
             maximizable: true, 
             resizable: true,
             modal: true,
@@ -169,8 +168,21 @@ Ext.define('ProtoUL.UI.FormController', {
 
         // Los eventos controlan la ventana
         me.myForm.on({
-            'close' :  function() { me.myWin.close() }, 
-            'hide' :  function() { me.myWin.hide() }, 
+            'close' :  function() { 
+                me.myWin.close() 
+                
+                if ( me.newForm ) { 
+                    function doAgain( btn ){
+                        if(btn == 'yes') { 
+                            me.openNewForm( me.myStore )
+                        }
+                    }
+                    Ext.MessageBox.confirm('AddRecord', 'Add another?', doAgain  ); 
+                } 
+            }, 
+            'hide' :  function() { 
+                me.myWin.hide() 
+            }, 
             scope: me }
         );
 
@@ -182,6 +194,7 @@ Ext.define('ProtoUL.UI.FormController', {
         
         this.isReadOnly  = false 
         this.newForm = true    
+        this.myStore = myStore
 
         var myRecord = _SM.getNewRecord( this.myMeta, myStore );
         this.openForm( myRecord )
@@ -199,7 +212,7 @@ Ext.define('ProtoUL.UI.FormController', {
 
         // Verifica la edicion  
         if ( ! myRecord   ) {
-            _SM.errorMessage( 'Form Error', 'no se definio registrode entrada')
+            _SM.errorMessage( 'Form Error', 'Undefined input record')
             return 
         }
 
@@ -234,7 +247,7 @@ Ext.define('ProtoUL.UI.FormController', {
                 this._openAndLoad( this.viewCode, myRecordId )
             },
             failure: function ( obj, result, request) { 
-                _SM.errorMessage( 'ProtoDefinition Error :', myZoomModel + ': protoDefinition not found')
+                _SM.errorMessage( 'ProtoDefinition Error :', this.viewCode  + ': protoDefinition not found')
             }
         }
         if (  _SM.loadPci( this.viewCode , true, options ) ) {
@@ -246,12 +259,9 @@ Ext.define('ProtoUL.UI.FormController', {
 
 
     _openAndLoad: function( viewCode, myRecordId ) { 
-
         this.myMeta = _SM._cllPCI[ viewCode ] ;
- 
         this.formLoaded = true;
         this._loadFormData( myRecordId )
-
     }, 
     
         
@@ -279,7 +289,7 @@ Ext.define('ProtoUL.UI.FormController', {
                 'load' :  function(store,records, successful, options) {
     
                     // Fix:  Esta entrando dos veces  porq????
-                    if ( this.myWin ) return 
+                    if ( this.myWin ) {return;} 
     
                     // The form is now linked to  store  
                     this.openLinkedForm( records[0], this.isReadOnly   )
@@ -295,47 +305,18 @@ Ext.define('ProtoUL.UI.FormController', {
 
     defineFormLayout: function( ){
         
-        var me = this
-        var myFormDefinition = _SM.clone( this.myMeta.formConfig )
-
-        var myMeta = this.myMeta
-        
-        // Verifricar si existe  la referencia a la meta de base 
-        var myFieldDict = _SM.getFieldDict( myMeta )
-        
-        me.prFormLayout = [];
-        me.N2Nfields = []
-
-        //FIx : Compatibilidad con la version vieja,  debe eliminarse  --- 
-        // if ( ! myFormDefinition.items  ) {
-            // myFormDefinition = { 'items': myFormDefinition }
-        // }
-        //FIx : Compatibilidad con la version vieja,  debe eliminarse ---/
-         
-        for ( var ixV in myFormDefinition.items) {
-            var lObj = myFormDefinition.items[ixV];
-            
-            // Envia el contenedor y el objeto   
-            var prItem = defineProtoFormItem( {__ptType : 'panel'}, lObj )
-            me.prFormLayout.push(prItem);
-        }
-        
-        
         function defineProtoFormItem ( parent, protoObj, protoIx ) {
         
             var prLayout , template, __ptType 
             var sDataType = _SM.typeOf(protoObj);
+            var me = this 
         
             if (sDataType == "object" ) { 
         
                 // Configura el objeto
-                if ( ! protoObj.__ptConfig )  
-                    protoObj.__ptConfig = getSimpleProperties( protoObj )
-                    
-                if ( ! protoObj.__ptConfig.name ) 
-                    protoObj.__ptConfig.name = protoIx 
-                
-                
+                if ( ! protoObj.__ptConfig ) {protoObj.__ptConfig = getSimpleProperties( protoObj );}  
+                if ( ! protoObj.__ptConfig.name ) {protoObj.__ptConfig.name = protoIx;} 
+                     
                 __ptType = protoObj.__ptConfig.__ptType || protoObj.__ptType
                 
                 if ( ! __ptType   ) {
@@ -355,7 +336,8 @@ Ext.define('ProtoUL.UI.FormController', {
 
                         // ReadOnlyCls
                         if (  prLayout[ 'xtype' ] == 'protoZoom' ) {
-                            prLayout[ 'readOnlyCls' ] = 'protoLink'                        } else if (  prLayout[ 'xtype' ] == 'checkbox' ) {
+                            prLayout[ 'readOnlyCls' ] = 'protoLink'
+                        } else if (  prLayout[ 'xtype' ] == 'checkbox' ) {
                         } else {
                             prLayout[ 'readOnlyCls' ] = 'protofield-readonly' 
                         }
@@ -510,23 +492,32 @@ Ext.define('ProtoUL.UI.FormController', {
                 var sAux = prLayout[ key ]
                 if  ( sAux  )  prLayout.fieldDefaults[ key ] = sAux
             }
-        } 
-    
-        /* 
-        {
-            //TODO:  Agregar tooltip a los campos 
-              fieldLabel: 'test label'
-              allowBlank: false,
-              listeners: {
-                render: function(c) {
-                  Ext.QuickTips.register({
-                    target: c.getEl(),
-                    text: 'this is a test message'
-                  });
-                }
-              }
-            } 
-         */
+        }         
+        
+        var me = this
+        var myFormDefinition = _SM.clone( this.myMeta.formConfig )
+
+        var myMeta = this.myMeta
+        
+        // Verifricar si existe  la referencia a la meta de base 
+        var myFieldDict = _SM.getFieldDict( myMeta )
+        
+        me.prFormLayout = [];
+        me.N2Nfields = []
+
+        //FIx : Compatibilidad con la version vieja,  debe eliminarse  --- 
+        // if ( ! myFormDefinition.items  ) {
+            // myFormDefinition = { 'items': myFormDefinition }
+        // }
+        //FIx : Compatibilidad con la version vieja,  debe eliminarse ---/
+         
+        for ( var ixV in myFormDefinition.items) {
+            var lObj = myFormDefinition.items[ixV];
+            
+            // Envia el contenedor y el objeto   
+            var prItem = defineProtoFormItem( {__ptType : 'panel'}, lObj )
+            me.prFormLayout.push(prItem);
+        }
     
     } 
 

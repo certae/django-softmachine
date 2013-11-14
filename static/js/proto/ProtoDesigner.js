@@ -9,6 +9,9 @@
 
  */
 
+/*global Ext */
+/*global _SM */
+
 
 Ext.define('ProtoUL.proto.ProtoDesigner', {
     // extend: 'Ext.panel.Panel',

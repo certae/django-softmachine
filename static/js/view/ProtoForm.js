@@ -19,6 +19,11 @@
     renderer: this.formatDate,
  */
 
+/*jslint nomen: true, sloppy : true, white : true, sub : true */
+/*global Ext */
+/*global _SM */
+
+
 Ext.define('ProtoUL.view.ProtoForm', {
     extend : 'Ext.form.Panel',
     alias : 'widget.protoform',
@@ -471,7 +476,6 @@ Ext.define('ProtoUL.view.ProtoForm', {
             se habilita la edicion de las grillas 
             se puede esperar un evento "editComplete"  para esto generado por el store; 
             antes de iniciar la edicion la grilla lanza un before edit q puede ser cancelado si no hay idMaster    
-          
      */ 
          
         this.onSave()
@@ -488,19 +492,19 @@ Ext.define('ProtoUL.view.ProtoForm', {
             this.setText(_SM.__language.Msg_Invalid_Form)
             return;  
         }  
-        if(! this.masterRecord ) return;
+        if(! this.masterRecord ) {return;}
 
         form.updateRecord( this.masterRecord );
         this.readHtmlPanels( this.masterRecord )
        
         // Si es nuevo 
-        if ( this.myFormController.newForm )  this.store.add( this.masterRecord ); 
-        if ( this.store.autoSync != true   )  this._doSyncMasterStore()  
+        if ( this.myFormController.newForm )  {this.store.add( this.masterRecord );} 
+        if ( this.store.autoSync !== true   )  {this._doSyncMasterStore()}  
 
         if (  this.masterDetail )  {
             this.btSave.setDisabled( true );
             this.btSaveDet.setDisabled( false );
-        } else this.fireEvent('close', this );
+        } else {this.fireEvent('close', this );}
 
     }
     

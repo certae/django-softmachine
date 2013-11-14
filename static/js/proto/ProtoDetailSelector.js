@@ -5,6 +5,11 @@
  * 
  */
 
+/*jslint nomen: true, sloppy : true, white : true, sub : true */
+/*global Ext */
+/*global _SM */
+
+
 Ext.define('ProtoUL.proto.ProtoDetailSelector', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.detailsSelector',
@@ -19,8 +24,7 @@ Ext.define('ProtoUL.proto.ProtoDetailSelector', {
 
     initComponent: function() {
         
-        me = this; 
-
+        var me = this; 
         var tBar =  Ext.create( 'ProtoUL.proto.ProtoToolBar', {dock : 'top'})
         
         var elemTree = Ext.create('ProtoUL.proto.ProtoDetailTree', {
@@ -98,8 +102,8 @@ Ext.define('ProtoUL.proto.ProtoDetailSelector', {
                 }
                 if ( detail ) {
                     details.push( detail )   
-                } else { 
-					console.log( "Detalle no encontrado", names[ix]  )                } 
+                } else {
+                    /* console.log( "Detalle no encontrado", names[ix]  ) */                } 
                 
             } 
             
@@ -153,7 +157,7 @@ Ext.define('ProtoUL.proto.ProtoDetailTree', {
 
     initComponent: function() {
         
-        me = this; 
+        var me = this; 
         me.addEvents('checkModif', 'loadComplete');
         
         definieDetailsConfigTreeModel( me.viewCode, me.myMeta.protoEntityId  );

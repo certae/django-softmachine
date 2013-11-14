@@ -7,6 +7,10 @@
  *     
  */
 
+/*jslint nomen: true, sloppy : true, white : true, sub : true */
+/*global Ext */
+/*global _SM */
+
 
 Ext.define('ProtoUL.proto.ProtoPcl' ,{
     extend: 'Ext.panel.Panel',
@@ -226,10 +230,7 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
                     // Asigna el valor a la propiedad 
                     oData[ prpName ]  = e.value 
-                     
                 }
-                     
-                
             }}, 
             scope: me }
         );
