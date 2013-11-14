@@ -1,8 +1,8 @@
 eclipse.preferences.version=1
+encoding//data/best/models.py=utf-8
+encoding//data/best/settings.py=utf-8
 encoding//docs/django/fieldSets.py.txt=utf-8
 encoding//docs/django/jsonDump.py.txt=utf-8
-encoding//src/best/models.py=utf-8
-encoding//src/best/settings.py=utf-8
 encoding//src/protoLib/admin/__init__.py=utf-8
 encoding//src/protoLib/admin/adminProtoDef.py=utf-8
 encoding//src/protoLib/admin/adminUsr.py=utf-8
