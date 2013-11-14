@@ -3,7 +3,7 @@ from django.conf.urls.defaults import patterns, url
 from protoLib.protoMenu import protoGetMenuData
 from protoLib.protoGetPci import protoGetPCI, protoSaveProtoObj, protoGetFieldTree
 from protoLib.protoGetDetails import protoGetDetailsTree
-from protoLib.protoLogin import protoGetUserRights
+from protoLib.protoLogin import protoGetUserRights, protoLogout
 
 from protoLib.protoActionList import protoList
 from protoLib.protoActionRep  import sheetConfigRep, protoCsv
@@ -28,4 +28,7 @@ urlpatterns = patterns('',
     url('protoGetDetailsTree/$', protoGetDetailsTree ),
 
     url('protoGetUserRights/$', protoGetUserRights ), 
+    url('protoLogout/$', protoLogout ), 
+    
+    
 )

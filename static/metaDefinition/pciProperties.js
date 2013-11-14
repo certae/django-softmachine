@@ -24,9 +24,9 @@ function verifyPrpType(  lKey,  cValue ) {
      * Intenta la conversion, sin no regresa nulo 
      */ 
     
-    var pType = _MetaProperties[ lKey + '.type' ] 
+    var pType = _MetaProperties[ lKey + '.type' ]; 
     if ( ! pType )  { 
-        if ( typeof ( cValue ) == 'string') { return cValue.trimRight()  }
+        if ( typeof ( cValue ) == 'string') { return cValue.replace(/~+$/, '')  }
         else { return cValue }      
     }
     

@@ -3,7 +3,7 @@
 import django.utils.simplejson as json
 
 from django.http import HttpResponse
-from django.contrib.auth import login, authenticate 
+from django.contrib.auth import login, authenticate, logout 
 
 from protoAuth import getUserProfile
 from utilsWeb import JsonError, JsonSuccess 
@@ -60,4 +60,13 @@ def protoGetUserRights(request):
     # Codifica el mssage json 
     context = json.dumps( jsondict)
     return HttpResponse(context, mimetype="application/json")
+
+
+
+def protoLogout(request):
+    
+    logout(request)
+
+    # Redirect to a success page.
+    return  JsonSuccess( { 'message':  'logout'} )
 

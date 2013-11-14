@@ -98,9 +98,7 @@ _SM.clone = function (obj, auxRec, exclude, include) {
         if (obj.hasOwnProperty('initialConfig')) {
             copy.initialConfig = _SM.clone( obj.initialConfig, auxRec, exclude , include )
         } 
-        if (obj.__proto__.$className ) {
-            copy.className = obj.__proto__.$className
-        } 
+        // if (obj.__proto__.$className ) {copy.className = obj.__proto__.$className} 
         return copy; 
     }
     

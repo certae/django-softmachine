@@ -71,16 +71,17 @@ Ext.define('ProtoUL.UI.GridSheetController', {
         var pSheets = myMeta.sheetConfig;
         var pSheetSelector = myMeta.sheetSelector || '';
         var pSheetCriteria = me.rowData[ pSheetSelector ] 
-        var pSheet = undefined;  
-        
-        for ( var ix in pSheets  ) {
+        var pSheet = undefined, 
+            ix ;
+          
+        for ( ix in pSheets  ) {
             if ( pSheets[ix].sheetType == 'printerOnly' ) {continue ; }
             
             pSheet  =  pSheets[ix]; 
             if ( pSheet.name == pSheetCriteria ) {break; }
         };
 
-        if (  pSheet == undefined ) { return }; 
+        if (  pSheet == undefined ) { return; }; 
 
         // Contruye las pSheetProps a medida q las necesita 
         var pTemplate = pSheet.template || '' ; 
@@ -97,7 +98,7 @@ Ext.define('ProtoUL.UI.GridSheetController', {
         }
 
         
-       for (var ix in pSheetProps) {
+       for (ix in pSheetProps) {
             var vFld  =  pSheetProps[ix]; 
 
             var pKey = '{{' + vFld + '}}';
@@ -107,7 +108,9 @@ Ext.define('ProtoUL.UI.GridSheetController', {
                 pValue = _SM.FormatJsonStr( pValue )
             }
             
-            pTemplate = pTemplate.replace( new RegExp(pKey, 'g') , pValue  ); 
+            /*FIX IE compatibility */
+           pTemplate = pTemplate.split(search).join(replacement)
+           // pTemplate = pTemplate.replace( new RegExp(pKey, 'g') , pValue  ); 
 
         }
 
