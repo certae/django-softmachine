@@ -1,4 +1,45 @@
+/*global Ext, _SM, _MetaObjects  */
+/*global Meta2Tree, Tree2Meta */
 
+
+function getSimpleProperties( oData, ptType   ) {
+    // Retorna los valores simples, verificando los tipos de cada propiedad
+
+    // Solo deben llegar objetos, si llega un array no hay props q mostrar     
+    if ( _SM.typeOf( oData )  == 'array' ) {
+        // console.log( 'getSimpleProperties  array???', oData  )
+        return []
+    }   
+
+    // Inicializa con el type 
+    var cData = {}
+    if ( ptType ) { cData.__ptType = ptType }
+    
+
+    for (var lKey in oData ) {
+        var cValue = oData[ lKey  ]
+
+        // Los objetos o arrays son la imagen del arbol y no deben ser tenidos en cuenta, generarian recursividad infinita 
+        if  ( _SM.typeOf( cValue  ) in _SM.objConv([ 'object', 'array' ])) { continue; }   
+
+        // Si son valores codificados, los decodifica y los agrega  
+        if ( lKey in _SM.objConv( [ '__ptValue', '__ptList' ])  )  {
+            try {
+                cData = Ext.decode( cValue )    
+            } catch (e) {  
+                // console.log( "Error de encodage", cValue )
+            }
+            
+        } else {
+            cValue = verifyPrpType(  lKey, cValue )
+            if ( cValue ) { 
+                cData[ lKey  ] = cValue  
+            }
+        } 
+    }
+    return cData 
+
+}             
 
 
 function Meta2Tree( oData, pName, ptType   ) {
@@ -14,14 +55,149 @@ function Meta2Tree( oData, pName, ptType   ) {
      * 
      */
 
+
+//    Initial validation  --------------------------------------------
+
     var nodeDef     =   _MetaObjects[ ptType ]
     if ( ! nodeDef ) { 
         // console.log( 'Meta2Tree: definicion no encontrada para ' + ptType , oData )
         return 
      }
+
+//    Embeded functions --------------------------------------------
+
+    function doFinalFormat( tData ) {
+        tData.text = oData.name || oData.menuText || oData.property ||  oData.viewEntity ||  ptType
+        return tData     
+    }
     
-    var __ptConfig  =   getSimpleProperties( oData, ptType )  
-    var tData       =   getNodeBase(  ptType, ptType, __ptConfig )    
+    function formContainer2Tree( items ) {
+        // Aqui solo llegan los contenedores de la forma,  ( hideItems : true )
+
+        var tItems = []
+        for (var sKey in items ) {
+    
+            var oData = items[ sKey  ],  
+                t2Data;
+                 
+            var __ptConfig = getSimpleProperties( oData , ptType );
+            var ptType = __ptConfig.__ptType; 
+            
+            //  contenedores de la forma 
+            if ( ptType in _SM.objConv([ 'htmlset', 'fieldset','tabpanel','accordeon','panel'])) {
+    
+                t2Data = getNodeBase(  ptType, ptType, __ptConfig  )
+                t2Data['children'] = formContainer2Tree( oData.items )
+                tItems.push(  t2Data ) 
+     
+            }  else if ( ptType in _SM.objConv([ 'formField', 'protoGrid' ])) {  
+    
+                if ( ptType == 'protoGrid' )  {
+                    t2Data = getNodeBase(  __ptConfig.menuText, ptType, __ptConfig  )
+
+                } else {
+                    t2Data = getNodeBase(  __ptConfig.name, ptType, __ptConfig  )
+                }
+                t2Data['leaf'] =  true
+                tItems.push(  t2Data ) 
+    
+            // } else {
+                // console.log( "Error formContainer2Tree", oData )
+            } 
+        }
+        return tItems 
+    }
+    
+    function getSpecialNodes( nodeDef, treeData, objData ){
+        // Recibe el treeData y lo configura en caso de nodos especiales
+        // retorna true si fue configurado    
+    
+        // Form ( debe manejar el raiz sin el marco de items )
+        if ( nodeDef.hideItems ) {
+            if ( objData.items ) {
+                treeData['children'] = formContainer2Tree( objData.items )    
+            } else {
+                treeData['children'] = formContainer2Tree( objData  )
+            }
+            return true 
+        }  
+    
+        // Los tipos codificados  
+        if ( nodeDef.__ptStyle == 'jsonText' ) {
+            if ( objData.name ) { treeData.__ptConfig.name = objData.name  }
+            treeData.__ptConfig.__ptValue =  Ext.encode( objData  )
+            return true 
+        }    
+        if ( nodeDef.__ptStyle == 'colList' ) {
+            treeData.__ptConfig.__ptList =  Ext.encode( objData  )
+            return true 
+        }   
+    
+    } 
+
+    function Array2Tree( oList, ptType, tNode    ) {
+        // REcibe un array y genera los hijos, 
+        // @tNode   referencia al nodo base
+        // @ptType  tipo de nodo hijo 
+        // @oList    objeto lista de la meta   
+        var nodeDef =   _MetaObjects[ ptType ]
+        
+        for (var sKey in oList ) {
+            var oData = oList[ sKey  ]
+
+            var tChild = Meta2Tree( oData, pName, ptType   ) 
+            tNode['children'].push(  tChild   ) 
+        }
+    } 
+
+
+
+
+
+    function verifyNodeDef( nodeDef ) {
+        // Verifica las listas y objetos  
+        if ( nodeDef.lists ) { 
+            if ( _SM.typeOf( nodeDef.lists ) != 'array' ) {
+                // console.log( 'pciObjects definicion errada de listas para ' + ptType )
+                nodeDef.lists = []
+            } else { 
+                for ( var ix in nodeDef.lists  ) {
+                    var sKey = nodeDef.lists[ix]
+                    if ( typeof( sKey)  !=  'string' ) {
+                        // console.log( 'pciObjects definicion errada en listas ' + ptType + ' key ' , sKey  )
+                        delete nodeDef.lists[ix]; 
+                        continue;
+                    } 
+                    var childConf = _MetaObjects[ sKey ]
+                    if ( childConf.__ptStyle  == 'colList' || childConf.__ptStyle  == 'jsonText' ) {continue; }
+                    if ( ! childConf.listOf ) {
+                        // console.log( 'pciObjects no se encontro listOf para ' + sKey  )
+                        continue 
+                    } 
+                }
+            }  
+        }
+                       
+        if (  nodeDef.objects ) { 
+            if  ( _SM.typeOf( nodeDef.objects ) != 'array' ) {
+                // console.log( 'pciObjects definicion errada de objects para ' + ptType )
+                nodeDef.lists = [] 
+            } else {
+                for ( var ix in nodeDef.objects  ) {
+                    var sKey = nodeDef.objects[ix]
+                    if ( typeof( sKey)  !=  'string' ) {
+                        // console.log( 'pciObjects definicion errada en objects ' + ptType + ' key ' , sKey  )
+                        continue; 
+                    } 
+                }
+            }  
+        }    
+    }
+
+//   Function body  --------------------------------------------
+
+    var __ptConfig  =   getSimpleProperties( oData, ptType );  
+    var tData       =   getNodeBase(  ptType, ptType, __ptConfig );    
 
 
     if ( getSpecialNodes( nodeDef, tData, oData )) {
@@ -67,135 +243,9 @@ function Meta2Tree( oData, pName, ptType   ) {
 
     return doFinalFormat( tData ) 
 
-    function doFinalFormat( tData ) {
-        tData.text = oData.name || oData.menuText || oData.property ||  oData.viewEntity ||  ptType
-        return tData     
-    }
 
-    // ---------------------------------------
-    function getSpecialNodes( nodeDef, treeData, objData ){
-        // Recibe el treeData y lo configura en caso de nodos especiales
-        // retorna true si fue configurado    
-    
-        // Form ( debe manejar el raiz sin el marco de items )
-        if ( nodeDef.hideItems ) {
-            if ( objData.items ) {
-                treeData['children'] = formContainer2Tree( objData.items )    
-            } else {
-                treeData['children'] = formContainer2Tree( objData  )}
-            return true 
-        }  
-    
-        // Los tipos codificados  
-        if ( nodeDef.__ptStyle == 'jsonText' ) {
-            if ( objData.name ) { treeData.__ptConfig.name = objData.name  }
-            treeData.__ptConfig.__ptValue =  Ext.encode( objData  )
-            return true 
-        }    
-        if ( nodeDef.__ptStyle == 'colList' ) {
-            treeData.__ptConfig.__ptList =  Ext.encode( objData  )
-            return true 
-        }   
-    
-    } 
-
-    function Array2Tree( oList, ptType, tNode    ) {
-        // REcibe un array y genera los hijos, 
-        // @tNode   referencia al nodo base
-        // @ptType  tipo de nodo hijo 
-        // @oList    objeto lista de la meta   
-        var nodeDef =   _MetaObjects[ ptType ]
-        
-        for (var sKey in oList ) {
-            var oData = oList[ sKey  ]
-
-            var tChild = Meta2Tree( oData, pName, ptType   ) 
-            tNode['children'].push(  tChild   ) 
-        }
-    }; 
-
-
-
-    function formContainer2Tree( items ) {
-        // Aqui solo llegan los contenedores de la forma,  ( hideItems : true )
-
-        var tItems = []
-        for (var sKey in items ) {
-    
-            var oData = items[ sKey  ],  
-                t2Data
-                 
-            var __ptConfig = getSimpleProperties( oData , ptType )
-            var ptType = __ptConfig.__ptType
-            
-            //  contenedores de la forma 
-            if ( ptType in _SM.objConv([ 'htmlset', 'fieldset','tabpanel','accordeon','panel'])) {
-    
-                t2Data = getNodeBase(  ptType, ptType, __ptConfig  )
-                t2Data['children'] = formContainer2Tree( oData.items )
-                tItems.push(  t2Data ) 
-     
-            }  else if ( ptType in _SM.objConv([ 'formField', 'protoGrid' ])) {  
-    
-                if ( ptType == 'protoGrid' )  {
-                    t2Data = getNodeBase(  __ptConfig.menuText, ptType, __ptConfig  )
-
-                } else {
-                    t2Data = getNodeBase(  __ptConfig.name, ptType, __ptConfig  )
-                }
-                t2Data['leaf'] =  true
-                tItems.push(  t2Data ) 
-    
-            // } else {
-                // console.log( "Error formContainer2Tree", oData )
-            } 
-        }
-        return tItems 
-    }
-
-
-    function verifyNodeDef( nodeDef ) {
-        // Verifica las listas y objetos  
-        if ( nodeDef.lists ) { 
-            if ( _SM.typeOf( nodeDef.lists ) != 'array' ) {
-                // console.log( 'pciObjects definicion errada de listas para ' + ptType )
-                nodeDef.lists = []
-            } else { 
-                for ( var ix in nodeDef.lists  ) {
-                    var sKey = nodeDef.lists[ix]
-                    if ( typeof( sKey)  !=  'string' ) {
-                        // console.log( 'pciObjects definicion errada en listas ' + ptType + ' key ' , sKey  )
-                        delete nodeDef.lists[ix]
-                        continue } 
-                    var childConf = _MetaObjects[ sKey ]
-                    if ( childConf.__ptStyle  == 'colList' || childConf.__ptStyle  == 'jsonText' ) continue;
-                    if ( ! childConf.listOf ) {
-                        // console.log( 'pciObjects no se encontro listOf para ' + sKey  )
-                        nodeDef.lists[ix]
-                        continue } 
-                }
-            }  
-        }
-                       
-        if (  nodeDef.objects ) { 
-            if  ( _SM.typeOf( nodeDef.objects ) != 'array' ) {
-                // console.log( 'pciObjects definicion errada de objects para ' + ptType )
-                nodeDef.lists = [] 
-            } else {
-                for ( var ix in nodeDef.objects  ) {
-                    var sKey = nodeDef.objects[ix]
-                    if ( typeof( sKey)  !=  'string' ) {
-                        // console.log( 'pciObjects definicion errada en objects ' + ptType + ' key ' , sKey  )
-                        nodeDef.lists[ix]
-                        continue } 
-                }
-            }  
-        }    
-    }
-    // ---------------------------------------
-
-
-} ; 
+  
+} 
 
 
 
@@ -284,45 +334,6 @@ function Tree2Meta( tNode  ) {
 
 }
 
-
-function getSimpleProperties( oData, ptType   ) {
-    // Retorna los valores simples, verificando los tipos de cada propiedad
-
-    // Solo deben llegar objetos, si llega un array no hay props q mostrar     
-    if ( _SM.typeOf( oData )  == 'array' ) {
-        // console.log( 'getSimpleProperties  array???', oData  )
-        return []
-    }   
-
-    // Inicializa con el type 
-    var cData = {}
-    if ( ptType ) { cData.__ptType = ptType }
-    
-
-    for (var lKey in oData ) {
-        var cValue = oData[ lKey  ]
-
-        // Los objetos o arrays son la imagen del arbol y no deben ser tenidos en cuenta, generarian recursividad infinita 
-        if  ( _SM.typeOf( cValue  ) in _SM.objConv([ 'object', 'array' ])) continue   
-
-        // Si son valores codificados, los decodifica y los agrega  
-        if ( lKey in _SM.objConv( [ '__ptValue', '__ptList' ])  )  {
-            try {
-                cData = Ext.decode( cValue )    
-            } catch (e) {  
-                // console.log( "Error de encodage", cValue )
-            }
-            
-        } else {
-            cValue = verifyPrpType(  lKey, cValue )
-            if ( cValue ) { 
-                cData[ lKey  ] = cValue  
-            }
-        } 
-    }
-    return cData 
-
-}             
 
 //
 

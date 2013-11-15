@@ -84,23 +84,26 @@ function verifyMeta( oMeta,  ptType, tNode ) {
 //  Verifica un objeto de acuerdo a la estructura
 //  Si es un objeto asociado a un arbol tNode es el nodo base,       
 
-    var __ptConfig = _MetaObjects[ ptType ]
-    if ( ! __ptConfig ) { return oMeta;} 
+    var __ptConfig = _MetaObjects[ ptType ];
+    var listOfConf,  
+        sKey, nBranch, myObj, 
+        ix ; 
          
+    if ( ! __ptConfig ) { return oMeta;} 
 
     // Verifica las listas 
     if ( __ptConfig.lists &&  ( _SM.typeOf( __ptConfig.lists ) == 'array' ))  { 
-        for ( var ix in __ptConfig.lists  ) {
-            var sKey = __ptConfig.lists[ix]
+        for ( ix in __ptConfig.lists  ) {
+            sKey = __ptConfig.lists[ix]
             if ( typeof( sKey)  !=  'string' ) { continue ; } 
                  
 
-            var listOfConf = _MetaObjects[ sKey ] || {}
+            listOfConf = _MetaObjects[ sKey ] || {}
             oMeta[ sKey ]  = _SM.verifyList (  oMeta[ sKey ], listOfConf.prpDefault  )
 
             if ( tNode ) { 
                 // agrega una nueva lista al arbol 
-                var nBranch =  {
+                nBranch =  {
                     'text'     :  sKey,
                     '__ptType' :  sKey, 
                     '__ptConfig':  { '__ptType' : sKey }, 
@@ -114,19 +117,19 @@ function verifyMeta( oMeta,  ptType, tNode ) {
 
     // Verifica los Objetos ( no aplica los default, pues la config puede eliminarlos )  
     if ( __ptConfig.objects &&  ( _SM.typeOf( __ptConfig.objects  ) == 'array' ))  { 
-        for ( var ix in __ptConfig.objects  ) {
-            var sKey = __ptConfig.objects[ix]
-            if ( typeof( sKey)  !=  'string' ) 
-                continue ; 
+        for ( ix in __ptConfig.objects  ) {
+            sKey = __ptConfig.objects[ix]
+            if ( typeof( sKey)  !=  'string' ) {continue ;} 
+                 
 
-            var myObj = oMeta[ sKey ]
+            myObj = oMeta[ sKey ]; 
             if ( _SM.typeOf( myObj ) != 'object' )  { 
                 myObj = {} }
 
             if ( tNode ) { 
                 
                 // agrega un nuevo objeto al arbol 
-                var nBranch  = getNodeBase( sKey, sKey, { '__ptType' : sKey } )
+                nBranch  = getNodeBase( sKey, sKey, { '__ptType' : sKey } );
                 tNode.children.push( nBranch )
                 
                 // Agrega los hijos tambein al arbol 
@@ -163,12 +166,12 @@ function clearPhantonProps( __ptConfig ,  __ptType ) {
 }
 
 
-_versionMeta = '13.0111'
+_versionMeta = '13.0901'
 
 _MetaObjects =  {
 
     "pcl": {
-        "description": "definicion de la meta",
+        "description": "Meta definition",
         "properties": [
             "viewCode", 
             "viewEntity" ,
@@ -212,17 +215,17 @@ _MetaObjects =  {
 
 
     "fields": {
-        "description": "Definicion de los campos del store", 
+        "description": "Store fields definition", 
         "listOf" : "field" 
     },
 
     "fieldsBase": {
-        "description": "Definicion de los campos admon", 
+        "description": "Base store fields definition",
         "listOf" : "field" 
     },
 
     "fieldsAdm": {
-        "description": "Definicion de los campos admon", 
+        "description": "Admin store fields definition", 
         "listOf" : "field" 
     },
 
@@ -331,7 +334,7 @@ _MetaObjects =  {
     }, 
 
     "gridConfig": {
-        "description": "Propiedades de configuracion de la grilla",
+        "description": "Grid configuration properties",
         "properties": [ 
             'hideRowNumbers', 
             // 'hideCheckSelect', 
@@ -378,7 +381,7 @@ _MetaObjects =  {
 
     // Estos son actualizados por el staf ( admin de grupo )
     "gridSets": {
-        "description": "Configuraciones de adicionales ( filters, sorters, userViews )",
+        "description": "Additional settings ( filters, sorters, userViews )",
         "lists": [
             "listDisplaySet",
             "filtersSet",
@@ -388,7 +391,7 @@ _MetaObjects =  {
 
     // Estos son actualizados por los usuarios de base 
     "custom": {
-        "description": "Configuraciones de usuario",
+        "description": "custom user configurations",
         "lists": [
             "listDisplay",
             "listDisplaySet",
@@ -399,33 +402,33 @@ _MetaObjects =  {
 
 
     "baseFilter": {
-        "description": "Filtro de base. Se adiciona a cualquier filtro posterior, no modificable por el usuario",
+        "description": "Default defined filter. No user-modifiable, e.g. { \"status__exact\":\"0\" } ",
         "listOf" : "filterDef",
         "allowAdd" : true 
     },
 
     "customFilter": {
-        "description": "Filtro predefinido ",
+        "description": "Predefined filter ",
         "listOf" : "filterDef",
         "allowAdd" : true 
     },
 
 
     "initialFilter": {
-        "description": "Filtro inicial, reescribible al seleccionar otro filtro  Ej: { \"status__exact\":\"0\" } ",
+        "description": "Initial filter  Ej: { \"status__exact\":\"0\" } ",
         "listOf" : "filterDef",
         "allowAdd" : true 
     },
 
     "initialSort": {
-        "description": "Ordenamiento por defecto  Ej: [{\"direction\":\"ASC\",\"property\":\"code\"}, ... ] ",
+        "description": "Default ordering  Ej: [{\"direction\":\"ASC\",\"property\":\"code\"}, ... ] ",
         "listOf" : "sorterDef",
         "allowAdd" : true 
     },
 
 
     "sorterDef": {
-        "description": "Definicion de ordenamiento  ",
+        "description": "Sort definition",
         "addPrompt" : "Please enter the name of the property for your sorter:", 
         "allowDel" : true,
         "nodeName" : "property", 
@@ -436,13 +439,13 @@ _MetaObjects =  {
     },
 
     "sortersSet": {
-        "description": "Conjunto de ordenamientos predefinidos ",
+        "description": "Sorter set",
         "listOf" : "sortersSetDef",
         "allowAdd" : true 
     },
 
     "sortersSetDef": {
-        "description": "Ordenamientos predefinidos  ",
+        "description": "Sorter set definition",
         "addPrompt" : "Please enter the name of the sorter:", 
         "allowDel" : true,
         "properties": [
@@ -455,14 +458,14 @@ _MetaObjects =  {
     },
 
     "customSort": {
-        "description": "Ordenamiento predefinido",
+        "description": "User ordering",
         "listOf" : "sorterDef",
         "allowAdd" : true 
     },
 
 
     "filterDef": {
-        "description": "Filtro predefinido  ",
+        "description": "Predefined filter definition",
         "addPrompt" : "Please enter the name of the property for your filter:", 
         "allowDel" : true,
         "nodeName" : "property", 
@@ -474,13 +477,13 @@ _MetaObjects =  {
 
 
     "filtersSet": {
-        "description": "Conjunto de filtros predefinidos ( *x*, ><=, !=,  aa:bb ) ",
+        "description": "Predefined filter set ( *x*, ><=, !=,  aa:bb ) ",
         "listOf" : "filtersSetDef",
         "allowAdd" : true 
     },
 
     "filtersSetDef": {
-        "description": "Filtros predefinidos  ",
+        "description": "Filter set definition",
         "addPrompt" : "Please enter the name of the filterSet:", 
         "allowDel" : true,
         "properties": [
@@ -493,14 +496,14 @@ _MetaObjects =  {
 
 
     "listDisplaySet": {
-        "description": "Configuraciones alternativas para la grilla  ( Aparecen bajo el icono 'ViewCols' de la barra principal )",
+        "description": "Alternative configuration for the grid ( it appears under the icon 'ViewCols' of the main bar )",
         "listOf" : "listDisplayDef",
         "allowAdd" : true 
     },
 
     // El esquema no soporta una lista de listas, tiene q ser un objeto para poder nombralo 
     "listDisplayDef": {
-        "description": "listDisplay predefinidos ",
+        "description": "Predefined column set (view)",
         "addPrompt" : "Please enter the name of the columnSet:", 
         "allowDel" : true, 
         "properties": [
@@ -517,12 +520,12 @@ _MetaObjects =  {
 
 
     "hiddenFields": {
-        "description": "Lista de campos ocultos  ( TODO: hidden = true or not at all? )",
+        "description": "List of hidden fields",
         "__ptStyle": "colList" 
     },
 
     "listDisplay": {
-        "description": "Lista de campos a desplegar en la grilla",
+        "description": "List of fields to display in the grid",
         // "prpDefault" : ["__str__"], 
         "addPrompt" : "Please enter the name for your alternative listDisplay:", 
         "__ptStyle": "colList" 
@@ -530,31 +533,31 @@ _MetaObjects =  {
 
 
     "readOnlyFields": {
-        "description": "Lista de campos a marcar como readOnly ( tambien se puede utilzar la prop ReadOnly es igual )",
+        "description": "List of fields to marked as ReadOnly ( the property ReadOnly can also be used )",
         "__ptStyle": "colList" 
     },
 
 
     "searchFields": {
-        "description": "Campos habilitados para busqueda",
+        "description": "Search-enabled fields",
         "__ptStyle": "colList" 
     },
 
     "sortFields": {
-        "description": "Campos habilitados para ordenamiento",
+        "description": "Order-enabled fields",
         "__ptStyle": "colList" 
     },
 
 
     "detailsConfig": {
-        "description": "Detalles en una relacion Master-Detail",
+        "description": "Details definition (Master-Detail relationship)",
         "listOf": "detailDef",
         "allowAdd" : true 
     },
 
 
     "detailDef": {
-        "description": "Detalle en una relacion Master-Detail",
+        "description": "Master-Detail relationship definition",
         "properties": [
             "menuText", 
             "conceptDetail",
@@ -571,7 +574,7 @@ _MetaObjects =  {
     },
 
     "usrDefProps": {
-        "description": "User defined properties ( se utilizan como campos y son creados por usr a voluntad, no participan en search, sort)",
+        "description": "User defined properties ( Fields created by the user, they do not participe in search and sort)",
         "properties": [
             "udpTable", 
             "propertyRef", 
@@ -583,13 +586,13 @@ _MetaObjects =  {
     },
 
     "sheetConfig": {
-        "description": "Lista de plantillas",
+        "description": "Information templates in HTML that are fed by data from the database",
         "listOf": "sheetDef",
         "allowAdd" : true       
     },
 
     "sheetDef": {
-        "description": "Plantilla ( el nombre corresponde al selector )",
+        "description": "Templates definition ( the name is the selector )",
         "properties": [
             "name", 
             "template", 
@@ -616,7 +619,7 @@ _MetaObjects =  {
     },
 
     "sheetDetail": {
-        "description": "Detalles por hoja ( sheet )",
+        "description": "Sheet detail configuration",
         "properties": [
             "name", 
             "detailName", 
@@ -635,7 +638,7 @@ _MetaObjects =  {
 
     "formConfig": {
         "hideItems" : true,  
-        "description": "definicion de formas",
+        "description": "Form definition",
         "properties": [
             "title", "tooltip", 
             "height","maxHeight","minHeight",
@@ -704,13 +707,13 @@ _MetaObjects =  {
     }, 
     
     "actions": {
-        "description": "Lista de acciones backend", 
+        "description": "Actions list (Actions menu)", 
         "listOf" : "actionDef",
         "allowAdd" : true  
     },
 
     "actionDef" : {
-        "description": "Actions backend",
+        "description": "Actions definition (backend)",
         "properties": [
           "name", 
           "title", 
@@ -727,7 +730,7 @@ _MetaObjects =  {
     }, 
 
     "actionParams": {
-        "description": "Propiedades de las actions backend",
+        "description": "Actions definition parameters",
         "listOf" : "actionParam", 
         "allowAdd" : true  
     }, 
@@ -758,7 +761,7 @@ _MetaObjects =  {
             "xtype", 
             "vType"
           ], 
-        "addPrompt" : "Parametros de acciones", 
+        "addPrompt" : "Action parameter", 
         "allowDel" : true
         }, 
 
@@ -796,13 +799,13 @@ _MetaObjects =  {
           "type",
           "field"
           ], 
-        "addPrompt" : "Parametros de acciones", 
+        "addPrompt" : "Action parameters", 
         "allowDel" : true
         }, 
 
 
   "businessRulesText": {
-      "description": "business rules",
+      "description": "Business rules",
       "properties": [
             "afterCellUpdate",
             "afterRowDelete",
@@ -822,8 +825,6 @@ _MetaObjects =  {
             "issValidationComplete"
       ]
   }
-
-    
     
 };
 

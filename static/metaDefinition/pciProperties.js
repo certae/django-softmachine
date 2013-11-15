@@ -53,21 +53,21 @@ function verifyPrpType(  lKey,  cValue ) {
 
 _MetaProperties =  {
 
-    "metaVersion.help" : "Version interna de la meta", 
-    "userVersion.help" : "Version de usuario ( editable )",
+    "metaVersion.help" : "Internal meta version", 
+    "userVersion.help" : "Application version",
      
-    "exportCsv.help"   : "Permite exportar la definicion de fields en formato csv",   
+    "exportCsv.help"   : "Csv export enabled?",   
     "exportCsv.type" : "boolean", 
 
-    "localSort.help" : "Ordenamiento local, por defecto para prototipos", 
+    "localSort.help" : "local sort?, (n/a for prototypes)", 
     "localSorttype" : "boolean",
      
-    "pageSize,help" : "buffer de lectura ( 50 por defecto )", 
+    "pageSize,help" : "Page size", 
     "pageSize.type": "number", 
 
 //QBE    
     "qbeHelp.type":"boolean",
-    "qbeHelp.help": "determina si aparece o no el trigger para el select distinct",
+    "qbeHelp.help": "visible trigger for select distinct (interne)",
 
 //  Types
     "required.type" : "boolean", 
@@ -75,52 +75,52 @@ _MetaProperties =  {
     "primary.type" : "boolean", 
     
 // PCI
-    "viewEntity.help" : "Opcion de base de la pci (apunta directamente al modelo Django  app.modelo)",
-    "viewCode.help"  : "Definicion de view interface - puede ser = al protoConcpeto o definir un nivel adicional app.modelo.vista", 
-    "description.help"  : "Text descriptivo", 
-    "viewIcon.help"  : "iconName tal como se define en el css",
-    "shortTitle.help" : "Titulo del menu y de la forma" ,
-    "idProperty.help" : "Campo q sirve como Id en el modelo, Django definie por defecto un Id, no es necesario definirlo explitamente",
+    "viewEntity.help" : "Backend model (Django)",
+    "viewCode.help"  : "Definicion de view code -  app.model.view", 
+    "description.help"  : "Description", 
+    "viewIcon.help"  : "iconName  (css name)",
+    "shortTitle.help" : "Menu and form title" ,
+    "idProperty.help" : "Id property (future use)",
 
-    "protoEntity.help" : "Corresponde a la entidadBase en los prototipos ( prototype.protoTable.xxx ) acompana a protoEntityId",
+    "protoEntity.help" : "Default prototype entity ( prototype.protoTable.xxx )  (Internal use with protoEntityId)",
      
     "pciStyle" : "grid", 
-    "pciStyle.help" : "Presentacion de la pci [ form,  grid, tree]", 
+    "pciStyle.help" : "Presentation mode [ form,  grid, tree]", 
     "pciStyle.choices": ["grid", "form", "tree"],
 
     "gridSelectionMode.choices": ["multi", "simple", "single" ], 
-    "gridSelectionMode.help":  "multi*: multiple selection con check o control; simple: selection on/off ; single: solo ultimo seleccionado", 
+    "gridSelectionMode.help":  "multi*: multiple selection with check; simple: selection on/off ; single: Last selected", 
 
     "denyAutoPrint.type" : "boolean", 
-    "denyAutoPrint.help" : "Impide la impresion automatica de la grilla", 
+    "denyAutoPrint.help" : "deny auto print (future use)", 
 
 // Detalles 
     "masterField" : "pk",
 
-    "menuText.help"         : "titulo en el menu ( toolbar )", 
-    "detailName.help"       : "key del detalle usada para encadenar los reportes ", 
+    "menuText.help"         : "Menu title ( toolbar )", 
+    "detailName.help"       : "Detail key (for report detail)", 
     
-    "conceptDetail.help"    : "Entidad detalle de la relacion ( [App.]Model o [App.]Model.View )",
-    "masterField.help"      : "Campo en el maestro para q contiene el criterio para el filtro del detalle, (normalmente Pk si es un detalle directo)",
-    "detailField.help"      : "Campo del detalle para hacer el filtro, normalmente el nombre de la tabla padre en minuscula", 
-    "detailTitleLbl.help"   : "Titulo en el detalle para indicar el filtro actual", 
+    "conceptDetail.help"    : "Detail concept ( [App.]Model o [App.]Model.View )",
+    "masterField.help"      : "Master field for MD navigation (normaly Pk)",
+    "detailField.help"      : "Detail field for filter (normaly conceptName)", 
+    "detailTitleLbl.help"   : "Detail title for filter", 
 
-    "masterTitleField.help" : "Campo en el maestro que se utiliza para construir el titulo de la vista filtrada en el detalle", 
-    "detailTitleField.help" : "Campo en el detalle donde se copia el valor del titulo del maestro ( default de la llave padre en la edicion )", 
+    "masterTitleField.help" : "Master field title (filter name)", 
+    "detailTitleField.help" : "Master field title (copy from master title in detail edition)", 
 
 //  Udps 
     "propertyPrefix" : "udp", 
-    "propertyPrefix.help" : "prefijo de las propiedades definidas por el usuario ( en el nombre del campo aparencen upd__xxxxx)", 
-    "propertyName.help" : "campo que contiene la llave de la propiedad",
-    "propertyValue.help" : "campo que contiene el valor",
+    "propertyPrefix.help" : "udp prefix (upd__xxxxx)", 
+    "propertyName.help" : "udp property name",
+    "propertyValue.help" : "udp property value",
 
-    "propertyRef.help" : "REQUERIDO: Campo en la udp q apunta a la tabla base",    
-    "keyField.help" : "Campo leido del registro de base<br>** Solo se debe setear cuando la udp no es un MD",
-    "udpTable.help" : "Tabla que contiene las upds, <b>** Si es un vinculo directo corresponde al related_name q es el set de detalles, normalmente la tablaUdp comenzando por minuscula", 
+    "propertyRef.help" : "udp concept ref",    
+    "keyField.help" : "udp source<br>** Only for non MD udp (internal use)",
+    "udpTable.help" : "udp concept name , <b>** if direct link then related_name, normaly udpTable", 
 
 // sheets
-    "sheetSelector.help": "Campo de criterio para seleccionar el template, vacio para una unica plantilla por defecto DEFAULT",
-    "template.help": "Definicion de la plantilla", 
+    "sheetSelector.help": "field sheet selecto, null for DEFAULT sheet",
+    "template.help": "template definition", 
 
     "templateFp.help": "Templante FirstPage", 
     "templateLp.help": "Templante LastPage",
@@ -133,84 +133,74 @@ _MetaProperties =  {
 
     "templateEr.help": "EveryRow", 
 
-    "templateFp": '<!DOCTYPE html>' + 
-        '<html>' +
-          '<head>' +
-           '<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />' +
-           '<link href="/static/css/print.css" rel="stylesheet" type="text/css" media="screen,print" />' +
-           '<title>PtReport : {{reportTitle}}</title>' +
-          '</head>' +
-        '<body>',  
-
-    "templateLp": '</body>' +
-                  '</html>',  
-
+    "templateFp":'<!DOCTYPE html>'+'<html>'+'<head>'+'<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />'+'<link href="/static/css/print.css" rel="stylesheet" type="text/css" media="screen,print" />'+'<title>PtReport : {{reportTitle}}</title>'+'</head>'+'<body>',
+    "templateLp":'</body>'+'</html>',
 
     "direction": "sort order",
     "direction.choices": ["ASC", "DESC" ],
 
 //  Fields
-    "physicalName.help" : "Nombre fisico o funcion por ejemplo @str( f1,f2 )", 
+    "physicalName.help" : "phisical name or function  @str( f1,f2 )", 
     "required": false,
-    "required.help": "Requiere valores la forma",
-    "allowDecimals.help": "NO USAR : si permite o no decimales, si decimalPReciosion = 0 implica falso",
+    "required.help": "Required field",
+    "allowDecimals.help": "Dont use!!! : allow decimal (internal use)",
     "autoscroll": true,
     "autoscroll.help": "t/f",
 
-    "choices.help": "lista de valores separados por coma para el combobox",
+    "choices.help": "comma separed values for combo selection",
     
     "collapsed": false,
-    "collapsed.help": "t/f aparece contraido",
+    "collapsed.help": "t/f collapsed",
     "collapsed.type": "boolean",
 
     "collapsible": false,
     "collapsible.help": "t/f",
     "collapsible.type": "boolean",
 
-    "cellToolTip.help": "Presenta contenido del campo como micro ayuda",
+    "cellToolTip.help": "Use this field form line tooltip",
     "cellToolTip.type": "boolean",
 
-    "cellLink.help": "Presenta contenido del campo como micro ayuda",
+    "cellLink.help": "Is a cellLink?",
     "cellLink.type": "boolean",
 
-    "xtype.help" : "Tipo de objeto en el frontEnd ( puede ser manipulado con el vType)",
+    "xtype.help" : "frontend widget (use vType also)",
     "xtype.choices": ["", "textfield", "combobox", "checkbox", "numberfield", "textarea", "datefield" ],
     
     "prpScale": 0,
-    "prpScale.help": "Cantidad de decimales permitidos ( 0 para enteros 2 para decimales )",
-    "prpDefault.help": "valor por defecto",
+    "prpScale.help": "Decimal scale ( 0 int, 2 dec )",
+    "prpDefault.help": "Default value",
     
-    "fieldLabel.help": "label en la forma",
-    "format.help": "mascara del campo ( automatico para las fechas, horas y numeros )",
+    "fieldLabel.help": "Field label (in form)",
+    "format.help": "input mask (automatic for date, time and numbers) (future use)",
     "fsLayout": "fluid",
     "fsLayout.choices": ["fluid", "1col", "2col", "3col" ],
-    "fsLayout.help": "distribucion de los campos en el contenedor",
+    "fsLayout.help": "Automatic layout distribution",
 
-    "header.help" : "Encabezado de la collumna en modo grilla ( default para fieldLabel ) " ,
+    "header.help" : "Column header (grid)  default for fieldLabel" ,
 
     "height.type": "number",
     "height.help": "The height value in pixels",
-    "helpPath.help": "se define como : /help/xxxx.html  esta en: /static/help",
+    "helpPath.help": "/help/xxxx.html  real: /static/help",
     
-    "hidden.help": "componente oculto",
+    "hidden.help": "Hiden field (future use)",
     "hidden.type": "boolean",
 
-    "hideLabel.help": "presenta los campos sin label, util cuando se configura grupos como firstName, lastName",
-    "hideSheet.help" : "Oculta la ficha descriptiva", 
+    "hideLabel.help": "Hide label? (ex: firstName, lastName)",
+    "hideSheet.help" : "Hide sheet?", 
     
-    "hideRowNumbers.help" : "Oculta la columna que numera los campos", 
+    "hideRowNumbers.help" : "Hide row numbers?", 
     "hideRowNumbers.type"  : "boolean",
     
     "hideCheckSelect.type"  : "boolean",
-    "hideCheckSelect.help" : "Permite seleccionar multiples registros", 
+    "hideCheckSelect.help" : "Hide check select?", 
 
-    "filterSetABC.help" : "Genera automaticamente filtro alfabetico sobre la columna seleccionada", 
+    "filterSetABC.help" : "Auto alphabetic filter", 
 
     "labelAlign": "left",
     "labelAlign.choices": ["left", "top"],
-    "labelAlign.help": "opciones left top",
+    "labelAlign.help": "Label align (left, top)",
 
-    "labelWidth.help": "ancho del label",
+    "labelWidth.help": "Label width",
 
     "maxHeight.help": "The max value in pixels",
     "maxWidth.help": "The max value in pixels",
@@ -228,45 +218,45 @@ _MetaProperties =  {
     "width.type": "number", 
 
     "flex.type": "number", 
-    "flex.help": "Recalcula el ancho en funcion de la forma y el peso ( flex) asignado", 
+    "flex.help": "Flex width eqivalence", 
 
     "readOnly": false,
-    "readOnly.help": "campo de solo lectura",
-    "title.help": "Titulo del componente",
-    "tooltip.help": "microayuda del componente ",
+    "readOnly.help": "ReadOnly field?",
+    "title.help": "Title",
+    "tooltip.help": "Microhelp",
  
-    "sortable.help": "t/f",
+    "sortable.help": "Sortable?",
     "sortable.type": "boolean",
 
-    "type.help" : "Tipo de dato de la Db ", 
+    "type.help" : "Field type", 
     "type.choices" : [ "", "string", "text", "bool", "int", "decimal", "combo", "date",  "datetime", "time", "autofield", "html", "foreignid",  "foreigntext"  ],             
 
-    "vType.help" : "TODO: Tipo de dato de validacion  ", 
+    "vType.help" : "Validation type", 
     "vType.choices" : [ "", "email", "ip4", "ip6", "tel", "postalCodeCA", "postalCodeUSA"  ],             
     
     "width.help": "The width value in pixels",
     
     "wordWrap.type": "boolean",
-    "wordWrap.help": "ver el contenido en mas de una linea", 
+    "wordWrap.help": "Auto wordWrap (more than one line)", 
 
-    "sheetType.help" : "Tipo de hoja ( usada para reportes ) ", 
+    "sheetType.help" : "Sheet type (Grid, Report)", 
     "sheetType.choices" : [ "", "printerOnly", "gridOnly"], 
     
-    "detailName.help" : "Nombre correspondiente a un detalle declarado en la opcionBase correspondiente ( padre )",              
+    "detailName.help" : "Detail name (used in MD definition)",              
 
-    "actionType.help" : "Tipo de accion ( metodos backend ) ", 
+    "actionType.help" : "Action type (backend function)", 
     // Solo las acciones de tipo "user" son presentadas  en el menu
     // los triggers pueden ser escritos directamente en el modelo y no pasar por protoExt 
     "actionType.choices" : [ "user", "insTrigger", "updTrigger", "delTrigger", "wflow"], 
     "refreshOnComplete.type": "boolean",
     
-    "paramType.help" : "Tipo de dato del parametro", 
+    "paramType.help" : "Parameter type", 
     "paramType.choices" : [ "", "string", "bool", "number"], 
 
-    "cpFromField.help" : "Copia el contenido de un campo en otro, en el caso de zooms o valores por defecto",  
-    "cpFromZoom.help" : "Campo q apunta al modelo referenciado ( no apunta al zoom pues varios campos pueden usar el mismo zoom )", 
+    "cpFromField.help" : "Derived by copy",  
+    "cpFromZoom.help" : "Derived form zoom (fk property)? ", 
     
-    "crudType.help" : "Comportamiento del campo con la edicion en  Db", 
+    "crudType.help" : "Crud type", 
     // editable      : es un campo estandar de la Db ( default )  
     // screenOnly    : ninguna iteraccion con la db, funciones calculadas en el frontEnd, o campos de procesamiento intermedio para generar otros campos     
     // storeOnly     : leido de la Db,  no se despliega en el frontEnd, se usa como resultado de campos calculados, usado para manejar subSets ( implica definir baseFilter, vrDefault  )
@@ -277,7 +267,7 @@ _MetaProperties =  {
     // copied        : toma el vr por defecto de cpFromField o cpFromZoom ( similar a linked + editable )      
     "crudType.choices" : [ "", "editable", "screenOnly", "storeOnly", "insertOnly", "updateOnly", "linked", "copied" ], 
     
-    "selectionMode.help" : "En las acciones determina el tipo de seleccion en la grilla",
+    "selectionMode.help" : "Grid selection mode for actions",
     // none : Envia la accion sin QSet 
     // single : Exige un unico reg 
     // multiple : Exige al menos un reg       
