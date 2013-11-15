@@ -1,3 +1,8 @@
+/*jslint nomen: true, sloppy : true, white : true, sub : true */
+/*global Ext */
+/*global _SM */
+
+
 Ext.define('ProtoUL.UI.MDDetailsController', {
     extend: 'Ext.Base',
     myMeta : null, 
@@ -18,7 +23,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
         for (var vDet in mDet.myMeta.detailsConfig) {        // Recorre y agrega los detalles al menu 
 
             var pDetail = mDet.myMeta.detailsConfig[ vDet ]
-            if ( pDetail.menuText === undefined ) continue; 
+            if ( pDetail.menuText === undefined ) {continue;} 
 
             var myAction = new Ext.Action({
                 text: pDetail.menuText,
@@ -34,7 +39,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
             myDetails.push ( myAction  );
             loadDetailDefinition( myAction.initialConfig , myAction  )                
             
-        };
+        }
 
         if ( myDetails.length > 0  ) {
 
@@ -80,7 +85,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
                 createDetailGrid(  item , myAction );
             }         
                   
-        };
+        }
         
 
         function createDummyPanel(  item , myAction  ) {
@@ -94,6 +99,11 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
     
 
         function createDetailGrid (  item , myAction ) {
+
+            function setActionPrp( prp, meth , value ) {
+                myAction.initialConfig[ prp ] = value 
+                myAction.callEach( meth, [ value ] )
+            }
     
             //
             var pDetail = item.detailDefinition 
@@ -137,15 +147,12 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
             setActionPrp('width', 'setWidth', 100 );
             myAction.show()
             
-            function setActionPrp( prp, meth , value ) {
-                myAction.initialConfig[ prp ] = value 
-                myAction.callEach( meth, [ value ] )
-            }
-             
-        };   
+        }
 
         function onActionSelectDetail( item ) {
-            mDet.ixActiveDetail = item.baseAction.initialConfig.ixDetail ;
+//          fix : Toolbar overflow 
+//          mDet.ixActiveDetail = item.baseAction.initialConfig.ixDetail ;
+            mDet.ixActiveDetail = item.initialConfig.ixDetail ;
 
             // Si se carga directamente el Card Layout en el BorderLayout no permite el activeItem     
             mDet.protoTabs.getLayout().setActiveItem( mDet.ixActiveDetail );
@@ -153,9 +160,8 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
             mDet.linkDetail();        
             mDet.showDetailPanel()
             
-            if ( item.hasOwnProperty( 'toggle' ) ) item.toggle( true )            
+            if ( item.hasOwnProperty( 'toggle' ) ) {item.toggle( true )}            
         }
-
         
     }
 })

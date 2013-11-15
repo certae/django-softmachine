@@ -66,21 +66,29 @@ Ext.define('ProtoUL.view.ProtoForm', {
         var _pForm = this;
 
         this.btSave = Ext.create( 'Ext.Button', {
+//          id : this.idSaveBt,
             iconCls : 'icon-saveMs',
-            id : this.idSaveBt,
             text: _SM.__language.Text_SaveMs_Button,
             scope : this,
             handler : this.onSave
         });
 
         this.btSaveDet = Ext.create( 'Ext.Button', {
+//            id :  this.idSaveBtDt,
             iconCls : 'icon-saveDt',
-            id :  this.idSaveBtDt,
             text: _SM.__language.Text_SaveDt_Button,
             hidden : true, 
             disabled : true, 
             scope : this,
             handler : this.onSaveDet 
+        });
+
+        this.btCancelFormEdt = Ext.create( 'Ext.Button', {
+//            id :  this.idSCancel,
+                iconCls : 'icon-cancel',
+                text: _SM.__language.Text_Cancel_Button,
+                scope : this,
+                handler : this.onReset
         });
 
         this.stMsg = Ext.create('Ext.toolbar.TextItem');
@@ -98,12 +106,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 xtype : 'toolbar',
                 dock : 'bottom',
                 ui : 'footer',
-                items : [ this.stMsg, '->',  this.btSave , this.btSaveDet,  {
-                    iconCls : 'icon-cancel',
-                    text: _SM.__language.Text_Cancel_Button,
-                    scope : this,
-                    handler : this.onReset
-                }]
+                items : [ this.stMsg, '->',  this.btSave , this.btSaveDet, this.btCancelFormEdt ]
             }]
             
         });
@@ -155,6 +158,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
     setDetailsTilte : function () {
         for ( var ix in this.cllDetails ) {
             var lGrid = this.cllDetails[ix];
+            lGrid.embededGrid = true; 
             lGrid.setGridTitle( lGrid )   
         }; 
     },
@@ -311,6 +315,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
         // desactiva el boton save 
         this.btSave.setDisabled( bReadOnly )
         this.btSaveDet.setDisabled( bReadOnly )
+        this.btCancelFormEdt.setDisabled( bReadOnly )
+        
         this.setReadOnlyFields( bReadOnly )
         this.setDetailsReadOnly( bReadOnly  )
 

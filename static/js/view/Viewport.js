@@ -1,6 +1,11 @@
 /*
  * 
  */
+
+/*jslint nomen: true, sloppy : true, white : true, sub : true */
+/*global Ext */
+/*global _SM */
+
 Ext.define('ProtoUL.view.Viewport', {
     extend: 'Ext.container.Viewport',
 

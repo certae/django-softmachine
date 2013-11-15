@@ -1,3 +1,7 @@
+/*jslint nomen: true, sloppy : true, white : true, sub : true */
+/*global Ext */
+/*global _SM */
+
 Ext.define('ProtoUL.UI.GridSheetController', {
     extend: 'Ext.Base',
 
@@ -11,19 +15,21 @@ Ext.define('ProtoUL.UI.GridSheetController', {
     
     getSheetConfig: function() {
 
-        var me = this.myGrid; 
-        var myMeta = me.myMeta; 
+        var me = this.myGrid, 
+            myMeta = me.myMeta, 
+            ix, 
+            sType  
         
 
         // Verifia q al menos una hoja sea visible en la grilla
         var hideSheet = true;      
         for ( ix in myMeta.sheetConfig  ) {
-            var sType = myMeta.sheetConfig[ix].sheetType 
-            if ( sType == 'gridOnly'  ) continue;
+            sType = myMeta.sheetConfig[ix].sheetType 
+            if ( sType == 'gridOnly'  ) {continue;}
             hideSheet = false; 
             break;  
         }
-        if ( hideSheet ) myMeta.gridConfig.hideSheet = true; 
+        if ( hideSheet ) {myMeta.gridConfig.hideSheet = true;} 
 
          
         // Los zooms ( initialConfig ) no deben manejar sheets
@@ -79,9 +85,9 @@ Ext.define('ProtoUL.UI.GridSheetController', {
             
             pSheet  =  pSheets[ix]; 
             if ( pSheet.name == pSheetCriteria ) {break; }
-        };
+        }
 
-        if (  pSheet == undefined ) { return; }; 
+        if (  pSheet === undefined ) { return; } 
 
         // Contruye las pSheetProps a medida q las necesita 
         var pTemplate = pSheet.template || '' ; 
@@ -109,7 +115,7 @@ Ext.define('ProtoUL.UI.GridSheetController', {
             }
             
             /*FIX IE compatibility */
-           pTemplate = pTemplate.split(search).join(replacement)
+           pTemplate = pTemplate.split(pKey).join(pValue);
            // pTemplate = pTemplate.replace( new RegExp(pKey, 'g') , pValue  ); 
 
         }

@@ -151,7 +151,7 @@ __language ={
     'Message_Error_Reporting' : 'Error en lanzar informe',
 
     'Title_Main_Panel' : 'Panel principal',
-    'Title_Form_Panel' : 'Elementod del formulario',
+    'Title_Form_Panel' : 'Elementos del formulario',
     'Title_Panel_Tools' : 'Herramientas del formulario',
 
     'Tree_Concept_Details_Text' : 'texto',

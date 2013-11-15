@@ -9,8 +9,8 @@
 
  */
 
-/*global Ext */
-/*global _SM */
+/*global Ext, _SM  */
+/*global Meta2Tree, Tree2Meta */
 
 
 Ext.define('ProtoUL.proto.ProtoDesigner', {
@@ -23,7 +23,8 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
 
     initComponent : function() {
 
-        var me = this
+        var me = this;
+
 
         Ext.apply(this, {
             layout : 'border',
@@ -34,7 +35,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         });
 
         me.callParent(arguments);
-
+                
         // Opciones del llamado AJAX
         myObj = _SM.DesignerPanels;
                 
@@ -81,6 +82,23 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         this.formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });
 
         var myForm =  this.formController.newProtoForm()   
+
+//      -------------  Nested functions 
+        function getTreeNodeByText( treeData, textKey ) {
+            // recupera un nodo del arbol segun su texto, para los fields y los details  
+            for (var ix in treeData ) {
+                var vNod  =  treeData[ix];
+                if (vNod.text == textKey) {
+                    return vNod; 
+                } 
+            }
+            // No deberia nunca llegar aqui 
+            return {}
+        }
+
+
+//      --------------- function body 
+
         myForm.setFormReadOnly( true )
         this.formPreview.add( myForm  )
 
@@ -129,28 +147,20 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
 
         _SM.defineProtoPclTreeModel()
         
-        var treeData = _SM.clone ( myObj.toolsTree )
-
-
-        function getTreeNodeByText( treeData, textKey ) {
-            // recupera un nodo del arbol segun su texto, para los fields y los details  
-            for (var ix in treeData ) {
-                var vNod  =  treeData[ix];
-                if (vNod.text == textKey) {
-                    return vNod; 
-                } 
-            }
-            // No deberia nunca llegar aqui 
-            return {}
-        }
+        var treeData = _SM.clone ( myObj.toolsTree ), 
+            treeNodAux,
+            treeNodAuxData,
+            ptConfig, 
+            ix, 
+            vFld; 
 
         // Agrega los campos de la pci particular 
-        var treeNodAux = getTreeNodeByText( treeData,  'Fields' )  
-        for (var ix in this.myMeta.fields ) {
-            var vFld  =  this.myMeta.fields[ix];
-            var ptConfig =  _SM.getFormFieldDefinition( vFld )
+        treeNodAux = getTreeNodeByText( treeData,  'Fields' )  
+        for (ix in this.myMeta.fields ) {
+            vFld  =  this.myMeta.fields[ix];
+            ptConfig =  _SM.getFormFieldDefinition( vFld )
             ptConfig['name']  = vFld.name
-            var treeNodAuxData = {
+            treeNodAuxData = {
                 "text": vFld.name ,
                 "qtip": vFld.cellToolTip,
                 "__ptType": "formField",
@@ -161,10 +171,10 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         }
 
         // Agrega los detalles 
-        var treeNodAux = getTreeNodeByText( treeData,  'Details' )  
-        for (var ix in this.myMeta.detailsConfig ) {
-            var vFld  =  this.myMeta.detailsConfig[ix];
-            var treeNodAuxData = {
+        treeNodAux = getTreeNodeByText( treeData,  'Details' ) 
+        for (ix in this.myMeta.detailsConfig ) {
+            vFld  =  this.myMeta.detailsConfig[ix];
+            treeNodAuxData = {
                 "text": vFld.menuText ,
                 "qtip": vFld.toolTip,
                 "__ptType": "protoGrid",

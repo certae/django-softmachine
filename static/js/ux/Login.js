@@ -1,3 +1,8 @@
+
+/*jslint nomen: true, sloppy : true, white : true, sub : true */
+/*global Ext */
+/*global _SM */
+
 Ext.define('ProtoUL.ux.Login', {
     extend: 'Ext.form.Panel',
     alias: 'widget.protoLogin',

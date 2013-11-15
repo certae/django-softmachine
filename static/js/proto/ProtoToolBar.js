@@ -3,6 +3,8 @@
 
  */
 
+/*global Ext, _SM  */
+
 
 Ext.define('ProtoUL.proto.ProtoToolBar', {
     extend  : 'Ext.Toolbar',
@@ -14,15 +16,16 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
         me.addEvents('save', 'preview', 'add', 'del', 'help', 'show1');
 
         Ext.apply(this, {
-            items : [{
-                tooltip: _SM.__language.ProtoToolbar_Save_Preview,
-                iconCls : "icon-configPreview", 
-                itemId  : "preview", 
-                scope   : this,
-                handler : function() {  
-                    me.fireEvent('preview') 
-                    }
-            }," ",{
+            items : [
+            {
+//                tooltip: _SM.__language.ProtoToolbar_Save_Preview,
+//                iconCls : "icon-configPreview", 
+//                itemId  : "preview", 
+//                scope   : this,
+//                handler : function() {  
+//                    me.fireEvent('preview') 
+//                    }
+//            }," ",{
                 tooltip: _SM.__language.ProtoToolbar_Upd_Def,
                 iconCls : "icon-save", 
                 itemId : "save", 
@@ -31,14 +34,14 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
                     me.fireEvent('save') 
                     }
             }," ",{
-                tooltip: _SM.__language.ProtoToolbar_Reload,
-                iconCls : "icon-configReload", 
-                itemId : "reload", 
-                scope   : this,
-                handler : function() {  
-                    me.fireEvent('reload') 
-                    }
-            },"-",{
+//                tooltip: _SM.__language.ProtoToolbar_Reload,
+//                iconCls : "icon-configReload", 
+//                itemId : "reload", 
+//                scope   : this,
+//                handler : function() {  
+//                    me.fireEvent('reload') 
+//                    }
+//            },"-",{
                 tooltip: _SM.__language.ProtoToolbar_Add_Node,
                 iconCls : "icon-nodeInsert",
                 hidden : true, 
@@ -56,24 +59,24 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
                 handler : function( btn ) {  
                     me.fireEvent('del', btn.oData ) 
                     }
-            },"-",{
-                tooltip: _SM.__language.ProtoToolbar_Show_Current_Meta,
-                iconCls : "icon-script_gear",
-                itemId  : "show1", 
-                scope   : this,
-                handler : function() {  
-                    me.fireEvent('show1') 
-                    }
-            },"->",{
-                iconCls : "icon-help",
-                itemId  : "help",
-                tooltip: _SM.__language.ProtoToolbar_Show_Help,
-                scope   : this,
-                handler : function() {  
-                    me.fireEvent('help') 
-                    }
-                
-            }]
+//            },"-",{
+//                tooltip: _SM.__language.ProtoToolbar_Show_Current_Meta,
+//                iconCls : "icon-script_gear",
+//                itemId  : "show1", 
+//                scope   : this,
+//                handler : function() {  
+//                    me.fireEvent('show1') 
+//                    }
+//            },"->",{
+//                iconCls : "icon-help",
+//                itemId  : "help",
+//                tooltip: _SM.__language.ProtoToolbar_Show_Help,
+//                scope   : this,
+//                handler : function() {  
+//                    me.fireEvent('help') 
+//                    }
+            }
+            ]
  
         });
 

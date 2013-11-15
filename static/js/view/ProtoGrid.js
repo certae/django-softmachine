@@ -28,7 +28,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     isPromoted : false, 
     mdFilter : [], 
     initialFilter : null, 
-    
+    embededGrid : false, 
+        
     // Para guardar la definicion de cols al cambiar de tabs
     colDictDefinition : {},  
     colSetName : '',
@@ -53,26 +54,26 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         this.myMeta = myMeta;
         this.myMeta.idProtoGrid = this.id ;
-        this.myFieldDict = _SM.getFieldDict( myMeta )            
+        this.myFieldDict = _SM.getFieldDict( myMeta );            
         
         // VErifica si el store viene como parametro ( Detail )
         var baseFilter = [];
-        var myFilter = []
+        var myFilter = [];
                 
         if ( this.isDetail )  {
             // Inicialmente la grilla esta en blanco hasta q linkDetail le entrega un maestro valido.
-            baseFilter = myMeta.gridConfig.baseFilter 
-            myFilter   = [{ "property":  this.detailDefinition.detailField , "filterStmt": -1}] 
+            baseFilter = myMeta.gridConfig.baseFilter; 
+            myFilter   = [{ "property":  this.detailDefinition.detailField , "filterStmt": -1}]; 
              
         } else if ( this.isPromoted ) {
             // El filtro base de una grilla promovida ( sacar detalle ) es el filtro base + la llave del maestro
-            baseFilter = myMeta.gridConfig.baseFilter  
-            baseFilter = baseFilter.concat( this.mdFilter ) 
+            baseFilter = myMeta.gridConfig.baseFilter;
+            baseFilter = baseFilter.concat( this.mdFilter ); 
                
         } else { 
             // La grilla normal tiene los parametros estandar definidos 
-            baseFilter = myMeta.gridConfig.baseFilter 
-            myFilter   = this.initialFilter || myMeta.gridConfig.initialFilter  
+            baseFilter = myMeta.gridConfig.baseFilter;
+            myFilter   = this.initialFilter || myMeta.gridConfig.initialFilter;  
         }              
 
 
@@ -117,18 +118,18 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             if ( vFld ) { nDetTitle = me.detailDefinition.masterTitleField || vFld.fkField; }  
         } 
 
-        createColDictionary()
+        createColDictionary();
 
         // gridColumns: Es un subconjuto para poder manejar diferentes conf de columnas
         // tiene en cuenta siel usuario  definio su vist por defecto la carga 
         var gridColumns,
-            tabConfig  
+            tabConfig;  
 
-        tabConfig = _SM.defineTabConfig(  myMeta.gridConfig  )          
+        tabConfig = _SM.defineTabConfig(  myMeta.gridConfig  );          
         if ( myMeta.custom.listDisplay.length > 0  ) { 
-            tabConfig.listDisplay = myMeta.custom.listDisplay             
+            tabConfig.listDisplay = myMeta.custom.listDisplay;           
         }
-        gridColumns = this.getViewColumns( tabConfig )
+        gridColumns = this.getViewColumns( tabConfig );
         
         // Manejo de seleccion multiple 
         this.selModel = Ext.create('Ext.selection.CheckboxModel', {
@@ -139,13 +140,13 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         this.editable = false; 
 
         // Definie el grid 
-        var grid
+        var grid;
         if ( myMeta.pciStyle == 'tree' ) {
             // me.store = _SM.getTreeStoreDefinition( storeDefinition )
             // grid = Ext.create('Ext.tree.Panel', {border:false,region:'center',flex:1,layout:'fit',minSize:50,stripeRows:true,tools:[],useArrows:true,rootVisible:false,multiSelect:false,singleExpand:true,stripeRows:true,rowLines:true,store:me.store,columns:[{xtype:'treecolumn',text:myMeta.shortTitle,flex:3,dataIndex:'__str__'},{text:'model',dataIndex:'model'},{text:'id',dataIndex:'id'}]}); 
         } else { 
 
-            me.store = _SM.getStoreDefinition( storeDefinition )
+            me.store = _SM.getStoreDefinition( storeDefinition );
                 
             grid = Ext.create('Ext.grid.Panel', {
                 border : false, 
@@ -508,29 +509,32 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     
     setGridTitle: function( me ){
         var gridTitle = ''; 
+
         
         if ( me.detailTitle ) {
-            gridTitle = '" ' + me.detailTitle + ' "' 
+            gridTitle = '" ' + me.detailTitle + ' "';  
         } else if ( me.mdFilter != undefined )  { 
-            gridTitle = Ext.encode( me.mdFilter )   
+            gridTitle = Ext.encode( me.mdFilter );   
         };
         
         // Titulos cuando son filtros predefinidos 
         if ( me.filterTitle ) {
-            if ( gridTitle ) { gridTitle += ' ; '  };
+            if ( gridTitle ) { gridTitle += ' ; '  ;}
             gridTitle +=  me.filterTitle ; 
         } 
 
-        if ( gridTitle ) { gridTitle = ' filtrés par ' +  gridTitle + '' };
+        if ( gridTitle ) { gridTitle = ' filtrés par ' +  gridTitle + '' ;}
+        if ( me.embededGrid ) { gridTitle = '';}  
+
         gridTitle = me.myMeta.shortTitle + gridTitle ; 
 
-        me._extGrid.setTitle( gridTitle )  
+        me._extGrid.setTitle( gridTitle );  
     }, 
     
     
     addNewRecord: function( zoomForm ) {
-        if ( !(  this.editable  ||  zoomForm )) return; 
-        this.insertNewRecord ( _SM.getNewRecord( this.myMeta, this.store )  ) 
+        if ( !(  this.editable  ||  zoomForm )) {return;} 
+        this.insertNewRecord ( _SM.getNewRecord( this.myMeta, this.store )  ); 
     }, 
     
 

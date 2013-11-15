@@ -46,7 +46,7 @@ _SM._PConfig =  {
     urlGetProtoCsv : 'protoLib/protoCsv/', 
     urlDoAction   : 'protoLib/protoDoActions/', 
     urlHelpQbe: 'protoLib/protoGetHelpQbe/',
-    urlLogOut:'login/cerrarSesion',
+    urlLogOut:  'protoLib/protoLogout/',
    
     clsBaseModel: 'ProtoUL.model.' 
 }; 
@@ -116,12 +116,7 @@ _SM.DesignerPanels = {
         "itemId" : "delete"
 
 
-    },    
-
-// --------------
-    
-    
-    "->",{
+    },"->",{
         "iconCls" : "icon-error",
         "tooltip" : "Show or hide(clear) error tab",
         "itemId" : "error",
@@ -130,20 +125,16 @@ _SM.DesignerPanels = {
         "errors" : [],
         "errorCount" : 0,
         "maxErrors" : 60
-    },
-    {
-        "iconCls" : "icon-options",
-        "itemId"  : "options",
-        "tooltip" : "Show options"
-    },
-    {
-        "iconCls" : "icon-help",
-        "itemId"  : "help",
-        "tooltip" : "Show help"
-    }],
-    
-    
-    // ----------------------------------------------------------------------------
+//    },{
+//        "iconCls" : "icon-options",
+//        "itemId"  : "options",
+//        "tooltip" : "Show options"
+//    },{
+//        "iconCls" : "icon-help",
+//        "itemId"  : "help",
+//        "tooltip" : "Show help"
+    }
+    ],
     
     
 "toolsTabs" : [{
@@ -170,32 +161,8 @@ _SM.DesignerPanels = {
     
 // ----------------------------------------------------------------------------
 
-/* ********   Propiedades comunes 
- 
-    maxHeight
-    minHeight
-    Height
-    
-    maxWidth
-    minWidth
-    width
- */
-
 
 "toolsTree" : [
-
-
-/* 
-    FieldContainer implements the Labelable mixin. 
-    Varios campos son presentados con un label y un sitio comun para los mensajes de error 
-    A common use is for grouping a set of related fields under a single label in a form.
-    FieldContainer Inherit itself and  can pass fieldDefaults to any fields it may itself contain 
-    Otros:  Ext.form.CheckboxGroup or Ext.form.RadioGroup 
-    
-    hideFieldsLabel :  Oculta los labels de los campos   
-    combineErrors : true 
-    autoScroll : true 
- */            
         {
             "text": "Fields",
             "children": []
@@ -219,6 +186,29 @@ _SM.DesignerPanels = {
                 "__ptConfig": {
                     "__ptType": "htmlset"
                 }
+
+            }
+        ]
+    }, {
+        "text": "Details",
+        "children": []
+    }]    
+}
+
+
+/* ********   Propiedades comunes 
+    maxHeight
+    minHeight
+    Height
+    
+    maxWidth
+    minWidth
+    width
+ */
+
+
+// --------------  Containers  
+
             // }, {
                 // "text": "Panel",
                 // "qtip": "A simple panel with default layout",
@@ -268,12 +258,11 @@ _SM.DesignerPanels = {
                 // "children": [], 
                 // "__ptConfig": {
                     // "__ptType": "fieldcontainer"
-                    // } 
-            }
-        ]
-    }, {
-        "text": "Details",
-        "children": []
+                    // }  
+
+                    
+// -----------  Details 
+
     // }, {
         // "text": "Others",
         // "children": [
@@ -295,6 +284,4 @@ _SM.DesignerPanels = {
                 // }
             // }
         // ]
-    }]    
-}
-
+        

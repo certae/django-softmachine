@@ -53,7 +53,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
         } else {
             this.insert(0, this.statusEl);
             this.insert(1, '->');
-        }; 
+        }
         
         // any standard Toolbar items:
         this.add( [{

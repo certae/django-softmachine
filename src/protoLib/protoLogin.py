@@ -66,7 +66,10 @@ def protoGetUserRights(request):
 def protoLogout(request):
     
     logout(request)
+    return JsonSuccess( { 'message': 'Ok' } )
 
-    # Redirect to a success page.
-    return  JsonSuccess( { 'message':  'logout'} )
+#     from django.views.generic.simple import direct_to_template
 
+#     from django.shortcuts import render_to_response
+#     return render_to_response("protoExt.html")
+     
