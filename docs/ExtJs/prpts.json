@@ -1,9 +1,0 @@
-        var c = headerCt.down('gridcolumn[id=' + tip.triggerElement.id  +']');
-
-                    this.down('#save').enable();
-
-
-        var tab = _masterDetail.protoTabs.items.findBy(function (i) {
-            return i.detailKey === detailKey;
-        });
-

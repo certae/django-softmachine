@@ -1,4 +1,0 @@
-
-Python > 2.6
-
-pip install django==1.4.3
