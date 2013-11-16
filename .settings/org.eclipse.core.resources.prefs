@@ -1,8 +1,13 @@
 eclipse.preferences.version=1
 encoding//data/Projets/best/settings.py=utf-8
+encoding//src/protoLib/actions/__init__.py=utf-8
+encoding//src/protoLib/actions/findReplace.py=utf-8
 encoding//src/protoLib/testprotoLib/ModelsTest.py=utf-8
 encoding//src/protoLib/testprotoLib/ProtoActionEditTest.py=utf-8
 encoding//src/protoLib/testprotoLib/ProtoActionListTest.py=utf-8
+encoding//src/prototype/actions/__init__.py=utf-8
+encoding//src/prototype/actions/copyProject.py=utf-8
+encoding//src/prototype/actions/modelActions.py=utf-8
 encoding//src/prototype/models.py=utf-8
 encoding//src/prototype/testprototype/Utils.py=utf-8
 encoding//src/prototype/testprototype/testactions/ViewDefinitionTest.py=utf-8

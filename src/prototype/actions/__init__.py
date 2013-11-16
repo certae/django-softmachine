@@ -162,7 +162,7 @@ def doImportSchema( modeladmin, request, queryset, parameters):
 
 def doEntityChangeModel( modeladmin, request, queryset, parameters):
     """ 
-    funcion para cambiar el model de una entidad 
+    funcion para mudar una entidad de modelo  
     """
 
     from entityActions import doEttyChangeModel
