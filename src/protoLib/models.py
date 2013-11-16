@@ -133,8 +133,8 @@ class EntityMap(models.Model):
     modelName = models.CharField(max_length=200, blank=False, null=False)
     fieldLevelSecurity = models.BooleanField( default = True )
 
-#    class Meta:
-#        unique_together = ("appName", "modelName" )
+    class Meta:
+        unique_together = ("appName", "modelName" )
 
 
 
