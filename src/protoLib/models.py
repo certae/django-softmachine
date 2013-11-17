@@ -125,8 +125,6 @@ class EntityMap(models.Model):
     - se definen permisos por grupos   
      
     se manejan referecias debiles por nombre para poder importar/exportar la info, de otra forma seria por contenttype 
-    
-          
            
     """
     appName = models.CharField(max_length=200, blank=False, null=False)

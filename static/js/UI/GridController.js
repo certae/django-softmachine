@@ -184,9 +184,8 @@ Ext.define('ProtoUL.UI.GridController', {
 
         function setToolMode( myExtGrid, myToolBt, bEdit ) {
             // @Fix 4.2
-            // if ( bEdit ) { myExtGrid.down( myToolBt ).show(); }
-            // else  { myExtGrid.down( myToolBt ).hide(); }
-            
+             if ( bEdit ) { myExtGrid.down( myToolBt ).show(); }
+             else  { myExtGrid.down( myToolBt ).hide(); }
         };
 
     }, 

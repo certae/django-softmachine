@@ -12,7 +12,7 @@
 //document.getElementById('Idbody').innerHTML = "";
 
 Ext.Loader.setConfig({enabled: true});
-Ext.Loader.setPath('Ext.ux', 'static/extjs-4.2.x/examples/ux');
+Ext.Loader.setPath('Ext.ux', 'static/extjs-4.1.x/examples/ux');
 
 Ext.application({
     name: 'ProtoUL',

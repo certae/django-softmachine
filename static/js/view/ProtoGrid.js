@@ -628,7 +628,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         // Controles de edicion en el panel de titulo de la grilla 
         // @Fix 4.2
         var xx = myTools;
-        //        this._extGrid.addTool( myTools );
+        this._extGrid.addTool( myTools );
     } 
 
 
