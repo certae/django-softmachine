@@ -27,10 +27,6 @@ DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.postgresql_psycopg2',
 #        'NAME':   'protoExt',
-#        'USER':   'postgres',                      # Not used with sqlite3.
-#        'PASSWORD': '1',               # Not used with sqlite3.
-#        'HOST': '127.0.0.1',             # Set to empty string for localhost. Not used with sqlite3.
-#        'PORT': '9432',                      # Set to empty string for default. Not used with sqlite3.
 #    }, 
 #    'default': {
 #        'ENGINE': 'django.db.backends.mysql', 
@@ -41,8 +37,8 @@ DATABASES = {
 #        'PORT': '3306',
 #    }, 
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql',  'oracle'.
-        'NAME': PPATH + '/db/protoMeta.db',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': PPATH + '/db/protoMetaCell.db',
     }
 }
 

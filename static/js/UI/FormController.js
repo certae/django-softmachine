@@ -237,7 +237,7 @@ Ext.define('ProtoUL.UI.FormController', {
         }
 
         // Obtiene la meta ( async )
-        this._getFormDefinition( myRecordId ) 
+        this._getFormDefinition( myRecordId ); 
         
     }, 
 
@@ -248,14 +248,14 @@ Ext.define('ProtoUL.UI.FormController', {
         var options = {
             scope: this, 
             success: function ( obj, result, request ) {
-                this._openAndLoad( this.viewCode, myRecordId )
+                this._openAndLoad( this.viewCode, myRecordId );
             },
             failure: function ( obj, result, request) { 
-                _SM.errorMessage( 'ProtoDefinition Error :', this.viewCode  + ': protoDefinition not found')
+                _SM.errorMessage( 'ProtoDefinition Error :', this.viewCode  + ': protoDefinition not found');
             }
-        }
+        }; 
         if (  _SM.loadPci( this.viewCode , true, options ) ) {
-                this._openAndLoad( this.viewCode, myRecordId )
+                this._openAndLoad( this.viewCode, myRecordId );
         }
 
     }, 
@@ -265,7 +265,7 @@ Ext.define('ProtoUL.UI.FormController', {
     _openAndLoad: function( viewCode, myRecordId ) { 
         this.myMeta = _SM._cllPCI[ viewCode ] ;
         this.formLoaded = true;
-        this._loadFormData( myRecordId )
+        this._loadFormData( myRecordId );
     }, 
     
         
@@ -273,19 +273,19 @@ Ext.define('ProtoUL.UI.FormController', {
 
         if ( ! this.formLoaded ) {
             // console.log( 'FormController:  Form is not ready')
-            return 
+            return;  
         }  
 
         // Filter 
-        var myFilter = [{ "property" : "pk", "filterStmt" : myRecordId }]
-        var storeDefinition =  {
-            viewCode : this.viewCode, 
-            autoLoad: true, 
-            baseFilter: myFilter, 
-            sProtoMeta  : _SM.getSafeMeta( this.myMeta )    
-        };
-
-        var myStore = _SM.getStoreDefinition( storeDefinition )
+        var myFilter = [{ "property" : "pk", "filterStmt" : myRecordId }], 
+            storeDefinition =  {
+                viewCode : this.viewCode, 
+                autoLoad: true, 
+                baseFilter: myFilter, 
+                sProtoMeta  : _SM.getSafeMeta( this.myMeta )    
+            }, 
+            myStore = _SM.getStoreDefinition( storeDefinition ), 
+            myRecord; 
 
         if ( myRecordId >= 0  ) {
             myStore.load();
@@ -296,13 +296,13 @@ Ext.define('ProtoUL.UI.FormController', {
                     if ( this.myWin ) {return;} 
     
                     // The form is now linked to  store  
-                    this.openLinkedForm( records[0], this.isReadOnly   )
+                    this.openLinkedForm( records[0], this.isReadOnly   );
                 }, 
-                scope: this }
-            )
+                scope: this } 
+            );
         } else  {
-            var myRecord = _SM.getNewRecord( this.myMeta, myStore );
-            this.openForm( myRecord )
+            myRecord = _SM.getNewRecord( this.myMeta, myStore );
+            this.openForm( myRecord ); 
         } 
     },  
     
@@ -340,10 +340,10 @@ Ext.define('ProtoUL.UI.FormController', {
 
                         // ReadOnlyCls
                         if (  prLayout[ 'xtype' ] == 'protoZoom' ) {
-                            prLayout[ 'readOnlyCls' ] = 'protoLink'
+                            prLayout[ 'readOnlyCls' ] = 'protoLink';
                         } else if (  prLayout[ 'xtype' ] == 'checkbox' ) {
                         } else {
-                            prLayout[ 'readOnlyCls' ] = 'protofield-readonly' 
+                            prLayout[ 'readOnlyCls' ] = 'protofield-readonly'; 
                         }
 
                         // N2N        
