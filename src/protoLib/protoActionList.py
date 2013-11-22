@@ -58,13 +58,13 @@ def protoList(request):
 #   Fix: Cuando esta en la pagina el filtro continua en la pagina 2 y no muestra nada.     
 #   if ( ( page -1 ) *limit >= pRowsCount ): page = 1
     
+#   En el sitio en produccion, el pRows pasaba sin asignar; no entiendo el porq?
     if orderBy: 
         try: 
-            Qs =  Qs.order_by(*orderBy)
+            pRows =  Qs.order_by(*orderBy)[ start: page*limit ]
         except: 
-            pass
-    
-    pRows =  Qs.all()[ start: page*limit ]
+            pRows =  Qs.all()[ start: page*limit ]
+    else: pRows =  Qs.all()[ start: page*limit ]
 
 #   Prepara las cols del Query 
     try:
