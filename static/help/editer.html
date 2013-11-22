@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<!--
+  Created using jsbin.com
+  Source can be edited via http://jsbin.com/Uderoka/7/edit
+-->
+<head>
+<meta charset=utf-8 />
+<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+<title>Aide en ligne de l'application web prototypeur du Certae</title>
+<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="print.css" media="print" />
+</head>
+<body>
+ <div id="page">
+   <div class="guide">
+      <h1 class="lede">Aide en ligne de l'application web prototypeur du Certae</h1>
+       <nav class="navi">
+        <div class="menu-entries"> 
+         <h2>Table de mati&egrave;res</h2>
+          <details open>
+            <summary>Structure de l'interface web du Prototypeur</summary>
+              <ul>
+                <li><a href="index.html">Organisation de l'interface web de l'application</a></li>
+                <li><a href="menuprincipal.html">Menu principal</a></li>
+                <li><a href="messages.html">La barre de messages</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Grille principale et ces fonctions</summary>
+              <ul>
+                <li><a href="presgrilleprin.html">Pr&eacute;sentation de la grille principale</a></li>
+                <li><a href="filtrer.html">Menu des fonctions: filtrer</a></li>
+                <li><a href="editer.html">Menu des fonctions: &#233;diter</a></li>
+                <li><a href="classer.html">Menu des fonctions: classer</a></li>
+                <li><a href="executer.html">Menu des fonctions: ex&#233;cuter</a></li>
+                <li><a href="naviger.html">Menu des fonctions: navigation</a></li>
+                <li><a href="imprimer.html">Menu des fonctions: imprimer</a></li>
+                <li><a href="configuration.html">Menu des fonctions: configuration</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Options de la fonction configuration</summary>
+              <ul class='tabmat'>
+                <li><a href="formulaire.html">Option: Formulaire</a></li>
+                <li><a href="champs.html">Option: Champs</a></li>
+                <li><a href="details.html">Option : D&eacute;tails</a></li>
+                <li><a href="configuration2.html">Option : Configuration</a></li>
+                <li><a href="meta.html">Option : M&eacute;ta</a></li>
+                <li><a href="formperso.html">Personnaliser un formulaire</a></li>
+                <li><a href="persochamps.html">Personnaliser les champs</a></li>
+                <li><a href="persogrille.html">Personnaliser la grille</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Prototypage</summary>
+              <ul>
+                <li><a href="famili.html">D&eacute;marche et pratique du prototypage</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Entrer le mod&egrave;le dans l'application du prototypeur</summary>
+              <ul>
+                <li><a href="creerprojet.html">Cr&eacute;er un projet</a></li>
+                <li><a href="creermodele.html">Cr&eacute;er un mod&egrave;le</a></li>
+                <li><a href="creerentite.html">Cr&eacute;er une entit&eacute;</a></li>
+                <li><a href="creerpropriete.html">Cr&eacute;er une propri&eacute;t&eacute;</a></li>
+                <li><a href="creerrelation.html">Cr&eacute;er une relation</a></li>
+                <li><a href="generermodele.html">G&eacute;n&eacute;rer le mod&egrave;le conceptuel graphique</a></li>
+              </ul>
+          </details>
+         </div><!-- end .menu-entries --> 
+      </nav> <!-- end navi-->
+      <div class="main">
+        <article class="contenu">
+          <section>
+            <h1>Fonction &eacute;diter</h1>
+            <figure><img class="proto" src="images/editer.png" alt="Figure 7 : fonction 
+            &eacute;diter" /><figcaption>Figure 7 : fonction &eacute;diter.</figcaption>
+            </figure>
+          	<h2>&#201;diter le contenu de la grille</h2>
+          	<figure><img class="proto" src="images/editerfonc.png" alt="Figure 8 : menu de 
+          	contr&#244;les d'&#233;dition" /><figcaption>Figure 8 : menu de contr&#244;les 
+          	d'&#233;dition.</figcaption></figure>
+          	<p>La fonction <span class='grass'>&eacute;diter
+			</span> permet l'acc&egrave;s aux fonctions 
+			d'&eacute;dition pour ajouter, modifier ou effacer des valeurs
+			(lignes) dans la grille principale et dans la grille de
+			navigation. En cliquant sur le bouton &eacute;diter, on passe du mode 
+			consultation au mode d'&eacute;dition et les contr&ocirc;les
+			d'&eacute;dition apparaissent en haut &agrave; droit des deux
+			grilles. Quand le mode d'&eacute;dition est actif, le menu des
+			fonctions est cach&eacute; et le bouton <span class=
+			'grass'>sortir &eacute;dition</span> est
+			affich&eacute;.</p>
+			<h2>D&#233;tails sur les contr&#244;les d'&#233;dition</h2>
+			<table>
+			<tr><td><img src="images/ajouter.png" alt="ajouter une ligne &#224; la grille" 
+			width=
+			"21" height="20" /></td>
+			<td>Le bouton <span class='grass'> Ajouter </span>
+			sert &agrave; ajouter une nouvelle valeur (ligne) dans la grille
+			s&eacute;lectionn&eacute;e. Dans la grille principale, la nouvelle valeur sera 
+			ajout&eacute;e
+			&agrave; la fin de la liste de valeurs de la grille. Cliquez
+			sur le bouton <span class='grass'>Ajouter</span>.
+			Un formulaire appara&icirc;tra &agrave; l'&eacute;cran.
+			Remplisez-le et cliquez sur Enregistrer.</td></tr>
+			</table><br>
+			<p>Pour ajouter une nouvelle valeur dans une des options
+			disponibles dans la grille de navigation, suivez les
+			&eacute;tapes suivantes :</p>
+			<ol>
+			<li>Pour cet exemple pratique, imaginons que nous voudrions
+			ajouter une nouvelle propri&eacute;t&eacute; &agrave; une
+			entit&eacute; d&eacute;j&agrave; existante. Vous &ecirc;tes
+			situ&eacute; dans l'onglet des entit&eacute;s.
+			S&eacute;lectionnez dans la grille principale la ligne qui
+			corresponde &agrave; l'entit&eacute; o&ugrave; nous allons
+			ajouter une nouvelle valeur.</li>
+			<li>Cliquez sur le petit triangle noir situ&eacute; &agrave;
+			droit du bouton <span class='grass'>Navigation
+			</span> du menu de fonctions. Une liste des options vous
+			sera pr&eacute;sent&eacute;e, cliquez sur l'option 
+			<span class='grass'>Propri&eacute;t&eacute;s</span>. La grille de navigation 
+			sera affich&eacute;e &agrave; l'&eacute;cran.</li>
+			<li>Cliquez sur le bouton  &eacute;diter  du menu des fonctions pour
+			entrer dans le mode &eacute;dition.</li>
+			<li>D&#233;placez-vous sur les fonctions d'&#233;dition de la grille de 
+			navigation.</li>
+			<li>Cliquez sur le bouton <span class='grass'>Ajouter</span>, un formulaire 
+			sera affich&eacute; sur
+			l'&eacute;cran. Remplissez-le et cliquez sur Enregistrer. Pour conna&icirc;tre 
+			les d&eacute;tails sur le formulaire
+			d'ajout des propri&eacute;t&eacute;s, cliquez <a 
+			href="creerpropriete.html">ici</a>.</li>
+			</ol><br>
+			<table>
+			<tr>
+			<td><img src="images/editline.png" alt=
+			"editer une ligne de la grille" width="21" height="19" /></td>
+			<td>Le bouton <span class='grass'> &Eacute;diter
+			</span> sert &agrave; modifier les valeurs d'une ligne
+			dans la grille s&eacute;lectionn&eacute;e.</td>
+			</tr>
+			</table><br>
+			<p>Pour &eacute;diter une ligne sur la grille principale, suivez les
+			&eacute;tapes suivantes :</p>
+			<ol>
+			<li>Dans la grille principale, s&eacute;lectionnez la
+			ligne &agrave; &eacute;diter.</li>
+			<li>Cliquez sur le bouton <span class='grass'>&Eacute;diter</span> du menu de 
+			fonctions pour entrer
+			dans le mode d'&eacute;dition.</li>
+			<li>D&eacute;placez-vous sur les fonctions d'&eacute;dition
+			et cliquez sur le bouton  &eacute;diter .</li>
+			<li>Un formulaire sera affich&eacute; sur l'&eacute;cran.</li>
+			<li>Effectuez les modifications et cliquez sur Enregistrer.</li>
+			</ol><br>
+			<p>Pour &eacute;diter une ligne sur la grille de navigation, suivez les
+			&eacute;tapes suivantes :</p>
+			<ol>
+			<li>Pour cet exemple pratique, imaginons que nous voudrions
+			&eacute;diter une propri&eacute;t&eacute; d'une
+			entit&eacute;. Vous &ecirc;tes
+			situ&eacute; dans l'onglet des entit&eacute;s.
+			S&eacute;lectionnez dans la grille principale la ligne qui
+			corresponde &agrave; l'entit&eacute; o&ugrave; nous allons
+			modifier une valeur.</li>
+			<li>Cliquez sur le petit triangle noir situ&eacute; &agrave;
+			droit du bouton <span class='grass'>Navigation</span> du menu de fonctions. 
+			Une liste des options vous
+			sera pr&eacute;sent&eacute;e, cliquez sur l'option 
+			<span class='grass'>Propri&eacute;t&eacute;s</span>. La grille de navigation 
+			sera affich&eacute;e &agrave; l'&eacute;cran.</li>
+			<li>Cliquez sur le bouton <span class='grass'>&Eacute;diter</span> du menu des 
+			fonctions pour
+			entrer dans le mode &eacute;dition.</li>
+			<li>D&#233;placez-vous sur les fonctions d'&#233;dition de la grille de 
+			navigation.</li>
+			<li>Cliquez sur le bouton <span class='grass'> &Eacute;diter</span>, un 
+			formulaire sera affich&eacute; sur
+			l'&eacute;cran. Effectuez les modifications et cliquez sur Enregistrer.</li>
+			</ol></br>
+			<table>
+			<td><img src="images/eraseline.png" alt=
+			"supprimer une ligne de la grille" width="20" height="20" /></td>
+			<td>Le bouton <span class='grass'> Supprimer
+			</span> sert &agrave; supprimer les valeurs d'une ligne
+			dans la grille s&eacute;lectionn&eacute;e.</td></tr>
+			</table></br>
+			<p id='remarque'><span class='grass'>Notez</span> que
+			l'op&eacute;ration supprimer n'est pas r&eacute;versible, une
+			fois l'objet supprim&eacute;, il n'est pas de possible de le
+			r&eacute;cup&eacute;rer. Si un projet est supprim&eacute;, la suppression est 
+			propag&eacute;e vers les
+			mod&egrave;les, les entit&eacute;s, les attributs, les
+			associations et les vues pour ce projet.</p><br>
+			<p>Pour supprimer une ligne sur la grille principale, suivez les
+			&eacute;tapes suivantes :</p>
+			<ol>
+			<li>Dans la grille principale, s&eacute;lectionnez la
+			ligne &agrave; supprimer.</li>
+			<li>Cliquez sur le bouton <span class='grass'>
+			&Eacute;diter </span> du menu de fonctions pour entrer
+			dans le mode d'&eacute;dition.</li>
+			<li>D&eacute;placez-vous sur les fonctions d'&eacute;dition
+			et cliquez sur le bouton  Supprimer .</li>
+			<li>La ligne s&eacute;lectionn&eacute;e est supprim&eacute;e de la grille.
+			</li>
+			</ol></br>
+			<p>Pour supprimer une ligne sur la grille de navigation, suivez les
+			&eacute;tapes suivantes :</p>
+			<ol>
+			<li>Pour cet exemple pratique, imaginons que nous voudrions
+			supprimer une propri&eacute;t&eacute; d'une
+			entit&eacute;. Vous &ecirc;tes
+			situ&eacute; dans l'onglet des entit&eacute;s.
+			S&eacute;lectionnez dans la grille principale la ligne que
+			corresponde &agrave; l'entit&eacute; o&ugrave; nous allons
+			supprimer une valeur.</li>
+			<li>Cliquez sur le petit triangle noir situ&eacute; &agrave;
+			droit du bouton <span class='grass'> Navigation
+			</span> du menu de fonctions. Une liste des options vous
+			sera pr&eacute;sent&eacute;e, cliquez sur l'option 
+			<span class='grass'>Propri&eacute;t&eacute;s</span>. La grille de navigation 
+			sera
+			affich&eacute;e &agrave; l'&eacute;cran.</li>
+			<li>Cliquez sur le bouton <span class='grass'> &Eacute;diter</span> du menu 
+			des fonctions pour
+			entrer dans le mode &eacute;dition.</li>
+			<li>D&#233;placez-vous sur les fonctions d'&#233;dition de la grille de 
+			navigation.</li>
+			<li>Cliquez sur le bouton <span class='grass'>Supprimer</span>.</li>
+			</ol></br>
+			<table>
+			<td><img src="images/copyline.png" alt=
+			"copier une ligne de la grille" width="21" height="20" /></td>
+			<td>Le bouton <span class='grass'> Copier
+			</span> sert &agrave; copier une ligne
+			dans la grille s&eacute;lectionn&eacute;e.</td>
+			</table></br>
+			<p>Pour copier une ligne sur la grille principale, suivez les
+			&eacute;tapes suivantes :</p>
+			<ol>
+			<li>Dans la grille principale, s&eacute;lectionnez la
+			ligne &agrave; copier.</li>
+			<li>Cliquez sur le bouton <span class='grass'>
+			&Eacute;diter </span> du menu de fonctions pour entrer
+			dans le mode d'&eacute;dition.</li>
+			<li>D&eacute;placez-vous sur les fonctions d'&eacute;dition
+			et cliquez sur le bouton <span class='grass'>Copier</span>.</li>
+			<li>La ligne copi&eacute;e apparaitra dans la premi&egrave;re
+			ligne de la grille principale.</li>
+			</ol></br>
+			<p>Pour copier une ligne sur la grille de navigation, suivez les
+			&eacute;tapes suivantes :</p>
+			<ol>
+			<li>Pour cet exemple pratique, imaginons que nous voudrions
+			copier une propri&eacute;t&eacute; d'une
+			entit&eacute;. Vous &ecirc;tes
+			situ&eacute; dans l'onglet des entit&eacute;s.
+			S&eacute;lectionnez dans la grille principale la ligne que
+			corresponde &agrave; l'entit&eacute; o&ugrave; nous allons
+			copier la propri&eacute;t&eacute;.</li>
+			<li>Cliquez sur le petit triangle noir situ&eacute; &agrave;
+			droit du bouton <span class='grass'> Navigation</span> du menu de fonctions. 
+			Une liste des options vous
+			sera pr&eacute;sent&eacute;e, cliquez sur l'option 
+			<span class='grass'>Propri&eacute;t&eacute;s</span>. La grille de navigation 
+			sera affich&eacute;e &agrave; l'&eacute;cran.</li>
+			<li>Cliquez sur le bouton <span class='grass'>&Eacute;diter</span> du menu des 
+			fonctions pour entrer dans le mode d'&eacute;dition.</li>
+			<li>D&#233;placez-vous sur les fonctions d'&#233;dition de la grille de 
+			navigation.</li>
+			<li>Cliquez sur le bouton <span class='grass'>Copier</span>.</li>
+			<li>La ligne copi&eacute;e apparaitra dans la premi&egrave;re
+			ligne de la grille de navigation.</li>
+			</ol>
+          </section>   
+        </article>
+      </div> <!-- end .main -->
+     </div><!-- end .guide -->
+ </div><!-- end #page -->
+</body>
+</html>

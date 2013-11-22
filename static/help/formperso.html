@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<!--
+  Created using jsbin.com
+  Source can be edited via http://jsbin.com/Uderoka/7/edit
+-->
+<head>
+<meta charset=utf-8 />
+<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+<title>Aide en ligne de l'application web prototypeur du Certae</title>
+<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="print.css" media="print" />
+</head>
+<body>
+ <div id="page">
+   <div class="guide">
+      <h1 class="lede">Aide en ligne de l'application web prototypeur du Certae</h1>
+       <nav class="navi">
+        <div class="menu-entries"> 
+         <h2>Table de mati&egrave;res</h2>
+          <details open>
+            <summary>Structure de l'interface web du Prototypeur</summary>
+              <ul>
+                <li><a href="index.html">Organisation de l'interface web de l'application</a></li>
+                <li><a href="menuprincipal.html">Menu principal</a></li>
+                <li><a href="messages.html">La barre de messages</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Grille principale et ces fonctions</summary>
+              <ul>
+                <li><a href="presgrilleprin.html">Pr&eacute;sentation de la grille principale</a></li>
+                <li><a href="filtrer.html">Menu des fonctions: filtrer</a></li>
+                <li><a href="editer.html">Menu des fonctions: &#233;diter</a></li>
+                <li><a href="classer.html">Menu des fonctions: classer</a></li>
+                <li><a href="executer.html">Menu des fonctions: ex&#233;cuter</a></li>
+                <li><a href="naviger.html">Menu des fonctions: navigation</a></li>
+                <li><a href="imprimer.html">Menu des fonctions: imprimer</a></li>
+                <li><a href="configuration.html">Menu des fonctions: configuration</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Options de la fonction configuration</summary>
+              <ul class='tabmat'>
+                <li><a href="formulaire.html">Option: Formulaire</a></li>
+                <li><a href="champs.html">Option: Champs</a></li>
+                <li><a href="details.html">Option : D&eacute;tails</a></li>
+                <li><a href="configuration2.html">Option : Configuration</a></li>
+                <li><a href="meta.html">Option : M&eacute;ta</a></li>
+                <li><a href="formperso.html">Personnaliser un formulaire</a></li>
+                <li><a href="persochamps.html">Personnaliser les champs</a></li>
+                <li><a href="persogrille.html">Personnaliser la grille</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Prototypage</summary>
+              <ul>
+                <li><a href="famili.html">D&eacute;marche et pratique du prototypage</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Entrer le mod&egrave;le dans l'application du prototypeur</summary>
+              <ul>
+                <li><a href="creerprojet.html">Cr&eacute;er un projet</a></li>
+                <li><a href="creermodele.html">Cr&eacute;er un mod&egrave;le</a></li>
+                <li><a href="creerentite.html">Cr&eacute;er une entit&eacute;</a></li>
+                <li><a href="creerpropriete.html">Cr&eacute;er une propri&eacute;t&eacute;</a></li>
+                <li><a href="creerrelation.html">Cr&eacute;er une relation</a></li>
+                <li><a href="generermodele.html">G&eacute;n&eacute;rer le mod&egrave;le conceptuel graphique</a></li>
+              </ul>
+          </details>
+         </div><!-- end .menu-entries --> 
+      </nav> <!-- end navi-->
+      <div class="main">
+        <article class="contenu">
+          <section>
+            <h1>Personnaliser un formulaire</h1></br>
+            <p id="remarque">Les exemples de personnalisation suivants
+			montrent comment r&eacute;aliser la configuration de base pour
+			r&eacute;ussir un formulaire fonctionnel et pr&eacute;sentable.
+			Vous &ecirc;tes invit&eacute; &agrave; explorer dans votre espace
+			travail de l'application les propri&eacute;t&eacute;s non
+			mentionn&eacute;es dans cette guide.</p>
+			<h2>Entrer en mode d'&eacute;dition du formulaire</h2>
+            <figure><img class="proto" src="images/formperso.png" alt="Figure 29 : 
+            Rentrer en mode d'&eacute;dition du formulaire" /><figcaption>Figure 29 : 
+            Rentrer en mode d'&eacute;dition du formulaire.</figcaption></figure>
+          	<p>D&eacute;placez-vous &agrave; la fonction 
+			<span class="grass">Configuration</span> et cliquez sur l'option 
+			<span class="grass">Formulaire</span>.</p></br>
+			<p>Si vous n'&ecirc;tes pas familiaris&eacute; avec le
+			formulaire, cliquez sur ce lien pour apprendre sur 
+			l'organisation de la fen&ecirc;tre du 
+			<a href="formulaire.html">formulaire</a>.</p></br>
+			<h2>Personnaliser un contenant de type Fieldset : title, 
+			fsLayout, labelAlign</h2>
+			<figure><img class="proto" src="images/formperso1.png" alt="Figure 30 : 
+            Personnaliser un contenant de type Fieldset" /><figcaption>Figure 30 : 
+            Personnaliser un contenant de type Fieldset.</figcaption></figure>
+			<ol>
+			<li class="etape">S&eacute;lectionnez le fieldset &agrave;
+			personnaliser de l'arborescence.</li>
+			<li class="etape">Cliquez sur l'onglet &laquo; Properties &raquo;
+			de la fen&ecirc;tre Outils du formulaire.</li>
+			<li class="etape">&Eacute;ditez les valeurs des
+			propri&eacute;t&eacute;s et enregistrez les changements au
+			formulaire en cliquant sur le bouton <span class=
+			"f_saveform">Enregistrer formulaire</span>.</li>
+			</ol></br>
+			<p><span class="grass">title</span>: ajoute un titre au contour
+			du fieldset.</p></br>
+			<p><span class="grass">fsLayout</span>: modifie la disposition
+			des colonnes du fieldset. Pour avoir acc&egrave;s aux valeurs
+			pr&eacute;d&eacute;finies, cliquez deux fois sur le champ valeur
+			de cette propri&eacute;t&eacute;.</p></br>
+			<p><span class="grass">labelAlign</span>: Aligne les
+			&eacute;tiquettes de champs. Pour avoir acc&egrave;s aux valeurs
+			pr&eacute;d&eacute;finies, cliquez deux fois sur le champ valeur
+			de cette propri&eacute;t&eacute;.</p>
+			<h2>Ajouter des champs, des contenants et des d&eacute;tails &agrave; 
+			l'arborescense</h2>
+			<figure><img class="proto" src="images/formperso2.png" alt="Figure 31 : 
+            Ajouter des champs, des contenants et des d&eacute;tails &agrave; 
+            l'arborescense" /><figcaption>Figure 31 : Ajouter des champs, des contenants 
+            et des d&eacute;tails &agrave; l'arborescense.</figcaption></figure>
+            <h3>Ajouter un champ dans un fieldset</h3>
+            <ol>
+			<li class="etape">Cliquez sur l'onglet Tools de
+			la fen&ecirc;tre Outils du formulaire.</li>
+			<li class="etape">Cliquez sur le plus &laquo; + &raquo;
+			situ&eacute; du c&ocirc;t&eacute; gauche du dossier &laquo;
+			Fields &raquo; pour visualiser la liste de champs
+			disponibles.</li>
+			<li class="etape">S&eacute;lectionnez de la liste le champ
+			&agrave; ajouter au fieldset.</li>
+			<li class="etape">Glissez et d&eacute;posez le champ &agrave;
+			l'int&eacute;rieur du fieldset.</li>
+			<li class="etape">Enregistrez les changements au formulaire en
+			cliquant sur le bouton <span class="f_saveform">Enregistrer formulaire. 
+			</span></li>
+			</ol>
+			<h3>Ajouter un contenant fieldset ou HTMLset &agrave; l'arborescense</h3>
+			<ol>
+			<li class="etape">Cliquez sur l'onglet Tools de
+			la fen&ecirc;tre Outils du formulaire.</li>
+			<li class="etape">Cliquez sur le plus &laquo; + &raquo;
+			situ&eacute; du c&ocirc;t&eacute; gauche du dossier &laquo;
+			Containers &raquo; pour visualiser la liste de contenants
+			disponibles.</li>
+			<li class="etape">S&eacute;lectionnez de la liste le type de
+			contenant &agrave; ajouter &agrave; l'arborescence.</li>
+			<li class="etape">Glissez et d&eacute;posez le contenant &agrave;
+			l'endroit d&eacute;sir&eacute; de l'arborescence. Notez qu'il est
+			possible d'ins&eacute;rer un contenant &agrave;
+			l'int&eacute;rieur d'un autre contenant.</li>
+			<li class="etape">Enregistrez les changements au formulaire en
+			cliquant sur le bouton <span class="f_saveform"> Enregistrer formulaire.</span>
+			</li>
+			</ol>
+			<h3>Ajouter un d&eacute;tail &agrave; l'arborescence</h3>
+			<p>Les d&eacute;tails prennent automatiquement la forme d'une
+			grille (comme la grille principale de l'application). La grille
+			n'est pas personnalisable &agrave; partir de la fen&ecirc;tre
+			formulaire.</p></br>
+			<ol>
+			<li class="etape">Cliquez sur l'onglet Tools de
+			la fen&ecirc;tre Outils du formulaire.</li>
+			<li class="etape">Cliquez sur le plus &laquo; + &raquo;
+			situ&eacute; du c&ocirc;t&eacute; gauche du dossier &laquo;
+			Details &raquo; pour visualiser la liste de d&eacute;tails
+			disponibles.</li>
+			<li class="etape">S&eacute;lectionnez de la liste le
+			d&eacute;tail &agrave; ajouter &agrave; l'arborescence.</li>
+			<li class="etape">Glissez et d&eacute;posez le contenant &agrave;
+			l'endroit d&eacute;sir&eacute; de l'arborescence.</li>
+			<li class="etape">Enregistrez les changements au formulaire en
+			cliquant sur le bouton <span class="f_saveform"> Enregistrer formulaire.
+			</span></li>
+			</ol>
+			<h2>Personnaliser les champs du formulaire</h2>
+			<figure><img class="proto" src="images/formperso3.png" alt="Figure 32 : 
+			personnaliser les champs" /><figcaption>Figure 32 : personnaliser les champs.
+			</figcaption></figure>
+			<ol>
+			<li class="etape">S&eacute;lectionnez le champ &agrave;
+			personnaliser.</li>
+			<li class="etape">Cliquez sur l'onglet Properties
+			de la fen&ecirc;tre Outils du formulaire.</li>
+			<li class="etape">&Eacute;ditez les valeurs des
+			propri&eacute;t&eacute;s et enregistrez les changements au
+			formulaire en cliquant sur le bouton <span class=
+			"f_saveform">Enregistrer formulaire.</span></li>
+			</ol></br>
+			<p><span class="grass">tooltip</span>: chaine de
+			caract&egrave;res que cr&eacute;a un message dans la forme d'une
+			infobulle quand la souris passe sur le champ. Utilis&eacute; pour
+			offrir plus des informations concernant le champ. Pour y
+			acc&eacute;der cliquez deux fois sur le champ valeur de cette
+			propri&eacute;t&eacute;.</p></br>
+			<p><span class="grass">fieldLabel</span>: chaine de
+			caract&egrave;res que d&eacute;finit l'&eacute;tiquette du champ.
+			Pour y acc&eacute;der cliquez deux fois sur le champ valeur de
+			cette propri&eacute;t&eacute;.</p></br>
+			<p><span class="grass">labelAlign</span>: aligne les
+			&eacute;tiquettes de champs. Pour avoir acc&egrave;s aux valeurs
+			pr&eacute;d&eacute;finies, cliquez deux fois sur le champ valeur
+			de cette propri&eacute;t&eacute;.</p>
+			<h3>Changer l'ordre d'apparition des champs du formulaire</h3>
+			<p>Changer l'ordre des champs &agrave; l'int&eacute;rieur du
+			m&ecirc;me contenant est tr&egrave;s facile. S&eacute;lectionnez
+			le champ. Glissez et d&eacute;posez le champ &agrave;
+			l'emplacement d&eacute;sir&eacute;. Pour changer le champ d'un
+			contenant &agrave; l'autre: s&eacute;lectionnez le champ, glissez
+			et d&eacute;posez le champ &agrave; l'int&eacute;rieur du
+			contenant cibl&eacute;.</p>
+          </section>   
+        </article>
+      </div> <!-- end .main -->
+     </div><!-- end .guide -->
+ </div><!-- end #page -->
+</body>
+</html>

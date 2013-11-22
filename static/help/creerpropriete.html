@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<!--
+  Created using jsbin.com
+  Source can be edited via http://jsbin.com/Uderoka/7/edit
+-->
+<head>
+<meta charset=utf-8 />
+<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+<title>Aide en ligne de l'application web prototypeur du Certae</title>
+<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="print.css" media="print" />
+</head>
+<body>
+ <div id="page">
+   <div class="guide">
+      <h1 class="lede">Aide en ligne de l'application web prototypeur du Certae</h1>
+       <nav class="navi">
+        <div class="menu-entries"> 
+         <h2>Table de mati&egrave;res</h2>
+          <details open>
+            <summary>Structure de l'interface web du Prototypeur</summary>
+              <ul>
+                <li><a href="index.html">Organisation de l'interface web de l'application</a></li>
+                <li><a href="menuprincipal.html">Menu principal</a></li>
+                <li><a href="messages.html">La barre de messages</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Grille principale et ces fonctions</summary>
+              <ul>
+                <li><a href="presgrilleprin.html">Pr&eacute;sentation de la grille principale</a></li>
+                <li><a href="filtrer.html">Menu des fonctions: filtrer</a></li>
+                <li><a href="editer.html">Menu des fonctions: &#233;diter</a></li>
+                <li><a href="classer.html">Menu des fonctions: classer</a></li>
+                <li><a href="executer.html">Menu des fonctions: ex&#233;cuter</a></li>
+                <li><a href="naviger.html">Menu des fonctions: navigation</a></li>
+                <li><a href="imprimer.html">Menu des fonctions: imprimer</a></li>
+                <li><a href="configuration.html">Menu des fonctions: configuration</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Options de la fonction configuration</summary>
+              <ul class='tabmat'>
+                <li><a href="formulaire.html">Option: Formulaire</a></li>
+                <li><a href="champs.html">Option: Champs</a></li>
+                <li><a href="details.html">Option : D&eacute;tails</a></li>
+                <li><a href="configuration2.html">Option : Configuration</a></li>
+                <li><a href="meta.html">Option : M&eacute;ta</a></li>
+                <li><a href="formperso.html">Personnaliser un formulaire</a></li>
+                <li><a href="persochamps.html">Personnaliser les champs</a></li>
+                <li><a href="persogrille.html">Personnaliser la grille</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Prototypage</summary>
+              <ul>
+                <li><a href="famili.html">D&eacute;marche et pratique du prototypage</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Entrer le mod&egrave;le dans l'application du prototypeur</summary>
+              <ul>
+                <li><a href="creerprojet.html">Cr&eacute;er un projet</a></li>
+                <li><a href="creermodele.html">Cr&eacute;er un mod&egrave;le</a></li>
+                <li><a href="creerentite.html">Cr&eacute;er une entit&eacute;</a></li>
+                <li><a href="creerpropriete.html">Cr&eacute;er une propri&eacute;t&eacute;</a></li>
+                <li><a href="creerrelation.html">Cr&eacute;er une relation</a></li>
+                <li><a href="generermodele.html">G&eacute;n&eacute;rer le mod&egrave;le conceptuel graphique</a></li>
+              </ul>
+          </details>
+         </div><!-- end .menu-entries --> 
+      </nav> <!-- end navi-->
+      <div class="main">
+        <article class="contenu">
+          <section>
+            <h1>Cr&eacute;er une propri&eacute;t&eacute;</h1></br>
+			<p>La quatri&egrave;me &eacute;tape pour construire un prototype
+			consiste &agrave; cr&eacute;er les propri&eacute;t&eacute;s des
+			entit&eacute;s du mod&egrave;le conceptuel de donn&eacute;es.
+			Vous allez cr&eacute;er les propri&eacute;t&eacute;s &agrave;
+			l'int&eacute;rieur de chacune des entit&eacute;s
+			cr&eacute;&eacute;es &agrave; l'&eacute;tape ant&eacute;rieure.
+			Une entit&eacute; peut &ecirc;tre d&eacute;finie par une ou
+			plusieurs propri&eacute;t&eacute;s, mais une
+			propri&eacute;t&eacute; d&eacute;finie &agrave; une seule
+			entit&eacute;.</p></br>
+			<p>Il y a deux fa&ccedil;ons de cr&eacute;er les
+			propri&eacute;t&eacute;s d'une entit&eacute;. La premi&egrave;re
+			fa&ccedil;on est de les cr&eacute;er au m&ecirc;me moment qu'une
+			nouvelle entit&eacute;. Quand une nouvelle entit&eacute; est
+			cr&eacute;&eacute;e, les contr&ocirc;les d'&eacute;dition
+			s'activent sur la grille des &laquo; propri&eacute;t&eacute;s de
+			l'entit&eacute; &raquo; du m&ecirc;me formulaire. En cliquant sur
+			le bouton ajouter de cette grille, un nouveau formulaire
+			s'ouvrira pour remplir les informations concernant les
+			propri&eacute;t&eacute;s. Les propri&eacute;t&eacute;s sont
+			cr&eacute;&eacute;es une par une.</p></br>
+			<p>La deuxi&egrave;me fa&ccedil;on de cr&eacute;er les
+			propri&eacute;t&eacute;s est &agrave; partir du menu principal. Nous allons 
+			explorer les deux fa&ccedil;ons dans le texte qui suit.</p>
+			<h2>Cr&eacute;er une nouvelle propri&eacute;t&eacute; &agrave; partir du 
+			menu principal</h2>
+			<figure><img class="proto" src="images/proprietes.png" alt="Figure 40 : 
+            cr&eacute;er une propri&eacute;t&eacute;" /><figcaption>Figure 40 : 
+            cr&eacute;er une propri&eacute;t&eacute;.</figcaption></figure>
+          	<ol>
+			<li class="etape">&Agrave; partir du menu principal, cliquez deux
+			fois sur Propri&eacute;t&eacute; pour ouvrir l'onglet &laquo;
+			Propri&eacute;t&eacute; &raquo; qui donne acc&egrave;s &agrave; la grille
+			principale.</li>
+			<li class="etape">Cliquez sur le bouton <span class='grass'>
+			&Eacute;diter</span> du menu de fonctionnalit&eacute;s pour rentrer en mode
+			d'&eacute;dition ( voir la <a href="editer.html">fonction &Eacute;diter</a> 
+			pour plus d&eacute;tails ).</li>
+			<li class="etape">Cliquez sur le bouton <span class='grass'>Ajouter</span>, 
+			un formulaire sera affich&eacute; sur l'&eacute;cran.</li>
+			<li class="etape">Dans le formulaire, remplissez (voir figure plus bas) :
+			<p>- le nom de la propri&eacute;t&eacute; (information
+			obligatoire);</p>
+			<p>- le nom de l'entit&eacute; (information obligatoire);
+			Cliquez sur le bouton <span class="f_lupa">pour
+			s&eacute;lectionner l'entit&eacute; de la liste;</span></p>
+			<p>- la description de l'entit&eacute; (information
+			optionnelle);</p>
+			<p>- crochez la caisse de la cl&eacute;
+			primaire si la propri&eacute;t&eacute; est la cl&eacute;
+			de l'entit&eacute;. Quand vous crochez cette caisse, la caisse de
+			R&eacute;quis est croch&eacute;e automatiquement.
+			Si la propri&eacute;t&eacute; n'est pas une cl&eacute; primaire,
+			mais que la propri&eacute;t&eacute; est obligatoire, crochez la
+			caisse R&eacute;quis. La caisse Cl&eacute; &eacute;trang&egrave;re est 
+			croch&eacute;e automatiquement par l'application et elle est disponible en
+			lecture seulement;</p>
+			<p>- s&eacute;lectionnez le Type de base
+			(information optionnelle). Le type de base par
+			d&eacute;faut est string. Si le choix de type de base est
+			d&eacute;cimal, remplissez le champ D&eacute;cimales. Si le choix de type 
+			de base est combo, remplissez le champ Valeurs de la liste d&eacute;roulante 
+			et le champ Valeur par d&eacute;faut;</p>
+			<p>- la Longueur (information optionnelle).</p>
+			<p>- la Valeur par d&eacute;faut (information optionnelle). Ce champ est 
+			utilis&eacute; en combinaison avec le type de base combo. Inscrivez dans ce 
+			champ la valeur par d&eacute;faut de votre liste de valeurs. Par
+			exemple, si vous avez une liste de provinces et que votre projet
+			est pour les gens de Qu&eacute;bec, inscrivez QC dans la valeur
+			par d&eacute;faut. Cette valeur sera le premier choix
+			montr&eacute; &agrave; l'usager;</p>
+			<p>- les D&eacute;cimales
+			(information optionnelle). Ce champ est utilis&eacute; en
+			combinaison avec le type de base d&eacute;cimal. Inscrivez dans
+			ce champ le nombre de positions apr&egrave;s la virgule pour un
+			chiffre;</p>
+			<p>- les Valeurs liste d&eacute;roulante
+			(information optionnelle). Ce champ est utilis&eacute; en
+			combinaison avec le type de base combo. Inscrivez la liste de
+			valeurs pour une propri&eacute;t&eacute;. Les mots doivent
+			&ecirc;tre s&eacute;par&eacute;s par des virgules sans espaces en
+			blanc. Exemple: QC,ON,NS,NB,BC...</p></li>
+			<li class="etape">Cliquez sur le bouton <span class='grass'>
+			Enregistrer</span> de la fen&ecirc;tre.</li>
+			</ol></br>
+            <h2>Cr&eacute;er une nouvelle propri&eacute;t&eacute; &agrave; partir du 
+            formulaire de l'entit&eacute;</h2>
+			<figure><img class="proto" src="images/proprietes1.png" alt="Figure 41 : 
+            cr&eacute;er une propri&eacute;t&eacute; d&eacute;tails" /><figcaption>Figure 41 : 
+            cr&eacute;er une propri&eacute;t&eacute; d&eacute;tails.</figcaption></figure>
+			<ol>
+			<li>&Agrave; partir du formulaire de l'entit&eacute;, cliquez sur le
+			bouton <span class='grass'>Ajouter</span> de la
+			grille &laquo; propri&eacute;t&eacute;s filtr&eacute;es par " "
+			&raquo;;</li>
+			<li>Un nouveau formulaire (comme celui de la figure &agrave;
+			gauche) s'affichera dans l'interface;</li>
+			<li class="etape">Dans le formulaire, remplissez :
+			<p>- le nom de la propri&eacute;t&eacute; (information
+			obligatoire)</p>
+			<p>- le nom de l'entit&eacute; (information obligatoire).
+			Cliquez sur le bouton <span class="f_lupa">pour
+			s&eacute;lectionner l'entit&eacute; de la liste;</span></p>
+			<p>- la description de l'entit&eacute; (information
+			optionnelle);</p>
+			<p>- Crochez la caisse de la cl&eacute;
+			primaire si la propri&eacute;t&eacute; est la cl&eacute;
+			de l'entit&eacute;. Quand vous crochez cette caisse, la caisse de
+			R&eacute;quis est croch&eacute;e automatiquement.
+			Si la propri&eacute;t&eacute; n'est pas une cl&eacute; primaire,
+			mais que la propri&eacute;t&eacute; est obligatoire, crochez la
+			caisse R&eacute;quis. La caisse Cl&eacute; &eacute;trang&egrave;re est 
+			croch&eacute;e automatiquement par l'application et elle est disponible en
+			lecture seulement;</p>
+			<p>- S&eacute;lectionnez le Type de base
+			(information optionnelle). Le type de base par
+			d&eacute;faut est string. Si le choix de type de base est
+			d&eacute;cimal, remplissez le champ D&eacute;cimales. Si le choix de type de 
+			base est combo, remplissez le champ &laquo; Valeurs de la liste 
+			d&eacute;roulante &raquo; et le champ Valeur par d&eacute;faut;</li>
+			<p>- la Longueur (information optionnelle);</p>
+			<p>- la Valeur par d&eacute;faut
+			(information optionnelle). Ce champ est utilis&eacute; en
+			combinaison avec le type de base combo. Inscrivez dans ce champ
+			la valeur par d&eacute;faut de votre liste de valeurs. Par
+			exemple, si vous avez une liste de provinces et que votre projet
+			est pour les gens de Qu&eacute;bec, inscrivez QC dans la valeur
+			par d&eacute;faut. Cette valeur sera le premier choix
+			montr&eacute; &agrave; l'usager;</p>
+			<p>- les D&eacute;cimales (information optionnelle). Ce champ est 
+			utilis&eacute; en combinaison avec le type de base d&eacute;cimal. 
+			Inscrivez dans ce champ le nombre de positions apr&egrave;s la virgule pour un
+			chiffre;</p>
+			<p>- les Valeurs liste d&eacute;roulante
+			(information optionnelle). Ce champ est utilis&eacute; en
+			combinaison avec le type de base combo. Inscrivez la liste de
+			valeurs pour une propri&eacute;t&eacute;. Les mots doivent
+			&ecirc;tre s&eacute;par&eacute;s par des virgules sans espaces en
+			blanc. Exemple: QC,ON,NS,NB,BC...</p></li>
+			<li class="etape">Cliquez sur le
+			bouton <span class='grass'>Enregistrer</span> de la fen&ecirc;tre.</li>
+			</ol></br>
+			<p>Notez dans la deuxi&egrave;me fa&ccedil;on
+			pr&eacute;sent&eacute;e dans ce texte que quand vous cliquez sur
+			le bouton Enregistrer, la grille &laquo; Relation
+			filtr&eacute;es par " "&raquo; situ&eacute;e en bas de la grille
+			&laquo; Propri&eacute;t&eacute;s filtr&eacute;es par " "&raquo;
+			affiche les contr&ocirc;les d'&eacute;dition (voir figure 42). 
+			&Agrave; partir de cette grille, il est possible de
+			cr&eacute;er les relations entre les entit&eacute;s en cliquant
+			sur le bouton Ajouter du menu de contr&ocirc;les.
+			Ceci est une de deux fa&ccedil;ons de cr&eacute;er les relations
+			entre les entit&eacute;s. Passez &agrave; l'&eacute;tape
+			<a href="creerrelation.html">cr&eacute;er les relations</a> entre les
+			entit&eacute;s pour continuer avec la d&eacute;marche.</p>
+			<figure><img class="proto" src="images/proprietes2.png" alt="Figure 42 : 
+            cr&eacute;er une relation" /><figcaption>Figure 42 : 
+            cre&eacute;er une relation.</figcaption></figure>
+          </section>   
+        </article>
+      </div> <!-- end .main -->
+     </div><!-- end .guide -->
+ </div><!-- end #page -->
+</body>
+</html>

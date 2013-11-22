@@ -14,7 +14,7 @@ _SM._ROW_ST = {
 // afterLabelTextTpl: _SM._requiredField,
 _SM._requiredField = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
 
-_SM._siteTitle = 'ART Atelier de Référentiel pour Togaf'_SM._versionProto = 'Version 1.00.' + _versionMeta
+_SM._versionProto = 'Version 1.00.' + _versionMeta
 _SM._siteTitle = 'CeRTAE'
 _SM._siteTitleCollapsed = false 
 
@@ -51,7 +51,7 @@ _SM._PConfig =  {
     clsBaseModel: 'ProtoUL.model.' 
 }; 
 
-_SM._HELPpath = '/resources/help/index.html'
+_SM._HELPpath = 'resources/help/index.html'
 
 
 // Collection of PCL's ( Proto Concept Definition )  

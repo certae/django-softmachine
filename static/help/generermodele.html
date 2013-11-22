@@ -74,30 +74,71 @@
       <div class="main">
         <article class="contenu">
           <section>
-            <h1>D&eacute;marche et pratique du prototypage</h1></br>
-			<h3>Concevoir le mod&egrave;le conceptuel de donn&eacute;es.</h3>
-			<ol>
-            <li>Entit&eacute;/Association</li>
-            <li>Relationnel - conceptuel et non Relationnel - logique</li>
-            </ol>
-            <figure><img class="proto" src="images/modelconceptuel.png" alt="Figure 31 : 
-            mod&egrave;le conceptuel de donn&eacute;es" /><figcaption>Figure 31 : 
-            mod&egrave;le conceptuel de donn&eacute;es.</figcaption></figure>
-          	<h3>Entrer le mod&egrave;le dans l'application du prototypeur</h3>
-			<ol>
-            <li>Entit&eacute;s, attributs et relations parent-enfant</li>
-            <li>Afficher la vue graphique</li>
-            <li>G&eacute;n&eacute;rer les formulaires pour chaque table du mod&egrave;le</li>
-            </ol>
-			<h3>Alimenter des valeurs dans les entit&eacute;s</h3>
-			<h3>Concevoir l'application</h3>
-            <ol>
-            <li>Choisir les entit&eacute;s</li>
-            <li>Effectuer les absortions</li>
-            <li>Composer les formulaires parent-enfant</li>
-            </ol>
-          </section>   
-        </article>
+            <h1>G&eacute;n&eacute;rer le mod&egrave;le conceptuel
+			graphique</h1>
+			 <figure><img class="proto" src="images/executermod.png" alt="Figure 45 : 
+            fonction Ex&eacute;cuter et son sous-menu" /><figcaption>Figure 45 : 
+            fonction Ex&eacute;cuter et son sous-menu.</figcaption></figure>
+			<p>L'action doModelGraph g&eacute;n&egrave;re le mod&egrave;le conceptuel 
+			graphique pour un mod&egrave;le s&eacute;lectionn&eacute;.</p>
+			<h2>G&eacute;n&eacute;rer le mod&egrave;le conceptuel graphique d'un 
+			mod&egrave;le s&eacute;lectionn&eacute;</h2>
+		  <ol>
+		  <li class='etape'>&Agrave; partir de l'onglet 
+		  <span class='grass'>Mod&egrave;le</span>, cliquez sur la ligne de la 
+				grille principale qui corresponde au mod&egrave;le &agrave;
+		  g&eacute;n&eacute;rer.</li>
+		  <li class='etape'>Cliquez sur le bouton 
+		  <span class='grass'>Ex&eacute;cuter</span> du menu des fonctions
+		  ou sur le petit triangle noir situ&eacute; du c&ocirc;t&eacute;
+		  droit du m&ecirc;me bouton. Le petit triangle noir affiche les deux 
+				options disponibles pour Ex&eacute;cuter.</li>
+		  <li class='etape'>Cliquez sur l'option <span class='grass'>doModelGraph
+				</span>. Un message de confirmation de l'op&eacute;ration sera 
+				affich&eacute; sur l'interface 
+				(voir la <a href="messages.html">barre de messages</a> pour plus de
+		  d&eacute;tails).</li>
+      <li class='etape'>Le mod&egrave;le graphique
+      g&eacute;n&eacute;r&eacute; est ouvert dans un nouvel onglet de
+      votre fureteur. Le format de sortie de la graphique est un
+      fichier PDF.</li>
+      </ol></br>
+      <h2>Formalisme du mod&egrave;le graphique</h2>
+			<figure><img class="proto" src="images/generermodele.png" alt="Figure 46 : 
+            formalisme du mod&egrave;le graphique" /><figcaption>Figure 46 : 
+            formalisme du mod&egrave;le graphique.</figcaption></figure>
+			<p><span class='grass'>Cl&eacute; primaire</span> : la police du
+      texte est grasse et sa couleur est noire. Exemples dans la figure
+      : numero_ligne, numero_produit et date_expedition.</p>
+      <p><span class='grass'>Cl&eacute; &eacute;trang&egrave;re</span>
+      : la police du texte est italique et sa couleur est gris
+      p&acirc;le. Le nom de son entit&eacute; enfant apparait du
+      c&ocirc;t&eacute; droit du nom de la cl&eacute;. Exemple : li_prt
+      -&gt; produit ou cde_fact -&gt; facture.</p>
+      <p><span class='grass'>Cl&eacute; &eacute;trang&egrave;re
+      d&eacute;pendante (obligatoire)</span> : la police du texte est
+      grasse et sa couleur est noire. Le nom de son entit&eacute;
+      enfant apparait du c&ocirc;t&eacute; droit du nom de la
+      cl&eacute;. Exemple : li_cde -&gt; commande.</p>
+      <p><span class='grass'>Cl&eacute; &eacute;trang&egrave;re requise
+      (obligatoire)</span> : la police du texte est grasse et sa
+      couleur est gris p&acirc;le. Le nom de son entit&eacute; enfant
+      apparait du c&ocirc;t&eacute; droit du nom de la cl&eacute;.
+      Exemple : pdt_fam -&gt; famille.</p>
+      <p><span class='grass'>Propri&eacute;t&eacute;</span> : la police
+      du texte est en italique et sa couleur est gris p&acirc;le.
+      Exemples dans la figure : prix_vente, qte_vendue et
+      prix_production.</p>
+      <p><span class='grass'>Propri&eacute;t&eacute; requise
+      (obligatoire)</span> : la police du texte est grasse et sa couleur
+      est gris p&acirc;le. Exemples dans la figure : nom_produit et
+      numero_commande.</p>
+      <p><span class='grass'>Relation d&eacute;pendante
+      (obligatoire)</span> : la fl&egrave;che est pleine.</p>
+      <p><span class='grass'>Entit&eacute; parent</span> : la
+      fl&egrave;che pointe vers l'entit&eacute; parent.</p>
+			  </section>   
+       </article>
       </div> <!-- end .main -->
      </div><!-- end .guide -->
  </div><!-- end #page -->

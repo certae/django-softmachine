@@ -1,0 +1,18 @@
+* {color: #000; !important;}
+p, li, h3 {font-size: 12pt; !important;}
+
+section h1 {
+  padding-bottom: 0.2em;
+  font-size: 16pt; !important;
+  border-bottom: 2pt solid #A8A8A8;
+  font-weight:bold;
+}
+section h2 {
+  padding-bottom: 0.2em;
+  font-size: 1em;
+  border-bottom: 2pt solid #A8A8A8;
+  font-size: 14pt; !important;}
+.guide .main {background-color: #FFF !important; float:none; overflow: visible;}
+a:after {content: " (" attr(href) ") "; }
+.guide .navi { display: none; }
+.contenu {text-align: justify; line-height:130%; width: auto; margin: 0; padding: 0;}

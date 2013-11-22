@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<!--
+  Created using jsbin.com
+  Source can be edited via http://jsbin.com/Uderoka/7/edit
+-->
+<head>
+<meta charset=utf-8 />
+<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+<title>Aide en ligne de l'application web prototypeur du Certae</title>
+<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="print.css" media="print" />
+</head>
+<body>
+ <div id="page">
+   <div class="guide">
+      <h1 class="lede">Aide en ligne de l'application web prototypeur du Certae</h1>
+       <nav class="navi">
+        <div class="menu-entries"> 
+         <h2>Table de mati&egrave;res</h2>
+          <details open>
+            <summary>Structure de l'interface web du Prototypeur</summary>
+              <ul>
+                <li><a href="index.html">Organisation de l'interface web de l'application</a></li>
+                <li><a href="menuprincipal.html">Menu principal</a></li>
+                <li><a href="messages.html">La barre de messages</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Grille principale et ces fonctions</summary>
+              <ul>
+                <li><a href="presgrilleprin.html">Pr&eacute;sentation de la grille principale</a></li>
+                <li><a href="filtrer.html">Menu des fonctions: filtrer</a></li>
+                <li><a href="editer.html">Menu des fonctions: &#233;diter</a></li>
+                <li><a href="classer.html">Menu des fonctions: classer</a></li>
+                <li><a href="executer.html">Menu des fonctions: ex&#233;cuter</a></li>
+                <li><a href="naviger.html">Menu des fonctions: navigation</a></li>
+                <li><a href="imprimer.html">Menu des fonctions: imprimer</a></li>
+                <li><a href="configuration.html">Menu des fonctions: configuration</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Options de la fonction configuration</summary>
+              <ul class='tabmat'>
+                <li><a href="formulaire.html">Option: Formulaire</a></li>
+                <li><a href="champs.html">Option: Champs</a></li>
+                <li><a href="details.html">Option : D&eacute;tails</a></li>
+                <li><a href="configuration2.html">Option : Configuration</a></li>
+                <li><a href="meta.html">Option : M&eacute;ta</a></li>
+                <li><a href="formperso.html">Personnaliser un formulaire</a></li>
+                <li><a href="persochamps.html">Personnaliser les champs</a></li>
+                <li><a href="persogrille.html">Personnaliser la grille</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Prototypage</summary>
+              <ul>
+                <li><a href="famili.html">D&eacute;marche et pratique du prototypage</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Entrer le mod&egrave;le dans l'application du prototypeur</summary>
+              <ul>
+                <li><a href="creerprojet.html">Cr&eacute;er un projet</a></li>
+                <li><a href="creermodele.html">Cr&eacute;er un mod&egrave;le</a></li>
+                <li><a href="creerentite.html">Cr&eacute;er une entit&eacute;</a></li>
+                <li><a href="creerpropriete.html">Cr&eacute;er une propri&eacute;t&eacute;</a></li>
+                <li><a href="creerrelation.html">Cr&eacute;er une relation</a></li>
+                <li><a href="generermodele.html">G&eacute;n&eacute;rer le mod&egrave;le conceptuel graphique</a></li>
+              </ul>
+          </details>
+         </div><!-- end .menu-entries --> 
+      </nav> <!-- end navi-->
+      <div class="main">
+        <article class="contenu">
+          <section>
+            <h1>Fonction navigation</h1>
+            <figure><img class="proto" src="images/navigation.png" alt="Figure 12 : 
+            Fonction navigation" /><figcaption>Figure 12 : Fonction navigation.
+            </figcaption></figure>
+          	<p>La fonction <span class='grass'>
+			Navigation</span> permet de naviguer vers les
+			d&eacute;tails de l'objet s&eacute;lectionn&eacute; au menu
+			principal. C'est-&agrave;-dire qu'&agrave; partir de l'onglet
+			projet  vous pouvez naviguer vers les
+			mod&egrave;les disponibles pour ce projet. &Agrave; partir de
+			l'onglet  mod&egrave;le , vous pouvez naviguer vers
+			les entit&eacute;s du mod&egrave;le s&eacute;lectionn&eacute;.
+			&Agrave; partir de l'onglet  entit&eacute;, la
+			navigation se fait vers les propri&eacute;t&eacute;s, les
+			relations, les vues pour l'entit&eacute;
+			s&eacute;lectionn&eacute;e.</p></br>
+			<p>Naviguer vers les d&eacute;tails d'un objet peut se
+			r&eacute;aliser de deux fa&ccedil;ons: par la fonction
+			<span class='grass'>Navigation</span> du menu des
+			fonctions ou par le <span class='grass'> menu de
+			navigation </span> de la grille de navigation.</p>
+			<h2>Naviguer par la fonction <span class='grass'>Navigation</span>:</h2>
+			<p>Nous allons r&eacute;aliser l'exemple &agrave; partir de
+			l'onglet projet.</p></br>
+			<ol>
+			<li class='etape'>L'onglet  projet  est
+			d&eacute;j&agrave; ouvert. S&eacute;lectionnez un projet de la
+			grille principale.</li>
+			<li class='etape'>Cliquez sur le bouton <span class=
+			'grass'>Navigation</span> du menu des fonctions
+			ou sur le petit triangle noir situ&eacute; &agrave; droit du
+			bouton Navigation. Le petit triangle noir affiche la liste des
+			options disponibles pour la navigation de l'onglet ouvert. Pour
+			les projets et les mod&egrave;les, seulement une option est
+			disponible, par contre pour les entit&eacute;s la liste des
+			options est plus longue: propri&eacute;t&eacute;s, vues, relation
+			parent-enfant, relation enfant-parent, etc.</li>
+			<li class='etape'>Si la grille de navigation est cach&eacute;e,
+			elle sera affich&eacute;e automatiquement &agrave;
+			l'&eacute;cran. La grille de navigation montrera la liste de tous
+			les mod&egrave;les disponibles pour le projet
+			s&eacute;lectionn&eacute;.</li>
+			<li class='etape'>Pour voir les mod&egrave;les d'un autre projet,
+			vous n'avez qu'&agrave; cliquer sur un autre projet dans la
+			grille principale. Le contenu de la grille de navigation sera
+			actualis&eacute; automatiquement.</li>
+			<li class='etape'>Pour visualiser l'information d'un
+			mod&egrave;le de la grille de navigation, s&eacute;lectionnez le
+			mod&egrave;le sur la grille, ensuite, cliquez sur l'ic&ocirc;ne
+			<span class="f_affi">pour ouvrir le formulaire de visualisation
+			en mode de lecture.</span></li>
+			<li class='etape'>Pour faire dispara&icirc;tre la grille de
+			navigation, cliquez sur le bouton <span class=
+			"f_fer2">situ&eacute; en haut au milieu de cette m&ecirc;me
+			grille.</span></li>
+			</ol>
+			<h2>Naviguer par le <span class='grass'>menu de navigation</span> 
+			de la grille de navigation :</h2>
+			<figure><img class="proto" src="images/menunav.png" alt="Figure 13 : Menu 
+			navigation et options" /><figcaption>Figure 13 : Menu navigation et options.
+			</figcaption></figure>
+          	<p>Le <span class='grass'>menu de
+			navigation</span> se trouve dans la partie
+			inf&eacute;rieure de la grille principale. Quand les deux grilles
+			sont affich&eacute;es &agrave; l'&eacute;cran, ce menu est
+			situ&eacute; entre les deux grilles.</p></br>
+			<p>Nous allons r&eacute;aliser l'exemple &agrave; partir de
+			l'onglet projet.</p></br>
+			<ol>
+			<li class='etape'>L'onglet projet est
+			d&eacute;j&agrave; ouvert. S&eacute;lectionnez un projet de la
+			grille principale.</li>
+			<li class='etape'>Cliquez sur une des options situ&eacute;es
+			&agrave; droite du <span class='grass'>menu de navigation</span>. 
+			Pour les projets, seulement l'option
+			mod&egrave;le est disponible, par contre pour les entit&eacute;s
+			la liste des options est plus longue: propri&eacute;t&eacute;s,
+			vues, relation parent-enfant, relation enfant-parent, etc.</li>
+			<li class='etape'>Si la grille de navigation est cach&eacute;e,
+			elle sera affich&eacute;e automatiquement &agrave;
+			l'&eacute;cran. La grille de navigation affichera tous les
+			mod&egrave;les disponibles pour le projet
+			s&eacute;lectionn&eacute;.</li>
+			<li class='etape'>Pour voir les mod&egrave;les d'un autre projet,
+			vous n'avez qu'&agrave; cliquer sur un autre projet dans la
+			grille principale. Le contenu de la grille de navigation sera
+			actualis&eacute; automatiquement.</li>
+			<li class='etape'>Pour visualiser l'information d'un
+			mod&egrave;le de la grille de navigation, s&eacute;lectionnez le
+			mod&egrave;le sur la grille, ensuite, cliquez sur l'ic&ocirc;ne
+			<span class="f_affi">pour ouvrir le formulaire de visualisation
+			en mode de lecture.</span></li>
+			<li class='etape'>Pour faire dispara&icirc;tre la grille de
+			navigation, cliquez sur le bouton <span class=
+			"f_fer2">situ&eacute; en haut au milieu de cette m&ecirc;me
+			grille.</span></li>
+			</ol>
+          </section>   
+        </article>
+      </div> <!-- end .main -->
+     </div><!-- end .guide -->
+ </div><!-- end #page -->
+</body>
+</html>

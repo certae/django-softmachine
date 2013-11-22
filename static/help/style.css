@@ -1,0 +1,130 @@
+/* reseting */
+html, body, h1, h2, h3, h4, h5, h6, p, ol, ul, li, pre, code, address, variable, form, fieldset, blockquote {padding: 0; margin: 0; font-size: 100%; font-weight: normal;}
+table { border-collapse: collapse; border-spacing: 0; }
+td, th, caption { font-weight: normal; text-align: left; }
+img, fieldset { border: 0; }
+ol { padding-left: 1.4em; list-style: decimal; }
+ul { padding-left: 1.4em; list-style:square; }
+/*end reseting */
+body {background: #FFF; font-family: tahoma, arial,verdana,sans-serif;}
+a {font-family: Verdana;}
+a:link    {color:#CC3300;}
+a:visited {color:#760BAA;}
+a:hover   {color:#0099CC;}
+a:active  {color:#ff6600;}
+ul {list-style-type: none; font-size: 1.2em; margin-left: -0.5em;}
+details {display:block; margin:10px 7px; font-family: Verdana; font-size: 0.8em; width: 100%; /* 231px / 331px */}
+summary {display:block; background:#0099CC;	color:white;
+	border-radius:5px; padding:0.5em;
+	cursor:pointer; font-weight:bold; width: 100%;}
+#page {
+  margin: 16px auto;
+  width: 90%;
+  background-color:#006699;
+  }
+.guide {
+  margin 0 auto 53px;
+  width: 99.85%; /*  / 960px */
+  background-color:#006699;
+}
+.guide .main {
+  float:right;
+  width: 62.88888888888889%; /* 566px / 900px */
+  background-color: #F0F0F0;
+  margin-top: 0.5em;
+  margin-bottom: 0.7em;
+  border-radius:5px;
+  box-shadow: 0.2em 0.2em 0.2em #D8D8D8;
+}
+.guide .navi {
+  float:left;
+  width: 36.77777777777778%; /* 331px / 900px */
+  background-color:#D8D8D8;
+  margin-top: 0.5em;
+  border-radius:5px;
+  /* box-shadow: 0.2em 0.2em 0.2em #C0C0C0;*/
+}
+.lede {
+  padding: 0.8em 5.33333333%; /* 48px / 900px */
+  color:white;
+  font-size: 1.5em;
+}
+.menu-entries {
+  margin: 2em;
+  margin-top: 1em;
+  width: 73%; /* 69.7885196% 231px / 331px */
+}
+.contenu {
+  padding: 1em 3.48056537%; /*  / 566px */
+  text-align: justify;
+  line-height:130%;
+}
+h2, h3 {
+	margin:.8em 0 .2em 0;
+	padding:0;
+	font-weight:bold;
+}
+section h1 {
+  padding-bottom: 0.2em;
+  font-size: 1.2em;
+  border-bottom: 0.2em solid #A8A8A8;
+  font-weight:bold;
+}
+section h2 {
+  padding-bottom: 0.2em;
+  font-size: 1em;
+  border-bottom: 0.2em solid #A8A8A8;
+}
+
+figcaption {
+  font-size: 0.8em; font-style: italic;
+}
+.grass {font-weight:bold;}
+.etape {line-height:160%; }
+
+figure {float left; margin-bottom: 0.5em; margin-left: 2.53164557%; width: 80%;} /*  48.7341772% */
+
+.proto {max-width: 100%; border: 0.3em solid white; border-radius:2px;}
+
+td { text-align:justify; padding-right: 0.2em;}
+
+.f_droite {background: url(images/icon_ouvrir24.png) no-repeat 0 0 transparent; margin: 0.5px; padding: 0px 0px 1px 20px; vertical-align: top;}
+
+.f_gauche {background: url(images/icon_fermer24.png) no-repeat 0 0 transparent; margin: 0.5px; padding: 0px 0px 1px 20px; vertical-align: top;}
+
+.f_rest {background: url(images/restartmenu.png) no-repeat 0 0 transparent; margin: 0.5px; padding: 0px 0px 5px 26px; vertical-align: top;}
+
+.f_newdossier {background: url(images/newdossier.png) no-repeat 0 0 transparent; margin: 0.5px; padding: 0px 0px 5px 26px; vertical-align: top;}	
+
+.f_supnoeud {background: url(images/erasenode.png) no-repeat 0 0 transparent; margin: 0.5px; padding: 0px 0px 5px 26px; vertical-align: top;}
+
+.f_affi {background: url(images/afficher.png) no-repeat 0 0 transparent; margin: 0.5px; padding: 0px 0px 1px 24px; vertical-align: top;}
+
+.f_fer2 {background: url(images/icon_bas224.png) no-repeat 0 0 transparent; margin: 0.5px; padding: 0px 0px 1px 44px; vertical-align: top;}
+
+.f_saveform {background: url(images/saveform.png) no-repeat 0 0 transparent; margin: 0.5px; padding: 0px 0px 4px 26px; vertical-align: top;}
+
+.f_lupa {background: url(images/lupa.png) no-repeat 0 0 transparent; margin: 0.5px; padding: 0px 0px 4px 20px; vertical-align: top;} 	
+
+#remarque {border: 1px solid #d1d1d1; background-color:white; padding: 0.3em;}
+
+@media screen and (max-width: 768px){
+.lede { font-size: 1em;} 
+section h1 { font-size: 1em;}
+section h2 { font-size: 0.8em;}
+a { font-size: 0.9em;}
+details ul {font-size: 1.5em; margin-left: -0.8em; line-height:190%;}
+details {font-size: 0.5em;}
+#page { position: relative; margin: 5px; width:auto;}
+}
+@media screen and (max-width: 520px){
+.lede { font-size: 1em;} 
+section h1 { font-size: 1em;}
+section h2 { font-size: 0.8em;}
+a { font-size: 0.9em;}
+details ul {font-size: 1.5em; margin-left: -0.8em; line-height:190%;}
+details {font-size: 0.5em;}
+#page { position: relative; margin: 5px; width:auto;}
+.guide .navi { width: auto;}
+.guide .main { width: auto;}
+}

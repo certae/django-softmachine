@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<!--
+  Created using jsbin.com
+  Source can be edited via http://jsbin.com/Uderoka/7/edit
+-->
+<head>
+<meta charset=utf-8 />
+<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+<title>Aide en ligne de l'application web prototypeur du Certae</title>
+<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="print.css" media="print" />
+</head>
+<body>
+ <div id="page">
+   <div class="guide">
+      <h1 class="lede">Aide en ligne de l'application web prototypeur du Certae</h1>
+       <nav class="navi">
+        <div class="menu-entries"> 
+         <h2>Table de mati&egrave;res</h2>
+          <details open>
+            <summary>Structure de l'interface web du Prototypeur</summary>
+              <ul>
+                <li><a href="index.html">Organisation de l'interface web de l'application</a></li>
+                <li><a href="menuprincipal.html">Menu principal</a></li>
+                <li><a href="messages.html">La barre de messages</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Grille principale et ces fonctions</summary>
+              <ul>
+                <li><a href="presgrilleprin.html">Pr&eacute;sentation de la grille principale</a></li>
+                <li><a href="filtrer.html">Menu des fonctions: filtrer</a></li>
+                <li><a href="editer.html">Menu des fonctions: &#233;diter</a></li>
+                <li><a href="classer.html">Menu des fonctions: classer</a></li>
+                <li><a href="executer.html">Menu des fonctions: ex&#233;cuter</a></li>
+                <li><a href="naviger.html">Menu des fonctions: navigation</a></li>
+                <li><a href="imprimer.html">Menu des fonctions: imprimer</a></li>
+                <li><a href="configuration.html">Menu des fonctions: configuration</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Options de la fonction configuration</summary>
+              <ul class='tabmat'>
+                <li><a href="formulaire.html">Option: Formulaire</a></li>
+                <li><a href="champs.html">Option: Champs</a></li>
+                <li><a href="details.html">Option : D&eacute;tails</a></li>
+                <li><a href="configuration2.html">Option : Configuration</a></li>
+                <li><a href="meta.html">Option : M&eacute;ta</a></li>
+                <li><a href="formperso.html">Personnaliser un formulaire</a></li>
+                <li><a href="persochamps.html">Personnaliser les champs</a></li>
+                <li><a href="persogrille.html">Personnaliser la grille</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Prototypage</summary>
+              <ul>
+                <li><a href="famili.html">D&eacute;marche et pratique du prototypage</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Entrer le mod&egrave;le dans l'application du prototypeur</summary>
+              <ul>
+                <li><a href="creerprojet.html">Cr&eacute;er un projet</a></li>
+                <li><a href="creermodele.html">Cr&eacute;er un mod&egrave;le</a></li>
+                <li><a href="creerentite.html">Cr&eacute;er une entit&eacute;</a></li>
+                <li><a href="creerpropriete.html">Cr&eacute;er une propri&eacute;t&eacute;</a></li>
+                <li><a href="creerrelation.html">Cr&eacute;er une relation</a></li>
+                <li><a href="generermodele.html">G&eacute;n&eacute;rer le mod&egrave;le conceptuel graphique</a></li>
+              </ul>
+          </details>
+         </div><!-- end .menu-entries --> 
+      </nav> <!-- end navi-->
+      <div class="main">
+        <article class="contenu">
+          <section>
+            <h1>Option formulaire</h1>
+            <figure><a href="images/formulaire.png" target="_blank"><img class="proto" 
+            src="images/formulaire.png" alt="Figure 17 : Option formulaire du menu 
+            configuration" /></a><figcaption>Figure 17 : Option formulaire du menu 
+            configuration. Cliquez sur l'image pour l'agrandir.</figcaption></figure>
+          	<p>L'option <span class='grass'>Formulaire</span>
+			ouvre une nouvelle fen&ecirc;tre &agrave; partir de laquelle nous
+			avons acc&egrave;s aux propri&eacute;t&eacute;s de
+			personnalisation du formulaire.</p>
+			<h2>Organisation de la fen&ecirc;tre du formulaire</h2>
+			<p>La fen&ecirc;tre du formulaire est organis&eacute;e en trois
+			grandes sections :</p></br>
+			<ol>
+			<li class="etape">Les <span class='grass'>
+			&eacute;l&eacute;ments du formulaire</span> se situent en
+			haut du c&ocirc;t&eacute; gauche de la fen&ecirc;tre.</li>
+			<li class="etape">Les <span class='grass'>outils du
+			formulaire</span> se situent en bas du c&ocirc;t&eacute;
+			gauche de la fen&ecirc;tre.</li>
+			<li class="etape">L'<span class='grass'>aper&ccedil;u du
+			formulaire</span> se situe du c&ocirc;t&eacute; droit de
+			la fen&ecirc;tre.</li>
+			</ol>
+			<h2>Les &eacute;l&eacute;ments du formulaire</h2>
+			<figure><img class="proto" src="images/eleformulaire.png" alt="Figure 18 : la 
+			fen&ecirc;tre des &eacute;l&eacute;ments du formulaire" /><figcaption>Figure 
+			18 : la fen&ecirc;tre des &eacute;l&eacute;ments du formulaire.</figcaption>
+			</figure>
+          	<p>La fen&ecirc;tre des &eacute;l&eacute;ments du formulaire
+			affiche dans une arborescence les informations (champs) que le
+			formulaire montrera au moment de l'ouvrir pour un objet
+			s&eacute;lectionn&eacute;. &Agrave; partir de cette
+			fen&ecirc;tre, il est possible de personnaliser l'affichage et
+			l'ordre d'apparition de champs sur le formulaire. L'ordre
+			d'apparition de champs est d&eacute;fini selon la position de
+			l'objet dans l'arborescence. Il est possible aussi de regrouper
+			les champs &agrave; l'int&eacute;rieur des contenants de type
+			&laquo; Fieldset &raquo; ou &laquo; HTMLset &raquo;.</p></br>
+			<table>
+			<tr>
+			<td><img src="images/saveform.png" alt="enregistrer formulaire"
+			width="27" height="22" /></td>
+			<td>Enregistrer les modifications du formulaire.</td>
+			</tr>
+			<tr>
+			<td><img src="images/refreshform.png" alt=
+			"rafra&icirc;chir arborescense" width="26" height="21" /></td>
+			<td>Rafra&icirc;chir l'aper&ccedil;u du formulaire
+			(c&ocirc;t&eacute; droit de la fen&ecirc;tre).</td>
+			</tr>
+			<tr>
+			<td><img src="images/erasenode.png" alt="supprimer un objet"
+			width="24" height="23" /></td>
+			<td>Supprimer un objet dans l'arborescence.</td>
+			</tr>
+			<tr>
+			<td><img src="images/icon_gauche.png" alt="cacher fenetre" width=
+			"16" height="17" /></td>
+			<td>Cacher la fen&ecirc;tre des &eacute;l&eacute;ments du
+			formulaire de l'interface.</td>
+			</tr>
+			<tr>
+			<td><img src="images/champ.png" alt="icone champ" width="21"
+			height="21" /></td>
+			<td>Ic&ocirc;ne attribu&eacute;e aux champs.</td>
+			</tr>
+			<tr>
+			<td><img src="images/fieldset.png" alt="icone des contenants" width=
+			"21" height="20" /></td>
+			<td>Ic&ocirc;ne attribu&eacute;e aux contenants de type fieldset
+			et HTML.</td>
+			</tr>
+			</table>
+			<h2>Les outils du formulaire</h2>
+			<figure><img class="proto" src="images/outilsform.png" alt="Figure 19 : les 
+			outils du formulaire" /><figcaption>Figure 19 : les outils du formulaire.
+			</figcaption></figure>
+          	<p>La fen&ecirc;tre des outils du formulaire donne acc&egrave;s
+			aux outils permettant de cr&eacute;er et de personnaliser un
+			formulaire. Les outils sont organis&eacute;s dans une
+			arborescence o&ugrave; ils se retrouvent les champs, les
+			contenants et les d&eacute;tails pour une vue. L'onglet des &laquo;
+			propri&eacute;t&eacute;s &raquo; donne acc&egrave;s aux propri&eacute;t&eacute;s de
+			personnalisation de l'objet s&eacute;lectionn&eacute; dans la
+			fen&ecirc;tre des &eacute;l&eacute;ments.</p>
+			<h3>Fields ( Champs )</h3>
+			<p>Le dossier Fields contient la liste
+			compl&egrave;te des champs pour l'objet s&eacute;lectionn&eacute;
+			( un projet, un mod&egrave;le, une entit&eacute;, une
+			propri&eacute;t&eacute;, une relation ou une vue ). Dans le cas
+			d'une vue, les champs correspondent aux propri&eacute;t&eacute;s
+			ou attributs des entit&eacute;s cr&eacute;es par l'utilisateur.
+			On y retrouve aussi des champs cr&eacute;es par l'application du
+			prototypeur comme la date de la derni&egrave;re modification,
+			le nombre de l'&eacute;quipe ou groupe &agrave; qui appartient le
+			projet, etc.</p>
+			<h3>Containers ( Contenants )</h3>
+			<p>Le dossier Containers est compos&eacute; de
+			deux types de contenants qui servent &agrave; regrouper plusieurs
+			champs dans le formulaire. Un contenant de type Fieldset
+			cr&eacute;e un contour autour des champs qu'il entourne. Un
+			contenant de type HTMLset c'est un &eacute;diteur de texte HTML.
+			Le contenant HTMLset s'utilise pour les champs de type de base
+			&laquo; texte &raquo; que stockent des cha&icirc;nes de 65, 535
+			caract&egrave;res maximum.</p>
+			<h3>Details ( D&eacute;tails )</h3>
+			<p>Le dossier D&eacute;tails contient les
+			d&eacute;tails configur&eacute;s pour les projets, les
+			mod&egrave;les, les entit&eacute;s, les propri&eacute;t&eacute;s
+			et les relations. Quand un d&eacute;tail est ajout&eacute; au
+			formulaire, ce d&eacute;tail s'affiche dans la forme d'une
+			grille.</p>
+			<h2>L'aper&ccedil;u du formulaire</h2>
+			<p>L'espace r&eacute;serv&eacute; &agrave; 
+			l'aper&ccedil;u du formulaire permet de
+			pr&eacute;visualiser les modifications appliqu&eacute;es au
+			formulaire. Les modifications sont affich&eacute;es en temps
+			r&eacute;el, cela veut dire que si vous changez l'ordre des
+			champs ou que vous regroupez plusieurs champs dans un fieldset,
+			vous verrez dans l'espace de l'aper&ccedil;u le r&eacute;sultat final
+			quasi instantan&eacute;ment.</p>
+          	</section>   
+        </article>
+      </div> <!-- end .main -->
+     </div><!-- end .guide -->
+ </div><!-- end #page -->
+</body>
+</html>

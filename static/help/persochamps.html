@@ -74,28 +74,72 @@
       <div class="main">
         <article class="contenu">
           <section>
-            <h1>D&eacute;marche et pratique du prototypage</h1></br>
-			<h3>Concevoir le mod&egrave;le conceptuel de donn&eacute;es.</h3>
-			<ol>
-            <li>Entit&eacute;/Association</li>
-            <li>Relationnel - conceptuel et non Relationnel - logique</li>
-            </ol>
-            <figure><img class="proto" src="images/modelconceptuel.png" alt="Figure 31 : 
-            mod&egrave;le conceptuel de donn&eacute;es" /><figcaption>Figure 31 : 
-            mod&egrave;le conceptuel de donn&eacute;es.</figcaption></figure>
-          	<h3>Entrer le mod&egrave;le dans l'application du prototypeur</h3>
-			<ol>
-            <li>Entit&eacute;s, attributs et relations parent-enfant</li>
-            <li>Afficher la vue graphique</li>
-            <li>G&eacute;n&eacute;rer les formulaires pour chaque table du mod&egrave;le</li>
-            </ol>
-			<h3>Alimenter des valeurs dans les entit&eacute;s</h3>
-			<h3>Concevoir l'application</h3>
-            <ol>
-            <li>Choisir les entit&eacute;s</li>
-            <li>Effectuer les absortions</li>
-            <li>Composer les formulaires parent-enfant</li>
-            </ol>
+            <h1>Personnaliser les champs</h1></br>
+			<p id="remarque">Les exemples de personnalisation suivants
+			montrent comment r&eacute;aliser la configuration de base pour
+			r&eacute;ussir une interface fonctionnelle et pr&eacute;sentable.
+			Vous &ecirc;tes invit&eacute; &agrave; explorer dans votre espace
+			travail de l'application les propri&eacute;t&eacute;s non
+			mentionn&eacute;es dans cette guide.</p>
+			<h2>Propri&eacute;t&eacute; fieldsBase</h2>
+            <figure><a href="images/metafields.png" target="_blank">
+            <img class="proto" src="images/metafields.png" alt="Figure 33 : 
+            personnalisation des champs" /></a><figcaption>Figure 33 : 
+            personnalisation des champs. Cliquez pour agrandir l'image.</figcaption>
+            </figure>
+          	<ol>
+			<li class="etape">Ouvrez le contenu du dossier fieldsBase en
+			cliquant sur le triangle blanc situ&eacute; &agrave; gauche du
+			dossier.</li>
+			<li class="etape">S&eacute;lectionnez de la liste le champ
+			&agrave; personnaliser.</li>
+			<li class="etape">Modifiez les valeurs.</li>
+			<li class="etape">Ensuite, enregistrez les changements en
+			cliquant sur le bouton <span class="f_saveform">Mettre
+			&agrave; jour la m&eacute;ta</span></li>
+			</ol>
+			<h3>Valeurs:</h3>
+			<p><span class='grass'>prpLength</span> valeur
+			num&eacute;rique que d&eacute;finit le nombre des positions pour
+			le champ. Pour y acc&eacute;der cliquez deux fois sur le champ
+			valeur de cette propri&eacute;t&eacute;.</p></br>
+			<p><span class="grass">fieldLabel</span> chaine de
+			caract&egrave;res que d&eacute;finit l'&eacute;tiquette du champ.
+			Pour y acc&eacute;der cliquez deux fois sur le champ valeur de
+			cette propri&eacute;t&eacute;.</p></br>
+			<p><span class="grass">header</span> chaine de
+			caract&egrave;res que d&eacute;finit l'ent&ecirc;te des colonnes
+			de la grille principale. Pour y acc&eacute;der cliquez deux fois
+			sur le champ valeur de cette propri&eacute;t&eacute;.</p></br>
+			<p><span class="grass">sortable</span> valeur
+			bool&eacute;enne que d&eacute;finit si le champ est
+			utilis&eacute; pour classer le contenu de la grille principale.
+			Pour y acc&eacute;der cliquez deux fois sur le champ valeur de
+			cette propri&eacute;t&eacute;.</p></br>
+			<p><span class="grass">searchable</span> valeur
+			bool&eacute;enne que d&eacute;finit si le champ est
+			utilis&eacute; pour faire des recherches dans contenu de la
+			grille principale. Pour y acc&eacute;der cliquez deux fois sur le
+			champ valeur de cette propri&eacute;t&eacute;.</p></br>
+			<p><span class="grass">flex</span> valeur
+			num&eacute;rique (pourcentage %) que d&eacute;finit la largeur
+			des colonnes de la grille principale. Flex fait un calcul par
+			rapport &agrave; la taille de l'&eacute;cran et ajuste la largeur
+			de la colonne en cons&eacute;quence. Pour y acc&eacute;der
+			cliquez deux fois sur le champ valeur de cette
+			propri&eacute;t&eacute;.</p></br>
+			<p><span class="grass">tooltip</span> chaine de
+			caract&egrave;res que cr&eacute;a un message dans la forme d'une
+			infobulle quand la souris passe sur le champ. Utilis&eacute; pour
+			offrir plus des informations concernant le champ. Pour y
+			acc&eacute;der cliquez deux fois sur le champ valeur de cette
+			propri&eacute;t&eacute;.</p></br>
+			<p><span class="grass">wordWrap</span> valeur
+			bool&eacute;enne que permet de visualiser le contenu du champ en
+			plusieurs lignes. Propri&eacute;t&eacute; utilis&eacute;e avec
+			les champs de type texte ou de type string (quand la chaine est
+			tr&egrave;s longue). Pour y acc&eacute;der cliquez deux fois sur
+			le champ valeur de cette propri&eacute;t&eacute;.</p></br>
           </section>   
         </article>
       </div> <!-- end .main -->

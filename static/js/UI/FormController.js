@@ -40,7 +40,7 @@ Ext.define('ProtoUL.UI.FormController', {
 
     constructor: function (config) {
         Ext.apply(this, config || {});
-        this.myMetaDict = {}
+        this.myMetaDict = {};
     },
 
 
@@ -58,10 +58,10 @@ Ext.define('ProtoUL.UI.FormController', {
                     me._waitForDetails( me, detCode )
                 },
                 failure: function ( obj, result, request) { 
-                    me._waitForDetails( me, detCode )
-                    _SM.errorMessage( 'ProtoDefinition Error :', detCode  + ': protoDefinition not found')
+                    me._waitForDetails( me, detCode );
+                    _SM.errorMessage( 'ProtoDefinition Error :', detCode  + ': protoDefinition not found');
                 }
-            }
+            };
 
             // PreCarga los detalles  
             if (  _SM.loadPci( detCode , true, options ) )  {me._waitForDetails( me, detCode );}
@@ -69,23 +69,27 @@ Ext.define('ProtoUL.UI.FormController', {
         }
 
         // lo marca como cargado 
-		this.myMetaDict[ this.myMeta.viewCode  ] = false       
+		this.myMetaDict[ this.myMeta.viewCode  ] = false;        
 
 		// Carga el dictionario de detalles
-		var me = this, 
-		    detConfig = me.myMeta.detailsConfig
+		var me = this,  
+		    detConfig = me.myMeta.detailsConfig,
+		    ixV, 
+		    pDetail,  
+		    detCode; 
+		    
 		      
-        for ( var ixV in detConfig  ) {
-            var pDetail = detConfig[ixV];
-			this.myMetaDict[ pDetail.conceptDetail ] = false     
+        for ( ixV in detConfig  ) {
+            pDetail = detConfig[ixV];
+			this.myMetaDict[ pDetail.conceptDetail ] = false;     
         }
         
         // ahora carga las definiciones 
-        me.loaded = false 
-        for ( var detCode in me.myMetaDict  ) {
+        me.loaded = false;  
+        for ( detCode in me.myMetaDict  ) {
             if ( detCode in _SM._cllPCI ) {
-                me.myMetaDict[ detCode ] = true
-            } else { loadDetailDefinition( me, detCode  ) } 
+                me.myMetaDict[ detCode ] = true; 
+            } else { loadDetailDefinition( me, detCode  ); } 
         }
 
         // si np esta cargada la manda en nulo para forzar la carga 
@@ -99,7 +103,7 @@ Ext.define('ProtoUL.UI.FormController', {
 		
 		// espera todas las definiciones
         for ( detCode in me.myMetaDict  ) {
-            if ( ! me.myMetaDict[ detCode ] ) { return } 
+            if ( ! me.myMetaDict[ detCode ] ) { return; } 
         }
 
         if (me.loaded) {return;}   
@@ -307,9 +311,9 @@ Ext.define('ProtoUL.UI.FormController', {
         
         function defineProtoFormItem ( parent, protoObj, protoIx ) {
         
-            var prLayout , template, __ptType 
-            var sDataType = _SM.typeOf(protoObj);
-            var me = this 
+            var prLayout , template, __ptType,  
+                sDataType = _SM.typeOf(protoObj), 
+                me = this;  
         
             if (sDataType == "object" ) { 
         
@@ -407,9 +411,11 @@ Ext.define('ProtoUL.UI.FormController', {
                     prLayout = Ext.apply( template.__ptConfig , protoObj.__ptConfig  ) 
         
                     // Agrega los items 
-                    prLayout.items = []
-                    var prItems = protoObj.items
-                    for(var ix in prItems ) {
+                    prLayout.items = [];
+                    var prItems = protoObj.items, 
+                        ix;  
+                        
+                    for( ix in prItems ) {
                         if ( ix.indexOf( "__pt" )  == 0 ) continue 
         
                         var prVar = prItems[ix];
@@ -517,8 +523,8 @@ Ext.define('ProtoUL.UI.FormController', {
             // Envia el contenedor y el objeto   
             var prItem = defineProtoFormItem( {__ptType : 'panel'}, lObj )
             me.prFormLayout.push(prItem);
-        }
+        };
     
-    } 
+    }
 
-})
+});

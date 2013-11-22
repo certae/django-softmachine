@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<!--
+  Created using jsbin.com
+  Source can be edited via http://jsbin.com/Uderoka/7/edit
+-->
+<head>
+<meta charset=utf-8 />
+<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+<title>Aide en ligne de l'application web prototypeur du Certae</title>
+<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="print.css" media="print" />
+</head>
+<body>
+ <div id="page">
+   <div class="guide">
+      <h1 class="lede">Aide en ligne de l'application web prototypeur du Certae</h1>
+       <nav class="navi">
+        <div class="menu-entries"> 
+         <h2>Table de mati&egrave;res</h2>
+          <details open>
+            <summary>Structure de l'interface web du Prototypeur</summary>
+              <ul>
+                <li><a href="index.html">Organisation de l'interface web de l'application</a></li>
+                <li><a href="menuprincipal.html">Menu principal</a></li>
+                <li><a href="messages.html">La barre de messages</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Grille principale et ces fonctions</summary>
+              <ul>
+                <li><a href="presgrilleprin.html">Pr&eacute;sentation de la grille principale</a></li>
+                <li><a href="filtrer.html">Menu des fonctions: filtrer</a></li>
+                <li><a href="editer.html">Menu des fonctions: &#233;diter</a></li>
+                <li><a href="classer.html">Menu des fonctions: classer</a></li>
+                <li><a href="executer.html">Menu des fonctions: ex&#233;cuter</a></li>
+                <li><a href="naviger.html">Menu des fonctions: navigation</a></li>
+                <li><a href="imprimer.html">Menu des fonctions: imprimer</a></li>
+                <li><a href="configuration.html">Menu des fonctions: configuration</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Options de la fonction configuration</summary>
+              <ul class='tabmat'>
+                <li><a href="formulaire.html">Option: Formulaire</a></li>
+                <li><a href="champs.html">Option: Champs</a></li>
+                <li><a href="details.html">Option : D&eacute;tails</a></li>
+                <li><a href="configuration2.html">Option : Configuration</a></li>
+                <li><a href="meta.html">Option : M&eacute;ta</a></li>
+                <li><a href="formperso.html">Personnaliser un formulaire</a></li>
+                <li><a href="persochamps.html">Personnaliser les champs</a></li>
+                <li><a href="persogrille.html">Personnaliser la grille</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Prototypage</summary>
+              <ul>
+                <li><a href="famili.html">D&eacute;marche et pratique du prototypage</a></li>
+              </ul>
+          </details>
+          <details open>
+            <summary>Entrer le mod&egrave;le dans l'application du prototypeur</summary>
+              <ul>
+                <li><a href="creerprojet.html">Cr&eacute;er un projet</a></li>
+                <li><a href="creermodele.html">Cr&eacute;er un mod&egrave;le</a></li>
+                <li><a href="creerentite.html">Cr&eacute;er une entit&eacute;</a></li>
+                <li><a href="creerpropriete.html">Cr&eacute;er une propri&eacute;t&eacute;</a></li>
+                <li><a href="creerrelation.html">Cr&eacute;er une relation</a></li>
+                <li><a href="generermodele.html">G&eacute;n&eacute;rer le mod&egrave;le conceptuel graphique</a></li>
+              </ul>
+          </details>
+         </div><!-- end .menu-entries --> 
+      </nav> <!-- end navi-->
+      <div class="main">
+        <article class="contenu">
+          <section>
+            <h1>Fonction imprimer</h1>
+            <figure><img class="proto" src="images/imprimer.png" alt="Figure 14 : Fonction 
+            imprimer et son sous-menu" /><figcaption>Figure 14 : Fonction imprimer et son 
+            sous-menu.</figcaption></figure>
+          	<p>La fonction <span class=
+			'grass'>imprimer</span> permet
+			d'imprimer le contenu de la grille principale. Le sous-menu
+			d'imprimer est compos&eacute; de deux options :
+			 <span class='grass'>Exporter CSV</span> et <span class=
+			'grass'>Grille</span>. Notez que
+			vous pouvez aussi acc&eacute;der aux options du sous-menu en
+			cliquant sur le petit triangle noir situ&eacute; &agrave; droit
+			du bouton imprimer.</p></br>
+			<p>Quand vous cliquez sur l'option <span class=
+			'grass'>Grille</span>, un
+			nouvel onglet sera ouvert automatiquement dans votre fureteur, la
+			fen&ecirc;tre du dialogue d'impression sera affich&eacute;e
+			&agrave; l'&eacute;cran. Selon le type d'imprimante
+			install&eacute;e sur votre ordinateur, vous pourriez enregistrer
+			le r&eacute;sultat de l'impression en format PDF. Notez que
+			Google Chrome vous offre la possibilit&eacute; d'enregistrer en
+			format PDF sans avoir besoin d'installer un logiciel
+			sp&eacute;cial. Le contenu de la grille est transform&eacute;
+			dans un format de sortie en HTML (le r&eacute;sultat est
+			montr&eacute; dans le nouvel onglet ouvert). Vous pouvez
+			enregistrer le contenu de cet onglet comme une page web ( HTML
+			).</p></br>
+			<p>Quand vous cliquez sur l'option <span class='grass'>Exporter CSV</span>,
+			une fen&ecirc;tre sera affich&eacute;e &agrave; l'&eacute;cran.
+			&Agrave; partir de cette fen&ecirc;tre, il est possible d'ouvrir
+			le fichier avec un logiciel de feuille de calcul comme Microsoft
+			Excel ou Libre Office Calc ou de l'enregistrer sur votre
+			ordinateur.</p></br>
+			<p id="remarque">Notez que le contenu de la grille principale est
+			imprim&eacute; ou export&eacute; au complet. Par exemple, si vous
+			avez 3 000 r&eacute;sultats qui sont distribu&eacute;s dans 10
+			pages, quand vous utilisez une des fonctions Grille ou Exporter
+			CSV, les 3 000 r&eacute;sultats seront imprim&eacute;s ou
+			exportes. Il n'est pas n&eacute;cessaire de se d&eacute;placer
+			&agrave; chacune de pages pour faire
+			l'impression/exportation.</p>
+			<h2>Imprimer le contenu de la grille principale</h2>
+			<ol>
+			<li class="etape">Cliquez sur le bouton <span class=
+			'grass'>Imprimer</span> du menu des fonctions, le
+			sous-menu d'impression s'affichera.</li>
+			<li class="etape">Cliquez sur l'option d'impression <span class=
+			'grass'>Grille</span>, un nouvel onglet sera
+			ouvert automatiquement dans votre fureteur, la fen&ecirc;tre du
+			dialogue d'impression sera affich&eacute;e &agrave;
+			l'&eacute;cran.</li>
+			<li class="etape">&Agrave; partir de la fen&ecirc;tre du dialogue
+			d'impression s&eacute;lectionnez enregistrer comme PDF ou envoyez
+			le travail &agrave; l'imprimante par d&eacute;faut.</li>
+			<li class="etape">Pour enregistrer le contenu comme page web,
+			fermez la fen&ecirc;tre du dialogue d'impression. Allez sur
+			l'option &laquo; Fichier &raquo; du menu de votre fureteur.
+			S&eacute;lectionnez l'option de la liste d&eacute;roulante
+			&laquo; Enregistrer sous &raquo;.</li>
+			</ol>
+			<h2>Exporter le contenu de la grille principale vers CSV</span> 
+			de la grille de navigation</h2>
+			<ol>
+			<li class="etape">Cliquez sur le bouton <span class=
+			'grass'>Imprimer</span> du menu des fonctions, le
+			sous-menu d'impression s'affichera.</li>
+			<li class="etape">Cliquez sur l'option d'impression <span class=
+			'grass'>Exporter CSV</span>, une fen&ecirc;tre
+			sera affich&eacute;e &agrave; l'&eacute;cran.</li>
+			<li class="etape">&Agrave; partir de cette fen&ecirc;tre
+			s&eacute;lectionnez <span class='grass'>Ouvrir avec</span> pour l'ouvrir
+			avec un logiciel de feuille de calcul ou <span class='grass'>Enregistrer sous</span>
+			pour l'enregistrer sur votre ordinateur.</li>
+			</ol></br>
+			<p id="remarque">Selon la taille de r&eacute;sultats &agrave;
+			exporter, la fen&ecirc;tre peut tarder quelques secondes &agrave;
+			appara&icirc;tre. Laissez le temps &agrave; l'application de
+			r&eacute;aliser l'op&eacute;ration. Si la fen&ecirc;tre ne
+			s'affiche pas et qu'un message d'erreur TIMEOUT (voir <a 
+			href="messages.html">barre de messages</a> )
+			est affich&eacute;, cela veut dire que la quantit&eacute; des
+			r&eacute;sultats est trop grande et elle d&eacute;passe le temps
+			attribu&eacute; par le serveur. Dans ce cas, essayez de filtrer
+			vos r&eacute;sultats pour en r&eacute;duire la taille.</p>
+			<figure><img class="proto" src="images/exportcsv.png" alt="Figure 15 : exemple 
+			de la fenetre exportation CSV" /><figcaption>Figure 15 : exemple de la fenetre 
+			exportation CSV.</figcaption></figure>
+          </section>   
+        </article>
+      </div> <!-- end .main -->
+     </div><!-- end .guide -->
+ </div><!-- end #page -->
+</body>
+</html>

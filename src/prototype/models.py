@@ -234,7 +234,7 @@ class Property(PropertyBase):
             self.isRequired = True
             self.isLookUpResult = True 
   
-        updatePropInfo( self,  self.propertyModel, PropertyModel, False )
+        #updatePropInfo( self,  self.propertyModel, PropertyModel, False )
         super(Property, self).save(*args, **kwargs) 
 
     class Meta:
@@ -318,7 +318,7 @@ class PropertyModel(PropertyBase):
 
     def save(self, *args, **kwargs ):
         # Envia el heredado y se asegura q sea Falso siempre 
-        updatePropInfo( self,  None, PropertyModel, self.inherit   )
+        #updatePropInfo( self,  None, PropertyModel, self.inherit   )
         self.inherit = False 
         super(PropertyModel, self).save(*args, **kwargs) 
         

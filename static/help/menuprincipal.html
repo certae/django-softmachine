@@ -1,9 +1,5 @@
 <!DOCTYPE html>
 <html>
-<!--
-  Created using jsbin.com
-  Source can be edited via http://jsbin.com/Uderoka/7/edit
--->
 <head>
 <meta charset=utf-8 />
 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -69,33 +65,68 @@
                 <li><a href="generermodele.html">G&eacute;n&eacute;rer le mod&egrave;le conceptuel graphique</a></li>
               </ul>
           </details>
-         </div><!-- end .menu-entries --> 
+         </div><!-- end .menu-entries -->  
       </nav> <!-- end navi-->
       <div class="main">
         <article class="contenu">
           <section>
-            <h1>D&eacute;marche et pratique du prototypage</h1></br>
-			<h3>Concevoir le mod&egrave;le conceptuel de donn&eacute;es.</h3>
-			<ol>
-            <li>Entit&eacute;/Association</li>
-            <li>Relationnel - conceptuel et non Relationnel - logique</li>
-            </ol>
-            <figure><img class="proto" src="images/modelconceptuel.png" alt="Figure 31 : 
-            mod&egrave;le conceptuel de donn&eacute;es" /><figcaption>Figure 31 : 
-            mod&egrave;le conceptuel de donn&eacute;es.</figcaption></figure>
-          	<h3>Entrer le mod&egrave;le dans l'application du prototypeur</h3>
-			<ol>
-            <li>Entit&eacute;s, attributs et relations parent-enfant</li>
-            <li>Afficher la vue graphique</li>
-            <li>G&eacute;n&eacute;rer les formulaires pour chaque table du mod&egrave;le</li>
-            </ol>
-			<h3>Alimenter des valeurs dans les entit&eacute;s</h3>
-			<h3>Concevoir l'application</h3>
-            <ol>
-            <li>Choisir les entit&eacute;s</li>
-            <li>Effectuer les absortions</li>
-            <li>Composer les formulaires parent-enfant</li>
-            </ol>
+            <h1>Menu principal</h1>
+            <figure><img class="proto" src="images/composants.png" alt="Figure 2 : Menu 
+            des composants du dictionnaire" /><figcaption>Figure 2 : Menu des composants 
+            du dictionnaire.</figcaption></figure>
+		<p>Le <span class='grass'> menu principal </span> affiche l'arborescence des 
+		composantes du dictionnaire (MCD) ainsi que la liste des projets et leurs vues 
+		prototypes.</p>
+		<p>Le menu principal permet d'afficher le contenu de chaque objet disponible sur 
+		l'arborescence de l'application. Ce contenu est ouvert dans la grille principale. 
+		Un nouvel onglet est ouvert pour chaque objet s&eacute;lectionn&eacute;.</p></br>
+		<p>Il est possible de cacher le menu principal en cliquant sur le bouton 
+		<span class="f_gauche"></span>.</p>
+		<p>Pour r&eacute;afficher le menu principal cliquez sur le bouton 
+		<span class="f_droite"></span>.</p>
+		<h2>Afficher le contenu d'un objet du menu principal</h2>
+		<ol>
+			<li class='etape'>Cliquez deux fois sur l'objet &agrave; ouvrir. Le nouvel 
+			onglet s'ouvrira automatiquement dans la <span class='grass'> grille 
+			principale </span>;</li>
+			<li class='etape'>R&eacute;p&eacute;tez l'&eacute;tape 1 pour chaque nouvel 
+			onglet &agrave; ouvrir ;</li>
+		</ol>
+		<h2>Les fonctions du menu principal</h2>
+		<table>
+		<tr><td><img src="images/newdossier.png" alt="nouveau dossier" width= "24" 
+		height="21" /></td>
+		<td>Cr&eacute;er un nouveau dossier dans l'arborescence. Pour d&eacute;placer 
+		le nouveau dossier, cliquez sur lui, sans rel&acirc;cher le bouton de la souris, 
+		glissez-le et ensuite d&eacute;posez-le &agrave; l'endroit voulu.</td>
+		</tr>
+		<tr><td><img src="images/editnode.png" alt="modifier noeud" width="25" 
+		height="22" /></td>
+		<td>Modifier le noeud permettre de changer le nom de l'objet choisi.</td></tr>
+		<tr><td><img src="images/erasenode.png" alt="supprimer noeud" width="24" 
+		height="23" /></td>
+		<td>S&eacute;lectionnez supprimer noeud pour supprimer un objet dans 
+		l'arborescence.</td></tr>
+		<tr><td><img src="images/savemenu.png" alt="enregistrer menu" width="24" 
+		height="22" /></td>
+		<td>Enregistrer menu sert &agrave; enregistrer l'&eacute;tat actuel du menu 
+		principal. Toutes les modifications (personnalisations) r&eacute;alis&eacute;es 
+		dans l'arborescence seront enregistr&eacute;es, en cas contraire, un menu par 
+		d&eacute;faut sera toujours affich&eacute; dans l'application.</td>
+		</tr>
+		<tr><td><img src="images/recharmenu.png" alt="recharger menu" width="23" 
+		height="24" /></td>
+		<td>Recharger menu fait un appel &agrave; l'application pour recharger la 
+		configuration du menu. Si les modifications effectu&eacute;es ont 
+		&eacute;t&eacute; enregistr&eacute;es, l'application retournera le dernier 
+		&eacute;tat enregistr&eacute; du menu.</td>
+		</tr>
+		<tr><td><img src="images/restartmenu.png" alt="r&eacute;initialiser menu" 
+		width="22" height="24" /></td>
+		<td>R&eacute;initialiser menu fait un appel &agrave; l'application pour charger 
+		la configuration initiale du menu.</td>
+		</tr>
+		</table>
           </section>   
         </article>
       </div> <!-- end .main -->
