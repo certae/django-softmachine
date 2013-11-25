@@ -1,4 +1,9 @@
 
+/*jslint nomen: true, sloppy : true, white : true, sub : true */
+/*global Ext */
+/*global _SM */
+
+
 Ext.define('ProtoUL.view.ProtoGrid' ,{
     extend: 'Ext.Panel',                                
     alias : 'widget.protoGrid',
@@ -178,7 +183,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                             if (linkClicked && clickedDataIndex ) {
                                 
                                 var myZField = me.myFieldDict[ clickedDataIndex ] 
-                                if ( ! myZField ) { return }
+                                if ( ! myZField ) { return;  }
                                 if (  myZField.zoomModel && myZField.fkId ) {
                                     
                                     if (( myZField.zoomModel == me.myMeta.viewEntity ) && ( myZField.fkId = me.myMeta.idProperty )) {
@@ -201,16 +206,15 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                                 } else if ( myZField.zoomModel == '@cellValue' ) {
                                     // Podria usarse con @FieldName para indicar de donde tomar el modelo o la funcion  
     
-                                    var pModel  =  record.get( myZField.name ) 
-                                    _SM._mainWin.loadPciFromMenu( pModel ) 
+                                    var pModel  =  record.get( myZField.name ); 
+                                    _SM._mainWin.loadPciFromMenu( pModel );
     
                                 } else {
                                     _SM.errorMessage( 'LinkedForm definition error : ' +  clickedDataIndex, 
                                                   'zoomModel : ' + myZField.zoomModel + '<br>' +
                                                   'fkId : ' + myZField.fkId  
-                                                   )
-                                }; 
-                                
+                                               );
+                                }
                             }
                         } 
                     },            
@@ -385,9 +389,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         function createColDictionary() {
         // Crea el diccionario de columnas 
-            var gCol
-            for (var ix in myMeta.fields ) {
-                var vFld = myMeta.fields[ix] 
+            var gCol, ix, vFld  ; 
+            for (ix in myMeta.fields ) {
+                vFld = myMeta.fields[ix] 
                 if ( vFld.crudType == 'storeOnly' ) {continue};
     
                 // lee las props p
@@ -427,12 +431,15 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     getSelectedIds: function() {
         // Lista de registros seleccionados ( id )
 
-        var selectedIds = []
+        var selectedIds = [], 
+             ix, cllSelection ; 
+             
         if ( ! this.selected ) return selectedIds 
         if ( ! this.selModel ) return [ this.selected.get('id') ]
 
-        var cllSelection = this.selModel.getSelection()                 
-        for ( var ix in cllSelection ) {
+        cllSelection = this.selModel.getSelection();  
+                             
+        for ( ix in cllSelection ) {
             selectedIds.push( cllSelection[ix].get( 'id') ) 
         } 
         
@@ -448,43 +455,42 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         this.colSetName = tabConfig.name  
         this.colSetDefinition= [];
         
-        var gCol, dataIndex 
+        var gCol, dataIndex, ixV; 
                 
         // Adding RowNumberer  
         if ( ! tabConfig.hideRowNumbers )  {
-            gCol  = this.colDictDefinition[ '___numberCol' ]
+            gCol  = this.colDictDefinition[ '___numberCol' ];
             this.colSetDefinition.push( gCol );
-        }; 
+        }
 
-        for (var ixV in tabConfig.listDisplay  ) {
-            dataIndex = tabConfig.listDisplay[ ixV ]
-            gCol = this.colDictDefinition[ dataIndex ] 
-            if ( gCol ) {  this.colSetDefinition.push( gCol ) }
+        for ( ixV in tabConfig.listDisplay  ) {
+            dataIndex = tabConfig.listDisplay[ ixV ];
+            gCol = this.colDictDefinition[ dataIndex ]; 
+            if ( gCol ) {  this.colSetDefinition.push( gCol ); }
         }
         
-        return this.colSetDefinition
+        return this.colSetDefinition;
     },
     
     configureColumns: function ( tabConfig ) {
 
         // guarda la confAnterior 
-        if ( this.colSetName == tabConfig.name ) return this.colSetDefinition
+        if ( this.colSetName == tabConfig.name ) { return this.colSetDefinition; }
 
-        var vColumns = this.getViewColumns( tabConfig )
+        var vColumns = this.getViewColumns( tabConfig );
         
         // para corregir un error ( foros Ext )  
         this._extGrid.view.refresh();
 
         // Configurar columnas de la grilla 
         // Primero se borran todos exepto el check ( en vez de removeAll() )
-        var hCt = this._extGrid.headerCt,  
+        var hCt = this._extGrid.headerCt ,  
             removeItems = hCt.items.items.slice(),
-            i = 0,
-            len = removeItems.length -1,
-            item;
+            len0 = removeItems.length -1,
+            item, i;
 
         this.suspendLayouts();
-        for (; i < len; i++) {
+        for ( i=0; i< len0; i++ ) {
             item = removeItems[i];
             hCt.remove(item, true);
         }
@@ -493,7 +499,6 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         // this.setChekSelection( this, tabConfig )
         this.resumeLayouts( true );
-        
         this._extGrid.view.refresh();
 
     }, 
@@ -513,9 +518,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         
         if ( me.detailTitle ) {
             gridTitle = '" ' + me.detailTitle + ' "';  
-        } else if ( me.mdFilter != undefined )  { 
+        } else if ( me.mdFilter !== undefined )  { 
             gridTitle = Ext.encode( me.mdFilter );   
-        };
+        }
         
         // Titulos cuando son filtros predefinidos 
         if ( me.filterTitle ) {
@@ -523,7 +528,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             gridTitle +=  me.filterTitle ; 
         } 
 
-        if ( gridTitle ) { gridTitle = ' filtrés par ' +  gridTitle + '' ;}
+        if ( gridTitle ) { gridTitle = '; filtrage par ' +  gridTitle + '' ;}
         if ( me.embededGrid ) { gridTitle = '';}  
 
         gridTitle = me.myMeta.shortTitle + gridTitle ; 
@@ -539,23 +544,23 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     
 
     duplicateRecord: function() {
-        if ((! this._extGrid ) || ( ! this.editable )) return; 
+        if ((! this._extGrid ) || ( ! this.editable )) { return; } 
         
-        var rec =  this.selected
-        if ( rec )  this.insertNewRecord ( rec.copy()  ) 
+        var rec =  this.selected;
+        if ( rec ) { this.insertNewRecord(rec.copy());} 
     }, 
 
     insertNewRecord: function( rec ) {
         
-        rec.data._ptStatus = _SM._ROW_ST.NEWROW 
-        rec.data._ptId = rec.get( 'id' )   
-        rec.data.id = undefined 
-        rec.phantom = true 
+        rec.data._ptStatus = _SM._ROW_ST.NEWROW;
+        rec.data._ptId = rec.get( 'id' );
+        rec.data.id = undefined; 
+        rec.phantom = true; 
         this.store.insert(0, rec );
         
         // Selecciona el registro adicionado
-        var sm = this._extGrid.getSelectionModel()
-        sm.select( 0 )
+        var sm = this._extGrid.getSelectionModel();
+        sm.select( 0 );
     },
 
 
@@ -587,13 +592,13 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
     setEditMode: function(  bEdit ) {
         // Deshabilita cualquier operacion al server
-        this.store.editMode = bEdit 
-        this.gridController.setEditMode( bEdit )
+        this.store.editMode = bEdit;
+        this.gridController.setEditMode( bEdit );
     },  
 
     saveChanges: function( autoSync ){
         this.store.sync();
-        if ( autoSync != undefined )  this.store.autoSync = autoSync  
+        if ( autoSync !== undefined ) { this.store.autoSync = autoSync; }   
     }, 
 
     reload: function() {
@@ -605,16 +610,15 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     }, 
     
     gridLoadData: function( grid,  sFilter, sorter  ) {
-        
-        grid.store.myLoadData( sFilter, sorter  )
-        
+        grid.store.myLoadData( sFilter, sorter  );
+
         // Para evitar q al filtrar se quede en una pagina vacia 
-        if ( grid.store.currentPage != 1 )  grid.store.loadPage(1);
+        if ( grid.store.currentPage != 1 ) { grid.store.loadPage(1); }
     },
     
     addTools: function( myTools ) {
         // Controles de edicion en el panel de titulo de la grilla 
-        this._extGrid.addTool( myTools )
+        this._extGrid.addTool( myTools );
     } 
 
 

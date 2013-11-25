@@ -199,16 +199,24 @@ def strip_accents(inStr):
     drep["u"] = u'ùû'
     drep["o"] = u'ôòö'
  
+    drep["E"] = u'ÉÊÈË'
+    drep["A"] = u'ÀÂÄ'
+    drep["I"] = u'ÎÏ'
+    drep["C"] = u'Ç'
+    drep["U"] = u'ÙÛ'
+    drep["O"] = u'ÔÒÖ'
+
     for k in drep.keys():
         for ch in drep[k]:
             inStr = inStr.replace(ch, k)
-    return inStr
+
+    # De todas formas lo estandariza 
+    return slugify( inStr ) 
     
 def strip_euro(inStr):
     inStr = u'%s' % inStr
     inStr = inStr.replace(u'€', u'euro(s)')
     return inStr
-    
 
 
 
@@ -425,7 +433,7 @@ def findBrackets( aString ):
 from unicodedata import normalize
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.:]+')
-#_punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^`{|},.:]+')
+#punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^`{|},.:]+')
 
 def slugify(text, delim=u'-'):
     """Generates an slightly worse ASCII-only slug.

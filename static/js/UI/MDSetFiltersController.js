@@ -1,3 +1,10 @@
+/*jslint nomen: true, sloppy : true, white : true, sub : true */
+/*global Ext */
+/*global _SM */
+/*global ProtoUL */
+/*global getSimpleProperties */
+
+
 Ext.define('ProtoUL.UI.MDSetFiltersController', {
     extend: 'Ext.Base',
     myMeta : null, 
@@ -8,26 +15,26 @@ Ext.define('ProtoUL.UI.MDSetFiltersController', {
 
     getCustomOptsBar: function() {
         
-        var myFilters = []  
-        var __MasterDetail = this.__MasterDetail
-        var tmpFilters = this.myMeta.gridSets.filtersSet.concat( this.myMeta.custom.filtersSet ) 
+        var myFilters = [],
+            nFiltre, vDet, tmpF1, pFilters,      
+            __MasterDetail = this.__MasterDetail,
+            tmpFilters = this.myMeta.gridSets.filtersSet.concat( this.myMeta.custom.filtersSet ) ;
 
         // Si no hay filtros definidos pero existe un filterAlph,
-        if ((tmpFilters.length == 0)  &&  this.myMeta.gridConfig.filterSetABC  ) {
+        if ((tmpFilters.length === 0)  &&  this.myMeta.gridConfig.filterSetABC  ) {
 
-            for (var nFiltre in oc(['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'])) {
-                var tmpF1 = {}
-                tmpF1[ 'property' ] = this.myMeta.gridConfig.filterSetABC   
-                tmpF1[ 'filterStmt' ] =  '^' + nFiltre 
-                tmpFilters.push ({ name: nFiltre,  filter: [ tmpF1 ] }) 
+            for (nFiltre in oc(['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'])) {
+                tmpF1 = {};
+                tmpF1[ 'property' ] = this.myMeta.gridConfig.filterSetABC;   
+                tmpF1[ 'filterStmt' ] =  '^' + nFiltre;
+                tmpFilters.push ({ name: nFiltre,  filter: [ tmpF1 ] }); 
             }
-            tmpFilters.push ({ name: ' *', filter: {} })
+            tmpFilters.push ({ name: ' *', filter: {} });
              
-        } 
+        }
         
-        for (var vDet in tmpFilters ) {       
-
-            var pFilters = tmpFilters[ vDet ]
+        for ( vDet in tmpFilters ) {       
+            pFilters = tmpFilters[ vDet ];
             myFilters.push (
                 new Ext.Action({
                     text:           pFilters.name,
@@ -38,7 +45,7 @@ Ext.define('ProtoUL.UI.MDSetFiltersController', {
                     handler:        onClickProtoFilter
                 }));
 
-        };
+        }
 
 
         if ( myFilters.length > 0  ) {
@@ -65,9 +72,9 @@ Ext.define('ProtoUL.UI.MDSetFiltersController', {
             __MasterDetail.protoMasterGrid.filterTitle = ' " ' +  btn.text + ' "'; 
             __MasterDetail.protoMasterGrid.setGridTitle( __MasterDetail.protoMasterGrid ) 
             __MasterDetail.mdGridLoadData( btn.protoFilter );
-        }
+        };
         
         
     }
     
-}) 
+}) ;

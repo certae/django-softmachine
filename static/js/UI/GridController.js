@@ -1,3 +1,9 @@
+/*jslint nomen: true, sloppy : true, white : true, sub : true */
+/*global Ext */
+/*global _SM */
+/*global ProtoUL */
+/*global getSimpleProperties */
+
 
 Ext.define('ProtoUL.UI.GridController', {
     extend: 'Ext.Base',
@@ -19,10 +25,10 @@ Ext.define('ProtoUL.UI.GridController', {
          * 
          */  
 
-        var me = this.myGrid; 
-        var navPanel = ['-']; 
-
-        var comboPageSize = new Ext.form.ComboBox({
+        var me = this.myGrid,  
+            navPanel = ['-'],
+              
+            comboPageSize = new Ext.form.ComboBox({
             name : 'perpage',
             width: 60,
             store: new Ext.data.ArrayStore({
@@ -53,7 +59,7 @@ Ext.define('ProtoUL.UI.GridController', {
                 text: _SM.__language.GridNav_In_New_Tab,
                 iconCls : 'icon-promote',
                 handler : onMenuPromoteDetail
-            })  
+            });  
         } 
 
         navPanel.push( comboPageSize, _SM.__language.GridNav_PageSize );
@@ -76,23 +82,20 @@ Ext.define('ProtoUL.UI.GridController', {
 
                 displayMsg: _SM.__language.GridNav_Current + ' : {0} - {1} ' + _SM.__language.GridNav_Total +' {2}'
                 // emptyMsg: "No register to display"
-            }
+        };
 
-        me.addDocked( myNavPanel  )
+        me.addDocked( myNavPanel  );
 
         function onMenuPromoteDetail() {
 
-            var detDef = me.detailDefinition 
+            var detDef = me.detailDefinition;
 
             _SM.__TabContainer.addTabPanel(
                    me.store.viewCode , 
                    me.protoFilter, 
                    me.detailTitle 
            ); 
-            
-        };
-
-
+        }
     }, 
     
     addGridTools : function()  {
@@ -146,49 +149,44 @@ Ext.define('ProtoUL.UI.GridController', {
                 scope: this,
                 handler: this.onEditAction
             } 
-            ]
+            ];
         
-            this.myGrid.addTools( editTools )
-            this.setEditMode( false )
-        
-        
+            this.myGrid.addTools( editTools );
+            this.setEditMode( false );
         
     }, 
     
     setEditMode: function ( bEdit) {
 
-
-        var perms = _SM._UserInfo.perms[ this.myMeta.viewCode ]
+        var perms = _SM._UserInfo.perms[ this.myMeta.viewCode ], 
+            myExtGrid = this.myGrid._extGrid;    
+        
         if ( !( perms['add'] || perms['change'] || perms['delete'] )) { return; } 
         // if ( ! _SM._UserInfo.isStaff  ) return 
 
-        this.myGrid.editable = bEdit
-        var myExtGrid = this.myGrid._extGrid    
+        this.myGrid.editable = bEdit;
 
         if ( perms['add'] ) {
             // setToolMode ( myExtGrid, '#toolRowAdd', bEdit )
-            setToolMode ( myExtGrid, '#toolRowCopy', bEdit )
-            setToolMode ( myExtGrid, '#toolFormAdd', bEdit ) 
+            setToolMode ( myExtGrid, '#toolRowCopy', bEdit );
+            setToolMode ( myExtGrid, '#toolFormAdd', bEdit );
         } 
 
         if ( perms['delete'] ) {
-            setToolMode ( myExtGrid, '#toolRowDel', bEdit )
+            setToolMode ( myExtGrid, '#toolRowDel', bEdit );
         } 
 
         if ( perms['change'] ) {
-            setToolMode ( myExtGrid, '#toolFormUpd', bEdit )
+            setToolMode ( myExtGrid, '#toolFormUpd', bEdit );
         }
         
-        setToolMode ( myExtGrid, '#toolFormView', !bEdit )
-
-        // setToolMode ( myExtGrid, '#toolMetaConfig',  !bEdit ) 
+        setToolMode ( myExtGrid, '#toolFormView', !bEdit );
+        // setToolMode ( myExtGrid, '#toolMetaConfig',  !bEdit ); 
 
         function setToolMode( myExtGrid, myToolBt, bEdit ) {
             if ( bEdit ) { myExtGrid.down( myToolBt ).show(); }
             else  { myExtGrid.down( myToolBt ).hide(); }
-            
         }
-
     }, 
     
     
@@ -197,6 +195,7 @@ Ext.define('ProtoUL.UI.GridController', {
 
     onEditAction: function ( ev, obj, head, btn   ){
 
+
         if ( ! this.formController  ) {
             this.formController = Ext.create('ProtoUL.UI.FormController', { 
                 myMeta: this.myMeta 
@@ -204,13 +203,13 @@ Ext.define('ProtoUL.UI.GridController', {
         }  
 
         // Lanza el evento de inicio de edicion 
-        this.myGrid.fireStartEdition( btn.itemId  )
+        this.myGrid.fireStartEdition( btn.itemId  );
 
 
         // 'toolFormAdd', 'toolFormUpd', 'toolFormView', 'toolRowAdd', 'toolRowCopy', 'toolRowDel',
         switch( btn.itemId ){ 
             case 'toolFormAdd' :
-                this.formController.openNewForm (  this.myGrid.store )
+                this.formController.openNewForm (  this.myGrid.store );
                 break;
 
             case 'toolFormUpd' : 
@@ -230,28 +229,28 @@ Ext.define('ProtoUL.UI.GridController', {
                 // break;
 
             case 'toolRowCopy' :
-                this.myGrid.duplicateRecord()
+                this.myGrid.duplicateRecord();
                 break;
 
 
             case 'toolRowDel' :    
                 var me = this ;      
                 function doDelete( btn ){
-                    if(btn == 'yes') { me.myGrid.deleteCurrentRecord() }
+                    if(btn === 'yes') { me.myGrid.deleteCurrentRecord(); }
                 }
+
                 Ext.MessageBox.confirm('Confirm Delete', 'Are you sure?', doDelete ); 
                 break;                
         }        
-        
     } 
     
     
-})
+});
 
 _SM.validaSelected = function ( myReg )  {
     if ( ! myReg ) {
-        _SM.errorMessage(_SM.__language.Title_Form_Panel, _SM.__language.GridAction_NoRecord)
-        return false 
+        _SM.errorMessage(_SM.__language.Title_Form_Panel, _SM.__language.GridAction_NoRecord);
+        return false; 
     }
-    return true 
-}
+    return true; 
+};

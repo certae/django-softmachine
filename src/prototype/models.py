@@ -10,7 +10,7 @@ from protoRules import  updatePropInfo, twoWayPropEquivalence, updProPropModel
 from protoRules import  ONDELETE_TYPES, BASE_TYPES, CRUD_TYPES, DB_ENGINE
 
 
-from protoLib.utilsBase import slugify
+from protoLib.utilsBase import slugify, strip_accents
 
 PROTO_PREFIX = "prototype.ProtoTable."
 
@@ -445,6 +445,7 @@ class ProtoTable(ProtoModel):
     """
     Esta es el store de los prototipos   
     """
+    
     entity = models.ForeignKey( Entity, blank = False, null = False )
     info = JSONField( default = {} )
 
@@ -457,7 +458,8 @@ class ProtoTable(ProtoModel):
         for arg in args:
             try: val = val + '.' + str( self.info.get( arg[6:] ) )
             except: pass 
-        return  val[1:]
+#       return  strip_accents( val[1:] ) 
+        return  slugify( val[1:] ) 
 
     objects = JSONAwareManager(json_fields = ['info'])
     protoExt = { 'jsonField' : 'info' }
