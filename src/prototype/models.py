@@ -456,10 +456,9 @@ class ProtoTable(ProtoModel):
         # Evalua el string de prototipos
         val = ''
         for arg in args:
-            try: val = val + '.' + str( self.info.get( arg[6:] ) )
+            try: val = val + '.' + slugify( self.info.get( arg[6:] ) )
             except: pass 
-#       return  strip_accents( val[1:] ) 
-        return  slugify( val[1:] ) 
+        return  val[1:] 
 
     objects = JSONAwareManager(json_fields = ['info'])
     protoExt = { 'jsonField' : 'info' }
