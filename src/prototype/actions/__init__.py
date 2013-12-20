@@ -100,6 +100,32 @@ def doModelGraph( modeladmin, request, queryset, parameters):
     return  {'success':True , 'message' : fileName,  'fileName' : fileName }
 
 
+
+def doExportPrototype( modeladmin, request, queryset, parameters):
+
+    
+    from prototype.actions.exportProtoype  import exportPrototypeModel
+    
+
+#   El QSet viene con la lista de Ids  
+    if queryset.count() != 1:
+        return  {'success':False, 'message' : 'No record selected' }
+
+            
+#   Envia el QSet con la lista de modelos, 
+    strModel = exportPrototypeModel ( request, queryset )
+        
+#   Genera el archvivo py      
+    fileName = 'model_{0}.py'.format( slugify( queryset[0].code ) )
+    fullPath = getFullPath( request, fileName )
+
+    fo = open( fullPath , "w")
+    fo.write( strModel.encode('utf-8'))
+    fo.close()
+
+    return  {'success':True , 'message' : fileName,  'fileName' : fileName }
+
+
 # ----------------   Project  
 
 def doImportSchema( modeladmin, request, queryset, parameters):

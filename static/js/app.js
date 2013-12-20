@@ -86,12 +86,12 @@ Ext.application({
     
     showLogin: function(  ) {
 
-        var me = this 
+        var me = this;  
 
         var options = {
             scope: me, 
             success: function ( obj, result, request ) {
-                myWin.hide()
+                myWin.hide(); 
                 
                 // Globally changing the text of Cancel and Save buttons;
                 Ext.grid.RowEditor.prototype.saveBtnText = _SM.__language.Text_Save_Button;
@@ -100,13 +100,13 @@ Ext.application({
                 var app = new ProtoUL.view.Viewport();
                 
                 // destruye el login 
-                Ext.destroy( Ext.ComponentQuery.query('protoLogin') )     
+                Ext.destroy( Ext.ComponentQuery.query('protoLogin') );    
 
             }
             // failure: function ( obj, result, request) { 
                 // _SM.errorMessage( 'ProtoDefinition Error :', myZoomModel + ': protoDefinition not found')
             // }
-        }
+        };
         
         var myWin  = Ext.widget('window', {
             constrain: true, 
