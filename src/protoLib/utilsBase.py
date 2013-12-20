@@ -464,3 +464,8 @@ def slugify(text, delim=u'-'):
 #    print no_spaces
 #    # output: l_s_c_t_z_y_a_i_e
 
+
+def repStr(string_to_expand, length):
+    #Repeat to length  ( indent, fill, ... ) 
+    return (string_to_expand * ((length/len(string_to_expand))+1))[:length]
+
