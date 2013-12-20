@@ -73,7 +73,7 @@ Ext.define('ProtoUL.ux.Login', {
         });
 
         this.callParent(arguments);
-        this.stLogin = this.dockedItems.items[0].getComponent( 'stLogin' ) 
+        this.stLogin = this.dockedItems.items[0].getComponent( 'stLogin' ); 
         
         this.on('afterlayout', function () {
             if (this.username == '') {
@@ -81,22 +81,22 @@ Ext.define('ProtoUL.ux.Login', {
             } else {
                 this.getForm().findField('password').focus();
             }
-        })
+        });
 
     },
 
     onKeyEnter: function (me, e) {
         if (e.getKey() == e.ENTER) {
-            this.submitLogin()
+            this.submitLogin();
         }
     },
 
     submitLogin: function (btn) {
-        if ( ! btn ) { btn = this.submitButton }
+        if ( ! btn ) { btn = this.submitButton; }
         btn.disable();
         
         var form = this.getForm(), 
-            me = this
+            me = this;
 
         Ext.applyIf(this.options, {
             scope: this,
@@ -117,11 +117,11 @@ Ext.define('ProtoUL.ux.Login', {
                 // success: this.submitLoginCallback,
                 // failure: this.submitLoginCallback, 
                 success: function(result, request) {
-                    _SM._UserInfo = request.result.userInfo
-                    _SM.__language = request.result.language
+                    _SM._UserInfo = request.result.userInfo;
+                    _SM.__language = request.result.language;
 
                     // Incializa los permisos 
-                    _SM._UserInfo.perms = {}
+                    _SM._UserInfo.perms = {};
                     
                     me.options.success.call( me.options.scope, result, request);                },
                 failure: function(result, request) {
@@ -164,7 +164,7 @@ Ext.define('ProtoUL.ux.Login', {
                     },
                     scope: this,
                     success: function (response) {
-                        json = Ext.decode(response.responseText)
+                        json = Ext.decode(response.responseText);
                         if (json.success) {
 
                             Ext.Msg.show({
@@ -191,11 +191,11 @@ Ext.define('ProtoUL.ux.Login', {
                             icon: Ext.MessageBox.WARNING
                         });
                     }
-                })
+                });
 
             }
 
-        }, this)
+        }, this);
     }
 
 

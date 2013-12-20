@@ -3,3 +3,4 @@
 *.pyo
 .deployables
 static/pruebas/tmp.js
+static/extjs-4.1.x
