@@ -8,6 +8,9 @@ from django.contrib.sites.models import Site
 from django.db.models.signals import post_save
 from protoLib.fields import JSONField,  JSONAwareManager
 
+from django.contrib.contenttypes.models import ContentType
+
+
 class TeamHierarchy(models.Model):
 # Jerarquia funcional ( de seguridad ) de la app     
 # Es la base de la seguridad por registro
@@ -160,8 +163,9 @@ class ProtoDefinition(models.Model):
     # Esta tabla guarda las definiciones de las pcls y del menu,
     # es un contenedor generico para manejar documentos json modificados de lo q 
     # en principio es la definicion de base de los modelos Django. 
-    code = models.CharField(unique=True, blank = False, null = False, max_length=200 )
+    code = models.CharField( unique=True, blank = False, null = False, max_length=200 )
     description = models.TextField( verbose_name=u'Descriptions',blank = True, null = True)
+    
     metaDefinition = models.TextField( blank = True, null = True)
     
     # Si esta activo toma la definicion de la Db, si no esta activa usa la definicion por defecto  
@@ -169,6 +173,11 @@ class ProtoDefinition(models.Model):
     
     # Elto de control para sobre escribir,  podria ser un error el solo hecho de inactivarlo
     overWrite = models.BooleanField( default = True  )
+    
+    # For entity clasification  ( V14.01 ) 
+#     appName     = models.CharField(max_length=200, blank=True, null=True)
+#     entityName  = models.CharField(max_length=200, blank=True, null=True)
+#     contentType = models.ForeignKey(ContentType, blank=True, null=True)
     
     def __unicode__(self):
         return self.code 

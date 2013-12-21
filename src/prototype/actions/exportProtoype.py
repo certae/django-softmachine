@@ -54,11 +54,10 @@ def exportPrototypeModel(request, queryset):
         strModel.write('# This is an auto-generated model module by CeRTAE SoftMachine v13.12dgt\n' )  
         strModel.write("# for model : \"{0}\"\n".format( modelCode ) )  
         strModel.write("# You'll have to do the following manually to clean this up:\n")
-        strModel.write("#     * Add specific procedures  (WFlow)\n")
-        strModel.write("\n")
+        strModel.write("#     * Add specific procedures  (WFlow)\n\n")
+        strModel.write("from django.db import models\n")
         strModel.write("from protoLib.models import ProtoModel\n")    
-        strModel.write("from django.utils.encoding import force_unicode\n")
-
+        strModel.write("from protoLib.utilsBase import slugify\n")
 
         for pEntity in pModel.entity_set.all():
 
@@ -92,13 +91,16 @@ def exportPrototypeModel(request, queryset):
 
                         if intLength == 0 or intLength > 24  : intLength = 48 
                         if intScale  <  0 or intScale  > intLength : intScale = 2 
+
+                    elif pType == 'BooleanField':
+                        strAux = "{0} = models.{1}()\n"
                         
                     else: 
                         strAux = "{0} = models.{1}(blank = {2}, null = {2})\n"
 
 #               isRequired isNullable: 
-                if pProperty.isRequired: strNull = 'FALSE'
-                else: strNull = 'TRUE'
+                if pProperty.isRequired: strNull = 'False'
+                else: strNull = 'True'
 
                 if pProperty.isPrimary: 
                     arrKeys.append( pCode ) 
@@ -137,10 +139,9 @@ def exportPrototypeModel(request, queryset):
                 
                 strOptions = ''
                 for pCode in arrKeys:
-                    if strOptions.__len__() > 0:  strOptions += "," 
-                    strOptions +=  "'{0}'".format( pCode ) 
+                    strOptions +=  "'{0}',".format( pCode ) 
      
-                strModel.write( repStr(' ',8) + "unique_together({0})\n".format( strOptions ))
+                strModel.write( repStr(' ',8) + "unique_together = ({0})\n".format( strOptions ))
 
             else: 
 

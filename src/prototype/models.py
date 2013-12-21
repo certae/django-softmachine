@@ -6,11 +6,12 @@ from django.db.models.signals import post_save, post_delete
 from protoLib.models import ProtoModel   
 from protoLib.fields import JSONField,  JSONAwareManager
 
-from protoRules import  updatePropInfo, twoWayPropEquivalence, updProPropModel
+# from protoRules import  updatePropInfo
+from protoRules import  twoWayPropEquivalence, updProPropModel
 from protoRules import  ONDELETE_TYPES, BASE_TYPES, CRUD_TYPES, DB_ENGINE
 
 
-from protoLib.utilsBase import slugify, strip_accents
+from protoLib.utilsBase import slugify
 
 PROTO_PREFIX = "prototype.ProtoTable."
 
