@@ -102,7 +102,8 @@ class Model(ProtoModel):
         "actions": [
             { "name": "doModelPrototype" }, 
             { "name": "doModelGraph" },  
-            { "name": "doExportPrototype" } 
+            { "name": "doExportPrototype" },
+            { "name": "doExportProtoJson" }
         ],        
         "gridConfig" : {
             "listDisplay": ["__str__", "description", "smOwningTeam"]      
@@ -423,7 +424,7 @@ class Prototype(ProtoModel):
     Esta tabla manejar la lista de  prototypos almacenados en customDefinicion, 
     Genera la "proto" pci;  con la lista de campos a absorber y los detalles posibles        
     """
-    entity = models.ForeignKey( Entity, blank = False, null = False )
+    entity = models.ForeignKey( Entity, blank = False, null = False , related_name = 'prototype_set')
     
     """Nombre (str) de la vista a buscar en protoDefinition  """
     code   = models.CharField( blank = False, null = False, max_length=200, editable = False )

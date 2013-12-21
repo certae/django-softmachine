@@ -113,7 +113,32 @@ def doExportPrototype( modeladmin, request, queryset, parameters):
 
             
 #   Envia el QSet con la lista de modelos, 
-    strModel = exportPrototypeModel ( request, queryset )
+    strModel = exportPrototypeModel ( request, queryset[0] )
+        
+#   Genera el archvivo py      
+    fileName = 'model_{0}.py'.format( slugify( queryset[0].code ) )
+    fullPath = getFullPath( request, fileName )
+
+    fo = open( fullPath , "w")
+    fo.write( strModel.encode('utf-8'))
+    fo.close()
+
+    return  {'success':True , 'message' : fileName,  'fileName' : fileName }
+
+
+def doExportProtoJson( modeladmin, request, queryset, parameters):
+
+    
+    from prototype.actions.exportViews  import exportProtoJson
+    
+
+#   El QSet viene con la lista de Ids  
+    if queryset.count() != 1:
+        return  {'success':False, 'message' : 'No record selected' }
+
+            
+#   Envia el QSet con la lista de modelos, 
+    strModel = exportProtoJson ( request, queryset[0] )
         
 #   Genera el archvivo py      
     fileName = 'model_{0}.py'.format( slugify( queryset[0].code ) )
