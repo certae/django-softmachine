@@ -117,7 +117,7 @@ def exportProtoJson(request, pModel ):
             cPrototype =  {
                 'code'           : pPrototype.code, 
                 'description'    : pPrototype.description,
-                'notes'          : pPrototype.notes,
+                'notes'          : cEntity[ 'fullName'],
 #               'metaDefinition' : json.loads(  pPrototype.metaDefinition ) 
                 'metaDefinition' : cProto  
             } 
@@ -126,11 +126,12 @@ def exportProtoJson(request, pModel ):
 
             # Creacion de la vista 
             try:
-                protoDef  = ProtoDefinition.objects.get_or_create(code = cProto[ 'viewEntity' ] )[0]
+                protoDef  = ProtoDefinition.objects.get_or_create(code = cProto[ 'viewCode' ] )[0]
                 protoDef.active = True 
                 protoDef.overWrite = False 
+                protoDef.description  = cEntity[ 'fullName']  + ' - ' + cProto[ 'viewCode' ]  
                 protoDef.metaDefinition = json.dumps( cProto, cls = JSONEncoder ) 
-                protoDef.save()    
+                protoDef.save()   
         
             except :
                 pass 

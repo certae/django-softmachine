@@ -172,7 +172,7 @@ INSTALLED_APPS = (
 #     'south', 
     'protoLib', 
     'prototype', 
-    'pruebas', 
+    'cell', 
 #    'shiny', 
 #    'CategoryCle', 
 #    'TCO'
