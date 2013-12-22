@@ -4,9 +4,11 @@
 Exportar vistas
 '''
   
-from pttActionTools import getClassName, TypeEquivalence  
-from protoLib.utilsBase import slugify, repStr
-from cStringIO import StringIO
+from pttActionTools import getClassName  
+from protoLib.utilsBase import slugify, JSONEncoder
+from protoLib.models import ProtoDefinition
+
+import django.utils.simplejson as json
 
 
 def exportProtoJson(request, pModel ):
@@ -21,74 +23,117 @@ def exportProtoJson(request, pModel ):
 
         cEntity = { 
            'code'  : pEntity.code, 
-           'concept' : getClassName( pEntity.code ), 
-           'properties' : {},   
+           'entity' :  getClassName( pEntity.code ), 
+           'fullName' : cViews['model' ] + '.' + getClassName( pEntity.code ), 
+#          'properties' : {},   
            'prototypes' : {},   
         } 
 
         cViews['entities'][ cEntity['code'] ]  = cEntity 
 
-        for pProperty in pEntity.property_set.all():
-            
-            
-            cProperty =  {
-                'code'      : pProperty.code, 
-                'property'  : slugify(pProperty.code, '_'),
-                'isForeign' : pProperty.isForeign,  
-                
-                'baseType'   : pProperty.baseType,
-                'prpLength'  : pProperty.prpLength,
-                'prpScale'   : pProperty.prpScale,
-
-                'isPrimary'   : pProperty.isPrimary,
-                'isReadOnly'  : pProperty.isReadOnly,
-
-                'isNullable'  : pProperty.isNullable,
-                'isRequired'  : pProperty.isRequired,
-                'isSensitive' : pProperty.isSensitive,
-                'prpChoices'  : pProperty.prpChoices,
-                'prpDefault'  : pProperty.prpDefault,
-                'vType'       : pProperty.vType,
-
-                'crudType'    : pProperty.crudType,
-                'description' : pProperty.description,
-                'notes'       : pProperty.notes,
-
-                'dbName'      : pProperty.dbName,
-                'isEssential' : pProperty.isEssential,
-                'isLookUpResult' : pProperty.isLookUpResult,
-            }
-
-            #TODO: 'propertyModel'  :pProperty.propertyModel,
-            
-            if pProperty.isForeign:
-                cProperty[ 'refEntity' ]    = pProperty.relationship.refEntity.code
-                cProperty[ 'refCode' ]      = getClassName( pProperty.relationship.refEntity.code )
-                 
-                cProperty[ 'baseMax']       = pProperty.relationship.baseMax
-                cProperty[ 'baseMin']       = pProperty.relationship.baseMin
-                cProperty[ 'onRefDelete']   = pProperty.relationship.onRefDelete
-                cProperty[ 'refMax']        = pProperty.relationship.refMax
-                cProperty[ 'refMin']        = pProperty.relationship.refMin
-                cProperty[ 'relatedName']   = pProperty.relationship.relatedName
-                cProperty[ 'typeRelation']  = pProperty.relationship.typeRelation
-                 
-            cEntity['properties'][ cProperty['code'] ]  = cProperty  
+#         for pProperty in pEntity.property_set.all():
+#             
+#             
+#             cProperty =  {
+#                 'code'      : pProperty.code, 
+#                 'property'  : slugify(pProperty.code, '_'),
+#                 'isForeign' : pProperty.isForeign,  
+#                 
+#                 'baseType'   : pProperty.baseType,
+#                 'prpLength'  : pProperty.prpLength,
+#                 'prpScale'   : pProperty.prpScale,
+# 
+#                 'isPrimary'   : pProperty.isPrimary,
+#                 'isReadOnly'  : pProperty.isReadOnly,
+# 
+#                 'isNullable'  : pProperty.isNullable,
+#                 'isRequired'  : pProperty.isRequired,
+#                 'isSensitive' : pProperty.isSensitive,
+#                 'prpChoices'  : pProperty.prpChoices,
+#                 'prpDefault'  : pProperty.prpDefault,
+#                 'vType'       : pProperty.vType,
+# 
+#                 'crudType'    : pProperty.crudType,
+#                 'description' : pProperty.description,
+#                 'notes'       : pProperty.notes,
+# 
+#                 'dbName'      : pProperty.dbName,
+#                 'isEssential' : pProperty.isEssential,
+#                 'isLookUpResult' : pProperty.isLookUpResult,
+#             }
+# 
+#             #TODO: 'propertyModel'  :pProperty.propertyModel,
+#             
+#             if pProperty.isForeign:
+#                 cProperty[ 'refEntity' ]    = pProperty.relationship.refEntity.code
+#                 cProperty[ 'refCode' ]      = getClassName( pProperty.relationship.refEntity.code )
+#                  
+#                 cProperty[ 'baseMax']       = pProperty.relationship.baseMax
+#                 cProperty[ 'baseMin']       = pProperty.relationship.baseMin
+#                 cProperty[ 'onRefDelete']   = pProperty.relationship.onRefDelete
+#                 cProperty[ 'refMax']        = pProperty.relationship.refMax
+#                 cProperty[ 'refMin']        = pProperty.relationship.refMin
+#                 cProperty[ 'relatedName']   = pProperty.relationship.relatedName
+#                 cProperty[ 'typeRelation']  = pProperty.relationship.typeRelation
+#                  
+#             cEntity['properties'][ cProperty['code'] ]  = cProperty  
 
 
         for pPrototype in pEntity.prototype_set.all():
+
+            # Migration proto - App
+            sAux = pPrototype.metaDefinition.replace( "info__", "").replace( "-", "_" )
+            sAux = sAux.replace( "prototype.ProtoTable.", "" )  
+            sAux = sAux.replace( '"' + slugify(pModel.code, '_') + '_', '"' + cViews['model' ] + '.' )
+              
+            cProto = json.loads( sAux )
+
+            # Propiedades de base
+            try:
+                del cProto[ 'jsonField' ]
+                del cProto[ 'protoEntity' ]  
+                del cProto[ 'protoEntityId' ]
+                del cProto['__ptType']
+            except: pass 
+                
+            cProto[ 'localSort' ] = False 
+            cProto[ 'viewIcon' ]  = 'icon-1'
+            cProto[ 'viewEntity' ] = cEntity[ 'fullName'] 
+            
+            # Elimina campos de control de prototypos y redirecciona zooms  
+            newFields = [] 
+            for fld in cProto['fields'] : 
+                if fld['name'] in [ 'entity', 'entity_id', 'info' ]: continue
+
+                try: 
+                    del fld['__ptType']
+                except: pass 
+                newFields.append( fld )
+            
+            cProto['fields'] = newFields 
+            
+#            sAux = json.dumps( cProto, cls = JSONEncoder )
             
             cPrototype =  {
                 'code'           : pPrototype.code, 
-                'prototype'      : slugify(pPrototype.code, '_'),
                 'description'    : pPrototype.description,
                 'notes'          : pPrototype.notes,
-                'metaDefinition' : pPrototype.metaDefinition 
+#               'metaDefinition' : json.loads(  pPrototype.metaDefinition ) 
+                'metaDefinition' : cProto  
             } 
             
             cEntity['prototypes'][ cPrototype['code'] ]  = cPrototype  
 
+            # Creacion de la vista 
+            try:
+                protoDef  = ProtoDefinition.objects.get_or_create(code = cProto[ 'viewEntity' ] )[0]
+                protoDef.active = True 
+                protoDef.overWrite = False 
+                protoDef.metaDefinition = json.dumps( cProto, cls = JSONEncoder ) 
+                protoDef.save()    
+        
+            except :
+                pass 
 
-    strAux = ''
-    return strAux
-  
+
+    return json.dumps( cViews , cls = JSONEncoder , sort_keys= True, indent = 4, separators=(',', ':') )

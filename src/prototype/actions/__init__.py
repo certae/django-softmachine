@@ -138,10 +138,15 @@ def doExportProtoJson( modeladmin, request, queryset, parameters):
 
             
 #   Envia el QSet con la lista de modelos, 
-    strModel = exportProtoJson ( request, queryset[0] )
+    try:
+        strModel = exportProtoJson ( request, queryset[0] )
+    except Exception as e:
+        traceback.print_exc()
+        return  {'success':False, 'message' : 'Load error' }
+
         
 #   Genera el archvivo py      
-    fileName = 'model_{0}.py'.format( slugify( queryset[0].code ) )
+    fileName = 'proto_{0}.json'.format( slugify( queryset[0].code ) )
     fullPath = getFullPath( request, fileName )
 
     fo = open( fullPath , "w")

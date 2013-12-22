@@ -474,3 +474,4 @@ class UsageLogiciel(ProtoModel):
 
     class Meta:
         unique_together = ('log_usalog','op_usalog','id_usage_logiciel',)
+

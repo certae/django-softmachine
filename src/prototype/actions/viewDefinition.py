@@ -2,12 +2,14 @@
 
 import django.utils.simplejson as json
 
+from pttActionTools import getViewCode
 from viewTemplate import baseDefinition
 from prototype.models import Entity,  Prototype
 
 from protoLib.protoActionEdit import setSecurityInfo 
 from protoLib.utilsBase import JSONEncoder, slugify
 from protoLib.protoAuth import getUserProfile
+
 
 PROTO_PREFIX = "prototype.ProtoTable."
 
@@ -86,10 +88,6 @@ def getViewDefinition( pEntity, viewTitle  ):
     return infoEntity
 
     
-def getViewCode( pEntity, viewTitle = None ):
-
-    if viewTitle is None: viewTitle = pEntity.code
-    return slugify( pEntity.model.code + '-' + viewTitle )
 
 
 def property2Field( fName, propDict, infoField = False, fBase = '' ):
