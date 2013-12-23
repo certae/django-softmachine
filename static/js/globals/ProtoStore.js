@@ -51,16 +51,16 @@ _SM.getStoreDefinition = function (stDef) {
 
             // Para la navegacion md 
             if (myMasterId) {
-                this.protoMasterId = myMasterId
+                this.protoMasterId = myMasterId;
             }
 
             if (myFilter) {
                 this.clearFilter();
-                this.getProxy().extraParams.protoFilter = _SM.obj2tx(myFilter)
+                this.getProxy().extraParams.protoFilter = _SM.obj2tx(myFilter);
                 this.load();
 
             } else if (mySorter) {
-                this.sort(mySorter)
+                this.sort(mySorter);
             }
 
         },
@@ -95,8 +95,8 @@ _SM.getStoreDefinition = function (stDef) {
 
                 // Guarda la info de sort 
                 try {
-                    var mySort = _SM.clone(store.getSorters(), 0, [], ['property', 'direction'])
-                    store.proxy.extraParams.sort = Ext.encode(mySort)
+                    var mySort = _SM.clone(store.getSorters(), 0, [], ['property', 'direction']);
+                    store.proxy.extraParams.sort = Ext.encode(mySort);
                 } catch (e) {}
 
             },
@@ -127,8 +127,8 @@ _SM.getStoreDefinition = function (stDef) {
             write: function (store, operation, eOpts) {
 
                 for (var ix in operation.records) {
-                    var recResult = operation.resultSet.records[ix]
-                    var recOrigin = operation.records[ix]
+                    var recResult = operation.resultSet.records[ix],
+                        recOrigin = operation.records[ix]; 
 
                     // Si existe un resultSet 
                     if (recResult) {
@@ -138,7 +138,7 @@ _SM.getStoreDefinition = function (stDef) {
 
                             // Copia la data resultado sobre la data de base 
                             // Tengo un campo para mandar el Id, para efectos de control, podria ser elimiando en la prox version  
-                            recOrigin.data = recResult.data
+                            recOrigin.data = recResult.data;
 
                         } // End create  
                         else if (operation.action == 'destroy') {
@@ -160,11 +160,11 @@ _SM.getStoreDefinition = function (stDef) {
                 }
             }
         }
-    })
+    });
 
-    return myStore
+    return myStore;
 
-}
+};
 
 _SM.getProxyDefinition = function( stDef )  {
 
@@ -218,9 +218,9 @@ _SM.getProxyDefinition = function( stDef )  {
                     // var msg = operation.request.scope.reader.jsonData["message"] ;
                     var msg, myErr = operation.getError();
                     if ( typeof( myErr )  == 'string' ) { 
-                        msg = myErr
+                        msg = myErr; 
                     } else { 
-                        msg = 'REMOTE EXCEPTION: (' + myErr.status + ') ' + myErr.statusText 
+                        msg = 'REMOTE EXCEPTION: (' + myErr.status + ') ' + myErr.statusText; 
                     }
                     _SM.__StBar.showError( msg , 'storeException'); 
                 } 
@@ -240,7 +240,7 @@ _SM.getProxyDefinition = function( stDef )  {
                 // }
             // } 
             
-        }    
+        };     
     
 }; 
 
@@ -279,21 +279,20 @@ _SM.getTreeStoreDefinition = function(  stDef  ){
             // } 
         // }
 
-    })
+    }); 
         
-    return myStore
+    return myStore; 
 
 }; 
 
 
 _SM.getNewRecord = function( myMeta, myStore )  { 
 
-    var myRecord = new myStore.model( setDefaults()  ) 
+    var myRecord = new myStore.model( setDefaults() );  
     
     // Lo asocia al store 
-    myRecord.store = myStore
-    
-    return myRecord 
+    myRecord.store = myStore;
+    return myRecord;  
 
     function setDefaults()  {
 
@@ -309,13 +308,13 @@ _SM.getNewRecord = function( myMeta, myStore )  {
     } 
 
 
-} 
+};
         
 
 _SM.getRecordByDataIx = function( myStore, fieldName, value  )  {
     var ix =  myStore.findExact( fieldName, value  ); 
     if ( ix == -1 ) {  return; } 
-    return myStore.getAt( ix  ) 
+    return myStore.getAt( ix  ); 
 }; 
 
 

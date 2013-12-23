@@ -225,7 +225,7 @@ _SM.VerifyLast = function (sAux, sChar) {
          sAux = sAux.substring(0, sAux.length-1);
     }
     return sAux 
-}
+};
 
 _SM.FormatJsonStr = function (sData) {
     var oData = {}; 
@@ -238,16 +238,16 @@ _SM.FormatJsonStr = function (sData) {
         oData = Ext.decode( sData )   
     } catch(e) {}
     
-    var sAux  = _SM.FormatJSON( oData )
-    return     sAux
-}
+    var sAux  = _SM.FormatJSON( oData );
+    return     sAux;
+};
 
 _SM.charCount = function (sData, sChar) {
     // Cuenta las ocurrencias de un caracter en una cadena  
     if ( sData ) {
-        return sData.split(sChar).length
-    }  else { return 0 }  
-}
+        return sData.split(sChar).length;
+    }  else { return 0; }  
+};
 
 
 _SM.clearProps = function (obj) {
@@ -255,19 +255,19 @@ _SM.clearProps = function (obj) {
     
     for (var ix in obj) {
         if ( ! obj[ix] &&  obj[ix] != false) {
-            delete obj[ix]
+            delete obj[ix];
         } else if ( _SM.typeOf(obj[ix])  == 'string'  && obj[ix].trim() == '' ) {
-            delete obj[ix]
+            delete obj[ix];
         }  
     }
     
-    return obj     
-}
+    return obj;     
+};
 
 _SM.errorMessage = function (errTitle, errMsg) {
 
     // TODO: Log de errores, ya sea en stBar o en un panel del menu, habilitar un clear . 
-    _SM.__StBar.showError( errMsg , errTitle )
+    _SM.__StBar.showError( errMsg , errTitle );
     
     // Ext.MessageBox.show({
         // title: errTitle,
@@ -275,7 +275,7 @@ _SM.errorMessage = function (errTitle, errMsg) {
         // icon: Ext.Msg.ERROR,
         // buttons: Ext.Msg.OK
     // });
-}
+};
 
 _SM.updateWinPosition = function (myWidth, myHeight) {
 
@@ -283,7 +283,7 @@ _SM.updateWinPosition = function (myWidth, myHeight) {
     if ((_SM._winX + myWidth) > _SM._mainWin.width || (_SM._winY + myHeight) > _SM._mainWin.height) {
         _SM._winX = 10; _SM._winY = 10;
     }    
-}
+};
 
 _SM.savePclCache = function (viewCode, protoMeta, reOpen ) {
 
@@ -298,11 +298,11 @@ _SM.savePclCache = function (viewCode, protoMeta, reOpen ) {
     
     // Cierra todas las instancias de esta pcl 
     if ( reOpen ) {
-        _SM.CloseProtoTab( viewCode )
-        _SM._mainWin.loadPciFromMenu( viewCode ) 
+        _SM.CloseProtoTab( viewCode );
+        _SM._mainWin.loadPciFromMenu( viewCode );
     }
     
-}
+};
 
 _SM.getModelName = function (viewCode) {
     // En principio traia un modelo de base q servia para todas las vistas construidas 
@@ -318,8 +318,8 @@ _SM.getModelName = function (viewCode) {
     // }
 
 
-    return _SM._PConfig.clsBaseModel + viewCode
-}
+    return _SM._PConfig.clsBaseModel + viewCode;
+};
 
 _SM.getSafeMeta = function (myMeta) {
     
@@ -342,17 +342,17 @@ _SM.getSafeMeta = function (myMeta) {
             'crudType', 'cpFromField', 'cpFromZoom', 'physicalName'
             ] ),
         "usrDefProps": _SM.clone( myMeta.usrDefProps )  
-    } 
+    } ;
         
-    return Ext.encode( safeMeta )
-}
+    return Ext.encode( safeMeta );
+};
 
 _SM.getGridColumn = function (myGrid, dataIndex) {
     for ( var ix in myGrid.myColumns ) {
-        var myCol = myGrid.myColumns[ix]
-        if ( myCol.dataIndex == dataIndex )  return myCol    
+        var myCol = myGrid.myColumns[ix];
+        if ( myCol.dataIndex == dataIndex )  return myCol;    
     }
-}
+};
 
 _SM.showConfig = function (title, myConf) {
 
@@ -368,7 +368,7 @@ _SM.showConfig = function (title, myConf) {
         // msgBox.maxHeight = 600
         // msgBox.minHeight = 200
         
-        var sValue = _SM.FormatJSON( myConf , ' ')
+        var sValue = _SM.FormatJSON( myConf , ' ');
         
         msgBox.show({
            width : 800, 
@@ -378,52 +378,52 @@ _SM.showConfig = function (title, myConf) {
            // html: sValue,
            value: sValue, 
            title: title
-        })
-}
+        });
+};
     
 _SM.getCurrentTime = function () {
-    return Ext.Date.format( new Date() , "Y-m-d H:i:s" )
-}
+    return Ext.Date.format( new Date() , "Y-m-d H:i:s" );
+};
 
 _SM.verifyList = function (myList, defList) {
 
     // verifica el default 
-    if (( ! defList ) || ( _SM.typeOf( defList ) != 'array' )) { defList = [] }
+    if (( ! defList ) || ( _SM.typeOf( defList ) != 'array' )) { defList = []; }
     
     // Verifica q sea una lista 
     if ( _SM.typeOf( myList ) != 'array' ) { 
-        myList = defList }
+        myList = defList; }
     else if ( myList.length  == 0 ) { 
-        myList  = defList }
+        myList  = defList; }
         
-    return myList 
-}
+    return myList;
+};
 
 _SM.verifyObj = function (myObj, defObj) {
 
     // verifica el default 
-    if (( ! defObj ) || ( _SM.typeOf( defObj ) != 'object' )) { defObj = {} }
+    if (( ! defObj ) || ( _SM.typeOf( defObj ) != 'object' )) { defObj = {}; }
     
     // Verifica q sea un objeto  
     if ( _SM.typeOf( myObj ) != 'object' )   { 
-        myObj = defObj }
+        myObj = defObj; }
         
     else  { 
         // Aplica el objeto real sobre el vr por defecto 
-        myObj  = Ext.apply( defObj, myObj ) }
+        myObj  = Ext.apply( defObj, myObj ); }
         
-    return myObj 
-}
+    return myObj; 
+};
 
 _SM.obj2tx = function( myObj ) {
     // recibe un obj y garantiza q retorne un texto ( con un array )
     var sAux = typeof myObj;   
-    if ( sAux == 'string' ) { sAux = myObj }
-    else{ try { sAux  = Ext.encode( myObj )   
-        } catch(e) {sAux = '[]' }
+    if ( sAux == 'string' ) { sAux = myObj; }
+    else{ try { sAux  = Ext.encode( myObj );   
+        } catch(e) {sAux = '[]'; }
     } 
-    return sAux 
-}
+    return sAux;  
+};
 
 
 _SM.ptPrompt = function (title, msg) {

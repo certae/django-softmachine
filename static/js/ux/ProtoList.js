@@ -31,16 +31,16 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
 
     initComponent: function() {
 
-        var me = this 
+        var me = this ;
         me.addEvents('checked', 'reorder');
 
-        var myColumns = [ '__Checked' ]
+        var myColumns = [ '__Checked' ];
         for (var ix in this.columnList ) {
-            var vFld = this.columnList[ix] 
+            var vFld = this.columnList[ix] ;
             if ( _SM.typeOf( vFld ) == 'string' ) {
-                myColumns.push( vFld  )
+                myColumns.push( vFld  );
             }  else if ( vFld.dataIndex ) {
-                myColumns.push( vFld.dataIndex  )
+                myColumns.push( vFld.dataIndex  );
             }       
         } 
                 
@@ -52,7 +52,7 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         });
 
         // Inicializac con el checkBox
-        var myGridColumns = []
+        var myGridColumns = [];
         if ( me.checkStyle ) {
             myGridColumns = [{
                 xtype: 'mycheckcolumn',
@@ -69,14 +69,14 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
 
         // DGT** Copia las columnas   
         for (var ix in this.columnList ) {
-            var vFld = this.columnList[ix]
+            var vFld = this.columnList[ix];
             if ( _SM.typeOf( vFld ) == 'string' ) {
                 var col = {
                     menuDisabled : true, flex : 1, text : this.idTitle,   
                     dataIndex: vFld 
                     };
             }  else if ( vFld.dataIndex ) {
-                var col = Ext.apply( vFld, { menuDisabled : true } )                
+                var col = Ext.apply( vFld, { menuDisabled : true } );
             }
             myGridColumns.push( col  );
             
@@ -116,9 +116,8 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
             
         // -----------------
         // Agrega los campos seleccionados 
-        this.addDataSet( this.dataList, false )                     
-        this.addDataSet( this.dataSelected, true )                     
-
+        this.addDataSet( this.dataList, false );
+        this.addDataSet( this.dataSelected, true );
         
     }, 
     
@@ -128,7 +127,7 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         
         for (var ix in dataSet ) {
             var data  =  dataSet[ix];
-            this.addDataItem( data, checked )
+            this.addDataItem( data, checked );
         } 
         
     }, 
@@ -141,45 +140,45 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
     
         var dataIx = 'data',  
             dataValue = data, 
-            dataRec = {} 
+            dataRec = {}; 
 
         // Toma el Id positional ( el primero es )
         if ( _SM.typeOf( data ) == 'array' ) {
-            dataValue = data[0]
+            dataValue = data[0];
         
             // Verifica el 1er elto debe ser el Id 
-            vFld = this.columnList[0]
+            vFld = this.columnList[0];
             if ( _SM.typeOf( vFld ) == 'string' ) {
-                dataIx = vFld 
+                dataIx = vFld; 
             }  else if ( vFld.dataIndex ) {
-                dataIx = vFld.dataIndex
-            }  else return       
+                dataIx = vFld.dataIndex;
+            }  else return;       
         }
 
 
-        var vNode =  _SM.getRecordByDataIx( this.gridStore, dataIx, dataValue  ) 
+        var vNode =  _SM.getRecordByDataIx( this.gridStore, dataIx, dataValue  ); 
         if ( ! vNode ) {
             
             if ( _SM.typeOf( data ) == 'string' ) {
-                dataRec = { 'data': data  }
+                dataRec = { 'data': data  };
             } else {
 
                 for (var ix in this.columnList ) {
-                    var vFld = this.columnList[ix] 
+                    var vFld = this.columnList[ix]; 
                     if ( _SM.typeOf( vFld ) == 'string' ) {
-                        dataRec[ vFld ] = data[ ix ] 
+                        dataRec[ vFld ] = data[ ix ]; 
                     }  else if ( vFld.dataIndex ) {
-                        dataRec[ vFld.dataIndex ] = data[ ix ]
+                        dataRec[ vFld.dataIndex ] = data[ ix ];
                     }       
                 } 
                 
             }
             
-            if ( checked == true || checked == false  ) {  dataRec [ '__Checked' ] = checked } 
+            if ( checked == true || checked == false  ) {  dataRec [ '__Checked' ] = checked; } 
             this.gridStore.add( dataRec );
             
         }  else if ( checked ){
-            vNode.set( '__Checked', checked )
+            vNode.set( '__Checked', checked );
         }        
 
     }, 
@@ -191,32 +190,32 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
 
     getList: function () {
 
-        var myList = []
+        var myList = [];
         this.gridStore.each(function(record){
-          myList.push( record.get( 'data' ))
-         })
+          myList.push( record.get( 'data' ));
+         });
         
-        return myList
+        return myList;
     }, 
     
     getChecked: function () {
 
-        var chkList = []
+        var chkList = [];
         this.gridStore.each(function(record){
             if ( record.get('__Checked')  )  
-              chkList.push( record.get( 'data' ))
-         })
+              chkList.push( record.get( 'data' ));
+         });
         
-        return chkList
+        return chkList;
     }, 
 
     setChecked: function ( data, checked  ) {
         // Cambia el estado de seleccion de un registro
         // Que hace si no existe y es check? Lo crea por q es posible q se inserten dos colecciones base y selected   
 
-        var vNode =  _SM.getRecordByDataIx( this.gridStore, 'data', data  ) 
+        var vNode =  _SM.getRecordByDataIx( this.gridStore, 'data', data  ); 
         if ( vNode ) {
-            vNode.set( '__Checked', checked )
+            vNode.set( '__Checked', checked );
         } else { 
             this.gridStore.add( { 'data': data, '__Checked': checked } );
         } 
@@ -226,11 +225,11 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         // Permite agregar o elimar un registro dependiendo del estado   
         
         if ( checked )  {
-            this.setChecked(  data,  true  )
+            this.setChecked(  data,  true  );
         } else {
-            var vNode =  _SM.getRecordByDataIx( this.gridStore, 'data', data  ) 
+            var vNode =  _SM.getRecordByDataIx( this.gridStore, 'data', data  ); 
             if (  vNode  )   {
-                this.gridStore.remove( vNode )
+                this.gridStore.remove( vNode );
             }
         }
     }

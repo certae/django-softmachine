@@ -94,12 +94,12 @@ function verifyMeta( oMeta,  ptType, tNode ) {
     // Verifica las listas 
     if ( __ptConfig.lists &&  ( _SM.typeOf( __ptConfig.lists ) == 'array' ))  { 
         for ( ix in __ptConfig.lists  ) {
-            sKey = __ptConfig.lists[ix]
+            sKey = __ptConfig.lists[ix];
             if ( typeof( sKey)  !=  'string' ) { continue ; } 
                  
 
-            listOfConf = _MetaObjects[ sKey ] || {}
-            oMeta[ sKey ]  = _SM.verifyList (  oMeta[ sKey ], listOfConf.prpDefault  )
+            listOfConf = _MetaObjects[ sKey ] || {};
+            oMeta[ sKey ]  = _SM.verifyList (  oMeta[ sKey ], listOfConf.prpDefault  );
 
             if ( tNode ) { 
                 // agrega una nueva lista al arbol 
@@ -107,9 +107,9 @@ function verifyMeta( oMeta,  ptType, tNode ) {
                     'text'     :  sKey,
                     '__ptType' :  sKey, 
                     '__ptConfig':  { '__ptType' : sKey }, 
-                    'children' : [] }
+                    'children' : [] }; 
                     
-                tNode.children.push( nBranch )
+                tNode.children.push( nBranch );
             }
                         
         }
@@ -118,26 +118,26 @@ function verifyMeta( oMeta,  ptType, tNode ) {
     // Verifica los Objetos ( no aplica los default, pues la config puede eliminarlos )  
     if ( __ptConfig.objects &&  ( _SM.typeOf( __ptConfig.objects  ) == 'array' ))  { 
         for ( ix in __ptConfig.objects  ) {
-            sKey = __ptConfig.objects[ix]
+            sKey = __ptConfig.objects[ix];
             if ( typeof( sKey)  !=  'string' ) {continue ;} 
                  
 
             myObj = oMeta[ sKey ]; 
             if ( _SM.typeOf( myObj ) != 'object' )  { 
-                myObj = {} }
+                myObj = {}; };
 
             if ( tNode ) { 
                 
                 // agrega un nuevo objeto al arbol 
                 nBranch  = getNodeBase( sKey, sKey, { '__ptType' : sKey } );
-                tNode.children.push( nBranch )
+                tNode.children.push( nBranch );
                 
                 // Agrega los hijos tambein al arbol 
-                oMeta[ sKey ] = verifyMeta( myObj,  sKey, nBranch   )    
+                oMeta[ sKey ] = verifyMeta( myObj,  sKey, nBranch   );    
 
             } else {
             
-                oMeta[ sKey ] = verifyMeta( myObj,  sKey  )    
+                oMeta[ sKey ] = verifyMeta( myObj,  sKey  ); 
             }
 
         }
@@ -154,19 +154,19 @@ function verifyMeta( oMeta,  ptType, tNode ) {
 function clearPhantonProps( __ptConfig ,  __ptType ) {
     /* Borra las propieades q no hacen parte de la config de base 
      */ 
-    var objConfig = _MetaObjects[ __ptType ] || {}
+    var objConfig = _MetaObjects[ __ptType ] || {};
     for (var ix in __ptConfig ) {   
         if ( ! objConfig.properties ) { continue; } 
         if ( !( ix  in _SM.objConv( objConfig.properties.concat ( ['name', '__ptValue', '__ptList', '__ptType' ] )))) {
             // console.log( ix )
-            delete __ptConfig[ ix ]
+            delete __ptConfig[ ix ];
         }
     } 
-    return __ptConfig 
+    return __ptConfig; 
 }
 
 
-_versionMeta = '13.0901'
+_versionMeta = '13.1201';
 
 _MetaObjects =  {
 
@@ -319,10 +319,10 @@ _MetaObjects =  {
             "cellLink",
 
             // Para los N2N
-            // "conceptDetail", 
-            // "relatedN2N",
-            // "detailField",
-            // "masterField",                                     
+            "conceptDetail", 
+            "relatedN2N",
+            "detailField",
+            "masterField",                                     
 
             // tipos              
             "type", 

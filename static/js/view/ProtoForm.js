@@ -119,26 +119,26 @@ Ext.define('ProtoUL.view.ProtoForm', {
         // Obtiene los store de las grillas dependientes y asigna el listener startEdition 
         this.cllDetails = getDetails( this.items.items , me ); 
         if ( this.cllDetails.length > 0 ) { 
-            this.masterDetail = true  
-            this.btSaveDet.show() 
-            asignaDetailDefinition( me )
+            this.masterDetail = true ;
+            this.btSaveDet.show() ;
+            asignaDetailDefinition( me );
         }
         
         // Lo genera de nuevo, quedaban componentes mal ubicados 
-        this.doLayout()
+        this.doLayout();
 
         function getDetails( prItems , me  ) {
             // Obtiene los store de las grillas recursivamente 
-            var cllDetails = []
+            var cllDetails = [];
             for ( var ixV in prItems ) {
                 var lGrid = prItems[ixV];
                 if ( lGrid.__ptType == "protoGrid"  ) {
-                    if ( lGrid.myMeta ) cllDetails.push(  lGrid  )
+                    if ( lGrid.myMeta ) cllDetails.push(  lGrid  );
                 } else  if ( lGrid.items &&  lGrid.items.items ) {
                     cllDetails = cllDetails.concat( getDetails( lGrid.items.items, me ) );         
                 } 
             }
-            return cllDetails 
+            return cllDetails;
         }; 
         
         function asignaDetailDefinition( me) {
@@ -148,7 +148,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 for ( var ixD in me.myMeta.detailsConfig ) {
                     var lDet = me.myMeta.detailsConfig[ ixD ];
                     if ( lObj.viewCode == lDet.conceptDetail ) {
-                        lObj.detailDefinition = lDet 
+                        lObj.detailDefinition = lDet; 
                     }
                 }
             }; 
@@ -159,57 +159,57 @@ Ext.define('ProtoUL.view.ProtoForm', {
         for ( var ix in this.cllDetails ) {
             var lGrid = this.cllDetails[ix];
             lGrid.embededGrid = true; 
-            lGrid.setGridTitle( lGrid )   
+            lGrid.setGridTitle( lGrid );   
         }; 
     },
     
     showProtoForm: function () {
-        _SM.showConfig( 'Form Config' , this.myMeta.formConfig   )
+        _SM.showConfig( 'Form Config' , this.myMeta.formConfig   );
     },
 
     showLayoutConfig: function () {
-        _SM.showConfig( 'LayoutConfig' , this.prFormLayout   )
+        _SM.showConfig( 'LayoutConfig' , this.prFormLayout   );
     },
         
     updateHtmlPanels: function( record ) {
-        var sHtml 
+        var sHtml; 
         for (var ix in this.htmlPanels  ) {
-            var obj = this.htmlPanels[ix]
-            if (record) { sHtml = record.get( ix )
-            } else { sHtml = '' }
-            obj.update( sHtml )
-            obj.rawHtml = sHtml
+            var obj = this.htmlPanels[ix];
+            if (record) { sHtml = record.get( ix );
+            } else { sHtml = ''; }
+            obj.update( sHtml );
+            obj.rawHtml = sHtml; 
         } 
     }, 
 
     readHtmlPanels: function( record ) {
         for (var ix in this.htmlPanels  ) {
-            var obj = this.htmlPanels[ix]
-            record.set( ix, obj.rawHtml  )            
+            var obj = this.htmlPanels[ix];
+            record.set( ix, obj.rawHtml  );            
         } 
     }, 
 
 
     loadN2N: function( record ) {
-        var myN2N = this.myFormController.N2Nfields 
-        if ( ! myN2N )  { return } 
+        var myN2N = this.myFormController.N2Nfields; 
+        if ( ! myN2N )  { return; } 
         for ( var ixV in myN2N ) {
             var lObj = myN2N[ixV];
-            var prList = Ext.getCmp( lObj.id )
-            if ( ! prList )  { continue } 
-            prList.addDataSet( record.get(  lObj.name  ) )
+            var prList = Ext.getCmp( lObj.id );
+            if ( ! prList )  { continue; } 
+            prList.addDataSet( record.get(  lObj.name  ) );
         }
     },
 
 
     setText : function ( sText ) {
-         this.stMsg.setText( sText )
+         this.stMsg.setText( sText );
     }, 
     
     onReset : function() {
         // this.setActiveRecord(null);
         // this.getForm().reset();
-        this.idMaster = null 
+        this.idMaster = null;
         this.fireEvent('close', this );
     },
         
@@ -220,21 +220,21 @@ Ext.define('ProtoUL.view.ProtoForm', {
         // antes de guardarlo, TODO: esto se podria hacer en el zoomReturn ( cpFromField ) para actualzar 
         // otros campos derivados del zoom.  
 
-        var lFields = this.getForm().getFields().items 
+        var lFields = this.getForm().getFields().items; 
        
         // Manejo del retorno del zoom 
         for (var ix in lFields  ) {
-            var vFld = lFields[ix]
+            var vFld = lFields[ix];
             if (  vFld.xtype != 'protoZoom' ) continue;
             
              // Actualiza el fkId en el zoom para poder hacer los vinculos 
-            this.updateFkId(  vFld,   vFld.fkId ) 
+            this.updateFkId(  vFld,   vFld.fkId ); 
              
                         
             if ( ! vFld.zoomRecord ) continue; 
 
             // Actualiza el Id con el dato proveniente del zoom 
-            this.updateFormField(  vFld.fkId, vFld.zoomRecord.data.id ) 
+            this.updateFormField(  vFld.fkId, vFld.zoomRecord.data.id ); 
             
             // Actualiza los valores de retorno 
             // this.updateZoomReturn( vFld  )
@@ -246,18 +246,18 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
     updateFkId: function (  zoomField, fkId ) {
         // Actualiza el IdValue en el zoom para hacer los vinculos  
-        zoomField.fkIdValue  = this.masterRecord.get( fkId ) 
+        zoomField.fkIdValue  = this.masterRecord.get( fkId );
     }, 
 
     updateFormField: function (  fldName, fldValue ) {
-        var lRec = {}
-        lRec[ fldName ] = fldValue
-        this.getForm().setValues( lRec ) 
+        var lRec = {};
+        lRec[ fldName ] = fldValue;
+        this.getForm().setValues( lRec );
         
-        var lRec = this.masterRecord 
-        lRec.data[ fldName ] = fldValue
+        var lRec = this.masterRecord ;
+        lRec.data[ fldName ] = fldValue;
         if ( ! lRec.modified[ fldName ]  ) {
-            lRec.modified[ fldName ] = lRec.data[ fldName ]  
+            lRec.modified[ fldName ] = lRec.data[ fldName ];  
         }         
     }, 
 
@@ -310,22 +310,22 @@ Ext.define('ProtoUL.view.ProtoForm', {
     setFormReadOnly: function( bReadOnly ){
         
         // por defecto viene editable 
-        this.isReadOnly = bReadOnly
+        this.isReadOnly = bReadOnly;
         
         // desactiva el boton save 
-        this.btSave.setDisabled( bReadOnly )
-        this.btSaveDet.setDisabled( bReadOnly )
-        this.btCancelFormEdt.setDisabled( bReadOnly )
+        this.btSave.setDisabled( bReadOnly );
+        this.btSaveDet.setDisabled( bReadOnly );
+        this.btCancelFormEdt.setDisabled( bReadOnly );
         
-        this.setReadOnlyFields( bReadOnly )
-        this.setDetailsReadOnly( bReadOnly  )
+        this.setReadOnlyFields( bReadOnly );
+        this.setDetailsReadOnly( bReadOnly  );
 
     }, 
 
     setDetailsReadOnly: function( bReadOnly ) {
         for (var ix in this.cllDetails  ) {
-            var lGrid = this.cllDetails[ix]
-            lGrid.setEditMode( ! bReadOnly ) 
+            var lGrid = this.cllDetails[ix];
+            lGrid.setEditMode( ! bReadOnly ); 
         }
     }, 
 
@@ -339,7 +339,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
         var myFields = this.getForm().getFields();
     
         for (var ix in myFields.items   ) {
-            var obj = myFields.items[ix]
+            var obj = myFields.items[ix];
             if ( obj.readOnly ) {
                 obj.setReadOnly( true );
             } else if ( ! readOnlyFields  || ( obj.name in _SM.objConv( readOnlyFields )  )  ) {
@@ -350,8 +350,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         // Recorre los htmlPanels         
         for (var ix in this.htmlPanels  ) {
-            var obj = this.htmlPanels[ix]
-            var fDef = obj.__ptConfig 
+            var obj = this.htmlPanels[ix];
+            var fDef = obj.__ptConfig ;
             
             if ( fDef.readOnly ) {
                 obj.setReadOnly( true );
@@ -367,36 +367,36 @@ Ext.define('ProtoUL.view.ProtoForm', {
         // setear propiedad  isFormField : true 
         // implementar por lo menos los metodos : valueToRaw, setRawValue
         
-        getHtmlPanelDefinition( this.items.items , this )
+        getHtmlPanelDefinition( this.items.items , this );
 
         function getHtmlPanelDefinition( formItems, me ) {
             for (var ix in formItems   ) {
-                var vFld = formItems[ix]
+                var vFld = formItems[ix];
                 
                 if ( vFld.xtype ==  "htmlset" ) {
-                    Ext.apply(  me.htmlPanels, vFld.htmlPanels  )
+                    Ext.apply(  me.htmlPanels, vFld.htmlPanels  );
                 } else if ( vFld.xtype ==  "fieldset" ) {
-                    getHtmlPanelDefinition( vFld.items.items, me )     
+                    getHtmlPanelDefinition( vFld.items.items, me );     
                 }
             } 
         }
     }, 
 
     setActiveRecord : function(record) {
-        var me = this
+        var me = this;
         this.masterRecord = record;
-        this.store = record.store 
+        this.store = record.store; 
         if ( record && !record.phantom )  this.idMaster = record.get('id' ) ;
 
         if(record) {
             this.getForm().loadRecord(record);
-            this.loadN2N( record )
-            this.updateZoomIds()
+            this.loadN2N( record );
+            this.updateZoomIds();
         } else {  
             this.getForm().reset();  }
 
-        this.linkDetail( record )
-        this.updateHtmlPanels( record )
+        this.linkDetail( record );
+        this.updateHtmlPanels( record );
 
         // -------------------------------------------------- --------  evento del store
         this.store.on({
@@ -412,36 +412,37 @@ Ext.define('ProtoUL.view.ProtoForm', {
     },
 
     linkDetail: function( record ) {
-        if ( ! this.masterDetail ) { return }  
+        if ( ! this.masterDetail ) { return; }  
 
         for ( var ixDet in this.cllDetails ) {
             var lGrid = this.cllDetails[ixDet];
             var detField = lGrid.detailDefinition.detailField,  
-                myFilter = {}  
+                myFilter = {};  
 
             var protoFilter = [{ "property" :  detField , "filterStmt" : this.idMaster  }];
-            lGrid.store.myLoadData( protoFilter, null,  this.idMaster )
+            lGrid.store.myLoadData( protoFilter, null,  this.idMaster );
 
             if ( this.idMaster >= 0 && ( ! this.isReadOnly ))  {
-                lGrid.setEditMode( ! this.isReadOnly ) 
-                setDetDefaults( this, lGrid, record )
+                lGrid.setEditMode( ! this.isReadOnly );
+                setDetDefaults( this, lGrid, record );
             }
         }
         
         function setDetDefaults( me, myDetGrid, record  ) {
-            var pDetail = myDetGrid.detailDefinition 
-            var nField = pDetail.detailField.replace( /__pk$/, '_id' ) 
+            var pDetail = myDetGrid.detailDefinition; 
+            var nField = pDetail.detailField.replace( /__pk$/, '_id' ); 
                  
             // Obtiene el campo de filtro ( heredado ), Si no hereda la llave, cancela la edicion                  
-            var myDetField = myDetGrid.myFieldDict[ nField ]
+            var myDetField = myDetGrid.myFieldDict[ nField ];
             if ( ! myDetField ) {
-                _SM.__StBar.showError('parent key not found: ' + nField, 'MasterDetail') 
-                myDetGrid.setEditMode( false ); return 
+                _SM.__StBar.showError('parent key not found: ' + nField, 'MasterDetail'); 
+                myDetGrid.setEditMode( false ); 
+                return; 
             } 
-            myDetField['prpDefault'] = me.idMaster
+            myDetField['prpDefault'] = me.idMaster;
 
             // Obtiene el titulo del filtro para heredarlo
-            nField = pDetail.masterTitleField || nField.replace( /_id$/, '' ) 
+            nField = pDetail.masterTitleField || nField.replace( /_id$/, '' ); 
             var myTitleField = myDetGrid.myFieldDict[ nField ]
             if ( myTitleField && record ) { 
                 var masterTitleField = pDetail.masterTitleField || '__str__' 
