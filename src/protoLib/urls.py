@@ -1,9 +1,10 @@
 from django.conf.urls.defaults import patterns, url
+from django.views.generic.simple import direct_to_template
 
 from protoLib.protoMenu import protoGetMenuData
 from protoLib.protoGetPci import protoGetPCI, protoSaveProtoObj, protoGetFieldTree
 from protoLib.protoGetDetails import protoGetDetailsTree
-from protoLib.protoLogin import protoGetUserRights, protoLogout
+from protoLib.protoLogin import protoGetUserRights, protoLogout, protoGetPasswordRecovery, resetpassword, changepassword
 
 from protoLib.protoActionList import protoList
 from protoLib.protoActionRep  import sheetConfigRep, protoCsv
@@ -28,6 +29,10 @@ urlpatterns = patterns('',
     url('protoGetDetailsTree/$', protoGetDetailsTree ),
 
     url('protoGetUserRights/$', protoGetUserRights ), 
+    url('protoGetPasswordRecovery/$', protoGetPasswordRecovery),
+    url('resetpassword/$', resetpassword),
+    url(r'^changePassword/$', direct_to_template, { 'template': 'recovery/changePassword.html' }),
+    url('submitChangePassword/$', changepassword),
     url('protoLogout/$', protoLogout ), 
     
     

@@ -27,7 +27,7 @@ Ext.define('ProtoUL.ux.Login', {
             handler: this.submitLogin
         });
 
-/*
+
 
         this.resetButton = new Ext.Button({
             text: _SM.__language.Text_Forgotten_Password,
@@ -36,7 +36,7 @@ Ext.define('ProtoUL.ux.Login', {
             handler: this.resetPassword
         });
 
-*/
+
 
         // this.buttons = [this.submitButton, this.resetButton];
 
@@ -65,8 +65,8 @@ Ext.define('ProtoUL.ux.Login', {
                 ui: 'footer',
                 items: [
                     { xtype: 'tbtext', flex: 1, itemId : 'stLogin' }, 
-                    this.submitButton 
-//                    this.resetButton
+                    this.submitButton,
+                    this.resetButton
                 ]
             }]
             
@@ -158,7 +158,7 @@ Ext.define('ProtoUL.ux.Login', {
         Ext.Msg.prompt(_SM.__language.Title_Window_Email_Request, _SM.__language.Message_Enter_Email, function (btn, email) {
             if (btn == 'ok') {
                 Ext.Ajax.request({
-                    url: '/apps/login/lostpassword',
+                    url: _SM._PConfig.urlGetPasswordRecovery,
                     params: {
                         email: email
                     },

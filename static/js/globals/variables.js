@@ -42,6 +42,8 @@ _SM._PConfig =  {
     urlGetFieldTree : 'protoLib/protoGetFieldTree/', 
     urlGetDetailsTree : 'protoLib/protoGetDetailsTree/', 
     urlGetUserRights : 'protoLib/protoGetUserRights/', 
+    urlGetPasswordRecovery : 'protoLib/protoGetPasswordRecovery/', 
+    urlSubmitChangePassword : 'protoLib/submitChangePassword/',
     urlGetSheetReport : 'protoLib/sheetConfigRep/', 
     urlGetProtoCsv : 'protoLib/protoCsv/', 
     urlDoAction   : 'protoLib/protoDoActions/', 

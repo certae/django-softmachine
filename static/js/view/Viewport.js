@@ -47,9 +47,9 @@ Ext.define('ProtoUL.view.Viewport', {
                 region:'south', 
                 split: false,
                 collapsible: false
-            }) 
+           });
             
-        return _SM.__StBar           
+        return _SM.__StBar;           
 
     }, 
 
@@ -58,7 +58,7 @@ Ext.define('ProtoUL.view.Viewport', {
     afterRender: function () {
         this.callParent(arguments);
 
-        _SM.__StBar.showBusy( 'loading ... ', 'vPort', 3000)            
+        _SM.__StBar.showBusy( 'loading ... ', 'vPort', 3000) ;           
 
         // Carga las PCI de autoload
         // TODO: Esto podria ser un llamado configurado por usuario  
@@ -67,7 +67,7 @@ Ext.define('ProtoUL.view.Viewport', {
         }
 
         // Referencia a la ventana del viewPort 
-        _SM._mainWin = this
+        _SM._mainWin = this;
                  
     },
     
@@ -103,7 +103,7 @@ Ext.define('ProtoUL.view.Viewport', {
                  }
             }]
 
-        }
+        };
 
         return headerPanel;
     },
@@ -112,7 +112,7 @@ Ext.define('ProtoUL.view.Viewport', {
 
     createMenuPanel: function () {
 
-        if (_SM._MENU_COLLAPSED == undefined) {_SM._MENU_COLLAPSED = false};
+        if (_SM._MENU_COLLAPSED == undefined) {_SM._MENU_COLLAPSED = false;};
         
         this.menuPanel = {
             region: 'west',
@@ -136,7 +136,7 @@ Ext.define('ProtoUL.view.Viewport', {
                 // title: 'Favorits',
                 // hidden: true, 
             // }]            
-        }
+        };
         // );
 
         // listeners: {
@@ -161,17 +161,17 @@ Ext.define('ProtoUL.view.Viewport', {
             scope: this, 
             success: function (obj, result, request) {
 
-                me.openProtoOption( viewCode )                
+                me.openProtoOption( viewCode );               
                  
             },
             failure: function ( obj, result, request) { 
                 return ;  
             }
-        }
+        };
 
         if (  _SM.loadPci( viewCode, true, options ) ) {
             // El modelo ya ha sido cargado ( la cll meta es global )     
-            me.openProtoOption( viewCode )                
+            me.openProtoOption( viewCode );               
             
         }   
 
@@ -184,7 +184,7 @@ Ext.define('ProtoUL.view.Viewport', {
 
         if ( myMeta.pciStyle == 'form' ) {
             var formController = Ext.create('ProtoUL.UI.FormController', {});
-            formController.openProtoForm.call( formController, viewCode, -1 , true  ) 
+            formController.openProtoForm.call( formController, viewCode, -1 , true  );
         } else {
             me.protoTabContainer.addTabPanel( viewCode );
         }                

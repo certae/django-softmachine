@@ -224,4 +224,12 @@ PROTO_APP = {}
 #    'protoLib': { 'hidden': False, 'title': 'Métadonnée', 'expanded':False, 'menu_index' : 99  },
 #    } 
 
-
+#add email settings
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'gigiow@gmail.com'
+# EMAIL_HOST_PASSWORD = 'motdepasse'
+# DEFAULT_FROM_EMAIL = 'giovanni@gmail.com'
+#used for debug
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
