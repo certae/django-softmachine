@@ -270,6 +270,7 @@ _MetaObjects =  {
             "cellLink", 
             "zoomModel", 
             "zoomFilter", 
+            "zoomMultiple", 
 
             // Definien como heredar datos de otro campo ( ya se a de un zoom o del mismo rset ) 
             "cpFromField", 
@@ -316,13 +317,14 @@ _MetaObjects =  {
             "fkField",
             "zoomModel", 
             "zoomFilter", 
+            "zoomMultiple", 
             "cellLink",
 
             // Para los N2N
-            "conceptDetail", 
-            "relatedN2N",
-            "detailField",
-            "masterField",                                     
+            // "conceptDetail",
+            // "relatedN2N",
+            // "detailField",
+            // "masterField",
 
             // tipos              
             "type", 

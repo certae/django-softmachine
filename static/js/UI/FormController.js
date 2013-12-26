@@ -36,6 +36,8 @@ Ext.define('ProtoUL.UI.FormController', {
     // Win dimension 
     myWidth : 620, 
     myHeight : 460, 
+    
+    newForm : false, 
 
 
     constructor: function (config) {
@@ -55,7 +57,7 @@ Ext.define('ProtoUL.UI.FormController', {
             var options = {
                 scope: me, 
                 success: function ( obj, result, request ) {
-                    me._waitForDetails( me, detCode )
+                    me._waitForDetails( me, detCode );
                 },
                 failure: function ( obj, result, request) { 
                     me._waitForDetails( me, detCode );
@@ -99,7 +101,7 @@ Ext.define('ProtoUL.UI.FormController', {
 
 	_waitForDetails: function( me, detCode ) {
 
-        if ( detCode ) { me.myMetaDict[ detCode ] = true }       
+        if ( detCode ) { me.myMetaDict[ detCode ] = true; }       
 		
 		// espera todas las definiciones
         for ( detCode in me.myMetaDict  ) {
@@ -108,13 +110,13 @@ Ext.define('ProtoUL.UI.FormController', {
 
         if (me.loaded) {return;}   
 
-        me.loaded = true 
-		me.newProtoForm.call( me )
+        me.loaded = true; 
+		me.newProtoForm.call( me );
 
         // ---------------  
         
         me.myForm.setActiveRecord( this.myRecordBase  );
-        me.myForm.store = this.myRecordBase.store
+        me.myForm.store = this.myRecordBase.store;
         
         // Si la forma es visible no salen los tools 
         // if ( me.isReadOnly ) {me.myWin.tools = [{type: 'readOnly', tooltip: 'readOnly'}, {type: 'gear', scope: me.myForm, handler: me.myForm.showProtoForm }] me.myWin.addTools() }; 
@@ -123,32 +125,33 @@ Ext.define('ProtoUL.UI.FormController', {
         if ( me.isReadOnly ) { me.myForm.setFormReadOnly( true ); }
         else { me.myForm.setReadOnlyFields( true, me.myMeta.gridConfig.readOnlyFields ); }
 
-        me.newWindowLoad.call( me, me )
+        me.newWindowLoad.call( me, me );
         me.myWin.show();
-        me.myForm.setDetailsTilte()
+        me.myForm.setDetailsTilte();
 	}, 
     
     newProtoForm: function () {
     	// llamado tambien desde formConfig  (protoDesigner) 
 
-        this.defineFormLayout()
+        this.defineFormLayout();
         this.myForm = Ext.widget('protoform', {
             myMeta : this.myMeta, 
+            newForm : this.newForm, 
             myFormController : this, 
             prFormLayout : this.prFormLayout 
         });  
 
-        return this.myForm
+        return this.myForm;
 
     },
     
     newWindow: function ( me ) {
-        me._loadFormDefinition( )
+        me._loadFormDefinition( );
     },
     
     newWindowLoad: function ( me ) {
         
-        _SM.updateWinPosition( me.myWidth, me.myHeight )
+        _SM.updateWinPosition( me.myWidth, me.myHeight );
         
         me.myWin  = Ext.widget('window', {
             // constrain: true, 
@@ -173,19 +176,19 @@ Ext.define('ProtoUL.UI.FormController', {
         // Los eventos controlan la ventana
         me.myForm.on({
             'close' :  function() { 
-                me.myWin.close() 
+                me.myWin.close(); 
                 
-                if ( me.newForm ) { 
-                    function doAgain( btn ){
-                        if(btn == 'yes') { 
-                            me.openNewForm( me.myStore )
-                        }
-                    }
-                    Ext.MessageBox.confirm('AddRecord', 'Add another?', doAgain  ); 
-                } 
+                // if ( me.newForm ) { 
+                    // function doAgain( btn ){
+                        // if(btn == 'yes') { 
+                            // me.openNewForm( me.myStore );
+                        // }
+                    // }
+                    // Ext.MessageBox.confirm('AddRecord', 'Add another?', doAgain  ); 
+                // } 
             }, 
             'hide' :  function() { 
-                me.myWin.hide() 
+                me.myWin.hide(); 
             }, 
             scope: me }
         );
@@ -196,18 +199,18 @@ Ext.define('ProtoUL.UI.FormController', {
 
     openNewForm: function (  myStore )   {
         
-        this.isReadOnly  = false 
-        this.newForm = true    
-        this.myStore = myStore
+        this.isReadOnly  = false;
+        this.newForm = true;
+        this.myStore = myStore;
 
         var myRecord = _SM.getNewRecord( this.myMeta, myStore );
-        this.openForm( myRecord )
+        this.openForm( myRecord );
     },
 
     openLinkedForm: function ( myRecord, isReadOnly )   {
-        this.newForm = false     
-        this.isReadOnly  = isReadOnly
-        this.openForm( myRecord )
+        this.newForm = false;
+        this.isReadOnly  = isReadOnly;
+        this.openForm( myRecord ); 
     },
 
 
@@ -216,11 +219,11 @@ Ext.define('ProtoUL.UI.FormController', {
 
         // Verifica la edicion  
         if ( ! myRecord   ) {
-            _SM.errorMessage( 'Form Error', 'Undefined input record')
-            return 
+            _SM.errorMessage( 'Form Error', 'Undefined input record');
+            return;
         }
 
-        this.myRecordBase = myRecord
+        this.myRecordBase = myRecord; 
         this.newWindow( this ); 
         
     }, 
@@ -228,12 +231,12 @@ Ext.define('ProtoUL.UI.FormController', {
 
     openProtoForm: function ( myZoomModel, myRecordId , bEditable )   {
 
-        this.viewCode = myZoomModel
-        this.isReadOnly  = ! bEditable  
+        this.viewCode = myZoomModel;
+        this.isReadOnly  = ! bEditable;  
 
         if ( ! myRecordId ) {
-            _SM.errorMessage( 'LinkedForm Error : ' +  myZoomModel, 'not fkId field definition found' )
-            return 
+            _SM.errorMessage( 'LinkedForm Error : ' +  myZoomModel, 'not fkId field definition found' );
+            return; 
         }
 
         // Obtiene la meta ( async )
@@ -324,7 +327,7 @@ Ext.define('ProtoUL.UI.FormController', {
                 
                 if ( ! __ptType   ) {
                     // console.log( 'El objeto no tiene tipo definido' , protoObj )
-                    return {}
+                    return {};
 
                 } else if ( __ptType == 'formField'  ) {
         
@@ -346,13 +349,13 @@ Ext.define('ProtoUL.UI.FormController', {
                         }
 
                         // N2N        
-                        if ( myFld.type == 'protoN2N') { 
-                            prLayout[ 'id' ] = Ext.id();
-                            me.N2Nfields.push( { 
-                                name : myFld.name, 
-                                id: prLayout[ 'id' ] 
-                            } );
-                        }
+                        // if ( myFld.type == 'protoN2N') { 
+                            // prLayout[ 'id' ] = Ext.id();
+                            // me.N2Nfields.push( { 
+                                // name : myFld.name, 
+                                // id: prLayout[ 'id' ] 
+                            // } );
+                        // }
         
                     }  else {
         
@@ -490,7 +493,7 @@ Ext.define('ProtoUL.UI.FormController', {
         
             }
         
-            return prLayout 
+            return prLayout;
             
             function setFieldDefaults(  prLayout, key ) {
                 // Asigna los fieldDefaults q vienen en los contenedores 

@@ -26,26 +26,26 @@ function verifyPrpType(  lKey,  cValue ) {
     
     var pType = _MetaProperties[ lKey + '.type' ]; 
     if ( ! pType )  { 
-        if ( typeof ( cValue ) == 'string') { return cValue.replace(/~+$/, '')  }
-        else { return cValue }      
+        if ( typeof ( cValue ) == 'string') { return cValue.replace(/~+$/, '');  }
+        else { return cValue; }      
     }
     
     if ( pType == typeof( cValue ) ) 
-    { return cValue  }    
+    { return cValue;  }    
     
     switch ( pType ) {
     case "boolean":
-        if  ( (typeof( cValue ) == 'number') ){ cValue = cValue.toString() }
+        if  ( (typeof( cValue ) == 'number') ){ cValue = cValue.toString(); }
         if  ( (typeof( cValue ) == 'string') ){
             if ( cValue.substr(1,1).toLowerCase()  in oc([ 'y', 's', '1','o' ]) )
-            { return true } else { return false } 
-        } else { return false }  
+            { return true; } else { return false; } 
+        } else { return false; }  
     case "number":
         return parseFloat( cValue );
     case "null":
-        return null 
+        return null; 
     default:
-        return cValue
+        return cValue;
     }
 }
 
@@ -152,6 +152,9 @@ _MetaProperties =  {
     "collapsed": false,
     "collapsed.help": "t/f collapsed",
     "collapsed.type": "boolean",
+
+    "zoomMultiple" : false, 
+    "zoomMultiple.type": "boolean", 
 
     "collapsible": false,
     "collapsible.help": "t/f",

@@ -28,7 +28,7 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
         
         var myMeta = _SM._cllPCI[ viewCode ] ;
         var title = myMeta.shortTitle ; 
-        if ( mdFilter ) { title = '*' + title }
+        if ( mdFilter ) { title = '*' + title ;}
 
         var tab = this.add({
             title: title ,
@@ -44,7 +44,7 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
             items: [ this.createProtoMasterDetail( viewCode, mdFilter , detailTitle ) ]
         });
 
-        this.setActiveTab( tab )
+        this.setActiveTab( tab );
         
         Ext.resumeLayouts(true);
 
@@ -64,9 +64,9 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
     closeProtoTab : function( viewCode  ){
 
         for (var ix = this.items.items.length;ix--;){
-            var xTab = this.items.items[ix] 
+            var xTab = this.items.items[ix]; 
             if ( xTab.viewCode == viewCode  ){
-              this.remove( xTab, true )
+              this.remove( xTab, true );
             }     
         }
 
@@ -74,17 +74,17 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
     
     closeAllTabs : function(){
         for (var ix = this.items.items.length;ix--;){
-          var xTab = this.items.items[ix] 
-          this.remove( xTab, true )
+          var xTab = this.items.items[ix]; 
+          this.remove( xTab, true );
         }
         
-        Ext.destroy(  Ext.ComponentQuery.query('protoZoom') ) 
-        Ext.destroy(  Ext.ComponentQuery.query('protoForm') ) 
-        Ext.destroy(  Ext.ComponentQuery.query('protoGrid') ) 
-        Ext.destroy(  Ext.ComponentQuery.query('protoMasterDetail') ) 
+        Ext.destroy(  Ext.ComponentQuery.query('protoZoom') ); 
+        Ext.destroy(  Ext.ComponentQuery.query('protoForm') ); 
+        Ext.destroy(  Ext.ComponentQuery.query('protoGrid') );
+        Ext.destroy(  Ext.ComponentQuery.query('protoMasterDetail') ); 
         
-        Ext.destroy( Ext.ComponentQuery.query('protoLogin') )     
-        Ext.destroy( Ext.ComponentQuery.query('protoSearch') )     
+        Ext.destroy( Ext.ComponentQuery.query('protoLogin') );     
+        Ext.destroy( Ext.ComponentQuery.query('protoSearch') );     
        
     }
  
@@ -94,9 +94,9 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
 
 _SM.closeTabListener = function() {
     
-    var x = 'TODO:  liberar la memoria'
+    var x = 'TODO:  liberar la memoria';
     //_SM.__TabContainer.on 
     // Ext.destroy(  Ext.ComponentQuery.query('protoZoom') ) 
     // Ext.destroy(  Ext.ComponentQuery.query('protoGrid') ) 
     
-}
+};

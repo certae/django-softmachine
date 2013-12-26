@@ -117,10 +117,8 @@ AdminUser = {
         "searchable": True
     }, {
         "__ptType": "field",
-        "vType": "protoN2N",
         "name": "user_permissions",
         "header": "permissions de l\'utilisateur",
-        "type": "protoN2N",
         "crudType": "screenOnly"
     }, {
         "__ptType": "field",
@@ -142,10 +140,8 @@ AdminUser = {
         "crudType": "screenOnly"
     }, {
         "__ptType": "field",
-        "vType": "protoN2N",
         "name": "groups",
         "header": "groupes",
-        "type": "protoN2N",
         "crudType": "screenOnly"
     }],
     "actions": [],

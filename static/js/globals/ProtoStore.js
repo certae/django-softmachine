@@ -419,10 +419,10 @@ _SM.DefineProtoModel = function  ( myMeta  ){
         case 'decimal':
             mField.type = 'number';            
             break;
-        case 'protoN2N':
-            mField.readOnly = true;            
-            mField.type = 'list';            
-            break;
+        // case 'protoN2N':
+            // mField.readOnly = true;            
+            // mField.type = 'list';            
+            // break;
 
         case 'jsonfield':
             mField.readOnly = true;            
@@ -440,7 +440,7 @@ _SM.DefineProtoModel = function  ( myMeta  ){
             break;
         case 'time':
             mField.type = 'date';            
-            mField.dateFormat ='H:i:s'  
+            mField.dateFormat ='H:i:s';  
             break;
         }
 

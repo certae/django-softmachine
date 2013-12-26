@@ -33,6 +33,9 @@ Ext.define('ProtoUL.ux.protoZoom', {
     zoomGrid : null, 
     zoomRecord: null, 
 
+    zoomRecords: null, 
+    zoomMultiple : false, 
+
     //trigger button cls 
     triggerCls : Ext.baseCSSPrefix + 'form-search-trigger',
     // readOnlyCls : 'protoLink', 
@@ -42,9 +45,6 @@ Ext.define('ProtoUL.ux.protoZoom', {
      */
     isLoaded : false,
     handleMouseEvents: true,
-
-
-    multiSelection : false, 
 
     /*  Formato de Link
     fieldStyle: 'color: -webkit-link !important;text-decoration: underline !important;cursor: auto !important;', 
@@ -148,7 +148,6 @@ Ext.define('ProtoUL.ux.protoZoom', {
             }, scope: this }
         });                 
 
-
         // referencia a la ventana modal
         me.win  = Ext.widget('window', {
             title : 'Zoom : ' + me.myMeta.shortTitle,
@@ -161,7 +160,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
             resizable : true,
 
             tbar :  searchBG, 
-            items : this.zoomGrid, 
+            items : this.zoomGrid,
 
             dockedItems: [{
                 xtype: 'toolbar',
@@ -169,8 +168,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
                 ui: 'footer',
                 defaults: {minWidth: 75},
                 items: [
-                    { xtype: 'tbtext', text: '', id: me.idStBar },
-                    { xtype: 'component', flex: 1 },
+                    { xtype: 'tbtext', text: '', id: me.idStBar , flex: 1, readOnly : true  },
                     { xtype: 'button', text: 'Cancel', scope: me, handler: doCancel   }, 
                     { xtype: 'button', text: 'Ok', scope: me, handler: me.doReturn }, 
                     { xtype: 'button', text: 'Edit', scope: me, handler: doEdit  }, 
@@ -294,19 +292,24 @@ Ext.define('ProtoUL.ux.protoZoom', {
             if ( me.myMeta.returnField ) {
                 recStr = record.get( me.myMeta.returnField );
             } else {
-                recStr = record.get( '__str__' ) || me.myMeta.viewCode + '._str_ ?';
+                recStr = record.get( '__str__' ) || me.myMeta.viewCode + '.str?';
             }
             return { 'recId' : record.get( 'id') , 'recStr' : recStr }; 
         };
         
-        if ( me.multiSelection && selModel ) {
+        if ( me.zoomMultiple && selModel ) {
             me.zoomRecords =[];
             var cllSelection = selModel.getSelection();  
             for ( ix in cllSelection ) {
                 me.zoomRecords.push(  getZoomReturn( cllSelection[ix] ) );
             } 
             
-            stBar.setText( Ext.encode( me.zoomRecords ));
+            var strAux = '';
+            for ( ix in me.zoomRecords ) {
+                strAux += me.zoomRecords[ix].recStr + ';'; 
+            }
+            stBar.setText( strAux );
+            me.retField = strAux; 
             
         } else if ( record ) {
             var zoomRet = getZoomReturn( record );   
@@ -325,10 +328,8 @@ Ext.define('ProtoUL.ux.protoZoom', {
     }, 
     
     doReturn: function() {
-        if ( this.zoomRecord )  {
-            // Asigna el returnField al text de base  
-            this.setValue( this.retField ); 
-        }
+        // Asigna el returnField al text de base  
+        this.setValue( this.retField ); 
         this.win.hide();
     }, 
     

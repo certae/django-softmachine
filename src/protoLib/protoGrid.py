@@ -185,8 +185,8 @@ class ProtoGridFactory(object):
                     elif ( fType  == 'bool' ) :
                         prChecks.append( { 'name' : key  , '__ptType' : 'formField'} )
 
-                    elif ( fType == 'protoN2N' ) :
-                        prN2N.append( { 'name' : key  , '__ptType' : 'formField'} )
+#                     elif ( fType == 'protoN2N' ) :
+#                         prN2N.append( { 'name' : key  , '__ptType' : 'formField'} )
 
                     elif ( key  == '__str__' ) :
 #                        prTexts.insert( 0, { 'name' : key  , '__ptType' : 'formField'} )
@@ -220,10 +220,10 @@ class ProtoGridFactory(object):
                     prFieldSet.append ( prSection )
 
 
-                if prN2N : 
-                    prSection = { '__ptType' : 'fieldset','fsLayout' : '1col'  }
-                    prSection['items'] = prN2N 
-                    prFieldSet.append ( prSection )
+#                 if prN2N : 
+#                     prSection = { '__ptType' : 'fieldset','fsLayout' : '1col'  }
+#                     prSection['items'] = prN2N 
+#                     prFieldSet.append ( prSection )
 
                 if prAdmin : 
                     prSection = { '__ptType' : 'fieldset','fsLayout' : '2col', 
