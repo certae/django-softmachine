@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Django settings for PROTO project.
-import os.path, sys 
+import os.path 
 PPATH = os.path.abspath( os.path.join( os.path.dirname(__file__), os.pardir )).replace('\\','/')
 
 if PPATH.startswith('/'): 
@@ -225,11 +225,11 @@ PROTO_APP = {}
 #    } 
 
 #add email settings
-# EMAIL_USE_TLS = True
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_HOST_USER = 'gigiow@gmail.com'
-# EMAIL_HOST_PASSWORD = 'motdepasse'
-# DEFAULT_FROM_EMAIL = 'giovanni@gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'protoext@gmail.com'
+EMAIL_HOST_PASSWORD = 'protoext1234'
+DEFAULT_FROM_EMAIL = 'protoext@gmail.com'
 #used for debug
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

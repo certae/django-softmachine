@@ -1,9 +1,9 @@
 /**
  * @author Giovanni Victorette
  */
-Ext.define('ProtoPWD.view.PasswordReset', {
+Ext.define('ProtoUL.ux.PasswordResetForm', {
     extend: 'Ext.form.Panel',
-    alias: 'widget.passwordForm',
+    alias: 'widget.passwordResetForm',
  	
  	title: _SM.__language.Title_Window_Password_Change,
  	floating: true,
@@ -18,10 +18,9 @@ Ext.define('ProtoPWD.view.PasswordReset', {
     // Fields will be arranged vertically, stretched to full width
     layout: 'anchor',
     defaults: {
-        anchor: '100%',
-        enableKeyEvents:true
+        anchor: '100%'
     },
-
+	
     // The fields
     username: '',
     defaultType: 'textfield',
@@ -46,15 +45,6 @@ Ext.define('ProtoPWD.view.PasswordReset', {
         name: 'newPassword2',
         inputType: 'password',
         allowBlank: false,
-	    listeners: {
-	    	// this is used to fire the click event where the PasswordManager is able to capture the form.
-            specialkey: function(f,e){
-                if(e.getKey() == e.ENTER){
-                	var changeButton = Ext.getCmp('btChangePWD');
-                	changeButton.fireEvent('click', changeButton);
-            	}
-            }
-        }
     }],
 
     // Reset and Submit buttons
@@ -64,12 +54,30 @@ Ext.define('ProtoPWD.view.PasswordReset', {
             this.up('form').getForm().reset();
         }
     }, {
-        text: _SM.__language.Text_change_Password_Button,
-        id: 'btChangePWD',
+        text: 'Changer le mot de passe',
         iconCls:'st-key-go',
-        formBind: true,
+        formBind: true, //only enabled once the form is valid
         disabled: true,
-        action: 'changepassword',
+        handler: function(btn, e) {
+            var form = this.up('form').getForm();
+            if (form.isValid()) {
+                form.submit({
+                	url: '/protoLib/submitChangePassword/',
+                    method: 'POST',
+                    scope: this,
+                    success: function(form, action) {
+                    	Ext.Msg.alert("Success", _SM.__language.Message_Success_Password_Change, function(btn) {
+                    		if (btn == 'ok') {
+                    			Ext.destroy( Ext.ComponentQuery.query('passwordResetForm') );
+						    }
+                    	});
+                    },
+                    failure: function(form, action) {
+                        Ext.Msg.alert('Failed', action.result.message);
+                    }
+                });
+            }
+        }
     }],
     renderTo: Ext.getBody()
 });

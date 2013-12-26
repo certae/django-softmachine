@@ -3,32 +3,39 @@
  */
 Ext.define('ProtoPWD.controller.PasswordManager', {
     extend: 'Ext.app.Controller',
- 	// TODO incomplete...I need to use the controller...
-    //models: [''],
-    //stores: [''],
+    
     views : ['PasswordReset',],
  
     init: function() {
         this.control({
             'passwordForm button[action=changepassword]': {click: this.changepassword},
-            'passwordForm button[action=deletar]': {click: this.deletar},
         });
     },
  
     changepassword: function(button) {
-        confirm('Tem certeza?');
-        //button.up('grid').getStore().insert(0, this.getModel('Pessoa').create());
-    },
- 
-    deletar: function(button) {
-        var grid = button.up('grid'),
-            store = grid.getStore(),
-            record = grid.getSelectionModel().getSelection()[0];
- 
-        if (record) {
-            if (confirm('Tem certeza?')) {
-                store.remove(record);
-            }
+        var form = button.up('form').getForm();
+        if (form.isValid()) {
+            form.submit({
+            	url: '/protoLib/submitChangePassword/',
+                method: 'POST',
+                scope: this,
+                success: function(form, action) {
+                	// fr : Le mot de passe a été changé avec succès
+                	Ext.Msg.alert("Success", _SM.__language.Message_Success_Password_Change , function(btn) {
+                		if (btn == 'ok') {
+	                    	Ext.Ajax.request({
+								url: '/protoExt', 
+								success : function() {
+									window.location = '/protoExt'; 
+								},
+							});
+					    }
+                	});
+                },
+                failure: function(form, action) {
+                    Ext.Msg.alert('Failed', action.result.message);
+                }
+            });
         }
-    }
+    },
 });
