@@ -13,11 +13,8 @@ class usrProfileAdmin(django.contrib.admin.ModelAdmin):
     "shortTitle": "User Profile",
     "fields": [{
         "__ptType": "field",
-        "vType": "protoN2N",
         "name": "userSites",
-        "header": "userSites",
-        
-        "type": "protoN2N"
+        "header": "userSites"
     }, {
         "__ptType": "field",
         "fkField": "user",

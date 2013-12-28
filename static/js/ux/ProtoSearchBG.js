@@ -50,12 +50,12 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
             listeners: {
                 keydown: function( me, e ) { 
                     if (e.getKey() == e.ENTER ) {
-                        onClickSearchBtn ( searchBtn  )
+                        onClickSearchBtn ( searchBtn  );
                        }
                 }}
         });
 
-        me.protoEnable =  ( me.myMeta.gridConfig.searchFields.length > 0  ) 
+        me.protoEnable =  ( me.myMeta.gridConfig.searchFields.length > 0  ) ;
 
         Ext.apply(me, {
             border : false,
@@ -85,7 +85,7 @@ Ext.define('ProtoUL.ux.ProtoSearchBG', {
         //BG 
         function onClickClearFilter (item ){
             // resetea los fitros tambien 
-            clearCombos()
+            clearCombos();
             me.fireEvent('qbeLoadData', me, [], '' , [] );
         }
 

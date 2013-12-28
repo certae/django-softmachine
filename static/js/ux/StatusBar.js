@@ -105,10 +105,10 @@ Ext.define('ProtoUL.ux.StatusBar', {
                      }
                  ]
                  })
-            }])
+            }]);
 
         // TODO: Boton q permita clear del sb y guarde en el tooltip la informacion de errores 
-        this.errBt = this.getComponent( 'errBt' )
+        this.errBt = this.getComponent( 'errBt' );
         
     },
 
@@ -137,16 +137,16 @@ Ext.define('ProtoUL.ux.StatusBar', {
     clearErrCount: function () {
         // this.errBt.hide()
         
-        this.errBt.tooltip = ''
+        this.errBt.tooltip = '';
         this.busyCount = 0; 
-        this.clearStatus( { useDefaults: true} )    
+        this.clearStatus( { useDefaults: true} );
     }, 
     
     setStatus: function (o) {
         var me = this;
         o = o || {};
 
-        var a = me.isLayoutSuspended()
+        var a = me.isLayoutSuspended();
 
         Ext.suspendLayouts();
         

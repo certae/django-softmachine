@@ -185,8 +185,8 @@ class ProtoGridFactory(object):
                     elif ( fType  == 'bool' ) :
                         prChecks.append( { 'name' : key  , '__ptType' : 'formField'} )
 
-                    elif ( fType == 'protoN2N' ) :
-                        prN2N.append( { 'name' : key  , '__ptType' : 'formField'} )
+#                     elif ( fType == 'protoN2N' ) :
+#                         prN2N.append( { 'name' : key  , '__ptType' : 'formField'} )
 
                     elif ( key  == '__str__' ) :
 #                        prTexts.insert( 0, { 'name' : key  , '__ptType' : 'formField'} )
@@ -220,10 +220,10 @@ class ProtoGridFactory(object):
                     prFieldSet.append ( prSection )
 
 
-                if prN2N : 
-                    prSection = { '__ptType' : 'fieldset','fsLayout' : '1col'  }
-                    prSection['items'] = prN2N 
-                    prFieldSet.append ( prSection )
+#                 if prN2N : 
+#                     prSection = { '__ptType' : 'fieldset','fsLayout' : '1col'  }
+#                     prSection['items'] = prN2N 
+#                     prFieldSet.append ( prSection )
 
                 if prAdmin : 
                     prSection = { '__ptType' : 'fieldset','fsLayout' : '2col', 
@@ -341,11 +341,25 @@ def getBaseModelName( viewCode   ):
 #    Concept Format :    app.model.view 
 #    Return :  app.model ,  view 
 
-    if viewCode.count(".") == 2:
-        app, model, view = viewCode.split(".")
-        viewCode = app + '.' +  model
+    from protoGetPci import PROTO_PREFIX
+    from models import ProtoDefinition 
     
-    return viewCode  
+    import django.utils.simplejson as json
+    
+    if viewCode.count(".") == 2:
+        app, model = viewCode.split(".")[:2]
+        viewEntity = app + '.' +  model
+    else: 
+        viewEntity = viewCode 
+
+    if not( viewEntity.startswith( PROTO_PREFIX )  and viewEntity != PROTO_PREFIX ):
+        try: protoDef  = ProtoDefinition.objects.get( code = viewEntity )
+        except: return viewEntity
+        
+        protoMeta = json.loads( protoDef.metaDefinition ) 
+        viewEntity = protoMeta.get( 'viewEntity',  viewCode  ) 
+
+    return viewEntity  
 
 
 def getFieldsInSet( self, prItems, formFields ):

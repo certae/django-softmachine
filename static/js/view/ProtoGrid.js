@@ -182,7 +182,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                             var clickedDataIndex = view.panel.headerCt.getHeaderAtIndex(cellIndex).dataIndex;
                             if (linkClicked && clickedDataIndex ) {
                                 
-                                var myZField = me.myFieldDict[ clickedDataIndex ] 
+                                var myZField = me.myFieldDict[ clickedDataIndex ];
                                 if ( ! myZField ) { return;  }
                                 if (  myZField.zoomModel && myZField.fkId ) {
                                     
@@ -193,12 +193,12 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                                             myMeta : me.myMeta
                                          });
                                              
-                                        formController.openLinkedForm.call( formController, me.selected , ! me.editable    )
+                                        formController.openLinkedForm.call( formController, me.selected , ! me.editable    );
 
                                     } else {
                                         // es un vinculo a otro objeto 
                                         var formController = Ext.create('ProtoUL.UI.FormController', {});
-                                        formController.openProtoForm.call( formController, myZField.zoomModel , record.get( myZField.fkId ) , false )
+                                        formController.openProtoForm.call( formController, myZField.zoomModel , record.get( myZField.fkId ) , false );
                                     }
                                     
                                     
@@ -225,7 +225,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                         if ( stRec ) { 
                             if ( stRec == _SM._ROW_ST.NEWROW ) { return stRec; } 
                             else { return _SM._ROW_ST.ERROR; }
-                        } else { return '' }
+                        } else { return ''; }
                         
                     }
                }
@@ -240,8 +240,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 // ---- GridControllers
 
         if ( this.gridController ) {
-            this.gridController.myGrid = this
-            this.gridController.store = this.store
+            this.gridController.myGrid = this;
+            this.gridController.store = this.store;
         } else {
             this.gridController = Ext.create('ProtoUL.UI.GridController', {
                 myMeta: myMeta, 
@@ -249,16 +249,16 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                 store : this.store  
             }); 
         }
-        this.gridController.addGridTools()
+        this.gridController.addGridTools(); 
 
         this.sheetCrl = Ext.create('ProtoUL.UI.GridSheetController', { myGrid : this }); 
         
 
 // ---
 
-        var myItems = [ grid ]
-        var mySheet = this.sheetCrl.getSheetConfig()
-        if ( mySheet ) myItems.push( mySheet )  
+        var myItems = [ grid ];
+        var mySheet = this.sheetCrl.getSheetConfig();
+        if ( mySheet ) myItems.push( mySheet );  
 
         Ext.apply(this, {
             layout: 'border',
@@ -278,19 +278,18 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         grid.on({
             // select: {fn: function ( rowModel , record,  rowIndex,  eOpts ) {
-                // // Select, presenta el rowIndex en  la grilla  
-                // me.fireSelectionChange( rowModel , record,  rowIndex,  eOpts   )
+                // me.fireSelectionChange( rowModel , record,  rowIndex,  eOpts   ); 
             // }, scope: this }, 
             selectionchange: {fn: function(selModel, selected,  eOpts ) {
                 // Expone la fila seleccionada. 
                 this.selected = selected[0] || null;
 
                 if ( this.selected  ) {
-                    me.rowData = this.selected.data 
-                    me.fireSelectionChange( selModel, this.selected,  this.selected.index + 1,  eOpts   ) 
+                    me.rowData = this.selected.data;
+                    me.fireSelectionChange( selModel, this.selected,  this.selected.index + 1,  eOpts   ); 
                 } else { 
-                    me.rowData = null 
-                    me.fireSelectionChange( selModel, null,  null,  eOpts   )
+                    me.rowData = null;
+                    me.fireSelectionChange( selModel, null,  null,  eOpts   );
                 } 
                                 // Si hay botones o eltos de la interface a modificar 
                 // grid4.down('#removeButton').setDisabled(selections.length == 0);
@@ -298,7 +297,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             
             itemmouseenter: {fn: function(view, record, item) {
                 // Esto maneja los tooltip en las las filas
-                var msg = record.get('_ptStatus')
+                var msg = record.get('_ptStatus');
                 if ( msg == _SM._ROW_ST.NEWROW  ) msg = '';
 
                 // Asigna un tooltip a la fila, pero respeta los de cada celda y los de los Actiosn
@@ -391,8 +390,8 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         // Crea el diccionario de columnas 
             var gCol, ix, vFld  ; 
             for (ix in myMeta.fields ) {
-                vFld = myMeta.fields[ix] 
-                if ( vFld.crudType == 'storeOnly' ) {continue};
+                vFld = myMeta.fields[ix]; 
+                if ( vFld.crudType == 'storeOnly' ) {continue; };
     
                 // lee las props p
                 gCol = _SM.getColDefinition( vFld  );
@@ -410,7 +409,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
             }
 
             // Crea el rowNumber 
-            gCol = { xtype: 'rownumberer', width:37, draggable:false,  sortable: false } // locked: true, lockable: false }
+            gCol = { xtype: 'rownumberer', width:37, draggable:false,  sortable: false }; // locked: true, lockable: false }
             me.colDictDefinition[ '___numberCol' ]  = gCol ;
 
         }
@@ -432,27 +431,27 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         // Lista de registros seleccionados ( id )
 
         var selectedIds = [], 
-             ix, cllSelection ; 
+            ix, cllSelection ; 
              
-        if ( ! this.selected ) return selectedIds 
-        if ( ! this.selModel ) return [ this.selected.get('id') ]
+        if ( ! this.selected ) return selectedIds;
+        if ( ! this.selModel ) return [ this.selected.get('id') ];
 
         cllSelection = this.selModel.getSelection();  
                              
         for ( ix in cllSelection ) {
-            selectedIds.push( cllSelection[ix].get( 'id') ) 
+            selectedIds.push( cllSelection[ix].get( 'id') ) ;
         } 
         
-        return selectedIds
+        return selectedIds;
     }, 
     
     getViewColumns: function (  tabConfig  ) {
 
         // guarda la confAnterior 
-        if ( this.colSetName == tabConfig.name ) return this.colSetDefinition
+        if ( this.colSetName == tabConfig.name ) return this.colSetDefinition;
         
         // Lo inicia para volver a crearlo
-        this.colSetName = tabConfig.name  
+        this.colSetName = tabConfig.name;  
         this.colSetDefinition= [];
         
         var gCol, dataIndex, ixV; 
@@ -567,9 +566,9 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
     getRowIndex: function() {
         
         var sm = this._extGrid.getSelectionModel();
-        var rowIndex = this.store.indexOf( sm.getSelection()[0])
-        if ( rowIndex < 0 ) rowIndex = 0  
-        return rowIndex 
+        var rowIndex = this.store.indexOf( sm.getSelection()[0]);
+        if ( rowIndex < 0 ) rowIndex = 0 ;
+        return rowIndex; 
          
     }, 
     
@@ -583,7 +582,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         this.store.remove( sm.getSelection()  );
 
         // this.grid.store.indexOf( this.selections.itemAt(0) );
-        if (this.store.getCount() <= rowIndex ) rowIndex = 0 
+        if (this.store.getCount() <= rowIndex ) rowIndex = 0;
         if (this.store.getCount() > 0) {
             sm.select( rowIndex  );
         }        

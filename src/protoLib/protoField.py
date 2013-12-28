@@ -105,11 +105,11 @@ def setFieldDict(protoFields ,  field ):
         pField['searchable'] = False    
         pField['sortable'] = False 
 
-        pField['vType'] = 'protoN2N'
-        pField['conceptDetail'] = tmpModel.app_label + '.' + tmpModel.object_name 
-        pField['relatedN2N'] = relModel.app_label + '.' + relModel.object_name
-        pField['detailField'] = field.related.var_name  + '__pk'
-        pField['masterField'] = 'pk'                                     
+#         pField['vType'] = 'protoN2N'
+#         pField['conceptDetail'] = tmpModel.app_label + '.' + tmpModel.object_name 
+#         pField['relatedN2N'] = relModel.app_label + '.' + relModel.object_name
+#         pField['detailField'] = field.related.var_name  + '__pk'
+#         pField['masterField'] = 'pk'                                     
         
 
     elif  field.__class__.__name__ == 'ForeignKey' and ( not isAdmField( field.name )):

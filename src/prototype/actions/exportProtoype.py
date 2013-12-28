@@ -3,111 +3,123 @@
 # Efficient String Concatenation in Python ( http://www.skymind.com/~ocrow/python_string/ )
 
 # def method1():    ( Little string ) 
-#   out_str = ''
-#   for num in xrange(loop_count):
 #     out_str += `num`
-#   return out_str
   
 # def method5():  ( BigString )
 #   from cStringIO import StringIO
 #   file_str = StringIO()
-#   for num in xrange(loop_count):
-#     file_str.write(`num`)
-# 
+#   file_str.write(`num`)
 #   return file_str.getvalue()
   
   
-# from prototype.models import Model, Entity, Prototype
+from pttActionTools import getClassName, TypeEquivalence  
 from protoLib.utilsBase import slugify, repStr
 from cStringIO import StringIO
 
 
-PROTO_PREFIX = "prototype.ProtoTable."
+def exportPrototypeModel(request, pModel ):
 
+    strModel = StringIO()        
+    modelCode = slugify(pModel.code, '_')
 
-def exportPrototypeModel(queryset):
+    strModel.write("# -*- coding: utf-8 -*-\n\n")
+    strModel.write('# This is an auto-generated model module by CeRTAE SoftMachine v13.12dgt\n' )  
+    strModel.write("# for model : \"{0}\"\n".format( modelCode ) )  
+    strModel.write("# You'll have to do the following manually to clean this up:\n")
+    strModel.write("#     * Add specific procedures  (WFlow)\n\n")
+    strModel.write("from django.db import models\n")
+    strModel.write("from protoLib.models import ProtoModel\n")    
+    strModel.write("from protoLib.utilsBase import slugify\n")
 
-    TypeEquivalence = { 
-            'bool'      :   'BooleanField',
-            'string'    :   'CharField', 
-            'date'      :   'DateField', 
-            'datetime'  :   'DateTimeField', 
-            'decimal'   :   'DecimalField',
-            'float'     :   'FloatField',
-            'int'       :   'IntegerField',
-            'text'      :   'TextField',
-            'time'      :   'TimeField',
-            'jsonfield' :   'JSONField'       ,
-        }
+    for pEntity in pModel.entity_set.all():
 
-
-    for pModel in queryset:
-
-        strModel = StringIO()        
-        modelCode = slugify(pModel.code, '_')
-
-        strModel.write('# This is an auto-generated model module by CeRTAE SoftMachine v13.dgt12001' )  
-        strModel.write("# for model : \"{0}\" >".format( modelCode ) )  
-        strModel.write("# You'll have to do the following manually to clean this up:")
-        strModel.write("#     * Rearrange models' order")
-        strModel.write("#     * Add specific procedures  (WFlow)")
-        strModel.write("")
-        strModel.write("from protoLib.models import ProtoModel")    
-        strModel.write("from django.utils.encoding import force_unicode")
-
-
-        for pEntity in pModel.entity_set.all():
-            enttCode = slugify(pEntity.code , '_').title()
-
-            strModel.write( '' ) 
-            strModel.write( '# This is an auto-generated model module by CeRTAE SoftMachine v13.dgt12001' )  
-            strModel.write( "# Concept name : \"{0}\" >".format( pEntity.code  ) )  
-            strModel.write( "class {0}(ProtoModel):".format( enttCode )) 
-                             
-            for pProperty in pEntity.property_set.all():
-                
-                if pProperty.isForeign:
-                    pType = slugify( pProperty.relationship.refEntity.code , '_').title() 
-                    strAux = "{0} = models.ForeignKey(''{1}'', null= {2}, related_name='+')"
+        strModel.write( "\n" ) 
+        strModel.write( "class {0}(ProtoModel):\n".format( getClassName( pEntity.code )  )) 
+                         
+        arrKeys  = []
+                                                     
+        for pProperty in pEntity.property_set.all():
+            
+            pCode = slugify(pProperty.code, '_')
+            
+            if pProperty.isForeign:
+                pType  = getClassName( pProperty.relationship.refEntity.code ) 
+                strAux = "{0} = models.ForeignKey('{1}', blank= {2}, null= {2}, related_name='+')\n"
 #                   on_delete={5} : CASCADE, PROTECT, SET_NULL 
-                    
-                else: 
-                    pType  = TypeEquivalence.get( pProperty.baseType , 'CharField')
+                
+            else: 
+                pType  = TypeEquivalence.get( pProperty.baseType , 'CharField')
 #                   prpDefault
 
-                    if pType == 'CharField':
-                        strAux = "{0} = models.{1}(blank= {2}, null= {2}, max_length= {3})"
-                        
-                    elif pType == 'DecimalField':
-                        strAux = "{0} = models.{1}(blank= {2}, null= {2}, max_digits={3}, decimal_places= {4})"
-                        
-                    else: 
-                        strAux = "{0} = models.{1}(blank = {2}, null = {2})"
+                intLength = pProperty.prpLength 
+                intScale  = pProperty.prpScale  
 
-#               if not pProperty.isRequired: 
-                if pProperty.isNullable: strNull = 'TRUE'
-                else: strNull = 'FALSE'
+                if pType == 'CharField':
+                    strAux = "{0} = models.{1}(blank= {2}, null= {2}, max_length= {3})\n"
+                    if intLength == 0: intLength = 200 
+                    
+                elif pType == 'DecimalField':
+                    strAux = "{0} = models.{1}(blank= {2}, null= {2}, max_digits={3}, decimal_places= {4})\n"
 
-                strModel.write( repStr(' ',4) + strAux.format( 
-                              slugify(pProperty.code, '_'),
-                              pType, 
-                              strNull,
-                              pProperty.prpLength, 
-                              pProperty.prpScale 
-                              ))  
-                
-            #Unicode 
-            strModel.write(repStr(' ',4)+ "def __unicode__(self):")
-            strAux = ''
+                    if intLength == 0 or intLength > 24  : intLength = 48 
+                    if intScale  <  0 or intScale  > intLength : intScale = 2 
 
-            for pProperty in pEntity.property_set.all():
-                if strAux.len() > 0: 
-                    strAux += " +  '.' + " 
-                if pProperty.isPrimary :
-                    strAux =  'self.{0} + ' + slugify(pProperty.code, '_')
+                elif pType == 'BooleanField':
+                    strAux = "{0} = models.{1}()\n"
+                    
+                else: 
+                    strAux = "{0} = models.{1}(blank = {2}, null = {2})\n"
 
-            strModel.write( repStr(' ',8) + "return slugify({0})".format( strAux ))
+#               isRequired isNullable: 
+            if pProperty.isRequired: strNull = 'False'
+            else: strNull = 'True'
+
+            if pProperty.isPrimary: 
+                arrKeys.append( pCode ) 
+
+            strModel.write( repStr(' ',4) + strAux.format( 
+                          pCode,
+                          pType, 
+                          strNull,
+                          str( intLength ), 
+                          str( intScale ) 
+                          ))  
             
-        print strModel.getvalue()
-        strModel.close()
-        
+
+        strModel.write("\n")
+        strModel.write(repStr(' ',4)+ "def __unicode__(self):\n")
+
+        if arrKeys.__len__() > 0:
+
+            # Unicode 
+            strOptions = ''
+            for pProperty in pEntity.property_set.all():
+                if not pProperty.isPrimary : continue
+                if strOptions.__len__() > 0:  strOptions += " +  '.' + " 
+
+                if pProperty.isForeign or not ( pProperty.baseType in  [ 'string', 'text' ] ):
+                    strAux = 'str( self.{0})'.format( slugify(pProperty.code, '_'))
+                else :  strAux = 'self.{0}'.format( slugify(pProperty.code, '_'))  
+                strOptions += strAux  
+
+            strModel.write( repStr(' ',8) + "return slugify({0})\n".format( strOptions ))
+
+
+            #meta 
+            strModel.write("\n")
+            strModel.write(repStr(' ',4)+ "class Meta:\n")
+            
+            strOptions = ''
+            for pCode in arrKeys:
+                strOptions +=  "'{0}',".format( pCode ) 
+ 
+            strModel.write( repStr(' ',8) + "unique_together = ({0})\n".format( strOptions ))
+
+        else: 
+
+            strModel.write( repStr(' ',8) + "return 'NoKey'")
+                
+    strAux = strModel.getvalue()
+    strModel.close()
+
+    return strAux  

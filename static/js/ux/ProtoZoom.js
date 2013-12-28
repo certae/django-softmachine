@@ -33,6 +33,9 @@ Ext.define('ProtoUL.ux.protoZoom', {
     zoomGrid : null, 
     zoomRecord: null, 
 
+    zoomRecords: null, 
+    zoomMultiple : false, 
+
     //trigger button cls 
     triggerCls : Ext.baseCSSPrefix + 'form-search-trigger',
     // readOnlyCls : 'protoLink', 
@@ -69,10 +72,10 @@ Ext.define('ProtoUL.ux.protoZoom', {
 
     onClickLink: function ( ev, nd ) {
         // La funcion Link solo se activa si es readOly 
-        if ( ! this.readOnly  ) { return } 
-        if ( nd.nodeName == "LABEL" ) { return } 
+        if ( ! this.readOnly  ) { return; } 
+        if ( nd.nodeName == "LABEL" ) { return; } 
 
-        this._loadZoom( this.doClickLink  )  
+        this._loadZoom( this.doClickLink  ); 
     }, 
 
     _loadZoom: function( fnBase, opts  ) {
@@ -82,7 +85,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
             scope: me, 
             success: function ( obj, result, request ) {
                 me.createZoomWindow( me );
-                fnBase.call( me, me, opts )
+                fnBase.call( me, me, opts );
             },
             failure: function ( obj, result, request) { 
                 return ;  
@@ -91,7 +94,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
 
         if (  _SM.loadPci( me.zoomModel , true, options ) ) {
             me.createZoomWindow( me ); 
-            fnBase.call( me, me, opts )
+            fnBase.call( me, me, opts );
         }   
  
     }, 
@@ -100,12 +103,12 @@ Ext.define('ProtoUL.ux.protoZoom', {
     doClickLink: function ( me ) {
         
         var formController = Ext.create('ProtoUL.UI.FormController', {});
-        formController.openProtoForm.call( formController, me.zoomModel, me.fkIdValue , false   ) 
+        formController.openProtoForm.call( formController, me.zoomModel, me.fkIdValue , false   ); 
         
     }, 
     
     createZoomWindow:  function ( me  ){
-        if ( me.isLoaded ) { return } 
+        if ( me.isLoaded ) { return; } 
 
         me.myMeta = _SM._cllPCI[ me.zoomModel ] ; 
 
@@ -123,28 +126,27 @@ Ext.define('ProtoUL.ux.protoZoom', {
          }) ; 
              
              
-        var searchBG = Ext.create('ProtoUL.ux.ProtoSearchBG', { myMeta: me.myMeta })
+        var searchBG = Ext.create('ProtoUL.ux.ProtoSearchBG', { myMeta: me.myMeta });
 
         this.zoomGrid.on({
-            selectionChange: {fn: function ( rowModel, record, rowIndex,  eOpts ) {
-                me.setStatusBar( rowIndex, record )
+            selectionChange: {fn: function ( selModel, record, rowIndex,  eOpts ) {
+                me.setSelected( rowIndex, record, selModel );
             }, scope: this }
         });
 
         this.zoomGrid.on({
             rowDblClick: {fn: function ( record, rowIndex ) {
-                me.setStatusBar( rowIndex, record )
-                me.doReturn()
+                me.setSelected( rowIndex, record );
+                me.doReturn();
             }, scope: me }
         });
 
         searchBG.on({
             qbeLoadData: {fn: function ( searchBG , sFilter, sTitle , sorter ) {
-                me.resetZoom()                
+                me.resetZoom();
                 this.zoomGrid.gridLoadData( this.zoomGrid, sFilter, sorter );
             }, scope: this }
         });                 
-
 
         // referencia a la ventana modal
         me.win  = Ext.widget('window', {
@@ -158,7 +160,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
             resizable : true,
 
             tbar :  searchBG, 
-            items : this.zoomGrid, 
+            items : this.zoomGrid,
 
             dockedItems: [{
                 xtype: 'toolbar',
@@ -166,8 +168,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
                 ui: 'footer',
                 defaults: {minWidth: 75},
                 items: [
-                    { xtype: 'tbtext', text: '', id: me.idStBar },
-                    { xtype: 'component', flex: 1 },
+                    { xtype: 'tbtext', text: '', id: me.idStBar , flex: 1, readOnly : true  },
                     { xtype: 'button', text: 'Cancel', scope: me, handler: doCancel   }, 
                     { xtype: 'button', text: 'Ok', scope: me, handler: me.doReturn }, 
                     { xtype: 'button', text: 'Edit', scope: me, handler: doEdit  }, 
@@ -180,31 +181,31 @@ Ext.define('ProtoUL.ux.protoZoom', {
         me.isLoaded = true;
         
         function doCancel() {
-            me.resetZoom() 
-            me.win.hide()
+            me.resetZoom();
+            me.win.hide();
         }
 
         function doNew() {
             var formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });
-            formController.openNewForm ( this.zoomGrid.store   )
+            formController.openNewForm ( this.zoomGrid.store  );
         }
 
 
         function doEdit() {
             if ( ! this.zoomGrid.selected ) {
-                _SM.errorMessage(_SM.__language.Title_Form_Panel, _SM.__language.GridAction_NoRecord)
-                return 
+                _SM.errorMessage(_SM.__language.Title_Form_Panel, _SM.__language.GridAction_NoRecord);
+                return; 
             }
             var formController = Ext.create('ProtoUL.UI.FormController', { 
                 myMeta : me.myMeta
              });
-            formController.openLinkedForm ( this.zoomGrid.selected    )
+            formController.openLinkedForm ( this.zoomGrid.selected    );
         }
         
     }, 
     
     onTriggerClick : function (  ) {
-        this._loadZoom( this.doTriggerClick )  
+        this._loadZoom( this.doTriggerClick ) ;
     }, 
     
     doTriggerClick : function( me ) {
@@ -213,102 +214,128 @@ Ext.define('ProtoUL.ux.protoZoom', {
     },
     
     showZoomForm : function(me) {
-        if ( ! me.isLoaded  ) { return }
+        if ( ! me.isLoaded  ) { return; }
         
         // TODO: verifica el zoomFilter 
-        var myZoomFilter = getFilter()
+        var myZoomFilter = getFilter();
         if ( myZoomFilter) if ( myZoomFilter.length > 0 ) {
-            this.zoomGrid.store.mySetBaseFilter( myZoomFilter )
+            this.zoomGrid.store.mySetBaseFilter( myZoomFilter );
         }
 
         me.win.show();
         
         function getFilter() {
             
-            if ( ! me.zoomFilter ) return myFilter 
-            if ( ! me.idProtoGrid ) return myFilter 
+            if ( ! me.zoomFilter ) return myFilter;
+            if ( ! me.idProtoGrid ) return myFilter;  
                         
             /*  zoomFilter = "field1 : condition ; 
              *                field2 : [refCampoBase]; campo : 'vr'; 
              *                field3 = @functionX( [refCampoBase], [refCampoBase] ); .. "
              *  Ej:          "model_id : @getEntityModel( [entity_id]) "
             */ 
-            var myFilter = me.zoomFilter
+            var myFilter = me.zoomFilter;
             
             // Obtiene los parametros ( campos en el registro base )
             // var lFilters = me.zoomFilter.match(/[^[\]]+(?=])/g)
-            var lFilters = me.zoomFilter.match(/\(([^()]+)\)/g)
+            var lFilters = me.zoomFilter.match(/\(([^()]+)\)/g);
             
             if ( lFilters ) if  ( lFilters.length > 0 ) { 
 
                 //obtiene la meta 
-                var myGridBase = Ext.getCmp( me.idProtoGrid ) 
+                var myGridBase = Ext.getCmp( me.idProtoGrid ); 
                 
                 // Remplaza en el filtro 
                 for ( var i in lFilters ) {
-                    var fStmt = lFilters[i].replace('(', '').replace(')', '').split(',')
+                    var fStmt = lFilters[i].replace('(', '').replace(')', '').split(',');
                     for ( var ix in fStmt ) {
                         var fName = fStmt[ix], 
-						    fVal = getValueOrDefault(  myGridBase, fName ) 
+						    fVal = getValueOrDefault(  myGridBase, fName );
                         
-                        myFilter = myFilter.replace( '{0}'.format( fName ),  '{0}'.format( fVal)  )
+                        myFilter = myFilter.replace( '{0}'.format( fName ),  '{0}'.format( fVal)  );
                      }
                 }
             } 
 
             // Separa el filtro para generar el array 
-            myFilter = myFilter.split( ';')
+            myFilter = myFilter.split( ';'); 
             for ( i = 0; i < myFilter.length; i++) {
-                var lFilter =  myFilter[i].split(':') 
-                myFilter[i] = { 'property' : lFilter[0].trim(), 'filterStmt' : lFilter[1].trim() }   
+                var lFilter =  myFilter[i].split(':'); 
+                myFilter[i] = { 'property' : lFilter[0].trim(), 'filterStmt' : lFilter[1].trim() };   
             }
-            return myFilter
+            return myFilter;
         }
         
         function getValueOrDefault( myGridBase, fName ) {
-         	var fVal
+         	var fVal;
          	try {
 	            if ( myGridBase.rowData ) { 
-	                fVal =  myGridBase.rowData[ fName.trim() ]
+	                fVal =  myGridBase.rowData[ fName.trim() ];
 	        	} else {
-	        		fVal  = myGridBase.myFieldDict[ fName.trim() ]['prpDefault']
+	        		fVal  = myGridBase.myFieldDict[ fName.trim() ]['prpDefault'];
 	    		}
-	    	} catch(e)  { fVal = '-1' } 
+	    	} catch(e)  { fVal = '-1'; } 
  
-			return fVal 
+			return fVal; 
         }
         
     }, 
     
-    setStatusBar: function  ( rowIndex, record ) {
-        var stBar = Ext.getCmp( this.idStBar )
-        
-        if ( record ) {
-            this.zoomRecord = record
-            if ( this.myMeta.returnField ) {
-                this.retField = record.data[ this.myMeta.returnField ]
+    setSelected: function  ( rowIndex, record, selModel) {
+        var stBar = Ext.getCmp( this.idStBar ),
+            me = this,  
+            ix ;
+
+        function getZoomReturn( record ) {
+            var recStr; 
+            if (! record  )  return ;
+            if ( me.myMeta.returnField ) {
+                recStr = record.get( me.myMeta.returnField );
             } else {
-                this.retField = record.data.__str__ || this.myMeta.viewCode + '.__str__ not found'
+                recStr = record.get( '__str__' ) || me.myMeta.viewCode + '.str?';
             }
-            stBar.setText( '[' + rowIndex.toString() + ']  ' + this.retField )
-        }     else  {
-            this.zoomRecord = null 
-            stBar.setText('')   
+            return { 'recId' : record.get( 'id') , 'recStr' : recStr }; 
+        };
+        
+        if ( me.zoomMultiple && selModel ) {
+            me.zoomRecords =[];
+            var cllSelection = selModel.getSelection();  
+            for ( ix in cllSelection ) {
+                me.zoomRecords.push(  getZoomReturn( cllSelection[ix] ) );
+            } 
+            
+            var strAux = '';
+            for ( ix in me.zoomRecords ) {
+                strAux += me.zoomRecords[ix].recStr + ';'; 
+            }
+            stBar.setText( strAux );
+            me.retField = strAux; 
+            
+        } else if ( record ) {
+            var zoomRet = getZoomReturn( record );   
+            
+            me.zoomRecord = record;
+            me.retField = zoomRet.recStr; 
+            
+            stBar.setText( '[' + zoomRet.recId.toString() + ']  ' + zoomRet.recStr );
+            
+        } else  {
+            me.zoomRecord = null; 
+            me.zoomRecords =null;
+            stBar.setText('');    
         } 
         
     }, 
     
     doReturn: function() {
-        if ( this.zoomRecord )  {
-            // Asigna el returnField al text de base  
-            this.setValue( this.retField ) 
-        }
-        this.win.hide()
+        // Asigna el returnField al text de base  
+        this.setValue( this.retField ); 
+        this.win.hide();
     }, 
     
     resetZoom: function() {
-        this.setStatusBar( )
-    } 
+        this.setSelected( );
+    }
     
     // setReadOnly: function(readOnly) {
         // if (readOnly != this.readOnly) {

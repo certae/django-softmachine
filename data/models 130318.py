@@ -66,48 +66,8 @@ class AuthUserUserPermissions(models.Model):
     class Meta:
         db_table = u'auth_user_user_permissions'
 
-class BestQuestion(models.Model):
-    id = models.IntegerField(primary_key=True)
-    id_question = models.CharField(max_length=20, db_column=u'ID_Question') # Field name made lowercase.
-    libelle_question = models.TextField(db_column=u'Libelle_Question', blank=True) # Field name made lowercase.
-    invertion = models.BooleanField(db_column=u'Invertion') # Field name made lowercase.
-    question_id_question_id = models.IntegerField(null=True, db_column=u'QUESTION_ID_Question_id', blank=True) # Field name made lowercase.
-    id_questionnaire = models.ForeignKey(BestQuestionnaire, null=True, db_column=u'ID_Questionnaire_id', blank=True) # Field name made lowercase.
-    class Meta:
-        db_table = u'best_question'
 
-class BestQuestionnaire(models.Model):
-    id = models.IntegerField(primary_key=True)
-    id_questionnaire = models.CharField(max_length=50, db_column=u'ID_Questionnaire') # Field name made lowercase.
-    libelle_questionnaire = models.TextField(db_column=u'Libelle_Questionnaire', blank=True) # Field name made lowercase.
-    class Meta:
-        db_table = u'best_questionnaire'
 
-class BestRepondant(models.Model):
-    id = models.IntegerField(primary_key=True)
-    id_repondant = models.IntegerField(db_column=u'ID_Repondant') # Field name made lowercase.
-    idul_repondant = models.CharField(max_length=20, db_column=u'IDUL_Repondant', blank=True) # Field name made lowercase.
-    class Meta:
-        db_table = u'best_repondant'
-
-class BestReponse(models.Model):
-    id = models.IntegerField(primary_key=True)
-    id_repondant = models.ForeignKey(BestRepondant, null=True, db_column=u'ID_Repondant_id', blank=True) # Field name made lowercase.
-    id_questionnaire = models.ForeignKey(BestQuestionnaire, null=True, db_column=u'ID_Questionnaire_id', blank=True) # Field name made lowercase.
-    date_soumission = models.DateField(null=True, db_column=u'Date_soumission', blank=True) # Field name made lowercase.
-    class Meta:
-        db_table = u'best_reponse'
-
-class BestReponseligne(models.Model):
-    id = models.IntegerField(primary_key=True)
-    id_reponseligne = models.IntegerField(db_column=u'ID_Reponseligne') # Field name made lowercase.
-    texte_reponselgine = models.TextField(db_column=u'Texte_Reponselgine', blank=True) # Field name made lowercase.
-    valeurnumerique = models.IntegerField(null=True, db_column=u'Valeurnumerique', blank=True) # Field name made lowercase.
-    id_repondant = models.ForeignKey(BestRepondant, null=True, db_column=u'ID_Repondant_id', blank=True) # Field name made lowercase.
-    id_question = models.ForeignKey(BestQuestion, null=True, db_column=u'ID_Question_id', blank=True) # Field name made lowercase.
-    id_questionnaire = models.ForeignKey(BestQuestionnaire, null=True, db_column=u'ID_Questionnaire_id', blank=True) # Field name made lowercase.
-    class Meta:
-        db_table = u'best_reponseligne'
 
 class DjangoAdminLog(models.Model):
     id = models.IntegerField(primary_key=True)

@@ -173,12 +173,12 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
                 continue  
 
             # N2N
-            elif ( lField['type'] == 'protoN2N' ):
-                try: 
-                    val = list( rowData.__getattribute__( fName  ).values_list()) 
-                except: val = '[]'
-                rowdict[ fName ] = val
-                continue 
+#             elif ( lField['type'] == 'protoN2N' ):
+#                 try: 
+#                     val = list( rowData.__getattribute__( fName  ).values_list()) 
+#                 except: val = '[]'
+#                 rowdict[ fName ] = val
+#                 continue 
 
             # Si el campo es absorbido ( bCopyFromFld es un shortcut para evitar la evulacion en caso de q no haya ningun cpFromField )    
             elif bCopyFromFld and isAbsorbedField( lField, protoMeta  ) :

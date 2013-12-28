@@ -6,11 +6,12 @@ from django.db.models.signals import post_save, post_delete
 from protoLib.models import ProtoModel   
 from protoLib.fields import JSONField,  JSONAwareManager
 
-from protoRules import  updatePropInfo, twoWayPropEquivalence, updProPropModel
+# from protoRules import  updatePropInfo
+from protoRules import  twoWayPropEquivalence, updProPropModel
 from protoRules import  ONDELETE_TYPES, BASE_TYPES, CRUD_TYPES, DB_ENGINE
 
 
-from protoLib.utilsBase import slugify, strip_accents
+from protoLib.utilsBase import slugify
 
 PROTO_PREFIX = "prototype.ProtoTable."
 
@@ -98,7 +99,12 @@ class Model(ProtoModel):
         return slugify( self.code ) 
     
     protoExt = { 
-        "actions": [{ "name": "doModelPrototype" }, { "name": "doModelGraph" } ],        
+        "actions": [
+            { "name": "doModelPrototype" }, 
+            { "name": "doModelGraph" },  
+            { "name": "doExportPrototype" },
+            { "name": "doExportProtoJson" }
+        ],        
         "gridConfig" : {
             "listDisplay": ["__str__", "description", "smOwningTeam"]      
         }
@@ -418,7 +424,7 @@ class Prototype(ProtoModel):
     Esta tabla manejar la lista de  prototypos almacenados en customDefinicion, 
     Genera la "proto" pci;  con la lista de campos a absorber y los detalles posibles        
     """
-    entity = models.ForeignKey( Entity, blank = False, null = False )
+    entity = models.ForeignKey( Entity, blank = False, null = False , related_name = 'prototype_set')
     
     """Nombre (str) de la vista a buscar en protoDefinition  """
     code   = models.CharField( blank = False, null = False, max_length=200, editable = False )

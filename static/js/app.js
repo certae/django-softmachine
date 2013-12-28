@@ -30,7 +30,8 @@ Ext.application({
         'Ext.Ajax',
         
         'ProtoUL.view.MenuTree', 
-        'ProtoUL.view.ProtoTabContainer',          'ProtoUL.view.Viewport',
+        'ProtoUL.view.ProtoTabContainer',  
+        'ProtoUL.view.Viewport',
 
         'ProtoUL.ux.Printer',
         'ProtoUL.ux.GridHeaderToolTip', 
@@ -59,7 +60,8 @@ Ext.application({
        Ext.Ajax.request({
             method: 'POST',
             // waitTitle:'Connecting', 
-            // waitMsg:'Sending data...',
+            // waitMsg:'Sending data...',
+
             url: _SM._PConfig.urlGetUserRights,
             
             // success: this.submitLoginCallback,
@@ -86,7 +88,7 @@ Ext.application({
     
     showLogin: function(  ) {
 
-        var me = this ;
+        var me = this;
 
         var options = {
             scope: me, 
@@ -126,5 +128,3 @@ Ext.application({
     }
     
 });
-
-
