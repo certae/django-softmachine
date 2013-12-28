@@ -47,16 +47,10 @@ Ext.define('ProtoUL.view.Viewport', {
                 region:'south', 
                 split: false,
                 collapsible: false
-<<<<<<< HEAD
            });
             
         return _SM.__StBar;           
-=======
-            }); 
             
-        return _SM.__StBar;            
->>>>>>> 7eb60ee711c38bdae9dab1c0ada19207adbc927c
-
     }, 
 
 
@@ -64,11 +58,7 @@ Ext.define('ProtoUL.view.Viewport', {
     afterRender: function () {
         this.callParent(arguments);
 
-<<<<<<< HEAD
-        _SM.__StBar.showBusy( 'loading ... ', 'vPort', 3000) ;           
-=======
         _SM.__StBar.showBusy( 'loading ... ', 'vPort', 3000);            
->>>>>>> 7eb60ee711c38bdae9dab1c0ada19207adbc927c
 
         // Carga las PCI de autoload
         // TODO: Esto podria ser un llamado configurado por usuario  
