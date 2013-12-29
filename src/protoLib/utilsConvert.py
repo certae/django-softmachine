@@ -173,3 +173,12 @@ def isinteger(astring):
 
 
 # --------------------  
+
+
+def product( *args ):
+    # product( ['ABCD', 'xy'] ) --> Ax Ay Bx By Cx Cy Dx Dy
+    pools = map(tuple, args)
+    result = [[]]
+    for pool in pools:
+        result = [x+[y] for x in result for y in pool]
+    return result 

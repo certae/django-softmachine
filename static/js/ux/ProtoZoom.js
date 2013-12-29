@@ -294,7 +294,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
             } else {
                 recStr = record.get( '__str__' ) || me.myMeta.viewCode + '.str?';
             }
-            return { 'recId' : record.get( 'id') , 'recStr' : recStr }; 
+            return { 'name' : me.name, 'fkId' : me.fkId, 'recId' : record.get( 'id') , 'recStr' : recStr }; 
         };
         
         if ( me.zoomMultiple && selModel ) {

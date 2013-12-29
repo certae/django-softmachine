@@ -243,12 +243,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
             if ( zoomField.zoomMultiple && me.newForm ) {
                 
                 if (! me.zoomMultiReturn ) { me.zoomMultiReturn = [];}
-   
-                me.zoomMultiReturn.push({ 
-                        'zoomName'  : zoomField.name, 
-                        'zoomId'    : zoomField.fkId, 
-                        'zoomRecords' : zoomField.zoomRecords
-                });
+                me.zoomMultiReturn.push( zoomField.zoomRecords );
                 
             } else if (  zoomField.zoomRecord ) { 
 
@@ -539,20 +534,21 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 // La carga de multiples zooms siempre se debe hacer en una unica llamada. 
                 me.store.autoSync = false;
 
-                // Variable para alojar los retornos multiples 
-                // TODO:  @@@@  Por ahora solo soporta un unico multiZoom
-                for ( var ix in me.zoomMultiReturn ){
+                // Variable para alojar los retornos multiples
+                var lProduct =  _SM.Product( me.zoomMultiReturn ) ; 
+                for ( var ix in lProduct ){
                     
-                    var lZoom = me.zoomMultiReturn[ ix ];
-
-                    for ( var iz in lZoom.zoomRecords  ){
-                        var lRec = me.masterRecord.copy(), 
-                            lZRet = lZoom.zoomRecords[ iz ]; 
-
-                        lRec.data[ lZoom.zoomName ] = lZRet.recStr;   
-                        lRec.data[ lZoom.zoomId   ] = lZRet.recId;   
-                        me.store.add( lRec  );
+                    // Producto Cartersiano de multiReturn
+                    var lBase = lProduct[ix],
+                        lRec = me.masterRecord.copy();  
+    
+                    for ( var iz in lBase   ){
+                        var    lZRet = lBase[ iz ]; 
+                        lRec.data[ lZRet.name ] = lZRet.recStr;   
+                        lRec.data[ lZRet.fkId   ] = lZRet.recId;   
                     }
+                    me.store.add( lRec  );
+
                 }
                   
             }

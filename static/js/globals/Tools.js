@@ -31,7 +31,7 @@ _SM.objConv=function ( a ){
     o[a[i]]='';
   }
   return o;
-}
+};
 
 _SM.OpenFile = function (fileName) {
 
@@ -44,7 +44,7 @@ _SM.OpenFile = function (fileName) {
         // fclose(fh);                     // Close the file 
     // }
     // return str     
-}
+};
 
 _SM.copyProps = function (oBase, oRef, overWrite, lstInclude, lstExclude ){
     
@@ -60,7 +60,7 @@ _SM.copyProps = function (oBase, oRef, overWrite, lstInclude, lstExclude ){
         }
     }
     return oResult;
-}
+};
 
 _SM.clone = function (obj, auxRec, exclude, include) {
     /* 
@@ -126,7 +126,7 @@ _SM.clone = function (obj, auxRec, exclude, include) {
         // }
         // return copy;
     } 
-}
+};
 
 _SM.FormatJSON = function (oData, sIndent) {
     // Indenta un string JSON no formateado
@@ -215,27 +215,27 @@ _SM.FormatJSON = function (oData, sIndent) {
 
     // return
     return sHTML;
-}
+};
 
 _SM.VerifyLast = function (sAux, sChar) {
     
     // Elimina condicionalmente el  ultima caracter
-    if ( ! sChar ) sChar = ','
+    if ( ! sChar ) sChar = ',';
     if ( sAux[sAux.length - 1] == sChar ) {
          sAux = sAux.substring(0, sAux.length-1);
     }
-    return sAux 
+    return sAux;
 };
 
 _SM.FormatJsonStr = function (sData) {
     var oData = {}; 
 
     // Verifica q no venga vacio 
-    if ( ! sData ) return oData
+    if ( ! sData ) return oData;
     
     // Separado para debuguer 
     try {
-        oData = Ext.decode( sData )   
+        oData = Ext.decode( sData );   
     } catch(e) {}
     
     var sAux  = _SM.FormatJSON( oData );
@@ -433,7 +433,7 @@ _SM.ptPrompt = function (title, msg) {
         // if (btn != 'ok') return '' 
         // return pName  
     // })
-}
+};
 
 //Eventos :
 
@@ -443,7 +443,7 @@ _SM.openScript = function (url) {
     var scrpt = document.createElement('script');
     scrpt.src = url;
     document.head.appendChild(scrpt);
-}
+};
 
 _SM.fireEvent = function (type, myMeta, eventData, scope, fn) {
     me = scope;
@@ -466,7 +466,7 @@ _SM.fireEvent = function (type, myMeta, eventData, scope, fn) {
         fn();
     }
 
-}
+};
 
 _SM.GetRowValue = function (cellName) {
     try {
@@ -476,16 +476,42 @@ _SM.GetRowValue = function (cellName) {
         return null;
     }
 
-}
+};
 
 
 _SM.CloseProtoTab = function( name  ) {
     
     // Cierra las instancias de una pcl 
-    _SM.__TabContainer.closeProtoTab( name )
+    _SM.__TabContainer.closeProtoTab( name );
      
-}
+};
 
+_SM.Product  = function (list) {
+    var first = list[0];
+    var rest = list.slice(1);
+
+    if (first) {
+        var output = [];
+
+        if (rest.length > 0) {
+            var prod_rest = _SM.Product(rest);
+
+            for (var i = 0; i < prod_rest.length; i++) {
+                for (var j = 0; j < first.length; j++) {
+                    output.push([first[j]].concat(prod_rest[i]));
+                }
+            }
+        } else {
+            for (var j = 0; j < first.length; j++) {
+                output.push([first[j]]);
+            }
+        }
+
+        return output;
+    } else {
+        return [];
+    }
+}; 
 
 
 // String.prototype.trim=function(){return this.replace(/^\s+|\s+$/g, '');};
