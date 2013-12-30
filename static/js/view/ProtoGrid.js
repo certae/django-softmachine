@@ -137,9 +137,14 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         gridColumns = this.getViewColumns( tabConfig );
         
         // Manejo de seleccion multiple 
+        if ( ! this.gridSelectionMode ) { this.gridSelectionMode = myMeta.gridConfig.gridSelectionMode  || 'multi' }
+        var checkCtrl = 'last'; 
+            
+        if ( this.gridSelectionMode != 'multi'  ) { checkCtrl = false; }
+        
         this.selModel = Ext.create('Ext.selection.CheckboxModel', {
-            injectCheckbox: 'last', 
-            mode : myMeta.gridConfig.gridSelectionMode || 'multi' 
+            injectCheckbox: checkCtrl, 
+            mode : this.gridSelectionMode 
         });    
 
         this.editable = false; 
@@ -331,8 +336,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
                 me.fireEvent('rowDblClick', record, rowIndex  );
             }, scope: me } 
-
-
+            
             //   E D I C I O N  directa en la GRILLA   -------------------------------------------- 
             // beforeedit: {fn: function ( edPlugin, e, eOpts) {
                 // if ( ! this.editable )  return false;
@@ -379,9 +383,10 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
                     // }         
                     // e.record.data[ idIndex ] = zoom.zoomRecord.data.id
                 // }
-            // // }, scope: me }, 
-            // // afterrender: {fn: function( grid, eOpts) {
-                // // this.setChekSelection( this, this.myMeta.gridConfig )
+            // }, scope: me }, 
+
+            // afterrender: {fn: function( grid, eOpts) {
+                // me.setChekSelection( me   )
             // }, scope: me } 
 
         });         
@@ -496,19 +501,19 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
 
         hCt.add( 0, vColumns );
         
-        // this.setChekSelection( this, tabConfig )
+        // this.setChekSelection( this  );
         this.resumeLayouts( true );
         this._extGrid.view.refresh();
 
     }, 
 
-    // setChekSelection : function( me, tabConfig ) { 
+    // setChekSelection : function( me  ) { 
         // // Hace visible o no checkColumn ( siempre es la ultima )
         // var hCt = me._extGrid.headerCt, 
-            // ix = hCt.items.items.length -1
-        // if ( !! tabConfig.hideCheckSelect ) {
-            // hCt.items.items[ix].hide()
-        // } else { hCt.items.items[ix].show() }
+            // ix = hCt.items.items.length -1; 
+        // if ( !! me.hideCheckSelect ) {
+            // hCt.items.items[ix].hide(); 
+        // } else { hCt.items.items[ix].show(); }
     // }, 
     
     setGridTitle: function( me ){

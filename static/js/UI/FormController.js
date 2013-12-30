@@ -180,10 +180,7 @@ Ext.define('ProtoUL.UI.FormController', {
                 
                 // if ( me.newForm ) { 
                     // function doAgain( btn ){
-                        // if(btn == 'yes') { 
-                            // me.openNewForm( me.myStore );
-                        // }
-                    // }
+                        // if(btn == 'yes') { me.openNewForm( me.myStore );}}
                     // Ext.MessageBox.confirm('AddRecord', 'Add another?', doAgain  ); 
                 // } 
             }, 

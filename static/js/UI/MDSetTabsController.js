@@ -35,9 +35,9 @@ Ext.define('ProtoUL.UI.MDSetTabsController', {
                 ]
             });
 
-            __MasterDetail.tbTabs.add ( myTabs )
-            __MasterDetail.myTabs = myTabs
-            __MasterDetail.protoMasterGrid.addDocked( __MasterDetail.tbTabs )
+            __MasterDetail.tbTabs.add ( myTabs );
+            __MasterDetail.myTabs = myTabs;
+            __MasterDetail.protoMasterGrid.addDocked( __MasterDetail.tbTabs );
 
         }; 
         
@@ -46,16 +46,15 @@ Ext.define('ProtoUL.UI.MDSetTabsController', {
         }
         
         function addTabs( tmpTabs ){
-            var Tab
+            var Tab;
             for (var vDet in tmpTabs ) {       
-                Tab = tmpTabs[ vDet ]
+                Tab = tmpTabs[ vDet ];
 
                 var tabConfig = {
                     name            : Tab.name, 
                     listDisplay     : Tab.listDisplay,
-                    hideRowNumbers  : Tab.hideRowNumbers || false , 
-                    hideCheckSelect : Tab.hideCheckSelect || false 
-                }
+                    hideRowNumbers  : Tab.hideRowNumbers || false 
+                };
 
                 myTabs.push (
                     new Ext.Action({
@@ -79,8 +78,7 @@ _SM.defineTabConfig = function(  gridConfig  ) {
         name : 'Default', 
         icon : 'colSetIcon', 
         listDisplay     : gridConfig.listDisplay,
-        hideRowNumbers  : gridConfig.hideRowNumbers || false , 
-        hideCheckSelect : gridConfig.hideCheckSelect || false 
-    }    
+        hideRowNumbers  : gridConfig.hideRowNumbers || false  
+    };    
 
-}
+};

@@ -115,13 +115,17 @@ Ext.define('ProtoUL.ux.protoZoom', {
         // Para identificar el StatusBar 
         me.idStBar = Ext.id();
 
+        var selMode = 'single';
+        if ( me.zoomMultiple ) { selMode = 'multi'; }
+        
         // Crea la grilla 
         this.zoomGrid = Ext.create('ProtoUL.view.ProtoGrid', { 
+            gridSelectionMode : selMode,  
             viewCode  : me.zoomModel,
             // initialFilter : [{ 'property' : 'pk', 'filterStmt' :  -1 }], 
             initialFilter : [], 
             
-            hideSheet    : true, 
+            hideSheet    : true,  
             listDisplay  : '__str__'   
          }) ; 
              
