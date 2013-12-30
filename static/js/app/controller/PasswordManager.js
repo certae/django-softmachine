@@ -4,11 +4,11 @@
 Ext.define('ProtoPWD.controller.PasswordManager', {
     extend: 'Ext.app.Controller',
     
-    views : ['PasswordReset',],
+    views : ['PasswordReset'],
  
     init: function() {
         this.control({
-            'passwordForm button[action=changepassword]': {click: this.changepassword},
+            'passwordForm button[action=changepassword]': {click: this.changepassword}
         });
     },
  
@@ -27,7 +27,7 @@ Ext.define('ProtoPWD.controller.PasswordManager', {
 								url: '/protoExt', 
 								success : function() {
 									window.location = '/protoExt'; 
-								},
+								}
 							});
 					    }
                 	});
@@ -37,5 +37,5 @@ Ext.define('ProtoPWD.controller.PasswordManager', {
                 }
             });
         }
-    },
+    }
 });

@@ -511,7 +511,6 @@ _MetaObjects =  {
         "properties": [
             "name", 
             'hideRowNumbers', 
-            // 'hideCheckSelect', 
             "description" 
         ], 
         "lists" : [

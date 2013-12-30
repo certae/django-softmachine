@@ -9,7 +9,7 @@ Ext.define('ProtoUL.view.MenuTree', {
                 dragText: 'Drag to reorder',
                 ddGroup: 'menu'
             }
-    },    
+    },
 
 
     rootVisible: false,
@@ -17,45 +17,46 @@ Ext.define('ProtoUL.view.MenuTree', {
     minWidth: 200,
 
     initComponent: function() {
-        
-        
+
+
         Ext.define('Proto.MenuModel', {
             extend: 'Ext.data.Model',
             proxy: {
                 type: 'ajax',
-                url: _SM._PConfig.urlMenu , 
-                extraParams : { forceDefault : 0 }, 
-                actionMethods: { read : 'POST' }    
-            }, 
-        
+                url: _SM._PConfig.urlMenu ,
+                extraParams : { forceDefault : 0 },
+                actionMethods: { read : 'POST' }
+            },
+
             fields: [
                 {name: 'id', type: 'string'},
                 {name: 'viewCode', type: 'string'},
                 {name: 'text', type: 'string'},
                 {name: 'leaf', type: 'boolean'}
             ]
-            
+
         });
-                
-        
+
+
         this.store = Ext.create('Ext.data.TreeStore', {
             autoLoad: true,
             model: 'Proto.MenuModel',
             root: {
                 text:'menu',
-                expanded: true 
-            }, 
+                expanded: true
+            },
             listeners: {
                 'datachanged': function( store,  eOpts ) {
                     this.treeRecord  = undefined;
-                } 
-                
-            } 
-                        
+                }
+
+            }
+
         });
 
 
-        if ( _SM._UserInfo.isStaff ) { 
+        if ( _SM._UserInfo.isStaff ) {
+
             Ext.apply(this, {
                 dockedItems: [
                 {
@@ -70,7 +71,7 @@ Ext.define('ProtoUL.view.MenuTree', {
                             tooltip: _SM.__language.Tooltip_New_Folder
                         },
                         {
-                        // Solo para los admins  
+                        // Solo para los admins
                             id: 'newOption',
                             hidden : true,
                             scope: this,
@@ -91,21 +92,21 @@ Ext.define('ProtoUL.view.MenuTree', {
                             handler: this.deleteNode,
                             iconCls: 'icon-nodeDelete',
                             tooltip: _SM.__language.Tooltip_Del_Node
-                        }, '->', 
+                        }, '->',
                         {
                             id: 'saveMenu',
                             scope: this,
                             handler: this.saveMenu,
                             iconCls: 'menu_save',
                             tooltip: _SM.__language.Tooltip_Save_Menu
-                        }, 
+                        },
                         {
                             id: 'reloadMenu',
                             scope: this,
                             handler: this.reloadMenu,
                             iconCls: 'menu_reload',
                             tooltip: _SM.__language.Tooltip_Reload_Menu
-                        }, 
+                        },
                         {
                             id: 'resetMenu',
                             scope: this,
@@ -117,21 +118,22 @@ Ext.define('ProtoUL.view.MenuTree', {
                 }
             ]
             });
-        }
-        
+        }
+
+
         this.callParent(arguments);
         this.addEvents('menuSelect');
 
-        if ( _SM._UserInfo.isSuperUser )  Ext.getCmp( 'newOption').show() 
+        if ( _SM._UserInfo.isSuperUser )  Ext.getCmp( 'newOption').show()
 
-    }, 
+    },
 
     listeners: {
-        
+
         // .view.View , .data.Model record, HTMLElement item, Number index, .EventObject e, Object eOpts
         'itemclick': function( view, rec, item, index, evObj , eOpts ) {
             this.treeRecord  = rec;
-        }, 
+        },
         'itemdblclick': function( view, rec, item, index, evObj , eOpts ) {
             this.treeRecord  = rec;
             if ( rec.get('leaf') ) {
@@ -139,9 +141,9 @@ Ext.define('ProtoUL.view.MenuTree', {
                 this.fireEvent('menuSelect', this, viewCode );
                 this.ownerCt.loadPciFromMenu( viewCode );
             }
-        } 
-        
-    }, 
+        }
+
+    },
 
     editNode: function( btn ) {
         // Verifica si hay un item activo y lo edita
@@ -149,89 +151,89 @@ Ext.define('ProtoUL.view.MenuTree', {
             var me = this,
                 msg = _SM.__language.Msg_Window_New_Folder
             Ext.Msg.prompt(_SM.__language.Title_Window_New_Folder, msg, function (btn, pName) {
-                if ((btn != 'ok') || ( !pName ) || (pName.length == 0) ) return 
-                me.treeRecord.set( 'text' ,  pName ) 
+                if ((btn != 'ok') || ( !pName ) || (pName.length == 0) ) return
+                me.treeRecord.set( 'text' ,  pName )
             }, me, false , me.treeRecord.get( 'text' ));
 
-        }  
-    }, 
+        }
+    },
 
     deleteNode: function( btn ) {
         // Verifica si hay un item activo, confirma y lo borra
         if ( this.treeRecord ) {
             this.treeRecord.remove( )
             this.treeRecord  = undefined;
-        }  
-    }, 
+        }
+    },
 
     newFolder: function( btn ) {
-        // prompt por el nombre del menu y lo crea en el arbol 
+        // prompt por el nombre del menu y lo crea en el arbol
         var me = this,
             msg = _SM.__language.Msg_Window_New_Folder
 
         Ext.Msg.prompt(_SM.__language.Title_Window_New_Folder, msg, function (btn, pName) {
-            if (btn != 'ok') { return } 
+            if (btn != 'ok') { return }
 
-            var tNode = {'text' :  pName, 'children': [] }, 
-                record 
-            
+            var tNode = {'text' :  pName, 'children': [] },
+                record
+
             if ( me.treeRecord && ( ! me.treeRecord.get( 'leaf' ))) {
-                record =  me.treeRecord              
+                record =  me.treeRecord
             }  else { record = me.store.getRootNode() }
 
             record.appendChild( tNode )
         }, me, false );
 
-        
-    }, 
-    
+
+    },
+
     newOption: function( btn ) {
-        // abre forma para creacion de opcion, la forma se encarga de la creacion 
+        // abre forma para creacion de opcion, la forma se encarga de la creacion
         if ( ! this.treeRecord || this.treeRecord.get( 'leaf' )  ) {
             _SM.errorMessage('AddMenuOption', _SM.__language.Msg_Select_Folder)
-            return 
+            return
         }
         var myWin  = Ext.widget('menuOption', {
-            treeRecord : this.treeRecord, 
+            treeRecord : this.treeRecord,
             title: _SM.__language.Title_Window_Add_Option
         });
         myWin.show()
-    }, 
-    
+    },
+
     reloadMenu: function( btn ) {
-        // recarga el menu guardado 
+        // recarga el menu guardado
         this.store.getProxy().extraParams.forceDefault = 0 ;
         this.store.load()
-    }, 
+    },
 
     resetMenu: function( btn ) {
-        // borra el menu guardado y recarga el menu default basado en modelos  
+        // borra el menu guardado y recarga el menu default basado en modelos
         this.store.getProxy().extraParams.forceDefault = 1 ;
         this.store.load()
-    }, 
+    },
     saveMenu: function( btn ) {
         // guarda el menu actual
         var sMeta = Ext.encode(   Tree2Menu( this.store.getRootNode() ) )
         _SM.saveProtoObj( '__menu' , sMeta )
-        
+
 
         function Tree2Menu( tNode  ) {
             // Para poder leer de la treeData o del TreeStore ( requiere data )
-            var tData = tNode.data,  
-                tChilds =  tNode.childNodes, 
+            var tData = tNode.data,
+                tChilds =  tNode.childNodes,
                 mData = {}
             if ( tData.root ) {
                 mData = getMenuChilds(  tChilds  )
-            } else { 
+            } else {
                 mData = {
                         "text": tData.text ,
-                        "qtip": tData.qtip, 
-                        "qtitle": tData.qtitle, 
+                        "qtip": tData.qtip,
+                        "qtitle": tData.qtitle,
                         "iconCls": tData.iconCls ,
                         "id":  'protoMenu-' + Ext.id() ,
                         "index": tData.index
                     }
-                // Es un menu 
+                // Es un menu
                 if ( tChilds.length > 0 ) {
                      mData.expanded = tData.expanded
                      mData.children = getMenuChilds(tChilds)
@@ -241,24 +243,24 @@ Ext.define('ProtoUL.view.MenuTree', {
                      mData.expanded = false
                      mData.children = []
                      mData.leaf = tData.leaf
-                     mData.viewCode =  tData.viewCode ||  tData.id 
+                     mData.viewCode =  tData.viewCode ||  tData.id
                 }
-            } 
-             if ( ! mData.text || mData.text.length == 0 ) mData.text = 'null'  
+            }
+             if ( ! mData.text || mData.text.length == 0 ) mData.text = 'null'
 
-            return mData 
-        
+            return mData
+
             function getMenuChilds( tChilds  ) {
-                var mChilds = []    
+                var mChilds = []
                 for (var ix in tChilds ) {
                     var lNode = tChilds[ ix ]
-                    var nChildData = Tree2Menu( lNode   ) 
+                    var nChildData = Tree2Menu( lNode   )
                     mChilds.push( nChildData )
                 }
                 return mChilds
             }
-        }                
-    } 
+        }
+    }
 
 });
 
@@ -272,7 +274,7 @@ Ext.define('ProtoUL.view.form.MenuOption', {
         var formPanelCfg = {
             xtype: 'form',
             frame: true,
-            constrain: true, 
+            constrain: true,
             bodyPadding: '5 5 0',
             width: 400,
 
@@ -283,7 +285,7 @@ Ext.define('ProtoUL.view.form.MenuOption', {
             defaults: {
                 anchor: '100%'
             },
-    
+
             items: [{
                 xtype:'fieldset',
                 title: _SM.__language.MenuTree_Title_Fieldset,
@@ -300,13 +302,13 @@ Ext.define('ProtoUL.view.form.MenuOption', {
                 },{
                     fieldLabel: 'option',
                     afterLabelTextTpl: _SM._requiredField,
-                    name: 'viewCode', 
-                    allowBlank:false, 
-                    
+                    name: 'viewCode',
+                    allowBlank:false,
+
                     __ptType: "formField",
-                    editable: true, 
-                    xtype: "protoZoom", 
-                    zoomModel: "protoLib.ProtoDefinition"                    
+                    editable: true,
+                    xtype: "protoZoom",
+                    zoomModel: "protoLib.ProtoDefinition"
                 }]
             },{
                 xtype:'fieldset',
@@ -326,18 +328,18 @@ Ext.define('ProtoUL.view.form.MenuOption', {
                     name: 'qtitle'
                 }]
             }],
-    
+
             buttons: [{
-                text: _SM.__language.Text_Cancel_Button, 
-                scope : this, 
-                handler : this.onCancel 
+                text: _SM.__language.Text_Cancel_Button,
+                scope : this,
+                handler : this.onCancel
             },{
                 text: _SM.__language.Text_Save_Button,
-                scope : this, 
-                handler : this.onSave 
+                scope : this,
+                handler : this.onSave
             }]
         };
-        
+
         this.callParent([Ext.apply({
             titleTextAdd: _SM.__language.MenuTree_Text_Add_Event,
             titleTextEdit: _SM.__language.MenuTree_Text_Edit_Event,
@@ -361,7 +363,7 @@ Ext.define('ProtoUL.view.form.MenuOption', {
     },
 
     onCancel: function () {
-        this.close() 
+        this.close()
     },
 
 
@@ -370,7 +372,7 @@ Ext.define('ProtoUL.view.form.MenuOption', {
         var tNode = this.formPanel.getForm().getValues()
         tNode.leaf = true
         this.treeRecord.appendChild( tNode )
-        this.close() 
+        this.close()
     }
 
 });

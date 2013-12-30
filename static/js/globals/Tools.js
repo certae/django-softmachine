@@ -1,4 +1,4 @@
-// Definicion del modelo, 
+// Definicion del modelo,
 
 /*global Ext */
 /*global _SM */
@@ -20,7 +20,7 @@ _SM.typeOf=function (value) {
 };
 
 _SM.objConv=function ( a ){
-    // Object converter: Para testear si un elto hace parte de un array se convierte el array en objeto 
+    // Object converter: Para testear si un elto hace parte de un array se convierte el array en objeto
   var o = {};
   if ( ! a ) {
       // console.log( '_SM.objConv : no list!!! ')
@@ -31,24 +31,24 @@ _SM.objConv=function ( a ){
     o[a[i]]='';
   }
   return o;
-}
+};
 
 _SM.OpenFile = function (fileName) {
 
-    // TODO: Los templates de las finchas deberian ser leidos de un archivo 
-    // fh = window.open( fileName , 0);     // Open the file for reading 
-    // if(fh!=-1)                          // If the file has been successfully opened 
-    // { 
-        // length = flength(fh);           // Get the length of the file     
-        // str = fread(fh, length);        // Read in the entire file 
-        // fclose(fh);                     // Close the file 
+    // TODO: Los templates de las finchas deberian ser leidos de un archivo
+    // fh = window.open( fileName , 0);     // Open the file for reading
+    // if(fh!=-1)                          // If the file has been successfully opened
+    // {
+        // length = flength(fh);           // Get the length of the file
+        // str = fread(fh, length);        // Read in the entire file
+        // fclose(fh);                     // Close the file
     // }
-    // return str     
-}
+    // return str
+};
 
 _SM.copyProps = function (oBase, oRef, overWrite, lstInclude, lstExclude ){
-    
-    if ( !overWrite ) overWrite = true; 
+
+    if ( !overWrite ) overWrite = true;
 
     var oResult = _SM.clone(oBase, 0, lstExclude);
     for(var i in oRef)
@@ -56,29 +56,29 @@ _SM.copyProps = function (oBase, oRef, overWrite, lstInclude, lstExclude ){
         if (  overWrite ||  ! oBase[i]  ) {
             if ( !lstInclude ||  i in _SM.objConv(lstInclude) ) {
                 oResult[i] = oRef[i];
-            } 
+            }
         }
     }
     return oResult;
-}
+};
 
 _SM.clone = function (obj, auxRec, exclude, include) {
-    /* 
- * @obj     : obj to _SM.clone 
+    /*
+ * @obj     : obj to _SM.clone
  * @auxRec  : Control de recursividad  ( no debe pasar de un max de nivles ie 5 )
  * @exclude : permite excluir propiedades de un diccionario
  */
-   
-    // Verificacion de nivel de recursividad en la copia de objetos 
-    if ( auxRec )  {  auxRec = auxRec + 1 } else { auxRec = 1 } 
-    if ( auxRec > 5 )  return obj  
+
+    // Verificacion de nivel de recursividad en la copia de objetos
+    if ( auxRec )  {  auxRec = auxRec + 1 } else { auxRec = 1 }
+    if ( auxRec > 5 )  return obj
 
     // si es un tipo simple,
-    if (null == obj || "object" != typeof obj) 
+    if (null == obj || "object" != typeof obj)
         return obj;
-    
+
     if (obj instanceof Date) {
-        // los objetos tipo date no son tipos de base 
+        // los objetos tipo date no son tipos de base
         var copy = new Date();
         copy.setTime(obj.getTime());
         return copy;
@@ -93,27 +93,27 @@ _SM.clone = function (obj, auxRec, exclude, include) {
         return copy;
     }
     else if ( obj.$class ) {
-        // Si es una clase, solo copia el initialConfig y un nombre de clase 
+        // Si es una clase, solo copia el initialConfig y un nombre de clase
         var copy = {};
         if (obj.hasOwnProperty('initialConfig')) {
             copy.initialConfig = _SM.clone( obj.initialConfig, auxRec, exclude , include )
-        } 
-        // if (obj.__proto__.$className ) {copy.className = obj.__proto__.$className} 
-        return copy; 
+        }
+        // if (obj.__proto__.$className ) {copy.className = obj.__proto__.$className}
+        return copy;
     }
-    
+
     else if (obj instanceof Object) {
-        // Si es un objeto recorre las propiedades y las clona una a una 
+        // Si es un objeto recorre las propiedades y las clona una a una
         var copy = {};
         for (var attr in obj) {
-            if ( attr in _SM.objConv( ['events', 'renderer'] )) continue; 
-            if (( exclude ) && ( attr in _SM.objConv( exclude ))) continue; 
-            if (( include ) && ! ( attr in _SM.objConv( include ))) continue; 
+            if ( attr in _SM.objConv( ['events', 'renderer'] )) continue;
+            if (( exclude ) && ( attr in _SM.objConv( exclude ))) continue;
+            if (( include ) && ! ( attr in _SM.objConv( include ))) continue;
 
             if (obj.hasOwnProperty(attr)) {
                 // console.log ( auxRec,  obj, attr, obj[attr] )
                 copy[attr] = _SM.clone(obj[attr], auxRec, exclude, include);
-            } 
+            }
         }
         return copy;
     }
@@ -125,22 +125,22 @@ _SM.clone = function (obj, auxRec, exclude, include) {
             // else copy[attr] = _SM.clone( obj[attr] );
         // }
         // return copy;
-    } 
-}
+    }
+};
 
 _SM.FormatJSON = function (oData, sIndent) {
     // Indenta un string JSON no formateado
-    // Tools.FormatJSon  CERTAE U. Laval 2012/02  
-    // @oData    :  Unformated JSon string 
+    // Tools.FormatJSon  CERTAE U. Laval 2012/02
+    // @oData    :  Unformated JSon string
     // @sIndent  :  Optional spaces string  or  [&nbsp;  ]
-    // sIndent = ' '  encode text  
-    
+    // sIndent = ' '  encode text
+
     var sIndentStyle = "&nbsp; &nbsp; ";
-    var BR = "<br>"; 
-    
+    var BR = "<br>";
+
     if (! sIndent ){ sIndent = "" }
     else if ( sIndent  == ' ') { sIndentStyle = ''; BR = '' }
-    
+
     var sDataType = _SM.typeOf(oData);
 
     // open object
@@ -183,7 +183,7 @@ _SM.FormatJSON = function (oData, sIndent) {
                 break;
             case "boolean":
                 if ( vValue ) { sHTML += "true" } else { sHTML += "false" }
-                break;   
+                break;
             case "number":
                 sHTML += vValue.toString();
                 break;
@@ -193,9 +193,9 @@ _SM.FormatJSON = function (oData, sIndent) {
             case "string":
                 vValue = vValue.replace( /'/g, '\\\'').replace( /"/g, '\\"')
                 if ( sIndent  != ' ') {
-                    vValue = vValue.replace( /</g, '&lt;').replace( />/g, '&gt;')    
+                    vValue = vValue.replace( /</g, '&lt;').replace( />/g, '&gt;')
                 }
-                
+
                 sHTML += ("\"" + vValue + "\"");
                 break;
             default:
@@ -215,60 +215,60 @@ _SM.FormatJSON = function (oData, sIndent) {
 
     // return
     return sHTML;
-}
+};
 
 _SM.VerifyLast = function (sAux, sChar) {
-    
+
     // Elimina condicionalmente el  ultima caracter
-    if ( ! sChar ) sChar = ','
+    if ( ! sChar ) sChar = ',';
     if ( sAux[sAux.length - 1] == sChar ) {
          sAux = sAux.substring(0, sAux.length-1);
     }
-    return sAux 
+    return sAux;
 };
 
 _SM.FormatJsonStr = function (sData) {
-    var oData = {}; 
+    var oData = {};
 
-    // Verifica q no venga vacio 
-    if ( ! sData ) return oData
-    
-    // Separado para debuguer 
+    // Verifica q no venga vacio
+    if ( ! sData ) return oData;
+
+    // Separado para debuguer
     try {
-        oData = Ext.decode( sData )   
+        oData = Ext.decode( sData );
     } catch(e) {}
-    
+
     var sAux  = _SM.FormatJSON( oData );
     return     sAux;
 };
 
 _SM.charCount = function (sData, sChar) {
-    // Cuenta las ocurrencias de un caracter en una cadena  
+    // Cuenta las ocurrencias de un caracter en una cadena
     if ( sData ) {
         return sData.split(sChar).length;
-    }  else { return 0; }  
+    }  else { return 0; }
 };
 
 
 _SM.clearProps = function (obj) {
-    // Borra las propiedades con valores nulos no definidos o blancos 
-    
+    // Borra las propiedades con valores nulos no definidos o blancos
+
     for (var ix in obj) {
         if ( ! obj[ix] &&  obj[ix] != false) {
             delete obj[ix];
         } else if ( _SM.typeOf(obj[ix])  == 'string'  && obj[ix].trim() == '' ) {
             delete obj[ix];
-        }  
+        }
     }
-    
-    return obj;     
+
+    return obj;
 };
 
 _SM.errorMessage = function (errTitle, errMsg) {
 
-    // TODO: Log de errores, ya sea en stBar o en un panel del menu, habilitar un clear . 
+    // TODO: Log de errores, ya sea en stBar o en un panel del menu, habilitar un clear .
     _SM.__StBar.showError( errMsg , errTitle );
-    
+
     // Ext.MessageBox.show({
         // title: errTitle,
         // msg: errMsg,
@@ -282,38 +282,38 @@ _SM.updateWinPosition = function (myWidth, myHeight) {
     _SM._winX += 40; _SM._winY += 20;
     if ((_SM._winX + myWidth) > _SM._mainWin.width || (_SM._winY + myHeight) > _SM._mainWin.height) {
         _SM._winX = 10; _SM._winY = 10;
-    }    
+    }
 };
 
 _SM.savePclCache = function (viewCode, protoMeta, reOpen ) {
 
-    // Asigna la llave, pues si se hace una copia seguiria trayendo la misma viewCode de base 
+    // Asigna la llave, pues si se hace una copia seguiria trayendo la misma viewCode de base
    // console.log(protoMeta);
     protoMeta.viewCode = viewCode
 
     _SM.DefineProtoModel(protoMeta );
 
-    // Guarda el cache de  pcl's 
+    // Guarda el cache de  pcl's
     _SM._cllPCI[viewCode] = protoMeta;
-    
-    // Cierra todas las instancias de esta pcl 
+
+    // Cierra todas las instancias de esta pcl
     if ( reOpen ) {
         _SM.CloseProtoTab( viewCode );
         _SM._mainWin.loadPciFromMenu( viewCode );
     }
-    
+
 };
 
 _SM.getModelName = function (viewCode) {
-    // En principio traia un modelo de base q servia para todas las vistas construidas 
-    // con el nuevo esquema de creacion dinamica, es mejor q el modelo corresponda a la 
-    // opcion, pues las definiciones pueden ser totalmente diferentes. 
+    // En principio traia un modelo de base q servia para todas las vistas construidas
+    // con el nuevo esquema de creacion dinamica, es mejor q el modelo corresponda a la
+    // opcion, pues las definiciones pueden ser totalmente diferentes.
 
 
-    // var modelName = viewCode; 
+    // var modelName = viewCode;
     // Cuenta los "."
     // if ( _SM.charCount( viewCode, ".")  > 2  ) {
-        // var n = viewCode.split(".", 2)         
+        // var n = viewCode.split(".", 2)
         // modelName = n[0] + '.' + n[1]
     // }
 
@@ -322,35 +322,35 @@ _SM.getModelName = function (viewCode) {
 };
 
 _SM.getSafeMeta = function (myMeta) {
-    
-    // prepara la meta q retorna al BackEnd 
-    var safeMeta = { 
-        "viewCode"  : myMeta.viewCode,      
-        "viewEntity" : myMeta.viewEntity, 
-        "localSort" :  myMeta.localSort || false,      
-        "protoEntityId": myMeta.protoEntityId,      
-        "jsonField"    : myMeta.jsonField || ''  ,      
-        // "pciStyle"     : myMeta.pciStyle, 
+
+    // prepara la meta q retorna al BackEnd
+    var safeMeta = {
+        "viewCode"  : myMeta.viewCode,
+        "viewEntity" : myMeta.viewEntity,
+        "localSort" :  myMeta.localSort || false,
+        "protoEntityId": myMeta.protoEntityId,
+        "jsonField"    : myMeta.jsonField || ''  ,
+        // "pciStyle"     : myMeta.pciStyle,
         // "sql"          : myMeta.sql,
         "idProperty"   : myMeta.idProperty,
         "gridConfig"   : {
             "searchFields": _SM.clone( myMeta.gridConfig.searchFields  )
         },
-        "fields": _SM.clone( myMeta.fields, 0, [],  [ 
-            'name', 'type', 
-            'zoomModel', 'fkId', 
+        "fields": _SM.clone( myMeta.fields, 0, [],  [
+            'name', 'type',
+            'zoomModel', 'fkId',
             'crudType', 'cpFromField', 'cpFromZoom', 'physicalName'
             ] ),
-        "usrDefProps": _SM.clone( myMeta.usrDefProps )  
+        "usrDefProps": _SM.clone( myMeta.usrDefProps )
     } ;
-        
+
     return Ext.encode( safeMeta );
 };
 
 _SM.getGridColumn = function (myGrid, dataIndex) {
     for ( var ix in myGrid.myColumns ) {
         var myCol = myGrid.myColumns[ix];
-        if ( myCol.dataIndex == dataIndex )  return myCol;    
+        if ( myCol.dataIndex == dataIndex )  return myCol;
     }
 };
 
@@ -361,79 +361,79 @@ _SM.showConfig = function (title, myConf) {
             maxHeight: 500,
             defaultMinHeight: 200,
             defaultMaxHeight: 500,
-            defaultTextHeight : 250, 
+            defaultTextHeight : 250,
             styleHtmlContent : true
         });
-    
+
         // msgBox.maxHeight = 600
         // msgBox.minHeight = 200
-        
+
         var sValue = _SM.FormatJSON( myConf , ' ');
-        
+
         msgBox.show({
-           width : 800, 
-           multiline : true,   
-           // msg va arriba de la caja de texto y se estila html y el html no sirve de nada 
-           // msg: sValue, 
+           width : 800,
+           multiline : true,
+           // msg va arriba de la caja de texto y se estila html y el html no sirve de nada
+           // msg: sValue,
            // html: sValue,
-           value: sValue, 
+           value: sValue,
            title: title
         });
 };
-    
+
 _SM.getCurrentTime = function () {
     return Ext.Date.format( new Date() , "Y-m-d H:i:s" );
 };
 
 _SM.verifyList = function (myList, defList) {
 
-    // verifica el default 
+    // verifica el default
     if (( ! defList ) || ( _SM.typeOf( defList ) != 'array' )) { defList = []; }
-    
-    // Verifica q sea una lista 
-    if ( _SM.typeOf( myList ) != 'array' ) { 
+
+    // Verifica q sea una lista
+    if ( _SM.typeOf( myList ) != 'array' ) {
         myList = defList; }
-    else if ( myList.length  == 0 ) { 
+    else if ( myList.length  == 0 ) {
         myList  = defList; }
-        
+
     return myList;
 };
 
 _SM.verifyObj = function (myObj, defObj) {
 
-    // verifica el default 
+    // verifica el default
     if (( ! defObj ) || ( _SM.typeOf( defObj ) != 'object' )) { defObj = {}; }
-    
-    // Verifica q sea un objeto  
-    if ( _SM.typeOf( myObj ) != 'object' )   { 
+
+    // Verifica q sea un objeto
+    if ( _SM.typeOf( myObj ) != 'object' )   {
         myObj = defObj; }
-        
-    else  { 
-        // Aplica el objeto real sobre el vr por defecto 
+
+    else  {
+        // Aplica el objeto real sobre el vr por defecto
         myObj  = Ext.apply( defObj, myObj ); }
-        
-    return myObj; 
+
+    return myObj;
 };
 
 _SM.obj2tx = function( myObj ) {
     // recibe un obj y garantiza q retorne un texto ( con un array )
-    var sAux = typeof myObj;   
+    var sAux = typeof myObj;
     if ( sAux == 'string' ) { sAux = myObj; }
-    else{ try { sAux  = Ext.encode( myObj );   
+    else{ try { sAux  = Ext.encode( myObj );
         } catch(e) {sAux = '[]'; }
-    } 
-    return sAux;  
+    }
+    return sAux;
 };
 
 
 _SM.ptPrompt = function (title, msg) {
-     
-    return prompt( msg )     
+
+    return prompt( msg )
     // Ext.Msg.prompt(title, msg, function(btn, pName){
-        // if (btn != 'ok') return '' 
-        // return pName  
+        // if (btn != 'ok') return ''
+        // return pName
     // })
-}
+};
 
 //Eventos :
 
@@ -443,7 +443,7 @@ _SM.openScript = function (url) {
     var scrpt = document.createElement('script');
     scrpt.src = url;
     document.head.appendChild(scrpt);
-}
+};
 
 _SM.fireEvent = function (type, myMeta, eventData, scope, fn) {
     me = scope;
@@ -466,7 +466,7 @@ _SM.fireEvent = function (type, myMeta, eventData, scope, fn) {
         fn();
     }
 
-}
+};
 
 _SM.GetRowValue = function (cellName) {
     try {
@@ -476,16 +476,42 @@ _SM.GetRowValue = function (cellName) {
         return null;
     }
 
-}
+};
 
 
 _SM.CloseProtoTab = function( name  ) {
-    
-    // Cierra las instancias de una pcl 
-    _SM.__TabContainer.closeProtoTab( name )
-     
-}
 
+    // Cierra las instancias de una pcl
+    _SM.__TabContainer.closeProtoTab( name );
+
+};
+
+_SM.Product  = function (list) {
+    var first = list[0];
+    var rest = list.slice(1);
+
+    if (first) {
+        var output = [];
+
+        if (rest.length > 0) {
+            var prod_rest = _SM.Product(rest);
+
+            for (var i = 0; i < prod_rest.length; i++) {
+                for (var j = 0; j < first.length; j++) {
+                    output.push([first[j]].concat(prod_rest[i]));
+                }
+            }
+        } else {
+            for (var j = 0; j < first.length; j++) {
+                output.push([first[j]]);
+            }
+        }
+
+        return output;
+    } else {
+        return [];
+    }
+};
 
 
 // String.prototype.trim=function(){return this.replace(/^\s+|\s+$/g, '');};

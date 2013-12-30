@@ -123,14 +123,16 @@ Ext.define('ProtoUL.ux.Login', {
 					// Incializa los permisos
 					_SM._UserInfo.perms = {};
 
-					me.options.success.call(me.options.scope, result, request);				},
+					me.options.success.call(me.options.scope, result, request);
+				},
 				failure : function(result, request) {
 					try {
 						me.showFormError(request.result.message);
 					} catch(e) {
 						me.showFormError(request.response.responseText);
 					}
-					me.options.failure.call(me.options.scope, result, request);				}
+					me.options.failure.call(me.options.scope, result, request);
+				}
 			});
 		} else {
 			btn.enable();

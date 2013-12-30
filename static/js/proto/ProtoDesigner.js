@@ -19,7 +19,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
     alias : 'widget.protoDesigner',
 
     //@myMeta
-    myMeta : null,   
+    myMeta : null,
 
     initComponent : function() {
 
@@ -35,41 +35,41 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         });
 
         me.callParent(arguments);
-                
+
         // Opciones del llamado AJAX
         myObj = _SM.DesignerPanels;
-                
-        // Defincion de los objetos del designer 
+
+        // Defincion de los objetos del designer
         this.doFormatLayout(myObj);
 
-        // Definicion del arbol basado en la meta 
+        // Definicion del arbol basado en la meta
         this.updateFormTree();
 
     },
 
     updateFormTree : function() {
-        // Genera el arbol a partir de la meta 
+        // Genera el arbol a partir de la meta
         var treeData = Meta2Tree( this.myMeta.formConfig, 'formConfig', 'formConfig'  )
         treeData.expanded = true
 
-        this.formTree.getStore().setRootNode( treeData ) 
+        this.formTree.getStore().setRootNode( treeData )
 
-    }, 
+    },
 
     onClickRedraw : function(myObj) {
 
         this.formPreview.removeAll( true )
-        
+
         var formMeta =  Tree2Meta( this.formTree.store.getRootNode() )
         this.myMeta.formConfig = formMeta
-        this.formController.myMeta.formConfig = formMeta  
-        
-        var myForm =  this.formController.newProtoForm()   
+        this.formController.myMeta.formConfig = formMeta
+
+        var myForm =  this.formController.newProtoForm()
         myForm.setFormReadOnly( true )
         this.formPreview.add( myForm  )
 
-    }, 
-    
+    },
+
     doFormatLayout : function(myObj) {
 
         var me = this
@@ -78,26 +78,26 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         this.toolsTabs = me.down('#toolsTabs')
         this.formTree = me.down('#formTree')
         this.formPreview = me.down('#formPreview')
-        
+
         this.formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });
 
-        var myForm =  this.formController.newProtoForm()   
+        var myForm =  this.formController.newProtoForm()
 
-//      -------------  Nested functions 
+//      -------------  Nested functions
         function getTreeNodeByText( treeData, textKey ) {
-            // recupera un nodo del arbol segun su texto, para los fields y los details  
+            // recupera un nodo del arbol segun su texto, para los fields y los details
             for (var ix in treeData ) {
                 var vNod  =  treeData[ix];
                 if (vNod.text == textKey) {
-                    return vNod; 
-                } 
+                    return vNod;
+                }
             }
-            // No deberia nunca llegar aqui 
+            // No deberia nunca llegar aqui
             return {}
         }
 
 
-//      --------------- function body 
+//      --------------- function body
 
         myForm.setFormReadOnly( true )
         this.formPreview.add( myForm  )
@@ -110,13 +110,13 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
 
         this.toolsTabs.add(myObj.toolsTabs);
         this.toolsTree = this.toolsTabs.down('#toolsTree')
-        
 
-        // *******************   Properties 
-                
+
+        // *******************   Properties
+
         var propsGrid = Ext.create('ProtoUL.ux.ProtoProperty', {});
         this.properties = this.toolsTabs.down('#properties')
-        this.properties.add( propsGrid ) 
+        this.properties.add( propsGrid )
         this.properties = propsGrid
 
 
@@ -125,37 +125,37 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
 
                 if (e.value == e.originalValue) {
                     return
-                } 
+                }
 
-                var oData = me.treeRecord.data.__ptConfig 
+                var oData = me.treeRecord.data.__ptConfig
                 var prpName = e.record.data.name
 
                 // ****  Solo llegan objetos, los Array se manejan en otro lado
                 if ( _SM.typeOf(oData) ==  "object") {
                     oData[ prpName ]  = e.value
-                } 
-                     
+                }
+
                 me.onClickRedraw()
-            }, 
+            },
             scope: me }
         );
 
 
         /* Se podrian cargar directamente desde el json, dejando un hook en el store y asignandolo
-         * antes de crear el componente. 
+         * antes de crear el componente.
          */
 
         _SM.defineProtoPclTreeModel()
-        
-        var treeData = _SM.clone ( myObj.toolsTree ), 
+
+        var treeData = _SM.clone ( myObj.toolsTree ),
             treeNodAux,
             treeNodAuxData,
-            ptConfig, 
-            ix, 
-            vFld; 
+            ptConfig,
+            ix,
+            vFld;
 
-        // Agrega los campos de la pci particular 
-        treeNodAux = getTreeNodeByText( treeData,  'Fields' )  
+        // Agrega los campos de la pci particular
+        treeNodAux = getTreeNodeByText( treeData,  'Fields' )
         for (ix in this.myMeta.fields ) {
             vFld  =  this.myMeta.fields[ix];
             ptConfig =  _SM.getFormFieldDefinition( vFld )
@@ -164,29 +164,29 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                 "text": vFld.name ,
                 "qtip": vFld.cellToolTip,
                 "__ptType": "formField",
-                "leaf": true, 
-                "__ptConfig": ptConfig 
+                "leaf": true,
+                "__ptConfig": ptConfig
             }
             treeNodAux.children.push( treeNodAuxData )
         }
 
-        // Agrega los detalles 
-        treeNodAux = getTreeNodeByText( treeData,  'Details' ) 
+        // Agrega los detalles
+        treeNodAux = getTreeNodeByText( treeData,  'Details' )
         for (ix in this.myMeta.detailsConfig ) {
             vFld  =  this.myMeta.detailsConfig[ix];
             treeNodAuxData = {
                 "text": vFld.menuText ,
                 "qtip": vFld.toolTip,
                 "__ptType": "protoGrid",
-                "leaf": true, 
+                "leaf": true,
                 "__ptConfig": {
-                    "menuText" : vFld.menuText, 
+                    "menuText" : vFld.menuText,
                     "viewCode" : vFld.conceptDetail ,
                     // "masterField" : vFld.masterField,
-                    // "detailField" : vFld.detailField, 
-                    // "detailTitleLbl" : vFld.detailTitleLbl, 
-                    // "detailTitleField" : vFld.detailTitleField, 
-                    // "masterTitleField" : vFld.masterTitleField, 
+                    // "detailField" : vFld.detailField,
+                    // "detailTitleLbl" : vFld.detailTitleLbl,
+                    // "detailTitleField" : vFld.detailTitleField,
+                    // "masterTitleField" : vFld.masterTitleField,
                     "xtype": "protoGrid",
                     "__ptType": "protoGrid"
                 }
@@ -196,9 +196,9 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
 
 
         //  -----------------------------------
-        // Crea el store 
+        // Crea el store
         var treeStore = Ext.create('Ext.data.TreeStore', {
-            model : 'Proto.PclTreeNode', 
+            model : 'Proto.PclTreeNode',
             root : {
                 expanded : true,
                 children : treeData
@@ -226,7 +226,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         // ------------------------------------------------
 
         var treeStore = Ext.create('Ext.data.TreeStore', {
-            model : 'Proto.PclTreeNode', 
+            model : 'Proto.PclTreeNode',
             root : {
                 expanded : true,
                 text: _SM.__language.Title_Main_Panel,
@@ -258,11 +258,11 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         formTreeView.on({
             'beforedrop' : {
                 fn : function(node, data, overModel, dropPosition, dropHandler, eOpts) {
-                    
+
                     // Verifica q el objeto sea valido ( no puede copiar las categorias ni los items  )
                     if(data.view.id != this.formTreeViewId) {
                         var rec = data.records[0]
-                        var ptType = rec.get('text') 
+                        var ptType = rec.get('text')
                         if ( ptType in  _SM.objConv(['Fields', 'Containers', 'Grids']))
                             return false
 
@@ -272,18 +272,18 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                             var nParent = overModel.store.getById( overModel.data.parentId )
                             var nIndex = overModel.data.index
 
-                            if ( !nParent ) nParent = overModel 
-                            if ( dropPosition == 'after' ) nIndex += 1 
-                            
+                            if ( !nParent ) nParent = overModel
+                            if ( dropPosition == 'after' ) nIndex += 1
+
                             dropHandler.cancelDrop()
 
-                            // Crea un nodo 
+                            // Crea un nodo
                             var tNode = getNodeBase( ptType, ptType, { '__ptType' : ptType } )
-                            nParent.insertChild( nIndex, tNode )                            
-                            
+                            nParent.insertChild( nIndex, tNode )
+
                         }
 
-                        // El drop genera una copia del mismo registro siempre                             
+                        // El drop genera una copia del mismo registro siempre
                         data.copy = true
                     }
 
@@ -294,33 +294,33 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                     this.onClickRedraw()
                 }
             },
-            
+
             scope : this
         });
 
 
         this.formTree.on({
             'select': function ( rowModel , record,  rowIndex,  eOpts ) {
-                    // Guarda el registro actico, para actualizarlo mas tarde 
+                    // Guarda el registro actico, para actualizarlo mas tarde
                     me.treeRecord  = record;
-                    
-                    // prepara las propiedades corresponidnetes, 
-                    // debe cpia las props por defecto de la pcl 
+
+                    // prepara las propiedades corresponidnetes,
+                    // debe cpia las props por defecto de la pcl
                     prepareProperties( record , me.myMeta,  me.properties  );
                 } , scope: me }
         );
 
 
-        // Para manejar los botones dinamicamente addListener 
-        
+        // Para manejar los botones dinamicamente addListener
+
         // EL wizzard utiliza Ext.element.loader para cargar dinamicamenta la definicion a partir de una URL
-        // la URL ya probe q puede ser un archivo json,  
-        
-        // revisar en el ejemplo como usar  jsonForm y jsonPropertyGrid   codepress  
+        // la URL ya probe q puede ser un archivo json,
+
+        // revisar en el ejemplo como usar  jsonForm y jsonPropertyGrid   codepress
         var btRedraw = this.tBar.down( '#redraw');
         btRedraw.on('click',
             function(  btn , event,  eOpts) {
-                this.onClickRedraw()                
+                this.onClickRedraw()
             },me   );
 
 
@@ -332,7 +332,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                 this.myMeta.formConfig = formMeta
 
                 _SM.savePclCache( this.myMeta.viewCode, this.myMeta, true )
-                _SM.savePci( this.myMeta )         
+                _SM.savePci( this.myMeta )
             },me   );
 
 
@@ -344,22 +344,22 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
             },me   );
 
     },
-    
-    
+
+
     //  ==============================================================================
-    
-    
+
+
     getPanelItems: function() {
 
         // this.myForm = Ext.widget('protoform', {
-            // myMeta : this.myMeta  
-        // });  
+            // myMeta : this.myMeta
+        // });
 
         return  [{
             region : 'center',
             layout : 'fit',
             itemId : 'formPreview',
-            // items : this.myForm, 
+            // items : this.myForm,
             // autoScroll : true,
             flex : 2,
             minSize : 200
@@ -390,8 +390,8 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                 title: _SM.__language.Title_Panel_Tools
             }]
         }]
-            
+
     }
-    
-    
+
+
 });

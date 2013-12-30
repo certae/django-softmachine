@@ -27,24 +27,24 @@ Ext.define('ProtoUL.ux.PasswordResetForm', {
     items: [{
 	    fieldLabel: _SM.__language.Textfield_User_Login,
 	    name: "login",
-	    value: this.username,
+	    value: this.username
     },{
         xtype: 'textfield',
         fieldLabel: _SM.__language.Textfield_Password_Login,
         inputType: 'password',
         name: 'current',
-        width: 120,
+        width: 120
     },
     {
         fieldLabel: _SM.__language.Textfield_New_Password,
         name: 'newPassword1',
         inputType: 'password',
-        allowBlank: false,
+        allowBlank: false
     },{
         fieldLabel: _SM.__language.Textfield_Confirm_Password,
         name: 'newPassword2',
         inputType: 'password',
-        allowBlank: false,
+        allowBlank: false
     }],
 
     // Reset and Submit buttons
@@ -56,7 +56,7 @@ Ext.define('ProtoUL.ux.PasswordResetForm', {
     }, {
         text: 'Changer le mot de passe',
         iconCls:'st-key-go',
-        formBind: true, //only enabled once the form is valid
+        formBind: true,
         disabled: true,
         handler: function(btn, e) {
             var form = this.up('form').getForm();

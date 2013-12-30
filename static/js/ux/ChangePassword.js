@@ -27,15 +27,15 @@ Ext.application({
             });
         }
         
-    	Ext.create('Ext.container.Viewport', {
-    		id: 'viewport',
+        Ext.create('Ext.container.Viewport', {
+    	    id: 'viewport',
             layout: 'border',
             items: [{
-            	region: 'center',
-            	border: false,
-            	autoScroll: true,
-            	items: [{
-                    xtype: 'passwordForm',
+                region: 'center',
+                border: false,
+                autoScroll: true,
+                items: [{
+                    xtype: 'passwordForm'
                 }]
             }]
         });
