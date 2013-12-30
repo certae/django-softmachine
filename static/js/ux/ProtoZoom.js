@@ -108,6 +108,8 @@ Ext.define('ProtoUL.ux.protoZoom', {
     }, 
     
     createZoomWindow:  function ( me  ){
+        // @ZoomRaise 
+        
         if ( me.isLoaded ) { return; } 
 
         me.myMeta = _SM._cllPCI[ me.zoomModel ] ; 
@@ -116,7 +118,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
         me.idStBar = Ext.id();
 
         var selMode = 'single';
-        if ( me.zoomMultiple ) { selMode = 'multi'; }
+        if ( me.zoomMultiple && me.newForm ) { selMode = 'multi'; }
         
         // Crea la grilla 
         this.zoomGrid = Ext.create('ProtoUL.view.ProtoGrid', { 
@@ -286,6 +288,8 @@ Ext.define('ProtoUL.ux.protoZoom', {
     }, 
     
     setSelected: function  ( rowIndex, record, selModel) {
+        // @ZoonSelection 
+        
         var stBar = Ext.getCmp( this.idStBar ),
             me = this,  
             ix ;
@@ -301,7 +305,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
             return { 'name' : me.name, 'fkId' : me.fkId, 'recId' : record.get( 'id') , 'recStr' : recStr }; 
         };
         
-        if ( me.zoomMultiple && selModel ) {
+        if ( me.zoomMultiple && me.newForm && selModel ) {
             me.zoomRecords =[];
             var cllSelection = selModel.getSelection();  
             for ( ix in cllSelection ) {
@@ -332,6 +336,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
     }, 
     
     doReturn: function() {
+        // @ZoomReturn 
         // Asigna el returnField al text de base  
         this.setValue( this.retField ); 
         this.win.hide();

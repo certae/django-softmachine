@@ -569,6 +569,19 @@ Ext.define('ProtoUL.view.ProtoForm', {
             me.fireEvent('close', me );
         }
 
+    }, 
+    
+    setZoomEditMode:  function( me ) {
+        // Para determinar el comportamiento del zoom de seleccion multiple 
+        
+        var lFields = me.getForm().getFields().items;
+
+        // Manejo del retorno del zoom
+        for (var ix in lFields  ) {
+            if ( lFields[ix].xtype = 'protoZoom' ) {
+                lFields[ix].newForm = me.newForm; 
+            }
+        }
     }
 
 });

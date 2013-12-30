@@ -68,7 +68,7 @@ Ext.define('ProtoUL.UI.FormController', {
             // PreCarga los detalles
             if (  _SM.loadPci( detCode , true, options ) )  {me._waitForDetails( me, detCode );}
 
-        }
+        };
 
         // lo marca como cargado
 		this.myMetaDict[ this.myMeta.viewCode  ] = false;
@@ -152,10 +152,17 @@ Ext.define('ProtoUL.UI.FormController', {
     newWindowLoad: function ( me ) {
 
         _SM.updateWinPosition( me.myWidth, me.myHeight );
+        
+        
+        var strEditing = '';
+        if ( me.newForm ) { strEditing = ' *'; }
+
+        me.myForm.setZoomEditMode( me.myForm ); 
+
 
         me.myWin  = Ext.widget('window', {
             // constrain: true,
-            title : me.myMeta.viewCode,
+            title : me.myMeta.viewCode + strEditing,
             closeAction: 'hide',
             width: me.myWidth,
             height: me.myHeight,
