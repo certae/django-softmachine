@@ -11,7 +11,7 @@ Ext.define('ProtoPWD.view.PasswordReset', {
 	closable : true,
 	modal : true,
 	width : 400,
-	height : 220,
+	height : 180,
 	bodyPadding : 5,
 	labelWidth : 120,
 
@@ -70,5 +70,20 @@ Ext.define('ProtoPWD.view.PasswordReset', {
 		disabled : true,
 		action : 'changepassword'
 	}],
+	listeners : {
+		afterlayout : function() {
+			var isPasswordReseted = Ext.util.Cookies.get('isPasswordReseted');
+			console.log(isPasswordReseted);
+			if (isPasswordReseted) {
+				Ext.Msg.show({
+					title : _SM.__language.Message_Success,
+					msg : _SM.__language.Message_Email_New_Password,
+					buttons : Ext.Msg.OK,
+					icon : Ext.MessageBox.INFO
+				});
+			}
+			Ext.util.Cookies.clear('isPasswordReseted');
+		}
+	},
 	renderTo : Ext.getBody()
-}); 
+});

@@ -34,6 +34,7 @@ _SM.__language = {
     'Message_Enter_Email' : 'Enter your email',
     'Message_Success' : 'Success',
     'Message_Email_Forgotten_Password' : 'An email has been sent with the instructions',
+    'Message_Email_New_Password' : 'An email has been sent with your new password',
     'Message_Success_Password_Change':'The password has been changed successfully',
     'Message_Error' : 'Error',
     'Message_Error_Login' : 'Impossible'

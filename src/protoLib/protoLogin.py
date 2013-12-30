@@ -70,12 +70,9 @@ def protoGetPasswordRecovery(request):
             u = User.objects.get(email = request.POST['email'])
             token = user_token(u)
             link = '%s/protoLib/resetpassword?a=%s&t=%s' % (request.META['HTTP_HOST'], u.pk, token)
-            newpass =  User.objects.make_random_password(length=8)
-            u.set_password(newpass)
-            u.save()
-            # Your password has been reset : 
-            message = _(u'Your password has been reseted ') +' : %s \n\nClick here to change your password ' % (newpass) 
-            message += '%s\n\n%s\n\n%s : %s' % (link, request.META['HTTP_HOST'], _(u'Request made from'), request.META.get('REMOTE_ADDR', '?'))
+            message = _(u'You -- or someone pretending to be you -- has requested a password reset \n\nYou can set your new password by following this link: ')
+            message += '%s\n\n%s : %s' % (link, _(u'Request made from'), request.META.get('REMOTE_ADDR', '?'))
+            message += '\n\nIf you don\'t want to reset your password, simply ignore this email and it will stay unchanged.'
             u.email_user( _('New password'), message)
             return JsonSuccess()  
         except:
@@ -89,7 +86,15 @@ def resetpassword(request):
         u = User.objects.get(pk = request.GET['a'])
         token = user_token(u)
         if request.GET['t'] == token:
+            newpass =  User.objects.make_random_password(length=8)
+            u.set_password(newpass)
+            u.save()
+            message = _(u'Your password has been reseted ') +' : %s \n\n%s' % (newpass, request.META['HTTP_HOST']) 
+            u.email_user( _('New password'), message)
             link = '../changePassword'
+            response = HttpResponseRedirect(link)
+            response.set_cookie('isPasswordReseted', True)
+            return response
     return HttpResponseRedirect(link)
 
 def changepassword(request):
@@ -106,7 +111,8 @@ def changepassword(request):
         pUser = authenticate(username = userName, password = userPwd )
     except:
         pUser = None
-        
+    
+    errMsg =  "Mauvais utilisateur ou mot de passe"
     if pUser is not None:
         if newpass1==newpass2:
             user = User.objects.get(username = userName)
@@ -119,7 +125,9 @@ def changepassword(request):
                 except:
                     pass
             return JsonSuccess()
-    return JsonError(_('Passwords do not match'))
+        else:
+            errMsg = 'Les mots de passe ne correspondent pas!'
+    return JsonError(_(errMsg))
 
 def user_token(user):
     import hashlib
@@ -136,4 +144,3 @@ def protoLogout(request):
 
 #     from django.shortcuts import render_to_response
 #     return render_to_response("protoExt.html")
-     

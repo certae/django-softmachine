@@ -30,6 +30,7 @@ Ext.application({
         Ext.create('Ext.container.Viewport', {
     	    id: 'viewport',
             layout: 'border',
+            focusOnToFront: true,
             items: [{
                 region: 'center',
                 border: false,

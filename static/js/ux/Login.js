@@ -27,6 +27,7 @@ Ext.define('ProtoUL.ux.Login', {
 		});
 
 		this.resetButton = new Ext.Button({
+			id : 'resetButton',
 			text : _SM.__language.Text_Forgotten_Password,
 			iconCls : "st-user-who",
 			scope : this,
@@ -35,7 +36,7 @@ Ext.define('ProtoUL.ux.Login', {
 
 		// If we decide to use a button to change pws using a single page.
 		this.changeButton = new Ext.Button({
-			text : 'change password',
+			text : _SM.__language.Text_change_Password_Button,
 			iconCls : "st-key-go",
 			scope : this,
 			handler : this.changePassword
@@ -44,6 +45,7 @@ Ext.define('ProtoUL.ux.Login', {
 		Ext.apply(this, {
 			items : [{
 				fieldLabel : _SM.__language.Textfield_User_Login,
+				id : 'loginField',
 				name : "login",
 				value : this.username,
 				listeners : {
@@ -67,7 +69,7 @@ Ext.define('ProtoUL.ux.Login', {
 					xtype : 'tbtext',
 					flex : 1,
 					itemId : 'stLogin'
-				}, this.submitButton, this.resetButton]
+				}, this.submitButton, this.resetButton, this.changeButton]
 			}]
 
 		});
@@ -147,6 +149,7 @@ Ext.define('ProtoUL.ux.Login', {
 	},
 
 	resetPassword : function(btn) {
+		btn.setIconCls("st-loading");
 		Ext.Msg.prompt(_SM.__language.Title_Window_Email_Request, _SM.__language.Message_Enter_Email, function(btn, email) {
 			if (btn == 'ok') {
 				Ext.Ajax.request({
@@ -168,12 +171,14 @@ Ext.define('ProtoUL.ux.Login', {
 						} else {
 
 							Ext.Msg.show({
-								title : Message_Error,
-								msg : json.msg,
+								title : _SM.__language.Message_Error,
+								msg : json.message,
 								buttons : Ext.Msg.OK,
 								icon : Ext.MessageBox.WARNING
 							});
 						}
+						var resetButton = Ext.getCmp('resetButton');
+						resetButton.setIconCls("st-user-who");
 					},
 					failure : function() {
 						Ext.Msg.show({
