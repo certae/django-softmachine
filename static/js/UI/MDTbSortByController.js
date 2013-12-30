@@ -1,34 +1,34 @@
 Ext.define('ProtoUL.UI.MDTbSortByController', {
     extend: 'Ext.Base',
-    myMeta : null, 
+    myMeta : null,
     constructor: function (config) {
         Ext.apply(this, config || {});
         this.getSortersBar()
-    }, 
-    
+    },
+
 
     getSortersBar:  function(){
-        
+
         var me = this
         var mySortCols = []
         var __MasterDetail = me.__MasterDetail
 
-        me.myFieldDict = __MasterDetail.protoMasterGrid.myFieldDict 
+        me.myFieldDict = __MasterDetail.protoMasterGrid.myFieldDict
 
-        // REcorre los q llegan y genera el obj  header, name         
+        // REcorre los q llegan y genera el obj  header, name
         for ( var ix in me.myMeta.gridConfig.sortFields ) {
             var name = me.myMeta.gridConfig.sortFields[ix]
             var c = me.myFieldDict[name]
             if ( ! c ) c = { name : name , header : name }
-            mySortCols.push( { name : c.name, header : c.header } ) 
-        } 
+            mySortCols.push( { name : c.name, header : c.header } )
+        }
 
-        // getAllSort          
-        
-        // Crea la tabla  
-        if ( mySortCols.length > 0 ) { 
+        // getAllSort
 
-            // Reorder obj 
+        // Crea la tabla
+        if ( mySortCols.length > 0 ) {
+
+            // Reorder obj
             var reorderer = Ext.create('Ext.ux.BoxReorderer', {
                 listeners: {
                     scope: me,
@@ -37,17 +37,17 @@ Ext.define('ProtoUL.UI.MDTbSortByController', {
                     }
                 }
             });
-    
+
 
             __MasterDetail.tbSorters = Ext.create('Ext.toolbar.Toolbar', {
                 dock: 'top',
                 hidden : true,
                 items  : [{
-                    iconCls : 'sort', 
+                    iconCls : 'sort',
                     xtype: 'tbtext',
                     text: '<b>' + _SM.__language.Grid_Sort_Title + ':</b>',
-                    reorderable: false 
-                    }],  
+                    reorderable: false
+                    }],
                 plugins: [reorderer]
             });
 
@@ -56,15 +56,15 @@ Ext.define('ProtoUL.UI.MDTbSortByController', {
 
                 var c =  mySortCols[ix]
 
-                // Verifica si la col existe 
+                // Verifica si la col existe
                 var col = me.myFieldDict[name]
-                if ( ! col ) { continue }                  
+                if ( ! col ) { continue }
 
-                // Agrega el sort 
+                // Agrega el sort
                 __MasterDetail.tbSorters.add(createSorterButtonConfig({
                     text: c.header,
                     tooltip : c.header,
-                    maxWidth : 100, 
+                    maxWidth : 100,
                     sortData: {
                         property: c.name,
                         direction: 'ASC'
@@ -107,7 +107,7 @@ Ext.define('ProtoUL.UI.MDTbSortByController', {
         function changeSortDirection(button, changeDirection) {
             var sortData = button.sortData,
                 iconCls  = button.iconCls;
-            
+
             if (sortData) {
                 if (changeDirection !== false) {
                     button.sortData.direction = Ext.String.toggle(button.sortData.direction, "ASC", "DESC");
@@ -116,11 +116,11 @@ Ext.define('ProtoUL.UI.MDTbSortByController', {
                 doSort();
             }
         }
-    
+
         function doSort() {
             __MasterDetail.protoMasterStore.myLoadData( null,  getSorters() );
         }
-    
+
         /**
          * Returns an array of sortData from the sorter buttons
          * @return {Array} Ordered sort data from each of the sorter buttons
@@ -132,23 +132,23 @@ Ext.define('ProtoUL.UI.MDTbSortByController', {
                 sorters.push(button.sortData);
             }, me);
 
-            // Solo orderna por los 4 primeros criterios 
+            // Solo orderna por los 4 primeros criterios
             return sorters.slice(0,3)
         }
-        
-        
+
+
     }
-    
+
 })
 
 // getAllSort
 // --------------------
 // Toma todos los campos por default en caso de no venir nada ( no toma el Id )
-// if ( mySortCols.length == 0 ) { 
+// if ( mySortCols.length == 0 ) {
     // for (var i = 0, len = me.myMeta.fields.length; i < len; i++) {
         // var c = me.myMeta.fields[i];
         // if (!(c.fRomModel == true ) || (c.type == 'autofield')) continue
-        // mySortCols.push( { name : c.name, header : c.header } ) 
+        // mySortCols.push( { name : c.name, header : c.header } )
     // }
-// } 
+// }
 

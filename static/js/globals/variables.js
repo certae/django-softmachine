@@ -1,12 +1,12 @@
 /*
- *  Variables Globales  
- *  
+ *  Variables Globales
+ *
  */
 
 _SM = {}
 
-// Estados en cada fila de la grilla al iteractuar con el BackEnd  
-_SM._ROW_ST = { 
+// Estados en cada fila de la grilla al iteractuar con el BackEnd
+_SM._ROW_ST = {
     ERROR     : 'ROWST_ERR',
     NEWROW     : 'ROWST_NEW'
     }
@@ -16,45 +16,45 @@ _SM._requiredField = '<span style="color:red;font-weight:bold" data-qtip="Requir
 
 _SM._versionProto = 'Version 1.00.' + _versionMeta
 _SM._siteTitle = 'CeRTAE'
-_SM._siteTitleCollapsed = false 
+_SM._siteTitleCollapsed = false
 
 
-// place holder para los titulos con datos basicos del login  
+// place holder para los titulos con datos basicos del login
 _SM.__language = {
     'Text_Validate_Login_Button' : 'check',
     'Text_Forgotten_Password' : 'lost password',
     'Textfield_User_Login' : 'user',
     'Textfield_Password_Login' : 'password',
     'Title_Window_Email_Request' : 'your email',
-    
+
     'Message_Enter_Email' : 'Enter your email',
     'Message_Success' : 'Success',
     'Message_Email_Forgotten_Password' : 'An email has been sent with the instructions',
     'Message_Error' : 'Error',
     'Message_Error_Login' : 'Impossible'
 }
-    
-// Config Variables 
+
+// Config Variables
 _SM._PConfig =  {
-    urlMenu         : 'protoLib/protoGetMenuData/', 
-    urlGetPCI         : 'protoLib/protoGetPCI/', 
-    urlSaveProtoObj         : 'protoLib/protoSaveProtoObj/', 
-    urlGetFieldTree : 'protoLib/protoGetFieldTree/', 
-    urlGetDetailsTree : 'protoLib/protoGetDetailsTree/', 
-    urlGetUserRights : 'protoLib/protoGetUserRights/', 
-    urlGetSheetReport : 'protoLib/sheetConfigRep/', 
-    urlGetProtoCsv : 'protoLib/protoCsv/', 
-    urlDoAction   : 'protoLib/protoDoActions/', 
+    urlMenu         : 'protoLib/protoGetMenuData/',
+    urlGetPCI         : 'protoLib/protoGetPCI/',
+    urlSaveProtoObj         : 'protoLib/protoSaveProtoObj/',
+    urlGetFieldTree : 'protoLib/protoGetFieldTree/',
+    urlGetDetailsTree : 'protoLib/protoGetDetailsTree/',
+    urlGetUserRights : 'protoLib/protoGetUserRights/',
+    urlGetSheetReport : 'protoLib/sheetConfigRep/',
+    urlGetProtoCsv : 'protoLib/protoCsv/',
+    urlDoAction   : 'protoLib/protoDoActions/',
     urlHelpQbe: 'protoLib/protoGetHelpQbe/',
     urlLogOut:  'protoLib/protoLogout/',
-   
-    clsBaseModel: 'ProtoUL.model.' 
-}; 
+
+    clsBaseModel: 'ProtoUL.model.'
+};
 
 _SM._HELPpath = 'resources/help/index.html'
 
 
-// Collection of PCL's ( Proto Concept Definition )  
+// Collection of PCL's ( Proto Concept Definition )
 _SM._cllPCI = {};
 
 
@@ -68,41 +68,41 @@ _SM._gridTypeEditor = {
     'boolean' : 'checkbox'
 };
 
-// PageSize par default 
-_SM._PAGESIZE = 50; 
+// PageSize par default
+_SM._PAGESIZE = 50;
 
 _SM._ComboPageSize = [
                   ['25'],
                   ['50'],
                   ['100'],
                   ['500']
-            ]; 
-            
+            ];
+
 
 // Autoload entites
 // _SM._AUTOLOAD_PCI = [ 'protoDict.Model', 'protoDict.PropertyModel' ]
 _SM._AUTOLOAD_PCI = [ ]
-_SM._MENU_COLLAPSED = false 
+_SM._MENU_COLLAPSED = false
 
 
-_SM._defaultViewIcon = 'default_view' 
- 
+_SM._defaultViewIcon = 'default_view'
+
 
 // Windows Position
 _SM._mainWin = null
 _SM._winX = 10
-_SM._winY = 10  
- 
- 
-// *  Configuracion del metodo por defecto  
+_SM._winY = 10
+
+
+// *  Configuracion del metodo por defecto
 // Ext.data.Connection.prototype.method = 'POST';
 // Ext.data.Connection.method = 'POST';
- 
+
 
 _SM.DesignerPanels = {
 "tbar" : [{
         "tooltip" : "Update definition",
-        "iconCls" : "icon-save", 
+        "iconCls" : "icon-save",
         "itemId" : "save"
     },{
         "iconCls" : "icon-update",
@@ -135,13 +135,13 @@ _SM.DesignerPanels = {
 //        "tooltip" : "Show help"
     }
     ],
-    
-    
+
+
 "toolsTabs" : [{
         "xtype" : "tabpanel",
         "activeTab" : 0,
         "border" : false,
-        "defaults": { "lauyout" : "fit" }, 
+        "defaults": { "lauyout" : "fit" },
         "items" : [{
             "title" : "Tools",
             "itemId" : "toolsTree",
@@ -156,9 +156,9 @@ _SM.DesignerPanels = {
             "autoScroll": true,
             "border" : false
         }]
-    }], 
-    
-    
+    }],
+
+
 // ----------------------------------------------------------------------------
 
 
@@ -174,7 +174,7 @@ _SM.DesignerPanels = {
                 "text": "fieldset",
                 "qtip": "A Fieldset, containing other form elements",
                 "__ptType": "fieldset",
-                "children": [], 
+                "children": [],
                 "__ptConfig": {
                     "__ptType": "fieldset"
                 }
@@ -182,7 +182,7 @@ _SM.DesignerPanels = {
                 "text": "htmlset",
                 "qtip": "A Fieldset, containing HML elements",
                 "__ptType": "htmlset",
-                "children": [], 
+                "children": [],
                 "__ptConfig": {
                     "__ptType": "htmlset"
                 }
@@ -192,40 +192,40 @@ _SM.DesignerPanels = {
     }, {
         "text": "Details",
         "children": []
-    }]    
+    }]
 }
 
 
-/* ********   Propiedades comunes 
+/* ********   Propiedades comunes
     maxHeight
     minHeight
     Height
-    
+
     maxWidth
     minWidth
     width
  */
 
 
-// --------------  Containers  
+// --------------  Containers
 
             // }, {
                 // "text": "Panel",
                 // "qtip": "A simple panel with default layout",
-                // "__ptType" : "panel", 
-                // "children": [], 
+                // "__ptType" : "panel",
+                // "children": [],
                 // "__ptConfig": {
                     // "layout": "fit",
-                    // "xtype": "panel", 
+                    // "xtype": "panel",
                     // "__ptType" : "panel"
                 // }
             // }, {
                 // "text": "Tab Container",
                 // "qtip": "A panel with many tabs",
                 // "__ptType": "tabpanel",
-                // "children": [], 
+                // "children": [],
                 // "__ptConfig": {
-                    // "__ptType" : "tabpanel", 
+                    // "__ptType" : "tabpanel",
                     // "layout": "fit",
                     // "title": "",
                     // "activeItem": 0
@@ -234,7 +234,7 @@ _SM.DesignerPanels = {
                 // "text": "Tab Panel",
                 // "qtip": "A tab panel",
                 // "__ptType": "tab",
-                // "children": [], 
+                // "children": [],
                 // "__ptConfig": {
                     // "__ptType": "tab",
                     // "layout": "fit",
@@ -244,9 +244,9 @@ _SM.DesignerPanels = {
                 // "text": "Accordion Panel",
                 // "qtip": "Layout as accordion",
                 // "__ptType": "accordion",
-                // "children": [], 
+                // "children": [],
                 // "__ptConfig": {
-                    // "__ptType" : "accordion", 
+                    // "__ptType" : "accordion",
                     // "layout": "fit",
                     // "title": "",
                     // "activeItem": 0
@@ -255,13 +255,13 @@ _SM.DesignerPanels = {
                 // "text": "fieldcontainer",
                 // "qtip": "A Fieldset, containing field elements",
                 // "__ptType": "fieldcontainer",
-                // "children": [], 
+                // "children": [],
                 // "__ptConfig": {
                     // "__ptType": "fieldcontainer"
-                    // }  
+                    // }
 
-                    
-// -----------  Details 
+
+// -----------  Details
 
     // }, {
         // "text": "Others",
@@ -284,4 +284,3 @@ _SM.DesignerPanels = {
                 // }
             // }
         // ]
-        

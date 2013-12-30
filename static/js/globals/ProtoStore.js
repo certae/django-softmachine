@@ -1,15 +1,15 @@
-/* 
+/*
  * Clase generica para el manejo del Store
 
 Ext.define('ProtoUL.core.ProtoStore', {
     extend: 'Ext.data.Store',
 
- * El manejo de la clase tiene un problema interno: 
+ * El manejo de la clase tiene un problema interno:
  * en grid.store.data  mantiene la definicion del primer store cargado,
  * mientras q en grid.store.raw tiene los datos correctos,
- * 
- * solucion: una funcion q retorne el store definido   
- * 
+ *
+ * solucion: una funcion q retorne el store definido
+ *
  */
 
 /*
@@ -25,7 +25,7 @@ Ext.define('ProtoUL.core.ProtoStore', {
 _SM.getStoreDefinition = function (stDef) {
 
     var myStore = Ext.create('Ext.data.Store', {
-        viewCode: stDef.viewCode, 
+        viewCode: stDef.viewCode,
 
         model: _SM.getModelName(stDef.viewCode),
         autoLoad: stDef.autoLoad,
@@ -34,22 +34,22 @@ _SM.getStoreDefinition = function (stDef) {
         remoteSort: !(stDef.localSort || false),
         sorters: stDef.sorters,
         defaultSortDirection: 'ASC',
-        sortOnLoad: true, 
+        sortOnLoad: true,
 
         autoSync: true,
 
         proxy: _SM.getProxyDefinition(stDef),
         storeDefinition: stDef,
 
-        // Redefinicion de metodos 
+        // Redefinicion de metodos
         // sort: function ( sorters ) {
-        // Redefine el metodo, siempre pasa por aqui 
-        // }, 
+        // Redefine el metodo, siempre pasa por aqui
+        // },
 
         myLoadData: function (myFilter, mySorter, myMasterId) {
-            // Centraliza  los llamados para refrescar la grilla   
+            // Centraliza  los llamados para refrescar la grilla
 
-            // Para la navegacion md 
+            // Para la navegacion md
             if (myMasterId) {
                 this.protoMasterId = myMasterId;
             }
@@ -67,7 +67,7 @@ _SM.getStoreDefinition = function (stDef) {
 
         mySetBaseFilter: function (myFilter) {
             // Desde el zoom, para agregar el zoomFilter que debe ser parte de la base
-            // pues no debe modeficarse con el filtro de usuario 
+            // pues no debe modeficarse con el filtro de usuario
             // recibe el filtro y lo mezcla con el baseFilter ( por ejemplo un estado )
 
             this.clearFilter();
@@ -93,7 +93,7 @@ _SM.getStoreDefinition = function (stDef) {
             datachanged: function (store, eOpts) {
                 _SM.__StBar.clear(store.viewCode, 'dataChanged');
 
-                // Guarda la info de sort 
+                // Guarda la info de sort
                 try {
                     var mySort = _SM.clone(store.getSorters(), 0, [], ['property', 'direction']);
                     store.proxy.extraParams.sort = Ext.encode(mySort);
@@ -120,42 +120,42 @@ _SM.getStoreDefinition = function (stDef) {
             // Fired when a Model instance has been removed from this Store ...
             // remove: function (  store,  record,  index,  eOpts ) {
 
-            // Fires when a Model instance has been updated ...\        
+            // Fires when a Model instance has been updated ...\
             // update: function ( store,  record,  sOperation,  eOpts ) {
 
-            // Fires whenever a successful write has been made via the configured Proxy 
+            // Fires whenever a successful write has been made via the configured Proxy
             write: function (store, operation, eOpts) {
 
                 for (var ix in operation.records) {
                     var recResult = operation.resultSet.records[ix],
-                        recOrigin = operation.records[ix]; 
+                        recOrigin = operation.records[ix];
 
-                    // Si existe un resultSet 
+                    // Si existe un resultSet
                     if (recResult) {
 
                         if (operation.action == 'create') {
                             //Cuando son varios inserts, Extjs no es capaz hacer la actualizacion de los registros en la grilla.
 
-                            // Copia la data resultado sobre la data de base 
-                            // Tengo un campo para mandar el Id, para efectos de control, podria ser elimiando en la prox version  
+                            // Copia la data resultado sobre la data de base
+                            // Tengo un campo para mandar el Id, para efectos de control, podria ser elimiando en la prox version
                             recOrigin.data = recResult.data;
 
-                        } // End create  
+                        } // End create
                         else if (operation.action == 'destroy') {
-                            //Dgt:  Restaura los registros q no pudieron ser borrados, ie Integridad referencial    
+                            //Dgt:  Restaura los registros q no pudieron ser borrados, ie Integridad referencial
                             if (recResult.data._ptStatus !== '') {
                                 store.insert(0, recResult);
-                            } 
-                            
+                            }
+
                         } // En Delete
 
                     }
 
-                    // Marca los registros segun el estado 
+                    // Marca los registros segun el estado
                     var stRec = recOrigin.get('_ptStatus');
                     if (stRec) {
                         recOrigin.dirty = true;
-                        if (!recOrigin.getId()) {recOrigin.phantom = true;} 
+                        if (!recOrigin.getId()) {recOrigin.phantom = true;}
                     }
                 }
             }
@@ -171,8 +171,8 @@ _SM.getProxyDefinition = function( stDef )  {
 
     return {
             type: 'ajax',
-            batchActions : true, 
-            batchOrder : "create,update,destroy", 
+            batchActions : true,
+            batchOrder : "create,update,destroy",
             api: {
                  read :   'protoLib/protoList/',
                  create:  'protoLib/protoAdd/',
@@ -184,7 +184,7 @@ _SM.getProxyDefinition = function( stDef )  {
                     read   : 'POST',
                     update : 'POST',
                     destroy: 'POST'
-            },    
+            },
             reader: {
                 type: 'json',
                 root: 'rows',
@@ -195,21 +195,21 @@ _SM.getProxyDefinition = function( stDef )  {
 
             writer: {
                 type: 'json',
-                root: 'rows', 
-                allowSingle: false, 
+                root: 'rows',
+                allowSingle: false,
                 writeAllFields: true,
                 // Incluye los parametros en el post ( por defecto en el get )
-                encode: true,            
+                encode: true,
                 messageProperty: 'message'
             },
 
-            // Parametros String para la conexion al backEnd 
+            // Parametros String para la conexion al backEnd
             extraParams : {
                 viewCode : stDef.viewCode,
                 protoFilter : _SM.obj2tx( stDef.protoFilter ),
-                baseFilter  : _SM.obj2tx( stDef.baseFilter ), 
-                protoMeta  :  _SM.obj2tx( stDef.sProtoMeta )     
-            },    
+                baseFilter  : _SM.obj2tx( stDef.baseFilter ),
+                protoMeta  :  _SM.obj2tx( stDef.sProtoMeta )
+            },
 
             listeners: {
 
@@ -217,162 +217,162 @@ _SM.getProxyDefinition = function( stDef )  {
                 'exception': function(proxy, response, operation){
                     // var msg = operation.request.scope.reader.jsonData["message"] ;
                     var msg, myErr = operation.getError();
-                    if ( typeof( myErr )  == 'string' ) { 
-                        msg = myErr; 
-                    } else { 
-                        msg = 'REMOTE EXCEPTION: (' + myErr.status + ') ' + myErr.statusText; 
+                    if ( typeof( myErr )  == 'string' ) {
+                        msg = myErr;
+                    } else {
+                        msg = 'REMOTE EXCEPTION: (' + myErr.status + ') ' + myErr.statusText;
                     }
-                    _SM.__StBar.showError( msg , 'storeException'); 
-                } 
+                    _SM.__StBar.showError( msg , 'storeException');
+                }
             }
-             
+
             // afterRequest: function( request, success ){
                 // var title = 'afterRequest :' + request.method + '.' + request.action, msg = ''
                 // try {
                     // if ( request.operation.response.status != 200 ) {
-                        // if ( 'jsonData' in request.scope.reader ) { 
+                        // if ( 'jsonData' in request.scope.reader ) {
                             // var jsData = request.scope.reader.jsonData;
                             // msg = request.scope.reader.getMessage()
                         // }
-                    // }                    
+                    // }
                 // } catch(e) {
                     // msg = e.message
                 // }
-            // } 
-            
-        };     
-    
-}; 
+            // }
+
+        };
+
+};
 
 
-_SM.getTreeStoreDefinition = function(  stDef  ){ 
+_SM.getTreeStoreDefinition = function(  stDef  ){
 
 
     var myStore = Ext.create('Ext.data.TreeStore', {
         viewCode : stDef.viewCode,
-        model: _SM.getModelName( stDef.viewCode  ),  
+        model: _SM.getModelName( stDef.viewCode  ),
         autoLoad: stDef.autoLoad,
         pageSize: stDef.pageSize,
-        sorters: stDef.sorters,    
-        proxy: _SM.getProxyDefinition( stDef ), 
+        sorters: stDef.sorters,
+        proxy: _SM.getProxyDefinition( stDef ),
 
         remoteSort: true,
-        autoSync: true, 
+        autoSync: true,
 
         root : {
-            // text:'details', 
+            // text:'details',
             expanded : true
-        } 
+        }
 
         // listeners: {
             // // Fires before a request is made for a new data object. ...
             // beforeload: function(  store,  operation,  eOpts ) {
-                // _SM.__StBar.showBusy( 'loading ..' + store.viewCode, 'beforeLoad' ); 
+                // _SM.__StBar.showBusy( 'loading ..' + store.viewCode, 'beforeLoad' );
             // },
             // // Fired before a call to sync is executed. Return false from any listener to cancel the sync
             // beforesync: function ( options, eOpts ) {
                 // _SM.__StBar.showBusy( 'sync ..' + this.viewCode, 'beforeSync'  );
-            // },  
+            // },
             // // Fires whenever the records in the Store have changed in some way - this could include adding or removing records, or ...
             // datachanged: function( store,  eOpts ) {
-                // _SM.__StBar.clear( store.viewCode , 'dataChanged' ); 
-            // } 
+                // _SM.__StBar.clear( store.viewCode , 'dataChanged' );
+            // }
         // }
 
-    }); 
-        
-    return myStore; 
+    });
 
-}; 
+    return myStore;
+
+};
 
 
-_SM.getNewRecord = function( myMeta, myStore )  { 
+_SM.getNewRecord = function( myMeta, myStore )  {
 
-    var myRecord = new myStore.model( setDefaults() );  
-    
-    // Lo asocia al store 
+    var myRecord = new myStore.model( setDefaults() );
+
+    // Lo asocia al store
     myRecord.store = myStore;
-    return myRecord;  
+    return myRecord;
 
     function setDefaults()  {
 
         var vDefault = {};
         for (var ix in myMeta.fields ) {
-            var vFld = myMeta.fields[ix]; 
-            if ( ! vFld.prpDefault  ) { 
-                continue ; 
+            var vFld = myMeta.fields[ix];
+            if ( ! vFld.prpDefault  ) {
+                continue ;
             }
             vDefault[ vFld.name  ]  = vFld.prpDefault ;
         }
-        return vDefault; 
-    } 
+        return vDefault;
+    }
 
 
 };
-        
+
 
 _SM.getRecordByDataIx = function( myStore, fieldName, value  )  {
-    var ix =  myStore.findExact( fieldName, value  ); 
-    if ( ix == -1 ) {  return; } 
-    return myStore.getAt( ix  ); 
-}; 
+    var ix =  myStore.findExact( fieldName, value  );
+    if ( ix == -1 ) {  return; }
+    return myStore.getAt( ix  );
+};
 
 
 _SM.IsAdmField = function  ( vFld , myMeta ){
-    
-    // Oculta las llaves de zooms 
-    if (  /_id$/.test( vFld.name ))  { return true;} 
 
-    // Oculta el jsonField  
-    if ( myMeta.jsonField == vFld.name ) { return true;}      
+    // Oculta las llaves de zooms
+    if (  /_id$/.test( vFld.name ))  { return true;}
 
-    // prototipos 
+    // Oculta el jsonField
+    if ( myMeta.jsonField == vFld.name ) { return true;}
+
+    // prototipos
     if ( myMeta.protoEntityId ) {
 
-         // 'smOwningUser','smOwningTeam', 'smModifiedOn',  
-        if ( vFld.name in _SM.objConv( [ 
-                'smCreatedBy','smModifiedBy', 'smCreatedOn', 
+         // 'smOwningUser','smOwningTeam', 'smModifiedOn',
+        if ( vFld.name in _SM.objConv( [
+                'smCreatedBy','smModifiedBy', 'smCreatedOn',
                 'smWflowStatus','smRegStatus'
-             ] ) ) { return true;} 
-    
-        if ( vFld.name == 'id'  ) { return true;} 
-        if ( vFld.name == 'entity' ) { return true;}      
-    
+             ] ) ) { return true;}
+
+        if ( vFld.name == 'id'  ) { return true;}
+        if ( vFld.name == 'entity' ) { return true;}
+
     }
-        
-    return false 
+
+    return false
 };
 
 
-    
+
 _SM.DefineProtoModel = function  ( myMeta  ){
-        
+
     // dateFormat: 'Y-m-d'
     // type: 'date', 'float', 'int', 'number'
 
     // useNull : vFld.allowNull,  ( solo para numeros, si no puede hacer la conversion )
     // prpDefault: vFld.prpDefault,
     // persist: vFld.editPolicy,        ( falso = NoUpdate )
-    
+
     // type: 'hasMany',
     // autoLoad: true
-    // convert :  Campo Virtual calculado,  Apunta a una funcion q  genera el valor 
+    // convert :  Campo Virtual calculado,  Apunta a una funcion q  genera el valor
 
-    
-    // Verifica la conf del objeto de base 
+
+    // Verifica la conf del objeto de base
     myMeta = verifyMeta ( myMeta, 'pcl' )
 
-    
+
     var myModelFields = [];           // model Fields
 
-    // Separacion de campos para facilidad del administrador 
-    var fieldsBase = [],     
-        fieldsAdm = [], 
-        mField = {};      
-     
+    // Separacion de campos para facilidad del administrador
+    var fieldsBase = [],
+        fieldsAdm = [],
+        mField = {};
+
     for (var ix in myMeta.fields ) {
         var vFld  =  myMeta.fields[ix];
-        
+
         if ( _SM.IsAdmField( vFld, myMeta  ) ) {
             fieldsAdm.push( vFld )
         } else {
@@ -380,24 +380,24 @@ _SM.DefineProtoModel = function  ( myMeta  ){
         }
 
         if ( !vFld.type ) { vFld.type = 'string'; }
-        
-        // modelField  
+
+        // modelField
         mField = {
             name: vFld.name,
-            type: vFld.type 
+            type: vFld.type
             //TODO:  useNull : true / false    ( NullAllowed, IsNull,  NotNull )
         };
 
 
-        // Tipos validos   
-        if ( ! vFld.type  in _SM.objConv( [ 
-            'string', 'text',  'bool', 'int', 'decimal', 'combo',  
-            'date',  'datetime', 'time', 
+        // Tipos validos
+        if ( ! vFld.type  in _SM.objConv( [
+            'string', 'text',  'bool', 'int', 'decimal', 'combo',
+            'date',  'datetime', 'time',
             'autofield', 'foreignid',  'foreigntext', 'protoN2N', 'html'  ] )) {
                 vFld.type = 'string';
         }
 
-        // 
+        //
         if ( vFld.name in _SM.objConv( myMeta.gridConfig.hiddenFields )) {
             mField.hidden = true ;
             vFld.hidden = true ;
@@ -411,45 +411,45 @@ _SM.DefineProtoModel = function  ( myMeta  ){
         if ( vFld.name in _SM.objConv( myMeta.gridConfig.sortFields )  ) {
             vFld.sortable = true;
         }
-        
 
-        // Determina el xType y otros parametros 
+
+        // Determina el xType y otros parametros
         switch( vFld.type )
         {
         case 'decimal':
-            mField.type = 'number';            
+            mField.type = 'number';
             break;
         // case 'protoN2N':
-            // mField.readOnly = true;            
-            // mField.type = 'list';            
+            // mField.readOnly = true;
+            // mField.type = 'list';
             // break;
 
         case 'jsonfield':
-            mField.readOnly = true;            
-            mField.type = 'json';            
+            mField.readOnly = true;
+            mField.type = 'json';
             break;
 
         case 'date':
-            mField.type = 'date';            
-            mField.dateFormat ='Y-m-d' 
+            mField.type = 'date';
+            mField.dateFormat ='Y-m-d'
             break;
         case 'datetime':
-            mField.type = 'string';            
-            // mField.type = 'date';            
-            // mField.dateFormat ='Y-m-d H:i:s'  // 'timestamp' 
+            mField.type = 'string';
+            // mField.type = 'date';
+            // mField.dateFormat ='Y-m-d H:i:s'  // 'timestamp'
             break;
         case 'time':
-            mField.type = 'date';            
-            mField.dateFormat ='H:i:s';  
+            mField.type = 'date';
+            mField.dateFormat ='H:i:s';
             break;
         }
 
-        // Asigna el modelo y el diccionario 
+        // Asigna el modelo y el diccionario
         myModelFields.push(mField);
 
     }
-    
-    // Agrega el status y el interna ID 
+
+    // Agrega el status y el interna ID
     mField = { name: '_ptStatus', type: 'string' };
     myModelFields.push(mField);
 
@@ -459,122 +459,122 @@ _SM.DefineProtoModel = function  ( myMeta  ){
     // myModelFields = [{"name":"id","type":"int","useNull":true},{"name":"first","type":"string"}]
     Ext.define( _SM.getModelName( myMeta.viewCode) , {
         extend: 'Ext.data.Model',
-        fields: myModelFields 
-            
-        //TODO: Validation, Validaciones             
+        fields: myModelFields
+
+        //TODO: Validation, Validaciones
         //    validations: [{ type: 'length', field: 'name', min: 1 }]
 
         });
-        
-    // Adiciona las dos colecciones     
+
+    // Adiciona las dos colecciones
     myMeta.fieldsBase = fieldsBase
-    myMeta.fieldsAdm  = fieldsAdm 
-         
+    myMeta.fieldsAdm  = fieldsAdm
+
 };
 
 
 _SM.getFieldDict = function ( myMeta ) {
-    // For indexing fields    
-    var ptDict = {};                 
+    // For indexing fields
+    var ptDict = {};
     for (var ix in myMeta.fields ) {
         var vFld = myMeta.fields[ix]
-        
+
         // Lo marca con la grilla de donde viene
-        vFld.idProtoGrid = myMeta.idProtoGrid 
-        
+        vFld.idProtoGrid = myMeta.idProtoGrid
+
         ptDict[vFld.name] = vFld;
     }
     return ptDict
 }
-    
+
 
 
 _SM.getColDefinition = function ( vFld ) {
 
     if (!vFld.header ) {vFld.header = vFld.name}
-    
-    var colDefinition, lstProps, editor  
-    
+
+    var colDefinition, lstProps, editor
+
     colDefinition = {
             dataIndex: vFld.name,
-            text: vFld.header 
+            text: vFld.header
     }
 
-    // Propiedades q seran copiadas a las columnas de la grilla 
-    lstProps = ['flex',  'width', 'minWidth', 'sortable', 
-                    'hidden',  
-                    'xtype',  'readOnly', 
-                    'render', 'align', 'format', 'tooltip', 
+    // Propiedades q seran copiadas a las columnas de la grilla
+    lstProps = ['flex',  'width', 'minWidth', 'sortable',
+                    'hidden',
+                    'xtype',  'readOnly',
+                    'render', 'align', 'format', 'tooltip',
                     'idProtoGrid'
                     ];
 
     colDefinition = _SM.copyProps ( colDefinition,  vFld, true, lstProps )
 
-    
-    // Copia las propiedades de base al editor 
+
+    // Copia las propiedades de base al editor
     lstProps = [
-        'prpDefault', 
-    
-        // string 
-        'required', 'readOnly', 
-        'minLength', 'minLengthText', 
-        'maxLength', 'maxLengthText', 
-        
+        'prpDefault',
+
+        // string
+        'required', 'readOnly',
+        'minLength', 'minLengthText',
+        'maxLength', 'maxLengthText',
+
         // int, decimal
-        'step', 
+        'step',
 
-        // int, decimal, date, datime, time  
-        'minValue', 'minText', 
-        'maxValue', 'maxText',  
+        // int, decimal, date, datime, time
+        'minValue', 'minText',
+        'maxValue', 'maxText',
 
-        // date, datime 
+        // date, datime
         'disabledDays', 'disabledDaysText',       // [0, 6]
-        
+
         /*@zoomModel : Contiene el modelo del FK, se carga automaticamente,
-         * puede ser modificado para cargar una vista particular, 
-         * una buena practica es dejar los modelos de base para los zooms y generar vistas 
-         * para las opciones de trabajo 
-         */  
-        'zoomModel', 
-        
-        //@fkId : Llave correspondiente al zoom          
-        'fkId', 
+         * puede ser modificado para cargar una vista particular,
+         * una buena practica es dejar los modelos de base para los zooms y generar vistas
+         * para las opciones de trabajo
+         */
+        'zoomModel',
+
+        //@fkId : Llave correspondiente al zoom
+        'fkId',
 
         //@zoomFilter : Filtro de base fijo para el zoom ( puede venir definido en zoomView )
-        'zoomFilter', 
+        'zoomFilter',
 
-        //@fromField :  Campos q sera heredados a la entidad base  
-        'cpFromField', 'cpFromZoom', 
+        //@fromField :  Campos q sera heredados a la entidad base
+        'cpFromField', 'cpFromZoom',
         'idProtoGrid'
         ];
     editor = _SM.copyProps( {},  vFld, true, lstProps );
 
-    // Requerido 
-    if ( vFld.required === true  ) { 
-        colDefinition.allowBlank = false; 
-        editor.allowBlank = false; 
-    } 
+    // Requerido
+    if ( vFld.required === true  ) {
+        colDefinition.allowBlank = false;
+        editor.allowBlank = false;
+    }
 
     //TODO: vType ( eMail, IpAdress, etc ... )
     // editor.vtype = 'email'
 
 
-    // Determina el xType y otros parametros 
+    // Determina el xType y otros parametros
     if ( ! vFld.type )  { vFld.type = 'string'; }
-    if ( vFld.choices &&  vFld.choices.split( ",").length > 1 ) { vFld.type = 'combo'; }  
-    
+    if ( vFld.choices &&  vFld.choices.split( ",").length > 1 ) { vFld.type = 'combo'; }
+
     switch( vFld.type )
     {
     case 'string':
-        if ( ! colDefinition.flex  ) {colDefinition.flex = 1;} 
+        if ( ! colDefinition.flex  ) {colDefinition.flex = 1;}
           break;
 
     case 'text':
-        if ( ! colDefinition.flex  ) {colDefinition.flex = 2;} 
+        if ( ! colDefinition.flex  ) {colDefinition.flex = 2;}
         colDefinition.renderer = columnWrap;
         break;
 
-    case 'int': 
+    case 'int':
     case 'secuence':
         colDefinition['xtype'] = 'numbercolumn';
         colDefinition['align'] = 'right';
@@ -600,7 +600,7 @@ _SM.getColDefinition = function ( vFld ) {
         editor.decimalPrecision = 2;
         break;
 
-    
+
     case 'date':
         colDefinition['xtype'] = 'datecolumn';
         colDefinition['format'] = 'Y/m/d';
@@ -610,7 +610,7 @@ _SM.getColDefinition = function ( vFld ) {
           break;
 
     case 'datetime':
-        // colDefinition['xtype'] = 'datecolumn' 
+        // colDefinition['xtype'] = 'datecolumn'
         // colDefinition['format'] = 'Y/m/d H:i:s'
         // editor.xtype = 'datefield'
         // editor.format = 'Y/m/d'
@@ -618,51 +618,51 @@ _SM.getColDefinition = function ( vFld ) {
         break;
 
     case 'time':
-        //TODO:  En la edicion de grilla, al regresar cambia el formato 
+        //TODO:  En la edicion de grilla, al regresar cambia el formato
         colDefinition['xtype'] = 'datecolumn';
         colDefinition['format'] = 'H:i'  //  'H:i:s'
 
         editor.xtype = 'timefield'
-        editor.format = colDefinition['format']      
+        editor.format = colDefinition['format']
         break;
-          
+
     case 'bool':
-        colDefinition['xtype'] = 'mycheckcolumn'      
-        colDefinition['editable'] = false 
-        colDefinition['inGrid'] = true  
+        colDefinition['xtype'] = 'mycheckcolumn'
+        colDefinition['editable'] = false
+        colDefinition['inGrid'] = true
 
         editor.xtype = 'checkbox'
         // editor.cls = 'x-grid-checkheader-editor'
         break;
-          
+
     case 'combo':
         editor.xtype = 'combobox'
         editor.typeAhead = true
         editor.triggerAction = 'all'
         editor.selectOnTab = true
-        
-        // Lo normal es q venga como una lista de opciones ( string ) 
+
+        // Lo normal es q venga como una lista de opciones ( string )
         var cbChoices = vFld.choices
         if ( _SM.typeOf(cbChoices) == 'string') {
-            cbChoices = cbChoices.split( ",")  
+            cbChoices = cbChoices.split( ",")
         } else { cbChoices = [] }
-        
+
         editor.store = cbChoices
         editor.lazyRender = true
         editor.listClass = 'x-combo-list-small'
         break;
 
-    case 'foreigntext': 
+    case 'foreigntext':
         // El zoom se divide en 2 cols el texto ( _unicode ) y el ID ( foreignid )
-        if ( ! colDefinition.flex  ) {colDefinition.flex = 1} 
+        if ( ! colDefinition.flex  ) {colDefinition.flex = 1}
 
         vFld.cellLink = true
         editor.xtype = 'protoZoom'
-        editor.editable  = false 
+        editor.editable  = false
         break;
 
     case 'foreignid':
-        // El zoom id debe estar oculto  
+        // El zoom id debe estar oculto
            // colDefinition['hidden']= true
           editor.xtype = 'numberfield'
           editor.hidden  = true
@@ -674,60 +674,60 @@ _SM.getColDefinition = function ( vFld ) {
     }
 
 
-    // Ancho minimo 
+    // Ancho minimo
     if ( ! colDefinition.minWidth  ) { colDefinition.minWidth = 70 }
-    
-    
-    
-    // verificacion de xtype  
+
+
+
+    // verificacion de xtype
     switch( colDefinition.xtype  ){
     case 'mycheckcolumn':
     case 'datecolumn':
-    case 'numbercolumn' : 
-        break; 
-    case 'checkbox': 
+    case 'numbercolumn' :
+        break;
+    case 'checkbox':
         colDefinition.xtype = 'mycheckcolumn';
-        break; 
-    case 'datefield':  
+        break;
+    case 'datefield':
         colDefinition.xtype = 'datecolumn';
-        break; 
-    case 'numberfield': 
+        break;
+    case 'numberfield':
         colDefinition.xtype ='numbercolumn';
-        break 
-    default: 
+        break
+    default:
         delete colDefinition.xtype;
     }
-         
+
 
     // Asigna las coleccoiones de presentacion
-    // El foreignid puede ser editable directamente, 
-    if (((  vFld.type == 'autofield' ) || vFld.readOnly  ) && ( vFld.type != 'bool'  ))  
+    // El foreignid puede ser editable directamente,
+    if (((  vFld.type == 'autofield' ) || vFld.readOnly  ) && ( vFld.type != 'bool'  ))
          { colDefinition.renderer = cellReadOnly }
-    else  {colDefinition['editor'] = editor;} 
+    else  {colDefinition['editor'] = editor;}
 
     // WordWrap
     if ( vFld.wordWrap === true ) {colDefinition.renderer = columnWrap}
-    
+
     // Agrega un tool tip con el contenido de la celda
     if ( vFld.cellToolTip ) {colDefinition.renderer = cellToolTip}
 
     // Formatea el contenido como un hiperLink, TODO: la logica debe estar en otra propiedad
     if ( vFld.cellLink ) {colDefinition.renderer = cellLink}
 
-    // Maneja los subtipos 
+    // Maneja los subtipos
     if ( vFld.vType ) {
-        // vType stopLigth  Maneja el codigo de colores para un semaforo con 3 indicadores, 2 limites Red-Yellow; Yellow-Green   
+        // vType stopLigth  Maneja el codigo de colores para un semaforo con 3 indicadores, 2 limites Red-Yellow; Yellow-Green
         if ( vFld.vType == 'stopLight' ) {colDefinition.renderer = cellStopLight}
-    } 
+    }
 
-    // sortable por defecto 
+    // sortable por defecto
     if ( ! colDefinition.sortable  ) {  colDefinition['sortable']  = false }
 
 
-    return colDefinition; 
-    
+    return colDefinition;
 
-    //  
+
+    //
     function columnWrap(value){
         return '<div style="white-space:normal; text-align:justify !important";>' + value + "</div>";
     }
@@ -742,23 +742,23 @@ _SM.getColDefinition = function ( vFld ) {
     }
 
     function cellLink(value  ){
-        return '<a href="#">'+value+'</a>';      
+        return '<a href="#">'+value+'</a>';
     }
 
     function cellStopLight(value, metaData, record, rowIndex, colIndex, store, view ){
 /*
-    TODO: Leer las propiedades stopLightRY y  stopLightYG  para comparar,  
-    
-     vType stopLigth  Maneja el codigo de colores para un semaforo con 3 indicadores, 
+    TODO: Leer las propiedades stopLightRY y  stopLightYG  para comparar,
+
+     vType stopLigth  Maneja el codigo de colores para un semaforo con 3 indicadores,
      stopLightRY : valor limite  de Rojo a Amarillo
      stopLightYG : valor limite  de Amarillo a Verde
-     si el valor RY > YG se asume una secuencia inversa. 
-     los valores son comparados estrictamente mayor  X > RY -->  Y   
-    
+     si el valor RY > YG se asume una secuencia inversa.
+     los valores son comparados estrictamente mayor  X > RY -->  Y
+
     */
 
 
-        var cssPrefix = Ext.baseCSSPrefix, 
+        var cssPrefix = Ext.baseCSSPrefix,
             cls = [];
 
         if (value > 66 ) {
@@ -767,14 +767,14 @@ _SM.getColDefinition = function ( vFld ) {
             cls.push(cssPrefix + 'grid-stopligth-yellow');
         } else if (value > 0 ) {
             cls.push(cssPrefix + 'grid-stopligth-red');
-        }  
-      
-        //TODO: Probar <span>  en vez de <div> 
+        }
+
+        //TODO: Probar <span>  en vez de <div>
         // return '<span style="color:green;">' + val + '</span>';
-        
+
         return '<div class="' + cls.join(' ')  + '">&#160;' +  value + '</div>';
       }
-    
+
 
 }
 
@@ -783,32 +783,32 @@ _SM.getColDefinition = function ( vFld ) {
 _SM.getFormFieldDefinition =  function ( vFld ) {
 
     var colDefinition = _SM.getColDefinition( vFld );
-    
-    // Se inicializa ro, en caso de q no se encuentre en el dict  
+
+    // Se inicializa ro, en caso de q no se encuentre en el dict
     var formEditor = {  readOnly : true  }
-    
+
     if ( colDefinition.editor )  {formEditor = colDefinition.editor;}
-      
+
 
     // Field Label
-    formEditor.name  =  vFld.name 
-    formEditor.fieldLabel =  vFld.fieldLabel || vFld.header || vFld.name 
+    formEditor.name  =  vFld.name
+    formEditor.fieldLabel =  vFld.fieldLabel || vFld.header || vFld.name
     if ( vFld.required ) {
         formEditor.fieldLabel = '<b>' + formEditor.fieldLabel + '</b>'
     }
     if ( vFld.primary ) {
         formEditor.afterLabelTextTpl = _SM._requiredField;
     }
-    formEditor.fieldLabel = Ext.util.Format.capitalize( formEditor.fieldLabel )    
-    
-    // Casos especiales 
+    formEditor.fieldLabel = Ext.util.Format.capitalize( formEditor.fieldLabel )
+
+    // Casos especiales
     switch( vFld.type )
     {
     case 'text':
         formEditor.xtype = 'textarea'
         formEditor.height = 100
         formEditor.labelAlign = 'top'
-        // grow, growMax, growMin 
+        // grow, growMax, growMin
         break;
 
     case 'html':
@@ -816,24 +816,24 @@ _SM.getFormFieldDefinition =  function ( vFld ) {
         formEditor.height = 100
         formEditor.labelAlign = 'top'
         break;
-        
+
     case 'protoN2N':
         formEditor.xtype = 'protoList'
         formEditor.checkStyle = false
-        formEditor.columnList = [ 
-            { dataIndex : 'id' , hidden : false }, 
-            { dataIndex : 'data', text : formEditor.fieldLabel , flex : 1 } 
-            ] 
+        formEditor.columnList = [
+            { dataIndex : 'id' , hidden : false },
+            { dataIndex : 'data', text : formEditor.fieldLabel , flex : 1 }
+            ]
         formEditor.height = 100
         // formEditor.labelAlign = 'top'
         break;
     }
 
-    // Inicializa los tipos 
+    // Inicializa los tipos
     formEditor.__ptType = 'formField'
     if ( ! formEditor.xtype )  { formEditor.xtype = 'textfield' }
-    return formEditor; 
-    
+    return formEditor;
+
 };
 
 
@@ -844,58 +844,58 @@ _SM.loadPci = function ( viewCode, loadIfNot, options) {
 
 
         options = options || {};
-        
-        // Verificar si la opcion esta creada 
+
+        // Verificar si la opcion esta creada
         var myMeta = _SM._cllPCI[ viewCode ]
-        
-                
-        // Verifica modelo 
+
+
+        // Verifica modelo
         if  ( myMeta && Ext.ClassManager.isCreated(  _SM.getModelName( viewCode )  )){
 
-            // Asigna la llave, pues si se hace una copia seguiria trayendo la misma viewCode de base 
-            myMeta.viewCode = viewCode; 
+            // Asigna la llave, pues si se hace una copia seguiria trayendo la misma viewCode de base
+            myMeta.viewCode = viewCode;
             return true;
 
-        } else { 
-            
-            // Solo retorna algo cuando se usa para evaluar 
-            if ( ! loadIfNot ) { return false;}  
+        } else {
+
+            // Solo retorna algo cuando se usa para evaluar
+            if ( ! loadIfNot ) { return false;}
 
             Ext.applyIf(options, {
                 scope: this,
                 success: Ext.emptyFn,
                 failure: Ext.emptyFn
             });
-        
-        
+
+
             Ext.Ajax.request({
                 method: 'POST',
                 url: _SM._PConfig.urlGetPCI  ,
-                params : { 
-                    viewCode : viewCode 
+                params : {
+                    viewCode : viewCode
                     },
                 scope: this,
                 success: function(result, request) {
-                    
+
                     var myResult = Ext.decode( result.responseText );
-                    if ( myResult.success ) {                    
+                    if ( myResult.success ) {
                         _SM.savePclCache( viewCode, myResult.protoMeta )
                         _SM._UserInfo.perms[ viewCode ] = myResult.permissions
                         options.success.call( options.scope, result, request);
                     } else {
                         _SM.errorMessage('loadPC', myResult.message)
                         options.failure.call(options.scope, result, request);
-                    } 
+                    }
                 },
                 failure: function(result, request) {
                     _SM.errorMessage('loadPC', '')
                     options.failure.call(options.scope, result, request);
                 }
             })
-            
-            return false 
-            
-        }  
+
+            return false
+
+        }
 
 }
 
@@ -906,16 +906,16 @@ _SM.savePci = function ( protoMeta,  options) {
 
     var viewCode = protoMeta.viewCode
     protoMeta.updateTime = _SM.getCurrentTime()
-    
+
     if ( protoMeta.fieldsBase ) {
-        // Excluye las colecciones auxiliares de campos 
+        // Excluye las colecciones auxiliares de campos
        protoMeta = _SM.clone( protoMeta );
-       delete protoMeta.fieldsBase; 
-       delete protoMeta.fieldsAdm; 
-       delete protoMeta.custom;  
+       delete protoMeta.fieldsBase;
+       delete protoMeta.fieldsAdm;
+       delete protoMeta.custom;
     }
 
-    
+
     var sMeta = Ext.encode(  protoMeta )
     _SM.saveProtoObj( viewCode, sMeta ,  options)
 
@@ -930,16 +930,16 @@ _SM.saveProtoObj = function ( viewCode, sMeta ,  options) {
             success: Ext.emptyFn,
             failure: Ext.emptyFn
         });
-    
-    
+
+
         Ext.Ajax.request({
             method: 'POST',
             url: _SM._PConfig.urlSaveProtoObj  ,
-            params : { 
-                viewCode : viewCode,  
-                protoMeta : sMeta  
+            params : {
+                viewCode : viewCode,
+                protoMeta : sMeta
                 },
-            
+
             success: function(result, request) {
                 var myResult = Ext.decode( result.responseText );
                 if(myResult.success) {
@@ -956,7 +956,7 @@ _SM.saveProtoObj = function ( viewCode, sMeta ,  options) {
             scope: this,
             timeout: 30000
         })
-        
+
 }
 
 _SM.loadJsonConfig = function ( fileName, options) {
@@ -968,7 +968,7 @@ _SM.loadJsonConfig = function ( fileName, options) {
         success: Ext.emptyFn,
         failure: Ext.emptyFn
     });
-    
+
     Ext.Ajax.request({
         method: 'POST',
         url: '/resources/' + fileName ,
@@ -980,14 +980,14 @@ _SM.loadJsonConfig = function ( fileName, options) {
             _SM.errorMessage ( 'LoadJsonConfig', result.status + ' ' + result.statusText )
             options.failure.call(options.scope, result, request);
         }
-        
+
     })
-    
+
 }
 
 _SM.defineProtoPclTreeModel = function () {
 
-// Definicion del modelo para los arboles de la PCL 
+// Definicion del modelo para los arboles de la PCL
 
     Ext.define('Proto.PclTreeNode', {
         extend: 'Ext.data.Model',
@@ -995,14 +995,14 @@ _SM.defineProtoPclTreeModel = function () {
             {name: '__ptType',  type: 'string'},
             {name: 'text', type: 'string'},
             {name: 'id',  type: 'string'},
-            // {name: 'iconCls', type: 'string', prpDefault: null, persist: false }, 
-            // {name: 'ptValue', type: 'string'}, 
-            
-            // Referencia al modelo de base 
+            // {name: 'iconCls', type: 'string', prpDefault: null, persist: false },
+            // {name: 'ptValue', type: 'string'},
+
+            // Referencia al modelo de base
             {name: '__ptConfig' }
         ]
     });
-    
+
 }
 
 
@@ -1017,16 +1017,16 @@ _SM.getSheeReport = function ( viewCode, sheetName,  selectedKeys, options ) {
             success: Ext.emptyFn,
             failure: Ext.emptyFn
         });
-    
+
         Ext.Ajax.request({
             method: 'POST',
             url: _SM._PConfig.urlGetSheetReport  ,
-            params : { 
-                viewCode : viewCode,  
-                sheetName   : sheetName, 
-                selectedKeys: Ext.encode( selectedKeys )    
+            params : {
+                viewCode : viewCode,
+                sheetName   : sheetName,
+                selectedKeys: Ext.encode( selectedKeys )
                 },
-            
+
             success: function(result, request) {
                 options.success.call( options.scope, result  , request);
             },
@@ -1043,23 +1043,23 @@ _SM.doProtoActions = function ( viewCode, actionName, selectedKeys, parameters, 
 
         parameters = parameters || [];
         options = options || {};
-        
+
         Ext.applyIf(options, {
             scope: this,
             success: Ext.emptyFn,
             failure: Ext.emptyFn
         });
-    
+
         Ext.Ajax.request({
             method: 'POST',
             url: _SM._PConfig.urlDoAction  ,
-            params : { 
-                viewCode : viewCode,  
-                actionName  : actionName, 
-                parameters  : Ext.encode( parameters ), 
-                selectedKeys: Ext.encode( selectedKeys )    
+            params : {
+                viewCode : viewCode,
+                actionName  : actionName,
+                parameters  : Ext.encode( parameters ),
+                selectedKeys: Ext.encode( selectedKeys )
                 },
-            
+
             success: function(result, request) {
                 options.success.call( options.scope, result  , request);
             },
@@ -1070,14 +1070,14 @@ _SM.doProtoActions = function ( viewCode, actionName, selectedKeys, parameters, 
             scope: this,
             timeout: 60000
         });
-        
+
 };
 
 
 _SM.sortObjByName = function(a, b){
     var nameA=a.name.toLowerCase(), nameB=b.name.toLowerCase();
     //sort string ascending
-    if (nameA < nameB) { return -1;}  
+    if (nameA < nameB) { return -1;}
     if (nameA > nameB) { return 1;}
     return 0; //default return value (no sorting)
 };

@@ -19,65 +19,65 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
             items : [
             {
 //                tooltip: _SM.__language.ProtoToolbar_Save_Preview,
-//                iconCls : "icon-configPreview", 
-//                itemId  : "preview", 
+//                iconCls : "icon-configPreview",
+//                itemId  : "preview",
 //                scope   : this,
-//                handler : function() {  
-//                    me.fireEvent('preview') 
+//                handler : function() {
+//                    me.fireEvent('preview')
 //                    }
 //            }," ",{
                 tooltip: _SM.__language.ProtoToolbar_Upd_Def,
-                iconCls : "icon-save", 
-                itemId : "save", 
+                iconCls : "icon-save",
+                itemId : "save",
                 scope   : this,
-                handler : function() {  
-                    me.fireEvent('save') 
+                handler : function() {
+                    me.fireEvent('save')
                     }
             }," ",{
 //                tooltip: _SM.__language.ProtoToolbar_Reload,
-//                iconCls : "icon-configReload", 
-//                itemId : "reload", 
+//                iconCls : "icon-configReload",
+//                itemId : "reload",
 //                scope   : this,
-//                handler : function() {  
-//                    me.fireEvent('reload') 
+//                handler : function() {
+//                    me.fireEvent('reload')
 //                    }
 //            },"-",{
                 tooltip: _SM.__language.ProtoToolbar_Add_Node,
                 iconCls : "icon-nodeInsert",
-                hidden : true, 
+                hidden : true,
                 itemId  : "add",
                 scope   : this,
-                handler : function( btn ) {  
-                    me.fireEvent('add', btn.oData ) 
+                handler : function( btn ) {
+                    me.fireEvent('add', btn.oData )
                     }
             },{
                 tooltip: _SM.__language.ProtoToolbar_Del_Current_Node,
                 iconCls : "icon-nodeDelete",
-                hidden : true, 
-                itemId  : "del", 
+                hidden : true,
+                itemId  : "del",
                 scope   : this,
-                handler : function( btn ) {  
-                    me.fireEvent('del', btn.oData ) 
+                handler : function( btn ) {
+                    me.fireEvent('del', btn.oData )
                     }
 //            },"-",{
 //                tooltip: _SM.__language.ProtoToolbar_Show_Current_Meta,
 //                iconCls : "icon-script_gear",
-//                itemId  : "show1", 
+//                itemId  : "show1",
 //                scope   : this,
-//                handler : function() {  
-//                    me.fireEvent('show1') 
+//                handler : function() {
+//                    me.fireEvent('show1')
 //                    }
 //            },"->",{
 //                iconCls : "icon-help",
 //                itemId  : "help",
 //                tooltip: _SM.__language.ProtoToolbar_Show_Help,
 //                scope   : this,
-//                handler : function() {  
-//                    me.fireEvent('help') 
+//                handler : function() {
+//                    me.fireEvent('help')
 //                    }
             }
             ]
- 
+
         });
 
         me.callParent(arguments);
@@ -85,26 +85,26 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
     },
 
   setButton: function( key, bVisible, bEnabled, toolTip , oData ) {
-     
+
     var btn = this.getComponent( key )
-    
+
     btn.setVisible( bVisible )
     btn.setDisabled( ! bEnabled  )
     btn.setTooltip( toolTip  )
-    btn.oData = oData 
-      
-  }   
-    
+    btn.oData = oData
+
+  }
+
 });
 
 
 function  getSelectorsPanels( elemTree, fieldList  ) {
-    
+
     return   [{
             region: 'center',
             layout: 'fit',
             minSize: 200,
-            items: elemTree, 
+            items: elemTree,
             border: false,
             flex: 5
         }, {
@@ -114,9 +114,9 @@ function  getSelectorsPanels( elemTree, fieldList  ) {
             split: true,
             layout: 'fit',
             minSize: 200,
-            items: fieldList, 
+            items: fieldList,
             border: false,
             flex: 2
         }]
-    
+
 }
