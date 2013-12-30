@@ -161,17 +161,17 @@ Ext.define('ProtoUL.view.Viewport', {
             scope: this, 
             success: function (obj, result, request) {
 
-                me.openProtoOption( viewCode )                
+                me.openProtoOption( viewCode );
                  
             },
             failure: function ( obj, result, request) { 
                 return ;  
             }
-        }
+        };
 
         if (  _SM.loadPci( viewCode, true, options ) ) {
             // El modelo ya ha sido cargado ( la cll meta es global )     
-            me.openProtoOption( viewCode )                
+            me.openProtoOption( viewCode );
             
         }   
 
