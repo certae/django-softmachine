@@ -54,7 +54,7 @@ Ext.application({
         //
         Ext.QuickTips.init();
 
-        this.showLogin()
+        this.showLogin();
 
 /*
        Ext.Ajax.request({
@@ -124,7 +124,7 @@ Ext.application({
             items: [ { xtype: 'protoLogin', options : options  }]
         });
 
-        myWin.show()
+        myWin.show();
     }
 
 });

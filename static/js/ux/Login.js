@@ -27,19 +27,20 @@ Ext.define('ProtoUL.ux.Login', {
             handler: this.submitLogin
         });
 
-/*
-
         this.resetButton = new Ext.Button({
             text: _SM.__language.Text_Forgotten_Password,
-            iconCls: "st-key-go",
+			iconCls : "st-user-who",
             scope: this,
             handler: this.resetPassword
         });
 
-*/
-
-        // this.buttons = [this.submitButton, this.resetButton];
-
+		// If we decide to use a button to change pws using a single page.
+		this.changeButton = new Ext.Button({
+			text : 'change password',
+			iconCls : "st-key-go",
+			scope : this,
+			handler : this.changePassword
+		});
 
         Ext.apply(this, {
             items: [{
@@ -63,17 +64,17 @@ Ext.define('ProtoUL.ux.Login', {
                 xtype: 'toolbar',
                 dock: 'bottom',
                 ui: 'footer',
-                items: [
-                    { xtype: 'tbtext', flex: 1, itemId : 'stLogin' }, 
-                    this.submitButton 
-//                    this.resetButton
-                ]
+				items : [{
+					xtype : 'tbtext',
+					flex : 1,
+					itemId : 'stLogin'
+				}, this.submitButton, this.resetButton]
             }]
             
         });
 
         this.callParent(arguments);
-        this.stLogin = this.dockedItems.items[0].getComponent( 'stLogin' ) 
+		this.stLogin = this.dockedItems.items[0].getComponent('stLogin');
         
         this.on('afterlayout', function () {
             if (this.username == '') {
@@ -81,29 +82,29 @@ Ext.define('ProtoUL.ux.Login', {
             } else {
                 this.getForm().findField('password').focus();
             }
-        })
+		});
 
     },
 
     onKeyEnter: function (me, e) {
         if (e.getKey() == e.ENTER) {
-            this.submitLogin()
+			this.submitLogin();
         }
     },
 
     submitLogin: function (btn) {
-        if ( ! btn ) { btn = this.submitButton }
+		if (!btn) {
+			btn = this.submitButton;
+		}
         btn.disable();
         
-        var form = this.getForm(), 
-            me = this
+		var form = this.getForm(), me = this;
 
         Ext.applyIf(this.options, {
             scope: this,
             success: Ext.emptyFn,
             failure: Ext.emptyFn
         });
-        
         
         if (form.isValid()) {
             btn.setIconCls("st-loading");
@@ -117,35 +118,27 @@ Ext.define('ProtoUL.ux.Login', {
                 // success: this.submitLoginCallback,
                 // failure: this.submitLoginCallback, 
                 success: function(result, request) {
-                    _SM._UserInfo = request.result.userInfo
-                    _SM.__language = request.result.language
+					_SM._UserInfo = request.result.userInfo;
+					_SM.__language = request.result.language;
 
                     // Incializa los permisos 
-                    _SM._UserInfo.perms = {}
+					_SM._UserInfo.perms = {};
                     
-                    me.options.success.call( me.options.scope, result, request);                },
+                    me.options.success.call( me.options.scope, result, request);
+                },
                 failure: function(result, request) {
                     try {
                         me.showFormError( request.result.message );
                     } catch(e) {
                         me.showFormError( request.response.responseText );
                     }
-                    me.options.failure.call( me.options.scope, result, request);                }
+                    me.options.failure.call( me.options.scope, result, request);
+                }
             });
         } else {
            btn.enable();
         }
     },
-
-    // submitLoginCallback: function (result, request) {
-        // var json = Ext.decode(action.response.responseText);
-        // // json.redirect = 'writer'
-        // if (json.success === true) {
-            // // window.location = json.redirect;
-        // }  else {
-            // this.error(result, request);
-        // } 
-    // },
 
     showFormError: function ( errMsg ) {
         this.stLogin.setText( errMsg  ); 
@@ -158,13 +151,13 @@ Ext.define('ProtoUL.ux.Login', {
         Ext.Msg.prompt(_SM.__language.Title_Window_Email_Request, _SM.__language.Message_Enter_Email, function (btn, email) {
             if (btn == 'ok') {
                 Ext.Ajax.request({
-                    url: '/apps/login/lostpassword',
+					url : _SM._PConfig.urlGetPasswordRecovery,
                     params: {
                         email: email
                     },
                     scope: this,
                     success: function (response) {
-                        json = Ext.decode(response.responseText)
+						json = Ext.decode(response.responseText);
                         if (json.success) {
 
                             Ext.Msg.show({
@@ -191,88 +184,14 @@ Ext.define('ProtoUL.ux.Login', {
                             icon: Ext.MessageBox.WARNING
                         });
                     }
-                })
+				});
 
             }
 
-        }, this)
+		}, this);
+	},
+	// TODO validate, delete if no needed
+	changePassword : function(btn) {
+		Ext.create('ProtoUL.ux.PasswordResetForm').show();
     }
-
-
 });
-
-
-// Ext.ux.ChangePass = Ext.extend(Ext.Panel, {
-    // // title: 'Change password'
-    // // ,iconCls: 'icon-key'
-    // border: false,
-    // initComponent: function () {
-        // this.form_change_pass = new Ext.FormPanel({
-            // waitMsgTarget: true,
-            // labelAlign: 'right',
-            // labelWidth: 150,
-            // disabled: false,
-            // border: false, 
-            // items: [{
-                // html: 'Changement de votre mot de passe',
-                // style: 'margin:20px',
-                // border: false
-            // }, {
-                // xtype: 'textfield',
-                // fieldLabel: 'mot de passe actuel',
-                // inputType: 'password',
-                // name: 'current',
-                // width: 120
-            // }, {
-                // xtype: 'textfield',
-                // fieldLabel: 'nouveau mot de passe',
-                // inputType: 'password',
-                // name: 'new1',
-                // width: 120
-            // }, {
-                // xtype: 'textfield',
-                // fieldLabel: 'confirmation',
-                // inputType: 'password',
-                // name: 'new2',
-                // width: 120
-            // }, {
-                // xtype: 'button',
-                // text: 'changer le mot de passe',
-                // iconCls: 'icon-disk',
-                // style: 'margin-top:20px;margin-left:auto;margin-right:auto',
-                // listeners: {
-                    // scope: this,
-                    // 'click': {
-                        // fn: function (button, e) {
-                            // var formpanel = button.findParentByType('form');
-                            // var form = formpanel.getForm();
-                            // form.el.mask('Loading...');
-                            // form.submit({
-                                // url: '/apps/login/changepassword',
-                                // method: 'POST',
-                                // scope: this,
-                                // success: function (form, action) {
-                                    // Ext.Msg.alert("Success", "Le mot de passe a été changé avec succès");
-                                    // console.log(this);
-                                    // this.fireEvent('submitSuccess');
-                                // },
-                                // failure: function (form, action) {
-                                    // form.el.unmask();
-                                    // Ext.Msg.alert("Failure", action.result.msg);
-                                // }
-                            // });
-                        // }
-                    // }
-                // }
-            // }]
-        // })
-        // this.form_change_pass
-        // this.items = this.form_change_pass;
-        // // Ext.apply(this, {
-        // // layout:'fit'
-        // // ,items:this.form_change_pass
-        // // })
-        // Ext.ux.ChangePass.superclass.initComponent.apply(this, arguments);
-        // this.addEvents(['submitSuccess']);
-    // }
-// });
