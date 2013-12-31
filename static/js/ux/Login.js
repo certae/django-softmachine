@@ -141,8 +141,28 @@ Ext.define('ProtoUL.ux.Login', {
 		}
 	},
 
-	showFormError : function(errMsg) {
-		this.stLogin.setText(errMsg);
+
+    showFormError : function(errMsg) {
+		var tip = window.Ext.create('Ext.tip.ToolTip', {
+	        html: errMsg,
+	        autoShow: true,
+	        autoScroll: true,
+	        focusOnToFront: true,
+	        autoHide: true,
+	        stateful: false,
+	        getTargetXY: function() {
+	        	var resetButton = Ext.getCmp('resetButton');
+				return [resetButton.getX(), resetButton.getY()];
+			},
+	        listeners: {
+	            hide: function () {
+	                tip.destroy();
+	                tip = null;
+	            }
+	        }
+	    });
+	    tip.show();
+
 		this.submitButton.enable();
 		this.submitButton.setIconCls("icon-ok");
 		this.getForm().findField('login').focus();
@@ -194,7 +214,6 @@ Ext.define('ProtoUL.ux.Login', {
 
 		}, this);
 	},
-	// TODO validate, delete if no needed
 	changePassword : function(btn) {
 		Ext.create('ProtoUL.ux.PasswordResetForm').show();
 	}
