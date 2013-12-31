@@ -11,7 +11,7 @@ from django.http import HttpResponse
 
 import django.utils.simplejson as json
 
-from models import CustomDefinition  
+from models import CustomDefinition, ProtoDefinition
 from protoActionEdit import setSecurityInfo
 from protoAuth import getUserProfile, getModelPermissions
 from utilsWeb import JsonError #, JsonSuccess 
@@ -147,6 +147,32 @@ def protoGetMenuData(request):
                 'expanded': True ,
                 'viewCode': PROTO_PREFIX + option.code,
                 'iconCls': 'icon-proto',
+                'index':  ix,
+                'leaf': True 
+                 })
+
+            ix += 1 
+
+        # lee las vistas 
+        prototypes = ProtoDefinition.objects.all()
+        ix = 0 
+        for option in prototypes:
+
+            if ix == 0 :
+                prNodes = {  
+                    'text': 'ProtoViews' ,
+                    'expanded': True ,
+                    'index': 2000 ,
+                    'children': [],
+                    'leaf': False 
+                }
+                app_list.append( prNodes )
+
+            prNodes['children'].append( {
+                'text':  option.code,
+                'expanded': True ,
+                'viewCode': option.code,
+                'iconCls': 'icon-1',
                 'index':  ix,
                 'leaf': True 
                  })

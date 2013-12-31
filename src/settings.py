@@ -38,7 +38,7 @@ DATABASES = {
 #    },
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': PPATH + '/db/protoMetaCell.db',
+        'NAME': PPATH + '/db/testproto.db',
     }
 }
 
@@ -172,7 +172,7 @@ INSTALLED_APPS = (
 #     'south',
     'protoLib',
     'prototype',
-    'cell',
+    'll',
 #    'shiny',
 #    'CategoryCle',
 #    'TCO'

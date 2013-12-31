@@ -54,15 +54,19 @@ def _protoEdit(request, myAction ):
     if not getModelPermissions( request.user, model, myAction ):
         return doReturn ({'success':False ,'message' : 'No ' +  myAction +  'permission'})
 
-#   Verifica si hay registros que son solo de referencia
-    userNodes = []
-    refOnly = getModelPermissions( request.user, model, 'refonly' )
-    if refOnly:
-        userNodes = getUserNodes( request.user, viewEntity )
-
-
 #   Obtiene el profile para saber el teamhierarchi
     userProfile = getUserProfile( request.user, 'edit', viewEntity )
+
+    # Verfica si es un protoModel ( maneja TeamHierarchy )
+    isProtoModel = hasattr( model , '_protoObj' )
+
+#   Verifica si hay registros que son solo de referencia
+    userNodes = []
+    refOnly = False 
+    if myAction in ['delete', 'change'] and isProtoModel and not request.user.is_superuser  :
+        refOnly = getModelPermissions( request.user, model, 'refonly' )
+        if refOnly:
+            userNodes = getUserNodes( request.user, viewEntity )
 
 #   Decodifica los eltos
     rows = request.POST.get('rows', [])
@@ -86,8 +90,6 @@ def _protoEdit(request, myAction ):
     if type(rows).__name__=='dict':
         rows = [rows]
 
-    # Verfica si es un protoModel ( maneja TeamHierarchy )
-    isProtoModel = hasattr( model , '_protoObj' )
 
     pList = []
     for data in rows:
@@ -104,10 +106,10 @@ def _protoEdit(request, myAction ):
                 pList.append( data )
                 continue
 
-        # refOnly verifica si corresponde a los registros modificables
-        if  ( refOnly and ( myAction in ['delete', 'change']  )):
-            if data['smOwningTeam'] in userNodes:
-                data['_ptStatus'] = data['_ptStatus'] +  ERR_REFONLY + '<br>'
+        # refOnly verifica si corresponde a los registros modificables  ( solo es true en myAction in ['delete', 'change'] ) 
+        if refOnly and isProtoModel :
+            if not ( data['smOwningTeam'] in userNodes ) :
+                data['_ptStatus'] = ERR_REFONLY + '<br>'
                 pList.append( data )
                 continue
 
