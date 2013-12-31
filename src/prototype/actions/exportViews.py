@@ -104,6 +104,9 @@ def exportProtoJson(request, pModel ):
             newFields = [] 
             for fld in cProto['fields'] : 
                 if fld['name'] in [ 'entity', 'entity_id', 'info' ]: continue
+                if fld['name'] == '__str__':   
+                    try: del fld['physicalName']
+                    except: pass 
 
                 try: 
                     del fld['__ptType']
@@ -129,7 +132,9 @@ def exportProtoJson(request, pModel ):
                 protoDef  = ProtoDefinition.objects.get_or_create(code = cProto[ 'viewCode' ] )[0]
                 protoDef.active = True 
                 protoDef.overWrite = False 
-                protoDef.description  = cEntity[ 'fullName']  + ' - ' + cProto[ 'viewCode' ]  
+                protoDef.description  = cEntity.get('fullName','')  + ' - '  + cProto.get('viewCode','')  + '<br>'
+                protoDef.description += cProto.get('shortTitle','')   + '<br>' + cProto.get( 'description','')   
+
                 protoDef.metaDefinition = json.dumps( cProto, cls = JSONEncoder ) 
                 protoDef.save()   
         
