@@ -137,7 +137,7 @@ Ext.define('ProtoUL.view.ProtoGrid' ,{
         gridColumns = this.getViewColumns( tabConfig );
 
         // Manejo de seleccion multiple
-        if ( ! this.gridSelectionMode ) { this.gridSelectionMode = myMeta.gridConfig.gridSelectionMode  || 'multi' }
+        if ( ! this.gridSelectionMode ) { this.gridSelectionMode = myMeta.gridConfig.gridSelectionMode  || 'multi'; }
         var checkCtrl = 'last';
 
         if ( this.gridSelectionMode != 'multi'  ) { checkCtrl = false; }

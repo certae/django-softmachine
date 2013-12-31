@@ -12,7 +12,7 @@ from utilsBase import verifyStr, verifyList, list2dict
 from utilsConvert import getTypedValue
 
 from protoQbe import getSearcheableFields, getQbeStmt
-from protoAuth import getUserProfile, getModelPermissions
+from protoAuth import  getModelPermissions, getUserNodes
 
 from usrDefProps import verifyUdpDefinition, readUdps
 from protoField import TypeEquivalence
@@ -292,13 +292,6 @@ def copyValuesFromFields( protoMeta, rowdict, relModels, JsonField):
     return rowdict
 
 
-def getUserNodes( pUser, viewEntity ):
-    userProfile = getUserProfile( pUser, 'list', viewEntity  )
-    userNodes = userProfile.userTree.split(',')
-
-    return userNodes
-
-
 def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
 
 #   Decodifica los eltos
@@ -323,7 +316,9 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
     Qs = model.objects
 
 #   Filtros por seguridad ( debe ser siempre a nivel de grupo )
-    if isProtoModel and not pUser.is_superuser:
+    refOnly =  getModelPermissions( pUser, model, 'refonly' )
+
+    if isProtoModel and not ( pUser.is_superuser or refOnly ):
 #       Qs = Qs.filter( Q( smOwningTeam__in = userNodes ) | Q( smOwningUser = pUser  ) )
         Qs = Qs.filter( smOwningTeam__in = userNodes )
 

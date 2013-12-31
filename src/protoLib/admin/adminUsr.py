@@ -59,54 +59,10 @@ AdminUser = {
         "searchable": True
     }, {
         "__ptType": "field",
-        "sortable": True,
-        "name": "username",
-        "searchable": True,
-        "required": True,
-        "header": "nom d\'utilisateur",
-        "type": "string"
-    }, {
-        "__ptType": "field",
-        "sortable": True,
-        "name": "password",
-        "searchable": True,
-        "required": True,
-        "header": "mot de passe",
-        "type": "string"
-    }, {
-        "__ptType": "field",
-        "header": "prénom",
-        "sortable": True,
-        "type": "string",
-        "name": "first_name",
-        "searchable": True
-    }, {
-        "__ptType": "field",
-        "header": "nom",
-        "sortable": True,
-        "type": "string",
-        "name": "last_name",
-        "searchable": True
-    }, {
-        "__ptType": "field",
-        "header": "adresse électronique",
-        "sortable": True,
-        "type": "string",
-        "name": "email",
-        "searchable": True
-    }, {
-        "__ptType": "field",
         "header": "actif",
         "sortable": True,
         "type": "bool",
         "name": "is_active",
-        "searchable": True
-    }, {
-        "__ptType": "field",
-        "header": "statut équipe",
-        "sortable": True,
-        "type": "bool",
-        "name": "is_staff",
         "searchable": True
     }, {
         "__ptType": "field",
@@ -137,11 +93,6 @@ AdminUser = {
         "required": True,
         "header": "date d\'inscription",
         "type": "datetime",
-        "crudType": "screenOnly"
-    }, {
-        "__ptType": "field",
-        "name": "groups",
-        "header": "groupes",
         "crudType": "screenOnly"
     }],
     "actions": [],

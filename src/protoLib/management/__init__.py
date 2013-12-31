@@ -10,9 +10,9 @@ def addProtoPermissions(sender, **kwargs):
     def addEntityPermission( label, title ):
         if not Permission.objects.filter(content_type=content_type, codename=label):
             Permission.objects.create(content_type=content_type, codename=label, name = title )
-            print "Added permission %s" % label 
+            print "Added permission %s" % label
 
-    # for each of our content types "Adding  permissions" 
+    # for each of our content types "Adding  permissions"
     for content_type in ContentType.objects.all():
         # build our permission slug
 
@@ -34,6 +34,10 @@ def addProtoPermissions(sender, **kwargs):
 
         label = "print_%s" % content_type.model
         title ="Can print %s" % content_type.name
+        addEntityPermission( label, title )
+
+        label = "refonly_%s" % content_type.model
+        title ="Can see as reference %s" % content_type.name
         addEntityPermission( label, title )
 
 

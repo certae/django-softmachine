@@ -5,22 +5,22 @@ from protoGrid import getBaseModelName
 from models import getDjangoModel
 
 import django.utils.simplejson as json
-from utilsWeb import doReturn 
+from utilsWeb import doReturn
 
 
 def protoExecuteAction(request):
-    """ Ejecuta una opcion  
+    """ Ejecuta una opcion
     """
 
-    if not request.user.is_authenticated(): 
+    if not request.user.is_authenticated():
         return doReturn ({'success':False ,'message' : 'readOnly User'})
 
     if request.method != 'POST':
         return doReturn ({'success':False ,'message' : 'PostAction required'})
 
-    actionName   = request.POST.get('actionName', '') 
-    
-    viewCode  = request.POST.get('viewCode', '') 
+    actionName   = request.POST.get('actionName', '')
+
+    viewCode  = request.POST.get('viewCode', '')
     viewEntity  = getBaseModelName( viewCode )
 
     selectedKeys = request.POST.get('selectedKeys', [])
@@ -28,34 +28,34 @@ def protoExecuteAction(request):
 
     parameters = request.POST.get('parameters', [])
     parameters = json.loads( parameters )
-    
-    # Obtiene el modelo 
-    try: 
+
+    # Obtiene el modelo
+    try:
         model = getDjangoModel(viewEntity)
         modelAdmin = site._registry.get( model )
     except Exception as e:
-        return doReturn ({'success':False, 'message' : 'Model notFound'}) 
+        return doReturn ({'success':False, 'message' : 'Model notFound'})
 
-    for action in modelAdmin.actions: 
-        if action.__name__ == actionName: break; 
-        
-    if not action: 
-        return doReturn ({'success':False, 'message' : 'Action notFound'}) 
+    for action in modelAdmin.actions:
+        if action.__name__ == actionName: break;
 
-    
+    if not action:
+        return doReturn ({'success':False, 'message' : 'Action notFound'})
+
+
     # hace el QSet de los registros seleccionados
     if selectedKeys.__len__() == 0:
-        return doReturn ({'success':False, 'message' : 'No record selected'}) 
-    
+        return doReturn ({'success':False, 'message' : 'No record selected'})
+
     Qs = model.objects.select_related(depth=1)
     Qs = Qs.filter( pk__in = selectedKeys  )
 
     try:
         returnObj  = action( modelAdmin, request, Qs , parameters )
-        return doReturn ( returnObj ) 
+        return doReturn ( returnObj )
 
     except Exception as e:
-        return doReturn ({'success':False, 'message' : str( e ) }) 
-        
+        return doReturn ({'success':False, 'message' : str( e ) })
+
 
 
