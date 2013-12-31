@@ -171,6 +171,7 @@ Ext.define('ProtoUL.ux.Login', {
 	resetPassword : function(btn) {
 		btn.setIconCls("st-loading");
 		Ext.Msg.prompt(_SM.__language.Title_Window_Email_Request, _SM.__language.Message_Enter_Email, function(btn, email) {
+			var resetButton = Ext.getCmp('resetButton');
 			if (btn == 'ok') {
 				Ext.Ajax.request({
 					url : _SM._PConfig.urlGetPasswordRecovery,
@@ -197,7 +198,6 @@ Ext.define('ProtoUL.ux.Login', {
 								icon : Ext.MessageBox.WARNING
 							});
 						}
-						var resetButton = Ext.getCmp('resetButton');
 						resetButton.setIconCls("st-user-who");
 					},
 					failure : function() {
@@ -210,6 +210,8 @@ Ext.define('ProtoUL.ux.Login', {
 					}
 				});
 
+			} else {
+				resetButton.setIconCls("st-user-who");
 			}
 
 		}, this);
