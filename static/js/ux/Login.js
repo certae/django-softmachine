@@ -152,7 +152,9 @@ Ext.define('ProtoUL.ux.Login', {
 	        stateful: false,
 	        getTargetXY: function() {
 	        	var resetButton = Ext.getCmp('resetButton');
-				return [resetButton.getX(), resetButton.getY()];
+	        	var x = resetButton.getPosition()[0];
+	        	var y = resetButton.getPosition()[1];
+				return [x, y];
 			},
 	        listeners: {
 	            hide: function () {

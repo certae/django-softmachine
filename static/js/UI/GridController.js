@@ -4,19 +4,17 @@
 /*global ProtoUL */
 /*global getSimpleProperties */
 
-
 Ext.define('ProtoUL.UI.GridController', {
     extend: 'Ext.Base',
 
     // Parametros de entrada
-    myMeta : null,
-    myGrid : null,
-    store : null,
+    myMeta: null,
+    myGrid: null,
+    store: null,
 
-    constructor: function (config) {
+    constructor: function(config) {
         Ext.apply(this, config || {});
     },
-
 
     addNavigationPanel: function() {
         /*
@@ -25,230 +23,223 @@ Ext.define('ProtoUL.UI.GridController', {
          *
          */
 
-        var me = this.myGrid,
-            navPanel = ['-'],
-
-            comboPageSize = new Ext.form.ComboBox({
-            name : 'perpage',
+        var me = this.myGrid, navPanel = ['-'], comboPageSize = new Ext.form.ComboBox({
+            name: 'perpage',
             width: 60,
             store: new Ext.data.ArrayStore({
                 fields: ['id'],
-                data  : _SM._ComboPageSize
+                data: _SM._ComboPageSize
             }),
-            mode : 'local',
+            mode: 'local',
             value: '50',
-            listWidth     : 60,
-            triggerAction : 'all',
-            displayField  : 'id',
-            valueField    : 'id',
-            editable      : false,
+            listWidth: 60,
+            triggerAction: 'all',
+            displayField: 'id',
+            valueField: 'id',
+            editable: false,
             forceSelection: true
         });
 
         comboPageSize.on('select', function(combo, record) {
-            me.store.pageSize = parseInt( combo.getValue(), 10);
+            me.store.pageSize = parseInt(combo.getValue(), 10);
             me.store.load();
-            if ( me.store.currentPage != 1 ) {
+            if (me.store.currentPage != 1) {
                 me.store.loadPage(1);
             }
-        }, me );
+        }, me);
 
         // Extraccion de grilla detalle
-        if ( me.protoIsDetailGrid ) {
-            navPanel.push ({
+        if (me.protoIsDetailGrid) {
+            navPanel.push({
                 text: _SM.__language.GridNav_In_New_Tab,
-                iconCls : 'icon-promote',
-                handler : onMenuPromoteDetail
+                iconCls: 'icon-promote',
+                handler: onMenuPromoteDetail
             });
         }
 
-        navPanel.push( comboPageSize, _SM.__language.GridNav_PageSize );
+        navPanel.push(comboPageSize, _SM.__language.GridNav_PageSize);
 
-        var myNavPanel =   {
-                xtype: 'pagingtoolbar',
-                border : false,
-                dock: 'bottom',
-                store: me.store,
-                displayInfo: true,
-                items: navPanel,
-                afterPageText : _SM.__language.GridNav_Total  + ' {0}',
-                beforePageText : _SM.__language.GridNav_Page,
+        var myNavPanel = {
+            xtype: 'pagingtoolbar',
+            border: false,
+            dock: 'bottom',
+            store: me.store,
+            displayInfo: true,
+            items: navPanel,
+            afterPageText: _SM.__language.GridNav_Total + ' {0}',
+            beforePageText: _SM.__language.GridNav_Page,
 
-                firstText : _SM.__language.GridNav_First_Page,
-                nextText : _SM.__language.GridNav_Next_Page,
-                prevText : _SM.__language.GridNav_Previous_Page,
-                lastText : _SM.__language.GridNav_Last_Page,
-                refreshText : _SM.__language.GridNav_Refresh,
+            firstText: _SM.__language.GridNav_First_Page,
+            nextText: _SM.__language.GridNav_Next_Page,
+            prevText: _SM.__language.GridNav_Previous_Page,
+            lastText: _SM.__language.GridNav_Last_Page,
+            refreshText: _SM.__language.GridNav_Refresh,
 
-                displayMsg: _SM.__language.GridNav_Current + ' : {0} - {1} ' + _SM.__language.GridNav_Total +' {2}'
-                // emptyMsg: "No register to display"
+            displayMsg: _SM.__language.GridNav_Current + ' : {0} - {1} ' + _SM.__language.GridNav_Total + ' {2}'
+            // emptyMsg: "No register to display"
         };
 
-        me.addDocked( myNavPanel  );
+        me.addDocked(myNavPanel);
 
         function onMenuPromoteDetail() {
 
             var detDef = me.detailDefinition;
 
-            _SM.__TabContainer.addTabPanel(
-                   me.store.viewCode ,
-                   me.protoFilter,
-                   me.detailTitle
-           );
+            _SM.__TabContainer.addTabPanel(me.store.viewCode, me.protoFilter, me.detailTitle);
         }
+
     },
 
-    addGridTools : function()  {
+    addGridTools: function() {
 
-        var editTools =    [
-            {
-                itemId: 'toolFormAdd',
-                tooltip: _SM.__language.GridBtn_Ttip_Add_Form,
-                type: 'formAdd',
-                width : 20,
-                hidden: true,
-                scope: this,
-                handler: this.onEditAction
-            }, {
-                itemId: 'toolFormUpd',
-                tooltip: _SM.__language.GridBtn_Ttip_Edit_Form,
-                hidden: true,
-                type: 'formUpd',
-                width : 20,
-                scope: this,
-                handler: this.onEditAction
-            }, {
-                itemId: 'toolRowDel',
-                type: 'rowDel',
-                tooltip: _SM.__language.GridBtn_Ttip_Del_Record,
-                hidden: true,
-                width : 30,
-                scope: this,
-                handler: this.onEditAction
-            },  {
-                itemId: 'toolFormView',
-                tooltip: _SM.__language.GridBtn_Ttip_Read_Only,
-                type: 'formView',
-                width : 20,
-                scope: this,
-                handler: this.onEditAction
+        var editTools = [{
+            itemId: 'toolFormAdd',
+            tooltip: _SM.__language.GridBtn_Ttip_Add_Form,
+            type: 'formAdd',
+            width: 20,
+            hidden: true,
+            scope: this,
+            handler: this.onEditAction
+        }, {
+            itemId: 'toolFormUpd',
+            tooltip: _SM.__language.GridBtn_Ttip_Edit_Form,
+            hidden: true,
+            type: 'formUpd',
+            width: 20,
+            scope: this,
+            handler: this.onEditAction
+        }, {
+            itemId: 'toolRowDel',
+            type: 'rowDel',
+            tooltip: _SM.__language.GridBtn_Ttip_Del_Record,
+            hidden: true,
+            width: 30,
+            scope: this,
+            handler: this.onEditAction
+        }, {
+            itemId: 'toolFormView',
+            tooltip: _SM.__language.GridBtn_Ttip_Read_Only,
+            type: 'formView',
+            width: 20,
+            scope: this,
+            handler: this.onEditAction
             // },{
-                // itemId: 'toolRowAdd',
-                // tooltip: _SM.__language.GridBtn_Ttip_Add_Row,
-                // type: 'rowAdd',
-                // hidden: true,
-                // width : 20,
-                // scope: this,
-                // handler: this.onEditAction
-            }, {
-                itemId: 'toolRowCopy',
-                tooltip: _SM.__language.GridBtn_Ttip_Copy_Row,
-                type: 'rowCopy',
-                hidden: true,
-                width : 20,
-                scope: this,
-                handler: this.onEditAction
-            }
-            ];
+            // itemId: 'toolRowAdd',
+            // tooltip: _SM.__language.GridBtn_Ttip_Add_Row,
+            // type: 'rowAdd',
+            // hidden: true,
+            // width : 20,
+            // scope: this,
+            // handler: this.onEditAction
+        }, {
+            itemId: 'toolRowCopy',
+            tooltip: _SM.__language.GridBtn_Ttip_Copy_Row,
+            type: 'rowCopy',
+            hidden: true,
+            width: 20,
+            scope: this,
+            handler: this.onEditAction
+        }];
 
-            this.myGrid.addTools( editTools );
-            this.setEditMode( false );
+        this.myGrid.addTools(editTools);
+        this.setEditMode(false);
 
     },
 
-    setEditMode: function ( bEdit) {
+    setEditMode: function(bEdit) {
 
-        var perms = _SM._UserInfo.perms[ this.myMeta.viewCode ],
-            myExtGrid = this.myGrid._extGrid;
+        var perms = _SM._UserInfo.perms[this.myMeta.viewCode], myExtGrid = this.myGrid._extGrid;
 
-        if ( !( perms['add'] || perms['change'] || perms['delete'] )) { return; }
+        if (!(perms['add'] || perms['change'] || perms['delete'] )) {
+            return;
+        }
         // if ( ! _SM._UserInfo.isStaff  ) return
 
         this.myGrid.editable = bEdit;
 
-        if ( perms['add'] ) {
+        if (perms['add']) {
             // setToolMode ( myExtGrid, '#toolRowAdd', bEdit )
-            setToolMode ( myExtGrid, '#toolRowCopy', bEdit );
-            setToolMode ( myExtGrid, '#toolFormAdd', bEdit );
+            setToolMode(myExtGrid, '#toolRowCopy', bEdit);
+            setToolMode(myExtGrid, '#toolFormAdd', bEdit);
         }
 
-        if ( perms['delete'] ) {
-            setToolMode ( myExtGrid, '#toolRowDel', bEdit );
+        if (perms['delete']) {
+            setToolMode(myExtGrid, '#toolRowDel', bEdit);
         }
 
-        if ( perms['change'] ) {
-            setToolMode ( myExtGrid, '#toolFormUpd', bEdit );
+        if (perms['change']) {
+            setToolMode(myExtGrid, '#toolFormUpd', bEdit);
         }
 
-        setToolMode ( myExtGrid, '#toolFormView', !bEdit );
+        setToolMode(myExtGrid, '#toolFormView', !bEdit);
         // setToolMode ( myExtGrid, '#toolMetaConfig',  !bEdit );
 
-        function setToolMode( myExtGrid, myToolBt, bEdit ) {
-            if ( bEdit ) { myExtGrid.down( myToolBt ).show(); }
-            else  { myExtGrid.down( myToolBt ).hide(); }
+        function setToolMode(myExtGrid, myToolBt, bEdit) {
+            if (bEdit) {
+                myExtGrid.down(myToolBt).show();
+            } else {
+                myExtGrid.down(myToolBt).hide();
+            }
         }
+
     },
 
+    //  --------------------------------------------------------------------------
 
-//  --------------------------------------------------------------------------
+    onEditAction: function(ev, obj, head, btn) {
 
-
-    onEditAction: function ( ev, obj, head, btn   ){
-
-
-        if ( ! this.formController  ) {
+        if (!this.formController) {
             this.formController = Ext.create('ProtoUL.UI.FormController', {
                 myMeta: this.myMeta
             });
         }
 
         // Lanza el evento de inicio de edicion
-        this.myGrid.fireStartEdition( btn.itemId  );
-
+        this.myGrid.fireStartEdition(btn.itemId);
 
         // 'toolFormAdd', 'toolFormUpd', 'toolFormView', 'toolRowAdd', 'toolRowCopy', 'toolRowDel',
-        switch( btn.itemId ){
+        switch( btn.itemId ) {
             case 'toolFormAdd' :
-                this.formController.openNewForm (  this.myGrid.store );
+                this.formController.openNewForm(this.myGrid.store);
                 break;
 
             case 'toolFormUpd' :
-                if ( _SM.validaSelected( this.myGrid.selected )) {
-                     this.formController.openLinkedForm ( this.myGrid.selected    )
+                if (_SM.validaSelected(this.myGrid.selected)) {
+                    this.formController.openLinkedForm(this.myGrid.selected);
                 }
                 break;
 
             case 'toolFormView' :
-                if ( _SM.validaSelected( this.myGrid.selected )) {
-                     this.formController.openLinkedForm ( this.myGrid.selected , true   )
+                if (_SM.validaSelected(this.myGrid.selected)) {
+                    this.formController.openLinkedForm(this.myGrid.selected, true);
                 }
                 break;
 
             // case 'toolRowAdd' :
-                // this.myGrid.addNewRecord()
-                // break;
+            // this.myGrid.addNewRecord()
+            // break;
 
             case 'toolRowCopy' :
                 this.myGrid.duplicateRecord();
                 break;
 
-
             case 'toolRowDel' :
-                var me = this ;
-                function doDelete( btn ){
-                    if(btn === 'yes') { me.myGrid.deleteCurrentRecord(); }
+                var me = this;
+                function doDelete(btn) {
+                    if (btn === 'yes') {
+                        me.myGrid.deleteCurrentRecord();
+                    }
                 }
 
-                Ext.MessageBox.confirm('Confirm Delete', 'Are you sure?', doDelete );
+
+                Ext.MessageBox.confirm('Confirm Delete', 'Are you sure?', doDelete);
                 break;
         }
     }
-
-
 });
 
-_SM.validaSelected = function ( myReg )  {
-    if ( ! myReg ) {
+_SM.validaSelected = function(myReg) {
+    if (!myReg) {
         _SM.errorMessage(_SM.__language.Title_Form_Panel, _SM.__language.GridAction_NoRecord);
         return false;
     }
