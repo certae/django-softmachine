@@ -172,8 +172,8 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
             if cUDP.udpTable and fName.startswith( cUDP.propertyPrefix + '__'):
                 continue
 
-            # N2N
-#             elif ( lField['type'] == 'protoN2N' ):
+            elif ( lField['type'] == 'protoN2N' ):
+                continue
 #                 try:
 #                     val = list( rowData.__getattribute__( fName  ).values_list())
 #                 except: val = '[]'

@@ -26,9 +26,9 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         var me  = this ;
 
         // Marca si viene de un detalle
-        if ( this.mdFilter ) {  this.isPromoted = true }
+        if ( this.mdFilter ) {  this.isPromoted = true; }
 
-        _SM.__StBar.showBusy( 'loading ' + this.viewCode + '...', 'prMD.init',  2000)
+        _SM.__StBar.showBusy( 'loading ' + this.viewCode + '...', 'prMD.init',  2000);
 
         // Master Grid    ==========================================================
         // y la Guarda el store para efectos de eventos y referencias
@@ -58,7 +58,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         });
 
         // Asigna el tab de control a la grilla y el panel de detalles
-        this.protoMasterGrid._toolBar = tb
+        this.protoMasterGrid._toolBar = tb;
         this.protoTabs = Ext.create('Ext.panel.Panel', {
             layout: 'card'
         });
@@ -116,7 +116,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         Ext.create('ProtoUL.UI.ConfigController',     { myMeta : this.myMeta, __MasterDetail : me });
 
         // Agrega los botones de actions
-        tb.addActions()
+        tb.addActions();
 
         //  ****************************************************************
         //  Eventos de los objetos internos para el manejo Master-Detail
@@ -124,7 +124,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         this.protoMasterGrid.on({
             selectionChange: {fn: function ( rowModel, record, rowIndex,  eOpts  ) {
                 if ( record ) { this.idMasterGrid = record.get('id');
-                } else { this.idMasterGrid = -1 }
+                } else { this.idMasterGrid = -1; }
                 this.linkDetail();
             },
             scope: me }
@@ -136,7 +136,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
     linkDetail: function () {
         // Refresca las grillas de detalle
-        var me = this
+        var me = this;
 
         // Verifica q halla un tab activo y q no hallan sido borrados
         if (me.ixActiveDetail < 0) { return; }
@@ -145,92 +145,92 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
         // carga el store
         var tmpStore = me.cllStoreDet[ me.ixActiveDetail ];
-        var pDetail = tmpStore.detailDefinition
+        var pDetail = tmpStore.detailDefinition;
 
         // Verifica si la llave cambio
         if ( tmpStore.protoMasterId == me.idMasterGrid ) { return; }
 
         // DGT@@@ Navegacion por llaves del maestro, si rowData is null no hay registro seleccionado
-        var protoFilter
+        var protoFilter;
         if ( ! me.protoMasterGrid.rowData )  {
             protoFilter = [{ "property" :  pDetail.detailField , "filterStmt" : -1}];
         } else {
             // En caso de q el master no sea el pk
-            var rowDataIx  = me.idMasterGrid
-            if ( pDetail.masterField != 'pk' ) { rowDataIx  = me.protoMasterGrid.rowData[ pDetail.masterField ] }
+            var rowDataIx  = me.idMasterGrid;
+            if ( pDetail.masterField != 'pk' ) { rowDataIx  = me.protoMasterGrid.rowData[ pDetail.masterField ]; }
             protoFilter = [{ "property" :  pDetail.detailField , "filterStmt" : rowDataIx }];
         }
 
-        tmpStore.myLoadData( protoFilter, null, me.idMasterGrid )
+        tmpStore.myLoadData( protoFilter, null, me.idMasterGrid );
 
         // Obtiene la grilla y le da un titulo
-        var myDetGrid = me.protoTabs.items.items[ me.ixActiveDetail ]
-        var masterTitleField = pDetail.masterTitleField || '__str__'
+        var myDetGrid = me.protoTabs.items.items[ me.ixActiveDetail ];
+        var masterTitleField = pDetail.masterTitleField || '__str__';
 
-        var rowData = me.protoMasterGrid.rowData
-        if ( rowData )  myDetGrid.detailTitle = rowData[ masterTitleField ]
+        var rowData = me.protoMasterGrid.rowData;
+        if ( rowData )  myDetGrid.detailTitle = rowData[ masterTitleField ];
 
-        myDetGrid.protoFilter = protoFilter
-        myDetGrid.setGridTitle( myDetGrid  )
+        myDetGrid.protoFilter = protoFilter;
+        myDetGrid.setGridTitle( myDetGrid  );
 
         // Asigna los vr por defecto
-        me.setDetDefaults( me, myDetGrid )
+        me.setDetDefaults( me, myDetGrid );
 
     },
 
     mdGridReload: function () {
-        this.protoMasterGrid.reload()
+        this.protoMasterGrid.reload();
     },
 
     mdGridLoadData: function ( sFilter , sorter) {
         // Refresh
-        this.protoMasterGrid.gridLoadData( this.protoMasterGrid,  sFilter,  sorter  )
+        this.protoMasterGrid.gridLoadData( this.protoMasterGrid,  sFilter,  sorter  );
     },
 
     showDetailPanel: function( bHide ) {
         var detailPanel = Ext.getCmp( this.IDdetailPanel);
         if ( bHide ) {
-            this.ixInactiveDetail = this.ixActiveDetail
-            this.ixActiveDetail =  -1
+            this.ixInactiveDetail = this.ixActiveDetail;
+            this.ixActiveDetail =  -1;
             detailPanel.collapse();
 
         }  else if ( detailPanel.collapsed  ) {
             if (this.ixActiveDetail < 0) { this.ixActiveDetail = this.ixInactiveDetail || 0; }
-            this.linkDetail()
+            this.linkDetail();
             detailPanel.expand();
         }
     },
 
     hideDetailPanel: function( btn ) {
-        this.showDetailPanel( true )
+        this.showDetailPanel( true );
     },
 
 
     isDetailCollapsed: function() {
 
         var detailPanel = Ext.getCmp( this.IDdetailPanel);
-        if ( ! detailPanel   )  return true
-        return ( detailPanel.collapsed  )
+        if ( ! detailPanel   )  return true;
+        return ( detailPanel.collapsed  );
 
     },
 
     setEditMode: function( bEdit ) {
 
-        var me = this
+        var me = this;
 
         // Apagar las barras ( hacen parte de la grilla menos tbTabs y tbDetails )
         // setDisabled( me.tbTabs )
-        setDisabled( me.tbFilters )
-        setDisabled( me.tbPrinterOpts )
-        setDisabled( me.tbConfigOpts )
-        setDisabled( me.tbSorters )
-        setDisabled( me.tbSortersSet )
-        setDisabled( me.tbProtoActions )
+        setDisabled( me.tbFilters );
+        setDisabled( me.tbPrinterOpts );
+        setDisabled( me.tbConfigOpts );
+        setDisabled( me.tbSorters );
+        setDisabled( me.tbSortersSet );
+        setDisabled( me.tbProtoActions );
 
         // Cambia el control de las grillas correspondientes
         // Con el autosync se permite la edicion en todos los controles
         // if ( this.isDetailCollapsed()  ) {
-            me.protoMasterGrid.setEditMode(  bEdit )
+            me.protoMasterGrid.setEditMode(  bEdit );
             // setDisabled( me.tbDetails )
 
         // } else {
@@ -242,15 +242,16 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
             // setDisabled( me.tbDetails, false  )
 
             //Recorrer las grillas, cambiar el modo, TODO: heredados ( Default,  RO )
-            var detGrids = null
+            var detGrids = null;
             try {
-            	detGrids = me.protoTabs.items.items
+            	detGrids = me.protoTabs.items.items;
             } 	catch(e) {}
 
             if ( detGrids )  {
 	            for (var ix in detGrids ) {
-	                var myDetGrid = detGrids[ix]
-	                myDetGrid.setEditMode( bEdit )
+	                var myDetGrid = detGrids[ix];
+	                if ( ! myDetGrid.detailDefinition ) { continue; } 
+	                myDetGrid.setEditMode( bEdit );
 	                // if ( bEdit ) me.setDetDefaults( me, myDetGrid )
 	            }
         	}
@@ -259,8 +260,8 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
         function setDisabled( tbar, bDisable ) {
             // Por defecto es el edit mode
-            if ( bDisable === undefined  ) bDisable = bEdit
-            if ( tbar ) tbar.setDisabled( bDisable )
+            if ( bDisable === undefined  ) bDisable = bEdit;
+            if ( tbar ) tbar.setDisabled( bDisable );
         }
 
     },
@@ -268,55 +269,55 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
     setDetDefaults : function( me, myDetGrid ) {
             var pDetail = myDetGrid.detailDefinition,
                 rowData = me.protoMasterGrid.rowData,
-                nField =  pDetail.detailField.replace( /__pk$/, '_id' )
+                nField =  pDetail.detailField.replace( /__pk$/, '_id' );
 
             // Obtiene el campo de filtro ( heredado ); Si no hereda la llave, cancela la edicion
-            var myDetField = myDetGrid.myFieldDict[ nField ]
+            var myDetField = myDetGrid.myFieldDict[ nField ];
             if ( ! myDetField  || ! rowData  ) {
                 // _SM.__StBar.showError('parent key not found: ' + nField, 'MasterDetail')
                 // myDetGrid.setEditMode( false );
-                return
+                return;
             }
 
-            myDetField['prpDefault'] = me.idMasterGrid
+            myDetField['prpDefault'] = me.idMasterGrid;
 
             // Obtiene el titulo del filtro para heredarlo
-            nField = pDetail.masterTitleField || nField.replace( /_id$/, '' )
-            var myTitleField = myDetGrid.myFieldDict[ nField ]
+            nField = pDetail.masterTitleField || nField.replace( /_id$/, '' );
+            var myTitleField = myDetGrid.myFieldDict[ nField ];
             if ( myTitleField ) {
-                var masterTitleField = pDetail.masterTitleField || '__str__'
-                myTitleField['prpDefault'] = rowData[ masterTitleField ]
-                myTitleField['readOnly'] = true
+                var masterTitleField = pDetail.masterTitleField || '__str__';
+                myTitleField['prpDefault'] = rowData[ masterTitleField ];
+                myTitleField['readOnly'] = true;
             }
   	},
 
     setAutoSync: function( bMode ) {
-        this.autoSync = bMode
+        this.autoSync = bMode;
     },
 
     saveChanges: function( autoSync ) {
-        var me = this
+        var me = this;
 
         if ( this.isDetailCollapsed()  ) {
-            me.protoMasterGrid.saveChanges( autoSync )
+            me.protoMasterGrid.saveChanges( autoSync );
         } else {
-            var detGrids = me.protoTabs.items.items
+            var detGrids = me.protoTabs.items.items;
             for (var ix in detGrids ) {
-                var myDetGrid = detGrids[ix]
-                myDetGrid.saveChanges( autoSync )
+                var myDetGrid = detGrids[ix];
+                myDetGrid.saveChanges( autoSync );
             }
         }
     },
 
     cancelChanges: function() {
-        var me = this
+        var me = this;
         if ( this.isDetailCollapsed()  ) {
-            me.protoMasterGrid.cancelChanges()
+            me.protoMasterGrid.cancelChanges();
         } else {
-            var detGrids = me.protoTabs.items.items
+            var detGrids = me.protoTabs.items.items;
             for (var ix in detGrids ) {
-                var myDetGrid = detGrids[ix]
-                myDetGrid.cancelChanges()
+                var myDetGrid = detGrids[ix];
+                myDetGrid.cancelChanges();
             }
         }
     }

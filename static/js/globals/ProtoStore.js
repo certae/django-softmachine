@@ -71,8 +71,8 @@ _SM.getStoreDefinition = function (stDef) {
             // recibe el filtro y lo mezcla con el baseFilter ( por ejemplo un estado )
 
             this.clearFilter();
-            this.getProxy().extraParams.protoFilter = _SM.obj2tx([])
-            this.getProxy().extraParams.baseFilter = _SM.obj2tx(myFilter.concat(this.storeDefinition.baseFilter))
+            this.getProxy().extraParams.protoFilter = _SM.obj2tx([]);
+            this.getProxy().extraParams.baseFilter = _SM.obj2tx(myFilter.concat(this.storeDefinition.baseFilter));
             this.load();
 
         },
@@ -360,7 +360,7 @@ _SM.DefineProtoModel = function  ( myMeta  ){
 
 
     // Verifica la conf del objeto de base
-    myMeta = verifyMeta ( myMeta, 'pcl' )
+    myMeta = verifyMeta ( myMeta, 'pcl' );
 
 
     var myModelFields = [];           // model Fields
@@ -374,9 +374,9 @@ _SM.DefineProtoModel = function  ( myMeta  ){
         var vFld  =  myMeta.fields[ix];
 
         if ( _SM.IsAdmField( vFld, myMeta  ) ) {
-            fieldsAdm.push( vFld )
+            fieldsAdm.push( vFld );
         } else {
-            fieldsBase.push( vFld )
+            fieldsBase.push( vFld );
         }
 
         if ( !vFld.type ) { vFld.type = 'string'; }
@@ -391,10 +391,15 @@ _SM.DefineProtoModel = function  ( myMeta  ){
 
         // Tipos validos
         if ( ! vFld.type  in _SM.objConv( [
-            'string', 'text',  'bool', 'int', 'decimal', 'combo',
+            'string', 'text', 'html',  
+            'bool', 'int', 'decimal', 'combo',
             'date',  'datetime', 'time',
-            'autofield', 'foreignid',  'foreigntext', 'protoN2N', 'html'  ] )) {
-                vFld.type = 'string';
+            'protoN2N', 
+            'autofield', 'foreignid',  'foreigntext'  ] )) {
+                
+            vFld.type = 'string';
+            mField.type = 'string';
+            mField.readOnly = true;
         }
 
         //
@@ -419,10 +424,6 @@ _SM.DefineProtoModel = function  ( myMeta  ){
         case 'decimal':
             mField.type = 'number';
             break;
-        // case 'protoN2N':
-            // mField.readOnly = true;
-            // mField.type = 'list';
-            // break;
 
         case 'jsonfield':
             mField.readOnly = true;
@@ -431,7 +432,7 @@ _SM.DefineProtoModel = function  ( myMeta  ){
 
         case 'date':
             mField.type = 'date';
-            mField.dateFormat ='Y-m-d'
+            mField.dateFormat ='Y-m-d';
             break;
         case 'datetime':
             mField.type = 'string';
@@ -442,6 +443,7 @@ _SM.DefineProtoModel = function  ( myMeta  ){
             mField.type = 'date';
             mField.dateFormat ='H:i:s';
             break;
+
         }
 
         // Asigna el modelo y el diccionario
@@ -467,8 +469,8 @@ _SM.DefineProtoModel = function  ( myMeta  ){
         });
 
     // Adiciona las dos colecciones
-    myMeta.fieldsBase = fieldsBase
-    myMeta.fieldsAdm  = fieldsAdm
+    myMeta.fieldsBase = fieldsBase;
+    myMeta.fieldsAdm  = fieldsAdm;
 
 };
 
@@ -477,28 +479,28 @@ _SM.getFieldDict = function ( myMeta ) {
     // For indexing fields
     var ptDict = {};
     for (var ix in myMeta.fields ) {
-        var vFld = myMeta.fields[ix]
+        var vFld = myMeta.fields[ix];
 
         // Lo marca con la grilla de donde viene
-        vFld.idProtoGrid = myMeta.idProtoGrid
+        vFld.idProtoGrid = myMeta.idProtoGrid;
 
         ptDict[vFld.name] = vFld;
     }
-    return ptDict
-}
+    return ptDict;
+};
 
 
 
 _SM.getColDefinition = function ( vFld ) {
 
-    if (!vFld.header ) {vFld.header = vFld.name}
+    if (!vFld.header ) {vFld.header = vFld.name;}
 
-    var colDefinition, lstProps, editor
+    var colDefinition, lstProps, editor;
 
     colDefinition = {
             dataIndex: vFld.name,
             text: vFld.header
-    }
+    };
 
     // Propiedades q seran copiadas a las columnas de la grilla
     lstProps = ['flex',  'width', 'minWidth', 'sortable',
@@ -508,7 +510,7 @@ _SM.getColDefinition = function ( vFld ) {
                     'idProtoGrid'
                     ];
 
-    colDefinition = _SM.copyProps ( colDefinition,  vFld, true, lstProps )
+    colDefinition = _SM.copyProps ( colDefinition,  vFld, true, lstProps );
 
 
     // Copia las propiedades de base al editor
@@ -535,7 +537,7 @@ _SM.getColDefinition = function ( vFld ) {
          * una buena practica es dejar los modelos de base para los zooms y generar vistas
          * para las opciones de trabajo
          */
-        'zoomModel',
+        'zoomModel', 'zoomMultiple', 
 
         //@fkId : Llave correspondiente al zoom
         'fkId',
@@ -620,52 +622,52 @@ _SM.getColDefinition = function ( vFld ) {
     case 'time':
         //TODO:  En la edicion de grilla, al regresar cambia el formato
         colDefinition['xtype'] = 'datecolumn';
-        colDefinition['format'] = 'H:i'  //  'H:i:s'
+        colDefinition['format'] = 'H:i';  //  'H:i:s'
 
-        editor.xtype = 'timefield'
-        editor.format = colDefinition['format']
+        editor.xtype = 'timefield';
+        editor.format = colDefinition['format'];
         break;
 
     case 'bool':
-        colDefinition['xtype'] = 'mycheckcolumn'
-        colDefinition['editable'] = false
-        colDefinition['inGrid'] = true
+        colDefinition['xtype'] = 'mycheckcolumn';
+        colDefinition['editable'] = false;
+        colDefinition['inGrid'] = true;
 
-        editor.xtype = 'checkbox'
+        editor.xtype = 'checkbox';
         // editor.cls = 'x-grid-checkheader-editor'
         break;
 
     case 'combo':
-        editor.xtype = 'combobox'
-        editor.typeAhead = true
-        editor.triggerAction = 'all'
-        editor.selectOnTab = true
+        editor.xtype = 'combobox';
+        editor.typeAhead = true;
+        editor.triggerAction = 'all';
+        editor.selectOnTab = true;
 
         // Lo normal es q venga como una lista de opciones ( string )
-        var cbChoices = vFld.choices
+        var cbChoices = vFld.choices;
         if ( _SM.typeOf(cbChoices) == 'string') {
-            cbChoices = cbChoices.split( ",")
-        } else { cbChoices = [] }
+            cbChoices = cbChoices.split( ",");
+        } else { cbChoices = []; }
 
-        editor.store = cbChoices
-        editor.lazyRender = true
-        editor.listClass = 'x-combo-list-small'
+        editor.store = cbChoices;
+        editor.lazyRender = true;
+        editor.listClass = 'x-combo-list-small';
         break;
 
     case 'foreigntext':
         // El zoom se divide en 2 cols el texto ( _unicode ) y el ID ( foreignid )
-        if ( ! colDefinition.flex  ) {colDefinition.flex = 1}
+        if ( ! colDefinition.flex  ) {colDefinition.flex = 1;}
 
-        vFld.cellLink = true
-        editor.xtype = 'protoZoom'
-        editor.editable  = false
+        vFld.cellLink = true;
+        editor.xtype = 'protoZoom';
+        editor.editable  = false;
         break;
 
     case 'foreignid':
         // El zoom id debe estar oculto
            // colDefinition['hidden']= true
-          editor.xtype = 'numberfield'
-          editor.hidden  = true
+          editor.xtype = 'numberfield';
+          editor.hidden  = true;
           break;
 
     case 'autofield':
@@ -675,7 +677,7 @@ _SM.getColDefinition = function ( vFld ) {
 
 
     // Ancho minimo
-    if ( ! colDefinition.minWidth  ) { colDefinition.minWidth = 70 }
+    if ( ! colDefinition.minWidth  ) { colDefinition.minWidth = 70;}
 
 
 
@@ -693,35 +695,35 @@ _SM.getColDefinition = function ( vFld ) {
         break;
     case 'numberfield':
         colDefinition.xtype ='numbercolumn';
-        break
+        break;
     default:
         delete colDefinition.xtype;
-    }
+    };
 
 
     // Asigna las coleccoiones de presentacion
     // El foreignid puede ser editable directamente,
     if (((  vFld.type == 'autofield' ) || vFld.readOnly  ) && ( vFld.type != 'bool'  ))
-         { colDefinition.renderer = cellReadOnly }
+         { colDefinition.renderer = cellReadOnly ;}
     else  {colDefinition['editor'] = editor;}
 
     // WordWrap
-    if ( vFld.wordWrap === true ) {colDefinition.renderer = columnWrap}
+    if ( vFld.wordWrap === true ) {colDefinition.renderer = columnWrap;}
 
     // Agrega un tool tip con el contenido de la celda
-    if ( vFld.cellToolTip ) {colDefinition.renderer = cellToolTip}
+    if ( vFld.cellToolTip ) {colDefinition.renderer = cellToolTip;}
 
     // Formatea el contenido como un hiperLink, TODO: la logica debe estar en otra propiedad
-    if ( vFld.cellLink ) {colDefinition.renderer = cellLink}
+    if ( vFld.cellLink ) {colDefinition.renderer = cellLink;}
 
     // Maneja los subtipos
     if ( vFld.vType ) {
         // vType stopLigth  Maneja el codigo de colores para un semaforo con 3 indicadores, 2 limites Red-Yellow; Yellow-Green
-        if ( vFld.vType == 'stopLight' ) {colDefinition.renderer = cellStopLight}
+        if ( vFld.vType == 'stopLight' ) {colDefinition.renderer = cellStopLight;}
     }
 
     // sortable por defecto
-    if ( ! colDefinition.sortable  ) {  colDefinition['sortable']  = false }
+    if ( ! colDefinition.sortable  ) {  colDefinition['sortable']  = false; }
 
 
     return colDefinition;
@@ -739,11 +741,11 @@ _SM.getColDefinition = function ( vFld ) {
 
     function cellReadOnly(value, metaData, record, rowIndex, colIndex, store, view ){
         return '<span style="color:grey;">' + value + '</span>';
-    }
+    };
 
     function cellLink(value  ){
         return '<a href="#">'+value+'</a>';
-    }
+    };
 
     function cellStopLight(value, metaData, record, rowIndex, colIndex, store, view ){
 /*
@@ -776,7 +778,7 @@ _SM.getColDefinition = function ( vFld ) {
       }
 
 
-}
+};
 
 
 
@@ -785,53 +787,53 @@ _SM.getFormFieldDefinition =  function ( vFld ) {
     var colDefinition = _SM.getColDefinition( vFld );
 
     // Se inicializa ro, en caso de q no se encuentre en el dict
-    var formEditor = {  readOnly : true  }
+    var formEditor = {  readOnly : true  };
 
     if ( colDefinition.editor )  {formEditor = colDefinition.editor;}
 
 
     // Field Label
-    formEditor.name  =  vFld.name
-    formEditor.fieldLabel =  vFld.fieldLabel || vFld.header || vFld.name
+    formEditor.name  =  vFld.name;
+    formEditor.fieldLabel =  vFld.fieldLabel || vFld.header || vFld.name;
     if ( vFld.required ) {
-        formEditor.fieldLabel = '<b>' + formEditor.fieldLabel + '</b>'
+        formEditor.fieldLabel = '<b>' + formEditor.fieldLabel + '</b>';
     }
     if ( vFld.primary ) {
         formEditor.afterLabelTextTpl = _SM._requiredField;
     }
-    formEditor.fieldLabel = Ext.util.Format.capitalize( formEditor.fieldLabel )
+    formEditor.fieldLabel = Ext.util.Format.capitalize( formEditor.fieldLabel );
 
     // Casos especiales
     switch( vFld.type )
     {
     case 'text':
-        formEditor.xtype = 'textarea'
-        formEditor.height = 100
-        formEditor.labelAlign = 'top'
+        formEditor.xtype = 'textarea';
+        formEditor.height = 100;
+        formEditor.labelAlign = 'top';
         // grow, growMax, growMin
         break;
 
     case 'html':
-        formEditor.xtype = 'textarea'
-        formEditor.height = 100
-        formEditor.labelAlign = 'top'
+        formEditor.xtype = 'textarea';
+        formEditor.height = 100;
+        formEditor.labelAlign = 'top';
         break;
 
-    case 'protoN2N':
-        formEditor.xtype = 'protoList'
-        formEditor.checkStyle = false
-        formEditor.columnList = [
-            { dataIndex : 'id' , hidden : false },
-            { dataIndex : 'data', text : formEditor.fieldLabel , flex : 1 }
-            ]
-        formEditor.height = 100
-        // formEditor.labelAlign = 'top'
-        break;
+    // case 'protoN2N':
+        // formEditor.xtype = 'protoList'
+        // formEditor.checkStyle = false
+        // formEditor.columnList = [
+            // { dataIndex : 'id' , hidden : false },
+            // { dataIndex : 'data', text : formEditor.fieldLabel , flex : 1 }
+            // ]
+        // formEditor.height = 100
+        // // formEditor.labelAlign = 'top'
+        // break;
     }
 
     // Inicializa los tipos
-    formEditor.__ptType = 'formField'
-    if ( ! formEditor.xtype )  { formEditor.xtype = 'textfield' }
+    formEditor.__ptType = 'formField';
+    if ( ! formEditor.xtype )  { formEditor.xtype = 'textfield'; }
     return formEditor;
 
 };
@@ -846,7 +848,7 @@ _SM.loadPci = function ( viewCode, loadIfNot, options) {
         options = options || {};
 
         // Verificar si la opcion esta creada
-        var myMeta = _SM._cllPCI[ viewCode ]
+        var myMeta = _SM._cllPCI[ viewCode ];
 
 
         // Verifica modelo
@@ -879,25 +881,25 @@ _SM.loadPci = function ( viewCode, loadIfNot, options) {
 
                     var myResult = Ext.decode( result.responseText );
                     if ( myResult.success ) {
-                        _SM.savePclCache( viewCode, myResult.protoMeta )
-                        _SM._UserInfo.perms[ viewCode ] = myResult.permissions
+                        _SM.savePclCache( viewCode, myResult.protoMeta );
+                        _SM._UserInfo.perms[ viewCode ] = myResult.permissions;
                         options.success.call( options.scope, result, request);
                     } else {
-                        _SM.errorMessage('loadPC', myResult.message)
+                        _SM.errorMessage('loadPC', myResult.message);
                         options.failure.call(options.scope, result, request);
                     }
                 },
                 failure: function(result, request) {
-                    _SM.errorMessage('loadPC', '')
+                    _SM.errorMessage('loadPC', '');
                     options.failure.call(options.scope, result, request);
                 }
-            })
+            });
 
-            return false
+            return false;
 
         }
 
-}
+};
 
 _SM.savePci = function ( protoMeta,  options) {
 

@@ -9,20 +9,19 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
     constructor: function (config) {
 
         Ext.apply(this, config || {});
-        this.getDetailsTBar()
+        this.getDetailsTBar();
 
     },
 
     getDetailsTBar: function() {
 
-        var me = this;
-        var mDet = me.__MasterDetail
-
-        var myDetails = []
+        var me = this,
+            mDet = me.__MasterDetail,
+            myDetails = [];
 
         for (var vDet in mDet.myMeta.detailsConfig) {        // Recorre y agrega los detalles al menu
 
-            var pDetail = mDet.myMeta.detailsConfig[ vDet ]
+            var pDetail = mDet.myMeta.detailsConfig[ vDet ];
             if ( pDetail.menuText === undefined ) {continue;}
 
             var myAction = new Ext.Action({
@@ -34,10 +33,10 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
                 detailKey: pDetail.conceptDetail,
                 detailDefinition : pDetail
 
-            })
+            });
 
             myDetails.push ( myAction  );
-            loadDetailDefinition( myAction.initialConfig , myAction  )
+            loadDetailDefinition( myAction.initialConfig , myAction  );
 
         }
 
@@ -59,9 +58,9 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
                 ]
             });
 
-            mDet.myDetails = myDetails
-            mDet.tbDetails.add ( myDetails )
-            mDet.protoMasterGrid.addDocked( mDet.tbDetails, 0 )
+            mDet.myDetails = myDetails;
+            mDet.tbDetails.add ( myDetails );
+            mDet.protoMasterGrid.addDocked( mDet.tbDetails, 0 );
             // mDet.protoMasterGrid.ownerCt.addDocked( mDet.tbDetails )
         }
 
@@ -77,7 +76,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
                 failure: function ( obj, result, request) {
                     createDummyPanel( item , myAction  );
                 }
-            }
+            };
 
             // PreCarga los detalles
             if (  _SM.loadPci( item.detailDefinition.conceptDetail, true, options ) ) {
@@ -90,23 +89,24 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
 
         function createDummyPanel(  item , myAction  ) {
             // Si hubo error en la creacion del detalle
+            // El panel debe crearse para poder manejar la secuencia en la barra
             mDet.protoTabs.add( {
                 html: _SM.__language.Grid_Detail_Error+' :'  + item.detailKey,
                 ixDetail : mDet.protoTabs.items.length
-            } )
-            myAction.show()
+            } );
+            // myAction.show();   ( Debug Only )
         }
 
 
         function createDetailGrid (  item , myAction ) {
 
             function setActionPrp( prp, meth , value ) {
-                myAction.initialConfig[ prp ] = value
-                myAction.callEach( meth, [ value ] )
+                myAction.initialConfig[ prp ] = value;
+                myAction.callEach( meth, [ value ] );
             }
 
             //
-            var pDetail = item.detailDefinition
+            var pDetail = item.detailDefinition;
 
             // Definicion grilla Detail
             var detailGrid = Ext.create('ProtoUL.view.ProtoGrid', {
@@ -122,11 +122,11 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
             }) ;
 
             // guarda el store con el indice apropiado
-            detailGrid.store.detailDefinition = pDetail
+            detailGrid.store.detailDefinition = pDetail;
 
             // Asigna el Ix
-            item.ixDetail = mDet.protoTabs.items.length
-            mDet.protoTabs.add( detailGrid )
+            item.ixDetail = mDet.protoTabs.items.length;
+            mDet.protoTabs.add( detailGrid );
 
             //Definicion del detalle TODO: pasarlo a una clase
 
@@ -136,7 +136,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
             mDet.cllStoreDet[item.ixDetail] = detailGrid.store ;
 
             // Configura el panel
-            var myMeta = detailGrid.myMeta
+            var myMeta = detailGrid.myMeta;
 
             // setActionPrp('text', 'setText',  myMeta.shortTitle );
             // setActionPrp('tooltip', 'setTooltip', myMeta.description );
@@ -145,7 +145,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
             setActionPrp('iconCls', 'setIconCls', myMeta.viewIcon );
             //setActionPrp('iconAlign', 'setIconAlign', 'top');
             setActionPrp('width', 'setWidth', 100 );
-            myAction.show()
+            myAction.show();
 
         }
 
@@ -158,10 +158,10 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
             mDet.protoTabs.getLayout().setActiveItem( mDet.ixActiveDetail );
 
             mDet.linkDetail();
-            mDet.showDetailPanel()
+            mDet.showDetailPanel();
 
             if ( item.hasOwnProperty( 'toggle' ) ) {item.toggle( true )}
         }
 
     }
-})
+});

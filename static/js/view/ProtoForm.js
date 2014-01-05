@@ -197,7 +197,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
     },
 
 
-    loadN2N: function( record ) {
+    // loadN2N: function( record ) {
         // var myN2N = this.myFormController.N2Nfields;
         // if ( ! myN2N )  { return; }
         // for ( var ixV in myN2N ) {
@@ -206,7 +206,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
             // if ( ! prList )  { continue; }
             // prList.addDataSet( record.get(  lObj.name  ) );
         // }
-    },
+    // },
 
 
     setText : function ( sText ) {

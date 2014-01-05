@@ -41,11 +41,11 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
 
         elemTree.on({
             'loadComplete': function (  treeStore, records,  successful,  eOpts ) {
-                configureCurrentFields()
+                configureCurrentFields();
             },
             'checkModif': function (  node,  checked,  eOpts ) {
-                var idx = node.get( 'id' )
-                elemList.addOrRemove ( idx, checked  )
+                var idx = node.get( 'id' );
+                elemList.addOrRemove ( idx, checked  );
             },
             scope: me }
         );
@@ -53,17 +53,17 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
 
         tBar.on({
             'preview': function () {
-                savePreview()
+                savePreview();
             },
             'save': function () {
                 savePreview();
 
-                _SM.savePclCache( me.myMeta.viewCode, me.myMeta, true )
-                _SM.savePci( me.myMeta )
+                _SM.savePclCache( me.myMeta.viewCode, me.myMeta, true );
+                _SM.savePci( me.myMeta );
             },
             'add': function () {
 
-                var msg = _SM.__language.Msg_Window_New_Folder
+                var msg = _SM.__language.Msg_Window_New_Folder;
                 Ext.Msg.prompt(_SM.__language.MetaConfig_Add_Fields, msg, function (btn, pName) {
                     if (btn != 'ok') {
                         return;
@@ -80,7 +80,7 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
 
 //      ----------------------------------------------------
 
-        var panelItems = getSelectorsPanels( elemTree, elemList  )
+        var panelItems = getSelectorsPanels( elemTree, elemList  );
 
         Ext.apply(this, {
             layout: 'border',
@@ -97,15 +97,15 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
             for (var ix in me.myMeta.fields ) {
                 var vFld  =  me.myMeta.fields[ix];
 
-                elemList.addDataItem ( vFld.name, true  )
+                elemList.addDataItem ( vFld.name, true  );
 
                 // Lo marca o lo adiciona como UDP
-                var vNode =  elemTree.treeStore.getNodeById( vFld.name )
+                var vNode =  elemTree.treeStore.getNodeById( vFld.name );
                 if ( vNode ) {
-                    vNode.set( 'checked', true )
+                    vNode.set( 'checked', true );
                 } else {
-                    vFld.checked = true
-                    elemTree.addUdpField( vFld )
+                    vFld.checked = true;
+                    elemTree.addUdpField( vFld );
                 }
             }
         }
@@ -113,30 +113,29 @@ Ext.define('ProtoUL.proto.ProtoFieldSelector', {
 
         function savePreview() {
 
-            var myFieldDict = _SM.getFieldDict( me.myMeta )
-
-            var names = elemList.getList(),
+            var myFieldDict = _SM.getFieldDict( me.myMeta ), 
+                names = elemList.getList(),
                 field = {},
-                fields = []
+                fields = [];
 
             for (var ix in names  ) {
 
-                field = myFieldDict[names[ix]]
+                field = myFieldDict[names[ix]];
                 if ( ! field ) {
-                    field = getDefaultField( names[ix] )
+                    field = getDefaultField( names[ix] );
                 }
                 if ( field ) {
-                    fields.push( _SM.clearProps( field ))
+                    fields.push( _SM.clearProps( field ));
 //                  console.log( "Field no encontrado", names[ix]  )
                 }
             }
 
             // Actualiza los nuevos campos
-            me.myMeta.fields = fields
+            me.myMeta.fields = fields;
 
             function getDefaultField( name  ) {
 
-                var rec =  elemTree.treeStore.getNodeById( name )
+                var rec =  elemTree.treeStore.getNodeById( name );
                 return  {
                     name : rec.get( 'id' ),
 
