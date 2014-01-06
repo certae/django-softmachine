@@ -165,7 +165,7 @@ Ext.define('ProtoUL.ux.Login', {
         tip.show();
 
         this.submitButton.enable();
-        this.submitButton.setIconCls("icon-ok");
+        this.submitButton.setIconCls("st-user-go");
         this.getForm().findField('login').focus();
     },
 

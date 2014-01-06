@@ -28,7 +28,12 @@ Ext.define('ProtoPWD.view.PasswordReset', {
 	items : [{
 		fieldLabel : _SM.__language.Textfield_User_Login,
 		name : "login",
-		value : this.username
+		value : this.username,
+        listeners: {
+            afterrender: function(field) {
+                field.focus(false, 500);
+            }
+        }
 	}, {
 		xtype : 'textfield',
 		fieldLabel : _SM.__language.Textfield_Password_Login,
@@ -58,11 +63,6 @@ Ext.define('ProtoPWD.view.PasswordReset', {
 
 	// Reset and Submit buttons
 	buttons : [{
-		text : 'Reset',
-		handler : function() {
-			this.up('form').getForm().reset();
-		}
-	}, {
 		text : _SM.__language.Text_change_Password_Button,
 		itemId : 'btChangePWD',
 		iconCls : 'st-key-go',

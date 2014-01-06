@@ -27,7 +27,12 @@ Ext.define('ProtoUL.ux.PasswordResetForm', {
 	items: [{
 		fieldLabel: _SM.__language.Textfield_User_Login,
 		name: "login",
-		value: this.username
+		value: this.username,
+        listeners: {
+            afterrender: function(field) {
+                field.focus(false, 500);
+            }
+        }
 	}, {
 		xtype: 'textfield',
 		fieldLabel: _SM.__language.Textfield_Password_Login,

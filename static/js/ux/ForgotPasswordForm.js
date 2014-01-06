@@ -68,7 +68,7 @@ Ext.define('ProtoUL.ux.ForgotPasswordForm', {
         }]
     }],
     buttons: [{
-        text: 'Ok',
+        text: 'Envoyer',
         itemId: 'btForgotPWDForm',
         iconCls: "st-key-go",
         handler: function(btn) {
