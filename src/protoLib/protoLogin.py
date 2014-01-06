@@ -70,17 +70,17 @@ def protoGetPasswordRecovery(request):
         try:
             u = User.objects.get(email = request.POST['email'], username = request.POST['login'])
             token = user_token(u)
-            link = '%s/protoLib/resetpassword?a=%s&t=%s' % (request.META['HTTP_HOST'], u.pk, token)
+            link = 'http://%s/protoLib/resetpassword?a=%s&t=%s' % (request.META['HTTP_HOST'], u.pk, token)
             
             email_template_name = 'recovery/recovery_email.txt'
             body = loader.render_to_string(email_template_name).strip()
             message = _(body)
-            message += ' %s\n\n%s : %s' % (link, _(u'Request made from'), request.META.get('REMOTE_ADDR', '?'))
-            message += '\n\nIf you don\'t want to reset your password, simply ignore this email and it will stay unchanged.'
-            u.email_user( _('New password'), message)
+            message += ' %s\n\n%s : %s' % (link, _(u'Demande faite à partir de'), request.META.get('REMOTE_ADDR', '?'))
+            message += '\n\nSi vous ne voulez pas réinitialiser votre mot de passe, il suffit d’ignorer ce message et il va rester inchangé.'
+            u.email_user( _('Nouveau mot de passe'), message)
             return JsonSuccess()  
         except:
-            return JsonError(_("User not found"))  
+            return JsonError(_("Utilisateur non trouvé"))  
     
     return HttpResponseRedirect('/')
 
@@ -93,8 +93,8 @@ def resetpassword(request):
             newpass =  User.objects.make_random_password(length=8)
             u.set_password(newpass)
             u.save()
-            message = _(u'Your password has been reseted ') +' : %s \n\n%s' % (newpass, request.META['HTTP_HOST']) 
-            u.email_user( _('New password'), message)
+            message = _(u'Votre mot de passe a été réinitialisé ') +' : %s \n\n%s' % (newpass, request.META['HTTP_HOST']) 
+            u.email_user( _('Nouveau mot de passe'), message)
             link = '../changePassword'
             response = HttpResponseRedirect(link)
             response.set_cookie('isPasswordReseted', True)
@@ -124,8 +124,8 @@ def changepassword(request):
             user.save()
             if user.email:
                 try:
-                    message = _(u'Your password has been changed : ') + ' %s \n\n%s' % (newpass1, settings.HOST) 
-                    user.email_user(_( 'Password changed'), message)
+                    message = _(u'Votre mot de passe a été changé : ') + ' %s \n\n%s' % (newpass1, settings.HOST) 
+                    user.email_user(_( 'Nouveau mot de passe'), message)
                 except:
                     pass
             return JsonSuccess()

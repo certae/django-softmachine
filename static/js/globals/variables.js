@@ -22,21 +22,21 @@ _SM._siteTitleCollapsed = false
 // place holder para los titulos con datos basicos del login  
 _SM.__language = {
     'Text_Validate_Login_Button' : 'check',
-    'Text_change_Password_Button' : 'change password',
-    'Text_Forgotten_Password' : 'lost password',
-    'Textfield_User_Login' : 'user',
+    'Text_change_Password_Button' : 'changer le mot de passe',
+    'Text_Forgotten_Password' : 'mot de passe perdu',
+    'Textfield_User_Login' : 'utilisateur',
     'Textfield_User_Email' : 'email',
-    'Textfield_Password_Login' : 'password',
-    'Textfield_New_Password' : 'new password',
-    'Textfield_Confirm_Password' : 'confirm password',
-    'Title_Window_Email_Request' : 'Recover lost password',
-    'Title_Window_Password_Change':'Change your password',
+    'Textfield_Password_Login' : 'mot de passe',
+    'Textfield_New_Password' : 'nouveau mot de passe',
+    'Textfield_Confirm_Password' : 'confirmer le mot de passe',
+    'Title_Window_Email_Request' : 'Récupérer le mot de passe perdu',
+    'Title_Window_Password_Change':'Changez votre mot de passe',
     
-    'Message_Enter_Email' : 'Enter your email',
+    'Message_Enter_Email' : 'Entrez votre courriel',
     'Message_Success' : 'Success',
-    'Message_Email_Forgotten_Password' : 'An email has been sent with the instructions',
-    'Message_Email_New_Password' : 'An email has been sent with your new password',
-    'Message_Success_Password_Change':'The password has been changed successfully',
+    'Message_Email_Forgotten_Password' : 'Un courriel a été envoyé avec les instructions',
+    'Message_Email_New_Password' : 'Un courriel a été envoyé avec votre nouveau mot de passe',
+    'Message_Success_Password_Change':'Le mot de passe a été changé avec succès',
     'Message_Error' : 'Error',
     'Message_Error_Login' : 'Impossible'
 }

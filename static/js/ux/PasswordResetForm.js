@@ -56,11 +56,6 @@ Ext.define('ProtoUL.ux.PasswordResetForm', {
 
 	// Reset and Submit buttons
 	buttons: [{
-		text: 'Reset',
-		handler: function() {
-			this.up('form').getForm().reset();
-		}
-	}, {
 		itemId: 'btChangePWD',
 		text: _SM.__language.Text_change_Password_Button,
 		iconCls: 'st-key-go',
