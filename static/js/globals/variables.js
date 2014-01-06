@@ -25,10 +25,11 @@ _SM.__language = {
     'Text_change_Password_Button' : 'change password',
     'Text_Forgotten_Password' : 'lost password',
     'Textfield_User_Login' : 'user',
+    'Textfield_User_Email' : 'email',
     'Textfield_Password_Login' : 'password',
     'Textfield_New_Password' : 'new password',
     'Textfield_Confirm_Password' : 'confirm password',
-    'Title_Window_Email_Request' : 'your email',
+    'Title_Window_Email_Request' : 'Recover lost password',
     'Title_Window_Password_Change':'Change your password',
     
     'Message_Enter_Email' : 'Enter your email',

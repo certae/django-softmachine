@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import login, authenticate, logout
 from django.conf import settings
+from django.template import loader
 
 from protoAuth import getUserProfile
 from utilsWeb import JsonError, JsonSuccess 
@@ -60,23 +61,26 @@ def protoGetUserRights(request):
         'language' : language  
     }
     
-    # Codifica el mssage json 
+    # Encode json 
     context = json.dumps( jsondict)
     return HttpResponse(context, mimetype="application/json")
 
 def protoGetPasswordRecovery(request):
-    if request.POST.get('email'):
+    if request.POST.get('email') and request.POST.get('login'):
         try:
-            u = User.objects.get(email = request.POST['email'])
+            u = User.objects.get(email = request.POST['email'], username = request.POST['login'])
             token = user_token(u)
             link = '%s/protoLib/resetpassword?a=%s&t=%s' % (request.META['HTTP_HOST'], u.pk, token)
-            message = _(u'You -- or someone pretending to be you -- has requested a password reset \n\nYou can set your new password by following this link: ')
-            message += '%s\n\n%s : %s' % (link, _(u'Request made from'), request.META.get('REMOTE_ADDR', '?'))
+            
+            email_template_name = 'recovery/recovery_email.txt'
+            body = loader.render_to_string(email_template_name).strip()
+            message = _(body)
+            message += ' %s\n\n%s : %s' % (link, _(u'Request made from'), request.META.get('REMOTE_ADDR', '?'))
             message += '\n\nIf you don\'t want to reset your password, simply ignore this email and it will stay unchanged.'
             u.email_user( _('New password'), message)
             return JsonSuccess()  
         except:
-            return JsonError(_("Email unknown"))  
+            return JsonError(_("User not found"))  
     
     return HttpResponseRedirect('/')
 

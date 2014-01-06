@@ -47,7 +47,7 @@ Ext.define('ProtoUL.ux.PasswordResetForm', {
 		listeners: {
 			specialkey: function(f, e) {
 				if (e.getKey() == e.ENTER) {
-					var changeButton = Ext.getCmp('btChangePWD');
+					var changeButton = Ext.ComponentQuery.query('button[itemId=btChangePWD]')[0];
 					changeButton.handler.call(changeButton);
 				}
 			}
@@ -61,7 +61,7 @@ Ext.define('ProtoUL.ux.PasswordResetForm', {
 			this.up('form').getForm().reset();
 		}
 	}, {
-		id: 'btChangePWD',
+		itemId: 'btChangePWD',
 		text: _SM.__language.Text_change_Password_Button,
 		iconCls: 'st-key-go',
 		formBind: true,

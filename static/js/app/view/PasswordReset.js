@@ -49,7 +49,7 @@ Ext.define('ProtoPWD.view.PasswordReset', {
 			// this is used to fire the click event, so the PasswordManager is able to capture the form.
 			specialkey : function(f, e) {
 				if (e.getKey() == e.ENTER) {
-					var changeButton = Ext.getCmp('btChangePWD');
+					var changeButton = Ext.ComponentQuery.query('button[itemId=btChangePWD]')[0];
 					changeButton.fireEvent('click', changeButton);
 				}
 			}
@@ -64,7 +64,7 @@ Ext.define('ProtoPWD.view.PasswordReset', {
 		}
 	}, {
 		text : _SM.__language.Text_change_Password_Button,
-		id : 'btChangePWD',
+		itemId : 'btChangePWD',
 		iconCls : 'st-key-go',
 		formBind : true,
 		disabled : true,
@@ -73,7 +73,6 @@ Ext.define('ProtoPWD.view.PasswordReset', {
 	listeners : {
 		afterlayout : function() {
 			var isPasswordReseted = Ext.util.Cookies.get('isPasswordReseted');
-			console.log(isPasswordReseted);
 			if (isPasswordReseted) {
 				Ext.Msg.show({
 					title : _SM.__language.Message_Success,
