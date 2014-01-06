@@ -62,35 +62,6 @@ Ext.application({
         } else {
         	this.showLogin();
         }
-			
-
-/*
-       Ext.Ajax.request({
-            method: 'POST',
-            // waitTitle:'Connecting', 
-            // waitMsg:'Sending data...',
-
-            url: _SM._PConfig.urlGetUserRights,
-            
-            // success: this.submitLoginCallback,
-            // failure: this.submitLoginCallback, 
-            success: function (result) {
-                resp = Ext.decode(result.responseText);
-                _SM._UserInfo = resp.userInfo
-                //me.options.success.call(me.options.scope, result, request);
-                var app = new ProtoUL.view.Viewport();
-            },
-            failure: function (result, request) {
-                //pendiente hmaury
-                //_SM._UserInfo = request.result.userInfo
-                //me.showFormError(request.result.message);
-                //me.options.failure.call(me.options.scope, result, request);
-            }
-        });
-
-*/
-        
-        // var app = new ProtoUL.view.Viewport();
         
     }, 
     showLogin: function(  ) {
@@ -108,13 +79,9 @@ Ext.application({
                 
                 var app = new ProtoUL.view.Viewport();
                 
-                // destruye el login 
                 Ext.destroy( Ext.ComponentQuery.query('protoLogin') );    
 
             }
-            // failure: function ( obj, result, request) { 
-                // _SM.errorMessage( 'ProtoDefinition Error :', myZoomModel + ': protoDefinition not found')
-            // }
         };
         
         var myWin  = Ext.widget('window', {
@@ -125,7 +92,6 @@ Ext.application({
             
             width: 450,
             height: 135,
-            // frame: true,
             
             modal: true,
             items: [ { xtype: 'protoLogin', options : options  }]
