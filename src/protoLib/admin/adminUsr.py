@@ -42,7 +42,6 @@ AdminUser = {
         "header": "Utilisateur",
         "readOnly": True,
         "type": "string",
-        "crudType": "screenOnly"
     }, {
         "__ptType": "field",
         "header": "statut équipe",
@@ -75,7 +74,7 @@ AdminUser = {
         "__ptType": "field",
         "name": "user_permissions",
         "header": "permissions de l\'utilisateur",
-        "crudType": "screenOnly"
+        
     }, {
         "__ptType": "field",
         "sortable": True,
@@ -84,7 +83,7 @@ AdminUser = {
         "required": True,
         "header": "dernière connexion",
         "type": "datetime",
-        "crudType": "screenOnly"
+        
     }, {
         "__ptType": "field",
         "sortable": True,
@@ -93,7 +92,7 @@ AdminUser = {
         "required": True,
         "header": "date d\'inscription",
         "type": "datetime",
-        "crudType": "screenOnly"
+        
     }],
     "actions": [],
     "detailsConfig": [{
@@ -159,9 +158,6 @@ AdminUser = {
             "items": [{
                 "__ptType": "formField",
                 "name": "username"
-            }, {
-                "__ptType": "formField",
-                "name": "password"
             }]
         }, {
             "__ptType": "fieldset",
@@ -190,9 +186,6 @@ AdminUser = {
             }, {
                 "__ptType": "formField",
                 "name": "is_superuser"
-            }, {
-                "__ptType": "formField",
-                "name": "user_permissions"
             }]
         }, {
             "__ptType": "fieldset",
@@ -205,26 +198,11 @@ AdminUser = {
                 "__ptType": "formField",
                 "name": "date_joined"
             }]
-        }, {
-            "__ptType": "fieldset",
-            "fsLayout": "2col",
-            "title": "Groupes",
-            "items": [{
-                "__ptType": "formField",
-                "name": "groups"
-            }]
         }]
     },
-    "usrDefProps": {
-        "__ptType": "usrDefProps"
-    },
     "custom": {
-        "__ptType": "custom",
         "filtersSet": [],
         "listDisplaySet": [],
         "sortersSet": []
-    },
-    "businessRules": {
-        "__ptType": "businessRules"
     }
 }

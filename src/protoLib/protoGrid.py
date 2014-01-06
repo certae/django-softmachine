@@ -162,8 +162,7 @@ class ProtoGridFactory(object):
                 prItems = []                
                 prTexts = []
                 prChecks = []
-                prN2N = []
-#                prIds = []
+#               prIds = []
                 prAdmin = []
                                 
                 for key in self.fieldsDict:
@@ -185,8 +184,9 @@ class ProtoGridFactory(object):
                     elif ( fType  == 'bool' ) :
                         prChecks.append( { 'name' : key  , '__ptType' : 'formField'} )
 
-#                     elif ( fType == 'protoN2N' ) :
-#                         prN2N.append( { 'name' : key  , '__ptType' : 'formField'} )
+                    elif ( fType == 'protoN2N' ) :
+                        continue
+#                        prN2N.append( { 'name' : key  , '__ptType' : 'formField'} )
 
                     elif ( key  == '__str__' ) :
 #                        prTexts.insert( 0, { 'name' : key  , '__ptType' : 'formField'} )
@@ -219,11 +219,6 @@ class ProtoGridFactory(object):
                     prSection['items'] = prTexts 
                     prFieldSet.append ( prSection )
 
-
-#                 if prN2N : 
-#                     prSection = { '__ptType' : 'fieldset','fsLayout' : '1col'  }
-#                     prSection['items'] = prN2N 
-#                     prFieldSet.append ( prSection )
 
                 if prAdmin : 
                     prSection = { '__ptType' : 'fieldset','fsLayout' : '2col', 
@@ -286,7 +281,7 @@ def getModelDetails( model ):
             "masterField"   : 'pk',                                         
             })
     
-    # Tabla intermedia referenciada en N2N
+    # Tabla intermedia referenciada en N2N ( desde la tabla base ) 
     for detail in opts.get_all_related_many_to_many_objects():
         tmpTable = detail.field.rel.through._meta
         if not tmpTable.auto_created:  continue
@@ -301,7 +296,7 @@ def getModelDetails( model ):
             "masterField"   : 'pk',                                     
             })
     
-    #Campos N2N
+    # Tabla intermedia referenciada en N2N ( desde la tabla referenciada ) 
     for field in opts._many_to_many():
         tmpTable = field.rel.through._meta
         if not tmpTable.auto_created:  continue

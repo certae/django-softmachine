@@ -354,7 +354,7 @@ Ext.define('ProtoUL.UI.FormController', {
                             prLayout['readOnlyCls'] = 'protofield-readonly';
                         }
 
-                        // N2N
+                        // me.N2Nfields = [];
                         // if ( myFld.type == 'protoN2N') {
                         // prLayout[ 'id' ] = Ext.id();
                         // me.N2Nfields.push( {
@@ -526,7 +526,6 @@ Ext.define('ProtoUL.UI.FormController', {
         var me = this, myFormDefinition = _SM.clone(this.myMeta.formConfig), myMeta = this.myMeta, myFieldDict = _SM.getFieldDict(myMeta);
 
         me.prFormLayout = [];
-        me.N2Nfields = [];
 
         for (var ixV in myFormDefinition.items) {
             var lObj = myFormDefinition.items[ixV];

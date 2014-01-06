@@ -153,8 +153,9 @@ _MetaProperties =  {
     "collapsed.help": "t/f collapsed",
     "collapsed.type": "boolean",
 
-    "zoomMultiple" : false, 
+    "zoomMultiple": false, 
     "zoomMultiple.type": "boolean", 
+    "zoomMultiple.help": "Multiple selection on add",
 
     "collapsible": false,
     "collapsible.help": "t/f",

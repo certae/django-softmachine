@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//src/ll/models.py=utf-8
 encoding//src/protoLib/admin/__init__.py=utf-8
 encoding//src/protoLib/admin/adminProtoDef.py=utf-8
 encoding//src/protoLib/admin/adminUsr.py=utf-8
@@ -30,8 +31,11 @@ encoding//src/prototype/actions/viewTemplate.py=utf-8
 encoding//src/prototype/models.py=utf-8
 encoding//src/prototype/protoRules.py=utf-8
 encoding//src/settings.py=utf-8
+encoding//static/js/UI/MDDetailsController.js=UTF-8
 encoding//static/js/app.js=UTF-8
 encoding//static/js/globals/variables.js=UTF-8
 encoding//static/js/ux/Login.js=UTF-8
+encoding//static/js/view/ProtoForm.js=UTF-8
+encoding//static/js/view/ProtoMasterDetail.js=UTF-8
 encoding//static/js/view/Viewport.js=UTF-8
 encoding//xml2db/main.py=utf-8
