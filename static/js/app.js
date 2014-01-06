@@ -32,13 +32,15 @@ Ext.application({
         'ProtoUL.view.MenuTree', 
         'ProtoUL.view.ProtoTabContainer',  
         'ProtoUL.view.Viewport',
+        'ProtoUL.view.password.PasswordReset',
 
         'ProtoUL.ux.Printer',
         'ProtoUL.ux.GridHeaderToolTip', 
         'ProtoUL.ux.CheckColumn' 
     ],
 
-
+	controllers: ['PasswordManager'],
+	
     launch: function () {
 
         // Add csrf token to every ajax request
@@ -54,7 +56,13 @@ Ext.application({
         // 
         Ext.QuickTips.init();
         
-        this.showLogin();
+        var isPasswordReseted = Ext.util.Cookies.get('isPasswordReseted');
+        if (isPasswordReseted) {
+			this.showResetPasswordForm();
+        } else {
+        	this.showLogin();
+        }
+			
 
 /*
        Ext.Ajax.request({
@@ -85,7 +93,6 @@ Ext.application({
         // var app = new ProtoUL.view.Viewport();
         
     }, 
-    
     showLogin: function(  ) {
 
         var me = this;
@@ -116,7 +123,7 @@ Ext.application({
             title: 'ART - Identification',
             layout: 'fit',
             
-            width: 420,
+            width: 450,
             height: 135,
             // frame: true,
             
@@ -125,6 +132,12 @@ Ext.application({
         });
         
         myWin.show();
+    },
+    
+    showResetPasswordForm: function() {
+    	var resetForm = Ext.create('ProtoUL.view.password.PasswordReset');
+    	Ext.util.Cookies.set('isPasswordReseted',True);
+        resetForm.show();
     }
     
 });

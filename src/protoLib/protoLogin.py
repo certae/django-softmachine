@@ -95,7 +95,6 @@ def resetpassword(request):
             u.save()
             message = _(u'Votre mot de passe a été réinitialisé ') +' : %s \n\n%s' % (newpass, request.META['HTTP_HOST']) 
             u.email_user( _('Nouveau mot de passe'), message)
-            link = '../changePassword'
             response = HttpResponseRedirect(link)
             response.set_cookie('isPasswordReseted', True)
             return response

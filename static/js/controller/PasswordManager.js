@@ -1,10 +1,10 @@
 /**
  * @author Giovanni Victorette
  */
-Ext.define('ProtoPWD.controller.PasswordManager', {
+Ext.define('ProtoUL.controller.PasswordManager', {
     extend: 'Ext.app.Controller',
     
-    views : ['PasswordReset'],
+    views : ['password.PasswordReset'],
  
     init: function() {
         this.control({
@@ -16,7 +16,7 @@ Ext.define('ProtoPWD.controller.PasswordManager', {
         var form = button.up('form').getForm();
         if (form.isValid()) {
             form.submit({
-            	url: '/protoLib/submitChangePassword/',
+            	url: _SM._PConfig.urlSubmitChangePassword,
                 method: 'POST',
                 scope: this,
                 success: function(form, action) {

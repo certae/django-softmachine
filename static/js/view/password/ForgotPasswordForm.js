@@ -1,4 +1,4 @@
-Ext.define('ProtoUL.ux.ForgotPasswordForm', {
+Ext.define('ProtoUL.view.password.ForgotPasswordForm', {
 	extend: 'Ext.window.Window',
 	alias: 'widget.forgotPasswordForm',
 	

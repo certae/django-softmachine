@@ -170,10 +170,11 @@ Ext.define('ProtoUL.ux.Login', {
     },
 
     resetPassword: function(btn) {
-        var resetForm = Ext.create('ProtoUL.ux.ForgotPasswordForm');
+        var resetForm = Ext.create('ProtoUL.view.password.ForgotPasswordForm');
         resetForm.show();
     },
+    
     changePassword: function(btn) {
-        Ext.create('ProtoUL.ux.PasswordResetForm').show();
+        Ext.create('ProtoUL.view.password.PasswordReset').show();
     }
 });
