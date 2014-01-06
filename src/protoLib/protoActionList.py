@@ -348,11 +348,14 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
 
             # Unicode sort
             if sField['property'] == '__str__' :
-                unicodeSort = getUnicodeFields( model )
-                for sAux in unicodeSort:
-                    if sField['direction'] == 'DESC': sAux = '-' + sAux
-                    orderBy.append( sAux )
-
+                try:
+                    unicodeSort = getUnicodeFields( model )
+                    for sAux in unicodeSort:
+                        if sField['direction'] == 'DESC': sAux = '-' + sAux
+                        orderBy.append( sAux )
+                except Exception as e:
+                    pass 
+                
             else:
                 if sField['direction'] == 'DESC': sField['property'] = '-' + sField['property']
                 orderBy.append( sField['property'] )
@@ -375,8 +378,11 @@ def getUnicodeFields( model ):
     unicodeSort = ()
     if hasattr( model , 'unicode_sort' ):
         unicodeSort = model.unicode_sort
-    elif hasattr( model._meta , 'unique_together' ):
+    elif hasattr( model._meta , 'unique_together' ) and len( model._meta.unique_together ) > 0:
         unicodeSort = model._meta.unique_together[0]
+    else: 
+        unicodeSort =  [ model._meta.pk.name, ]  
+
     return unicodeSort
 
 
