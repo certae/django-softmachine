@@ -34,7 +34,7 @@ Ext.define('ProtoUL.view.password.ForgotPasswordForm', {
                         field.focus(false, 500);
                     },
                     blur: function() {
-                        this.setValue(this.getValue().trim());
+                        this.setValue(Ext.String.trim(this.getValue()));
                     }
                 },
                 validator: function(value) {

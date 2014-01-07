@@ -76,7 +76,7 @@ def protoGetPasswordRecovery(request):
             body = loader.render_to_string(email_template_name).strip()
             message = _(body)
             message += ' %s\n\n%s : %s' % (link, _(u'Demande faite à partir de'), request.META.get('REMOTE_ADDR', '?'))
-            message += '\n\nSi vous ne voulez pas réinitialiser votre mot de passe, il suffit d’ignorer ce message et il va rester inchangé.'
+            message += ' \n\n%s' % (_(u'Si vous ne voulez pas réinitialiser votre mot de passe, il suffit d\'ignorer ce message et il va rester inchangé'))
             u.email_user( _('Nouveau mot de passe'), message)
             return JsonSuccess()  
         except:
