@@ -10,7 +10,7 @@ Ext.define('ProtoUL.UI.MDSetFiltersController', {
     myMeta : null, 
     constructor: function (config) {
         Ext.apply(this, config || {});
-        this.getCustomOptsBar()
+        this.getCustomOptsBar();
     }, 
 
     getCustomOptsBar: function() {
@@ -23,7 +23,7 @@ Ext.define('ProtoUL.UI.MDSetFiltersController', {
         // Si no hay filtros definidos pero existe un filterAlph,
         if ((tmpFilters.length === 0)  &&  this.myMeta.gridConfig.filterSetABC  ) {
 
-            for (nFiltre in oc(['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'])) {
+            for (nFiltre in _SM.objConv(['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'])) {
                 tmpF1 = {};
                 tmpF1[ 'property' ] = this.myMeta.gridConfig.filterSetABC;   
                 tmpF1[ 'filterStmt' ] =  '^' + nFiltre;

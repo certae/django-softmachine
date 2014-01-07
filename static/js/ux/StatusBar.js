@@ -72,7 +72,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
                         tooltip : 'clear all tabs',      
                         iconCls: 'icon-4',  
                         handler: function(){ 
-                            _SM.__TabContainer.closeAllTabs() 
+                            _SM.__TabContainer.closeAllTabs(); 
                             _SM._cllPCI = {};
                             }}
                     ]                 

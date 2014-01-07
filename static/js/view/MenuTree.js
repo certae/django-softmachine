@@ -124,7 +124,7 @@ Ext.define('ProtoUL.view.MenuTree', {
         this.callParent(arguments);
         this.addEvents('menuSelect');
 
-        if ( _SM._UserInfo.isSuperUser )  Ext.getCmp( 'newOption').show()
+        if ( _SM._UserInfo.isSuperUser )  Ext.getCmp( 'newOption').show(); 
 
     },
 
@@ -137,7 +137,7 @@ Ext.define('ProtoUL.view.MenuTree', {
         'itemdblclick': function( view, rec, item, index, evObj , eOpts ) {
             this.treeRecord  = rec;
             if ( rec.get('leaf') ) {
-                var viewCode = rec.data.viewCode || rec.data.id
+                var viewCode = rec.data.viewCode || rec.data.id;
                 this.fireEvent('menuSelect', this, viewCode );
                 this.ownerCt.loadPciFromMenu( viewCode );
             }
@@ -149,10 +149,11 @@ Ext.define('ProtoUL.view.MenuTree', {
         // Verifica si hay un item activo y lo edita
         if ( this.treeRecord ) {
             var me = this,
-                msg = _SM.__language.Msg_Window_New_Folder
+                msg = _SM.__language.Msg_Window_New_Folder; 
+                
             Ext.Msg.prompt(_SM.__language.Title_Window_New_Folder, msg, function (btn, pName) {
-                if ((btn != 'ok') || ( !pName ) || (pName.length == 0) ) return
-                me.treeRecord.set( 'text' ,  pName )
+                if ((btn != 'ok') || ( !pName ) || (pName.length == 0) ) { return; } 
+                me.treeRecord.set( 'text' ,  pName ); 
             }, me, false , me.treeRecord.get( 'text' ));
 
         }

@@ -555,6 +555,10 @@ _SM.getColDefinition = function ( vFld ) {
     if ( vFld.required === true  ) {
         colDefinition.allowBlank = false;
         editor.allowBlank = false;
+
+        colDefinition.allowOnlyWhitespace = false;
+        editor.allowOnlyWhitespace = false;
+        
     }
 
     //TODO: vType ( eMail, IpAdress, etc ... )

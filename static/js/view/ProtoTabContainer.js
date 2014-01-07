@@ -89,7 +89,6 @@ Ext.define('ProtoUL.view.ProtoTabContainer', {
     }
 
 
-
 });
 
 _SM.closeTabListener = function() {

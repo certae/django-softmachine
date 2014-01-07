@@ -113,7 +113,7 @@ Ext.define('ProtoUL.view.Viewport', {
 
     createMenuPanel: function () {
 
-        if (_SM._MENU_COLLAPSED == undefined) {_SM._MENU_COLLAPSED = false};
+        if (_SM._MENU_COLLAPSED == undefined) {_SM._MENU_COLLAPSED = false;}
 
         this.menuPanel = {
             region: 'west',
@@ -137,7 +137,7 @@ Ext.define('ProtoUL.view.Viewport', {
                 // title: 'Favorits',
                 // hidden: true,
             // }]
-        }
+        };
         // );
 
         // listeners: {
@@ -185,7 +185,7 @@ Ext.define('ProtoUL.view.Viewport', {
 
         if ( myMeta.pciStyle == 'form' ) {
             var formController = Ext.create('ProtoUL.UI.FormController', {});
-            formController.openProtoForm.call( formController, viewCode, -1 , true  )
+            formController.openProtoForm.call( formController, viewCode, -1 , true  );
         } else {
             me.protoTabContainer.addTabPanel( viewCode );
         }
