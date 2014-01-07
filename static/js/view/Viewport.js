@@ -1,8 +1,23 @@
+/*
+ *
+ */
+
+/*jslint nomen: true, sloppy : true, white : true, sub : true */
+/*global Ext */
+/*global _SM */
 
 Ext.define('ProtoUL.view.Viewport', {
     extend: 'Ext.container.Viewport',
 
+    // requires: [
+        // 'ProtoUL.view.MenuTree',
+        // 'ProtoUL.view.ProtoTabContainer'
+    // ],
+
+
     initComponent: function () {
+
+
 
         Ext.apply(this, {
             layout: 'border',
@@ -20,18 +35,25 @@ Ext.define('ProtoUL.view.Viewport', {
 
         });
 
+
         this.callParent(arguments);
+
+
     },
 
     createFooterPanel: function() {
+
         // StatusBar Global
         _SM.__StBar = Ext.create('Ext.ux.StatusBar', {
                 region:'south',
                 split: false,
                 collapsible: false
             });
+
         return _SM.__StBar;
+
     },
+
 
     // Eventos despues de cargado el panel
     afterRender: function () {
@@ -49,6 +71,8 @@ Ext.define('ProtoUL.view.Viewport', {
         _SM._mainWin = this;
 
     },
+
+
 
     createHeaderPanel: function () {
 
@@ -85,19 +109,41 @@ Ext.define('ProtoUL.view.Viewport', {
         return headerPanel;
     },
 
+
+
     createMenuPanel: function () {
 
-        if (_SM._MENU_COLLAPSED == undefined) {_SM._MENU_COLLAPSED = false;};
-        
+        if (_SM._MENU_COLLAPSED == undefined) {_SM._MENU_COLLAPSED = false;}
+
         this.menuPanel = {
             region: 'west',
             width: 300,
             title: _SM.__language.Title_Main_Menu,
             collapsible: true,
+            // border : false,
             collapsed: _SM._MENU_COLLAPSED,
+
             // Solo en el panel de menus
             xtype: 'menuTree'
+
+            // ---------------------  manejo de favoritos
+            // layout: 'accordion',
+            // items: [{
+                // // title: 'Menu',
+                // layout: 'fit',
+                // xtype: 'menuTree'
+                // // xtype: 'treepanel',
+            // }, {
+                // title: 'Favorits',
+                // hidden: true,
+            // }]
         };
+        // );
+
+        // listeners: {
+            // scope: this,
+            // feedselect: this.onFeedSelect
+        // };
 
         return this.menuPanel;
     },
@@ -105,16 +151,19 @@ Ext.define('ProtoUL.view.Viewport', {
 
     loadPciFromMenu: function( menuOpt ){
 
+
         // *** El truco es q no se crea el modelo, solo se define
         var viewCode = menuOpt ;
         var me = this ;
+
+//        console.log( viewCode, ' Loading MasterPanel ...')
 
         var options = {
             scope: this,
             success: function (obj, result, request) {
 
-                me.openProtoOption( viewCode );               
-                 
+                me.openProtoOption( viewCode );
+
             },
             failure: function ( obj, result, request) {
                 return ;
@@ -122,8 +171,9 @@ Ext.define('ProtoUL.view.Viewport', {
         };
 
         if (  _SM.loadPci( viewCode, true, options ) ) {
-            // El modelo ya ha sido cargado ( la cll meta es global )     
-            me.openProtoOption( viewCode );               
+            // El modelo ya ha sido cargado ( la cll meta es global )
+            me.openProtoOption( viewCode );
+
         }
 
     },
@@ -147,6 +197,7 @@ Ext.define('ProtoUL.view.Viewport', {
             region: 'center',
             border : false,
             minWidth: 300
+//          bodyCls: "background-SM2"
         });
         return this.protoTabContainer;
     }

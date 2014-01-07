@@ -37,7 +37,7 @@ function verifyPrpType(  lKey,  cValue ) {
     case "boolean":
         if  ( (typeof( cValue ) == 'number') ){ cValue = cValue.toString(); }
         if  ( (typeof( cValue ) == 'string') ){
-            if ( cValue.substr(1,1).toLowerCase()  in oc([ 'y', 's', '1','o' ]) )
+            if ( cValue.substr(0,1).toLowerCase()  in _SM.objConv([ 'y', 's', '1','o', 't' ]) )
             { return true; } else { return false; } 
         } else { return false; }  
     case "number":
@@ -231,6 +231,9 @@ _MetaProperties =  {
  
     "sortable.help": "Sortable?",
     "sortable.type": "boolean",
+
+    "searchable.help": "Searchable?",
+    "searchable.type": "boolean",
 
     "type.help" : "Field type", 
     "type.choices" : [ "", "string", "text", "bool", "int", "decimal", "combo", "date",  "datetime", "time", "autofield", "html", "foreignid",  "foreigntext"  ],             
