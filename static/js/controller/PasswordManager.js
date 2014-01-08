@@ -27,10 +27,11 @@ Ext.define('ProtoUL.controller.PasswordManager', {
                 success: function(form, action) {
                     Ext.Msg.alert("Success", _SM.__language.Message_Success_Password_Change, function(btn) {
                         if (btn == 'ok') {
+                            Ext.destroy(Ext.ComponentQuery.query('passwordForm'));
                             Ext.Ajax.request({
-                                url: '/protoExt',
+                                url: 'protoExt',
                                 success: function() {
-                                    window.location = '/protoExt';
+                                    window.location = 'protoExt';
                                 }
                             });
                         }

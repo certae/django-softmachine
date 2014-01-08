@@ -75,7 +75,7 @@ def protoGetPasswordRecovery(request):
             email_template_name = 'recovery/recovery_email.txt'
             body = loader.render_to_string(email_template_name).strip()
             message = _(body)
-            message += ' %s\n\n%s : %s' % (link, _(u'Demande faite à partir de'), request.META.get('REMOTE_ADDR', '?'))
+            message += ' %s\n\n%s : %s' % (link, _(u'Utilisateur'), request.POST['login'])
             message += ' \n\n%s' % (_(u'Si vous ne voulez pas réinitialiser votre mot de passe, il suffit d\'ignorer ce message et il va rester inchangé'))
             u.email_user( _('Nouveau mot de passe'), message)
             return JsonSuccess()  
@@ -93,7 +93,8 @@ def resetpassword(request):
             newpass =  User.objects.make_random_password(length=8)
             u.set_password(newpass)
             u.save()
-            message = _(u'Votre mot de passe a été réinitialisé ') +' : %s \n\n%s' % (newpass, request.META['HTTP_HOST']) 
+            message = _(u'Votre mot de passe a été réinitialisé ') +' : %s' % (newpass) 
+            message += ' \n\n%s : %s' % (_(u'Utilisateur'), u)
             u.email_user( _('Nouveau mot de passe'), message)
             response = HttpResponseRedirect(link)
             response.set_cookie('isPasswordReseted', True)
