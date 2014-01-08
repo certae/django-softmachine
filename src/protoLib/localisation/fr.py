@@ -17,17 +17,25 @@ __language ={
     'Msg_Select_Folder' : 'Dossier non sélectionné',
     'Title_Window_Add_Option' : "Ajouter une option de menu",
     'MenuTree_Title_Fieldset' : 'Information de base',
+    
     'Text_Cancel_Button' : 'Annuler',
     'Text_Save_Button' : 'Enregistrer',
+    'Text_New_Button' : 'Nouveau',
+    'Text_Edit_Button' : 'Éditer',
     'Text_SaveMs_Button' : 'Enregistrer',
     'Text_SaveDt_Button' : 'Enregistrer details',
+    
     'MenuTree_Text_Add_Event' : "Ajouter événement ",
     'MenuTree_Text_Edit_Event' : "Modifier événement",
     'Msg_Saved' : 'Enregistrement des modifications ...',
     'Msg_Deleted_Event' : "Suppression événement ...",
+    
     'Msg_Invalid_Form' : "OOPS! Formulaire non valide",
     'Msg_Error_Save_Form' : 'Enregistrer le formulaire échoué',
     'Msg_Failed_Operation' : "Opération échouée",
+    'Msg_Confirm_Delete_Operation' : 'Etes-vous sûr?',
+    
+    'Title_Msg_Confirm_Delete' : 'Confirmation de la suppression',
 
     'GridNav_In_New_Tab' : 'Voir dans un nouvel onglet',
     'GridNav_PageSize' : 'par page',
@@ -76,6 +84,7 @@ __language ={
     'Text_Toolbar_Search_Combo' : 'sélectionner opérator',
     'Text_Toolbar_In' : 'dans ...',
     'ProtoList_DD_Text' : 'Glisser-déposer pour réorganiser',
+    
     'Text_Validate_Login_Button' : 'Connexion',
     'Text_Forgotten_Password' : 'Mot de passe perdu',
     'Textfield_User_Login' : 'Utilisateur',
@@ -89,7 +98,6 @@ __language ={
 
     'Grid_Detail_Title' : 'Navigation',
     'Grid_Detail_Error' : 'Erreur lors du chargement',
-    
     'Grid_ExportCSV' : 'Exporter CSV',
     'Grid_ExportCSV_Ttip' : 'Exportation au format CSV',
     'Grid_ExportCSV_Ok' : 'Exporter CSV réussi',
@@ -213,5 +221,4 @@ __language ={
     'HelpQBE_GridNav_DisplayMsg' : 'registres {0} - {1} de {2}',
     'HelpQBE_GridNav_EmptyMsg' : 'no registres',
     'HelpQBE_Window_Title' : 'Aider QBE'
-
 }

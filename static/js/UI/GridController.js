@@ -232,7 +232,7 @@ Ext.define('ProtoUL.UI.GridController', {
                 }
 
 
-                Ext.MessageBox.confirm('Confirm Delete', 'Are you sure?', doDelete);
+                Ext.MessageBox.confirm(_SM.__language.Title_Msg_Confirm_Delete, _SM.__language.Msg_Confirm_Delete_Operation, doDelete);
                 break;
         }
     }

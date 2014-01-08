@@ -200,7 +200,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
                     readOnly: true
                 }, {
                     xtype: 'button',
-                    text: 'Cancel',
+                    text: _SM.__language.Text_Cancel_Button,
                     scope: me,
                     handler: doCancel
                 }, {
@@ -210,12 +210,12 @@ Ext.define('ProtoUL.ux.protoZoom', {
                     handler: me.doReturn
                 }, {
                     xtype: 'button',
-                    text: 'Edit',
+                    text: _SM.__language.Text_Edit_Button,
                     scope: me,
                     handler: doEdit
                 }, {
                     xtype: 'button',
-                    text: 'New',
+                    text: _SM.__language.Text_New_Button,
                     scope: me,
                     handler: doNew
                 }]

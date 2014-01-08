@@ -87,15 +87,15 @@ def protoGetPasswordRecovery(request):
 def resetpassword(request):
     link = '../../protoExt'
     if request.GET.get('a') and request.GET.get('t'):
-        u = User.objects.get(pk = request.GET['a'])
-        token = user_token(u)
+        user = User.objects.get(pk = request.GET['a'])
+        token = user_token(user)
         if request.GET['t'] == token:
             newpass =  User.objects.make_random_password(length=8)
-            u.set_password(newpass)
-            u.save()
+            user.set_password(newpass)
+            user.save()
             message = _(u'Votre mot de passe a été réinitialisé ') +' : %s' % (newpass) 
-            message += ' \n\n%s : %s' % (_(u'Utilisateur'), u)
-            u.email_user( _('Nouveau mot de passe'), message)
+            message += ' \n\n%s : %s' % (_(u'Utilisateur'), user)
+            user.email_user( _('Nouveau mot de passe'), message)
             response = HttpResponseRedirect(link)
             response.set_cookie('isPasswordReseted', True)
             return response
@@ -143,8 +143,3 @@ def protoLogout(request):
     
     logout(request)
     return JsonSuccess( { 'message': 'Ok' } )
-
-#     from django.views.generic.simple import direct_to_template
-
-#     from django.shortcuts import render_to_response
-#     return render_to_response("protoExt.html")

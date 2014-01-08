@@ -20,6 +20,8 @@ __language ={
     
     'Text_Cancel_Button' : 'Cancel',
     'Text_Save_Button' : 'Save',
+    'Text_New_Button' : 'New',
+    'Text_Edit_Button' : 'Edit',
     'Text_SaveMs_Button' : 'SvMaster',
     'Text_SaveDt_Button' : 'SvDetails',
     
@@ -31,8 +33,10 @@ __language ={
     'Msg_Invalid_Form' : 'OOPs!! Form is not valid',
     'Msg_Error_Save_Form' : 'Save form Failed',
     'Msg_Failed_Operation' : 'Operation failure',
-
-
+    'Msg_Confirm_Delete_Operation' : 'Are you sure?',
+    
+    'Title_Msg_Confirm_Delete' : 'Confirm Delete',
+    
     'GridNav_In_New_Tab' : 'View in a new tab',
     'GridNav_PageSize' : 'by page',
     'GridNav_Current' : 'Results',
@@ -42,9 +46,8 @@ __language ={
     'GridNav_Next_Page' : 'Next page',
     'GridNav_Previous_Page' : 'Previous page',
     'GridNav_Last_Page' : 'Last page',
-
-    
     'GridNav_Refresh' : 'Refresh',
+    
     'Text_Toolbar_Remove_Filters' : 'Remove filters',
     'Text_UserInfo_Fullname' :'readOnly User',
     'Text_ComboFilterOp_Equal' : 'equal',
@@ -97,12 +100,13 @@ __language ={
     'Grid_Detail_Error' : 'Error loading',
     'Grid_ExportCSV' : 'Export CSV',
     'Grid_ExportCSV_Ttip' : 'export in format csv',
+    'Grid_ExportCSV_Ok' : 'export Csv  Ok',
+    'Grid_ExportCSV_Err' : 'export Csv Failed',
+    
     'Text_Plug' : 'Plug',
     'Text_Print' : 'Print',
     'Text_Config' : 'Config',
     'Text_Grid' :'Grid',
-    'Grid_ExportCSV_Ok' : 'export Csv  Ok',
-    'Grid_ExportCSV_Err' : 'export Csv Failed',
 
     'Grid_Sort_Title' : 'Sort by',
     'Grid_Edit_Title' : 'Edit',
@@ -111,6 +115,7 @@ __language ={
     'Grid_EditSaveCont_Title' : 'Continue',
     'Grid_EditSaveCont_Ttip' : 'Save and continue',
     'Grid_EditAutoSync_Title' : 'AutoSync',
+    
     'Text_Clasify_Button' : 'classify',
     'Tooltip_Clasify_Button' : 'Sorting options',
     'Tooltip_Printing_Options' : 'Printing Options',
@@ -153,7 +158,6 @@ __language ={
 
     'Message_Error_SaveProtoObj' : 'SaveProtoObj Failed',
     'Message_Error_Reporting' : 'SheetReport Failed',
-
 
     'Title_Main_Panel' : 'RootPanel',
     'Title_Form_Panel' : 'Form',
@@ -217,5 +221,4 @@ __language ={
     'HelpQBE_GridNav_DisplayMsg' : 'records {0} - {1} of {2}',
     'HelpQBE_GridNav_EmptyMsg' : 'no records',
     'HelpQBE_Window_Title' : 'Help QBE'
-
 }
