@@ -36,12 +36,6 @@ Ext.define('ProtoUL.view.password.ForgotPasswordForm', {
                     blur: function() {
                         this.setValue(Ext.String.trim(this.getValue()));
                     }
-                },
-                validator: function(value) {
-                    if (value === "") {
-                        return "Empty field";
-                    }
-                    return true;
                 }
             }, {
                 xtype: 'textfield',
@@ -67,7 +61,7 @@ Ext.define('ProtoUL.view.password.ForgotPasswordForm', {
             id:'buttons',
             ui: 'footer',
             items: ['->', {
-                text: 'Envoyer',
+                text: _SM.__language.Text_Send_Button,
 		        itemId: 'btForgotPWDForm',
 		        iconCls: "st-key-go",
 		        action: 'forgotpassword',

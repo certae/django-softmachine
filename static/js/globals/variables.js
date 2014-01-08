@@ -3,43 +3,23 @@
  *  
  */
 
-_SM = {}
+_SM = {};
 
 // Estados en cada fila de la grilla al iteractuar con el BackEnd  
 _SM._ROW_ST = { 
     ERROR     : 'ROWST_ERR',
     NEWROW     : 'ROWST_NEW'
-    }
+   };
 
 // afterLabelTextTpl: _SM._requiredField,
 _SM._requiredField = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
 
-_SM._versionProto = 'Version 1.00.' + _versionMeta
-_SM._siteTitle = 'CeRTAE'
-_SM._siteTitleCollapsed = false 
+_SM._versionProto = 'Version 1.00.' + _versionMeta;
+_SM._siteTitle = 'CeRTAE';
+_SM._siteTitleCollapsed = false;
 
-
-// place holder para los titulos con datos basicos del login  
-_SM.__language = {
-    'Text_Validate_Login_Button' : 'se connecter',
-    'Text_change_Password_Button' : 'changer le mot de passe',
-    'Text_Forgotten_Password' : 'mot de passe perdu',
-    'Textfield_User_Login' : 'utilisateur',
-    'Textfield_User_Email' : 'courriel',
-    'Textfield_Password_Login' : 'mot de passe',
-    'Textfield_New_Password' : 'nouveau mot de passe',
-    'Textfield_Confirm_Password' : 'confirmer le mot de passe',
-    'Title_Window_Email_Request' : 'Récupérer le mot de passe perdu',
-    'Title_Window_Password_Change':'Changez votre mot de passe',
-    
-    'Message_Enter_Email' : 'Entrez votre courriel',
-    'Message_Success' : 'Succès',
-    'Message_Email_Forgotten_Password' : 'Un courriel a été envoyé avec les instructions',
-    'Message_Email_New_Password' : 'Un courriel a été envoyé avec votre nouveau mot de passe',
-    'Message_Success_Password_Change':'Le mot de passe a été changé avec succès',
-    'Message_Error' : 'Error',
-    'Message_Error_Login' : 'Impossible de se connecter'
-}
+// Strings and messages moved to locale
+_SM.__language = {};
     
 // Config Variables 
 _SM._PConfig =  {
@@ -60,7 +40,7 @@ _SM._PConfig =  {
     clsBaseModel: 'ProtoUL.model.' 
 }; 
 
-_SM._HELPpath = 'resources/help/index.html'
+_SM._HELPpath = 'resources/help/index.html';
 
 
 // Collection of PCL's ( Proto Concept Definition )  
@@ -90,17 +70,17 @@ _SM._ComboPageSize = [
 
 // Autoload entites
 // _SM._AUTOLOAD_PCI = [ 'protoDict.Model', 'protoDict.PropertyModel' ]
-_SM._AUTOLOAD_PCI = [ ]
-_SM._MENU_COLLAPSED = false 
+_SM._AUTOLOAD_PCI = [ ];
+_SM._MENU_COLLAPSED = false ;
 
 
-_SM._defaultViewIcon = 'default_view' 
+_SM._defaultViewIcon = 'default_view';
  
 
 // Windows Position
-_SM._mainWin = null
-_SM._winX = 10
-_SM._winY = 10  
+_SM._mainWin = null;
+_SM._winX = 10;
+_SM._winY = 10;
  
  
 // *  Configuracion del metodo por defecto  
@@ -202,7 +182,7 @@ _SM.DesignerPanels = {
         "text": "Details",
         "children": []
     }]    
-}
+};
 
 
 /* ********   Propiedades comunes 

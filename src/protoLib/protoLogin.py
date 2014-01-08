@@ -124,7 +124,8 @@ def changepassword(request):
             user.save()
             if user.email:
                 try:
-                    message = _(u'Votre mot de passe a été changé : ') + ' %s \n\n%s' % (newpass1, settings.HOST) 
+                    message = _(u'Votre mot de passe a été réinitialisé ') +' : %s' % (newpass1) 
+                    message += ' \n\n%s : %s' % (_(u'Utilisateur'), user)
                     user.email_user(_( 'Nouveau mot de passe'), message)
                 except:
                     pass
