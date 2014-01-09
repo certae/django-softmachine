@@ -105,7 +105,10 @@ def exportProtoJson(request, pModel ):
             for fld in cProto['fields'] : 
                 if fld['name'] in [ 'entity', 'entity_id', 'info' ]: continue
                 if fld['name'] == '__str__':   
-                    try: del fld['physicalName']
+                    try: 
+                        del fld['cpFromZoom']
+                        del fld['cpFromField']
+                        del fld['physicalName']
                     except: pass 
 
                 try: 
