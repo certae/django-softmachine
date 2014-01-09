@@ -4,9 +4,11 @@ import django.utils.simplejson as json
 from django.contrib.auth.models import User
 
 from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect, render_to_response
+from django.core.urlresolvers import reverse
 from django.contrib.auth import login, authenticate, logout
 from django.conf import settings
-from django.template import loader
+from django.template import Context, loader
 
 from protoAuth import getUserProfile
 from utilsWeb import JsonError, JsonSuccess 
@@ -85,7 +87,7 @@ def protoGetPasswordRecovery(request):
     return HttpResponseRedirect('/')
 
 def resetpassword(request):
-    link = '../../protoExt'
+    link = '../../protoExtReset'
     if request.GET.get('a') and request.GET.get('t'):
         user = User.objects.get(pk = request.GET['a'])
         token = user_token(user)
@@ -96,8 +98,8 @@ def resetpassword(request):
             message = _(u'Votre mot de passe a été réinitialisé ') +' : %s' % (newpass) 
             message += ' \n\n%s : %s' % (_(u'Utilisateur'), user)
             user.email_user( _('Nouveau mot de passe'), message)
+            
             response = HttpResponseRedirect(link)
-            response.set_cookie('isPasswordReseted', True)
             return response
     return HttpResponseRedirect(link)
 

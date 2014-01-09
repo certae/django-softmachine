@@ -72,16 +72,16 @@ Ext.define('ProtoUL.view.password.PasswordReset', {
     }],
     listeners: {
         afterlayout: function() {
-            var isPasswordReseted = Ext.util.Cookies.get('isPasswordReseted');
-            if (isPasswordReseted) {
-                Ext.Msg.show({
-                    title: _SM.__language.Message_Success,
-                    msg: _SM.__language.Message_Email_New_Password,
-                    buttons: Ext.Msg.OK,
-                    icon: Ext.MessageBox.INFO
-                });
+            if (window.isPasswordReseted === 'True') {
+                setTimeout(function() {
+                    Ext.Msg.show({
+                        title: _SM.__language.Message_Success,
+                        msg: _SM.__language.Message_Email_New_Password,
+                        buttons: Ext.Msg.OK,
+                        icon: Ext.MessageBox.INFO
+                    });
+                }, 1000);
             }
-            Ext.util.Cookies.clear('isPasswordReseted');
         }
     },
     renderTo: Ext.getBody()

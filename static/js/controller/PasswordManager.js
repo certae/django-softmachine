@@ -20,6 +20,7 @@ Ext.define('ProtoUL.controller.PasswordManager', {
     changepassword: function(button) {
         var form = button.up('form').getForm();
         if (form.isValid()) {
+        	button.setIconCls("st-loading");
             form.submit({
                 url: _SM._PConfig.urlSubmitChangePassword,
                 method: 'POST',

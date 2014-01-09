@@ -11,7 +11,8 @@ django.contrib.admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^admin/', include(django.contrib.admin.site.urls)) ,
 
-    url(r'^protoExt$', direct_to_template, { 'template': 'protoExt.html' }),
+    url(r'^protoExt$', direct_to_template, { 'template': 'protoExt.html'} ),
+    url(r'^protoExtReset$', direct_to_template, { 'template': 'protoExt.html', 'extra_context': { 'isPasswordReseted': True, }} ),
     url(r'^protoLib/', include('protoLib.urls')),
 
 #    url(r'^prueba$', direct_to_template, { 'template': 'prueba.html' }),

@@ -56,8 +56,7 @@ Ext.application({
         // 
         Ext.QuickTips.init();
         
-        var isPasswordReseted = Ext.util.Cookies.get('isPasswordReseted');
-        if (isPasswordReseted) {
+        if (window.isPasswordReseted === 'True') {
 			this.showResetPasswordForm();
         } else {
         	this.showLogin();
@@ -102,7 +101,6 @@ Ext.application({
     
     showResetPasswordForm: function() {
     	var resetForm = Ext.create('ProtoUL.view.password.PasswordReset');
-    	Ext.util.Cookies.set('isPasswordReseted',True);
         resetForm.show();
     }
     
