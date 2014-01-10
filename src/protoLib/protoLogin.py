@@ -4,11 +4,9 @@ import django.utils.simplejson as json
 from django.contrib.auth.models import User
 
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import redirect, render_to_response
-from django.core.urlresolvers import reverse
 from django.contrib.auth import login, authenticate, logout
 from django.conf import settings
-from django.template import Context, loader
+from django.template import loader
 
 from protoAuth import getUserProfile
 from utilsWeb import JsonError, JsonSuccess 
@@ -68,11 +66,16 @@ def protoGetUserRights(request):
     return HttpResponse(context, mimetype="application/json")
 
 def protoGetPasswordRecovery(request):
+    baseURI = request.build_absolute_uri('..')
+                
     if request.POST.get('email') and request.POST.get('login'):
         try:
             u = User.objects.get(email = request.POST['email'], username = request.POST['login'])
             token = user_token(u)
-            link = 'http://%s/protoLib/resetpassword?a=%s&t=%s' % (request.META['HTTP_HOST'], u.pk, token)
+            if settings.HOST:
+                baseURI = 'http://' + settings.HOST + '/protoLib/'
+                
+            link = baseURI + 'resetpassword?a=%s&t=%s' % (u.pk, token)
             
             email_template_name = 'recovery/recovery_email.txt'
             body = loader.render_to_string(email_template_name).strip()

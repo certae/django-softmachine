@@ -225,6 +225,8 @@ PROTO_APP = {}
 #    }
 
 #add email settings
+#HOST = 'loli.fsa.ulaval.ca/artdev'
+HOST = ''
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
