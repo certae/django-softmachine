@@ -1,5 +1,4 @@
 from django.conf.urls.defaults import patterns, url
-from django.views.generic.simple import direct_to_template
 
 from protoLib.protoMenu import protoGetMenuData
 from protoLib.protoGetPci import protoGetPCI, protoSaveProtoObj, protoGetFieldTree
@@ -31,9 +30,7 @@ urlpatterns = patterns('',
     url('protoGetUserRights/$', protoGetUserRights ), 
     url('protoGetPasswordRecovery/$', protoGetPasswordRecovery),
     url('resetpassword/$', resetpassword),
-    url(r'^changePassword/$', direct_to_template, { 'template': 'recovery/changePassword.html' }),
     url('submitChangePassword/$', changepassword),
     url('protoLogout/$', protoLogout ), 
-    
     
 )

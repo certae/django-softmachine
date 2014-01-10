@@ -4,8 +4,11 @@ import django.utils.simplejson as json
 from django.contrib.auth.models import User
 
 from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth import login, authenticate, logout 
+from django.shortcuts import redirect, render_to_response
+from django.core.urlresolvers import reverse
+from django.contrib.auth import login, authenticate, logout
 from django.conf import settings
+from django.template import Context, loader
 
 from protoAuth import getUserProfile
 from utilsWeb import JsonError, JsonSuccess 
@@ -60,36 +63,44 @@ def protoGetUserRights(request):
         'language' : language  
     }
     
-    # Codifica el mssage json 
+    # Encode json 
     context = json.dumps( jsondict)
     return HttpResponse(context, mimetype="application/json")
 
 def protoGetPasswordRecovery(request):
-    if request.POST.get('email'):
+    if request.POST.get('email') and request.POST.get('login'):
         try:
-            u = User.objects.get(email = request.POST['email'])
+            u = User.objects.get(email = request.POST['email'], username = request.POST['login'])
             token = user_token(u)
-            link = '%s/protoLib/resetpassword?a=%s&t=%s' % (request.META['HTTP_HOST'], u.pk, token)
-            newpass =  User.objects.make_random_password(length=8)
-            u.set_password(newpass)
-            u.save()
-            # Your password has been reset : 
-            message = _(u'Your password has been reseted ') +' : %s \n\nClick here to change your password ' % (newpass) 
-            message += '%s\n\n%s\n\n%s : %s' % (link, request.META['HTTP_HOST'], _(u'Request made from'), request.META.get('REMOTE_ADDR', '?'))
-            u.email_user( _('New password'), message)
+            link = 'http://%s/protoLib/resetpassword?a=%s&t=%s' % (request.META['HTTP_HOST'], u.pk, token)
+            
+            email_template_name = 'recovery/recovery_email.txt'
+            body = loader.render_to_string(email_template_name).strip()
+            message = _(body)
+            message += ' %s\n\n%s : %s' % (link, _(u'Utilisateur'), request.POST['login'])
+            message += ' \n\n%s' % (_(u'Si vous ne voulez pas réinitialiser votre mot de passe, il suffit d\'ignorer ce message et il va rester inchangé'))
+            u.email_user( _('Nouveau mot de passe'), message)
             return JsonSuccess()  
         except:
-            return JsonError(_("Email unknown"))  
+            return JsonError(_("Utilisateur non trouvé"))  
     
     return HttpResponseRedirect('/')
 
 def resetpassword(request):
-    link = '../../protoExt'
+    link = '../../protoExtReset'
     if request.GET.get('a') and request.GET.get('t'):
-        u = User.objects.get(pk = request.GET['a'])
-        token = user_token(u)
+        user = User.objects.get(pk = request.GET['a'])
+        token = user_token(user)
         if request.GET['t'] == token:
-            link = '../changePassword'
+            newpass =  User.objects.make_random_password(length=8)
+            user.set_password(newpass)
+            user.save()
+            message = _(u'Votre mot de passe a été réinitialisé ') +' : %s' % (newpass) 
+            message += ' \n\n%s : %s' % (_(u'Utilisateur'), user)
+            user.email_user( _('Nouveau mot de passe'), message)
+            
+            response = HttpResponseRedirect(link)
+            return response
     return HttpResponseRedirect(link)
 
 def changepassword(request):
@@ -101,12 +112,13 @@ def changepassword(request):
     newpass2 = request.POST['newPassword2']
     userName = request.POST['login']
     userPwd  = request.POST['current']
-
+    
     try:
         pUser = authenticate(username = userName, password = userPwd )
     except:
         pUser = None
-        
+    
+    errMsg =  "Mauvais utilisateur ou mot de passe"
     if pUser is not None:
         if newpass1==newpass2:
             user = User.objects.get(username = userName)
@@ -114,12 +126,15 @@ def changepassword(request):
             user.save()
             if user.email:
                 try:
-                    message = _(u'Your password has been changed : ') + ' %s \n\n%s' % (newpass1, settings.HOST) 
-                    user.email_user(_( 'Password changed'), message)
+                    message = _(u'Votre mot de passe a été réinitialisé ') +' : %s' % (newpass1) 
+                    message += ' \n\n%s : %s' % (_(u'Utilisateur'), user)
+                    user.email_user(_( 'Nouveau mot de passe'), message)
                 except:
                     pass
             return JsonSuccess()
-    return JsonError(_('Passwords do not match'))
+        else:
+            errMsg = 'Les mots de passe ne correspondent pas!'
+    return JsonError(_(errMsg))
 
 def user_token(user):
     import hashlib
@@ -131,9 +146,3 @@ def protoLogout(request):
     
     logout(request)
     return JsonSuccess( { 'message': 'Ok' } )
-
-#     from django.views.generic.simple import direct_to_template
-
-#     from django.shortcuts import render_to_response
-#     return render_to_response("protoExt.html")
-     

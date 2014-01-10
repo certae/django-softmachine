@@ -1,70 +1,67 @@
 Ext.define('ProtoUL.UI.MDSetSortersController', {
     extend: 'Ext.Base',
-    myMeta : null, 
-    constructor: function (config) {
+    myMeta: null,
+    constructor: function(config) {
         Ext.apply(this, config || {});
-        this.getCustomOptsBar()
-    }, 
+        this.getCustomOptsBar();
+    },
 
     getCustomOptsBar: function() {
-        
-        var mySortersSet = []  
-        var __MasterDetail = this.__MasterDetail
 
-        var tmpSorters = this.myMeta.gridSets.sortersSet.concat( this.myMeta.custom.sortersSet )
+        // @formatter:off        
+        var mySortersSet = [],  
+            __MasterDetail = this.__MasterDetail, 
+            tmpSorters = this.myMeta.gridSets.sortersSet.concat( this.myMeta.custom.sortersSet );
+        // @formatter:on
 
-        if ( this.myMeta.gridConfig.initialSort && ( tmpSorters.length > 0  )) {
-            addSorters( [ {
-                'name' : 'Initial', 
-                'icon' : 'soterIcon', 
-                'customSort' :  this.myMeta.gridConfig.initialSort
-                } ] )
+        if (this.myMeta.gridConfig.initialSort && (tmpSorters.length > 0  )) {
+            addSorters([{
+                'name': 'Initial',
+                'icon': 'soterIcon',
+                'customSort': this.myMeta.gridConfig.initialSort
+            }]);
 
-            addSorters( tmpSorters  )
+            addSorters(tmpSorters);
         }
 
-
-        if ( mySortersSet.length > 0  ) {
+        if (mySortersSet.length > 0) {
 
             __MasterDetail.tbSortersSet = Ext.create('Ext.toolbar.Toolbar', {
                 dock: 'top',
-                hidden : true,
-                enableOverflow : true, 
-                items: [
-                    {
-                    xtype   : 'tbtext',
+                hidden: true,
+                enableOverflow: true,
+                items: [{
+                    xtype: 'tbtext',
                     text: '<b>Sorters :<b>'
-                    }
-                ]
+                }]
             });
 
-            __MasterDetail.tbSortersSet.add ( mySortersSet )
-            __MasterDetail.mySortersSet = mySortersSet
-            __MasterDetail.protoMasterGrid.addDocked( __MasterDetail.tbSortersSet )
+            __MasterDetail.tbSortersSet.add(mySortersSet);
+            __MasterDetail.mySortersSet = mySortersSet;
+            __MasterDetail.protoMasterGrid.addDocked(__MasterDetail.tbSortersSet);
 
-        }; 
-        
-        function onClickSorter( btn ){
-            __MasterDetail.protoMasterStore.sort( btn.sorter );
+        };
+
+        function onClickSorter(btn) {
+            __MasterDetail.protoMasterStore.sort(btn.sorter);
         }
-        
-        function addSorters( tmpSorters ){
-            var Sorter
-            for (var vDet in tmpSorters ) {       
-                Sorter = tmpSorters[ vDet ]
-                mySortersSet.push (
-                    new Ext.Action({
-                        maxWidth :      100, 
-                        text:           Sorter.name,
-                        iconCls :       Sorter.icon, 
-                        sorter:         Sorter.customSort,
-                        scope:          this,                     
-                        handler:        onClickSorter
-                    }));
+
+        function addSorters(tmpSorters) {
+            var Sorter;
+            for (var vDet in tmpSorters ) {
+                Sorter = tmpSorters[vDet];
+                mySortersSet.push(new Ext.Action({
+                    maxWidth: 100,
+                    text: Sorter.name,
+                    iconCls: Sorter.icon,
+                    sorter: Sorter.customSort,
+                    scope: this,
+                    handler: onClickSorter
+                }));
             };
         }
-    }
-    
-}) 
 
+    }
+
+});
 

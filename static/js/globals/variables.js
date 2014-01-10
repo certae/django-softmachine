@@ -3,41 +3,23 @@
  *
  */
 
-_SM = {}
+_SM = {};
 
 // Estados en cada fila de la grilla al iteractuar con el BackEnd
 _SM._ROW_ST = {
     ERROR     : 'ROWST_ERR',
     NEWROW     : 'ROWST_NEW'
-    }
+   };
 
 // afterLabelTextTpl: _SM._requiredField,
 _SM._requiredField = '<span style="color:red;font-weight:bold" data-qtip="Required">*</span>';
 
-_SM._versionProto = 'Version 1.00.' + _versionMeta
-_SM._siteTitle = 'CeRTAE'
-_SM._siteTitleCollapsed = false
+_SM._versionProto = 'Version 1.00.' + _versionMeta;
+_SM._siteTitle = 'CeRTAE';
+_SM._siteTitleCollapsed = false;
 
-
-// place holder para los titulos con datos basicos del login
-_SM.__language = {
-    'Text_Validate_Login_Button' : 'check',
-    'Text_change_Password_Button' : 'change password',
-    'Text_Forgotten_Password' : 'lost password',
-    'Textfield_User_Login' : 'user',
-    'Textfield_Password_Login' : 'password',
-    'Textfield_New_Password' : 'new password',
-    'Textfield_Confirm_Password' : 'confirm password',
-    'Title_Window_Email_Request' : 'your email',
-    'Title_Window_Password_Change':'Change your password',
-
-    'Message_Enter_Email' : 'Enter your email',
-    'Message_Success' : 'Success',
-    'Message_Email_Forgotten_Password' : 'An email has been sent with the instructions',
-    'Message_Success_Password_Change':'The password has been changed successfully',
-    'Message_Error' : 'Error',
-    'Message_Error_Login' : 'Impossible'
-}
+// Strings and messages moved to locale
+_SM.__language = {};
 
 // Config Variables
 _SM._PConfig =  {
@@ -58,7 +40,7 @@ _SM._PConfig =  {
     clsBaseModel: 'ProtoUL.model.'
 };
 
-_SM._HELPpath = 'resources/help/index.html'
+_SM._HELPpath = 'resources/help/index.html';
 
 
 // Collection of PCL's ( Proto Concept Definition )
@@ -88,17 +70,17 @@ _SM._ComboPageSize = [
 
 // Autoload entites
 // _SM._AUTOLOAD_PCI = [ 'protoDict.Model', 'protoDict.PropertyModel' ]
-_SM._AUTOLOAD_PCI = [ ]
-_SM._MENU_COLLAPSED = false
+_SM._AUTOLOAD_PCI = [ ];
+_SM._MENU_COLLAPSED = false ;
 
 
-_SM._defaultViewIcon = 'default_view'
+_SM._defaultViewIcon = 'default_view';
 
 
 // Windows Position
-_SM._mainWin = null
-_SM._winX = 10
-_SM._winY = 10
+_SM._mainWin = null;
+_SM._winX = 10;
+_SM._winY = 10;
 
 
 // *  Configuracion del metodo por defecto
@@ -200,7 +182,7 @@ _SM.DesignerPanels = {
         "text": "Details",
         "children": []
     }]
-}
+};
 
 
 /* ********   Propiedades comunes

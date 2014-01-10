@@ -162,7 +162,7 @@ Ext.define('ProtoUL.view.MenuTree', {
     deleteNode: function( btn ) {
         // Verifica si hay un item activo, confirma y lo borra
         if ( this.treeRecord ) {
-            this.treeRecord.remove( )
+            this.treeRecord.remove( );
             this.treeRecord  = undefined;
         }
     },
@@ -170,19 +170,19 @@ Ext.define('ProtoUL.view.MenuTree', {
     newFolder: function( btn ) {
         // prompt por el nombre del menu y lo crea en el arbol
         var me = this,
-            msg = _SM.__language.Msg_Window_New_Folder
+            msg = _SM.__language.Msg_Window_New_Folder;
 
         Ext.Msg.prompt(_SM.__language.Title_Window_New_Folder, msg, function (btn, pName) {
-            if (btn != 'ok') { return }
+            if (btn != 'ok') { return; }
 
             var tNode = {'text' :  pName, 'children': [] },
-                record
+                record;
 
             if ( me.treeRecord && ( ! me.treeRecord.get( 'leaf' ))) {
-                record =  me.treeRecord
-            }  else { record = me.store.getRootNode() }
+                record =  me.treeRecord;
+            }  else { record = me.store.getRootNode(); }
 
-            record.appendChild( tNode )
+            record.appendChild( tNode );
         }, me, false );
 
 
@@ -191,40 +191,40 @@ Ext.define('ProtoUL.view.MenuTree', {
     newOption: function( btn ) {
         // abre forma para creacion de opcion, la forma se encarga de la creacion
         if ( ! this.treeRecord || this.treeRecord.get( 'leaf' )  ) {
-            _SM.errorMessage('AddMenuOption', _SM.__language.Msg_Select_Folder)
-            return
+            _SM.errorMessage('AddMenuOption', _SM.__language.Msg_Select_Folder);
+            return;
         }
         var myWin  = Ext.widget('menuOption', {
             treeRecord : this.treeRecord,
             title: _SM.__language.Title_Window_Add_Option
         });
-        myWin.show()
+        myWin.show();
     },
 
     reloadMenu: function( btn ) {
         // recarga el menu guardado
         this.store.getProxy().extraParams.forceDefault = 0 ;
-        this.store.load()
+        this.store.load();
     },
 
     resetMenu: function( btn ) {
         // borra el menu guardado y recarga el menu default basado en modelos
         this.store.getProxy().extraParams.forceDefault = 1 ;
-        this.store.load()
+        this.store.load();
     },
     saveMenu: function( btn ) {
         // guarda el menu actual
-        var sMeta = Ext.encode(   Tree2Menu( this.store.getRootNode() ) )
-        _SM.saveProtoObj( '__menu' , sMeta )
+        var sMeta = Ext.encode(   Tree2Menu( this.store.getRootNode() ) );
+        _SM.saveProtoObj( '__menu' , sMeta );
 
 
         function Tree2Menu( tNode  ) {
             // Para poder leer de la treeData o del TreeStore ( requiere data )
             var tData = tNode.data,
                 tChilds =  tNode.childNodes,
-                mData = {}
+                mData = {};
             if ( tData.root ) {
-                mData = getMenuChilds(  tChilds  )
+                mData = getMenuChilds(  tChilds  );
             } else {
                 mData = {
                         "text": tData.text ,
@@ -233,32 +233,32 @@ Ext.define('ProtoUL.view.MenuTree', {
                         "iconCls": tData.iconCls ,
                         "id":  'protoMenu-' + Ext.id() ,
                         "index": tData.index
-                    }
+                   };
                 // Es un menu
                 if ( tChilds.length > 0 ) {
-                     mData.expanded = tData.expanded
-                     mData.children = getMenuChilds(tChilds)
-                     mData.leaf = false
-                     mData.viewCode = tData.viewCode || tData.id
+                     mData.expanded = tData.expanded;
+                     mData.children = getMenuChilds(tChilds);
+                     mData.leaf = false;
+                     mData.viewCode = tData.viewCode || tData.id;
                 } else {
-                     mData.expanded = false
-                     mData.children = []
-                     mData.leaf = tData.leaf
-                     mData.viewCode =  tData.viewCode ||  tData.id
+                     mData.expanded = false;
+                     mData.children = [];
+                     mData.leaf = tData.leaf;
+                     mData.viewCode =  tData.viewCode ||  tData.id;
                 }
             }
-             if ( ! mData.text || mData.text.length == 0 ) mData.text = 'null'
+             if ( ! mData.text || mData.text.length == 0 ) {mData.text = 'null';}
 
-            return mData
+            return mData;
 
             function getMenuChilds( tChilds  ) {
-                var mChilds = []
+                var mChilds = [];
                 for (var ix in tChilds ) {
-                    var lNode = tChilds[ ix ]
-                    var nChildData = Tree2Menu( lNode   )
-                    mChilds.push( nChildData )
+                    var lNode = tChilds[ ix ];
+                    var nChildData = Tree2Menu( lNode   );
+                    mChilds.push( nChildData );
                 }
-                return mChilds
+                return mChilds;
             }
         }
     }
@@ -364,16 +364,16 @@ Ext.define('ProtoUL.view.form.MenuOption', {
     },
 
     onCancel: function () {
-        this.close()
+        this.close();
     },
 
 
     onSave: function () {
         if (!this.formPanel.form.isValid()) { return; }
-        var tNode = this.formPanel.getForm().getValues()
-        tNode.leaf = true
-        this.treeRecord.appendChild( tNode )
-        this.close()
+        var tNode = this.formPanel.getForm().getValues();
+        tNode.leaf = true;
+        this.treeRecord.appendChild( tNode );
+        this.close();
     }
 
 });
