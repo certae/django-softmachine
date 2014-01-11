@@ -176,30 +176,3 @@ Ext.define('PVE.window.PasswordEdit', {
         me.callParent();
     }
 });
-
-
-/*
-       Ext.Ajax.request({
-            method: 'POST',
-            // waitTitle:'Connecting',
-            // waitMsg:'Sending data...',
-
-            url: _SM._PConfig.urlGetUserRights,
-
-            // success: this.submitLoginCallback,
-            // failure: this.submitLoginCallback,
-            success: function (result) {
-                resp = Ext.decode(result.responseText);
-                _SM._UserInfo = resp.userInfo
-                //me.options.success.call(me.options.scope, result, request);
-                var app = new ProtoUL.view.Viewport();
-            },
-            failure: function (result, request) {
-                //pendiente hmaury
-                //_SM._UserInfo = request.result.userInfo
-                //me.showFormError(request.result.message);
-                //me.options.failure.call(me.options.scope, result, request);
-            }
-        });
-
-*/

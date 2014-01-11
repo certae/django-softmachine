@@ -8,7 +8,7 @@
 		<meta name="description" content="">
 		<meta name="author" content="CeRTAE U.Laval/ Dario Gomez">
 		{% csrf_token %}
-
+		
 		<!-- icon -->
 		<link rel="shortcut icon" href="laval.ico">
 
@@ -32,6 +32,8 @@
 		<script type="text/javascript" id="extlocale"></script>
 		<script type="text/javascript" id="protolocale"></script>
 		<script type="text/javascript">
+			getParams = '{{ isPasswordReseted }}';
+			window.isPasswordReseted = getParams;
             // get the system language
             var userLang = '{{LANGUAGE_CODE}}';
             if (/en-[US|us]/.test(userLang)) {
@@ -41,7 +43,6 @@
             var locales = ['fr', 'es', 'en'];
             // default locale
             var locale = 'fr';
-			console.log(userLang);
             // check browser language against available locale files
             for (var i = locales.length - 1; i >= 0; i--) {
                 if (userLang === locales[i]) {
