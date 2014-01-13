@@ -154,9 +154,12 @@ Ext.define('ProtoUL.ux.protoZoom', {
             }, scope: this }
         });                 
 
+        //@@ Verificar los permisos de usuario 
+
         // referencia a la ventana modal
         me.win  = Ext.widget('window', {
             title : 'Zoom : ' + me.myMeta.shortTitle,
+            
             iconCls: me.myMeta.viewIcon , 
             closeAction : 'hide',
             layout : 'fit',
@@ -164,7 +167,6 @@ Ext.define('ProtoUL.ux.protoZoom', {
             width     : 800,     minWidth  : 400,
             height  : 600,  minHeight : 400, 
             resizable : true,
-
             tbar :  searchBG, 
             items : this.zoomGrid,
 

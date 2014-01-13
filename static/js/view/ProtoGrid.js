@@ -518,7 +518,11 @@ Ext.define('ProtoUL.view.ProtoGrid', {
 
         // Configurar columnas de la grilla
         // Primero se borran todos exepto el check ( en vez de removeAll() )
-        var hCt = this._extGrid.headerCt, removeItems = hCt.items.items.slice(), len0 = removeItems.length - 1, item, i;
+        
+        var hCt = this._extGrid.headerCt, 
+            removeItems = hCt.items.items.slice(), 
+            len0 = removeItems.length - 1, 
+            item, i;
 
         this.suspendLayouts();
         for ( i = 0; i < len0; i++) {
@@ -605,8 +609,9 @@ Ext.define('ProtoUL.view.ProtoGrid', {
 
     getRowIndex: function() {
 
-        var sm = this._extGrid.getSelectionModel();
-        var rowIndex = this.store.indexOf(sm.getSelection()[0]);
+        var sm = this._extGrid.getSelectionModel(), 
+            rowIndex = this.store.indexOf(sm.getSelection()[0]);
+            
         if (rowIndex < 0) {
             rowIndex = 0;
         }
