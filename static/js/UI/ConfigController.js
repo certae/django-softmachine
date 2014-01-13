@@ -27,8 +27,10 @@ Ext.define('ProtoUL.UI.ConfigController', {
             return myAction;
         }
 
-        var myConfigOpts = [];
-        var __MasterDetail = this.__MasterDetail;
+        // @formatter:off
+        var myConfigOpts = [], 
+            __MasterDetail = this.__MasterDetail;
+        // @formatter:on
 
         this.viewCode = this.myMeta.viewCode;
         var perms = _SM._UserInfo.perms[this.viewCode];
@@ -164,7 +166,7 @@ Ext.define('ProtoUL.UI.ConfigController', {
         var myMeta = _SM._cllPCI[this.viewCode];
         if (!myMeta) {
             return;
-        }
+        };
 
         var detailsTree = Ext.create('ProtoUL.proto.ProtoDetailSelector', {
             myMeta: myMeta,
@@ -203,4 +205,5 @@ Ext.define('ProtoUL.UI.ConfigController', {
         myWin.show();
 
     }
-}); 
+
+});

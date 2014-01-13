@@ -14,9 +14,11 @@ Ext.define('ProtoUL.UI.MDActionsController', {
         }
         // if ( ! _SM._UserInfo.isStaff ) return
 
-        var me = this;
-        var myProtoActions = [];
-        var __MasterDetail = this.__MasterDetail;
+        // @formatter:off
+        var me = this, 
+            myProtoActions = [],
+            __MasterDetail = this.__MasterDetail;
+        // @formatter:on
 
         for (var ix in this.myMeta.actions  ) {
             var pProtoAction = this.myMeta.actions[ix];
@@ -30,7 +32,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
                 scope: me,
                 handler: onClickDoAction
             }));
-        }
+        };
 
         if (myProtoActions.length > 0) {
 
@@ -48,7 +50,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
             __MasterDetail.myProtoActions = myProtoActions;
             __MasterDetail.protoMasterGrid.addDocked(__MasterDetail.tbProtoActions);
 
-        }
+        };
 
         function onClickDoAction(btn) {
             var pGrid = __MasterDetail.protoMasterGrid;
@@ -74,6 +76,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
                     acceptFn: function(parameters) {
                         this.doAction(me, pGrid.viewCode, btn.actionDef, selectedKeys, parameters);
                     }
+
                 };
 
                 var myWin = Ext.create('ProtoUL.ux.parameterWin', {
@@ -83,8 +86,8 @@ Ext.define('ProtoUL.UI.MDActionsController', {
                 });
 
                 myWin.show();
-            }
-        }
+            };
+        };
 
     },
 
@@ -99,18 +102,22 @@ Ext.define('ProtoUL.UI.MDActionsController', {
                 if (myResult.success && actionDef.refreshOnComplete) {
                     this.__MasterDetail.mdGridReload();
                 }
+
                 if (myResult.fileName) {
                     _SM.getFile(myResult.fileName, true);
                 }
+
             },
             failure: function(result, request) {
                 _SM.__StBar.showError(actionDef.menuText + ' ' + result.statusText, 'MDActionsController');
 
             }
+
         };
 
         _SM.__StBar.showMessage('executing  ' + actionDef.menuText + '...', 'MDActionsController');
         _SM.doProtoActions(viewCode, actionDef.menuText, selectedKeys, parameters, options);
 
     }
-}); 
+
+});

@@ -55,26 +55,31 @@ Ext.define('ProtoUL.UI.GridSheetController', {
 
     },
 
-    prepareSheet: function() {
-
-        var me = this.myGrid;
-        var myMeta = me.myMeta;
+	prepareSheet: function() {
+    	
+        // @formatter:off
+        var me = this.myGrid, 
+            myMeta = me.myMeta;
+        // @formatter:on
 
         // Los zooms ( initialConfig ) no deben manejar sheets
         if (me.initialConfig.hideSheet || myMeta.gridConfig.hideSheet) {
             return;
-        }
+		}
 
         // Si no tiene datos
         if (!me.rowData) {
             renderSheet('', '');
             return;
         }
-
-        var pSheets = myMeta.sheetConfig;
-        var pSheetSelector = myMeta.sheetSelector || '';
-        var pSheetCriteria = me.rowData[pSheetSelector];
-        var pSheet = undefined, ix;
+        
+        //@formatter:off
+        var pSheets = myMeta.sheetConfig, 
+            pSheetSelector = myMeta.sheetSelector || '', 
+            pSheetCriteria = me.rowData[pSheetSelector], 
+            pSheet = undefined, 
+            ix;
+        //@formatter:on
 
         for (ix in pSheets  ) {
             if (pSheets[ix].sheetType == 'printerOnly') {
@@ -135,4 +140,5 @@ Ext.define('ProtoUL.UI.GridSheetController', {
         }
 
     }
-}); 
+
+});

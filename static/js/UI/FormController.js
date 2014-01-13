@@ -58,6 +58,7 @@ Ext.define('ProtoUL.UI.FormController', {
                     me._waitForDetails(me, detCode);
                     _SM.errorMessage('ProtoDefinition Error :', detCode + ': protoDefinition not found');
                 }
+
             };
 
             // PreCarga los detalles
@@ -65,7 +66,7 @@ Ext.define('ProtoUL.UI.FormController', {
                 me._waitForDetails(me, detCode);
             }
 
-        }
+        };
 
         // lo marca como cargado
         this.myMetaDict[this.myMeta.viewCode] = false;
@@ -261,6 +262,7 @@ Ext.define('ProtoUL.UI.FormController', {
             failure: function(obj, result, request) {
                 _SM.errorMessage('ProtoDefinition Error :', this.viewCode + ': protoDefinition not found');
             }
+
         };
         if (_SM.loadPci(this.viewCode, true, options)) {
             this._openAndLoad(this.viewCode, myRecordId);
@@ -381,7 +383,7 @@ Ext.define('ProtoUL.UI.FormController', {
                                 bodyStyle: ';border-right:none;border-left:none;border-top:none;'
                             }
                         };
-                    }
+                    };
 
                 } else if (__ptType == 'protoGrid') {
                     if (_SM.loadPci(protoObj.viewCode, false)) {
@@ -440,6 +442,7 @@ Ext.define('ProtoUL.UI.FormController', {
                         if (prFld) {
                             prLayout.items.push(prFld);
                         }
+
                     }
 
                 }
@@ -482,6 +485,7 @@ Ext.define('ProtoUL.UI.FormController', {
                                 html: prLayout['tooltip']
                             });
                         }
+
                     };
 
                 }
@@ -523,7 +527,12 @@ Ext.define('ProtoUL.UI.FormController', {
 
         }
 
-        var me = this, myFormDefinition = _SM.clone(this.myMeta.formConfig), myMeta = this.myMeta, myFieldDict = _SM.getFieldDict(myMeta);
+        // @formatter:off
+        var me = this, 
+            myFormDefinition = _SM.clone(this.myMeta.formConfig), 
+            myMeta = this.myMeta, 
+            myFieldDict = _SM.getFieldDict(myMeta);
+        // @formatter:on
 
         me.prFormLayout = [];
 
@@ -535,7 +544,8 @@ Ext.define('ProtoUL.UI.FormController', {
                 __ptType: 'panel'
             }, lObj);
             me.prFormLayout.push(prItem);
-        }
+        };
 
     }
+
 });

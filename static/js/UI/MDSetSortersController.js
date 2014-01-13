@@ -8,10 +8,11 @@ Ext.define('ProtoUL.UI.MDSetSortersController', {
 
     getCustomOptsBar: function() {
 
-        var mySortersSet = [];
-        var __MasterDetail = this.__MasterDetail;
-
-        var tmpSorters = this.myMeta.gridSets.sortersSet.concat(this.myMeta.custom.sortersSet);
+        // @formatter:off        
+        var mySortersSet = [],  
+            __MasterDetail = this.__MasterDetail, 
+            tmpSorters = this.myMeta.gridSets.sortersSet.concat( this.myMeta.custom.sortersSet );
+        // @formatter:on
 
         if (this.myMeta.gridConfig.initialSort && (tmpSorters.length > 0  )) {
             addSorters([{
@@ -39,7 +40,7 @@ Ext.define('ProtoUL.UI.MDSetSortersController', {
             __MasterDetail.mySortersSet = mySortersSet;
             __MasterDetail.protoMasterGrid.addDocked(__MasterDetail.tbSortersSet);
 
-        }
+        };
 
         function onClickSorter(btn) {
             __MasterDetail.protoMasterStore.sort(btn.sorter);
@@ -57,8 +58,9 @@ Ext.define('ProtoUL.UI.MDSetSortersController', {
                     scope: this,
                     handler: onClickSorter
                 }));
-            }
+            };
         }
 
     }
-}); 
+
+});

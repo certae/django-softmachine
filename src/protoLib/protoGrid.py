@@ -78,6 +78,7 @@ class ProtoGridFactory(object):
             except ValueError:  pass
     
             # if pListDisplay and (pListDisplay[0] == '__str__'): pListDisplay = []
+            if len(pListDisplay) == 0: pListDisplay = [ '__str__' ]
             
         self.gridConfig['listDisplay'] = pListDisplay 
         
@@ -107,10 +108,10 @@ class ProtoGridFactory(object):
             if field.name in protoExclude: continue
             setFieldDict (  self.fieldsDict , field )
 
-        for field in self.model._meta._many_to_many():
-            if field.name in protoExclude: continue
-            setFieldDict (  self.fieldsDict , field )
 
+#         for field in self.model._meta._many_to_many():
+#             if field.name in protoExclude: continue
+#             setFieldDict (  self.fieldsDict , field )
 
         # Agrega el __str__ que sirve de base para los zooms
         fName = '__str__' 

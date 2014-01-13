@@ -48,7 +48,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 hidden: true,
                 enableToggle: true,
                 handler: toogleTb2
-
             }, {
                 xtype: 'splitbutton',
                 text: _SM.__language.Text_Actions_Button,

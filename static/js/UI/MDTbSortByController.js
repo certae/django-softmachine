@@ -8,9 +8,10 @@ Ext.define('ProtoUL.UI.MDTbSortByController', {
 
     getSortersBar: function() {
 
-        var me = this;
-        var mySortCols = [];
-        var __MasterDetail = me.__MasterDetail;
+        // @formatter:off
+        var me = this,
+            mySortCols = [],
+            __MasterDetail = me.__MasterDetail;
 
         me.myFieldDict = __MasterDetail.protoMasterGrid.myFieldDict;
 
@@ -18,12 +19,12 @@ Ext.define('ProtoUL.UI.MDTbSortByController', {
         for (var ix in me.myMeta.gridConfig.sortFields ) {
             var name = me.myMeta.gridConfig.sortFields[ix];
             var c = me.myFieldDict[name];
-            if (!c) {
+            if (!c) { 
                 c = {
                     name: name,
                     header: name
                 };
-            }
+                }
             mySortCols.push({
                 name: c.name,
                 header: c.header
@@ -42,6 +43,7 @@ Ext.define('ProtoUL.UI.MDTbSortByController', {
                     Drop: function(r, c, button) {//update sort direction when button is dropped
                         changeSortDirection(button, false);
                     }
+
                 }
             });
 
@@ -59,9 +61,8 @@ Ext.define('ProtoUL.UI.MDTbSortByController', {
 
             for (var ix in mySortCols ) {
 
-                var c = mySortCols[ix];
-
                 // Verifica si la col existe
+                var c = mySortCols[ix];
                 var col = me.myFieldDict[name];
                 if (!col) {
                     continue;
@@ -96,6 +97,7 @@ Ext.define('ProtoUL.UI.MDTbSortByController', {
                     click: function(button, e) {
                         changeSortDirection(button, true);
                     }
+
                 },
                 iconCls: 'sort-' + config.sortData.direction.toLowerCase(),
                 reorderable: true,
@@ -142,4 +144,16 @@ Ext.define('ProtoUL.UI.MDTbSortByController', {
         }
 
     }
+
 });
+
+// getAllSort
+// --------------------
+// Toma todos los campos por default en caso de no venir nada ( no toma el Id )
+// if ( mySortCols.length == 0 ) {
+// for (var i = 0, len = me.myMeta.fields.length; i < len; i++) {
+// var c = me.myMeta.fields[i];
+// if (!(c.fRomModel == true ) || (c.type == 'autofield')) continue
+// mySortCols.push( { name : c.name, header : c.header } )
+// }
+// }

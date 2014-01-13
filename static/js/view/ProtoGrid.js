@@ -211,6 +211,7 @@ Ext.define('ProtoUL.view.ProtoGrid', {
                                 }
                             }
                         }
+
                     },
 
                     getRowClass: function(record, rowIndex, rowParams, store) {
@@ -227,6 +228,7 @@ Ext.define('ProtoUL.view.ProtoGrid', {
                         }
 
                     }
+
                 }
 
             });
@@ -409,7 +411,7 @@ Ext.define('ProtoUL.view.ProtoGrid', {
                 vFld = myMeta.fields[ix];
                 if (vFld.crudType == 'storeOnly') {
                     continue;
-                }
+                };
 
                 // lee las props p
                 gCol = _SM.getColDefinition(vFld);
@@ -666,4 +668,5 @@ Ext.define('ProtoUL.view.ProtoGrid', {
         // Controles de edicion en el panel de titulo de la grilla
         this._extGrid.addTool(myTools);
     }
+
 });

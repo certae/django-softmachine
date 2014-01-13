@@ -30,7 +30,6 @@ def protoGetUserRights(request):
         pUser = authenticate(username = userName, password = userPwd )
     except:
         pUser = None
-        
 
     userInfo = { 'userName' : userName } 
                  

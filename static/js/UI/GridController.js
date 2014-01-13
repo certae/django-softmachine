@@ -23,7 +23,8 @@ Ext.define('ProtoUL.UI.GridController', {
          *
          */
 
-        var me = this.myGrid, navPanel = ['-'], comboPageSize = new Ext.form.ComboBox({
+        var me = this.myGrid, navPanel = ['-'];
+        var comboPageSize = new Ext.form.ComboBox({
             name: 'perpage',
             width: 60,
             store: new Ext.data.ArrayStore({
@@ -148,7 +149,10 @@ Ext.define('ProtoUL.UI.GridController', {
 
     setEditMode: function(bEdit) {
 
-        var perms = _SM._UserInfo.perms[this.myMeta.viewCode], myExtGrid = this.myGrid._extGrid;
+        // @formatter:off
+        var perms = _SM._UserInfo.perms[this.myMeta.viewCode], 
+            myExtGrid = this.myGrid._extGrid;
+        // @formatter:on
 
         if (!(perms['add'] || perms['change'] || perms['delete'] )) {
             return;
@@ -236,6 +240,7 @@ Ext.define('ProtoUL.UI.GridController', {
                 break;
         }
     }
+
 });
 
 _SM.validaSelected = function(myReg) {

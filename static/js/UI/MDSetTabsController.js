@@ -8,14 +8,14 @@ Ext.define('ProtoUL.UI.MDSetTabsController', {
 
     getCustomOptsBar: function() {
 
-        var myTabs = [];
-        var __MasterDetail = this.__MasterDetail;
-
-        var tmpTabs = this.myMeta.gridSets.listDisplaySet.concat(this.myMeta.custom.listDisplaySet);
+        // @formatter:off
+        var myTabs = [],  
+            __MasterDetail = this.__MasterDetail,
+            tmpTabs = this.myMeta.gridSets.listDisplaySet.concat( this.myMeta.custom.listDisplaySet );
+        // @formatter:on
 
         if (tmpTabs.length > 0) {
             var tabConfig = _SM.defineTabConfig(this.myMeta.gridConfig);
-
             addTabs([tabConfig]);
             addTabs(tmpTabs);
         }
@@ -36,7 +36,7 @@ Ext.define('ProtoUL.UI.MDSetTabsController', {
             __MasterDetail.myTabs = myTabs;
             __MasterDetail.protoMasterGrid.addDocked(__MasterDetail.tbTabs);
 
-        }
+        };
 
         function onClickTab(btn) {
             __MasterDetail.protoMasterGrid.configureColumns(btn.tabConfig);
@@ -61,10 +61,11 @@ Ext.define('ProtoUL.UI.MDSetTabsController', {
                     scope: this,
                     handler: onClickTab
                 }));
-            }
+            };
         }
 
     }
+
 });
 
 _SM.defineTabConfig = function(gridConfig) {
