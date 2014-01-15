@@ -18,7 +18,7 @@ from utilsWeb import doReturn
 
 # Error Constants
 ERR_NOEXIST = '<b>ErrType:</b> KeyNotFound<br>The specifique record does not exist'
-ERR_REFONLY = '<b>ErrType:</b> KeyNotFound<br>The specifique record is reference only'
+ERR_REFONLY = '<b>ErrType:</b> RefOnly<br>The specifique record is reference only'
 
 
 def protoCreate(request):
@@ -108,7 +108,7 @@ def _protoEdit(request, myAction ):
 
         # refOnly verifica si corresponde a los registros modificables  ( solo es true en myAction in ['delete', 'change'] ) 
         if refOnly and isProtoModel :
-            if not ( data['smOwningTeam'] in userNodes ) :
+            if not ( str( rec.smOwningTeam_id ) in userNodes ) :
                 data['_ptStatus'] = ERR_REFONLY + '<br>'
                 pList.append( data )
                 continue
