@@ -124,8 +124,9 @@ _SM.getStoreDefinition = function(stDef) {
 
             // Fires whenever a successful write has been made via the configured Proxy
             write: function(store, operation, eOpts) {
-
-                for (var ix in operation.records) {
+    
+                var ix; 
+                for (ix in operation.records) {
                     var recResult = operation.resultSet.records[ix], recOrigin = operation.records[ix];
 
                     // Si existe un resultSet
@@ -285,17 +286,14 @@ _SM.getTreeStoreDefinition = function(stDef) {
 
 _SM.getNewRecord = function(myMeta, myStore) {
 
-    var myRecord = new myStore.model(setDefaults());
-
-    // Lo asocia al store
-    myRecord.store = myStore;
-    return myRecord;
-
     function setDefaults() {
 
-        var vDefault = {};
-        for (var ix in myMeta.fields ) {
-            var vFld = myMeta.fields[ix];
+        var vDefault = {}, 
+            ix, 
+            fld;
+            
+        for (ix in myMeta.fields ) {
+            vFld = myMeta.fields[ix];
             if (!vFld.prpDefault) {
                 continue;
             }
@@ -304,11 +302,17 @@ _SM.getNewRecord = function(myMeta, myStore) {
         return vDefault;
     }
 
+    var myRecord = new myStore.model(setDefaults());
+
+    // Lo asocia al store
+    myRecord.store = myStore;
+    return myRecord;
+
 };
 
 _SM.getRecordByDataIx = function(myStore, fieldName, value) {
     var ix = myStore.findExact(fieldName, value);
-    if (ix == -1) {
+    if (ix === -1) {
         return;
     }
     return myStore.getAt(ix);

@@ -83,18 +83,17 @@ Ext.define('ProtoUL.ux.protoZoom', {
     }, 
 
     _loadZoom: function( fnBase, opts  ) {
-        var me = this; 
-        var options = 
-        {
-            scope: me, 
-            success: function ( obj, result, request ) {
-                me.createZoomWindow( me );
-                fnBase.call( me, me, opts );
-            },
-            failure: function ( obj, result, request) { 
-                return ;  
-            }
-        };
+        var me = this,  
+            options =  {
+                scope: me, 
+                success: function ( obj, result, request ) {
+                    me.createZoomWindow( me );
+                    fnBase.call( me, me, opts );
+                },
+                failure: function ( obj, result, request) { 
+                    return ;  
+                }
+            };
 
         if (  _SM.loadPci( me.zoomModel , true, options ) ) {
             me.createZoomWindow( me ); 
@@ -188,13 +187,12 @@ Ext.define('ProtoUL.ux.protoZoom', {
                     { xtype: 'button', text: 'Ok', scope: me, handler: me.doReturn } 
                 ]; 
 
-        if ( perms['change'] ) {
-            zoomBtns.push( { xtype: 'button', text: 'Edit', scope: me, handler: doEdit } )
-        }
-
-        if ( perms['add'] ) {
-            zoomBtns.push( { xtype: 'button', text: 'New', scope: me, handler: doNew  } )
-        }
+        // if ( perms['change'] ) {
+            // zoomBtns.push( { xtype: 'button', text: 'Edit', scope: me, handler: doEdit } )
+        // }
+        // if ( perms['add'] ) {
+            // zoomBtns.push( { xtype: 'button', text: 'New', scope: me, handler: doNew  } )
+        // }
         
         // referencia a la ventana modal
         me.win  = Ext.widget('window', {
@@ -221,7 +219,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
         });
 
         me.isLoaded = true;
-        
+        this.zoomGrid.setEditMode( true );
         
     }, 
     

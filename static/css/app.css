@@ -237,11 +237,11 @@
 
 
 .taskManager {
-    background-image: url(../img/protoOrg/mark_active.png) !important }
+    background-image: url(../img/protoOrg/mark_active.png) !important 
 }
 
- .logout {
-    background-image: url(../../Recursos/Imagenes/logout.png) !important }
+.logout {
+    background-image: url(../../Recursos/Imagenes/logout.png) !important 
 }
 
 
