@@ -21,6 +21,10 @@
  * Verificar si dinamicamente puedo pegar el registro del zoom en el campo para q pueda ser recuperado por el evento beforecommit 
  *  
  */
+
+/*jslint nomen: true, sloppy : true, white : true, sub : true */
+/*global Ext */
+/*global _SM */
  
 Ext.define('ProtoUL.ux.protoZoom', {
     extend : 'Ext.form.field.Trigger',
@@ -109,6 +113,28 @@ Ext.define('ProtoUL.ux.protoZoom', {
     
     createZoomWindow:  function ( me  ){
         // @ZoomRaise 
+
+        function doCancel() {
+            me.resetZoom();
+            me.win.hide();
+        }
+
+        function doNew() {
+            var formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });
+            formController.openNewForm ( this.zoomGrid.store  );
+        }
+
+
+        function doEdit() {
+            if ( ! this.zoomGrid.selected ) {
+                _SM.errorMessage(_SM.__language.Title_Form_Panel, _SM.__language.GridAction_NoRecord);
+                return; 
+            }
+            var formController = Ext.create('ProtoUL.UI.FormController', { 
+                myMeta : me.myMeta
+             });
+            formController.openLinkedForm ( this.zoomGrid.selected    );
+        }
         
         if ( me.isLoaded ) { return; } 
 
@@ -155,7 +181,21 @@ Ext.define('ProtoUL.ux.protoZoom', {
         });                 
 
         //@@ Verificar los permisos de usuario 
+        var perms = _SM._UserInfo.perms[ me.myMeta.viewCode ], 
+            zoomBtns = [
+                    { xtype: 'tbtext', text: '', id: me.idStBar , flex: 1, readOnly : true  },
+                    { xtype: 'button', text: 'Cancel', scope: me, handler: doCancel   }, 
+                    { xtype: 'button', text: 'Ok', scope: me, handler: me.doReturn } 
+                ]; 
 
+        if ( perms['change'] ) {
+            zoomBtns.push( { xtype: 'button', text: 'Edit', scope: me, handler: doEdit } )
+        }
+
+        if ( perms['add'] ) {
+            zoomBtns.push( { xtype: 'button', text: 'New', scope: me, handler: doNew  } )
+        }
+        
         // referencia a la ventana modal
         me.win  = Ext.widget('window', {
             title : 'Zoom : ' + me.myMeta.shortTitle,
@@ -175,40 +215,13 @@ Ext.define('ProtoUL.ux.protoZoom', {
                 dock: 'bottom',
                 ui: 'footer',
                 defaults: {minWidth: 75},
-                items: [
-                    { xtype: 'tbtext', text: '', id: me.idStBar , flex: 1, readOnly : true  },
-                    { xtype: 'button', text: 'Cancel', scope: me, handler: doCancel   }, 
-                    { xtype: 'button', text: 'Ok', scope: me, handler: me.doReturn }, 
-                    { xtype: 'button', text: 'Edit', scope: me, handler: doEdit  }, 
-                    { xtype: 'button', text: 'New', scope: me, handler: doNew   }
-                ]
+                items: zoomBtns
             }]            
 
         });
 
         me.isLoaded = true;
         
-        function doCancel() {
-            me.resetZoom();
-            me.win.hide();
-        }
-
-        function doNew() {
-            var formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });
-            formController.openNewForm ( this.zoomGrid.store  );
-        }
-
-
-        function doEdit() {
-            if ( ! this.zoomGrid.selected ) {
-                _SM.errorMessage(_SM.__language.Title_Form_Panel, _SM.__language.GridAction_NoRecord);
-                return; 
-            }
-            var formController = Ext.create('ProtoUL.UI.FormController', { 
-                myMeta : me.myMeta
-             });
-            formController.openLinkedForm ( this.zoomGrid.selected    );
-        }
         
     }, 
     
@@ -226,17 +239,14 @@ Ext.define('ProtoUL.ux.protoZoom', {
         
         // TODO: verifica el zoomFilter 
         var myZoomFilter = getFilter();
-        if ( myZoomFilter) if ( myZoomFilter.length > 0 ) {
+        if ( myZoomFilter) { if ( myZoomFilter.length > 0 ) {
             this.zoomGrid.store.mySetBaseFilter( myZoomFilter );
-        }
+        }} 
 
         me.win.show();
         
         function getFilter() {
-            
-            if ( ! me.zoomFilter ) return myFilter;
-            if ( ! me.idProtoGrid ) return myFilter;  
-                        
+
             /*  zoomFilter = "field1 : condition ; 
              *                field2 : [refCampoBase]; campo : 'vr'; 
              *                field3 = @functionX( [refCampoBase], [refCampoBase] ); .. "
@@ -244,9 +254,16 @@ Ext.define('ProtoUL.ux.protoZoom', {
             */ 
             var myFilter = me.zoomFilter;
             
+            if (!me.zoomFilter) {
+                return myFilter;
+            }
+            if (!me.idProtoGrid) {
+                return myFilter;
+            }  
+                        
             // Obtiene los parametros ( campos en el registro base )
             // var lFilters = me.zoomFilter.match(/[^[\]]+(?=])/g)
-            var lFilters = me.zoomFilter.match(/\(([^()]+)\)/g);
+            var lFilters =    me.zoomFilter.match(/\(([^()]+)\)/g);
             
             if ( lFilters ) if  ( lFilters.length > 0 ) { 
 

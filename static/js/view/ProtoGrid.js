@@ -411,7 +411,7 @@ Ext.define('ProtoUL.view.ProtoGrid', {
                 vFld = myMeta.fields[ix];
                 if (vFld.crudType == 'storeOnly') {
                     continue;
-                };
+                }
 
                 // lee las props p
                 gCol = _SM.getColDefinition(vFld);
