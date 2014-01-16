@@ -24,6 +24,8 @@ import django.utils.simplejson as json
 import traceback
 
 
+REFONLY = 'REF_ONLY'
+
 def protoList(request):
 #   Vista simple para cargar la informacion,
 
@@ -51,7 +53,7 @@ def protoList(request):
 
 
 #   Obtiene las filas del modelo
-    Qs, orderBy, fakeId = getQSet( protoMeta, protoFilter, baseFilter , sort , request.user )
+    Qs, orderBy, fakeId, refOnly = getQSet( protoMeta, protoFilter, baseFilter , sort , request.user )
     pRowsCount = Qs.count()
 
 
@@ -66,10 +68,16 @@ def protoList(request):
             pRows =  Qs.all()[ start: page*limit ]
     else: pRows =  Qs.all()[ start: page*limit ]
 
+
+    # Verifica los nodos validos 
+    if refOnly: 
+        userNodes = getUserNodes( request.user, protoMeta.get('viewEntity', '') )
+    else: userNodes = []
+
 #   Prepara las cols del Query
     try:
         #TODO: improve performance
-        pList = Q2Dict(protoMeta , pRows, fakeId  )
+        pList = Q2Dict(protoMeta , pRows, fakeId, userNodes  )
         bResult = True
     except Exception,  e:
         traceback.print_exc()
@@ -91,8 +99,9 @@ def protoList(request):
 
 
 # Obtiene el diccionario basado en el Query Set
-def Q2Dict (  protoMeta, pRows, fakeId  ):
+def Q2Dict (  protoMeta, pRows, fakeId, userNodes = [] ):
     """
+        userNodes : Para el manejo de refOnly : contiene los Id de los teams validos  
         return the row list from given queryset
     """
 
@@ -206,6 +215,11 @@ def Q2Dict (  protoMeta, pRows, fakeId  ):
         if fakeId:
             rowdict[ 'id'] = rowId
 
+
+        # Verifica el refOnly 
+        if len( userNodes ) > 0  and  not ( str( rowData.smOwningTeam_id ) in userNodes ) :
+            rowdict['_ptStatus'] = REFONLY 
+        
         # Agrega la fila al diccionario
         rows.append(rowdict)
 
@@ -315,9 +329,10 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
 #   Qs = model.objects.select_related(depth=1)
     Qs = model.objects
 
-#   Filtros por seguridad ( debe ser siempre a nivel de grupo )
+#   Permite la lectura de todos los registros 
     refOnly =  getModelPermissions( pUser, model, 'refonly' )
 
+#   Filtros por seguridad ( debe ser siempre a nivel de grupo )
     if isProtoModel and not ( pUser.is_superuser or refOnly ):
 #       Qs = Qs.filter( Q( smOwningTeam__in = userNodes ) | Q( smOwningUser = pUser  ) )
         Qs = Qs.filter( smOwningTeam__in = userNodes )
@@ -371,8 +386,10 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
     # DbFirst en caso de q no exista una llave primaria
     fakeId = hasattr( model , '_fakeId' )
 
-    return Qs, orderBy, fakeId
+    # Solo retorna refOnly si este es valido para la tabla ( no es un super usuario y es un modelo manejado por sm )  
+    refOnly =  refOnly and isProtoModel and not pUser.is_superuser 
 
+    return Qs, orderBy, fakeId, refOnly
 
 def getUnicodeFields( model ):
     unicodeSort = ()

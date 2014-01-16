@@ -218,15 +218,17 @@ Ext.define('ProtoUL.view.ProtoGrid', {
                         //    Esto permite marcar los registros despues de la actualizacion
                         var stRec = record.get('_ptStatus');
                         if (stRec) {
-                            if (stRec == _SM._ROW_ST.NEWROW) {
+                            if (stRec === _SM._ROW_ST.NEWROW) {
                                 return stRec;
+                            } else if (stRec === _SM._ROW_ST.REFONLY) {
+                                // No cambia el color 
+                                return '';
                             } else {
                                 return _SM._ROW_ST.ERROR;
                             }
                         } else {
                             return '';
                         }
-
                     }
 
                 }
@@ -444,10 +446,27 @@ Ext.define('ProtoUL.view.ProtoGrid', {
 
     fireSelectionChange: function(rowModel, record, rowIndex, eOpts) {
         this.fireEvent('selectionChange', rowModel, record, rowIndex, eOpts);
+        
+        // Condicionar los botones de edicion segun los permisos ( refOnly ) 
+        var perms = _SM._UserInfo.perms[ this.myMeta.viewCode ];  
+        if ( this.editable && record && perms['refonly'] ) {
+            this.verifyEdition( record, perms )
+       }   
+        
+        // Presenta la hoja de informacion en caso de q exista 
         if (this.IdeSheet) {
             this.sheetCrl.prepareSheet();
         }
     },
+
+    verifyEdition: function(record, perms ) {
+        var me = this, 
+            stRec = record.get('_ptStatus'), 
+            editRestr = (stRec && stRec === _SM._ROW_ST.REFONLY) ; 
+
+        me.gridController.setEditToolBar( me.editable, !editRestr, perms  ); 
+             
+    }, 
 
     fireStartEdition: function(editAction) {
         // this.fireEvent('startEdition', this , editAction );

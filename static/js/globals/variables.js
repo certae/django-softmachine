@@ -7,6 +7,7 @@ _SM = {};
 
 // Estados en cada fila de la grilla al iteractuar con el BackEnd
 _SM._ROW_ST = {
+    REFONLY   : 'REF_ONLY',
     ERROR     : 'ROWST_ERR',
     NEWROW     : 'ROWST_NEW'
    };

@@ -277,7 +277,10 @@ def protoCsv(request):
     sort = request.POST.get('sort', '')
 
 #   Obtiene las filas del modelo
-    Qs, orderBy, fakeId = getQSet( protoMeta, protoFilter, baseFilter , sort , request.user  )
+    Qs, orderBy, fakeId, refOnly = getQSet( protoMeta, protoFilter, baseFilter , sort , request.user  )
+    
+    # El refOnly no es necesario para reportes 
+    refOnly = refOnly and False 
 
     if orderBy:
         pRows =  Qs.order_by(*orderBy)

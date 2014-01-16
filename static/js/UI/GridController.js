@@ -147,11 +147,23 @@ Ext.define('ProtoUL.UI.GridController', {
 
     },
 
+
+    setToolMode: function ( myToolBt, bEdit) {
+        var myExtGrid = this.myGrid._extGrid;
+
+        if (bEdit) {
+            myExtGrid.down(myToolBt).show();
+        } else {
+            myExtGrid.down(myToolBt).hide();
+        }
+    }, 
+
     setEditMode: function(bEdit) {
 
         // @formatter:off
-        var perms = _SM._UserInfo.perms[this.myMeta.viewCode], 
-            myExtGrid = this.myGrid._extGrid;
+        var me = this, 
+            perms = _SM._UserInfo.perms[this.myMeta.viewCode], 
+            myExtGrid = me.myGrid._extGrid;
         // @formatter:on
 
         if (!(perms['add'] || perms['change'] || perms['delete'] )) {
@@ -161,32 +173,36 @@ Ext.define('ProtoUL.UI.GridController', {
 
         this.myGrid.editable = bEdit;
 
-        if (perms['add']) {
-            // setToolMode ( myExtGrid, '#toolRowAdd', bEdit )
-            setToolMode(myExtGrid, '#toolRowCopy', bEdit);
-            setToolMode(myExtGrid, '#toolFormAdd', bEdit);
+        var bRef = bEdit && me.myGrid.selected; 
+
+        if ( bRef ) { 
+            var record = me.myGrid.selected, 
+                stRec = record.get('_ptStatus'); 
+
+            bRef = ! (stRec && stRec === _SM._ROW_ST.REFONLY) ; 
         }
 
-        if (perms['delete']) {
-            setToolMode(myExtGrid, '#toolRowDel', bEdit);
-        }
+        this.setEditToolBar( bEdit, bRef, perms );
 
-        if (perms['change']) {
-            setToolMode(myExtGrid, '#toolFormUpd', bEdit);
-        }
-
-        setToolMode(myExtGrid, '#toolFormView', !bEdit);
-        // setToolMode ( myExtGrid, '#toolMetaConfig',  !bEdit );
-
-        function setToolMode(myExtGrid, myToolBt, bEdit) {
-            if (bEdit) {
-                myExtGrid.down(myToolBt).show();
-            } else {
-                myExtGrid.down(myToolBt).hide();
-            }
-        }
 
     },
+
+    setEditToolBar: function( bEdit, bRef, perms ) {
+
+        var me = this; 
+
+        // setToolMode ( myExtGrid, '#toolRowAdd', bEdit && perms['add'])
+        me.setToolMode('#toolRowCopy', bEdit && perms['add'] );
+        me.setToolMode('#toolFormAdd', bEdit && perms['add'] );
+
+        me.setToolMode('#toolFormUpd', bRef && perms['change'] );
+        me.setToolMode('#toolFormView', ! ( bRef && perms['change'] ));
+
+        me.setToolMode('#toolRowDel', bRef && perms['delete'] );
+        // setToolMode ( myExtGrid, '#toolMetaConfig',  !bEdit );
+
+    }, 
+
 
     //  --------------------------------------------------------------------------
 
