@@ -15,7 +15,7 @@ from utilsWeb import JsonError, JsonSuccess
 from django.utils.translation import gettext as _
 
 def protoGetUserRights(request):
-    """ return usr rihts 
+    """ return usr rights 
     """
     
     if request.method != 'POST':
