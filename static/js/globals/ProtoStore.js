@@ -790,12 +790,13 @@ _SM.getColDefinition = function(vFld) {
 
 _SM.getFormFieldDefinition = function(vFld) {
 
-    var colDefinition = _SM.getColDefinition(vFld);
+
+    var colDefinition = _SM.getColDefinition(vFld),
+        formEditor = {
+            readOnly: true
+        };
 
     // Se inicializa ro, en caso de q no se encuentre en el dict
-    var formEditor = {
-        readOnly: true
-    };
 
     if (colDefinition.editor) {
         formEditor = colDefinition.editor;
@@ -804,6 +805,7 @@ _SM.getFormFieldDefinition = function(vFld) {
     // Field Label
     formEditor.name = vFld.name;
     formEditor.fieldLabel = vFld.fieldLabel || vFld.header || vFld.name;
+    formEditor.fieldLabel = formEditor.fieldLabel.replace( '<b>', '' ).replace( '</b>', '' );
     if (vFld.required) {
         formEditor.fieldLabel = '<b>' + formEditor.fieldLabel + '</b>';
     }
