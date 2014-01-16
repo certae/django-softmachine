@@ -53,7 +53,7 @@ Ext.define('ProtoUL.UI.MDTbSortByController', {
                 items: [{
                     iconCls: 'sort',
                     xtype: 'tbtext',
-                    text: '<b>' + _SM.__language.Grid_Sort_Title + ':</b>',
+                    text: '<h3>' + _SM.__language.Grid_Sort_Title + '</h3>',
                     reorderable: false
                 }],
                 plugins: [reorderer]
@@ -146,14 +146,3 @@ Ext.define('ProtoUL.UI.MDTbSortByController', {
     }
 
 });
-
-// getAllSort
-// --------------------
-// Toma todos los campos por default en caso de no venir nada ( no toma el Id )
-// if ( mySortCols.length == 0 ) {
-// for (var i = 0, len = me.myMeta.fields.length; i < len; i++) {
-// var c = me.myMeta.fields[i];
-// if (!(c.fRomModel == true ) || (c.type == 'autofield')) continue
-// mySortCols.push( { name : c.name, header : c.header } )
-// }
-// }

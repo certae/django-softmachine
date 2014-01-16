@@ -44,9 +44,7 @@ Ext.define('ProtoUL.UI.MDSetFiltersController', {
                     scope:          this,                     
                     handler:        onClickProtoFilter
                 }));
-
         }
-
 
         if ( myFilters.length > 0  ) {
 
@@ -57,24 +55,23 @@ Ext.define('ProtoUL.UI.MDSetFiltersController', {
                 items: [
                     {
                     xtype   : 'tbtext',
-                    text: '<b>Filtrer par :<b>'
+                    text: '<h3>Filtrer par : </h3>'
                     }
                 ]
             });
 
-            __MasterDetail.tbFilters.add ( myFilters )
-            __MasterDetail.myFilters = myFilters
-            __MasterDetail.protoMasterGrid.addDocked( __MasterDetail.tbFilters )
+            __MasterDetail.tbFilters.add ( myFilters );
+            __MasterDetail.myFilters = myFilters;
+            __MasterDetail.protoMasterGrid.addDocked( __MasterDetail.tbFilters );
 
         }; 
         
         function onClickProtoFilter( btn ){
             __MasterDetail.protoMasterGrid.filterTitle = ' " ' +  btn.text + ' "'; 
-            __MasterDetail.protoMasterGrid.setGridTitle( __MasterDetail.protoMasterGrid ) 
+            __MasterDetail.protoMasterGrid.setGridTitle( __MasterDetail.protoMasterGrid );
             __MasterDetail.mdGridLoadData( btn.protoFilter );
         };
         
-        
     }
     
-}) ;
+});

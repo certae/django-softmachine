@@ -20,7 +20,7 @@ Ext.define('ProtoUL.UI.ConfigController', {
             var myAction = Ext.create('Ext.Action', {
                 text: name,
                 iconCls: icon,
-                prCfgAction: action,
+				prCfgAction: action,
                 scope: me,
                 handler: onClickConfigAction
             });
@@ -34,7 +34,6 @@ Ext.define('ProtoUL.UI.ConfigController', {
 
         this.viewCode = this.myMeta.viewCode;
         var perms = _SM._UserInfo.perms[this.viewCode];
-
         if (perms.config) {
             myConfigOpts.push(myActionConfig('Form', _SM.__language.MetaConfig_Form_Config, 'icon-configForm'));
             myConfigOpts.push(myActionConfig('Fields', _SM.__language.MetaConfig_Add_Fields, 'icon-configFields'));
@@ -47,15 +46,14 @@ Ext.define('ProtoUL.UI.ConfigController', {
         }
 
         // Modificacion del entorno
-        if (myConfigOpts.length > 0) {
-
+        if (myConfigOpts.length > 0) { // && !Ext.isIE8
             __MasterDetail.tbConfigOpts = Ext.create('Ext.toolbar.Toolbar', {
                 dock: 'top',
                 hidden: true,
                 enableOverflow: true,
                 items: [{
                     xtype: 'tbtext',
-                    text: '<b>' + _SM.__language.Text_Config + ':<b>'
+                    text: '<h3>' + _SM.__language.Text_Config + '</h3>'
                 }]
             });
 

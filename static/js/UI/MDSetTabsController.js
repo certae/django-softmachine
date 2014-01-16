@@ -28,7 +28,7 @@ Ext.define('ProtoUL.UI.MDSetTabsController', {
                 enableOverflow: true,
                 items: [{
                     xtype: 'tbtext',
-                    text: '<b>Tabs :<b>'
+                    text: '<h3>Tabs : </h3>'
                 }]
             });
 

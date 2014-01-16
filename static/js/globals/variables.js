@@ -130,7 +130,7 @@ _SM.DesignerPanels = {
         "xtype" : "tabpanel",
         "activeTab" : 0,
         "border" : false,
-        "defaults": { "lauyout" : "fit" },
+        "defaults": { "layout" : "fit" },
         "items" : [{
             "title" : "Tools",
             "itemId" : "toolsTree",
