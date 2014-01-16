@@ -172,6 +172,7 @@ Ext.define('ProtoUL.UI.FormController', {
             closeAction: 'hide',
             width: me.myWidth,
             height: me.myHeight,
+            style : 'z-index: -1;',
             x: _SM._winX,
             y: _SM._winY,
             minHeight: 400,
