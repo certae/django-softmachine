@@ -41,13 +41,16 @@ Ext.define("ProtoUL.ux.Printer", {
 			//open up a new printing window, write to it, print it and close
 			var win = window.open('', 'printgrid');
 			win.document.write(html1);
-
+			
 			if (this.printAutomatically) {
+				win.document.close();
+				win.focus();
 				win.print();
 				// win.close();
 			}
 		},
 
+		// FIXME unused function: scheduled to delete. Must ask Dario first...
 		sheetPrint : function(grid, sheetHtml) {
 			//We generate an XTemplate here by using 2 intermediary XTemplates - one to create the header,
 			//the other to create the body (see the escaped {} below)
@@ -73,6 +76,8 @@ Ext.define("ProtoUL.ux.Printer", {
 		reportPrint : function(win, sheetHtml) {
 			//open up a new printing window, write to it, print it and close
 			win.document.write(sheetHtml);
+			win.document.close();
+			win.focus();
 			win.print();
 
 		},
