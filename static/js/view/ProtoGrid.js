@@ -309,7 +309,7 @@ Ext.define('ProtoUL.view.ProtoGrid', {
                 fn: function(view, record, item) {
                     // Esto maneja los tooltip en las las filas
                     var msg = record.get('_ptStatus');
-                    if (msg == _SM._ROW_ST.NEWROW) {
+                    if (msg == _SM._ROW_ST.NEWROW ||  msg == _SM._ROW_ST.REFONLY ) {
                         msg = '';
                     }
 
