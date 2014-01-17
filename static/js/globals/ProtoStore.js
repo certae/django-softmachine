@@ -372,9 +372,6 @@ _SM.DefineProtoModel = function(myMeta) {
     // Separacion de campos para facilidad del administrador
     var fieldsBase = [], fieldsAdm = [], mField = {};
 
-		// console.log('DefineProtoModel');
-		// console.log(myMeta.fields);
-
     for (var ix in myMeta.fields ) {
         var vFld = myMeta.fields[ix];
 
