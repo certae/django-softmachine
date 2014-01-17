@@ -372,6 +372,9 @@ _SM.DefineProtoModel = function(myMeta) {
     // Separacion de campos para facilidad del administrador
     var fieldsBase = [], fieldsAdm = [], mField = {};
 
+		// console.log('DefineProtoModel');
+		// console.log(myMeta.fields);
+
     for (var ix in myMeta.fields ) {
         var vFld = myMeta.fields[ix];
 
@@ -384,14 +387,13 @@ _SM.DefineProtoModel = function(myMeta) {
         if (!vFld.type) {
             vFld.type = 'string';
         }
-
         // modelField
         mField = {
             name: vFld.name,
             type: vFld.type
             //TODO:  useNull : true / false    ( NullAllowed, IsNull,  NotNull )
         };
-
+		
         // Tipos validos
         if (!vFld.type in _SM.objConv(['string', 'text', 'html', 'bool', 'int', 'decimal', 'combo', 'date', 'datetime', 'time', 'protoN2N', 'autofield', 'foreignid', 'foreigntext'])) {
 
@@ -791,6 +793,7 @@ _SM.getColDefinition = function(vFld) {
 _SM.getFormFieldDefinition = function(vFld) {
 
 
+
     var colDefinition = _SM.getColDefinition(vFld),
         formEditor = {
             readOnly: true
@@ -813,7 +816,14 @@ _SM.getFormFieldDefinition = function(vFld) {
         formEditor.afterLabelTextTpl = _SM._requiredField;
     }
     formEditor.fieldLabel = Ext.util.Format.capitalize(formEditor.fieldLabel);
-
+	
+	if (vFld.required && !vFld.fkId) {
+	    formEditor.listeners = {
+	        blur: function() {
+	            this.setValue(Ext.String.trim(this.getValue()));
+	        }
+	    };
+	}
     // Casos especiales
     switch( vFld.type ) {
         case 'text':
