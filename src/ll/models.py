@@ -17,6 +17,11 @@ class Logiciel(ProtoModel):
     recommande_gouv_quebec = models.BooleanField()
     uri_commu_gouv = models.CharField(blank= True, null= True, max_length= 255)
     fourlog = models.ForeignKey('Logiciel', blank= True, null= True, related_name='+')
+    
+    _WorkFlow =  {  'add' : ( 'A Valider',  ),
+                    'accept' : ( 'A Valider', 'Acepté' ),  
+                    'reject' : ( 'A Valider', 'Refusé' ),  
+                  } 
 
     
     def __unicode__(self):
@@ -24,6 +29,13 @@ class Logiciel(ProtoModel):
 
     class Meta:
         unique_together = ('nom_logiciel',)
+
+    def WfAccept(self, *args, **kwargs ):
+        pass 
+
+    def WfRejet(self, *args, **kwargs ):
+        pass 
+
 
 class LicenceAppliquee(ProtoModel):
     lic_licapp = models.ForeignKey('Licence', blank= False, null= False, related_name='+')
