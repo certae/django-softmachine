@@ -348,6 +348,7 @@ class HistoriqueUtilisateurs(ProtoModel):
     nombre_utilisateurs = models.IntegerField(blank = True, null = True)
     usage_nombre_utilisateurs = models.ForeignKey('UsageLogiciel', blank= False, null= False, related_name='+')
 
+    _autoIncrementField = 'identifiant_nombre_utilisateurs'
     def __unicode__(self):
         return slugify(str( self.identifiant_nombre_utilisateurs) +  '.' + str( self.usage_nombre_utilisateurs))
 
@@ -361,6 +362,7 @@ class HistoriqueInstances(ProtoModel):
     nombre_instances = models.IntegerField(blank = True, null = True)
     usage_nombre_instances = models.ForeignKey('UsageLogiciel', blank= False, null= False, related_name='+')
 
+    _autoIncrementField = 'identifiant_nombre_instances'
     def __unicode__(self):
         return slugify(str( self.identifiant_nombre_instances) +  '.' + str( self.usage_nombre_instances))
 
@@ -458,6 +460,7 @@ class ReferenceDocumentEvaluation(ProtoModel):
     uri_document = models.CharField(blank= True, null= True, max_length= 255)
     evaluation_document = models.ForeignKey('Evaluation', blank= False, null= False, related_name='+')
 
+    _autoIncrementField = 'identifiant_reference_document'
     def __unicode__(self):
         return slugify(str( self.identifiant_reference_document) +  '.' + str( self.evaluation_document))
 
