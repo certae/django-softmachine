@@ -814,11 +814,14 @@ _SM.getFormFieldDefinition = function(vFld) {
     }
     formEditor.fieldLabel = Ext.util.Format.capitalize(formEditor.fieldLabel);
 	
+	// Add listener to avoid whitespaces
+	// This works fine with ExtJS 4.2.2
 	if (vFld.required && !vFld.fkId) {
 	    formEditor.listeners = {
 	        blur: function() {
 	            this.setValue(Ext.String.trim(this.getValue()));
-	        }
+	        },
+	        render : function(field) {}
 	    };
 	}
     // Casos especiales

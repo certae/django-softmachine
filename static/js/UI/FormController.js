@@ -319,7 +319,7 @@ Ext.define('ProtoUL.UI.FormController', {
     defineFormLayout: function() {
 
         function defineProtoFormItem(me, parent, protoObj, protoIx) {
-
+			
             var prLayout, template, __ptType, sDataType = _SM.typeOf(protoObj);
 
             if (sDataType == "object") {
@@ -327,7 +327,7 @@ Ext.define('ProtoUL.UI.FormController', {
                 // Configura el objeto
                 if (!protoObj.__ptConfig) {
                     protoObj.__ptConfig = getSimpleProperties(protoObj);
-                }
+				}
                 if (!protoObj.__ptConfig.name) {
                     protoObj.__ptConfig.name = protoIx;
                 }
@@ -342,11 +342,30 @@ Ext.define('ProtoUL.UI.FormController', {
 
                     // protoIx es el field Name, si no viene debe buscarlo en __ptConfig [ name ]
                     protoIx = protoObj.name || protoObj.__ptConfig.name;
-
+					
                     var myFld = myFieldDict[protoIx];
                     if (myFld) {
-
                         template = getTemplate(__ptType, true, myFld);
+                        // this works on extJS 4.2.2
+						if(myFld.required && !myFld.fkId && me.newForm){
+							template.__ptConfig.listeners.render = function(field) {
+									Ext.Ajax.request({
+									    url: _SM._PConfig.urlGetNextIncrement,
+									    method: 'GET',          
+									    params: {
+									        fieldName: myFld.name,
+									        viewEntity: me.myMeta.viewEntity
+									    },
+									    success: function ( result, request ) {
+							            	var jsonData = Ext.decode(result.responseText);
+							            	field.setValue(jsonData.increment);
+							            },                                    
+									    failure: function(){
+									    	console.log('failure on get increment');
+									    }
+									});
+								};
+						}
                         prLayout = Ext.apply(template.__ptConfig, protoObj.__ptConfig);
 
                         // ReadOnlyCls
@@ -536,7 +555,6 @@ Ext.define('ProtoUL.UI.FormController', {
         // @formatter:on
 
         me.prFormLayout = [];
-
         for (var ixV in myFormDefinition.items) {
             var lObj = myFormDefinition.items[ixV];
 

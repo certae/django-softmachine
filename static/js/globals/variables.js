@@ -37,6 +37,7 @@ _SM._PConfig =  {
     urlDoAction   : 'protoLib/protoDoActions/',
     urlHelpQbe: 'protoLib/protoGetHelpQbe/',
     urlLogOut:  'protoLib/protoLogout/',
+    urlGetNextIncrement: 'protoLib/getFieldIncrement/',
 
     clsBaseModel: 'ProtoUL.model.'
 };

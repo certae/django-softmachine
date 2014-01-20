@@ -18,6 +18,7 @@ class Logiciel(ProtoModel):
     uri_commu_gouv = models.CharField(blank= True, null= True, max_length= 255)
     fourlog = models.ForeignKey('Logiciel', blank= True, null= True, related_name='+')
 
+    
     def __unicode__(self):
         return slugify(self.nom_logiciel)
 
@@ -513,6 +514,7 @@ class UsageLogiciel(ProtoModel):
     logiciel_usage = models.ForeignKey('Logiciel', blank= False, null= False, related_name='+')
     organisme_usage = models.ForeignKey('OrganismePublic', blank= False, null= False, related_name='+')
 
+    _autoIncrementField = 'identifiant_usage_logiciel'
     def __unicode__(self):
         return slugify(str( self.identifiant_usage_logiciel) +  '.' + str( self.logiciel_usage) +  '.' + str( self.organisme_usage))
 

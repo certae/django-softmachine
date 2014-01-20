@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import patterns, url
 
 from protoLib.protoMenu import protoGetMenuData
-from protoLib.protoGetPci import protoGetPCI, protoSaveProtoObj, protoGetFieldTree
+from protoLib.protoGetPci import protoGetPCI, protoSaveProtoObj, protoGetFieldTree, getFieldIncrement
 from protoLib.protoGetDetails import protoGetDetailsTree
 from protoLib.protoLogin import protoGetUserRights, protoLogout, protoGetPasswordRecovery, resetpassword, changepassword
 
@@ -33,4 +33,5 @@ urlpatterns = patterns('',
     url('submitChangePassword/$', changepassword),
     url('protoLogout/$', protoLogout ), 
     
+    url('getFieldIncrement/$', getFieldIncrement),
 )
