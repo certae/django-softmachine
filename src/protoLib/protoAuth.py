@@ -93,7 +93,7 @@ def getModelPermissions( pUser, model , perm = None ):
     getIndPermission ( 'delete' )
     getIndPermission ( 'config' )
     getIndPermission ( 'custom' )
-    getIndPermission ( 'refonly' )
+    getIndPermission ( 'refallow' )
 
     return  permissions
 

@@ -447,9 +447,9 @@ Ext.define('ProtoUL.view.ProtoGrid', {
     fireSelectionChange: function(rowModel, record, rowIndex, eOpts) {
         this.fireEvent('selectionChange', rowModel, record, rowIndex, eOpts);
         
-        // Condicionar los botones de edicion segun los permisos ( refOnly ) 
+        // Condicionar los botones de edicion segun los permisos ( refAllow ) 
         var perms = _SM._UserInfo.perms[ this.myMeta.viewCode ];  
-        if ( this.editable && record && perms['refonly'] ) {
+        if ( this.editable && record && perms['refallow'] ) {
             this.verifyEdition( record, perms )
        }   
         

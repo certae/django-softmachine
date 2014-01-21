@@ -62,16 +62,16 @@ def _protoEdit(request, myAction ):
 
 #   Verifica si hay registros que son solo de referencia
     userNodes = []
-    refOnly = False 
+    refAllow = False 
     if myAction in ['delete', 'change'] and isProtoModel and not request.user.is_superuser  :
-        refOnly = getModelPermissions( request.user, model, 'refonly' )
-        if refOnly:
+        refAllow = getModelPermissions( request.user, model, 'refallow' )
+        if refAllow:
             userNodes = getUserNodes( request.user, viewEntity )
 
 #   WorkFlow  
     hasWFlow = hasattr( model , '_WorkFlow' ) and isProtoModel 
     if hasWFlow: 
-        wfAdmin =  getModelPermissions( request.user , model, 'wfAdmin' )
+        wfadmin =  getModelPermissions( request.user , model, 'wfadmin' )
         WFlowControl = getattr( model, '_WorkFlow', {} )
         initialWfStatus = WFlowControl.get( 'initialStatus', '0')
 
@@ -114,8 +114,8 @@ def _protoEdit(request, myAction ):
                 continue
 
 
-        # refOnly verifica si corresponde a los registros modificables  ( solo es true en myAction in ['delete', 'change'] ) 
-        if refOnly and isProtoModel :
+        # refAllow verifica si corresponde a los registros modificables  ( solo es true en myAction in ['delete', 'change'] ) 
+        if refAllow and isProtoModel :
             if not ( str( rec.smOwningTeam_id ) in userNodes ) :
                 data['_ptStatus'] = ERR_REFONLY + '<br>'
                 pList.append( data )

@@ -118,8 +118,8 @@ def protoGetPCI(request):
 #   WorkFlow  
     hasWFlow = hasattr( model , '_WorkFlow' )
     if hasWFlow: 
-        wfAdmin =  getModelPermissions( request.user , model, 'wfAdmin' )
-        if wfAdmin:
+        wfadmin =  getModelPermissions( request.user , model, 'wfadmin' )
+        if wfadmin:
             setWFActions( protoMeta,  getattr( model, '_WorkFlow', {} ) )  
 
     

@@ -53,7 +53,7 @@ def protoList(request):
 
 
 #   Obtiene las filas del modelo
-    Qs, orderBy, fakeId, refOnly = getQSet( protoMeta, protoFilter, baseFilter , sort , request.user )
+    Qs, orderBy, fakeId, refAllow = getQSet( protoMeta, protoFilter, baseFilter , sort , request.user )
     pRowsCount = Qs.count()
 
 
@@ -70,7 +70,7 @@ def protoList(request):
 
 
     # Verifica los nodos validos 
-    if refOnly: 
+    if refAllow: 
         userNodes = getUserNodes( request.user, protoMeta.get('viewEntity', '') )
     else: userNodes = []
 
@@ -101,7 +101,7 @@ def protoList(request):
 # Obtiene el diccionario basado en el Query Set
 def Q2Dict (  protoMeta, pRows, fakeId, userNodes = [] ):
     """
-        userNodes : Para el manejo de refOnly : contiene los Id de los teams validos  
+        userNodes : Para el manejo de refAllow : contiene los Id de los teams validos  
         return the row list from given queryset
     """
 
@@ -216,7 +216,7 @@ def Q2Dict (  protoMeta, pRows, fakeId, userNodes = [] ):
             rowdict[ 'id'] = rowId
 
 
-        # Verifica el refOnly 
+        # Verifica el refAllow 
         if len( userNodes ) > 0  and  not ( str( rowData.smOwningTeam_id ) in userNodes ) :
             rowdict['_ptStatus'] = REFONLY 
         
@@ -336,14 +336,14 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
     Qs = model.objects
 
 #   Permite la lectura de todos los registros 
-    refOnly =  getModelPermissions( pUser, model, 'refonly' )
+    refAllow =  getModelPermissions( pUser, model, 'refallow' )
     
 
 #   Solamenete valida si es     
     if isProtoModel and not pUser.is_superuser :
 
         # Si no tiene wflow y tampoco permiso de referencia, se limita a los nodos de su equipo    
-        if not refOnly :
+        if not refAllow :
             Qs = Qs.filter( smOwningTeam__in = userNodes )
 
         # Si tiene permiso de referencia y ademas WF, trae todos los propios o los demas en estado valido 
@@ -399,10 +399,10 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
     # DbFirst en caso de q no exista una llave primaria
     fakeId = hasattr( model , '_fakeId' )
 
-    # Solo retorna refOnly si este es valido para la tabla ( no es un super usuario y es un modelo manejado por sm )  
-    refOnly =  refOnly and isProtoModel and not pUser.is_superuser 
+    # Solo retorna refAllow si este es valido para la tabla ( no es un super usuario y es un modelo manejado por sm )  
+    refAllow =  refAllow and isProtoModel and not pUser.is_superuser 
 
-    return Qs, orderBy, fakeId, refOnly
+    return Qs, orderBy, fakeId, refAllow
 
 def getUnicodeFields( model ):
     unicodeSort = ()
