@@ -115,6 +115,14 @@ def protoGetPCI(request):
         protoMeta['custom'] = custom['custom']  
     except: pass
     
+#   WorkFlow  
+    hasWFlow = hasattr( model , '_WorkFlow' )
+    if hasWFlow: 
+        wfAdmin =  getModelPermissions( request.user , model, 'wfAdmin' )
+        if wfAdmin:
+            setWFActions( protoMeta,  getattr( model, '_WorkFlow', {} ) )  
+
+    
     jsondict = {
         'success':True,
         'message': '',
@@ -145,6 +153,11 @@ def protoGetPCI(request):
     context = json.dumps( jsondict)
     return HttpResponse(context, mimetype="application/json")
 
+
+    
+    def setWFActions( protoMeta, WFlowControl ):
+#       ptActions =  protoMeta.get( 'actions', [])
+        protoMeta['WFlowActions'] = WFlowControl.procedures    
 
 
 # protoGetPCI ----------------------------

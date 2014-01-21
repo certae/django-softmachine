@@ -321,6 +321,12 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
     if isProtoModel:
         userNodes = getUserNodes( pUser, viewEntity )
 
+#   WorkFlow Model 
+    hasWFlow = hasattr( model , '_WorkFlow' )
+    if hasWFlow: 
+        WFlowControl = getattr( model, '_WorkFlow', {})
+        OkStatus = WFlowControl.get( 'OkStatus', 'Ok')
+        
 #   JsonField
     JsonField = protoMeta.get( 'jsonField', '')
     if not isinstance( JsonField, ( str, unicode) ): JsonField = ''
@@ -331,11 +337,18 @@ def getQSet(  protoMeta, protoFilter, baseFilter , sort , pUser  ):
 
 #   Permite la lectura de todos los registros 
     refOnly =  getModelPermissions( pUser, model, 'refonly' )
+    
 
-#   Filtros por seguridad ( debe ser siempre a nivel de grupo )
-    if isProtoModel and not ( pUser.is_superuser or refOnly ):
-#       Qs = Qs.filter( Q( smOwningTeam__in = userNodes ) | Q( smOwningUser = pUser  ) )
-        Qs = Qs.filter( smOwningTeam__in = userNodes )
+#   Solamenete valida si es     
+    if isProtoModel and not pUser.is_superuser :
+
+        # Si no tiene wflow y tampoco permiso de referencia, se limita a los nodos de su equipo    
+        if not refOnly :
+            Qs = Qs.filter( smOwningTeam__in = userNodes )
+
+        # Si tiene permiso de referencia y ademas WF, trae todos los propios o los demas en estado valido 
+        elif hasWFlow:
+            Qs = Qs.filter( Q( smOwningTeam__in = userNodes ) |  Q( ~Q( smOwningTeam__in = userNodes ) , Q( smWflowStatus = OkStatus ))) 
 
 #   TODO: Agregar solomente los campos definidos en el safeMeta  ( only,  o defer )
 #   Qs.query.select_fields = [f1, f2, .... ]

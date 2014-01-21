@@ -20,6 +20,27 @@ Ext.define('ProtoUL.UI.MDActionsController', {
             __MasterDetail = this.__MasterDetail;
         // @formatter:on
 
+
+        if ( this.myMeta.WFlowActions ) {
+            for (var ix in this.myMeta.WFlowActions ) {
+                var pProtoAction = this.myMeta.WFlowActions[ix];
+
+                pProtoAction.menuText = pProtoAction.menuText || pProtoAction.name;
+                pProtoAction.actionType = 'wflow'
+                myProtoActions.push(new Ext.Action({
+                    text: pProtoAction.menuText,
+                    actionName: pProtoAction.name,
+                    iconCls: pProtoAction.viewIcon,
+                    tooltip: pProtoAction.description,
+                    actionDef: pProtoAction,
+                    scope: me,
+                    handler: onClickDoAction
+                }));
+            };
+
+        }
+
+
         for (var ix in this.myMeta.actions  ) {
             var pProtoAction = this.myMeta.actions[ix];
             pProtoAction.menuText = pProtoAction.menuText || pProtoAction.name;

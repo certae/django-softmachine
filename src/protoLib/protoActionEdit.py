@@ -57,7 +57,7 @@ def _protoEdit(request, myAction ):
 #   Obtiene el profile para saber el teamhierarchi
     userProfile = getUserProfile( request.user, 'edit', viewEntity )
 
-    # Verfica si es un protoModel ( maneja TeamHierarchy )
+#   Verfica si es un protoModel ( maneja TeamHierarchy )
     isProtoModel = hasattr( model , '_protoObj' )
 
 #   Verifica si hay registros que son solo de referencia
@@ -67,6 +67,13 @@ def _protoEdit(request, myAction ):
         refOnly = getModelPermissions( request.user, model, 'refonly' )
         if refOnly:
             userNodes = getUserNodes( request.user, viewEntity )
+
+#   WorkFlow  
+    hasWFlow = hasattr( model , '_WorkFlow' ) and isProtoModel 
+    if hasWFlow: 
+        wfAdmin =  getModelPermissions( request.user , model, 'wfAdmin' )
+        WFlowControl = getattr( model, '_WorkFlow', {} )
+        initialWfStatus = WFlowControl.get( 'initialStatus', '0')
 
 #   Decodifica los eltos
     rows = request.POST.get('rows', [])
@@ -106,6 +113,7 @@ def _protoEdit(request, myAction ):
                 pList.append( data )
                 continue
 
+
         # refOnly verifica si corresponde a los registros modificables  ( solo es true en myAction in ['delete', 'change'] ) 
         if refOnly and isProtoModel :
             if not ( str( rec.smOwningTeam_id ) in userNodes ) :
@@ -124,8 +132,9 @@ def _protoEdit(request, myAction ):
 
                 #  Los campos de seguridad se manejan a nivel registro
                 if isProtoModel:
-                    if key in ['smOwningUser','smOwningTeam','smCreatedBy','smModifiedBy','smWflowStatus','smRegStatus','smCreatedOn','smModifiedOn']: continue
-                    if key in ['smOwningUser_id','smOwningTeam_id','smCreatedBy_id','smModifiedBy_id']: continue
+                    if key in ['smOwningUser','smOwningTeam','smCreatedBy','smModifiedBy',
+                               'smWflowStatus','smRegStatus','smCreatedOn','smModifiedOn',
+                               'smOwningUser_id','smOwningTeam_id','smCreatedBy_id','smModifiedBy_id']: continue
 
                 #  Udps
                 if (cUDP.udpTable and key.startswith( cUDP.propertyPrefix + '__')): continue
@@ -150,6 +159,11 @@ def _protoEdit(request, myAction ):
                     jKey = key[ len(jsonField) + 2 : ]
                     jsonInfo[ jKey ] = data[ key ]
                 setattr( rec, jsonField , jsonInfo   )
+
+
+            # Inicializa el estado del WF 
+            if hasWFlow: 
+                setattr( rec, 'smWflowStatus' , initialWfStatus )
 
             # Guarda el idInterno para concatenar registros nuevos en la grilla
             try:
