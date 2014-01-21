@@ -57,7 +57,7 @@ Ext.define('ProtoUL.UI.MDSetFiltersController', {
                 items: [
                     {
                     xtype   : 'tbtext',
-                    text: '<b>Filtrer par :<b>'
+                    text: '<b>Filtrer par :</b>'
                     }
                 ]
             });
