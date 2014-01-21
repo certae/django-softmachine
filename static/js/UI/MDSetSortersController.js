@@ -32,7 +32,7 @@ Ext.define('ProtoUL.UI.MDSetSortersController', {
                 enableOverflow: true,
                 items: [{
                     xtype: 'tbtext',
-                    text: '<b>Sorters :<b>'
+                    text: '<b>Sorters :</b>'
                 }]
             });
 
