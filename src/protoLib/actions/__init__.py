@@ -25,7 +25,13 @@ def doWFlowResume(modeladmin, request, queryset, parameters):
             wfModel =  getDjangoModel( modelName )
         except :
             continue 
-        # TODO save data to WflowAdminResume
-        wfQs = wfModel.objects.filter( smWflowStatus = wfStatus ).count()
 
+        adminResume = WflowAdminResume()
+        wfQs = wfModel.objects.filter( smWflowStatus = wfStatus ).count()
+        
+        adminResume.activityCount = wfQs
+        adminResume.viewEntity = pParam.parameterValue
+        
+        adminResume.save()
+        # TODO add returnMsg
     return {'success':True, 'message' : returnMsg }  
