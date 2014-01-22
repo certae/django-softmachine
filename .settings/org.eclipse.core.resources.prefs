@@ -1,5 +1,5 @@
 eclipse.preferences.version=1
-encoding//src/ll/models.py=UTF-8
+encoding//src/ll/models.py=utf-8
 encoding//src/protoLib/actions/__init__.py=utf-8
 encoding//src/protoLib/admin/__init__.py=utf-8
 encoding//src/protoLib/admin/adminProtoDef.py=utf-8
