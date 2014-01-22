@@ -334,6 +334,9 @@ class ParametersBase(ProtoModel):
     parameterTag = models.CharField(max_length=250 , blank=False, null=False)
     parameterValue = models.CharField(max_length=250 , blank=False, null=False)
 
+    def __unicode__(self):
+        return self.parameterKey + '.' + self.parameterValue   
+
 
 class WflowAdminResume(ProtoModel):
     """  Contiene el resumen las novedades que requieren accion del administrador

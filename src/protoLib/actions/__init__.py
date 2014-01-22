@@ -19,7 +19,7 @@ def doWFlowResume(modeladmin, request, queryset, parameters):
     Qs = ParametersBase.objects.filter(parameterKey='wflow')
     for pParam in Qs:
         modelName = getDjangoModel(pParam.parameterValue)
-        wfStatus  = pParam.parameterValue or '0'
+        wfStatus  = pParam.parameterTag or 'I'
 
         try:    
             wfModel =  getDjangoModel( modelName )
