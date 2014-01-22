@@ -116,13 +116,21 @@ def protoGetPCI(request):
     except: pass
     
 #   WorkFlow  
-    hasWFlow = hasattr( model , '_WorkFlow' )
-    if hasWFlow: 
-        wfadmin =  getModelPermissions( request.user , model, 'wfadmin' )
-        if wfadmin:
-            setWFActions( protoMeta,  getattr( model, '_WorkFlow', {} ) )  
+    if hasattr( model , '_WorkFlow' ) : 
+        if request.user.is_superuser  or getModelPermissions( request.user , model, 'wfadmin' ) :
+            wflowControl = getattr( model, '_WorkFlow', {} )
+            protoMeta['WFlowActions'] = wflowControl.get( 'transitions', [] ) 
 
-    
+        wfFilterSet = wflowControl.get( 'wfFilters', [] ) 
+        if len(  wfFilterSet ) > 0: 
+            protoMeta['gridSets'] = protoMeta.get('gridSets', {})
+            protoMeta['gridSets']['filtersSet'] = wfFilterSet
+            for lFilter in wfFilterSet:
+                lFilter['customFilter'] = [{
+                            "property": "smWflowStatus",
+                            "filterStmt": lFilter[ 'wfStatus']
+                }]
+
     jsondict = {
         'success':True,
         'message': '',
@@ -153,11 +161,7 @@ def protoGetPCI(request):
     context = json.dumps( jsondict)
     return HttpResponse(context, mimetype="application/json")
 
-
-    
-    def setWFActions( protoMeta, WFlowControl ):
-#       ptActions =  protoMeta.get( 'actions', [])
-        protoMeta['WFlowActions'] = WFlowControl.procedures    
+            
 
 
 # protoGetPCI ----------------------------

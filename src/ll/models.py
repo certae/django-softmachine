@@ -20,7 +20,23 @@ class Logiciel(ProtoModel):
     
     _WorkFlow =  {  'initialStatus' :   '0', 
                     'OkStatus' : 'Ok', 
-                    'procedures' : [
+                    'wfFilters' : [
+                        {
+                            'name': 'initial',
+                            'menuText': 'À verifier',
+                            'wfStatus' : '0'
+                        }, {
+                            'name': 'ok',
+                            'menuText': 'Valides',
+                            'wfStatus' : 'Ok'
+                        }, {
+                            'name': 'novalides',
+                            'menuText': 'Refuses',
+                            'wfStatus' : 'R'
+                        }
+                    ],
+
+                    'transitions' : [
                          {
                             'name' : 'accept', 
                             'menuText' : 'Accept', 
@@ -28,18 +44,17 @@ class Logiciel(ProtoModel):
                             'descripion' : '', 
                             'methode' : '', 
                             'change' : ( '0', 'Ok' ),
-                            'admMessage' : False,   
                             'admMessagePropmt' : '',   
                         }, {
                             'name' : 'reject', 
                             'menuText' : 'Reject', 
                             'methode' : '', 
                             'change' : ( '0', 'R' ),
-                            'admMessage' : True,   
                             'admMessagePropmt' : 'Raison de refuse?',   
                         }
                     ] 
                   } 
+
 
 
     def __unicode__(self):

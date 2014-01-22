@@ -489,7 +489,8 @@ _MetaObjects =  {
         "addPrompt" : "Please enter the name of the filterSet:", 
         "allowDel" : true,
         "properties": [
-            "name" 
+            "name" , 
+            "menuText" 
         ], 
         "lists": [
             "customFilter" 
