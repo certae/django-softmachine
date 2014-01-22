@@ -25,6 +25,8 @@ def protoExecuteAction(request):
                               
             Qs = model.objects.filter(pk__in=selectedKeys)
             Qs = Qs.filter(smWflowStatus=stInitial)
+            
+            
             Qs = Qs.update(smWflowStatus=stFinal, smOwningTeam=userProfile.userTeam)
 
             return doReturn ({'success':True, 'message' : 'WfAction Ok'})
