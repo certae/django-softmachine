@@ -18,20 +18,20 @@ class Logiciel(ProtoModel):
     uri_commu_gouv = models.CharField(blank= True, null= True, max_length= 255)
     fourlog = models.ForeignKey('Logiciel', blank= True, null= True, related_name='+')
     
-    _WorkFlow =  {  'initialStatus' :   '0', 
+    _WorkFlow =  {  'initialStatus' :   'I', 
                     'OkStatus' : 'Ok', 
                     'wfFilters' : [
                         {
                             'name': 'initial',
                             'menuText': 'À verifier',
-                            'wfStatus' : '0'
+                            'wfStatus' : 'I'
                         }, {
                             'name': 'ok',
-                            'menuText': 'Valides',
+                            'menuText': 'Accepté',
                             'wfStatus' : 'Ok'
                         }, {
                             'name': 'novalides',
-                            'menuText': 'Refuses',
+                            'menuText': 'Refusé',
                             'wfStatus' : 'R'
                         }
                     ],
@@ -39,17 +39,19 @@ class Logiciel(ProtoModel):
                     'transitions' : [
                          {
                             'name' : 'accept', 
-                            'menuText' : 'Accept', 
+                            'menuText' : 'Accepter', 
                             'viewIcon' : '', 
                             'descripion' : '', 
                             'methode' : '', 
-                            'change' : ( '0', 'Ok' ),
+                            'change' : ( 'I', 'Ok' ),
+                            'setOwner' : True , 
+                            'notifyOwner' : True , 
                             'admMessagePropmt' : '',   
                         }, {
                             'name' : 'reject', 
-                            'menuText' : 'Reject', 
+                            'menuText' : 'Refuser', 
                             'methode' : '', 
-                            'change' : ( '0', 'R' ),
+                            'change' : ( 'I', 'R' ),
                             'admMessagePropmt' : 'Raison de refuse?',   
                         }
                     ] 
