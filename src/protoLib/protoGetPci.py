@@ -117,8 +117,9 @@ def protoGetPCI(request):
     
 #   WorkFlow  
     if hasattr( model , '_WorkFlow' ) : 
+        wflowControl = getattr( model, '_WorkFlow', {} )
+
         if request.user.is_superuser  or getModelPermissions( request.user , model, 'wfadmin' ) :
-            wflowControl = getattr( model, '_WorkFlow', {} )
             protoMeta['WFlowActions'] = wflowControl.get( 'transitions', [] ) 
 
         wfFilterSet = wflowControl.get( 'wfFilters', [] ) 

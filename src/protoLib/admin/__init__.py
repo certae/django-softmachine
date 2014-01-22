@@ -40,3 +40,10 @@ admin.site.register( ContentType )
 admin.site.register( EntityMap )
 admin.site.register( FieldMap )
 
+
+# -----------------------------------------   Model  
+
+from protoLib.actions import doWFlowResume   
+
+class MyWflowUserReponseAdmin( admin.ModelAdmin ):
+    actions = [ doWFlowResume,  ]

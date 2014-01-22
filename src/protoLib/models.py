@@ -328,7 +328,48 @@ class PtFunction(models.Model):
     def __unicode__(self):
         return self.code + '.' + self.tag  
 
-#     modelId = models.CharField(max_length=200, blank=False, null=False)
+
+class ParametersBase(ProtoModel): 
+    parameterKey = models.CharField(max_length=250 , blank=False, null=False)
+    parameterTag = models.CharField(max_length=250 , blank=False, null=False)
+    parameterValue = models.CharField(max_length=250 , blank=False, null=False)
+
+
+class WflowAdminResume(ProtoModel):
+    """  Contiene el resumen las novedades que requieren accion del administrador
+         Al crear un registro de WFlow se puede crear una instancia de esta tabla o incrementar el contador 
+         Tambien tendra una accion para recorrer las tablas de wFlow ( parameter = wFlowEntities ) 
+         y contara los estados a verificar ( parameterTag  = 0 ) 
+    """
+
+    viewEntity = models.CharField(max_length=250 , blank=False, null=False)
+    activityCount = models.IntegerField(blank=False, null=False)
+   
+    def __unicode__(self):
+        return self.viewEntity
+
+    protoExt = { 
+        "actions": [
+            { "name": "doWFlowResume",
+              "selectionMode" : "none",
+              "refreshOnComplete" : True
+            },
+        ]
+    }
+
+
+class WflowUserReponse(ProtoModel):
+    """  Contiene los resultados de las acciones del administrador 
+    """
+
+    viewEntity = models.CharField(max_length=250 , blank=False, null=False)
+    wfAction = models.CharField(max_length=250 , blank=False, null=False)
+    strKey = models.CharField(max_length=250 , blank=False, null=False)
+    adminMsg = models.CharField(max_length=250 , blank=False, null=False)
+   
+    def __unicode__(self):
+        return self.viewEntity
+
     
 # class sb2reglesentite(models.Model):
 #    description = models.CharField(max_length=250 ,blank=True)
@@ -341,5 +382,4 @@ class PtFunction(models.Model):
 #    actionerr = models.CharField(max_length=50 ,blank=True)
 #    statut = models.CharField(max_length=10)
 #    entite = models.ForeignKey(sb1entites)
-#    
     

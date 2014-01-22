@@ -5,15 +5,18 @@ from protoGrid import getBaseModelName
 from models import getDjangoModel
 
 import django.utils.simplejson as json
+
 from utilsWeb import doReturn
+from protoAuth import getUserProfile
 
 
 def protoExecuteAction(request):
     """ Ejecuta una opcion
     """
 
-    def doWfAction(model, selectedKeys, parameters, actionDef):
+    def doWfAction(model, selectedKeys, parameters, actionDef, viewEntity, pUser):
 
+        userProfile = getUserProfile(pUser, 'wflow', viewEntity)
         try:
 
             changeSt = actionDef.get('change', [])
@@ -22,7 +25,7 @@ def protoExecuteAction(request):
                               
             Qs = model.objects.filter(pk__in=selectedKeys)
             Qs = Qs.filter(smWflowStatus=stInitial)
-            Qs = Qs.update(smWflowStatus=stFinal)
+            Qs = Qs.update(smWflowStatus=stFinal, smOwningTeam=userProfile.userTeam)
 
             return doReturn ({'success':True, 'message' : 'WfAction Ok'})
          
@@ -86,12 +89,10 @@ def protoExecuteAction(request):
 
 
     if actionDef.get('actionType', '') == 'wflow': 
-        stAux = doWfAction(model, selectedKeys, parameters, actionDef)
-        return stAux 
+        return doWfAction(model, selectedKeys, parameters, actionDef, viewEntity, request.user)
          
     elif hasattr(modelAdmin, 'actions'):          
-        stAux = doAdminAction (model, selectedKeys, parameters, actionDef, modelAdmin)
-        return stAux 
+        return doAdminAction (model, selectedKeys, parameters, actionDef, modelAdmin)
 
 
 #   ----------------------------------------
