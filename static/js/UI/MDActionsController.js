@@ -31,13 +31,15 @@ Ext.define('ProtoUL.UI.MDActionsController', {
                 pProtoAction.refreshOnComplete = true 
 
                 if ( pProtoAction.admMessagePropmt ) {
-                    pProtoAction.actionParams =  { 
+                    pProtoAction.actionParams =  [{ 
                         'name' : 'admMessage', 
                         'tooltip' : pProtoAction.description , 
                         'fieldLabel' :  pProtoAction.admMessagePropmt ,
+                        'type' : 'string', 
                         'required' : true 
-                    }
-                } else { pProtoAction.actionParams =  {}}
+                    }]
+
+                } else { pProtoAction.actionParams =  []}
                 
                 myProtoActions.push(new Ext.Action({
                     text: pProtoAction.menuText,

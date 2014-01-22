@@ -8,7 +8,8 @@ def doWFlowResume(modeladmin, request, queryset, parameters):
     """
 
     from protoLib.models import ParametersBase, getDjangoModel, WflowAdminResume
-        
+    from django.db.models import Count
+            
 #   Mensaje de retorno
     returnMsg = '' 
 
@@ -22,16 +23,19 @@ def doWFlowResume(modeladmin, request, queryset, parameters):
         wfStatus  = pParam.parameterTag or 'I'
 
         try:    
-            wfModel =  getDjangoModel( modelName )
+            wfModel =  getDjangoModel( pParam.parameterValue)
         except :
             continue 
+        wfStatus  = pParam.parameterTag or 'I'
+                
+        QsResume = wfModel.objects.filter( smWflowStatus = wfStatus ).annotate( regCount =Count('smOwningTeam') )
+        for regResume in QsResume:  
+            adminResume = WflowAdminResume()
+            adminResume.smOwningTeam = regResume.smOwningTeam
+            adminResume.activityCount = regResume.regCount 
+            adminResume.viewEntity = pParam.parameterValue
+            adminResume.save()
+        
 
-        adminResume = WflowAdminResume()
-        wfQs = wfModel.objects.filter( smWflowStatus = wfStatus ).count()
-        
-        adminResume.activityCount = wfQs
-        adminResume.viewEntity = pParam.parameterValue
-        
-        adminResume.save()
-        # TODO add returnMsg
+    # TODO add returnMsg
     return {'success':True, 'message' : returnMsg }  

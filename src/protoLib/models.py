@@ -348,7 +348,7 @@ class ParametersBase(ProtoModel):
         return self.parameterKey + '.' + self.parameterValue   
 
 
-class WflowAdminResume(ProtoModel):
+class WflowAdminResume(models.Model):
     """  Contiene el resumen las novedades que requieren accion del administrador
          Al crear un registro de WFlow se puede crear una instancia de esta tabla o incrementar el contador 
          Tambien tendra una accion para recorrer las tablas de wFlow ( parameter = wFlowEntities ) 
@@ -357,6 +357,7 @@ class WflowAdminResume(ProtoModel):
 
     viewEntity = models.CharField(max_length=250 , blank=False, null=False)
     activityCount = models.IntegerField(blank=False, null=False)
+    smOwningTeam = models.ForeignKey(TeamHierarchy, null=True, blank=True, related_name='+', editable=False)
    
     def __unicode__(self):
         return self.viewEntity
