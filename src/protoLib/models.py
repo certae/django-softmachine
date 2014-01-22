@@ -105,8 +105,8 @@ class ProtoModel(models.Model):
     
     def save(self):
         "Get last value of Code and Number from database, and increment before save"
-        _autoIncrementField = getattr(self, "_autoIncrementField")#self._meta.get_field('_autoIncrementField')
-        if _autoIncrementField and hasattr( self , _autoIncrementField ) and not self.pk:
+        if hasattr( self , "_autoIncrementField" ) and not self.pk:
+            _autoIncrementField = getattr(self, "_autoIncrementField")
             model = self.__class__
             top = model.objects.order_by('-pk')[0]
             setattr(self, _autoIncrementField, top.pk + 1)
