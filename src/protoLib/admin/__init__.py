@@ -43,7 +43,10 @@ admin.site.register( FieldMap )
 
 # -----------------------------------------   Model  
 
-from protoLib.actions import doWFlowResume   
+from protoLib.actions import doWFlowResume
+from protoLib.models import WflowAdminResume   
 
-class MyWflowUserReponseAdmin( admin.ModelAdmin ):
+class WflowAdminResumeAdmin( admin.ModelAdmin ):
     actions = [ doWFlowResume,  ]
+
+admin.site.register( WflowAdminResume, WflowAdminResumeAdmin)

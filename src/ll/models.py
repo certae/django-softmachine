@@ -46,12 +46,15 @@ class Logiciel(ProtoModel):
                             'change' : ( 'I', 'Ok' ),
                             'setOwner' : True , 
                             'notifyOwner' : True , 
+                            'message' : 'Felicitations' , 
                             'admMessagePropmt' : '',   
                         }, {
                             'name' : 'reject', 
                             'menuText' : 'Refuser', 
                             'methode' : '', 
                             'change' : ( 'I', 'R' ),
+                            'setOwner' : False , 
+                            'notifyOwner' : True , 
                             'admMessagePropmt' : 'Raison de refuse?',   
                         }
                     ] 

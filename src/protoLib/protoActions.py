@@ -2,10 +2,11 @@
 
 from django.contrib.admin.sites import  site
 from protoGrid import getBaseModelName
-from models import getDjangoModel
+from models import getDjangoModel, WflowUserReponse
 
 import django.utils.simplejson as json
 
+from datetime import datetime
 from utilsWeb import doReturn
 from protoAuth import getUserProfile
 
@@ -25,9 +26,36 @@ def protoExecuteAction(request):
                               
             Qs = model.objects.filter(pk__in=selectedKeys)
             Qs = Qs.filter(smWflowStatus=stInitial)
-            
-            
-            Qs = Qs.update(smWflowStatus=stFinal, smOwningTeam=userProfile.userTeam)
+
+            # TODO transaction??? 
+            if actionDef.get('notifyOwner', False) : 
+                for wfRow in Qs :
+
+                    if len (parameters) > 0: 
+                        strMsg = parameters[0].get('value')
+                    else : strMsg = actionDef.get('message', '') 
+
+                    UserReponse = WflowUserReponse()
+                    UserReponse.viewEntity = viewEntity
+                    UserReponse.strKey = wfRow.__str__()
+                    UserReponse.wfAction = actionDef.get('name')
+                    UserReponse.adminMsg = strMsg
+
+                    try:
+                        setattr(UserReponse, 'smOwningUser', wfRow.smOwningUser )
+                        setattr(UserReponse, 'smOwningTeam', wfRow.smOwningTeam )
+                        setattr(UserReponse, 'smCreatedBy', userProfile.user)
+                        setattr(UserReponse, 'smRegStatus', '0')
+                        setattr(UserReponse, 'smCreatedOn', datetime.now())
+                    except :
+                        pass 
+
+                    UserReponse.save()            
+
+            if actionDef.get('setOwner', False)  : 
+                Qs.update(smWflowStatus=stFinal, smOwningTeam=userProfile.userTeam)
+            else : 
+                Qs.update(smWflowStatus=stFinal)
 
             return doReturn ({'success':True, 'message' : 'WfAction Ok'})
          
@@ -95,6 +123,10 @@ def protoExecuteAction(request):
          
     elif hasattr(modelAdmin, 'actions'):          
         return doAdminAction (model, selectedKeys, parameters, actionDef, modelAdmin)
+
+    else: 
+        return doReturn ({'success':False, 'message' : 'Action notFound'})
+
 
 
 #   ----------------------------------------
