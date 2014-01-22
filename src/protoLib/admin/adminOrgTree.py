@@ -132,17 +132,5 @@ class orgTreeAdmin(django.contrib.admin.ModelAdmin):
             }]
         }]
     },
-    "usrDefProps": {
-        "__ptType": "usrDefProps"
-    },
-    "custom": {
-        "__ptType": "custom",
-        "filtersSet": [],
-        "listDisplaySet": [],
-        "sortersSet": []
-    },
-    "businessRules": {
-        "__ptType": "businessRules"
-    },
     "updateTime": "2013-01-28 07:46:04"
 }

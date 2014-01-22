@@ -37,7 +37,8 @@ Ext.define('ProtoUL.UI.MDSetFiltersController', {
             pFilters = tmpFilters[ vDet ];
             myFilters.push (
                 new Ext.Action({
-                    text:           pFilters.name,
+                    name:           pFilters.name,
+                    text:           pFilters.menuText || pFilters.name,
                     iconCls :       pFilters.icon, 
                     maxWidth :      100, 
                     protoFilter:    pFilters.customFilter,

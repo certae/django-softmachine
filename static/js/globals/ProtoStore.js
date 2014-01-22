@@ -1059,7 +1059,7 @@ _SM.getSheeReport = function(viewCode, sheetName, selectedKeys, options) {
     });
 };
 
-_SM.doProtoActions = function(viewCode, actionName, selectedKeys, parameters, options) {
+_SM.doProtoActions = function(viewCode, actionName, selectedKeys, parameters, actionDef, options) {
 
     parameters = parameters || [];
     options = options || {};
@@ -1077,6 +1077,7 @@ _SM.doProtoActions = function(viewCode, actionName, selectedKeys, parameters, op
             viewCode: viewCode,
             actionName: actionName,
             parameters: Ext.encode(parameters),
+            actionDef: Ext.encode(actionDef),
             selectedKeys: Ext.encode(selectedKeys)
         },
 

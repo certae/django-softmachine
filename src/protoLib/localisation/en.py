@@ -121,7 +121,7 @@ __language ={
     'Tooltip_Printing_Options' : 'Printing Options',
     'Tooltip_Config_Button' : 'Config Options',
     'Text_Actions_Button' : 'Actions',
-    'Tooltip_Actions_Button' : 'The basic workflow',
+    'Tooltip_Actions_Button' : 'The actions',
     'Tooltip_Details_Button' : 'View details',
     'Text_Filters_Button' : 'Filters',
     'Tooltip_Filters_Button' : 'custom Filters',

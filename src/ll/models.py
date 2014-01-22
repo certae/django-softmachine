@@ -18,12 +18,45 @@ class Logiciel(ProtoModel):
     uri_commu_gouv = models.CharField(blank= True, null= True, max_length= 255)
     fourlog = models.ForeignKey('Logiciel', blank= True, null= True, related_name='+')
     
-    _WorkFlow =  {  'add' : ( 'A Valider',  ),
-                    'accept' : ( 'A Valider', 'Acepté' ),  
-                    'reject' : ( 'A Valider', 'Refusé' ),  
+    _WorkFlow =  {  'initialStatus' :   '0', 
+                    'OkStatus' : 'Ok', 
+                    'wfFilters' : [
+                        {
+                            'name': 'initial',
+                            'menuText': 'À verifier',
+                            'wfStatus' : '0'
+                        }, {
+                            'name': 'ok',
+                            'menuText': 'Valides',
+                            'wfStatus' : 'Ok'
+                        }, {
+                            'name': 'novalides',
+                            'menuText': 'Refuses',
+                            'wfStatus' : 'R'
+                        }
+                    ],
+
+                    'transitions' : [
+                         {
+                            'name' : 'accept', 
+                            'menuText' : 'Accept', 
+                            'viewIcon' : '', 
+                            'descripion' : '', 
+                            'methode' : '', 
+                            'change' : ( '0', 'Ok' ),
+                            'admMessagePropmt' : '',   
+                        }, {
+                            'name' : 'reject', 
+                            'menuText' : 'Reject', 
+                            'methode' : '', 
+                            'change' : ( '0', 'R' ),
+                            'admMessagePropmt' : 'Raison de refuse?',   
+                        }
+                    ] 
                   } 
 
-    
+
+
     def __unicode__(self):
         return slugify(self.nom_logiciel)
 

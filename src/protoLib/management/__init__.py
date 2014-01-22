@@ -32,14 +32,17 @@ def addProtoPermissions(sender, **kwargs):
         title ="Can customize %s" % content_type.name
         addEntityPermission( label, title )
 
-        label = "print_%s" % content_type.model
-        title ="Can print %s" % content_type.name
+        label = "wfadmin_%s" % content_type.model
+        title ="Workflow admin for %s" % content_type.name
         addEntityPermission( label, title )
 
-        label = "refonly_%s" % content_type.model
+        label = "refallow_%s" % content_type.model
         title ="Can see as reference %s" % content_type.name
         addEntityPermission( label, title )
 
+#         label = "print_%s" % content_type.model
+#         title ="Can print %s" % content_type.name
+#         addEntityPermission( label, title )
 
 # check for all proto permissions after a syncdb
 post_syncdb.connect(addProtoPermissions)

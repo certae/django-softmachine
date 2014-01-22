@@ -20,6 +20,39 @@ Ext.define('ProtoUL.UI.MDActionsController', {
             __MasterDetail = this.__MasterDetail;
         // @formatter:on
 
+
+        if ( this.myMeta.WFlowActions ) {
+            for (var ix in this.myMeta.WFlowActions ) {
+                var pProtoAction = this.myMeta.WFlowActions[ix];
+
+                pProtoAction.menuText = pProtoAction.menuText || pProtoAction.name;
+                pProtoAction.actionType = 'wflow'
+                pProtoAction.selectionMode = 'multiple'
+                pProtoAction.refreshOnComplete = true 
+
+                if ( pProtoAction.admMessagePropmt ) {
+                    pProtoAction.actionParams =  { 
+                        'name' : 'admMessage', 
+                        'tooltip' : pProtoAction.description , 
+                        'fieldLabel' :  pProtoAction.admMessagePropmt ,
+                        'required' : true 
+                    }
+                } else { pProtoAction.actionParams =  {}}
+                
+                myProtoActions.push(new Ext.Action({
+                    text: pProtoAction.menuText,
+                    actionName: pProtoAction.name,
+                    iconCls: pProtoAction.viewIcon,
+                    tooltip: pProtoAction.description,
+                    actionDef: pProtoAction,
+                    scope: me,
+                    handler: onClickDoAction
+                }));
+            };
+
+        }
+
+
         for (var ix in this.myMeta.actions  ) {
             var pProtoAction = this.myMeta.actions[ix];
             pProtoAction.menuText = pProtoAction.menuText || pProtoAction.name;
@@ -97,7 +130,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
             scope: me,
             success: function(result, request) {
                 var myResult = Ext.decode(result.responseText);
-                _SM.__StBar.showMessage(actionDef.menuText + ' ' + myResult.message, 'MDActionsController', 3000);
+                _SM.__StBar.showMessage(actionDef.name + ' ' + myResult.message, 'MDActionsController', 3000);
 
                 if (myResult.success && actionDef.refreshOnComplete) {
                     this.__MasterDetail.mdGridReload();
@@ -109,14 +142,14 @@ Ext.define('ProtoUL.UI.MDActionsController', {
 
             },
             failure: function(result, request) {
-                _SM.__StBar.showError(actionDef.menuText + ' ' + result.statusText, 'MDActionsController');
+                _SM.__StBar.showError(actionDef.name + ' ' + result.statusText, 'MDActionsController');
 
             }
 
         };
 
-        _SM.__StBar.showMessage('executing  ' + actionDef.menuText + '...', 'MDActionsController');
-        _SM.doProtoActions(viewCode, actionDef.menuText, selectedKeys, parameters, options);
+        _SM.__StBar.showMessage('executing  ' + actionDef.name + '...', 'MDActionsController');
+        _SM.doProtoActions(viewCode, actionDef.name, selectedKeys, parameters, actionDef, options);
 
     }
 

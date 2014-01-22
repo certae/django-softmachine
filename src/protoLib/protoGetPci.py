@@ -116,6 +116,23 @@ def protoGetPCI(request):
         protoMeta['custom'] = custom['custom']  
     except: pass
     
+#   WorkFlow  
+    if hasattr( model , '_WorkFlow' ) : 
+        wflowControl = getattr( model, '_WorkFlow', {} )
+
+        if request.user.is_superuser  or getModelPermissions( request.user , model, 'wfadmin' ) :
+            protoMeta['WFlowActions'] = wflowControl.get( 'transitions', [] ) 
+
+        wfFilterSet = wflowControl.get( 'wfFilters', [] ) 
+        if len(  wfFilterSet ) > 0: 
+            protoMeta['gridSets'] = protoMeta.get('gridSets', {})
+            protoMeta['gridSets']['filtersSet'] = wfFilterSet
+            for lFilter in wfFilterSet:
+                lFilter['customFilter'] = [{
+                            "property": "smWflowStatus",
+                            "filterStmt": lFilter[ 'wfStatus']
+                }]
+
     jsondict = {
         'success':True,
         'message': '',
@@ -146,6 +163,7 @@ def protoGetPCI(request):
     context = json.dumps( jsondict)
     return HttpResponse(context, mimetype="application/json")
 
+            
 
 
 # protoGetPCI ----------------------------

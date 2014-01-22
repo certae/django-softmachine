@@ -1,4 +1,4 @@
-# -*- coding' : utf-8 -*-
+﻿# -*- coding' : utf-8 -*-
 
 __language ={
     'languaje' : 'es', 
@@ -117,8 +117,8 @@ __language ={
     'Tooltip_Clasify_Button' : 'Opciones de ordenamiento',
     'Tooltip_Printing_Options' : 'Opciones de impresión',
     'Tooltip_Config_Button' : 'Config Options',
-    'Text_Actions_Button' : 'Generar',
-    'Tooltip_Actions_Button' : 'Flujo de trabajo básico',
+    'Text_Actions_Button' : 'Acciones',
+    'Tooltip_Actions_Button' : 'Acciones de la entidad',
     'Tooltip_Details_Button' : 'Ver detalles',
     'Text_Filters_Button' : 'Filtros',
     'Tooltip_Filters_Button' : 'Filtros personalizados',
