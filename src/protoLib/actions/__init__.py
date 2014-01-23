@@ -9,6 +9,7 @@ def doWFlowResume(modeladmin, request, queryset, parameters):
 
     from protoLib.models import ParametersBase, getDjangoModel, WflowAdminResume
     from django.db.models import Count
+    from datetime import datetime 
             
 #   Mensaje de retorno
     returnMsg = '' 
@@ -23,17 +24,26 @@ def doWFlowResume(modeladmin, request, queryset, parameters):
         wfStatus  = pParam.parameterTag or 'I'
 
         try:    
-            wfModel =  getDjangoModel( pParam.parameterValue)
+            wfModel = getDjangoModel(pParam.parameterValue)
         except :
             continue 
-        wfStatus  = pParam.parameterTag or 'I'
+        wfStatus = pParam.parameterTag or 'I'
                 
-        QsResume = wfModel.objects.filter( smWflowStatus = wfStatus ).annotate( regCount =Count('smOwningTeam') )
+        QsResume = wfModel.objects.filter(smWflowStatus=wfStatus).values('smOwningTeam').order_by().annotate(regCount=Count('smOwningTeam')) 
         for regResume in QsResume:  
             adminResume = WflowAdminResume()
-            adminResume.smOwningTeam = regResume.smOwningTeam
-            adminResume.activityCount = regResume.regCount 
             adminResume.viewEntity = pParam.parameterValue
+            adminResume.activityCount = regResume.get('regCount')  
+            adminResume.smOwningTeam_id = regResume.get('smOwningTeam') 
+            
+            try:
+                setattr(adminResume, 'smOwningUser', request.user)
+                setattr(adminResume, 'smCreatedBy', request.user)
+                setattr(adminResume, 'smRegStatus', '0')
+                setattr(adminResume, 'smCreatedOn', datetime.now())
+            except :
+                pass 
+            
             adminResume.save()
         
 

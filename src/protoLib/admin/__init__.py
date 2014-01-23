@@ -12,15 +12,15 @@ from adminProtoDef import protoDefinitionAdmin
 admin.site.register(ProtoDefinition, protoDefinitionAdmin)
 
 from adminOrgTree import orgTreeAdmin
-admin.site.register( TeamHierarchy )
+admin.site.register(TeamHierarchy)
 
-#from adminUserProf import usrProfileAdmin
-admin.site.register( UserProfile )
+# from adminUserProf import usrProfileAdmin
+admin.site.register(UserProfile)
 
-admin.site.register( UserShare )
+admin.site.register(UserShare)
 
-admin.site.register( CustomDefinition )
-admin.site.register( PtFunction )
+admin.site.register(CustomDefinition)
+admin.site.register(PtFunction)
 
 
 from django.contrib.auth.models import User 
@@ -29,16 +29,16 @@ User.protoExt = AdminUser
 
 
 # de aut 
-#from django.contrib.auth.models import Permission, Message   
-#admin.site.register( Permission )
-#admin.site.register( Message )
+# from django.contrib.auth.models import Permission, Message   
+# admin.site.register( Permission )
+# admin.site.register( Message )
 
 
 from django.contrib.contenttypes.models import ContentType
-admin.site.register( ContentType )
+admin.site.register(ContentType)
 
-admin.site.register( EntityMap )
-admin.site.register( FieldMap )
+admin.site.register(EntityMap)
+admin.site.register(FieldMap)
 
 
 # -----------------------------------------   Model  
@@ -46,7 +46,7 @@ admin.site.register( FieldMap )
 from protoLib.actions import doWFlowResume
 from protoLib.models import WflowAdminResume   
 
-class WflowAdminResumeAdmin( admin.ModelAdmin ):
-    actions = [ doWFlowResume,  ]
+class WflowAdminResumeAdmin(admin.ModelAdmin):
+    actions = [ doWFlowResume, ]
 
-admin.site.register( WflowAdminResume, WflowAdminResumeAdmin)
+admin.site.register(WflowAdminResume, WflowAdminResumeAdmin)

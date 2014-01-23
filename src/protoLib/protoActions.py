@@ -114,7 +114,7 @@ def protoExecuteAction(request):
     try:
         model = getDjangoModel(viewEntity)
         modelAdmin = site._registry.get(model)
-    except Exception as e:
+    except :
         return doReturn ({'success':False, 'message' : 'Model notFound'})
 
 
