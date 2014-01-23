@@ -314,7 +314,7 @@ def getQSet(protoMeta, protoFilter, baseFilter , sort , pUser):
 
 #   Autentica '
     if not getModelPermissions(pUser, model, 'list'):
-        return model.objects.none(), [], False
+        return model.objects.none(), [], False, False 
 
 #   modelo Administrado
     isProtoModel = hasattr(model , '_protoObj')
