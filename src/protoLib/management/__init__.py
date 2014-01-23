@@ -37,7 +37,7 @@ def addProtoPermissions(sender, **kwargs):
         addEntityPermission( label, title )
 
         label = "refallow_%s" % content_type.model
-        title ="Can see as reference %s" % content_type.name
+        title ="Can see reference %s" % content_type.name
         addEntityPermission( label, title )
 
 #         label = "print_%s" % content_type.model
