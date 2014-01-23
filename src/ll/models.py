@@ -266,6 +266,7 @@ class Evaluation(ProtoModel):
     description_evaluation = models.TextField(blank = True, null = True)
     log_eva = models.ForeignKey('Logiciel', blank= False, null= False, related_name='+')
 
+    _autoIncrementField = 'id_evaluation'
     def __unicode__(self):
         return slugify(self.id_evaluation +  '.' + str( self.log_eva))
 
@@ -327,7 +328,8 @@ class PersonneRessource(ProtoModel):
     telephone_direction_contact = models.CharField(blank= True, null= True, max_length= 255)
     date_fin_mandat = models.CharField(blank= True, null= True, max_length= 255)
     organisme_personne_ressource = models.ForeignKey('OrganismePublic', blank= False, null= False, related_name='+')
-
+    
+    _autoIncrementField = 'identifiant_contact'
     def __unicode__(self):
         return slugify(str( self.identifiant_contact) +  '.' + str( self.organisme_personne_ressource))
 
@@ -375,6 +377,7 @@ class Expert(ProtoModel):
     telephone_expert = models.CharField(blank= False, null= False, max_length= 255)
     usage_personne_expert = models.ForeignKey('UsageLogiciel', blank= False, null= False, related_name='+')
 
+    _autoIncrementField = 'identifiant_expert'
     def __unicode__(self):
         return slugify(str( self.identifiant_expert) +  '.' + self.telephone_expert +  '.' + str( self.usage_personne_expert))
 
@@ -422,6 +425,7 @@ class ReferenceDocumentContrat(ProtoModel):
     uri_document = models.CharField(blank= True, null= True, max_length= 255)
     contrat_document = models.ForeignKey('Contrat', blank= False, null= False, related_name='+')
 
+    _autoIncrementField = 'identifiant_reference_document'
     def __unicode__(self):
         return slugify(str( self.identifiant_reference_document) +  '.' + str( self.contrat_document))
 
@@ -441,6 +445,7 @@ class ReferenceDocumentUsage(ProtoModel):
     uri_document = models.CharField(blank= True, null= True, max_length= 255)
     usage_document = models.ForeignKey('UsageLogiciel', blank= False, null= False, related_name='+')
 
+    _autoIncrementField = 'identifiant_reference_document'
     def __unicode__(self):
         return slugify(str( self.identifiant_reference_document) +  '.' + str( self.usage_document))
 
@@ -461,6 +466,7 @@ class ReferenceDocumentInstallation(ProtoModel):
     installation_document = models.ForeignKey('Installation', blank= False, null= False, related_name='+')
     langue_document_installation = models.ForeignKey('Langue', blank= True, null= True, related_name='+')
 
+    _autoIncrementField = 'identifiant_reference_document'
     def __unicode__(self):
         return slugify(str( self.identifiant_reference_document) +  '.' + str( self.installation_document))
 
@@ -521,6 +527,7 @@ class ReferenceDocumentLogiciel(ProtoModel):
     logiciel_document = models.ForeignKey('Logiciel', blank= False, null= False, related_name='+')
     langue_document_logiciel = models.ForeignKey('Langue', blank= True, null= True, related_name='+')
 
+    _autoIncrementField = 'identifiant_reference_document'
     def __unicode__(self):
         return slugify(str( self.identifiant_reference_document) +  '.' + str( self.logiciel_document))
 
@@ -541,6 +548,7 @@ class ReferenceDocumentExpertise(ProtoModel):
     expertise_document = models.ForeignKey('Expertise', blank= False, null= False, related_name='+')
     langue_document_expertise = models.ForeignKey('Langue', blank= True, null= True, related_name='+')
 
+    _autoIncrementField = 'identifiant_reference_document'
     def __unicode__(self):
         return slugify(str( self.identifiant_reference_document) +  '.' + str( self.expertise_document))
 
