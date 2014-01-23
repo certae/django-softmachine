@@ -103,16 +103,16 @@ class ProtoModel(models.Model):
     class Meta:
         abstract = True
     
-    def save(self):
+    def save(self, *args, **kwargs):
         "Get last value of Code and Number from database, and increment before save"
         if hasattr( self , "_autoIncrementField" ) and not self.pk:
             _autoIncrementField = getattr(self, "_autoIncrementField")
             model = self.__class__
             top = model.objects.order_by('-pk')[0]
             setattr(self, _autoIncrementField, top.pk + 1)
-            super(ProtoModel, self).save()
+            super(ProtoModel, self).save(*args, **kwargs)
         else:
-            super(ProtoModel, self).save()
+            super(ProtoModel, self).save(*args, **kwargs)
 
 class EntityMap(models.Model):
     """

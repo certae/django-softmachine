@@ -20,8 +20,6 @@ def doWFlowResume(modeladmin, request, queryset, parameters):
 #   Recorre los parametros para conocer las tablas de wFlow 
     Qs = ParametersBase.objects.filter(parameterKey='wflow')
     for pParam in Qs:
-        modelName = getDjangoModel(pParam.parameterValue)
-        wfStatus  = pParam.parameterTag or 'I'
 
         try:    
             wfModel = getDjangoModel(pParam.parameterValue)
