@@ -46,7 +46,7 @@ class Logiciel(ProtoModel):
                             'change' : ( 'I', 'Ok' ),
                             'setOwner' : True , 
                             'notifyOwner' : True , 
-                            'message' : 'Felicitations' , 
+                            'message' : 'Accepté' , 
                             'admMessagePropmt' : '',   
                         }, {
                             'name' : 'reject', 
@@ -55,12 +55,14 @@ class Logiciel(ProtoModel):
                             'change' : ( 'I', 'R' ),
                             'setOwner' : False , 
                             'notifyOwner' : True , 
+                            'emailNotification' : True,
+                            'emailTemplate' : 'M/Mme. <User>  on a refuse l\'enregistrement <concept>,<sk> en date <date>  parce que <admmessage> appelle moi <admin>',  
                             'admMessagePropmt' : 'Raison de refuse?',   
                         }
                     ] 
                   } 
 
-
+#TODO Courriel 
 
     def __unicode__(self):
         return slugify(self.nom_logiciel)
