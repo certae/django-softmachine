@@ -495,7 +495,10 @@ def getFieldIncrement(request):
     increment = 0
     if fieldType == 'IntegerField':
         maxid = model.objects.aggregate(Max('id'))
-        increment = maxid['id__max'] + 1
+        if maxid['id__max']:
+            increment = maxid['id__max'] + 1
+        else:
+            increment = 1
     else:
         return JsonError( 'Invalid field type')
     

@@ -108,8 +108,12 @@ class ProtoModel(models.Model):
         if hasattr( self , "_autoIncrementField" ) and not self.pk:
             _autoIncrementField = getattr(self, "_autoIncrementField")
             model = self.__class__
-            top = model.objects.order_by('-pk')[0]
-            setattr(self, _autoIncrementField, top.pk + 1)
+            top = model.objects.order_by('-pk')
+            if top:
+                setattr(self, _autoIncrementField, top[0].pk + 1)
+            else:
+                setattr(self, _autoIncrementField, 1)
+            
             super(ProtoModel, self).save(*args, **kwargs)
         else:
             super(ProtoModel, self).save(*args, **kwargs)
