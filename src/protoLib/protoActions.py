@@ -42,8 +42,8 @@ def protoExecuteAction(request):
                     UserReponse.adminMsg = strMsg
 
                     try:
-                        setattr(UserReponse, 'smOwningUser', wfRow.smOwningUser )
-                        setattr(UserReponse, 'smOwningTeam', wfRow.smOwningTeam )
+                        setattr(UserReponse, 'smOwningUser', wfRow.smOwningUser)
+                        setattr(UserReponse, 'smOwningTeam', wfRow.smOwningTeam)
                         setattr(UserReponse, 'smCreatedBy', userProfile.user)
                         setattr(UserReponse, 'smRegStatus', '0')
                         setattr(UserReponse, 'smCreatedOn', datetime.now())
@@ -52,10 +52,19 @@ def protoExecuteAction(request):
 
                     UserReponse.save()            
 
+#                     if actionDef.get('emailNotification', False) and wfRow.smOwningUser.email :
+#                         try:
+#                             message = actionDef.get('emailTemplate', '') % (wfRow.smOwningUser, viewEntity, wfRow.__str__(), wfRow.smCreatedOn, strMsg, userProfile.user)
+#                             wfRow.smOwningUser.email_user(_(strMsg , message))              
+#                         except :
+#                             pass 
+
+
             if actionDef.get('setOwner', False)  : 
                 Qs.update(smWflowStatus=stFinal, smOwningTeam=userProfile.userTeam)
             else : 
                 Qs.update(smWflowStatus=stFinal)
+                
 
             return doReturn ({'success':True, 'message' : 'WfAction Ok'})
          

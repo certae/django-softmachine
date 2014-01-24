@@ -56,7 +56,7 @@ class Logiciel(ProtoModel):
                             'setOwner' : False , 
                             'notifyOwner' : True , 
                             'emailNotification' : True,
-                            'emailTemplate' : 'M/Mme. <User>  on a refuse l\'enregistrement <concept>,<sk> en date <date>  parce que <admmessage> appelle moi <admin>',  
+                            'emailTemplate' : 'M/Mme. %User>  on a refuse l\'enregistrement <concept>,<sk> en date <date>  parce que <admmessage> appelle moi <admin>',  
                             'admMessagePropmt' : 'Raison de refuse?',   
                         }
                     ] 

@@ -237,7 +237,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
         // Manejo del retorno del zoom
         for (var ix in lFields  ) {
             var zoomField = lFields[ix];
-            if ( zoomField.xtype != 'protoZoom' ) continue;
+            if ( !zoomField.zoomModel ) continue;
 
             // Verifica los campos multizoom
             if ( zoomField.zoomMultiple && me.newForm ) {
