@@ -30,7 +30,7 @@ def protoExecuteAction(request):
             # TODO transaction??? 
             if actionDef.get('notifyOwner', False) : 
                 for wfRow in Qs :
-
+                
                     if len (parameters) > 0: 
                         strMsg = parameters[0].get('value')
                     else : strMsg = actionDef.get('message', '') 
@@ -40,7 +40,7 @@ def protoExecuteAction(request):
                     UserReponse.strKey = wfRow.__str__()
                     UserReponse.wfAction = actionDef.get('name')
                     UserReponse.adminMsg = strMsg
-
+                   
                     try:
                         setattr(UserReponse, 'smOwningUser', wfRow.smOwningUser )
                         setattr(UserReponse, 'smOwningTeam', wfRow.smOwningTeam )
@@ -54,8 +54,23 @@ def protoExecuteAction(request):
 
             if actionDef.get('setOwner', False)  : 
                 Qs.update(smWflowStatus=stFinal, smOwningTeam=userProfile.userTeam)
+                
             else : 
                 Qs.update(smWflowStatus=stFinal)
+                
+                if actionDef.get('emailNotification', False) :
+                    if len (parameters) > 0: 
+                        strMsg = parameters[0].get('value')
+                    else : strMsg = actionDef.get('message', '') 
+                    
+                    for wfRow in Qs :
+                        if wfRow.smOwningUser.email :
+                            try:
+                                message = actionDef.get('emailTemplate', '') % (wfRow.smOwningUser, viewEntity, wfRow.__str__(), wfRow.smCreatedOn, strMsg, userProfile.user)
+                                wfRow.smOwningUser.email_user(_( 'Modification refusée'), message)             
+                            except:
+                                pass
+                            
 
             return doReturn ({'success':True, 'message' : 'WfAction Ok'})
          

@@ -56,7 +56,7 @@ class Logiciel(ProtoModel):
                             'setOwner' : False , 
                             'notifyOwner' : True , 
                             'emailNotification' : True,
-                            'emailTemplate' : 'M/Mme. <User>  on a refuse l\'enregistrement <concept>,<sk> en date <date>  parce que <admmessage> appelle moi <admin>',  
+                            'emailTemplate' : 'M/Mme. <User>  on a refuse l\'enregistrement <concept>, <sk> en date <date>  parce que <admmessage> appelle moi <admin>',  
                             'admMessagePropmt' : 'Raison de refuse?',   
                         }
                     ] 
@@ -92,6 +92,53 @@ class Licence(ProtoModel):
     nom_licence = models.CharField(blank= True, null= True, max_length= 255)
     type_licence = models.CharField(blank= True, null= True, max_length= 255)
     uri_licence = models.CharField(blank= True, null= True, max_length= 255)
+    
+        
+    _WorkFlow =  {  'initialStatus' :   'I', 
+                    'OkStatus' : 'Ok', 
+                    'wfFilters' : [
+                        {
+                            'name': 'initial',
+                            'menuText': 'À verifier',
+                            'wfStatus' : 'I'
+                        }, {
+                            'name': 'ok',
+                            'menuText': 'Accepté',
+                            'wfStatus' : 'Ok'
+                        }, {
+                            'name': 'novalides',
+                            'menuText': 'Refusé',
+                            'wfStatus' : 'R'
+                        }
+                    ],
+
+                    'transitions' : [
+                         {
+                            'name' : 'accept', 
+                            'menuText' : 'Accepter', 
+                            'viewIcon' : '', 
+                            'descripion' : '', 
+                            'methode' : '', 
+                            'change' : ( 'I', 'Ok' ),
+                            'setOwner' : True , 
+                            'notifyOwner' : True , 
+                            'message' : 'Accepté' , 
+                            'admMessagePropmt' : '',   
+                        }, {
+                            'name' : 'reject', 
+                            'menuText' : 'Refuser', 
+                            'methode' : '', 
+                            'change' : ( 'I', 'R' ),
+                            'setOwner' : False , 
+                            'notifyOwner' : True , 
+                            'emailNotification' : True,
+                            'emailTemplate' : 'M/Mme. <User>  on a refuse l\'enregistrement <concept>, <sk> en date <date>  parce que <admmessage> appelle moi <admin>',  
+                            'admMessagePropmt' : 'Raison de refuse?',   
+                        }
+                    ] 
+                  } 
+
+#TODO Courriel 
 
     def __unicode__(self):
         return slugify(self.achronyme_licence)
@@ -152,6 +199,52 @@ class LangageUtilise(ProtoModel):
 
 class Langage(ProtoModel):
     nom_langage = models.CharField(blank= False, null= False, max_length= 255)
+        
+    _WorkFlow =  {  'initialStatus' :   'I', 
+                    'OkStatus' : 'Ok', 
+                    'wfFilters' : [
+                        {
+                            'name': 'initial',
+                            'menuText': 'À verifier',
+                            'wfStatus' : 'I'
+                        }, {
+                            'name': 'ok',
+                            'menuText': 'Accepté',
+                            'wfStatus' : 'Ok'
+                        }, {
+                            'name': 'novalides',
+                            'menuText': 'Refusé',
+                            'wfStatus' : 'R'
+                        }
+                    ],
+
+                    'transitions' : [
+                         {
+                            'name' : 'accept', 
+                            'menuText' : 'Accepter', 
+                            'viewIcon' : '', 
+                            'descripion' : '', 
+                            'methode' : '', 
+                            'change' : ( 'I', 'Ok' ),
+                            'setOwner' : True , 
+                            'notifyOwner' : True , 
+                            'message' : 'Accepté' , 
+                            'admMessagePropmt' : '',   
+                        }, {
+                            'name' : 'reject', 
+                            'menuText' : 'Refuser', 
+                            'methode' : '', 
+                            'change' : ( 'I', 'R' ),
+                            'setOwner' : False , 
+                            'notifyOwner' : True , 
+                            'emailNotification' : True,
+                            'emailTemplate' : 'M/Mme. <User>  on a refuse l\'enregistrement <concept>, <sk> en date <date>  parce que <admmessage> appelle moi <admin>',  
+                            'admMessagePropmt' : 'Raison de refuse?',   
+                        }
+                    ] 
+                  } 
+
+#TODO Courriel 
 
     def __unicode__(self):
         return slugify(self.nom_langage)
@@ -161,6 +254,52 @@ class Langage(ProtoModel):
 
 class SystemeExploitation(ProtoModel):
     nom_systeme_exploitation = models.CharField(blank= False, null= False, max_length= 255)
+        
+    _WorkFlow =  {  'initialStatus' :   'I', 
+                    'OkStatus' : 'Ok', 
+                    'wfFilters' : [
+                        {
+                            'name': 'initial',
+                            'menuText': 'À verifier',
+                            'wfStatus' : 'I'
+                        }, {
+                            'name': 'ok',
+                            'menuText': 'Accepté',
+                            'wfStatus' : 'Ok'
+                        }, {
+                            'name': 'novalides',
+                            'menuText': 'Refusé',
+                            'wfStatus' : 'R'
+                        }
+                    ],
+
+                    'transitions' : [
+                         {
+                            'name' : 'accept', 
+                            'menuText' : 'Accepter', 
+                            'viewIcon' : '', 
+                            'descripion' : '', 
+                            'methode' : '', 
+                            'change' : ( 'I', 'Ok' ),
+                            'setOwner' : True , 
+                            'notifyOwner' : True , 
+                            'message' : 'Accepté' , 
+                            'admMessagePropmt' : '',   
+                        }, {
+                            'name' : 'reject', 
+                            'menuText' : 'Refuser', 
+                            'methode' : '', 
+                            'change' : ( 'I', 'R' ),
+                            'setOwner' : False , 
+                            'notifyOwner' : True , 
+                            'emailNotification' : True,
+                            'emailTemplate' : 'M/Mme. <User>  on a refuse l\'enregistrement <concept>, <sk> en date <date>  parce que <admmessage> appelle moi <admin>',  
+                            'admMessagePropmt' : 'Raison de refuse?',   
+                        }
+                    ] 
+                  } 
+
+#TODO Courriel 
 
     def __unicode__(self):
         return slugify(self.nom_systeme_exploitation)
@@ -589,6 +728,52 @@ class OrganismePublic(ProtoModel):
     nom = models.CharField(blank= True, null= True, max_length= 255)
     mission = models.TextField(blank = True, null = True)
     numero_sct = models.CharField(blank= True, null= True, max_length= 255)
+        
+    _WorkFlow =  {  'initialStatus' :   'I', 
+                    'OkStatus' : 'Ok', 
+                    'wfFilters' : [
+                        {
+                            'name': 'initial',
+                            'menuText': 'À verifier',
+                            'wfStatus' : 'I'
+                        }, {
+                            'name': 'ok',
+                            'menuText': 'Accepté',
+                            'wfStatus' : 'Ok'
+                        }, {
+                            'name': 'novalides',
+                            'menuText': 'Refusé',
+                            'wfStatus' : 'R'
+                        }
+                    ],
+
+                    'transitions' : [
+                         {
+                            'name' : 'accept', 
+                            'menuText' : 'Accepter', 
+                            'viewIcon' : '', 
+                            'descripion' : '', 
+                            'methode' : '', 
+                            'change' : ( 'I', 'Ok' ),
+                            'setOwner' : True , 
+                            'notifyOwner' : True , 
+                            'message' : 'Accepté' , 
+                            'admMessagePropmt' : '',   
+                        }, {
+                            'name' : 'reject', 
+                            'menuText' : 'Refuser', 
+                            'methode' : '', 
+                            'change' : ( 'I', 'R' ),
+                            'setOwner' : False , 
+                            'notifyOwner' : True , 
+                            'emailNotification' : True,
+                            'emailTemplate' : 'M/Mme. <User>  on a refuse l\'enregistrement <concept>, <sk> en date <date>  parce que <admmessage> appelle moi <admin>',  
+                            'admMessagePropmt' : 'Raison de refuse?',   
+                        }
+                    ] 
+                  } 
+
+#TODO Courriel 
 
     def __unicode__(self):
         return slugify(self.acronyme)
