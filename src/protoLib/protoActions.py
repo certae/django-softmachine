@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from django.utils.translation import gettext as _
+
 from django.contrib.admin.sites import  site
 from protoGrid import getBaseModelName
 from models import getDjangoModel, WflowUserReponse
@@ -52,18 +54,27 @@ def protoExecuteAction(request):
 
                     UserReponse.save()            
 
-#                     if actionDef.get('emailNotification', False) and wfRow.smOwningUser.email :
-#                         try:
-#                             message = actionDef.get('emailTemplate', '') % (wfRow.smOwningUser, viewEntity, wfRow.__str__(), wfRow.smCreatedOn, strMsg, userProfile.user)
-#                             wfRow.smOwningUser.email_user(_(strMsg , message))              
-#                         except :
-#                             pass 
-
-
-            if actionDef.get('setOwner', False)  : 
-                Qs.update(smWflowStatus=stFinal, smOwningTeam=userProfile.userTeam)
-            else : 
-                Qs.update(smWflowStatus=stFinal)
+                    if actionDef.get('setOwner', False)  : 
+                        Qs.update(smWflowStatus=stFinal, smOwningTeam=userProfile.userTeam)
+                    else : 
+                        Qs.update(smWflowStatus=stFinal)
+                        
+                    if actionDef.get('emailNotification', False):
+                        user = User.objects.get(username = wfRow.smOwningUser)
+                        if user.email :
+                            try:
+                                # date de l'ajout au format DD-M-YYYY
+                                createdDate = str(wfRow.smCreatedOn.timetuple().tm_mday) + '-' + str(wfRow.smCreatedOn.timetuple().tm_mon) + '-' +  str(wfRow.smCreatedOn.timetuple().tm_year)
+                                message = actionDef.get('emailTemplate', '')
+                                message = message.replace('<sk>', wfRow.__str__())
+                                message = message.replace('<concept>', viewEntity)
+                                message = message.replace('<admmessage>', strMsg)
+                                message = message.replace('<admin>', str(userProfile.user).title())
+                                message = message.replace('<date>', createdDate)
+                                message = message.replace('<User>', str(wfRow.smOwningUser).title())
+                                user.email_user(_( 'Décision'), message)
+                            except:
+                                pass
                 
 
             return doReturn ({'success':True, 'message' : 'WfAction Ok'})
