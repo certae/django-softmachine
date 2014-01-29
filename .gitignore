@@ -4,3 +4,8 @@
 .deployables
 static/pruebas/tmp.js
 static/extjs-4.1.x
+static/extjs-4.2.2
+src/settings_production.py
+src/settings_development.py
+static/extjs
+static/extjs-4.1

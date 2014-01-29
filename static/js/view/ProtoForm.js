@@ -585,5 +585,3 @@ Ext.define('ProtoUL.view.ProtoForm', {
     }
 
 });
-
-

@@ -292,7 +292,10 @@ def copyValuesFromFields(protoMeta, rowdict, relModels, JsonField):
             if not relModel['loaded']:
                 # Obtiene el id
                 rowId = rowdict[ relModel['fkId'] ]
-                relModel['rowData'] = getRowById(relModel['zoomModel'], rowId)
+                if rowId:
+                    relModel['rowData'] = getRowById(relModel['zoomModel'], rowId)
+                else:
+                    relModel['rowData'] = None
                 relModel['loaded'] = True
 
             rowData = relModel['rowData']

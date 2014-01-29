@@ -7,17 +7,10 @@
 /*global _SM */
 
 Ext.define('ProtoUL.view.Viewport', {
-    extend: 'Ext.container.Viewport',
-
-    // requires: [
-        // 'ProtoUL.view.MenuTree',
-        // 'ProtoUL.view.ProtoTabContainer'
-    // ],
-
+	extend: 'Ext.Viewport',
+    layout: 'fit',
 
     initComponent: function () {
-
-
 
         Ext.apply(this, {
             layout: 'border',
@@ -35,9 +28,7 @@ Ext.define('ProtoUL.view.Viewport', {
 
         });
 
-
         this.callParent(arguments);
-
 
     },
 

@@ -37,6 +37,7 @@ _SM._PConfig =  {
     urlDoAction   : 'protoLib/protoDoActions/',
     urlHelpQbe: 'protoLib/protoGetHelpQbe/',
     urlLogOut:  'protoLib/protoLogout/',
+    urlGetNextIncrement: 'protoLib/getFieldIncrement/',
 
     clsBaseModel: 'ProtoUL.model.'
 };
@@ -131,7 +132,7 @@ _SM.DesignerPanels = {
         "xtype" : "tabpanel",
         "activeTab" : 0,
         "border" : false,
-        "defaults": { "lauyout" : "fit" },
+        "defaults": { "layout" : "fit" },
         "items" : [{
             "title" : "Tools",
             "itemId" : "toolsTree",

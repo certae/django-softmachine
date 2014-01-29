@@ -182,7 +182,7 @@ Ext.define('ProtoUL.UI.GridController', {
             bRef = ! (stRec && stRec === _SM._ROW_ST.REFONLY) ; 
         }
 
-        this.setEditToolBar( bEdit, bRef, perms )
+        this.setEditToolBar( bEdit, bRef, perms );
 
 
     },
