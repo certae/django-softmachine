@@ -9,16 +9,7 @@ from django.db import models
 from protoLib.models import ProtoModel
 from protoLib.utilsBase import slugify
 
-class Logiciel(ProtoModel):
-    nom_logiciel = models.CharField(blank= False, null= False, max_length= 255)
-    uri_site_logiciel = models.CharField(blank= True, null= True, max_length= 255)
-    uri_site_alternatif = models.CharField(blank= True, null= True, max_length= 255)
-    description_logiciel = models.TextField(blank = True, null = True)
-    recommande_gouv_quebec = models.BooleanField()
-    uri_commu_gouv = models.CharField(blank= True, null= True, max_length= 255)
-    fourlog = models.ForeignKey('Logiciel', blank= True, null= True, related_name='+')
-    
-    _WorkFlow =  {  'initialStatus' :   'I', 
+WORKFLOW = {  'initialStatus' :   'I', 
                     'OkStatus' : 'Ok', 
                     'wfFilters' : [
                         {
@@ -56,13 +47,23 @@ class Logiciel(ProtoModel):
                             'setOwner' : False , 
                             'notifyOwner' : True , 
                             'emailNotification' : True,
-                            'emailTemplate' : 'M/Mme. %User>  on a refuse l\'enregistrement <concept>,<sk> en date <date>  parce que <admmessage> appelle moi <admin>',  
+                            'emailTemplate' : 'M/Mme. <User>  on a refuse l\'enregistrement <concept>,<sk> en date <date>  parce que <admmessage> appelle moi <admin>',  
                             'admMessagePropmt' : 'Raison de refuse?',   
                         }
                     ] 
                   } 
 
-#TODO Courriel 
+
+class Logiciel(ProtoModel):
+    nom_logiciel = models.CharField(blank= False, null= False, max_length= 255)
+    uri_site_logiciel = models.CharField(blank= True, null= True, max_length= 255)
+    uri_site_alternatif = models.CharField(blank= True, null= True, max_length= 255)
+    description_logiciel = models.TextField(blank = True, null = True)
+    recommande_gouv_quebec = models.BooleanField()
+    uri_commu_gouv = models.CharField(blank= True, null= True, max_length= 255)
+    fourlog = models.ForeignKey('Logiciel', blank= True, null= True, related_name='+')
+    
+    _WorkFlow =  WORKFLOW
 
     def __unicode__(self):
         return slugify(self.nom_logiciel)
@@ -92,6 +93,8 @@ class Licence(ProtoModel):
     nom_licence = models.CharField(blank= True, null= True, max_length= 255)
     type_licence = models.CharField(blank= True, null= True, max_length= 255)
     uri_licence = models.CharField(blank= True, null= True, max_length= 255)
+
+    _WorkFlow =  WORKFLOW
 
     def __unicode__(self):
         return slugify(self.achronyme_licence)
@@ -153,6 +156,8 @@ class LangageUtilise(ProtoModel):
 class Langage(ProtoModel):
     nom_langage = models.CharField(blank= False, null= False, max_length= 255)
 
+    _WorkFlow =  WORKFLOW
+
     def __unicode__(self):
         return slugify(self.nom_langage)
 
@@ -161,6 +166,8 @@ class Langage(ProtoModel):
 
 class SystemeExploitation(ProtoModel):
     nom_systeme_exploitation = models.CharField(blank= False, null= False, max_length= 255)
+
+    _WorkFlow =  WORKFLOW
 
     def __unicode__(self):
         return slugify(self.nom_systeme_exploitation)
@@ -266,6 +273,7 @@ class Evaluation(ProtoModel):
     description_evaluation = models.TextField(blank = True, null = True)
     log_eva = models.ForeignKey('Logiciel', blank= False, null= False, related_name='+')
 
+    _autoIncrementField = 'id_evaluation'
     def __unicode__(self):
         return slugify(self.id_evaluation +  '.' + str( self.log_eva))
 
@@ -328,6 +336,7 @@ class PersonneRessource(ProtoModel):
     date_fin_mandat = models.CharField(blank= True, null= True, max_length= 255)
     organisme_personne_ressource = models.ForeignKey('OrganismePublic', blank= False, null= False, related_name='+')
 
+    _autoIncrementField = 'identifiant_contact'
     def __unicode__(self):
         return slugify(str( self.identifiant_contact) +  '.' + str( self.organisme_personne_ressource))
 
@@ -375,6 +384,7 @@ class Expert(ProtoModel):
     telephone_expert = models.CharField(blank= False, null= False, max_length= 255)
     usage_personne_expert = models.ForeignKey('UsageLogiciel', blank= False, null= False, related_name='+')
 
+    _autoIncrementField = 'identifiant_expert'
     def __unicode__(self):
         return slugify(str( self.identifiant_expert) +  '.' + self.telephone_expert +  '.' + str( self.usage_personne_expert))
 
@@ -388,6 +398,7 @@ class HistoriqueUtilisateurs(ProtoModel):
     nombre_utilisateurs = models.IntegerField(blank = True, null = True)
     usage_nombre_utilisateurs = models.ForeignKey('UsageLogiciel', blank= False, null= False, related_name='+')
 
+    _autoIncrementField = 'identifiant_nombre_utilisateurs'
     def __unicode__(self):
         return slugify(str( self.identifiant_nombre_utilisateurs) +  '.' + str( self.usage_nombre_utilisateurs))
 
@@ -401,6 +412,7 @@ class HistoriqueInstances(ProtoModel):
     nombre_instances = models.IntegerField(blank = True, null = True)
     usage_nombre_instances = models.ForeignKey('UsageLogiciel', blank= False, null= False, related_name='+')
 
+    _autoIncrementField = 'identifiant_nombre_instances'
     def __unicode__(self):
         return slugify(str( self.identifiant_nombre_instances) +  '.' + str( self.usage_nombre_instances))
 
@@ -420,6 +432,7 @@ class ReferenceDocumentContrat(ProtoModel):
     uri_document = models.CharField(blank= True, null= True, max_length= 255)
     contrat_document = models.ForeignKey('Contrat', blank= False, null= False, related_name='+')
 
+    _autoIncrementField = 'identifiant_reference_document'
     def __unicode__(self):
         return slugify(str( self.identifiant_reference_document) +  '.' + str( self.contrat_document))
 
@@ -439,6 +452,7 @@ class ReferenceDocumentUsage(ProtoModel):
     uri_document = models.CharField(blank= True, null= True, max_length= 255)
     usage_document = models.ForeignKey('UsageLogiciel', blank= False, null= False, related_name='+')
 
+    _autoIncrementField = 'identifiant_reference_document'
     def __unicode__(self):
         return slugify(str( self.identifiant_reference_document) +  '.' + str( self.usage_document))
 
@@ -459,6 +473,7 @@ class ReferenceDocumentInstallation(ProtoModel):
     installation_document = models.ForeignKey('Installation', blank= False, null= False, related_name='+')
     langue_document_installation = models.ForeignKey('Langue', blank= True, null= True, related_name='+')
 
+    _autoIncrementField = 'identifiant_reference_document'
     def __unicode__(self):
         return slugify(str( self.identifiant_reference_document) +  '.' + str( self.installation_document))
 
@@ -498,6 +513,7 @@ class ReferenceDocumentEvaluation(ProtoModel):
     uri_document = models.CharField(blank= True, null= True, max_length= 255)
     evaluation_document = models.ForeignKey('Evaluation', blank= False, null= False, related_name='+')
 
+    _autoIncrementField = 'identifiant_reference_document'
     def __unicode__(self):
         return slugify(str( self.identifiant_reference_document) +  '.' + str( self.evaluation_document))
 
@@ -518,6 +534,7 @@ class ReferenceDocumentLogiciel(ProtoModel):
     logiciel_document = models.ForeignKey('Logiciel', blank= False, null= False, related_name='+')
     langue_document_logiciel = models.ForeignKey('Langue', blank= True, null= True, related_name='+')
 
+    _autoIncrementField = 'identifiant_reference_document'
     def __unicode__(self):
         return slugify(str( self.identifiant_reference_document) +  '.' + str( self.logiciel_document))
 
@@ -538,6 +555,7 @@ class ReferenceDocumentExpertise(ProtoModel):
     expertise_document = models.ForeignKey('Expertise', blank= False, null= False, related_name='+')
     langue_document_expertise = models.ForeignKey('Langue', blank= True, null= True, related_name='+')
 
+    _autoIncrementField = 'identifiant_reference_document'
     def __unicode__(self):
         return slugify(str( self.identifiant_reference_document) +  '.' + str( self.expertise_document))
 
@@ -566,6 +584,7 @@ class UsageLogiciel(ProtoModel):
     logiciel_usage = models.ForeignKey('Logiciel', blank= False, null= False, related_name='+')
     organisme_usage = models.ForeignKey('OrganismePublic', blank= False, null= False, related_name='+')
 
+    _autoIncrementField = 'identifiant_usage_logiciel'
     def __unicode__(self):
         return slugify(str( self.identifiant_usage_logiciel) +  '.' + str( self.logiciel_usage) +  '.' + str( self.organisme_usage))
 
@@ -578,6 +597,7 @@ class OrganismePublic(ProtoModel):
     mission = models.TextField(blank = True, null = True)
     numero_sct = models.CharField(blank= True, null= True, max_length= 255)
 
+    _WorkFlow =  WORKFLOW
     def __unicode__(self):
         return slugify(self.acronyme)
 

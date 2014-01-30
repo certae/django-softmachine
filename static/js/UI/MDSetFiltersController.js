@@ -58,23 +58,22 @@ Ext.define('ProtoUL.UI.MDSetFiltersController', {
                 items: [
                     {
                     xtype   : 'tbtext',
-                    text: '<b>Filtrer par :<b>'
+                    text: '<strong>Filtrer par :</strong>'
                     }
                 ]
             });
 
-            __MasterDetail.tbFilters.add ( myFilters )
-            __MasterDetail.myFilters = myFilters
-            __MasterDetail.protoMasterGrid.addDocked( __MasterDetail.tbFilters )
+            __MasterDetail.tbFilters.add ( myFilters );
+            __MasterDetail.myFilters = myFilters;
+            __MasterDetail.protoMasterGrid.addDocked( __MasterDetail.tbFilters );
 
         }; 
         
         function onClickProtoFilter( btn ){
             __MasterDetail.protoMasterGrid.filterTitle = ' " ' +  btn.text + ' "'; 
-            __MasterDetail.protoMasterGrid.setGridTitle( __MasterDetail.protoMasterGrid ) 
+            __MasterDetail.protoMasterGrid.setGridTitle( __MasterDetail.protoMasterGrid );
             __MasterDetail.mdGridLoadData( btn.protoFilter );
         };
-        
         
     }
     

@@ -7,13 +7,8 @@
 /*global _SM */
 
 Ext.define('ProtoUL.view.Viewport', {
-    extend: 'Ext.container.Viewport',
-
-    // requires: [
-        // 'ProtoUL.view.MenuTree',
-        // 'ProtoUL.view.ProtoTabContainer'
-    // ],
-
+	extend: 'Ext.Viewport',
+    layout: 'fit',
 
     initComponent: function () {
 

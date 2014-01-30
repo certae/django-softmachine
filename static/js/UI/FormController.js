@@ -172,6 +172,7 @@ Ext.define('ProtoUL.UI.FormController', {
             closeAction: 'hide',
             width: me.myWidth,
             height: me.myHeight,
+            style : 'z-index: -1;',
             x: _SM._winX,
             y: _SM._winY,
             minHeight: 400,
@@ -344,8 +345,27 @@ Ext.define('ProtoUL.UI.FormController', {
 
                     var myFld = myFieldDict[protoIx];
                     if (myFld) {
-
                         template = getTemplate(__ptType, true, myFld);
+                        // FIX: Utiliser myField.autoNumericField 
+						if(myFld.required && !myFld.fkId && me.newForm){
+							template.__ptConfig.listeners.render = function(field) {
+									Ext.Ajax.request({
+									    url: _SM._PConfig.urlGetNextIncrement,
+									    method: 'GET',          
+									    params: {
+									        fieldName: myFld.name,
+									        viewEntity: me.myMeta.viewEntity
+									    },
+									    success: function ( result, request ) {
+							            	var jsonData = Ext.decode(result.responseText);
+							            	field.setValue(jsonData.increment);
+							            },                                    
+									    failure: function(){
+									    	console.log('failure on get increment');
+									    }
+									});
+								};
+						}
                         prLayout = Ext.apply(template.__ptConfig, protoObj.__ptConfig);
 
                         // ReadOnlyCls

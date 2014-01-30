@@ -805,15 +805,26 @@ _SM.getFormFieldDefinition = function(vFld) {
     // Field Label
     formEditor.name = vFld.name;
     formEditor.fieldLabel = vFld.fieldLabel || vFld.header || vFld.name;
-    formEditor.fieldLabel = formEditor.fieldLabel.replace( '<b>', '' ).replace( '</b>', '' );
+    formEditor.fieldLabel = formEditor.fieldLabel.replace( '<strong>', '' ).replace( '</strong>', '' );
+	formEditor.fieldLabel = formEditor.fieldLabel.replace( '<b>', '' ).replace( '</b>', '' );
     if (vFld.required) {
-        formEditor.fieldLabel = '<b>' + formEditor.fieldLabel + '</b>';
+        formEditor.fieldLabel = '<strong>' + formEditor.fieldLabel + '</strong>';
     }
     if (vFld.primary) {
         formEditor.afterLabelTextTpl = _SM._requiredField;
     }
     formEditor.fieldLabel = Ext.util.Format.capitalize(formEditor.fieldLabel);
 
+	// Add listener to avoid whitespaces
+	// This works fine with ExtJS 4.2.2
+	if (vFld.required && !vFld.fkId) {
+	    formEditor.listeners = {
+	        blur: function() {
+	            this.setValue(Ext.String.trim(this.getValue()));
+	        },
+	        render : function(field) {}
+	    };
+	}
     // Casos especiales
     switch( vFld.type ) {
         case 'text':

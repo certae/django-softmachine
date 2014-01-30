@@ -77,7 +77,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
                 enableOverflow: true,
                 items: [{
                     xtype: 'tbtext',
-                    text: '<b>Actions :<b>'
+                    text: '<strong>Actions :</strong>'
                 }]
             });
 

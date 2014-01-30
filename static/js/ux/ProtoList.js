@@ -63,7 +63,8 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
                     'checkchange': function( record, recordIndex, checked ){
                         me.fireEvent('checked', record, recordIndex, checked );
                     } 
-                }, scope : me
+				},
+				scope : me
             }];
         }   
 
@@ -72,11 +73,15 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
             var vFld = this.columnList[ix];
             if ( _SM.typeOf( vFld ) == 'string' ) {
                 var col = {
-                    menuDisabled : true, flex : 1, text : this.idTitle,   
+					menuDisabled : true,
+					flex : 1,
+					text : this.idTitle,
                     dataIndex: vFld 
                     };
             }  else if ( vFld.dataIndex ) {
-                var col = Ext.apply( vFld, { menuDisabled : true } );
+				var col = Ext.apply(vFld, {
+					menuDisabled : true
+				});
             }
             myGridColumns.push( col  );
             
@@ -98,33 +103,30 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
                 listeners: {
                     drop: function(node, data, overModel, dropPosition,  eOpts) {
                         me.fireEvent('reorder' );
-                    }, scope : me
+					},
+					scope : me
                 }                
                  
             }
         }); 
-
-     
 
         this.callParent(arguments);
 
         grid.on({
             sortchange : function (  ct,  column,  direction,  eOpts ) {
                  me.fireEvent('reorder' );
-            },scope : me}
-        );
+			},
+			scope : me
+		});
             
         // -----------------
         // Agrega los campos seleccionados 
         this.addDataSet( this.dataList, false );
         this.addDataSet( this.dataSelected, true );
-        
     }, 
-    
     
     addDataSet:  function( dataSet, checked  ) {
         // Selecciona los registros de una lista dada  
-        
         for (var ix in dataSet ) {
             var data  =  dataSet[ix];
             this.addDataItem( data, checked );
@@ -132,15 +134,12 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         
     }, 
 
-    
     addDataItem:  function ( data,  checked  ) {
         // TODO: Por ahora solo maneja un campo Verificar el modelo, por q no se definio con modelo  
         // var rec = new this.gridStore.model()
         // rec.data[id] = data
     
-        var dataIx = 'data',  
-            dataValue = data, 
-            dataRec = {}; 
+		var dataIx = 'data', dataValue = data, dataRec = {};
 
         // Toma el Id positional ( el primero es )
         if ( _SM.typeOf( data ) == 'array' ) {
@@ -152,7 +151,9 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
                 dataIx = vFld; 
             }  else if ( vFld.dataIndex ) {
                 dataIx = vFld.dataIndex;
-            }  else return;       
+			} else {
+				return;
+			}
         }
 
 
@@ -160,7 +161,9 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         if ( ! vNode ) {
             
             if ( _SM.typeOf( data ) == 'string' ) {
-                dataRec = { 'data': data  };
+				dataRec = {
+					'data' : data
+				};
             } else {
 
                 for (var ix in this.columnList ) {
@@ -171,10 +174,11 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
                         dataRec[ vFld.dataIndex ] = data[ ix ];
                     }       
                 } 
-                
             }
             
-            if ( checked == true || checked == false  ) {  dataRec [ '__Checked' ] = checked; } 
+			if (checked == true || checked == false) {
+				dataRec['__Checked'] = checked;
+			}
             this.gridStore.add( dataRec );
             
         }  else if ( checked ){
@@ -194,7 +198,6 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         this.gridStore.each(function(record){
           myList.push( record.get( 'data' ));
          });
-        
         return myList;
     }, 
     
@@ -202,8 +205,9 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
 
         var chkList = [];
         this.gridStore.each(function(record){
-            if ( record.get('__Checked')  )  
+			if (record.get('__Checked')) {
               chkList.push( record.get( 'data' ));
+			}
          });
         
         return chkList;
@@ -217,13 +221,15 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         if ( vNode ) {
             vNode.set( '__Checked', checked );
         } else { 
-            this.gridStore.add( { 'data': data, '__Checked': checked } );
+			this.gridStore.add({
+				'data' : data,
+				'__Checked' : checked
+			});
         } 
     }, 
 
     addOrRemove: function( data, checked ) {
         // Permite agregar o elimar un registro dependiendo del estado   
-        
         if ( checked )  {
             this.setChecked(  data,  true  );
         } else {
@@ -233,8 +239,6 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
             }
         }
     }
-    
-
 });
 
 

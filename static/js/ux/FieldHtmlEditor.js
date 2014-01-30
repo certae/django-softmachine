@@ -13,9 +13,6 @@ Ext.define('ProtoUL.ux.FieldHtmlEditor', {
         
         Ext.apply(this, {
             plugins  : getPlugins()
-            // viewConfig: {
-                // plugins  : getPlugins()
-            // }
         });
         this.callParent();
 
@@ -34,7 +31,7 @@ Ext.define('ProtoUL.ux.FieldHtmlEditor', {
     }, 
     
     setReadOnly: function (readOnly) {
-        var me = this
+		var me = this;
         if ( me.initialized && readOnly != undefined ) {
             var tb = me.getToolbar();
             tb.setVisible(! readOnly );
@@ -80,7 +77,6 @@ Ext.define('ProtoUL.ux.HtmlEditor.HR', {
 
     // private
     onRender: function(){
-        var cmp = this.cmp;
         var btn = this.cmp.getToolbar().add('-',{
             iconCls : 'x-edit-hr',
             handler : showHTWin,
@@ -240,7 +236,6 @@ Ext.define('ProtoUL.ux.HtmlEditor.SpecialCharacters', {
 
     // private
     onRender: function(){
-        var cmp = this.cmp;
         var btn = this.cmp.getToolbar().add({
             iconCls: 'x-edit-char',
             handler: showEspeciaCharTable,
@@ -433,16 +428,6 @@ Ext.define('ProtoUL.ux.HtmlEditor.Table', {
                             anchor          : '-15',
                             editable        : false
 
-//                        }, {
-//                            xtype           : 'checkbox',
-//                            fieldLabel      : this.langCellLabel,
-//                            checked         : this.showCellLocationText,
-//                            listeners       : {
-//                                check: function(){
-//                                    this.showCellLocationText = !this.showCellLocationText;
-//                                },
-//                                scope: this
-//                            }
                         }]
                     }],
                     buttons: [{
@@ -456,13 +441,11 @@ Ext.define('ProtoUL.ux.HtmlEditor.Table', {
                                     var colwidth = Math.floor(100/rowcol[1]);
                                     var html = "<table style='border-collapse: collapse'>";
                                     var cellText = '&nbsp;';
-//                                  if (this.showCellLocationText){ cellText = this.cellLocationText; }
                                     for (var row = 0; row < rowcol[0]; row++) {
                                         html += "<tr>";
                                         for (var col = 0; col < rowcol[1]; col++) {
-                                            html += "<td width='" + colwidth + "%' style='border: " + border + ";'>" 
+											html += "<td width='" + colwidth + "%' style='border: " + border + ";'>";
                                             html += cellText; 
-//                                          html += Ext.String.format(cellText, (row+1), String.fromCharCode(col+65)) 
                                             html += "</td>";
                                         }
                                         html += "</tr>";
@@ -521,7 +504,10 @@ Ext.define('ProtoUL.ux.HtmlEditor.Word', {
 
         this.cmp = cmp;
         this.cmp.on('render', this.onRender, this);
-        this.cmp.on('initialize', this.onInit, this, {delay:100, single: true});
+		this.cmp.on('initialize', this.onInit, this, {
+			delay : 100,
+			single : true
+		});
 
     },
     // private
@@ -564,7 +550,7 @@ Ext.define('ProtoUL.ux.HtmlEditor.Word', {
     // private
     findValueDiffAt: function(val){
 
-        for (i=0;i<this.curLength;i++){
+        for ( var i=0;i<this.curLength;i++){
             if (this.lastValue[i] != val[i]){
                 return i;
             }
@@ -578,16 +564,7 @@ Ext.define('ProtoUL.ux.HtmlEditor.Word', {
      */
     fixWordPaste: function(wordPaste) {
 
-        var removals = [/&nbsp;/ig, /[\r\n]/g, /<(xml|style)[^>]*>.*?<\/\1>/ig, /<\/?(meta|object|span)[^>]*>/ig,
-            /<\/?[A-Z0-9]*:[A-Z]*[^>]*>/ig, /(lang|class|type|href|name|title|id|clear)=\"[^\"]*\"/ig, /style=(\'\'|\"\")/ig, /<![\[-].*?-*>/g,
-            /MsoNormal/g, /<\\?\?xml[^>]*>/g, /<\/?o:p[^>]*>/g, /<\/?v:[^>]*>/g, /<\/?o:[^>]*>/g, /<\/?st1:[^>]*>/g, /&nbsp;/g,
-            /<\/?SPAN[^>]*>/g, /<\/?FONT[^>]*>/g, /<\/?STRONG[^>]*>/g, /<\/?H1[^>]*>/g, /<\/?H2[^>]*>/g, /<\/?H3[^>]*>/g, /<\/?H4[^>]*>/g,
-            /<\/?H5[^>]*>/g, /<\/?H6[^>]*>/g, /<\/?P[^>]*><\/P>/g, /<!--(.*)-->/g, /<!--(.*)>/g, /<!(.*)-->/g, /<\\?\?xml[^>]*>/g,
-            /<\/?o:p[^>]*>/g, /<\/?v:[^>]*>/g, /<\/?o:[^>]*>/g, /<\/?st1:[^>]*>/g, /style=\"[^\"]*\"/g, /style=\'[^\"]*\'/g, /lang=\"[^\"]*\"/g,
-            /lang=\'[^\"]*\'/g, /class=\"[^\"]*\"/g, /class=\'[^\"]*\'/g, /type=\"[^\"]*\"/g, /type=\'[^\"]*\'/g, /href=\'#[^\"]*\'/g,
-            /href=\"#[^\"]*\"/g, /name=\"[^\"]*\"/g, /name=\'[^\"]*\'/g, / clear=\"all\"/g, /id=\"[^\"]*\"/g, /title=\"[^\"]*\"/g,
-            /<span[^>]*>/g, /<\/?span[^>]*>/g, /<title>(.*)<\/title>/g, /class=/g, /<meta[^>]*>/g, /<link[^>]*>/g, /<style>(.*)<\/style>/g,
-            /<w:[^>]*>(.*)<\/w:[^>]*>/g];
+		var removals = [/&nbsp;/ig, /[\r\n]/g, /<(xml|style)[^>]*>.*?<\/\1>/ig, /<\/?(meta|object|span)[^>]*>/ig, /<\/?[A-Z0-9]*:[A-Z]*[^>]*>/ig, /(lang|class|type|href|name|title|id|clear)=\"[^\"]*\"/ig, /style=(\'\'|\"\")/ig, /<![\[-].*?-*>/g, /MsoNormal/g, /<\\?\?xml[^>]*>/g, /<\/?o:p[^>]*>/g, /<\/?v:[^>]*>/g, /<\/?o:[^>]*>/g, /<\/?st1:[^>]*>/g, /&nbsp;/g, /<\/?SPAN[^>]*>/g, /<\/?FONT[^>]*>/g, /<\/?STRONG[^>]*>/g, /<\/?H1[^>]*>/g, /<\/?H2[^>]*>/g, /<\/?H3[^>]*>/g, /<\/?H4[^>]*>/g, /<\/?H5[^>]*>/g, /<\/?H6[^>]*>/g, /<\/?P[^>]*><\/P>/g, /<!--(.*)-->/g, /<!--(.*)>/g, /<!(.*)-->/g, /<\\?\?xml[^>]*>/g, /<\/?o:p[^>]*>/g, /<\/?v:[^>]*>/g, /<\/?o:[^>]*>/g, /<\/?st1:[^>]*>/g, /style=\"[^\"]*\"/g, /style=\'[^\"]*\'/g, /lang=\"[^\"]*\"/g, /lang=\'[^\"]*\'/g, /class=\"[^\"]*\"/g, /class=\'[^\"]*\'/g, /type=\"[^\"]*\"/g, /type=\'[^\"]*\'/g, /href=\'#[^\"]*\'/g, /href=\"#[^\"]*\"/g, /name=\"[^\"]*\"/g, /name=\'[^\"]*\'/g, / clear=\"all\"/g, /id=\"[^\"]*\"/g, /title=\"[^\"]*\"/g, /<span[^>]*>/g, /<\/?span[^>]*>/g, /<title>(.*)<\/title>/g, /class=/g, /<meta[^>]*>/g, /<link[^>]*>/g, /<style>(.*)<\/style>/g, /<w:[^>]*>(.*)<\/w:[^>]*>/g];
 
         Ext.each(removals, function(s){
             wordPaste = wordPaste.replace(s, "");
@@ -662,15 +639,16 @@ Ext.define('ProtoUL.ux.HtmlEditor.MidasCommand', {
         Ext.each(this.midasBtns, function(b){
             if (Ext.isObject(b)) {
                 iconCls = (b.iconCls) ? b.iconCls : 'x-edit-' + b.cmd;
-                if (b.value) { iconCls = iconCls+'-'+b.value.replace(/[<>\/]/g,''); }
+				if (b.value) {
+					iconCls = iconCls + '-' + b.value.replace(/[<>\/]/g, '');
+				}
                 midasCmdButton = {
                     iconCls: iconCls,
                     handler: function(){
                         this.cmp.relayCmd(b.cmd, b.value);
                     },
                     scope: this,
-                    tooltip: b.tooltip ||
-                    {
+					tooltip : b.tooltip || {
                         title: b.title
                     },
                     overflowText: b.overflowText || b.title
@@ -726,48 +704,6 @@ Ext.define('ProtoUL.ux.HtmlEditor.MidasFormat', {
 
     // private
     midasBtns: ['|', {
-        // cmd: 'indent',
-        // tooltip: {
-            // text: 'Indent Text'
-        // },
-        // overflowText: 'Indent Text'
-    // }, {
-        // cmd: 'outdent',
-        // tooltip: {
-            // text: 'Outdent Text'
-        // },
-        // overflowText: 'Outdent Text'
-    // },'|', {
-        // enableOnSelection: true,
-        // cmd: 'subscript',
-        // tooltip: {
-            // text: 'Subscript'
-        // },
-        // overflowText: 'Subscript'
-    // }, {
-        // enableOnSelection: true,
-        // cmd: 'superscript',
-        // tooltip: {
-            // text: 'Superscript'
-        // },
-        // overflowText: 'Superscript'
-    // },'|', {
-        // enableOnSelection   : true,
-        // cmd                 : 'formatblock',
-        // value               : '<h1>',
-        // tooltip             : {
-            // text : '1st Heading'
-        // },
-        // overflowText        : '1st Heading'
-    // }, {
-        // enableOnSelection   : true,
-        // cmd                 : 'formatblock',
-        // value               : '<h2>',
-        // tooltip             : {
-            // text : '2nd Heading'
-        // },
-        // overflowText: '2nd Heading'
-    // },'|', {
         enableOnSelection: true,
         cmd: 'removeFormat',
         tooltip: {

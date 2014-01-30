@@ -33,7 +33,7 @@ __language ={
     'Msg_Invalid_Form' : 'OOPs!! Formulario no es válido',
     'Msg_Error_Save_Form' : 'Error al guardar formulario',
     'Msg_Failed_Operation' : 'Operación fallida',
-    'Msg_Confirm_Delete_Operation' : '¿Está seguro?',
+    'Msg_Confirm_Delete_Operation' : 'Está seguro?',
 
     'Title_Msg_Confirm_Delete' : 'Confirmar eliminación',
     

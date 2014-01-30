@@ -73,7 +73,7 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
                 enableOverflow: true,
                 items: [{
                     xtype: 'tbtext',
-                    text: '<b>' + _SM.__language.Text_Print + ':<b>'
+                    text: '<strong>' + _SM.__language.Text_Print + ':</strong>'
                 }]
             });
 

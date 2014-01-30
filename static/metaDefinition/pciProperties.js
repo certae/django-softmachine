@@ -116,7 +116,7 @@ _MetaProperties =  {
 
     "propertyRef.help" : "udp concept ref",    
     "keyField.help" : "udp source<br>** Only for non MD udp (internal use)",
-    "udpTable.help" : "udp concept name , <b>** if direct link then related_name, normaly udpTable", 
+    "udpTable.help" : "udp concept name , <strong>** if direct link then related_name, normaly udpTable</strong>", 
 
 // sheets
     "sheetSelector.help": "field sheet selecto, null for DEFAULT sheet",

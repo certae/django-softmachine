@@ -393,8 +393,8 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
             // Status Bar
             var sMsg = getAttrMsg( record.data.text )
-            if ( sMsg ) sMsg = '<B>' + record.data.text + '</B> : ' +  sMsg
-            else  sMsg = '<B>' + ptType  + '</B>  [ ' +  record.data.text  + ' ]'
+            if ( sMsg ) sMsg = '<strong>' + record.data.text + '</strong> : ' +  sMsg
+            else  sMsg = '<strong>' + ptType  + '</strong>  [ ' +  record.data.text  + ' ]'
             sbar.setText( sMsg , false )
 
             // Clear

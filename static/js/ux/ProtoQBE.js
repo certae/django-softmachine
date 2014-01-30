@@ -11,37 +11,36 @@ Ext.define('Ext.ux.protoQBE', {
 
     resizable:false,
     plain: true,
-    //width: 530,
     modal: true,
 
     titulo: '',
     campos: {},
 
-    aceptar: function () { },
-    cancelPress: function () { },
+    aceptar: function() {
+    },
+    cancelPress: function() {
+    },
   
     initComponent: function () {
         me = this;
 
         var fields = new Array();
 
-        if (me.titulo != '') me.titulo = '-' + me.titulo;
+        if (me.titulo !== '')
+            me.titulo = '-' + me.titulo;
 
         var resp = me.campos;
-        //console.log(resp);
         for (i = 0; i < resp.length; i++) {
             var nom = '';
-            //console.log(resp[i].required);
             if (resp[i].required == true) {
                 var req = _SM._requiredField;
-                nom = '<b>' + resp[i].name + '</b>'
+                nom = '<strong>' + resp[i].name + '</strong>'
             } else {
                 nom = resp[i].name;
                 var req = "";
             }
 
-            fields.push(
-                {
+            fields.push({
                     fieldLabel: Ext.util.Format.capitalize(nom),
                     afterLabelTextTpl: req,
                     name: resp[i].name,
@@ -50,44 +49,30 @@ Ext.define('Ext.ux.protoQBE', {
                     viewCode:  me.viewCode,
                     editable: true,
                     xtype: "HelpQbe",
-                    //hidden:!resp[i].searchable,
-                    //hidden:false,
-                    //query: "select OPCION from W0menus"
                     hideTrigger: !resp[i].qbeHelp,
                     enterKey:   this.accept
-                }
-            );
+            });
 
         }
-
-      
-
-        
 
         Ext.applyIf(me, {
 
             title: me.viewCode + me.titulo,
             
-
-
-            items: [
-                {
+            items: [{
                     xtype: 'form',
-                   // region: 'center',
                     items: fields,
                     autoScroll: true,
                     labelWidth: 150,
                     autoHeigth: true,
                     maxHeight: 400,
                     width: 350,
-                    //height:300,
                     flex:1,
                     
                     monitorValid: true,
                     frame: true,
                     bodyStyle: 'padding:5px 10px 0',
-                    buttons: [
-                       {
+                buttons: [{
                            xtype: 'button',
                            width: 10,
                            text: _SM.__language.Text_Accept_Button,
@@ -101,14 +86,9 @@ Ext.define('Ext.ux.protoQBE', {
                            iconCls: "icon-cancel",
                            width: 10,
                            handler:this.cancel
-                       }
+                }]
 
-                    ]
-
-                }
-            ]
-
-
+            }]
 
         });
 
@@ -123,7 +103,7 @@ Ext.define('Ext.ux.protoQBE', {
             arrFilterQbe = new Array();
             var qbe = '';
             for (i = 0; i < campos.length; i++) {
-                if (campos[i].getValue().trim() != '') {
+                if (campos[i].getValue().trim() !== '') {
                     var t = {
                         property   : campos[i].getName(),
                         filterStmt : campos[i].getValue()

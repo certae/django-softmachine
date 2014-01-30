@@ -1,26 +1,21 @@
 /* Dgt 1302
- * Ventana generica q recibira una serie de parametros tipados, 
- * y retornara un objeto con la respuesta del usuario
- *
+ * Generic window that receive a series of typed parameters and return a object with user response
  */
 
 Ext.define('ProtoUL.ux.parameterWin', {
     extend: 'Ext.window.Window',
     alias: 'widget.parameterWin',
     
-    // Coleccion de campos q se van a mostrar 
     parameters   : [],
     width      : 400,
     minWidth   : 300,
-    // frame      : true,
     
     title    : 'Parameters form',
     layout   : 'fit',
 
-    acceptText : 'Accept', //_SM.__language.Text_Accept_Button, 
-    cancelText : 'Cancel', //_SM.__language.Text_Cancel_Button, 
+	acceptText : 'Accept',
+	cancelText : 'Cancel',
 
-    // Custom functions para aceptar y/o cancelar ( como ajax ) 
     options : {
         acceptFn  : null,
         cancelFn  : null
@@ -31,10 +26,9 @@ Ext.define('ProtoUL.ux.parameterWin', {
         var me = this;
         var myFields = [];
 
-        //console.log(resp);
         for (var ix in this.parameters ) {
-            var myField =  _SM.getFormFieldDefinition( this.parameters[ix] )
-            myFields.push( myField ) 
+			var myField = _SM.getFormFieldDefinition(this.parameters[ix]);
+			myFields.push(myField);
         }
 
         Ext.applyIf( this.options, {
@@ -44,13 +38,7 @@ Ext.define('ProtoUL.ux.parameterWin', {
         });
         
         Ext.apply(this, {
-
-            // waitMsgTarget: true,
-            // bodyStyle: 'padding:5px 5px',
-            // bodyPadding: 10,
-
-            items: [
-                {
+			items : [{
                     xtype: 'form',
                     autoScroll : true,
                     monitorValid: true,
@@ -82,8 +70,7 @@ Ext.define('ProtoUL.ux.parameterWin', {
                         disabled: true,
                         formBind: true
                     }] 
-                }
-            ] 
+			}]
         });
 
 
@@ -98,8 +85,11 @@ Ext.define('ProtoUL.ux.parameterWin', {
             var myReponse = [];
 
             for (var ix in myFields ) {
-                var myField = myFields[ix]
-                myReponse.push( {parameter: myField.getName(), value: myField.getValue() } ) 
+				var myField = myFields[ix];
+				myReponse.push({
+					parameter : myField.getName(),
+					value : myField.getValue()
+				});
             }
             this.options.acceptFn.call( this.options.scope, myReponse );
             this.close();
@@ -107,7 +97,7 @@ Ext.define('ProtoUL.ux.parameterWin', {
     },
 
     cancel: function () {
-        this.options.cancelFn.call( this.options.scope )
+		this.options.cancelFn.call(this.options.scope);
         this.close();
     }    
 

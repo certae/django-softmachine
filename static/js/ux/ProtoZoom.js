@@ -42,7 +42,8 @@ Ext.define('ProtoUL.ux.protoZoom', {
 
     //trigger button cls 
     triggerCls : Ext.baseCSSPrefix + 'form-search-trigger',
-    // readOnlyCls : 'protoLink', 
+    // readOnlyCls : 'protoLink', 
+
     /**
      * @private
      * Indica si todos los atributos de configuracion fueron cargados, permitiria reutilizar la forma solo cambiando el filtro 
@@ -183,7 +184,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
         var perms = _SM._UserInfo.perms[ me.myMeta.viewCode ], 
             zoomBtns = [
                     { xtype: 'tbtext', text: '', id: me.idStBar , flex: 1, readOnly : true  },
-                    { xtype: 'button', text: 'Cancel', scope: me, handler: doCancel   }, 
+                    { xtype: 'button', text: _SM.__language.Text_Cancel_Button, scope: me, handler: doCancel   }, 
                     { xtype: 'button', text: 'Ok', scope: me, handler: me.doReturn } 
                 ]; 
 
@@ -375,7 +376,8 @@ Ext.define('ProtoUL.ux.protoZoom', {
             // // }
             // // this.updateLayout();
         // }
-    // }
+    // }
+
 });
 
 

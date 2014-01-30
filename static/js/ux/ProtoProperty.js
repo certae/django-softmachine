@@ -14,22 +14,13 @@ Ext.define('ProtoUL.ux.ProtoProperty' ,{
     extend: 'Ext.grid.property.Grid',
     alias : 'widget.protoProperty',
 
-    //@source
     source : {}, 
-    
-    //@ 
     readOnlyProps : [],   
-
-    //@  True / False 
     editable : true,   
-
-    //@ sourceInfo {  prpName : '' , ...  } ;
     sourceInfo : {}, 
 
     initComponent: function() {
-        
-        var me = this
-        
+		var me = this;
         Ext.apply(this, {
             stripeRows: true ,
             clicksToEdit : 2, 
@@ -41,31 +32,39 @@ Ext.define('ProtoUL.ux.ProtoProperty' ,{
                     } 
                 },
                 'itemmouseenter': function(view, record, item) {
-                    var prpName = record.get( 'name' )
-                    var msg =  me.sourceInfo[ prpName ]
-                    if ( prpName && prpName  in _SM.objConv( me.readOnlyProps ) ) prpName += ' [RO]' 
+					var prpName = record.get('name');
+					var msg = me.sourceInfo[prpName];
+					if (prpName && prpName in _SM.objConv(me.readOnlyProps)) {
+						prpName += ' [RO]';
+					}
                     if ( msg ) {
-                        Ext.fly(item).set({'data-qtip': msg, 'data-qtitle': prpName }); 
+						Ext.fly(item).set({
+							'data-qtip' : msg,
+							'data-qtitle' : prpName
+						});
                     } 
-              }, scope : me 
+				},
+				scope : me
             }
         });        
         
         this.callParent(arguments);
-        
-        
     }, 
     
     setCombos: function( __ptCombos ) {
-        if ( ! __ptCombos ) {return} 
+		if (!__ptCombos) {
+			return;
+		}
 
         // Recorre los objetos y busca la definicion de combos 
         for (var prp in __ptCombos ) {
-            
             // Si ya existe continua ( los objetos no deben tener el mismo nombre )
-            if ( this.customEditors[ prp ] ) continue 
+			if (this.customEditors[prp]) {
+				continue;
+			}
             
-            var l1 = __ptCombos[prp]
+			var l1 = __ptCombos[prp];
+			;
             if ( _SM.typeOf( l1 ) == 'array' ) {
 
                 this.customEditors[ prp ] =  new Ext.grid.CellEditor({
@@ -73,16 +72,16 @@ Ext.define('ProtoUL.ux.ProtoProperty' ,{
                     editable: false,
                     store: l1  
                     })
-                })
+				});
             } 
         }
         
     }, 
 
-    
     setTypes: function( __ptTypes ) {
-        //  _pTypes = { 'attr1' : 'boolean',  'attr2' : 'number' , ... }
-        if ( ! __ptTypes ) { return } 
+		if (!__ptTypes) {
+			return;
+		}
 
         // La idea es generar un customEditor para los campos definidos, 
         // copiando el editor que define por defecto el objeto 
@@ -92,14 +91,15 @@ Ext.define('ProtoUL.ux.ProtoProperty' ,{
         for (var prp in __ptTypes ) {
 
             // Si ya existe continua              
-            if ( this.customEditors[ prp ] ) continue 
-
+			if (this.customEditors[prp]) {
+				continue;
+			}
             // Los tipos definidos son :  'date','string', 'number', 'boolean'
-            var myType = __ptTypes[ prp ]
-            var myEditor  = this.editors[ myType ]
-            if ( myEditor ) this.customEditors[ prp ] =  myEditor
+			var myType = __ptTypes[prp];
+			var myEditor = this.editors[myType];
+			if (myEditor) {
+				this.customEditors[prp] = myEditor;
         }
     } 
-     
-    
-})
+	}
+});

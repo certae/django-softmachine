@@ -40,28 +40,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 text: _SM.__language.Grid_Edit_Title,
                 hidden: true,
                 handler: editOpts
-
-                // }, {
-                // iconCls : 'icon-tableSave',
-                // itemId:     'save',
-                // text:       _SM.__language.Text_Save_Button,
-                // tooltip:    _SM.__language.Grid_EditSave_Title,
-                // handler:    editOpts,
-                // hidden:     true
-                // }, {
-                // iconCls : 'icon-saveDraft',
-                // itemId:     'saveDraft',
-                // text:       _SM.__language.Grid_EditSaveCont_Title,
-                // tooltip:    _SM.__language.Grid_EditSaveCont_Ttip,
-                // handler:    editOpts,
-                // hidden:     true
-                // },  {
-                // iconCls : 'icon-tableAutoSync',
-                // itemId:     'autoSync',
-                // text:      _SM.__language.Grid_EditAutoSync_Title,
-                // enableToggle: true,
-                // handler:      editOpts,
-                // hidden : true
             }, {
                 text: _SM.__language.Text_Clasify_Button,
                 tooltip: _SM.__language.Tooltip_Clasify_Button,
@@ -156,15 +134,10 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 handler: editOpts
 
             }, {
-                // text: 'Aide',
                 xtype: 'splitbutton',
                 iconCls: 'icon-help',
                 handler: toogleTb2,
                 itemId: 'tbHelp'
-                // },{
-                // handler:    toogleTb2,
-                // iconCls: 'icon-config',
-                // itemId : 'config'
             }]
 
         });
@@ -244,7 +217,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 // this.configCtrl.showMetaConfig()
 
             } else if (but.itemId == 'tbHelp') {
-                window.open(_SM._HELPpath, 'protoHelp', 'left=50,top=20,width=1000,height=600,resizable=0');
+                window.open(_SM._HELPpath, 'protoHelp', 'left=50,top=20,width=1000,height=600,resizable=0,scrollbars=yes');
             }
 
         }
@@ -298,13 +271,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         // 'edit', 'editOff', 'save', 'autoSync'
         this.getComponent('edit').setVisible(!bEdit);
         this.getComponent('editOff').setVisible(bEdit);
-        // this.getComponent('save').setVisible( bEdit  );
-        // this.getComponent('saveDraft').setVisible( bEdit  );
-        // this.getComponent('autoSync').setVisible( bEdit );
-        // this.getComponent('config').setVisible( !bEdit );
 
         this.searchBG.setVisible(!bEdit);
-        // this.setAutoSync( this.__MasterDetail.autoSync )
 
         // --------------------- 'details', 'printerOpts', 'sorters', 'tbHelp', 'filterSet',
         setMdButton(this, 'printerOpts', bEdit);
@@ -314,7 +282,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         setMdButton(this, 'protoActions', bEdit);
         setMdButton(this, 'sorterSet', bEdit);
 
-        // DGT 1303 Con el autosyn, se permite la edicion en todos los objetos
+        // DGT 1303 Con el autosync, se permite la edicion en todos los objetos
+        // this.setAutoSync( this.__MasterDetail.autoSync )
         // setMdButton( this, 'tabSet', bEdit );
         // setMdButton( this, 'details', bEdit );
 

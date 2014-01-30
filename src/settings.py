@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Django settings for PROTO project.
-import os.path, sys
+import os.path
 PPATH = os.path.abspath( os.path.join( os.path.dirname(__file__), os.pardir )).replace('\\','/')
 
 if PPATH.startswith('/'):
@@ -122,7 +122,8 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'z7jc&(scfm-c5lt-h#(m*epqis54tc)lxm=g+&5+ud$3w783dx'
+with open('/etc/secret_key.txt') as f:
+    SECRET_KEY = f.read().strip()
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -208,21 +209,6 @@ AUTH_PROFILE_MODULE = 'protoLib.UserProfile'
 
 # Variables prototipeur
 PROTO_APP = {}
-
-#Los menus se manejan a dos niveles:  app, opcion
-#La app por defecto es la app definida en django y las opciones son los modelos
-#un modelo puede definir un nombre de app diferente, el titulo se tomara de esta variable
-#
-#Las propiedades de app_menu son :   hidden,   title,  expanded
-
-# app_menu se usa para ordenar la pre
-#PROTO_APP['app_menu'] = {
-#    'auth' : { 'hidden': True, },
-#    'sites' : { 'hidden': True },
-#    'admin': { 'hidden': True },
-#    'protoDict' : { 'hidden': False, 'title': 'Dictionnaire', 'expanded':False , 'menu_index' : 30  },
-#    'protoLib': { 'hidden': False, 'title': 'Métadonnée', 'expanded':False, 'menu_index' : 99  },
-#    }
 
 #add email settings
 EMAIL_USE_TLS = True
