@@ -53,7 +53,7 @@ Ext.define('ProtoUL.UI.ConfigController', {
                 enableOverflow: true,
                 items: [{
                     xtype: 'tbtext',
-                    text: '<h3>' + _SM.__language.Text_Config + '</h3>'
+                    text: '<strong>' + _SM.__language.Text_Config + '</strong>'
                 }]
             });
 

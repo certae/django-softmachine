@@ -51,7 +51,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
                 border: true,
                 enableOverflow: true,
                 items: [{
-                    text: '<h3>' + _SM.__language.Grid_Detail_Title + '</h3>',
+                    text: '<strong>' + _SM.__language.Grid_Detail_Title + '</strong>',
                     iconCls: 'icon-panelDown',
                     enableToggle: false,
                     scope: mDet,
