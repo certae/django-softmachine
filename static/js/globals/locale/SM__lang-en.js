@@ -3,7 +3,7 @@
  */
 // basic i18n for login screen, only used where it's impossible to get string values from Django server
 _SM.__language = {
-    'Text_Validate_Login_Button' : 'chek',
+    'Text_Validate_Login_Button' : 'check',
     'Text_change_Password_Button' : 'change password',
     'Text_Forgotten_Password' : 'lost password',
     'Textfield_User_Login' : 'user',
