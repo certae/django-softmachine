@@ -133,8 +133,7 @@ PROTO_APP = {}
 #HOST = 'loli.fsa.ulaval.ca/artdev'
 HOST = ''
 EMAIL_USE_TLS = True
-#used for debug
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 
 if DEBUG :
     from settings_development import *
