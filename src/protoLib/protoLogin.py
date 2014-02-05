@@ -72,8 +72,8 @@ def protoGetPasswordRecovery(request):
         try:
             u = User.objects.get(email = request.POST['email'], username = request.POST['login'])
             token = user_token(u)
-            if settings.HOST:
-                baseURI = 'http://' + settings.HOST + '/protoLib/'
+            if settings.HOST_DOMAIN:
+                baseURI = 'http://' + settings.HOST_DOMAIN + '/protoLib/'
                 
             link = baseURI + 'resetpassword?a=%s&t=%s' % (u.pk, token)
             

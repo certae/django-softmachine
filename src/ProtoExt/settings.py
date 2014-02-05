@@ -4,12 +4,6 @@
 import os.path
 PPATH = os.path.abspath( os.path.join( os.path.dirname(__file__), os.pardir )).replace('\\','/')
 
-if PPATH.startswith('/'):
-    EXT_PATH = '/u/data/ExtJs'
-else:
-    EXT_PATH = 'd:/data/ExtJs'
-
-
 if ('/src' in PPATH):
     PPATH = os.path.abspath(os.path.join( PPATH, os.pardir )).replace('\\','/')
 
@@ -64,29 +58,10 @@ MEDIA_URL = ''
 #STATIC_ROOT = os.path.join( PPATH , 'static' )
 STATIC_ROOT = ''
 
-# URL prefix for static files.
-# Example: "http://media.lawrence.com/static/"
-STATIC_URL = 'static/'
-
-# URL prefix for admin static files -- CSS, JavaScript and images.
-# Make sure to use a trailing slash.
-# Examples: "http://foo.com/static/admin/", "/static/admin/".
-
-# DGT: Al cambiar esto deja de funcionar (alguna relacion con STATIC_URL? )
-#ADMIN_MEDIA_PREFIX = '/static/'
-#ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 #DAJAXICE_MEDIA_PREFIX="dajaxice"
 USE_DJANGO_JQUERY = True
 
-# Additional locations of static files
-STATICFILES_DIRS = (
-    PPATH + '/static',
-    EXT_PATH
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-)
 
 # List of finder classes that know how to find static files in
 # various locations.
@@ -99,8 +74,38 @@ STATICFILES_FINDERS = (
 # Make this unique, and don't share it with anybody.
 with open('/etc/secret_key.txt') as f:
     SECRET_KEY = f.read().strip()
-    
 
+    
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+    'django.template.loaders.eggs.Loader',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
+                               "django.core.context_processors.csrf",
+                               "django.core.context_processors.debug",
+                               "django.core.context_processors.i18n",
+                               "django.core.context_processors.media",
+                               "django.core.context_processors.static",
+                               "django.core.context_processors.request",
+                               "django.contrib.messages.context_processors.messages"
+                               )
+
+MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+)
+
+ROOT_URLCONF = 'ProtoExt.urls'
+WSGI_APPLICATION = 'ProtoExt.wsgi.application'
+
+TEMPLATE_DIRS = (
+    PPATH + '/templates',
+)
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error.
@@ -130,8 +135,8 @@ AUTH_PROFILE_MODULE = 'protoLib.UserProfile'
 # Variables prototipeur
 PROTO_APP = {}
 
-#HOST = 'loli.fsa.ulaval.ca/artdev'
-HOST = ''
+#HOST_DOMAIN = 'loli.fsa.ulaval.ca/artdev'
+HOST_DOMAIN = ''
 EMAIL_USE_TLS = True
 
 

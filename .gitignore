@@ -9,3 +9,4 @@ src/settings_production.py
 static/extjs
 static/js/app-all.js
 static/all-classes.js
+src/ProtoExt/settings_production.py

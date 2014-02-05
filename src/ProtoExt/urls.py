@@ -3,7 +3,6 @@ from django.views.generic import TemplateView
 from settings import PPATH, DEBUG
 from generic_views import DirectTemplateView
 
-# Uncomment the next two lines to enable the admin:
 import django.contrib.admin
 django.contrib.admin.autodiscover()
 
@@ -12,8 +11,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(django.contrib.admin.site.urls)) ,
 
     url(r'^protoLib/', include('protoLib.urls')),
-
-#    url(r'^prueba$', direct_to_template, { 'template': 'prueba.html' }),
 
 #    Use for production instalation and for load json configuration files
     url(r'static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': PPATH + '/static'}),
