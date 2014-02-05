@@ -4,43 +4,21 @@
 import os.path
 PPATH = os.path.abspath( os.path.join( os.path.dirname(__file__), os.pardir )).replace('\\','/')
 
-if PPATH.startswith('/'):
-    EXT_PATH = '/u/data/ExtJs'
-else:
-    EXT_PATH = 'd:/data/ExtJs'
-
 
 if ('/src' in PPATH):
     PPATH = os.path.abspath(os.path.join( PPATH, os.pardir )).replace('\\','/')
 
-# Django settings for modelibra project.
+# Django settings for debugger 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+
 ADMINS = (
-     ('Dario Gomez', 'certae_dariogomez@gmail.com'),
+     ('Dario Gomez', 'dariogomezt@gmail.com'),
 )
 
 MANAGERS = ADMINS
 
-DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#        'NAME':   'protoExt',
-#    },
-#    'default': {
-#        'ENGINE': 'django.db.backends.mysql',
-#        'NAME':   'protoext',
-#        'USER': 'root',
-#        'PASSWORD': '1214moi',
-#        'HOST': '132.203.51.190',
-#        'PORT': '3306',
-#    },
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': PPATH + '/db/testproto.db',
-    }
-}
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -89,9 +67,6 @@ MEDIA_URL = ''
 #STATIC_ROOT = os.path.join( PPATH , 'static' )
 STATIC_ROOT = ''
 
-# URL prefix for static files.
-# Example: "http://media.lawrence.com/static/"
-STATIC_URL = '/static/'
 
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
@@ -101,17 +76,7 @@ STATIC_URL = '/static/'
 #ADMIN_MEDIA_PREFIX = '/static/'
 #ADMIN_MEDIA_PREFIX = '/static/admin/'
 
-#DAJAXICE_MEDIA_PREFIX="dajaxice"
-USE_DJANGO_JQUERY = True
 
-# Additional locations of static files
-STATICFILES_DIRS = (
-    PPATH + '/static',
-    EXT_PATH
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-)
 
 # List of finder classes that know how to find static files in
 # various locations.
@@ -121,9 +86,6 @@ STATICFILES_FINDERS = (
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-# Make this unique, and don't share it with anybody.
-with open('/etc/secret_key.txt') as f:
-    SECRET_KEY = f.read().strip()
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -153,33 +115,8 @@ ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
     PPATH + '/templates',
-
-#    '/home/dario/data/PyDjango/protoExt/src/django_qbe/templates',
-#    'D:/data/PyDjango/protoExt/src/django_qbe   /templates',
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
 )
 
-INSTALLED_APPS = (
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.sites',
-    'django.contrib.auth',
-    'django.contrib.admin',
-    'django.contrib.admindocs',
-#     'south',
-    'protoLib',
-    'prototype',
-    'll',
-#    'shiny',
-#    'CategoryCle',
-#    'TCO'
-#    'django_extensions',
-#    'django_qbe'
-)
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -210,12 +147,11 @@ AUTH_PROFILE_MODULE = 'protoLib.UserProfile'
 # Variables prototipeur
 PROTO_APP = {}
 
-#add email settings
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'protoext@gmail.com'
-EMAIL_HOST_PASSWORD = 'protoext1234'
-DEFAULT_FROM_EMAIL = 'protoext@gmail.com'
-#used for debug
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+if DEBUG :
+    from settings_development import *
+    with open( PPATH + '/src/secret_key.txt') as f:
+        SECRET_KEY = f.read().strip()
+else :
+    from settings_production import *
+    with open('/etc/secret_key.txt') as f:
+        SECRET_KEY = f.read().strip()

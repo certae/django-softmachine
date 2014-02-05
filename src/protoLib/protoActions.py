@@ -52,12 +52,31 @@ def protoExecuteAction(request):
 
                     UserReponse.save()            
 
-#                     if actionDef.get('emailNotification', False) and wfRow.smOwningUser.email :
-#                         try:
-#                             message = actionDef.get('emailTemplate', '') % (wfRow.smOwningUser, viewEntity, wfRow.__str__(), wfRow.smCreatedOn, strMsg, userProfile.user)
-#                             wfRow.smOwningUser.email_user(_(strMsg , message))              
-#                         except :
-#                             pass 
+                    if actionDef.get('emailNotification', False) and wfRow.smOwningUser.email :
+                        try:
+                            message = actionDef.get('emailTemplate', '') % (wfRow.smOwningUser, viewEntity, wfRow.__str__(), wfRow.smCreatedOn, strMsg, userProfile.user)
+                            wfRow.smOwningUser.email_user(_(strMsg , message))              
+                        except :
+                            pass 
+
+                        # user = User.objects.get(username = wfRow.smOwningUser )
+#                         user = ''
+#                         if user.email :
+#                             try:
+#                                 # date de l'ajout au format DD-M-YYYY
+#                                 createdDate = str(wfRow.smCreatedOn.timetuple().tm_mday) + '-' + str(wfRow.smCreatedOn.timetuple().tm_mon) + '-' + str(wfRow.smCreatedOn.timetuple().tm_year)
+#                                 message = actionDef.get('emailTemplate', '')
+#                                 values = {'sk' : wfRow.__str__(), 
+#                                        'concept' : viewEntity, 
+#                                        'admmessage': strMsg , 
+#                                        'admin' : str(userProfile.user).title(), 
+#                                        'date' : createdDate, 
+#                                        'User' : wfRow.smOwningUser.username.title()
+#                                        }
+#                                 message = message.format( **values )
+#                                 user.email_user( _('Décision'), message)
+#                             except:
+#                                 pass
 
 
             if actionDef.get('setOwner', False)  : 

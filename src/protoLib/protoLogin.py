@@ -66,6 +66,7 @@ def protoGetUserRights(request):
     return HttpResponse(context, mimetype="application/json")
 
 def protoGetPasswordRecovery(request):
+    
     baseURI = request.build_absolute_uri('..')
                 
     if request.POST.get('email') and request.POST.get('login'):
