@@ -17,7 +17,7 @@ if PPATH.startswith('/'):
     EXT_PATH = '/u/data/ExtJs'
 else:
     EXT_PATH = 'd:/data/ExtJs'
-
+    
 # URL prefix for static files.
 STATIC_URL = '/static/'
 
