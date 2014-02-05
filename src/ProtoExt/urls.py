@@ -1,6 +1,7 @@
-from django.conf.urls.defaults import patterns, include, url
-from django.views.generic.simple import direct_to_template
+from django.conf.urls import patterns, include, url
+from django.views.generic import TemplateView
 from settings import PPATH, DEBUG
+from generic_views import DirectTemplateView
 
 # Uncomment the next two lines to enable the admin:
 import django.contrib.admin
@@ -25,12 +26,12 @@ urlpatterns = patterns('',
 
 if DEBUG :
     urlpatterns += patterns('',
-        url(r'^protoExt$', direct_to_template, { 'template': 'protoExt.html'}),
-        url(r'^protoExtReset$', direct_to_template, { 'template': 'protoExt.html', 'extra_context': { 'isPasswordReseted': True, }}),
+        url(r'^protoExt$', TemplateView.as_view(template_name='protoExt.html')),
+        url(r'^protoExtReset$', DirectTemplateView.as_view(template_name='protoExt.html',extra_context={ 'isPasswordReseted': True })),
     )
 else :
     urlpatterns += patterns('',
-        url(r'^protoExt$', direct_to_template, { 'template': 'protoExt_production.html'}),
-        url(r'^protoExtReset$', direct_to_template, { 'template': 'protoExt.html', 'extra_context': { 'isPasswordReseted': True, }}),
+        url(r'^protoExt$', TemplateView.as_view(template_name='protoExt_production.html')),
+        url(r'^protoExtReset$', DirectTemplateView.as_view(template_name='protoExt.html',extra_context={ 'isPasswordReseted': True })),
     )
     

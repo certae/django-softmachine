@@ -55,7 +55,8 @@ def getSearcheableFields(  model  ):
 #    filterableTypes.extend( ['IntegerField', 'DecimalField', 'FloatField' ]
 #    filterableTypes.extend( [ 'DateField', 'TimeField', 'DateTimeField', 'BooleanField' ])
         
-    for field in model._meta._fields():
+    #for field in model._meta._fields(): #django 1.4
+    for field in model._meta.fields:
         if field.__class__.__name__ in filterableTypes:
             lFields.append( field.name )   
 

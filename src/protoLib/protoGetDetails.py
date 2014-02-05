@@ -7,7 +7,8 @@ from utilsBase import getReadableError, verifyStr
 from protoGrid import  getBaseModelName, getModelDetails
 from utilsWeb import JsonError, JsonSuccess 
 
-import django.utils.simplejson as json
+#import django.utils.simplejson as json
+import json
 
 PROTO_PREFIX = "prototype.ProtoTable."
 
@@ -29,7 +30,7 @@ def protoGetDetailsTree(request):
     except Exception,  e:
         jsondict = { 'success':False, 'message': getReadableError( e ) }
         context = json.dumps( jsondict)
-        return HttpResponse(context, mimetype="application/json")
+        return HttpResponse(context, content_type="application/json")
 
     detailList = []
     if viewCode.startswith( PROTO_PREFIX )  and viewCode != viewEntity :
@@ -51,7 +52,7 @@ def protoGetDetailsTree(request):
         
     # Codifica el mssage json 
     context = json.dumps( detailList )
-    return HttpResponse(context, mimetype="application/json")
+    return HttpResponse(context, content_type="application/json")
 
 
 

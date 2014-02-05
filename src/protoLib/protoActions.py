@@ -4,7 +4,8 @@ from django.contrib.admin.sites import  site
 from protoGrid import getBaseModelName
 from models import getDjangoModel, WflowUserReponse
 
-import django.utils.simplejson as json
+#import django.utils.simplejson as json
+import json
 
 from datetime import datetime
 from utilsWeb import doReturn

@@ -104,7 +104,8 @@ class ProtoGridFactory(object):
 #        if ( iCount == 0  ) or ( iCount == 1 and (pListDisplay[0] == '__str__')) :
 
         # Se crean los campos con base al modelo ( trae todos los campos del modelo )
-        for field in self.model._meta._fields():
+        #for field in self.model._meta._fields(): #only for django 1.4
+        for field in self.model._meta.fields:
             if field.name in protoExclude: continue
             setFieldDict (  self.fieldsDict , field )
 
@@ -340,7 +341,8 @@ def getBaseModelName( viewCode   ):
     from protoGetPci import PROTO_PREFIX
     from models import ProtoDefinition 
     
-    import django.utils.simplejson as json
+    #import django.utils.simplejson as json
+    import json
     
     if viewCode.count(".") == 2:
         app, model = viewCode.split(".")[:2]

@@ -13,7 +13,7 @@ Ext.define('ProtoUL.view.MenuTree', {
 
 
     rootVisible: false,
-    lines: false,
+    lines: true,
     minWidth: 200,
 
     initComponent: function() {

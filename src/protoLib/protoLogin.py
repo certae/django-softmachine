@@ -1,6 +1,7 @@
 # -*- encoding: UTF-8 -*-
 
-import django.utils.simplejson as json
+#import django.utils.simplejson as json #DEPRECATED
+import json
 from django.contrib.auth.models import User
 
 from django.http import HttpResponse, HttpResponseRedirect
@@ -62,7 +63,7 @@ def protoGetUserRights(request):
     
     # Encode json 
     context = json.dumps( jsondict)
-    return HttpResponse(context, mimetype="application/json")
+    return HttpResponse(context, content_type="application/json")
 
 def protoGetPasswordRecovery(request):
     baseURI = request.build_absolute_uri('..')

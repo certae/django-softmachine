@@ -4,7 +4,7 @@
 #Dg 121105   --------------------------------------------------
 
 from django.core.files import File
-from settings import PPATH
+from ProtoExt.settings import PPATH
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.encoding import smart_str, smart_unicode
@@ -18,7 +18,8 @@ from downloadFile import getFullPath
 
 from utilsWeb import JsonError, JsonSuccess
 
-import django.utils.simplejson as json
+#import django.utils.simplejson as json
+import json
 import os
 
 def sheetConfigRep(request):

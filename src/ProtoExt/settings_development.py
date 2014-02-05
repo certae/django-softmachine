@@ -1,4 +1,4 @@
-from settings import PPATH
+from ProtoExt.settings import PPATH
 
 DATABASES = {
     'default': {
@@ -7,6 +7,12 @@ DATABASES = {
     }
 }
 
+ALLOWED_HOSTS = [
+    'localhost', # Allow domain and subdomains
+    '127.0.0.1', # Also allow FQDN and subdomains
+    '127.0.0.1:8000',
+]
+
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
@@ -14,6 +20,7 @@ TEMPLATE_LOADERS = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
+                               "django.core.context_processors.csrf",
                                "django.core.context_processors.debug",
                                "django.core.context_processors.i18n",
                                "django.core.context_processors.media",
@@ -30,7 +37,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
-ROOT_URLCONF = 'urls'
+ROOT_URLCONF = 'ProtoExt.urls'
+WSGI_APPLICATION = 'ProtoExt.wsgi.application'
 
 TEMPLATE_DIRS = (
     PPATH + '/templates',

@@ -40,6 +40,7 @@ Ext.define('ProtoUL.controller.PasswordManager', {
                 },
                 failure: function(form, action) {
                     Ext.Msg.alert('Failed', action.result.message);
+                    button.setIconCls("st-key-go");
                 }
             });
         }
