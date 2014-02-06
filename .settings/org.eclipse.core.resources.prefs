@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/ProtoExt/settings.py=utf-8
+encoding//src/alltests/tests.py=UTF-8
 encoding//src/ll/models.py=utf-8
 encoding//src/protoLib/actions/__init__.py=utf-8
 encoding//src/protoLib/admin/__init__.py=utf-8

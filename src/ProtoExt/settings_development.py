@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'protoLib',
     'prototype',
     'll',
+    'alltests'
 )
 
 #used for debug
