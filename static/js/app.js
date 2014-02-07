@@ -26,17 +26,6 @@ Ext.application({
 
     launch: function() {
 
-        // Add csrf token to every ajax request
-        // var token = Ext.util.Cookies.get('csrftoken');
-        // if (!token) {
-            // Ext.Error.raise("Missing csrftoken cookie");
-        // } else {
-            // Ext.Ajax.defaultHeaders = Ext.apply(Ext.Ajax.defaultHeaders || {}, {
-                // 'X-CSRFToken': token
-            // });
-        // }
-
-        //
         Ext.QuickTips.init();
 
         if (window.isPasswordReseted === 'True') {

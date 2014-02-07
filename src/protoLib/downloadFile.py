@@ -36,7 +36,8 @@ def getFile(request, path ):
     response = HttpResponse(open(fullpath, 'rb').read(), content_type=mimetype)
     response["Last-Modified"] = http_date(statobj.st_mtime)
     response["Content-Length"] = statobj.st_size
-    if encoding: response["Content-Encoding"] = encoding
+    if encoding: 
+        response["Content-Encoding"] = encoding
     
     return response
 

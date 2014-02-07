@@ -47,6 +47,10 @@ INSTALLED_APPS = (
     'alltests'
 )
 
+FIXTURE_DIRS = (
+    'src/alltests/fixtures/',
+)
+
 #used for debug
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'protoext@gmail.com'

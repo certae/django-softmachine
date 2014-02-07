@@ -139,10 +139,6 @@ PROTO_APP = {}
 HOST_DOMAIN = ''
 EMAIL_USE_TLS = True
 
-FIXTURE_DIRS = (
-    'src/fixtures/',
-)
-
 if DEBUG :
     from settings_development import *
 else :
