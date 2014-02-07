@@ -20,7 +20,6 @@ from models import getDjangoModel
 
 from utilsWeb import doReturn
 
-#import django.utils.simplejson as json #DEPRECATED
 import json
 import traceback
 
@@ -67,13 +66,15 @@ def protoList(request):
             pRows = Qs.order_by(*orderBy)[ start: page * limit ]
         except:
             pRows = Qs.all()[ start: page * limit ]
-    else: pRows = Qs.all()[ start: page * limit ]
+    else: 
+        pRows = Qs.all()[ start: page * limit ]
 
 
     # Verifica los nodos validos 
     if refAllow: 
         userNodes = getUserNodes(request.user, protoMeta.get('viewEntity', ''))
-    else: userNodes = []
+    else: 
+        userNodes = []
 
 #   Prepara las cols del Query
     try:
@@ -108,7 +109,8 @@ def Q2Dict (protoMeta, pRows, fakeId, userNodes=[]):
 
 #    pStyle = protoMeta.get( 'pciStyle', '')
     JsonField = protoMeta.get('jsonField', '')
-    if not isinstance(JsonField, (str, unicode)): JsonField = ''
+    if not isinstance(JsonField, (str, unicode)): 
+        JsonField = ''
 
     pUDP = protoMeta.get('usrDefProps', {})
     cUDP = verifyUdpDefinition(pUDP)
@@ -119,7 +121,8 @@ def Q2Dict (protoMeta, pRows, fakeId, userNodes=[]):
 
     # Identifica las Udps para solo leer las definidas en la META
     if cUDP.udpTable :
-        udpTypes = {}; udpList = []
+        udpTypes = {} 
+        udpList = []
         for lField  in protoMeta['fields']:
             fName = lField['name']
             if fName.startswith(cUDP.propertyPrefix + '__'):
@@ -131,7 +134,7 @@ def Q2Dict (protoMeta, pRows, fakeId, userNodes=[]):
     for lField  in protoMeta['fields']:
         fName = lField['name']
         myZoomModel = lField.get('zoomModel', '')
-        if (len(myZoomModel) > 0) and (myZoomModel <> protoMeta['viewEntity']):
+        if (len(myZoomModel) > 0) and (myZoomModel != protoMeta['viewEntity']):
             relModels[ fName ] = { 'zoomModel' : myZoomModel, 'fkId' : lField.get('fkId', '') , 'loaded' : False }
 
 
@@ -140,7 +143,8 @@ def Q2Dict (protoMeta, pRows, fakeId, userNodes=[]):
     bCopyFromFld = False
     for lField  in protoMeta['fields']:
         fName = lField['name']
-        if (lField.get('cpFromField') is None or lField.get('cpFromZoom') is None): continue
+        if (lField.get('cpFromField') is None or lField.get('cpFromZoom') is None): 
+            continue
         bCopyFromFld = True
 
         # Marca el campo
@@ -150,13 +154,15 @@ def Q2Dict (protoMeta, pRows, fakeId, userNodes=[]):
         try:
             relModel = relModels[ lField.get('cpFromZoom') ]
             relModel[ 'loaded'] = True
-        except: pass
+        except: 
+            pass
 
 
     # 2.  borra los q no tienen marca
     for relName in relModels.keys():
         relModel = relModels[ relName ]
-        if not relModel[ 'loaded']: del relModels[ relName ]
+        if not relModel[ 'loaded']: 
+            del relModels[ relName ]
 
 
     #   Esta forma permite agregar las funciones entre ellas el __unicode__
@@ -176,7 +182,8 @@ def Q2Dict (protoMeta, pRows, fakeId, userNodes=[]):
             fName = lField['name']
             pName = lField.get('physicalName', fName)
 
-            if lField.get('crudType') == "screenOnly" : continue
+            if lField.get('crudType') == "screenOnly" : 
+                continue
 
             # UDP Se evaluan despues
             if cUDP.udpTable and fName.startswith(cUDP.propertyPrefix + '__'):
@@ -184,11 +191,6 @@ def Q2Dict (protoMeta, pRows, fakeId, userNodes=[]):
 
             elif (lField['type'] == 'protoN2N'):
                 continue
-#                 try:
-#                     val = list( rowData.__getattribute__( fName  ).values_list())
-#                 except: val = '[]'
-#                 rowdict[ fName ] = val
-#                 continue
 
             # Si el campo es absorbido ( bCopyFromFld es un shortcut para evitar la evulacion en caso de q no haya ningun cpFromField )
             elif bCopyFromFld and isAbsorbedField(lField, protoMeta) :
@@ -206,10 +208,6 @@ def Q2Dict (protoMeta, pRows, fakeId, userNodes=[]):
         # REaliza la absorcion de datos provenientes de un zoom
         if bCopyFromFld:
             rowdict = copyValuesFromFields(protoMeta, rowdict, relModels, JsonField)
-
-#        if pStyle == 'tree':
-#            rowdict[ 'viewEntity' ] = protoMeta.get('viewEntity', '')
-#            rowdict[ 'leaf' ] = False; rowdict[ 'children' ] = []
 
         # Agrega el Id Siempre como idInterno ( no representa una col, idProperty )
         rowdict[ 'id'] = rowData.pk
@@ -237,7 +235,8 @@ def getRowById(myModelName, myId):
     myList = model.objects.filter(pk=myId)
     if len(myList) > 0:
         return myList[0]
-    else:  return None
+    else:  
+        return None
 
 
 def isAbsorbedField(lField , protoMeta):
@@ -248,7 +247,8 @@ def isAbsorbedField(lField , protoMeta):
     """
 
     # Si esta marcado lo retorna
-    if (lField.get('isAbsorbed', False)): return True
+    if (lField.get('isAbsorbed', False)): 
+        return True
     return False
 
 
@@ -260,7 +260,8 @@ def copyValuesFromFields(protoMeta, rowdict, relModels, JsonField):
 
     for lField  in protoMeta['fields']:
         cpFromField = lField.get('cpFromField')
-        if not cpFromField: continue
+        if not cpFromField: 
+            continue
 
         fName = smart_str(lField['name'])
         cpFromField = smart_str(cpFromField)
@@ -273,10 +274,12 @@ def copyValuesFromFields(protoMeta, rowdict, relModels, JsonField):
             # Se uso para copiar cosas de discretas,  debia poner por defecto el vr en el campo
             # Si ya contiene algun valor, sale, solo copia cuando es nulo.
             val = rowdict.get(fName, None)
-            if (val) and smart_str(val).__len__() > 0: continue
+            if (val) and smart_str(val).__len__() > 0: 
+                continue
 
             val = rowdict.get(cpFromField , None)
-            if (val is None) : val = ''
+            if (val is None) : 
+                val = ''
 
         else:
             # Esta es la situacion de los prototipos q requieren el cpFromZoom,
@@ -303,7 +306,8 @@ def copyValuesFromFields(protoMeta, rowdict, relModels, JsonField):
             if rowData is not None  :
                 # interpreta los datos del registro
                 val = getFieldValue(cpFromField, lField[ 'type'], rowData  , JsonField)
-            else: val = ''
+            else: 
+                val = ''
 
         rowdict[ fName ] = val
 
@@ -333,7 +337,8 @@ def getQSet(protoMeta, protoFilter, baseFilter , sort , pUser):
         
 #   JsonField
     JsonField = protoMeta.get('jsonField', '')
-    if not isinstance(JsonField, (str, unicode)): JsonField = ''
+    if not isinstance(JsonField, (str, unicode)): 
+        JsonField = ''
 
 #   QSEt
 #   Qs = model.objects.select_related(depth=1)
@@ -383,13 +388,15 @@ def getQSet(protoMeta, protoFilter, baseFilter , sort , pUser):
                 try:
                     unicodeSort = getUnicodeFields(model)
                     for sAux in unicodeSort:
-                        if sField['direction'] == 'DESC': sAux = '-' + sAux
+                        if sField['direction'] == 'DESC': 
+                            sAux = '-' + sAux
                         orderBy.append(sAux)
                 except Exception as e:
                     pass 
                 
             else:
-                if sField['direction'] == 'DESC': sField['property'] = '-' + sField['property']
+                if sField['direction'] == 'DESC': 
+                    sField['property'] = '-' + sField['property']
                 orderBy.append(sField['property'])
 
     orderBy = tuple(orderBy)
@@ -433,7 +440,8 @@ def addQbeFilter(protoFilter, model, Qs, JsonField):
         if sFilter[ 'property' ] == '_allCols':
             # debe descomponer la busqueda usando el objeto Q
             QTmp = getTextSearch(sFilter, model, JsonField)
-            if QTmp is None:  QTmp = models.Q()
+            if QTmp is None:  
+                QTmp = models.Q()
 
             try:
                 Qs = Qs.filter(QTmp)
@@ -506,12 +514,15 @@ def getTextSearch(sFilter, model , JsonField):
 
     for fName in pSearchFields:
         fAux = fieldsDict.get(fName, {})
-        if fAux.get('type', '')  not in [ 'string', 'text', 'jsonfield' ]: continue
+        if fAux.get('type', '')  not in [ 'string', 'text', 'jsonfield' ]: 
+            continue
 
         QTmp = addQbeFilterStmt({'property': fName, 'filterStmt': sFilter['filterStmt'] } , model, JsonField)
 
-        if QStmt is None:  QStmt = QTmp
-        else: QStmt = QStmt | QTmp
+        if QStmt is None:  
+            QStmt = QTmp
+        else: 
+            QStmt = QStmt | QTmp
 
     return QStmt
 
@@ -533,7 +544,8 @@ def getFieldValue(fName, fType, rowData, JsonField):
         # Master JSonField ( se carga texto )
         try:
             val = rowData.__getattribute__(fName)
-        except: val = {}
+        except: 
+            val = {}
         if isinstance(val, dict):
             val = json.dumps(val , cls=JSONEncoder)
 
@@ -544,7 +556,8 @@ def getFieldValue(fName, fType, rowData, JsonField):
             val = val.get(fName[ len(JsonField + '__'):])
             val = getTypedValue(val, fType)
 
-        except: val = ''
+        except: 
+            val = ''
 
 
     elif ('__' in fName):
@@ -552,7 +565,8 @@ def getFieldValue(fName, fType, rowData, JsonField):
         try:
             val = eval('rowData.' + fName.replace('__', '.'))
             val = verifyStr(val , '')
-        except: val = '__?'
+        except: 
+            val = '__?'
 
 
     # Campo del modelo
@@ -562,10 +576,12 @@ def getFieldValue(fName, fType, rowData, JsonField):
             # Si es una referencia ( fk ) es del tipo model
             if isinstance(val, models.Model):
                 val = verifyStr(val , '')
-        except: val = 'vr?'
+        except: 
+            val = 'vr?'
 
         # Evita el valor null en el el frontEnd
-        if val is None: val = ''
+        if val is None: 
+            val = ''
 
 
     return val
@@ -581,7 +597,8 @@ def evalueFuncion(fName, rowData):
         expr = 'rowData.' + fName[1:]
         val = eval(expr)
         val = verifyStr(val , '')
-    except: val = fName + '?'
+    except: 
+        val = fName + '?'
 
     return val
 

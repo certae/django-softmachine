@@ -25,58 +25,10 @@ def exportProtoJson(request, pModel ):
            'code'  : pEntity.code, 
            'entity' :  getClassName( pEntity.code ), 
            'fullName' : cViews['model' ] + '.' + getClassName( pEntity.code ), 
-#          'properties' : {},   
            'prototypes' : {},   
         } 
 
         cViews['entities'][ cEntity['code'] ]  = cEntity 
-
-#         for pProperty in pEntity.property_set.all():
-#             
-#             
-#             cProperty =  {
-#                 'code'      : pProperty.code, 
-#                 'property'  : slugify(pProperty.code, '_'),
-#                 'isForeign' : pProperty.isForeign,  
-#                 
-#                 'baseType'   : pProperty.baseType,
-#                 'prpLength'  : pProperty.prpLength,
-#                 'prpScale'   : pProperty.prpScale,
-# 
-#                 'isPrimary'   : pProperty.isPrimary,
-#                 'isReadOnly'  : pProperty.isReadOnly,
-# 
-#                 'isNullable'  : pProperty.isNullable,
-#                 'isRequired'  : pProperty.isRequired,
-#                 'isSensitive' : pProperty.isSensitive,
-#                 'prpChoices'  : pProperty.prpChoices,
-#                 'prpDefault'  : pProperty.prpDefault,
-#                 'vType'       : pProperty.vType,
-# 
-#                 'crudType'    : pProperty.crudType,
-#                 'description' : pProperty.description,
-#                 'notes'       : pProperty.notes,
-# 
-#                 'dbName'      : pProperty.dbName,
-#                 'isEssential' : pProperty.isEssential,
-#                 'isLookUpResult' : pProperty.isLookUpResult,
-#             }
-# 
-#             #TODO: 'propertyModel'  :pProperty.propertyModel,
-#             
-#             if pProperty.isForeign:
-#                 cProperty[ 'refEntity' ]    = pProperty.relationship.refEntity.code
-#                 cProperty[ 'refCode' ]      = getClassName( pProperty.relationship.refEntity.code )
-#                  
-#                 cProperty[ 'baseMax']       = pProperty.relationship.baseMax
-#                 cProperty[ 'baseMin']       = pProperty.relationship.baseMin
-#                 cProperty[ 'onRefDelete']   = pProperty.relationship.onRefDelete
-#                 cProperty[ 'refMax']        = pProperty.relationship.refMax
-#                 cProperty[ 'refMin']        = pProperty.relationship.refMin
-#                 cProperty[ 'relatedName']   = pProperty.relationship.relatedName
-#                 cProperty[ 'typeRelation']  = pProperty.relationship.typeRelation
-#                  
-#             cEntity['properties'][ cProperty['code'] ]  = cProperty  
 
 
         for pPrototype in pEntity.prototype_set.all():
@@ -94,7 +46,8 @@ def exportProtoJson(request, pModel ):
                 del cProto[ 'protoEntity' ]  
                 del cProto[ 'protoEntityId' ]
                 del cProto['__ptType']
-            except: pass 
+            except: 
+                pass 
                 
             cProto[ 'localSort' ] = False 
             cProto[ 'viewIcon' ]  = 'icon-1'
@@ -103,13 +56,15 @@ def exportProtoJson(request, pModel ):
             # Elimina campos de control de prototypos y redirecciona zooms  
             newFields = [] 
             for fld in cProto['fields'] : 
-                if fld['name'] in [ 'entity', 'entity_id', 'info' ]: continue
+                if fld['name'] in [ 'entity', 'entity_id', 'info' ]: 
+                    continue
                 if fld['name'] == '__str__':   
                     try: 
                         del fld['cpFromZoom']
                         del fld['cpFromField']
                         del fld['physicalName']
-                    except: pass 
+                    except: 
+                        pass 
 
                 try: 
                     del fld['__ptType']
@@ -118,13 +73,10 @@ def exportProtoJson(request, pModel ):
             
             cProto['fields'] = newFields 
             
-#            sAux = json.dumps( cProto, cls = JSONEncoder )
-            
             cPrototype =  {
                 'code'           : pPrototype.code, 
                 'description'    : pPrototype.description,
                 'notes'          : cEntity[ 'fullName'],
-#               'metaDefinition' : json.loads(  pPrototype.metaDefinition ) 
                 'metaDefinition' : cProto  
             } 
             
