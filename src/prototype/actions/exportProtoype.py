@@ -56,13 +56,16 @@ def exportPrototypeModel(request, pModel ):
 
                 if pType == 'CharField':
                     strAux = "{0} = models.{1}(blank= {2}, null= {2}, max_length= {3})\n"
-                    if intLength == 0: intLength = 200 
+                    if intLength == 0: 
+                        intLength = 200 
                     
                 elif pType == 'DecimalField':
                     strAux = "{0} = models.{1}(blank= {2}, null= {2}, max_digits={3}, decimal_places= {4})\n"
 
-                    if intLength == 0 or intLength > 24  : intLength = 48 
-                    if intScale  <  0 or intScale  > intLength : intScale = 2 
+                    if intLength == 0 or intLength > 24  : 
+                        intLength = 48 
+                    if intScale  <  0 or intScale  > intLength : 
+                        intScale = 2 
 
                 elif pType == 'BooleanField':
                     strAux = "{0} = models.{1}()\n"
@@ -71,8 +74,10 @@ def exportPrototypeModel(request, pModel ):
                     strAux = "{0} = models.{1}(blank = {2}, null = {2})\n"
 
 #               isRequired isNullable: 
-            if pProperty.isRequired: strNull = 'False'
-            else: strNull = 'True'
+            if pProperty.isRequired: 
+                strNull = 'False'
+            else: 
+                strNull = 'True'
 
             if pProperty.isPrimary: 
                 arrKeys.append( pCode ) 
