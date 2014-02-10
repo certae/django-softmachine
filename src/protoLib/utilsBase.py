@@ -7,14 +7,9 @@
 import os
 import re
 
-import datetime, operator, decimal
-#import django.utils.simplejson as json #DEPRECATED
+import datetime, decimal
 import json
 from django.utils.encoding import smart_str
-
-# Prefijo de las funciones ORM invocadas como campos, __unicode__ para las FK  
-#_PROTOFN_ = '_protoFn_'
-
 
 
 class JSONEncoder(json.JSONEncoder):
@@ -54,7 +49,6 @@ def parseEmailAddress(fullemail, delimitorLeft = '<', delimitorRight = '>'):
         # Julien Bouquillon <julien@bouquillon.com>
     """
     
-    import re
     if delimitorLeft == '(':
         delimitorLeft = '\\('
     if delimitorRight == ')':
@@ -166,12 +160,14 @@ def WriteFile(inFile, contents):
     f.close()
     
 def PathToList(inPath, template_type="", showExt = True):
-    import os
     mylist = []
     for file in os.listdir(inPath):
-        if file in ['.', '..', '']: continue
-        if not os.path.isfile(os.path.join(inPath, file)): continue
-        if not showExt: file = os.path.splitext(file)[0]
+        if file in ['.', '..', '']: 
+            continue
+        if not os.path.isfile(os.path.join(inPath, file)): 
+            continue
+        if not showExt: 
+            file = os.path.splitext(file)[0]
         mydict = {"name": file, "type": template_type}
         mylist.append(mydict)
     return mylist
@@ -281,8 +277,10 @@ def strNotNull(  sValue, sDefault ):
     if (sValue is None):
         if (sDefault is None):  
             return "_"
-        else: return sDefault 
-    else: return sValue 
+        else: 
+            return sDefault 
+    else: 
+        return sValue 
 
 
 def copyProps ( objBase, objNew ):
@@ -330,111 +328,10 @@ def findBrackets( aString ):
                 return match[:index]    
 
 
-# ------------  Alternativas para la evaluacion de parametros en ud funciones
-#
-#        
-#def balanced_braces(args):
-#    #t1 = balanced_braces(["{{ a } { b } { { { c } } } }"]);
-#    parts = []
-#    for arg in args:
-#        if '{' not in arg:
-#            continue
-#        chars = []
-#        n = 0
-#        for c in arg:
-#            if c == '{':
-#                if n > 0:
-#                    chars.append(c)
-#                n += 1
-#            elif c == '}':
-#                n -= 1
-#                if n > 0:
-#                    chars.append(c)
-#                elif n == 0:
-#                    parts.append(''.join(chars).lstrip().rstrip())
-#                    chars = []
-#            elif n > 0:
-#                chars.append(c)
-#    return parts
-#        
-#
-#_mbrack_rb = re.compile("([^{}]*)}") # re.match doesn't have a pos parameter
-#def mbrack(s):
-#  """Parse matching brackets.
-#
-#  >>> mbrack("{a}")
-#  'a'
-#  >>> mbrack("{{a}{b}}")
-#  ['a', 'b']
-#  >>> mbrack("{{a}{b}{{{c}}}}")
-#  ['a', 'b', [['c']]]
-#
-#  >>> mbrack("a")
-#  Traceback (most recent call last):
-#  ValueError: expected left bracket
-#  >>> mbrack("{a}{b}")
-#  Traceback (most recent call last):
-#  ValueError: more than one root
-#  >>> mbrack("{a")
-#  Traceback (most recent call last):
-#  ValueError: expected value then right bracket
-#  >>> mbrack("{a{}}")
-#  Traceback (most recent call last):
-#  ValueError: expected value then right bracket
-#  >>> mbrack("{a}}")
-#  Traceback (most recent call last):
-#  ValueError: unbalanced brackets (found right bracket)
-#  >>> mbrack("{{a}")
-#  Traceback (most recent call last):
-#  ValueError: unbalanced brackets (not enough right brackets)
-#  """
-#  stack = [[]]
-#  i, end = 0, len(s)
-#  while i < end:
-#    if s[i] != "{":
-#      raise ValueError("expected left bracket")
-#    elif i != 0 and len(stack) == 1:
-#      raise ValueError("more than one root")
-#    while i < end and s[i] == "{":
-#      L = []
-#      stack[-1].append(L)
-#      stack.append(L)
-#      i += 1
-#    stack.pop()
-#    stack[-1].pop()
-#    m = _mbrack_rb.match(s, i)
-#    if m is None:
-#      raise ValueError("expected value then right bracket")
-#    stack[-1].append(m.group(1))
-#    i = m.end(0)
-#    while i < end and s[i] == "}":
-#      if len(stack) == 1:
-#        raise ValueError("unbalanced brackets (found right bracket)")
-#      stack.pop()
-#      i += 1
-#  if len(stack) != 1:
-#    raise ValueError("unbalanced brackets (not enough right brackets)")
-#  return stack[0][0]
-#
-#
-#def main(args):
-#  if args:
-#    print >>sys.stderr, "unexpected arguments: %r" % args
-#  import doctest
-#  r = doctest.testmod()
-#  print r
-#  return r[0]
-#
-#if __name__ == "__main__":
-#  sys.exit(main(sys.argv[1:]))
 
-
-
-#import re
 from unicodedata import normalize
 
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.:]+')
-#punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^`{|},.:]+')
 
 def slugify(text, delim=u'-'):
     """Generates an slightly worse ASCII-only slug.
@@ -451,19 +348,6 @@ def slugify(text, delim=u'-'):
     rText = unicode(delim.join(result)).replace( '--', '-')
      
     return rText 
-
-# #  Alternativa ----------------------------------
-#    # encoding: utf-8
-#    from unicodedata import normalize
-#    import re
-#    
-#    original = u'ľ š č ť ž ý á í é'
-#    decomposed = normalize("NFKD", original)
-#    no_accent = ''.join(c for c in decomposed if ord(c)<0x7f)
-#    no_spaces = re.sub(r'\s', '_', no_accent)
-#    
-#    print no_spaces
-#    # output: l_s_c_t_z_y_a_i_e
 
 
 def repStr(string_to_expand, length):
