@@ -8,7 +8,7 @@ from pttActionTools import getClassName
 from protoLib.utilsBase import slugify, JSONEncoder
 from protoLib.models import ProtoDefinition
 
-import django.utils.simplejson as json
+import json
 
 
 def exportProtoJson(request, pModel ):

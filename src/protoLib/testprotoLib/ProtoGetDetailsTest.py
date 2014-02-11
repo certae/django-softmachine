@@ -6,7 +6,7 @@ from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
 from django.http import HttpRequest
 from django.contrib.auth import authenticate
-import django.utils.simplejson as json
+import json
 
 from protoLib.protoGetDetails import protoGetDetailsTree
 

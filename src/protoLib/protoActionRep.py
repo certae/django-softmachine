@@ -18,7 +18,7 @@ from downloadFile import getFullPath
 
 from utilsWeb import JsonError, JsonSuccess
 
-#import django.utils.simplejson as json
+#import json
 import json
 import os
 

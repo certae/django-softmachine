@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
+import os
 
 import re
 from django.test import TestCase
 from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
-import django.utils.simplejson as json
+import json
 
 from prototype.models import *
 from protoLib.models import *
@@ -30,10 +31,10 @@ def PropertiesTestSuite():
 
 
 PossibleTypes = ['list', 'string']
-#MetaObjects = json.loads(open(PPATH + '/src/testMetaDefinitions/MetaObjects.dat').read())
-#MetaProperties = json.loads(open(PPATH + '/src/testMetaDefinitions/MetaProperties.dat').read())
-MetaObjects = json.loads(open('src/alltests/testMetaDefinitions/MetaObjects.dat').read())
-MetaProperties = json.loads(open('src/alltests/testMetaDefinitions/MetaProperties.dat').read())
+#MetaObjects = json.loads(open('src/alltests/testMetaDefinitions/MetaObjects.dat').read())
+MetaObjects = json.loads(open(os.path.join(os.path.dirname(__file__),'MetaObjects.dat')).read())
+#MetaProperties = json.loads(open('src/alltests/testMetaDefinitions/MetaProperties.dat').read())
+MetaProperties = json.loads(open(os.path.join(os.path.dirname(__file__),'MetaProperties.dat')).read())
 
 DataTypes = dict()
 for fields in MetaProperties:
