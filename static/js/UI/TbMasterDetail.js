@@ -281,7 +281,8 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         setMdButton(this, 'protoActions', bEdit);
         setMdButton(this, 'sorterSet', bEdit);
 
-        // DGT 1303 Con el autosyn, se permite la edicion en todos los objetos
+        // DGT 1303 Con el autosync, se permite la edicion en todos los objetos
+        // this.setAutoSync( this.__MasterDetail.autoSync )
         // setMdButton( this, 'tabSet', bEdit );
         // setMdButton( this, 'details', bEdit );
 

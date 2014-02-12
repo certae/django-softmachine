@@ -3,7 +3,6 @@
 /*global Ext */
 /*global _SM */
 /*global ProtoUL */
-/*global verifyMeta */
 
 _SM.typeOf=function (value) {
     var s = typeof value;

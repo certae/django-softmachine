@@ -55,28 +55,6 @@ def createTestEntity():
     return testEntity
 
 
-def createTestPropertyBaseChild():
-    someInteger = 25
-
-    propertybasechilddata = {
-        'code': 'testCode',
-        'baseType': 'testBaseType',
-        'prpLength': someInteger,
-        'prpScale': someInteger,
-        'vType': 'testVType',
-        'prpDefault': 'testPrpDefault',
-        'prpChoices': 'testPrpChoises',
-        'isSensitive': True,
-        'description': 'testDescription',
-        'notes': 'testNotes'
-    }
-
-    testPropertyBaseChild = PropertyBaseChild(**propertybasechilddata)
-    testPropertyBaseChild.save()
-
-    return testPropertyBaseChild
-
-
 def createTestPropertyModel():
     testModel = createTestModel()
     testModel.save()

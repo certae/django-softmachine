@@ -2,7 +2,6 @@
 /*global Ext */
 /*global _SM */
 /*global ProtoUL */
-/*global getSimpleProperties */
 
 Ext.define('ProtoUL.UI.GridController', {
     extend: 'Ext.Base',

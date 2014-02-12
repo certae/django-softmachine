@@ -65,7 +65,7 @@ Ext.define('ProtoUL.controller.PasswordManager', {
                 failure: function(form, action) {
                     Ext.Msg.show({
                         title: _SM.__language.Message_Error,
-                        msg: action.result.message,
+                        msg: action.response.statusText,
                         buttons: Ext.Msg.OK,
                         icon: Ext.MessageBox.WARNING
                     });

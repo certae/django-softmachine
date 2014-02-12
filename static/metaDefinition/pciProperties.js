@@ -116,7 +116,7 @@ _MetaProperties =  {
 
     "propertyRef.help" : "udp concept ref",    
     "keyField.help" : "udp source<br>** Only for non MD udp (internal use)",
-    "udpTable.help" : "udp concept name , <b>** if direct link then related_name, normaly udpTable", 
+    "udpTable.help" : "udp concept name , <strong>** if direct link then related_name, normaly udpTable</strong>", 
 
 // sheets
     "sheetSelector.help": "field sheet selecto, null for DEFAULT sheet",
@@ -133,8 +133,8 @@ _MetaProperties =  {
 
     "templateEr.help": "EveryRow", 
 
-    "templateFp":'<!DOCTYPE html>'+'<html>'+'<head>'+'<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />'+'<link href="/static/css/print.css" rel="stylesheet" type="text/css" media="screen,print" />'+'<title>PtReport : {{reportTitle}}</title>'+'</head>'+'<body>',
-    "templateLp":'</body>'+'</html>',
+    "templateFp":'<!DOCTYPE html><html><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type" /><link href="/static/css/print.css" rel="stylesheet" type="text/css" media="screen,print" /><title>PtReport : {{reportTitle}}</title></head><body>',
+    "templateLp":'</body></html>',
 
     "direction": "sort order",
     "direction.choices": ["ASC", "DESC" ],

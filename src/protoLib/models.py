@@ -102,7 +102,7 @@ class ProtoModel(models.Model):
 
     class Meta:
         abstract = True
-    
+
     def save(self, *args, **kwargs):
         "Get last value of Code and Number from database, and increment before save"
         if hasattr( self , "_autoIncrementField" ) and not self.pk:
@@ -387,16 +387,4 @@ class WflowUserReponse(ProtoModel):
     def __unicode__(self):
         return self.viewEntity
 
-    
-# class sb2reglesentite(models.Model):
-#    description = models.CharField(max_length=250 ,blank=True)
-#    declancheur = models.CharField(max_length=5 ,blank=True)
-#    sequence = models.IntegerField(null=True ,blank=True)
-#    typeregle = models.CharField(max_length=50 ,blank=True)
-#    regle = models.CharField(max_length=50 ,blank=True)
-#    messageok = models.CharField(max_length=50 ,blank=True)
-#    messageerr = models.CharField(max_length=50)
-#    actionerr = models.CharField(max_length=50 ,blank=True)
-#    statut = models.CharField(max_length=10)
-#    entite = models.ForeignKey(sb1entites)
     

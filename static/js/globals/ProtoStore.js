@@ -384,13 +384,14 @@ _SM.DefineProtoModel = function(myMeta) {
         if (!vFld.type) {
             vFld.type = 'string';
         }
+
         // modelField
         mField = {
             name: vFld.name,
             type: vFld.type
             //TODO:  useNull : true / false    ( NullAllowed, IsNull,  NotNull )
         };
-		
+
         // Tipos validos
         if (!vFld.type in _SM.objConv(['string', 'text', 'html', 'bool', 'int', 'decimal', 'combo', 'date', 'datetime', 'time', 'protoN2N', 'autofield', 'foreignid', 'foreigntext'])) {
 
@@ -790,7 +791,6 @@ _SM.getColDefinition = function(vFld) {
 _SM.getFormFieldDefinition = function(vFld) {
 
 
-
     var colDefinition = _SM.getColDefinition(vFld),
         formEditor = {
             readOnly: true
@@ -805,9 +805,10 @@ _SM.getFormFieldDefinition = function(vFld) {
     // Field Label
     formEditor.name = vFld.name;
     formEditor.fieldLabel = vFld.fieldLabel || vFld.header || vFld.name;
-    formEditor.fieldLabel = formEditor.fieldLabel.replace( '<b>', '' ).replace( '</b>', '' );
+    formEditor.fieldLabel = formEditor.fieldLabel.replace( '<strong>', '' ).replace( '</strong>', '' );
+	formEditor.fieldLabel = formEditor.fieldLabel.replace( '<b>', '' ).replace( '</b>', '' );
     if (vFld.required) {
-        formEditor.fieldLabel = '<b>' + formEditor.fieldLabel + '</b>';
+        formEditor.fieldLabel = '<strong>' + formEditor.fieldLabel + '</strong>';
     }
     if (vFld.primary) {
         formEditor.afterLabelTextTpl = _SM._requiredField;

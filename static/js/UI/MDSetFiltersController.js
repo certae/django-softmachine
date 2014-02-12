@@ -2,7 +2,6 @@
 /*global Ext */
 /*global _SM */
 /*global ProtoUL */
-/*global getSimpleProperties */
 
 
 Ext.define('ProtoUL.UI.MDSetFiltersController', {
@@ -56,7 +55,7 @@ Ext.define('ProtoUL.UI.MDSetFiltersController', {
                 items: [
                     {
                     xtype   : 'tbtext',
-                    text: '<strong>Filtrer par : </strong>'
+                    text: '<strong>Filtrer par :</strong>'
                     }
                 ]
             });

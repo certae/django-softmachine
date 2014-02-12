@@ -24,7 +24,17 @@ ALLOWED_HOSTS = [
     '.ulaval.ca',  # Also allow FQDN and subdomains
 ]
 
+
+WSGI_APPLICATION = 'ProtoExt.wsgi.application'
+
+TEMPLATE_DIRS = (
+    PPATH + '/templates',
+)
+
+# URL prefix for static files.  ( Relative for prod )  
+# Example: "http://media.lawrence.com/static/"
 STATIC_URL = 'static/'
+
 
 INSTALLED_APPS = (
     'django.contrib.contenttypes',
@@ -39,6 +49,8 @@ INSTALLED_APPS = (
     'prototype',
     'll',
 )
+
+HOST_DOMAIN = 'loli.fsa.ulaval.ca/artdev'
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
