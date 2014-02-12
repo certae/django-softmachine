@@ -10,7 +10,6 @@ DATABASES = {
 ALLOWED_HOSTS = [
     'localhost', # Allow domain and subdomains
     '127.0.0.1', # Also allow FQDN and subdomains
-    '127.0.0.1:8000',
 ]
 
 if PPATH.startswith('/'):

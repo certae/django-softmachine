@@ -1,0 +1,84 @@
+## ProtoExt
+CeRTAE [ProtoExt](http://www.certae.org/index.php?id=88) proposes an approach based on DATARUN method. This approach consists in achieving the interfaces of an application by the contruction of views from a standard data model.
+The system architecture is a Web MVC variant, this means that we use the basic concepts of Model, View and Controller adapted to a Web App.
+## Software requirements:
+
+* Python 2.7
+* Django 1.6.1
+* South
+* Python-mysqldb
+* Apache
+* Mod_wsgi
+* Ext JS 4.2.1
+
+Suggested IDE : [Aptana Studio 3](http://aptana.com/)
+
+## Security remarks
+In order to achieve the security requirements, the `settings.py` should be modified before deploying the Django project.
+
+`SECRET_KEY`
+Instead of hardcoding the secret key in the settings module, we are going to load it from a file:
+```python
+with open('/etc/secret_key.txt') as f:
+    SECRET_KEY = f.read().strip()
+```
+
+`DEBUG`
+Never enable debug in production so set it to False (DEBUG = False)
+
+Split configuration is used to avoid sending sensitive data to GitHub. This configuration is based on DEBUG variable. If debug is enabled the System is going to load “settings_development.py” otherwise it will import “settings_production.py”.
+```python
+if DEBUG :
+    from settings_development import *
+else :
+    from settings_production import *
+```
+Those files contain information about DATABASES, ALLOWED_HOSTS, TEMPLATE_LOADERS, TEMPLATE_CONTEXT_PROCESSORS, TEMPLATE_DIRS, INSTALLED_APPS and EMAIL configurations.
+
+## Installation
+Those steps are based on a Ubuntu server, but it is applicable to others Linux distributions.
+
+Hands-on: start by checking Python version in a server terminal, usually Ubuntu comes with Python 2.7. The next step is Django installation, in a terminal type:
+`sudo apt-get install python-setuptools python-dev build-essential`
+`sudo easy_install pip`
+`sudo pip install Django==1.6.1`
+
+To verify that Django can be seen by Python, type python from your shell. Then at the Python prompt, try to import Django
+`>>> import django`
+`>>> print django.get_version()`
+
+Install South by the command:
+`sudo pip install south`
+
+If you are going to use MySQL, you must install the python driver:
+`sudo apt-get install python-mysqldb`
+
+We assume that Apache web server is already installed, if not:
+`sudo apt-get install apache2`
+
+And for an easy deploy install:
+`sudo apt-get install libapache2-mod-wsgi`
+
+Now we are going to configure the web server:
+`sudo vi /etc/apache2/sites-available/default`
+Inside the tag <VirtualHost *:80>
+insert those lines:
+	`Alias /static/admin/ /usr/local/lib/python2.7/dist-packages/django/contrib/admin/static/admin/`
+	`WSGIScriptAlias / /home/SitePrototypeur/ProtoExt/src/prototypeur.wsgi`
+	
+We are almost there, go to the home folder:
+`cd /home`
+create a new SitePrototypeur directory
+`mkdir SitePrototypeur`
+and extract the ProtoExt-master.zip (downloaded from https://github.com/victorette/ProtoExt) code inside the SitePrototypeur folder, rename the new folder to ProtoExt.
+Go to the new folder and make sure that `settings.py` is following the security remarks mentioned above. The App won't work is this file is configured improperly.
+Download Ext JS from [Sencha.com](http://www.sencha.com/products/extjs/download/), extract it in `/home/SitePrototypeur/ProtoExt/static` and rename the extracted folder to **extjs**.
+Synchronize the database: 
+`python src/manage.py syncdb`
+
+Make sure that all steps were executed and restart the web server:
+`sudo /etc/init.d/apache2 restart`
+
+Open chrome or firefox 
+If running from aptana : http://127.0.0.1:8000/protoExt
+If using Apache : http://<server_ip>/protoExt

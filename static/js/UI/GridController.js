@@ -206,14 +206,14 @@ Ext.define('ProtoUL.UI.GridController', {
 
     //  --------------------------------------------------------------------------
 
-    onEditAction: function(ev, obj, head, btn) {
-
+	onEditAction: function(ev, obj, head, btn) {
+        showLoadingMask();
+      	
         if (!this.formController) {
             this.formController = Ext.create('ProtoUL.UI.FormController', {
                 myMeta: this.myMeta
             });
         }
-
         // Lanza el evento de inicio de edicion
         this.myGrid.fireStartEdition(btn.itemId);
 
@@ -225,7 +225,11 @@ Ext.define('ProtoUL.UI.GridController', {
 
             case 'toolFormUpd' :
                 if (_SM.validaSelected(this.myGrid.selected)) {
-                    this.formController.openLinkedForm(this.myGrid.selected);
+                	// FIXME : check with dario if this is really necessary
+                	var delayTask = new Ext.util.DelayedTask(function(args){
+                    	args.form.openLinkedForm(args.grid);
+                    });
+                    delayTask.delay(1,null,null,[{form: this.formController, grid: this.myGrid.selected}]);
                 }
                 break;
 
@@ -255,6 +259,15 @@ Ext.define('ProtoUL.UI.GridController', {
                 Ext.MessageBox.confirm(_SM.__language.Title_Msg_Confirm_Delete, _SM.__language.Msg_Confirm_Delete_Operation, doDelete);
                 break;
         }
+	    function showLoadingMask()
+		{
+			loadText = 'Loading... Please wait';
+			//Use the mask function on the Ext.getBody() element to mask the body element during Ajax calls
+			Ext.getBody().mask(loadText, 'loading');
+			//Ext.Ajax.on('beforerequest',function(){Ext.getBody().mask(loadText, 'loading'); }, Ext.getBody());
+			Ext.Ajax.on('requestcomplete',Ext.getBody().unmask ,Ext.getBody());
+			Ext.Ajax.on('requestexception', Ext.getBody().unmask , Ext.getBody());
+		}	
     }
 
 });
