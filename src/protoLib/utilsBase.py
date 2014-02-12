@@ -353,4 +353,3 @@ def slugify(text, delim=u'-'):
 def repStr(string_to_expand, length):
     #Repeat to length  ( indent, fill, ... ) 
     return (string_to_expand * ((length/len(string_to_expand))+1))[:length]
-

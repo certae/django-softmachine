@@ -2,45 +2,6 @@
 /*global Meta2Tree, Tree2Meta */
 
 
-function getSimpleProperties( oData, ptType   ) {
-    // Retorna los valores simples, verificando los tipos de cada propiedad
-
-    // Solo deben llegar objetos, si llega un array no hay props q mostrar
-    if ( _SM.typeOf( oData )  == 'array' ) {
-        // console.log( 'getSimpleProperties  array???', oData  )
-        return []
-    }
-
-    // Inicializa con el type
-    var cData = {}
-    if ( ptType ) { cData.__ptType = ptType }
-
-
-    for (var lKey in oData ) {
-        var cValue = oData[ lKey  ]
-
-        // Los objetos o arrays son la imagen del arbol y no deben ser tenidos en cuenta, generarian recursividad infinita
-        if  ( _SM.typeOf( cValue  ) in _SM.objConv([ 'object', 'array' ])) { continue; }
-
-        // Si son valores codificados, los decodifica y los agrega
-        if ( lKey in _SM.objConv( [ '__ptValue', '__ptList' ])  )  {
-            try {
-                cData = Ext.decode( cValue )
-            } catch (e) {
-                // console.log( "Error de encodage", cValue )
-            }
-
-        } else {
-            cValue = verifyPrpType(  lKey, cValue )
-            if ( cValue ) {
-                cData[ lKey  ] = cValue
-            }
-        }
-    }
-    return cData
-
-}
-
 
 function Meta2Tree( oData, pName, ptType   ) {
     /* Convierte la meta en treeStore ( Arbol )

@@ -26,7 +26,7 @@ from protoLib.fields import JSONField,  JSONAwareManager
 import itertools
 
 from django.db import models
-#from django.utils import simplejson as json #DEPRECATED
+
 import json
 from utilsBase import JSONEncoder
 

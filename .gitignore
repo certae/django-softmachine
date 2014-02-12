@@ -5,8 +5,7 @@
 static/pruebas/tmp.js
 static/extjs-4.1.x
 static/extjs-4.2.2
-src/settings_production.py
 static/extjs
 static/all-classes.js
-src/ProtoExt/settings_production.py
 coverage.xml
+src/ProtoExt/secret_key.txt

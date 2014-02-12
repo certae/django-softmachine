@@ -1,4 +1,4 @@
-﻿# -*- coding' : utf-8 -*-
+﻿﻿# -*- coding' : utf-8 -*-
 
 __language ={
     'languaje' : 'es', 
@@ -34,7 +34,7 @@ __language ={
     'Msg_Error_Save_Form' : 'Error al guardar formulario',
     'Msg_Failed_Operation' : 'Operación fallida',
     'Msg_Confirm_Delete_Operation' : 'Está seguro?',
-    
+
     'Title_Msg_Confirm_Delete' : 'Confirmar eliminación',
     
     'GridNav_In_New_Tab' : 'Ver en una nueva pestaña',
@@ -47,6 +47,7 @@ __language ={
     'GridNav_Previous_Page' : 'Página anterior',
     'GridNav_Last_Page' : 'Ultima página',
     'GridNav_Refresh' : 'Actualizar',
+    
     'Text_Toolbar_Remove_Filters' : 'Quitar filtros',
     'Text_UserInfo_Fullname' : 'usuario solo lectura',
     'Text_ComboFilterOp_Equal' : 'igual',
@@ -83,6 +84,7 @@ __language ={
     'Text_Toolbar_Search_Combo' : 'seleccione el operador',
     'Text_Toolbar_In' :'en ...',
     'ProtoList_DD_Text' : 'Arrastre y suelte para organizar',
+    
     'Text_Validate_Login_Button' : 'validar',
     'Text_Forgotten_Password' : 'contraseña olvidada',
     'Textfield_User_Login' : 'Usuario',
@@ -98,12 +100,13 @@ __language ={
     'Grid_Detail_Error' : 'Error cargando',
     'Grid_ExportCSV' : 'Exportar CSV',
     'Grid_ExportCSV_Ttip' : 'Exportar en formato csv',
+    'Grid_ExportCSV_Ok' : 'Exportado a CSV correctamente',
+    'Grid_ExportCSV_Err' : 'Error al exportar a CSV',
+    
     'Text_Plug' : 'Conexión',
     'Text_Grid' : 'Grilla',
     'Text_Print' : 'Imprimir',
     'Text_Config' : 'Configurar',
-    'Grid_ExportCSV_Ok' : 'Exportado a CSV correctamente',
-    'Grid_ExportCSV_Err' : 'Error al exportar a CSV',
 
     'Grid_Sort_Title' : 'Ordenar por',
     'Grid_Edit_Title' : 'Editar',
@@ -216,7 +219,6 @@ __language ={
     'HelpQBE_Tooltip_Different_Button' : 'diferente',
     'HelpQBE_Tooltip_Between_Button' : 'entre',
     'HelpQBE_Tooltip_Containing_Button' : 'contiene',
-
     'HelpQBE_GridNav_DisplayMsg' : 'registros {0} - {1} de {2}',
     'HelpQBE_GridNav_EmptyMsg' : 'no hay registros', 
     'HelpQBE_Window_Title' : 'Asistente QBE'

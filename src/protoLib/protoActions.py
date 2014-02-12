@@ -31,7 +31,7 @@ def protoExecuteAction(request):
             # TODO transaction??? 
             if actionDef.get('notifyOwner', False) : 
                 for wfRow in Qs :
-                
+
                     if len (parameters) > 0: 
                         strMsg = parameters[0].get('value')
                     else : strMsg = actionDef.get('message', '') 
@@ -41,10 +41,10 @@ def protoExecuteAction(request):
                     UserReponse.strKey = wfRow.__str__()
                     UserReponse.wfAction = actionDef.get('name')
                     UserReponse.adminMsg = strMsg
-                   
+
                     try:
-                        setattr(UserReponse, 'smOwningUser', wfRow.smOwningUser )
-                        setattr(UserReponse, 'smOwningTeam', wfRow.smOwningTeam )
+                        setattr(UserReponse, 'smOwningUser', wfRow.smOwningUser)
+                        setattr(UserReponse, 'smOwningTeam', wfRow.smOwningTeam)
                         setattr(UserReponse, 'smCreatedBy', userProfile.user)
                         setattr(UserReponse, 'smRegStatus', '0')
                         setattr(UserReponse, 'smCreatedOn', datetime.now())
@@ -53,25 +53,38 @@ def protoExecuteAction(request):
 
                     UserReponse.save()            
 
+                    if actionDef.get('emailNotification', False) and wfRow.smOwningUser.email :
+                        try:
+                            message = actionDef.get('emailTemplate', '') % (wfRow.smOwningUser, viewEntity, wfRow.__str__(), wfRow.smCreatedOn, strMsg, userProfile.user)
+                            wfRow.smOwningUser.email_user(_(strMsg , message))              
+                        except :
+                            pass 
+
+                        # user = User.objects.get(username = wfRow.smOwningUser )
+#                         user = ''
+#                         if user.email :
+#                             try:
+#                                 # date de l'ajout au format DD-M-YYYY
+#                                 createdDate = str(wfRow.smCreatedOn.timetuple().tm_mday) + '-' + str(wfRow.smCreatedOn.timetuple().tm_mon) + '-' + str(wfRow.smCreatedOn.timetuple().tm_year)
+#                                 message = actionDef.get('emailTemplate', '')
+#                                 values = {'sk' : wfRow.__str__(), 
+#                                        'concept' : viewEntity, 
+#                                        'admmessage': strMsg , 
+#                                        'admin' : str(userProfile.user).title(), 
+#                                        'date' : createdDate, 
+#                                        'User' : wfRow.smOwningUser.username.title()
+#                                        }
+#                                 message = message.format( **values )
+#                                 user.email_user( _('Décision'), message)
+#                             except:
+#                                 pass
+
+
             if actionDef.get('setOwner', False)  : 
                 Qs.update(smWflowStatus=stFinal, smOwningTeam=userProfile.userTeam)
-                
             else : 
                 Qs.update(smWflowStatus=stFinal)
                 
-                if actionDef.get('emailNotification', False) :
-                    if len (parameters) > 0: 
-                        strMsg = parameters[0].get('value')
-                    else : strMsg = actionDef.get('message', '') 
-                    
-                    for wfRow in Qs :
-                        if wfRow.smOwningUser.email :
-                            try:
-                                message = actionDef.get('emailTemplate', '') % (wfRow.smOwningUser, viewEntity, wfRow.__str__(), wfRow.smCreatedOn, strMsg, userProfile.user)
-                                wfRow.smOwningUser.email_user(_( 'Modification refusée'), message)             
-                            except:
-                                pass
-                            
 
             return doReturn ({'success':True, 'message' : 'WfAction Ok'})
          

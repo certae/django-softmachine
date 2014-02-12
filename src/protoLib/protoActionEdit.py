@@ -2,7 +2,7 @@
 
 # import traceback
 
-#from django.utils import simplejson as json #DEPRECATED
+
 import json
 from django.http import HttpResponse
 from django.db import models
@@ -72,7 +72,7 @@ def _protoEdit(request, myAction ):
 #   WorkFlow  
     hasWFlow = hasattr( model , '_WorkFlow' ) and isProtoModel 
     if hasWFlow: 
-        #wfadmin =  getModelPermissions( request.user , model, 'wfadmin' )
+        wfadmin =  getModelPermissions( request.user , model, 'wfadmin' )
         WFlowControl = getattr( model, '_WorkFlow', {} )
         initialWfStatus = WFlowControl.get( 'initialStatus', '0')
 

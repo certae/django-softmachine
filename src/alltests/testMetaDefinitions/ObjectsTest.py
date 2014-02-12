@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import os
 
 from django.test import TestCase
 from django.utils.unittest.suite import TestSuite
@@ -28,9 +27,13 @@ def StructureTestSuite():
 
     return suite
 
+
 #DataTree = json.loads(open(PPATH + '/src/testMetaDefinitions/MetaObjects.dat').read())
-#DataTree = json.loads(open('MetaObjects.dat').read())
-DataTree = json.loads(open(os.path.join(os.path.dirname(__file__),'MetaObjects.dat')).read())
+import os
+module_dir = os.path.dirname(__file__)  # get current directory
+file_path = os.path.join(module_dir, 'MetaObjects.dat')
+DataTree = json.loads(open(file_path).read())
+
 
 def getFields(modelclass):
     fields = []

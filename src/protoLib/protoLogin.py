@@ -1,6 +1,5 @@
 # -*- encoding: UTF-8 -*-
 
-#import django.utils.simplejson as json #DEPRECATED
 import json
 from django.contrib.auth.models import User
 

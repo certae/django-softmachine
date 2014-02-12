@@ -20,6 +20,7 @@ from models import getDjangoModel
 
 from utilsWeb import doReturn
 
+
 import json
 import traceback
 
@@ -601,4 +602,3 @@ def evalueFuncion(fName, rowData):
         val = fName + '?'
 
     return val
-
