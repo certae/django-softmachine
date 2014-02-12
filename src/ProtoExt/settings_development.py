@@ -13,6 +13,11 @@ ALLOWED_HOSTS = [
     '127.0.0.1:8000',
 ]
 
+
+TEMPLATE_DIRS = (
+    PPATH + '/templates',
+)
+
 if PPATH.startswith('/'):
     EXT_PATH = '/u/data/ExtJs'
 else:

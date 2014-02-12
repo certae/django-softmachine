@@ -24,7 +24,8 @@ ALLOWED_HOSTS = [
     '127.0.0.1', # Also allow FQDN and subdomains
 ]
 
-ROOT_URLCONF = 'urls'
+
+WSGI_APPLICATION = 'ProtoExt.wsgi.application'
 
 TEMPLATE_DIRS = (
     PPATH + '/templates',

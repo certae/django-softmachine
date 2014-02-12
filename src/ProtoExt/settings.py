@@ -112,12 +112,6 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'ProtoExt.urls'
-WSGI_APPLICATION = 'ProtoExt.wsgi.application'
-
-TEMPLATE_DIRS = (
-    PPATH + '/templates',
-)
-
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

@@ -13,36 +13,36 @@
 /*global getSimpleProperties */
 
 Ext.define('ProtoUL.UI.FormController', {
-    extend: 'Ext.Base',
+    extend : 'Ext.Base',
 
     // requires: [ 'ProtoUL.view.ProtoForm' ],
     // Required if linked,  retrived if zoom
-    myMeta: null,
+    myMeta : null,
 
     // metaDict : contiene las metas de los detalles
-    myMetaDict: null,
+    myMetaDict : null,
 
     // Entry point if zoom
-    viewCode: null,
+    viewCode : null,
 
     // if ReadOnly
-    isReadOnly: false,
+    isReadOnly : false,
 
     // Si la forma fue cargada correctamente
-    formLoaded: false,
+    formLoaded : false,
 
     // Win dimension
-    myWidth: 620,
-    myHeight: 460,
+    myWidth : 620,
+    myHeight : 460,
 
-    newForm: false,
+    newForm : false,
 
-    constructor: function(config) {
+    constructor : function(config) {
         Ext.apply(this, config || {});
         this.myMetaDict = {};
     },
 
-    _loadFormDefinition: function() {
+    _loadFormDefinition : function() {
         // antes de cargar la forma, requiere la carga de detalles
         // llama a waitForDetails q llama a newProtoForm
 
@@ -50,15 +50,14 @@ Ext.define('ProtoUL.UI.FormController', {
 
             // Opciones del llamado AJAX para precargar los detalles
             var options = {
-                scope: me,
-                success: function(obj, result, request) {
+                scope : me,
+                success : function(obj, result, request) {
                     me._waitForDetails(me, detCode);
                 },
-                failure: function(obj, result, request) {
+                failure : function(obj, result, request) {
                     me._waitForDetails(me, detCode);
                     _SM.errorMessage('ProtoDefinition Error :', detCode + ': protoDefinition not found');
                 }
-
             };
 
             // PreCarga los detalles
@@ -96,7 +95,7 @@ Ext.define('ProtoUL.UI.FormController', {
 
     },
 
-    _waitForDetails: function(me, detCode) {
+    _waitForDetails : function(me, detCode) {
 
         if (detCode) {
             me.myMetaDict[detCode] = true;
@@ -136,26 +135,26 @@ Ext.define('ProtoUL.UI.FormController', {
         me.myForm.setDetailsTilte();
     },
 
-    newProtoForm: function() {
+    newProtoForm : function() {
         // llamado tambien desde formConfig  (protoDesigner)
 
         this.defineFormLayout();
         this.myForm = Ext.widget('protoform', {
-            myMeta: this.myMeta,
-            newForm: this.newForm,
-            myFormController: this,
-            prFormLayout: this.prFormLayout
+            myMeta : this.myMeta,
+            newForm : this.newForm,
+            myFormController : this,
+            prFormLayout : this.prFormLayout
         });
 
         return this.myForm;
 
     },
 
-    newWindow: function(me) {
+    newWindow : function(me) {
         me._loadFormDefinition();
     },
 
-    newWindowLoad: function(me) {
+    newWindowLoad : function(me) {
 
         _SM.updateWinPosition(me.myWidth, me.myHeight);
 
@@ -168,28 +167,28 @@ Ext.define('ProtoUL.UI.FormController', {
 
         me.myWin = Ext.widget('window', {
             // constrain: true,
-            title: me.myMeta.viewCode + strEditing,
-            closeAction: 'hide',
-            width: me.myWidth,
-            height: me.myHeight,
+            title : me.myMeta.viewCode + strEditing,
+            closeAction : 'hide',
+            width : me.myWidth,
+            height : me.myHeight,
             style : 'z-index: -1;',
-            x: _SM._winX,
-            y: _SM._winY,
-            minHeight: 400,
-            minWidth: 400,
-            layout: 'fit',
+            x : _SM._winX,
+            y : _SM._winY,
+            minHeight : 400,
+            minWidth : 400,
+            layout : 'fit',
 
-            constrainHeader: true,
-            maximizable: true,
-            resizable: true,
-            modal: true,
+            constrainHeader : true,
+            maximizable : true,
+            resizable : true,
+            modal : true,
 
-            items: me.myForm
+            items : me.myForm
         });
 
         // Los eventos controlan la ventana
         me.myForm.on({
-            'close': function() {
+            'close' : function() {
                 me.myWin.close();
 
                 // if ( me.newForm ) {
@@ -198,17 +197,17 @@ Ext.define('ProtoUL.UI.FormController', {
                 // Ext.MessageBox.confirm('AddRecord', 'Add another?', doAgain  );
                 // }
             },
-            'hide': function() {
+            'hide' : function() {
                 me.myWin.hide();
             },
-            scope: me
+            scope : me
         });
 
         // Tools this.myWin.tools = [{type: 'readOnly', tooltip: 'readOnly'}] this.myWin.addTools(
 
     },
 
-    openNewForm: function(myStore) {
+    openNewForm : function(myStore) {
 
         this.isReadOnly = false;
         this.newForm = true;
@@ -218,13 +217,13 @@ Ext.define('ProtoUL.UI.FormController', {
         this.openForm(myRecord);
     },
 
-    openLinkedForm: function(myRecord, isReadOnly) {
+    openLinkedForm : function(myRecord, isReadOnly) {
         this.newForm = false;
         this.isReadOnly = isReadOnly;
         this.openForm(myRecord);
     },
 
-    openForm: function(myRecord) {
+    openForm : function(myRecord) {
 
         // Verifica la edicion
         if (!myRecord) {
@@ -237,7 +236,7 @@ Ext.define('ProtoUL.UI.FormController', {
 
     },
 
-    openProtoForm: function(myZoomModel, myRecordId, bEditable) {
+    openProtoForm : function(myZoomModel, myRecordId, bEditable) {
 
         this.viewCode = myZoomModel;
         this.isReadOnly = !bEditable;
@@ -252,18 +251,17 @@ Ext.define('ProtoUL.UI.FormController', {
 
     },
 
-    _getFormDefinition: function(myRecordId) {
+    _getFormDefinition : function(myRecordId) {
 
         // Opciones del llamado AJAX
         var options = {
-            scope: this,
-            success: function(obj, result, request) {
+            scope : this,
+            success : function(obj, result, request) {
                 this._openAndLoad(this.viewCode, myRecordId);
             },
-            failure: function(obj, result, request) {
+            failure : function(obj, result, request) {
                 _SM.errorMessage('ProtoDefinition Error :', this.viewCode + ': protoDefinition not found');
             }
-
         };
         if (_SM.loadPci(this.viewCode, true, options)) {
             this._openAndLoad(this.viewCode, myRecordId);
@@ -271,13 +269,13 @@ Ext.define('ProtoUL.UI.FormController', {
 
     },
 
-    _openAndLoad: function(viewCode, myRecordId) {
+    _openAndLoad : function(viewCode, myRecordId) {
         this.myMeta = _SM._cllPCI[viewCode];
         this.formLoaded = true;
         this._loadFormData(myRecordId);
     },
 
-    _loadFormData: function(myRecordId) {
+    _loadFormData : function(myRecordId) {
 
         if (!this.formLoaded) {
             // console.log( 'FormController:  Form is not ready')
@@ -286,19 +284,19 @@ Ext.define('ProtoUL.UI.FormController', {
 
         // Filter
         var myFilter = [{
-            "property": "pk",
-            "filterStmt": myRecordId
+            "property" : "pk",
+            "filterStmt" : myRecordId
         }], storeDefinition = {
-            viewCode: this.viewCode,
-            autoLoad: true,
-            baseFilter: myFilter,
-            sProtoMeta: _SM.getSafeMeta(this.myMeta)
+            viewCode : this.viewCode,
+            autoLoad : true,
+            baseFilter : myFilter,
+            sProtoMeta : _SM.getSafeMeta(this.myMeta)
         }, myStore = _SM.getStoreDefinition(storeDefinition), myRecord;
 
         if (myRecordId >= 0) {
             myStore.load();
             myStore.on({
-                'load': function(store, records, successful, options) {
+                'load' : function(store, records, successful, options) {
 
                     // Fix:  Esta entrando dos veces  porq????
                     if (this.myWin) {
@@ -308,7 +306,7 @@ Ext.define('ProtoUL.UI.FormController', {
                     // The form is now linked to  store
                     this.openLinkedForm(records[0], this.isReadOnly);
                 },
-                scope: this
+                scope : this
             });
         } else {
             myRecord = _SM.getNewRecord(this.myMeta, myStore);
@@ -316,7 +314,49 @@ Ext.define('ProtoUL.UI.FormController', {
         }
     },
 
-    defineFormLayout: function() {
+    defineFormLayout : function() {
+
+        function getSimpleProperties(oData, ptType) {
+            // Retorna los valores simples, verificando los tipos de cada propiedad
+
+            // Solo deben llegar objetos, si llega un array no hay props q mostrar
+            if (_SM.typeOf(oData) == 'array') {
+                return [];
+            }
+
+            // Inicializa con el type
+            var cData = {}, cValue;
+            
+            if (ptType) {
+                cData.__ptType = ptType;
+            }
+
+            for (var lKey in oData ) {
+                cValue = oData[lKey];
+
+                // Los objetos o arrays son la imagen del arbol y no deben ser tenidos en cuenta, generarian recursividad infinita
+                if (_SM.typeOf(cValue) in _SM.objConv(['object', 'array'])) {
+                    continue;
+                }
+
+                // Si son valores codificados, los decodifica y los agrega
+                if ( lKey in _SM.objConv(['__ptValue', '__ptList'])) {
+                    try {
+                        cData = Ext.decode(cValue);
+                    } catch (e) {
+                        // console.log( "Error de encodage", cValue )
+                    }
+
+                } else {
+                    cValue = verifyPrpType(lKey, cValue);
+                    if (cValue) {
+                        cData[lKey] = cValue;
+                    }
+                }
+            }
+            return cData;
+
+        };
 
         function defineProtoFormItem(me, parent, protoObj, protoIx) {
 
@@ -346,26 +386,26 @@ Ext.define('ProtoUL.UI.FormController', {
                     var myFld = myFieldDict[protoIx];
                     if (myFld) {
                         template = getTemplate(__ptType, true, myFld);
-                        // FIX: Utiliser myField.autoNumericField 
-						if(myFld.required && !myFld.fkId && me.newForm){
-							template.__ptConfig.listeners.render = function(field) {
-									Ext.Ajax.request({
-									    url: _SM._PConfig.urlGetNextIncrement,
-									    method: 'GET',          
-									    params: {
-									        fieldName: myFld.name,
-									        viewEntity: me.myMeta.viewEntity
-									    },
-									    success: function ( result, request ) {
-							            	var jsonData = Ext.decode(result.responseText);
-							            	field.setValue(jsonData.increment);
-							            },                                    
-									    failure: function(){
-									    	console.log('failure on get increment');
-									    }
-									});
-								};
-						}
+                        // FIX: Utiliser myField.autoNumericField
+                        if (myFld.required && !myFld.fkId && me.newForm) {
+                            template.__ptConfig.listeners.render = function(field) {
+                                Ext.Ajax.request({
+                                    url : _SM._PConfig.urlGetNextIncrement,
+                                    method : 'GET',
+                                    params : {
+                                        fieldName : myFld.name,
+                                        viewEntity : me.myMeta.viewEntity
+                                    },
+                                    success : function(result, request) {
+                                        var jsonData = Ext.decode(result.responseText);
+                                        field.setValue(jsonData.increment);
+                                    },
+                                    failure : function() {
+                                        console.log('failure on get increment');
+                                    }
+                                });
+                            };
+                        }
                         prLayout = Ext.apply(template.__ptConfig, protoObj.__ptConfig);
 
                         // ReadOnlyCls
@@ -391,16 +431,16 @@ Ext.define('ProtoUL.UI.FormController', {
                         // Incluso los campos calculados deben existir en la definicion
                         // console.log( 'invalid formField,name  :' , protoObj )
                         prLayout = {
-                            text: protoIx,
-                            xtype: 'label',
-                            margin: '4',
-                            padding: '4',
-                            border: 1,
-                            tooltip: 'field definition not found',
-                            style: {
-                                borderColor: 'red',
-                                borderStyle: 'solid',
-                                bodyStyle: ';border-right:none;border-left:none;border-top:none;'
+                            text : protoIx,
+                            xtype : 'label',
+                            margin : '4',
+                            padding : '4',
+                            border : 1,
+                            tooltip : 'field definition not found',
+                            style : {
+                                borderColor : 'red',
+                                borderStyle : 'solid',
+                                bodyStyle : ';border-right:none;border-left:none;border-top:none;'
                             }
                         };
                     };
@@ -416,21 +456,21 @@ Ext.define('ProtoUL.UI.FormController', {
                         }
                         // Inicia la grilla sin datos
                         prLayout.initialFilter = [{
-                            'property': 'pk',
-                            'filterStmt': -1
+                            'property' : 'pk',
+                            'filterStmt' : -1
                         }];
                         delete protoObj.__ptConfig.name;
                     } else {
                         prLayout = {
-                            xtype: 'label',
-                            margin: '4',
-                            padding: '4',
-                            border: 1,
-                            text: 'ERROR: grid definition not found ' + protoObj.viewCode,
-                            style: {
-                                borderColor: 'red',
-                                borderStyle: 'solid',
-                                bodyStyle: ';border-right:none;border-left:none;border-top:none;'
+                            xtype : 'label',
+                            margin : '4',
+                            padding : '4',
+                            border : 1,
+                            text : 'ERROR: grid definition not found ' + protoObj.viewCode,
+                            style : {
+                                borderColor : 'red',
+                                borderStyle : 'solid',
+                                bodyStyle : ';border-right:none;border-left:none;border-top:none;'
                             }
                         };
                         _SM.errorMessage('defineProtoFormItem', protoObj.viewCode + ' not found!!');
@@ -474,7 +514,7 @@ Ext.define('ProtoUL.UI.FormController', {
                     prLayout.defaultType = 'textfield';
                     prLayout.layout = 'column';
                     prLayout.defaults = {
-                        padding: '2 2'
+                        padding : '2 2'
                     };
 
                     if (sAux == "1col") {
@@ -498,14 +538,13 @@ Ext.define('ProtoUL.UI.FormController', {
                 if (prLayout['tooltip']) {
 
                     prLayout['listeners'] = {
-                        render: function(c) {
+                        render : function(c) {
                             Ext.create('Ext.tip.ToolTip', {
-                                target: c.getEl(),
-                                trackMouse: true,
-                                html: prLayout['tooltip']
+                                target : c.getEl(),
+                                trackMouse : true,
+                                html : prLayout['tooltip']
                             });
                         }
-
                     };
 
                 }
@@ -548,10 +587,7 @@ Ext.define('ProtoUL.UI.FormController', {
         }
 
         // @formatter:off
-        var me = this, 
-            myFormDefinition = _SM.clone(this.myMeta.formConfig), 
-            myMeta = this.myMeta, 
-            myFieldDict = _SM.getFieldDict(myMeta);
+        var me = this, myFormDefinition = _SM.clone(this.myMeta.formConfig), myMeta = this.myMeta, myFieldDict = _SM.getFieldDict(myMeta);
         // @formatter:on
 
         me.prFormLayout = [];
@@ -561,11 +597,10 @@ Ext.define('ProtoUL.UI.FormController', {
 
             // Envia el contenedor y el objeto
             var prItem = defineProtoFormItem(me, {
-                __ptType: 'panel'
+                __ptType : 'panel'
             }, lObj);
             me.prFormLayout.push(prItem);
         };
 
     }
-
 });

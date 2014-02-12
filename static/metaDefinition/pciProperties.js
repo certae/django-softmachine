@@ -133,8 +133,8 @@ _MetaProperties =  {
 
     "templateEr.help": "EveryRow", 
 
-    "templateFp":'<!DOCTYPE html>'+'<html>'+'<head>'+'<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />'+'<link href="/static/css/print.css" rel="stylesheet" type="text/css" media="screen,print" />'+'<title>PtReport : {{reportTitle}}</title>'+'</head>'+'<body>',
-    "templateLp":'</body>'+'</html>',
+    "templateFp":'<!DOCTYPE html><html><head><meta content="text/html; charset=UTF-8" http-equiv="Content-Type" /><link href="/static/css/print.css" rel="stylesheet" type="text/css" media="screen,print" /><title>PtReport : {{reportTitle}}</title></head><body>',
+    "templateLp":'</body></html>',
 
     "direction": "sort order",
     "direction.choices": ["ASC", "DESC" ],
