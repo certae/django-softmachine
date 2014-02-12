@@ -84,7 +84,8 @@ def _protoEdit(request, myAction ):
 
 #   JsonField
     jsonField = protoMeta.get('jsonField', '')
-    if not isinstance( jsonField, (str, unicode) ): jsonField = ''
+    if not isinstance( jsonField, (str, unicode) ): 
+        jsonField = ''
 
 #   TOOD: Log
 #   activityLog ( myAction, request.user , viewEntity,  {  'protoMeta' : protoMeta , 'rows' : rows })
@@ -126,23 +127,29 @@ def _protoEdit(request, myAction ):
             # Upd, Ins
             for key in data:
                 key = smart_str( key )
-                if  key in ['id', '_ptStatus', '_ptId', '__str__']: continue
+                if  key in ['id', '_ptStatus', '_ptId', '__str__']: 
+                    continue
 
                 vFld = fieldsDict[key]
-                if vFld.get( 'crudType' )  in ["screenOnly", "linked" ]: continue
+                if vFld.get( 'crudType' )  in ["screenOnly", "linked" ]: 
+                    continue
 
                 #  Los campos de seguridad se manejan a nivel registro
                 if isProtoModel:
                     if key in ['smOwningUser','smOwningTeam','smCreatedBy','smModifiedBy',
                                'smWflowStatus','smRegStatus','smCreatedOn','smModifiedOn',
-                               'smOwningUser_id','smOwningTeam_id','smCreatedBy_id','smModifiedBy_id']: continue
+                               'smOwningUser_id','smOwningTeam_id','smCreatedBy_id','smModifiedBy_id']: 
+                        continue
 
                 #  Udps
-                if (cUDP.udpTable and key.startswith( cUDP.propertyPrefix + '__')): continue
+                if (cUDP.udpTable and key.startswith( cUDP.propertyPrefix + '__')): 
+                    continue
 
                 #  JsonField
-                if key ==  jsonField: continue
-                if key.startswith( jsonField + '__'): continue
+                if key ==  jsonField: 
+                    continue
+                if key.startswith( jsonField + '__'): 
+                    continue
 
                 try:
                     setRegister( model,  rec, key,  data )
@@ -156,7 +163,8 @@ def _protoEdit(request, myAction ):
             if len( jsonField ) > 0:
                 jsonInfo = {}
                 for key in data:
-                    if not key.startswith( jsonField + '__'): continue
+                    if not key.startswith( jsonField + '__'): 
+                        continue
                     jKey = key[ len(jsonField) + 2 : ]
                     jsonInfo[ jKey ] = data[ key ]
                 setattr( rec, jsonField , jsonInfo   )
@@ -246,14 +254,17 @@ def setRegister( model,  rec, key,  data   ):
 
     try:
         field = model._meta.get_field( key )
-    except: return
+    except: 
+        return
 
     # Tipo de attr
     cName = field.__class__.__name__
 
     # Si es definido como no editable en el modelo
-    if getattr( field, 'editable', False ) == False: return
-    if  cName == 'AutoField': return
+    if getattr( field, 'editable', False ) == False: 
+        return
+    if  cName == 'AutoField': 
+        return
 
     # Obtiene el valor
     value = data[key]
@@ -270,14 +281,21 @@ def setRegister( model,  rec, key,  data   ):
             exec( 'rec.' + keyId + ' =  ' + smart_str( value ) )
             return
 
-        elif cName == 'DateField':     value = toDate( value  )
-        elif cName == 'TimeField':     value = toTime( value )
-        elif cName == 'DateTimeField': value = toDateTime( value )
+        elif cName == 'DateField':     
+            value = toDate( value  )
+        elif cName == 'TimeField':     
+            value = toTime( value )
+        elif cName == 'DateTimeField': 
+            value = toDateTime( value )
 
-        elif cName == 'BooleanField':  value = toBoolean( value )
-        elif cName == 'IntegerField':  value = toInteger( value )
-        elif cName == 'DecimalField':  value = toDecimal( value )
-        elif cName == 'FloatField':    value = toFloat( value )
+        elif cName == 'BooleanField':  
+            value = toBoolean( value )
+        elif cName == 'IntegerField':  
+            value = toInteger( value )
+        elif cName == 'DecimalField':  
+            value = toDecimal( value )
+        elif cName == 'FloatField':    
+            value = toFloat( value )
 
         setattr( rec, key, value  )
 

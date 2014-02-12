@@ -94,7 +94,8 @@ def exportProtoJson(request, pModel ):
                 del cProto[ 'protoEntity' ]  
                 del cProto[ 'protoEntityId' ]
                 del cProto['__ptType']
-            except: pass 
+            except: 
+                pass 
                 
             cProto[ 'localSort' ] = False 
             cProto[ 'viewIcon' ]  = 'icon-1'
@@ -103,13 +104,15 @@ def exportProtoJson(request, pModel ):
             # Elimina campos de control de prototypos y redirecciona zooms  
             newFields = [] 
             for fld in cProto['fields'] : 
-                if fld['name'] in [ 'entity', 'entity_id', 'info' ]: continue
+                if fld['name'] in [ 'entity', 'entity_id', 'info' ]: 
+                    continue
                 if fld['name'] == '__str__':   
                     try: 
                         del fld['cpFromZoom']
                         del fld['cpFromField']
                         del fld['physicalName']
-                    except: pass 
+                    except: 
+                        pass 
 
                 try: 
                     del fld['__ptType']
@@ -118,13 +121,10 @@ def exportProtoJson(request, pModel ):
             
             cProto['fields'] = newFields 
             
-#            sAux = json.dumps( cProto, cls = JSONEncoder )
-            
             cPrototype =  {
                 'code'           : pPrototype.code, 
                 'description'    : pPrototype.description,
                 'notes'          : cEntity[ 'fullName'],
-#               'metaDefinition' : json.loads(  pPrototype.metaDefinition ) 
                 'metaDefinition' : cProto  
             } 
             
