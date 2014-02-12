@@ -12,6 +12,12 @@ ALLOWED_HOSTS = [
     '127.0.0.1', # Also allow FQDN and subdomains
 ]
 
+ROOT_URLCONF = 'urls'
+
+TEMPLATE_DIRS = (
+    PPATH + '/templates',
+)
+
 if PPATH.startswith('/'):
     EXT_PATH = '/u/data/ExtJs'
 else:
