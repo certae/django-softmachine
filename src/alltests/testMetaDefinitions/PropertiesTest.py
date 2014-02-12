@@ -32,8 +32,12 @@ def PropertiesTestSuite():
 PossibleTypes = ['list', 'string']
 #MetaObjects = json.loads(open(PPATH + '/src/testMetaDefinitions/MetaObjects.dat').read())
 #MetaProperties = json.loads(open(PPATH + '/src/testMetaDefinitions/MetaProperties.dat').read())
-MetaObjects = json.loads(open('src/alltests/testMetaDefinitions/MetaObjects.dat').read())
-MetaProperties = json.loads(open('src/alltests/testMetaDefinitions/MetaProperties.dat').read())
+import os
+module_dir = os.path.dirname(__file__)  # get current directory
+file_path = os.path.join(module_dir, 'MetaObjects.dat')
+MetaObjects = json.loads(open(file_path).read())
+file_path = os.path.join(module_dir, 'MetaProperties.dat')
+MetaProperties = json.loads(open(file_path).read())
 
 DataTypes = dict()
 for fields in MetaProperties:

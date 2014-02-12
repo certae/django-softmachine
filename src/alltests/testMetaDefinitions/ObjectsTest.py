@@ -3,7 +3,7 @@
 from django.test import TestCase
 from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
-import django.utils.simplejson as json
+import json
 
 from prototype.models import *
 from protoLib.models import *
@@ -29,7 +29,10 @@ def StructureTestSuite():
 
 
 #DataTree = json.loads(open(PPATH + '/src/testMetaDefinitions/MetaObjects.dat').read())
-DataTree = json.loads(open('src/alltests/testMetaDefinitions/MetaObjects.dat').read())
+import os
+module_dir = os.path.dirname(__file__)  # get current directory
+file_path = os.path.join(module_dir, 'MetaObjects.dat')
+DataTree = json.loads(open(file_path).read())
 
 
 def getFields(modelclass):
