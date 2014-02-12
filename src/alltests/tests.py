@@ -25,7 +25,6 @@ from protoLib.testprotoLib.ProtoGetPciTest import * #ProtoGetPciTestSuite
 from protoLib.testprotoLib.ProtoGetDetailsTest import * #ProtoGetDetailsTestSuite                       
 from protoLib.testprotoLib.ProtoLoginTest import * #ProtoLoginTestSuite                                 
 
-
 def suite():
     alltests = TestSuite()
     
