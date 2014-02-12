@@ -688,9 +688,11 @@ Ext.define('ProtoUL.view.ProtoGrid', {
         }
     },
 
+    // Grid toolbar editing controls
     addTools: function(myTools) {
-        // Controles de edicion en el panel de titulo de la grilla
+        if (typeof myTools != 'undefined'){
         this._extGrid.addTool(myTools);
+    }
     }
 
 });

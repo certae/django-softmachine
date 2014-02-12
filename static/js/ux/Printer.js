@@ -32,7 +32,6 @@ Ext.define("ProtoUL.ux.Printer", {
             var body     = Ext.create('Ext.XTemplate', this.bodyTpl).apply(columns);
             body = Ext.create('Ext.XTemplate', '<tpl for=".">' + body + '</tpl>').apply(data); 
             
-            
             var html1 = this.htmlTpl.toString();
             html1 = html1.replace( /@gridTitle@/g, grid.title );
             html1 = html1.replace( /@siteTitle@/g, _SM._siteTitle );
@@ -44,18 +43,20 @@ Ext.define("ProtoUL.ux.Printer", {
             win.document.write(html1);
 
             if (this.printAutomatically){
+				win.document.close();
+				win.focus();
                 win.print();
                 // win.close();
             }
         },
 
-
+		// This function is used in the app 
         sheetPrint: function(grid, sheetHtml ) {
             //We generate an XTemplate here by using 2 intermediary XTemplates - one to create the header,
             //the other to create the body (see the escaped {} below)
 
             //use the headerTpl and bodyTpl markups to create the main XTemplate below
-            var body     = '<hr>' + sheetHtml   
+			var body = '<hr>' + sheetHtml;
             
             var html1 = this.htmlTpl.toString();
             html1 = html1.replace( /@gridTitle@/g, grid.title );
@@ -69,7 +70,6 @@ Ext.define("ProtoUL.ux.Printer", {
 
             if (this.printAutomatically){
                 win.print();
-                // win.close();
             }
         },
 
@@ -77,6 +77,8 @@ Ext.define("ProtoUL.ux.Printer", {
 
             //open up a new printing window, write to it, print it and close
             win.document.write( sheetHtml );
+			win.document.close();
+			win.focus();
             win.print();
 
         },
@@ -117,12 +119,11 @@ Ext.define("ProtoUL.ux.Printer", {
                 if ( col.dataIndex  ) {
                     columns.push(col);          
                    }
-            };            
+			}
             
-            return columns 
+			return columns;
         },  
 
-        
         /**
          * @property printAutomatically
          * @type Boolean
@@ -136,14 +137,7 @@ Ext.define("ProtoUL.ux.Printer", {
          * @type {Object/Array} values
          * The markup used to create the headings row. By default this just uses <th> elements, override to provide your own
          */
-        headerTpl: [ 
-            '<tr>',
-                '<tpl for=".">',
-                    '<th>{text}</th>',
-                '</tpl>',
-            '</tr>',
-            '</thead>'
-        ],
+		headerTpl : ['<tr>', '<tpl for=".">', '<th>{text}</th>', '</tpl>', '</tr>', '</thead>'],
 
         /**
          * @property bodyTpl
@@ -151,13 +145,7 @@ Ext.define("ProtoUL.ux.Printer", {
          * The XTemplate used to create each row. This is used inside the 'print' function to build another XTemplate, to which the data
          * are then applied (see the escaped dataIndex attribute here - this ends up as "{dataIndex}")
          */
-        bodyTpl: [
-            '<tr>',
-                '<tpl for=".">',
-                    '<td>\{{dataIndex}\}</td>',
-                '</tpl>',
-            '</tr>'
-        ],  
+		bodyTpl : ['<tr>', '<tpl for=".">', '<td>\{{dataIndex}\}</td>', '</tpl>', '</tr>'],
         
         /**
          * @property htmlTpl  template
@@ -167,22 +155,7 @@ Ext.define("ProtoUL.ux.Printer", {
          *      @headings@
          *      @body@
          */
-        htmlTpl: '<!DOCTYPE html>' + 
-                '<html>' +
-                  '<head>' +
-                    '<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />' +
-                    '<link href="/static/css/print.css" rel="stylesheet" type="text/css" media="screen,print" />' +
-                    '<title>@gridTitle@</title>' +
-                  '</head>' +
-                  '<body>' +
-                    '<h1>@siteTitle@</h1>' +
-                    '<h2>@gridTitle@</h2>' +
-                    '<table>' +
-                        '<thead>@headings@</thead>' +
-                        '<tbody>@body@</tbody>' +
-                    '</table>' +
-                  '</body>' +
-                '</html>'           
+		htmlTpl : '<!DOCTYPE html>' + '<html>' + '<head>' + '<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />' + '<link href="/static/css/print.css" rel="stylesheet" type="text/css" media="screen,print" />' + '<title>@gridTitle@</title>' + '</head>' + '<body>' + '<h1>@siteTitle@</h1>' + '<h2>@gridTitle@</h2>' + '<table>' + '<thead>@headings@</thead>' + '<tbody>@body@</tbody>' + '</table>' + '</body>' + '</html>'
 
     }
 });

@@ -11,49 +11,21 @@
 //borrar el body:  ( para quitar la mascara ) 
 //document.getElementById('Idbody').innerHTML = "";
 
-Ext.Loader.setConfig({enabled: true});
-Ext.Loader.setPath('Ext.ux', 'static/extjs-4.1.x/examples/ux');
+Ext.Loader.setConfig({
+    enabled: true
+});
+// Ext.Loader.setPath('Ext.ux', 'static/extjs/examples/ux');
 
 Ext.application({
     name: 'ProtoUL',
     appFolder: 'static/js',
 
-    requires: [
-        'Ext.window.MessageBox',
-        'Ext.toolbar.Paging', 
-        'Ext.layout.container.Border',
-        
-        'Ext.ux.ToolbarDroppable',
-        'Ext.ux.BoxReorderer',
-        
-        'Ext.util.Cookies', 
-        'Ext.Ajax',
-        
-        'ProtoUL.view.MenuTree', 
-        'ProtoUL.view.ProtoTabContainer',  
-        'ProtoUL.view.Viewport',
-        'ProtoUL.view.password.PasswordReset',
-
-        'ProtoUL.ux.Printer',
-        'ProtoUL.ux.GridHeaderToolTip', 
-        'ProtoUL.ux.CheckColumn' 
-    ],
+    requires: ['Ext.window.MessageBox', 'Ext.toolbar.Paging', 'Ext.layout.container.Border', 'Ext.util.Cookies', 'Ext.Ajax', 'ProtoUL.view.MenuTree', 'ProtoUL.view.ProtoTabContainer', 'ProtoUL.view.Viewport', 'ProtoUL.view.password.PasswordReset', 'ProtoUL.ux.Printer', 'ProtoUL.ux.GridHeaderToolTip', 'ProtoUL.ux.CheckColumn'],
 
 	controllers: ['PasswordManager'],
 	
     launch: function () {
 
-        // Add csrf token to every ajax request
-        var token = Ext.util.Cookies.get('csrftoken');
-        if(!token) {
-            Ext.Error.raise("Missing csrftoken cookie");
-        } else {
-            Ext.Ajax.defaultHeaders = Ext.apply(Ext.Ajax.defaultHeaders || {}, {
-                'X-CSRFToken' : token
-            });
-        }
-
-        // 
         Ext.QuickTips.init();
         
         if (window.isPasswordReseted === 'True') {
@@ -93,7 +65,10 @@ Ext.application({
             height: 135,
             
             modal: true,
-            items: [ { xtype: 'protoLogin', options : options  }]
+            items: [{
+                xtype: 'protoLogin',
+                options: options
+            }]
         });
         
         myWin.show();
@@ -103,5 +78,16 @@ Ext.application({
     	var resetForm = Ext.create('ProtoUL.view.password.PasswordReset');
         resetForm.show();
     }
-    
 });
+// Add csrf token to every ajax request
+Ext.Ajax.on('beforerequest', function(conn, options) {
+    if ( typeof (options.headers) == "undefined") {
+        options.headers = {
+            'X-CSRFToken': Ext.util.Cookies.get('csrftoken')
+        };
+    } else {
+        options.headers.extend({
+            'X-CSRFToken': Ext.util.Cookies.get('csrftoken')
+        });
+    }
+}, this); 

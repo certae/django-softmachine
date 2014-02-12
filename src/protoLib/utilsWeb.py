@@ -10,18 +10,19 @@ from django.http import HttpResponse
 
 from utilsBase import JSONEncoder
 
-import django.utils.simplejson as json
+#import django.utils.simplejson as json #DEPRECATED
+import json
 import os
 
 
 def doReturn( jsonDict ):
     # Codifica el mssage json 
     context = json.dumps( jsonDict, cls=JSONEncoder )
-    return HttpResponse(context, mimetype="application/json")
+    return HttpResponse(context, content_type="application/json")
 
 def JsonResponse(contents, status=200):
     # http://tools.ietf.org/html/rfc4627  ( text/javascript  obsoleto ) 
-    return HttpResponse(contents, mimetype='application/json', status=status)
+    return HttpResponse(contents, content_type='application/json', status=status)
 
 def JsonSuccess(params = {}):
     d = {"success":True}

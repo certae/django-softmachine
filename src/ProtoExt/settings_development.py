@@ -1,4 +1,4 @@
-from settings import PPATH
+from ProtoExt.settings import PPATH
 
 DATABASES = {
     'default': {
@@ -10,6 +10,7 @@ DATABASES = {
 ALLOWED_HOSTS = [
     'localhost', # Allow domain and subdomains
     '127.0.0.1', # Also allow FQDN and subdomains
+    '127.0.0.1:8000',
 ]
 
 if PPATH.startswith('/'):
@@ -44,11 +45,15 @@ INSTALLED_APPS = (
     'protoLib',
     'prototype',
     'll',
+    'alltests'
+)
+
+FIXTURE_DIRS = (
+    'src/alltests/fixtures/',
 )
 
 
-#HOST = 'loli.fsa.ulaval.ca/artdev'
-HOST = ''
+HOST_DOMAIN = ''
 
 #add email settings
 EMAIL_USE_TLS = True

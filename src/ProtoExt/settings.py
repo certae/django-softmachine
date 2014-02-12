@@ -51,7 +51,6 @@ NUMBER_GROUPING = 1
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-#MEDIA_ROOT = 'D:/data/PyDjango/protoExt/static/django_qbe'
 MEDIA_ROOT = ''
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a trailing slash.
@@ -95,6 +94,7 @@ TEMPLATE_LOADERS = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
+                               "django.core.context_processors.csrf",
                                "django.core.context_processors.debug",
                                "django.core.context_processors.i18n",
                                "django.core.context_processors.media",
@@ -111,7 +111,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
-ROOT_URLCONF = 'urls'
+ROOT_URLCONF = 'ProtoExt.urls'
+WSGI_APPLICATION = 'ProtoExt.wsgi.application'
 
 TEMPLATE_DIRS = (
     PPATH + '/templates',
@@ -147,9 +148,11 @@ AUTH_PROFILE_MODULE = 'protoLib.UserProfile'
 # Variables prototipeur
 PROTO_APP = {}
 
+EMAIL_USE_TLS = True
+
 if DEBUG :
     from settings_development import *
-    with open( PPATH + '/src/secret_key.txt') as f:
+    with open( PPATH + '/src/ProtoExt/secret_key.txt') as f:
         SECRET_KEY = f.read().strip()
 else :
     from settings_production import *

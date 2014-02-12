@@ -2,7 +2,8 @@
 
 # import traceback
 
-from django.utils import simplejson as json
+
+import json
 from django.http import HttpResponse
 from django.db import models
 
@@ -214,7 +215,7 @@ def _protoEdit(request, myAction ):
         'success': True
     }
 
-    return HttpResponse( json.dumps(context, cls=JSONEncoder), mimetype="application/json")
+    return HttpResponse( json.dumps(context, cls=JSONEncoder), content_type="application/json")
 
 def setSecurityInfo( rec, data, userProfile, insAction  ):
     """

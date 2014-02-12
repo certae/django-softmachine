@@ -8,7 +8,8 @@ import os
 import re
 
 import datetime, operator, decimal
-import django.utils.simplejson as json
+#import django.utils.simplejson as json #DEPRECATED
+import json
 from django.utils.encoding import smart_str
 
 # Prefijo de las funciones ORM invocadas como campos, __unicode__ para las FK  

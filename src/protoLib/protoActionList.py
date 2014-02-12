@@ -20,7 +20,8 @@ from models import getDjangoModel
 
 from utilsWeb import doReturn
 
-import django.utils.simplejson as json
+
+import json
 import traceback
 
 
@@ -94,7 +95,7 @@ def protoList(request):
             'rows': pList,
             }, cls=JSONEncoder)
 
-    return HttpResponse(context, mimetype="application/json")
+    return HttpResponse(context, content_type="application/json")
 
 
 

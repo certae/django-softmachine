@@ -18,7 +18,8 @@ from prototype.models import Prototype
 PROTO_PREFIX = "prototype.ProtoTable."
 
 
-import django.utils.simplejson as json
+#import django.utils.simplejson as json
+import json
 import traceback
 
 
@@ -56,7 +57,7 @@ def protoGetPCI(request):
             created = False   
         except:
             jsondict = { 'success':False, 'message': viewCode + ' notFound' } 
-            return HttpResponse( json.dumps( jsondict), mimetype="application/json")
+            return HttpResponse( json.dumps( jsondict), content_type="application/json")
 
     else:
         # created : El objeto es nuevo
@@ -161,7 +162,7 @@ def protoGetPCI(request):
     
     # Codifica el mssage json 
     context = json.dumps( jsondict)
-    return HttpResponse(context, mimetype="application/json")
+    return HttpResponse(context, content_type="application/json")
 
             
 
@@ -371,7 +372,8 @@ def protoGetFieldTree(request):
     else: 
         # -----------------------------------------------------------------------------------------------------
         # Se crean los campos con base al modelo ( trae todos los campos del modelo 
-        for field in model._meta._fields():
+        #for field in model._meta._fields(): # only for django 1.4
+        for field in model._meta.fields():
             try: 
                 addFiedToList( fieldList,  field , ''  )
             except Exception as  e:
@@ -397,7 +399,7 @@ def protoGetFieldTree(request):
         
     # Codifica el mssage json 
     context = json.dumps( fieldList )
-    return HttpResponse(context, mimetype="application/json")
+    return HttpResponse(context, content_type="application/json")
 
 
 
@@ -458,7 +460,8 @@ def addFiedToList(  fieldList , field, fieldBase   ):
         # itera sobre el campo para heredar de sus padres  
         fkFieldList= []
         model = field.rel.to
-        for fAux in model._meta._fields():
+        #for fAux in model._meta._fields(): #django 1.4
+        for fAux in model._meta.fields:
             # los id de los campos heredados tampoco se presentan 
             if fAux.name  == 'id' :  continue 
             
@@ -511,4 +514,4 @@ def getFieldIncrement(request):
     }
     
     json_data = json.dumps(jsondict)
-    return HttpResponse(json_data, mimetype="application/json")
+    return HttpResponse(json_data, content_type="application/json")

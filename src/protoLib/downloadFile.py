@@ -3,7 +3,7 @@
 import mimetypes
 import os
 
-from settings import PPATH 
+from ProtoExt.settings import PPATH 
 
 from django.http import Http404, HttpResponse, HttpResponseRedirect, HttpResponseNotModified
 from django.template import loader, Template, Context, TemplateDoesNotExist
@@ -33,10 +33,11 @@ def getFile(request, path ):
     mimetype, encoding = mimetypes.guess_type(fullpath)
     mimetype = mimetype or 'application/octet-stream'
 
-    response = HttpResponse(open(fullpath, 'rb').read(), mimetype=mimetype)
+    response = HttpResponse(open(fullpath, 'rb').read(), content_type=mimetype)
     response["Last-Modified"] = http_date(statobj.st_mtime)
     response["Content-Length"] = statobj.st_size
-    if encoding: response["Content-Encoding"] = encoding
+    if encoding: 
+        response["Content-Encoding"] = encoding
     
     return response
 

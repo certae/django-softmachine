@@ -9,7 +9,8 @@ from django.conf import settings
 from django.http import HttpResponse
 
 
-import django.utils.simplejson as json
+#import django.utils.simplejson as json
+import json
 
 from models import CustomDefinition, ProtoDefinition
 from protoActionEdit import setSecurityInfo
@@ -210,7 +211,7 @@ def protoGetMenuData(request):
         protoDef.save()
     
 
-    return HttpResponse( context, mimetype="application/json")
+    return HttpResponse( context, content_type="application/json")
 
 
 #   ---------------------------------------------------------------------------
