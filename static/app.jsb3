@@ -214,6 +214,16 @@
                     "path": "js/ux/"
                 },
                 {
+                    "clsName": "Ext.ux.BoxReorderer",
+                    "name": "BoxReorderer.js",
+                    "path": "js/ux/"
+                },
+                {
+                    "clsName": "Ext.ux.ToolbarDroppable",
+                    "name": "ToolbarDroppable.js",
+                    "path": "js/ux/"
+                },
+                {
                     "clsName": "ProtoUL.view.MenuTree",
                     "name": "MenuTree.js",
                     "path": "js/view/"
