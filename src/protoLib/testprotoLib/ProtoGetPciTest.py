@@ -40,7 +40,7 @@ class ProtoGetPciTest(TestCase):
     def test_protogetpci_success(self):
         self.assertTrue(self.returnMessage['success'])
 
-    def test_protogetpci_viewcode(self):
+    def test_protogetpci_viewcode(self):      
         self.assertEqual(self.request.POST['viewCode'], self.returnMessage['protoMeta']['viewCode'])
 
     def test_protogetpci_viewentity(self):

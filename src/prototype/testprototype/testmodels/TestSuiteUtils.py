@@ -7,7 +7,7 @@ from prototype.testprototype.testmodels.EntityTest import EntityTest
 from prototype.testprototype.testmodels.PropertyBaseTest import PropertyBaseChildTest
 from prototype.testprototype.testmodels.PropertyTest import PropertyTest
 from prototype.testprototype.testmodels.RelationshipTest import RelationshipTest
-#from prototype.testprototype.testmodels.PropertyModelTest import PropertyModelTest
+from prototype.testprototype.testmodels.PropertyModelTest import PropertyModelTest
 from prototype.testprototype.testmodels.PropertyEquivalenceTest import PropertyEquivalenceTest
 from prototype.testprototype.testmodels.PrototypeTest import PrototypeTest
 from prototype.testprototype.testmodels.ProtoTableTest import ProtoTableTest
@@ -28,7 +28,7 @@ def prototypeModelsTestSuite():
     suite.addTest(makeSuite(PropertyTest, 'test'))
     suite.addTest(makeSuite(RelationshipTest, 'test'))
 
-    #suite.addTest(makeSuite(PropertyModelTest, 'test'))
+    suite.addTest(makeSuite(PropertyModelTest, 'test'))
     suite.addTest(makeSuite(PropertyEquivalenceTest, 'test'))
     suite.addTest(makeSuite(PrototypeTest, 'test'))
 

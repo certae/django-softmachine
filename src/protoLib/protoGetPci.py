@@ -373,7 +373,7 @@ def protoGetFieldTree(request):
         # -----------------------------------------------------------------------------------------------------
         # Se crean los campos con base al modelo ( trae todos los campos del modelo 
         #for field in model._meta._fields(): # only for django 1.4
-        for field in model._meta.fields():
+        for field in model._meta.fields :
             try: 
                 addFiedToList( fieldList,  field , ''  )
             except Exception as  e:

@@ -8,8 +8,8 @@ from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
 from django.utils.unittest import skip
 
-from django.contrib.auth.models import User
-from django.contrib.sites.models import Site
+#from django.contrib.auth.models import User
+#from django.contrib.sites.models import Site
 
 from protoLib.models import *
 from prototype.models import Project

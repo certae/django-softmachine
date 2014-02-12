@@ -1,6 +1,5 @@
 from prototype.models import *
 
-
 def createTestProject():
 
     projectdata = {
