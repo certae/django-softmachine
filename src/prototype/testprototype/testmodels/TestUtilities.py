@@ -61,7 +61,8 @@ def createTestPropertyModel():
     propertymodeldata = {
         'model': testModel,
         'inherit': False,
-        'conceptType': 'testConceptType'
+        'conceptType': 'testConceptType',
+        'isSensitive' : False
     }
 
     testPropertyModel = PropertyModel(**propertymodeldata)
@@ -87,6 +88,7 @@ def createTestProperty():
         'isReadOnly': True,
         'isEssential': True,
         'isForeign': False,
+        'isSensitive' : True,
         'crudType': 'testCrudType',
         'dbName': 'testDbName'
     }
@@ -126,6 +128,7 @@ def createTestRelationship():
         'isReadOnly': True,
         'isEssential': True,
         'isForeign': False,
+        'isSensitive' : False,
         'crudType': 'testCrudType',
         'dbName': 'testDbName'
     }

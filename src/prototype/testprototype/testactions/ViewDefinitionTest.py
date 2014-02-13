@@ -42,12 +42,10 @@ class GetViewDefinitionTest(TestCase):
         self.testRelationShip.entity = self.pEntity
         self.testRelationShip.save()
 
-    @skip('à regarder')
     def test_GetViewDefinition_gridconfig_and_basefilter(self):
         infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
         self.assertEqual(infoEntity['gridConfig']['baseFilter'], [{'property': 'entity', 'filterStmt':  '=' + str(self.pEntity.id)}])
 
-    @skip('à regarder')
     def test_GetViewDefinition_IsForeignTrue(self):
         self.testRelationShip.isForeign = True
         self.testRelationShip.save()
@@ -57,7 +55,6 @@ class GetViewDefinitionTest(TestCase):
         infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
         self.assertEqual(infoEntity['fields'][-2]['type'], 'foreigntext')
 
-    @skip('à regarder')
     def test_GetViewDefinition_IsEssentialTrue(self):
         self.testRelationShip.isEssential = True
         self.testRelationShip.save()
@@ -67,7 +64,6 @@ class GetViewDefinitionTest(TestCase):
         infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
         self.assertEqual(''.join(infoEntity['gridConfig']['listDisplay']), 'info__' + slugify(self.testRelationShip.code))
     
-    @skip('à regarder')
     def test_GetViewDefinition_IsPrimaryTrue(self):
         self.testRelationShip.isPrimary = True
         self.testRelationShip.save()
@@ -77,7 +73,6 @@ class GetViewDefinitionTest(TestCase):
         infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
         self.assertEqual(infoEntity['fields'][-1]['physicalName'], '@myStr("info__' + slugify(self.testRelationShip.code) + '")')
 
-    @skip('à regarder')
     def test_GetViewCode_AnyCombination(self):
         infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
         self.assertEqual(infoEntity['gridConfig']['sortFields'][-1], '__str__')
@@ -173,7 +168,6 @@ class GetDetailsConfigTreeTest(TestCase):
     def test_GetDetailsConfigTree_Empty(self):
         self.assertEqual(len(GetDetailsConfigTree(1)), 0)
 
-    @skip('à regarder')
     def test_GetDetailsConfigTree_SingleEntry(self):
         testRelationShip = createTestRelationship()
         testRelationShip.save()
@@ -182,39 +176,3 @@ class GetDetailsConfigTreeTest(TestCase):
 
 
 # class addProtoFieldToListTest(TestCase):
-#     def setUp(self):
-#         self.testRelationShip = createTestRelationship()
-#         self.testRelationShip.isForeign = True
-#         self.testRelationShip.save()
-# 
-#     def tearDown(self):
-#         self.testRelationShip.delete()
-# 
-#     @skip('Must redefine testRelationShip')
-#     def test_addprotoFieldToList_non_empty_fieldbase(self):
-#         fieldList = []
-#         pEntity = Entity.objects.all()[0]
-# 
-#         pprint(dir(pEntity.property_set))
-#         #pprint(dir(pEntity))
-# 
-#         self.assertTrue(len(pEntity.property_set.all()) > 0)
-# 
-#         for pProperty in pEntity.property_set.all():
-#             self.assertTrue(pProperty.isForeign)
-# 
-#         addProtoFieldToList(fieldList, pEntity, 'anyString', '')
-#         self.assertNotEqual(fieldList, [])
-# 
-#     @skip('Currently debugging other test')
-#     def test_addprotoFieldToList_empty_fieldbase(self):
-#         fieldList = []
-#         pEntity = Entity.objects.get(id=1)
-# 
-#         self.assertTrue(len(pEntity.property_set.all()) > 0)
-# 
-#         for pProperty in pEntity.property_set.all():
-#             self.assertTrue(pProperty.isForeign)
-# 
-#         addProtoFieldToList(fieldList, pEntity, '', '')
-#         self.assertNotEqual(fieldList, [])
