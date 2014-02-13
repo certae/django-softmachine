@@ -1,9 +1,6 @@
 # -*- encoding: UTF-8 -*-
 # Pour rouler les tests a la ligne de commandes :
 
-from django.utils.unittest.suite import TestSuite
-from django.utils.unittest.loader import makeSuite
-
 from testMetaDefinitions.ObjectsTest import * #StructureTestSuite                                      
 from testMetaDefinitions.PropertiesTest import * #PropertiesTestSuite                                  
 from testSampleProject.ViewCreationTest import * #ViewCreationTestSuite                                
