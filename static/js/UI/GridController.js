@@ -206,7 +206,7 @@ Ext.define('ProtoUL.UI.GridController', {
     //  --------------------------------------------------------------------------
 
 	onEditAction: function(ev, obj, head, btn) {
-      	
+		
         if (!this.formController) {
             this.formController = Ext.create('ProtoUL.UI.FormController', {
                 myMeta: this.myMeta
@@ -214,22 +214,36 @@ Ext.define('ProtoUL.UI.GridController', {
         }
         // Lanza el evento de inicio de edicion
         this.myGrid.fireStartEdition(btn.itemId);
-
         // 'toolFormAdd', 'toolFormUpd', 'toolFormView', 'toolRowAdd', 'toolRowCopy', 'toolRowDel',
         switch( btn.itemId ) {
             case 'toolFormAdd' :
-                this.formController.openNewForm(this.myGrid.store);
+            	showLoadingMask();
+            	var delayedTask = new Ext.util.DelayedTask(function(args){
+						args.form.openNewForm(args.store);
+				});
+				delayedTask.delay(1, null, null, [{form: this.formController, store: this.myGrid.store}]);
+                //this.formController.openNewForm(this.myGrid.store);
                 break;
 
             case 'toolFormUpd' :
                 if (_SM.validaSelected(this.myGrid.selected)) {
-                	this.formController.openLinkedForm(this.myGrid.selected);
+                	showLoadingMask();
+                	var delayedTask = new Ext.util.DelayedTask(function(args){
+						args.form.openLinkedForm(args.grid);
+					});
+					delayedTask.delay(1, null, null, [{form: this.formController, grid: this.myGrid.selected}]);
+                	//this.formController.openLinkedForm(this.myGrid.selected);
                 }
                 break;
 
             case 'toolFormView' :
                 if (_SM.validaSelected(this.myGrid.selected)) {
-                    this.formController.openLinkedForm(this.myGrid.selected, true);
+                	showLoadingMask();
+                	var delayedTask = new Ext.util.DelayedTask(function(args){
+						args.form.openLinkedForm(args.grid, true);
+					});
+					delayedTask.delay(1, null, null, [{form: this.formController, grid: this.myGrid.selected}]);
+                    //this.formController.openLinkedForm(this.myGrid.selected, true);
                 }
                 break;
 
@@ -253,6 +267,14 @@ Ext.define('ProtoUL.UI.GridController', {
                 Ext.MessageBox.confirm(_SM.__language.Title_Msg_Confirm_Delete, _SM.__language.Msg_Confirm_Delete_Operation, doDelete);
                 break;
         }
+        function showLoadingMask()
+		{
+			loadText = 'Loading...';
+			//Use the mask function on the Ext.getBody() element to mask the body element during Ajax calls
+			Ext.getBody().mask(loadText, 'loading');
+			Ext.Ajax.on('requestcomplete',Ext.getBody().unmask ,Ext.getBody());
+			Ext.Ajax.on('requestexception', Ext.getBody().unmask , Ext.getBody());
+		}
     }
 
 });
