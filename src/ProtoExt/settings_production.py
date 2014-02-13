@@ -1,4 +1,4 @@
-from settings import PPATH
+from ProtoExt.settings import PPATH
 
 DATABASES = {
    'default': {

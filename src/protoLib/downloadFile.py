@@ -3,13 +3,12 @@
 import mimetypes
 import os
 
-from ProtoExt.settings import PPATH 
 
-from django.http import Http404, HttpResponse, HttpResponseRedirect, HttpResponseNotModified
-from django.template import loader, Template, Context, TemplateDoesNotExist
-from django.utils.http import http_date, parse_http_date
+from ProtoExt.settings import PPATH
+from django.http import  HttpResponse
+from django.utils.http import http_date
 
-from utilsWeb import JsonError, JsonSuccess
+from utilsWeb import JsonError
 
 """
 Views and functions for serving downloads files

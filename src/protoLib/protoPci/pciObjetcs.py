@@ -4,25 +4,15 @@ Created on 2014-02-11
 @author: dario
 '''
 
-
-_MetaObjects = {
+_METAVERSION = "140212"
+_METAOBJECTS = {
 
     "pcl" : {
         "description" : "Meta definition",
-        "properties" : ["viewCode",
-                        "viewEntity",
-                        "viewIcon",
-
-                        "description",
-                        "shortTitle",
-                        "localSort", "pageSize",
-                        "sheetSelector", "pciStyle", "helpPath",
-                        "idProperty", "jsonField", "returnField", "updateTime", "metaVersion", "userVersion", "protoEntity", "protoEntityId",
-                        "pciType"
-                        ],
-        "objects" : ["gridConfig", "gridSets", "formConfig", "usrDefProps", "custom", "businessRules"],
+        "properties" : ["viewCode", "viewEntity", "viewIcon", "description", "shortTitle", "localSort", "pageSize", "sheetSelector", "pciStyle", "helpPath", "idProperty", "jsonField", "returnField", "updateTime", "metaVersion", "userVersion", "protoEntity", "protoEntityId", "pciType"], 
+        "roProperties" : ["viewCode", "viewEntity", "idProperty", "updateTime", "metaVersion", "protoEntity", "protoEntityId"], 
+        "objects" : ["gridConfig", "gridSets", "formConfig", "usrDefProps", "custom", "businessRules"], 
         "lists" : ["fields", "fieldsBase", "fieldsAdm", "actions", "detailsConfig", "sheetConfig"],
-        "roProperties" : ["viewCode", "viewEntity", "idProperty", "updateTime", "metaVersion", "protoEntity", "protoEntityId"]
     },
 
     "fields" : {
@@ -42,7 +32,7 @@ _MetaObjects = {
 
     "field" : {
         "description" : "A store field element",
-        "properties" : ["name", "required", "prpLength", "prpScale", 
+        "properties" : ["name", "required", "prpLength", "prpScale",
                         "prpDefault", "fieldLabel", "format", "header", "sortable", "searchable", "flex",
                         "tooltip",
                         "cellLink", "wordWrap",
@@ -72,7 +62,7 @@ _MetaObjects = {
         "properties" : ['hideRowNumbers',
         'gridSelectionMode', "exportCsv", 'hideSheet', 'denyAutoPrint', 'filterSetABC'],
         "lists" : ["listDisplay", "baseFilter", "initialFilter", "initialSort",
-        "searchFields", 
+        "searchFields",
         "sortFields",
         "hiddenFields", "readOnlyFields"],
         "objects" : []
@@ -81,8 +71,8 @@ _MetaObjects = {
 
     "colShortcuts" : {
         "description" : "Column configuration shortcuts",
-        "lists" : ["searchFields", 
-        "sortFields", 
+        "lists" : ["searchFields",
+        "sortFields",
         "hiddenFields", "readOnlyFields"
         ]
     },

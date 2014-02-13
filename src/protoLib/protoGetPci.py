@@ -3,7 +3,7 @@
 from django.http import HttpResponse
 from protoGrid import  getBaseModelName, setDefaultField , getProtoAdmin
 from protoLib import protoGrid
-from protoField import  setFieldDict, isAdmField
+from protoField import  setFieldDict, isAdmField 
 from models import getDjangoModel, ProtoDefinition, CustomDefinition 
 from utilsBase import getReadableError, copyProps
 from utilsWeb import JsonError, JsonSuccess 
@@ -12,11 +12,12 @@ from django.db.models import Max
 from protoActionEdit import setSecurityInfo
 from protoQbe import getSearcheableFields
 
-from protoAuth import getUserProfile, getModelPermissions
+from protoAuth import getUserProfile, getModelPermissions 
 
-from prototype.models import Prototype 
+from prototype.models import Prototype  
 PROTO_PREFIX = "prototype.ProtoTable."
 
+from protoLib.protoPci import verifyMeta 
 
 #import django.utils.simplejson as json
 import json
@@ -117,7 +118,16 @@ def protoGetPCI(request):
         protoMeta['custom'] = custom['custom']  
     except: pass
     
-#   WorkFlow  
+    # Verificacion de la metadata 
+    try:
+        protoMeta = verifyMeta( protoMeta, 'pcl')
+    except Exception, e:
+        traceback.print_exc()    
+        message = getReadableError(e)
+
+
+    
+    # WorkFlow  
     if hasattr( model , '_WorkFlow' ) : 
         wflowControl = getattr( model, '_WorkFlow', {} )
 

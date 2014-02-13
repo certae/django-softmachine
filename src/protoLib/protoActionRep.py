@@ -3,10 +3,8 @@
 #Manejo de reportes basdaos en plantillas ( sheets )
 #Dg 121105   --------------------------------------------------
 
-from django.core.files import File
-from ProtoExt.settings import PPATH
 
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.utils.encoding import smart_str, smart_unicode
 
 from models import getDjangoModel, ProtoDefinition
@@ -20,7 +18,6 @@ from utilsWeb import JsonError, JsonSuccess
 
 #import django.utils.simplejson as json
 import json
-import os
 
 def sheetConfigRep(request):
     """ Reporte basado en la definicion de plantillas ( sheets )

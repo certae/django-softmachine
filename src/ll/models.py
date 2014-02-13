@@ -9,6 +9,7 @@ from django.db import models
 from protoLib.models import ProtoModel
 from protoLib.utilsBase import slugify
 
+
 WORKFLOW = {  'initialStatus' :   'I', 
                     'OkStatus' : 'Ok', 
                     'wfFilters' : [
@@ -70,13 +71,6 @@ class Logiciel(ProtoModel):
 
     class Meta:
         unique_together = ('nom_logiciel',)
-
-    def WfAccept(self, *args, **kwargs ):
-        pass 
-
-    def WfRejet(self, *args, **kwargs ):
-        pass 
-
 
 class LicenceAppliquee(ProtoModel):
     lic_licapp = models.ForeignKey('Licence', blank= False, null= False)

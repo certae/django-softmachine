@@ -435,7 +435,6 @@ _MetaObjects = {
         "properties" : ["menuText", "conceptDetail", "masterField", "detailField", "detailName", "detailTitleLbl", "masterTitleField", "detailTitleField"],
         "addPrompt" : "Please enter the name for your detail:",
         "allowDel" : true
-
     },
 
     "usrDefProps" : {

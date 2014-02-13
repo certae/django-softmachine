@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
-from settings import PPATH, DEBUG
+
+from ProtoExt.settings import PPATH, DEBUG
 from generic_views import DirectTemplateView
 
 import django.contrib.admin
