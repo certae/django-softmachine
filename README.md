@@ -2,7 +2,7 @@
 CeRTAE [ProtoExt](http://www.certae.org/index.php?id=88) proposes an approach based on DATARUN method. This approach consists in achieving the interfaces of an application by the contruction of views from a standard data model.
 The system architecture is a Web MVC variant, this means that we use the basic concepts of Model, View and Controller adapted to a Web App.
 
-[BSD License](docs/LICENSE.md)
+[GPL License](docs/LICENSE.md)
 
 ## Software requirements:
 

@@ -54,13 +54,14 @@ class UpdatePropInfoTest(TestCase):
 
         propertymodel_values = {
             'model': testModel,
-            'baseType': 'valueInPropertyModel'
+            'baseType': 'valueInPropertyModel',
+            'isSensitive' : True
         }
-        print(testModel)
+        
         self.myBase = PropertyModel(**propertymodel_values)
         self.myBase.save()
         
-    @skip('à faire')
+    #@skip('à faire')
     def test_PropertyModel_isForeign_false_inherit_True(self):
         updatePropInfo(self.myBase, None, PropertyModel, False)
 #       pprint(dir(self.myBase.property_set))
