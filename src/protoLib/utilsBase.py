@@ -14,34 +14,34 @@ from django.utils.encoding import smart_str
 
 class JSONEncoder(json.JSONEncoder):
     def default(self, obj):
-        if isinstance(obj, ( datetime.date, datetime.time, datetime.datetime)):
+        if isinstance(obj, (datetime.date, datetime.time, datetime.datetime)):
             return obj.isoformat()
-        elif isinstance(obj,  decimal.Decimal ):
-            return str( obj )
+        elif isinstance(obj, decimal.Decimal):
+            return str(obj)
         else:
             return json.JSONEncoder.default(self, obj)    
 
 
 
-def verifyList( obj ):
+def verifyList(obj):
 #   Los objetos del admin son en su mayoria del tipo tuple,
 #   Es necesario convertirlos a listas por facilidad de trabajo
-    if isinstance( obj , basestring ):
-        try: obj = json.loads( obj )  
+    if isinstance(obj , basestring):
+        try: obj = json.loads(obj)  
         except : obj = []
-    elif isinstance( obj, tuple  ):  
-        obj = list( obj )
+    elif isinstance(obj, tuple):  
+        obj = list(obj)
 
-    if isinstance( obj, list ):
+    if isinstance(obj, list):
         return obj    
     else: return [] 
 
-def verifyStr( vrBase , vrDefault ):
+def verifyStr(vrBase , vrDefault):
     sAux = vrBase or vrDefault
     return  u'%s' % sAux 
 
              
-def parseEmailAddress(fullemail, delimitorLeft = '<', delimitorRight = '>'):
+def parseEmailAddress(fullemail, delimitorLeft='<', delimitorRight='>'):
     """ 
         split a full name/email pair to name/email tuple 
         matches :
@@ -54,7 +54,7 @@ def parseEmailAddress(fullemail, delimitorLeft = '<', delimitorRight = '>'):
     if delimitorRight == ')':
         delimitorRight = '\\)'
         
-    reg = re.compile('([^%s\n]+) ?%s?([^%s\r\n]+)?%s?' % (delimitorLeft, delimitorLeft, delimitorRight, delimitorRight) )
+    reg = re.compile('([^%s\n]+) ?%s?([^%s\r\n]+)?%s?' % (delimitorLeft, delimitorLeft, delimitorRight, delimitorRight))
     
     matches = reg.findall(fullemail)
 
@@ -66,7 +66,7 @@ def parseEmailAddress(fullemail, delimitorLeft = '<', delimitorRight = '>'):
     
     return None
     
-def guessNextPath(dst, slugify = True, idx = 0, checkExists = True):
+def guessNextPath(dst, slugify=True, idx=0, checkExists=True):
     """ return a renamed path if provided one already exists 
         if slugify, file name is slugified first (fs encodings problems quick & dirty workaround)
     """
@@ -74,7 +74,7 @@ def guessNextPath(dst, slugify = True, idx = 0, checkExists = True):
     newpath = dst
     if idx == 0:
         (path, file) = os.path.split(newpath)
-        (file, ext) =  os.path.splitext(file)
+        (file, ext) = os.path.splitext(file)
         slug = slugifyer(file)
 
         newpath = os.path.join(path, '%s%s' % (slug, ext))
@@ -88,7 +88,7 @@ def guessNextPath(dst, slugify = True, idx = 0, checkExists = True):
     return newpath
     
     
-def unique_id(more = ''):
+def unique_id(more=''):
     import time
     a = str(time.time())
     import random
@@ -112,22 +112,22 @@ def dict2tuple(indict):
     atuple = tuple()
     for item in indict:
         atuple += ((item, indict[item]),)
-    #print atuple
+    # print atuple
     return atuple
 
 
-def list2dict(alist , key ):
+def list2dict(alist , key):
     # Convierte una lista de objetos en dict usando key como llave del dict. 
     aDict = {}
     for item in alist:
         
-        #Verifica si es un dict  
-        if isinstance( item, dict ):   
-            aDict[ item[key] ]  = item 
+        # Verifica si es un dict  
+        if isinstance(item, dict):   
+            aDict[ item[key] ] = item 
 
         # si es un string lo crea con el key por defecto 
-        elif isinstance( item, str ):  
-            aDict[ item  ]  = { key : { key : item }}
+        elif isinstance(item, str):  
+            aDict[ item  ] = { key : { key : item }}
             
     return aDict
 
@@ -147,7 +147,7 @@ def CheckPathSecurity(testPath, rootPath):
 def ReadFile(inFile, mode='r'):
     contents = ""
     try:
-        f=open(inFile, mode)
+        f = open(inFile, mode)
         contents = f.read()
         f.close()
     except:
@@ -155,11 +155,11 @@ def ReadFile(inFile, mode='r'):
     return contents
     
 def WriteFile(inFile, contents):
-    f=open(inFile,'wb')
+    f = open(inFile, 'wb')
     f.write(contents)
     f.close()
     
-def PathToList(inPath, template_type="", showExt = True):
+def PathToList(inPath, template_type="", showExt=True):
     mylist = []
     for file in os.listdir(inPath):
         if file in ['.', '..', '']: 
@@ -208,7 +208,7 @@ def strip_accents(inStr):
             inStr = inStr.replace(ch, k)
 
     # De todas formas lo estandariza 
-    return slugify( inStr ) 
+    return slugify(inStr) 
     
 def strip_euro(inStr):
     inStr = u'%s' % inStr
@@ -217,7 +217,7 @@ def strip_euro(inStr):
 
 
 
-def DateFormatConverter(to_extjs = None, to_python = None):
+def DateFormatConverter(to_extjs=None, to_python=None):
 
     """ convert date formats between ext and python """
     f = {}
@@ -225,7 +225,7 @@ def DateFormatConverter(to_extjs = None, to_python = None):
     f['A'] = 'l'
     f['b'] = 'M'
     f['B'] = 'F'
-    #f['c'] = 
+    # f['c'] = 
     f['d'] = 'd'
     f['H'] = 'H'
     f['I'] = 'h'
@@ -235,16 +235,16 @@ def DateFormatConverter(to_extjs = None, to_python = None):
     f['p'] = 'A'
     f['S'] = 's'
     f['U'] = 'W'
-    #f['w'] = 
+    # f['w'] = 
     f['W'] = 'W'
-    #f['x'] = 
-    #f['X'] =
+    # f['x'] = 
+    # f['X'] =
     f['y'] = 'y'
     f['Y'] = 'Y'
     f['Z'] = 'T'
     out = ''
     if to_extjs:
-        for char in to_extjs.replace('%',''):
+        for char in to_extjs.replace('%', ''):
             out += f.get(char, char)
 
     elif to_python:
@@ -265,15 +265,15 @@ class VirtualField(object):
         self.name = name
 
 
-def getReadableError( e ):
-    sAux = '<b>ErrType:</b> ' + type( e ).__name__ + '<br>'
-    sAux +=  smart_str( e )
+def getReadableError(e):
+    sAux = '<b>ErrType:</b> ' + type(e).__name__ + '<br>'
+    sAux += smart_str(e)
     
 #    if len( e.args ) > 1: sAux += '<br>' +  str( '; '.join( e.args ))
     return sAux + '<br>'
 
 
-def strNotNull(  sValue, sDefault ):
+def strNotNull(sValue, sDefault):
     if (sValue is None):
         if (sDefault is None):  
             return "_"
@@ -283,7 +283,7 @@ def strNotNull(  sValue, sDefault ):
         return sValue 
 
 
-def copyProps ( objBase, objNew ):
+def copyProps (objBase, objNew):
     "Adiciona las propiedades a un objeto base igual q Ext.apply "
     "Todo: xxx.update : un metodo directo para hacerlo "
     for mProp in objNew:
@@ -316,10 +316,10 @@ def explode(s):
     else:
         return []    
 
-def findBrackets( aString ):
+def findBrackets(aString):
     # busca el primer paraentesis 
     if '(' in aString:
-        match = aString.split('(',1)[1]
+        match = aString.split('(', 1)[1]
         openB = 1
         for index in xrange(len(match)):
             if match[index] in '()':
@@ -338,18 +338,18 @@ def slugify(text, delim=u'-'):
        Normaliza los nombres para usarlos como codigos
        uso:  slugify(u'My International Text: åäö', delim='_')
     """
-    text = unicode( text )
+    text = unicode(text)
     result = []
     for word in _punct_re.split(text.lower()):
         word = normalize('NFKD', word).encode('ascii', 'ignore')
         if word:
             result.append(word)
     
-    rText = unicode(delim.join(result)).replace( '--', '-')
+    rText = unicode(delim.join(result)).replace('--', '-')
      
     return rText 
 
 
 def repStr(string_to_expand, length):
-    #Repeat to length  ( indent, fill, ... ) 
-    return (string_to_expand * ((length/len(string_to_expand))+1))[:length]
+    # Repeat to length  ( indent, fill, ... ) 
+    return (string_to_expand * ((length / len(string_to_expand)) + 1))[:length]
