@@ -6,7 +6,7 @@ from protoGrid import getBaseModelName
 from models import getDjangoModel, WflowUserReponse
 
 
-import json #import django.utils.simplejson as json
+import json
 
 from datetime import datetime
 from time import strftime
@@ -24,19 +24,19 @@ def protoExecuteAction(request):
         try:
 
             changeSt = actionDef.get('change', [])
-            stInitial = changeSt[0]                  
+            stInitial = changeSt[0]
             stFinal = changeSt[1]
-                              
+
             Qs = model.objects.filter(pk__in=selectedKeys)
             Qs = Qs.filter(smWflowStatus=stInitial)
 
-            # TODO transaction??? 
-            if actionDef.get('notifyOwner', False) : 
+            # TODO transaction???
+            if actionDef.get('notifyOwner', False) :
                 for wfRow in Qs :
 
-                    if len (parameters) > 0: 
+                    if len (parameters) > 0:
                         strMsg = parameters[0].get('value')
-                    else : strMsg = actionDef.get('message', '') 
+                    else : strMsg = actionDef.get('message', '')
 
                     UserReponse = WflowUserReponse()
                     UserReponse.viewEntity = viewEntity
@@ -51,12 +51,12 @@ def protoExecuteAction(request):
                         setattr(UserReponse, 'smRegStatus', '0')
                         setattr(UserReponse, 'smCreatedOn', datetime.now())
                     except :
-                        pass 
+                        pass
 
-                    UserReponse.save()   
+                    UserReponse.save()
                     if actionDef.get('emailNotification', False):
-                        
-                        user = User.objects.get(username = wfRow.smOwningUser.username)
+
+                        user = User.objects.get(username=wfRow.smOwningUser.username)
                         if user.email :
                             try:
                                 subject = actionDef.get('emailSubject', '')
@@ -74,34 +74,34 @@ def protoExecuteAction(request):
                             except:
                                 pass
 
-            if actionDef.get('setOwner', False)  : 
+            if actionDef.get('setOwner', False)  :
                 Qs.update(smWflowStatus=stFinal, smOwningTeam=userProfile.userTeam)
-            else : 
+            else :
                 Qs.update(smWflowStatus=stFinal)
-                
+
             return doReturn ({'success':True, 'message' : 'WfAction Ok'})
-         
+
         except Exception as e:
             return doReturn ({'success':False, 'message' : str(e) })
-    
-    
+
+
 #   ----------------------------------------
     def doAdminAction(model, selectedKeys, parameters, actionDef, modelAdmin):
 
         for action in modelAdmin.actions:
             if action.__name__ == actionName: break;
-    
+
         if not action:
             return doReturn ({'success':False, 'message' : 'Action notFound'})
-    
-    
+
+
         Qs = model.objects.select_related(depth=1)
         Qs = Qs.filter(pk__in=selectedKeys)
-    
+
         try:
             returnObj = action(modelAdmin, request, Qs , parameters)
             return doReturn (returnObj)
-    
+
         except Exception as e:
             return doReturn ({'success':False, 'message' : str(e) })
 
@@ -140,17 +140,16 @@ def protoExecuteAction(request):
         return doReturn ({'success':False, 'message' : 'Model notFound'})
 
 
-    if actionDef.get('actionType', '') == 'wflow': 
+    if actionDef.get('actionType', '') == 'wflow':
         return doWfAction(model, selectedKeys, parameters, actionDef, viewEntity, request.user)
-         
-    elif hasattr(modelAdmin, 'actions'):          
+
+    elif hasattr(modelAdmin, 'actions'):
         return doAdminAction (model, selectedKeys, parameters, actionDef, modelAdmin)
 
-    else: 
+    else:
         return doReturn ({'success':False, 'message' : 'Action notFound'})
 
 
 
 #   ----------------------------------------
 
-        

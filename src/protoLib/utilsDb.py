@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 
-def setDefaults2Obj( pObj, defaults, exclude = []):
+def setDefaults2Obj(pObj, defaults, exclude=[]):
     """ Asignas las props q vienen en un dict a un objeto
-    """ 
+    """
     for key in defaults:
-        if key in exclude: continue 
+        if key in exclude: continue
         try:
-            setattr(pObj, key, defaults[key])    
+            setattr(pObj, key, defaults[key])
         except:
-            #TODO: Log 
-            pass 
+            # TODO: Log
+            pass
 
-            
-def update_or_create( myModel , **kwargs):
+
+def update_or_create(myModel , **kwargs):
     """
     Use the snippet like this:
     
@@ -37,20 +37,20 @@ def update_or_create( myModel , **kwargs):
     
     TODO: implementar transaction
     """
-    
+
     # create
-    try:             
+    try:
         obj, created = myModel.objects.get_or_create(**kwargs)
     except Exception as  e:
-        #print getReadableError( e ) 
+        # print getReadableError( e )
 #        traceback.print_exc()
         raise e
-    
+
     if created:
         return obj, True, False
-    
+
     else:
-        # update  
+        # update
         defaults = kwargs.pop('defaults', {})
         try:
             params = dict([(k, v) for k, v in kwargs.items() if '__' not in k])
@@ -58,12 +58,9 @@ def update_or_create( myModel , **kwargs):
             for attr, val in params.items():
                 if hasattr(obj, attr):
                     setattr(obj, attr, val)
-            # sid = transaction.savepoint()
             obj.save(force_update=True)
-            # transaction.savepoint_commit(sid)
             return obj, False, True
-        
+
         except Exception:
-            # transaction.savepoint_rollback(sid)
             raise Exception
-        
+

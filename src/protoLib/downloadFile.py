@@ -3,13 +3,12 @@
 import mimetypes
 import os
 
-from ProtoExt.settings import PPATH 
+from ProtoExt.settings import PPATH
 
-from django.http import Http404, HttpResponse, HttpResponseRedirect, HttpResponseNotModified
-from django.template import loader, Template, Context, TemplateDoesNotExist
-from django.utils.http import http_date, parse_http_date
+from django.http import HttpResponse
+from django.utils.http import http_date
 
-from utilsWeb import JsonError, JsonSuccess
+from utilsWeb import JsonError
 
 """
 Views and functions for serving downloads files
@@ -19,12 +18,12 @@ url
 """
 
 
-def getFile(request, path ):
-    
-    if not request.user.is_authenticated(): 
+def getFile(request, path):
+
+    if not request.user.is_authenticated():
         return JsonError('readOnly User')
 
-    fullpath = getFullPath( request, path )
+    fullpath = getFullPath(request, path)
     if not os.path.exists(fullpath):
         return JsonError('"%s" does not exist' % path)
 
@@ -36,11 +35,11 @@ def getFile(request, path ):
     response = HttpResponse(open(fullpath, 'rb').read(), content_type=mimetype)
     response["Last-Modified"] = http_date(statobj.st_mtime)
     response["Content-Length"] = statobj.st_size
-    if encoding: 
+    if encoding:
         response["Content-Encoding"] = encoding
-    
+
     return response
 
 
-def getFullPath( request, filename ):
-    return os.path.join( PPATH , 'output', request.user.username + '.' + filename )
+def getFullPath(request, filename):
+    return os.path.join(PPATH , 'output', request.user.username + '.' + filename)
