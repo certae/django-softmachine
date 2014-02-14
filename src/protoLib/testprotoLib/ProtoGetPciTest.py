@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from pprint import pprint
 from django.test import TestCase
 from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
@@ -40,7 +39,7 @@ class ProtoGetPciTest(TestCase):
     def test_protogetpci_success(self):
         self.assertTrue(self.returnMessage['success'])
 
-    def test_protogetpci_viewcode(self):      
+    def test_protogetpci_viewcode(self):
         self.assertEqual(self.request.POST['viewCode'], self.returnMessage['protoMeta']['viewCode'])
 
     def test_protogetpci_viewentity(self):
@@ -57,7 +56,7 @@ class ProtoSaveProtoObjTest(TestCase):
         self.request.POST['password'] = '123'
         self.request.user = authenticate(username=self.request.POST['login'], password=self.request.POST['password'])
 
-        self.request.POST['viewCode'] = '__menu'  # custom = True
+        self.request.POST['viewCode'] = '__menu'# custom = True
         self.request.POST['protoMeta'] = json.dumps({
             "text": "prototype",
             "qtip": "",
@@ -141,9 +140,9 @@ class ProtoSaveProtoObjTest(TestCase):
     @skip('Doit ajouter une fixture avec des modeles valides pour l''utilisateur')
     def test_protosaveprotoobj_prototype_viewcode(self):
         self.assertTrue(False)
-        #self.request.POST['viewCode'] = 'prototype.ProtoTable.t-model-t-other-entity'  # prototype = True
-        #response = json.loads(protoSaveProtoObj(self.request).content)
-        #print(response)
+        # self.request.POST['viewCode'] = 'prototype.ProtoTable.t-model-t-other-entity'  # prototype = True
+        # response = json.loads(protoSaveProtoObj(self.request).content)
+        # print(response)
         # (code, smOwningTeam) = (u't-model-t-other-entity', <TeamHierarchy: proto>)
 
 
@@ -166,6 +165,6 @@ class ProtoGetFieldTreeTest(TestCase):
 
     def test_protogetfieldtree(self):
         response = json.loads(protoGetFieldTree(self.request).content)
-        #pprint(response)
+        # pprint(response)
         for element in response:
             self.assertFalse(element['checked'])

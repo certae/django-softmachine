@@ -1,7 +1,7 @@
 import django.contrib.admin
 
 class usrProfileAdmin(django.contrib.admin.ModelAdmin):
-    
+
     protoExt = {
     "__ptType": "pcl",
     "description": "User Profile",
@@ -46,7 +46,7 @@ class usrProfileAdmin(django.contrib.admin.ModelAdmin):
         "fkId": "user_id",
         "required": True,
         "header": "user",
-        
+
         "type": "foreigntext"
     }, {
         "__ptType": "field",

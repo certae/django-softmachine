@@ -25,7 +25,7 @@ class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
         "initialFilter": [],
         "hiddenFields": [],
         "listDisplay": ["code", "description", "active", "overWrite"],
-        "searchFields": ["code", "description", "metaDefinition"], 
+        "searchFields": ["code", "description", "metaDefinition"],
     },
     "gridSets": {
         "filtersSet": [{
@@ -35,12 +35,12 @@ class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
                 "filterStmt": "^prototype"
             }]
         }],
-    }, 
+    },
     "fields": [{
         "zoomModel": "@cellValue",
         "cellLink": True,
         "header": "code",
-        
+
         "type": "string",
         "name": "code",
         "sortable": True
@@ -49,7 +49,7 @@ class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
         "vType": "plainText",
         "type": "text",
         "name": "description",
-        
+
     }, {
         "flex": 1,
         "name": "__str__",
@@ -64,17 +64,17 @@ class protoDefinitionAdmin(django.contrib.admin.ModelAdmin):
         "vType": "plainText",
         "type": "text",
         "name": "metaDefinition",
-        
+
     }, {
         "header": "active",
         "type": "bool",
         "name": "active",
-        
+
     }, {
         "header": "overWrite",
         "type": "bool",
         "name": "overWrite",
-        
+
     }],
     "detailsConfig": [],
     "formConfig": {

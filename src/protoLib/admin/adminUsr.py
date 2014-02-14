@@ -74,7 +74,7 @@ AdminUser = {
         "__ptType": "field",
         "name": "user_permissions",
         "header": "permissions de l\'utilisateur",
-        
+
     }, {
         "__ptType": "field",
         "sortable": True,
@@ -83,7 +83,7 @@ AdminUser = {
         "required": True,
         "header": "dernière connexion",
         "type": "datetime",
-        
+
     }, {
         "__ptType": "field",
         "sortable": True,
@@ -92,7 +92,7 @@ AdminUser = {
         "required": True,
         "header": "date d\'inscription",
         "type": "datetime",
-        
+
     }],
     "actions": [],
     "detailsConfig": [{

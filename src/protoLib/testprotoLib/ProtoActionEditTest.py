@@ -117,7 +117,7 @@ class ProtoCreateTest(TestCase):
 class ProtoUpdateTest(TestCase):
     fixtures = ['auth.json']
     def setUp(self):
-        
+
         self.request_add = CreateAddRequest()
         protoCreate(self.request_add)
 

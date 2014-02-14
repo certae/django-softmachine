@@ -42,7 +42,7 @@ _MetaObjects = {
 
     "field" : {
         "description" : "A store field element",
-        "properties" : ["name", "required", "prpLength", "prpScale", 
+        "properties" : ["name", "required", "prpLength", "prpScale",
                         "prpDefault", "fieldLabel", "format", "header", "sortable", "searchable", "flex",
                         "tooltip",
                         "cellLink", "wordWrap",
@@ -72,7 +72,7 @@ _MetaObjects = {
         "properties" : ['hideRowNumbers',
         'gridSelectionMode', "exportCsv", 'hideSheet', 'denyAutoPrint', 'filterSetABC'],
         "lists" : ["listDisplay", "baseFilter", "initialFilter", "initialSort",
-        "searchFields", 
+        "searchFields",
         "sortFields",
         "hiddenFields", "readOnlyFields"],
         "objects" : []
@@ -81,8 +81,8 @@ _MetaObjects = {
 
     "colShortcuts" : {
         "description" : "Column configuration shortcuts",
-        "lists" : ["searchFields", 
-        "sortFields", 
+        "lists" : ["searchFields",
+        "sortFields",
         "hiddenFields", "readOnlyFields"
         ]
     },

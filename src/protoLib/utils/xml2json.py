@@ -35,20 +35,20 @@ R. White, 2006 November 6
 """
 
 import xml.etree.cElementTree as ET
-import json as simplejson 
+import json as simplejson
 import optparse, sys, os
 
-def elem_to_internal(elem,strip=1):
+def elem_to_internal(elem, strip=1):
 
     """Convert an Element into an internal dictionary (not JSON!)."""
 
     d = {}
     for key, value in elem.attrib.items():
-        d['@'+key] = value
+        d['@' + key] = value
 
     # loop over subelements to merge them
     for subelem in elem:
-        v = elem_to_internal(subelem,strip=strip)
+        v = elem_to_internal(subelem, strip=strip)
         tag = subelem.tag
         value = v[tag]
         try:
