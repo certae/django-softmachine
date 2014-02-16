@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib.admin.sites import  site
+from django.contrib.auth.models import User
 from protoGrid import getBaseModelName
 from models import getDjangoModel, WflowUserReponse
 
-#import django.utils.simplejson as json
+
 import json
 
 from datetime import datetime
+from time import strftime
 from utilsWeb import doReturn
 from protoAuth import getUserProfile
 
@@ -52,33 +54,25 @@ def protoExecuteAction(request):
                         pass 
 
                     UserReponse.save()            
+                    if actionDef.get('emailNotification', False):
 
-                    if actionDef.get('emailNotification', False) and wfRow.smOwningUser.email :
+                        user = User.objects.get(username=wfRow.smOwningUser.username)
+                        if user.email :
                         try:
-                            message = actionDef.get('emailTemplate', '') % (wfRow.smOwningUser, viewEntity, wfRow.__str__(), wfRow.smCreatedOn, strMsg, userProfile.user)
-                            wfRow.smOwningUser.email_user(_(strMsg , message))              
+                                subject = actionDef.get('emailSubject', '')
+                                message = actionDef.get('emailTemplate', '')
+                                variableFormat = {
+                                                  'sk' : wfRow.__str__(),
+                                                  'concept' : viewEntity,
+                                                  'admmessage': strMsg ,
+                                                  'admin' : userProfile.user.username.title(),
+                                                  'date' : strftime('%d/%m/%Y', wfRow.smCreatedOn.timetuple()),
+                                                  'User' : wfRow.smOwningUser.username.title()
+                                                  }
+                                message = message.format(**variableFormat)
+                                user.email_user(subject, message)
                         except :
                             pass 
-
-                        # user = User.objects.get(username = wfRow.smOwningUser )
-#                         user = ''
-#                         if user.email :
-#                             try:
-#                                 # date de l'ajout au format DD-M-YYYY
-#                                 createdDate = str(wfRow.smCreatedOn.timetuple().tm_mday) + '-' + str(wfRow.smCreatedOn.timetuple().tm_mon) + '-' + str(wfRow.smCreatedOn.timetuple().tm_year)
-#                                 message = actionDef.get('emailTemplate', '')
-#                                 values = {'sk' : wfRow.__str__(), 
-#                                        'concept' : viewEntity, 
-#                                        'admmessage': strMsg , 
-#                                        'admin' : str(userProfile.user).title(), 
-#                                        'date' : createdDate, 
-#                                        'User' : wfRow.smOwningUser.username.title()
-#                                        }
-#                                 message = message.format( **values )
-#                                 user.email_user( _('Décision'), message)
-#                             except:
-#                                 pass
-
 
             if actionDef.get('setOwner', False)  : 
                 Qs.update(smWflowStatus=stFinal, smOwningTeam=userProfile.userTeam)
@@ -160,4 +154,3 @@ def protoExecuteAction(request):
 
 #   ----------------------------------------
 
-        

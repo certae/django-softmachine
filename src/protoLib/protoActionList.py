@@ -210,6 +210,7 @@ def Q2Dict (protoMeta, pRows, fakeId, userNodes=[]):
         if bCopyFromFld:
             rowdict = copyValuesFromFields(protoMeta, rowdict, relModels, JsonField)
 
+#        Dont delete  ( Dgt ) 
 #        if pStyle == 'tree':
 #            rowdict[ 'viewEntity' ] = protoMeta.get('viewEntity', '')
 #            rowdict[ 'leaf' ] = False; rowdict[ 'children' ] = []

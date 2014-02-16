@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.utils.unittest import skip
 from prototype.models import Property
 from prototype.testprototype.testmodels.TestUtilities import createTestProperty
 
@@ -10,7 +11,7 @@ class PropertyTest(TestCase):
 
     def tearDown(self):
         self.property.delete()
-
+        
     def test_creating_a_new_property_and_saving_it_to_the_database(self):
         property_in_database = Property.objects.all()
         self.assertEqual(len(property_in_database), 1)
@@ -59,7 +60,7 @@ class PropertyTest(TestCase):
         property_in_database = Property.objects.all()
         only_entry_in_database = property_in_database[0]
         self.assertEqual(only_entry_in_database.isForeign, self.property.isForeign)
-
+        
     def test_verifying_property_attribute_crudType_in_database(self):
         property_in_database = Property.objects.all()
         only_entry_in_database = property_in_database[0]
@@ -69,6 +70,6 @@ class PropertyTest(TestCase):
         property_in_database = Property.objects.all()
         only_entry_in_database = property_in_database[0]
         self.assertEqual(only_entry_in_database.dbName, self.property.dbName)
-
+        
     def test_verifying_string_representation(self):
         self.assertEqual('testentitycode', str(self.property))

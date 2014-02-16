@@ -1,16 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from django.db import models
-
 from django.test import TestCase
 from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
 from django.http import HttpRequest
 from django.contrib.auth import authenticate
-import django.utils.simplejson as json
-
-from protoLib.protoActionRep import sheetConfigRep
-from protoLib.protoActionRep import protoCsv
+import json
 
 
 def ProtoActionRepTestSuite():

@@ -1,5 +1,6 @@
 from django.test import TestCase
 from prototype.models import Relationship
+from django.utils.unittest import skip
 from prototype.testprototype.testmodels.TestUtilities import createTestRelationship
 
 
@@ -14,7 +15,7 @@ class RelationshipTest(TestCase):
     def test_creating_a_new_relationship_and_saving_it_to_the_database(self):
         relationship_in_database = Relationship.objects.all()
         self.assertEqual(len(relationship_in_database), 1)
-
+        
     def test_verifying_relationship_attribute_refentity_in_database(self):
         relationship_in_database = Relationship.objects.all()
         only_entry_in_database = relationship_in_database[0]
@@ -34,7 +35,7 @@ class RelationshipTest(TestCase):
         relationship_in_database = Relationship.objects.all()
         only_entry_in_database = relationship_in_database[0]
         self.assertEqual(only_entry_in_database.baseMax, self.relationship.baseMax)
-
+    
     def test_verifying_relationship_attribute_refmin_in_database(self):
         relationship_in_database = Relationship.objects.all()
         only_entry_in_database = relationship_in_database[0]

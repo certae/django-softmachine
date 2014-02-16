@@ -5,9 +5,10 @@ from django.test import TestCase
 from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
 from django.utils.unittest import skip
+
 from django.http import HttpRequest
 from django.contrib.auth import authenticate
-import django.utils.simplejson as json
+import json
 
 from protoLib.protoActionList import protoList
 

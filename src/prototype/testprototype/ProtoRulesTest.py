@@ -5,7 +5,7 @@ import random
 from django.test import TestCase
 from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
-
+from django.utils.unittest import skip
 from prototype.models import Project
 from prototype.models import PropertyModel
 from prototype.models import Property
@@ -54,12 +54,14 @@ class UpdatePropInfoTest(TestCase):
 
         propertymodel_values = {
             'model': testModel,
-            'baseType': 'valueInPropertyModel'
+            'baseType': 'valueInPropertyModel',
+            'isSensitive' : True
         }
-
+        
         self.myBase = PropertyModel(**propertymodel_values)
         self.myBase.save()
-
+        
+    #@skip('à faire')
     def test_PropertyModel_isForeign_false_inherit_True(self):
         updatePropInfo(self.myBase, None, PropertyModel, False)
-        #pprint(dir(self.myBase.property_set))
+#       pprint(dir(self.myBase.property_set))

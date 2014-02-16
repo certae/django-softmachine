@@ -64,19 +64,16 @@ def JSONserialise( obj ):
     if not isinstance( obj , basestring ):
         try: 
             obj = json.dumps( obj )  
-        except : obj = 'error JSONSerialise'
+        except: 
+            obj = 'error JSONSerialise'
     return obj 
     
 
 def my_send_mail(subject, txt, sender, to=[], files=[], charset='UTF-8'):
-    import os
-    from django.core.mail import send_mail
     from email import Encoders
     from email.MIMEMultipart import MIMEMultipart
     from email.MIMEBase import MIMEBase
     from email.MIMEText import MIMEText
-    from django.conf import settings
-    from django.core.mail import EmailMultiAlternatives
     
     for dest in to:
         dest = dest.strip()

@@ -10,7 +10,6 @@ DATABASES = {
 ALLOWED_HOSTS = [
     'localhost', # Allow domain and subdomains
     '127.0.0.1', # Also allow FQDN and subdomains
-    '127.0.0.1:8000',
 ]
 
 
@@ -70,3 +69,4 @@ DEFAULT_FROM_EMAIL = 'protoext@gmail.com'
 
 #used for debug
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'protoext@gmail.com'

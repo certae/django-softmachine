@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.utils.unittest import skip
 from prototype.models import PropertyEquivalence
 from prototype.testprototype.testmodels.TestUtilities import createTestPropertyEquivalence
 
@@ -10,7 +11,7 @@ class PropertyEquivalenceTest(TestCase):
 
     def tearDown(self):
         self.propertyequivalence.delete()
-
+        
     def test_creating_a_new_propertyequivalence_and_saving_it_to_the_database(self):
         propertyequivalence_in_database = PropertyEquivalence.objects.all()
         self.assertEqual(len(propertyequivalence_in_database), 2)

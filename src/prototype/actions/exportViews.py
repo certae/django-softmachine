@@ -8,7 +8,7 @@ from pttActionTools import getClassName
 from protoLib.utilsBase import slugify, JSONEncoder
 from protoLib.models import ProtoDefinition
 
-import django.utils.simplejson as json
+import json
 
 
 def exportProtoJson(request, pModel ):
@@ -21,6 +21,7 @@ def exportProtoJson(request, pModel ):
 
     for pEntity in pModel.entity_set.all():
 
+        # Do not delete ( dgt ) 
         cEntity = { 
            'code'  : pEntity.code, 
            'entity' :  getClassName( pEntity.code ), 
@@ -31,6 +32,7 @@ def exportProtoJson(request, pModel ):
 
         cViews['entities'][ cEntity['code'] ]  = cEntity 
 
+#         Do not delete  ( dgt ) 
 #         for pProperty in pEntity.property_set.all():
 #             
 #             

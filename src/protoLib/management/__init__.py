@@ -40,9 +40,6 @@ def addProtoPermissions(sender, **kwargs):
         title ="Can reference %s" % content_type.name
         addEntityPermission( label, title )
 
-#         label = "print_%s" % content_type.model
-#         title ="Can print %s" % content_type.name
-#         addEntityPermission( label, title )
 
 # check for all proto permissions after a syncdb
 post_syncdb.connect(addProtoPermissions)

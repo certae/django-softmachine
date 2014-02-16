@@ -174,7 +174,7 @@ class GetDetailsConfigTreeTest(TestCase):
 
         self.assertEqual(len(GetDetailsConfigTree(1)), 1)
 
-
+# TODO  Do not delete 
 # class addProtoFieldToListTest(TestCase):
 #     def setUp(self):
 #         self.testRelationShip = createTestRelationship()

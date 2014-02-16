@@ -1,11 +1,9 @@
 # -*- encoding: UTF-8 -*-
 
-from pprint import pprint
 from django.test import TestCase
 from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
-from django.test.client import Client
-import django.utils.simplejson as json
+import json
 
 from django.http import HttpRequest
 from django.contrib.auth import authenticate

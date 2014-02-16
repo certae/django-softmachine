@@ -219,6 +219,14 @@ Ext.define('ProtoUL.UI.GridController', {
         // 'toolFormAdd', 'toolFormUpd', 'toolFormView', 'toolRowAdd', 'toolRowCopy', 'toolRowDel',
         switch( btn.itemId ) {
             case 'toolFormAdd' :
+
+                // TODO: FIX: Add Mask to form load ( is not the right place  )
+                // showLoadingMask();
+                // var delayedTask = new Ext.util.DelayedTask(function(args){
+                //         args.form.openNewForm(args.store);
+                // });
+                // delayedTask.delay(1, null, null, [{form: this.formController, store: this.myGrid.store}]);
+
                 this.formController.openNewForm(this.myGrid.store);
                 break;
 
@@ -254,6 +262,14 @@ Ext.define('ProtoUL.UI.GridController', {
                 Ext.MessageBox.confirm(_SM.__language.Title_Msg_Confirm_Delete, _SM.__language.Msg_Confirm_Delete_Operation, doDelete);
                 break;
         }
+        //function showLoadingMask()
+		// {
+		// 	loadText = 'Loading...';
+		// 	//Use the mask function on the Ext.getBody() element to mask the body element during Ajax calls
+		// 	Ext.getBody().mask(loadText, 'loading');
+		// 	Ext.Ajax.on('requestcomplete',Ext.getBody().unmask ,Ext.getBody());
+		// 	Ext.Ajax.on('requestexception', Ext.getBody().unmask , Ext.getBody());
+		// }
     }
 
 });

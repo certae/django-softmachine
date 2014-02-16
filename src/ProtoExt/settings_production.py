@@ -1,27 +1,27 @@
 from ProtoExt.settings import PPATH
+# DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql',
+#        'NAME':   'mysql',
+#        'USER': '',
+#        'PASSWORD': '',
+#        'HOST': 'localhost',
+#        'PORT': '3306',
+#    }
+# }
 
 DATABASES = {
    'default': {
-       'ENGINE': 'django.db.backends.mysql',
-       'NAME':   'mysql',
-       'USER': 'manager',
-       'PASSWORD': 'manager',
-       'HOST': 'localhost',
-       'PORT': '3306',
-   }, 
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#        'NAME':   'protoExt',
-#    },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': PPATH + '/db/testproto.db',
+    }
 }
-
-# If true we will have problems with ExtJS
-#CSRF_COOKIE_SECURE = True
-#SESSION_COOKIE_SECURE = True
 
 ALLOWED_HOSTS = [
     'localhost', # Allow domain and subdomains
-    '127.0.0.1', # Also allow FQDN and subdomains
+    '127.0.0.1',
+    '132.203.51.6',
+    '.ulaval.ca',  # Also allow FQDN and subdomains
 ]
 
 
@@ -55,5 +55,6 @@ HOST_DOMAIN = 'loli.fsa.ulaval.ca/artdev'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'protoext@gmail.com'
-EMAIL_HOST_PASSWORD = 'protoext1234'
 DEFAULT_FROM_EMAIL = 'protoext@gmail.com'
+with open('/etc/email_key.txt') as f:
+    EMAIL_HOST_PASSWORD = f.read().strip()

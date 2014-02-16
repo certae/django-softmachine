@@ -124,12 +124,14 @@ Ext.define('ProtoUL.view.ProtoForm', {
         this.getHtmlPanels();
 
         // Obtiene los store de las grillas dependientes y asigna el listener startEdition
+        // console.time('details');
         this.cllDetails = getDetails( this.items.items , me );
         if ( this.cllDetails.length > 0 ) {
             this.masterDetail = true ;
             this.btSaveDet.show() ;
             asignaDetailDefinition( me );
         }
+        // console.timeEnd('details');
 
         // Lo genera de nuevo, quedaban componentes mal ubicados
         this.doLayout();
@@ -137,8 +139,9 @@ Ext.define('ProtoUL.view.ProtoForm', {
         function getDetails( prItems , me  ) {
             // Obtiene los store de las grillas recursivamente
             var cllDetails = [];
+            var lGrid;
             for ( var ixV in prItems ) {
-                var lGrid = prItems[ixV];
+                lGrid = prItems[ixV];
                 if ( lGrid.__ptType == "protoGrid"  ) {
                     if ( lGrid.myMeta ) cllDetails.push(  lGrid  );
                 } else  if ( lGrid.items &&  lGrid.items.items ) {
@@ -150,10 +153,11 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         function asignaDetailDefinition( me) {
             // Indexa los stores con la info de los detalles copiando la info del detalle
+            var lObj, lDet;
             for ( var ix in me.cllDetails ) {
-                var lObj = me.cllDetails[ix];
+                lObj = me.cllDetails[ix];
                 for ( var ixD in me.myMeta.detailsConfig ) {
-                    var lDet = me.myMeta.detailsConfig[ ixD ];
+                    lDet = me.myMeta.detailsConfig[ ixD ];
                     if ( lObj.viewCode == lDet.conceptDetail ) {
                         lObj.detailDefinition = lDet;
                     }
@@ -349,9 +353,9 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         // var readOnlyCls = 'protofield-readonly'
         var myFields = this.getForm().getFields();
-
+		var obj;
         for (var ix in myFields.items   ) {
-            var obj = myFields.items[ix];
+            obj = myFields.items[ix];
             if ( obj.readOnly ) {
                 obj.setReadOnly( true );
             } else if ( ! readOnlyFields  || ( obj.name in _SM.objConv( readOnlyFields )  )  ) {
@@ -361,9 +365,10 @@ Ext.define('ProtoUL.view.ProtoForm', {
         };
 
         // Recorre los htmlPanels
+        var fDef;
         for (var ix in this.htmlPanels  ) {
-            var obj = this.htmlPanels[ix];
-            var fDef = obj.__ptConfig ;
+            obj = this.htmlPanels[ix];
+            fDef = obj.__ptConfig ;
 
             if ( fDef.readOnly ) {
                 obj.setReadOnly( true );
@@ -382,8 +387,9 @@ Ext.define('ProtoUL.view.ProtoForm', {
         getHtmlPanelDefinition( this.items.items , this );
 
         function getHtmlPanelDefinition( formItems, me ) {
+        	var vFld;
             for (var ix in formItems   ) {
-                var vFld = formItems[ix];
+                vFld = formItems[ix];
 
                 if ( vFld.xtype ==  "htmlset" ) {
                     Ext.apply(  me.htmlPanels, vFld.htmlPanels  );
@@ -428,13 +434,13 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
     linkDetail: function( record ) {
         if ( ! this.masterDetail ) { return; }
-
+		var lGrid, detField, myFilter, protoFilter;
         for ( var ixDet in this.cllDetails ) {
-            var lGrid = this.cllDetails[ixDet];
-            var detField = lGrid.detailDefinition.detailField,
+            lGrid = this.cllDetails[ixDet];
+            detField = lGrid.detailDefinition.detailField;
                 myFilter = {};
 
-            var protoFilter = [{ "property" :  detField , "filterStmt" : this.idMaster  }];
+            protoFilter = [{ "property" :  detField , "filterStmt" : this.idMaster  }];
             lGrid.store.myLoadData( protoFilter, null,  this.idMaster );
 
             if ( this.idMaster >= 0 && ( ! this.isReadOnly ))  {
@@ -521,7 +527,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         form.updateRecord( me.masterRecord );
         me.readHtmlPanels( me.masterRecord );
-
+		// Try to improve performance...
+		me.store.suspendEvents();
 
         // Si es nuevo
         if ( me.myFormController.newForm )  {
@@ -536,14 +543,15 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
                 // Variable para alojar los retornos multiples
                 var lProduct =  _SM.Product( me.zoomMultiReturn ) ;
+                var lBase, lRec, lZRet;
                 for ( var ix in lProduct ){
 
                     // Producto Cartersiano de multiReturn
-                    var lBase = lProduct[ix],
+                    lBase = lProduct[ix];
                         lRec = me.masterRecord.copy();
 
                     for ( var iz in lBase   ){
-                        var    lZRet = lBase[ iz ];
+                        lZRet = lBase[ iz ];
                         lRec.data[ lZRet.name ] = lZRet.recStr;
                         lRec.data[ lZRet.fkId   ] = lZRet.recId;
                     }
@@ -559,6 +567,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
             me._doSyncMasterStore();
         }
 
+        me.store.resumeEvents();
         // Restaura el autosync
         me.store.autoSync = tmpAutoSync;
 
@@ -585,5 +594,3 @@ Ext.define('ProtoUL.view.ProtoForm', {
     }
 
 });
-
-

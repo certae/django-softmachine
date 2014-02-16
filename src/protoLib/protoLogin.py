@@ -1,6 +1,5 @@
 # -*- encoding: UTF-8 -*-
 
-#import django.utils.simplejson as json #DEPRECATED
 import json
 from django.contrib.auth.models import User
 
@@ -32,7 +31,6 @@ def protoGetUserRights(request):
     except:
         pUser = None
         
-
     userInfo = { 'userName' : userName } 
                  
     if pUser is not None:

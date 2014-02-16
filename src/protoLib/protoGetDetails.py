@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from django.http import HttpResponse
-from protoField import TypeEquivalence
 from models import getDjangoModel 
-from utilsBase import getReadableError, verifyStr
+from utilsBase import getReadableError
 from protoGrid import  getBaseModelName, getModelDetails
-from utilsWeb import JsonError, JsonSuccess 
+from utilsWeb import JsonError
 
-#import django.utils.simplejson as json
 import json
 
 PROTO_PREFIX = "prototype.ProtoTable."
@@ -99,4 +97,3 @@ def addDetailToList(  detailList , detail,  detailPath   ):
         if len( detailChild ) > 0:  
             menuDetail['leaf'] = False 
             menuDetail['children'] = detailChild
-            

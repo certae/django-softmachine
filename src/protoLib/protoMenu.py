@@ -4,25 +4,22 @@
 
 # Importa el sitio con las collecciones admin ya definidas
 from django.db import models
-#from django.contrib.admin.sites import  site
 from django.conf import settings
 from django.http import HttpResponse
 
 
-#import django.utils.simplejson as json
 import json
 
 from models import CustomDefinition, ProtoDefinition
 from protoActionEdit import setSecurityInfo
 from protoAuth import getUserProfile, getModelPermissions
-from utilsWeb import JsonError #, JsonSuccess 
+from utilsWeb import JsonError
 from utilsBase import verifyList
 
 from prototype.models import Prototype 
 PROTO_PREFIX = "prototype.ProtoTable."
 
 class cAux: pass 
-
 
 def protoGetMenuData(request):
     """

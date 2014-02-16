@@ -122,7 +122,4 @@ Ext.define('Ext.ux.protoQBE', {
         me.cancelPress();
         me.close();
     }
-
 });
-
-

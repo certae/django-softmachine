@@ -8,8 +8,6 @@ from django.contrib.sites.models import Site
 from django.db.models.signals import post_save
 from protoLib.fields import JSONField, JSONAwareManager
 
-from django.contrib.contenttypes.models import ContentType
-
 
 class TeamHierarchy(models.Model):
 # Jerarquia funcional ( de seguridad ) de la app     
@@ -387,16 +385,3 @@ class WflowUserReponse(ProtoModel):
     def __unicode__(self):
         return self.viewEntity
 
-    
-# class sb2reglesentite(models.Model):
-#    description = models.CharField(max_length=250 ,blank=True)
-#    declancheur = models.CharField(max_length=5 ,blank=True)
-#    sequence = models.IntegerField(null=True ,blank=True)
-#    typeregle = models.CharField(max_length=50 ,blank=True)
-#    regle = models.CharField(max_length=50 ,blank=True)
-#    messageok = models.CharField(max_length=50 ,blank=True)
-#    messageerr = models.CharField(max_length=50)
-#    actionerr = models.CharField(max_length=50 ,blank=True)
-#    statut = models.CharField(max_length=10)
-#    entite = models.ForeignKey(sb1entites)
-    

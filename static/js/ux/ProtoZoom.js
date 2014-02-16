@@ -396,4 +396,3 @@ if (!String.prototype.format) {
 // _SM.trim = function ( str ) { 
     // return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
 // }
-

@@ -66,6 +66,8 @@ Ext.define('ProtoUL.UI.FormController', {
             }
 
         };
+		// This increase performance. Coalesce multiple layouts. If you’re adding/removing a bunch of Components in a single go
+		Ext.suspendLayouts();
 
         // lo marca como cargado
         this.myMetaDict[this.myMeta.viewCode] = false;
@@ -92,7 +94,7 @@ Ext.define('ProtoUL.UI.FormController', {
         if (!me.loaded) {
             me._waitForDetails(me);
         }
-
+		Ext.resumeLayouts(true);
     },
 
     _waitForDetails : function(me, detCode) {

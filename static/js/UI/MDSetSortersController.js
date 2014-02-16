@@ -64,4 +64,3 @@ Ext.define('ProtoUL.UI.MDSetSortersController', {
     }
 
 });
-
