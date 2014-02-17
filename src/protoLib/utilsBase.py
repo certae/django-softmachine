@@ -23,7 +23,7 @@ class JSONEncoder(json.JSONEncoder):
 
 
 
-def verifyList(obj):
+def verifyList(obj, defList = []):
 #   Los objetos del admin son en su mayoria del tipo tuple,
 #   Es necesario convertirlos a listas por facilidad de trabajo
     if isinstance( obj , basestring ):
@@ -33,6 +33,8 @@ def verifyList(obj):
         obj = list( obj )
 
     if isinstance( obj, list ):
+        if  len( obj ) == 0 :
+            obj  = defList        
         return obj    
 
     else: return [] 

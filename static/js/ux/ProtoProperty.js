@@ -18,6 +18,7 @@ Ext.define('ProtoUL.ux.ProtoProperty' ,{
     readOnlyProps : [],   
     editable : true,   
     sourceInfo : {}, 
+    customEditors : [], 
 
     initComponent: function() {
 		var me = this;
@@ -99,7 +100,7 @@ Ext.define('ProtoUL.ux.ProtoProperty' ,{
 			var myEditor = this.editors[myType];
 			if (myEditor) {
 				this.customEditors[prp] = myEditor;
-        }
-    } 
+            }
+        } 
 	}
 });

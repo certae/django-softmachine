@@ -1,4 +1,7 @@
 eclipse.preferences.version=1
+encoding//src/protoLib/protoActions.py=utf-8
+encoding//src/protoLib/protoGetPci.py=utf-8
+encoding//src/protoLib/utilsBase.py=utf-8
 encoding//static/js/UI/ConfigController.js=UTF-8
 encoding//static/js/UI/FormController.js=UTF-8
 encoding//static/js/UI/GridController.js=UTF-8

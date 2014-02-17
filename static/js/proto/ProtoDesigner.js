@@ -99,8 +99,8 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
 
 //      --------------- function body
 
-        myForm.setFormReadOnly( true )
-        this.formPreview.add( myForm  )
+        myForm.setFormReadOnly( true );
+        this.formPreview.add( myForm  );
 
         this.tBar =  this.toolsPanel.addDocked({
             xtype : 'toolbar',
@@ -109,15 +109,15 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         })[0];
 
         this.toolsTabs.add(myObj.toolsTabs);
-        this.toolsTree = this.toolsTabs.down('#toolsTree')
+        this.toolsTree = this.toolsTabs.down('#toolsTree');
 
 
         // *******************   Properties
 
         var propsGrid = Ext.create('ProtoUL.ux.ProtoProperty', {});
-        this.properties = this.toolsTabs.down('#properties')
-        this.properties.add( propsGrid )
-        this.properties = propsGrid
+        this.properties = this.toolsTabs.down('#properties');
+        this.properties.add( propsGrid );
+        this.properties = propsGrid;
 
 
         propsGrid.on({
@@ -127,15 +127,15 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                     return
                 }
 
-                var oData = me.treeRecord.data.__ptConfig
-                var prpName = e.record.data.name
+                var oData = me.treeRecord.data.__ptConfig, 
+                    prpName = e.record.data.name;
 
                 // ****  Solo llegan objetos, los Array se manejan en otro lado
                 if ( _SM.typeOf(oData) ==  "object") {
-                    oData[ prpName ]  = e.value
+                    oData[ prpName ]  = e.value;
                 }
 
-                me.onClickRedraw()
+                me.onClickRedraw();
             },
             scope: me }
         );
@@ -145,7 +145,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
          * antes de crear el componente.
          */
 
-        _SM.defineProtoPclTreeModel()
+        _SM.defineProtoPclTreeModel();
 
         var treeData = _SM.clone ( myObj.toolsTree ),
             treeNodAux,
@@ -155,23 +155,30 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
             vFld;
 
         // Agrega los campos de la pci particular
-        treeNodAux = getTreeNodeByText( treeData,  'Fields' )
+        treeNodAux = getTreeNodeByText( treeData,  'Fields' );
         for (ix in this.myMeta.fields ) {
             vFld  =  this.myMeta.fields[ix];
-            ptConfig =  _SM.getFormFieldDefinition( vFld )
-            ptConfig['name']  = vFld.name
+            ptConfig =  _SM.getFormFieldDefinition( vFld );
+            ptConfig['name']  = vFld.name;
             treeNodAuxData = {
                 "text": vFld.name ,
                 "qtip": vFld.cellToolTip,
                 "__ptType": "formField",
                 "leaf": true,
                 "__ptConfig": ptConfig
-            }
-            treeNodAux.children.push( treeNodAuxData )
-        }
+            };
+            treeNodAux.children.push( treeNodAuxData );
+        };
+
+        // FutureUse : Dont delete  ( dgt )
+        // "masterField" : vFld.masterField,
+        // "detailField" : vFld.detailField,
+        // "detailTitleLbl" : vFld.detailTitleLbl,
+        // "detailTitleField" : vFld.detailTitleField,
+        // "masterTitleField" : vFld.masterTitleField,
 
         // Agrega los detalles
-        treeNodAux = getTreeNodeByText( treeData,  'Details' )
+        treeNodAux = getTreeNodeByText( treeData,  'Details' );
         for (ix in this.myMeta.detailsConfig ) {
             vFld  =  this.myMeta.detailsConfig[ix];
             treeNodAuxData = {
@@ -182,16 +189,29 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                 "__ptConfig": {
                     "menuText" : vFld.menuText,
                     "viewCode" : vFld.conceptDetail ,
-                    // "masterField" : vFld.masterField,
-                    // "detailField" : vFld.detailField,
-                    // "detailTitleLbl" : vFld.detailTitleLbl,
-                    // "detailTitleField" : vFld.detailTitleField,
-                    // "masterTitleField" : vFld.masterTitleField,
                     "xtype": "protoGrid",
                     "__ptType": "protoGrid"
                 }
-            }
-            treeNodAux.children.push( treeNodAuxData )
+            };
+            treeNodAux.children.push( treeNodAuxData );
+        }
+
+        treeNodAux = getTreeNodeByText( treeData,  'DetailsButtons' );
+        for (ix in this.myMeta.detailsConfig ) {
+            vFld  =  this.myMeta.detailsConfig[ix];
+            treeNodAuxData = {
+                "text": vFld.menuText,
+                "qtip": vFld.toolTip,
+                "__ptType": "detailButton",
+                "leaf": true,
+                "__ptConfig": {
+                    "text" : vFld.menuText,
+                    "viewCode" : vFld.conceptDetail ,
+                    "xtype": "detailButton",
+                    "__ptType": "detailButton"
+                }
+            };
+            treeNodAux.children.push( treeNodAuxData );
         }
 
 

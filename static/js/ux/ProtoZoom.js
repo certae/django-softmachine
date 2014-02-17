@@ -119,22 +119,20 @@ Ext.define('ProtoUL.ux.protoZoom', {
             me.win.hide();
         }
 
-        function doNew() {
-            var formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });
-            formController.openNewForm ( this.zoomGrid.store  );
-        }
-
-
-        function doEdit() {
-            if ( ! this.zoomGrid.selected ) {
-                _SM.errorMessage(_SM.__language.Title_Form_Panel, _SM.__language.GridAction_NoRecord);
-                return; 
-            }
-            var formController = Ext.create('ProtoUL.UI.FormController', { 
-                myMeta : me.myMeta
-             });
-            formController.openLinkedForm ( this.zoomGrid.selected    );
-        }
+        // function doNew() {
+            // var formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });
+            // formController.openNewForm ( this.zoomGrid.store  );
+        // }
+        // function doEdit() {
+            // if ( ! this.zoomGrid.selected ) {
+                // _SM.errorMessage(_SM.__language.Title_Form_Panel, _SM.__language.GridAction_NoRecord);
+                // return; 
+            // }
+            // var formController = Ext.create('ProtoUL.UI.FormController', { 
+                // myMeta : me.myMeta
+             // });
+            // formController.openLinkedForm ( this.zoomGrid.selected    );
+        // }
         
         if ( me.isLoaded ) { return; } 
 
@@ -381,6 +379,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
 });
 
 
+// String format function if not exist 
 if (!String.prototype.format) {
   String.prototype.format = function() {
     var args = arguments;

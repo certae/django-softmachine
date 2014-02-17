@@ -58,7 +58,7 @@ def protoExecuteAction(request):
 
                         user = User.objects.get(username=wfRow.smOwningUser.username)
                         if user.email :
-                        try:
+                            try:
                                 subject = actionDef.get('emailSubject', '')
                                 message = actionDef.get('emailTemplate', '')
                                 variableFormat = {
@@ -71,8 +71,8 @@ def protoExecuteAction(request):
                                                   }
                                 message = message.format(**variableFormat)
                                 user.email_user(subject, message)
-                        except :
-                            pass 
+                            except :
+                                pass 
 
             if actionDef.get('setOwner', False)  : 
                 Qs.update(smWflowStatus=stFinal, smOwningTeam=userProfile.userTeam)

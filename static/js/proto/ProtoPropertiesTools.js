@@ -43,6 +43,7 @@ function prepareProperties( record , myMeta,  propPanel  ){
     // Solo maneja las propiedades propias de la version
     __ptConfig = clearPhantonProps( __ptConfig,  __ptType );
 
+    // FIX : Giovanni il me semble un probleme de la version,  dans le propertyGrid il ajoute un seule editeur 
     propPanel.setSource( __ptConfig );
     propPanel.setCombos( template.__ppChoices );
     propPanel.setTypes( template.__ppTypes );

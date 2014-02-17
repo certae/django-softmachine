@@ -499,6 +499,12 @@ _MetaObjects = {
         ]
     },
 
+    "detailButton" : {
+        "description" : "A button link to detail",
+        "properties" : [ "viewCode", "text", "addDetailForm" ]
+    },
+
+
     "panel" : {
         "hideItems" : true,
         "description" : "A simple panel with fit layout",

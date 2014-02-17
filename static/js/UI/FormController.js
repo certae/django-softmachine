@@ -2,7 +2,7 @@
  * @class ProtoUL.ux.FormController
  * @author  Dario Gomez
 
- * Helper class for intancing ProtoForm
+ * Helper class for instancing ProtoForm
 
  */
 
@@ -66,8 +66,8 @@ Ext.define('ProtoUL.UI.FormController', {
             }
 
         };
-		// This increase performance. Coalesce multiple layouts. If you’re adding/removing a bunch of Components in a single go
-		Ext.suspendLayouts();
+        // This increase performance. Coalesce multiple layouts. If youï¿½re adding/removing a bunch of Components in a single go
+        Ext.suspendLayouts();
 
         // lo marca como cargado
         this.myMetaDict[this.myMeta.viewCode] = false;
@@ -94,7 +94,7 @@ Ext.define('ProtoUL.UI.FormController', {
         if (!me.loaded) {
             me._waitForDetails(me);
         }
-		Ext.resumeLayouts(true);
+        Ext.resumeLayouts(true);
     },
 
     _waitForDetails : function(me, detCode) {
@@ -318,48 +318,6 @@ Ext.define('ProtoUL.UI.FormController', {
 
     defineFormLayout : function() {
 
-        function getSimpleProperties(oData, ptType) {
-            // Retorna los valores simples, verificando los tipos de cada propiedad
-
-            // Solo deben llegar objetos, si llega un array no hay props q mostrar
-            if (_SM.typeOf(oData) == 'array') {
-                return [];
-            }
-
-            // Inicializa con el type
-            var cData = {}, cValue;
-            
-            if (ptType) {
-                cData.__ptType = ptType;
-            }
-
-            for (var lKey in oData ) {
-                cValue = oData[lKey];
-
-                // Los objetos o arrays son la imagen del arbol y no deben ser tenidos en cuenta, generarian recursividad infinita
-                if (_SM.typeOf(cValue) in _SM.objConv(['object', 'array'])) {
-                    continue;
-                }
-
-                // Si son valores codificados, los decodifica y los agrega
-                if ( lKey in _SM.objConv(['__ptValue', '__ptList'])) {
-                    try {
-                        cData = Ext.decode(cValue);
-                    } catch (e) {
-                        // console.log( "Error de encodage", cValue )
-                    }
-
-                } else {
-                    cValue = verifyPrpType(lKey, cValue);
-                    if (cValue) {
-                        cData[lKey] = cValue;
-                    }
-                }
-            }
-            return cData;
-
-        };
-
         function defineProtoFormItem(me, parent, protoObj, protoIx) {
 
             var prLayout, template, __ptType, sDataType = _SM.typeOf(protoObj);
@@ -388,6 +346,7 @@ Ext.define('ProtoUL.UI.FormController', {
                     var myFld = myFieldDict[protoIx];
                     if (myFld) {
                         template = getTemplate(__ptType, true, myFld);
+
                         // FIX: Utiliser myField.autoNumericField
                         if (myFld.required && !myFld.fkId && me.newForm) {
                             template.__ptConfig.listeners.render = function(field) {
@@ -448,6 +407,7 @@ Ext.define('ProtoUL.UI.FormController', {
                     };
 
                 } else if (__ptType == 'protoGrid') {
+
                     if (_SM.loadPci(protoObj.viewCode, false)) {
 
                         template = getTemplate(__ptType, true);
@@ -484,6 +444,12 @@ Ext.define('ProtoUL.UI.FormController', {
 
                     prLayout.htlmFields = protoObj.items;
                     delete protoObj.__ptConfig.name;
+
+                } else if (__ptType == 'detailButton') {
+
+                    template = getTemplate(__ptType, true);
+                    prLayout = Ext.apply(template.__ptConfig, protoObj.__ptConfig);
+                    prLayout.minWidth = 100;
 
                 } else {
 
@@ -605,4 +571,4 @@ Ext.define('ProtoUL.UI.FormController', {
         };
 
     }
-});
+}); 

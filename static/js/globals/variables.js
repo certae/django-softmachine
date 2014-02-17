@@ -183,6 +183,9 @@ _SM.DesignerPanels = {
     }, {
         "text": "Details",
         "children": []
+    }, {
+        "text": "DetailsButtons",
+        "children": []
     }]
 };
 

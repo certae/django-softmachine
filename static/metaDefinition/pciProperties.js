@@ -16,6 +16,48 @@
 // La defincion de tipos es   xxx.type = [ 'boolean' | 'date' | 'string' | 'number' ] 
 
 
+function getSimpleProperties(oData, ptType) {
+    // Retorna los valores simples, verificando los tipos de cada propiedad
+
+    // Solo deben llegar objetos, si llega un array no hay props q mostrar
+    if (_SM.typeOf(oData) == 'array') {
+        return [];
+    }
+
+    // Inicializa con el type
+    var cData = {}, cValue;
+    
+    if (ptType) {
+        cData.__ptType = ptType;
+    }
+
+    for (var lKey in oData ) {
+        cValue = oData[lKey];
+
+        // Los objetos o arrays son la imagen del arbol y no deben ser tenidos en cuenta, generarian recursividad infinita
+        if (_SM.typeOf(cValue) in _SM.objConv(['object', 'array'])) {
+            continue;
+        }
+
+        // Si son valores codificados, los decodifica y los agrega
+        if ( lKey in _SM.objConv(['__ptValue', '__ptList'])) {
+            try {
+                cData = Ext.decode(cValue);
+            } catch (e) {
+                // console.log( "Error de encodage", cValue )
+            }
+
+        } else {
+            cValue = verifyPrpType(lKey, cValue);
+            if (cValue) {
+                cData[lKey] = cValue;
+            }
+        }
+    }
+    return cData;
+
+};
+
 function verifyPrpType(  lKey,  cValue ) {
     /* Verifica los tipos de las  propiedades
      * recibe el valor y el tipo y verifica si 
@@ -278,6 +320,9 @@ _MetaProperties =  {
     // none : Envia la accion sin QSet 
     // single : Exige un unico reg 
     // multiple : Exige al menos un reg       
-    "selectionMode.choices" : [ "none", "single", "multiple" ] 
+    "selectionMode.choices" : [ "none", "single", "multiple" ], 
+
+    "addDetailForm.help" : "Shortcut to the add form", 
+    "addDetailForm.type" : "boolean"
 
 };
