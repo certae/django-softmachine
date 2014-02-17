@@ -32,8 +32,6 @@ Ext.define('ProtoUL.ux.protoZoom', {
     
     // * Zoom initialization
     zoomModel: null, 
-    zommFilter : '', 
-
     zoomGrid : null, 
     zoomRecord: null, 
 
@@ -304,7 +302,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
     }, 
     
     setSelected: function  ( rowIndex, record, selModel) {
-        // @ZoonSelection 
+        // @ZoomSelection 
         
         var stBar = Ext.getCmp( this.idStBar ),
             me = this,  

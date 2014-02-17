@@ -490,31 +490,6 @@ Ext.define('ProtoUL.view.ProtoForm', {
             }
         }
 
-        function setDetDefaults(me, myDetGrid, record) {
-            var pDetail = myDetGrid.detailDefinition;
-            var nField = pDetail.detailField.replace(/__pk$/, '_id');
-
-            // Obtiene el campo de filtro ( heredado ), Si no hereda la llave, cancela la edicion
-            var myDetField = myDetGrid.myFieldDict[nField];
-            if (!myDetField) {
-                _SM.__StBar.showError('parent key not found: ' + nField, 'MasterDetail');
-                myDetGrid.setEditMode(false);
-                return;
-            }
-            myDetField['prpDefault'] = me.idMaster;
-
-            // Obtiene el titulo del filtro para heredarlo
-            nField = pDetail.masterTitleField || nField.replace(/_id$/, '');
-            var myTitleField = myDetGrid.myFieldDict[nField];
-            if (myTitleField && record) {
-                var masterTitleField = pDetail.masterTitleField || '__str__';
-                myTitleField['prpDefault'] = record.get(masterTitleField);
-                myTitleField['readOnly'] = true;
-
-                myDetGrid.detailTitle = myTitleField['prpDefault'];
-                myDetGrid.setGridTitle(myDetGrid);
-            }
-        }
 
     },
 

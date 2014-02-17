@@ -22,11 +22,12 @@ Ext.define('ProtoUL.UI.GridController', {
          *
          */
 
-        var me = this.myGrid, navPanel = ['-'];
-        var comboPageSize = new Ext.form.ComboBox({
+        var me = this.myGrid, navPanel = ['-'], myNavPanel, comboPageSize;
+
+        comboPageSize = Ext.form.ComboBox({
             name: 'perpage',
             width: 60,
-            store: new Ext.data.ArrayStore({
+            store: Ext.data.ArrayStore({
                 fields: ['id'],
                 data: _SM._ComboPageSize
             }),
@@ -59,7 +60,7 @@ Ext.define('ProtoUL.UI.GridController', {
 
         navPanel.push(comboPageSize, _SM.__language.GridNav_PageSize);
 
-        var myNavPanel = {
+        myNavPanel = {
             xtype: 'pagingtoolbar',
             border: false,
             dock: 'bottom',
@@ -146,8 +147,7 @@ Ext.define('ProtoUL.UI.GridController', {
 
     },
 
-
-    setToolMode: function ( myToolBt, bEdit) {
+    setToolMode: function(myToolBt, bEdit) {
         var myExtGrid = this.myGrid._extGrid;
 
         if (bEdit) {
@@ -155,12 +155,12 @@ Ext.define('ProtoUL.UI.GridController', {
         } else {
             myExtGrid.down(myToolBt).hide();
         }
-    }, 
+    },
 
     setEditMode: function(bEdit) {
 
         // @formatter:off
-        var me = this, 
+        var me = this, bRef,  record, stRec, 
             perms = _SM._UserInfo.perms[this.myMeta.viewCode], 
             myExtGrid = me.myGrid._extGrid;
         // @formatter:on
@@ -168,44 +168,47 @@ Ext.define('ProtoUL.UI.GridController', {
         if (!(perms['add'] || perms['change'] || perms['delete'] )) {
             return;
         }
-        // if ( ! _SM._UserInfo.isStaff  ) return
 
         this.myGrid.editable = bEdit;
 
-        var bRef = bEdit && me.myGrid.selected; 
-
-        if ( bRef ) { 
-            var record = me.myGrid.selected, 
-                stRec = record.get('_ptStatus'); 
-
-            bRef = ! (stRec && stRec === _SM._ROW_ST.REFONLY) ; 
+        bRef = bEdit && me.myGrid.selected;
+        if (bRef) {
+            record = me.myGrid.selected;
+            stRec = record.get('_ptStatus');
+            bRef = !(stRec && stRec === _SM._ROW_ST.REFONLY);
         }
 
-        this.setEditToolBar( bEdit, bRef, perms );
-
+        this.setEditToolBar(bEdit, bRef, perms);
 
     },
 
-    setEditToolBar: function( bEdit, bRef, perms ) {
+    setEditToolBar: function(bEdit, bRef, perms) {
 
-        var me = this; 
+        var me = this;
 
+        me.setToolMode('#toolRowCopy', bEdit && perms['add']);
+        me.setToolMode('#toolFormAdd', bEdit && perms['add']);
+
+        me.setToolMode('#toolFormUpd', bRef && perms['change']);
+        me.setToolMode('#toolFormView', !(bRef && perms['change'] ));
+
+        me.setToolMode('#toolRowDel', bRef && perms['delete']);
+
+        // Dont Delete
         // setToolMode ( myExtGrid, '#toolRowAdd', bEdit && perms['add'])
-        me.setToolMode('#toolRowCopy', bEdit && perms['add'] );
-        me.setToolMode('#toolFormAdd', bEdit && perms['add'] );
-
-        me.setToolMode('#toolFormUpd', bRef && perms['change'] );
-        me.setToolMode('#toolFormView', ! ( bRef && perms['change'] ));
-
-        me.setToolMode('#toolRowDel', bRef && perms['delete'] );
         // setToolMode ( myExtGrid, '#toolMetaConfig',  !bEdit );
 
-    }, 
-
+    },
 
     //  --------------------------------------------------------------------------
 
     onEditAction: function(ev, obj, head, btn) {
+
+        function doDelete(btn) {
+            if (btn === 'yes') {
+                me.myGrid.deleteCurrentRecord();
+            }
+        }
 
         if (!this.formController) {
             this.formController = Ext.create('ProtoUL.UI.FormController', {
@@ -252,24 +255,82 @@ Ext.define('ProtoUL.UI.GridController', {
 
             case 'toolRowDel' :
                 var me = this;
-                function doDelete(btn) {
-                    if (btn === 'yes') {
-                        me.myGrid.deleteCurrentRecord();
-                    }
-                }
-
-
                 Ext.MessageBox.confirm(_SM.__language.Title_Msg_Confirm_Delete, _SM.__language.Msg_Confirm_Delete_Operation, doDelete);
                 break;
         }
+
+        // Dont delete mask load ( form preview with mask?? )
         //function showLoadingMask()
-		// {
-		// 	loadText = 'Loading...';
-		// 	//Use the mask function on the Ext.getBody() element to mask the body element during Ajax calls
-		// 	Ext.getBody().mask(loadText, 'loading');
-		// 	Ext.Ajax.on('requestcomplete',Ext.getBody().unmask ,Ext.getBody());
-		// 	Ext.Ajax.on('requestexception', Ext.getBody().unmask , Ext.getBody());
-		// }
+        // {
+        // loadText = 'Loading...';
+        // //Use the mask function on the Ext.getBody() element to mask the body element during Ajax calls
+        //	Ext.getBody().mask(loadText, 'loading');
+        //	Ext.Ajax.on('requestcomplete',Ext.getBody().unmask ,Ext.getBody());
+        //	Ext.Ajax.on('requestexception', Ext.getBody().unmask , Ext.getBody());
+        // }
+    },
+
+    getDetailLink: function(detDefinition) {
+
+        var myGrid = this.myGrid, rowDataIx, detFilter, detTitle = '', masterTitleField;
+
+        // Filter
+        if (!myGrid.rowData) {
+            detFilter = [{
+                "property": detDefinition.detailField,
+                "filterStmt": -1
+            }];
+        } else {
+            // En caso de q el master no sea el pk
+            rowDataIx = me.idMasterGrid;
+            if (detDefinition.masterField !== 'pk') {
+                rowDataIx = myGrid.rowData[detDefinition.masterField];
+            }
+            detFilter = [{
+                "property": detDefinition.detailField,
+                "filterStmt": rowDataIx
+            }];
+        }
+
+        // Title
+        masterTitleField = detDefinition.masterTitleField || '__str__';
+        if (myGrid.rowData)
+            detTitle = myGrid.rowData[masterTitleField];
+
+        // Return
+        return {
+            'detFilter': detFilter,
+            'detTitle': detTitle
+        };
+
+    },
+
+    setDetailDefaults: function(detDefinition, detFieldDict) {
+
+        var myGrid = this.myGrid, 
+            rowData = myGrid.rowData, 
+            nField = detDefinition.detailField.replace(/__pk$/, '_id'), 
+            myDetField, myTitleField, masterTitleField;
+
+        // Obtiene el campo de filtro ( heredado ); Si no hereda la llave, cancela la edicion
+        myDetField = myDetGrid.detFieldDict[nField];
+        if (!myDetField || !rowData) {
+            // parent key not found' puede ocurrir en detalles de mas de un nivel
+            return;
+        }
+
+        // Master Id
+        myDetField['prpDefault'] = myGrid.currentId;
+
+        // Obtiene el titulo del filtro para heredarlo
+        nField = detDefinition.masterTitleField || nField.replace(/_id$/, '');
+        myTitleField = detFieldDict[nField];
+        if (myTitleField) {
+            masterTitleField = detDefinition.masterTitleField || '__str__';
+            myTitleField['prpDefault'] = rowData[masterTitleField];
+            myTitleField['readOnly'] = true;
+        }
+
     }
 
 });

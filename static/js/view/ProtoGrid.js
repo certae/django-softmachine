@@ -52,8 +52,7 @@ Ext.define('ProtoUL.view.ProtoGrid', {
         this.myFieldDict = _SM.getFieldDict(myMeta);
 
         // VErifica si el store viene como parametro ( Detail )
-        var baseFilter = [];
-        var myFilter = [];
+        var baseFilter = [], myFilter = [], storeDefinition;
 
         if (this.isDetail) {
             // Inicialmente la grilla esta en blanco hasta q linkDetail le entrega un maestro valido.
@@ -74,7 +73,7 @@ Ext.define('ProtoUL.view.ProtoGrid', {
             myFilter = this.initialFilter || myMeta.gridConfig.initialFilter;
         }
 
-        var storeDefinition = {
+        storeDefinition = {
             viewCode: this.viewCode,
             autoLoad: this.autoLoad || true,
 
@@ -221,7 +220,7 @@ Ext.define('ProtoUL.view.ProtoGrid', {
                             if (stRec === _SM._ROW_ST.NEWROW) {
                                 return stRec;
                             } else if (stRec === _SM._ROW_ST.REFONLY) {
-                                // No cambia el color 
+                                // No cambia el color
                                 return '';
                             } else {
                                 return _SM._ROW_ST.ERROR;
@@ -293,9 +292,11 @@ Ext.define('ProtoUL.view.ProtoGrid', {
 
                     if (this.selected) {
                         me.rowData = this.selected.data;
+                        me.currentId = me.rowData.get('id'); 
                         me.fireSelectionChange(selModel, this.selected, this.selected.index + 1, eOpts);
                     } else {
                         me.rowData = null;
+                        me.currentId = -1; 
                         me.fireSelectionChange(selModel, null, null, eOpts);
                     }
 
@@ -309,7 +310,7 @@ Ext.define('ProtoUL.view.ProtoGrid', {
                 fn: function(view, record, item) {
                     // Esto maneja los tooltip en las las filas
                     var msg = record.get('_ptStatus');
-                    if (msg == _SM._ROW_ST.NEWROW ||  msg == _SM._ROW_ST.REFONLY ) {
+                    if (msg == _SM._ROW_ST.NEWROW || msg == _SM._ROW_ST.REFONLY) {
                         msg = '';
                     }
 
@@ -446,27 +447,25 @@ Ext.define('ProtoUL.view.ProtoGrid', {
 
     fireSelectionChange: function(rowModel, record, rowIndex, eOpts) {
         this.fireEvent('selectionChange', rowModel, record, rowIndex, eOpts);
-        
-        // Condicionar los botones de edicion segun los permisos ( refAllow ) 
-        var perms = _SM._UserInfo.perms[ this.myMeta.viewCode ];  
-        if ( this.editable && record && perms['refallow'] ) {
-            this.verifyEdition( record, perms )
-       }   
-        
-        // Presenta la hoja de informacion en caso de q exista 
+
+        // Condicionar los botones de edicion segun los permisos ( refAllow )
+        var perms = _SM._UserInfo.perms[this.myMeta.viewCode];
+        if (this.editable && record && perms['refallow']) {
+            this.verifyEdition(record, perms)
+        }
+
+        // Presenta la hoja de informacion en caso de q exista
         if (this.IdeSheet) {
             this.sheetCrl.prepareSheet();
         }
     },
 
-    verifyEdition: function(record, perms ) {
-        var me = this, 
-            stRec = record.get('_ptStatus'), 
-            editRestr = (stRec && stRec === _SM._ROW_ST.REFONLY) ; 
+    verifyEdition: function(record, perms) {
+        var me = this, stRec = record.get('_ptStatus'), editRestr = (stRec && stRec === _SM._ROW_ST.REFONLY);
 
-        me.gridController.setEditToolBar( me.editable, !editRestr, perms  ); 
-             
-    }, 
+        me.gridController.setEditToolBar(me.editable, !editRestr, perms);
+
+    },
 
     fireStartEdition: function(editAction) {
         // this.fireEvent('startEdition', this , editAction );
@@ -537,11 +536,8 @@ Ext.define('ProtoUL.view.ProtoGrid', {
 
         // Configurar columnas de la grilla
         // Primero se borran todos exepto el check ( en vez de removeAll() )
-        
-        var hCt = this._extGrid.headerCt, 
-            removeItems = hCt.items.items.slice(), 
-            len0 = removeItems.length - 1, 
-            item, i;
+
+        var hCt = this._extGrid.headerCt, removeItems = hCt.items.items.slice(), len0 = removeItems.length - 1, item, i;
 
         this.suspendLayouts();
         for ( i = 0; i < len0; i++) {
@@ -628,9 +624,8 @@ Ext.define('ProtoUL.view.ProtoGrid', {
 
     getRowIndex: function() {
 
-        var sm = this._extGrid.getSelectionModel(), 
-            rowIndex = this.store.indexOf(sm.getSelection()[0]);
-            
+        var sm = this._extGrid.getSelectionModel(), rowIndex = this.store.indexOf(sm.getSelection()[0]);
+
         if (rowIndex < 0) {
             rowIndex = 0;
         }
@@ -690,9 +685,9 @@ Ext.define('ProtoUL.view.ProtoGrid', {
 
     // Grid toolbar editing controls
     addTools: function(myTools) {
-        if (typeof myTools != 'undefined'){
-        this._extGrid.addTool(myTools);
-    }
+        if ( typeof myTools != 'undefined') {
+            this._extGrid.addTool(myTools);
+        }
     }
 
 });
