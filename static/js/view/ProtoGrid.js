@@ -292,7 +292,7 @@ Ext.define('ProtoUL.view.ProtoGrid', {
 
                     if (this.selected) {
                         me.rowData = this.selected.data;
-                        me.currentId = me.rowData.get('id'); 
+                        me.currentId = me.selected.get('id'); 
                         me.fireSelectionChange(selModel, this.selected, this.selected.index + 1, eOpts);
                     } else {
                         me.rowData = null;

@@ -24,10 +24,10 @@ Ext.define('ProtoUL.UI.GridController', {
 
         var me = this.myGrid, navPanel = ['-'], myNavPanel, comboPageSize;
 
-        comboPageSize = Ext.form.ComboBox({
+        comboPageSize = new Ext.form.ComboBox({
             name: 'perpage',
             width: 60,
-            store: Ext.data.ArrayStore({
+            store: new Ext.data.ArrayStore({
                 fields: ['id'],
                 data: _SM._ComboPageSize
             }),
@@ -268,70 +268,8 @@ Ext.define('ProtoUL.UI.GridController', {
         //	Ext.Ajax.on('requestcomplete',Ext.getBody().unmask ,Ext.getBody());
         //	Ext.Ajax.on('requestexception', Ext.getBody().unmask , Ext.getBody());
         // }
-    },
-
-    getDetailLink: function(detDefinition) {
-
-        var myGrid = this.myGrid, rowDataIx, detFilter, detTitle = '', masterTitleField;
-
-        // Filter
-        if (!myGrid.rowData) {
-            detFilter = [{
-                "property": detDefinition.detailField,
-                "filterStmt": -1
-            }];
-        } else {
-            // En caso de q el master no sea el pk
-            rowDataIx = me.idMasterGrid;
-            if (detDefinition.masterField !== 'pk') {
-                rowDataIx = myGrid.rowData[detDefinition.masterField];
-            }
-            detFilter = [{
-                "property": detDefinition.detailField,
-                "filterStmt": rowDataIx
-            }];
-        }
-
-        // Title
-        masterTitleField = detDefinition.masterTitleField || '__str__';
-        if (myGrid.rowData)
-            detTitle = myGrid.rowData[masterTitleField];
-
-        // Return
-        return {
-            'detFilter': detFilter,
-            'detTitle': detTitle
-        };
-
-    },
-
-    setDetailDefaults: function(detDefinition, detFieldDict) {
-
-        var myGrid = this.myGrid, 
-            rowData = myGrid.rowData, 
-            nField = detDefinition.detailField.replace(/__pk$/, '_id'), 
-            myDetField, myTitleField, masterTitleField;
-
-        // Obtiene el campo de filtro ( heredado ); Si no hereda la llave, cancela la edicion
-        myDetField = myDetGrid.detFieldDict[nField];
-        if (!myDetField || !rowData) {
-            // parent key not found' puede ocurrir en detalles de mas de un nivel
-            return;
-        }
-
-        // Master Id
-        myDetField['prpDefault'] = myGrid.currentId;
-
-        // Obtiene el titulo del filtro para heredarlo
-        nField = detDefinition.masterTitleField || nField.replace(/_id$/, '');
-        myTitleField = detFieldDict[nField];
-        if (myTitleField) {
-            masterTitleField = detDefinition.masterTitleField || '__str__';
-            myTitleField['prpDefault'] = rowData[masterTitleField];
-            myTitleField['readOnly'] = true;
-        }
-
     }
+
 
 });
 

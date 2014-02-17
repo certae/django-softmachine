@@ -24,43 +24,43 @@
 /*global _SM */
 
 Ext.define('ProtoUL.view.ProtoForm', {
-    extend : 'Ext.form.Panel',
-    alias : 'widget.protoform',
+    extend: 'Ext.form.Panel',
+    alias: 'widget.protoform',
 
-    requires : ['Ext.form.field.Text', 'Ext.form.*', 'Ext.data.*', 'Ext.tip.QuickTipManager'],
+    requires: ['Ext.form.field.Text', 'Ext.form.*', 'Ext.data.*', 'Ext.tip.QuickTipManager'],
 
     //@myMeta   Base Definition
-    myMeta : null,
+    myMeta: null,
 
     // Default value
-    newForm : false,
+    newForm: false,
 
     //@formConfig  Objeto correspondiente a la forma en la meta ( forma parte de la meta )
-    formConfig : null,
+    formConfig: null,
 
     //@prFormLayout  :  Componentes de la forma ( Itmems del arbol )
-    prFormLayout : [],
+    prFormLayout: [],
 
     // Mantiene el IdMaster para las operaciones maestro detalle
-    idMaster : -1,
-    masterRecord : null,
-    masterDetail : false,
-    isReadOnly : false,
+    idMaster: -1,
+    masterRecord: null,
+    masterDetail: false,
+    isReadOnly: false,
 
     //@ Store asociado al registro de entrada linked o independiente
-    store : null,
+    store: null,
 
     // Coleccion de campos html definidos en htmlSet
-    cllDetails : [],
-    htmlPanels : {},
+    cllDetGrids: [],
+    htmlPanels: {},
 
     // Defne como manejar  maneja los campos heredados de los zoom
-    zoomReturnDef : null,
+    zoomReturnDef: null,
 
     // Coleccion con los retornos
-    zoomMultiReturn : [],
+    zoomMultiReturn: [],
 
-    initComponent : function() {
+    initComponent: function() {
         this.addEvents('create', 'close', 'hide');
 
         var me = this;
@@ -71,51 +71,54 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         this.btSave = Ext.create('Ext.Button', {
             //          id : this.idSaveBt,
-            iconCls : 'icon-saveMs',
-            text : _SM.__language.Text_SaveMs_Button,
-            scope : this,
-            handler : this.onSave
+            iconCls: 'icon-saveMs',
+            text: _SM.__language.Text_SaveMs_Button,
+            scope: this,
+            handler: this.onSave
         });
 
         this.btSaveDet = Ext.create('Ext.Button', {
             //            id :  this.idSaveBtDt,
-            iconCls : 'icon-saveDt',
-            text : _SM.__language.Text_SaveDt_Button,
-            hidden : true,
-            disabled : true,
-            scope : this,
-            handler : this.onSaveDet
+            iconCls: 'icon-saveDt',
+            text: _SM.__language.Text_SaveDt_Button,
+            hidden: true,
+            disabled: true,
+            scope: this,
+            handler: this.onSaveDet
         });
 
         this.btCancelFormEdt = Ext.create('Ext.Button', {
             //            id :  this.idSCancel,
-            iconCls : 'icon-cancel',
-            text : _SM.__language.Text_Cancel_Button,
-            scope : this,
-            handler : this.onReset
+            iconCls: 'icon-cancel',
+            text: _SM.__language.Text_Cancel_Button,
+            scope: this,
+            handler: this.onReset
         });
 
         this.stMsg = Ext.create('Ext.toolbar.TextItem');
 
         Ext.apply(this, {
-            frame : true,
-            autoScroll : true,
+            frame: true,
+            autoScroll: true,
 
-            bodyStyle : 'padding:5px 5px',
-            bodyPadding : 10,
-            masterRecord : null,
-            items : this.prFormLayout,
+            bodyStyle: 'padding:5px 5px',
+            bodyPadding: 10,
+            masterRecord: null,
+            items: this.prFormLayout,
 
-            dockedItems : [{
-                xtype : 'toolbar',
-                dock : 'bottom',
-                ui : 'footer',
-                items : [this.stMsg, '->', this.btSave, this.btSaveDet, this.btCancelFormEdt]
+            dockedItems: [{
+                xtype: 'toolbar',
+                dock: 'bottom',
+                ui: 'footer',
+                items: [this.stMsg, '->', this.btSave, this.btSaveDet, this.btCancelFormEdt]
             }]
 
         });
 
         this.callParent();
+
+        //
+        this.linkController = Ext.create('ProtoUL.UI.MDLinkController', {});
 
         // obtiene la coleccion de panles html para su manipulacion
         this.getHtmlPanels();
@@ -127,11 +130,11 @@ Ext.define('ProtoUL.view.ProtoForm', {
         };
 
         // Obtiene los store de las grillas dependientes y asigna el listener startEdition
-        this.cllDetails = getDetails(me.items.items, me);
-        if (this.cllDetails.length > 0) {
+        this.cllDetGrids = getDetails(me.items.items, me);
+        if (this.cllDetGrids.length > 0) {
             this.masterDetail = true;
             this.btSaveDet.show();
-            asignaDetailDefinition(me, me.cllDetails);
+            asignaDetailDefinition(me, me.cllDetGrids);
         }
 
         // Lo genera de nuevo, quedaban componentes mal ubicados
@@ -139,18 +142,18 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         function getDetails(prItems, me) {
             // Obtiene los store de las grillas recursivamente
-            var cllDetails = [], lGrid, ixV;
+            var cllDetGrids = [], lGrid, ixV;
             for (ixV in prItems ) {
                 lGrid = prItems[ixV];
                 if (lGrid.__ptType == "protoGrid") {
                     if (lGrid.myMeta) {
-                        cllDetails.push(lGrid);
+                        cllDetGrids.push(lGrid);
                     };
                 } else if (lGrid.items && lGrid.items.items) {
-                    cllDetails = cllDetails.concat(getDetails(lGrid.items.items, me));
+                    cllDetGrids = cllDetGrids.concat(getDetails(lGrid.items.items, me));
                 }
             }
-            return cllDetails;
+            return cllDetGrids;
         };
 
         function getBtDetails(prItems, me) {
@@ -169,40 +172,41 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         function asignaDetailDefinition(me, cllDets) {
             // Indexa los stores con la info de los detalles copiando la info del detalle
-            var lObj, lDet, ix;
+            var lObj, lDet, ix, ixD;
             for (ix in cllDets ) {
                 lObj = cllDets[ix];
-                for (var ixD in me.myMeta.detailsConfig ) {
+                for (ixD in me.myMeta.detailsConfig ) {
                     lDet = me.myMeta.detailsConfig[ixD];
-                    if (lObj.viewCode == lDet.conceptDetail) {
+                    if (lObj.viewCode === lDet.conceptDetail) {
                         lObj.detailDefinition = lDet;
                     }
                 }
-            };
+            }
         }
 
     },
 
-    setDetailsTilte : function() {
-        for (var ix in this.cllDetails ) {
-            var lGrid = this.cllDetails[ix];
+    setDetailsTilte: function() {
+        var ix;
+        for (ix in this.cllDetGrids ) {
+            var lGrid = this.cllDetGrids[ix];
             lGrid.embededGrid = true;
             lGrid.setGridTitle(lGrid);
         };
     },
 
-    showProtoForm : function() {
+    showProtoForm: function() {
         _SM.showConfig('Form Config', this.myMeta.formConfig);
     },
 
-    showLayoutConfig : function() {
+    showLayoutConfig: function() {
         _SM.showConfig('LayoutConfig', this.prFormLayout);
     },
 
-    updateHtmlPanels : function(record) {
-        var sHtml;
-        for (var ix in this.htmlPanels  ) {
-            var obj = this.htmlPanels[ix];
+    updateHtmlPanels: function(record) {
+        var sHtml, ix, obj;
+        for (ix in this.htmlPanels  ) {
+            obj = this.htmlPanels[ix];
             if (record) {
                 sHtml = record.get(ix);
             } else {
@@ -213,9 +217,10 @@ Ext.define('ProtoUL.view.ProtoForm', {
         }
     },
 
-    readHtmlPanels : function(record) {
-        for (var ix in this.htmlPanels  ) {
-            var obj = this.htmlPanels[ix];
+    readHtmlPanels: function(record) {
+        var ix, obj;
+        for (ix in this.htmlPanels  ) {
+            obj = this.htmlPanels[ix];
             record.set(ix, obj.rawHtml);
         }
     },
@@ -231,33 +236,34 @@ Ext.define('ProtoUL.view.ProtoForm', {
     // }
     // },
 
-    setText : function(sText) {
+    setText: function(sText) {
         this.stMsg.setText(sText);
     },
 
-    onReset : function() {
+    onReset: function() {
         // this.setActiveRecord(null);
         // this.getForm().reset();
         this.idMaster = null;
         this.fireEvent('close', this);
     },
 
-    updateZoomIds : function() {
+    updateZoomIds: function() {
 
         // La info del zoom permanece en el campo fk, es necesario actualizar el registro
         // antes de guardarlo, TODO: esto se podria hacer en el zoomReturn ( cpFromField ) para actualzar
         // otros campos derivados del zoom.
 
-        var me = this, lFields = me.getForm().getFields().items;
+        var me = this, lFields = me.getForm().getFields().items, ix, zoomField;
 
         // inicializa me.zoomMultiReturn
         me.zoomMultiReturn = null;
 
         // Manejo del retorno del zoom
-        for (var ix in lFields  ) {
-            var zoomField = lFields[ix];
-            if (!zoomField.zoomModel)
+        for (ix in lFields  ) {
+            zoomField = lFields[ix];
+            if (!zoomField.zoomModel) {
                 continue;
+            }
 
             // Verifica los campos multizoom
             if (zoomField.zoomMultiple && me.newForm) {
@@ -282,7 +288,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
     },
 
-    updateFormField : function(fldName, fldValue) {
+    updateFormField: function(fldName, fldValue) {
         var lRec = {};
         lRec[fldName] = fldValue;
         this.getForm().setValues(lRec);
@@ -294,7 +300,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
         }
     },
 
-    onCreate : function() {
+    onCreate: function() {
         var form = this.getForm();
 
         if (form.isValid()) {
@@ -338,7 +344,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
      },
      */
 
-    setFormReadOnly : function(bReadOnly) {
+    setFormReadOnly: function(bReadOnly) {
 
         // por defecto viene editable
         this.isReadOnly = bReadOnly;
@@ -353,24 +359,23 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
     },
 
-    setDetailsReadOnly : function(bReadOnly) {
+    setDetailsReadOnly: function(bReadOnly) {
         var lObj, ix;
-        for (ix in this.cllDetails  ) {
-            lObj = this.cllDetails[ix];
+        for (ix in this.cllDetGrids  ) {
+            lObj = this.cllDetGrids[ix];
             lObj.setEditMode(!bReadOnly);
         }
     },
 
-    setReadOnlyFields : function(bReadOnly, readOnlyFields) {
+    setReadOnlyFields: function(bReadOnly, readOnlyFields) {
         /*
         * @bReadOnly indica q toda la forma es readOnly, podria servir para prender y apagar el readOnly
         * FIX: Una mascara seria mejor
         */
 
         // var readOnlyCls = 'protofield-readonly'
-        var myFields = this.getForm().getFields();
-        var obj;
-        for (var ix in myFields.items   ) {
+        var myFields = this.getForm().getFields(), obj, ix, fDef;
+        for (ix in myFields.items   ) {
             obj = myFields.items[ix];
             if (obj.readOnly) {
                 obj.setReadOnly(true);
@@ -378,12 +383,10 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 // El obj no es readOnly pero la forma si, se podria poner una mascara, pero q pasa con el zoom
                 obj.setReadOnly(bReadOnly);
             }
-            ;
-        };
+        }
 
         // Recorre los htmlPanels
-        var fDef;
-        for (var ix in this.htmlPanels  ) {
+        for (ix in this.htmlPanels  ) {
             obj = this.htmlPanels[ix];
             fDef = obj.__ptConfig;
 
@@ -392,11 +395,10 @@ Ext.define('ProtoUL.view.ProtoForm', {
             } else if (!readOnlyFields || (fDef.name in _SM.objConv(readOnlyFields)  )) {
                 obj.setReadOnly(bReadOnly);
             }
-            ;
         }
     },
 
-    getHtmlPanels : function() {
+    getHtmlPanels: function() {
         // Busca si tiene htmlSets podria agregarse los paneles como campos,
         // los paneles al interior deberian heredar de  'Ext.form.field.Base' y mezclar Ext.form.Basic
         // setear propiedad  isFormField : true
@@ -405,13 +407,13 @@ Ext.define('ProtoUL.view.ProtoForm', {
         getHtmlPanelDefinition(this.items.items, this);
 
         function getHtmlPanelDefinition(formItems, me) {
-            var vFld;
-            for (var ix in formItems   ) {
+            var vFld, ix;
+            for (ix in formItems   ) {
                 vFld = formItems[ix];
 
-                if (vFld.xtype == "htmlset") {
+                if (vFld.xtype === "htmlset") {
                     Ext.apply(me.htmlPanels, vFld.htmlPanels);
-                } else if (vFld.xtype == "fieldset") {
+                } else if (vFld.xtype === "fieldset") {
                     getHtmlPanelDefinition(vFld.items.items, me);
                 }
             }
@@ -419,12 +421,13 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
     },
 
-    setActiveRecord : function(record) {
+    setActiveRecord: function(record) {
         var me = this;
         this.masterRecord = record;
         this.store = record.store;
-        if (record && !record.phantom)
+        if (record && !record.phantom) {
             this.idMaster = record.get('id');
+        }
 
         if (record) {
             this.getForm().loadRecord(record);
@@ -442,7 +445,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         // -------------------------------------------------- --------  evento del store
         this.store.on({
-            update : function(store, record, operation, eOpts) {
+            update: function(store, record, operation, eOpts) {
                 // console.log ( record , this.masterDetail  )
                 if (record && this.masterDetail) {
                     this.idMaster = record.get('id');
@@ -452,65 +455,60 @@ Ext.define('ProtoUL.view.ProtoForm', {
                     this.setDetailsReadOnly(false);
                 }
             },
-            scope : me
+            scope: me
         });
     },
 
-    enableDetailButtons : function(record) {
+    enableDetailButtons: function(record) {
         var lObj, ix, me = this;
 
-        for (var ix in me.cllBtDetails  ) {
-            var lObj = me.cllBtDetails[ix];
+        for (ix in me.cllBtDetails  ) {
+            lObj = me.cllBtDetails[ix];
 
-            if (me.idMaster >= 0 ) {
-                lObj.setMasterRecord(me.myMeta, record, me.isReadOnly );
+            if (me.idMaster >= 0) {
+                lObj.setMasterRecord(me.myMeta, record, me.isReadOnly);
             };
         }
     },
 
-    linkDetail : function(record) {
+    linkDetail: function(record) {
         if (!this.masterDetail) {
             return;
         }
-        var lGrid, detField, myFilter, protoFilter;
-        for (var ixDet in this.cllDetails ) {
-            lGrid = this.cllDetails[ixDet];
-            detField = lGrid.detailDefinition.detailField;
-            myFilter = {};
+        
+        var me = this, lGrid, detailLink, ixDet;
+        me.linkController.setMasterData( record.data );
 
-            protoFilter = [{
-                "property" : detField,
-                "filterStmt" : this.idMaster
-            }];
-            lGrid.store.myLoadData(protoFilter, null, this.idMaster);
+        for (ixDet in me.cllDetGrids ) {
+            lGrid = me.cllDetGrids[ixDet];
+            detailLink = me.linkController.getDetailLink( lGrid.detailDefinition );
+            lGrid.store.myLoadData(detailLink.detFilter, null, me.idMaster);
 
-            if (this.idMaster >= 0 && (!this.isReadOnly )) {
-                lGrid.setEditMode(!this.isReadOnly);
-                setDetDefaults(this, lGrid, record);
+            if (me.idMaster >= 0 && (!me.isReadOnly )) {
+                lGrid.setEditMode(!me.isReadOnly);
+                me.linkController.setDetailDefaults( lGrid.detailDefinition, lGrid.myFieldDict );
             }
         }
 
-
     },
 
-    _doSyncMasterStore : function() {
+    _doSyncMasterStore: function() {
         this.store.sync({
-            success : function(result, request) {
-                var myReponse = result.operations[0].response;
-                var myResult = Ext.decode(myReponse.responseText);
+            success: function(result, request) {
+                var myReponse = result.operations[0].response, myResult = Ext.decode(myReponse.responseText);
                 if (myResult.message) {
                     _SM.errorMessage(_SM.__language.Msg_Error_Save_Form, myResult.message);
-                } else {
-                    // me.fireEvent('close', me );
                 }
+                // else { me.fireEvent('close', me );}
             },
-            failure : function(result, request) {
+            failure: function(result, request) {
                 _SM.errorMessage(_SM.__language.Msg_Error_Save_Form, _SM.__language.Msg_Failed_Operation);
             }
+
         });
     },
 
-    onSaveDet : function() {
+    onSaveDet: function() {
         /*  El guardado se hace en varios ciclos.
          - Se requiere tener un maestro,
          si es upd, el maestro ya existe los defectos se sinclronizan
@@ -528,7 +526,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
     },
 
-    onSave : function() {
+    onSave: function() {
 
         var me = this, tmpAutoSync = me.store.autoSync, form = me.getForm();
 
@@ -559,15 +557,16 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 me.store.autoSync = false;
 
                 // Variable para alojar los retornos multiples
-                var lProduct = _SM.Product(me.zoomMultiReturn);
-                var lBase, lRec, lZRet;
-                for (var ix in lProduct ) {
+                var lProduct = _SM.Product(me.zoomMultiReturn), 
+                    lBase, lRec, lZRet, ix, iz;
+                    
+                for (ix in lProduct ) {
 
                     // Producto Cartersiano de multiReturn
                     lBase = lProduct[ix];
                     lRec = me.masterRecord.copy();
 
-                    for (var iz in lBase   ) {
+                    for (iz in lBase   ) {
                         lZRet = lBase[iz];
                         lRec.data[lZRet.name] = lZRet.recStr;
                         lRec.data[lZRet.fkId] = lZRet.recId;
@@ -597,16 +596,17 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
     },
 
-    setZoomEditMode : function(me) {
+    setZoomEditMode: function(me) {
         // Para determinar el comportamiento del zoom de seleccion multiple
 
-        var lFields = me.getForm().getFields().items;
+        var lFields = me.getForm().getFields().items, ix;
 
         // Manejo del retorno del zoom
-        for (var ix in lFields  ) {
-            if (lFields[ix].xtype = 'protoZoom') {
+        for (ix in lFields  ) {
+            if (lFields[ix].xtype === 'protoZoom') {
                 lFields[ix].newForm = me.newForm;
             }
         }
     }
+
 });

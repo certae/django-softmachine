@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//src/protoLib/protoActionList.py=utf-8
 encoding//src/protoLib/protoActions.py=utf-8
 encoding//src/protoLib/protoGetPci.py=utf-8
 encoding//src/protoLib/utilsBase.py=utf-8
