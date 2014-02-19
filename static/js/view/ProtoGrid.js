@@ -3,41 +3,41 @@
 /*global _SM */
 
 Ext.define('ProtoUL.view.ProtoGrid', {
-    extend: 'Ext.Panel',
-    alias: 'widget.protoGrid',
-    requires: ['Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.selection.CheckboxModel', 'Ext.toolbar.TextItem'],
+    extend : 'Ext.Panel',
+    alias : 'widget.protoGrid',
+    requires : ['Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.selection.CheckboxModel', 'Ext.toolbar.TextItem'],
     // iconCls: 'icon-grid',
 
-    height: 200,
-    viewCode: null,
+    height : 200,
+    viewCode : null,
 
     // Internals
-    myMeta: null,
+    myMeta : null,
 
     // Selection model
-    selModel: null,
-    rowData: null,
+    selModel : null,
+    rowData : null,
 
     // Navegacion
-    isDetail: false,
-    isPromoted: false,
-    mdFilter: [],
-    initialFilter: null,
-    embededGrid: false,
+    isDetail : false,
+    isPromoted : false,
+    mdFilter : [],
+    initialFilter : null,
+    embededGrid : false,
 
     // Para guardar la definicion de cols al cambiar de tabs
-    colDictDefinition: {},
-    colSetName: '',
-    colSetDefinition: [],
-    colSetCache: {},
+    colDictDefinition : {},
+    colSetName : '',
+    colSetDefinition : [],
+    colSetCache : {},
 
-    initComponent: function() {
+    initComponent : function() {
 
         var me = this;
 
         if (! _SM.loadPci(this.viewCode, false)) {
             Ext.apply(this, {
-                title: this.viewCode + ' Not found!'
+                title : this.viewCode + ' Not found!'
             });
             this.callParent(arguments);
             _SM.errorMessage('initGrid', this.viewCode + ' not found!!');
@@ -52,15 +52,14 @@ Ext.define('ProtoUL.view.ProtoGrid', {
         this.myFieldDict = _SM.getFieldDict(myMeta);
 
         // VErifica si el store viene como parametro ( Detail )
-        var baseFilter = [];
-        var myFilter = [];
+        var baseFilter = [], myFilter = [], storeDefinition;
 
         if (this.isDetail) {
             // Inicialmente la grilla esta en blanco hasta q linkDetail le entrega un maestro valido.
             baseFilter = myMeta.gridConfig.baseFilter;
             myFilter = [{
-                "property": this.detailDefinition.detailField,
-                "filterStmt": -1
+                "property" : this.detailDefinition.detailField,
+                "filterStmt" : -1
             }];
 
         } else if (this.isPromoted) {
@@ -74,18 +73,18 @@ Ext.define('ProtoUL.view.ProtoGrid', {
             myFilter = this.initialFilter || myMeta.gridConfig.initialFilter;
         }
 
-        var storeDefinition = {
-            viewCode: this.viewCode,
-            autoLoad: this.autoLoad || true,
+        storeDefinition = {
+            viewCode : this.viewCode,
+            autoLoad : this.autoLoad || true,
 
-            pageSize: myMeta.pageSize || _SM._PAGESIZE,
-            localSort: myMeta.localSort,
+            pageSize : myMeta.pageSize || _SM._PAGESIZE,
+            localSort : myMeta.localSort,
 
             // proxy.extraParams, siempre deben ser string
-            baseFilter: baseFilter,
-            protoFilter: myFilter,
-            sorters: myMeta.gridConfig.initialSort,
-            sProtoMeta: _SM.getSafeMeta(myMeta)
+            baseFilter : baseFilter,
+            protoFilter : myFilter,
+            sorters : myMeta.gridConfig.initialSort,
+            sProtoMeta : _SM.getSafeMeta(myMeta)
         };
 
         // ---------------------------------------------------------
@@ -136,8 +135,8 @@ Ext.define('ProtoUL.view.ProtoGrid', {
         }
 
         this.selModel = Ext.create('Ext.selection.CheckboxModel', {
-            injectCheckbox: checkCtrl,
-            mode: this.gridSelectionMode
+            injectCheckbox : checkCtrl,
+            mode : this.gridSelectionMode
         });
 
         this.editable = false;
@@ -152,28 +151,28 @@ Ext.define('ProtoUL.view.ProtoGrid', {
             me.store = _SM.getStoreDefinition(storeDefinition);
 
             grid = Ext.create('Ext.grid.Panel', {
-                border: false,
-                region: 'center',
-                flex: 1,
-                layout: 'fit',
-                minSize: 50,
+                border : false,
+                region : 'center',
+                flex : 1,
+                layout : 'fit',
+                minSize : 50,
                 // plugins: [    'headertooltip', this.rowEditing ],
-                plugins: ['headertooltip'],
+                plugins : ['headertooltip'],
 
-                selModel: this.selModel,
-                columns: gridColumns,
-                store: this.store,
-                stripeRows: true,
+                selModel : this.selModel,
+                columns : gridColumns,
+                store : this.store,
+                stripeRows : true,
 
                 // Tools  ( necesario para AddTools )
-                tools: [],
+                tools : [],
 
-                viewConfig: {
+                viewConfig : {
                     // Manejo de rows y cells
 
-                    listeners: {
+                    listeners : {
 
-                        cellclick: function(view, cell, cellIndex, record, row, rowIndex, e) {
+                        cellclick : function(view, cell, cellIndex, record, row, rowIndex, e) {
                             // Esto maneja los vinculos en los campos
                             var linkClicked = (e.target.tagName == 'A');
                             var clickedDataIndex = view.panel.headerCt.getHeaderAtIndex(cellIndex).dataIndex;
@@ -189,7 +188,7 @@ Ext.define('ProtoUL.view.ProtoGrid', {
                                         // Si es el mismo registro lo llama como un upd
                                         // xxx.call Redefine el scope
                                         var formController = Ext.create('ProtoUL.UI.FormController', {
-                                            myMeta: me.myMeta
+                                            myMeta : me.myMeta
                                         });
 
                                         formController.openLinkedForm.call(formController, me.selected, !me.editable);
@@ -211,17 +210,16 @@ Ext.define('ProtoUL.view.ProtoGrid', {
                                 }
                             }
                         }
-
                     },
 
-                    getRowClass: function(record, rowIndex, rowParams, store) {
+                    getRowClass : function(record, rowIndex, rowParams, store) {
                         //    Esto permite marcar los registros despues de la actualizacion
                         var stRec = record.get('_ptStatus');
                         if (stRec) {
                             if (stRec === _SM._ROW_ST.NEWROW) {
                                 return stRec;
                             } else if (stRec === _SM._ROW_ST.REFONLY) {
-                                // No cambia el color 
+                                // No cambia el color
                                 return '';
                             } else {
                                 return _SM._ROW_ST.ERROR;
@@ -230,7 +228,6 @@ Ext.define('ProtoUL.view.ProtoGrid', {
                             return '';
                         }
                     }
-
                 }
 
             });
@@ -247,15 +244,15 @@ Ext.define('ProtoUL.view.ProtoGrid', {
             this.gridController.store = this.store;
         } else {
             this.gridController = Ext.create('ProtoUL.UI.GridController', {
-                myMeta: myMeta,
-                myGrid: this,
-                store: this.store
+                myMeta : myMeta,
+                myGrid : this,
+                store : this.store
             });
         }
         this.gridController.addGridTools();
 
         this.sheetCrl = Ext.create('ProtoUL.UI.GridSheetController', {
-            myGrid: this
+            myGrid : this
         });
 
         // ---
@@ -267,13 +264,13 @@ Ext.define('ProtoUL.view.ProtoGrid', {
         }
 
         Ext.apply(this, {
-            layout: 'border',
-            border: false,
-            defaults: {
-                collapsible: false,
-                split: false
+            layout : 'border',
+            border : false,
+            defaults : {
+                collapsible : false,
+                split : false
             },
-            items: myItems
+            items : myItems
         });
 
         this.addEvents('selectionChange', 'rowDblClick', 'promoteDetail', 'startEdition');
@@ -286,42 +283,44 @@ Ext.define('ProtoUL.view.ProtoGrid', {
             // me.fireSelectionChange( rowModel , record,  rowIndex,  eOpts   );
             // }, scope: this },
 
-            selectionchange: {
-                fn: function(selModel, selected, eOpts) {
+            selectionchange : {
+                fn : function(selModel, selected, eOpts) {
                     // Expone la fila seleccionada.
                     this.selected = selected[0] || null;
 
                     if (this.selected) {
                         me.rowData = this.selected.data;
+                        me.currentId = me.selected.get('id');
                         me.fireSelectionChange(selModel, this.selected, this.selected.index + 1, eOpts);
                     } else {
                         me.rowData = null;
+                        me.currentId = -1;
                         me.fireSelectionChange(selModel, null, null, eOpts);
                     }
 
                     // Si hay botones o eltos de la interface a modificar
                     // grid4.down('#removeButton').setDisabled(selections.length == 0);
                 },
-                scope: this
+                scope : this
             },
 
-            itemmouseenter: {
-                fn: function(view, record, item) {
+            itemmouseenter : {
+                fn : function(view, record, item) {
                     // Esto maneja los tooltip en las las filas
                     var msg = record.get('_ptStatus');
-                    if (msg == _SM._ROW_ST.NEWROW ||  msg == _SM._ROW_ST.REFONLY ) {
+                    if (msg == _SM._ROW_ST.NEWROW || msg == _SM._ROW_ST.REFONLY) {
                         msg = '';
                     }
 
                     // Asigna un tooltip a la fila, pero respeta los de cada celda y los de los Actiosn
                     Ext.fly(item).set({
-                        'data-qtip': msg
+                        'data-qtip' : msg
                     });
 
                     // Dgt :  Este tooltip evita las actions columns
                     // Ext.fly(item).select('.x-grid-cell:not(.x-action-col-cell)').set({'data-qtip': 'My tooltip: ' + record.get('name')});
                 },
-                scope: this
+                scope : this
             },
 
             // Para manejar aciones por teclas, ie  ^I Insertar, etc ....
@@ -331,8 +330,8 @@ Ext.define('ProtoUL.view.ProtoGrid', {
             // }
             // },
 
-            celldblclick: {
-                fn: function(tbl, el, cellIndex, record, tr, rowIndex, e, eOpts) {
+            celldblclick : {
+                fn : function(tbl, el, cellIndex, record, tr, rowIndex, e, eOpts) {
                     // para seleccionar en el zoom
                     // Si esta en modo edicion no dispara nada para permitir entrar al editor
                     if (me.editable) {
@@ -350,7 +349,7 @@ Ext.define('ProtoUL.view.ProtoGrid', {
 
                     me.fireEvent('rowDblClick', record, rowIndex);
                 },
-                scope: me
+                scope : me
             }
 
             //   E D I C I O N  directa en la GRILLA   --------------------------------------------
@@ -432,10 +431,10 @@ Ext.define('ProtoUL.view.ProtoGrid', {
 
             // Crea el rowNumber
             gCol = {
-                xtype: 'rownumberer',
-                width: 37,
-                draggable: false,
-                sortable: false
+                xtype : 'rownumberer',
+                width : 37,
+                draggable : false,
+                sortable : false
             };
             // locked: true, lockable: false }
             me.colDictDefinition['___numberCol'] = gCol;
@@ -444,35 +443,33 @@ Ext.define('ProtoUL.view.ProtoGrid', {
 
     },
 
-    fireSelectionChange: function(rowModel, record, rowIndex, eOpts) {
+    fireSelectionChange : function(rowModel, record, rowIndex, eOpts) {
         this.fireEvent('selectionChange', rowModel, record, rowIndex, eOpts);
-        
-        // Condicionar los botones de edicion segun los permisos ( refAllow ) 
-        var perms = _SM._UserInfo.perms[ this.myMeta.viewCode ];  
-        if ( this.editable && record && perms['refallow'] ) {
-            this.verifyEdition( record, perms )
-       }   
-        
-        // Presenta la hoja de informacion en caso de q exista 
+
+        // Condicionar los botones de edicion segun los permisos ( refAllow )
+        var perms = _SM._UserInfo.perms[this.myMeta.viewCode];
+        if (this.editable && record && perms['refallow']) {
+            this.verifyEdition(record, perms)
+        }
+
+        // Presenta la hoja de informacion en caso de q exista
         if (this.IdeSheet) {
             this.sheetCrl.prepareSheet();
         }
     },
 
-    verifyEdition: function(record, perms ) {
-        var me = this, 
-            stRec = record.get('_ptStatus'), 
-            editRestr = (stRec && stRec === _SM._ROW_ST.REFONLY) ; 
+    verifyEdition : function(record, perms) {
+        var me = this, stRec = record.get('_ptStatus'), editRestr = (stRec && stRec === _SM._ROW_ST.REFONLY);
 
-        me.gridController.setEditToolBar( me.editable, !editRestr, perms  ); 
-             
-    }, 
+        me.gridController.setEditToolBar(me.editable, !editRestr, perms);
 
-    fireStartEdition: function(editAction) {
+    },
+
+    fireStartEdition : function(editAction) {
         // this.fireEvent('startEdition', this , editAction );
     },
 
-    getSelectedIds: function() {
+    getSelectedIds : function() {
         // Lista de registros seleccionados ( id )
 
         var selectedIds = [], ix, cllSelection;
@@ -493,7 +490,7 @@ Ext.define('ProtoUL.view.ProtoGrid', {
         return selectedIds;
     },
 
-    getViewColumns: function(tabConfig) {
+    getViewColumns : function(tabConfig) {
 
         // guarda la confAnterior
         if (this.colSetName == tabConfig.name) {
@@ -523,7 +520,7 @@ Ext.define('ProtoUL.view.ProtoGrid', {
         return this.colSetDefinition;
     },
 
-    configureColumns: function(tabConfig) {
+    configureColumns : function(tabConfig) {
 
         // guarda la confAnterior
         if (this.colSetName == tabConfig.name) {
@@ -537,11 +534,8 @@ Ext.define('ProtoUL.view.ProtoGrid', {
 
         // Configurar columnas de la grilla
         // Primero se borran todos exepto el check ( en vez de removeAll() )
-        
-        var hCt = this._extGrid.headerCt, 
-            removeItems = hCt.items.items.slice(), 
-            len0 = removeItems.length - 1, 
-            item, i;
+
+        var hCt = this._extGrid.headerCt, removeItems = hCt.items.items.slice(), len0 = removeItems.length - 1, item, i;
 
         this.suspendLayouts();
         for ( i = 0; i < len0; i++) {
@@ -566,7 +560,7 @@ Ext.define('ProtoUL.view.ProtoGrid', {
     // } else { hCt.items.items[ix].show(); }
     // },
 
-    setGridTitle: function(me) {
+    setGridTitle : function(me) {
         var gridTitle = '';
 
         if (me.detailTitle) {
@@ -595,14 +589,14 @@ Ext.define('ProtoUL.view.ProtoGrid', {
         me._extGrid.setTitle(gridTitle);
     },
 
-    addNewRecord: function(zoomForm) {
+    addNewRecord : function(zoomForm) {
         if (!(this.editable || zoomForm )) {
             return;
         }
         this.insertNewRecord(_SM.getNewRecord(this.myMeta, this.store));
     },
 
-    duplicateRecord: function() {
+    duplicateRecord : function() {
         if ((!this._extGrid ) || (!this.editable )) {
             return;
         }
@@ -613,7 +607,7 @@ Ext.define('ProtoUL.view.ProtoGrid', {
         }
     },
 
-    insertNewRecord: function(rec) {
+    insertNewRecord : function(rec) {
 
         rec.data._ptStatus = _SM._ROW_ST.NEWROW;
         rec.data._ptId = rec.get('id');
@@ -626,11 +620,10 @@ Ext.define('ProtoUL.view.ProtoGrid', {
         sm.select(0);
     },
 
-    getRowIndex: function() {
+    getRowIndex : function() {
 
-        var sm = this._extGrid.getSelectionModel(), 
-            rowIndex = this.store.indexOf(sm.getSelection()[0]);
-            
+        var sm = this._extGrid.getSelectionModel(), rowIndex = this.store.indexOf(sm.getSelection()[0]);
+
         if (rowIndex < 0) {
             rowIndex = 0;
         }
@@ -638,7 +631,7 @@ Ext.define('ProtoUL.view.ProtoGrid', {
 
     },
 
-    deleteCurrentRecord: function() {
+    deleteCurrentRecord : function() {
         if ((!this._extGrid ) || (!this.editable )) {
             return;
         }
@@ -658,28 +651,28 @@ Ext.define('ProtoUL.view.ProtoGrid', {
 
     },
 
-    setEditMode: function(bEdit) {
+    setEditMode : function(bEdit) {
         // Deshabilita cualquier operacion al server
         this.store.editMode = bEdit;
         this.gridController.setEditMode(bEdit);
     },
 
-    saveChanges: function(autoSync) {
+    saveChanges : function(autoSync) {
         this.store.sync();
         if (autoSync !== undefined) {
             this.store.autoSync = autoSync;
         }
     },
 
-    reload: function() {
+    reload : function() {
         this.store.load();
     },
 
-    cancelChanges: function() {
+    cancelChanges : function() {
         this.store.load();
     },
 
-    gridLoadData: function(grid, sFilter, sorter) {
+    gridLoadData : function(grid, sFilter, sorter) {
         grid.store.myLoadData(sFilter, sorter);
 
         // Para evitar q al filtrar se quede en una pagina vacia
@@ -689,10 +682,9 @@ Ext.define('ProtoUL.view.ProtoGrid', {
     },
 
     // Grid toolbar editing controls
-    addTools: function(myTools) {
-        if (typeof myTools != 'undefined'){
-        	this._extGrid.addTool(myTools);
+    addTools : function(myTools) {
+        if ( typeof myTools != 'undefined') {
+            this._extGrid.addTool(myTools);
         }
     }
-
 });

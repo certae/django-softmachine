@@ -67,14 +67,14 @@ def protoList(request):
             pRows = Qs.order_by(*orderBy)[ start: page * limit ]
         except:
             pRows = Qs.all()[ start: page * limit ]
-    else:
+    else: 
         pRows = Qs.all()[ start: page * limit ]
 
 
-    # Verifica los nodos validos
-    if refAllow:
+    # Verifica los nodos validos 
+    if refAllow: 
         userNodes = getUserNodes(request.user, protoMeta.get('viewEntity', ''))
-    else:
+    else: 
         userNodes = []
 
 #   Prepara las cols del Query
@@ -110,7 +110,7 @@ def Q2Dict (protoMeta, pRows, fakeId, userNodes=[]):
 
 #    pStyle = protoMeta.get( 'pciStyle', '')
     JsonField = protoMeta.get('jsonField', '')
-    if not isinstance(JsonField, (str, unicode)):
+    if not isinstance(JsonField, (str, unicode)): 
         JsonField = ''
 
     pUDP = protoMeta.get('usrDefProps', {})
@@ -122,7 +122,7 @@ def Q2Dict (protoMeta, pRows, fakeId, userNodes=[]):
 
     # Identifica las Udps para solo leer las definidas en la META
     if cUDP.udpTable :
-        udpTypes = {}
+        udpTypes = {} 
         udpList = []
         for lField  in protoMeta['fields']:
             fName = lField['name']
@@ -144,7 +144,7 @@ def Q2Dict (protoMeta, pRows, fakeId, userNodes=[]):
     bCopyFromFld = False
     for lField  in protoMeta['fields']:
         fName = lField['name']
-        if (lField.get('cpFromField') is None or lField.get('cpFromZoom') is None):
+        if (lField.get('cpFromField') is None or lField.get('cpFromZoom') is None): 
             continue
         bCopyFromFld = True
 
@@ -155,14 +155,14 @@ def Q2Dict (protoMeta, pRows, fakeId, userNodes=[]):
         try:
             relModel = relModels[ lField.get('cpFromZoom') ]
             relModel[ 'loaded'] = True
-        except:
+        except: 
             pass
 
 
     # 2.  borra los q no tienen marca
     for relName in relModels.keys():
         relModel = relModels[ relName ]
-        if not relModel[ 'loaded']:
+        if not relModel[ 'loaded']: 
             del relModels[ relName ]
 
 
@@ -183,7 +183,7 @@ def Q2Dict (protoMeta, pRows, fakeId, userNodes=[]):
             fName = lField['name']
             pName = lField.get('physicalName', fName)
 
-            if lField.get('crudType') == "screenOnly" :
+            if lField.get('crudType') == "screenOnly" : 
                 continue
 
             # UDP Se evaluan despues
@@ -210,16 +210,21 @@ def Q2Dict (protoMeta, pRows, fakeId, userNodes=[]):
         if bCopyFromFld:
             rowdict = copyValuesFromFields(protoMeta, rowdict, relModels, JsonField)
 
+#        Dont delete  ( Dgt ) 
+#        if pStyle == 'tree':
+#            rowdict[ 'viewEntity' ] = protoMeta.get('viewEntity', '')
+#            rowdict[ 'leaf' ] = False; rowdict[ 'children' ] = []
+
         # Agrega el Id Siempre como idInterno ( no representa una col, idProperty )
         rowdict[ 'id'] = rowData.pk
         if fakeId:
             rowdict[ 'id'] = rowId
 
 
-        # Verifica el refAllow
+        # Verifica el refAllow 
         if len(userNodes) > 0  and  not (str(rowData.smOwningTeam_id) in userNodes) :
-            rowdict['_ptStatus'] = REFONLY
-
+            rowdict['_ptStatus'] = REFONLY 
+        
         # Agrega la fila al diccionario
         rows.append(rowdict)
 
@@ -236,7 +241,7 @@ def getRowById(myModelName, myId):
     myList = model.objects.filter(pk=myId)
     if len(myList) > 0:
         return myList[0]
-    else:
+    else:  
         return None
 
 
@@ -248,7 +253,7 @@ def isAbsorbedField(lField , protoMeta):
     """
 
     # Si esta marcado lo retorna
-    if (lField.get('isAbsorbed', False)):
+    if (lField.get('isAbsorbed', False)): 
         return True
     return False
 
@@ -261,7 +266,7 @@ def copyValuesFromFields(protoMeta, rowdict, relModels, JsonField):
 
     for lField  in protoMeta['fields']:
         cpFromField = lField.get('cpFromField')
-        if not cpFromField:
+        if not cpFromField: 
             continue
 
         fName = smart_str(lField['name'])
@@ -275,11 +280,11 @@ def copyValuesFromFields(protoMeta, rowdict, relModels, JsonField):
             # Se uso para copiar cosas de discretas,  debia poner por defecto el vr en el campo
             # Si ya contiene algun valor, sale, solo copia cuando es nulo.
             val = rowdict.get(fName, None)
-            if (val) and smart_str(val).__len__() > 0:
+            if (val) and smart_str(val).__len__() > 0: 
                 continue
 
             val = rowdict.get(cpFromField , None)
-            if (val is None) :
+            if (val is None) : 
                 val = ''
 
         else:
@@ -298,7 +303,7 @@ def copyValuesFromFields(protoMeta, rowdict, relModels, JsonField):
                 # Obtiene el id
                 rowId = rowdict[ relModel['fkId'] ]
                 if rowId:
-                    relModel['rowData'] = getRowById(relModel['zoomModel'], rowId)
+                   relModel['rowData'] = getRowById(relModel['zoomModel'], rowId)
                 else:
                     relModel['rowData'] = None
                 relModel['loaded'] = True
@@ -307,7 +312,7 @@ def copyValuesFromFields(protoMeta, rowdict, relModels, JsonField):
             if rowData is not None  :
                 # interpreta los datos del registro
                 val = getFieldValue(cpFromField, lField[ 'type'], rowData  , JsonField)
-            else:
+            else: 
                 val = ''
 
         rowdict[ fName ] = val
@@ -323,42 +328,42 @@ def getQSet(protoMeta, protoFilter, baseFilter , sort , pUser):
 
 #   Autentica '
     if not getModelPermissions(pUser, model, 'list'):
-        return model.objects.none(), [], False, False
+        return model.objects.none(), [], False, False 
 
 #   modelo Administrado
     isProtoModel = hasattr(model , '_protoObj')
     if isProtoModel:
         userNodes = getUserNodes(pUser, viewEntity)
 
-#   WorkFlow Model
+#   WorkFlow Model 
     hasWFlow = hasattr(model , '_WorkFlow')
-    if hasWFlow:
+    if hasWFlow: 
         WFlowControl = getattr(model, '_WorkFlow', {})
         OkStatus = WFlowControl.get('OkStatus', 'Ok')
-
+        
 #   JsonField
     JsonField = protoMeta.get('jsonField', '')
-    if not isinstance(JsonField, (str, unicode)):
+    if not isinstance(JsonField, (str, unicode)): 
         JsonField = ''
 
 #   QSEt
 #   Qs = model.objects.select_related(depth=1)
     Qs = model.objects
 
-#   Permite la lectura de todos los registros
+#   Permite la lectura de todos los registros 
     refAllow = getModelPermissions(pUser, model, 'refallow')
+    
 
-
-#   Solamenete valida si es
+#   Solamenete valida si es     
     if isProtoModel and not pUser.is_superuser :
 
-        # Si no tiene wflow y tampoco permiso de referencia, se limita a los nodos de su equipo
+        # Si no tiene wflow y tampoco permiso de referencia, se limita a los nodos de su equipo    
         if not refAllow :
             Qs = Qs.filter(smOwningTeam__in=userNodes)
 
-        # Si tiene permiso de referencia y ademas WF, trae todos los propios o los demas en estado valido
+        # Si tiene permiso de referencia y ademas WF, trae todos los propios o los demas en estado valido 
         elif hasWFlow:
-            Qs = Qs.filter(Q(smOwningTeam__in=userNodes) | Q(~Q(smOwningTeam__in=userNodes) , Q(smWflowStatus=OkStatus)))
+            Qs = Qs.filter(Q(smOwningTeam__in=userNodes) | Q(~Q(smOwningTeam__in=userNodes) , Q(smWflowStatus=OkStatus))) 
 
 #   TODO: Agregar solomente los campos definidos en el safeMeta  ( only,  o defer )
 #   Qs.query.select_fields = [f1, f2, .... ]
@@ -389,14 +394,14 @@ def getQSet(protoMeta, protoFilter, baseFilter , sort , pUser):
                 try:
                     unicodeSort = getUnicodeFields(model)
                     for sAux in unicodeSort:
-                        if sField['direction'] == 'DESC':
+                        if sField['direction'] == 'DESC': 
                             sAux = '-' + sAux
                         orderBy.append(sAux)
                 except Exception as e:
-                    pass
-
+                    pass 
+                
             else:
-                if sField['direction'] == 'DESC':
+                if sField['direction'] == 'DESC': 
                     sField['property'] = '-' + sField['property']
                 orderBy.append(sField['property'])
 
@@ -411,8 +416,8 @@ def getQSet(protoMeta, protoFilter, baseFilter , sort , pUser):
     # DbFirst en caso de q no exista una llave primaria
     fakeId = hasattr(model , '_fakeId')
 
-    # Solo retorna refAllow si este es valido para la tabla ( no es un super usuario y es un modelo manejado por sm )
-    refAllow = refAllow and isProtoModel and not pUser.is_superuser
+    # Solo retorna refAllow si este es valido para la tabla ( no es un super usuario y es un modelo manejado por sm )  
+    refAllow = refAllow and isProtoModel and not pUser.is_superuser 
 
     return Qs, orderBy, fakeId, refAllow
 
@@ -422,8 +427,8 @@ def getUnicodeFields(model):
         unicodeSort = model.unicode_sort
     elif hasattr(model._meta , 'unique_together') and len(model._meta.unique_together) > 0:
         unicodeSort = model._meta.unique_together[0]
-    else:
-        unicodeSort = [ model._meta.pk.name, ]
+    else: 
+        unicodeSort = [ model._meta.pk.name, ]  
 
     return unicodeSort
 
@@ -441,7 +446,7 @@ def addQbeFilter(protoFilter, model, Qs, JsonField):
         if sFilter[ 'property' ] == '_allCols':
             # debe descomponer la busqueda usando el objeto Q
             QTmp = getTextSearch(sFilter, model, JsonField)
-            if QTmp is None:
+            if QTmp is None:  
                 QTmp = models.Q()
 
             try:
@@ -515,14 +520,14 @@ def getTextSearch(sFilter, model , JsonField):
 
     for fName in pSearchFields:
         fAux = fieldsDict.get(fName, {})
-        if fAux.get('type', '')  not in [ 'string', 'text', 'jsonfield' ]:
+        if fAux.get('type', '')  not in [ 'string', 'text', 'jsonfield' ]: 
             continue
 
         QTmp = addQbeFilterStmt({'property': fName, 'filterStmt': sFilter['filterStmt'] } , model, JsonField)
 
-        if QStmt is None:
+        if QStmt is None:  
             QStmt = QTmp
-        else:
+        else: 
             QStmt = QStmt | QTmp
 
     return QStmt
@@ -545,7 +550,7 @@ def getFieldValue(fName, fType, rowData, JsonField):
         # Master JSonField ( se carga texto )
         try:
             val = rowData.__getattribute__(fName)
-        except:
+        except: 
             val = {}
         if isinstance(val, dict):
             val = json.dumps(val , cls=JSONEncoder)
@@ -557,7 +562,7 @@ def getFieldValue(fName, fType, rowData, JsonField):
             val = val.get(fName[ len(JsonField + '__'):])
             val = getTypedValue(val, fType)
 
-        except:
+        except: 
             val = ''
 
 
@@ -566,7 +571,7 @@ def getFieldValue(fName, fType, rowData, JsonField):
         try:
             val = eval('rowData.' + fName.replace('__', '.'))
             val = verifyStr(val , '')
-        except:
+        except: 
             val = '__?'
 
 
@@ -577,11 +582,11 @@ def getFieldValue(fName, fType, rowData, JsonField):
             # Si es una referencia ( fk ) es del tipo model
             if isinstance(val, models.Model):
                 val = verifyStr(val , '')
-        except:
+        except: 
             val = 'vr?'
 
         # Evita el valor null en el el frontEnd
-        if val is None:
+        if val is None: 
             val = ''
 
 
@@ -598,7 +603,7 @@ def evalueFuncion(fName, rowData):
         expr = 'rowData.' + fName[1:]
         val = eval(expr)
         val = verifyStr(val , '')
-    except:
+    except: 
         val = fName + '?'
 
     return val

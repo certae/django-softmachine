@@ -5,6 +5,7 @@
 Ext.define('ProtoUL.UI.MDDetailsController', {
     extend: 'Ext.Base',
     myMeta: null,
+
     constructor: function(config) {
 
         Ext.apply(this, config || {});
@@ -16,18 +17,20 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
 
         // @formatter:off
         var me = this,
-            mDet = me.__MasterDetail,
-            myDetails = [];
+            myMasterDetail = me.__MasterDetail,
+            myDetails = [], 
+            myAction, vDet, pDetail ;
         // @formatter:on
 
-        for (var vDet in mDet.myMeta.detailsConfig) {// Recorre y agrega los detalles al menu
+        // Recorre y agrega los detalles al menu
+        for (vDet in myMasterDetail.myMeta.detailsConfig) {
 
-            var pDetail = mDet.myMeta.detailsConfig[vDet];
+            pDetail = myMasterDetail.myMeta.detailsConfig[vDet];
             if (pDetail.menuText === undefined) {
                 continue;
             }
 
-            var myAction = new Ext.Action({
+            myAction = new Ext.Action({
                 text: pDetail.menuText,
                 hidden: true,
                 // enableToggle: true,
@@ -35,7 +38,6 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
                 handler: onActionSelectDetail,
                 detailKey: pDetail.conceptDetail,
                 detailDefinition: pDetail
-
             });
 
             myDetails.push(myAction);
@@ -46,7 +48,7 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
         if (myDetails.length > 0) {
 
             // toolBar de base para los items
-            mDet.tbDetails = Ext.create('Ext.toolbar.Toolbar', {
+            myMasterDetail.tbDetails = Ext.create('Ext.toolbar.Toolbar', {
                 dock: 'bottom',
                 border: true,
                 enableOverflow: true,
@@ -54,15 +56,15 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
                     text: '<strong>' + _SM.__language.Grid_Detail_Title + ':</strong>',
                     iconCls: 'icon-panelDown',
                     enableToggle: false,
-                    scope: mDet,
-                    handler: mDet.hideDetailPanel
+                    scope: myMasterDetail,
+                    handler: myMasterDetail.hideDetailPanel
                 }]
             });
 
-            mDet.myDetails = myDetails;
-            mDet.tbDetails.add(myDetails);
-            mDet.protoMasterGrid.addDocked(mDet.tbDetails, 0);
-            // mDet.protoMasterGrid.ownerCt.addDocked( mDet.tbDetails )
+            myMasterDetail.myDetails = myDetails;
+            myMasterDetail.tbDetails.add(myDetails);
+            myMasterDetail.protoMasterGrid.addDocked(myMasterDetail.tbDetails, 0);
+            // myMasterDetail.protoMasterGrid.ownerCt.addDocked( myMasterDetail.tbDetails )
         }
 
         function loadDetailDefinition(item, myAction) {
@@ -90,9 +92,9 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
         function createDummyPanel(item, myAction) {
             // Si hubo error en la creacion del detalle
             // El panel debe crearse para poder manejar la secuencia en la barra
-            mDet.protoTabs.add({
+            myMasterDetail.protoTabs.add({
                 html: _SM.__language.Grid_Detail_Error + ' :' + item.detailKey,
-                ixDetail: mDet.protoTabs.items.length
+                ixDetail: myMasterDetail.protoTabs.items.length
             });
             // myAction.show();   ( Debug Only )
         }
@@ -105,10 +107,10 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
             }
 
             //
-            var pDetail = item.detailDefinition;
+            var pDetail = item.detailDefinition, detailGrid, myMeta;
 
             // Definicion grilla Detail
-            var detailGrid = Ext.create('ProtoUL.view.ProtoGrid', {
+            detailGrid = Ext.create('ProtoUL.view.ProtoGrid', {
                 border: false,
                 viewCode: pDetail.conceptDetail,
                 protoIsDetailGrid: true,
@@ -117,25 +119,25 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
                 isDetail: true,
 
                 // Para saber de q linea del maestro  depende
-                _MasterDetail: mDet
+                _MasterDetail: myMasterDetail
             });
 
             // guarda el store con el indice apropiado
             detailGrid.store.detailDefinition = pDetail;
 
             // Asigna el Ix
-            item.ixDetail = mDet.protoTabs.items.length;
-            mDet.protoTabs.add(detailGrid);
+            item.ixDetail = myMasterDetail.protoTabs.items.length;
+            myMasterDetail.protoTabs.add(detailGrid);
 
             //Definicion del detalle TODO: pasarlo a una clase
 
             detailGrid.ixDetail = item.ixDetail;
 
             // Asigna el store y lo agrega a los tabs
-            mDet.cllStoreDet[item.ixDetail] = detailGrid.store;
+            myMasterDetail.cllStoreDet[item.ixDetail] = detailGrid.store;
 
             // Configura el panel
-            var myMeta = detailGrid.myMeta;
+            myMeta = detailGrid.myMeta;
 
             // setActionPrp('text', 'setText',  myMeta.shortTitle );
             // setActionPrp('tooltip', 'setTooltip', myMeta.description );
@@ -150,14 +152,14 @@ Ext.define('ProtoUL.UI.MDDetailsController', {
 
         function onActionSelectDetail(item) {
             //          fix : Toolbar overflow
-            //          mDet.ixActiveDetail = item.baseAction.initialConfig.ixDetail ;
-            mDet.ixActiveDetail = item.initialConfig.ixDetail;
+            //          myMasterDetail.ixActiveDetail = item.baseAction.initialConfig.ixDetail ;
+            myMasterDetail.ixActiveDetail = item.initialConfig.ixDetail;
 
             // Si se carga directamente el Card Layout en el BorderLayout no permite el activeItem
-            mDet.protoTabs.getLayout().setActiveItem(mDet.ixActiveDetail);
+            myMasterDetail.protoTabs.getLayout().setActiveItem(myMasterDetail.ixActiveDetail);
 
-            mDet.linkDetail();
-            mDet.showDetailPanel();
+            myMasterDetail.linkDetail();
+            myMasterDetail.showDetailPanel();
 
             if (item.hasOwnProperty('toggle')) {
                 item.toggle(true);

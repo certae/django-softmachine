@@ -4,25 +4,15 @@ Created on 2014-02-11
 @author: dario
 '''
 
-
-_MetaObjects = {
+_METAVERSION = "140212"
+_METAOBJECTS = {
 
     "pcl" : {
         "description" : "Meta definition",
-        "properties" : ["viewCode",
-                        "viewEntity",
-                        "viewIcon",
-
-                        "description",
-                        "shortTitle",
-                        "localSort", "pageSize",
-                        "sheetSelector", "pciStyle", "helpPath",
-                        "idProperty", "jsonField", "returnField", "updateTime", "metaVersion", "userVersion", "protoEntity", "protoEntityId",
-                        "pciType"
-                        ],
-        "objects" : ["gridConfig", "gridSets", "formConfig", "usrDefProps", "custom", "businessRules"],
+        "properties" : ["viewCode", "viewEntity", "viewIcon", "description", "shortTitle", "localSort", "pageSize", "sheetSelector", "pciStyle", "helpPath", "idProperty", "jsonField", "returnField", "updateTime", "metaVersion", "userVersion", "protoEntity", "protoEntityId", "pciType"], 
+        "roProperties" : ["viewCode", "viewEntity", "idProperty", "updateTime", "metaVersion", "protoEntity", "protoEntityId"], 
+        "objects" : ["gridConfig", "gridSets", "formConfig", "usrDefProps", "custom", "businessRules"], 
         "lists" : ["fields", "fieldsBase", "fieldsAdm", "actions", "detailsConfig", "sheetConfig"],
-        "roProperties" : ["viewCode", "viewEntity", "idProperty", "updateTime", "metaVersion", "protoEntity", "protoEntityId"]
     },
 
     "fields" : {

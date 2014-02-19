@@ -1,8 +1,6 @@
-/*
-*
-*/
-
-// Ext.Loader.setConfig({enabled: true});
+/*jslint nomen: true, sloppy : true, white : true, sub : true */
+/*global Ext */
+/*global _SM */
 
 Ext.define('ProtoUL.UI.TbMasterDetail', {
     extend: 'Ext.Toolbar',
@@ -13,11 +11,9 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
 
     initComponent: function() {
 
-        var me = this;
-
-        // Asigna una referencia al objeto
-        var myMeta = this.protoMeta;
-        var __MasterDetail = this.__MasterDetail;
+        var me = this, 
+            myMeta = this.protoMeta, 
+            __MasterDetail = this.__MasterDetail;
 
         //--------------------------------------------------------
 
@@ -172,42 +168,42 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         function toogleTb2(but) {
             // 'details', 'printerOpts', 'sorters', 'tbHelp', 'filterSet',
 
-            if (but.itemId == 'sorters') {
+            if (but.itemId === 'sorters') {
                 if (__MasterDetail.tbSorters) {
                     __MasterDetail.tbSorters.setVisible(but.pressed);
                 }
 
-            } else if (but.itemId == 'filterSet') {
+            } else if (but.itemId === 'filterSet') {
                 if (__MasterDetail.tbFilters) {
                     __MasterDetail.tbFilters.setVisible(but.pressed);
                 }
 
-            } else if (but.itemId == 'tabSet') {
+            } else if (but.itemId === 'tabSet') {
                 if (__MasterDetail.tbTabs) {
                     __MasterDetail.tbTabs.setVisible(but.pressed);
                 }
 
-            } else if (but.itemId == 'sorterSet') {
+            } else if (but.itemId === 'sorterSet') {
                 if (__MasterDetail.tbSortersSet) {
                     __MasterDetail.tbSortersSet.setVisible(but.pressed);
                 }
 
-            } else if (but.itemId == 'printerOpts') {
+            } else if (but.itemId === 'printerOpts') {
                 if (__MasterDetail.tbPrinterOpts) {
                     __MasterDetail.tbPrinterOpts.setVisible(but.pressed);
                 }
 
-            } else if (but.itemId == 'configOpts') {
+            } else if (but.itemId === 'configOpts') {
                 if (__MasterDetail.tbConfigOpts) {
                     __MasterDetail.tbConfigOpts.setVisible(but.pressed);
                 }
 
-            } else if (but.itemId == 'details') {
+            } else if (but.itemId === 'details') {
                 if (__MasterDetail.tbDetails) {
                     __MasterDetail.showDetailPanel(!but.pressed);
                 }
 
-            } else if (but.itemId == 'protoActions') {
+            } else if (but.itemId === 'protoActions') {
                 if (__MasterDetail.tbProtoActions) {
                     __MasterDetail.tbProtoActions.setVisible(but.pressed);
                 }
@@ -215,7 +211,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 // } else if ( but.itemId == 'config' ) {
                 // this.configCtrl.showMetaConfig()
 
-            } else if (but.itemId == 'tbHelp') {
+            } else if (but.itemId === 'tbHelp') {
                 window.open(_SM._HELPpath, 'protoHelp', 'left=50,top=20,width=1000,height=600,resizable=0,scrollbars=yes');
             }
 

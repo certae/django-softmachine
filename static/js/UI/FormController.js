@@ -2,7 +2,7 @@
  * @class ProtoUL.ux.FormController
  * @author  Dario Gomez
 
- * Helper class for intancing ProtoForm
+ * Helper class for instancing ProtoForm
 
  */
 
@@ -65,10 +65,11 @@ Ext.define('ProtoUL.UI.FormController', {
                 me._waitForDetails(me, detCode);
             }
 
-        };
-		// This increase performance. Coalesce multiple layouts. If you’re adding/removing a bunch of Components in a single go
-		Ext.suspendLayouts();
-		
+        }
+
+        // This increase performance.
+        Ext.suspendLayouts();
+
         // lo marca como cargado
         this.myMetaDict[this.myMeta.viewCode] = false;
 
@@ -79,6 +80,7 @@ Ext.define('ProtoUL.UI.FormController', {
             pDetail = detConfig[ixV];
             this.myMetaDict[pDetail.conceptDetail] = false;
         }
+
         // ahora carga las definiciones
         me.loaded = false;
         for (detCode in me.myMetaDict  ) {
@@ -88,12 +90,12 @@ Ext.define('ProtoUL.UI.FormController', {
                 loadDetailDefinition(me, detCode);
             }
         }
-        
+
         // si np esta cargada la manda en nulo para forzar la carga
         if (!me.loaded) {
             me._waitForDetails(me);
         }
-		Ext.resumeLayouts(true);
+        Ext.resumeLayouts(true);
     },
 
     _waitForDetails : function(me, detCode) {
@@ -139,6 +141,11 @@ Ext.define('ProtoUL.UI.FormController', {
     newProtoForm : function() {
         // llamado tambien desde formConfig  (protoDesigner)
 
+        var me = this;
+        if (!me.myFieldDict) {
+            me.myFieldDict = _SM.getFieldDict(me.myMeta);
+        }
+
         this.defineFormLayout();
         this.myForm = Ext.widget('protoform', {
             myMeta : this.myMeta,
@@ -167,7 +174,6 @@ Ext.define('ProtoUL.UI.FormController', {
         me.myForm.setZoomEditMode(me.myForm);
 
         me.myWin = Ext.widget('window', {
-            // constrain: true,
             title : me.myMeta.viewCode + strEditing,
             closeAction : 'hide',
             width : me.myWidth,
@@ -271,30 +277,36 @@ Ext.define('ProtoUL.UI.FormController', {
     },
 
     _openAndLoad : function(viewCode, myRecordId) {
-        this.myMeta = _SM._cllPCI[viewCode];
+
+        this.myMeta = _SM.clone(_SM._cllPCI[viewCode]);
+
         this.formLoaded = true;
         this._loadFormData(myRecordId);
     },
 
     _loadFormData : function(myRecordId) {
 
-        if (!this.formLoaded) {
-            // console.log( 'FormController:  Form is not ready')
+        var me = this, myFilter, storeDefinition, myStore, myRecord;
+
+        // Form is not ready
+        if (!me.formLoaded) {
             return;
         }
 
-        // Filter
-        var myFilter = [{
+        // TODO: LinkFilter
+        myFilter = [{
             "property" : "pk",
             "filterStmt" : myRecordId
-        }], storeDefinition = {
+        }];
+        storeDefinition = {
             viewCode : this.viewCode,
             autoLoad : true,
             baseFilter : myFilter,
             sProtoMeta : _SM.getSafeMeta(this.myMeta)
-        }, myStore = _SM.getStoreDefinition(storeDefinition), myRecord;
+        };
+        myStore = _SM.getStoreDefinition(storeDefinition);
 
-        if (myRecordId >= 0) {
+        if (myRecordId !== -1) {
             myStore.load();
             myStore.on({
                 'load' : function(store, records, successful, options) {
@@ -309,7 +321,20 @@ Ext.define('ProtoUL.UI.FormController', {
                 },
                 scope : this
             });
+
         } else {
+
+            this.newForm = true;
+            me.myFieldDict = _SM.getFieldDict(me.myMeta);
+
+            if (me.linkController) {
+                me.detailLink = me.linkController.getDetailLink(me.detailDefinition);
+                me.linkController.setDetailDefaults(me.detailDefinition, me.myFieldDict);
+
+                me.baseFilter = me.detailLink.detFilter;
+                me.detailTitle = me.detailLink.detTitle;
+            }
+
             myRecord = _SM.getNewRecord(this.myMeta, myStore);
             this.openForm(myRecord);
         }
@@ -317,53 +342,19 @@ Ext.define('ProtoUL.UI.FormController', {
 
     defineFormLayout : function() {
 
-        function getSimpleProperties(oData, ptType) {
-            // Retorna los valores simples, verificando los tipos de cada propiedad
-
-            // Solo deben llegar objetos, si llega un array no hay props q mostrar
-            if (_SM.typeOf(oData) == 'array') {
-                return [];
+        function setFieldDefaults(prLayout, key) {
+            // Asigna los fieldDefaults q vienen en los contenedores
+            var sAux = prLayout[key];
+            if (sAux) {
+                prLayout.fieldDefaults[key] = sAux;
             }
-
-            // Inicializa con el type
-            var cData = {}, cValue;
-            
-            if (ptType) {
-                cData.__ptType = ptType;
-            }
-
-            for (var lKey in oData ) {
-                cValue = oData[lKey];
-
-                // Los objetos o arrays son la imagen del arbol y no deben ser tenidos en cuenta, generarian recursividad infinita
-                if (_SM.typeOf(cValue) in _SM.objConv(['object', 'array'])) {
-                    continue;
-                }
-
-                // Si son valores codificados, los decodifica y los agrega
-                if ( lKey in _SM.objConv(['__ptValue', '__ptList'])) {
-                    try {
-                        cData = Ext.decode(cValue);
-                    } catch (e) {
-                        // console.log( "Error de encodage", cValue )
-                    }
-
-                } else {
-                    cValue = verifyPrpType(lKey, cValue);
-                    if (cValue) {
-                        cData[lKey] = cValue;
-                    }
-                }
-            }
-            return cData;
-
-        };
+        }
 
         function defineProtoFormItem(me, parent, protoObj, protoIx) {
 
-            var prLayout, template, __ptType, sDataType = _SM.typeOf(protoObj);
+            var myFld, prLayout, template, __ptType, sDataType = _SM.typeOf(protoObj);
 
-            if (sDataType == "object") {
+            if (sDataType === "object") {
 
                 // Configura el objeto
                 if (!protoObj.__ptConfig) {
@@ -379,52 +370,44 @@ Ext.define('ProtoUL.UI.FormController', {
                     // console.log( 'El objeto no tiene tipo definido' , protoObj )
                     return {};
 
-                } else if (__ptType == 'formField') {
+                } else if (__ptType === 'formField') {
 
                     // protoIx es el field Name, si no viene debe buscarlo en __ptConfig [ name ]
                     protoIx = protoObj.name || protoObj.__ptConfig.name;
 
-                    var myFld = myFieldDict[protoIx];
+                    myFld = me.myFieldDict[protoIx];
                     if (myFld) {
                         template = getTemplate(__ptType, true, myFld);
-                        // TODO : Utiliser myField.autoNumericField
-                        if (myFld.required && !myFld.fkId && me.newForm) {
-                            template.__ptConfig.listeners.render = function(field) {
-                                Ext.Ajax.request({
-                                    url : _SM._PConfig.urlGetNextIncrement,
-                                    method : 'GET',
-                                    params : {
-                                        fieldName : myFld.name,
-                                        viewEntity : me.myMeta.viewEntity
-                                    },
-                                    success : function(result, request) {
-                                        var jsonData = Ext.decode(result.responseText);
-                                        field.setValue(jsonData.increment);
-                                    },
-                                    failure : function() {
-                                        console.log('failure on get increment');
-                                    }
-                                });
-                            };
-                        }
+
+                        // FIXME: Utiliser myField.autoNumericField
+                        // if (myFld.required && !myFld.fkId && me.newForm) {
+                        // template.__ptConfig.listeners.render = function(field) {
+                        // Ext.Ajax.request({
+                        // url : _SM._PConfig.urlGetNextIncrement,
+                        // method : 'GET',
+                        // params : {
+                        // fieldName : myFld.name,
+                        // viewEntity : me.myMeta.viewEntity
+                        // },
+                        // success : function(result, request) {
+                        // var jsonData = Ext.decode(result.responseText);
+                        // field.setValue(jsonData.increment);
+                        // },
+                        // failure : function() {
+                        // console.log('failure on get increment');
+                        // }
+                        // });
+                        // };
+                        // }
+
                         prLayout = Ext.apply(template.__ptConfig, protoObj.__ptConfig);
 
                         // ReadOnlyCls
-                        if (prLayout['xtype'] == 'protoZoom') {
+                        if (prLayout['xtype'] === 'protoZoom') {
                             prLayout['readOnlyCls'] = 'protoLink';
-                        } else if (prLayout['xtype'] == 'checkbox') {
-                        } else {
+                        } else if (prLayout['xtype'] !== 'checkbox') {
                             prLayout['readOnlyCls'] = 'protofield-readonly';
                         }
-
-                        // me.N2Nfields = [];
-                        // if ( myFld.type == 'protoN2N') {
-                        // prLayout[ 'id' ] = Ext.id();
-                        // me.N2Nfields.push( {
-                        // name : myFld.name,
-                        // id: prLayout[ 'id' ]
-                        // } );
-                        // }
 
                     } else {
 
@@ -447,6 +430,7 @@ Ext.define('ProtoUL.UI.FormController', {
                     };
 
                 } else if (__ptType == 'protoGrid') {
+
                     if (_SM.loadPci(protoObj.viewCode, false)) {
 
                         template = getTemplate(__ptType, true);
@@ -484,6 +468,12 @@ Ext.define('ProtoUL.UI.FormController', {
                     prLayout.htlmFields = protoObj.items;
                     delete protoObj.__ptConfig.name;
 
+                } else if (__ptType == 'detailButton') {
+
+                    template = getTemplate(__ptType, true);
+                    prLayout = Ext.apply(template.__ptConfig, protoObj.__ptConfig);
+                    prLayout.minWidth = 100;
+
                 } else {
 
                     template = getTemplate(__ptType, true);
@@ -491,15 +481,16 @@ Ext.define('ProtoUL.UI.FormController', {
 
                     // Agrega los items
                     prLayout.items = [];
-                    var prItems = protoObj.items, ix;
+                    var prItems, ix, prVar, prFld;
+                    prItems = protoObj.items;
 
                     for (ix in prItems ) {
                         if (ix.indexOf("__pt") == 0) {
                             continue;
                         }
 
-                        var prVar = prItems[ix];
-                        var prFld = defineProtoFormItem(me, protoObj, prVar, ix);
+                        prVar = prItems[ix];
+                        prFld = defineProtoFormItem(me, protoObj, prVar, ix);
                         if (prFld) {
                             prLayout.items.push(prFld);
                         }
@@ -509,7 +500,8 @@ Ext.define('ProtoUL.UI.FormController', {
                 }
 
                 // Establece el layout  ( Columns )
-                var sAux = prLayout['fsLayout'];
+                var sAux, ix;
+                sAux = prLayout['fsLayout'];
                 if (sAux) {
 
                     prLayout.defaultType = 'textfield';
@@ -561,13 +553,13 @@ Ext.define('ProtoUL.UI.FormController', {
                 // prFld.defaults = {flex : 1}
 
             } else if (sDataType == "array") {
-
+                var prVar, prFld;
                 prLayout = [];
-                for (var ix in protoObj ) {
-                    var prVar = protoObj[ix];
+                for (ix in protoObj ) {
+                    prVar = protoObj[ix];
 
                     // Si es un array el padre es ../..
-                    var prFld = defineProtoFormItem(me, parent, prVar, ix);
+                    prFld = defineProtoFormItem(me, parent, prVar, ix);
                     if (prFld) {
                         prLayout.push(prFld);
                     }
@@ -577,31 +569,26 @@ Ext.define('ProtoUL.UI.FormController', {
 
             return prLayout;
 
-            function setFieldDefaults(prLayout, key) {
-                // Asigna los fieldDefaults q vienen en los contenedores
-                var sAux = prLayout[key];
-                if (sAux) {
-                    prLayout.fieldDefaults[key] = sAux;
-                }
-            }
-
         }
 
         // @formatter:off
-        var me = this, myFormDefinition = _SM.clone(this.myMeta.formConfig), myMeta = this.myMeta, myFieldDict = _SM.getFieldDict(myMeta);
+        var me = this, myFormDefinition, myMeta, ixV, lObj, prItem;
         // @formatter:on
+
+        myFormDefinition = _SM.clone(this.myMeta.formConfig);
+        myMeta = this.myMeta;
 
         me.prFormLayout = [];
 
-        for (var ixV in myFormDefinition.items) {
-            var lObj = myFormDefinition.items[ixV];
+        for (ixV in myFormDefinition.items) {
+            lObj = myFormDefinition.items[ixV];
 
             // Envia el contenedor y el objeto
-            var prItem = defineProtoFormItem(me, {
+            prItem = defineProtoFormItem(me, {
                 __ptType : 'panel'
             }, lObj);
             me.prFormLayout.push(prItem);
-        };
+        }
 
     }
 });

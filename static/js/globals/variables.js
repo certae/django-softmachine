@@ -116,6 +116,14 @@ _SM.DesignerPanels = {
         "errors" : [],
         "errorCount" : 0,
         "maxErrors" : 60
+//    },{
+//        "iconCls" : "icon-options",
+//        "itemId"  : "options",
+//        "tooltip" : "Show options"
+//    },{
+//        "iconCls" : "icon-help",
+//        "itemId"  : "help",
+//        "tooltip" : "Show help"
     }
     ],
 
@@ -174,6 +182,9 @@ _SM.DesignerPanels = {
         ]
     }, {
         "text": "Details",
+        "children": []
+    }, {
+        "text": "DetailsButtons",
         "children": []
     }]
 };

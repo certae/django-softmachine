@@ -32,8 +32,6 @@ Ext.define('ProtoUL.ux.protoZoom', {
     
     // * Zoom initialization
     zoomModel: null, 
-    zommFilter : '', 
-
     zoomGrid : null, 
     zoomRecord: null, 
 
@@ -119,22 +117,20 @@ Ext.define('ProtoUL.ux.protoZoom', {
             me.win.hide();
         }
 
-        function doNew() {
-            var formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });
-            formController.openNewForm ( this.zoomGrid.store  );
-        }
-
-
-        function doEdit() {
-            if ( ! this.zoomGrid.selected ) {
-                _SM.errorMessage(_SM.__language.Title_Form_Panel, _SM.__language.GridAction_NoRecord);
-                return; 
-            }
-            var formController = Ext.create('ProtoUL.UI.FormController', { 
-                myMeta : me.myMeta
-             });
-            formController.openLinkedForm ( this.zoomGrid.selected    );
-        }
+        // function doNew() {
+            // var formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });
+            // formController.openNewForm ( this.zoomGrid.store  );
+        // }
+        // function doEdit() {
+            // if ( ! this.zoomGrid.selected ) {
+                // _SM.errorMessage(_SM.__language.Title_Form_Panel, _SM.__language.GridAction_NoRecord);
+                // return; 
+            // }
+            // var formController = Ext.create('ProtoUL.UI.FormController', { 
+                // myMeta : me.myMeta
+             // });
+            // formController.openLinkedForm ( this.zoomGrid.selected    );
+        // }
         
         if ( me.isLoaded ) { return; } 
 
@@ -198,7 +194,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
         // referencia a la ventana modal
         me.win  = Ext.widget('window', {
             title : 'Zoom : ' + me.myMeta.shortTitle,
-            
+            constrainHeader : true,
             iconCls: me.myMeta.viewIcon , 
             closeAction : 'hide',
             layout : 'fit',
@@ -306,7 +302,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
     }, 
     
     setSelected: function  ( rowIndex, record, selModel) {
-        // @ZoonSelection 
+        // @ZoomSelection 
         
         var stBar = Ext.getCmp( this.idStBar ),
             me = this,  
@@ -381,6 +377,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
 });
 
 
+// String format function if not exist 
 if (!String.prototype.format) {
   String.prototype.format = function() {
     var args = arguments;

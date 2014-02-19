@@ -435,7 +435,6 @@ _MetaObjects = {
         "properties" : ["menuText", "conceptDetail", "masterField", "detailField", "detailName", "detailTitleLbl", "masterTitleField", "detailTitleField"],
         "addPrompt" : "Please enter the name for your detail:",
         "allowDel" : true
-
     },
 
     "usrDefProps" : {
@@ -499,6 +498,12 @@ _MetaObjects = {
         // ,"width", "maxWidth"
         ]
     },
+
+    "detailButton" : {
+        "description" : "A button link to detail",
+        "properties" : [ "viewCode", "text", "addDetailForm" ]
+    },
+
 
     "panel" : {
         "hideItems" : true,

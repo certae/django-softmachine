@@ -6,13 +6,17 @@ The system architecture is a Web MVC variant, this means that we use the basic c
 
 ## Software requirements:
 
+* Ext JS 4.2.1
 * Python 2.7
 * Django 1.6.1
+* graphviz
 * South
-* Python-mysqldb
+
+## Software requirements (prod):
+
+* Python-mysqldb  / PyGreSQL / ...  ( DbServerConector )
 * Apache
 * Mod_wsgi
-* Ext JS 4.2.1
 
 Suggested IDE : [Aptana Studio 3](http://aptana.com/)
 
@@ -81,6 +85,7 @@ create a new SitePrototypeur directory
 `mkdir SitePrototypeur`
 and extract the ProtoExt-master.zip (downloaded from https://github.com/victorette/ProtoExt) code inside the SitePrototypeur folder, rename the new folder to ProtoExt.
 Go to the new folder and make sure that `settings.py` is following the security remarks mentioned above. The App won't work is this file is configured improperly.
+
 Download Ext JS from [Sencha.com](http://www.sencha.com/products/extjs/download/), extract it in `/home/SitePrototypeur/ProtoExt/static` and rename the extracted folder to **extjs**.
 Synchronize the database: 
 `python src/manage.py syncdb`

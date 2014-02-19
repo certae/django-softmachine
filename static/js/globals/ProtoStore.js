@@ -24,28 +24,28 @@
 _SM.getStoreDefinition = function(stDef) {
 
     var myStore = Ext.create('Ext.data.Store', {
-        viewCode: stDef.viewCode,
+        viewCode : stDef.viewCode,
 
-        model: _SM.getModelName(stDef.viewCode),
-        autoLoad: stDef.autoLoad,
-        pageSize: stDef.pageSize,
+        model : _SM.getModelName(stDef.viewCode),
+        autoLoad : stDef.autoLoad,
+        pageSize : stDef.pageSize,
 
-        remoteSort: !(stDef.localSort || false),
-        sorters: stDef.sorters,
-        defaultSortDirection: 'ASC',
-        sortOnLoad: true,
+        remoteSort : !(stDef.localSort || false),
+        sorters : stDef.sorters,
+        defaultSortDirection : 'ASC',
+        sortOnLoad : true,
 
-        autoSync: true,
+        autoSync : true,
 
-        proxy: _SM.getProxyDefinition(stDef),
-        storeDefinition: stDef,
+        proxy : _SM.getProxyDefinition(stDef),
+        storeDefinition : stDef,
 
         // Redefinicion de metodos
         // sort: function ( sorters ) {
         // Redefine el metodo, siempre pasa por aqui
         // },
 
-        myLoadData: function(myFilter, mySorter, myMasterId) {
+        myLoadData : function(myFilter, mySorter, myMasterId) {
             // Centraliza  los llamados para refrescar la grilla
 
             // Para la navegacion md
@@ -64,7 +64,7 @@ _SM.getStoreDefinition = function(stDef) {
 
         },
 
-        mySetBaseFilter: function(myFilter) {
+        mySetBaseFilter : function(myFilter) {
             // Desde el zoom, para agregar el zoomFilter que debe ser parte de la base
             // pues no debe modeficarse con el filtro de usuario
             // recibe el filtro y lo mezcla con el baseFilter ( por ejemplo un estado )
@@ -76,20 +76,20 @@ _SM.getStoreDefinition = function(stDef) {
 
         },
 
-        listeners: {
+        listeners : {
 
             // Fires before a request is made for a new data object. ...
-            beforeload: function(store, operation, eOpts) {
+            beforeload : function(store, operation, eOpts) {
                 _SM.__StBar.showBusy(_SM.__language.StatusBar_Message_Loading + store.viewCode, 'beforeLoad');
             },
 
             // Fired before a call to sync is executed. Return false from any listener to cancel the sync
-            beforesync: function(options, eOpts) {
+            beforesync : function(options, eOpts) {
                 _SM.__StBar.showBusy(_SM.__language.StatusBar_Message_Sync + this.viewCode, 'beforeSync');
             },
 
             // Fires whenever the records in the Store have changed in some way - this could include adding or removing records, or ...
-            datachanged: function(store, eOpts) {
+            datachanged : function(store, eOpts) {
                 _SM.__StBar.clear(store.viewCode, 'dataChanged');
 
                 // Guarda la info de sort
@@ -123,9 +123,9 @@ _SM.getStoreDefinition = function(stDef) {
             // update: function ( store,  record,  sOperation,  eOpts ) {
 
             // Fires whenever a successful write has been made via the configured Proxy
-            write: function(store, operation, eOpts) {
-    
-                var ix; 
+            write : function(store, operation, eOpts) {
+
+                var ix;
                 for (ix in operation.records) {
                     var recResult = operation.resultSet.records[ix], recOrigin = operation.records[ix];
 
@@ -171,51 +171,51 @@ _SM.getStoreDefinition = function(stDef) {
 _SM.getProxyDefinition = function(stDef) {
 
     return {
-        type: 'ajax',
-        batchActions: true,
-        batchOrder: "create,update,destroy",
-        api: {
-            read: 'protoLib/protoList/',
-            create: 'protoLib/protoAdd/',
-            update: 'protoLib/protoUpd/',
-            destroy: 'protoLib/protoDel/'
+        type : 'ajax',
+        batchActions : true,
+        batchOrder : "create,update,destroy",
+        api : {
+            read : 'protoLib/protoList/',
+            create : 'protoLib/protoAdd/',
+            update : 'protoLib/protoUpd/',
+            destroy : 'protoLib/protoDel/'
         },
-        actionMethods: {
-            create: 'POST',
-            read: 'POST',
-            update: 'POST',
-            destroy: 'POST'
+        actionMethods : {
+            create : 'POST',
+            read : 'POST',
+            update : 'POST',
+            destroy : 'POST'
         },
-        reader: {
-            type: 'json',
-            root: 'rows',
-            successProperty: 'success',
-            totalProperty: 'totalCount',
-            messageProperty: 'message'
+        reader : {
+            type : 'json',
+            root : 'rows',
+            successProperty : 'success',
+            totalProperty : 'totalCount',
+            messageProperty : 'message'
         },
 
-        writer: {
-            type: 'json',
-            root: 'rows',
-            allowSingle: false,
-            writeAllFields: true,
+        writer : {
+            type : 'json',
+            root : 'rows',
+            allowSingle : false,
+            writeAllFields : true,
             // Incluye los parametros en el post ( por defecto en el get )
-            encode: true,
-            messageProperty: 'message'
+            encode : true,
+            messageProperty : 'message'
         },
 
         // Parametros String para la conexion al backEnd
-        extraParams: {
-            viewCode: stDef.viewCode,
-            protoFilter: _SM.obj2tx(stDef.protoFilter),
-            baseFilter: _SM.obj2tx(stDef.baseFilter),
-            protoMeta: _SM.obj2tx(stDef.sProtoMeta)
+        extraParams : {
+            viewCode : stDef.viewCode,
+            protoFilter : _SM.obj2tx(stDef.protoFilter),
+            baseFilter : _SM.obj2tx(stDef.baseFilter),
+            protoMeta : _SM.obj2tx(stDef.sProtoMeta)
         },
 
-        listeners: {
+        listeners : {
 
             // 'load' :  function(store,records,options) { this.loaded = true }
-            'exception': function(proxy, response, operation) {
+            'exception' : function(proxy, response, operation) {
                 // var msg = operation.request.scope.reader.jsonData["message"] ;
                 var msg, myErr = operation.getError();
                 if ( typeof (myErr ) == 'string') {
@@ -248,19 +248,19 @@ _SM.getProxyDefinition = function(stDef) {
 _SM.getTreeStoreDefinition = function(stDef) {
 
     var myStore = Ext.create('Ext.data.TreeStore', {
-        viewCode: stDef.viewCode,
-        model: _SM.getModelName(stDef.viewCode),
-        autoLoad: stDef.autoLoad,
-        pageSize: stDef.pageSize,
-        sorters: stDef.sorters,
-        proxy: _SM.getProxyDefinition(stDef),
+        viewCode : stDef.viewCode,
+        model : _SM.getModelName(stDef.viewCode),
+        autoLoad : stDef.autoLoad,
+        pageSize : stDef.pageSize,
+        sorters : stDef.sorters,
+        proxy : _SM.getProxyDefinition(stDef),
 
-        remoteSort: true,
-        autoSync: true,
+        remoteSort : true,
+        autoSync : true,
 
-        root: {
+        root : {
             // text:'details',
-            expanded: true
+            expanded : true
         }
 
         // listeners: {
@@ -288,10 +288,8 @@ _SM.getNewRecord = function(myMeta, myStore) {
 
     function setDefaults() {
 
-        var vDefault = {}, 
-            ix, 
-            fld;
-            
+        var vDefault = {}, ix, vFld;
+
         for (ix in myMeta.fields ) {
             vFld = myMeta.fields[ix];
             if (!vFld.prpDefault) {
@@ -387,8 +385,8 @@ _SM.DefineProtoModel = function(myMeta) {
 
         // modelField
         mField = {
-            name: vFld.name,
-            type: vFld.type
+            name : vFld.name,
+            type : vFld.type
             //TODO:  useNull : true / false    ( NullAllowed, IsNull,  NotNull )
         };
 
@@ -449,21 +447,21 @@ _SM.DefineProtoModel = function(myMeta) {
 
     // Agrega el status y el interna ID
     mField = {
-        name: '_ptStatus',
-        type: 'string'
+        name : '_ptStatus',
+        type : 'string'
     };
     myModelFields.push(mField);
 
     mField = {
-        name: '_ptId',
-        type: 'string'
+        name : '_ptId',
+        type : 'string'
     };
     myModelFields.push(mField);
 
     // myModelFields = [{"name":"id","type":"int","useNull":true},{"name":"first","type":"string"}]
     Ext.define(_SM.getModelName(myMeta.viewCode), {
-        extend: 'Ext.data.Model',
-        fields: myModelFields
+        extend : 'Ext.data.Model',
+        fields : myModelFields
 
         //TODO: Validation, Validaciones
         //    validations: [{ type: 'length', field: 'name', min: 1 }]
@@ -499,8 +497,8 @@ _SM.getColDefinition = function(vFld) {
     var colDefinition, lstProps, editor;
 
     colDefinition = {
-        dataIndex: vFld.name,
-        text: vFld.header
+        dataIndex : vFld.name,
+        text : vFld.header
     };
 
     // Propiedades q seran copiadas a las columnas de la grilla
@@ -790,11 +788,9 @@ _SM.getColDefinition = function(vFld) {
 
 _SM.getFormFieldDefinition = function(vFld) {
 
-
-    var colDefinition = _SM.getColDefinition(vFld),
-        formEditor = {
-            readOnly: true
-        };
+    var colDefinition = _SM.getColDefinition(vFld), formEditor = {
+        readOnly : true
+    };
 
     // Se inicializa ro, en caso de q no se encuentre en el dict
 
@@ -805,8 +801,8 @@ _SM.getFormFieldDefinition = function(vFld) {
     // Field Label
     formEditor.name = vFld.name;
     formEditor.fieldLabel = vFld.fieldLabel || vFld.header || vFld.name;
-    formEditor.fieldLabel = formEditor.fieldLabel.replace( '<strong>', '' ).replace( '</strong>', '' );
-	formEditor.fieldLabel = formEditor.fieldLabel.replace( '<b>', '' ).replace( '</b>', '' );
+    formEditor.fieldLabel = formEditor.fieldLabel.replace('<strong>', '').replace('</strong>', '');
+    formEditor.fieldLabel = formEditor.fieldLabel.replace('<b>', '').replace('</b>', '');
     if (vFld.required) {
         formEditor.fieldLabel = '<strong>' + formEditor.fieldLabel + '</strong>';
     }
@@ -814,17 +810,20 @@ _SM.getFormFieldDefinition = function(vFld) {
         formEditor.afterLabelTextTpl = _SM._requiredField;
     }
     formEditor.fieldLabel = Ext.util.Format.capitalize(formEditor.fieldLabel);
-	
-	// Add listener to avoid whitespaces
-	// This works fine with ExtJS 4.2.2
-	if (vFld.required && !vFld.fkId) {
-	    formEditor.listeners = {
-	        blur: function() {
-	            this.setValue(Ext.String.trim(this.getValue()));
-	        },
-	        render : function(field) {}
-	    };
-	}
+
+    // Add listener to avoid whitespaces
+    // This works fine with ExtJS 4.2.2
+    // Fix : error when  butoonDetail.addForm 
+    // if (vFld.required && !vFld.fkId) {
+        // formEditor.listeners = {
+            // blur : function() {
+                // this.setValue(Ext.String.trim(this.getValue()));
+            // },
+            // render : function(field) {
+            // }
+        // };
+    // }
+    
     // Casos especiales
     switch( vFld.type ) {
         case 'text':
@@ -864,6 +863,7 @@ _SM.getFormFieldDefinition = function(vFld) {
 // *********************************************************
 
 _SM.loadPci = function(viewCode, loadIfNot, options) {
+    // TODO: refactor,  ne pas besoin de retourner true/false; retourner toujour option.xx.call( )
 
     options = options || {};
 
@@ -885,19 +885,19 @@ _SM.loadPci = function(viewCode, loadIfNot, options) {
         }
 
         Ext.applyIf(options, {
-            scope: this,
-            success: Ext.emptyFn,
-            failure: Ext.emptyFn
+            scope : this,
+            success : Ext.emptyFn,
+            failure : Ext.emptyFn
         });
 
         Ext.Ajax.request({
-            method: 'POST',
-            url: _SM._PConfig.urlGetPCI,
-            params: {
-                viewCode: viewCode
+            method : 'POST',
+            url : _SM._PConfig.urlGetPCI,
+            params : {
+                viewCode : viewCode
             },
-            scope: this,
-            success: function(result, request) {
+            scope : this,
+            success : function(result, request) {
 
                 var myResult = Ext.decode(result.responseText);
                 if (myResult.success) {
@@ -909,7 +909,7 @@ _SM.loadPci = function(viewCode, loadIfNot, options) {
                     options.failure.call(options.scope, result, request);
                 }
             },
-            failure: function(result, request) {
+            failure : function(result, request) {
                 _SM.errorMessage('loadPC', '');
                 options.failure.call(options.scope, result, request);
             }
@@ -947,20 +947,20 @@ _SM.saveProtoObj = function(viewCode, sMeta, options) {
 
     options = options || {};
     Ext.applyIf(options, {
-        scope: this,
-        success: Ext.emptyFn,
-        failure: Ext.emptyFn
+        scope : this,
+        success : Ext.emptyFn,
+        failure : Ext.emptyFn
     });
 
     Ext.Ajax.request({
-        method: 'POST',
-        url: _SM._PConfig.urlSaveProtoObj,
-        params: {
-            viewCode: viewCode,
-            protoMeta: sMeta
+        method : 'POST',
+        url : _SM._PConfig.urlSaveProtoObj,
+        params : {
+            viewCode : viewCode,
+            protoMeta : sMeta
         },
 
-        success: function(result, request) {
+        success : function(result, request) {
             var myResult = Ext.decode(result.responseText);
             if (myResult.success) {
                 options.success.call(options.scope, result, request);
@@ -969,12 +969,12 @@ _SM.saveProtoObj = function(viewCode, sMeta, options) {
                 _SM.errorMessage(_SM.__language.Message_Error_SaveProtoObj, myResult.message);
             }
         },
-        failure: function(result, request) {
+        failure : function(result, request) {
             _SM.errorMessage(_SM.__language.Message_Error_SaveProtoObj, result.status + ' ' + result.statusText);
             options.failure.call(options.scope, result, request);
         },
-        scope: this,
-        timeout: 30000
+        scope : this,
+        timeout : 30000
     });
 
 };
@@ -983,19 +983,19 @@ _SM.loadJsonConfig = function(fileName, options) {
 
     options = options || {};
     Ext.applyIf(options, {
-        scope: this,
-        success: Ext.emptyFn,
-        failure: Ext.emptyFn
+        scope : this,
+        success : Ext.emptyFn,
+        failure : Ext.emptyFn
     });
 
     Ext.Ajax.request({
-        method: 'POST',
-        url: '/resources/' + fileName,
-        scope: options.scope,
-        success: function(result, request) {
+        method : 'POST',
+        url : '/resources/' + fileName,
+        scope : options.scope,
+        success : function(result, request) {
             options.success.call(options.scope, result, request);
         },
-        failure: function(result, request) {
+        failure : function(result, request) {
             _SM.errorMessage('LoadJsonConfig', result.status + ' ' + result.statusText);
             options.failure.call(options.scope, result, request);
         }
@@ -1008,23 +1008,23 @@ _SM.defineProtoPclTreeModel = function() {
     // Definicion del modelo para los arboles de la PCL
 
     Ext.define('Proto.PclTreeNode', {
-        extend: 'Ext.data.Model',
-        fields: [{
-            name: '__ptType',
-            type: 'string'
+        extend : 'Ext.data.Model',
+        fields : [{
+            name : '__ptType',
+            type : 'string'
         }, {
-            name: 'text',
-            type: 'string'
+            name : 'text',
+            type : 'string'
         }, {
-            name: 'id',
-            type: 'string'
+            name : 'id',
+            type : 'string'
         },
         // {name: 'iconCls', type: 'string', prpDefault: null, persist: false },
         // {name: 'ptValue', type: 'string'},
 
         // Referencia al modelo de base
         {
-            name: '__ptConfig'
+            name : '__ptConfig'
         }]
     });
 
@@ -1034,29 +1034,29 @@ _SM.getSheeReport = function(viewCode, sheetName, selectedKeys, options) {
 
     options = options || {};
     Ext.applyIf(options, {
-        scope: this,
-        success: Ext.emptyFn,
-        failure: Ext.emptyFn
+        scope : this,
+        success : Ext.emptyFn,
+        failure : Ext.emptyFn
     });
 
     Ext.Ajax.request({
-        method: 'POST',
-        url: _SM._PConfig.urlGetSheetReport,
-        params: {
-            viewCode: viewCode,
-            sheetName: sheetName,
-            selectedKeys: Ext.encode(selectedKeys)
+        method : 'POST',
+        url : _SM._PConfig.urlGetSheetReport,
+        params : {
+            viewCode : viewCode,
+            sheetName : sheetName,
+            selectedKeys : Ext.encode(selectedKeys)
         },
 
-        success: function(result, request) {
+        success : function(result, request) {
             options.success.call(options.scope, result, request);
         },
-        failure: function(result, request) {
+        failure : function(result, request) {
             _SM.errorMessage(_SM.__language.Message_Error_Reporting, result.status + ' ' + result.statusText);
             options.failure.call(options.scope, result, request);
         },
-        scope: this,
-        timeout: 60000
+        scope : this,
+        timeout : 60000
     });
 };
 
@@ -1066,31 +1066,31 @@ _SM.doProtoActions = function(viewCode, actionName, selectedKeys, parameters, ac
     options = options || {};
 
     Ext.applyIf(options, {
-        scope: this,
-        success: Ext.emptyFn,
-        failure: Ext.emptyFn
+        scope : this,
+        success : Ext.emptyFn,
+        failure : Ext.emptyFn
     });
 
     Ext.Ajax.request({
-        method: 'POST',
-        url: _SM._PConfig.urlDoAction,
-        params: {
-            viewCode: viewCode,
-            actionName: actionName,
-            parameters: Ext.encode(parameters),
-            actionDef: Ext.encode(actionDef),
-            selectedKeys: Ext.encode(selectedKeys)
+        method : 'POST',
+        url : _SM._PConfig.urlDoAction,
+        params : {
+            viewCode : viewCode,
+            actionName : actionName,
+            parameters : Ext.encode(parameters),
+            actionDef : Ext.encode(actionDef),
+            selectedKeys : Ext.encode(selectedKeys)
         },
 
-        success: function(result, request) {
+        success : function(result, request) {
             options.success.call(options.scope, result, request);
         },
-        failure: function(result, request) {
+        failure : function(result, request) {
             _SM.errorMessage('ActionReport Failed', result.status + ' ' + result.statusText);
             options.failure.call(options.scope, result, request);
         },
-        scope: this,
-        timeout: 60000
+        scope : this,
+        timeout : 60000
     });
 
 };
@@ -1106,4 +1106,18 @@ _SM.sortObjByName = function(a, b) {
     }
     return 0;
     //default return value (no sorting)
+};
+
+_SM.getDetailDefinition = function(myMeta, viewCode) {
+    var ixD, lDet;
+
+    for (ixD in myMeta.detailsConfig ) {
+        lDet = myMeta.detailsConfig[ixD];
+        if (lDet.conceptDetail === viewCode) {
+            return lDet;
+        }
+    }
+
+    return {}; 
+
 };

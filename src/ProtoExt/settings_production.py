@@ -11,7 +11,7 @@ from ProtoExt.settings import PPATH
 # }
 
 DATABASES = {
-    'default': {
+   'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': PPATH + '/db/testproto.db',
     }
