@@ -168,7 +168,6 @@ Ext.define('ProtoUL.UI.FormController', {
         me.myForm.setZoomEditMode(me.myForm);
 
         me.myWin = Ext.widget('window', {
-            // constrain: true,
             title : me.myMeta.viewCode + strEditing,
             closeAction : 'hide',
             width : me.myWidth,

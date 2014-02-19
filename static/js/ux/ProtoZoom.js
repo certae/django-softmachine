@@ -194,7 +194,7 @@ Ext.define('ProtoUL.ux.protoZoom', {
         // referencia a la ventana modal
         me.win  = Ext.widget('window', {
             title : 'Zoom : ' + me.myMeta.shortTitle,
-            
+            constrainHeader : true,
             iconCls: me.myMeta.viewIcon , 
             closeAction : 'hide',
             layout : 'fit',

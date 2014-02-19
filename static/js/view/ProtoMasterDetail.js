@@ -191,7 +191,6 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         // Obtiene la grilla y le da un titulo
         myDetGrid = me.protoTabs.items.items[me.ixActiveDetail];
         myDetGrid.detailTitle = detailLink.detTitle;
-        myDetGrid.protoFilter = detailLink.detFilter;
         myDetGrid.setGridTitle(myDetGrid);
 
         // Asigna los vr por defecto

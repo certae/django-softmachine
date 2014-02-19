@@ -13,131 +13,101 @@
 /*global getSimpleProperties */
 
 Ext.define('ProtoUL.UI.WinGridController', {
-    extend: 'Ext.Base',
+    extend : 'Ext.Base',
 
     // Parametros de entrada
-    gridModel: null,
+    viewCode : null,
+    detailDefinition : null,
 
     // * Grid initialization
-    isLoaded: false,
-    myMeta: null,
-    myGrid: null,
-    store: null,
+    myMeta : null,
+    myGrid : null,
+    store : null,
 
-    constructor: function(config) {
+    baseFilter : [],
+    initialFilter : [],
+
+    constructor : function(config) {
         Ext.apply(this, config || {});
     },
 
-    onTriggerClick: function() {
-        this._loadGrid(this.showGridForm);
-    },
 
-    _loadGrid: function(fnBase, opts) {
-        // Async Call
-        var me = this, options = {
-            scope: me,
-            success: function(obj, result, request) {
-                me.createGridWindow(me);
-                fnBase.call(me, me, opts);
-            },
-            failure: function(obj, result, request) {
-                return;
-            }
-        };
-
-        if (_SM.loadPci(me.gridModel, true, options)) {
-            me.createGridWindow(me);
-            fnBase.call(me, me, opts);
-        }
-
-    },
-
-    showGridForm: function(me) {
-        if (!me.isLoaded) {
-            return;
-        }
-
-        var myGridFilter = getFilter();
-        if (myGridFilter) {
-            if (myGridFilter.length > 0) {
-                this.myGrid.store.mySetBaseFilter(myGridFilter);
-            }
-        }
-
-        me.win.show();
-
-    }, 
-
-    createGridWindow: function(me) {
+    createGridWindow : function(me) {
         // @GridRaise
 
-        function doAcept() {
-            me.resetGrid();
-            me.win.hide();
+        if (me.linkController) {
+            me.detailLink = me.linkController.getDetailLink(me.detailDefinition);
+            me.baseFilter = me.detailLink.detFilter;
         }
-
-        if (me.isLoaded) {
-            return;
-        }
-
-        me.myMeta = _SM._cllPCI[me.gridModel];
 
         // Crea la grilla
-        this.myGrid = Ext.create('ProtoUL.view.ProtoGrid', {
-            viewCode: me.gridModel,
-            // initialFilter : [{ 'property' : 'pk', 'filterStmt' :  -1 }],
-            initialFilter: [],
-            hideSheet: true
+        me.myGrid = Ext.create('ProtoUL.view.ProtoGrid', {
+            isPromoted : true,
+            viewCode : me.viewCode,
+            detailDefinition : me.detailDefinition,
+            mdFilter : me.baseFilter,
+            hideSheet : true
         });
 
+        me.myMeta = me.myGrid.myMeta;
+
+        if (me.linkController) {
+            me.linkController.setDetailDefaults(me.detailDefinition, me.myGrid.myFieldDict);
+            me.myGrid.detailTitle = me.detailLink.detTitle;
+            me.myGrid.setGridTitle(me.myGrid);
+        }
         // Para identificar el StatusBar
         me.idStBar = Ext.id();
 
-        var perms = _SM._UserInfo.perms[me.myMeta.viewCode], gridBtns = [{
-            xtype: 'tbtext',
-            text: '',
-            id: me.idStBar,
-            flex: 1,
-            readOnly: true
+        var perms, gridBtns;
+        perms = _SM._UserInfo.perms[me.viewCode];
+        gridBtns = [{
+            xtype : 'tbtext',
+            text : '',
+            id : me.idStBar,
+            flex : 1,
+            readOnly : true
         }, {
-            xtype: 'button',
-            text: 'Ok',
-            scope: me,
-            handler: doAcept
+            xtype : 'button',
+            text : 'Ok',
+            scope : me,
+            handler : me.doClose
         }];
 
         // referencia a la ventana modal
-        me.win = Ext.widget('window', {
-            title: 'Grid : ' + me.myMeta.shortTitle,
+        me.myWin = Ext.widget('window', {
+            title : 'Grid : ' + me.myMeta.shortTitle,
+            constrainHeader : true,
+            iconCls : me.myMeta.viewIcon,
+            layout : 'fit',
+            modal : true,
+            width : 800,
+            minWidth : 400,
+            height : 600,
+            minHeight : 400,
+            resizable : true,
+            items : this.myGrid,
 
-            iconCls: me.myMeta.viewIcon,
-            closeAction: 'hide',
-            layout: 'fit',
-            modal: true,
-            width: 800,
-            minWidth: 400,
-            height: 600,
-            minHeight: 400,
-            resizable: true,
-            items: this.myGrid,
-
-            dockedItems: [{
-                xtype: 'toolbar',
-                dock: 'bottom',
-                ui: 'footer',
-                defaults: {
-                    minWidth: 75
+            dockedItems : [{
+                xtype : 'toolbar',
+                dock : 'bottom',
+                ui : 'footer',
+                defaults : {
+                    minWidth : 75
                 },
-                items: gridBtns
+                items : gridBtns
             }]
 
         });
 
-        me.isLoaded = true;
         this.myGrid.setEditMode(true);
+        me.myWin.show();
 
+    },
+
+    doClose : function() {
+        this.myWin.close();
     }
-
 
 });
 
