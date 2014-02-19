@@ -8,13 +8,12 @@ from ProtoExt.settings import PPATH
 from django.http import HttpResponse
 from django.utils.http import http_date
 
-from utilsWeb import JsonError
+from protoLib.utilsWeb import JsonError
 
 """
 Views and functions for serving downloads files
-
-url 
-        url(r'^(?P<path>.*)$', 'getFile', {'document_root' : '/path/to/my/files/'})
+url
+url(r'^(?P<path>.*)$', 'getFile', {'document_root' : '/path/to/my/files/'})
 """
 
 
@@ -42,4 +41,4 @@ def getFile(request, path):
 
 
 def getFullPath(request, filename):
-    return os.path.join(PPATH , 'output', request.user.username + '.' + filename)
+    return os.path.join(PPATH, 'output', request.user.username + '.' + filename)
