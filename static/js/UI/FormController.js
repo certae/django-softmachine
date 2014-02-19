@@ -278,23 +278,27 @@ Ext.define('ProtoUL.UI.FormController', {
 
     _loadFormData : function(myRecordId) {
 
+        // Form is not ready
         if (!this.formLoaded) {
-            // console.log( 'FormController:  Form is not ready')
             return;
         }
 
-        // Filter
-        var myFilter = [{
+        // TODO: LinkFilter 
+        // TODO: me.newForm is not record 
+        var myFilter, storeDefinition, myStore, myRecord;
+        myFilter = [{
             "property" : "pk",
             "filterStmt" : myRecordId
-        }], storeDefinition = {
+        }];
+        storeDefinition = {
             viewCode : this.viewCode,
             autoLoad : true,
             baseFilter : myFilter,
             sProtoMeta : _SM.getSafeMeta(this.myMeta)
-        }, myStore = _SM.getStoreDefinition(storeDefinition), myRecord;
+        };
+        myStore = _SM.getStoreDefinition(storeDefinition);
 
-        if (myRecordId >= 0) {
+        if (myRecordId !== -1) {
             myStore.load();
             myStore.on({
                 'load' : function(store, records, successful, options) {
@@ -309,13 +313,23 @@ Ext.define('ProtoUL.UI.FormController', {
                 },
                 scope : this
             });
+            
         } else {
+            this.newForm = true; 
             myRecord = _SM.getNewRecord(this.myMeta, myStore);
             this.openForm(myRecord);
         }
     },
 
     defineFormLayout : function() {
+
+        function setFieldDefaults(prLayout, key) {
+            // Asigna los fieldDefaults q vienen en los contenedores
+            var sAux = prLayout[key];
+            if (sAux) {
+                prLayout.fieldDefaults[key] = sAux;
+            }
+        }
 
         function defineProtoFormItem(me, parent, protoObj, protoIx) {
 
@@ -347,43 +361,34 @@ Ext.define('ProtoUL.UI.FormController', {
                         template = getTemplate(__ptType, true, myFld);
 
                         // FIX: Utiliser myField.autoNumericField
-                        if (myFld.required && !myFld.fkId && me.newForm) {
-                            template.__ptConfig.listeners.render = function(field) {
-                                Ext.Ajax.request({
-                                    url : _SM._PConfig.urlGetNextIncrement,
-                                    method : 'GET',
-                                    params : {
-                                        fieldName : myFld.name,
-                                        viewEntity : me.myMeta.viewEntity
-                                    },
-                                    success : function(result, request) {
-                                        var jsonData = Ext.decode(result.responseText);
-                                        field.setValue(jsonData.increment);
-                                    },
-                                    failure : function() {
-                                        console.log('failure on get increment');
-                                    }
-                                });
-                            };
-                        }
+                        // if (myFld.required && !myFld.fkId && me.newForm) {
+                            // template.__ptConfig.listeners.render = function(field) {
+                                // Ext.Ajax.request({
+                                    // url : _SM._PConfig.urlGetNextIncrement,
+                                    // method : 'GET',
+                                    // params : {
+                                        // fieldName : myFld.name,
+                                        // viewEntity : me.myMeta.viewEntity
+                                    // },
+                                    // success : function(result, request) {
+                                        // var jsonData = Ext.decode(result.responseText);
+                                        // field.setValue(jsonData.increment);
+                                    // },
+                                    // failure : function() {
+                                        // console.log('failure on get increment');
+                                    // }
+                                // });
+                            // };
+                        // }
+                        
                         prLayout = Ext.apply(template.__ptConfig, protoObj.__ptConfig);
 
                         // ReadOnlyCls
-                        if (prLayout['xtype'] == 'protoZoom') {
+                        if (prLayout['xtype'] === 'protoZoom') {
                             prLayout['readOnlyCls'] = 'protoLink';
-                        } else if (prLayout['xtype'] == 'checkbox') {
-                        } else {
+                        } else if (prLayout['xtype'] !== 'checkbox') {
                             prLayout['readOnlyCls'] = 'protofield-readonly';
                         }
-
-                        // me.N2Nfields = [];
-                        // if ( myFld.type == 'protoN2N') {
-                        // prLayout[ 'id' ] = Ext.id();
-                        // me.N2Nfields.push( {
-                        // name : myFld.name,
-                        // id: prLayout[ 'id' ]
-                        // } );
-                        // }
 
                     } else {
 
@@ -457,15 +462,16 @@ Ext.define('ProtoUL.UI.FormController', {
 
                     // Agrega los items
                     prLayout.items = [];
-                    var prItems = protoObj.items, ix;
+                    var prItems, ix, prVar, prFld;
+                    prItems = protoObj.items;
 
                     for (ix in prItems ) {
                         if (ix.indexOf("__pt") == 0) {
                             continue;
                         }
 
-                        var prVar = prItems[ix];
-                        var prFld = defineProtoFormItem(me, protoObj, prVar, ix);
+                        prVar = prItems[ix];
+                        prFld = defineProtoFormItem(me, protoObj, prVar, ix);
                         if (prFld) {
                             prLayout.items.push(prFld);
                         }
@@ -475,7 +481,8 @@ Ext.define('ProtoUL.UI.FormController', {
                 }
 
                 // Establece el layout  ( Columns )
-                var sAux = prLayout['fsLayout'];
+                var sAux, ix;
+                sAux = prLayout['fsLayout'];
                 if (sAux) {
 
                     prLayout.defaultType = 'textfield';
@@ -527,13 +534,13 @@ Ext.define('ProtoUL.UI.FormController', {
                 // prFld.defaults = {flex : 1}
 
             } else if (sDataType == "array") {
-
+                var prVar, prFld;
                 prLayout = [];
-                for (var ix in protoObj ) {
-                    var prVar = protoObj[ix];
+                for (ix in protoObj ) {
+                    prVar = protoObj[ix];
 
                     // Si es un array el padre es ../..
-                    var prFld = defineProtoFormItem(me, parent, prVar, ix);
+                    prFld = defineProtoFormItem(me, parent, prVar, ix);
                     if (prFld) {
                         prLayout.push(prFld);
                     }
@@ -543,31 +550,27 @@ Ext.define('ProtoUL.UI.FormController', {
 
             return prLayout;
 
-            function setFieldDefaults(prLayout, key) {
-                // Asigna los fieldDefaults q vienen en los contenedores
-                var sAux = prLayout[key];
-                if (sAux) {
-                    prLayout.fieldDefaults[key] = sAux;
-                }
-            }
-
         }
 
         // @formatter:off
-        var me = this, myFormDefinition = _SM.clone(this.myMeta.formConfig), myMeta = this.myMeta, myFieldDict = _SM.getFieldDict(myMeta);
+        var me = this, myFormDefinition, myMeta, myFieldDict, ixV, lObj, prItem;
         // @formatter:on
+
+        myFormDefinition = _SM.clone(this.myMeta.formConfig);
+        myMeta = this.myMeta;
+        myFieldDict = _SM.getFieldDict(myMeta);
 
         me.prFormLayout = [];
 
-        for (var ixV in myFormDefinition.items) {
-            var lObj = myFormDefinition.items[ixV];
+        for (ixV in myFormDefinition.items) {
+            lObj = myFormDefinition.items[ixV];
 
             // Envia el contenedor y el objeto
-            var prItem = defineProtoFormItem(me, {
+            prItem = defineProtoFormItem(me, {
                 __ptType : 'panel'
             }, lObj);
             me.prFormLayout.push(prItem);
-        };
+        }
 
     }
-}); 
+});

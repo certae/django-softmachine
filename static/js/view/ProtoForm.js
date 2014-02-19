@@ -31,8 +31,6 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
     //@myMeta   Base Definition
     myMeta : null,
-
-    // Default value
     newForm : false,
 
     //@formConfig  Objeto correspondiente a la forma en la meta ( forma parte de la meta )
@@ -255,13 +253,11 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 me.zoomMultiReturn.push(zoomField.zoomRecords);
 
             } else if (zoomField.zoomRecord) {
-
                 // Actualiza el IdValue en el zoom para hacer los vinculos
                 zoomField.fkIdValue = this.masterRecord.get(zoomField.fkId);
 
                 // Actualiza el Id con el dato proveniente del zoom
                 me.updateFormField(zoomField.fkId, zoomField.zoomRecord.data.id);
-
             }
             // Actualiza los valores de retorno
             // this.updateZoomReturn( zoomField  )
@@ -483,8 +479,9 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         form.updateRecord(me.masterRecord);
         me.readHtmlPanels(me.masterRecord);
+
         // Try to improve performance...
-        me.store.suspendEvents();
+        // me.store.suspendEvents();
 
         // Si es nuevo
         if (me.myFormController.newForm) {
@@ -522,7 +519,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
             me._doSyncMasterStore();
         }
 
-        me.store.resumeEvents();
+        // me.store.resumeEvents();
         // Restaura el autosync
         me.store.autoSync = tmpAutoSync;
 

@@ -19,27 +19,38 @@ Ext.define('ProtoUL.UI.DetailButton', {
     viewCode : null,
     linkController : null,
     detailDefinition : null,
+    addDetailForm : false,
 
     myWinGrid : null,
 
     initComponent : function() {
-        var me = this;
+        var me = this, myMenu;
 
         me.disabled = true;
+
+        if (me.addDetailForm) {
+
+            myMenu = Ext.create('Ext.menu.Menu', {
+                items : [{
+                    text : _SM.__language.Text_New_Button + ' [ ' + me.text + ' ]',
+                    iconCls : "icon-formAdd",
+                    scope : me,
+                    handler : addFormClick
+                }]
+            });
+
+            Ext.apply(this, {
+                menu : myMenu
+            });
+        }
+
         me.callParent();
-
-        
-            
-      // menu: new Ext.menu.Menu({
-        // items: [
-            // // these will render as dropdown menu items when the arrow is clicked:
-            // {text: 'Item 1', handler: function(){ alert("Item 1 clicked"); }},
-            // {text: 'Item 2', handler: function(){ alert("Item 2 clicked"); }}
-        // ]
-    // }); 
-    
-
         me.on('click', me.loadWinGridMeta, me);
+
+        function addFormClick() {
+            var formController = Ext.create('ProtoUL.UI.FormController', {});
+            formController.openProtoForm.call(formController, me.viewCode, -1, true);
+        }
 
     },
 
@@ -63,7 +74,6 @@ Ext.define('ProtoUL.UI.DetailButton', {
 
         me.myWinGrid.createGridWindow(me.myWinGrid);
     },
-
 
     loadMeta : function(fnBase, opts) {
         // Async Call for getting meta

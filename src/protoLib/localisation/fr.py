@@ -20,6 +20,7 @@ __language ={
     
     'Text_Cancel_Button' : 'Annuler',
     'Text_Save_Button' : 'Enregistrer',
+    'Text_New_Button' : 'Nouveau',
     'Text_Edit_Button' : 'Éditer',
     'Text_SaveMs_Button' : 'Enregistrer',
     'Text_SaveDt_Button' : 'Enregistrer details',
