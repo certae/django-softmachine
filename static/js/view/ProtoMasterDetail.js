@@ -192,6 +192,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         myDetGrid = me.protoTabs.items.items[me.ixActiveDetail];
         myDetGrid.detailTitle = detailLink.detTitle;
         myDetGrid.setGridTitle(myDetGrid);
+        myDetGrid.mdFilter = detailLink.detFilter; 
 
         // Asigna los vr por defecto
         me.linkController.setDetailDefaults(pDetail, myDetGrid.myFieldDict);

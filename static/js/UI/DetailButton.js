@@ -48,7 +48,10 @@ Ext.define('ProtoUL.UI.DetailButton', {
         me.on('click', me.loadWinGridMeta, me);
 
         function addFormClick() {
-            var formController = Ext.create('ProtoUL.UI.FormController', {});
+            var formController = Ext.create('ProtoUL.UI.FormController', {
+                linkController : me.linkController,
+                detailDefinition : me.detailDefinition
+            });
             formController.openProtoForm.call(formController, me.viewCode, -1, true);
         }
 

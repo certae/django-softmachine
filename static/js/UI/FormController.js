@@ -65,8 +65,9 @@ Ext.define('ProtoUL.UI.FormController', {
                 me._waitForDetails(me, detCode);
             }
 
-        };
-        // This increase performance. Coalesce multiple layouts. If you�re adding/removing a bunch of Components in a single go
+        }
+
+        // This increase performance.
         Ext.suspendLayouts();
 
         // lo marca como cargado
@@ -139,6 +140,11 @@ Ext.define('ProtoUL.UI.FormController', {
 
     newProtoForm : function() {
         // llamado tambien desde formConfig  (protoDesigner)
+
+        var me = this;
+        if (!me.myFieldDict) {
+            me.myFieldDict = _SM.getFieldDict(me.myMeta);
+        }
 
         this.defineFormLayout();
         this.myForm = Ext.widget('protoform', {
@@ -271,21 +277,23 @@ Ext.define('ProtoUL.UI.FormController', {
     },
 
     _openAndLoad : function(viewCode, myRecordId) {
-        this.myMeta = _SM._cllPCI[viewCode];
+
+        this.myMeta = _SM.clone(_SM._cllPCI[viewCode]);
+
         this.formLoaded = true;
         this._loadFormData(myRecordId);
     },
 
     _loadFormData : function(myRecordId) {
 
+        var me = this, myFilter, storeDefinition, myStore, myRecord;
+
         // Form is not ready
-        if (!this.formLoaded) {
+        if (!me.formLoaded) {
             return;
         }
 
-        // TODO: LinkFilter 
-        // TODO: me.newForm is not record 
-        var myFilter, storeDefinition, myStore, myRecord;
+        // TODO: LinkFilter
         myFilter = [{
             "property" : "pk",
             "filterStmt" : myRecordId
@@ -313,9 +321,20 @@ Ext.define('ProtoUL.UI.FormController', {
                 },
                 scope : this
             });
-            
+
         } else {
-            this.newForm = true; 
+
+            this.newForm = true;
+            me.myFieldDict = _SM.getFieldDict(me.myMeta);
+
+            if (me.linkController) {
+                me.detailLink = me.linkController.getDetailLink(me.detailDefinition);
+                me.linkController.setDetailDefaults(me.detailDefinition, me.myFieldDict);
+
+                me.baseFilter = me.detailLink.detFilter;
+                me.detailTitle = me.detailLink.detTitle;
+            }
+
             myRecord = _SM.getNewRecord(this.myMeta, myStore);
             this.openForm(myRecord);
         }
@@ -333,9 +352,9 @@ Ext.define('ProtoUL.UI.FormController', {
 
         function defineProtoFormItem(me, parent, protoObj, protoIx) {
 
-            var prLayout, template, __ptType, sDataType = _SM.typeOf(protoObj);
+            var myFld, prLayout, template, __ptType, sDataType = _SM.typeOf(protoObj);
 
-            if (sDataType == "object") {
+            if (sDataType === "object") {
 
                 // Configura el objeto
                 if (!protoObj.__ptConfig) {
@@ -351,36 +370,36 @@ Ext.define('ProtoUL.UI.FormController', {
                     // console.log( 'El objeto no tiene tipo definido' , protoObj )
                     return {};
 
-                } else if (__ptType == 'formField') {
+                } else if (__ptType === 'formField') {
 
                     // protoIx es el field Name, si no viene debe buscarlo en __ptConfig [ name ]
                     protoIx = protoObj.name || protoObj.__ptConfig.name;
 
-                    var myFld = myFieldDict[protoIx];
+                    myFld = me.myFieldDict[protoIx];
                     if (myFld) {
                         template = getTemplate(__ptType, true, myFld);
 
                         // FIX: Utiliser myField.autoNumericField
                         // if (myFld.required && !myFld.fkId && me.newForm) {
-                            // template.__ptConfig.listeners.render = function(field) {
-                                // Ext.Ajax.request({
-                                    // url : _SM._PConfig.urlGetNextIncrement,
-                                    // method : 'GET',
-                                    // params : {
-                                        // fieldName : myFld.name,
-                                        // viewEntity : me.myMeta.viewEntity
-                                    // },
-                                    // success : function(result, request) {
-                                        // var jsonData = Ext.decode(result.responseText);
-                                        // field.setValue(jsonData.increment);
-                                    // },
-                                    // failure : function() {
-                                        // console.log('failure on get increment');
-                                    // }
-                                // });
-                            // };
+                        // template.__ptConfig.listeners.render = function(field) {
+                        // Ext.Ajax.request({
+                        // url : _SM._PConfig.urlGetNextIncrement,
+                        // method : 'GET',
+                        // params : {
+                        // fieldName : myFld.name,
+                        // viewEntity : me.myMeta.viewEntity
+                        // },
+                        // success : function(result, request) {
+                        // var jsonData = Ext.decode(result.responseText);
+                        // field.setValue(jsonData.increment);
+                        // },
+                        // failure : function() {
+                        // console.log('failure on get increment');
                         // }
-                        
+                        // });
+                        // };
+                        // }
+
                         prLayout = Ext.apply(template.__ptConfig, protoObj.__ptConfig);
 
                         // ReadOnlyCls
@@ -553,12 +572,11 @@ Ext.define('ProtoUL.UI.FormController', {
         }
 
         // @formatter:off
-        var me = this, myFormDefinition, myMeta, myFieldDict, ixV, lObj, prItem;
+        var me = this, myFormDefinition, myMeta, ixV, lObj, prItem;
         // @formatter:on
 
         myFormDefinition = _SM.clone(this.myMeta.formConfig);
         myMeta = this.myMeta;
-        myFieldDict = _SM.getFieldDict(myMeta);
 
         me.prFormLayout = [];
 

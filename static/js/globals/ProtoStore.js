@@ -288,7 +288,7 @@ _SM.getNewRecord = function(myMeta, myStore) {
 
     function setDefaults() {
 
-        var vDefault = {}, ix, fld;
+        var vDefault = {}, ix, vFld;
 
         for (ix in myMeta.fields ) {
             vFld = myMeta.fields[ix];
