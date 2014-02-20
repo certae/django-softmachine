@@ -145,7 +145,7 @@ EMAIL_USE_TLS = True
 
 if DEBUG :
     from settings_development import *
-    with open('/etc/secret_key.txt') as f: #PPATH + '/src/ProtoExt/secret_key.txt'
+    with open( PPATH + '/src/ProtoExt/secret_key.txt') as f:
         SECRET_KEY = f.read().strip()
 else :
     from settings_production import *

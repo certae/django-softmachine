@@ -13,8 +13,8 @@
 		<link rel="shortcut icon" href="laval.ico">
 
 		<!-- Ext JS Files -->
-		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}extjs/resources/css/ext-all-gray.css">
-		<script type="text/javascript" src="{{ STATIC_URL }}extjs/ext-all-debug.js"></script>
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}extjs-4.2.x/resources/css/ext-all-gray.css">
+		<script type="text/javascript" src="{{ STATIC_URL }}extjs-4.2.x/ext-all-debug.js"></script>
 
 		<!-- App Files La aplicacion esta corriendo en JS -->
 		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/app.css">
@@ -54,7 +54,7 @@
             // Insert src attribute to extlocale and protolocale
             if (locale) {
                 Ext.fly('extlocale').set({
-                    src: '{{ STATIC_URL }}extjs/locale/ext-lang-' + locale + '.js'
+                    src: '{{ STATIC_URL }}extjs-4.2.x/locale/ext-lang-' + locale + '.js'
                 });
                 Ext.fly('protolocale').set({
                     src: '{{ STATIC_URL }}js/globals/locale/SM__lang-' + locale + '.js'

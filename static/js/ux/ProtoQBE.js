@@ -32,7 +32,7 @@
             var nom = '';
             if (resp[i].required == true) {
                 var req = _SM._requiredField;
-                nom = '<b>' + resp[i].name + '</b>';
+                nom = '<strong>' + resp[i].name + '</strong>'
             } else {
                 nom = resp[i].name;
                 var req = "";
@@ -89,6 +89,7 @@
             }]
 
         });
+
 
         me.callParent(arguments);
     },
