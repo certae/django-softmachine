@@ -58,7 +58,6 @@ Ext.define('ProtoUL.view.password.ForgotPasswordForm', {
         this.dockedItems = [{
             xtype: 'toolbar',
             dock: 'bottom',
-            id:'buttons',
             ui: 'footer',
             items: ['->', {
                 text: _SM.__language.Text_Send_Button,

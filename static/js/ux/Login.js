@@ -27,7 +27,7 @@ Ext.define('ProtoUL.ux.Login', {
         });
 
         this.resetButton = new Ext.Button({
-            id: 'resetButton',
+            itemId: 'resetPWDButton',
             text: _SM.__language.Text_Forgotten_Password,
             iconCls: "st-user-who",
             scope: this,
@@ -45,7 +45,7 @@ Ext.define('ProtoUL.ux.Login', {
         Ext.apply(this, {
             items: [{
                 fieldLabel: _SM.__language.Textfield_User_Login,
-                id: 'loginField',
+                itemId: 'loginField',
                 name: "login",
                 value: this.username,
                 listeners: {
@@ -150,7 +150,7 @@ Ext.define('ProtoUL.ux.Login', {
             autoHide: true,
             stateful: false,
             getTargetXY: function() {
-                var resetButton = Ext.getCmp('resetButton');
+                var resetButton = Ext.ComponentQuery.query('button[itemId=resetPWDButton]')[0];
                 var x = resetButton.getPosition()[0];
                 var y = resetButton.getPosition()[1];
                 return [x, y];
