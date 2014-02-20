@@ -52,6 +52,8 @@ def getSearcheableFields(model):
 
     lFields = []
     filterableTypes = [ 'CharField', 'TextField', 'JSONField' ]
+#    filterableTypes.extend( ['IntegerField', 'DecimalField', 'FloatField' ]
+#    filterableTypes.extend( [ 'DateField', 'TimeField', 'DateTimeField', 'BooleanField' ])
 
     for field in model._meta.fields:
         if field.__class__.__name__ in filterableTypes:
@@ -166,6 +168,11 @@ def getQbeStmt(fieldName , sQBE, sType):
 
         QResult = Q(**Qobj)
 
+#    TODO: if sType == 'bool':
+#    Fechas: year, month, day,   
+#    TODO: if sType in ( [ 'date''datetime', 'time' ]) : 
+
+    
     if bNot : QResult = ~QResult
     return QResult
 
