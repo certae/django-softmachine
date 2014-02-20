@@ -8,14 +8,13 @@ Ext.require('Ext.form.Panel');
 var Application = null;
 
 Ext.onReady(function() {
-    //Application = Ext.create('Ext.app.Application', {
     	Ext.application({
         name: 'ProtoUL',
         appfolder: 'static/js',
-
+        
         launch: function() {
             //include the tests in the test.html head
-            jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
+            jasmine.getEnv().addReporter(new jasmine.HtmlReporter());
             jasmine.getEnv().execute();
         }
     });

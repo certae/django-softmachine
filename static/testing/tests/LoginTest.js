@@ -68,3 +68,48 @@ describe("On submit, Login module", function() {
         expect(button.enable).toHaveBeenCalled();
     });
 });
+
+describe("On request, Lost password", function() {
+	it("can be loaded", function() {
+        expect(ProtoUL.view.password.ForgotPasswordForm).toBeDefined();
+    });
+    
+    it("creates a reset password window", function() {
+        var resetWindow = new ProtoUL.view.password.ForgotPasswordForm();
+        expect(resetWindow).toBeTruthy();
+    });
+    
+});
+
+describe("On submit, Lost password form", function() {
+    var resetWindow = null;
+    var pwdManager = null;
+    var lostPWDForm = null;
+    var submitButton = null;
+        
+    beforeEach (function () {
+        resetWindow = Ext.create('ProtoUL.view.password.ForgotPasswordForm');
+        pwdManager = Ext.create('ProtoUL.controller.PasswordManager');
+        lostPWDForm = resetWindow.down('form').getForm();
+        submitButton = resetWindow.dockedItems.items[0].items.items[1];
+    });
+    
+    it("checks if form is valid", function() {
+		
+        spyOn(lostPWDForm, 'isValid');
+
+        pwdManager.forgotpassword(submitButton);
+
+        expect(lostPWDForm.isValid).toHaveBeenCalled();
+    });
+    
+    it("sends form through a POST request", function() {
+
+        spyOn(lostPWDForm, 'isValid').andReturn(true);
+        spyOn(lostPWDForm, 'submit');
+
+        pwdManager.forgotpassword(submitButton);
+
+        expect(lostPWDForm.submit).toHaveBeenCalled();
+    });
+});
