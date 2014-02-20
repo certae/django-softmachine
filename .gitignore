@@ -1,6 +1,12 @@
 *.class
 *.pyc
 *.pyo
+*.bak
 .deployables
 static/pruebas/tmp.js
 static/extjs-4.1.x
+static/extjs-4.2.2
+static/extjs
+static/all-classes.js
+coverage.xml
+src/ProtoExt/secret_key.txt

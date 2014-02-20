@@ -308,4 +308,3 @@ def protoCsv(request):
             outfile.write( getLineCsv( row.values() ))
 
     return  JsonSuccess( { 'message':  filename } )
-

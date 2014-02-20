@@ -1,4 +1,4 @@
-﻿# -*- coding' : utf-8 -*-
+# -*- coding' : utf-8 -*-
 
 __language ={
     'languaje' : 'en', 
@@ -34,9 +34,9 @@ __language ={
     'Msg_Error_Save_Form' : 'Save form Failed',
     'Msg_Failed_Operation' : 'Operation failure',
     'Msg_Confirm_Delete_Operation' : 'Are you sure?',
-
+    
     'Title_Msg_Confirm_Delete' : 'Confirm Delete',
-
+    
     'GridNav_In_New_Tab' : 'View in a new tab',
     'GridNav_PageSize' : 'by page',
     'GridNav_Current' : 'Results',
@@ -158,7 +158,6 @@ __language ={
 
     'Message_Error_SaveProtoObj' : 'SaveProtoObj Failed',
     'Message_Error_Reporting' : 'SheetReport Failed',
-
 
     'Title_Main_Panel' : 'RootPanel',
     'Title_Form_Panel' : 'Form',

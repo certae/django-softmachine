@@ -11,8 +11,7 @@ if ('/src' in PPATH):
 # Django settings for debugger 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-
-
+  
 ADMINS = (
      ('Dario Gomez', 'dariogomezt@gmail.com'),
 )
@@ -146,7 +145,7 @@ EMAIL_USE_TLS = True
 
 if DEBUG :
     from settings_development import *
-    with open( PPATH + '/src/ProtoExt/secret_key.txt') as f:
+    with open('/etc/secret_key.txt') as f: #PPATH + '/src/ProtoExt/secret_key.txt'
         SECRET_KEY = f.read().strip()
 else :
     from settings_production import *

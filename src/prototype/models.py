@@ -198,6 +198,13 @@ class PropertyBase(ProtoModel):
         abstract = True
 
 
+# PropertyBase est une classe abstraite et doit être testée différemment.
+# Cette classe est utilisee seulement a des fins de tests
+class PropertyBaseChild(PropertyBase):
+    def save(self, *args, **kwargs):
+        super(PropertyBaseChild, self).save(*args, **kwargs)
+
+
 class Property(PropertyBase):
     """ 
     Propiedades por tabla, definicion a nivel de modelo de datos.

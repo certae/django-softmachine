@@ -12,8 +12,6 @@ Ext.define('ProtoUL.view.Viewport', {
 
     initComponent: function () {
 
-
-
         Ext.apply(this, {
             layout: 'border',
             autoRender: true,
@@ -30,9 +28,7 @@ Ext.define('ProtoUL.view.Viewport', {
 
         });
 
-
         this.callParent(arguments);
-
 
     },
 

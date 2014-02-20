@@ -1,4 +1,4 @@
-﻿Ext.define('Ext.ux.HelpQbe', {
+﻿﻿Ext.define('Ext.ux.HelpQbe', {
     extend: 'Ext.form.field.Trigger',
     alias: 'widget.HelpQbe',
 

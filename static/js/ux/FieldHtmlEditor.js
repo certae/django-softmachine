@@ -712,4 +712,3 @@ Ext.define('ProtoUL.ux.HtmlEditor.MidasFormat', {
         overflowText: 'Remove Formatting'
     }]
 });
-

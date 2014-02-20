@@ -240,5 +240,3 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         }
     }
 });
-
-

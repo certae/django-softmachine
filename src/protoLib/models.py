@@ -3,14 +3,14 @@
 # TODO: Django’s comments system (django.contrib.comments) uses it to “attach” comments to any installed model.
 
 from django.db import models
-from django.contrib.auth.models import User 
+from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.db.models.signals import post_save
 from protoLib.fields import JSONField, JSONAwareManager
 
 
 class TeamHierarchy(models.Model):
-# Jerarquia funcional ( de seguridad ) de la app     
+# Jerarquia funcional ( de seguridad ) de la app
 # Es la base de la seguridad por registro
 
     code = models.CharField(unique=True, blank=False, null=False, max_length=200)
@@ -28,19 +28,19 @@ class TeamHierarchy(models.Model):
         sTree = unicode(self.id)
         for item in self.downHierachy.all() :
             sTree += ',' + item.treeHierarchy
-        return sTree     
+        return sTree
 
     def __unicode__(self):
         return self.code
 
     def save(self, *args, **kwargs):
-        if self.parentNode is not None: 
+        if self.parentNode is not None:
             self.site = self.parentNode.site
 #        if self.site is None:
 #            raise Exception( 'site required')
-        super(TeamHierarchy, self).save(*args, **kwargs) 
+        super(TeamHierarchy, self).save(*args, **kwargs)
 
-    protoExt = { 'fields' : { 
+    protoExt = { 'fields' : {
           'fullPath': {'readOnly' : True},
           'treeHierarchy': {'readOnly' : True},
      }}
@@ -48,19 +48,19 @@ class TeamHierarchy(models.Model):
 
 
 # here is the profile model
-class UserProfile(models.Model):  
-# Es necesario inlcuir el ususario en un BUnit, cada registro copiara el Bunit 
+class UserProfile(models.Model):
+# Es necesario inlcuir el ususario en un BUnit, cada registro copiara el Bunit
 # del usuario para dar permisos tambien a la jerarquia ( ascendente )
     user = models.ForeignKey(User, unique=True)
     userTeam = models.ForeignKey(TeamHierarchy, blank=True, null=True)
     userTree = models.CharField(blank=True, null=True, max_length=500)
     language = models.CharField(blank=True, null=True, max_length=500)
 
-    # TODO: si  el usuario pertenece a varios grupos podria cambiar su grupo de trabajo 
+    # TODO: si  el usuario pertenece a varios grupos podria cambiar su grupo de trabajo
     # workigTeam = models.ForeignKey( TeamHierarchy, blank = True, null = True )
-      
+
     def __unicode__(self):
-        return  self.user.username 
+        return  self.user.username
 
 def user_post_save(sender, instance, created, **kwargs):
     """Create a user profile when a new user account is created"""
@@ -72,16 +72,16 @@ def user_post_save(sender, instance, created, **kwargs):
 post_save.connect(user_post_save, sender=User)
 
 
-class UserShare(models.Model):  
-    # si el usuairo comparte otros permisos  
+class UserShare(models.Model):
+    # si el usuairo comparte otros permisos
     user = models.ForeignKey(User)
     userTeam = models.ForeignKey(TeamHierarchy , related_name='userShares')
 
     def __unicode__(self):
-        return self.user.username + '-' + self.userTeam.code 
+        return self.user.username + '-' + self.userTeam.code
 
 
-# Tabla modelo para la creacion de entidades de usuario     ( sm  security mark ) 
+# Tabla modelo para la creacion de entidades de usuario     ( sm  security mark )
 # related_name="%(app_label)s_%(class)s
 class ProtoModel(models.Model):
     smOwningUser = models.ForeignKey(User, null=True, blank=True, related_name='+', editable=False)
@@ -95,15 +95,15 @@ class ProtoModel(models.Model):
     smCreatedOn = models.DateTimeField(auto_now=True , null=True, blank=True, editable=False)
     smModifiedOn = models.DateTimeField(auto_now=True , null=True, blank=True, editable=False)
 
-    # Indicador para manejo de seguridad 
-    _protoObj = True 
+    # Indicador para manejo de seguridad
+    _protoObj = True
 
     class Meta:
         abstract = True
 
     def save(self, *args, **kwargs):
         "Get last value of Code and Number from database, and increment before save"
-        if hasattr( self , "_autoIncrementField" ) and not self.pk:
+        if hasattr(self , "_autoIncrementField") and not self.pk:
             _autoIncrementField = getattr(self, "_autoIncrementField")
             model = self.__class__
             top = model.objects.order_by('-pk')
@@ -111,7 +111,7 @@ class ProtoModel(models.Model):
                 setattr(self, _autoIncrementField, top[0].pk + 1)
             else:
                 setattr(self, _autoIncrementField, 1)
-            
+
             super(ProtoModel, self).save(*args, **kwargs)
         else:
             super(ProtoModel, self).save(*args, **kwargs)
@@ -154,12 +154,12 @@ class EntityMap(models.Model):
 
 
 class FieldMap(models.Model):
-    # TODO: Implemenar con EntityMap 
-    
+    # TODO: Implemenar con EntityMap
+
     entity = models.ForeignKey(EntityMap, blank=False, null=False)
     fieldName = models.CharField(max_length=200, blank=False, null=False)
 
-    # Permisos a nivel de campo ( se marcan como enteros para sumarlos 0 = False )  
+    # Permisos a nivel de campo ( se marcan como enteros para sumarlos 0 = False )
     canRead = models.IntegerField(default=0, blank=False, null=False)
     canIns = models.IntegerField(default=0, blank=False, null=False)
     canUpd = models.IntegerField(default=0, blank=False, null=False)
@@ -173,28 +173,28 @@ class FieldMap(models.Model):
 
 class ProtoDefinition(models.Model):
     # Esta tabla guarda las definiciones de las pcls y del menu,
-    # es un contenedor generico para manejar documentos json modificados de lo q 
-    # en principio es la definicion de base de los modelos Django. 
+    # es un contenedor generico para manejar documentos json modificados de lo q
+    # en principio es la definicion de base de los modelos Django.
     code = models.CharField(unique=True, blank=False, null=False, max_length=200)
     description = models.TextField(verbose_name=u'Descriptions', blank=True, null=True)
-    
+
     metaDefinition = models.TextField(blank=True, null=True)
-    
-    # Si esta activo toma la definicion de la Db, si no esta activa usa la definicion por defecto  
+
+    # Si esta activo toma la definicion de la Db, si no esta activa usa la definicion por defecto
     active = models.BooleanField(default=False)
-    
+
     # Elto de control para sobre escribir,  podria ser un error el solo hecho de inactivarlo
     overWrite = models.BooleanField(default=True)
-    
-    # For entity clasification  ( V14.01 ) 
+
+    # For entity clasification  ( V14.01 )
 #     appName     = models.CharField(max_length=200, blank=True, null=True)
 #     entityName  = models.CharField(max_length=200, blank=True, null=True)
 #     contentType = models.ForeignKey(ContentType, blank=True, null=True)
-    
-    def __unicode__(self):
-        return self.code 
 
-    protoExt = { 
+    def __unicode__(self):
+        return self.code
+
+    protoExt = {
         "gridConfig" : {
             "listDisplay": ["__str__", "description", "active", "overWrite"],
             "others": {
@@ -207,13 +207,13 @@ class ProtoDefinition(models.Model):
                 }],
             }
         }
-    } 
+    }
 
 
 class CustomDefinition(ProtoModel):
-    # maneja las definiciones por grupo 
-    # aqui se guardan los menus personalizados, y las customOptions 
-    # DGT: por ahora el manejo es solo a nivel de grupos, pero dependiendo el nivel de amdin, se guardara como grupo o usuario  
+    # maneja las definiciones por grupo
+    # aqui se guardan los menus personalizados, y las customOptions
+    # DGT: por ahora el manejo es solo a nivel de grupos, pero dependiendo el nivel de amdin, se guardara como grupo o usuario
     code = models.CharField(blank=False, null=False, max_length=200)
     description = models.TextField(verbose_name=u'Descriptions', blank=True, null=True)
 
@@ -222,23 +222,23 @@ class CustomDefinition(ProtoModel):
     # Compatibilidad con ProtoDefinition
     active = models.BooleanField(default=True)
     overWrite = models.BooleanField(default=False)
-    
+
     def __unicode__(self):
-        return self.code 
+        return self.code
     class Meta:
         unique_together = ('smOwningTeam', 'code',)
 
-    protoExt = { 
+    protoExt = {
         "gridConfig" : {
-            "listDisplay": ["__str__", "description", "smOwningTeam"]      
+            "listDisplay": ["__str__", "description", "smOwningTeam"]
         }
-    } 
+    }
 
 
 def getDjangoModel(modelName):
-#   Obtiene el modelo 
+#   Obtiene el modelo
 
-    if modelName.count('.') == 1: 
+    if modelName.count('.') == 1:
         model = models.get_model(*modelName.split('.'))
 
     elif modelName.count('.') == 0:
@@ -249,11 +249,11 @@ def getDjangoModel(modelName):
 
     elif modelName.count(".") == 2:
         model = models.get_model(*modelName.split(".")[0:2])
-            
-    if model is None: 
-        raise Exception('model not found:' + modelName)  
-                
-    return model 
+
+    if model is None:
+        raise Exception('model not found:' + modelName)
+
+    return model
 
 
 
@@ -261,17 +261,17 @@ def getNodeHierarchy(record, parentField, codeField, pathFunction):
     "Returns the full hierarchy path."
 
     pRec = record.__getattribute__(parentField)
-    if pRec   : 
-        return pRec.__getattribute__(pathFunction) + ',' + unicode(record.__getattribute__(codeField)) 
-    else: 
+    if pRec   :
+        return pRec.__getattribute__(pathFunction) + ',' + unicode(record.__getattribute__(codeField))
+    else:
         return unicode(record.__getattribute__(codeField))
 
 
 
 class DiscreteValue(models.Model):
-    # TODO : Manejo de discretas  
+    # TODO : Manejo de discretas
     # Ahora se hace como un arbol para por ejemplo manejar el idioma fr.ca  es.ca
-    # Arrancar con filtro inicial discreteValue = None   
+    # Arrancar con filtro inicial discreteValue = None
 
     code = models.CharField(blank=False, null=False, max_length=200)
     value = models.CharField(blank=False, null=False, max_length=200)
@@ -280,36 +280,36 @@ class DiscreteValue(models.Model):
     title = models.ForeignKey('DiscreteValue', blank=True, null=True)
 
     def __unicode__(self):
-        if self.title is None:  
+        if self.title is None:
             return self.code
-        else: return self.title.code + '.' + self.code 
+        else: return self.title.code + '.' + self.code
 
     class Meta:
         unique_together = ('title', 'value',)
 
-    protoExt = { 
+    protoExt = {
         "gridConfig" : {
-            "listDisplay": ["__str__", "description" ]      
+            "listDisplay": ["__str__", "description" ]
         }
-    } 
+    }
 
 
 class Languaje(models.Model):
     """ TODO : Manejar una tabla con los diferentes lenguajes en formato Json    
         { 'es' : 'incio', 'en' : 'start', .....  }
         se aprovecha la pseudo definicion como en prototipos  
-    """  
+    """
 
     code = models.CharField(blank=False, null=False, max_length=200 , unique=True)
 
-    # para manejar un nombre de variable usr   
+    # para manejar un nombre de variable usr
     alias = models.CharField(blank=False, null=False, max_length=200)
 
     info = JSONField(default={})
 
     def __unicode__(self):
-        return self.code + '.' + self.info.__str__()  
-    
+        return self.code + '.' + self.info.__str__()
+
     objects = JSONAwareManager(json_fields=['info'])
 
 
@@ -320,15 +320,15 @@ class PtFunction(models.Model):
         por ejemplo el perfil de usuario y el acceso a modelos 
         
         Siempre deb retornar algo
-    """  
+    """
 
-    # nombre de la funcion     
+    # nombre de la funcion
     code = models.CharField(blank=False, null=False, max_length=200 , unique=True)
 
-    # este modelo se importa y se ofrece a la funcion 
+    # este modelo se importa y se ofrece a la funcion
     modelName = models.CharField(blank=False, null=False, max_length=200)
-    
-    # lista separada por comas de los nombres de los argumentos 
+
+    # lista separada por comas de los nombres de los argumentos
     arguments = models.CharField(blank=False, null=False, max_length=400)
 
     functionBody = models.TextField(blank=True, null=True)
@@ -338,16 +338,16 @@ class PtFunction(models.Model):
 
 
     def __unicode__(self):
-        return self.code + '.' + self.tag  
+        return self.code + '.' + self.tag
 
 
-class ParametersBase(ProtoModel): 
+class ParametersBase(ProtoModel):
     parameterKey = models.CharField(max_length=250 , blank=False, null=False)
     parameterTag = models.CharField(max_length=250 , blank=False, null=False)
     parameterValue = models.CharField(max_length=250 , blank=False, null=False)
 
     def __unicode__(self):
-        return self.parameterKey + '.' + self.parameterValue   
+        return self.parameterKey + '.' + self.parameterValue
 
 
 class WflowAdminResume(ProtoModel):
@@ -359,11 +359,11 @@ class WflowAdminResume(ProtoModel):
 
     viewEntity = models.CharField(max_length=250 , blank=False, null=False)
     activityCount = models.IntegerField(blank=False, null=False)
-   
+
     def __unicode__(self):
         return self.viewEntity + '.' + self.smOwningTeam.__str__()
 
-    protoExt = { 
+    protoExt = {
         "actions": [
             { "name": "doWFlowResume",
               "selectionMode" : "none",
@@ -381,7 +381,7 @@ class WflowUserReponse(ProtoModel):
     wfAction = models.CharField(max_length=250 , blank=False, null=False)
     strKey = models.CharField(max_length=250 , blank=False, null=False)
     adminMsg = models.CharField(max_length=250 , blank=False, null=False)
-   
+
     def __unicode__(self):
         return self.viewEntity
 

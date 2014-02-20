@@ -5,10 +5,10 @@ from protoLib.models import CustomDefinition, PtFunction
 from protoLib.models import EntityMap, FieldMap
 from django.contrib  import admin
 
-           
+
 import django.contrib.admin
 
-from adminProtoDef import protoDefinitionAdmin 
+from adminProtoDef import protoDefinitionAdmin
 admin.site.register(ProtoDefinition, protoDefinitionAdmin)
 
 from adminOrgTree import orgTreeAdmin
@@ -23,13 +23,13 @@ admin.site.register(CustomDefinition)
 admin.site.register(PtFunction)
 
 
-from django.contrib.auth.models import User 
-from adminUsr import AdminUser 
+from django.contrib.auth.models import User
+from adminUsr import AdminUser
 User.protoExt = AdminUser
 
 
-# de aut 
-# from django.contrib.auth.models import Permission, Message   
+# de aut
+# from django.contrib.auth.models import Permission, Message
 # admin.site.register( Permission )
 # admin.site.register( Message )
 
@@ -41,10 +41,10 @@ admin.site.register(EntityMap)
 admin.site.register(FieldMap)
 
 
-# -----------------------------------------   Model  
+# -----------------------------------------   Model
 
 from protoLib.actions import doWFlowResume
-from protoLib.models import WflowAdminResume   
+from protoLib.models import WflowAdminResume
 
 class WflowAdminResumeAdmin(admin.ModelAdmin):
     actions = [ doWFlowResume, ]

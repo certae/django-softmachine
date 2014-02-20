@@ -379,7 +379,7 @@ Ext.define('ProtoUL.UI.FormController', {
                     if (myFld) {
                         template = getTemplate(__ptType, true, myFld);
 
-                        // FIX: Utiliser myField.autoNumericField
+                        // FIXME: Utiliser myField.autoNumericField
                         // if (myFld.required && !myFld.fkId && me.newForm) {
                         // template.__ptConfig.listeners.render = function(field) {
                         // Ext.Ajax.request({

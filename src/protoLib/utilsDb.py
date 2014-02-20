@@ -10,4 +10,3 @@ def setDefaults2Obj( pObj, defaults, exclude = []):
         except:
             #TODO: Log 
             pass 
-

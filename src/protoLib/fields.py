@@ -32,16 +32,16 @@ from utilsBase import JSONEncoder
 
 
 class JSONDict(dict):
-    
+
     def __repr__(self):
-        return unicode( json.dumps(self, cls=JSONEncoder, indent=4))
+        return unicode(json.dumps(self, cls=JSONEncoder, indent=4))
 
 
 class JSONAwareQuerySet(models.query.QuerySet):
-    def __init__(self, json_fields = [], *args, **kwargs):
+    def __init__(self, json_fields=[], *args, **kwargs):
         self.json_fields = json_fields
         super(JSONAwareQuerySet, self).__init__(*args, **kwargs)
-        
+
     def _filter_or_exclude(self, negate, *args, **kwargs):
         extra_lookups = {}
 
@@ -51,14 +51,14 @@ class JSONAwareQuerySet(models.query.QuerySet):
 
         for key in extra_lookups:
             kwargs.pop(key)
-        
+
         clone = super(JSONAwareQuerySet, self)._filter_or_exclude(negate, *args, **kwargs)
-        
+
         result = []
-        
+
         if extra_lookups.keys():
-            len(clone) # Fill the cache
-            
+            len(clone)# Fill the cache
+
             for item, lookup in itertools.product(self, extra_lookups.keys()):
                 if not negate and self._evaluate_json_lookup(item, lookup, extra_lookups[lookup]):
                     result.append(item)
@@ -68,10 +68,10 @@ class JSONAwareQuerySet(models.query.QuerySet):
             clone._result_cache = result
 
         return clone
-        
+
     def _evaluate_json_lookup(self, item, lookup, value):
         oper = 'exact'
-        
+
         evaluators = {
             'icontains': lambda item, value: item.lower() in value.lower(),
             'contains': lambda item, value: item in value,
@@ -84,7 +84,7 @@ class JSONAwareQuerySet(models.query.QuerySet):
             'gte': lambda item, value: item >= value,
             'range': lambda item, value: item >= value[0] and item <= value[1],
         }
-        
+
         def _getattr(obj, key):
             if isinstance(obj, dict):
                 return obj[key]
@@ -103,7 +103,7 @@ class JSONAwareQuerySet(models.query.QuerySet):
                 return False
 
         return evaluators[oper](field, value)
-        
+
     def count(self):
         return super(JSONAwareQuerySet, self).count()
 
@@ -112,7 +112,7 @@ class JSONAwareQuerySet(models.query.QuerySet):
 
     def order_by(self, *args, **kwargs):
         return self
-    
+
     def _clone(self, *args, **kwargs):
         clone = super(JSONAwareQuerySet, self)._clone(*args, **kwargs)
         clone.json_fields = self.json_fields
@@ -120,10 +120,10 @@ class JSONAwareQuerySet(models.query.QuerySet):
 
 
 class JSONAwareManager(models.Manager):
-    def __init__(self, json_fields = [], *args, **kwargs):
+    def __init__(self, json_fields=[], *args, **kwargs):
         self.json_fields = json_fields
         super(JSONAwareManager, self).__init__(*args, **kwargs)
-        
+
     def get_query_set(self):
         return JSONAwareQuerySet(self.json_fields, self.model)
 
@@ -146,7 +146,7 @@ class JSONField(models.TextField):
         value = json.dumps(value, cls=JSONEncoder)
         return super(JSONField, self).get_db_prep_save(value, *args, **kwargs)
 
-    
+
 from south.modelsinspector import add_introspection_rules
 add_introspection_rules([], ["^protoLib\.fields\.JSONField"])
-    
+

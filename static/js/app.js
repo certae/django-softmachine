@@ -33,9 +33,9 @@ Ext.application({
         } else {
         	this.showLogin();
         }
-        
-    }, 
-    showLogin: function(  ) {
+
+    },
+    showLogin: function() {
 
         var me = this;
 
@@ -49,8 +49,8 @@ Ext.application({
                 Ext.grid.RowEditor.prototype.cancelBtnText = _SM.__language.Text_Cancel_Button;
                 
                 var app = new ProtoUL.view.Viewport();
-                
-                Ext.destroy( Ext.ComponentQuery.query('protoLogin') );    
+
+                Ext.destroy(Ext.ComponentQuery.query('protoLogin'));
 
             }
         };

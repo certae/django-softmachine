@@ -44,7 +44,6 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 hidden: true,
                 enableToggle: true,
                 handler: toogleTb2
-
             }, {
                 xtype: 'splitbutton',
                 text: _SM.__language.Text_Actions_Button,
@@ -289,7 +288,7 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
         function setMdButton(me, btId, bEdit) {
             var bt = me.getComponent(btId);
             bt.setVisible((!bEdit ) && (bt.protoEnable ));
-        };
+        }
 
         Ext.resumeLayouts(true);
 
@@ -354,7 +353,5 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
             bt.protoEnable = true;
             bt.show();
         }
-
     }
-
-});
+}); 

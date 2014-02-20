@@ -55,8 +55,8 @@ Ext.define('ProtoUL.UI.GridSheetController', {
 
     },
 
-    prepareSheet: function() {
-
+	prepareSheet: function() {
+    	
         // @formatter:off
         var me = this.myGrid, 
             myMeta = me.myMeta;
@@ -65,14 +65,14 @@ Ext.define('ProtoUL.UI.GridSheetController', {
         // Los zooms ( initialConfig ) no deben manejar sheets
         if (me.initialConfig.hideSheet || myMeta.gridConfig.hideSheet) {
             return;
-        }
+		}
 
         // Si no tiene datos
         if (!me.rowData) {
             renderSheet('', '');
             return;
         }
-
+        
         //@formatter:off
         var pSheets = myMeta.sheetConfig, 
             pSheetSelector = myMeta.sheetSelector || '', 

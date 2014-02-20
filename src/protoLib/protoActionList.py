@@ -607,4 +607,3 @@ def evalueFuncion(fName, rowData):
         val = fName + '?'
 
     return val
-

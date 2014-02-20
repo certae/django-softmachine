@@ -72,4 +72,3 @@ Ext.define('ProtoUL.ux.protoMenu', {
         });
     }
 });
-
