@@ -164,7 +164,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
         }
 
         function asignaDetailDefinition(me, cllDets) {
-            // Indexa los stores con la info de los detalles copiando la info del detalle
+            // Indexa los stores y/o loas botones con la info de los detalles copiando la info del detalle
             var lObj, lDet, ix, ixD;
             for (ix in cllDets ) {
                 lObj = cllDets[ix];
@@ -299,7 +299,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         this.setReadOnlyFields(bReadOnly);
         this.setDetailsReadOnly(bReadOnly);
-
+        
     },
 
     setDetailsReadOnly : function(bReadOnly) {
@@ -399,7 +399,6 @@ Ext.define('ProtoUL.view.ProtoForm', {
         });
     },
 
-    // TODO: Add DetButtons
     linkDetail : function(record) {
         if (!this.linkDetails) {
             return;
@@ -409,6 +408,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
         me.linkController.setMasterData(record.data);
 
         for (ixDet in me.cllDetGrids ) {
+            
+            me.linkController.isReadOnly = me.isReadOnly; 
             lGrid = me.cllDetGrids[ixDet];
             detailLink = me.linkController.getDetailLink(lGrid.detailDefinition);
             lGrid.store.myLoadData(detailLink.detFilter, null, me.idMaster);

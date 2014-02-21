@@ -13,26 +13,25 @@
 /*global getSimpleProperties */
 
 Ext.define('ProtoUL.UI.WinGridController', {
-    extend : 'Ext.Base',
+    extend: 'Ext.Base',
 
     // Parametros de entrada
-    viewCode : null,
-    detailDefinition : null,
+    viewCode: null,
+    detailDefinition: null,
 
     // * Grid initialization
-    myMeta : null,
-    myGrid : null,
-    store : null,
+    myMeta: null,
+    myGrid: null,
+    store: null,
 
-    baseFilter : [],
-    initialFilter : [],
+    baseFilter: [],
+    initialFilter: [],
 
-    constructor : function(config) {
+    constructor: function(config) {
         Ext.apply(this, config || {});
     },
 
-
-    createGridWindow : function(me) {
+    createGridWindow: function(me) {
         // @GridRaise
 
         if (me.linkController) {
@@ -42,11 +41,11 @@ Ext.define('ProtoUL.UI.WinGridController', {
 
         // Crea la grilla
         me.myGrid = Ext.create('ProtoUL.view.ProtoGrid', {
-            isPromoted : true,
-            viewCode : me.viewCode,
-            detailDefinition : me.detailDefinition,
-            mdFilter : me.baseFilter,
-            hideSheet : true
+            isPromoted: true,
+            viewCode: me.viewCode,
+            detailDefinition: me.detailDefinition,
+            mdFilter: me.baseFilter,
+            hideSheet: true
         });
 
         me.myMeta = me.myGrid.myMeta;
@@ -55,6 +54,7 @@ Ext.define('ProtoUL.UI.WinGridController', {
             me.linkController.setDetailDefaults(me.detailDefinition, me.myGrid.myFieldDict);
             me.myGrid.detailTitle = me.detailLink.detTitle;
             me.myGrid.setGridTitle(me.myGrid);
+            me.myGrid.setEditMode(!me.linkController.isReadOnly);
         }
         // Para identificar el StatusBar
         me.idStBar = Ext.id();
@@ -62,40 +62,40 @@ Ext.define('ProtoUL.UI.WinGridController', {
         var perms, gridBtns;
         perms = _SM._UserInfo.perms[me.viewCode];
         gridBtns = [{
-            xtype : 'tbtext',
-            text : '',
-            id : me.idStBar,
-            flex : 1,
-            readOnly : true
+            xtype: 'tbtext',
+            text: '',
+            id: me.idStBar,
+            flex: 1,
+            readOnly: true
         }, {
-            xtype : 'button',
-            text : 'Ok',
-            scope : me,
-            handler : me.doClose
+            xtype: 'button',
+            text: 'Ok',
+            scope: me,
+            handler: me.doClose
         }];
 
         // referencia a la ventana modal
         me.myWin = Ext.widget('window', {
-            title : 'Grid : ' + me.myMeta.shortTitle,
-            constrainHeader : true,
-            iconCls : me.myMeta.viewIcon,
-            layout : 'fit',
-            modal : true,
-            width : 800,
-            minWidth : 400,
-            height : 600,
-            minHeight : 400,
-            resizable : true,
-            items : this.myGrid,
+            title: 'Grid : ' + me.myMeta.shortTitle,
+            constrainHeader: true,
+            iconCls: me.myMeta.viewIcon,
+            layout: 'fit',
+            modal: true,
+            width: 800,
+            minWidth: 400,
+            height: 600,
+            minHeight: 400,
+            resizable: true,
+            items: this.myGrid,
 
-            dockedItems : [{
-                xtype : 'toolbar',
-                dock : 'bottom',
-                ui : 'footer',
-                defaults : {
-                    minWidth : 75
+            dockedItems: [{
+                xtype: 'toolbar',
+                dock: 'bottom',
+                ui: 'footer',
+                defaults: {
+                    minWidth: 75
                 },
-                items : gridBtns
+                items: gridBtns
             }]
 
         });
@@ -105,7 +105,7 @@ Ext.define('ProtoUL.UI.WinGridController', {
 
     },
 
-    doClose : function() {
+    doClose: function() {
         this.myWin.close();
     }
 
