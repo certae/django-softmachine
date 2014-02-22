@@ -3,7 +3,7 @@
 
 
 from models import Project,  Model, Entity, Property,  Relationship #, Prototype
-from models import PropertyModel, PropertyEquivalence
+from models import PropertyEquivalence
 from models import ProtoTable
 from models import Diagram #, DiagramEntity
 from models import Service #, ServiceRef
@@ -27,14 +27,6 @@ class MyEntityAdmin( admin.ModelAdmin ):
 
 admin.site.register(Entity, MyEntityAdmin )
 
-# ------------------------------------------  PropertyModel
-
-from actions import doPropertyModelJoin 
-
-class MyPropertyModelAdmin( admin.ModelAdmin ):
-    actions = [ doPropertyModelJoin  ]
-
-admin.site.register(PropertyModel, MyPropertyModelAdmin )
 
 # ------------------------------------------  Entity
 from actions import doImportSchema 

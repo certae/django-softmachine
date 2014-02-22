@@ -140,8 +140,6 @@ class importDict():
         
         fdsConcept= ( 'code', 'category',  'physicalName' )
 
-        fdsPropertyModel = ( 'code', 'category',  'baseType', 'prpDefault', )
-        intPropertyModel = ( 'prpLength',  )
         
         fdsPropertyConcept = ( 'alias', 'physicalName', 'foreignConcept' )
         booPropertyConcept = ( 'isNullable', 'isRequired', 'isSensitive', 'isEssential',  'isForeign')
@@ -223,22 +221,13 @@ class importDict():
                             
                             prpConcept = PropertyConcept()
                             prpConcept.concept = dConcept
-                            prpConcept.PropertyModel = prpDom
 
                             # Inicializa el diccionaccionario para las UDPS 
                             prpUdps = []
 
                             for child in xProperty:
-                                if child.tag in fdsPropertyModel:
-                                    if (child.text is not None):
-                                        setattr( prpDom, child.tag, child.text )
-
-                                elif  ( child.tag == 'description' ):
+                                if  ( child.tag == 'description' ):
                                     setattr( prpDom, child.tag, child.get('text'))
-
-                                elif child.tag in intPropertyModel:
-                                    iValue = toInteger(child.text , 0)
-                                    setattr( prpDom, child.tag, iValue )
 
                                 elif child.tag in fdsPropertyConcept:
                                     if (child.text is not None):
@@ -331,14 +320,7 @@ class importDict():
 
     def savePrpUdps(self, udps, dPrp ):
         for key, value  in udps:
-            dUdp = UdpPropertyModel()
-            dUdp.PropertyModel = dPrp
-            dUdp.code = key
-            dUdp.valueUdp = value
-            try:
-                dUdp.save()
-            except: 
-                pass
+            pass
 
 
 def getModelRef( dProject, modelName  ):
@@ -347,9 +329,7 @@ def getModelRef( dProject, modelName  ):
         return mAux[0] 
 
 def getPrpRef( dProject , propName  ):
-    mAux = PropertyModel.objects.filter( domain = dProject, code = propName  )
-    if mAux: 
-        return mAux[0] 
+    pass
 
 def getConceptRef( dModel , cName  ):
     mAux = Concept.objects.filter( model = dModel, code = cName  )

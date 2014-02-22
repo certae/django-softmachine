@@ -64,7 +64,6 @@ def exportProtoJson(request, pModel ):
 #                 'isLookUpResult' : pProperty.isLookUpResult,
 #             }
 # 
-#             #TODO: 'propertyModel'  :pProperty.propertyModel,
 #             
 #             if pProperty.isForeign:
 #                 cProperty[ 'refEntity' ]    = pProperty.relationship.refEntity.code

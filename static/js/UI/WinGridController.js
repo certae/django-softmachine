@@ -100,7 +100,6 @@ Ext.define('ProtoUL.UI.WinGridController', {
 
         });
 
-        this.myGrid.setEditMode(true);
         me.myWin.show();
 
     },

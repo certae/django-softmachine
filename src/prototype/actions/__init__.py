@@ -43,18 +43,6 @@ def doEntityPrototype( modeladmin, request, queryset, parameters ):
     return {'success':True, 'message' :  returnTmp } 
 
 
-def doPropertyModelJoin( modeladmin, request, queryset, parameters):
-    """ 
-    funcion para unir dos propertyModel 
-    """
-
-    from propModelJoin import doPropModelJoin 
-
-#   El QSet viene con la lista de Ids  
-    if queryset.count() < 2:
-        return  {'success':False, 'message' : 'Multiple selection required'}
-
-    return doPropModelJoin ( queryset )
 
 
 # -----------  Models  

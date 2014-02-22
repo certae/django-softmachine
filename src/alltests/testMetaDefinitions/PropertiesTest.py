@@ -16,7 +16,6 @@ def PropertiesTestSuite():
     suite.addTest(makeSuite(EntityPropertiesTest, 'test'))
     suite.addTest(makeSuite(PropertyPropertiesTest, 'test'))
     suite.addTest(makeSuite(RelationshipPropertiesTest, 'test'))
-    suite.addTest(makeSuite(PropertyModelPropertiesTest, 'test'))
     suite.addTest(makeSuite(PropertyEquivalencePropertiesTest, 'test'))
     suite.addTest(makeSuite(PrototypePropertiesTest, 'test'))
     suite.addTest(makeSuite(ProtoTablePropertiesTest, 'test'))
@@ -121,14 +120,6 @@ class RelationshipPropertiesTest(TestCase):
                 fieldtype = getFieldType(field, value, Relationship)
                 self.assertIn(fieldtype, PossibleTypes)
 
-
-class PropertyModelPropertiesTest(TestCase):
-    def test_structure(self):
-        fields = getFields(PropertyModel)
-        for field in fields:
-            for value in PropertyModel.protoExt[field]:
-                fieldtype = getFieldType(field, value, PropertyModel)
-                self.assertIn(fieldtype, PossibleTypes)
 
 
 class PropertyEquivalencePropertiesTest(TestCase):

@@ -6,8 +6,6 @@ from django.db.models.signals import post_save, post_delete
 from protoLib.models import ProtoModel   
 from protoLib.fields import JSONField,  JSONAwareManager
 
-# from protoRules import  updatePropInfo
-from protoRules import  twoWayPropEquivalence, updProPropModel
 from protoRules import  ONDELETE_TYPES, BASE_TYPES, CRUD_TYPES, DB_ENGINE
 
 
@@ -170,8 +168,16 @@ class Entity(ProtoModel):
 
 
 
-class PropertyBase(ProtoModel):
 
+
+class Property(ProtoModel):
+    """ 
+    Propiedades por tabla, definicion a nivel de modelo de datos.
+    Las relaciones heredan de las propriedades y definien la cardinalidad 
+    """
+    entity = models.ForeignKey('Entity', related_name = 'property_set')
+
+    # -----------  Antiguo property Base 
     code = models.CharField(blank = False, null = False, max_length=200 )
 
     """baseType, prpLength:  Caracteristicas generales q definen el campo """
@@ -193,27 +199,6 @@ class PropertyBase(ProtoModel):
 
     description = models.TextField( blank = True, null = True)
     notes  = models.TextField( blank = True, null = True)
-
-    class Meta:
-        abstract = True
-
-
-# PropertyBase est une classe abstraite et doit être testée différemment.
-# Cette classe est utilisee seulement a des fins de tests
-class PropertyBaseChild(PropertyBase):
-    def save(self, *args, **kwargs):
-        super(PropertyBaseChild, self).save(*args, **kwargs)
-
-
-class Property(PropertyBase):
-    """ 
-    Propiedades por tabla, definicion a nivel de modelo de datos.
-    Las relaciones heredan de las propriedades y definien la cardinalidad 
-    """
-    entity = models.ForeignKey('Entity', related_name = 'property_set')
-    
-    """propertyModel : corresponde a la especificacion en el modelo ( metodologia: user history )"""
-    propertyModel = models.ForeignKey('PropertyModel', blank = True, null = True, on_delete=models.SET_NULL )
 
     # -----------  caracteristicas propias de la instancia
     """isPrimary : en el prototipo siempre es artificial, implica isLookUpResult"""  
@@ -247,7 +232,6 @@ class Property(PropertyBase):
             self.isRequired = True
             self.isLookUpResult = True 
   
-        #updatePropInfo( self,  self.propertyModel, PropertyModel, False )
         super(Property, self).save(*args, **kwargs) 
 
     class Meta:
@@ -306,71 +290,6 @@ class Relationship(Property):
 
 
 
-class PropertyModel(PropertyBase):
-    """ A nivel conceptual encontraremos la lista de propiedadaes 
-        qu corresponde a la definicion semantica del problema; 
-        
-        1. Estas propiedades normalmente se definien a nivel de modelo 
-        cuando el usuario ( piloto ) describe su problematica, 
-        
-        2. Si la definicion la realiza un modelizador, se hara a nivel de entidad, 
-
-    * podria generarse navegando model-entity-prop 
-    * pero el primer paso en podria implicar la definicion semantica de propiedades por modelo, 
-    
-    """
-    model = models.ForeignKey('Model', blank = False, null = False )
-    inherit = models.BooleanField( default = False )
-    conceptType = models.CharField( blank = True, null = True, max_length=50, editable=False )
-
-    def __unicode__(self):
-        return slugify( self.model.code + '.' + self.code )
-
-    class Meta:
-        unique_together = ('model', 'code', 'smOwningTeam' )
-
-    def save(self, *args, **kwargs ):
-        # Envia el heredado y se asegura q sea Falso siempre 
-        #updatePropInfo( self,  None, PropertyModel, self.inherit   )
-        self.inherit = False 
-        super(PropertyModel, self).save(*args, **kwargs) 
-        
-    protoExt = { 
-#    "menuApp" : "dictionary", 
-    "actions": [
-        { "name": "doPropertyModelJoin", 
-          "selectionMode" : "multiple",  
-          "refreshOnComplete" : True
-        },
-    ],
-    "gridConfig" : {
-        "listDisplay": ["__str__", "description", "inherit", "conceptType", "smOwningTeam"]      
-    }, 
-
-    "detailsConfig": [{
-        "menuText": "Properties",
-        "conceptDetail": "prototype.Property",
-        "detailName": "propertyModel",
-        "detailField": "propertyModel__pk",
-        "masterField": "pk"
-    }, {
-        "menuText": "Equivalences",
-        "conceptDetail": "prototype.PropertyEquivalence",
-        "detailName": "sourceProperty",
-        "detailField": "sourceProperty__pk",
-        "masterField": "pk"
-    }],
-                
-    } 
-    
-
-def propModel_post_delete(sender, instance, **kwargs):
-    # En el postSave ya el registro de hijos no existe, 
-    # la solucion mas simple las props con propMod = None y tocarlos  
-    updProPropModel( Property )
-    pass
-
-post_delete.connect(propModel_post_delete, sender = PropertyModel)
 
 
 class PropertyEquivalence(ProtoModel):
@@ -384,8 +303,8 @@ class PropertyEquivalence(ProtoModel):
     o q al momento de guardar generara la relacion inversa y actualizara simpre los dos ( privilegiada )     
     """    
 
-    sourceProperty = models.ForeignKey('PropertyModel', blank = True, null = True, related_name = 'sourcePrp')
-    targetProperty = models.ForeignKey('PropertyModel', blank = True, null = True, related_name = 'targetPrp')
+    sourceProperty = models.ForeignKey('Property', blank = True, null = True, related_name = 'sourcePrp')
+    targetProperty = models.ForeignKey('Property', blank = True, null = True, related_name = 'targetPrp')
 
     description = models.TextField( blank = True, null = True)
 
@@ -395,9 +314,6 @@ class PropertyEquivalence(ProtoModel):
     class Meta:
         unique_together = ('sourceProperty', 'targetProperty', 'smOwningTeam' )
 
-    def delete(self, *args, **kwargs):
-        twoWayPropEquivalence( self, PropertyEquivalence, True )
-        super(PropertyEquivalence, self).delete(*args, **kwargs)
 
     protoExt = { 
 #        "menuApp" : "dictionary", 
@@ -405,11 +321,6 @@ class PropertyEquivalence(ProtoModel):
             "listDisplay": ["__str__", "description", "smOwningTeam"]      
         }
     } 
-
-def propEquivalence_post_save(sender, instance, created, **kwargs):
-    twoWayPropEquivalence( instance, PropertyEquivalence, False )
-
-post_save.connect(propEquivalence_post_save, sender = PropertyEquivalence)
 
     
 #This way when the save() method is called, 

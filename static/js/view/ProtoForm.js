@@ -299,7 +299,12 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         this.setReadOnlyFields(bReadOnly);
         this.setDetailsReadOnly(bReadOnly);
-        
+
+        if ( this.linkController ) {
+            this.linkController.isReadOnly = this.isReadOnly;
+        }
+                        
+
     },
 
     setDetailsReadOnly : function(bReadOnly) {

@@ -15,7 +15,6 @@ def StructureTestSuite():
     suite.addTest(makeSuite(EntityStructureTest, 'test'))
     suite.addTest(makeSuite(PropertyStructureTest, 'test'))
     suite.addTest(makeSuite(RelationshipStructureTest, 'test'))
-    suite.addTest(makeSuite(PropertyModelStructureTest, 'test'))
     suite.addTest(makeSuite(PropertyEquivalenceStructureTest, 'test'))
     suite.addTest(makeSuite(PrototypeStructureTest, 'test'))
     suite.addTest(makeSuite(ProtoTableStructureTest, 'test'))
@@ -111,11 +110,6 @@ class PropertyStructureTest(TestCase):
 class RelationshipStructureTest(TestCase):
     def test_field_and_value(self):
         self.assertTrue(checkAllFields(Relationship))
-
-
-class PropertyModelStructureTest(TestCase):
-    def test_field_and_value(self):
-        self.assertTrue(checkAllFields(PropertyModel))
 
 
 class PropertyEquivalenceStructureTest(TestCase):

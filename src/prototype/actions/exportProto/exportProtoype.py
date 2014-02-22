@@ -37,6 +37,15 @@ def exportPrototypeModel(request, pModel ):
         strModel.write( "class {0}(ProtoModel):\n".format( getClassName( pEntity.code )  )) 
                          
         arrKeys  = []
+
+        #  Field Str Formating                                                      
+        #     0. pCode,
+        #     1. pType, 
+        #     2. strNull,
+        #     3. str( intLength ), 
+        #     4. str( intScale ) 
+        #     5. slugify(pEntity.code, '_') 
+
                                                      
         for pProperty in pEntity.property_set.all():
             
@@ -44,12 +53,13 @@ def exportPrototypeModel(request, pModel ):
             
             if pProperty.isForeign:
                 pType  = getClassName( pProperty.relationship.refEntity.code ) 
-                strAux = "{0} = models.ForeignKey('{1}', blank= {2}, null= {2}, related_name='+')\n"
-#                   on_delete={5} : CASCADE, PROTECT, SET_NULL 
+                strAux = "{0} = models.ForeignKey('{1}', blank= {2}, null= {2}, related_name='{5}_{0}')\n"
+                # RelatedName Entity_Field? 
+#               on_delete={5} : CASCADE, PROTECT, SET_NULL 
                 
             else: 
                 pType  = TypeEquivalence.get( pProperty.baseType , 'CharField')
-#                   prpDefault
+#               prpDefault
 
                 intLength = pProperty.prpLength 
                 intScale  = pProperty.prpScale  
@@ -87,7 +97,8 @@ def exportPrototypeModel(request, pModel ):
                           pType, 
                           strNull,
                           str( intLength ), 
-                          str( intScale ) 
+                          str( intScale ), 
+                          slugify(pEntity.code, '_') 
                           ))  
             
 
