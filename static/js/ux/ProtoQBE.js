@@ -28,11 +28,11 @@
             me.titulo = '-' + me.titulo;
 
         var resp = me.campos;
-        for ( i = 0; i < resp.length; i++) {
+        for ( i = 0; i < resp.length; i += 1) {
             var nom = '';
             if (resp[i].required == true) {
                 var req = _SM._requiredField;
-                nom = '<strong>' + resp[i].name + '</strong>'
+                nom = '<strong>' + resp[i].name + '</strong>';
             } else {
                 nom = resp[i].name;
                 var req = "";

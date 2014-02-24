@@ -18,7 +18,7 @@ TEMPLATE_DIRS = (
 )
 
 if PPATH.startswith('/'):
-    EXT_PATH = '/u/data/ExtJs'
+    EXT_PATH = '/opt/data/ExtJs'
 else:
     EXT_PATH = 'd:/data/ExtJs'
 

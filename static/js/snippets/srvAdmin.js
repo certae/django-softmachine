@@ -21,7 +21,7 @@ Ext.define('PVE.button.Button', {
     dangerous: false, 
 
     initComponent: function () {
-        /*jslint confusion: true */
+        // jslint confusion: true
 
         var me = this;
 

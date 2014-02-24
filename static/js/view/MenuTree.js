@@ -252,10 +252,10 @@ Ext.define('ProtoUL.view.MenuTree', {
             return mData;
 
             function getMenuChilds( tChilds  ) {
-                var mChilds = [];
-                for (var ix in tChilds ) {
-                    var lNode = tChilds[ ix ];
-                    var nChildData = Tree2Menu( lNode   );
+                var mChilds = [], ix, lNode, nChildData;
+                for (ix in tChilds ) {
+                    lNode = tChilds[ ix ];
+                    nChildData = Tree2Menu( lNode   );
                     mChilds.push( nChildData );
                 }
                 return mChilds;

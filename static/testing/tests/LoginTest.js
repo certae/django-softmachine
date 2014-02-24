@@ -19,9 +19,9 @@ describe("On page load, Login module", function() {
 describe("On submit, Login module", function() {
 
     it("disables button by default", function() {
-        var loginWindow = Ext.create('ProtoUL.ux.Login');
-        var loginForm = loginWindow.getForm();
-        var button = Ext.create('Ext.Button');
+        var loginWindow = Ext.create('ProtoUL.ux.Login'),
+            loginForm = loginWindow.getForm(),
+            button = Ext.create('Ext.Button');
 
         spyOn(button, 'disable');
         spyOn(loginForm, 'submit');
