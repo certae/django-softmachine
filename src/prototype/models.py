@@ -447,6 +447,30 @@ class DiagramEntity(ProtoModel):
         unique_together = ('diagram', 'entity', 'smOwningTeam' )
 
 
+class DiagramRefEntity(ProtoModel):
+    """ 
+    Entidades que han sido creadas en otros modelos, pero que guardan relacion con el modelo,
+       
+    """    
+    model = models.ForeignKey('Model', blank = False, null = False  )
+    entity = models.ForeignKey( 'Entity', blank = False, null = False )
+
+    # indica si debe o no mostrarse en el diagrama,    
+    hideEntity =  models.BooleanField()
+
+    # indica si los atributos se muestran en el diagrama     
+    hideProperties =  models.BooleanField()
+    
+    notes  = models.TextField( blank = True, null = True)
+
+    # Propieadad para ordenar el __str__ 
+    unicode_sort = ( 'entity',  )
+
+    def __unicode__(self):
+        return slugify( self.entity.code ) 
+
+    class Meta:
+        unique_together = ('model', 'entity', 'smOwningTeam' )
     
 #   --------------------------------------------------------------------------------
         
@@ -485,6 +509,7 @@ class Service(ProtoModel):
     protoExt = { 
         "menuApp" : "roadMap",
         } 
+
 
 class ServiceRef(ProtoModel):
     """ 

@@ -95,6 +95,9 @@ class ProtoModel(models.Model):
     smCreatedOn = models.DateTimeField(auto_now=True , null=True, blank=True, editable=False)
     smModifiedOn = models.DateTimeField(auto_now=True , null=True, blank=True, editable=False)
 
+    # UUID 
+    smUUID = models.CharField( max_length=32, null=True, blank=True, editable=False)
+
     # Indicador para manejo de seguridad
     _protoObj = True
 
@@ -115,6 +118,7 @@ class ProtoModel(models.Model):
             super(ProtoModel, self).save(*args, **kwargs)
         else:
             super(ProtoModel, self).save(*args, **kwargs)
+
 
 class EntityMap(models.Model):
     """
@@ -139,14 +143,17 @@ class EntityMap(models.Model):
     - se definen explicitamente las tablas q manejen fieldLevel securty  ( EntityMap )
     - se definen permisos por grupos   
      
-    se manejan referecias debiles por nombre para poder importar/exportar la info, de otra forma seria por contenttype 
-    
-          
+    se manejan referecias debiles por nombre para poder importar/exportar la info, 
+    de otra forma seria por contenttype 
            
     """
     appName = models.CharField(max_length=200, blank=False, null=False)
     modelName = models.CharField(max_length=200, blank=False, null=False)
     fieldLevelSecurity = models.BooleanField(default=True)
+
+    # Doc Json con definiciones adicionales,  WorkFlow, Autonumeric, ... 
+    entityConfig = models.TextField( blank = True, null = True)
+
 
     class Meta:
         unique_together = ("appName", "modelName")
