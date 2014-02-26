@@ -4,9 +4,9 @@ Created on 2014-02-11
 @author: dario
 '''
 
-_versionMeta = '14.0201';
+_METAVERSION  = '14.0201'
 
-_MetaObjects = {
+_METAOBJECTS = {
 
     "pcl" : {
         "description" : "Meta definition",
@@ -347,108 +347,3 @@ _MetaObjects = {
 
 };
 
-
-def clearPhantonProps(__ptConfig, __ptType) :
-    # Borra las propieades q no hacen parte de la config de base
-    if (__ptType in _MetaObjects.keys()):
-        objConfig = _MetaObjects[__ptType]
-    else :
-        objConfig = {}
-        
-    __ptConfig1 = dict(__ptConfig)
-    
-    for ix in __ptConfig1 :
-        if (not ('properties' in objConfig.keys())) :
-            continue
-        
-        if (not ( ix in (objConfig['properties']+['name', '__ptValue', '__ptList', '__ptType']))) :
-            if(type(__ptConfig) == dict):
-                del __ptConfig[ix]
-                
-            if(type(__ptConfig) == list):
-                __ptConfig.remove(ix)
-                          
-    __ptConfig = __ptConfig1
-
-    return __ptConfig
-
-
-def verifyMeta(oMeta, ptType, tNode) :
-    from protoTools import getNodeBase
-    #  Verifica un objeto de acuerdo a la estructura
-    #  Si es un objeto asociado a un arbol tNode es el nodo base,
-
-    if (not ptType in _MetaObjects.keys()) :
-        return oMeta
-
-    __ptConfig = _MetaObjects[ptType];
-    listOfConf = {}
-
-    # Verifica las listas
-    if ('lists' in __ptConfig.keys() and (type(__ptConfig['lists']) == list)) :
-        
-        for ix in __ptConfig['lists'] :
-            sKey = ix;
-            
-            if (type(sKey) != str) :
-                continue
-
-            if (sKey in _MetaObjects.keys()):
-                listOfConf = _MetaObjects[sKey]
-                
-            else :
-                listOfConf = {}
-
-            if((not sKey in oMeta.keys()) or (type(oMeta[sKey]) != list) or (len(oMeta[sKey]) == 0)):
-                if (not 'prpDefault' in listOfConf.keys() or type(listOfConf['prpDefault'] != list)) :
-                    oMeta[sKey] = []
-                    
-                else :
-                    oMeta[sKey] = listOfConf['prpDefault']
-
-
-            if(tNode) :
-                # agrega una nueva lista al arbol
-                nBranch = {
-                    'text' : sKey,
-                    '__ptType' : sKey,
-                    '__ptConfig' : {
-                        '__ptType' : sKey
-                    },
-                    'children' : []
-                }
-
-                tNode['children'].append(nBranch);
-
-    # Verifica los Objetos ( no aplica los default, pues la config puede eliminarlos )
-    if ('objects'in __ptConfig and (type(__ptConfig['objects']) == list )) :
-        
-        for ix in __ptConfig['objects'] :
-            sKey = ix;
-            
-            if (type(sKey) != str):
-                continue
-
-            myObj = oMeta[sKey];
-            if (type(myObj) != dict):
-                myObj = {};
-            
-
-            if (tNode) :
-                # agrega un nuevo objeto al arbol
-                nBranch = getNodeBase(sKey, sKey, {
-                    '__ptType' : sKey
-                })
-                tNode['children'].append(nBranch);
-
-                # Agrega los hijos tambein al arbol
-                oMeta[sKey] = verifyMeta(myObj, sKey, nBranch);
-
-            else :
-
-                oMeta[sKey] = verifyMeta(myObj, sKey, tNode);
-
-    #No es necesario verificar las propiedades pues se hace al momento de guardar la pcl
-    # if ( __ptConfig.properties  &&  ( _SM.typeOf( __ptConfig.properties  ) == 'array' ))  {
-
-    return oMeta;

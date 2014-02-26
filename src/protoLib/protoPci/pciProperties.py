@@ -1,3 +1,4 @@
+import json
 # Definicion de las propiedades, 
 # las propiedades tienen 
 #      help         : description 
@@ -250,23 +251,21 @@ def verifyPrpType(lKey, cValue) :
     # corresponden entre si
     # Intenta la conversion, sin no regresa nulo  
 
-    lKey1 = lKey + '.type'
-
-    if(not lKey1 in _MetaProperties.keys()):
+    pType = _MetaProperties.get(lKey + '.type')    
+    if(not pType):
         if (type(cValue) == str):
             return cValue.replace('~+$', '')
         
         else :
             return cValue 
-        
-    pType = _MetaProperties[lKey1]
+
     
     if (pType == type(cValue)) :
         return cValue  
     
     elif(pType == bool):
         if((type( cValue ) == int) or (type( cValue ) == float)) :
-            cValue = cValue.toString()
+            cValue = str(cValue)
              
         if((type( cValue ) == str) ) :
             if (cValue[0:2].lower() in [ 'y', 's', '1','o', 't' ]):
@@ -277,7 +276,7 @@ def verifyPrpType(lKey, cValue) :
         else :
             return False
         
-    elif(pType == int):
+    elif(pType == int ):
         return int(cValue)
     
     elif(pType == float):
@@ -322,10 +321,11 @@ def getSimpleProperties(oData, ptType) :
                 pass
                     
         else :
-                    
             cValue = verifyPrpType(lKey, cValue);
             if (cValue) :
-                cData[lKey] = cValue
+                if (type(cData)== dict):
+                    cData[lKey] = cValue
+                else :
+                    cData += {lKey : cValue}
                         
-
     return cData 
