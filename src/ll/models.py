@@ -589,6 +589,14 @@ class UsageLogiciel(ProtoModel):
     class Meta:
         unique_together = ('identifiant_usage_logiciel','logiciel_usage','organisme_usage',)
 
+    def save(self, *args, **kwargs):
+        organismeUsage = self.organisme_usage
+        if self.smOwningTeam == organismeUsage.smOwningTeam:
+            super(UsageLogiciel, self).save(*args, **kwargs)
+        else:
+            from django.core.exceptions import PermissionDenied
+            raise PermissionDenied('Votre compte n\'appartient pas à l\'organisme public sélectioné.')
+
 class OrganismePublic(ProtoModel):
     acronyme = models.CharField(blank= False, null= False, max_length= 255)
     nom = models.CharField(blank= True, null= True, max_length= 255)
