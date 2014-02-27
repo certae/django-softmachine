@@ -263,7 +263,7 @@ class Marche(ProtoModel):
         unique_together = ('nom_marche',)
 
 class Evaluation(ProtoModel):
-    id_evaluation = models.CharField(blank= False, null= False, max_length= 255)
+    id_evaluation = models.IntegerField(blank = False, null = False)
     date_evaluation = models.DateField(blank = True, null = True)
     auteur_evaluation = models.CharField(blank= True, null= True, max_length= 255)
     resultat_evaluation = models.TextField(blank = True, null = True)
