@@ -53,6 +53,7 @@ def SM_objConv(a) :
   
     return o
 
+
 def SM_clone(obj, auxRec, exclude, include) :
     #
     # @obj     : obj to _SM.clone

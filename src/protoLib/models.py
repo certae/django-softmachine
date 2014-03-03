@@ -9,7 +9,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models.signals import post_save
 
 from protoLib.fields import JSONField, JSONAwareManager
-from protoLib.utils import  getDjangoModel, getNodeHierarchy
+from protoLib.utils.modelsTools import  getDjangoModel, getNodeHierarchy
 
 class TeamHierarchy(models.Model):
 # Jerarquia funcional ( de seguridad ) de la app
@@ -52,14 +52,14 @@ class UserProfile(models.Model):
 # Es necesario inlcuir el ususario en un BUnit, cada registro copiara el Bunit
 # del usuario para dar permisos tambien a la jerarquia ( ascendente )
     user = models.ForeignKey(User, unique=True)
-    userTeam = models.ForeignKey(TeamHierarchy, blank=True, null=True)
+    userTeam = models.ForeignKey(TeamHierarchy, blank=True, null=True, related_name =  'userTeam')
     language = models.CharField(blank=True, null=True, max_length=500)
 
     # System generated hierachie 
     userTree = models.CharField(blank=True, null=True, max_length=500)
 
     # DGT : si el usuario pertenece a varios (usrShar)  podria asignar su grupo de trabajo
-    workigTeam = models.ForeignKey( TeamHierarchy, blank = True, null = True )
+    workigTeam = models.ForeignKey( TeamHierarchy, blank = True, null = True, related_name =  'workigTeam' )
 
     # DGT : Json space, preferencias de usuario ( menuClick, defaultVariables ..... )
     userConfig = models.TextField( blank = True, null = True)
