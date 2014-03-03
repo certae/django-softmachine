@@ -74,7 +74,9 @@ def getQbeStmt(fieldName , sQBE, sType):
         # Verifica si es una funcion
         if (sQBE[0] == '@'):
             try:
-                sQBE = doGenericFuntion (sQBE)
+                pass 
+                # DGT : implementar  
+                # sQBE = doGenericFuntion (sQBE)
             except Exception as e:
                 # TODO: Log error y seguimeinto para hacer nulo el Qs
                 return None
@@ -179,8 +181,9 @@ def getQbeStmt(fieldName , sQBE, sType):
 
 def doGenericFuntion(sQBE):
     """
-    Se define una tabla de funciones genericas q seran ejectua dinamicamente por pyton 
-    se ejectuan en el contexto actual, se deberia pasar algunas rutinas basicas en la medida q sean necesarias  
+    Se define una tabla de funciones genericas q seran ejectua dinamicamente por python 
+    se ejectuan en el contexto actual, se deberia pasar algunas rutinas basicas en la medida q sean necesarias  ej:
+
         getModels 
      
     Esta rutina servira tambien para desencadenar reglas de gestion sobre modelos y podria ser la base 
