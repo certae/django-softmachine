@@ -48,7 +48,7 @@ INSTALLED_APPS = (
     'south',
     'protoLib',
     'prototype',
-    'll',
+    'GEtudes',
     'alltests'
 )
 

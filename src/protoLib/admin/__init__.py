@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from protoLib.models import ProtoDefinition, UserProfile, TeamHierarchy, UserShare
-from protoLib.models import CustomDefinition, PtFunction
+from protoLib.models import CustomDefinition
 from protoLib.models import EntityMap, FieldMap
 from django.contrib  import admin
 
@@ -20,8 +20,7 @@ admin.site.register(UserProfile)
 admin.site.register(UserShare)
 
 admin.site.register(CustomDefinition)
-admin.site.register(PtFunction)
-
+# admin.site.register(PtFunction)
 
 from django.contrib.auth.models import User
 from adminUsr import AdminUser
