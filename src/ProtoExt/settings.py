@@ -42,25 +42,31 @@ USE_I18N = True
 # calendars according to the current locale
 USE_L10N = True
 
+# If you set this to False, Django will not use timezone-aware datetimes.
+USE_TZ = True
+
 # Formateo de numeros ???
 USE_THOUSAND_SEPARATOR = True
 NUMBER_GROUPING = 1
 #DECIMAL_SEPARATOR = '.'
 #THOUSAND_SEPARATOR = ','
 
+# ------------------    UPLOAD MEDIA 
+
+
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = os.path.join(PPATH, 'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a trailing slash.
-# Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-#MEDIA_URL = 'http://127.0.0.1:8000/static/'
-MEDIA_URL = ''
+# Examples: "http://xxx.com/media/"
+MEDIA_URL = '/media/'
 
-# Absolute path to the directory static files should be collected to.
-# Don't put anything in this directory yourself; store your static files
-# in apps' "static/" subdirectories and in STATICFILES_DIRS.
-# Example: "/home/media/media.lawrence.com/static/"
+FILE_UPLOAD_PERMISSIONS = 0644
+
+
+# ------------------    STATIC 
+
 
 #STATIC_ROOT = os.path.join( PPATH , 'static' )
 STATIC_ROOT = ''
@@ -93,7 +99,7 @@ TEMPLATE_LOADERS = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
-                               "django.core.context_processors.csrf",
+#                                "django.core.context_processors.csrf",
                                "django.core.context_processors.debug",
                                "django.core.context_processors.i18n",
                                "django.core.context_processors.media",
@@ -105,7 +111,7 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+#     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
@@ -120,9 +126,15 @@ ROOT_URLCONF = 'ProtoExt.urls'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
+            'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         }
     },
@@ -134,6 +146,7 @@ LOGGING = {
         },
     }
 }
+
 
 
 AUTH_PROFILE_MODULE = 'protoLib.UserProfile'

@@ -6,8 +6,6 @@ from protoLib.models import EntityMap, FieldMap
 from django.contrib  import admin
 
 
-import django.contrib.admin
-
 from adminProtoDef import protoDefinitionAdmin
 admin.site.register(ProtoDefinition, protoDefinitionAdmin)
 
@@ -40,12 +38,3 @@ admin.site.register(EntityMap)
 admin.site.register(FieldMap)
 
 
-# -----------------------------------------   Model
-
-from protoLib.actions import doWFlowResume
-from protoLib.models import WflowAdminResume
-
-class WflowAdminResumeAdmin(admin.ModelAdmin):
-    actions = [ doWFlowResume, ]
-
-admin.site.register(WflowAdminResume, WflowAdminResumeAdmin)

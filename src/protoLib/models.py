@@ -268,40 +268,8 @@ class CustomDefinition(ProtoModel):
     }
 
 
+class UserFiles(models.Model):
+    
+    docfile = models.FileField(upload_to='documents/%Y/%m/%d')
 
-
-class WflowAdminResume(ProtoModel):
-    """  Contiene el resumen las novedades que requieren accion del administrador
-         Al crear un registro de WFlow se puede crear una instancia de esta tabla o incrementar el contador 
-         Tambien tendra una accion para recorrer las tablas de wFlow ( parameter = wFlowEntities ) 
-         y contara los estados a verificar ( parameterTag  = 0 ) 
-    """
-
-    viewEntity = models.CharField(max_length=250 , blank=False, null=False)
-    activityCount = models.IntegerField(blank=False, null=False)
-
-    def __unicode__(self):
-        return self.viewEntity + '.' + self.smOwningTeam.__str__()
-
-    protoExt = {
-        "actions": [
-            { "name": "doWFlowResume",
-              "selectionMode" : "none",
-              "refreshOnComplete" : True
-            },
-        ]
-    }
-
-
-class WflowUserReponse(ProtoModel):
-    """  Contiene los resultados de las acciones del administrador 
-    """
-
-    viewEntity = models.CharField(max_length=250 , blank=False, null=False)
-    wfAction = models.CharField(max_length=250 , blank=False, null=False)
-    strKey = models.CharField(max_length=250 , blank=False, null=False)
-    adminMsg = models.CharField(max_length=250 , blank=False, null=False)
-
-    def __unicode__(self):
-        return self.viewEntity
 
