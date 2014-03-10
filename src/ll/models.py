@@ -263,7 +263,7 @@ class Marche(ProtoModel):
         unique_together = ('nom_marche',)
 
 class Evaluation(ProtoModel):
-    id_evaluation = models.CharField(blank= False, null= False, max_length= 255)
+    id_evaluation = models.IntegerField(blank = False, null = False)
     date_evaluation = models.DateField(blank = True, null = True)
     auteur_evaluation = models.CharField(blank= True, null= True, max_length= 255)
     resultat_evaluation = models.TextField(blank = True, null = True)
@@ -588,6 +588,14 @@ class UsageLogiciel(ProtoModel):
 
     class Meta:
         unique_together = ('identifiant_usage_logiciel','logiciel_usage','organisme_usage',)
+
+    def save(self, *args, **kwargs):
+        organismeUsage = self.organisme_usage
+        if self.smOwningTeam == organismeUsage.smOwningTeam:
+            super(UsageLogiciel, self).save(*args, **kwargs)
+        else:
+            from django.core.exceptions import PermissionDenied
+            raise PermissionDenied('Votre compte n\'appartient pas à l\'organisme public sélectioné.')
 
 class OrganismePublic(ProtoModel):
     acronyme = models.CharField(blank= False, null= False, max_length= 255)
