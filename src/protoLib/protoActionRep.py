@@ -12,7 +12,7 @@ from protoActionList  import Q2Dict, getQSet
 from protoGrid import  getBaseModelName
 from utilsBase import  getReadableError
 from protoQbe import addFilter
-from downloadFile import getFullPath
+from utils.downloadFile import getFullPath
 
 from utilsWeb import JsonError, JsonSuccess
 

@@ -68,7 +68,7 @@ class Project(ProtoModel):
     protoExt = { 
         "actions": [
             { "name": "doImportSchema" },
-            { "name": "load-OMS", "selectionMode" : "single",
+            { "name": "doImportOMS", "selectionMode" : "single",
               "actionParams": [
                 {"name" : "viewCode", "type" : "string", "required": True, "tooltip" : "option de menu (msi)" }
                 ] 
@@ -204,31 +204,31 @@ class Property(ProtoModel):
     prpChoices = models.TextField(blank=True, null=True)
 
     """isSensitive: Indica si las propiedades requieren un nivel mayor de seguridad """  
-    isSensitive = models.BooleanField()
+    isSensitive = models.BooleanField(default=False)
 
     description = models.TextField(blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
 
     # -----------  caracteristicas propias de la instancia
     """isPrimary : en el prototipo siempre es artificial, implica isLookUpResult"""  
-    isPrimary = models.BooleanField()
-    isLookUpResult = models.BooleanField()
+    isPrimary = models.BooleanField( default=False)
+    isLookUpResult = models.BooleanField(default=False)
 
     """isNullable: tiene q ver con la Db"""    
-    isNullable = models.BooleanField()
+    isNullable = models.BooleanField(default=False)
     
     """isRequired: tiene q ver con el llenado de datos"""
-    isRequired = models.BooleanField()
+    isRequired = models.BooleanField(default=False)
 
     """isReadOnly: ReadOnly field ( frontEnd"""
-    isReadOnly = models.BooleanField()
+    isReadOnly = models.BooleanField(default=False)
 
 
     """isEssential: Indica si las propiedades saldran en la vista por defecto """ 
-    isEssential = models.BooleanField()
+    isEssential = models.BooleanField(default=False)
 
     """isForeign: indica si la propiedad ha sido definida en  Relationship"""
-    isForeign = models.BooleanField(editable=False, default=False)
+    isForeign = models.BooleanField( editable=False, default=False)
 
     crudType = models.CharField(blank=True, null=True, max_length=20, choices=CRUD_TYPES)
     dbName = models.CharField(blank=True, null=True, max_length=200)
@@ -264,7 +264,7 @@ class Relationship(Property):
     """
 
     """refEntity : entidad referenciada""" 
-    refEntity = models.ForeignKey('Entity', related_name='refEntity_set')
+    refEntity = models.ForeignKey('Entity', related_name='refEntity_set', null=True )
 
     """relatedName:  Nombre del set en la tabla primaria ( modelacion objeto )  """
     relatedName = models.CharField(blank=True, null=True, max_length=50)

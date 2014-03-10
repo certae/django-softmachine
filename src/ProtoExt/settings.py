@@ -58,11 +58,12 @@ NUMBER_GROUPING = 1
 # Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = os.path.join(PPATH, 'media')
 
+FILE_UPLOAD_PERMISSIONS = 0644
+
+
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a trailing slash.
 # Examples: "http://xxx.com/media/"
 MEDIA_URL = '/media/'
-
-FILE_UPLOAD_PERMISSIONS = 0644
 
 
 # ------------------    STATIC 

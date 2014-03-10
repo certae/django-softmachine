@@ -120,8 +120,8 @@ Ext.define('ProtoUL.UI.MDActionsController', {
                     options: myOptions
                 });
 
-                //  DGT : myWin.show();
-                myWin.uploadFile()
+                myWin.show();
+                // myWin.uploadFile()
 
             };
         };

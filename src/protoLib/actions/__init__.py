@@ -2,7 +2,6 @@
 
 
 
-
 def doFindReplace( modeladmin, request, queryset, parameters):
     """ 
     find and replace sobre la tabla actual 

@@ -1,0 +1,18 @@
+{
+    "code":"sep1",
+    "entities":{
+        "LAC":{
+            "code":"LAC",
+            "entity":"Lac",
+            "fullName":"sep1.Lac",
+            "prototypes":{}
+        },
+        "PECHE":{
+            "code":"PECHE",
+            "entity":"Peche",
+            "fullName":"sep1.Peche",
+            "prototypes":{}
+        }
+    },
+    "model":"sep1"
+}

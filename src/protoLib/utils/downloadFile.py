@@ -8,7 +8,8 @@ from ProtoExt.settings import PPATH
 from django.http import  HttpResponse
 from django.utils.http import http_date
 
-from utilsWeb import JsonError
+from protoLib.utilsWeb import JsonError
+
 
 """
 Views and functions for serving downloads files

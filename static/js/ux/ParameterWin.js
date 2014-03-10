@@ -19,7 +19,6 @@ Ext.define('ProtoUL.ux.parameterWin', {
 
     acceptText : 'Accept',
     cancelText : 'Cancel',
-    urlLoadField : _SM._PConfig.urlLoadFile,
 
     options : {
         acceptFn : null,
@@ -147,7 +146,7 @@ Ext.define('ProtoUL.ux.parameterWin', {
                     var form = win.down('form').getForm();
                     if (form.isValid()) {
                         form.submit({
-                            url : "protoLib/loafFile/" ,
+                            url : _SM._PConfig.urlLoadFile, 
                             method: 'POST',
                             // scope: me,
                             waitMsg : 'Uploading your file...',

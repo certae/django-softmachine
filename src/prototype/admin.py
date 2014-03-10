@@ -29,10 +29,10 @@ admin.site.register(Entity, MyEntityAdmin )
 
 
 # ------------------------------------------  Entity
-from actions import doImportSchema 
+from actions import doImportSchema, doImportOMS
 
 class MyProjectAdmin( admin.ModelAdmin ):
-    actions = [ doImportSchema  ]
+    actions = [ doImportSchema, doImportOMS  ]
 
 admin.site.register(Project, MyProjectAdmin )
 

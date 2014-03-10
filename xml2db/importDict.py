@@ -22,22 +22,6 @@ import logging
 from protoDict.models import *  
 
 
-def toInteger(s , iDefault = None):
-    """
-    Conversion a entero,  utilizada antes de cargar la Db 
-    """
-    try:
-        iResult = int(s)
-        return iResult 
-    except ValueError:
-        return iDefault
-
-def toBoolean(s):
-    """
-    Conversion a boolean,  utilizada antes de cargar la Db 
-    """
-    return ( s.lower()[0] in ("y", "t", "o", "s", "1") ) 
-
 
 class importDict():
     def __init__(self):

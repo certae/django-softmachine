@@ -10,7 +10,7 @@ from protoLib.protoActionRep  import sheetConfigRep, protoCsv
 from protoLib.protoActionEdit  import protoCreate, protoUpdate, protoDelete
 from protoLib.protoActions  import protoExecuteAction
 
-from protoLib.utils.toolsLoadFile import loadSingleFile
+from protoLib.utils.loadFile import loadFiles
 
 urlpatterns = patterns('',
     url('protoList/$', protoList),
@@ -37,6 +37,6 @@ urlpatterns = patterns('',
 
     url('getFieldIncrement/$', getFieldIncrement),
 
-    url('loafFile/$', loadSingleFile),
+    url('loafFile/$', loadFiles),
 
 )

@@ -3,7 +3,7 @@
 import traceback
 
 from protoLib.utilsBase import slugify
-from protoLib.downloadFile import getFullPath 
+from protoLib.utils.downloadFile import getFullPath 
 
 from viewDefinition import getViewDefinition, getViewCode, getEntities
 
@@ -92,7 +92,7 @@ def doModelGraph( modeladmin, request, queryset, parameters):
 def doExportPrototype( modeladmin, request, queryset, parameters):
 
     
-    from prototype.actions.exportProtoype  import exportPrototypeModel
+    from prototype.actions.exportProto.exportProtoype  import exportPrototypeModel
     
 
 #   El QSet viene con la lista de Ids  
@@ -162,6 +162,41 @@ def doImportSchema( modeladmin, request, queryset, parameters):
 #        from multiprocessing import Process
 #        p = Process (target= getDbSchemaDef ,args=( queryset[0] , request ))
 #        p.start()
+    
+#   Recorre los registros selccionados   
+    except Exception as e:
+        traceback.print_exc()
+        return  {'success':False, 'message' : 'Load error' }
+        pass
+        
+    return {'success':True, 'message' :  'runing ...' } 
+
+
+
+
+def doImportOMS( modeladmin, request, queryset, parameters):
+    """ 
+    funcion para importar modelos realizados en OMS ( Open Model Spher )  
+    """
+
+    from ProtoExt.settings import MEDIA_ROOT
+
+#   El QSet viene con la lista de Ids  
+    if queryset.count() != 1:
+        return  {'success':False, 'message' : 'No record selected' }
+
+    try: 
+
+        import importOMS 
+        import os 
+    
+        fileName = os.path.join(MEDIA_ROOT, 'OMS.exp' ) 
+    
+        cOMS = importOMS.importOMS()
+    
+        cOMS.loadFile( fileName  )
+        cOMS.doImport( queryset[0] )
+    
     
 #   Recorre los registros selccionados   
     except Exception as e:
