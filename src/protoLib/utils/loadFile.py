@@ -8,7 +8,7 @@ from protoLib.utilsWeb import JsonError
 # from protoLibExt.models import UserFiles
 # from protoLibExt.forms import UserFilesForm
 
-def loadSingleFile(request):
+def loadFiles(request):
     """ return full field tree 
     """
 
@@ -18,8 +18,12 @@ def loadSingleFile(request):
     if request.method != 'POST':
         return JsonError( 'invalid message' ) 
 
+
+    from ProtoExt.settings import MEDIA_ROOT
+    import os 
+
     for key, fileObj in request.FILES.items():
-        path = fileObj.name
+        path = os.path.join(MEDIA_ROOT, fileObj.name ) 
         dest = open(path, 'w')
         if fileObj.multiple_chunks:
             for c in fileObj.chunks():
@@ -27,7 +31,7 @@ def loadSingleFile(request):
         else:
             dest.write(fileObj.read())
         dest.close()
-        a  = key 
+
     
 
     # form = DocumentForm( request.POST, request.FILES )

@@ -81,7 +81,6 @@ class importOMS():
         booProperty = ( 'isPrimary', 'isNullable', 'isRequired', 'isSensitive', 'isEssential', )
         
         fdsRelationship = ( 'code', 'baseMin', 'baseMax', 'refMin', 'refMax', )
-        booRelationship = ( 'isPrimary', 'isNullable', 'isRequired', 'isSensitive', 'isEssential', )
 
 
         # We populate the database
