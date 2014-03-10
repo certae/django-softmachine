@@ -17,8 +17,8 @@ class importOMS():
 
     def __init__(self):
         self.__filename = ""
+        self.project = None
         self.__tree = None
-        self.__session = None
 
         # Manejo del log 
         self.__logger = logging.getLogger("Convert XML Database")
@@ -108,9 +108,6 @@ class importOMS():
                     self.__logger.info("Error dModel.save")
                     return
                     
-                if len( modelUdps ) > 0: 
-                    self.saveModelUdps( modelUdps, dModel )
-                
                 self.__logger.info("Model..."  + dModel.code)
 
                 # ------------------------------------------------------------------------------
@@ -148,8 +145,6 @@ class importOMS():
                                 if (child.text is not None):
                                     setattr( dProperty, child.tag, child.text )
 
-#                             elif  ( child.tag == 'physicalName' ):
-#                                 setattr( dProperty, 'dbName' , child.text )
                                 
                             elif child.tag in booProperty:
                                 bValue = toBoolean(child.text )
@@ -167,8 +162,8 @@ class importOMS():
                     xForeigns = xEntity.getiterator("foreign")
                     for xForeign in xForeigns:
                         dForeign = Relationship()
-                        dForeign.entity  = dEntity 
 
+                        dForeign.entity  = dEntity 
                         dForeign.refEntity = dEntity
 
                         for child in xForeign:
@@ -191,15 +186,34 @@ class importOMS():
                             self.__logger.info("Error dForeign.save"  + str(e))
                             return
 
-
-            # Recorre las llaves para asociar los FK 
-            for dForeign in Relationship.objects.all(): 
-                pass 
-
         
         #Logging info
         self.__logger.info("Ecriture dans la base de donnee effectuee...")
         return {'state':self.OK, 'message': 'Ecriture effectuee'}
+
+
+    def doFkMatch(self):
+
+        # from prototype.models import Project
+        # self.dProject = Project.objects.get( code = "test1120")      
+                
+        # Recorre las llaves para asociar los FK 
+        for dForeign in Relationship.objects.filter( entity__model__project = self.project ):
+            try: 
+                dReference = Entity.objects.get(model__project = dForeign.entity.model.project, code = dForeign.dbName )
+            except: 
+                continue
+            
+            dForeign.refEntity = dReference
+            # OMS default name : C-### 
+            if len( dForeign.code ) < 6:
+                dForeign.code = dForeign.entity.code + "-" + dReference.code 
+            
+            dForeign.save()
+                
+        #Logging info
+        self.__logger.info("Fk mathc effectuee...")
+
     
         
     def doImport(self, dProject ): 
@@ -212,59 +226,4 @@ class importOMS():
             return dictWrite
                 
         return {'state':self.OK, 'message': 'Ecriture effectuee base donnee'}
-    
-    
-    def saveModelUdps(self, udps, dModel ):
-        for key, value  in udps:
-#             dUdp = UdpModel()
-#             dUdp.model = dModel
-#             dUdp.code = key
-#             dUdp.valueUdp = value
-#             dUdp.save()
-            pass
 
-    def savePrpUdps(self, udps, dPrp ):
-        for key, value  in udps:
-            pass
-
-
-    def getEntityRef( self, dModel , cName  ):
-        mAux = Entity.objects.filter( model = dModel, code = cName  )
-        if mAux: 
-            return mAux[0] 
-
-
-        
-        
-    #RETOUR : le nom d un fichier XML
-    def getFilename(self):
-        return self.__filename
-    
-    # Transform XML Element  to text
-    def getContentFile(self):
-        
-        #Logging info
-        self.__logger.info("Obtention du contenu du fichier...")
-        
-        contenu = None
-        if (self.__tree == None):
-            contenu = ""
-        else:
-            contenu = Xml.tostring(self.__tree.getroot())
-            
-        #Logging info
-        self.__logger.info("Obtention du contenu du fichier effectuee...")    
-        return contenu
-
-
-
-def definePropertyList():
-#    Obtiene la lista de propiedades  
-#        fdsProject = [field.name for field in Project._meta.fields]
-#        fdsModel= [field.name for field in Model._meta.fields]
-#        fdsEntity= [field.name for field in Entity._meta.fields]
-#        fdsProperty= [field.name for field in Property._meta.fields]
-#        fdsForeign= [field.name for field in Relationship._meta.fields]
-    
-    pass
-    
