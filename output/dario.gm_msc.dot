@@ -1,0 +1,3696 @@
+
+digraph name {
+  fontname = "Helvetica"
+  fontsize = 8
+
+  node [
+    fontname = "Helvetica"
+    fontsize = 8
+    shape = "plaintext"
+  ]
+  edge [
+    fontname = "Helvetica"
+    fontsize = 8
+  ]
+
+
+
+
+    msc_cas_etude [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >cas_etude
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_debut</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_fin</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cas_etude_programme</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">programme</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cas_etude_etudiant</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">etudiant</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_sous_evenement [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >sous_evenement
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">sous_evenement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">obligatoire</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">sous_evenement_type_evenement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">type_evenement</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">sous_evenement_famille_evenement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">famille_evenement</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_sous_evenement_prof [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >sous_evenement_prof
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">numero_sous_eve</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_alarme</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">complete</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">commentaire</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date1</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date2</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date3</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">valeur1</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">valeur2</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">valeur3</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">sous_evenement_prof_sous_evenement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">sous_evenement</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">sous_evenement_prof_type_evenement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">type_evenement</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">sous_evenement_prof_evenement_admission</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">evenement_admission</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">sous_evenement_prof_professeur</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">professeur</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_professeur [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >professeur
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">numero_prof</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">n_a_s</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">nom_prof</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">prenom_prof</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">adresse_internet</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">qualification</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">fax</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">adresse</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">tel_maison</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">tel_travail</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">directeur_dep</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">numero_bureau</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_affectation</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">interets_de_recherche</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">fait_partie_du</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">departement</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">directeur_comite</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">activite_redaction</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">codirecteur</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">activite_redaction</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_phase [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >phase
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">phase</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">nom_phase</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">type_activite</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">duree</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">nb_credits_mini</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">nb_credits_maxi</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">jury</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">note</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">regle</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">phase_famille</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">famille</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_choix_bloc [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >choix_bloc
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">choix_bloc_plan_formation</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">plan_formation</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">choix_bloc_bloc_cours</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">bloc_cours</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">choix_bloc_realisation_chem</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">realisation_chem</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_choix_cours [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >choix_cours
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">trimestre</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">choix_cours_choix_bloc</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">choix_bloc</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">choix_cours_cours</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cours</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">choix_cours_cours_session</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cours_session</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">choix_cours_composition_b</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">composition_b</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_trimestre [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >trimestre
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">trimestre</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_debut</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_fin</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_mi_session</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_concommitant [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >concommitant
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">concommitant_cours</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cours</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">concommitant_cours</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cours</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_comite_prog_prof [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >comite_prog_prof
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">comite_prog_prof_professeur</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">professeur</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">comite_prog_prof_programme</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">programme</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_planif_cours [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >planif_cours
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">planif_cours_professeur</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">professeur</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">planif_cours_cours_session</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cours_session</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_cours_session [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >cours_session
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">nb_sections</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">demi_section</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_debut</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_fin</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cours_session_trimestre</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">trimestre</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cours_session_section</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">section</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cours_session_cours</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cours</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_provenance_etud [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >provenance_etud
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">provenance_etud_college_universite</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">college_universite</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">provenance_etud_etudiant</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">etudiant</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_compo_cpm [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >compo_cpm
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">compo_cpm_professeur</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">professeur</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">compo_cpm_programme</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">programme</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_college_universite [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >college_universite
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">code_college_universite</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">nom_college_universite</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">nom_abrege</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">adresse</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">contact</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_credit_externe [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >credit_externe
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">no_credit_externe</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">nom</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">nb_credits</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">syllabus</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">approbation</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">credit_externe_college_universite</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">college_universite</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">credit_externe_formation</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">formation</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_stage [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >stage
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">no_stage</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">titre_stage</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_soumission</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_debut</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_fin</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">repondant</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">adresse_repondant</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_famille_evenement [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >famille_evenement
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">obligatoire</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">famille_evenement_type_evenement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">type_evenement</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">famille_evenement_famille</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">famille</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_famille [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >famille
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">famille</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">nom_famille</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_evenement_admission [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >evenement_admission
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">numero_eve</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_enregistrement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_fermeture</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_alarme</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">complete</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">commentaire</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date1</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date2</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date3</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">valeur1</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">valeur2</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">valeur3</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">dem_adm_prog_evenement_admission</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">dem_adm_prog</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">evenement_admission_famille_evenement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">famille_evenement</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">evenement_admission_type_evenement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">type_evenement</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">prob_adm</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">demande_admission</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_evenemement_formation [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >evenemement_formation
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">numero_eve</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_enregistrement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_fermeture</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_alarme</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">complete</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">commentaire</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date1</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date2</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date3</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">valeur1</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">valeur2</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">valeur3</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">evenemement_formation_famille_evenement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">famille_evenement</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">evenemement_formation_type_evenement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">type_evenement</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">evenemement_formation_formation</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">formation</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_sous_evenement_activite [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >sous_evenement_activite
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">numero_sous_eve</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_enregistrement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_fermeture</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_alarme</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">complete</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">commentaire</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date1</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date2</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date3</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">valeur1</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">valeur2</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">valeur3</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">sous_evenement_activite_sous_evenement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">sous_evenement</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">sous_evenement_activite_professeur</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">professeur</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">sous_evenement_activite_type_evenement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">type_evenement</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">sous_evenement_activite_membre_externe</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">membre_externe</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">sous_evenement_activite_evenement_activite</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">evenement_activite</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_compo_cas [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >compo_cas
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_debut</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_fin</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">compo_cas_professeur</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">professeur</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">compo_cas_programme</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">programme</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_activite_redaction [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >activite_redaction
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">no_activite</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">titre</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">langue</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_debut</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_fin</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">termine</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">reussi</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">type_activite</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">phase</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">activite_redaction_stage</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">stage</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">activite_redaction_formation</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">formation</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">codirige_ext</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">membre_externe</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_realisation_chem [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >realisation_chem
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">obligatoire</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">credits_mini</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">credits_maxi</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">type</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">realisation_chem_bloc_cours</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">bloc_cours</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">realisation_chem_phase_cheminement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">phase_cheminement</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_phase_cheminement [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >phase_cheminement
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">obligatoire</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">credits_mini</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">credits_maxi</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">duree_maxi</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">compo_chem2</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">phase</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">compo_chem1</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cheminement_pa</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_composition_b [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >composition_b
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">obligatoire</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">composition_b_cours</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cours</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">composition_b_bloc_cours</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">bloc_cours</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_bloc_cours [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >bloc_cours
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">code_bloc_cours</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">nom_bloc_cours</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">credits_maxi</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">credits_mini</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">responsable</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">professeur</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_autre_support [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >autre_support
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">autre_support_departement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">departement</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">autre_support_cheminement_pa</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cheminement_pa</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_cours_suivi [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >cours_suivi
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">evaluation</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">revision_evaluation</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_evaluation</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cours_suivi_choix_cours</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">choix_cours</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">changement_prog</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">formation</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cours_suivi_cours</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cours</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cours_suivi_inscription</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">inscription</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">si_multiplicite</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">section</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_plan_formation [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >plan_formation
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">no_plan_formation</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">trimestre_debut</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">trimestre_fin</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">plan_formation_phase</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">phase</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">plan_formation_formation</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">formation</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_avancement [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >avancement
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_debut</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_fin</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">commentaire</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">avancement_phase</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">phase</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">avancement_formation</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">formation</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_equivalence [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >equivalence
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">equivalence_cours</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cours</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">equivalence_cours</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cours</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_section [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >section
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">section</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">dispense</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">professeur</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_type_evenement [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >type_evenement
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">evenement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">nom_evenement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">commentaire</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date1</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">regle_date1</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date2</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">regle_date2</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date3</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">regle_date3</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">valeur1</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">regle_valeur1</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">valeur2</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">regle_valeur2</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">valeur3</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">regle_valeur3</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_evenement_activite [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >evenement_activite
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">numero_eve</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_enregistrement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_fermeture</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_alarme</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">complete</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">commentaire</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date1</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date2</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date3</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">valeur1</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">valeur2</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">valeur3</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">evenement_activite_famille_evenement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">famille_evenement</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">suivi1</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">activite_redaction</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">evenement_activite_type_evenement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">type_evenement</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_dem_adm_prog [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >dem_adm_prog
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_envoi</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_reponse</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_accuse_reception</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_relance</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">reponse</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">commentaire</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">br_607_et_br_600</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cv</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">notes_1_cycle</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">recommandations</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">doc_complementaire_phd</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">notes_2_cycle</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">dem_adm_prog_programme</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">programme</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">dem_adm_prog_demande_admission</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">demande_admission</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_cheminement_pa [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >cheminement_pa
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">code_cheminement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">nom</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_etablissement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_modification</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">version</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">responsable_chem</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">professeur</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">etabli_pour</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">programme</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">support_principal</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">departement</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_formation [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >formation
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_diplomation</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">statut</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">dirige_par</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">professeur</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">formation_famille</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">famille</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">formation_dem_adm_prog</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">dem_adm_prog</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_membre_ext [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >membre_ext
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">membre_ext_activite_redaction</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">activite_redaction</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">membre_ext_membre_externe</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">membre_externe</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_membre_externe [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >membre_externe
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">membre_externe</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">nom_externe</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">prenom_externe</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">habilite</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">tel_travail</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">tel_maison</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">fax</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">adresse_internet</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">adresse</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_habilitation</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_constitue [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >constitue
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">obligatoire</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">constitue_phase</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">phase</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">constitue_programme</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">programme</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_programme [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >programme
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">programme</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">nom_programme</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">type</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cycle</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">nb_credits</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_realisation_cours [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >realisation_cours
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">obligatoire</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">realisation_cours_phase</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">phase</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">realisation_cours_cours</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cours</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_pre_catalogue [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >pre_catalogue
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">pre_catalogue_cours</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cours</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">pre_catalogue_cours</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cours</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_repondant [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >repondant
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">no_repondant</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">nom_repondant</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">prenom_repondant</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">adresse</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">tel</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">note</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">compagnie</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_envoi_lettre</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_reception_lettre</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">lettre_recommandation</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">demande_admission</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_demande_admission [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >demande_admission
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">entree</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_reception</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">demande_admission_famille</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">famille</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">report</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">demande_admission</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">demande</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">etudiant</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_compte [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >compte
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">numero_facturation</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_facturation</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_echeance</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">solde</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">est_facture</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">etudiant</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_inscription [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >inscription
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">trimestre</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">inscription_formation</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">formation</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_departement [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >departement
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">departement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">nom_departement</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_dispense [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >dispense
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">dispense_professeur</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">professeur</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">dispense_cours</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cours</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_membre_interne [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >membre_interne
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">membre_interne_professeur</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">professeur</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">membre_interne_activite_redaction</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">activite_redaction</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_cours [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >cours
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cours</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">type</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">nombre_de_credits</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">description</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">objectifs</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">version</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">syllabus</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">type_de_resultat</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">offre_permanente</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">nom_cours</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">modification_titre</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">modification_credits</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">automne</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">hiver</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">ete</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">r</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">offre_externe</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">formule</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">pr1</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">pr2</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">pr3</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">pre</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">cours_dept</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">departement</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+    msc_etudiant [label=<
+    <TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0">
+     <TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"
+     ><FONT FACE="Helvetica Bold" COLOR="white"
+     >etudiant
+     </FONT></TD></TR>
+    
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">dossier</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">nom_etudiant</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">prenom_etudiant</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">adresse</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">date_naissance</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">tel_travail</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">tel_maison</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">langue_maternelle</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">langue_d_usage</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">lieu_de_naissance</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">handicape</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">code_permanent</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">dec</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">publication</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+        <TR><TD ALIGN="LEFT" BORDER="0"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">statut</FONT
+        ></TD>
+        <TD ALIGN="LEFT"
+        ><FONT COLOR="#7B7B7B" FACE="Helvetica Italic">string</FONT
+        ></TD></TR>
+        
+    
+    </TABLE>
+    >]
+
+
+
+  
+  
+  msc_cas_etude -> msc_programme
+  [label="cas_etude_programme (programme)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_cas_etude -> msc_etudiant
+  [label="cas_etude_etudiant (etudiant)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_sous_evenement -> msc_type_evenement
+  [label="sous_evenement_type_evenement (type_evenement)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_sous_evenement -> msc_famille_evenement
+  [label="sous_evenement_famille_evenement (famille_evenement)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_sous_evenement_prof -> msc_sous_evenement
+  [label="sous_evenement_prof_sous_evenement (sous_evenement)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_sous_evenement_prof -> msc_type_evenement
+  [label="sous_evenement_prof_type_evenement (type_evenement)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_sous_evenement_prof -> msc_evenement_admission
+  [label="sous_evenement_prof_evenement_admission (evenement_admission)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_sous_evenement_prof -> msc_professeur
+  [label="sous_evenement_prof_professeur (professeur)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_professeur -> msc_departement
+  [label="fait_partie_du (departement)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_professeur -> msc_activite_redaction
+  [label="directeur_comite (activite_redaction)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_professeur -> msc_activite_redaction
+  [label="codirecteur (activite_redaction)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_phase -> msc_famille
+  [label="phase_famille (famille)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_choix_bloc -> msc_plan_formation
+  [label="choix_bloc_plan_formation (plan_formation)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_choix_bloc -> msc_bloc_cours
+  [label="choix_bloc_bloc_cours (bloc_cours)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_choix_bloc -> msc_realisation_chem
+  [label="choix_bloc_realisation_chem (realisation_chem)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_choix_cours -> msc_choix_bloc
+  [label="choix_cours_choix_bloc (choix_bloc)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_choix_cours -> msc_cours
+  [label="choix_cours_cours (cours)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_choix_cours -> msc_cours_session
+  [label="choix_cours_cours_session (cours_session)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_choix_cours -> msc_composition_b
+  [label="choix_cours_composition_b (composition_b)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+
+  
+  
+  msc_concommitant -> msc_cours
+  [label="concommitant_cours (cours)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_concommitant -> msc_cours
+  [label="concommitant_cours (cours)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_comite_prog_prof -> msc_professeur
+  [label="comite_prog_prof_professeur (professeur)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_comite_prog_prof -> msc_programme
+  [label="comite_prog_prof_programme (programme)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_planif_cours -> msc_professeur
+  [label="planif_cours_professeur (professeur)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_planif_cours -> msc_cours_session
+  [label="planif_cours_cours_session (cours_session)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_cours_session -> msc_trimestre
+  [label="cours_session_trimestre (trimestre)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_cours_session -> msc_section
+  [label="cours_session_section (section)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_cours_session -> msc_cours
+  [label="cours_session_cours (cours)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_provenance_etud -> msc_college_universite
+  [label="provenance_etud_college_universite (college_universite)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_provenance_etud -> msc_etudiant
+  [label="provenance_etud_etudiant (etudiant)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_compo_cpm -> msc_professeur
+  [label="compo_cpm_professeur (professeur)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_compo_cpm -> msc_programme
+  [label="compo_cpm_programme (programme)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+
+  
+  
+  msc_credit_externe -> msc_college_universite
+  [label="credit_externe_college_universite (college_universite)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_credit_externe -> msc_formation
+  [label="credit_externe_formation (formation)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+
+  
+  
+  msc_famille_evenement -> msc_type_evenement
+  [label="famille_evenement_type_evenement (type_evenement)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_famille_evenement -> msc_famille
+  [label="famille_evenement_famille (famille)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+
+  
+  
+  msc_evenement_admission -> msc_dem_adm_prog
+  [label="dem_adm_prog_evenement_admission (dem_adm_prog)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_evenement_admission -> msc_famille_evenement
+  [label="evenement_admission_famille_evenement (famille_evenement)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_evenement_admission -> msc_type_evenement
+  [label="evenement_admission_type_evenement (type_evenement)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_evenement_admission -> msc_demande_admission
+  [label="prob_adm (demande_admission)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_evenemement_formation -> msc_famille_evenement
+  [label="evenemement_formation_famille_evenement (famille_evenement)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_evenemement_formation -> msc_type_evenement
+  [label="evenemement_formation_type_evenement (type_evenement)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_evenemement_formation -> msc_formation
+  [label="evenemement_formation_formation (formation)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_sous_evenement_activite -> msc_sous_evenement
+  [label="sous_evenement_activite_sous_evenement (sous_evenement)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_sous_evenement_activite -> msc_professeur
+  [label="sous_evenement_activite_professeur (professeur)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_sous_evenement_activite -> msc_type_evenement
+  [label="sous_evenement_activite_type_evenement (type_evenement)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_sous_evenement_activite -> msc_membre_externe
+  [label="sous_evenement_activite_membre_externe (membre_externe)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_sous_evenement_activite -> msc_evenement_activite
+  [label="sous_evenement_activite_evenement_activite (evenement_activite)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_compo_cas -> msc_professeur
+  [label="compo_cas_professeur (professeur)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_compo_cas -> msc_programme
+  [label="compo_cas_programme (programme)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_activite_redaction -> msc_phase
+  [label="type_activite (phase)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_activite_redaction -> msc_stage
+  [label="activite_redaction_stage (stage)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_activite_redaction -> msc_formation
+  [label="activite_redaction_formation (formation)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_activite_redaction -> msc_membre_externe
+  [label="codirige_ext (membre_externe)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_realisation_chem -> msc_bloc_cours
+  [label="realisation_chem_bloc_cours (bloc_cours)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_realisation_chem -> msc_phase_cheminement
+  [label="realisation_chem_phase_cheminement (phase_cheminement)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_phase_cheminement -> msc_phase
+  [label="compo_chem2 (phase)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_phase_cheminement -> msc_cheminement_pa
+  [label="compo_chem1 (cheminement_pa)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_composition_b -> msc_cours
+  [label="composition_b_cours (cours)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_composition_b -> msc_bloc_cours
+  [label="composition_b_bloc_cours (bloc_cours)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_bloc_cours -> msc_professeur
+  [label="responsable (professeur)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_autre_support -> msc_departement
+  [label="autre_support_departement (departement)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_autre_support -> msc_cheminement_pa
+  [label="autre_support_cheminement_pa (cheminement_pa)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_cours_suivi -> msc_choix_cours
+  [label="cours_suivi_choix_cours (choix_cours)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_cours_suivi -> msc_formation
+  [label="changement_prog (formation)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_cours_suivi -> msc_cours
+  [label="cours_suivi_cours (cours)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_cours_suivi -> msc_inscription
+  [label="cours_suivi_inscription (inscription)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_cours_suivi -> msc_section
+  [label="si_multiplicite (section)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_plan_formation -> msc_phase
+  [label="plan_formation_phase (phase)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_plan_formation -> msc_formation
+  [label="plan_formation_formation (formation)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_avancement -> msc_phase
+  [label="avancement_phase (phase)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_avancement -> msc_formation
+  [label="avancement_formation (formation)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_equivalence -> msc_cours
+  [label="equivalence_cours (cours)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_equivalence -> msc_cours
+  [label="equivalence_cours (cours)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_section -> msc_professeur
+  [label="dispense (professeur)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+
+  
+  
+  msc_evenement_activite -> msc_famille_evenement
+  [label="evenement_activite_famille_evenement (famille_evenement)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_evenement_activite -> msc_activite_redaction
+  [label="suivi1 (activite_redaction)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_evenement_activite -> msc_type_evenement
+  [label="evenement_activite_type_evenement (type_evenement)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_dem_adm_prog -> msc_programme
+  [label="dem_adm_prog_programme (programme)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_dem_adm_prog -> msc_demande_admission
+  [label="dem_adm_prog_demande_admission (demande_admission)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_cheminement_pa -> msc_professeur
+  [label="responsable_chem (professeur)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_cheminement_pa -> msc_programme
+  [label="etabli_pour (programme)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_cheminement_pa -> msc_departement
+  [label="support_principal (departement)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_formation -> msc_professeur
+  [label="dirige_par (professeur)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_formation -> msc_famille
+  [label="formation_famille (famille)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_formation -> msc_dem_adm_prog
+  [label="formation_dem_adm_prog (dem_adm_prog)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_membre_ext -> msc_activite_redaction
+  [label="membre_ext_activite_redaction (activite_redaction)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_membre_ext -> msc_membre_externe
+  [label="membre_ext_membre_externe (membre_externe)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+
+  
+  
+  msc_constitue -> msc_phase
+  [label="constitue_phase (phase)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_constitue -> msc_programme
+  [label="constitue_programme (programme)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+
+  
+  
+  msc_realisation_cours -> msc_phase
+  [label="realisation_cours_phase (phase)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_realisation_cours -> msc_cours
+  [label="realisation_cours_cours (cours)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_pre_catalogue -> msc_cours
+  [label="pre_catalogue_cours (cours)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_pre_catalogue -> msc_cours
+  [label="pre_catalogue_cours (cours)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_repondant -> msc_demande_admission
+  [label="lettre_recommandation (demande_admission)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_demande_admission -> msc_famille
+  [label="demande_admission_famille (famille)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_demande_admission -> msc_demande_admission
+  [label="report (demande_admission)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_demande_admission -> msc_etudiant
+  [label="demande (etudiant)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_compte -> msc_etudiant
+  [label="est_facture (etudiant)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_inscription -> msc_formation
+  [label="inscription_formation (formation)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+
+  
+  
+  msc_dispense -> msc_professeur
+  [label="dispense_professeur (professeur)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_dispense -> msc_cours
+  [label="dispense_cours (cours)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_membre_interne -> msc_professeur
+  [label="membre_interne_professeur (professeur)"] [arrowhead=empty, arrowtail=dot];
+  
+  
+  msc_membre_interne -> msc_activite_redaction
+  [label="membre_interne_activite_redaction (activite_redaction)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+  
+  msc_cours -> msc_departement
+  [label="cours_dept (departement)"] [arrowhead=empty, arrowtail=dot];
+  
+
+  
+
+}

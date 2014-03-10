@@ -196,7 +196,7 @@ def doImportOMS( modeladmin, request, queryset, parameters):
     
         cOMS.loadFile( fileName  )
         cOMS.doImport( queryset[0] )
-    
+        cOMS.doFkMatch( )
     
 #   Recorre los registros selccionados   
     except Exception as e:

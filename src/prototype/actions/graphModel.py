@@ -4,7 +4,6 @@ Prototype to DOT (Graphviz) converter
 by dariogomez
 Adapted from  django-extensions ( by  Antonio Cavedoni ) 
 
-DGT : Verificar dev 
 """
 
 from django.template import Context, loader
