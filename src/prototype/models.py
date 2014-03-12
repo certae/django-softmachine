@@ -450,6 +450,12 @@ class Diagram(ProtoModel):
         unique_together = ('model', 'code', 'smOwningTeam')
 
 
+    protoExt = { 
+        "actions": [
+            { "name": "doModelGraph" },
+        ],
+    } 
+
 
 
 class DiagramEntity(ProtoModel):

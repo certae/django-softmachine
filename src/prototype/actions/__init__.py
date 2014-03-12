@@ -54,8 +54,6 @@ def doModelGraph( modeladmin, request, queryset, parameters):
     el proyecto enviara la el QSet de todos los modelos 
     """
 
-    from graphModel import generateDotModels
-
 #   El QSet viene con la lista de Ids  
     if queryset.count() != 1:
         return  {'success':False, 'message' : 'No record selected' }
@@ -75,29 +73,27 @@ def doModelGraph( modeladmin, request, queryset, parameters):
         pass
 
             
-#   Envia el QSet con la lista de modelos, 
-    dotdata = generateDotModels ( queryset )
 
 #   Genera el archvivo dot     
     fileName = 'gm_' + slugify( queryset[0].code ) + '.dot'
-    fullPath = getFullPath( request, fileName )
-
-    fo = open( fullPath , "wb")
-    fo.write( dotdata.encode('utf-8'))
-    fo.close()
-
-    try:
-        import pygraphviz
-        fileNamePdf = fileName.replace( '.dot', '.pdf') 
-        fullPathPdf = getFullPath( request, fileNamePdf )
-
-        graph = pygraphviz.AGraph( fullPath )
-        graph.layout( prog= 'dot' )
-        graph.draw( fullPathPdf, format ='pdf')
-
-        fileName = fileNamePdf
-    except ImportError:
-        pass
+#     fullPath = getFullPath( request, fileName )
+# 
+#     fo = open( fullPath , "wb")
+#     fo.write( dotdata.encode('utf-8'))
+#     fo.close()
+# 
+#     try:
+#         import pygraphviz
+#         fileNamePdf = fileName.replace( '.dot', '.pdf') 
+#         fullPathPdf = getFullPath( request, fileNamePdf )
+# 
+#         graph = pygraphviz.AGraph( fullPath )
+#         graph.layout( prog= 'dot' )
+#         graph.draw( fullPathPdf, format ='pdf')
+# 
+#         fileName = fileNamePdf
+#     except ImportError:
+#         pass
 
     return  {'success':True , 'message' : fileName,  'fileName' : fileName }
 

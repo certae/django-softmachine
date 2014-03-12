@@ -9,17 +9,17 @@ from protoLib.utilsBase import Enum
 
 class GraphModel():
 
-    def __init__(self, diagram):
+    def __init__(self):
         
-        self.dotSource = 'digraph name {'
+        self.dotSource = 'digraph Sm {'
         self.dotSource += 'fontname="Helvetica";fontsize = 8;'
-        self.dotSource += 'node [shape="plaintext"]'
+        self.dotSource += 'node [shape="plaintext"];\n'
 
-        self.GRAPH_LEVEL = Enum('all', 'essential', 'required' , 'primary', 'title') 
-        self.GRAPH_FORM = Enum('orf', 'erf', 'drn') 
+        self.GRAPH_LEVEL = Enum(['all', 'essential', 'required' , 'primary', 'title']) 
+        self.GRAPH_FORM = Enum(['orf', 'erf', 'drn']) 
 
-        self.sEntity = '{0} [label=<<TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0" style="width:100px"><TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olive"> <FONT FACE="Helvetica Bold" COLOR="white">{1}</FONT> </TD></TR>'
-        self.sField = '<TR><TD ALIGN="LEFT" BORDER="0"><FONT COLOR="#7B7B7B" FACE="Helvetica {2}">{0}</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#7B7B7B" FACE="Helvetica {2}">{1}</FONT></TD></TR>'
+        self.sEntity = '\n{0} [label=<<TABLE BGCOLOR="palegoldenrod" BORDER="0" CELLBORDER="0" CELLSPACING="0" style="width:100px"><TR><TD COLSPAN="2" CELLPADDING="4" ALIGN="CENTER" BGCOLOR="olivedrab4"> <FONT FACE="Helvetica Bold" COLOR="white">{1}</FONT> </TD></TR>'
+        self.sField = '\n<TR><TD ALIGN="LEFT" BORDER="0"><FONT FACE="Helvetica {2}">{0}</FONT></TD><TD ALIGN="LEFT"><FONT FACE="Helvetica {2}">{1}</FONT></TD></TR>'
 
 
     def getDiagramDefinition(self, diagramSet):
@@ -32,18 +32,19 @@ class GraphModel():
             gDiagram = {
                 'code': getClassName(pDiag.code) ,
                 'label': pDiag.code ,
-                'clusterName': pDiag.get('title', pDiag.code),
-                'graphLevel' : pDiag.get('graphLevel' , self.GRAPH_LEVEL.all),
-                'graphForm'  : pDiag.get('graphForm' , self.GRAPH_FORM.orf),
-                'showPrpType': pDiag.get('showPrpType' , False),
-                'showBorder' : pDiag.get('showBorder' , False),
-                'prefix' : pDiag.get('prefix' , ''),
+                'clusterName': getattr( pDiag, 'title', pDiag.code),
+                'graphLevel' : getattr( pDiag, 'graphLevel' , self.GRAPH_LEVEL.all),
+                'graphForm'  : getattr( pDiag, 'graphForm' , self.GRAPH_FORM.orf),
+                'showPrpType': getattr( pDiag, 'showPrpType' , False),
+                'showBorder' : getattr( pDiag, 'showBorder' , False),
+                'prefix'     : getattr( pDiag, 'prefix' , ''),
                 'entities': []
             }
 
-            for pEntity in pDiag.entity_set.all():
+            for pDiagEntity in pDiag.diagramentity_set.all():
 
-                enttCode = self.getEntityCode(self, pEntity.code, gDiagram.get('prefix'))
+                pEntity = pDiagEntity.entity 
+                enttCode = self.getEntityCode( pEntity.code, gDiagram.get('prefix'))
 
                 if enttCode in self.entities: 
                     continue 
@@ -61,7 +62,7 @@ class GraphModel():
                     pptCode = slugify(pProperty.code, '_')
                      
                     if pProperty.isForeign:
-                        pType = self.getEntityCode(self, pProperty.relationship.refEntity.code, gDiagram.get('prefix'))
+                        pType = self.getEntityCode( pProperty.relationship.refEntity.code, gDiagram.get('prefix'))
 
                         gEntity['relations'].append({
                             'code': pptCode,
@@ -93,18 +94,19 @@ class GraphModel():
         # Dibuja las entidades  
         for gDiagram in self.diagrams:
             
-            self.dotSource += 'subgraph {0} {'.format(gDiagram.get('code'))
+            self.dotSource += '\nsubgraph {0} {{'.format(gDiagram.get('code'))
     
             if not gDiagram.get('showBorder', False) : 
                 self.dotSource += 'style=invis;'
             if len(gDiagram.get('label', '')) > 0: 
                 self.dotSource += 'label="{}";'.format( gDiagram.get('label', '')) 
-            self.dotSource += '\n'
 
             for gEntity in gDiagram['entities']:
                 self.entity2dot( gDiagram, gEntity  )
 
             self.dotSource += '}\n'
+
+        self.dotSource += '}'
 
         # Dibuja las relaciones   
 #         for gDiagram in self.diagrams:
@@ -121,7 +123,7 @@ class GraphModel():
     def entity2dot(self, gDiagram, gEntity ):
 
 
-        self.dotSource += self.sEntity.format( gEntity.get( 'code'), gEntity.get( 'label') ) 
+        self.dotSource += self.sEntity.format( gEntity.get( 'code'), gEntity.get( 'label', gEntity.get( 'code')) ) 
 
         # 0 : colName; 1 : baseType; 2 : Bold / Italic 
         
@@ -150,7 +152,7 @@ class GraphModel():
                 if fildLv >=  diagLv:
                     self.dotSource += self.sField.format( gField.get( 'code'), sPrpType, sBold  )
 
-        self.dotSource += '</TR></TABLE>>]\n'
+        self.dotSource += '</TABLE>>]\n'
 
 
     def getEntityCode(self, code, prefix):
