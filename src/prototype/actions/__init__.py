@@ -47,7 +47,7 @@ def doEntityPrototype( modeladmin, request, queryset, parameters ):
 
 # -----------  Models  
 
-def doModelGraph( modeladmin, request, queryset, parameters):
+def doModelGraph(modeladmin, request, queryset, parameters):
     """ 
     funcion para crear el modelo grafico 
     a partir de Model ( doModel )   
@@ -64,7 +64,7 @@ def doModelGraph( modeladmin, request, queryset, parameters):
         gModel = GraphModel()
     
         gModel.getDiagramDefinition( queryset  )
-        gModel.generateDotModel( )
+        dotData = gModel.generateDotModel( )
 
 #   Recorre los registros selccionados   
     except Exception as e:
@@ -72,28 +72,27 @@ def doModelGraph( modeladmin, request, queryset, parameters):
         return  {'success':False, 'message' : 'Load error' }
         pass
 
-            
 
 #   Genera el archvivo dot     
     fileName = 'gm_' + slugify( queryset[0].code ) + '.dot'
-#     fullPath = getFullPath( request, fileName )
-# 
-#     fo = open( fullPath , "wb")
-#     fo.write( dotdata.encode('utf-8'))
-#     fo.close()
-# 
-#     try:
-#         import pygraphviz
-#         fileNamePdf = fileName.replace( '.dot', '.pdf') 
-#         fullPathPdf = getFullPath( request, fileNamePdf )
-# 
-#         graph = pygraphviz.AGraph( fullPath )
-#         graph.layout( prog= 'dot' )
-#         graph.draw( fullPathPdf, format ='pdf')
-# 
-#         fileName = fileNamePdf
-#     except ImportError:
-#         pass
+    fullPath = getFullPath( request, fileName )
+ 
+    fo = open( fullPath , "wb")
+    fo.write( dotData.encode('utf-8'))
+    fo.close()
+ 
+    try:
+        import pygraphviz
+        fileNamePdf = fileName.replace( '.dot', '.pdf') 
+        fullPathPdf = getFullPath( request, fileNamePdf )
+ 
+        graph = pygraphviz.AGraph( fullPath )
+        graph.layout( prog= 'dot' )
+        graph.draw( fullPathPdf, format ='pdf')
+ 
+        fileName = fileNamePdf
+    except ImportError:
+        pass
 
     return  {'success':True , 'message' : fileName,  'fileName' : fileName }
 

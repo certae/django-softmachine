@@ -108,7 +108,7 @@ class Model(ProtoModel):
     protoExt = { 
         "actions": [
             { "name": "doModelPrototype" },
-            { "name": "doModelGraph" },
+#             { "name": "doModelGraph" },
             { "name": "doExportPrototype" },
             { "name": "doExportProtoJson" }
         ],
@@ -452,7 +452,7 @@ class Diagram(ProtoModel):
 
     protoExt = { 
         "actions": [
-            { "name": "doModelGraph" },
+            { "name": "doModelGraph" , "selectionMode" : "multiple" },
         ],
     } 
 

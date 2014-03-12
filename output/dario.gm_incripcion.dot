@@ -1,0 +1,32 @@
+digraph Sm {fontname="Helvetica";fontsize = 8;rankdir = BT;node [shape="record"];
+
+subgraph Incripcion {label="Incripcion";
+ChoixCours [label = "{ChoixCours|trimestre \l+ choix_cours_choix_bloc \l+ choix_cours_cours \l+ choix_cours_cours_session \l+ choix_cours_composition_b \l}"]
+
+CoursSession [label = "{CoursSession|nb_sections \ldemi_section \ldate_debut \ldate_fin \l+ cours_session_trimestre \l+ cours_session_section \l+ cours_session_cours \l}"]
+
+CheminementPa [label = "{CheminementPa|code_cheminement \lnom \ldate_etablissement \ldate_modification \lversion \l+ responsable_chem \l+ etabli_pour \l+ support_principal \l}"]
+
+Programme [label = "{Programme|programme \lnom_programme \ltype \lcycle \lnb_credits \l}"]
+
+Inscription [label = "{Inscription|trimestre \l+ inscription_formation \l}"]
+
+Departement [label = "{Departement|departement \lnom_departement \l}"]
+
+Formation [label = "{Formation|date_diplomation \lstatut \l+ dirige_par \l+ formation_famille \l+ formation_dem_adm_prog \l}"]
+}
+ChoixCours -> ChoixBloc [dir=both,arrowhead=diamond,arrowtail=none]
+ChoixCours -> Cours [dir=both,arrowhead=diamond,arrowtail=none]
+ChoixCours -> CoursSession [dir=both,arrowhead=diamond,arrowtail=none]
+ChoixCours -> CompositionB [dir=both,arrowhead=diamond,arrowtail=none]
+CoursSession -> Trimestre [dir=both,arrowhead=diamond,arrowtail=none]
+CoursSession -> Section [dir=both,arrowhead=diamond,arrowtail=none]
+CoursSession -> Cours [dir=both,arrowhead=diamond,arrowtail=none]
+CheminementPa -> Professeur [dir=both,arrowhead=diamond,arrowtail=none]
+CheminementPa -> Programme [dir=both,arrowhead=diamond,arrowtail=none]
+CheminementPa -> Departement [dir=both,arrowhead=diamond,arrowtail=none]
+Inscription -> Formation [dir=both,arrowhead=diamond,arrowtail=none]
+Formation -> Professeur [dir=both,arrowhead=diamond,arrowtail=none]
+Formation -> Famille [dir=both,arrowhead=diamond,arrowtail=none]
+Formation -> DemAdmProg [dir=both,arrowhead=diamond,arrowtail=none]
+}
