@@ -60,6 +60,20 @@ def doModelGraph( modeladmin, request, queryset, parameters):
     if queryset.count() != 1:
         return  {'success':False, 'message' : 'No record selected' }
 
+    try:
+
+        from graphModel import GraphModel 
+        gModel = GraphModel()
+    
+        gModel.getDiagramDefinition( queryset  )
+        gModel.generateDotModel( )
+
+#   Recorre los registros selccionados   
+    except Exception as e:
+        traceback.print_exc()
+        return  {'success':False, 'message' : 'Load error' }
+        pass
+
             
 #   Envia el QSet con la lista de modelos, 
     dotdata = generateDotModels ( queryset )
@@ -187,11 +201,10 @@ def doImportOMS( modeladmin, request, queryset, parameters):
 
     try: 
 
-        import importOMS 
         import os 
-    
         fileName = os.path.join(MEDIA_ROOT, 'OMS.exp' ) 
     
+        import importOMS 
         cOMS = importOMS.importOMS()
     
         cOMS.loadFile( fileName  )

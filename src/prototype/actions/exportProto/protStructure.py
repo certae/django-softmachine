@@ -121,8 +121,7 @@ _PROTOSTRUCTURE =
 Exportar vistas
 '''
   
-from pttActionTools import getClassName  
-from protoLib.utilsBase import slugify, JSONEncoder
+from protoLib.utilsBase import slugify, JSONEncoder, getClassName  
 from protoLib.models import ProtoDefinition
 
 import json

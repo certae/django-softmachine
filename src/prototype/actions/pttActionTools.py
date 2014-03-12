@@ -20,9 +20,6 @@ TypeEquivalence = {
     }
 
 
-def getClassName( cName ):
-    return ''.join( slugify( cName , ' ').title().split() )
-
 
 def getViewCode( pEntity, viewTitle = None ):
     if viewTitle is None: viewTitle = pEntity.code

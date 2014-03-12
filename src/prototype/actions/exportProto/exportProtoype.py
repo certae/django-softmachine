@@ -12,8 +12,8 @@
 #   return file_str.getvalue()
   
   
-from pttActionTools import getClassName, TypeEquivalence  
-from protoLib.utilsBase import slugify, repStr
+from pttActionTools import  TypeEquivalence  
+from protoLib.utilsBase import slugify, repStr, getClassName
 from cStringIO import StringIO
 
 
