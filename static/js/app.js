@@ -21,8 +21,17 @@ Ext.application({
     appFolder: 'static/js',
 
     requires: ['Ext.window.MessageBox', 'Ext.toolbar.Paging', 'Ext.layout.container.Border', 'Ext.util.Cookies', 'Ext.Ajax', 'ProtoUL.view.MenuTree', 'ProtoUL.view.ProtoTabContainer', 'ProtoUL.view.Viewport', 'ProtoUL.view.password.PasswordReset', 'ProtoUL.ux.Printer', 'ProtoUL.ux.GridHeaderToolTip', 'ProtoUL.ux.CheckColumn'],
-
-	controllers: ['PasswordManager'],
+	views: [
+        'diagram.DiagramMainView',
+        'diagram.DiagramMenu',
+        'diagram.DiagramCanvas',
+        'diagram.DiagramDetail',
+        'diagram.DiagramToolbar'
+    ],
+	controllers: [
+		'PasswordManager',
+		'DiagramController'
+	],
 	
     launch: function () {
 
