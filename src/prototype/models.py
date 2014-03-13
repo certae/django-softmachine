@@ -402,7 +402,6 @@ class ProtoTable(ProtoModel):
         }
     } 
     
-        
 
 #   --------------------------------------------------------------------------------
 
@@ -411,7 +410,7 @@ class Diagram(ProtoModel):
     """ 
     TODO: Diagrama o subModelo   
     """    
-    model = models.ForeignKey('Model', blank=False, null=False)
+    project = models.ForeignKey('Project', blank=False, null=False)
     code = models.CharField(blank=False, null=False, max_length=200)
     
     description = models.TextField(blank=True, null=True)
@@ -425,15 +424,20 @@ class Diagram(ProtoModel):
     """Nivel de representation ( 'all', 'essential', 'required' , 'primary', 'title' )"""
     graphLevel = models.IntegerField(blank=True, null=True, default = 0)
 
+    """Representation graphique ( record, htmlTable, graph  )"""
+    grphMode = models.IntegerField(blank=True, null=True, default = 0)
+
+    """Formalismo de representation ( ObjetRelational, ER, DataRun  )"""
+    graphForm = models.IntegerField(blank=True, null=True, default = 0)
+
     """Show property Type"""
     showPrpType = models.BooleanField(default=False)
 
     """Show Border"""
     showBorder  = models.BooleanField(default=False)
 
-
-    """Formalismo de representation ( ObjetRelational, ER, DataRun  )"""
-    graphForm = models.IntegerField(blank=True, null=True, default = 0)
+    """Show ForeignKeys"""
+    showFKey  = models.BooleanField(default=False)
 
 
     """Information graphique  ( labels, etc... ) """
@@ -441,13 +445,13 @@ class Diagram(ProtoModel):
     objects = JSONAwareManager(json_fields=['info'])
 
     # Propieadad para ordenar el __str__ 
-    unicode_sort = ('model', 'code',)
+    unicode_sort = ('project', 'code',)
 
     def __unicode__(self):
-        return slugify(self.model.code + '-' + self.code) 
+        return slugify(self.project.code + '-' + self.code) 
 
     class Meta:
-        unique_together = ('model', 'code', 'smOwningTeam')
+        unique_together = ('project', 'code', 'smOwningTeam')
 
 
     protoExt = { 
@@ -514,7 +518,7 @@ class Service(ProtoModel):
         unique_together = ('model', 'code', 'smOwningTeam')
 
     protoExt = { 
-        "menuApp" : "roadMap",
+        "menuApp" : "Others",
         } 
 
 
