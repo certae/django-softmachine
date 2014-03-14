@@ -242,7 +242,7 @@ _MetaProperties =  {
     # multiple : Exige al menos un reg       
     "selectionMode.choices" : [ "none", "single", "multiple" ] 
 
-};
+}
 
 def verifyPrpType(lKey, cValue) :
     # Verifica los tipos de las  propiedades
@@ -285,7 +285,7 @@ def verifyPrpType(lKey, cValue) :
         return None
     
     else :
-        return cValue;
+        return cValue
 
 
 
@@ -299,10 +299,10 @@ def getSimpleProperties(oData, ptType) :
     # Inicializa con el type
     cData = {}
     if(ptType) :
-        cData['__ptType'] = ptType;
+        cData['__ptType'] = ptType
 
     for lKey in oData :
-        cValue = oData[lKey];
+        cValue = oData[lKey]
  
         # Los objetos o arrays son la imagen del arbol y no deben ser tenidos en cuenta, generarian recursividad infinita
         if (type(cValue) in [dict, list]) :

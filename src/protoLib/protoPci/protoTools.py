@@ -60,7 +60,6 @@ def getSpecialNodes(nodeDef, treeData, objData, ptType) :
             treeData['children'] = formContainer2Tree(objData, ptType)
             
         return True
-            
    
     if (('__ptStyle' in nodeDef ) and (nodeDef['__ptStyle'] == 'jsonText')):
         if (objData.get('name')):

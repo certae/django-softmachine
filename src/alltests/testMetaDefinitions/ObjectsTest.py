@@ -44,12 +44,12 @@ def getFields(modelclass):
 
 
 def getValue(modelclass, field):
-        if type(modelclass.protoExt[field]) != list:
-            for values in modelclass.protoExt[field]:
-                return values
-        else:
-            for values in modelclass.protoExt[field][0]:
-                return values
+    if type(modelclass.protoExt[field]) != list:
+        for values in modelclass.protoExt[field]:
+            return values
+    else:
+        for values in modelclass.protoExt[field][0]:
+            return values
 
 
 def validatePair(field, value):

@@ -94,7 +94,8 @@ def getViewDefinition( pEntity, viewTitle  ):
 def property2Field( fName, propDict, infoField = False, fBase = '' ):
     """ Genera la definicion del campo en la pci """
    
-    if len( fBase ) > 0:  fBase += '__' 
+    if len( fBase ) > 0:
+        fBase += '__' 
      
     field =  { 
         "name"    : fName,
