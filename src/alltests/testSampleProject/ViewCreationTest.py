@@ -5,7 +5,7 @@ from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
 from django.http import HttpRequest
 
-#from prototype.models import *
+from prototype.models import *
 from prototype.actions.viewDefinition import *
 
 from prototype.actions.__init__ import doModelPrototype
