@@ -145,7 +145,6 @@ _MetaProperties =  {
 
     "header.help" : "Column header (grid)  default for fieldLabel" ,
 
-    "height.type": int,
     "height.help": "The height value in pixels",
     "helpPath.help": "/help/xxxx.html  real: /static/help",
     

@@ -1,20 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from pprint import pprint
 from django.test import TestCase
 from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
 from django.http import HttpRequest
 
-from prototype.models import *
+#from prototype.models import *
 from prototype.actions.viewDefinition import *
 
 from prototype.actions.__init__ import doModelPrototype
 from prototype.actions.__init__ import doEntityPrototype
-
-from protoLib.protoAuth import getUserProfile
-from protoLib.utilsBase import slugify
-
 
 def ViewCreationTestSuite():
     suite = TestSuite()

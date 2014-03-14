@@ -3,7 +3,6 @@
 #Manejo de reportes basdaos en plantillas ( sheets )
 #Dg 121105   --------------------------------------------------
 
-
 from django.http import HttpResponse
 from django.utils.encoding import smart_str, smart_unicode
 
@@ -91,12 +90,14 @@ def getSheetConf( protoMeta , sheetName ):
     # en caso de no encotrarl el nombre seleccionado
     pSheet = None
     for item in pSheets:
-        if pSheet == None: pSheet = item
+        if pSheet == None:
+            pSheet = item
         if item.get( 'name', '') == sheetName :
             pSheet = item
             break
 
-    if pSheet == None: pSheet = {}
+    if pSheet == None:
+        pSheet = {}
     return pSheet
 
 
@@ -160,7 +161,8 @@ class SheetReportFactory(object):
         #Al comenzar lee  template  beforeDetail
         if  pList.__len__()  > 0:
             row = pList[0]
-        else: row = {}
+        else:
+            row = {}
         self.myReport += getReport( bfProps, templateBefore, row  )
 
         # Recorre los registros
@@ -185,7 +187,8 @@ class SheetReportFactory(object):
 
                 # Obtiene la conf del detalle
                 detailConf = getDetailConf( protoMeta, detailName  )
-                if detailConf == None: continue
+                if detailConf == None :
+                    continue
 
                 # Obtiene la meta y el QSet
                 protoMetaDet, QsDet  = getReportBase( detailConf[ 'conceptDetail' ] )
@@ -207,7 +210,8 @@ def getProperties( fields, template ):
     # Obtiene las propiedades de un template para no recorrer props inutiles
 
     template = smart_str( template )
-    if not template.__contains__( '{{'): return  []
+    if not template.__contains__( '{{') :
+        return  []
 
     properties = [ 'id' ]
     for field in fields:
@@ -230,7 +234,8 @@ def getDetailConf( protoMeta, detailName ):
     # en caso de no encotrarl el nombre seleccionado
     for item in pDetails:
         itemName = item.get( 'detailName', '')
-        if itemName == '': itemName = item.get( 'menuText ', '')
+        if itemName == '':
+            itemName = item.get( 'menuText ', '')
         if itemName == detailName :
             return item
 
@@ -281,7 +286,8 @@ def protoCsv(request):
 
     if orderBy:
         pRows =  Qs.order_by(*orderBy)
-    else: pRows =  Qs.all()
+    else:
+        pRows =  Qs.all()
 
 #   Prepara las cols del Query
     try:
@@ -293,13 +299,6 @@ def protoCsv(request):
     filename = protoMeta.get('viewCode', '') + '.csv'
     fullpath = getFullPath( request, filename )
 
-#    ---  No maneja utf-8
-#    import csv
-#    with open( fullpath , 'wb') as f:
-#        writer = csv.writer(f)
-#        writer.writerow( pList[0].keys() )
-#        for row in pList:
-#            writer.writerow( row.values() )
 
     import codecs
     with codecs.open(fullpath , 'w', 'utf-8') as outfile:

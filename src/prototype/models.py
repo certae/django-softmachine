@@ -64,8 +64,7 @@ class Project(ProtoModel):
         return slugify( self.code ) 
 
     class Meta:
-        unique_together = ( 'code', 'smOwningTeam' )
-        #permissions = (( "read_domain", "Can read project"), )        
+        unique_together = ( 'code', 'smOwningTeam' )      
 
     protoExt = { 
         "actions": [{ "name": "doImportSchema" },],        
@@ -111,7 +110,6 @@ class Model(ProtoModel):
     } 
     
 
-    
 class Entity(ProtoModel):
     """ 
     Entity corresponde a las entidades FISICA;  
@@ -167,7 +165,6 @@ class Entity(ProtoModel):
             "listDisplay": ["__str__", "description", "smOwningTeam"]      
         }
     } 
-
 
 
 class PropertyBase(ProtoModel):
@@ -368,7 +365,7 @@ def propModel_post_delete(sender, instance, **kwargs):
     # En el postSave ya el registro de hijos no existe, 
     # la solucion mas simple las props con propMod = None y tocarlos  
     updProPropModel( Property )
-    pass
+    
 
 post_delete.connect(propModel_post_delete, sender = PropertyModel)
 
@@ -400,7 +397,6 @@ class PropertyEquivalence(ProtoModel):
         super(PropertyEquivalence, self).delete(*args, **kwargs)
 
     protoExt = { 
-#        "menuApp" : "dictionary", 
         "gridConfig" : {
             "listDisplay": ["__str__", "description", "smOwningTeam"]      
         }
@@ -469,8 +465,10 @@ class ProtoTable(ProtoModel):
         # Evalua el string de prototipos
         val = ''
         for arg in args:
-            try: val = val + '.' + slugify( self.info.get( arg[6:] ) )
-            except: pass 
+            try:
+                val = val + '.' + slugify( self.info.get( arg[6:] ) )
+            except:
+                pass 
         return  val[1:] 
 
     objects = JSONAwareManager(json_fields = ['info'])

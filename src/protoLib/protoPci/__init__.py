@@ -12,9 +12,11 @@ from pciObjects import _METAOBJECTS, _METAVERSION
 def verifyList(obj, defList = []):
 #   Los objetos del admin son en su mayoria del tipo tuple,
 #   Es necesario convertirlos a listas por facilidad de trabajo
-    if isinstance( obj , basestring ):
-        try: obj = json.loads( obj )  
-        except : obj = []
+    if isinstance(obj , basestring):
+        try:
+            obj = json.loads(obj)  
+        except :
+            obj = []
     elif isinstance( obj, tuple  ):  
         obj = list( obj )
 
@@ -23,7 +25,8 @@ def verifyList(obj, defList = []):
             obj  = defList        
         return obj    
 
-    else: return [] 
+    else:
+        return [] 
     
 def verifyMeta( oMeta, ptType, tNode = None ) :
     '''
@@ -33,7 +36,6 @@ def verifyMeta( oMeta, ptType, tNode = None ) :
     '''
 
     ptConfig = _METAOBJECTS.get( ptType )
-
 
     if ptConfig.get( 'lists' ): 
         ptList = ptConfig.get( 'lists', []) 
@@ -51,18 +53,18 @@ def verifyMeta( oMeta, ptType, tNode = None ) :
     # Verifica los Objetos ( no aplica los default, pues la config puede eliminarlos )
     if  ptConfig.get('objects') :
         for sKey in ptConfig.get('objects') :  
-            myObj = oMeta.get(sKey, {});
+            myObj = oMeta.get(sKey, {})
             print(oMeta.get(sKey,{}))
             print(oMeta.get(sKey))
             if tNode :
                 nBranch = getNodeBase(sKey, sKey)
                 tNode.children.append(nBranch)
-                oMeta[sKey] = verifyMeta( myObj, sKey, nBranch);
+                oMeta[sKey] = verifyMeta( myObj, sKey, nBranch)
                 
             else :
-                oMeta[sKey] = verifyMeta( myObj, sKey );
+                oMeta[sKey] = verifyMeta( myObj, sKey )
 
-    return oMeta;
+    return oMeta
 
 
 def clearPhantonProps( ptConfig, ptType ):  
@@ -74,9 +76,9 @@ def clearPhantonProps( ptConfig, ptType ):
     if ptConfig :
         for sKey in ptConfig :                
             if (not (sKey in objConfig.get('properties', [])+(['name', '__ptValue', '__ptList', '__ptType']))) :
-                del ptConfig[sKey];
+                del ptConfig[sKey]
 
-    return ptConfig;
+    return ptConfig
 
 
 def  getNodeBase( pName, ptType, ptConfig = None ) : 

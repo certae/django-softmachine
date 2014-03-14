@@ -282,7 +282,8 @@ class DiscreteValue(models.Model):
     def __unicode__(self):
         if self.title is None:
             return self.code
-        else: return self.title.code + '.' + self.code
+        else:
+            return self.title.code + '.' + self.code
 
     class Meta:
         unique_together = ('title', 'value',)

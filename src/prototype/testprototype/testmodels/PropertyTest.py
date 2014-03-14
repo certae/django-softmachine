@@ -1,5 +1,4 @@
 from django.test import TestCase
-from django.utils.unittest import skip
 from prototype.models import Property
 from prototype.testprototype.testmodels.TestUtilities import createTestProperty
 

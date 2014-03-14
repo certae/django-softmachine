@@ -3,7 +3,6 @@
 from utilsBase import verifyStr
 from django.db.models.fields import NOT_PROVIDED
 
-
 # Equivalencia de tipos
 TypeEquivalence = {
         'BooleanField'      :'bool',
@@ -162,16 +161,8 @@ def isAdmField(fName):
     # Los campos de seguridad
     if (fName in [ 'smOwningUser', 'smCreatedBy', 'smModifiedBy', 'smCreatedOn',
                     'smOwningTeam', 'smModifiedOn', 'smWflowStatus', 'smRegStatus'
-                   ]):  return True
+                   ]):
+        return True
 
     return False
-
-
-#----------------------------------------------------------
-# DGT:  choice,  Convierte las propiedades en una lista
-#        a = []
-#        for c in field.choices:
-#            a[c[0]] = c[1]              //  Dict
-#            a.push ( [ c[0], c[1] ])    //  List
-
 

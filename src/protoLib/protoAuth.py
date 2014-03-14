@@ -1,8 +1,6 @@
 # -*- encoding: UTF-8 -*-
 
-
 from models import UserProfile, TeamHierarchy
-
 
 def  getUserProfile(pUser, action, actionInfo):
     """
@@ -26,7 +24,8 @@ def  getUserProfile(pUser, action, actionInfo):
     """
 
     # User
-    if pUser is None: return None
+    if pUser is None:
+        return None
 
     # Profile
     uProfile = UserProfile.objects.get_or_create(user=pUser)[0]
@@ -48,7 +47,8 @@ def  getUserProfile(pUser, action, actionInfo):
         uProfile.save()
 
         usrLanguage = uProfile.language
-        if usrLanguage not in ['es', 'en', 'fr' ] : usrLanguage = 'fr'
+        if usrLanguage not in ['es', 'en', 'fr' ] :
+            usrLanguage = 'fr'
         usrLanguage = 'protoLib.localisation.' + usrLanguage
         myModule = __import__(usrLanguage, globals(), locals(), ['__language' ], -1)
 

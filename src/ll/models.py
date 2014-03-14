@@ -9,7 +9,6 @@ from django.db import models
 from protoLib.models import ProtoModel
 from protoLib.utilsBase import slugify
 
-
 WORKFLOW = {  'initialStatus' :   'I', 
                     'OkStatus' : 'Ok', 
                     'wfFilters' : [
@@ -67,7 +66,6 @@ class Logiciel(ProtoModel):
     recommande_gouv_quebec = models.BooleanField()
     uri_commu_gouv = models.CharField(blank= True, null= True, max_length= 255)
     fourlog = models.ForeignKey('Logiciel', blank= True, null= True)
-    
     _WorkFlow =  WORKFLOW
 
     def __unicode__(self):
@@ -91,7 +89,6 @@ class Licence(ProtoModel):
     nom_licence = models.CharField(blank= True, null= True, max_length= 255)
     type_licence = models.CharField(blank= True, null= True, max_length= 255)
     uri_licence = models.CharField(blank= True, null= True, max_length= 255)
-
     _WorkFlow =  WORKFLOW
 
     def __unicode__(self):
@@ -153,7 +150,6 @@ class LangageUtilise(ProtoModel):
 
 class Langage(ProtoModel):
     nom_langage = models.CharField(blank= False, null= False, max_length= 255)
-
     _WorkFlow =  WORKFLOW
 
     def __unicode__(self):
@@ -164,7 +160,6 @@ class Langage(ProtoModel):
 
 class SystemeExploitation(ProtoModel):
     nom_systeme_exploitation = models.CharField(blank= False, null= False, max_length= 255)
-
     _WorkFlow =  WORKFLOW
 
     def __unicode__(self):
@@ -270,8 +265,8 @@ class Evaluation(ProtoModel):
     indice_maturite = models.DecimalField(blank= True, null= True, max_digits=48, decimal_places= 0)
     description_evaluation = models.TextField(blank = True, null = True)
     log_eva = models.ForeignKey('Logiciel', blank= False, null= False)
-
     _autoIncrementField = 'id_evaluation'
+    
     def __unicode__(self):
         return slugify(self.id_evaluation +  '.' + str( self.log_eva))
 

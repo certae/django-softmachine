@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 
-
 import datetime, time
 from decimal import Decimal
 from django.utils.encoding import smart_str
@@ -10,7 +9,8 @@ def getTypedValue (sAux , sType):
     * se usa sobre todo para las UDP y los JsonField 
     """
 
-    if sAux == 'None': sAux = ''
+    if sAux == 'None':
+        sAux = ''
     sAux = smart_str(sAux)
 
     if sType == 'bool':
@@ -26,14 +26,15 @@ def getTypedValue (sAux , sType):
     elif sType == 'time':
         sAux = toTime(sAux)
     elif sType == 'foreigntext':
-        if sAux == 'None': sAux = ''
+        if sAux == 'None':
+            sAux = ''
 
     return sAux
 
 
 def isNumeric(s):
     try:
-      i = float(s)
+        i = float(s)
     except ValueError, TypeError:
         return False
     else:
@@ -107,7 +108,8 @@ def toTime(sVal, iDefault=None):
 def toDateTime(sVal, iDefault=None):
     """ Suponer formato Iso OrderingDate 
     """
-    if sVal is None: return iDefault
+    if sVal is None:
+        return iDefault
     try:
         if sVal.count("T") > 0:
             # IsoFormat DateTime
@@ -173,7 +175,6 @@ def isinteger(astring):
 
 
 # --------------------
-
 
 def product(*args):
     # product( ['ABCD', 'xy'] ) --> Ax Ay Bx By Cx Cy Dx Dy

@@ -1,9 +1,5 @@
 # -*- encoding: utf-8 -*-
 
-# some common routines
-# Compiled by : Dgt 11/11
-
-
 import os
 import re
 
@@ -22,22 +18,24 @@ class JSONEncoder(json.JSONEncoder):
             return json.JSONEncoder.default(self, obj)    
 
 
-
 def verifyList(obj, defList = []):
 #   Los objetos del admin son en su mayoria del tipo tuple,
 #   Es necesario convertirlos a listas por facilidad de trabajo
-    if isinstance( obj , basestring ):
-        try: obj = json.loads( obj )  
-        except : obj = []
-    elif isinstance( obj, tuple  ):  
-        obj = list( obj )
+    if isinstance(obj , basestring ):
+        try: 
+            obj = json.loads(obj)  
+        except : 
+            obj = []
+    elif isinstance( obj, tuple ):  
+        obj = list(obj)
 
-    if isinstance( obj, list ):
-        if  len( obj ) == 0 :
-            obj  = defList        
+    if isinstance(obj, list):
+        if  len(obj) == 0 :
+            obj = defList        
         return obj    
 
-    else: return [] 
+    else:
+        return [] 
 
 def verifyStr( vrBase , vrDefault ):
     sAux = vrBase or vrDefault

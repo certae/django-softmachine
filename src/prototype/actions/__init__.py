@@ -179,6 +179,5 @@ def doImportSchema( modeladmin, request, queryset, parameters):
     except Exception as e:
         traceback.print_exc()
         return  {'success':False, 'message' : 'Load error' }
-        pass
         
     return {'success':True, 'message' :  'runing ...' } 

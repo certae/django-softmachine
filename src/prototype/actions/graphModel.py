@@ -48,7 +48,8 @@ def generateDotModels( queryset ):
                 pptCode =  slugify( pProperty.code, '_' ) 
                 if pProperty.isForeign:
                     pType = slugify( pProperty.relationship.refEntity.code , '_') 
-                else: pType = slugify( pProperty.baseType , '_')
+                else:
+                    pType = slugify( pProperty.baseType , '_')
 
                 gEntity['fields'].append({
                     'name': pptCode,
@@ -62,7 +63,8 @@ def generateDotModels( queryset ):
                 if pProperty.isForeign:
                     if not pProperty.isRequired: 
                         extras = '[arrowhead=empty, arrowtail=dot]'
-                    else: extras  = ''  # [arrowhead=none, arrowtail=none]
+                    else:
+                        extras  = ''
     
                     label = pptCode + ' (%s)' % pType
     

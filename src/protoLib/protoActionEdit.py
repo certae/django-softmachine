@@ -2,7 +2,6 @@
 
 # import traceback
 
-
 import json
 from django.http import HttpResponse
 from django.db import models
@@ -20,7 +19,6 @@ from utilsWeb import doReturn
 # Error Constants
 ERR_NOEXIST = '<b>ErrType:</b> KeyNotFound<br>The specifique record does not exist'
 ERR_REFONLY = '<b>ErrType:</b> RefOnly<br>The specifique record is reference only'
-
 
 def protoCreate(request):
     myAction = 'add'
@@ -207,7 +205,6 @@ def _protoEdit(request, myAction):
 
             except Exception, e:
                 data['_ptStatus'] = data['_ptStatus'] + getReadableError(e)
-                pass
 
         pList.append(data)
 
