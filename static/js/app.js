@@ -21,12 +21,20 @@ Ext.application({
     appFolder: 'static/js',
 
     requires: ['Ext.window.MessageBox', 'Ext.toolbar.Paging', 'Ext.layout.container.Border', 'Ext.util.Cookies', 'Ext.Ajax', 'ProtoUL.view.MenuTree', 'ProtoUL.view.ProtoTabContainer', 'ProtoUL.view.Viewport', 'ProtoUL.view.password.PasswordReset', 'ProtoUL.ux.Printer', 'ProtoUL.ux.GridHeaderToolTip', 'ProtoUL.ux.CheckColumn'],
+	models: [
+        'EntityAttributesModel'
+    ],
+    stores: [
+        'EntityAttributeStore'
+    ],
 	views: [
         'diagram.DiagramMainView',
         'diagram.DiagramMenu',
         'diagram.DiagramCanvas',
-        'diagram.DiagramDetail',
-        'diagram.DiagramToolbar'
+        // 'diagram.DiagramDetail',
+        'diagram.DiagramToolbar',
+        'diagram.EntityEditor',
+        'diagram.EntityAttributes'
     ],
 	controllers: [
 		'PasswordManager',

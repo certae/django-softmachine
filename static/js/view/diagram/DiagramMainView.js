@@ -2,7 +2,7 @@ Ext.define('ProtoUL.view.diagram.DiagramMainView', {
     extend: 'Ext.window.Window',
     alias: 'widget.diagramMainView',
 
-    requires: ['ProtoUL.view.diagram.DiagramMenu', 'ProtoUL.view.diagram.DiagramCanvas', 'ProtoUL.view.diagram.DiagramDetail', 'Ext.panel.Panel'],
+    requires: ['ProtoUL.view.diagram.DiagramMenu', 'ProtoUL.view.diagram.DiagramCanvas', 'ProtoUL.view.diagram.EntityEditor', 'Ext.panel.Panel'],
 
     itemId: 'diagramMainView',
     layout: 'border',
@@ -24,9 +24,10 @@ Ext.define('ProtoUL.view.diagram.DiagramMainView', {
                 flex: 1,
                 region: 'center'
             }, {
-                xtype: 'diagramDetail',
+                xtype: 'entityeditor',
                 region: 'east',
                 split: true,
+                collapsed: true,
                 collapsible: true
             }]
         });

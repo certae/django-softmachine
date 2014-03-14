@@ -23,11 +23,17 @@ Ext.define('ProtoUL.view.diagram.DiagramCanvas', {
             var reader = new draw2d.io.json.Reader();
             reader.unmarshal(this.view, jsonDocument);
 
-			this.view.addSelectionListener(this.dockedItems.items[0]);
-			this.view.getCommandStack().addEventListener(this.dockedItems.items[0]);
+			var toolbar = this.getComponent('diagramtoolbar');
+			this.view.addSelectionListener(toolbar);
+			this.view.getCommandStack().addEventListener(toolbar);
             // display the JSON document in the preview DIV
             //
             //displayJSON(app.getView());
+			var editPanel = this.ownerCt.getComponent('entityeditor');
+			this.view.addSelectionListener(editPanel);
+			
+			// this.view.addSelectionListener(this.dockedItems.items[0]);
+			// this.view.getCommandStack().addEventListener(this.dockedItems.items[0]);
 
             // add an event listener to the Canvas for change notifications.
             // We just dump the current canvas document into the DIV
