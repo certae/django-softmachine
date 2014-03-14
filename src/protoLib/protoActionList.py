@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
 from django.db import models
 from django.http import HttpResponse
 from django.contrib.admin.util import  get_fields_from_path
@@ -19,7 +18,6 @@ from protoField import TypeEquivalence
 from models import getDjangoModel
 
 from utilsWeb import doReturn
-
 
 import json
 import traceback
@@ -303,7 +301,7 @@ def copyValuesFromFields(protoMeta, rowdict, relModels, JsonField):
                 # Obtiene el id
                 rowId = rowdict[ relModel['fkId'] ]
                 if rowId:
-                   relModel['rowData'] = getRowById(relModel['zoomModel'], rowId)
+                    relModel['rowData'] = getRowById(relModel['zoomModel'], rowId)
                 else:
                     relModel['rowData'] = None
                 relModel['loaded'] = True

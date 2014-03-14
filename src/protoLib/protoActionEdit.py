@@ -260,6 +260,7 @@ def setRegister(model, rec, key, data):
     # Si es definido como no editable en el modelo
     if getattr(field, 'editable', False) == False:
         return
+    
     if  cName == 'AutoField':
         return
 
@@ -267,24 +268,22 @@ def setRegister(model, rec, key, data):
     value = data[key]
 
     try:
-
         if cName == 'CharField' or cName == 'TextField':
             setattr(rec, key, value)
             return
 
-        elif  cName == 'ForeignKey':
+        if cName == 'ForeignKey':
             keyId = key + '_id'
             value = data[keyId]
             exec('rec.' + keyId + ' =  ' + smart_str(value))
             return
 
-        elif cName == 'DateField':
+        if cName == 'DateField':
             value = toDate(value)
         elif cName == 'TimeField':
             value = toTime(value)
         elif cName == 'DateTimeField':
             value = toDateTime(value)
-
         elif cName == 'BooleanField':
             value = toBoolean(value)
         elif cName == 'IntegerField':

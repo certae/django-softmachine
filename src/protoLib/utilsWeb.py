@@ -20,7 +20,6 @@ def doReturn( jsonDict ):
     return HttpResponse(context, content_type="application/json")
 
 def JsonResponse(contents, status=200):
-    # http://tools.ietf.org/html/rfc4627  ( text/javascript  obsoleto ) 
     return HttpResponse(contents, content_type='application/json', status=status)
 
 def JsonSuccess(params = {}):
@@ -85,7 +84,6 @@ def my_send_mail(subject, txt, sender, to=[], files=[], charset='UTF-8'):
         msg.attach(msgAlternative)
         msgAlternative.attach(MIMEText(txt, _charset=charset))
         msgAlternative.attach(MIMEText(txt, 'html', _charset=charset))
-        #msg.attach_alternative(txt, "text/html")
         
         for f in files:
             part = MIMEBase('application', "octet-stream")

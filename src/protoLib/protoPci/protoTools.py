@@ -147,7 +147,7 @@ def Meta2Tree(oData, pName, ptType) :
 
     # es una lista  lista, se hace el mismo recorrido ( solo en caso de una lista de listas )
     if (nodeDef.get('listOf' )) :
-        Array2Tree(oData, ptType, tData)
+        Array2Tree(oData, ptType, tData, pName)
 
     # Verifica q la definicion este bien hecha
     verifyNodeDef(nodeDef)
