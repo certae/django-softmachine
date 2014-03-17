@@ -18,6 +18,10 @@ PROTO_PREFIX = "prototype.ProtoTable."
 class cAux:
     pass 
 
+
+# Ix tree 
+ix = 0 
+
 def protoGetMenuData(request):
     """
     Cada grupo tiene su propio menu q se construye con las app a las cuales tiene derecho 
@@ -26,6 +30,8 @@ def protoGetMenuData(request):
     Cada usuario tendra una rama de  favoritos para sus opciones frecuentes, 
     el menu es a nivel de grupo  
     """
+
+    global ix 
 
     if not request.user.is_authenticated(): 
         return JsonError('readOnly User')
@@ -131,20 +137,20 @@ def protoGetMenuData(request):
 
         # lee las opciones del prototipo -----------------------------------------------
         prototypes = Prototype.objects.filter( smOwningTeam = userProfile.userTeam )
+        prNodes = {  
+            'text': 'ProtoOptions' ,
+            'expanded': True ,
+            'index': 1000 ,
+            'children': [],
+            'leaf': False 
+        }
+        app_list.append( prNodes )
+
         ix = 0 
         for option in prototypes:
 
-            if ix == 0 :
-                prNodes = {  
-                    'text': 'ProtoOptions' ,
-                    'expanded': True ,
-                    'index': 1000 ,
-                    'children': [],
-                    'leaf': False 
-                }
-                app_list.append( prNodes )
-
-            prNodes['children'].append( {
+            prBase = getNodeBaseProto(prNodes, option)
+            prBase['children'].append({
                 'text':  option.code,
                 'expanded': True ,
                 'viewCode': PROTO_PREFIX + option.code,
@@ -157,20 +163,20 @@ def protoGetMenuData(request):
 
         # lee las vistas 
         prototypes = ProtoDefinition.objects.all()
+        prNodes = {  
+            'text': 'ProtoViews' ,
+            'expanded': True ,
+            'index': 2000 ,
+            'children': [],
+            'leaf': False 
+        }
+        app_list.append( prNodes )
+
         ix = 0 
         for option in prototypes:
 
-            if ix == 0 :
-                prNodes = {  
-                    'text': 'ProtoViews' ,
-                    'expanded': True ,
-                    'index': 2000 ,
-                    'children': [],
-                    'leaf': False 
-                }
-                app_list.append( prNodes )
-
-            prNodes['children'].append( {
+            prBase = getNodeBaseViews(prNodes, option)
+            prBase['children'].append({
                 'text':  option.code,
                 'expanded': True ,
                 'viewCode': option.code,
@@ -216,4 +222,43 @@ def protoGetMenuData(request):
     return HttpResponse( context, content_type="application/json")
 
 
-#   ---------------------------------------------------------------------------
+
+def getNodeBaseProto(prNodes, option):
+
+    prNBase = getMenuNode(prNodes, option.entity.model.project.code)
+    prNBase = getMenuNode(prNBase, option.entity.model.code)
+    prNBase = getMenuNode(prNBase, option.entity.code)
+    
+    return prNBase
+    
+
+def getNodeBaseViews(prNodes, option ):
+
+    lApp, lMod = option.code.split(".")[0:2]
+    
+    prNBase = getMenuNode(prNodes, lApp)
+    prNBase = getMenuNode(prNBase, lMod)
+    return prNBase
+
+
+def getMenuNode(prNodes, optText ):
+
+    global ix 
+
+    for lNode in prNodes[ 'children' ]: 
+        if lNode['text'] == optText and not lNode[ 'leaf' ]: 
+            return lNode 
+    
+    prNBase = {  
+        'text': optText  ,
+        'expanded': False ,
+        'index': ix  ,
+        'children': [],
+        'leaf': False 
+    }
+
+    ix += 1
+
+    prNodes['children'].append(prNBase)
+    
+    return prNBase  

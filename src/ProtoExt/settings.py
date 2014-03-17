@@ -42,25 +42,31 @@ USE_I18N = True
 # calendars according to the current locale
 USE_L10N = True
 
+# If you set this to False, Django will not use timezone-aware datetimes.
+USE_TZ = True
+
 # Formateo de numeros ???
 USE_THOUSAND_SEPARATOR = True
 NUMBER_GROUPING = 1
 #DECIMAL_SEPARATOR = '.'
 #THOUSAND_SEPARATOR = ','
 
+# ------------------    UPLOAD MEDIA 
+
+
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = os.path.join(PPATH, 'media')
+
+FILE_UPLOAD_PERMISSIONS = 0644
+
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a trailing slash.
-# Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-#MEDIA_URL = 'http://127.0.0.1:8000/static/'
-MEDIA_URL = ''
+# Examples: "http://xxx.com/media/"
+MEDIA_URL = '/media/'
 
-# Absolute path to the directory static files should be collected to.
-# Don't put anything in this directory yourself; store your static files
-# in apps' "static/" subdirectories and in STATICFILES_DIRS.
-# Example: "/home/media/media.lawrence.com/static/"
+
+# ------------------    STATIC 
 
 #STATIC_ROOT = os.path.join( PPATH , 'static' )
 STATIC_ROOT = ''
@@ -120,9 +126,15 @@ ROOT_URLCONF = 'ProtoExt.urls'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
+            'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         }
     },
@@ -144,10 +156,10 @@ PROTO_APP = {}
 EMAIL_USE_TLS = True
 
 if DEBUG :
-    from ProtoExt.settings_development import *
-    with open( '/etc/secret_key.txt') as f:
+    from settings_development import *
+    with open( PPATH + '/src/ProtoExt/secret_key.txt') as f:
         SECRET_KEY = f.read().strip()
 else :
-    from ProtoExt.settings_production import *
+    from settings_production import *
     with open('/etc/secret_key.txt') as f:
         SECRET_KEY = f.read().strip()
