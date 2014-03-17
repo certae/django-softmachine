@@ -11,7 +11,7 @@ import json
 from protoLib.protoActionList import protoList
 
 
-def ProtoActionListTestSuite():
+def protoActionListTestSuite():
     suite = TestSuite()
 
     suite.addTest(makeSuite(ProtoActionListTest, 'test'))

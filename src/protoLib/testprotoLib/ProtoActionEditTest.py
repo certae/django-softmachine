@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate
 
 from protoLib.protoActionEdit import *
 
-def ProtoActionEditTestSuite():
+def protoActionEditTestSuite():
     suite = TestSuite()
 
     suite.addTest(makeSuite(ProtoCreateTest, 'test'))

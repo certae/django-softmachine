@@ -10,7 +10,7 @@ import json
 from protoLib.protoGetDetails import protoGetDetailsTree
 
 
-def ProtoGetDetailsTestSuite():
+def protoGetDetailsTestSuite():
     suite = TestSuite()
 
     suite.addTest(makeSuite(ProtoGetDetailsTreeTest, 'test'))

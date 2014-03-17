@@ -178,7 +178,7 @@ def saveProperty( dEntity, pProperty, defValues, userProfile, prpName, seq   ):
         dProperty.save()
         transaction.commit()
 
-    except Exception as e:
+    except Exception :
         transaction.rollback()
         prpName = '{0}.{1}'.format( prpName.split('.')[0] , seq ) 
         saveProperty( dEntity, pProperty, defValues, userProfile, prpName,  seq +1 )
@@ -224,7 +224,7 @@ def saveRelation( dProject, dEntity, dModel, pProperty,  defValues, userProfile,
         saveRelation( dProject, dEntity, dModel, pProperty,  defValues, userProfile, prpName, seq + 1 )
         return 
 
-    except Exception as e:  
+    except Exception :  
         transaction.rollback()
         #log 
         return  

@@ -61,7 +61,6 @@ _MetaProperties =  {
     "masterField" : "pk",
 
     "menuText.help"         : "Menu title ( toolbar )", 
-    "detailName.help"       : "Detail key (for report detail)", 
     
     "conceptDetail.help"    : "Detail concept ( [App.]Model o [App.]Model.View )",
     "masterField.help"      : "Master field for MD navigation (normaly Pk)",
@@ -294,7 +293,7 @@ def getSimpleProperties(oData, ptType) :
 
     # Solo deben llegar objetos, si llega un array no hay props q mostrar
     if(type(oData) == list) :
-        return [];
+        return []
 
     # Inicializa con el type
     cData = {}
@@ -320,7 +319,7 @@ def getSimpleProperties(oData, ptType) :
                 pass
                     
         else :
-            cValue = verifyPrpType(lKey, cValue);
+            cValue = verifyPrpType(lKey, cValue)
             if (cValue) :
                 if (type(cData)== dict):
                     cData[lKey] = cValue

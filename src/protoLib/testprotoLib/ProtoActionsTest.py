@@ -10,8 +10,7 @@ import json
 
 from protoLib.protoActions import protoExecuteAction
 
-
-def ProtoActionsTestSuite():
+def protoActionsTestSuite():
     suite = TestSuite()
 
     suite.addTest(makeSuite(ProtoExecuteActionTest, 'test'))

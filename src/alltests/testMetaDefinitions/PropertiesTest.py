@@ -9,7 +9,7 @@ import json
 from prototype.models import *
 from protoLib.models import *
 
-def PropertiesTestSuite():
+def propertiesTestSuite():
     suite = TestSuite()
     suite.addTest(makeSuite(ProjectPropertiesTest, 'test'))
     suite.addTest(makeSuite(ModelPropertiesTest, 'test'))
@@ -47,7 +47,8 @@ for fields in MetaProperties:
 def getFields(modelclass):
     fields = []
     for value in modelclass.protoExt:
-            fields.append(value)
+        fields.append(value)
+        
     return fields
 
 

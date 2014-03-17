@@ -8,7 +8,7 @@ from protoLib.protoAuth import getUserProfile
 from protoLib.protoAuth import activityLog
 
 
-def ProtoAuthTestSuite():
+def protoAuthTestSuite():
     suite = TestSuite()
 
     suite.addTest(makeSuite(GetUserProfileTest, 'test'))

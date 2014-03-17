@@ -11,7 +11,7 @@ import json
 from protoLib.protoGetPci import protoGetPCI, protoSaveProtoObj, protoGetFieldTree
 
 
-def ProtoGetPciTestSuite():
+def protoGetPciTestSuite():
     suite = TestSuite()
 
     suite.addTest(makeSuite(ProtoGetPciTest, 'test'))

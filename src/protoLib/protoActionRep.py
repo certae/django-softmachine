@@ -83,7 +83,7 @@ def getSheetConf( protoMeta , sheetName ):
 
     try:
         pSheets = protoMeta.get( 'sheetConfig', [] )
-    except Exception as e:
+    except Exception :
         return {}
 
     # Los recorre todos pero se queda con el primero
@@ -110,14 +110,14 @@ def getReportBase( viewCode ):
     # Obtiene el modelo
     try:
         model = getDjangoModel(viewEntity)
-    except Exception as e:
+    except Exception :
         pass
 
     # Obtiene la definicion
     try:
         protoDef  = ProtoDefinition.objects.get (code = viewCode )
         protoMeta = json.loads( protoDef.metaDefinition )
-    except Exception as e:
+    except Exception :
         pass
 
     # hace el QSet de los registros seleccionados
@@ -227,7 +227,7 @@ def getDetailConf( protoMeta, detailName ):
 
     try:
         pDetails = protoMeta.get( 'detailsConfig', [])
-    except Exception as e:
+    except Exception :
         return None
 
     # Los recorre todos pero se queda con el primero

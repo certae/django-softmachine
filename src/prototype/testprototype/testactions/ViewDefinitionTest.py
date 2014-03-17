@@ -12,7 +12,7 @@ from prototype.testprototype.Utils import random_string_generator
 from prototype.testprototype.testmodels.TestUtilities import createTestEntity
 from prototype.testprototype.testmodels.TestUtilities import createTestRelationship
 
-def ViewDefinitionTestSuite():
+def viewDefinitionTestSuite():
     suite = TestSuite()
     suite.addTest(makeSuite(GetViewCodeTest, 'test'))
     suite.addTest(makeSuite(Property2FieldTest, 'test'))

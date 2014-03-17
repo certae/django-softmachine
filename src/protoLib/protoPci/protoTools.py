@@ -32,17 +32,17 @@ def formContainer2Tree( items, ptType ) :
 
         elif ptType in ['formField','protoGrid', 'detailButton'] :
 
-                if ptType == 'protoGrid':
-                    t2Data = getNodeBase(__ptConfig.get('menuText'), ptType, __ptConfig)
+            if ptType == 'protoGrid':
+                t2Data = getNodeBase(__ptConfig.get('menuText'), ptType, __ptConfig)
                     
-                elif ptType == 'detailButton':
-                    t2Data = getNodeBase(__ptConfig.get('text'), ptType, __ptConfig)
+            elif ptType == 'detailButton':
+                t2Data = getNodeBase(__ptConfig.get('text'), ptType, __ptConfig)
 
-                else :
-                    t2Data = getNodeBase(__ptConfig.get('name'), ptType, __ptConfig)
+            else :
+                t2Data = getNodeBase(__ptConfig.get('name'), ptType, __ptConfig)
                 
-                t2Data['leaf'] = True
-                tItems.append(t2Data)
+            t2Data['leaf'] = True
+            tItems.append(t2Data)
         
     return tItems
 

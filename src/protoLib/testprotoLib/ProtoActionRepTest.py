@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate
 import json
 
 
-def ProtoActionRepTestSuite():
+def protoActionRepTestSuite():
     suite = TestSuite()
 
     suite.addTest(makeSuite(SheetConfigRepTest, 'test'))

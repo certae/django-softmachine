@@ -10,7 +10,7 @@ import json
 from protoLib.protoMenu import protoGetMenuData
 
 
-def ProtoMenuTestSuite():
+def protoMenuTestSuite():
     suite = TestSuite()
 
     suite.addTest(makeSuite(ProtoMenuTest, 'test'))

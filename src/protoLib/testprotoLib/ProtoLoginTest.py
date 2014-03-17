@@ -12,8 +12,7 @@ from django.contrib.sessions.backends.base import SessionBase
 
 from protoLib.protoLogin import protoGetUserRights
 
-
-def ProtoLoginTestSuite():
+def protoLoginTestSuite():
     suite = TestSuite()
 
     suite.addTest(makeSuite(LoginTest, 'test'))

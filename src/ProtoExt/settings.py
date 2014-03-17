@@ -145,7 +145,7 @@ EMAIL_USE_TLS = True
 
 if DEBUG :
     from ProtoExt.settings_development import *
-    with open( PPATH + '/src/ProtoExt/secret_key.txt') as f:
+    with open( '/etc/secret_key.txt') as f:
         SECRET_KEY = f.read().strip()
 else :
     from ProtoExt.settings_production import *

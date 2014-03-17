@@ -8,7 +8,7 @@ import json
 from prototype.models import *
 from protoLib.models import *
 
-def StructureTestSuite():
+def structureTestSuite():
     suite = TestSuite()
     suite.addTest(makeSuite(ProjectStructureTest, 'test'))
     suite.addTest(makeSuite(ModelStructureTest, 'test'))
@@ -19,7 +19,6 @@ def StructureTestSuite():
     suite.addTest(makeSuite(PropertyEquivalenceStructureTest, 'test'))
     suite.addTest(makeSuite(PrototypeStructureTest, 'test'))
     suite.addTest(makeSuite(ProtoTableStructureTest, 'test'))
-
     suite.addTest(makeSuite(TeamHierarchyStructureTest, 'test'))
     suite.addTest(makeSuite(ProtoDefinitionStructureTest, 'test'))
     suite.addTest(makeSuite(CustomDefinitionStructureTest, 'test'))
@@ -38,8 +37,8 @@ DataTree = json.loads(open(file_path).read())
 def getFields(modelclass):
     fields = []
     for value in modelclass.protoExt:
-            #print(value)
-            fields.append(value)
+        fields.append(value)
+        
     return fields
 
 

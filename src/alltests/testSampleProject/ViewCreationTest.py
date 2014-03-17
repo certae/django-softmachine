@@ -11,7 +11,7 @@ from prototype.actions.viewDefinition import *
 from prototype.actions.__init__ import doModelPrototype
 from prototype.actions.__init__ import doEntityPrototype
 
-def ViewCreationTestSuite():
+def viewCreationTestSuite():
     suite = TestSuite()
 
     suite.addTest(makeSuite(GetViewDefinitionTest, 'test'))
@@ -143,5 +143,6 @@ class DoEntityPrototypeTest(TestCase):
         for pModel in self.model:
             for ii in range(0, len(pModel.entity_set.all())-1):
                 pModel.entity_set.all()[0].delete()
+                
             returnMessage = doEntityPrototype('', self.request, pModel.entity_set.all(), '')
             self.assertFalse(returnMessage['success'])
