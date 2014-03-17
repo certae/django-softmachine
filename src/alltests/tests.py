@@ -8,10 +8,10 @@ from testSampleProject.ViewCreationTest import * #viewCreationTestSuite
 from prototype.testprototype.testactions.ViewTemplateTest import * #baseDefinitionTest                 
 from prototype.testprototype.testactions.ViewDefinitionTest import * #viewDefinitionTestSuite  
 from prototype.testprototype.testmodels.TestSuiteUtils import * #prototypeModelsTestSuite
-          
+from prototype.testprototype.testmodels.PropertyBaseTest import * #protoRulesTestSuite    
 from prototype.testprototype.ProtoRulesTest import * #protoRulesTestSuite                               
 
-from protoLib.testprotoLib.ModelsTest import * #protoLibModelsTestSuite      
+from protoLib.testprotoLib.ModelsTest import * # protoLibModelsTestSuite      
 from protoLib.testprotoLib.ProtoActionEditTest import * #protoActionEditTestSuite                                
 from protoLib.testprotoLib.ProtoActionListTest import * #protoActionListTestSuite                       
 from protoLib.testprotoLib.ProtoActionRepTest import * #protoActionRepTestSuite                         

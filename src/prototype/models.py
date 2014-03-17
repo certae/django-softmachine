@@ -226,7 +226,6 @@ class Property(PropertyBase):
     """isReadOnly: ReadOnly field ( frontEnd"""
     isReadOnly = models.BooleanField()
 
-
     """isEssential: Indica si las propiedades saldran en la vista por defecto """ 
     isEssential = models.BooleanField()
 
