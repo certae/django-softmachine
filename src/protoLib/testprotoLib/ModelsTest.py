@@ -53,6 +53,9 @@ class TeamHierarchyTest(TestCase):
         returnValue = self.teamHierarchy.treeHierarchy()
         print(returnValue)
 
+    @skip('à faire')
+    def test_save(self):
+        pass
 
 class UserProfileTest(TestCase):
     def setUp(self):

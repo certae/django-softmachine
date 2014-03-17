@@ -54,9 +54,6 @@ def suiteDeTest():
 
     
 if __name__ == '__main__':
+ 
+    suiteDeTest()
 
-    runner = unittest.TextTestRunner()
-
-    test_suite = suiteDeTest()
-
-    runner.run (test_suite)
