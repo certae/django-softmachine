@@ -28,38 +28,29 @@ def suiteDeTest():
     
     suite = TestSuite()
  
-    #suite.addTest(makeSuite(structureTestSuite, 'test'))
-    #suite.addTest(makeSuite(propertiesTestSuite, 'test'))
-    #suite.addTest(makeSuite(viewCreationTestSuite , 'test'))
+    suite.addTest(makeSuite(structureTestSuite, 'test'))
+    suite.addTest(makeSuite(propertiesTestSuite, 'test'))
+    suite.addTest(makeSuite(viewCreationTestSuite , 'test'))
  
-    #suite.addTest(makeSuite(baseDefinitionTest, 'test'))
-    #suite.addTest(makeSuite(viewDefinitionTestSuite, 'test'))
-    #suite.addTest(makeSuite(prototypeModelsTestSuite, 'test'))
+    suite.addTest(makeSuite(baseDefinitionTest, 'test'))
+    suite.addTest(makeSuite(viewDefinitionTestSuite, 'test'))
+    suite.addTest(makeSuite(prototypeModelsTestSuite, 'test'))
     
-    #suite.addTest(makeSuite(protoRulesTestSuite , 'test'))
+    suite.addTest(makeSuite(protoRulesTestSuite , 'test'))
     
-    #suite.addTest(makeSuite(protoLibModelsTestSuite, 'test'))
-    #suite.addTest(makeSuite(protoActionEditTestSuite, 'test'))
-    #suite.addTest(makeSuite(protoActionRepTestSuite, 'test'))
-    #suite.addTest(makeSuite(protoActionListTestSuite, 'test'))
-    #suite.addTest(makeSuite(protoActionsTestSuite, 'test'))
+    suite.addTest(makeSuite(protoLibModelsTestSuite, 'test'))
+    suite.addTest(makeSuite(protoActionEditTestSuite, 'test'))
+    suite.addTest(makeSuite(protoActionRepTestSuite, 'test'))
+    suite.addTest(makeSuite(protoActionListTestSuite, 'test'))
+    suite.addTest(makeSuite(protoActionsTestSuite, 'test'))
     
-    #suite.addTest(makeSuite(protoAuthTestSuite, 'test'))
-    #suite.addTest(makeSuite(protoGetDetailsTestSuite, 'test'))
-    #suite.addTest(makeSuite(protoGetPciTestSuite, 'test'))
-    #suite.addTest(makeSuite(protoLoginTestSuite, 'test'))
-    #suite.addTest(makeSuite(protoMenuTestSuite, 'test'))   
-    suite.addTest(makeSuite(GetViewDefinitionTest, 'test'))
-    suite.addTest(makeSuite(GetViewCodeTest, 'test'))
-    suite.addTest(makeSuite(CreateViewTest, 'test'))
-    suite.addTest(makeSuite(GetEntitiesTest, 'test'))
-    suite.addTest(makeSuite(DoModelPrototypeTest, 'test'))
-    suite.addTest(makeSuite(DoEntityPrototypeTest, 'test'))
+    suite.addTest(makeSuite(protoAuthTestSuite, 'test'))
+    suite.addTest(makeSuite(protoGetDetailsTestSuite, 'test'))
+    suite.addTest(makeSuite(protoGetPciTestSuite, 'test'))
+    suite.addTest(makeSuite(protoLoginTestSuite, 'test'))
+    suite.addTest(makeSuite(protoMenuTestSuite, 'test'))   
 
     return suite
 
     
-if __name__ == '__main__':
- 
-    suiteDeTest()
 
