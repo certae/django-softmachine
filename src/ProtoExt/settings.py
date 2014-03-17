@@ -57,7 +57,6 @@ NUMBER_GROUPING = 1
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = os.path.join(PPATH, 'media')
-
 FILE_UPLOAD_PERMISSIONS = 0644
 
 
