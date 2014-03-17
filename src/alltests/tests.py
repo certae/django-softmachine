@@ -1,7 +1,5 @@
 # -*- encoding: UTF-8 -*-
 # Pour rouler les tests a la ligne de commandes :
-from django.utils.unittest.suite import * #TestSuite
-from django.utils.unittest.loader import * #makeSuite
 
 from testMetaDefinitions.ObjectsTest import * #structureTestSuite                                     
 from testMetaDefinitions.PropertiesTest import * #propertiesTestSuite                                  
@@ -24,7 +22,7 @@ from protoLib.testprotoLib.ProtoGetPciTest import * #protoGetPciTestSuite
 from protoLib.testprotoLib.ProtoLoginTest import * #protoLoginTestSuite                                  
 from protoLib.testprotoLib.ProtoMenuTest import * #protoMenuTestSuite                                   
 
-def suiteDeTest():
+'''def suiteDeTest():
     
     suite = TestSuite()
  
@@ -51,6 +49,6 @@ def suiteDeTest():
     suite.addTest(makeSuite(protoMenuTestSuite, 'test'))   
 
     return suite
-
+'''
     
 
