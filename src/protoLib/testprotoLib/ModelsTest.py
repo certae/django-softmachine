@@ -57,39 +57,31 @@ class TeamHierarchyTest(TestCase):
     def test_save(self):
         pass
 
+
 class UserProfileTest(TestCase):
     def setUp(self):
         userdata = {
-            'username': 'test_user',
+            'username': 'testuser',
             'first_name': 'Bob',
             'last_name': 'Tremblay',
-            'email': 'bob.tremblay@courriel.ca'
+            'email': 'bob.tremblay@courriel.ca',
         }
 
         self.user_test = User(**userdata)
         self.user_test.save()
 
-        for values in UserProfile.objects.all():
-            print(values.user)
-            print(values.user_id)
-
-        userprofiledata = {
-            'user': self.user_test,
-            'userTeam': None,
-            'userTree': '',
-            'language': ''
-        }
-
-        self.userProfile = UserProfile(**userprofiledata)
-        self.userProfile.save()
+        entry = User.objects.get(id = self.user_test.id)
+        self.userProfile = UserProfile.objects.get(id = entry.id)
 
     def tearDown(self):
         self.user_test.delete()
         self.userProfile.delete()
 
-    @skip('Impossible de creer un UserProfile')
+    def test_user_post_save(self):
+        self.assertIsNotNone(self.userProfile)
+
     def test_verifying_string_representation(self):
-        self.assertEqual(self.userProfile.user.username, str(self.userProfile))
+        self.assertEqual(self.userProfile.user.username, str(self.user_test))
 
 
 class UserShareTest(TestCase):

@@ -31,7 +31,7 @@ def protoList(request):
     PAGESIZE = 50
     message = ''
 
-    if not request.user.is_authenticated():
+    if not request.user or request.user.is_authenticated():
         return doReturn ({'success':False , 'message' : 'readOnly User'})
 
     if request.method != 'POST':
@@ -78,9 +78,19 @@ def protoList(request):
 #   Prepara las cols del Query
     try:
         # TODO: improve performance
+        print(protoMeta)
+        print(pRows)
+        print(fakeId)
+        print(userNodes)
         pList = Q2Dict(protoMeta , pRows, fakeId, userNodes)
+        print(pList)
         bResult = True
     except Exception, e:
+        print()
+        print()
+        print(111111111111111111111111111111111111111111111)
+        print()
+        print()
         traceback.print_exc()
         message = getReadableError(e)
         bResult = False
@@ -152,7 +162,7 @@ def Q2Dict (protoMeta, pRows, fakeId, userNodes=[]):
         # Marca el zoom
         try:
             relModel = relModels[ lField.get('cpFromZoom') ]
-            relModel[ 'loaded'] = True
+            relModel['loaded'] = True
         except: 
             pass
 
@@ -160,8 +170,8 @@ def Q2Dict (protoMeta, pRows, fakeId, userNodes=[]):
     # 2.  borra los q no tienen marca
     for relName in relModels.keys():
         relModel = relModels[ relName ]
-        if not relModel[ 'loaded']: 
-            del relModels[ relName ]
+        if not relModel['loaded']: 
+            del relModels[relName]
 
 
     #   Esta forma permite agregar las funciones entre ellas el __unicode__
@@ -172,7 +182,7 @@ def Q2Dict (protoMeta, pRows, fakeId, userNodes=[]):
 
         # limpia los datos de tablas relacionadas
         for relName in relModels:
-            relModel = relModels[ relName ]
+            relModel = relModels[relName]
             relModel[ 'rowData'] = {}
             relModel[ 'loaded'] = False
 
@@ -214,9 +224,9 @@ def Q2Dict (protoMeta, pRows, fakeId, userNodes=[]):
 #            rowdict[ 'leaf' ] = False; rowdict[ 'children' ] = []
 
         # Agrega el Id Siempre como idInterno ( no representa una col, idProperty )
-        rowdict[ 'id'] = rowData.pk
+        rowdict['id'] = rowData.pk
         if fakeId:
-            rowdict[ 'id'] = rowId
+            rowdict['id'] = rowId
 
 
         # Verifica el refAllow 
