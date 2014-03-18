@@ -184,7 +184,7 @@ __language ={
     'ProtoPcl_Edition_Tool' : 'Meta edition tool',
     'ProtoPcl_Add_Instance' : 'Add instance of',
     'ProtoPcl_Del_Current' : 'Delete current',
-    'ProtoToolbar_Save_Preview' : 'Save preview',
+    'ProtoToolbar_Save_As' : 'Save as',
     'ProtoToolbar_Upd_Def' :'Update definition',
     'ProtoToolbar_Reload' :'Reload',
     'ProtoToolbar_Add_Node' :'Add node',
