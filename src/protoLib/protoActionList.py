@@ -78,19 +78,9 @@ def protoList(request):
 #   Prepara las cols del Query
     try:
         # TODO: improve performance
-        print(protoMeta)
-        print(pRows)
-        print(fakeId)
-        print(userNodes)
         pList = Q2Dict(protoMeta , pRows, fakeId, userNodes)
-        print(pList)
         bResult = True
     except Exception, e:
-        print()
-        print()
-        print(111111111111111111111111111111111111111111111)
-        print()
-        print()
         traceback.print_exc()
         message = getReadableError(e)
         bResult = False
