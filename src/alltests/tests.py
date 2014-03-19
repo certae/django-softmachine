@@ -5,22 +5,22 @@ from testMetaDefinitions.ObjectsTest import * #structureTestSuite
 from testMetaDefinitions.PropertiesTest import * #propertiesTestSuite                                  
 from testSampleProject.ViewCreationTest import * #viewCreationTestSuite                                
 
-from testprototype.testactions.ViewTemplateTest import * #baseDefinitionTest                 
-from testprototype.testactions.ViewDefinitionTest import * #viewDefinitionTestSuite  
-from testprototype.testmodels.TestSuiteUtils import * #prototypeModelsTestSuite
-from testprototype.testmodels.PropertyBaseTest import * #protoRulesTestSuite    
-from testprototype.ProtoRulesTest import * #protoRulesTestSuite                               
+from prototype.testprototype.testactions.ViewTemplateTest import * #baseDefinitionTest                 
+from prototype.testprototype.testactions.ViewDefinitionTest import * #viewDefinitionTestSuite  
+from prototype.testprototype.testmodels.TestSuiteUtils import * #prototypeModelsTestSuite
+from prototype.testprototype.testmodels.PropertyBaseTest import * #protoRulesTestSuite    
+from prototype.testprototype.ProtoRulesTest import * #protoRulesTestSuite                               
 
-from testprotoLib.ModelsTest import * # protoLibModelsTestSuite      
-from testprotoLib.ProtoActionEditTest import * #protoActionEditTestSuite                                
-from testprotoLib.ProtoActionListTest import * #protoActionListTestSuite                       
-from testprotoLib.ProtoActionRepTest import * #protoActionRepTestSuite                         
-from testprotoLib.ProtoActionsTest import * #protoActionsTestSuite                    
-from testprotoLib.ProtoAuthTest import * #protoAuthTestSuite   
-from testprotoLib.ProtoGetDetailsTest import * #protoGetDetailsTestSuite
-from testprotoLib.ProtoGetPciTest import * #protoGetPciTestSuite    
-from testprotoLib.ProtoLoginTest import * #protoLoginTestSuite                                  
-from testprotoLib.ProtoMenuTest import * #protoMenuTestSuite                                   
+from protoLib.testprotoLib.ModelsTest import * # protoLibModelsTestSuite      
+from protoLib.testprotoLib.ProtoActionEditTest import * #protoActionEditTestSuite                                
+from protoLib.testprotoLib.ProtoActionListTest import * #protoActionListTestSuite                       
+from protoLib.testprotoLib.ProtoActionRepTest import * #protoActionRepTestSuite                         
+from protoLib.testprotoLib.ProtoActionsTest import * #protoActionsTestSuite                    
+from protoLib.testprotoLib.ProtoAuthTest import * #protoAuthTestSuite   
+from protoLib.testprotoLib.ProtoGetDetailsTest import * #protoGetDetailsTestSuite
+from protoLib.testprotoLib.ProtoGetPciTest import * #protoGetPciTestSuite    
+from protoLib.testprotoLib.ProtoLoginTest import * #protoLoginTestSuite                                  
+from protoLib.testprotoLib.ProtoMenuTest import * #protoMenuTestSuite                                   
 
 '''def suiteDeTest():
     

@@ -8,9 +8,9 @@ from django.utils.unittest.loader import makeSuite
 
 from prototype.actions.viewDefinition import *
 
-from alltests.testprototype.Utils import random_string_generator
-from alltests.testprototype.testmodels.TestUtilities import createTestEntity
-from alltests.testprototype.testmodels.TestUtilities import createTestRelationship
+from prototype.testprototype.Utils import random_string_generator
+from prototype.testprototype.testmodels.TestUtilities import createTestEntity
+from prototype.testprototype.testmodels.TestUtilities import createTestRelationship
 
 def viewDefinitionTestSuite():
     suite = TestSuite()
