@@ -353,7 +353,8 @@
 
 
 /*  --------------------------------------------------------------  */
-
+/*  -----------------------DIAGRAM EDITOR-------------------------  */
+/*  --------------------------------------------------------------  */
 .container{
  overflow: scroll !important;
 }
@@ -364,13 +365,11 @@
  background-color:#FAFAFA;
  width: 1500px !important;
  height: 1500px !important;
- /*overflow: scroll !important;*/
 }
 
 #navigation{
  padding:0px;
  margin:0px;
- /*background : transparent url(background_drak.jpg);*/
  text-align: center;
 }
 

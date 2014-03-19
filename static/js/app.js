@@ -5,16 +5,9 @@
 
  */
 
-// Ext.require('Ext.toolbar.Paging');
-// Ext.require('Ext.layout.container.Border');
-
-//borrar el body:  ( para quitar la mascara ) 
-//document.getElementById('Idbody').innerHTML = "";
-
 Ext.Loader.setConfig({
     enabled: true
 });
-// Ext.Loader.setPath('Ext.ux', 'static/extjs/examples/ux');
 
 Ext.application({
     name: 'ProtoUL',
@@ -31,7 +24,6 @@ Ext.application({
         'diagram.DiagramMainView',
         'diagram.DiagramMenu',
         'diagram.DiagramCanvas',
-        // 'diagram.DiagramDetail',
         'diagram.DiagramToolbar',
         'diagram.EntityEditor',
         'diagram.EntityAttributes'

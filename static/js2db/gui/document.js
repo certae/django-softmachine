@@ -1,3 +1,5 @@
+
+// Document template used if there is no diagram in database
 var jsonDocument = [
                     {
                         "type": "dbModel.shape.DBTable",

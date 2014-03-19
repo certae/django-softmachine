@@ -11,11 +11,7 @@ Ext.define('ProtoUL.view.diagram.EntityAttributes', {
 	itemId: 'entityattributes',
     title: 'Attributes',
     store: 'EntityAttributeStore',
-    // listeners: {
-        // 'selectionchange': function(view, records) {
-            // grid.down('#btDeleteAttribute').setDisabled(!records.length);
-    	// }
-	// },
+
     initComponent: function() {
         var me = this;
 
@@ -25,7 +21,9 @@ Ext.define('ProtoUL.view.diagram.EntityAttributes', {
 	    });
 	    
     	this.plugins = [this.rowEditing];
-    	
+
+		var storeDBTypes = Ext.create('ProtoUL.store.DBTypesStore');
+
         Ext.applyIf(me, {
             columns: [
                 {
@@ -33,7 +31,6 @@ Ext.define('ProtoUL.view.diagram.EntityAttributes', {
                     dataIndex: 'text',
                     text: 'Name',
 		            editor: {
-		                // defaults to textfield if no xtype is supplied
 		                allowBlank: false
 		            }
                 },
@@ -42,12 +39,19 @@ Ext.define('ProtoUL.view.diagram.EntityAttributes', {
                     dataIndex: 'datatype',
                     text: 'Datatype',
 		            editor: {
+		            	xtype: 'combo',
+			            store: storeDBTypes,
+			            displayField: 'typeName',
+			            valueField: 'typeName',
+			            mode: 'local',
+			            selectOnFocus: true,
+			            triggerAction: 'all',
 		                allowBlank: false
 		            }
                 },
                 {
                     xtype: 'checkcolumn',
-                    width: 70,
+                    width: 65,
                     dataIndex: 'unique',
                     text: 'Unique',
 		            editor: {

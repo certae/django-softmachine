@@ -38,7 +38,7 @@ Ext.define('ProtoUL.view.diagram.DiagramToolbar', {
                 {
                     xtype: 'button',
                     itemId: 'btDelete',
-                    disabled: true,
+					disabled: true,
                     text: 'Delete'
                 },
                 {
@@ -123,8 +123,10 @@ Ext.define('ProtoUL.view.diagram.DiagramToolbar', {
 	{
 		var btnUndo = this.getComponent('btUndo');
 		var btnRedo = this.getComponent('btRedo');
+		var btnSaveAll = this.getComponent('btSaveAll');
 		if (event.getStack().canUndo()){
 			btnUndo.setDisabled(false);
+			btnSaveAll.setDisabled(false);
 			btnRedo.setDisabled(true);
 		}
 		if (event.getStack().canRedo()){

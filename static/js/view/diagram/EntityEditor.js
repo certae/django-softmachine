@@ -11,7 +11,7 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
     ],
 
     itemId: 'entityeditor',
-    width: 330,
+    width: 345,
     bodyPadding: 10,
     title: 'Detail',
     autoScroll: true,
@@ -28,7 +28,8 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
 					xtype: 'fieldset'
 				},
                 {
-                    xtype: 'entityattributes'
+                    xtype: 'entityattributes',
+					height: 280
                 }
             ]
         });

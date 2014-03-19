@@ -30,11 +30,6 @@ Ext.define('ProtoUL.view.diagram.DiagramCanvas', {
 			this.view.addSelectionListener(editPanel);
 			
 			this.view.getCommandStack().addEventListener(editPanel);
-			// function(e){
-				// if(e.isPostChangeEvent()){
-					// displayJSON(app.getView());
-				// }
-			// });
         }
     },
     initComponent: function() {
@@ -57,6 +52,10 @@ Ext.define('ProtoUL.view.diagram.DiagramCanvas', {
     	
     	var reader = new draw2d.io.json.Reader();
         reader.unmarshal(this.view, jsonDocument);
+    },
+    
+    getView: function() {
+    	return this.view;
     }
 
 });
