@@ -3,6 +3,7 @@
 from django.test import TestCase
 from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
+
 from prototype.models import Project
 from prototype.models import PropertyModel
 from prototype.models import Model

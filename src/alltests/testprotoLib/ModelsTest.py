@@ -5,7 +5,7 @@ from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
 from django.utils.unittest import skip
 
-from protoLib.models import *
+from protoLib.models import  *
 from prototype.models import Project
 
 
