@@ -7,21 +7,8 @@ from django.http import HttpRequest
 
 from prototype.models import *
 from prototype.actions.viewDefinition import *
-
 from prototype.actions.__init__ import doModelPrototype
 from prototype.actions.__init__ import doEntityPrototype
-
-def viewCreationTestSuite():
-    suite = TestSuite()
-
-    suite.addTest(makeSuite(GetViewDefinitionTest, 'test'))
-    suite.addTest(makeSuite(GetViewCodeTest, 'test'))
-    suite.addTest(makeSuite(CreateViewTest, 'test'))
-    suite.addTest(makeSuite(GetEntitiesTest, 'test'))
-    suite.addTest(makeSuite(DoModelPrototypeTest, 'test'))
-    suite.addTest(makeSuite(DoEntityPrototypeTest, 'test'))
-
-    return suite
 
 
 class GetViewDefinitionTest(TestCase):

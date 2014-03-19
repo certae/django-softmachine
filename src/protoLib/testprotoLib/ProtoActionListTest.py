@@ -10,15 +10,6 @@ import json
 
 from protoLib.protoActionList import protoList
 
-
-def protoActionListTestSuite():
-    suite = TestSuite()
-
-    suite.addTest(makeSuite(ProtoActionListTest, 'test'))
-
-    return suite
-
-
 class ProtoActionListTest(TestCase):
     fixtures = ['auth.json']
 

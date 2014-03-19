@@ -9,22 +9,6 @@ from protoLib.models import  *
 from prototype.models import Project
 
 
-def protoLibModelsTestSuite():
-    suite = TestSuite()
-
-    suite.addTest(makeSuite(TeamHierarchyTest, 'test'))
-    suite.addTest(makeSuite(UserProfileTest, 'test'))
-    suite.addTest(makeSuite(UserShareTest, 'test'))
-    suite.addTest(makeSuite(ProtoDefinitionTest, 'test'))
-    suite.addTest(makeSuite(CustomDefinitionTest, 'test'))
-    suite.addTest(makeSuite(DiscreteValueTest, 'test'))
-    suite.addTest(makeSuite(LanguajeTest, 'test'))
-    suite.addTest(makeSuite(PtFunctionTest, 'test'))
-    suite.addTest(makeSuite(GetDjangoModelTest, 'test'))
-
-    return suite
-
-
 class TeamHierarchyTest(TestCase):
     def setUp(self):
         teamhierarchydata = {

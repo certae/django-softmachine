@@ -8,26 +8,7 @@ import json
 from prototype.models import *
 from protoLib.models import *
 
-def structureTestSuite():
-    suite = TestSuite()
-    suite.addTest(makeSuite(ProjectStructureTest, 'test'))
-    suite.addTest(makeSuite(ModelStructureTest, 'test'))
-    suite.addTest(makeSuite(EntityStructureTest, 'test'))
-    suite.addTest(makeSuite(PropertyStructureTest, 'test'))
-    suite.addTest(makeSuite(RelationshipStructureTest, 'test'))
-    suite.addTest(makeSuite(PropertyModelStructureTest, 'test'))
-    suite.addTest(makeSuite(PropertyEquivalenceStructureTest, 'test'))
-    suite.addTest(makeSuite(PrototypeStructureTest, 'test'))
-    suite.addTest(makeSuite(ProtoTableStructureTest, 'test'))
-    suite.addTest(makeSuite(TeamHierarchyStructureTest, 'test'))
-    suite.addTest(makeSuite(ProtoDefinitionStructureTest, 'test'))
-    suite.addTest(makeSuite(CustomDefinitionStructureTest, 'test'))
-    suite.addTest(makeSuite(DiscreteValueStructureTest, 'test'))
 
-    return suite
-
-
-#DataTree = json.loads(open(PPATH + '/src/testMetaDefinitions/MetaObjects.dat').read())
 import os
 module_dir = os.path.dirname(__file__)  # get current directory
 file_path = os.path.join(module_dir, 'MetaObjects.dat')

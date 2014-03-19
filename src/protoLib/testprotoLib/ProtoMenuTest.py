@@ -10,14 +10,6 @@ import json
 from protoLib.protoMenu import protoGetMenuData
 
 
-def protoMenuTestSuite():
-    suite = TestSuite()
-
-    suite.addTest(makeSuite(ProtoMenuTest, 'test'))
-
-    return suite
-
-
 class ProtoMenuTest(TestCase):
     fixtures = ['auth.json']
 

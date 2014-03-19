@@ -12,14 +12,6 @@ from django.contrib.sessions.backends.base import SessionBase
 
 from protoLib.protoLogin import protoGetUserRights
 
-def protoLoginTestSuite():
-    suite = TestSuite()
-
-    suite.addTest(makeSuite(LoginTest, 'test'))
-
-    return suite
-
-
 class MySession(SessionBase):
     def cycle_key(self):
         pass

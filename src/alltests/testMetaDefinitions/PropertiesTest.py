@@ -9,26 +9,6 @@ import json
 from prototype.models import *
 from protoLib.models import *
 
-def propertiesTestSuite():
-    suite = TestSuite()
-    suite.addTest(makeSuite(ProjectPropertiesTest, 'test'))
-    suite.addTest(makeSuite(ModelPropertiesTest, 'test'))
-    suite.addTest(makeSuite(EntityPropertiesTest, 'test'))
-    suite.addTest(makeSuite(PropertyPropertiesTest, 'test'))
-    suite.addTest(makeSuite(RelationshipPropertiesTest, 'test'))
-    suite.addTest(makeSuite(PropertyModelPropertiesTest, 'test'))
-    suite.addTest(makeSuite(PropertyEquivalencePropertiesTest, 'test'))
-    suite.addTest(makeSuite(PrototypePropertiesTest, 'test'))
-    suite.addTest(makeSuite(ProtoTablePropertiesTest, 'test'))
-
-    suite.addTest(makeSuite(TeamHierarchyPropertiesTest, 'test'))
-    suite.addTest(makeSuite(ProtoDefinitionPropertiesTest, 'test'))
-    suite.addTest(makeSuite(CustomDefinitionPropertiesTest, 'test'))
-    suite.addTest(makeSuite(DiscreteValuePropertiesTest, 'test'))
-
-    return suite
-
-
 PossibleTypes = ['list', 'string']
 module_dir = os.path.dirname(__file__)  # get current directory
 file_path = os.path.join(module_dir, 'MetaObjects.dat')

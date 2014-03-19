@@ -8,15 +8,6 @@ from django.contrib.auth import authenticate
 
 from protoLib.protoActionEdit import *
 
-def protoActionEditTestSuite():
-    suite = TestSuite()
-
-    suite.addTest(makeSuite(ProtoCreateTest, 'test'))
-    suite.addTest(makeSuite(ProtoUpdateTest, 'test'))
-    suite.addTest(makeSuite(ProtoDeleteTest, 'test'))
-
-    return suite
-
 def protoMetaInitialize():
     return json.dumps({
         'viewCode': 'prototype.Project',

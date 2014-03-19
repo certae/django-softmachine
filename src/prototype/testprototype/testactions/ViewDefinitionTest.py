@@ -12,17 +12,6 @@ from prototype.testprototype.Utils import random_string_generator
 from prototype.testprototype.testmodels.TestUtilities import createTestEntity
 from prototype.testprototype.testmodels.TestUtilities import createTestRelationship
 
-def viewDefinitionTestSuite():
-    suite = TestSuite()
-    suite.addTest(makeSuite(GetViewCodeTest, 'test'))
-    suite.addTest(makeSuite(Property2FieldTest, 'test'))
-    suite.addTest(makeSuite(GetViewDefinitionTest, 'test'))
-    suite.addTest(makeSuite(GetFkIdTest, 'test'))
-    suite.addTest(makeSuite(GetProtoFieldsTreeTest, 'test'))
-    suite.addTest(makeSuite(GetDetailsConfigTreeTest, 'test'))
-    #suite.addTest(makeSuite(addProtoFieldToListTest, 'test')) 
-    return suite
-
 
 class GetViewDefinitionTest(TestCase):
     def setUp(self):

@@ -10,14 +10,6 @@ import json
 from protoLib.protoGetDetails import protoGetDetailsTree
 
 
-def protoGetDetailsTestSuite():
-    suite = TestSuite()
-
-    suite.addTest(makeSuite(ProtoGetDetailsTreeTest, 'test'))
-
-    return suite
-
-
 class ProtoGetDetailsTreeTest(TestCase):
     fixtures = ['auth.json']
 
