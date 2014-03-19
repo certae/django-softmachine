@@ -4,7 +4,7 @@ Created on 2014-02-11
 @author: dario
 '''
 
-_METAVERSION  = '14.0201'
+_METAVERSION = '14.0201'
 
 _METAOBJECTS = {
 
@@ -43,7 +43,7 @@ _METAOBJECTS = {
 
     "field" : {
         "description" : "A store field element",
-        "properties" : ["name", "required", "prpLength", "prpScale", 
+        "properties" : ["name", "required", "prpLength", "prpScale",
                         "prpDefault", "fieldLabel", "format", "header", "sortable", "searchable", "flex",
                         "tooltip",
                         "cellLink", "wordWrap",
@@ -73,7 +73,7 @@ _METAOBJECTS = {
         "properties" : ['hideRowNumbers',
         'gridSelectionMode', "exportCsv", 'hideSheet', 'denyAutoPrint', 'filterSetABC'],
         "lists" : ["listDisplay", "baseFilter", "initialFilter", "initialSort",
-        "searchFields", 
+        "searchFields",
         "sortFields",
         "hiddenFields", "readOnlyFields"],
         "objects" : []
@@ -82,8 +82,8 @@ _METAOBJECTS = {
 
     "colShortcuts" : {
         "description" : "Column configuration shortcuts",
-        "lists" : ["searchFields", 
-        "sortFields", 
+        "lists" : ["searchFields",
+        "sortFields",
         "hiddenFields", "readOnlyFields"
         ]
     },
@@ -111,13 +111,13 @@ _METAOBJECTS = {
     },
 
     "initialFilter" : {
-        "description" : "Initial filter  Ej: { \"status__exact\":\"0\" } ",
+        "description" : "Initial filter Ej: { \"status__exact\":\"0\" } ",
         "listOf" : "filterDef",
         "allowAdd" : True
     },
 
     "initialSort" : {
-        "description" : "Default ordering  Ej: [{\"direction\":\"ASC\",\"property\":\"code\"}, ... ] ",
+        "description" : "Default ordering Ej: [{\"direction\":\"ASC\",\"property\":\"code\"}, ... ] ",
         "listOf" : "sorterDef",
         "allowAdd" : True
     },
@@ -159,7 +159,7 @@ _METAOBJECTS = {
     },
 
     "filtersSet" : {
-        "description" : "Predefined filter set ( *x*, ><=, !=,  aa:bb ) ",
+        "description" : "Predefined filter set ( *x*, ><=, !=, aa:bb ) ",
         "listOf" : "filtersSetDef",
         "allowAdd" : True
     },
@@ -346,4 +346,3 @@ _METAOBJECTS = {
     }
 
 }
-

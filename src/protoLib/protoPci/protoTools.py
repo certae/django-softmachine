@@ -9,7 +9,7 @@ def doFinalFormat(tData, oData, ptType) :
 
 
 def formContainer2Tree( items, ptType ) :
-    # Aqui solo llegan los contenedores de la forma,  ( hideItems : true )
+    # Aqui solo llegan los contenedores de la forma, ( hideItems : true )
     
     tItems = []
     for sKey in items :
@@ -18,7 +18,7 @@ def formContainer2Tree( items, ptType ) :
         __ptConfig = getSimpleProperties(oData , ptType)
         ptType = __ptConfig.get('__ptType')
 
-        #  contenedores de la forma
+        # contenedores de la forma
         if ptType in ['htmlset','fieldset','tabpanel','accordeon','panel'] :
 
             cName = ptType
@@ -65,26 +65,26 @@ def getSpecialNodes(nodeDef, treeData, objData, ptType) :
         if (objData.get('name')):
             treeData['__ptConfig']['name'] = objData.get('name')
 
-        treeData['__ptConfig']['__ptValue'] =  json.dumps(objData)
+        treeData['__ptConfig']['__ptValue'] = json.dumps(objData)
         return True
             
 
     if (('__ptStyle' in nodeDef) and (nodeDef['__ptStyle'] == 'colList')):
-        treeData['__ptConfig']['__ptList'] =  json.dumps(objData)
+        treeData['__ptConfig']['__ptList'] = json.dumps(objData)
         return True
       
 
 def Array2Tree(oList, ptType, tNode, pName) :
     # REcibe un array y genera los hijos,
-    # @tNode   referencia al nodo base
-    # @ptType  tipo de nodo hijo
-    # @oList    objeto lista de la meta
+    # @tNode referencia al nodo base
+    # @ptType tipo de nodo hijo
+    # @oList objeto lista de la meta
 
     if oList :
         for sKey in oList :
             oData = sKey
             tChild = Meta2Tree(oData, pName, ptType)
-            tNode['children'].append(tChild) 
+            tNode['children'].append(tChild)
             
 
 def verifyNodeDef(nodeDef) :
@@ -98,8 +98,8 @@ def verifyNodeDef(nodeDef) :
             for ix in nodeDef.get('lists') :
                 sKey = ix
 
-                if (type(sKey) !=  str) :
-                    nodeDef['lists'].remove(ix) 
+                if (type(sKey) != str) :
+                    nodeDef['lists'].remove(ix)
                     continue
                     
                 childConf = _METAOBJECTS[sKey]
@@ -107,7 +107,7 @@ def verifyNodeDef(nodeDef) :
                     continue
                    
                 if (not childConf.get('listOf')) :
-                    #print( 'pciObjects no se encontro listOf para ' + sKey  )
+                    #print( 'pciObjects no se encontro listOf para ' + sKey )
                     continue
 
     if (nodeDef.get('objects')):
@@ -119,32 +119,32 @@ def verifyNodeDef(nodeDef) :
             for ix in nodeDef.get('objects'):
                 sKey = ix
                 if (type(sKey) != str) :
-                    #print( 'pciObjects definicion errada en objects ' + ptType + ' key ' , sKey  )
+                    #print( 'pciObjects definicion errada en objects ' + ptType + ' key ' , sKey )
                     continue
 
 
 def Meta2Tree(oData, pName, ptType) :
     #Convierte la meta en treeStore ( Arbol )
-    # Input    ---------------------------------
-    # @oData     : Data a convertir
-    # @pName     : property Name ( iteraction en el objeto padre, en el caso de las formas )
-    # @ptType    : property Type ( Tipo del padre en caso de ser un array  )
-    # Return   -------------------------------
-    # @tData   treeData
-    # Initial validation  --------------------------------------------
+    # Input ---------------------------------
+    # @oData : Data a convertir
+    # @pName : property Name ( iteraction en el objeto padre, en el caso de las formas )
+    # @ptType : property Type ( Tipo del padre en caso de ser un array )
+    # Return -------------------------------
+    # @tData treeData
+    # Initial validation --------------------------------------------
     
-    nodeDef = _METAOBJECTS.get(ptType)   
+    nodeDef = _METAOBJECTS.get(ptType)
     if (not nodeDef) :
         return
 
-    #   Function body  --------------------------------------------
+    # Function body --------------------------------------------
     __ptConfig = getSimpleProperties(oData, ptType)
     tData = getNodeBase(ptType, ptType, __ptConfig)
 
     if(getSpecialNodes(nodeDef, tData, oData, ptType)):
         return doFinalFormat(tData, oData, ptType)
 
-    # es una lista  lista, se hace el mismo recorrido ( solo en caso de una lista de listas )
+    # es una lista lista, se hace el mismo recorrido ( solo en caso de una lista de listas )
     if (nodeDef.get('listOf' )) :
         Array2Tree(oData, ptType, tData, pName)
 
@@ -157,7 +157,7 @@ def Meta2Tree(oData, pName, ptType) :
             sKey = ix
             childConf = _METAOBJECTS.get(sKey),
             if((type(childConf)==tuple) and (len(childConf)==1)):
-                childConf =  childConf[0]
+                childConf = childConf[0]
                
             tChild = getNodeBase(sKey, sKey, {'__ptType' : sKey} )
 
@@ -182,13 +182,13 @@ def Meta2Tree(oData, pName, ptType) :
 
 #------------------------------------------Embeded functions------------------------------------------
 
-def getChilds( tChilds, mData , sType) :    
+def getChilds( tChilds, mData , sType) :
     # Recorre los hijos para crear los objetos segun su tipo
     for ix in tChilds :
         lNode = ix
         nChildData = Tree2Meta(lNode)
 
-        if (sType == dict) : 
+        if (sType == dict) :
             mData[getPtType(lNode)] = nChildData
         else :
             mData.append(nChildData)
@@ -196,10 +196,10 @@ def getChilds( tChilds, mData , sType) :
             
 def getNodeInfo(tNode) :
     tData = {}
-    myObj  = {}
+    myObj = {}
     if(tNode.get('data')) :
         tData = tNode.get('data')
-        myObj['tChilds'] =  tNode.get('childNodes')
+        myObj['tChilds'] = tNode.get('childNodes')
         
     else :
         tData = tNode
@@ -223,11 +223,11 @@ def getPtType(lNode ) :
         return lNode['data'].get('__ptType')
 
         
-#------------------------------------------Tree2Meta------------------------------------------  
+#------------------------------------------Tree2Meta------------------------------------------
 def Tree2Meta(tNode) :
-    #Dada la informacion del arbol genera la meta correspondiente 
+    #Dada la informacion del arbol genera la meta correspondiente
 
-    #Obtiene la info del nodo       
+    #Obtiene la info del nodo
     myObj = getNodeInfo(tNode)
 
     if (not myObj.get('__ptConfig')) :
