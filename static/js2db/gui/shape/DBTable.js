@@ -1,4 +1,3 @@
-
 /**
  * @method
  * Factory method to provide a default connection for all drag&drop connections. You
@@ -14,7 +13,7 @@ draw2d.Connection.createConnection = function(sourcePort, targetPort) {
     conn.setColor("#5bcaff");
     conn.setStroke(2);
     return conn;
-}; 
+};
 
 dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
 
@@ -32,11 +31,11 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
         this.entities = new draw2d.util.ArrayList();
         this.header = new draw2d.shape.layout.VerticalLayout();
 
-		this.classLabel = this.createLabel("TableName").setPadding(10).setFontColor("#4a4a4a");
+        this.classLabel = this.createLabel("TableName").setPadding(10).setFontColor("#4a4a4a");
         this.header.addFigure(this.classLabel);
         this.stereotypeLabel = this.createLabel("<<Stereotype>>").setFontColor("#5856d6");
         this.header.addFigure(this.stereotypeLabel);
-        
+
         this.header.setStroke(0).setRadius(this.getRadius());
         this.header.setBackgroundColor("#f7f7f7");
 
@@ -83,7 +82,6 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
         label.setRadius(0);
         label.setBackgroundColor(null);
         label.setPadding(5);
-        label.installEditor(new draw2d.ui.LabelEditor());
 
         return label;
     },
@@ -101,7 +99,7 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
     getPersistentAttributes: function() {
         var memento = this._super();
         memento.tableName = this.classLabel.text;
-        memento.stereotypeName = this.sterotypeLabel.text;
+        memento.stereotypeName = this.stereotypeLabel.text;
         memento.entities = [];
 
         this.entities.each(function(i, e) {
@@ -109,6 +107,9 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
                 text: e.getText(),
                 id: e.id,
                 inputPort: e.getInputPorts().data[0].name,
+                datatype: e.datatype,
+                pk: e.pk,
+                unique: e.unique
             });
         });
 
@@ -124,14 +125,17 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
      */
     setPersistentAttributes: function(memento) {
         this._super(memento);
-		
-		this.header.children.data[0].figure.text = memento.tableName;
+
+        this.header.children.data[0].figure.text = memento.tableName;
         this.header.children.data[1].figure.text = memento.stereotypeName;
-        
+
         if ( typeof memento.entities !== "undefined") {
             $.each(memento.entities, $.proxy(function(i, e) {
                 var entity = this.addEntity(i, e);
                 entity.id = e.id;
+                entity.datatype = e.datatype;
+                entity.pk = e.pk;
+                entity.unique = e.unique;
             }, this));
         }
 

@@ -69,6 +69,19 @@ Ext.define('ProtoUL.view.diagram.DiagramToolbar', {
                             text: 'Zoom out'
                         }
                     ]
+                },
+                {
+                	xtype: 'button',
+                    border: 0,
+                    disabled: true,
+                    itemId: 'splitter2'
+                },
+                {
+                	xtype: 'button',
+                	iconCls: 'icon-save',
+                    itemId: 'btSaveAll',
+                    disabled: true,
+                    text: 'Save all'
                 }
             ]
         });

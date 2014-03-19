@@ -26,27 +26,6 @@ Ext.define('ProtoUL.view.diagram.DiagramMenu', {
                     collapsible: true,
                     title: 'Toolbox',
                     html: '<div data-shape="dbModel.shape.DBTable" class="palette_node_element draw2d_droppable table_div">Table</div>'
-                    // items: [
-                        // {
-                            // xtype: 'menu',
-                            // floating: false,
-                            // itemId: 'menu1',
-                            // items: [
-                                // {
-                                    // xtype: 'menuitem',
-                                    // text: 'Table'
-                                // }
-                            // ]
-                        // }
-                    // ],
-                    // dockedItems: [
-                        // {
-                            // xtype: 'button',
-                            // dock: 'top',
-                            // iconCls: 'icon-model',
-                            // text: 'Table'
-                        // }
-                    // ]
                 },
                 {
                     xtype: 'panel',

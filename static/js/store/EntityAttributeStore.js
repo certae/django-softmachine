@@ -14,32 +14,6 @@ Ext.define('ProtoUL.store.EntityAttributeStore', {
         me.callParent([Ext.apply({
             model: 'ProtoUL.model.EntityAttributesModel',
             storeId: 'EntityAttributeStore',
-            data: [
-                {
-                    name: 'id',
-                    datatype: 'Integer',
-                    unique: true,
-                    pk: true
-                },
-                {
-                    name: 'firstName',
-                    datatype: 'string',
-                    unique: false,
-                    pk: false
-                },
-                {
-                    name: 'lastName',
-                    datatype: 'string',
-                    unique: false,
-                    pk: false
-                },
-                {
-                    name: 'company_fk',
-                    datatype: 'Integer',
-                    unique: true,
-                    pk: false
-                }
-            ],
             proxy: {
                 type: 'memory',
                 reader: {
