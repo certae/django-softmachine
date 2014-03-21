@@ -15,9 +15,34 @@ var jsonDocument = [
                         "stroke": 1,
                         "alpha": 1,
                         "radius": 3,
-                        "tableName": "Table1",
-                        "stereotypeName": "<<Stereotype>>",
-                        "entities": [
+                        "tablePorts": [
+                        	{
+                        		"type": "input",
+                        		"name": "input0",
+                        		"position": "default"
+                        	},
+                        	{
+                        		"type": "output",
+                        		"name": "output0",
+                        		"position": "default"
+                        	},
+                        	{
+                        		"type": "hybrid",
+                        		"name": "hybrid0",
+                        		"position": "bottom"
+                        	}
+                        ],
+                        "header": [
+                        	{
+                        		"text": "Table1",
+                        		"id": "id"
+                        	},
+                        	{
+                        		"text": "<<Stereotype>>",
+                        		"id": "id"
+                        	}
+                        ],
+                        "attributes": [
                           {
                             "text": "blubber",
                             "id": "49be7d78-4dcf-38ab-3733-b4108701fce4",
@@ -42,9 +67,29 @@ var jsonDocument = [
                         "stroke": 1,
                         "alpha": 1,
                         "radius": 3,
-                        "tableName": "Table2",
-                        "stereotypeName": "<<Stereotype>>",
-                        "entities": [
+                        "tablePorts": [
+                        	{
+                        		"type": "input",
+                        		"name": "input0",
+                        		"position": "default"
+                        	},
+                        	{
+                        		"type": "output",
+                        		"name": "output0",
+                        		"position": "default"
+                        	}
+                        ],
+                        "header": [
+                        	{
+                        		"text": "Table2",
+                        		"id": "id"
+                        	},
+                        	{
+                        		"text": "<<Stereotype>>",
+                        		"id": "id"
+                        	}
+                        ],
+                        "attributes": [
                           {
                             "text": "id",
                             "id": "e97f6f8a-4306-0667-3a95-0a5310a2c15c",
@@ -93,9 +138,34 @@ var jsonDocument = [
                         "stroke": 1,
                         "alpha": 1,
                         "radius": 3,
-                        "tableName": "Table3",
-                        "stereotypeName": "<<Stereotype>>",
-                        "entities": [
+                        "tablePorts": [
+                        	{
+                        		"type": "input",
+                        		"name": "input0",
+                        		"position": "default"
+                        	},
+                        	{
+                        		"type": "output",
+                        		"name": "output0",
+                        		"position": "default"
+                        	},
+                        	{
+                        		"type": "hybrid",
+                        		"name": "hybrid0",
+                        		"position": "top"
+                        	}
+                        ],
+                        "header": [
+                        	{
+                        		"text": "Table3",
+                        		"id": "id"
+                        	},
+                        	{
+                        		"text": "<<Stereotype>>",
+                        		"id": "id"
+                        	}
+                        ],
+                        "attributes": [
                           {
                             "text": "id",
                             "id": "e04ebb27-43c9-1afa-a7d0-e55bf2aa62d5",
@@ -107,7 +177,7 @@ var jsonDocument = [
                         ]
                       },
                       {
-                        "type": "draw2d.Connection",
+                        "type": "dbModel.shape.TableConnection",
                         "id": "f8735797-cf1d-8431-d891-c2d10f0a67be",
                         "userData": null,
                         "cssClass": "draw2d_Connection",
@@ -125,7 +195,7 @@ var jsonDocument = [
                         }
                       },
                       {
-                        "type": "draw2d.Connection",
+                        "type": "dbModel.shape.TableConnection",
                         "id": "abf0a3d6-c4d0-a4d4-569c-094083429e70",
                         "userData": null,
                         "cssClass": "draw2d_Connection",

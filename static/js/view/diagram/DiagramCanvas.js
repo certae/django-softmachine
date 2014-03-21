@@ -16,7 +16,7 @@ Ext.define('ProtoUL.view.diagram.DiagramCanvas', {
     header: false,
  	listeners: {
         afterrender: function() {
-
+			var me = this;
 			this.view = new dbModel.View('canvas');
 
             var reader = new draw2d.io.json.Reader();
@@ -30,9 +30,19 @@ Ext.define('ProtoUL.view.diagram.DiagramCanvas', {
 			this.view.addSelectionListener(editPanel);
 			
 			this.view.getCommandStack().addEventListener(editPanel);
+			
+			this.view.figures.each(function(i, figure) {
+				console.log(figure);
+				figure.addContextMenuListener(me);
+			});
+			
+			this.view.lines.each(function(i, connection) {
+				console.log(connection);
+			});
         }
     },
-    initComponent: function() {
+    
+	initComponent: function() {
         var me = this;
         
 		Ext.applyIf(me, {
@@ -43,7 +53,6 @@ Ext.define('ProtoUL.view.diagram.DiagramCanvas', {
                 }
             ]
         });
-
         me.callParent(arguments);
     },
     
@@ -56,6 +65,18 @@ Ext.define('ProtoUL.view.diagram.DiagramCanvas', {
     
     getView: function() {
     	return this.view;
-    }
+    },
+    
+    onContextMenu: function(figure, x, y) {
+    	var me = this;
+    	if (typeof figure.sourcePort === "undefined") {
+			var tableContextMenu = Ext.create('ProtoUL.view.diagram.TableContextMenu', {
+            	figure: figure
+        	});
+        	tableContextMenu.showAt(x + me.getEl().getX(),y + me.getEl().getY());
+		} else {
+			console.log("Connection");
+		}
+    },
 
 });

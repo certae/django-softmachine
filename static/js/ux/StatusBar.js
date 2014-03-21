@@ -567,6 +567,7 @@ function createJSFilesLibrary() {
     scriptLibrary.push("static/js2db/gui/Toolbar.js");
     scriptLibrary.push("static/js2db/gui/document.js");
     scriptLibrary.push("static/js2db/gui/shape/DBTable.js");
-    
+    scriptLibrary.push("static/js2db/gui/shape/TableConnection.js");
+    scriptLibrary.push("static/js2db/gui/shape/CustomLabel.js");
 
 }

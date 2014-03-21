@@ -75,7 +75,7 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
 	    		
 	    		if (typeof myObj !== 'undefined'){
 					masterRecord.setSource(myObj);
-					gridDetail.getStore().loadRawData(myObj.entities);
+					gridDetail.getStore().loadRawData(myObj.attributes);
 				}
 			} else {
 				this.collapse();
@@ -84,6 +84,7 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
 	},
 	
 	stackChanged:function(event) {
+		var canvas = this.ownerCt.getComponent('contentPanel');
 		if(event.isPostChangeEvent()){
 			if (typeof this.figure !== 'undefined'){
 				var masterRecord = this.getComponent('protoProperty');
@@ -100,8 +101,16 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
 				
 				if (typeof myObj !== 'undefined'){
 					masterRecord.setSource(myObj);
-					gridDetail.getStore().loadRawData(myObj.entities);
+					gridDetail.getStore().loadRawData(myObj.attributes);
 				}
+			}
+			if (event.command.label==="Connecting Ports"){
+				event.command.connection.addContextMenuListener(canvas);
+			}
+		}
+		if(event.isPreChangeEvent()){
+			if (event.command.label==="Add Shape") {
+				event.command.figure.addContextMenuListener(canvas);
 			}
 		}
 	}

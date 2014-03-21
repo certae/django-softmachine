@@ -98,9 +98,9 @@ Ext.define('ProtoUL.controller.DiagramController', {
 		var propertySource = entityEditor.getComponent('protoProperty').source;
 		var gridDetailStore = this.getEntityAttributes().getStore();
 		
-		propertySource.entities.splice(0,propertySource.entities.length);
+		propertySource.attributes.splice(0,propertySource.attributes.length);
 		gridDetailStore.each(function (record) {
-			propertySource.entities.push(record.data);
+			propertySource.attributes.push(record.data);
 		});
 		
 		this.updateJsonDocument();

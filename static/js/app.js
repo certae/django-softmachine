@@ -26,7 +26,8 @@ Ext.application({
         'diagram.DiagramCanvas',
         'diagram.DiagramToolbar',
         'diagram.EntityEditor',
-        'diagram.EntityAttributes'
+        'diagram.EntityAttributes',
+        'diagram.TableContextMenu'
     ],
 	controllers: [
 		'PasswordManager',

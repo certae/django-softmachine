@@ -9,9 +9,15 @@
  * @returns {draw2d.Connection}
  */
 draw2d.Connection.createConnection = function(sourcePort, targetPort) {
-    var conn = new draw2d.Connection();
-    conn.setColor("#5bcaff");
-    conn.setStroke(2);
+    var conn = new dbModel.shape.TableConnection();//draw2d.Connection();
+    // conn.setColor("#5bcaff");
+    // conn.setStroke(2);
+    
+    // Set the endpoint decorations for the connection
+    //
+    // conn.setSourceDecorator(new draw2d.decoration.connection.BarDecorator());
+    // conn.setTargetDecorator(new draw2d.decoration.connection.DiamondDecorator());
+    
     return conn;
 };
 
@@ -28,7 +34,7 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
         this.setStroke(1);
         this.setRadius(3);
 
-        this.entities = new draw2d.util.ArrayList();
+        this.attributes = new draw2d.util.ArrayList();
         this.header = new draw2d.shape.layout.VerticalLayout();
 
         this.classLabel = this.createLabel("TableName").setPadding(10).setFontColor("#4a4a4a");
@@ -39,11 +45,19 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
         this.header.setStroke(0).setRadius(this.getRadius());
         this.header.setBackgroundColor("#f7f7f7");
 
+		// this.header.createPort("input");
+        // this.header.createPort("output");
+        // this.header.createPort("hybrid", new draw2d.layout.locator.TopLocator(this.header));
+        
         this.addFigure(this.header);
+        
+        // this.createPort("hybrid", new draw2d.layout.locator.TopLocator(this.header));
+        
+        this.contextMenuListeners = new draw2d.util.ArrayList();
     },
 
-    addEntity: function(index, entity) {
-        var label = new draw2d.shape.basic.Label(entity.text);
+    addAttribute: function(index, entity) {
+        var label = new dbModel.shape.CustomLabel(entity.text);
         label.setStroke(0);
         label.setRadius(0);
         label.setBackgroundColor(null);
@@ -58,13 +72,13 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
 
         this.addFigure(label);
 
-        this.entities.add(label);
+        this.attributes.add(label);
         return label;
     },
 
     removeFigure: function(figure) {
         this._super(figure);
-        this.entities.remove(figure);
+        this.attributes.remove(figure);
 
         return this;
     },
@@ -77,11 +91,12 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
      * @returns {draw2d.shape.basic.Label}
      */
     createLabel: function(txt) {
-        var label = new draw2d.shape.basic.Label(txt);
+        var label = new dbModel.shape.CustomLabel(txt);
         label.setStroke(0);
         label.setRadius(0);
         label.setBackgroundColor(null);
         label.setPadding(5);
+        label.addContextMenuListener(this);
 
         return label;
     },
@@ -98,12 +113,14 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
      */
     getPersistentAttributes: function() {
         var memento = this._super();
-        memento.tableName = this.classLabel.text;
-        memento.stereotypeName = this.stereotypeLabel.text;
-        memento.entities = [];
+        // memento.tableName = this.classLabel.text;
+        // memento.stereotypeName = this.stereotypeLabel.text;
+        memento.header = [];
+        memento.tablePorts = [];
+        memento.attributes = [];
 
-        this.entities.each(function(i, e) {
-            memento.entities.push({
+        this.attributes.each(function(i, e) {
+            memento.attributes.push({
                 text: e.getText(),
                 id: e.id,
                 inputPort: e.getInputPorts().data[0].name,
@@ -126,12 +143,18 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
     setPersistentAttributes: function(memento) {
         this._super(memento);
 
-        this.header.children.data[0].figure.text = memento.tableName;
-        this.header.children.data[1].figure.text = memento.stereotypeName;
-
-        if ( typeof memento.entities !== "undefined") {
-            $.each(memento.entities, $.proxy(function(i, e) {
-                var entity = this.addEntity(i, e);
+        this.header.resetChildren();
+        
+		if ( typeof memento.header !== "undefined") {
+			$.each(memento.header, $.proxy(function(index, item) {
+				var label = this.createLabel(item.text).setPadding(10).setFontColor("#4a4a4a");
+				this.header.addFigure(label);
+			}, this));
+		}
+		
+        if ( typeof memento.attributes !== "undefined") {
+            $.each(memento.attributes, $.proxy(function(i, e) {
+                var entity = this.addAttribute(i, e);
                 entity.id = e.id;
                 entity.datatype = e.datatype;
                 entity.pk = e.pk;
@@ -140,5 +163,40 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
         }
 
         return this;
+    },
+    
+    onContextMenu: function(figure, x, y) {
+    	var me = this;
+        me.contextMenuListeners.each(function(i, w) {
+            w.onContextMenu(figure, x, y);
+        });
+    },
+    
+    addContextMenuListener:function(w)
+    {
+      if(w!==null)
+      {
+        if(typeof w ==="function"){
+          this.contextMenuListeners.add({onContextMenu: w});
+        } 
+        else if(typeof w.onContextMenu==="function"){
+          this.contextMenuListeners.add(w);
+        }
+        else{
+          throw "Object doesn't implement required callback method [onContextMenu]";
+        }
+      }
+    },
+    /**
+     * @method
+     * unregister the listener from the connection.
+     * 
+     * @param {Object/Function} w The object which will be removed from the selection eventing
+     **/
+    removeContextMenuListener:function(/*:Object*/ w )
+    {
+      this.contextMenuListeners = this.contextMenuListeners.grep(function(listener){
+          return listener !== w && listener.onContextMenu!==w;
+      });
     }
 });
