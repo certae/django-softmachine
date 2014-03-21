@@ -52,17 +52,17 @@ class UserProfile(models.Model):
 # Es necesario inlcuir el ususario en un BUnit, cada registro copiara el Bunit
 # del usuario para dar permisos tambien a la jerarquia ( ascendente )
     user = models.ForeignKey(User, unique=True)
-    userTeam = models.ForeignKey(TeamHierarchy, blank=True, null=True, related_name =  'userTeam')
+    userTeam = models.ForeignKey(TeamHierarchy, blank=True, null=True, related_name='userTeam')
     language = models.CharField(blank=True, null=True, max_length=500)
 
     # System generated hierachie 
     userTree = models.CharField(blank=True, null=True, max_length=500)
 
     # DGT : si el usuario pertenece a varios (usrShar)  podria asignar su grupo de trabajo
-    #workigTeam = models.ForeignKey( TeamHierarchy, blank = True, null = True, related_name =  'workigTeam' )
+    # workigTeam = models.ForeignKey( TeamHierarchy, blank = True, null = True, related_name =  'workigTeam' )
 
     # DGT : Json space, preferencias de usuario ( menuClick, defaultVariables ..... )
-    #userConfig = models.TextField( blank = True, null = True)
+    # userConfig = models.TextField( blank = True, null = True)
 
     def __unicode__(self):
         return  self.user.username
@@ -103,10 +103,10 @@ class ProtoModel(models.Model):
     smModifiedOn = models.DateTimeField(auto_now=True , null=True, blank=True, editable=False)
 
     # DGT: UUID 
-    #smUUID = models.CharField( max_length=32, null=True, blank=True, editable=False)
+    # smUUID = models.CharField( max_length=32, null=True, blank=True, editable=False)
 
     # DGT: Doc Json con definiciones adicionales
-    #smConfig = models.TextField( blank = True, null = True)
+    # smConfig = models.TextField( blank = True, null = True)
 
     # Indicador para manejo de seguridad
     _protoObj = True
@@ -168,11 +168,11 @@ class EntityMap(models.Model):
     modelName = models.CharField(max_length=200, blank=False, null=False)
 
     # DGT: Doc Json con definiciones adicionales,  WorkFlow, Autonumeric, ... 
-    #entityConfig = models.TextField( blank = True, null = True)
-    #description = models.TextField( blank = True, null = True)
+    # entityConfig = models.TextField( blank = True, null = True)
+    # description = models.TextField( blank = True, null = True)
 
     # DGT : Apunta a la tabla fisica 
-    #contentType = models.ForeignKey(ContentType, blank=True, null=True, on_delete=models.SET_NULL)
+    # contentType = models.ForeignKey(ContentType, blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         unique_together = ("appName", "modelName")
@@ -186,12 +186,11 @@ class FieldMap(models.Model):
     fieldName = models.CharField(max_length=200, blank=False, null=False)
 
     # DGT: Doc Json con definiciones adicionales,  WorkFlow, Autonumeric, ... 
-    #fieldConfig = models.TextField( blank = True, null = True)
-    #description = models.TextField( blank = True, null = True)
+    # fieldConfig = models.TextField( blank = True, null = True)
+    # description = models.TextField( blank = True, null = True)
 
     class Meta:
         unique_together = ("entity", "fieldName")
-
 
 
 # DGT : Permisos a nivel de campo ( se marcan como enteros para sumarlos 0 = False )

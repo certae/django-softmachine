@@ -147,13 +147,13 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
             'saveas': function() {
                 Ext.MessageBox.prompt('SaveAs', 'Nouvelle view', function(btn, viewName) {
                     if (btn === 'ok') {
-                        me.save( me.myMeta.viewEntity + '.' + viewName );
+                        me.saveas( me, me.myMeta.viewEntity + '.' + viewName  );
                     }
                 }, this, false, me.myMeta.protoEntity );
 
             },
             'save': function() {
-                me.save();
+                me.save( me );
             },
             'reload': function() {
                 me.cancelChanges();
@@ -461,9 +461,16 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
 
     },
 
-    save: function(viewName) {
+    saveas: function(me, viewName) {
 
-        var me = this, myCustom;
+        me.save( me, viewName ); 
+        
+
+    },
+
+    save: function(me, viewName) {
+
+        var myCustom;
 
         myCustom = Tree2Meta(me.treeGridStore.getRootNode());
         if (me.custom) {
