@@ -37,6 +37,9 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
 
         this.myFieldDict = _SM.getFieldDict(this.myMeta);
 
+        // Guarda el viewCode Oritginal ( asegura una copia ) 
+        me.encodeViewCode( me ); 
+
         _SM.defineProtoPclTreeModel();
 
         tBar = Ext.create('ProtoUL.proto.ProtoToolBar', {
@@ -47,7 +50,6 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
         });
 
         treeData = getTreeData(me);
-
         treeGridStore = Ext.create('Ext.data.TreeStore', {
             model: 'Proto.PclTreeNode',
             root: treeData
@@ -139,21 +141,11 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
         fieldList.hide();
         jsonText.hide();
 
-        tBar.setButton('saveas', bVisible = true, true);
-
         // ----------------------------------------------------------------------------------------------
 
         tBar.on({
-            'saveas': function() {
-                Ext.MessageBox.prompt('SaveAs', 'Nouvelle view', function(btn, viewName) {
-                    if (btn === 'ok') {
-                        me.saveas( me, me.myMeta.viewEntity + '.' + viewName  );
-                    }
-                }, this, false, me.myMeta.protoEntity );
-
-            },
             'save': function() {
-                me.save( me );
+                me.save( me   );
             },
             'reload': function() {
                 me.cancelChanges();
@@ -250,7 +242,7 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
                     myCustom = {
                         listDisplay: me.myMeta.gridConfig.listDisplay
                     };
-                    myCustom = Ext.apply(myCustom, me.myMeta.gridSets)
+                    myCustom = Ext.apply(myCustom, me.myMeta.gridSets); 
                     treeData = Meta2Tree(myCustom, 'custom', 'custom');
                 } else {
                     // Aqui solmanete  manejara el custom
@@ -258,7 +250,7 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
                 }
             } else {
 
-                // Prepara la PCL
+                // Prepara la PCL  
                 // delete me.myMeta.fields
                 tmpMeta = _SM.clone(me.myMeta, 0, ['fields']);
                 tmpMeta.fieldsBase = tmpMeta.fieldsBase.sort(_SM.sortObjByName);
@@ -390,10 +382,12 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
 
             // Status Bar
             var sMsg = getAttrMsg(record.data.text)
-            if (sMsg)
+            if (sMsg) {
                 sMsg = '<strong>' + record.data.text + '</strong> : ' + sMsg
-            else
+            }
+            else {
                 sMsg = '<strong>' + ptType + '</strong>  [ ' + record.data.text + ' ]'
+            }
             sbar.setText(sMsg, false)
 
             // Clear
@@ -461,19 +455,14 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
 
     },
 
-    saveas: function(me, viewName) {
 
-        me.save( me, viewName ); 
-        
+    save: function(me  ) {
 
-    },
-
-    save: function(me, viewName) {
-
-        var myCustom;
+        var myCustom, reOpen = false ;
 
         myCustom = Tree2Meta(me.treeGridStore.getRootNode());
         if (me.custom) {
+
             if (me.metaConfig) {
                 // Si escribe sobre la meta copia el list|Display para hacerlo mas facil
                 me.myMeta.gridConfig.listDisplay = myCustom.listDisplay;
@@ -483,7 +472,6 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
             } else {
                 // Aqui solmanete  manejara el custom
                 me.myMeta.custom = myCustom
-
             }
 
         } else {
@@ -494,12 +482,14 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
             me.myMeta = myCustom
         }
 
-        if (viewName) {
+        me.decodeViewCode(); 
+        
+        if (  me.myViewCode ) {
             me.myMeta.viewCode = viewName;
         };
 
         me.myMeta.metaVersion = _versionMeta;
-        _SM.savePclCache(me.myMeta.viewCode, me.myMeta, true);
+        _SM.savePclCache(me.myMeta.viewCode, me.myMeta, reOpen );
 
         if (me.metaConfig) {// La meta modificada
             _SM.savePci(me.myMeta);
@@ -519,6 +509,18 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
         //TODO: Verificar si hace un reload
         // this.treeGridStore.getRootNode().removeAll();
         // this.treeGridStore.setRootNode( this.treeData )
+    }, 
+
+    encodeViewCode: function( me ) {
+        // Elimina el nombre de viewEntity para permitir la edicion 
+        me.myViewCode = me.myMeta.viewCode.toString();  
+        me.myMeta.viewCode = me.myViewCode.substring(  me.myMeta.viewEntity.length + 1 )
+    },
+
+    decodeViewCode: function( me ) {
+        // Elimina el nombre de viewEntity para permitir la edicion 
+        me.myMeta.viewCode = me.myMeta.viewEntity  + '.' + me.myMeta.viewCode
     }
+
 
 });

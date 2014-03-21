@@ -17,7 +17,7 @@ from protoAuth import getUserProfile, getModelPermissions
 from prototype.models import Prototype  
 PROTO_PREFIX = "prototype.ProtoTable."
 
-#TODO: 
+# TODO: 
 # from protoLib.protoPci import verifyMeta 
 
 # import django.utils.simplejson as json

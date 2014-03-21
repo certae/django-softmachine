@@ -24,15 +24,15 @@ Ext.define('ProtoUL.proto.ProtoToolBar', {
                     me.fireEvent('save')
                 }
 
-            }, " ", {
-                tooltip: _SM.__language.ProtoToolbar_Save_As,
-                iconCls: "icon-saveas",
-                hidden: true,
-                itemId: "saveas",
-                scope: this,
-                handler: function() {
-                    me.fireEvent('saveas');
-                }
+            // }, " ", {
+            //     tooltip: _SM.__language.ProtoToolbar_Save_As,
+            //     iconCls: "icon-saveas",
+            //     hidden: true,
+            //     itemId: "saveas",
+            //     scope: this,
+            //     handler: function() {
+            //         me.fireEvent('saveas');
+            //     }
 
             }, " ", {
                 tooltip: _SM.__language.ProtoToolbar_Add_Node,
