@@ -1,23 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from django.test import TestCase
-from django.utils.unittest.suite import TestSuite
-from django.utils.unittest.loader import makeSuite
 
 from prototype.models import Project
 from prototype.models import PropertyModel
 from prototype.models import Model
 from prototype.models import Entity
 from prototype.protoRules import updatePropInfo
-
-
-def protoRulesTestSuite():
-    suite = TestSuite()
-
-    suite.addTest(makeSuite(UpdatePropInfoTest, 'test'))
-
-    return suite
-
 
 class UpdatePropInfoTest(TestCase):
     def setUp(self):

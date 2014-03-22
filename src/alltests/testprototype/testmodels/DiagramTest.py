@@ -1,6 +1,6 @@
 from django.test import TestCase
 from prototype.models import Diagram
-from prototype.testprototype.testmodels.TestUtilities import createTestDiagram
+from alltests.testprototype.testmodels.TestUtilities import createTestDiagram
 
 
 class DiagramTest(TestCase):
