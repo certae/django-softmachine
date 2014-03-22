@@ -6,7 +6,7 @@ from django.utils.unittest.loader import makeSuite
 import json
 
 from prototype.models import *
-from protoLib.models import *
+#from protoLib.models import *
 
 
 import os

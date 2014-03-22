@@ -1,6 +1,6 @@
 from django.test import TestCase
 from prototype.models import Entity
-from alltests.testprototype.testmodels.TestUtilities import createTestEntity
+from prototype.testprototype.testmodels.TestUtilities import createTestEntity
 
 
 class EntityTest(TestCase):

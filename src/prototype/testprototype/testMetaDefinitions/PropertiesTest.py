@@ -7,7 +7,7 @@ from django.utils.unittest.loader import makeSuite
 import json
 
 from prototype.models import *
-from protoLib.models import *
+#from protoLib.models import *
 
 PossibleTypes = ['list', 'string']
 module_dir = os.path.dirname(__file__)  # get current directory
@@ -138,38 +138,3 @@ class ProtoTablePropertiesTest(TestCase):
                 fieldtype = getFieldType(field, value, ProtoTable)
                 self.assertIn(fieldtype, PossibleTypes)
 
-
-class TeamHierarchyPropertiesTest(TestCase):
-    def test_structure(self):
-        fields = getFields(TeamHierarchy)
-        for field in fields:
-            for value in TeamHierarchy.protoExt[field]:
-                fieldtype = getFieldType(field, value, TeamHierarchy)
-                self.assertIn(fieldtype, PossibleTypes)
-
-
-class ProtoDefinitionPropertiesTest(TestCase):
-    def test_structure(self):
-        fields = getFields(ProtoDefinition)
-        for field in fields:
-            for value in ProtoDefinition.protoExt[field]:
-                fieldtype = getFieldType(field, value, ProtoDefinition)
-                self.assertIn(fieldtype, PossibleTypes)
-
-
-class CustomDefinitionPropertiesTest(TestCase):
-    def test_structure(self):
-        fields = getFields(CustomDefinition)
-        for field in fields:
-            for value in CustomDefinition.protoExt[field]:
-                fieldtype = getFieldType(field, value, CustomDefinition)
-                self.assertIn(fieldtype, PossibleTypes)
-
-
-class DiscreteValuePropertiesTest(TestCase):
-    def test_structure(self):
-        fields = getFields(DiscreteValue)
-        for field in fields:
-            for value in DiscreteValue.protoExt[field]:
-                fieldtype = getFieldType(field, value, DiscreteValue)
-                self.assertIn(fieldtype, PossibleTypes)

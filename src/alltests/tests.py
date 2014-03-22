@@ -1,22 +1,26 @@
 # -*- encoding: UTF-8 -*-
 
-from testMetaDefinitions.ObjectsTest import *                                   
-from testMetaDefinitions.PropertiesTest import *    
+from prototype.testprototype.testMetaDefinitions.ObjectsTest import *                                   
+from prototype.testprototype.testMetaDefinitions.PropertiesTest import *    
                        
-from alltests.testprototype.testactions.ViewCreationTest import *
-from alltests.testprototype.testactions.ViewTemplateTest import *                
-from alltests.testprototype.testactions.ViewDefinitionTest import * 
+from prototype.testprototype.testactions.ViewCreationTest import *
+from prototype.testprototype.testactions.ViewTemplateTest import *                
+from prototype.testprototype.testactions.ViewDefinitionTest import * 
 
-from alltests.testprototype.testmodels.TestSuiteUtils import *
-from alltests.testprototype.ProtoRulesTest import *                    
+from prototype.testprototype.testmodels.TestSuiteUtils import *
+from prototype.testprototype.ProtoRulesTest import *                    
 
-from alltests.testprotoLib.ModelsTest import *
-from alltests.testprotoLib.ProtoActionEditTest import *                                
-from alltests.testprotoLib.ProtoActionListTest import *                      
-from alltests.testprotoLib.ProtoActionRepTest import *                     
-from alltests.testprotoLib.ProtoActionsTest import *              
-from alltests.testprotoLib.ProtoAuthTest import *
-from alltests.testprotoLib.ProtoGetDetailsTest import *
-from alltests.testprotoLib.ProtoGetPciTest import *  
-from alltests.testprotoLib.ProtoLoginTest import *                              
-from alltests.testprotoLib.ProtoMenuTest import *                               
+
+from protoLib.testprotoLib.testMetaDefinitions.ObjectsTest import *                                   
+from protoLib.testprotoLib.testMetaDefinitions.PropertiesTest import *   
+
+from protoLib.testprotoLib.ModelsTest import *
+from protoLib.testprotoLib.ProtoActionEditTest import *                                
+from protoLib.testprotoLib.ProtoActionListTest import *                      
+from protoLib.testprotoLib.ProtoActionRepTest import *                     
+from protoLib.testprotoLib.ProtoActionsTest import *              
+from protoLib.testprotoLib.ProtoAuthTest import *
+from protoLib.testprotoLib.ProtoGetDetailsTest import *
+from protoLib.testprotoLib.ProtoGetPciTest import *  
+from protoLib.testprotoLib.ProtoLoginTest import *                              
+from protoLib.testprotoLib.ProtoMenuTest import *                               

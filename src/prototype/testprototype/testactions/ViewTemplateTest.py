@@ -5,8 +5,8 @@ from django.test import TestCase
 from protoLib.utilsBase import slugify
 from prototype.actions.viewTemplate import baseDefinition
 
-from alltests.testprototype.Utils import random_string_generator
-from alltests.testprototype.testmodels.TestUtilities import createTestEntity
+from prototype.testprototype.Utils import random_string_generator
+from prototype.testprototype.testmodels.TestUtilities import createTestEntity
 
 
 class baseDefinitionTest(TestCase):
