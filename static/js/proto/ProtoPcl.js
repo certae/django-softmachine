@@ -457,7 +457,7 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
 
     save : function(me) {
 
-        var myCustom, saveAs = false;
+        var myCustom, saveAs = false, winTitle;
 
         myCustom = Tree2Meta(me.treeGridStore.getRootNode());
         if (me.custom) {
@@ -481,18 +481,26 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
             me.myMeta = myCustom;
         }
 
-        me.encodeViewName();
+        me.encodeViewName(me);
+        winTitle = ' [ ' + me.myMeta.viewCode + ' ]';
 
         // Si el nombre fue modificado es un saveAs
-        if (me.myViewCode && me.myViewCode != me.myMeta.viewCode) {
+        if (me.myViewCode && me.myViewCode !== me.myMeta.viewCode) {
             saveAs = true;
-        };
+            winTitle = winTitle + '*';
+            _SM.CloseProtoTab(me.myMeta.viewCode);
+            delete (_SM._cllPCI[me.myMeta.viewCode] );
 
+        } else {
+            _SM.savePclCache(me.myMeta.viewCode, me.myMeta, true);
+        }
+
+        me.up('window').setTitle(winTitle);
         me.myMeta.metaVersion = _versionMeta;
-        _SM.savePclCache(me.myMeta.viewCode, me.myMeta, !saveAs);
 
         if (me.metaConfig) {// La meta modificada
             _SM.savePci(me.myMeta);
+
         } else {
             // Solo el custom, empaqueta el objeto para poder agregarle info de control
             myCustom = {
@@ -513,12 +521,23 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
 
     decodeViewName : function(me) {
         // Elimina el nombre de viewEntity para permitir la edicion
-        me.myViewCode = me.myMeta.viewCode.toString();
-        me.myMeta.viewCode = me.myViewCode.substring(me.myMeta.viewEntity.length + 1)
+
+        if (me.myMeta.viewCode) {
+            me.myViewCode = me.myMeta.viewCode.toString();
+        } else {
+            me.myViewCode = me.myMeta.viewEntity.toString();
+        }
+
+        me.myMeta.viewCode = me.myViewCode.substring(me.myMeta.viewEntity.length + 1);
     },
 
     encodeViewName : function(me) {
         // Recodifica el nombre de la vista
-        me.myMeta.viewCode = me.myMeta.viewEntity + '.' + me.myMeta.viewCode
+        if (me.myMeta.viewCode) {
+            me.myMeta.viewCode = me.myMeta.viewEntity + '.' + me.myMeta.viewCode;
+        } else {
+            me.myMeta.viewCode = me.myMeta.viewEntity;
+        }
+
     }
 });

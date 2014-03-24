@@ -406,141 +406,139 @@ class ProtoTable(ProtoModel):
 #   --------------------------------------------------------------------------------
 
 
-class Diagram(ProtoModel):
-    """ 
-    TODO: Diagrama o subModelo   
-    """    
-    project = models.ForeignKey('Project', blank=False, null=False)
-    code = models.CharField(blank=False, null=False, max_length=200)
-    
-    description = models.TextField(blank=True, null=True)
-    notes = models.TextField(blank=True, null=True)
-
-    title = models.CharField(blank=True, null=True, max_length=100)
-
-    """Para eliminar en caso de q las entidades tengan prefijo ( instrospeccion )"""
-    prefix = models.CharField(blank=True, null=True, max_length=20)
-
-    """Nivel de representation ( 'all', 'essential', 'required' , 'primary', 'title' )"""
-    graphLevel = models.IntegerField(blank=True, null=True, default = 0)
-
-    """Representation graphique ( record, htmlTable, graph  )"""
-    grphMode = models.IntegerField(blank=True, null=True, default = 0)
-
-    """Formalismo de representation ( ObjetRelational, ER, DataRun  )"""
-    graphForm = models.IntegerField(blank=True, null=True, default = 0)
-
-    """Show property Type"""
-    showPrpType = models.BooleanField(default=False)
-
-    """Show Border"""
-    showBorder  = models.BooleanField(default=False)
-
-    """Show ForeignKeys"""
-    showFKey  = models.BooleanField(default=False)
-
-
-    """Information graphique  ( labels, etc... ) """
-    info = JSONField(default={})
-    objects = JSONAwareManager(json_fields=['info'])
-
-    # Propieadad para ordenar el __str__ 
-    unicode_sort = ('project', 'code',)
-
-    def __unicode__(self):
-        return slugify(self.project.code + '-' + self.code) 
-
-    class Meta:
-        unique_together = ('project', 'code', 'smOwningTeam')
-
-
-    protoExt = { 
-        "actions": [
-            { "name": "doModelGraph" , "selectionMode" : "multiple" },
-        ],
-    } 
-
-
-
-class DiagramEntity(ProtoModel):
-    """ 
-    TODO: Entidades del diagrama  ( Relationship )    
-    """    
-    diagram = models.ForeignKey('Diagram', blank=False, null=False)
-    entity = models.ForeignKey(Entity, blank=False, null=False)
-
-    """Information graphique ( position, color, ... )  """
-    info = JSONField(default={})
-    objects = JSONAwareManager(json_fields=['info'])
-
-    # Propieadad para ordenar el __str__ 
-    unicode_sort = ('diagram', 'entity',)
-
-    def __unicode__(self):
-        return slugify(self.diagram.code + '-' + self.entity.code) 
-
-    class Meta:
-        unique_together = ('diagram', 'entity', 'smOwningTeam')
+# class Diagram(ProtoModel):
+# 
+#     project = models.ForeignKey('Project', blank=False, null=False)
+#     code = models.CharField(blank=False, null=False, max_length=200)
+#     
+#     description = models.TextField(blank=True, null=True)
+#     notes = models.TextField(blank=True, null=True)
+# 
+#     title = models.CharField(blank=True, null=True, max_length=100)
+# 
+#     """Para eliminar en caso de q las entidades tengan prefijo ( instrospeccion )"""
+#     prefix = models.CharField(blank=True, null=True, max_length=20)
+# 
+#     """Nivel de representation ( 'all', 'essential', 'required' , 'primary', 'title' )"""
+#     graphLevel = models.IntegerField(blank=True, null=True, default = 0)
+# 
+#     """Representation graphique ( record, htmlTable, graph  )"""
+#     grphMode = models.IntegerField(blank=True, null=True, default = 0)
+# 
+#     """Formalismo de representation ( ObjetRelational, ER, DataRun  )"""
+#     graphForm = models.IntegerField(blank=True, null=True, default = 0)
+# 
+#     """Show property Type"""
+#     showPrpType = models.BooleanField(default=False)
+# 
+#     """Show Border"""
+#     showBorder  = models.BooleanField(default=False)
+# 
+#     """Show ForeignKeys"""
+#     showFKey  = models.BooleanField(default=False)
+# 
+# 
+#     """Information graphique  ( labels, etc... ) """
+#     info = JSONField(default={})
+#     objects = JSONAwareManager(json_fields=['info'])
+# 
+#     # Propieadad para ordenar el __str__ 
+#     unicode_sort = ('project', 'code',)
+# 
+#     def __unicode__(self):
+#         return slugify(self.project.code + '-' + self.code) 
+# 
+#     class Meta:
+#         unique_together = ('project', 'code', 'smOwningTeam')
+# 
+# 
+#     protoExt = { 
+#         "actions": [
+#             { "name": "doModelGraph" , "selectionMode" : "multiple" },
+#         ],
+#     } 
+# 
+# 
+# 
+# class DiagramEntity(ProtoModel):
+#     """ 
+#     TODO: Entidades del diagrama  ( Relationship )    
+#     """    
+#     diagram = models.ForeignKey('Diagram', blank=False, null=False)
+#     entity = models.ForeignKey(Entity, blank=False, null=False)
+# 
+#     """Information graphique ( position, color, ... )  """
+#     info = JSONField(default={})
+#     objects = JSONAwareManager(json_fields=['info'])
+# 
+#     # Propieadad para ordenar el __str__ 
+#     unicode_sort = ('diagram', 'entity',)
+# 
+#     def __unicode__(self):
+#         return slugify(self.diagram.code + '-' + self.entity.code) 
+# 
+#     class Meta:
+#         unique_together = ('diagram', 'entity', 'smOwningTeam')
 
 
 #   --------------------------------------------------------------------------------
         
 
-class Service(ProtoModel):
-    """ 
-    TODO: Servicios entre modelos ( entidades virtuales )    
-    """    
-    model = models.ForeignKey('Model', blank=False, null=False)
-    code = models.CharField(blank=False, null=False, max_length=200)
-
-    """Binding : SOAP, RPC, REST, DCOM, CORBA, DDS, RMI, WCF """
-    Binding = models.CharField(blank=True, null=True, max_length=20)
-    typeMessage = models.CharField(blank=True, null=True, max_length=20)
-       
-    description = models.TextField(blank=True, null=True)
-    notes = models.TextField(blank=True, null=True)
-
-    """REST subtypes ( POST, GET ),  notation ( XML, JSON ), etc  ... """ 
-    infoMesage = JSONField(default={})
-
-    """Message information """
-    infoRequest = JSONField(default={})
-    infoReponse = JSONField(default={})
-    objects = JSONAwareManager(json_fields=['infoMesage', 'infoRequest', 'infoReponse' ])
-
-    # Propieadad para ordenar el __str__ 
-    unicode_sort = ('model', 'code',)
-
-    def __unicode__(self):
-        return slugify(self.model.code + '-' + self.code) 
-
-    class Meta:
-        unique_together = ('model', 'code', 'smOwningTeam')
-
-    protoExt = { 
-        "menuApp" : "Others",
-        } 
-
-
-class ServiceRef(ProtoModel):
-    """ 
-    TODO: Cliente Servicios entre modelos ( entidades virtuales )    
-    """    
-    model = models.ForeignKey('Model', blank=False, null=False)
-    service = models.ForeignKey('Service', blank=False, null=False)
-
-    endpoint = models.CharField(blank=True, null=True, max_length=200)
-
-    description = models.TextField(blank=True, null=True)
-    notes = models.TextField(blank=True, null=True)
-
-    # Propieadad para ordenar el __str__ 
-    unicode_sort = ('model', 'service',)
-
-    def __unicode__(self):
-        return slugify(self.model.code + '-' + self.service.code) 
-
-    class Meta:
-        unique_together = ('model', 'service', 'smOwningTeam')
+# class Service(ProtoModel):
+#     """ 
+#     TODO: Servicios entre modelos ( entidades virtuales )    
+#     """    
+#     model = models.ForeignKey('Model', blank=False, null=False)
+#     code = models.CharField(blank=False, null=False, max_length=200)
+# 
+#     """Binding : SOAP, RPC, REST, DCOM, CORBA, DDS, RMI, WCF """
+#     Binding = models.CharField(blank=True, null=True, max_length=20)
+#     typeMessage = models.CharField(blank=True, null=True, max_length=20)
+#        
+#     description = models.TextField(blank=True, null=True)
+#     notes = models.TextField(blank=True, null=True)
+# 
+#     """REST subtypes ( POST, GET ),  notation ( XML, JSON ), etc  ... """ 
+#     infoMesage = JSONField(default={})
+# 
+#     """Message information """
+#     infoRequest = JSONField(default={})
+#     infoReponse = JSONField(default={})
+#     objects = JSONAwareManager(json_fields=['infoMesage', 'infoRequest', 'infoReponse' ])
+# 
+#     # Propieadad para ordenar el __str__ 
+#     unicode_sort = ('model', 'code',)
+# 
+#     def __unicode__(self):
+#         return slugify(self.model.code + '-' + self.code) 
+# 
+#     class Meta:
+#         unique_together = ('model', 'code', 'smOwningTeam')
+# 
+#     protoExt = { 
+#         "menuApp" : "Others",
+#         } 
+# 
+# 
+# class ServiceRef(ProtoModel):
+#     """ 
+#     TODO: Cliente Servicios entre modelos ( entidades virtuales )    
+#     """    
+#     model = models.ForeignKey('Model', blank=False, null=False)
+#     service = models.ForeignKey('Service', blank=False, null=False)
+# 
+#     endpoint = models.CharField(blank=True, null=True, max_length=200)
+# 
+#     description = models.TextField(blank=True, null=True)
+#     notes = models.TextField(blank=True, null=True)
+# 
+#     # Propieadad para ordenar el __str__ 
+#     unicode_sort = ('model', 'service',)
+# 
+#     def __unicode__(self):
+#         return slugify(self.model.code + '-' + self.service.code) 
+# 
+#     class Meta:
+#         unique_together = ('model', 'service', 'smOwningTeam')
 
     
