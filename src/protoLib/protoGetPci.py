@@ -14,7 +14,7 @@ from protoQbe import getSearcheableFields
 
 from protoAuth import getUserProfile, getModelPermissions 
 
-from prototype.models import Prototype  
+from prototype.models import Prototype, Entity  
 PROTO_PREFIX = "prototype.ProtoTable."
 
 # TODO: 
@@ -316,8 +316,12 @@ def protoSaveProtoObj(request):
         try:
             # debe existir previamente
             protoCode = viewCode.replace(PROTO_PREFIX, '')
-            protoDef = Prototype.objects.get(code=protoCode, smOwningTeam=userProfile.userTeam)
-            create = False 
+            
+            protoMeta = json.loads( sMeta )
+            entityId = protoMeta['protoEntityId'] 
+            entityObj = Entity.objects.get( id = entityId )
+            protoDef, create = Prototype.objects.get_or_create(code=protoCode, entity = entityObj, smOwningTeam=userProfile.userTeam )
+ 
         except Exception as e:
             return JsonError(getReadableError(e)) 
 
