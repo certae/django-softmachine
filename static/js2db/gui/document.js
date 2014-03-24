@@ -17,17 +17,17 @@ var jsonDocument = [
                         "radius": 3,
                         "tablePorts": [
                         	{
-                        		"type": "input",
+                        		"type": "draw2d_InputPort",
                         		"name": "input0",
                         		"position": "default"
                         	},
                         	{
-                        		"type": "output",
+                        		"type": "draw2d_OutputPort",
                         		"name": "output0",
                         		"position": "default"
                         	},
                         	{
-                        		"type": "hybrid",
+                        		"type": "draw2d_HybridPort",
                         		"name": "hybrid0",
                         		"position": "bottom"
                         	}
@@ -46,7 +46,6 @@ var jsonDocument = [
                           {
                             "text": "blubber",
                             "id": "49be7d78-4dcf-38ab-3733-b4108701fce4",
-                            "inputPort": "input0",
 			                "datatype": "Integer",
 			                "pk": true,
 			                "unique": true
@@ -69,13 +68,18 @@ var jsonDocument = [
                         "radius": 3,
                         "tablePorts": [
                         	{
-                        		"type": "input",
+                        		"type": "draw2d_InputPort",
                         		"name": "input0",
                         		"position": "default"
                         	},
                         	{
-                        		"type": "output",
+                        		"type": "draw2d_OutputPort",
                         		"name": "output0",
+                        		"position": "default"
+                        	},
+                        	{
+                        		"type": "draw2d_OutputPort",
+                        		"name": "output1",
                         		"position": "default"
                         	}
                         ],
@@ -93,7 +97,6 @@ var jsonDocument = [
                           {
                             "text": "id",
                             "id": "e97f6f8a-4306-0667-3a95-0a5310a2c15c",
-                            "inputPort": "input0",
 			                "datatype": "Integer",
 			                "pk": true,
 			                "unique": true
@@ -101,7 +104,6 @@ var jsonDocument = [
                           {
                             "text": "firstName",
                             "id": "357e132c-aa47-978f-a1fa-d13da6736989",
-                            "inputPort": "input1",
 			                "datatype": "String",
 			                "pk": false,
 			                "unique": false
@@ -109,7 +111,6 @@ var jsonDocument = [
                           {
                             "text": "lastName",
                             "id": "a2156a71-f868-1f8f-e9a1-b185dbdfc3de",
-                            "inputPort": "input2",
 			                "datatype": "String",
 			                "pk": false,
 			                "unique": false
@@ -117,7 +118,6 @@ var jsonDocument = [
                           {
                             "text": "company_fk",
                             "id": "8d410fef-5c6e-286d-c9c3-c152d5bd9c52",
-                            "inputPort": "input3",
 			                "datatype": "Integer",
 			                "pk": false,
 			                "unique": true
@@ -140,17 +140,17 @@ var jsonDocument = [
                         "radius": 3,
                         "tablePorts": [
                         	{
-                        		"type": "input",
+                        		"type": "draw2d_InputPort",
                         		"name": "input0",
                         		"position": "default"
                         	},
                         	{
-                        		"type": "output",
+                        		"type": "draw2d_OutputPort",
                         		"name": "output0",
                         		"position": "default"
                         	},
                         	{
-                        		"type": "hybrid",
+                        		"type": "draw2d_HybridPort",
                         		"name": "hybrid0",
                         		"position": "top"
                         	}
@@ -169,7 +169,6 @@ var jsonDocument = [
                           {
                             "text": "id",
                             "id": "e04ebb27-43c9-1afa-a7d0-e55bf2aa62d5",
-                            "inputPort": "input0",
 			                "datatype": "Integer",
 			                "pk": true,
 			                "unique": true
@@ -187,7 +186,7 @@ var jsonDocument = [
                         "router": "draw2d.layout.connection.ManhattanConnectionRouter",
                         "source": {
                           "node": "3253ff2a-a920-09d5-f033-ca759a778e19",
-                          "port": "output3"
+                          "port": "output1"
                         },
                         "target": {
                           "node": "2810494b-931f-da59-fd9d-6deba4385fe0",

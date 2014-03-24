@@ -32,12 +32,11 @@ Ext.define('ProtoUL.view.diagram.DiagramCanvas', {
 			this.view.getCommandStack().addEventListener(editPanel);
 			
 			this.view.figures.each(function(i, figure) {
-				console.log(figure);
 				figure.addContextMenuListener(me);
 			});
 			
 			this.view.lines.each(function(i, connection) {
-				console.log(connection);
+				// TODO
 			});
         }
     },
