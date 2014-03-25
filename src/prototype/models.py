@@ -335,7 +335,7 @@ class PropertyEquivalence(ProtoModel):
         unique_together = ('sourceProperty', 'targetProperty', 'smOwningTeam')
 
     def delete(self, *args, **kwargs):
-        twoWayPropEquivalence( self, PropertyEquivalence, True )
+#       twoWayPropEquivalence( self, PropertyEquivalence, True )
         super(PropertyEquivalence, self).delete(*args, **kwargs)
 
 

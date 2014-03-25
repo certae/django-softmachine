@@ -42,6 +42,7 @@ encoding//src/prototype/actions/viewDefinition.py=utf-8
 encoding//src/prototype/actions/viewTemplate.py=utf-8
 encoding//src/prototype/models.py=utf-8
 encoding//src/prototype/protoRules.py=utf-8
+encoding//src/snippets/apps/ll/models.py=utf-8
 encoding//static/js/UI/ConfigController.js=UTF-8
 encoding//static/js/UI/FormController.js=UTF-8
 encoding//static/js/UI/GridController.js=UTF-8
