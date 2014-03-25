@@ -8,15 +8,6 @@ from django.contrib.auth import authenticate
 import json
 
 
-def ProtoActionRepTestSuite():
-    suite = TestSuite()
-
-    suite.addTest(makeSuite(SheetConfigRepTest, 'test'))
-    suite.addTest(makeSuite(ProtoCSVTest, 'test'))
-
-    return suite
-
-
 class SheetConfigRepTest(TestCase):
     fixtures = ['auth.json']
 

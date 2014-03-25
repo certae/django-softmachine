@@ -8,28 +8,8 @@ from django.contrib.auth import authenticate
 
 from protoLib.protoActionEdit import *
 
-
-def ProtoActionEditTestSuite():
-    suite = TestSuite()
-
-    suite.addTest(makeSuite(ProtoCreateTest, 'test'))
-    suite.addTest(makeSuite(ProtoUpdateTest, 'test'))
-    suite.addTest(makeSuite(ProtoDeleteTest, 'test'))
-
-    return suite
-
-
-def CreateAddRequest():
-    request = HttpRequest()
-    request.method = 'POST'
-    request.POST['login'] = 'adube'
-    request.POST['password'] = '123'
-    request.user = authenticate(username=request.POST['login'], password=request.POST['password'])
-    request.POST['baseFilter'] = []
-    request.POST['protoFilter'] = []
-    request.POST['sort'] = []
-    request.POST['viewCode'] = 'prototype.Project'
-    request.POST['protoMeta'] = json.dumps({
+def protoMetaInitialize():
+    return json.dumps({
         'viewCode': 'prototype.Project',
         'viewEntity': 'prototype.Project',
         'localSort': False,
@@ -80,6 +60,18 @@ def CreateAddRequest():
         }],
         'usrDefProps': {'__ptType': 'usrDefProps'}
     })
+
+def CreateAddRequest():
+    request = HttpRequest()
+    request.method = 'POST'
+    request.POST['login'] = 'adube'
+    request.POST['password'] = '123'
+    request.user = authenticate(username=request.POST['login'], password=request.POST['password'])
+    request.POST['baseFilter'] = []
+    request.POST['protoFilter'] = []
+    request.POST['sort'] = []
+    request.POST['viewCode'] = 'prototype.Project'
+    request.POST['protoMeta'] = protoMetaInitialize()
     request.POST['rows'] = json.dumps([{
         '__str__': '',
         'code': 't2_project',
@@ -130,57 +122,7 @@ class ProtoUpdateTest(TestCase):
         self.request.POST['protoFilter'] = []
         self.request.POST['sort'] = []
         self.request.POST['viewCode'] = 'prototype.Project'
-        self.request.POST['protoMeta'] = json.dumps({
-            "viewCode": "prototype.Project",
-            "viewEntity": "prototype.Project",
-            "localSort": False,
-            "protoEntityId": None,
-            "jsonField": "",
-            "idProperty": "id",
-            "gridConfig": {
-                "searchFields": ["smRegStatus", "smWflowStatus", "code", "description"]
-            },
-            "fields": [{
-                "name": "__str__",
-                "fkId": "id",
-                "zoomModel": "prototype.Project",
-                "type": "string"
-            }, {
-                "name": "code",
-                "type": "string"
-            }, {
-                "name": "description",
-                "type": "text"
-            }, {
-                "name": "id",
-                "type": "autofield"
-            }, {
-                "name": "smCreatedBy",
-                "type": "foreigntext"
-            }, {
-                "name": "smCreatedOn",
-                "type": "datetime"
-            }, {
-                "name": "smModifiedBy",
-                "type": "foreigntext"
-            }, {
-                "name": "smModifiedOn",
-                "type": "datetime"
-            }, {
-                "name": "smOwningTeam",
-                "type": "foreigntext"
-            }, {
-                "name": "smOwningUser",
-                "type": "foreigntext"
-            }, {
-                "name": "smRegStatus",
-                "type": "string"
-            }, {
-                "name": "smWflowStatus",
-                "type": "string"
-            }],
-            "usrDefProps": {"__ptType": "usrDefProps"}
-        })
+        self.request.POST['protoMeta'] = protoMetaInitialize()
         self.request.POST['rows'] = json.dumps([{
             "__str__": "t2-project",
             "code": "t2_project",
@@ -222,57 +164,7 @@ class ProtoDeleteTest(TestCase):
         self.request.POST['protoFilter'] = []
         self.request.POST['sort'] = []
         self.request.POST['viewCode'] = 'prototype.Project'
-        self.request.POST['protoMeta'] = json.dumps({
-            "viewCode": "prototype.Project",
-            "viewEntity": "prototype.Project",
-            "localSort": False,
-            "protoEntityId": None,
-            "jsonField": "",
-            "idProperty": "id",
-            "gridConfig": {
-                "searchFields": ["smRegStatus", "smWflowStatus", "code", "description"]
-            },
-            "fields": [{
-                "name": "__str__",
-                "fkId": "id",
-                "zoomModel": "prototype.Project",
-                "type": "string"
-            }, {
-                "name": "code",
-                "type": "string"
-            }, {
-                "name": "description",
-                "type": "text"
-            }, {
-                "name": "id",
-                "type": "autofield"
-            }, {
-                "name": "smCreatedBy",
-                "type": "foreigntext"
-            }, {
-                "name": "smCreatedOn",
-                "type": "datetime"
-            }, {
-                "name": "smModifiedBy",
-                "type": "foreigntext"
-            }, {
-                "name": "smModifiedOn",
-                "type": "datetime"
-            }, {
-                "name": "smOwningTeam",
-                "type": "foreigntext"
-            }, {
-                "name": "smOwningUser",
-                "type": "foreigntext"
-            }, {
-                "name": "smRegStatus",
-                "type": "string"
-            }, {
-                "name": "smWflowStatus",
-                "type": "string"
-            }],
-            "usrDefProps": {"__ptType": "usrDefProps"}
-        })
+        self.request.POST['protoMeta'] = protoMetaInitialize()
         self.request.POST['rows'] = json.dumps([{
             "__str__": "t2-project",
             "code": "t2_project",

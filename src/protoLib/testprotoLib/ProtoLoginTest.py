@@ -1,8 +1,6 @@
 # -*- encoding: UTF-8 -*-
 
 from django.test import TestCase
-from django.utils.unittest.suite import TestSuite
-from django.utils.unittest.loader import makeSuite
 import json
 
 from django.http import HttpRequest
@@ -11,15 +9,6 @@ from django.contrib.auth import login
 from django.contrib.sessions.backends.base import SessionBase
 
 from protoLib.protoLogin import protoGetUserRights
-
-
-def ProtoLoginTestSuite():
-    suite = TestSuite()
-
-    suite.addTest(makeSuite(LoginTest, 'test'))
-
-    return suite
-
 
 class MySession(SessionBase):
     def cycle_key(self):
