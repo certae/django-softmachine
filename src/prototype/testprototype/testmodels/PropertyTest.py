@@ -1,5 +1,4 @@
 from django.test import TestCase
-from django.utils.unittest import skip
 from prototype.models import Property
 from prototype.testprototype.testmodels.TestUtilities import createTestProperty
 
@@ -20,6 +19,11 @@ class PropertyTest(TestCase):
         property_in_database = Property.objects.all()
         only_entry_in_database = property_in_database[0]
         self.assertEqual(only_entry_in_database.entity, self.property.entity)
+
+    def test_verifying_property_attribute_propertyModel_in_database(self):
+        property_in_database = Property.objects.all()
+        only_entry_in_database = property_in_database[0]
+        self.assertEqual(only_entry_in_database.propertyModel, self.property.propertyModel)
 
     def test_verifying_property_attribute_isPrimary_in_database(self):
         property_in_database = Property.objects.all()

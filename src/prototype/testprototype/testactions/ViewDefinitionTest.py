@@ -1,36 +1,16 @@
 # -*- coding: utf-8 -*-
 
-from pprint import pprint
 import random
 
 from django.test import TestCase
 from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite 
-from django.utils.unittest import skip
 
-from protoLib.utilsBase import slugify
-
-from prototype.models import Property
-from prototype.models import Entity
 from prototype.actions.viewDefinition import *
 
 from prototype.testprototype.Utils import random_string_generator
 from prototype.testprototype.testmodels.TestUtilities import createTestEntity
-from prototype.testprototype.testmodels.TestUtilities import createTestProperty
 from prototype.testprototype.testmodels.TestUtilities import createTestRelationship
-
-
-def ViewDefinitionTestSuite():
-    suite = TestSuite()
-    suite.addTest(makeSuite(GetViewCodeTest, 'test'))
-    suite.addTest(makeSuite(Property2FieldTest, 'test'))
-    suite.addTest(makeSuite(GetViewDefinitionTest, 'test'))
-    suite.addTest(makeSuite(GetFkIdTest, 'test'))
-    suite.addTest(makeSuite(GetProtoFieldsTreeTest, 'test'))
-    suite.addTest(makeSuite(GetDetailsConfigTreeTest, 'test'))
-    #suite.addTest(makeSuite(addProtoFieldToListTest, 'test')) 
-
-    return suite
 
 
 class GetViewDefinitionTest(TestCase):
@@ -80,7 +60,6 @@ class GetViewDefinitionTest(TestCase):
 
 class GetViewCodeTest(TestCase):
     def setUp(self):
-        pass
         self.pEntity = createTestEntity()
 
     def test_GetViewCode_with_viewtitle_none(self):
