@@ -1,4 +1,7 @@
 ## ProtoExt
+[![Build Status](https://travis-ci.org/victorette/ProtoExt.png?branch=master)](https://travis-ci.org/victorette/ProtoExt)
+[![Coverage Status](https://coveralls.io/repos/victorette/ProtoExt/badge.png)](https://coveralls.io/r/victorette/ProtoExt)
+
 CeRTAE [ProtoExt](http://www.certae.org/index.php?id=88) proposes an approach based on DATARUN method. This approach consists in achieving the interfaces of an application by the contruction of views from a standard data model.
 The system architecture is a Web MVC variant, this means that we use the basic concepts of Model, View and Controller adapted to a Web App.
 
@@ -38,9 +41,9 @@ Never enable debug in production so set it to False (`DEBUG = False`)
 Split configuration is used to avoid sending sensitive data to GitHub. This configuration is based on DEBUG variable. If debug is enabled the System is going to load “settings_development.py” otherwise it will import “settings_production.py”.
 ```python
 if DEBUG :
-    from settings_development import *
+    from ProtoExt.settings_development import *
 else :
-    from settings_production import *
+    from ProtoExt.settings_production import *
 ```
 Those files contain information about DATABASES, ALLOWED_HOSTS, TEMPLATE_LOADERS, TEMPLATE_CONTEXT_PROCESSORS, TEMPLATE_DIRS, INSTALLED_APPS and EMAIL configurations.
 
@@ -77,16 +80,16 @@ Now we are going to configure the web server:
 Inside the tag <VirtualHost *:80>
 insert those lines:
 	`Alias /static/admin/ /usr/local/lib/python2.7/dist-packages/django/contrib/admin/static/admin/`
-	`WSGIScriptAlias / /home/SitePrototypeur/ProtoExt/src/prototypeur.wsgi`
+	`WSGIScriptAlias / /var/www/prototypeur/ProtoExt/src/ProtoExt/prototypeur.wsgi`
 	
 We are almost there, go to the home folder:
-`cd /home`
-create a new SitePrototypeur directory
-`mkdir SitePrototypeur`
-and extract the ProtoExt-master.zip (downloaded from https://github.com/victorette/ProtoExt) code inside the SitePrototypeur folder, rename the new folder to ProtoExt.
+`cd /var/www/`
+create a new prototypeur directory
+`mkdir prototypeur`
+and extract the ProtoExt-master.zip (downloaded from https://github.com/victorette/ProtoExt) code inside the prototypeur folder, rename the new folder to ProtoExt.
 Go to the new folder and make sure that `settings.py` is following the security remarks mentioned above. The App won't work is this file is configured improperly.
 
-Download Ext JS from [Sencha.com](http://www.sencha.com/products/extjs/download/), extract it in `/home/SitePrototypeur/ProtoExt/static` and rename the extracted folder to **extjs**.
+Download Ext JS from [Sencha.com](http://www.sencha.com/products/extjs/download/), extract it in `/var/www/prototypeur/ProtoExt/static` and rename the extracted folder to **extjs**.
 Synchronize the database: 
 `python src/manage.py syncdb`
 
