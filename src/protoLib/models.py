@@ -173,14 +173,13 @@ class EntityMap(models.Model):
 
     # DGT : Apunta a la tabla fisica 
     # contentType = models.ForeignKey(ContentType, blank=True, null=True, on_delete=models.SET_NULL)
-
+    # fieldLevelSecurity = models.BooleanField(default=True)
     class Meta:
         unique_together = ("appName", "modelName")
 
 
 
 class FieldMap(models.Model):
-
     # DGT : Implemenar con EntityMap
     entity = models.ForeignKey(EntityMap, blank=False, null=False)
     fieldName = models.CharField(max_length=200, blank=False, null=False)
@@ -188,16 +187,13 @@ class FieldMap(models.Model):
     # DGT: Doc Json con definiciones adicionales,  WorkFlow, Autonumeric, ... 
     # fieldConfig = models.TextField( blank = True, null = True)
     # description = models.TextField( blank = True, null = True)
+    # canRead = models.IntegerField(default=0, blank=False, null=False)
+    # canIns = models.IntegerField(default=0, blank=False, null=False)
+    # canUpd = models.IntegerField(default=0, blank=False, null=False)
 
     class Meta:
         unique_together = ("entity", "fieldName")
 
-
-# DGT : Permisos a nivel de campo ( se marcan como enteros para sumarlos 0 = False )
-    # Itersection FieldMap - Group? Team?
-    # canRead = models.IntegerField(default=0, blank=False, null=False)
-    # canIns = models.IntegerField(default=0, blank=False, null=False)
-    # canUpd = models.IntegerField(default=0, blank=False, null=False)
 
 
 # -------------------------------------------
@@ -218,7 +214,7 @@ class ProtoDefinition(models.Model):
     # Elto de control para sobre escribir,  podria ser un error el solo hecho de inactivarlo
     overWrite = models.BooleanField(default=True)
 
-    # DGT : For entity clasification  ( V14.01 )
+    # DGT : For entity clasification  ( V14.01 or Contenttype )
     # entityMap = models.ForeignKey(EntityMap, blank=True, null=True)
 
 
@@ -271,4 +267,114 @@ class UserFiles(models.Model):
     
     docfile = models.FileField(upload_to='documents/%Y/%m/%d')
 
+
+
+
+"""
+
+DGT: Tablas adicionales para automatizacion de tareas 
+
+"""
+
+class DiscreteValue(models.Model):
+    # TODO : Manejo de discretas
+    # Ahora se hace como un arbol para por ejemplo manejar el idioma fr.ca  es.ca
+    # Arrancar con filtro inicial discreteValue = None
+
+    code = models.CharField(blank=False, null=False, max_length=200)
+    value = models.CharField(blank=False, null=False, max_length=200)
+
+    description = models.TextField(blank=True, null=True)
+    title = models.ForeignKey('DiscreteValue', blank=True, null=True)
+
+    def __unicode__(self):
+        if self.title is None:
+            return self.code
+        else:
+            return self.title.code + '.' + self.code
+
+    class Meta:
+        unique_together = ('title', 'value',)
+
+    protoExt = {
+        "gridConfig" : {
+            "listDisplay": ["__str__", "description" ]
+        }
+    }
+
+
+
+
+class ParametersBase(ProtoModel):
+    parameterKey = models.CharField(max_length=250 , blank=False, null=False)
+    parameterTag = models.CharField(max_length=250 , blank=False, null=False)
+    parameterValue = models.CharField(max_length=250 , blank=False, null=False)
+
+    def __unicode__(self):
+        return self.parameterKey + '.' + self.parameterValue
+
+
+
+class PtFunction(models.Model):
+    """ TODO : En esta tabla se guardan funciones q seran ejectudas dinamicamente
+        deben reespetar la syntaxis python y se precargaran con funcione de base 
+        por ejemplo el perfil de usuario y el acceso a modelos 
+        
+        Siempre deb retornar algo
+    """
+
+    # nombre de la funcion
+    code = models.CharField(blank=False, null=False, max_length=200 , unique=True)
+
+    # este modelo se importa y se ofrece a la funcion
+    modelName = models.CharField(blank=False, null=False, max_length=200)
+
+    # lista separada por comas de los nombres de los argumentos
+    arguments = models.CharField(blank=False, null=False, max_length=400)
+
+    functionBody = models.TextField(blank=True, null=True)
+
+    tag = models.CharField(blank=False, null=False, max_length=200)
+    description = models.TextField(verbose_name=u'Descriptions', blank=True, null=True)
+
+
+    def __unicode__(self):
+        return self.code + '.' + self.tag
+
+
+
+class WflowAdminResume(ProtoModel):
+    """ Contains the latest news summary that require administrator action
+        When creating a record of WFlow you can create an instance of this table or increment the counter
+        You will also have to go shares wFlow tables (parameter = wFlowEntities)
+        and tell the states to verify (parameterTag = 0)
+    """
+
+    viewEntity = models.CharField(max_length=250 , blank=False, null=False)
+    activityCount = models.IntegerField(blank=False, null=False)
+
+    def __unicode__(self):
+        return self.viewEntity + '.' + self.smOwningTeam.__str__()
+
+    protoExt = {
+        "actions": [
+            { "name": "doWFlowResume",
+              "selectionMode" : "none",
+              "refreshOnComplete" : True
+            },
+        ]
+    }
+
+
+class WflowUserReponse(ProtoModel):
+    """ Contains the results of administrator actions
+    """
+
+    viewEntity = models.CharField(max_length=250 , blank=False, null=False)
+    wfAction = models.CharField(max_length=250 , blank=False, null=False)
+    strKey = models.CharField(max_length=250 , blank=False, null=False)
+    adminMsg = models.CharField(max_length=250 , blank=False, null=False)
+
+    def __unicode__(self):
+        return self.viewEntity
 

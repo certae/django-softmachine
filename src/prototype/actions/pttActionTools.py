@@ -16,11 +16,12 @@ TypeEquivalence = {
         'int'       :   'IntegerField',
         'text'      :   'TextField',
         'time'      :   'TimeField',
-        'jsonfield' :   'JSONField'       ,
+        'jsonfield' :   'JSONField',
     }
 
 
 
 def getViewCode( pEntity, viewTitle = None ):
-    if viewTitle is None: viewTitle = pEntity.code
+    if viewTitle is None:
+        viewTitle = pEntity.code
     return slugify( pEntity.model.code + '-' + viewTitle )

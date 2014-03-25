@@ -56,3 +56,27 @@ class ServiceRef(ProtoModel):
     class Meta:
         unique_together = ('model', 'service', 'smOwningTeam' )
 
+
+
+
+
+class Languaje(models.Model):
+    """ TODO : Manejar una tabla con los diferentes lenguajes en formato Json    
+        { 'es' : 'incio', 'en' : 'start', .....  }
+        se aprovecha la pseudo definicion como en prototipos  
+    """
+
+    code = models.CharField(blank=False, null=False, max_length=200 , unique=True)
+
+    # to handle a variable name usr
+    alias = models.CharField(blank=False, null=False, max_length=200)
+
+    info = JSONField(default={})
+
+    def __unicode__(self):
+        return self.code + '.' + self.info.__str__()
+
+    objects = JSONAwareManager(json_fields=['info'])
+
+
+

@@ -207,7 +207,6 @@ def _protoEdit(request, myAction):
 
             except Exception, e:
                 data['_ptStatus'] = data['_ptStatus'] + getReadableError(e)
-                pass
 
         pList.append(data)
 

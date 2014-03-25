@@ -66,20 +66,15 @@ def protoGetPCI(request):
         # protoDef : PCI leida de la DB 
         protoDef, created = ProtoDefinition.objects.get_or_create(code=viewCode)
     
-    
     # Verifica si es una version vieja 
     if created: 
         protoDef.overWrite = True
 
-#    else: 
-#        protoMeta = json.loads( protoDef.metaDefinition ) 
-#        version = protoMeta.get( 'metaVersion' )
-#        if ( version is None ) or ( version < PROTOVERSION ):
-#            created = True 
-
     # active solo viene de protoDefinition     
-    try: active = protoDef.active
-    except:  active = True 
+    try:
+        active = protoDef.active
+    except:
+        active = True 
         
     # Si es nuevo o no esta activo lee Django 
     if created or (not  active) :
@@ -117,7 +112,8 @@ def protoGetPCI(request):
         custom = CustomDefinition.objects.get(code=customCode, smOwningTeam=userProfile.userTeam)
         custom = json.loads(custom.metaDefinition)
         protoMeta['custom'] = custom['custom']  
-    except: pass
+    except:
+        pass
     
     # TODO: Verificacion de la metadata 
 #     try:
@@ -127,7 +123,6 @@ def protoGetPCI(request):
 #         message = getReadableError(e)
 
 
-    
     # WorkFlow  
     if hasattr(model , '_WorkFlow') : 
         wflowControl = getattr(model, '_WorkFlow', {})
@@ -186,10 +181,12 @@ def createProtoMeta(model, grid, viewEntity , viewCode):
 
     # Los criterios de busqueda ni los ordenamientos son heredados del admin, 
     pSearchFields = grid.gridConfig.get('searchFields', []) 
-    if len(pSearchFields) == 0: pSearchFields = getSearcheableFields(model)
+    if len(pSearchFields) == 0:
+        pSearchFields = getSearcheableFields(model)
 
     pSortFields = grid.gridConfig.get('sortFields', []) 
-    if len(pSortFields) == 0: pSortFields = getSearcheableFields(model)
+    if len(pSortFields) == 0:
+        pSortFields = getSearcheableFields(model)
 
     # Lista de campos precedidos con '-' para order desc  ( 'campo1' , '-campo2' )
     # * o [{ "property": "code", "direction": "ASC" }, {  
@@ -233,7 +230,8 @@ def createProtoMeta(model, grid, viewEntity , viewCode):
     viewIcon = grid.protoMeta.get('viewIcon', 'icon-1') 
 
     pDescription = grid.protoMeta.get('description', '')
-    if len(pDescription) == 0:  pDescription = grid.protoMeta.get('title', grid.title)
+    if len(pDescription) == 0:
+        pDescription = grid.protoMeta.get('title', grid.title)
     
     # FIX: busca el id en la META  ( id_field = model._meta.pk.name ) 
     id_field = u'id'
@@ -296,8 +294,10 @@ def protoSaveProtoObj(request):
     userProfile = getUserProfile(request.user, 'saveObjs', viewCode) 
 
     # Reglas para definir q se guarda  
-    if viewCode.find('_') == 0  :  custom = True 
-    if viewCode.startswith(PROTO_PREFIX) :  prototype = True 
+    if viewCode.find('_') == 0 :
+        custom = True 
+    if viewCode.startswith(PROTO_PREFIX) :
+        prototype = True 
 
     # Carga la meta 
     sMeta = request.POST.get('protoMeta', '')
@@ -344,8 +344,8 @@ def protoSaveProtoObj(request):
         # borra el custom por q confunde haecer modif en un lado y otro 
         try:
             CustomDefinition.objects.filter(code='_custom.' + viewCode, smOwningTeam=userProfile.userTeam).delete()
-        except:  pass
-
+        except:
+            pass
 
     if custom or prototype: 
         setSecurityInfo(protoDef, {}, userProfile, create)
@@ -376,7 +376,8 @@ def protoGetFieldTree(request):
     if viewCode.startswith(PROTO_PREFIX) and viewCode != viewEntity :
         # ---------------------------------------------------              Prototipos 
         protoEntityId = request.POST.get('protoEntityId')
-        if not protoEntityId >= 0: return JsonError('invalid idEntity')
+        if not protoEntityId >= 0:
+            return JsonError('invalid idEntity')
 
         try:  
             from prototype.actions.viewDefinition import GetProtoFieldsTree
@@ -411,7 +412,6 @@ def protoGetFieldTree(request):
         
         fieldList.append(myField)
 
-        
     # Codifica el mssage json 
     context = json.dumps(fieldList)
     return HttpResponse(context, content_type="application/json")
@@ -434,7 +434,8 @@ def addFiedToList(fieldList , field, fieldBase):
         # Los campos heredados son siempre ro y no requeridos  
         pField[ 'readOnly' ] = True 
         pField['required'] = False 
-        if pField['type'] == 'autofield': pField['type'] = 'int'
+        if pField['type'] == 'autofield':
+            pField['type'] = 'int'
 
     pField['id'] = fieldId
     pField['text'] = field.name
@@ -478,10 +479,12 @@ def addFiedToList(fieldList , field, fieldBase):
         # for fAux in model._meta._fields(): #django 1.4
         for fAux in model._meta.fields:
             # los id de los campos heredados tampoco se presentan 
-            if fAux.name == 'id' :  continue 
+            if fAux.name == 'id' :
+                continue 
             
             # los campos adm de los heredados no se presentan  
-            if isAdmField(fAux.name): continue 
+            if isAdmField(fAux.name):
+                continue 
             
             addFiedToList(fkFieldList, fAux , fieldId + '__')
 
@@ -502,8 +505,8 @@ def isFieldDefined(pFields , fName):
 
 def getFieldIncrement(request):
     success = False
-    fieldName = request.GET['fieldName'];
-    viewEntity = request.GET['viewEntity'];
+    fieldName = request.GET['fieldName']
+    viewEntity = request.GET['viewEntity']
     try: 
         model = getDjangoModel(viewEntity)
     except :

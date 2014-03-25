@@ -350,14 +350,14 @@ Ext.define('Ext.ux.BoxReorderer', {
             targetEl,
             targetBox,
             targetMidpoint,
-            i = 0,
+            i,
             it = me.container.items.items,
             ln = it.length,
             lastPos = me.lastPos;
 
         me.lastPos = dragBox[me.startAttr];
 
-        for (; i < ln; i++) {
+        for (i = 0; i < ln; i++) {
             targetEl = it[i].getEl();
 
             // Only look for a drop point if this found item is an item according to our selector

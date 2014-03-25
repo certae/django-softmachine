@@ -27,8 +27,10 @@ def verifyList(obj, defList = []):
 #   Los objetos del admin son en su mayoria del tipo tuple,
 #   Es necesario convertirlos a listas por facilidad de trabajo
     if isinstance( obj , basestring ):
-        try: obj = json.loads( obj )  
-        except : obj = []
+        try: 
+            obj = json.loads(obj)  
+        except : 
+            obj = []
     elif isinstance( obj, tuple  ):  
         obj = list( obj )
 
@@ -37,7 +39,8 @@ def verifyList(obj, defList = []):
             obj  = defList        
         return obj    
 
-    else: return [] 
+    else:
+        return [] 
 
 def verifyStr( vrBase , vrDefault ):
     sAux = vrBase or vrDefault

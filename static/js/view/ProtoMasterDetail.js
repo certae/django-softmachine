@@ -190,7 +190,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
         myDetStore.myLoadData(detailLink.detFilter, null, me.idMasterGrid);
 
         // Obtiene la grilla y le da un titulo
-        var myDetGrid = me.protoTabs.items.items[me.ixActiveDetail];
+        myDetGrid = me.protoTabs.items.items[me.ixActiveDetail];
         myDetGrid.detailTitle = detailLink.detTitle;
         myDetGrid.setGridTitle(myDetGrid);
         myDetGrid.mdFilter = detailLink.detFilter; 

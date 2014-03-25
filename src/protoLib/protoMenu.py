@@ -195,7 +195,7 @@ def protoGetMenuData(request):
             menuAux = []
             menuTmp = verifyList(json.loads(protoDef.metaDefinition))
             for menuOp in menuTmp:
-                if menuOp.get('text', '') != 'AutoMenu': 
+                if menuOp.get( 'text', '') != 'AutoMenu':
                     menuAux.append (menuOp) 
 
             menuAux.append({
@@ -206,7 +206,6 @@ def protoGetMenuData(request):
                     'children': app_list,
                     'leaf': False 
             })
-            
         except: 
             menuAux = app_list 
 

@@ -141,11 +141,11 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
     
 		var dataIx = 'data', dataValue = data, dataRec = {};
 
-        // Toma el Id positional ( el primero es )
+        // Take the positional Id (the first is)
         if ( _SM.typeOf( data ) == 'array' ) {
             dataValue = data[0];
         
-            // Verifica el 1er elto debe ser el Id 
+            // Check the 1st item should be the Id
             vFld = this.columnList[0];
             if ( _SM.typeOf( vFld ) == 'string' ) {
                 dataIx = vFld; 

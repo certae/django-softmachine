@@ -19,7 +19,7 @@
 #        cada rama solo define sus propiedades; 
 #     """
 
-    
+#   El QSet viene con la lista de Ids de PropertyModel     
     
 #    if queryset.count() == 0:
 #        return 'No record selected' 

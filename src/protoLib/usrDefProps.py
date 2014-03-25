@@ -5,7 +5,8 @@ from utilsConvert import getTypedValue
 from django.utils.encoding import smart_str
 
 # Para pasar atributos en forma de clase
-class cAux: pass
+class cAux:
+    pass
 
 
 def verifyUdpDefinition(pUDP):
@@ -74,7 +75,8 @@ def saveUDP(regBase, data, cUDP):
 
     for key in data:
         key = smart_str(key)
-        if (not key.startswith(cUDP.propertyPrefix + '__')): continue
+        if (not key.startswith(cUDP.propertyPrefix + '__')):
+            continue
         UdpCode = key[ len(cUDP.propertyPrefix) + 2 : ]
 
         QsUdp = addFilter(Qs, { cUDP.propertyName : UdpCode  })
@@ -92,7 +94,8 @@ def saveUDP(regBase, data, cUDP):
 
         # Genera el ISO para la fecha y valores estandares para numeros y booleanos
         sAux = smart_str(data[key])
-        if sAux == 'None': sAux = ''
+        if sAux == 'None':
+            sAux = ''
         setattr(rUdp, cUDP.propertyValue , sAux)
         rUdp.save()
 
