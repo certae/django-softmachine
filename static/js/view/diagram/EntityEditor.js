@@ -62,13 +62,12 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
 				this.expand();
 				
 				var masterRecord = this.getComponent('protoProperty');
-				
 				var gridDetail = this.getComponent('entityattributes');
 				
 				var writer = new draw2d.io.json.Writer();
 				var canvas = this.ownerCt.getComponent('contentPanel');
 				var jsonData = "";
-			    writer.marshal(canvas.view, function(json){
+			    writer.marshal(canvas.getView(), function(json){
 					jsonData = json;
 			    });
 				var myObj = this.getFigureFromJSONData(jsonData, figure.id);
@@ -94,7 +93,7 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
 				var writer = new draw2d.io.json.Writer();
 				var canvas = this.ownerCt.getComponent('contentPanel');
 				var jsonData = "";
-				writer.marshal(canvas.view, function(json){
+				writer.marshal(canvas.getView(), function(json){
 					jsonData = json;
 				});
 				var myObj = this.getFigureFromJSONData(jsonData, this.figure.id);

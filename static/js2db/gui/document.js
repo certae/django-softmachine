@@ -15,6 +15,7 @@ var jsonDocument = [
                         "stroke": 1,
                         "alpha": 1,
                         "radius": 3,
+                        "tableName": "Enterprise",
                         "tablePorts": [
                         	{
                         		"type": "draw2d_InputPort",
@@ -30,16 +31,6 @@ var jsonDocument = [
                         		"type": "draw2d_HybridPort",
                         		"name": "hybrid0",
                         		"position": "bottom"
-                        	}
-                        ],
-                        "header": [
-                        	{
-                        		"text": "Table1",
-                        		"id": "id"
-                        	},
-                        	{
-                        		"text": "<<Stereotype>>",
-                        		"id": "id"
                         	}
                         ],
                         "attributes": [
@@ -66,6 +57,7 @@ var jsonDocument = [
                         "stroke": 1,
                         "alpha": 1,
                         "radius": 3,
+                        "tableName": "UsageLogiciel",
                         "tablePorts": [
                         	{
                         		"type": "draw2d_InputPort",
@@ -81,16 +73,6 @@ var jsonDocument = [
                         		"type": "draw2d_OutputPort",
                         		"name": "output1",
                         		"position": "default"
-                        	}
-                        ],
-                        "header": [
-                        	{
-                        		"text": "Table2",
-                        		"id": "id"
-                        	},
-                        	{
-                        		"text": "<<Stereotype>>",
-                        		"id": "id"
                         	}
                         ],
                         "attributes": [
@@ -138,6 +120,7 @@ var jsonDocument = [
                         "stroke": 1,
                         "alpha": 1,
                         "radius": 3,
+                        "tableName": "Logiciel",
                         "tablePorts": [
                         	{
                         		"type": "draw2d_InputPort",
@@ -153,16 +136,6 @@ var jsonDocument = [
                         		"type": "draw2d_HybridPort",
                         		"name": "hybrid0",
                         		"position": "top"
-                        	}
-                        ],
-                        "header": [
-                        	{
-                        		"text": "Table3",
-                        		"id": "id"
-                        	},
-                        	{
-                        		"text": "<<Stereotype>>",
-                        		"id": "id"
                         	}
                         ],
                         "attributes": [

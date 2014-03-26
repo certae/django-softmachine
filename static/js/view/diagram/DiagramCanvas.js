@@ -16,28 +16,8 @@ Ext.define('ProtoUL.view.diagram.DiagramCanvas', {
     header: false,
  	listeners: {
         afterrender: function() {
-			var me = this;
 			this.view = new dbModel.View('canvas');
-
-            var reader = new draw2d.io.json.Reader();
-            reader.unmarshal(this.view, jsonDocument);
-
-			var toolbar = this.getComponent('diagramtoolbar');
-			this.view.addSelectionListener(toolbar);
-			this.view.getCommandStack().addEventListener(toolbar);
-			
-			var editPanel = this.ownerCt.getComponent('entityeditor');
-			this.view.addSelectionListener(editPanel);
-			
-			this.view.getCommandStack().addEventListener(editPanel);
-			
-			this.view.figures.each(function(i, figure) {
-				figure.addContextMenuListener(me);
-			});
-			
-			this.view.lines.each(function(i, connection) {
-				// TODO
-			});
+			this.reload();
         }
     },
     
@@ -56,10 +36,28 @@ Ext.define('ProtoUL.view.diagram.DiagramCanvas', {
     },
     
     reload: function() {
-    	this.view.clear();
+    	var me = this;
+    	me.view.clear();
     	
     	var reader = new draw2d.io.json.Reader();
-        reader.unmarshal(this.view, jsonDocument);
+        reader.unmarshal(me.getView(), jsonDocument);
+        
+        var toolbar = me.getComponent('diagramtoolbar');
+		me.view.addSelectionListener(toolbar);
+		me.view.getCommandStack().addEventListener(toolbar);
+		
+		var editPanel = me.ownerCt.getComponent('entityeditor');
+		me.view.addSelectionListener(editPanel);
+		
+		me.view.getCommandStack().addEventListener(editPanel);
+		
+		me.view.figures.each(function(i, figure) {
+			figure.addContextMenuListener(me);
+		});
+		
+		me.view.lines.each(function(i, connection) {
+			// TODO
+		});
     },
     
     getView: function() {

@@ -7,7 +7,8 @@
  * @extend draw2d.Connection
  */
 dbModel.shape.TableConnection = draw2d.Connection.extend({
-
+	NAME: "dbModel.shape.TableConnection",
+	
     init: function() {
         this._super();
         //this.setRouter(new draw2d.layout.connection.InteractiveManhattanConnectionRouter());
@@ -18,6 +19,10 @@ dbModel.shape.TableConnection = draw2d.Connection.extend({
         this.setColor("#5bcaff");
         this.setStroke(2);
         
+        // Set the endpoint decorations for the connection
+        this.setSourceDecorator(new draw2d.decoration.connection.BarDecorator());
+    	this.setTargetDecorator(new draw2d.decoration.connection.DiamondDecorator());
+    
         this.contextMenuListeners = new draw2d.util.ArrayList();
     },
 

@@ -17,6 +17,10 @@ Ext.define('ProtoUL.controller.DiagramController', {
         {
         	ref: 'entityEditor',
         	selector: '#entityeditor'
+        },
+        {
+        	ref: 'tableContextMenu',
+        	selector: '#tablecontextmenu'
         }
     ],
 
@@ -114,6 +118,105 @@ Ext.define('ProtoUL.controller.DiagramController', {
 		this.updateJsonDocument();
 	},
 	
+	enableToolbarButton: function(button) {
+		var toolbarButton = this.getDiagramToolbar().getComponent(button);
+		toolbarButton.setDisabled(false);
+	},
+	
+	getTableFromContextMenu: function(button) {
+		var tableContextMenu = button.ownerCt;
+		var table;
+		if (tableContextMenu.figure.getParent().getCssClass() === "draw2d_shape_layout_VerticalLayout") {
+			table = tableContextMenu.figure.getParent().getParent();
+		} else {
+			table = tableContextMenu.figure.getParent();
+		}
+        tableContextMenu.close();
+		
+		return table;
+	},
+	
+	createPort: function(type, position) {
+		var newPort = null;
+        switch(type) {
+            case "draw2d_InputPort":
+                newPort = new draw2d.InputPort();
+                break;
+            case "draw2d_OutputPort":
+                newPort = new draw2d.OutputPort();
+                break;
+            case "draw2d_HybridPort":
+                newPort = new draw2d.HybridPort();
+                break;
+            default:
+                throw "Unknown type [" + type + "] of port requested";
+        }
+		var userData = [];
+		userData.push({
+			position: position
+		});
+		newPort.setUserData(userData);
+		
+		return newPort;
+	},
+	
+	addConnectorRecursive: function(button,e ,eOpts) {
+		var table = this.getTableFromContextMenu(button);
+		if (table.hybridPorts.getSize() === 0) {
+			var newPort = this.createPort('draw2d_HybridPort', 'bottom');
+			newPort.setName("hybrid" + table.hybridPorts.getSize());
+			table.addPort(newPort, new draw2d.layout.locator.BottomLocator(table));
+			
+			var inputPort = this.createPort('draw2d_InputPort', 'default');
+			inputPort.setName("input" + table.inputPorts.getSize());
+			table.addPort(inputPort);
+			table.layoutPorts();
+			
+			var conn = new dbModel.shape.TableConnection();
+			conn.setSource(newPort);
+			conn.setTarget(inputPort);
+
+			table.getCanvas().addFigure(conn);
+			
+			this.enableToolbarButton('btSaveAll');
+		}
+	},
+	
+	addInputPort: function(button,e ,eOpts) {
+		var table = this.getTableFromContextMenu(button);
+            
+		var newPort = this.createPort('draw2d_InputPort', 'default');
+		newPort.setName("input" + table.inputPorts.getSize());
+		table.addPort(newPort);
+		table.layoutPorts();
+		
+		this.enableToolbarButton('btSaveAll');
+	},
+	
+	addOutputPort: function(button,e ,eOpts) {
+		var table = this.getTableFromContextMenu(button);
+            
+		var newPort = this.createPort('draw2d_OutputPort', 'default');
+		newPort.setName("output" + table.inputPorts.getSize());
+		table.addPort(newPort);
+		table.layoutPorts();
+		
+		this.enableToolbarButton('btSaveAll');
+	},
+	
+	removeUnusedPorts: function(button,e ,eOpts) {
+		var table = this.getTableFromContextMenu(button);
+        table.getPorts().each(function(i, port) {
+            if (port.getConnections().size < 1) {
+                table.removePort(port);
+            }
+        });
+        table.layoutPorts();
+		table.cachedPorts = null;
+		
+		this.enableToolbarButton('btSaveAll');
+	},
+	
     init: function(application) {
         this.control({
             "#btUndo": {
@@ -145,6 +248,18 @@ Ext.define('ProtoUL.controller.DiagramController', {
             },
             "#btSaveTable": {
             	click: this.saveTable
+            },
+            "#btAddConnectorRecursive" :{
+            	click: this.addConnectorRecursive
+            },
+            "#btAddInputPort": {
+                click: this.addInputPort
+            },
+            "#btAddOutputPort": {
+            	click: this.addOutputPort
+            },
+            "#btRemoveUnusedPorts": {
+            	click: this.removeUnusedPorts
             }
         });
     }

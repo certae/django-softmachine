@@ -13,12 +13,6 @@ draw2d.Connection.createConnection = function(sourcePort, targetPort) {
     //draw2d.Connection();
     // conn.setColor("#5bcaff");
     // conn.setStroke(2);
-
-    // Set the endpoint decorations for the connection
-    //
-    conn.setSourceDecorator(new draw2d.decoration.connection.BarDecorator());
-    conn.setTargetDecorator(new draw2d.decoration.connection.DiamondDecorator());
-
     return conn;
 };
 
@@ -40,8 +34,6 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
 
         this.classLabel = this.createLabel("TableName").setPadding(10).setFontColor("#4a4a4a");
         this.header.addFigure(this.classLabel);
-        this.stereotypeLabel = this.createLabel("<<Stereotype>>").setFontColor("#5856d6");
-        this.header.addFigure(this.stereotypeLabel);
 
         this.header.setStroke(0).setRadius(this.getRadius());
         this.header.setBackgroundColor("#f7f7f7");
@@ -148,13 +140,9 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
     getPersistentAttributes: function() {
         var memento = this._super();
 		
-        memento.header = [];
-		this.header.getChildren().each(function(index, label){
-			memento.header.push({
-				text: label.getText(),
-                id: label.getId()
-			});
-		});
+		if (this.header.getChildren().size > 0) {
+			memento.tableName = this.header.getChildren().data[0].getText();
+		}
 		
         memento.tablePorts = [];
         this.getPorts().each(function(index, port) {
@@ -201,16 +189,9 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
 
         this.header.resetChildren();
 
-        if ( typeof memento.header !== "undefined") {
-            $.each(memento.header, $.proxy(function(index, item) {
-                var label;
-                if (index === 0) {
-                    label = this.createLabel(item.text).setPadding(10).setFontColor("#4a4a4a");
-                } else {
-                    label = this.createLabel(item.text).setFontColor("#5856d6");
-                }
-                this.header.addFigure(label);
-            }, this));
+        if ( typeof memento.tableName !== "undefined") {
+            var label = this.createLabel(memento.tableName).setPadding(10).setFontColor("#5856d6");
+            this.header.addFigure(label);
         }
 
         if ( typeof memento.tablePorts !== "undefined") {
