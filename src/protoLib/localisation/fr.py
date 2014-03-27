@@ -184,7 +184,7 @@ __language ={
     'ProtoPcl_Edition_Tool' : 'Outil édition Méta',
     'ProtoPcl_Add_Instance' : 'Ajouter une instance de',
     'ProtoPcl_Del_Current' : 'Supprimer instance actuelle',
-    'ProtoToolbar_Save_Preview' : 'Enregistrer la prévisualisation',
+    'ProtoToolbar_Save_As' : 'Enregistrer sous',
     'ProtoToolbar_Upd_Def' :"Mettre à jour la définition",
     'ProtoToolbar_Reload' :'Recharger',
     'ProtoToolbar_Add_Node' :'Ajouter noeud',

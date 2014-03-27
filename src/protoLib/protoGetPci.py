@@ -14,10 +14,10 @@ from protoQbe import getSearcheableFields
 
 from protoAuth import getUserProfile, getModelPermissions 
 
-from prototype.models import Prototype  
+from prototype.models import Prototype, Entity  
 PROTO_PREFIX = "prototype.ProtoTable."
 
-#TODO: 
+# TODO: 
 # from protoLib.protoPci import verifyMeta 
 
 # import django.utils.simplejson as json
@@ -316,8 +316,12 @@ def protoSaveProtoObj(request):
         try:
             # debe existir previamente
             protoCode = viewCode.replace(PROTO_PREFIX, '')
-            protoDef = Prototype.objects.get(code=protoCode, smOwningTeam=userProfile.userTeam)
-            create = False 
+            
+            protoMeta = json.loads( sMeta )
+            entityId = protoMeta['protoEntityId'] 
+            entityObj = Entity.objects.get( id = entityId )
+            protoDef, create = Prototype.objects.get_or_create(code=protoCode, entity = entityObj, smOwningTeam=userProfile.userTeam )
+ 
         except Exception as e:
             return JsonError(getReadableError(e)) 
 
@@ -345,6 +349,7 @@ def protoSaveProtoObj(request):
 
     if custom or prototype: 
         setSecurityInfo(protoDef, {}, userProfile, create)
+        
 
     protoDef.metaDefinition = sMeta 
     protoDef.save()    
@@ -406,10 +411,11 @@ def protoGetFieldTree(request):
         # myField['zoomModel'] =  viewCode  
         
         fieldList.append(myField)
-        
+
     # Codifica el mssage json 
     context = json.dumps(fieldList)
     return HttpResponse(context, content_type="application/json")
+
 
 
 def addFiedToList(fieldList , field, fieldBase):

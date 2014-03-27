@@ -3,7 +3,7 @@
 
 from testMetaDefinitions.ObjectsTest import *                                   
 from testMetaDefinitions.PropertiesTest import *    
-                       
+
 from prototype.testprototype.testactions.ViewCreationTest import *
 from prototype.testprototype.testactions.ViewTemplateTest import *                
 from prototype.testprototype.testactions.ViewDefinitionTest import * 
@@ -21,5 +21,4 @@ from protoLib.testprotoLib.ProtoGetDetailsTest import *
 from protoLib.testprotoLib.ProtoGetPciTest import *  
 from protoLib.testprotoLib.ProtoLoginTest import *                              
 from protoLib.testprotoLib.ProtoMenuTest import *                               
-
-
+          

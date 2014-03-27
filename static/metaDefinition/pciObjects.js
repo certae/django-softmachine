@@ -184,7 +184,7 @@ _MetaObjects = {
                 ],
         "objects" : ["gridConfig", "gridSets", "formConfig", "usrDefProps", "custom", "businessRules"],
         "lists" : ["fields", "fieldsBase", "fieldsAdm", "actions", "detailsConfig", "sheetConfig"],
-        "roProperties" : ["viewCode", "viewEntity", "idProperty", "updateTime", "metaVersion", "protoEntity", "protoEntityId"]
+        "roProperties" : ["viewEntity", "idProperty", "updateTime", "metaVersion", "protoEntity", "protoEntityId"]
     },
 
     "fields" : {

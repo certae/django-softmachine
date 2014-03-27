@@ -25,6 +25,7 @@ class PasswordValidator(object):
     """
     __metaclass__ = PluginMount
 
+
 def is_valid_password(password):
     """
     Returns True if the password was fine, False if there was a problem.
@@ -35,6 +36,7 @@ def is_valid_password(password):
         except ValueError:
             return False
     return True
+
 
 def get_password_errors(password):
     """
@@ -49,11 +51,13 @@ def get_password_errors(password):
             errors.append(str(e))
     return errors
 
+
 class MinimumLength(PasswordValidator):
     def validate(self, password):
         "Raises ValueError if the password is too short."
         if len(password) < 6:
             raise ValueError('Passwords must be at least 6 characters.')
+
 
 class SpecialCharacters(PasswordValidator):
     def validate(self, password):

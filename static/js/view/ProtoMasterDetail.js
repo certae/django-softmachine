@@ -16,6 +16,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
     // Estados iniciales
     editable: false,
     autoSync: true,
+    autoEdit: true,
 
     // @es definido solamente cuando es una grilla dependiente  ( detalle o promoted )
     isPromoted: false,
@@ -244,12 +245,18 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
         // Apagar las barras ( hacen parte de la grilla menos tbTabs y tbDetails )
         // setDisabled( me.tbTabs )
+
+        if (!me.autoEdit) {
         setDisabled(me.tbFilters);
         setDisabled(me.tbPrinterOpts);
         setDisabled(me.tbConfigOpts);
         setDisabled(me.tbSorters);
         setDisabled(me.tbSortersSet);
         setDisabled(me.tbProtoActions);
+        } else {
+            bEdit = me.autoEdit;
+        }
+
 
         // Cambia el control de las grillas correspondientes
         // Con el autosync se permite la edicion en todos los controles

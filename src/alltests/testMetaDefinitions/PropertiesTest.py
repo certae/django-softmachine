@@ -27,7 +27,7 @@ for fields in MetaProperties:
 def getFields(modelclass):
     fields = []
     for value in modelclass.protoExt:
-        fields.append(value)
+            fields.append(value)
         
     return fields
 
@@ -102,14 +102,6 @@ class RelationshipPropertiesTest(TestCase):
                 fieldtype = getFieldType(field, value, Relationship)
                 self.assertIn(fieldtype, PossibleTypes)
 
-
-class PropertyModelPropertiesTest(TestCase):
-    def test_structure(self):
-        fields = getFields(PropertyModel)
-        for field in fields:
-            for value in PropertyModel.protoExt[field]:
-                fieldtype = getFieldType(field, value, PropertyModel)
-                self.assertIn(fieldtype, PossibleTypes)
 
 
 class PropertyEquivalencePropertiesTest(TestCase):

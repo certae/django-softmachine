@@ -18,18 +18,18 @@ DataTree = json.loads(open(file_path).read())
 def getFields(modelclass):
     fields = []
     for value in modelclass.protoExt:
-        fields.append(value)
+            fields.append(value)
         
     return fields
 
 
 def getValue(modelclass, field):
-    if type(modelclass.protoExt[field]) != list:
-        for values in modelclass.protoExt[field]:
-            return values
-    else:
-        for values in modelclass.protoExt[field][0]:
-            return values
+        if type(modelclass.protoExt[field]) != list:
+            for values in modelclass.protoExt[field]:
+                return values
+        else:
+            for values in modelclass.protoExt[field][0]:
+                return values
 
 
 def validatePair(field, value):
@@ -91,11 +91,6 @@ class PropertyStructureTest(TestCase):
 class RelationshipStructureTest(TestCase):
     def test_field_and_value(self):
         self.assertTrue(checkAllFields(Relationship))
-
-
-class PropertyModelStructureTest(TestCase):
-    def test_field_and_value(self):
-        self.assertTrue(checkAllFields(PropertyModel))
 
 
 class PropertyEquivalenceStructureTest(TestCase):

@@ -33,15 +33,15 @@ def protoGetDetailsTree(request):
     detailList = []
     if viewCode.startswith( PROTO_PREFIX )  and viewCode != viewEntity :
         # -------------------------------------------------------------------------  Prototipos 
-        protoEntityId = request.POST.get('protoEntityId')
+        protoEntityId = request.POST.get( 'protoEntityId' )
         if not protoEntityId >= 0:
             return JsonError('invalid idEntity')
 
         try:  
             from prototype.actions.viewDefinition import GetDetailsConfigTree
-            detailList = GetDetailsConfigTree(protoEntityId)
+            detailList = GetDetailsConfigTree(  protoEntityId )
         except: 
-            return JsonError('invalid idEntity')
+            return JsonError( 'invalid idEntity')
 
     else: 
         modelDetails = getModelDetails( model )

@@ -4,8 +4,7 @@
 Exportar vistas
 '''
   
-from pttActionTools import getClassName  
-from protoLib.utilsBase import slugify, JSONEncoder
+from protoLib.utilsBase import slugify, JSONEncoder, getClassName 
 from protoLib.models import ProtoDefinition
 
 import json
@@ -64,7 +63,6 @@ def exportProtoJson(request, pModel ):
 #                 'isLookUpResult' : pProperty.isLookUpResult,
 #             }
 # 
-#             #TODO: 'propertyModel'  :pProperty.propertyModel,
 #             
 #             if pProperty.isForeign:
 #                 cProperty[ 'refEntity' ]    = pProperty.relationship.refEntity.code

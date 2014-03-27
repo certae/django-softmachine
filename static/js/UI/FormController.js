@@ -330,7 +330,6 @@ Ext.define('ProtoUL.UI.FormController', {
             if (me.linkController) {
                 me.detailLink = me.linkController.getDetailLink(me.detailDefinition);
                 me.linkController.setDetailDefaults(me.detailDefinition, me.myFieldDict);
-
                 me.baseFilter = me.detailLink.detFilter;
                 me.detailTitle = me.detailLink.detTitle;
             }

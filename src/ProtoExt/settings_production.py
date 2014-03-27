@@ -45,9 +45,10 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.admin',
     'django.contrib.admindocs',
+    'south',
     'protoLib',
     'prototype',
-    'll',
+#     'll',
 )
 
 HOST_DOMAIN = 'loli.fsa.ulaval.ca/artdev'
