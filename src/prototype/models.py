@@ -81,7 +81,7 @@ class Project(ProtoModel):
             { "name": "doImportSchema" },
             { "name": "doImportOMS", "selectionMode" : "single",
               "actionParams": [
-                {"name" : "viewCode", "type" : "string", "required": True, "tooltip" : "option de menu (msi)" }
+                # {"name" : "fileName", "type" : "string", "required": False, "tooltip" : "option de menu (msi)" }
                 ] 
             }
         ],

@@ -161,7 +161,7 @@ Ext.define('ProtoUL.UI.GridController', {
 
         var me = this, bRef, record, stRec, perms, myExtGrid;
 
-        perms = _SM._UserInfo.perms[this.myMeta.viewCode];
+        perms = _SM._UserInfo.perms[this.myMeta.viewCode] || [];
         myExtGrid = me.myGrid._extGrid;
         this.myGrid.editable = bEdit;
 
@@ -234,13 +234,13 @@ Ext.define('ProtoUL.UI.GridController', {
                 break;
 
             case 'toolFormUpd' :
-                if (_SM.validaSelected(this.myGrid.selected)) {
+                if (_SM.validaSelected(this.myGrid )) {
                     this.formController.openLinkedForm(this.myGrid.selected);
                 }
                 break;
 
             case 'toolFormView' :
-                if (_SM.validaSelected(this.myGrid.selected)) {
+                if (_SM.validaSelected(this.myGrid )) {
                     this.formController.openLinkedForm(this.myGrid.selected, true);
                 }
                 break;
@@ -271,10 +271,18 @@ Ext.define('ProtoUL.UI.GridController', {
     }
 });
 
-_SM.validaSelected = function(myReg) {
+_SM.validaSelected = function(  myGrid ) {
+
+    var myReg = myGrid.selected; 
+
     if (!myReg) {
         _SM.errorMessage(_SM.__language.Title_Form_Panel, _SM.__language.GridAction_NoRecord);
         return false;
     }
+
+    if ( ! myReg.store ) {
+        myReg.store = myGrid.store; 
+    }
+
     return true;
 };

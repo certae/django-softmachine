@@ -194,7 +194,9 @@ Ext.define('ProtoUL.view.ProtoGrid', {
                                             myMeta: me.myMeta
                                         });
 
-                                        formController.openLinkedForm.call(formController, me.selected, !me.editable);
+                                        if (_SM.validaSelected( me )) {
+                                            formController.openLinkedForm.call(formController, me.selected, !me.editable);
+                                        } 
 
                                     } else {
                                         // es un vinculo a otro objeto
@@ -296,6 +298,7 @@ Ext.define('ProtoUL.view.ProtoGrid', {
                     if (this.selected) {
                         me.rowData = this.selected.data;
                         me.currentId = me.selected.get('id');
+
                         me.fireSelectionChange(selModel, this.selected, this.selected.index + 1, eOpts);
                     } else {
                         me.rowData = null;

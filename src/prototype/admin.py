@@ -5,7 +5,7 @@
 from models import Project,  Model, Entity, Property,  Relationship  #, Prototype
 from models import PropertyEquivalence
 from models import ProtoTable
-#from models import Diagram #, DiagramEntity
+from models import Diagram, DiagramEntity
 # from models import Service #, ServiceRef
 
 from django.contrib import admin
@@ -40,10 +40,10 @@ admin.site.register(Project, MyProjectAdmin )
 # ------------------------------------------
 
 
-# class MyDiagramAdmin( admin.ModelAdmin ):
-#     actions = [  doModelGraph  ]
+class MyDiagramAdmin( admin.ModelAdmin ):
+    actions = [  doModelGraph  ]
 
-# admin.site.register(Diagram , MyDiagramAdmin)
+admin.site.register(Diagram , MyDiagramAdmin)
 
 
 admin.site.register(Property )

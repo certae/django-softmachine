@@ -3,7 +3,7 @@ from ProtoExt.settings import PPATH
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': PPATH + '/db/testproto.db',
+        'NAME': PPATH + '/db/cellDb.db',
     }
 }
 
@@ -48,7 +48,8 @@ INSTALLED_APPS = (
     'south',
     'protoLib',
     'prototype',
-    'alltests', 
+    'alltests',
+    'll' 
 )
 
 FIXTURE_DIRS = (
