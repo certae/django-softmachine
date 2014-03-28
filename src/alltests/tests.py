@@ -8,8 +8,8 @@ from prototype.testprototype.testactions.ViewCreationTest import *
 from prototype.testprototype.testactions.ViewTemplateTest import *                
 from prototype.testprototype.testactions.ViewDefinitionTest import * 
 from prototype.testprototype.testmodels.TestSuiteUtils import *
-from prototype.testprototype.testmodels.PropertyBaseTest import *
-from prototype.testprototype.ProtoRulesTest import *                    
+# from prototype.testprototype.testmodels.PropertyBaseTest import *
+# from prototype.testprototype.ProtoRulesTest import *                    
 
 from protoLib.testprotoLib.ModelsTest import *
 from protoLib.testprotoLib.ProtoActionEditTest import *                                

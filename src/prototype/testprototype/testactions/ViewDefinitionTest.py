@@ -10,52 +10,52 @@ from prototype.actions.viewDefinition import *
 
 from prototype.testprototype.Utils import random_string_generator
 from prototype.testprototype.testmodels.TestUtilities import createTestEntity
-from prototype.testprototype.testmodels.TestUtilities import createTestRelationship
+# from prototype.testprototype.testmodels.TestUtilities import createTestRelationship
 
 
-class GetViewDefinitionTest(TestCase):
-    def setUp(self):
-        self.pEntity = createTestEntity()
-        self.testRelationShip = createTestRelationship()
-        self.testRelationShip.refEntity = createTestEntity()
-        self.testRelationShip.code = 'GVD_TestCode'
-        self.testRelationShip.entity = self.pEntity
-        self.testRelationShip.save()
-
-    def test_GetViewDefinition_gridconfig_and_basefilter(self):
-        infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
-        self.assertEqual(infoEntity['gridConfig']['baseFilter'], [{'property': 'entity', 'filterStmt':  '=' + str(self.pEntity.id)}])
-
-    def test_GetViewDefinition_IsForeignTrue(self):
-        self.testRelationShip.isForeign = True
-        self.testRelationShip.save()
-
-        self.assertTrue(self.pEntity.property_set.get(isForeign=True).isForeign)
-
-        infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
-        self.assertEqual(infoEntity['fields'][-2]['type'], 'foreigntext')
-
-    def test_GetViewDefinition_IsEssentialTrue(self):
-        self.testRelationShip.isEssential = True
-        self.testRelationShip.save()
-
-        self.assertTrue(self.pEntity.property_set.get(isEssential=True).isEssential)
-
-        infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
-        self.assertEqual(''.join(infoEntity['gridConfig']['listDisplay']), 'info__' + slugify(self.testRelationShip.code))
-    
-    def test_GetViewDefinition_IsPrimaryTrue(self):
-        self.testRelationShip.isPrimary = True
-        self.testRelationShip.save()
-
-        self.assertTrue(self.pEntity.property_set.get(isPrimary=True).isPrimary)
-
-        infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
-        self.assertEqual(infoEntity['fields'][-1]['physicalName'], '@myStr("info__' + slugify(self.testRelationShip.code) + '")')
-
-    def test_GetViewCode_AnyCombination(self):
-        infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
-        self.assertEqual(infoEntity['gridConfig']['sortFields'][-1], '__str__')
+# class GetViewDefinitionTest(TestCase):
+#     def setUp(self):
+#         self.pEntity = createTestEntity()
+#         self.testRelationShip = createTestRelationship()
+#         self.testRelationShip.refEntity = createTestEntity()
+#         self.testRelationShip.code = 'GVD_TestCode'
+#         self.testRelationShip.entity = self.pEntity
+#         self.testRelationShip.save()
+# 
+#     def test_GetViewDefinition_gridconfig_and_basefilter(self):
+#         infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
+#         self.assertEqual(infoEntity['gridConfig']['baseFilter'], [{'property': 'entity', 'filterStmt':  '=' + str(self.pEntity.id)}])
+# 
+#     def test_GetViewDefinition_IsForeignTrue(self):
+#         self.testRelationShip.isForeign = True
+#         self.testRelationShip.save()
+# 
+#         self.assertTrue(self.pEntity.property_set.get(isForeign=True).isForeign)
+# 
+#         infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
+#         self.assertEqual(infoEntity['fields'][-2]['type'], 'foreigntext')
+# 
+#     def test_GetViewDefinition_IsEssentialTrue(self):
+#         self.testRelationShip.isEssential = True
+#         self.testRelationShip.save()
+# 
+#         self.assertTrue(self.pEntity.property_set.get(isEssential=True).isEssential)
+# 
+#         infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
+#         self.assertEqual(''.join(infoEntity['gridConfig']['listDisplay']), 'info__' + slugify(self.testRelationShip.code))
+#     
+#     def test_GetViewDefinition_IsPrimaryTrue(self):
+#         self.testRelationShip.isPrimary = True
+#         self.testRelationShip.save()
+# 
+#         self.assertTrue(self.pEntity.property_set.get(isPrimary=True).isPrimary)
+# 
+#         infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
+#         self.assertEqual(infoEntity['fields'][-1]['physicalName'], '@myStr("info__' + slugify(self.testRelationShip.code) + '")')
+# 
+#     def test_GetViewCode_AnyCombination(self):
+#         infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
+#         self.assertEqual(infoEntity['gridConfig']['sortFields'][-1], '__str__')
 
 
 class GetViewCodeTest(TestCase):
@@ -143,15 +143,15 @@ class GetProtoFieldsTreeTest(TestCase):
         self.assertTrue(len(returnMessage) is 0)
 
 
-class GetDetailsConfigTreeTest(TestCase):
-    def test_GetDetailsConfigTree_Empty(self):
-        self.assertEqual(len(GetDetailsConfigTree(1)), 0)
-
-    def test_GetDetailsConfigTree_SingleEntry(self):
-        testRelationShip = createTestRelationship()
-        testRelationShip.save()
-
-        self.assertEqual(len(GetDetailsConfigTree(1)), 1)
+# class GetDetailsConfigTreeTest(TestCase):
+#     def test_GetDetailsConfigTree_Empty(self):
+#         self.assertEqual(len(GetDetailsConfigTree(1)), 0)
+# 
+#     def test_GetDetailsConfigTree_SingleEntry(self):
+#         testRelationShip = createTestRelationship()
+#         testRelationShip.save()
+# 
+#         self.assertEqual(len(GetDetailsConfigTree(1)), 1)
 
 # TODO  Do not delete 
 # class addProtoFieldToListTest(TestCase):
