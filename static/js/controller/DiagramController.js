@@ -102,15 +102,22 @@ Ext.define('ProtoUL.controller.DiagramController', {
 		var propertySource = entityEditor.getComponent('protoProperty').source;
 		var gridDetailStore = this.getEntityAttributes().getStore();
 		
-		propertySource.attributes.splice(0,propertySource.attributes.length);
-		gridDetailStore.each(function (record) {
-			propertySource.attributes.push(record.data);
-		});
-		
-		this.updateJsonDocument();
-		this.addOrUpdateJSONDocument(propertySource);
-		
-		this.getDiagramCanvas().reload();
+		if (typeof propertySource.attributes !== "undefined") {
+			propertySource.attributes.splice(0,propertySource.attributes.length);
+			gridDetailStore.each(function (record) {
+				propertySource.attributes.push(record.data);
+			});
+			
+			this.updateJsonDocument();
+			this.addOrUpdateJSONDocument(propertySource);
+			
+			this.getDiagramCanvas().reload();
+		} else if (typeof propertySource.router !== "undefined"){
+			this.updateJsonDocument();
+			this.addOrUpdateJSONDocument(propertySource);
+			
+			this.getDiagramCanvas().reload();
+		}
 		entityEditor.collapse();
 	},
 	

@@ -6,13 +6,10 @@
  * @param {draw2d.Port} sourcePort port of the source of the connection
  * @param {draw2d.Port} targetPort port of the target of the connection
  * @template
- * @returns {draw2d.Connection}
+ * @returns {dbModel.shape.TableConnection}
  */
 draw2d.Connection.createConnection = function(sourcePort, targetPort) {
     var conn = new dbModel.shape.TableConnection();
-    //draw2d.Connection();
-    // conn.setColor("#5bcaff");
-    // conn.setStroke(2);
     return conn;
 };
 

@@ -10,9 +10,6 @@ Ext.define('ProtoUL.view.diagram.DiagramCanvas', {
     
     itemId: 'contentPanel',
     autoScroll: true,
-    baseCls: 'container',
-    bodyCls: 'canvas',
-    html: '<div id="canvas" class="" style="width:1500px; height:1500px;-webkit-tap-highlight-color: rgba(0,0,0,0); "></div>',
     header: false,
  	listeners: {
         afterrender: function() {
@@ -25,6 +22,14 @@ Ext.define('ProtoUL.view.diagram.DiagramCanvas', {
         var me = this;
         
 		Ext.applyIf(me, {
+			items: [
+				{
+					xtype: 'panel',
+				    baseCls: 'container',
+				    bodyCls: 'canvas',
+					html: '<div id="canvas" class="" style="width:1500px; height:1500px;-webkit-tap-highlight-color: rgba(0,0,0,0); "></div>'
+				}
+			],
             dockedItems: [
                 {
                     xtype: 'diagramtoolbar',
@@ -56,7 +61,7 @@ Ext.define('ProtoUL.view.diagram.DiagramCanvas', {
 		});
 		
 		me.view.lines.each(function(i, connection) {
-			// TODO
+			// TODO add listener.
 		});
     },
     

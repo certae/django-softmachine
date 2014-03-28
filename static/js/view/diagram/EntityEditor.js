@@ -47,7 +47,13 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
         me.callParent(arguments);
     },
     
-    getFigureFromJSONData : function(jsonData, figureId) {
+    getFigureFromJSONData : function(figureId) {
+    	var writer = new draw2d.io.json.Writer();
+		var canvas = this.ownerCt.getComponent('contentPanel');
+		var jsonData = "";
+		writer.marshal(canvas.getView(), function(json){
+			jsonData = json;
+		});
 		for (var i = 0; i < jsonData.length; i++) {
 			if (jsonData[i].id === figureId) {
 				return jsonData[i];
@@ -58,26 +64,28 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
     onSelectionChanged : function(figure){
 		if (figure !== null) {
 			this.figure = figure;
+			this.expand();
 			if (figure.cssClass === 'dbModel_shape_DBTable' || figure.cssClass === 'DBTable') {
-				this.expand();
 				
 				var masterRecord = this.getComponent('protoProperty');
 				var gridDetail = this.getComponent('entityattributes');
+				gridDetail.show();
 				
-				var writer = new draw2d.io.json.Writer();
-				var canvas = this.ownerCt.getComponent('contentPanel');
-				var jsonData = "";
-			    writer.marshal(canvas.getView(), function(json){
-					jsonData = json;
-			    });
-				var myObj = this.getFigureFromJSONData(jsonData, figure.id);
+				var myObj = this.getFigureFromJSONData(figure.id);
 	    		
 	    		if (typeof myObj !== 'undefined'){
 					masterRecord.setSource(myObj);
 					gridDetail.getStore().loadRawData(myObj.attributes);
 				}
 			} else {
-				this.collapse();
+				var masterRecord = this.getComponent('protoProperty');
+				var gridDetail = this.getComponent('entityattributes');
+				gridDetail.hide();
+				
+				var myObj = this.getFigureFromJSONData(figure.id);
+				if (typeof myObj !== 'undefined'){
+					masterRecord.setSource(myObj);
+				}
 			}
 		}
 	},
@@ -90,13 +98,7 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
 					
 				var gridDetail = this.getComponent('entityattributes');
 				
-				var writer = new draw2d.io.json.Writer();
-				var canvas = this.ownerCt.getComponent('contentPanel');
-				var jsonData = "";
-				writer.marshal(canvas.getView(), function(json){
-					jsonData = json;
-				});
-				var myObj = this.getFigureFromJSONData(jsonData, this.figure.id);
+				var myObj = this.getFigureFromJSONData(this.figure.id);
 				
 				if (typeof myObj !== 'undefined'){
 					masterRecord.setSource(myObj);

@@ -356,7 +356,7 @@
 /*  -----------------------DIAGRAM EDITOR-------------------------  */
 /*  --------------------------------------------------------------  */
 .container{
- overflow: scroll !important;
+ /*overflow: scroll !important;*/
 }
 
 .canvas {

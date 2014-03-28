@@ -26,6 +26,28 @@ dbModel.shape.TableConnection = draw2d.Connection.extend({
         this.contextMenuListeners = new draw2d.util.ArrayList();
     },
 
+   	/**
+     * @method
+     * Return an objects with all important attributes for XML or JSON serialization
+     *
+     * @returns {Object}
+     */
+    getPersistentAttributes: function() {
+        var memento = this._super();
+    },
+    
+    /**
+     * @method
+     * Read all attributes from the serialized properties and transfer them into the shape.
+     *
+     * @param {Object} memento
+     * @return
+     */
+    setPersistentAttributes: function(memento) {
+        this._super(memento);
+        return this;
+    },
+    
     /**
      * @method
      * called by the framework if the figure should show the contextmenu.</br>
