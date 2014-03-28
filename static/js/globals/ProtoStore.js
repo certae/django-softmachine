@@ -428,14 +428,18 @@ _SM.DefineProtoModel = function(myMeta) {
                 mField.type = 'date';
                 mField.dateFormat = 'Y-m-d';
                 break;
+
             case 'datetime':
                 mField.type = 'string';
+                // DGT: ISO Format  ( utilsBase.py  JsonEncoder datetime)
                 // mField.type = 'date';
-                // mField.dateFormat ='Y-m-d H:i:s'  // 'timestamp'
+                // mField.dateFormat = 'Y-m-d\\TH:i:sP';
                 break;
             case 'time':
-                mField.type = 'date';
-                mField.dateFormat = 'H:i:s';
+                mField.type = 'string';
+                // DGT 
+                // mField.type = 'date';
+                // mField.dateFormat = 'H:i:s';
                 break;
 
         }

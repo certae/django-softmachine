@@ -95,6 +95,7 @@ def protoList(request):
             'rows': pList,
             }, cls=JSONEncoder)
 
+
     return HttpResponse(context, content_type="application/json")
 
 
