@@ -9,6 +9,7 @@ from protoLib.protoActionList import protoList
 from protoLib.protoActionRep  import sheetConfigRep, protoCsv
 from protoLib.protoActionEdit  import protoCreate, protoUpdate, protoDelete
 from protoLib.protoActions  import protoExecuteAction
+from protoLib.protoDiagram import getTableJSONDiagram
 
 urlpatterns = patterns('',
     url('protoList/$', protoList),
@@ -34,4 +35,6 @@ urlpatterns = patterns('',
     url('protoLogout/$', protoLogout),
 
     url('getFieldIncrement/$', getFieldIncrement),
+    
+    url('getTableJSONDiagram/$', getTableJSONDiagram),
 )

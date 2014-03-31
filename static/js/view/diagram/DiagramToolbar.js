@@ -81,7 +81,7 @@ Ext.define('ProtoUL.view.diagram.DiagramToolbar', {
                 	iconCls: 'icon-save',
                     itemId: 'btSaveAll',
                     disabled: true,
-                    text: 'Save all'
+                    text: 'Save diagram'
                 }
             ]
         });

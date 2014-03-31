@@ -4,6 +4,7 @@ Ext.define('ProtoUL.view.diagram.DiagramMenu', {
     alias: 'widget.diagramMenu',
 
     requires: [
+    	'ProtoUL.view.diagram.SearchMenu',
         'Ext.menu.Menu',
         'Ext.menu.Item',
         'Ext.button.Button'
@@ -32,23 +33,7 @@ Ext.define('ProtoUL.view.diagram.DiagramMenu', {
                     title: 'Search',
                     items: [
                         {
-                            xtype: 'menu',
-                            floating: false,
-                            itemId: 'menu2',
-                            items: [
-                                {
-                                    xtype: 'menuitem',
-                                    text: 'Menu Item'
-                                },
-                                {
-                                    xtype: 'menuitem',
-                                    text: 'Menu Item'
-                                },
-                                {
-                                    xtype: 'menuitem',
-                                    text: 'Menu Item'
-                                }
-                            ]
+                            xtype: 'searchmenu'
                         }
                     ]
                 }
