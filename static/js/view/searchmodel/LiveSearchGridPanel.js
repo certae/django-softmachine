@@ -2,7 +2,8 @@
  * @class ProtoUL.view.searchmodel.LiveSearchGridPanel
  * @extends Ext.grid.Panel
  * <p>A GridPanel class with live search support.</p>
- * @author Nicolas Ferrero
+ * @author Giovanni Victorette
+ *  Based on Nicolas Ferrero LiveSearchGridPanel
  */
 Ext.define('ProtoUL.view.searchmodel.LiveSearchGridPanel', {
     extend: 'Ext.grid.Panel',
