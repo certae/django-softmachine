@@ -563,11 +563,11 @@ function createJSFilesLibrary() {
     scriptLibrary.push("static/js2db/lib/jquery-ui-1.8.23.custom.min.js");
     scriptLibrary.push("static/js2db/lib/jquery.layout.js");
 
-    scriptLibrary.push("static/js2db/gui/View.js");
-    scriptLibrary.push("static/js2db/gui/Toolbar.js");
-    scriptLibrary.push("static/js2db/gui/document.js");
-    scriptLibrary.push("static/js2db/gui/shape/DBTable.js");
-    scriptLibrary.push("static/js2db/gui/shape/TableConnection.js");
-    scriptLibrary.push("static/js2db/gui/shape/CustomLabel.js");
+    scriptLibrary.push("static/js2db/dbModel/View.js");
+    scriptLibrary.push("static/js2db/dbModel/Toolbar.js");
+    scriptLibrary.push("static/js2db/dbModel/document.js");
+    scriptLibrary.push("static/js2db/dbModel/shape/DBTable.js");
+    scriptLibrary.push("static/js2db/dbModel/shape/TableConnection.js");
+    scriptLibrary.push("static/js2db/dbModel/shape/CustomLabel.js");
 
 }

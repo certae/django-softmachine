@@ -34,6 +34,7 @@ dbModel.shape.TableConnection = draw2d.Connection.extend({
      */
     getPersistentAttributes: function() {
         var memento = this._super();
+        return memento;
     },
     
     /**
