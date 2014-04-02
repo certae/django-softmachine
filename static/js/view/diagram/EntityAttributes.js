@@ -42,8 +42,8 @@ Ext.define('ProtoUL.view.diagram.EntityAttributes', {
 		            	xtype: 'combo',
 			            store: storeDBTypes,
 			            displayField: 'typeName',
-			            valueField: 'typeName',
-			            mode: 'local',
+			            valueField: 'typeID',
+			            queryMode: 'local',
 			            selectOnFocus: true,
 			            triggerAction: 'all',
 		                allowBlank: false

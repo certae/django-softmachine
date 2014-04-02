@@ -1,15 +1,33 @@
 # -*- coding: utf-8 -*-
 
 from django.http import HttpResponse
+from utilsWeb import JsonError
+from prototype.models import Entity, Project, Model, Prototype
 
-import json
+import json, uuid
 
 def getTableJSONDiagram(request):
     """ return full metadata (columns, renderers, totalcount...)
     """
     
-#     viewCode = request.POST.get('viewCode', '') 
-#     viewEntity = getBaseModelName(viewCode)
+    try:
+        entities = Entity.objects.filter(model__project_id=16)
+        
+        for entity in entities:
+            print(entity)
+            id = str(uuid.uuid3(uuid.NAMESPACE_DNS, 'tableName'))
+            for pProperty in entity.property_set.all():
+                print(pProperty)
+                # code > attribute_name
+                # baseType
+                # isForeign > fk
+                # isNullable
+                # isPrimary > pk
+                # isRequired
+            
+    except Exception as e:
+        print(e)
+        return JsonError("Entity non trouvé")  
     
     jsondict = {
         'success':True,

@@ -37,7 +37,7 @@ var jsonDocument = [
                           {
                             "text": "blubber",
                             "id": "49be7d78-4dcf-38ab-3733-b4108701fce4",
-			                "datatype": "Integer",
+			                "datatype": "int",
 			                "pk": true,
 			                "unique": true
                           }
@@ -79,28 +79,28 @@ var jsonDocument = [
                           {
                             "text": "id",
                             "id": "e97f6f8a-4306-0667-3a95-0a5310a2c15c",
-			                "datatype": "Integer",
+			                "datatype": "int",
 			                "pk": true,
 			                "unique": true
                           },
                           {
                             "text": "firstName",
                             "id": "357e132c-aa47-978f-a1fa-d13da6736989",
-			                "datatype": "String",
+			                "datatype": "string",
 			                "pk": false,
 			                "unique": false
                           },
                           {
                             "text": "lastName",
                             "id": "a2156a71-f868-1f8f-e9a1-b185dbdfc3de",
-			                "datatype": "String",
+			                "datatype": "string",
 			                "pk": false,
 			                "unique": false
                           },
                           {
                             "text": "company_fk",
                             "id": "8d410fef-5c6e-286d-c9c3-c152d5bd9c52",
-			                "datatype": "Integer",
+			                "datatype": "int",
 			                "pk": false,
 			                "unique": true
                           }
@@ -142,7 +142,7 @@ var jsonDocument = [
                           {
                             "text": "id",
                             "id": "e04ebb27-43c9-1afa-a7d0-e55bf2aa62d5",
-			                "datatype": "Integer",
+			                "datatype": "int",
 			                "pk": true,
 			                "unique": true
                           }

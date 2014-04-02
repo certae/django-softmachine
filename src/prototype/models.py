@@ -48,11 +48,11 @@ PROTO_PREFIX = "prototype.ProtoTable."
    
 class Project(ProtoModel):
     
-    """Corresponde a un nivel conceptual corportativo MCCD"""
+    """Corresponds to a corporate conceptual level MCCD"""
     code = models.CharField(blank = False, null = False, max_length=200  )
     description = models.TextField( blank = True, null = True)
 
-    """Info de la Db """
+    """Info from DB """
     dbEngine = models.CharField(blank = True, null = True, max_length=20, choices = DB_ENGINE, default = 'sqlite3'  )
     dbName = models.CharField(blank = True, null = True, max_length=200  )
     dbUser = models.CharField(blank = True, null = True, max_length=200  )
@@ -114,7 +114,7 @@ class Model(ProtoModel):
     
 class Entity(ProtoModel):
     """ 
-    Entity corresponde a las entidades FISICA;  
+    Entity corresponds to the PHYSICAL model;  
     """    
     model = models.ForeignKey('Model', blank = False, null = False, related_name = 'entity_set' )
     code = models.CharField( blank = False, null = False, max_length=200 )
@@ -488,31 +488,56 @@ class ProtoTable(ProtoModel):
 
 
 class Diagram(ProtoModel):
-    """ 
-    TODO: Diagrama o subModelo   
-    """    
-    model = models.ForeignKey('Model', blank = False, null = False )
-    code = models.CharField(blank = False, null = False, max_length=200 )
+
+    project = models.ForeignKey('Project', blank=False, null=False)
+    code = models.CharField(blank=False, null=False, max_length=200)
     
-    description = models.TextField( blank = True, null = True)
-    notes  = models.TextField( blank = True, null = True)
+    description = models.TextField(blank=True, null=True)
+    notes = models.TextField(blank=True, null=True)
+
+    title = models.CharField(blank=True, null=True, max_length=100)
+
+    """Para eliminar en caso de q las entidades tengan prefijo ( instrospeccion )"""
+    prefix = models.CharField(blank=True, null=True, max_length=20)
+
+    """Nivel de representation ( 'all', 'essential', 'required' , 'primary', 'title' )"""
+    graphLevel = models.IntegerField(blank=True, null=True, default = 0)
+
+    """Representation graphique ( record, htmlTable, graph  )"""
+    grphMode = models.IntegerField(blank=True, null=True, default = 0)
+
+    """Formalismo de representation ( ObjetRelational, ER, DataRun  )"""
+    graphForm = models.IntegerField(blank=True, null=True, default = 0)
+
+    """Show property Type"""
+    showPrpType = models.BooleanField(default=False)
+
+    """Show Border"""
+    showBorder  = models.BooleanField(default=False)
+
+    """Show ForeignKeys"""
+    showFKey  = models.BooleanField(default=False)
+
 
     """Information graphique  ( labels, etc... ) """
-    info = JSONField( default = {} )
-    objects = JSONAwareManager(json_fields = ['info'])
+    info = JSONField(default={})
+    objects = JSONAwareManager(json_fields=['info'])
 
     # Propieadad para ordenar el __str__ 
-    unicode_sort = ('model', 'code',  )
+    unicode_sort = ('project', 'code',)
 
     def __unicode__(self):
-        return slugify( self.model.code + '-' +  self.code ) 
+        return slugify(self.project.code + '-' + self.code) 
 
     class Meta:
-        unique_together = ('model', 'code', 'smOwningTeam' )
+        unique_together = ('project', 'code', 'smOwningTeam')
+
 
     protoExt = { 
-        "menuApp" : "roadMap",
-        } 
+        "actions": [
+            { "name": "doModelGraph" , "selectionMode" : "multiple" },
+        ],
+    } 
 
 
 class DiagramEntity(ProtoModel):

@@ -18,7 +18,8 @@ Ext.application({
         'EntityAttributesModel'
     ],
     stores: [
-        'EntityAttributeStore'
+        'EntityAttributeStore',
+        'DBTypesStore'
     ],
 	views: [
         'diagram.DiagramMainView',
