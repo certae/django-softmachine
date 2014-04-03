@@ -2,7 +2,6 @@
 
 # Version 1403 Dgt  
 from xml.etree.ElementTree import ElementTree
-import xml.etree.ElementTree as Xml
 
 # Import the logger
 import logging
@@ -15,10 +14,11 @@ from protoLib.protoActionEdit import setSecurityInfo
 
 class importOMS():
 
-    def __init__(self):
+    def __init__(self, userProfile ):
         self.__filename = ""
         self.project = None
         self.__tree = None
+
 
         # Manejo del log 
         self.__logger = logging.getLogger("Convert XML Database")
@@ -38,6 +38,8 @@ class importOMS():
         self.ADDING_ERROR = 4
         self.ERROR = 5
         
+
+        self.userProfile = userProfile
 
 
     # filename doit etre un fichier XML
@@ -105,7 +107,7 @@ class importOMS():
                             modelUdps.append((xUdp.tag, xUdp.get('text')))
 
                 try:
-                    setSecurityInfo(dModel, data, userProfile, True )
+                    setSecurityInfo(dModel, data, self.userProfile, True )
                     dModel.save()
                 except:  
                     self.__logger.info("Error dModel.save")
@@ -127,7 +129,7 @@ class importOMS():
                             setattr(dEntity, 'dbName' , child.text)
                         
                     try:              
-                        setSecurityInfo(dEntity, data, userProfile, True )
+                        setSecurityInfo(dEntity, data, self.userProfile, True )
                         dEntity.save()
                     except: 
                         self.__logger.info("Error dEntity.save")
@@ -155,7 +157,7 @@ class importOMS():
 
 
                         try: 
-                            setSecurityInfo(dProperty, data, userProfile, True )
+                            setSecurityInfo(dProperty, data, self.userProfile, True )
                             dProperty.save()
                         except: 
                             self.__logger.info("Error prpDom.save")
@@ -185,7 +187,7 @@ class importOMS():
                                 setattr(dForeign, child.tag, bValue)
 
                         try:
-                            setSecurityInfo(dForeign, data, userProfile, True )
+                            setSecurityInfo(dForeign, data, self.userProfile, True )
                             dForeign.save()
                         except Exception, e: 
                             self.__logger.info("Error dForeign.save" + str(e))
@@ -213,8 +215,12 @@ class importOMS():
             # OMS default name : C-### 
             if len(dForeign.code) < 6:
                 dForeign.code = dForeign.entity.code + "-" + dReference.code 
-            
-            dForeign.save()
+
+            try: 
+                dForeign.save()
+            except Exception, e: 
+                self.__logger.info("Error dForeign.save" + str(e))
+                continue 
                 
         # Logging info
         self.__logger.info("Fk mathc effectuee...")
