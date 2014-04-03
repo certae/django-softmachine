@@ -10,6 +10,7 @@ import logging
 # Import Database class
 from prototype.models import  Model, Entity, Property, Relationship     
 from protoLib.utilsConvert import toBoolean
+from protoLib.protoActionEdit import setSecurityInfo 
 
 
 class importOMS():
@@ -81,6 +82,8 @@ class importOMS():
         
         fdsRelationship = ('code', 'baseMin', 'baseMax', 'refMin', 'refMax',)
 
+        # need for setSecurityInfo 
+        data = {}
 
         # We populate the database
         if (self.__tree != None):  # A file has been loaded
@@ -102,6 +105,7 @@ class importOMS():
                             modelUdps.append((xUdp.tag, xUdp.get('text')))
 
                 try:
+                    setSecurityInfo(dModel, data, userProfile, True )
                     dModel.save()
                 except:  
                     self.__logger.info("Error dModel.save")
@@ -123,6 +127,7 @@ class importOMS():
                             setattr(dEntity, 'dbName' , child.text)
                         
                     try:              
+                        setSecurityInfo(dEntity, data, userProfile, True )
                         dEntity.save()
                     except: 
                         self.__logger.info("Error dEntity.save")
@@ -143,7 +148,6 @@ class importOMS():
                             if child.tag in fdsProperty:
                                 if (child.text is not None):
                                     setattr(dProperty, child.tag, child.text)
-
                                 
                             elif child.tag in booProperty:
                                 bValue = toBoolean(child.text)
@@ -151,6 +155,7 @@ class importOMS():
 
 
                         try: 
+                            setSecurityInfo(dProperty, data, userProfile, True )
                             dProperty.save()
                         except: 
                             self.__logger.info("Error prpDom.save")
@@ -180,6 +185,7 @@ class importOMS():
                                 setattr(dForeign, child.tag, bValue)
 
                         try:
+                            setSecurityInfo(dForeign, data, userProfile, True )
                             dForeign.save()
                         except Exception, e: 
                             self.__logger.info("Error dForeign.save" + str(e))
