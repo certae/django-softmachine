@@ -18,6 +18,11 @@ Ext.define('ProtoUL.view.diagram.SearchMenu', {
                     xtype: 'menuitem',
                     itemId: 'getJSONTable',
                     text: 'Add table from DB',
+                },
+                {
+                    xtype: 'menuitem',
+                    itemId: 'getAllTables',
+                    text: 'Add all tables from Project',
                 }
             ]
         });

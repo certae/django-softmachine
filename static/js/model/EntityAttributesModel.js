@@ -12,8 +12,12 @@ Ext.define('ProtoUL.model.EntityAttributesModel', {
     }, {
         name: 'datatype'
     }, {
-        name: 'unique'
-    }, {
         name: 'pk'
+    }, {
+        name: 'fk'
+    }, {
+        name: 'isRequired'
+    }, {
+        name: 'isNullable'
     }]
 }); 

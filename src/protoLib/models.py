@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.db.models.signals import post_save
 from protoLib.fields import JSONField, JSONAwareManager
-
+import uuid
 
 class TeamHierarchy(models.Model):
 # Jerarquia funcional ( de seguridad ) de la app
@@ -95,7 +95,9 @@ class ProtoModel(models.Model):
     smCreatedOn = models.DateTimeField(auto_now=True , null=True, blank=True, editable=False)
     smModifiedOn = models.DateTimeField(auto_now=True , null=True, blank=True, editable=False)
 
-    # Indicador para manejo de seguridad
+    smUUID = models.CharField( max_length=32, null=True, blank=True, editable=False)
+    
+    # Security indicator used to control permissions
     _protoObj = True
 
     class Meta:
@@ -114,6 +116,8 @@ class ProtoModel(models.Model):
 
             super(ProtoModel, self).save(*args, **kwargs)
         else:
+            if not self.pk or not self.smUUID:
+                self.smUUID = uuid.uuid1().hex
             super(ProtoModel, self).save(*args, **kwargs)
 
 class EntityMap(models.Model):

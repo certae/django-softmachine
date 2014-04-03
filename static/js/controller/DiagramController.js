@@ -227,6 +227,22 @@ Ext.define('ProtoUL.controller.DiagramController', {
 	onSearchMenuClick: function (menu, item, e, opt) {
         var controller = this;
         switch(item.itemId) {
+        	case 'getAllTables':
+        		Ext.Ajax.request({
+				    url: _SM._PConfig.urlGetTableJSONDiagram,
+				    params: {
+				        id: 1
+				    },
+				    success: function(response){
+				        var text = response.responseText;
+						var outcome = Ext.JSON.decode(text);
+						for(var i = 0; i < outcome.table.length; i += 1) {
+							controller.addOrUpdateJSONDocument(outcome.table[i]);
+						}
+						controller.getDiagramCanvas().reload();
+				    }
+				});
+        		break;
             case 'getJSONTable':
             	Ext.Ajax.request({
 				    url: _SM._PConfig.urlGetTableJSONDiagram,
@@ -236,8 +252,6 @@ Ext.define('ProtoUL.controller.DiagramController', {
 				    success: function(response){
 				        var text = response.responseText;
 						var outcome = Ext.JSON.decode(text);
-						controller.addOrUpdateJSONDocument(outcome.table);
-						controller.getDiagramCanvas().reload();
 				    }
 				});
                 break;

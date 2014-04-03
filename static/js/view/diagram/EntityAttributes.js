@@ -38,6 +38,7 @@ Ext.define('ProtoUL.view.diagram.EntityAttributes', {
                     xtype: 'gridcolumn',
                     dataIndex: 'datatype',
                     text: 'Datatype',
+                    width: 75,
 		            editor: {
 		            	xtype: 'combo',
 			            store: storeDBTypes,
@@ -51,9 +52,9 @@ Ext.define('ProtoUL.view.diagram.EntityAttributes', {
                 },
                 {
                     xtype: 'checkcolumn',
-                    width: 65,
-                    dataIndex: 'unique',
-                    text: 'Unique',
+                    width: 35,
+                    dataIndex: 'pk',
+                    text: 'PK',
 		            editor: {
 		                xtype: 'checkbox',
 		                cls: 'x-grid-checkheader-editor'
@@ -61,9 +62,29 @@ Ext.define('ProtoUL.view.diagram.EntityAttributes', {
                 },
                 {
                     xtype: 'checkcolumn',
-                    width: 40,
-                    dataIndex: 'pk',
-                    text: 'PK',
+                    width: 35,
+                    dataIndex: 'fk',
+                    text: 'FK',
+		            editor: {
+		                xtype: 'checkbox',
+		                cls: 'x-grid-checkheader-editor'
+		            }
+                },
+                {
+                    xtype: 'checkcolumn',
+                    width: 55,
+                    dataIndex: 'isRequired',
+                    text: 'Required',
+		            editor: {
+		                xtype: 'checkbox',
+		                cls: 'x-grid-checkheader-editor'
+		            }
+                },
+                {
+                    xtype: 'checkcolumn',
+                    width: 35,
+                    dataIndex: 'isNullable',
+                    text: 'Null',
 		            editor: {
 		                xtype: 'checkbox',
 		                cls: 'x-grid-checkheader-editor'
