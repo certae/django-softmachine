@@ -29,7 +29,7 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
         this.attributes = new draw2d.util.ArrayList();
         this.header = new draw2d.shape.layout.VerticalLayout();
 
-        this.classLabel = this.createLabel("TableName").setPadding(10).setFontColor("#4a4a4a");
+        this.classLabel = this.createLabel("TableName").setPadding(10).setFontColor("#5856d6");
         this.header.addFigure(this.classLabel);
 
         this.header.setStroke(0).setRadius(this.getRadius());
@@ -167,7 +167,9 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
                 id: e.id,
                 datatype: e.datatype,
                 pk: e.pk,
-                unique: e.unique
+                fk: e.fk,
+                isRequired: e.isRequired,
+                isNullable: e.isNullable
             });
         });
 
@@ -203,7 +205,9 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
                 entity.id = e.id;
                 entity.datatype = e.datatype;
                 entity.pk = e.pk;
-                entity.unique = e.unique;
+                entity.fk = e.fk;
+                entity.isRequired = e.isRequired;
+                entity.isNullable = e.isNullable;
             }, this));
         }
 

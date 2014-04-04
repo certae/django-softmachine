@@ -224,42 +224,6 @@ Ext.define('ProtoUL.controller.DiagramController', {
 		this.enableToolbarButton('btSaveAll');
 	},
 	
-	onSearchMenuClick: function (menu, item, e, opt) {
-        var controller = this;
-        switch(item.itemId) {
-        	case 'getAllTables':
-        		Ext.Ajax.request({
-				    url: _SM._PConfig.urlGetTableJSONDiagram,
-				    params: {
-				        id: 1
-				    },
-				    success: function(response){
-				        var text = response.responseText;
-						var outcome = Ext.JSON.decode(text);
-						for(var i = 0; i < outcome.table.length; i += 1) {
-							controller.addOrUpdateJSONDocument(outcome.table[i]);
-						}
-						controller.getDiagramCanvas().reload();
-				    }
-				});
-        		break;
-            case 'getJSONTable':
-            	Ext.Ajax.request({
-				    url: _SM._PConfig.urlGetTableJSONDiagram,
-				    params: {
-				        id: 1
-				    },
-				    success: function(response){
-				        var text = response.responseText;
-						var outcome = Ext.JSON.decode(text);
-				    }
-				});
-                break;
-            default:
-                break;
-        }
-    },
-    
     init: function(application) {
         this.control({
             "#btUndo": {
@@ -303,9 +267,6 @@ Ext.define('ProtoUL.controller.DiagramController', {
             },
             "#btRemoveUnusedPorts": {
             	click: this.removeUnusedPorts
-            },
-			'#SearchMenu': {
-                click: this.onSearchMenuClick
             }
         });
     }

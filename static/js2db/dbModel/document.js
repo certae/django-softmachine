@@ -39,7 +39,9 @@ var jsonDocument = [
                             "id": "49be7d78-4dcf-38ab-3733-b4108701fce4",
 			                "datatype": "int",
 			                "pk": true,
-			                "unique": true
+			                "fk": false,
+			                "isNullable": false,
+                    		"isRequired": true
                           }
                         ]
                       },
@@ -81,36 +83,44 @@ var jsonDocument = [
                             "id": "e97f6f8a-4306-0667-3a95-0a5310a2c15c",
 			                "datatype": "int",
 			                "pk": true,
-			                "unique": true
+			                "fk": false,
+			                "isNullable": false,
+                    		"isRequired": true
                           },
                           {
                             "text": "firstName",
                             "id": "357e132c-aa47-978f-a1fa-d13da6736989",
 			                "datatype": "string",
 			                "pk": false,
-			                "unique": false
+			                "fk": false,
+			                "isNullable": true,
+                    		"isRequired": false
                           },
                           {
                             "text": "lastName",
                             "id": "a2156a71-f868-1f8f-e9a1-b185dbdfc3de",
 			                "datatype": "string",
 			                "pk": false,
-			                "unique": false
+			                "fk": false,
+			                "isNullable": true,
+                    		"isRequired": false
                           },
                           {
                             "text": "company_fk",
                             "id": "8d410fef-5c6e-286d-c9c3-c152d5bd9c52",
 			                "datatype": "int",
 			                "pk": false,
-			                "unique": true
+			                "fk": true,
+			                "isNullable": true,
+                    		"isRequired": false
                           }
                         ]
                       },
                       {
                         "type": "dbModel.shape.DBTable",
                         "id": "2810494b-931f-da59-fd9d-6deba4385fe0",
-                        "x": 460,
-                        "y": 79,
+                        "x": 540,
+                        "y": 85,
                         "width": 98,
                         "height": 81.265625,
                         "userData": null,
@@ -144,13 +154,16 @@ var jsonDocument = [
                             "id": "e04ebb27-43c9-1afa-a7d0-e55bf2aa62d5",
 			                "datatype": "int",
 			                "pk": true,
-			                "unique": true
+			                "fk": false,
+			                "isNullable": false,
+                    		"isRequired": true
                           }
                         ]
                       },
                       {
                         "type": "dbModel.shape.TableConnection",
                         "id": "f8735797-cf1d-8431-d891-c2d10f0a67be",
+                        "name": "Connection t1 t2",
                         "userData": null,
                         "cssClass": "draw2d_Connection",
                         "stroke": 2,
@@ -169,6 +182,7 @@ var jsonDocument = [
                       {
                         "type": "dbModel.shape.TableConnection",
                         "id": "abf0a3d6-c4d0-a4d4-569c-094083429e70",
+                        "name": "Connection t2 t3",
                         "userData": null,
                         "cssClass": "draw2d_Connection",
                         "stroke": 2,

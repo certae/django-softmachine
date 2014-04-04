@@ -2,23 +2,24 @@
 
 from django.http import HttpResponse
 from utilsWeb import JsonError
-from prototype.models import Entity, Project, Model, Prototype
+from prototype.models import Entity, Relationship
 
 import json, uuid
 
 def getTableJSONDiagram(request):
-    """ return full metadata (columns, renderers, totalcount...)
+    """ return metadata (columns, renderers, totalcount...)
     """
     selectedTables = []
+    connectors = []
     table = {}
     try:
-        entities = Entity.objects.filter(model__project_id=16)
+        entities = Entity.objects.filter(model__project_id=1)
         x = 20
         y = 20
         for entity in entities:
             table = {
                 'type': 'dbModel.shape.DBTable',
-                'id': str(uuid.uuid4()),
+                'id': str(uuid.UUID(entity.smUUID)),
                 'x': x,
                 'y': y,
                 'width': 98,
@@ -36,10 +37,12 @@ def getTableJSONDiagram(request):
             }
             x += 30
             y += 30 
+            addOutputPorts(entity, table)
+            
             for pProperty in entity.property_set.all():
                 table['attributes'].append( {
                     'text':  pProperty.code,
-                    'id': str(uuid.uuid4()),
+                    'id': str(uuid.UUID(pProperty.smUUID)),
                     'datatype': pProperty.baseType,
                     'pk': pProperty.isPrimary,
                     'fk':  pProperty.isForeign,
@@ -47,60 +50,67 @@ def getTableJSONDiagram(request):
                     'isRequired': pProperty.isRequired
                      })
                 if (pProperty.isForeign):
-                    connector = pProperty.relationship
-                    # TODO create a connector list
-             
+                    addConnectors(pProperty, table, connectors)
+            
             selectedTables.append(table)
                 
     except Exception as e:
         print(e)
         return JsonError("Entity non trouvé")  
     
-#     jsondict = {
-#         'success':True,
-#         'message': '',
-#         'table':{
-#             "type": "dbModel.shape.DBTable",
-#             "id": "63c0f27a-716e-804c-6873-cd99b945b64g",
-#             "x": 80,
-#             "y": 200,
-#             "width": 98,
-#             "height": 81.265625,
-#             "userData": "",
-#             "cssClass": "DBTable",
-#             "bgColor": "#DBDDDE",
-#             "color": "#D7D7D7",
-#             "stroke": 1,
-#             "alpha": 1,
-#             "radius": 3,
-#             "tableName": "Custom",
-#             "tablePorts": [
-#                 {
-#                     "type": "draw2d_InputPort",
-#                     "name": "input0",
-#                     "position": "default"
-#                 },
-#                 {
-#                     "type": "draw2d_OutputPort",
-#                     "name": "output0",
-#                     "position": "default"
-#                 }
-#             ],
-#             "attributes": [
-#               {
-#                 "text": "blubber",
-#                 "id": "49be7d78-4dcf-38ab-3733-b4108701fce4",
-#                 "datatype": "Integer",
-#                 "pk": True,
-#                 "unique": True
-#               }
-#             ]
-#         },
-#     }
     jsondict = {
         'success':True,
         'message': '',
-        'table': selectedTables,
+        'tables': selectedTables,
+        'connectors': connectors,
     }
     context = json.dumps(jsondict)
     return HttpResponse(context, content_type="application/json")
+
+def addOutputPorts(entity, table):
+    relationships = Relationship.objects.filter(refEntity=entity)
+    for port in relationships:
+        if port.refEntity != port.entity:
+            outputPortName = "output"+str(port.id)
+            table['tablePorts'].append( {
+                "type": "draw2d_OutputPort",
+                "name": outputPortName,
+                "position": "default"
+                 })
+            
+def addConnectors(pProperty, table, connectors):
+    relationship = pProperty.relationship
+    inputPortName = "input"+str(relationship.id)
+    outputPortName = "output"+str(relationship.id)
+    if relationship.refEntity == relationship.entity:
+        outputPortName = "hybrid0"
+        table['tablePorts'].append( {
+            "type": "draw2d_HybridPort",
+            "name": outputPortName,
+            "position": "bottom"
+             })
+    table['tablePorts'].append( {
+        "type": "draw2d_InputPort",
+        "name": inputPortName,
+        "position": "default"
+         })
+    connector = {
+        "type": "dbModel.shape.TableConnection",
+        "name": relationship.code,
+        "id": str(uuid.UUID(relationship.smUUID)),
+        "userData": None,
+        "cssClass": "draw2d_Connection",
+        "stroke": 2,
+        "color": "#5BCAFF",
+        "policy": "draw2d.policy.line.LineSelectionFeedbackPolicy",
+        "router": "draw2d.layout.connection.ManhattanConnectionRouter",
+        "source": {
+            "node": str(uuid.UUID(relationship.refEntity.smUUID)),
+            "port": outputPortName
+        },
+        "target": {
+            "node": str(uuid.UUID(relationship.entity.smUUID)),
+            "port": inputPortName
+        }
+    }
+    connectors.append(connector)

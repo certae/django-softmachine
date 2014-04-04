@@ -188,7 +188,7 @@ class PropertyBase(ProtoModel):
     """prpChoices:  Lista de valores CSV ( idioma?? ) """ 
     prpChoices = models.TextField( blank = True, null = True)
 
-    """isSensitive: Indica si las propiedades requieren un nivel mayor de seguridad """  
+    """isSensitive: Should increase security level """  
     isSensitive = models.BooleanField()
 
     description = models.TextField( blank = True, null = True)
@@ -292,6 +292,12 @@ class Relationship(Property):
 
     def save(self, *args, **kwargs ):
         self.isForeign = True 
+        # TODO remove this after test...
+        self.isSensitive = False
+        self.isLookUpResult = False
+        self.isReadOnly = False
+        self.isEssential = False
+        # end remove
         super(Relationship, self).save(*args, **kwargs) 
 
     protoExt = { 

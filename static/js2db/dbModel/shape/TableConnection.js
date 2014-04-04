@@ -34,6 +34,7 @@ dbModel.shape.TableConnection = draw2d.Connection.extend({
      */
     getPersistentAttributes: function() {
         var memento = this._super();
+        memento.name = this.label.getText();
         return memento;
     },
     
@@ -46,6 +47,19 @@ dbModel.shape.TableConnection = draw2d.Connection.extend({
      */
     setPersistentAttributes: function(memento) {
         this._super(memento);
+        
+        if ( typeof memento.name !== "undefined") {
+        	// Create any Draw2D figure as decoration for the connection
+	        //
+			this.label = new draw2d.shape.basic.Label(memento.name);
+			this.label.setStroke(0);
+			this.label.setFontColor("#0d0d0d");
+			  
+			// add the new decoration to the connection with a position locator.
+			//
+			this.addFigure(this.label, new draw2d.layout.locator.ManhattanMidpointLocator(this));
+        }
+        
         return this;
     },
     
