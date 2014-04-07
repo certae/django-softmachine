@@ -34,9 +34,9 @@ draw2d.policy.figure.DragDropEditPolicy = draw2d.policy.EditPolicy.extend({
      * @template
      */
     onDragStart: function(canvas, figure){
-    	figure.shape.attr({cursor:"move"});
-    	figure.isMoving = false;
-    	figure.originalAlpha = figure.getAlpha();
+        figure.shape.attr({cursor:"move"});
+        figure.isMoving = false;
+        figure.originalAlpha = figure.getAlpha();
     },
     
     /**
@@ -55,7 +55,7 @@ draw2d.policy.figure.DragDropEditPolicy = draw2d.policy.EditPolicy.extend({
         {
             figure.isMoving = true;
             figure.setAlpha(figure.originalAlpha*0.4);
-        }    	
+        }       
     },
     
     /**

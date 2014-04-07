@@ -18,7 +18,7 @@ draw2d.command.CommandStackEvent = Class.extend({
      */
     init : function(stack, command, details)
     {
-    	this.stack = stack;
+        this.stack = stack;
         this.command = command;
         this.details = details;
     },

@@ -100,8 +100,8 @@ draw2d.ui.LabelInplaceEditor =  draw2d.ui.LabelEditor.extend({
         
         bb.translate(-1,-1);
         bb.resize(2,2);
-        
-        this.html.css({position:"absolute",top: bb.y, left:bb.x, "min-width":bb.w, height:bb.h});
+               
+        this.html.css({position:"absolute","top": bb.y, "left":bb.x, "min-width":bb.w*(1/canvas.getZoom()), "height":Math.max(25,bb.h*(1/canvas.getZoom()))});
         this.html.fadeIn($.proxy(function(){
             this.html.focus();
         },this));
@@ -142,4 +142,3 @@ draw2d.ui.LabelInplaceEditor =  draw2d.ui.LabelEditor.extend({
         
     }
 });
-

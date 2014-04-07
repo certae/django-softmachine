@@ -21,6 +21,7 @@ draw2d.shape.icon.Icon = draw2d.SetFigure.extend({
     init: function(width, height) {
       this._super(width, height);
       this.setBackgroundColor("#333333");
+      this.keepAspectRatio = true;
     },
 
     /**
@@ -61,33 +62,13 @@ draw2d.shape.icon.Icon = draw2d.SetFigure.extend({
      */
     createShapeElement : function()
     {
-    	var shape = this._super();
-    	
+        var shape = this._super();
+        
         var bb = this.svgNodes.getBBox();
 
         this.offsetX = bb.x;
         this.offsetY = bb.y;
        
         return shape;
-    },
- 
-    /**
-     * @method
-     * It is not possible to set different values width and height for a circle. The 
-     * greater value of w and h will be used only.
-     * 
-     * @param {Number} w The new width of the circle.
-     * @param {Number} h The new height of the circle.
-     **/
-    setDimension:function( w,  h)
-    {
-      if(w>h){
-         this._super(w,w);
-      }
-      else{
-         this._super(h,h);
-      }
     }
-    
 });
-

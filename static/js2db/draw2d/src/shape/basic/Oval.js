@@ -93,10 +93,10 @@ draw2d.shape.basic.Oval = draw2d.VectorFigure.extend({
    *
    *****/
    intersectionWithLine : function(a1, a2) {
-	   var rx = this.getWidth()/2;
-	   var ry = this.getHeight()/2;
+     var rx = this.getWidth()/2;
+     var ry = this.getHeight()/2;
        
-	   var result= new draw2d.util.ArrayList();
+     var result= new draw2d.util.ArrayList();
        
        var origin = new draw2d.geo.Point(a1.x, a1.y);
        var dir    = a2.subtract(a1);
@@ -121,7 +121,7 @@ draw2d.shape.basic.Oval = draw2d.VectorFigure.extend({
                if ( (t_a < 0 && t_b < 0) || (t_a > 1 && t_b > 1) ){
                    //"Outside";
                }
-               else{            	   
+               else{                 
                    ;//"Inside";
                }
            } else {
@@ -140,7 +140,6 @@ draw2d.shape.basic.Oval = draw2d.VectorFigure.extend({
        }
        
        return result;
-   }	 
+   }   
     
 });
-

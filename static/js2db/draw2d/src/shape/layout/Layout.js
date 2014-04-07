@@ -14,7 +14,7 @@
  */
 draw2d.shape.layout.Layout= draw2d.shape.basic.Rectangle.extend({
 
-	NAME : "draw2d.shape.layout.Layout",
+    NAME : "draw2d.shape.layout.Layout",
 
     /**
      * @constructor
@@ -31,13 +31,33 @@ draw2d.shape.layout.Layout= draw2d.shape.basic.Rectangle.extend({
         this.installEditPolicy(new draw2d.policy.figure.AntSelectionFeedbackPolicy());
     },
     
-    
-    addFigure : function(child, locator)
+    /**
+     * @method
+     * Add a child figure to the shape and use the locator from the inherit class
+     * 
+     * @param {draw2d.Figure} child
+     */
+    addFigure : function(child)
     {
        this._super(child, this.locator);
        child.attachResizeListener(this);
+       this.fireResizeEvent();
     },
-    
+
+    /**
+     * @method
+     * Remove the giben figure from the shape and recalculate the layout.
+     * 
+     * @param {drawd.Figure} child
+     * @since 4.0.0
+     */
+    removeFigure : function(child)
+    {
+       this._super(child);
+       child.detachResizeListener(this);
+       this.setDimension(1,1);
+    },
+
     
     onOtherFigureIsResizing:function(figure)
     {
@@ -53,13 +73,10 @@ draw2d.shape.layout.Layout= draw2d.shape.basic.Rectangle.extend({
     },
     
 
-    onDoubleClick:function(angle)
+    onDoubleClick:function()
     {
-    	// ignore them for the layout elements
+        // ignore them for the layout elements
         // Layout's can't rotate
     }
     
 });
-
-
-

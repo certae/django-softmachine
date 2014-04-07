@@ -17,14 +17,15 @@ draw2d.command.CommandAdd = draw2d.command.Command.extend({
      * 
      * @param {draw2d.Canvas} canvas the canvas to use
      * @param {draw2d.Figure} figure the figure to add
+     * @param {Number|draw2d.geo.Point} x the x-coordinate or a complete point where to place the figure
+     * @param {Number} [y] the y-coordinate if x is a number and not a complete point
      */
     init: function(canvas, figure, x,y)
     {
-       this._super("Add Shape");
+       this._super(draw2d.Configuration.i18n.command.addShape);
        this.figure = figure;
        this.canvas = canvas;
-       this.x = x;
-       this.y = y;
+       this.pos = new draw2d.geo.Point(x,y);
     },
     
     /**
@@ -34,7 +35,7 @@ draw2d.command.CommandAdd = draw2d.command.Command.extend({
      **/
     execute:function()
     {
-       this.canvas.addFigure(this.figure, this.x, this.y);
+       this.canvas.addFigure(this.figure, this.pos.x, this.pos.y);
     },
     
     /** 

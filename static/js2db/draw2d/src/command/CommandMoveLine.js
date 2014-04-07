@@ -23,7 +23,7 @@ draw2d.command.CommandMoveLine = draw2d.command.Command.extend({
      */
     init : function(figure)
     {
-        this._super("Line moved");
+        this._super(draw2d.Configuration.i18n.command.moveLine);
         this.line = figure;
         this.dx = 0;
         this.dy = 0;
@@ -70,11 +70,14 @@ draw2d.command.CommandMoveLine = draw2d.command.Command.extend({
     **/
    undo:function()
    {
-       this.line.getPoints().each($.proxy(function(i,e){
+       this.line.getVertices().each($.proxy(function(i,e){
            e.translate(-this.dx, -this.dy);
        },this));
        this.line.svgPathString = null;
-       this.line.repaint();
+       // required to update resize handles and the painting of the line
+       this.line.setPosition(this.line.getStartPoint());
+       
+       //this.line.repaint();
    },
 
    /** 
@@ -83,10 +86,14 @@ draw2d.command.CommandMoveLine = draw2d.command.Command.extend({
     **/
    redo:function()
    {
-       this.line.getPoints().each($.proxy(function(i,e){
+       this.line.getVertices().each($.proxy(function(i,e){
            e.translate(this.dx, this.dy);
        },this));
-       this.line.svgPathString = null;
-       this.line.repaint();
+       this.line.svgPathString = null;       
+       
+       // required to update resize handles and the painting of the line
+       this.line.setPosition(this.line.getStartPoint());
+
+       //this.line.repaint();
    }
 });

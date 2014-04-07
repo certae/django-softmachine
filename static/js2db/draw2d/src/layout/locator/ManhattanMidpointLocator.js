@@ -36,7 +36,7 @@ draw2d.layout.locator.ManhattanMidpointLocator= draw2d.layout.locator.Connection
     relocate:function(index, target)
     {
        var conn = this.getParent();
-       var points = conn.getPoints();
+       var points = conn.getVertices();
        
        var segmentIndex = Math.floor((points.getSize() -2) / 2);
        if (points.getSize() <= segmentIndex+1)

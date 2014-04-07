@@ -109,6 +109,8 @@ draw2d.shape.basic.Rectangle = draw2d.VectorFigure.extend({
      setRadius: function(radius){
         this.radius = radius;
         this.repaint();
+        
+        return this;
     },
     
     /**

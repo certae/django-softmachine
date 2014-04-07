@@ -59,13 +59,14 @@ draw2d.util.ArrayList = Class.extend({
      /**
       * @method
       * The size/count of the stored objects.
-      * 
+      *
       * @return {Number}
       */
      getSize:function() 
      {
         return this.size;
      },
+     
     
      /**
       * @method 
@@ -84,7 +85,7 @@ draw2d.util.ArrayList = Class.extend({
       * 
       * @return {Object}
       */
-     getLastElement:function() 
+     last:function() 
      {
         if (this.data[this.getSize() - 1] !== null) 
         {
@@ -92,6 +93,9 @@ draw2d.util.ArrayList = Class.extend({
         }
         return null;
      },
+     /* @deprecated */
+     getLastElement:function(){return this.last();},
+     
     
      /**
       * @method
@@ -111,7 +115,7 @@ draw2d.util.ArrayList = Class.extend({
       * 
       * @return {Object}
       */
-     getFirstElement:function() 
+     first:function() 
      {
         if (this.data[0] !== null && typeof this.data[0] !=="undefined") 
         {
@@ -119,7 +123,10 @@ draw2d.util.ArrayList = Class.extend({
         }
         return null;
      },
+     /* @deprecated */
+     getFirstElement: function(){return this.first();},
     
+     
      /**
       * @method
       * returns an element at a specified index
@@ -158,11 +165,10 @@ draw2d.util.ArrayList = Class.extend({
       * item within the array. Only if the test returns true will the item stay in the array.
       * 
       * @param {Function} func the filter function
-      * @return {draw2d.util.ArrayList} self
-      * @chainable
       * @since 2.0.0
       */
      grep: function(func){
+         this.trimToSize();
          this.data = $.grep(this.data, func);
          this.data = $.grep(this.data, function(e){
              return (typeof e !=="undefined");
@@ -171,6 +177,48 @@ draw2d.util.ArrayList = Class.extend({
  
          return this;
      },
+     
+     /**
+      * @method
+      * Translate all items in the array into new items. The array list is modified after this call. 
+      * You must clone the array before if you want avoid this.
+      * 
+      *     var labels = this.commands.clone().map(function(e){
+      *          return e.getLabel();
+      *     });
+      *
+      * @param {Function} func The function to process each item against. The first argument to the function is the value; the second argument is the index or key of the array or object property.
+      * @since 4.0.0
+      */
+     map: function(func){
+         this.trimToSize();
+         this.data = $.map(this.data, func);
+         this.data = $.grep(this.data, function(e){
+             return (typeof e !=="undefined");
+         });
+         this.size = this.data.length;
+ 
+         return this;
+     },
+ 
+     /**
+      * @method
+      * Removes any duplicate elements from the array. The array is modified after this call. You
+      * must clone the array before if you want avoid this
+      * 
+     * @since 4.0.0
+      */
+     unique: function(){
+         this.trimToSize();
+         this.data = $.unique(this.data);
+         this.data = $.grep(this.data, function(e){
+             return (typeof e !=="undefined");
+         });
+         this.size = this.data.length;
+ 
+         return this;
+     },
+
      
     /**
      * @method
@@ -499,5 +547,3 @@ draw2d.util.ArrayList = Class.extend({
 });
 
 draw2d.util.ArrayList.EMPTY_LIST = new draw2d.util.ArrayList();
-
-

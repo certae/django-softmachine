@@ -49,8 +49,10 @@ draw2d.policy.canvas.CoronaDecorationPolicy = draw2d.policy.canvas.DecorationPol
      * @param {draw2d.Canvas} canvas
      * @param {Number} x the x-coordinate of the mouse down event
      * @param {Number} y the y-coordinate of the mouse down event
+     * @param {Boolean} shiftKey true if the shift key has been pressed during this event
+     * @param {Boolean} ctrlKey true if the ctrl key has been pressed during the event
      */
-    onMouseDown:function(canvas, x,y){
+    onMouseDown:function(canvas, x, y, shiftKey, ctrlKey){
         this.startDragX = x;
         this.startDragY = y;
    },
@@ -61,9 +63,11 @@ draw2d.policy.canvas.CoronaDecorationPolicy = draw2d.policy.canvas.DecorationPol
      * @param {draw2d.Canvas} canvas
      * @param {Number} x the x-coordinate of the mouse event
      * @param {Number} y the y-coordinate of the mouse event
+     * @param {Boolean} shiftKey true if the shift key has been pressed during this event
+     * @param {Boolean} ctrlKey true if the ctrl key has been pressed during the event
      * @template
      */
-    onMouseMove:function(canvas, x, y){
+    onMouseMove:function(canvas, x, y, shiftKey, ctrlKey){
         this.updatePorts(canvas, x, y);
     },
     

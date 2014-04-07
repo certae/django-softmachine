@@ -44,7 +44,7 @@ draw2d.io.json.Writer = draw2d.io.Writer.extend({
      * the callback instead of return the result.
      * 
      * @param {draw2d.Canvas} canvas
-     * @param {Function} resultCallback the method to call on success. The first argument is the result object
+     * @param {Function} resultCallback the method to call on success. The first argument is the result object, the second the base64 representation of the file content
      */
     marshal: function(canvas, resultCallback){
         // I change the API signature from version 2.10.1 to 3.0.0. Throw an exception
@@ -72,6 +72,8 @@ draw2d.io.json.Writer = draw2d.io.Writer.extend({
             result.push(element.getPersistentAttributes());
         });
         
-        resultCallback(result);
+        var base64Content = draw2d.util.Base64.encode(JSON.stringify(result, null, 2));
+
+        resultCallback(result, base64Content);
     }
 });

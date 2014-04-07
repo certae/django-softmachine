@@ -36,6 +36,8 @@ draw2d.shape.basic.Circle = draw2d.shape.basic.Oval.extend({
     init:function( radius)
     {
       this._super();
+      this.setKeepAspectRatio(true);
+      
       if(typeof radius === "number"){
         this.setDimension(radius,radius);
       }
@@ -44,33 +46,72 @@ draw2d.shape.basic.Circle = draw2d.shape.basic.Oval.extend({
       }
     },
     
-    
     /**
      * @method
-     * It is not possible to set different values width and height for a circle. The 
-     * greater value of w and h will be used only.
+     * Set the diameter of the circle. The center of the circle will be retained.
      * 
-     * @param {Number} w The new width of the circle.
-     * @param {Number} h The new height of the circle.
+     * @param {Number} d The new diameter of the circle.
+     * @since 4.0.0
      **/
-    setDimension:function( w,  h)
+    setDiameter:function(d)
     {
-      if(w>h){
-         this._super(w,w);
-      }
-      else{
-         this._super(h,h);
-      }
+        var center = this.getCenter();
+        this.setDimension(d,d);
+        this.setCenter(center); 
+        
+        return this;
     },
+
+    /**
+     * @method
+     * Get the diameter of the circle.
+     * 
+     * @since 4.0.0
+     **/
+    getDiameter:function()
+    {
+        return this.getWidth();
+    },
+
     
     /**
      * @method
-     * A Circle can't be streched. The aspect ratio is always 1:1<br>
-     *
-     * @return {boolean} Returns always false. It is not possible to strech a circle.
-     */
-    isStrechable:function(){
-      return false;
-    }
+     * Set the radius of the circle. The center of the circle will be retained.
+     * 
+     * @param {Number} d The new radius of the circle.
+     * @since 4.0.0
+     **/
+    setRadius:function(r)
+    {
+        this.setDiameter(r*2);
+        
+        return this;
+    },
 
+    
+    /**
+     * @method
+     * Get the center of the circle
+     * 
+     */
+    getCenter: function(){
+        var d2= this.getDiameter()/2;
+        return this.getPosition().translate(d2,d2);
+    },
+
+    /**
+     * @method
+     * Set the center of the circle.
+     * 
+     * @param {Number|draw2d.geo.Point} x the new x coordinate of the center or a draw2d.geo.Point object with the center
+     * @param {Number} y the y coordinate of the new center of the first argument isn't a draw2d.geo.Point object
+     */
+    setCenter: function(x, y){
+        var pos = new draw2d.geo.Point(x,y);
+        var d2  = this.getDiameter()/2;
+        pos.translate(-d2,-d2);
+        this.setPosition(pos);
+        
+        return this;
+    }
 });

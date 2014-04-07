@@ -7,7 +7,7 @@
  * 
  * A PolylineMidpointLocator is used to place figures at the midpoint of a routed
  * connection. <br>
- * If the connection did have an odd count of points the figure is located in the center junction point of the poly line.<br>
+ * If the connection did have an odd count of points the figure is located in the center vertex of the polyline.<br>
  * On an even count of junction point, the figure will be center on the middle segment of the ploy line. 
  *
  * @author Andreas Herz
@@ -38,7 +38,7 @@ draw2d.layout.locator.PolylineMidpointLocator= draw2d.layout.locator.ManhattanMi
     relocate:function(index, target)
     {
        var conn = this.getParent();
-       var points = conn.getPoints();
+       var points = conn.getVertices();
        
        // it has an event count of points -> use the manhattan algorithm...this is working 
        // well in this case

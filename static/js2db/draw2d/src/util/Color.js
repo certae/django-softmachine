@@ -25,7 +25,7 @@ draw2d.util.Color = Class.extend({
      * @constructor
      * Create a new Color object
      * 
-     * @param {Number|String|draw2d.util.Color, Array} red 
+     * @param {Number|String|draw2d.util.Color|Array} red 
      * @param {Number} green 
      * @param {Number} blue 
      */
@@ -37,16 +37,26 @@ draw2d.util.Color = Class.extend({
           this.hashString = "none";
       }
       else if(red instanceof draw2d.util.Color){
-          this.red = red.red;
-          this.green = red.green;
-          this.blue = red.blue;
+          if(red.hashString==="none"){
+              this.hashString = "none";
+          }
+          else{
+              this.red = red.red;
+              this.green = red.green;
+              this.blue = red.blue;
+          }
       }
       else if(typeof red === "string")
       {
-        var rgb = this.hex2rgb(red);
-        this.red= rgb[0];
-        this.green = rgb[1];
-        this.blue = rgb[2];
+           if (red === "none") {
+              this.hashString = "none";
+           }
+           else {
+              var rgb = this.hex2rgb(red);
+              this.red = rgb[0];
+              this.green = rgb[1];
+              this.blue = rgb[2];
+          }
       }
       // JSON struct of {red:###, green:###, blue:### }
       else if(typeof red === "object" && typeof red.red==="number")
@@ -212,12 +222,12 @@ draw2d.util.Color = Class.extend({
      * @method
      * Make a color lighter. The original color is unchanged.
      * 
-     * @param {Number} fraction  Darkness fraction between [0..1].
+     * @param {Number} fraction  lighter fraction between [0..1].
      * @return {draw2d.util.Color} Lighter color.
      */
     lighter:function( fraction)
     {
-        // we can "lighter" a undefined color. In this case we return the undefnied color itself
+        // we can "lighter" a undefined color. In this case we return the undefined color itself
         //
         if(this.hashString==="none")
             return this;

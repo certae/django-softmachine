@@ -19,7 +19,7 @@ draw2d.VectorFigure = draw2d.shape.node.Node.extend({
      * Creates a new figure element which are not assigned to any canvas.
      * 
      */
-    init : function()
+    init : function( width, height)
     {
         this.stroke = 1;
         this.bgColor   = new  draw2d.util.Color(255,255,255);
@@ -31,7 +31,7 @@ draw2d.VectorFigure = draw2d.shape.node.Node.extend({
         this.strokeBeforeGlow = this.stroke;
         this.glowIsActive = false;
         
-        this._super();
+        this._super( width, height);
     },
       
     
@@ -86,10 +86,12 @@ draw2d.VectorFigure = draw2d.shape.node.Node.extend({
             }
         }
         
-        attributes["stroke-width"] = this.stroke;
+        if(typeof attributes["stroke-width"]==="undefined"){
+            attributes["stroke-width"] = this.stroke;
+        }
         
         if(typeof attributes.fill === "undefined"){
-       	   attributes.fill = this.bgColor.hash();
+           attributes.fill = this.bgColor.hash();
         }
 
         this._super(attributes);
@@ -141,7 +143,7 @@ draw2d.VectorFigure = draw2d.shape.node.Node.extend({
 
    /**
     * @method
-    * The current use line width.
+    * The used line width.
     * 
     * @type {Number}
     **/
@@ -189,6 +191,8 @@ draw2d.VectorFigure = draw2d.shape.node.Node.extend({
 
        memento.bgColor = this.bgColor.hash();
        memento.color   = this.color.hash();
+       memento.stroke  = this.stroke;
+       memento.alpha   = this.alpha;
        
        return memento;
    },
@@ -212,10 +216,16 @@ draw2d.VectorFigure = draw2d.shape.node.Node.extend({
            this.setColor(memento.color);
        }
        
-       
+       if(typeof memento.stroke !== "undefined"){
+           this.setStroke(parseFloat(memento.stroke));
+       }
+        
+       if(typeof memento.alpha !== "undefined"){
+           this.setAlpha(parseFloat(memento.alpha));
+       }
+        
        return this;
    }  
 
 
 });
-

@@ -23,7 +23,7 @@ draw2d.command.CommandResize = draw2d.command.Command.extend({
      */
     init : function(figure, width, height)
     {
-        this._super("Resize Shape");
+        this._super(draw2d.Configuration.i18n.command.resizeShape);
         this.figure = figure;
         
         if (typeof width === "undefined")

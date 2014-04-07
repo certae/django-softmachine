@@ -53,6 +53,8 @@ draw2d.SetFigure = draw2d.shape.basic.Rectangle.extend({
       this._super(canvas);
      },
  
+
+     
      /**
       * @method
       * Set the css class if the node.
@@ -100,14 +102,16 @@ draw2d.SetFigure = draw2d.shape.basic.Rectangle.extend({
         }
 
         if (this.originalWidth !== null) {
-        	this.scaleX = this.width / this.originalWidth;
-        	this.scaleY = this.height / this.originalHeight;
+          this.scaleX = this.width / this.originalWidth;
+          this.scaleY = this.height / this.originalHeight;
         }
         
         if (typeof attributes === "undefined") {
             attributes = {};
         }
 
+        this.applyAlpha();
+        
         if(this.visible===true){
             this.svgNodes.show();
         }
@@ -116,35 +120,41 @@ draw2d.SetFigure = draw2d.shape.basic.Rectangle.extend({
         }
         
         this._super(attributes);
-
     },
 
 
-
+    /**
+     * @method
+     * Apply the opacity to all child set elements. Override this if you want to avoid opacity changes.
+     * @private
+     * 
+     */
+    applyAlpha: function(){
+        this.svgNodes.attr({opacity: this.alpha});
+    },
+    
     /**
      * @private
      */
     applyTransformation:function(){
         var s = 
-        	"S"+this.scaleX+","+this.scaleY+",0,0 "+
-        	"R"+this.rotationAngle+","+((this.getWidth()/2)|0)+","+((this.getHeight()/2)|0)+
-        	"T" + this.getAbsoluteX() + "," + this.getAbsoluteY()+
+          "S"+this.scaleX+","+this.scaleY+",0,0 "+
+          "R"+this.rotationAngle+","+((this.getWidth()/2)|0)+","+((this.getHeight()/2)|0)+
+          "T" + this.getAbsoluteX() + "," + this.getAbsoluteY()+
             "";
-    	this.svgNodes.transform(s);
+      this.svgNodes.transform(s);
         if(this.rotationAngle===90 || this.rotationAngle===270){
             var before  = this.svgNodes.getBBox(true);
             var ratio = before.height/before.width;
             var reverseRatio = before.width/before.height;
             var rs = "...S"+ratio+","+reverseRatio+","+(this.getAbsoluteX() +this.getWidth()/2)+","+(this.getAbsoluteY() +this.getHeight()/2);
-        	this.svgNodes.transform(rs);
+          this.svgNodes.transform(rs);
         }
-        
-        this.svgNodes.attr({"stroke-width":1});
     },
     
     /**
      * @method
-     * Moves the element so it is the closest to the viewer’s eyes, on top of other elements. Additional
+     * Moves the element so it is the closest to the viewer?��s eyes, on top of other elements. Additional
      * the internal model changed as well.
      * 
      * @since 3.0.0
@@ -207,7 +217,7 @@ draw2d.SetFigure = draw2d.shape.basic.Rectangle.extend({
      * @template
      */
     createSet: function(){
-    	return this.canvas.paper.set(); // return empty set as default;
+      return this.canvas.paper.set(); // return empty set as default;
     }
    
 });

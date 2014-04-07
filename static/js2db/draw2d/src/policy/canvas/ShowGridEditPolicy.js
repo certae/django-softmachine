@@ -47,20 +47,7 @@ draw2d.policy.canvas.ShowGridEditPolicy = draw2d.policy.canvas.CanvasPolicy.exte
         this.lines.remove();
     },
     
-    /**
-     * @method
-     * Applies a snapping correction to the given result. 
-     * 
-     * @param figure
-     * @param {draw2d.geo.Point} pos
-     * @returns {draw2d.geo.Point} the contraint position of the figure
-     * @since 2.3.0
-     */
-    snap: function(canvas, figure, pos){
-        
-        return pos;
-    },
-    
+
     /**
      * @method
      * paint the grid into the canvas

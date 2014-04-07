@@ -19,7 +19,7 @@
  *     circle.setStroke(3);
  *     circle.setColor("#A63343");
  *     circle.setBackgroundColor("#E65159");
- *     circle.addFigure(new draw2d.shape.basic.Label("Center Label"), new draw2d.layout.locator.CenterLocator(circle));	
+ *     circle.addFigure(new draw2d.shape.basic.Label("Center Label"), new draw2d.layout.locator.CenterLocator(circle)); 
  *     canvas.addFigure( circle, 100,50);
  *
  *     

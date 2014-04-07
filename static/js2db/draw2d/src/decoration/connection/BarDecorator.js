@@ -76,4 +76,3 @@ draw2d.decoration.connection.BarDecorator = draw2d.decoration.connection.Decorat
 	}
 	
 });
-

@@ -153,14 +153,14 @@ draw2d.geo.Point = Class.extend({
      * @param {Number} [y]
      */
     setPosition:function(x,y){
-    	if(x instanceof draw2d.geo.Point){
-     	   this.x=x.x;
-    	   this.y=x.y;
-    	}
-    	else{
-    	   this.x=x;
-    	   this.y=y;
-    	}
+        if(x instanceof draw2d.geo.Point){
+           this.x=x.x;
+           this.y=x.y;
+        }
+        else{
+           this.x=x;
+           this.y=y;
+        }
         this.adjustBoundary();
 
         return this;
@@ -284,24 +284,24 @@ draw2d.geo.Point = Class.extend({
      */
     subtract:function(that)
     {
-    	return new draw2d.geo.Point(this.x-that.x,this.y-that.y);
+        return new draw2d.geo.Point(this.x-that.x,this.y-that.y);
     },
     
     
     dot:function(that)
     {
-    	return this.x*that.x+this.y*that.y;
+        return this.x*that.x+this.y*that.y;
     },
 
     cross:function(that)
     {
-    	return this.x*that.y-this.y*that.x;
+        return this.x*that.y-this.y*that.x;
     },
 
     
     lerp:function(that,t)
     {
-    	return new draw2d.geo.Point(this.x+(that.x-this.x)*t,this.y+(that.y-this.y)*t);
+        return new draw2d.geo.Point(this.x+(that.x-this.x)*t,this.y+(that.y-this.y)*t);
     },
     
 

@@ -86,4 +86,3 @@ draw2d.decoration.connection.ArrowDecorator = draw2d.decoration.connection.Decor
 	    return st;
 	}
 });
-

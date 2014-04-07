@@ -15,19 +15,19 @@
 draw2d.layout.connection.CircuitConnectionRouter = draw2d.layout.connection.ManhattanConnectionRouter.extend({
     NAME : "draw2d.layout.connection.CircuitConnectionRouter",
  
-	/**
-	 * @constructor 
-	 * Creates a new Router object.
-	 * 
-	 */
+    /**
+     * @constructor 
+     * Creates a new Router object.
+     * 
+     */
     init: function(){
         this._super();
 
         this.setBridgeRadius(4);
-        this.setJunctionRadius(2);
+        this.setVertexRadius(2);
         
         // experimental
-        this.abortRoutingOnFirstJunctionNode=false;
+        this.abortRoutingOnFirstVertexNode=false;
     },
     
     
@@ -40,34 +40,40 @@ draw2d.layout.connection.CircuitConnectionRouter = draw2d.layout.connection.Manh
      * @since 2.7.2
      */
     onInstall: function(connection){
-        
+        connection.installEditPolicy(new draw2d.policy.line.LineSelectionFeedbackPolicy());
+       
     },
     
     /**
      * @method
      * Callback method if the router has been removed from the connection. In the case of the CircuitRouter
-     * all junction nodes will be removed from the canvas.
+     * all vertex nodes will be removed from the canvas.
      * 
      * @param {draw2d.Connection} connection The related connection
      * @template
      * @since 2.7.2
      */
     onUninstall: function(connection){
-        if(typeof connection.junctionNodes!=="undefined" && connection.junctionNodes!==null){
-            connection.junctionNodes.remove();
-            connection.junctionNodes = null;
+        if(typeof connection.vertexNodes!=="undefined" && connection.vertexNodes!==null){
+            connection.vertexNodes.remove();
+            connection.vertexNodes = null;
         }
     },
     
     /**
      * @method
-     * Set the radius of the junction node circle.
+     * Set the radius of the vertex circle.
      * 
      * @param {Number} radius
+     * @deprecated
      */
-    setJunctionRadius: function(radius){
-        this.junctionRadius=radius;
+    setVertexRadius: function(radius){
+        this.vertexRadius=radius;
     },
+    /** deprecated 
+     * @private
+     * **/
+    setJunctionRadius: function(radius){ this.vertexRadius=radius;},
     
     /**
      * @method
@@ -82,23 +88,23 @@ draw2d.layout.connection.CircuitConnectionRouter = draw2d.layout.connection.Manh
         this.bridge_RL = [" r", -0.5, -0.5, -(radius-(radius/2)), -(radius-radius/4), -radius, -radius,-(radius+(radius/2)), -(radius-radius/4), -radius*2, "0 "].join(" ");
     },
     
-	/**
-	 * @method
-	 * Layout the hands over connection in a manhattan like layout
-	 * 
-	 * @param {draw2d.Connection} conn the connection to layout
-     * @param {draw2d.util.ArrayList} oldJunctionPoints old/existing junction points of the Connection
-	 */
-	route : function(conn, oldJunctionPoints) {
-		var fromPt  = conn.getStartPoint();
-		var fromDir = conn.getSource().getConnectionDirection(conn, conn.getTarget());
+    /**
+     * @method
+     * Layout the hands over connection in a manhattan like layout
+     * 
+     * @param {draw2d.Connection} conn the connection to layout
+     * @param {draw2d.util.ArrayList} oldVertePoints old/existing vertex of the Connection
+     */
+    route : function(conn, oldVertexPoints) {
+        var fromPt  = conn.getStartPoint();
+        var fromDir = conn.getSource().getConnectionDirection(conn, conn.getTarget());
 
-		var toPt  = conn.getEndPoint();
-		var toDir = conn.getTarget().getConnectionDirection(conn, conn.getSource());
+        var toPt  = conn.getEndPoint();
+        var toDir = conn.getTarget().getConnectionDirection(conn, conn.getSource());
 
-		// calculate the lines between the two points with the standard ManhattanRouter.
-		//
-		this._route(conn, toPt, toDir, fromPt, fromDir);
+        // calculate the lines between the two points with the standard ManhattanRouter.
+        //
+        this._route(conn, toPt, toDir, fromPt, fromDir);
 
         // get the intersections to the other connections
         //
@@ -108,30 +114,30 @@ draw2d.layout.connection.CircuitConnectionRouter = draw2d.layout.connection.Manh
         var intersectionForCalc = intersectionsASC;
         var i = 0;
 
-        // add a ArrayList of all added junction nodes to the connection
+        // add a ArrayList of all added vertex nodes to the connection
         //
-        if(typeof conn.junctionNodes!=="undefined" && conn.junctionNodes!==null){
-            conn.junctionNodes.remove();
+        if(typeof conn.vertexNodes!=="undefined" && conn.vertexNodes!==null){
+            conn.vertexNodes.remove();
         }
-        conn.junctionNodes = conn.canvas.paper.set();
+        conn.vertexNodes = conn.canvas.paper.set();
 
         // ATTENTION: we cast all x/y coordinates to integer and add 0.5 to avoid subpixel rendering of
-		//            the connection. The 1px or 2px lines look much clearer than before.
-		//
-		var ps = conn.getPoints();
-		var p = ps.get(0);
+        //            the connection. The 1px or 2px lines look much clearer than before.
+        //
+        var ps = conn.getVertices();
+        var p = ps.get(0);
         var path = [ "M", (p.x|0)+0.5, " ", (p.y|0)+0.5 ];
 
         var oldP = p;
         var bridgeWidth = null;
         var bridgeCode  = null;
         
-        var lastJunctionNode=null;
-		
+        var lastVertexNode=null;
+        
         for (i = 1; i < ps.getSize(); i++) {
-			p = ps.get(i);
+            p = ps.get(i);
 
-			// line goes from right->left.
+            // line goes from right->left.
             if (oldP.x > p.x) {
                 intersectionForCalc=intersectionsDESC;
                 bridgeCode = this.bridge_RL;
@@ -144,49 +150,49 @@ draw2d.layout.connection.CircuitConnectionRouter = draw2d.layout.connection.Manh
                 bridgeWidth = this.bridgeRadius;
             }
             
-            // add a bridge or a junction node depending to the intersection connection
+            // add a bridge or a vertex node depending to the intersection connection
             //
             // bridge   => the connections didn't have a common port
-            // junction => the connections did have a common source or target port
+            // vertex => the connections did have a common source or target port
             //
             intersectionForCalc.each($.proxy(function(ii, interP) {
                 if (draw2d.shape.basic.Line.hit(1, oldP.x, oldP.y, p.x, p.y, interP.x, interP.y) === true) {
                     
-                    // It is a junction node..
+                    // It is a vertex node..
                     //
-    			    if(conn.sharingPorts(interP.other)){
-    			        var other = interP.other;
+                    if(conn.sharingPorts(interP.other)){
+                        var other = interP.other;
                         var otherZ = other.getZOrder();
                         var connZ = conn.getZOrder();
                         if(connZ<otherZ){
-                            var junctionNode=conn.canvas.paper.ellipse(interP.x,interP.y, this.junctionRadius, this.junctionRadius).attr({fill:conn.lineColor.hash()});
-        			        conn.junctionNodes.push(junctionNode);
-        				    // we found a junction node. In this case an already existing connection did draw the connection.
-        				    //
-        			        if(this.abortRoutingOnFirstJunctionNode===true){
-            				    if(conn.getSource()==other.getSource()|| conn.getSource()==other.getTarget()){
-            				        path = [ "M", (interP.x|0)+0.5, " ", (interP.y|0)+0.5 ];
-            				        if(lastJunctionNode!==null){
-                                        lastJunctionNode.remove();
-            				            conn.junctionNodes.exclude(lastJunctionNode);
-            				        }
-            				    }
-                                lastJunctionNode = junctionNode;
-        			        }
+                            var vertexNode=conn.canvas.paper.ellipse(interP.x,interP.y, this.vertexRadius, this.vertexRadius).attr({fill:conn.lineColor.hash()});
+                            conn.vertexNodes.push(vertexNode);
+                            // we found a vertex node. In this case an already existing connection did draw the connection.
+                            //
+                            if(this.abortRoutingOnFirstVertexNode===true){
+                                if(conn.getSource()==other.getSource()|| conn.getSource()==other.getTarget()){
+                                    path = [ "M", (interP.x|0)+0.5, " ", (interP.y|0)+0.5 ];
+                                    if(lastVerteNode!==null){
+                                        lastVerteNode.remove();
+                                        conn.vertexNodes.exclude(lastVerteNode);
+                                    }
+                                }
+                                lastVerteNode = vertexNode;
+                            }
                         }
-    			    }
+                    }
                     // ..or a bridge. We draw only horizontal bridges. Just a design decision
                     //
-    			    else if (p.y === interP.y) {
+                    else if (p.y === interP.y) {
                         path.push(" L", ((interP.x - bridgeWidth)|0)+0.5, " ", (interP.y|0)+0.5);
                         path.push(bridgeCode);
-    			    }
+                    }
                 }
-			},this));
+            },this));
 
-			path.push(" L", (p.x|0)+0.5, " ", (p.y|0)+0.5);
-			oldP = p;
-		}
-		conn.svgPathString = path.join("");
-	}
+            path.push(" L", (p.x|0)+0.5, " ", (p.y|0)+0.5);
+            oldP = p;
+        }
+        conn.svgPathString = path.join("");
+    }
 });

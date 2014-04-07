@@ -25,9 +25,7 @@
  */
 draw2d.ResizeHandle = draw2d.shape.basic.Rectangle.extend({
     NAME : "draw2d.ResizeHandle",
-
-    DEFAULT_COLOR : "#00bdee",
-    
+ 
     /**
      * @constructor
      * Creates a new figure element which are not assigned to any canvas.
@@ -51,11 +49,10 @@ draw2d.ResizeHandle = draw2d.shape.basic.Rectangle.extend({
       
       this.setDimension();
 
-      this.setBackgroundColor(this.DEFAULT_COLOR);
-      this.setColor("#7A7A7A");
+      this.setBackgroundColor(new draw2d.util.Color(draw2d.Configuration.color.resizeHandle));
       this.setStroke(1);
       this.setSelectable(false);
-      this.setRadius(0);
+      this.setRadius(1);
     },
     
 
@@ -124,38 +121,74 @@ draw2d.ResizeHandle = draw2d.shape.basic.Rectangle.extend({
     createShapeElement : function(){
        var shape= this._super();
        
-       switch(this.type)
-       {
-         case 1:
-          shape.attr({"cursor":"nw-resize"});
-          break;
-         case 2:
-             shape.attr({"cursor":"n-resize"});
-             break;
-         case 3:
-             shape.attr({"cursor":"ne-resize"});
-             break;
-         case 4:
-             shape.attr({"cursor":"e-resize"});
-             break;
-         case 5:
-             shape.attr({"cursor":"se-resize"});
-             break;
-         case 6:
-             shape.attr({"cursor":"s-resize"});
-             break;
-         case 7:
-             shape.attr({"cursor":"sw-resize"});
-             break;
-         case 8:
-             shape.attr({"cursor":"w-resize"});
-             break;
-       }
-
+       this.updateCursor(shape);
+       
        return shape;
     },
 
+    /**
+     * @method
+     * calculate and set the cursor of the reize handle
+     * @private
+     */
+    updateCursor: function(shape){
+        if(shape===null){
+            return this;
+        }
+        
+        if(this.isDraggable()===false){
+            shape.attr({"cursor":"default"});
+            return this;
+        }
+        
+        switch(this.type)
+        {
+          case 1:
+              shape.attr({"cursor":"nw-resize"});
+              break;
+          case 2:
+              shape.attr({"cursor":"n-resize"});
+              break;
+          case 3:
+              shape.attr({"cursor":"ne-resize"});
+              break;
+          case 4:
+              shape.attr({"cursor":"e-resize"});
+              break;
+          case 5:
+              shape.attr({"cursor":"se-resize"});
+              break;
+          case 6:
+              shape.attr({"cursor":"s-resize"});
+              break;
+          case 7:
+              shape.attr({"cursor":"sw-resize"});
+              break;
+          case 8:
+              shape.attr({"cursor":"w-resize"});
+              break;
+          default:
+              shape.attr({"cursor":"move"});
+              break;
+        }
+        return this;
+    },
     
+    /**
+     * @method
+     * Adjust the draggable flag of the resize handle and update the cursor of the shape in relation
+     * to the type of resize handle. north, south,west,..
+     * 
+     * @param flag
+     * @returns 
+     */
+    setDraggable:function(flag)
+    {
+      this._super(flag);
+      this.updateCursor(this.shape);
+      return this;
+    },
+
     /**
      * @method
      * Will be called if the drag and drop action beginns. You can return [false] if you
@@ -286,19 +319,19 @@ draw2d.ResizeHandle = draw2d.shape.basic.Rectangle.extend({
      * @param {Number} x The new x coordinate of the figure
      * @param {Number} y The new y coordinate of the figure
      **/
-    setPosition:function(x ,y )
-    {
-      // don't call base implementation. Base implementation will show ResizeHandles...but I'm the ResizeHandle
-    if(x instanceof draw2d.geo.Point){
-        this.x = x.x;
-        this.y = x.y;
-     }
-     else{
-        this.x= x;
-        this.y= y;
-     }
-      
-      this.repaint();
+    setPosition : function(x, y) {
+        // don't call base implementation. Base implementation will show
+        // ResizeHandles...but I'm the ResizeHandle
+        if (x instanceof draw2d.geo.Point) {
+            this.x = x.x;
+            this.y = x.y;
+        }
+        else {
+            this.x = x;
+            this.y = y;
+        }
+
+        this.repaint();
     },
     
  
@@ -312,18 +345,18 @@ draw2d.ResizeHandle = draw2d.shape.basic.Rectangle.extend({
      */
     setDimension: function(width, height)
     {
-    	if(typeof height !=="undefined"){
-    		this._super(width, height);
-    	}
-    	else{
-	        if(draw2d.isTouchDevice){
-	        	this._super(15,15);
-	        }
-	        else{
-	        	this._super(8,8);
-	        }
-    	}
-    	
+        if(typeof height !=="undefined"){
+            this._super(width, height);
+        }
+        else{
+            if(draw2d.isTouchDevice){
+                this._super(15,15);
+            }
+            else{
+                this._super(8,8);
+            }
+        }
+        
         var offset= this.getWidth();
         var offset2 = offset/2;
         
@@ -397,7 +430,25 @@ draw2d.ResizeHandle = draw2d.shape.basic.Rectangle.extend({
     },
     
     /**
-     * @inheritdoc
+     * @method
+     * Set the new background color of the figure. It is possible to hands over
+     * <code>null</code> to set the background transparent.
+     *
+     * @param {draw2d.util.Color} color The new background color of the figure
+     **/
+     setBackgroundColor : function(color)
+     {
+         color = new draw2d.util.Color(color);
+         
+         this.bgGradient= "90-"+color.hash()+"-"+color.darker(0.2).hash();
+         this._super(color);
+         this.setColor(color.darker(0.3));
+         
+         return this;
+     },
+     
+    /**
+    * @inheritdoc
      * 
      * @param attributes
      */
@@ -411,13 +462,14 @@ draw2d.ResizeHandle = draw2d.shape.basic.Rectangle.extend({
             attributes= {};
         }
         
-        // a port did have the 0/0 coordinate i the center and not in the top/left corner
-        //
-        if(this.getAlpha()<0.9){
-            attributes.fill="#e6e6e8";
+        if(this.bgColor.hash()==="none"){
+            attributes.fill=this.bgColor.hash();
+        }
+        else if(this.getAlpha()<0.9){
+            attributes.fill=this.bgColor.hash();
         }
         else{
-            attributes.fill = "90-#b8c8ec-#e6e6e8";
+            attributes.fill=this.bgGradient;
         }
         
          
@@ -434,7 +486,7 @@ draw2d.ResizeHandle = draw2d.shape.basic.Rectangle.extend({
      **/
     supportsSnapToHelper:function()
     {
-    	return true;
+        return true;
     },
     
     

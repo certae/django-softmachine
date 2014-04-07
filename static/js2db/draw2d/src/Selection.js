@@ -53,9 +53,7 @@ draw2d.Selection = Class.extend({
      */
     setPrimary: function(figure){
         this.primary = figure;
-        if(figure!==null && !this.all.contains(figure)){
-            this.all.add(figure);
-        }
+        this.add(figure);
     },
     
     /**
@@ -70,6 +68,13 @@ draw2d.Selection = Class.extend({
             this.primary = null;
         }
     },
+
+    add: function(figure){
+        if(figure!==null && !this.all.contains(figure)){
+            this.all.add(figure);
+        }
+    },
+ 
     
     /**
      * @method

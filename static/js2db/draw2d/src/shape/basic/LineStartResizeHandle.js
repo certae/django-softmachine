@@ -26,10 +26,10 @@ draw2d.shape.basic.LineStartResizeHandle = draw2d.shape.basic.LineResizeHandle.e
      */
     getRelatedPort:function()
     {
-    	if(this.owner instanceof draw2d.Connection)
-    		return this.owner.getSource();
-    	
-    	return null;
+        if(this.owner instanceof draw2d.Connection)
+            return this.owner.getSource();
+        
+        return null;
     },
     
     /**
@@ -40,10 +40,10 @@ draw2d.shape.basic.LineStartResizeHandle = draw2d.shape.basic.LineResizeHandle.e
      */
     getOppositePort:function()
     {
-    	if(this.owner instanceof draw2d.Connection)
+        if(this.owner instanceof draw2d.Connection)
          return this.owner.getTarget();
-    	
-    	return null;
+        
+        return null;
     },
     
     /**
@@ -78,7 +78,7 @@ draw2d.shape.basic.LineStartResizeHandle = draw2d.shape.basic.LineResizeHandle.e
      **/
     onDrop:function( dropTarget)
     {
-    	this.owner.isMoving=false;
+        this.owner.isMoving=false;
     
       // The ResizeHandle of a Connection has been droped on a Port
       // This will enforce a ReconnectCommand

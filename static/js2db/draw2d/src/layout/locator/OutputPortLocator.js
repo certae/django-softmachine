@@ -35,11 +35,14 @@ draw2d.layout.locator.OutputPortLocator = draw2d.layout.locator.PortLocator.exte
     **/
     relocate:function(index, figure){
         var node = figure.getParent();
-        var gap = node.getHeight()/(node.getOutputPorts().getSize()+1);
-        this.applyConsiderRotation(figure, node.getWidth(), gap*(index+1));
+        var dividerFactor = 1;
+        var thisNAME = this.NAME;
+        var portIndex =1;
+        node.getPorts().each(function(i,p){
+            portIndex = (p===figure)?dividerFactor:portIndex;
+            dividerFactor += p.getLocator().NAME === thisNAME?1:0;
+        });
+        this.applyConsiderRotation( figure, node.getWidth(), (node.getHeight()/dividerFactor)*portIndex);
     }
     
 });
-
-
-

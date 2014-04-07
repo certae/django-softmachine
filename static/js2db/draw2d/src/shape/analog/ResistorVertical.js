@@ -64,8 +64,8 @@ draw2d.shape.analog.ResistorVertical = draw2d.SetFigure.extend({
     createSet: function(){
         var set = this._super();
         
-    	set.push( this.canvas.paper.path("M15,0 L15,5 L0,7.5 L30,10 L0,15 L30,20 L0,25 L30,30 L15,32.5 L15,40"));
-    	
-    	return set;
+        set.push( this.canvas.paper.path("M15,0 L15,5 L0,7.5 L30,10 L0,15 L30,20 L0,25 L30,30 L15,32.5 L15,40"));
+        
+        return set;
     }
 });

@@ -22,7 +22,7 @@ draw2d.shape.node.End = draw2d.shape.basic.Rectangle.extend({
     NAME : "draw2d.shape.node.End",
 
     DEFAULT_COLOR : new draw2d.util.Color("#4D90FE"),
-	
+    
     init : function()
     {
         this._super();

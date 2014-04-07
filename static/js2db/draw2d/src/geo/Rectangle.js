@@ -302,7 +302,7 @@ draw2d.geo.Rectangle = draw2d.geo.Point.extend({
 	 * 
 	 * @return {draw2d.util.ArrayList} the points starting at top/left and the clockwise
 	 */
-	getPoints:function()
+	getVertices:function()
 	{
 	    var result = new draw2d.util.ArrayList();
         result.add(this.getTopLeft());
@@ -312,6 +312,8 @@ draw2d.geo.Rectangle = draw2d.geo.Point.extend({
 
         return result;
 	},
+	/* @deprecated */
+	getPoints: function(){return this.getVertices();},
 	
 	/**
 	 * @method
@@ -464,7 +466,7 @@ draw2d.geo.Rectangle = draw2d.geo.Point.extend({
      */
     determineOctant: function( r2){
         
-        var HISTERESE= 3; // Tolleranz um diese vermieden wird, dass der Octant "8" zurückgegeben wird
+        var HISTERESE= 3; // Tolleranz um diese vermieden wird, dass der Octant "8" zur?�ckgegeben wird
         
         var ox = this.x+HISTERESE;
         var oy = this.y+HISTERESE;
@@ -543,39 +545,39 @@ draw2d.geo.Rectangle = draw2d.geo.Point.extend({
         switch(this.determineOctant(other)){
             case 0:
                 if((current.x-other.x)<(current.y-other.y))
-                    return 0;
-                return 3;
+                    return draw2d.geo.Rectangle.DIRECTION_UP;
+                return draw2d.geo.Rectangle.DIRECTION_LEFT;
             case 1:
-                return 0;
+                return draw2d.geo.Rectangle.DIRECTION_UP;
             case 2:
                 current = this.getTopRight();
                 if((other.x-current.x)<(current.y-other.y))
-                    return 0;
-                return 1;
+                    return draw2d.geo.Rectangle.DIRECTION_UP;
+                return draw2d.geo.Rectangle.DIRECTION_RIGHT;
             case 3:
-                return 1;
+                return draw2d.geo.Rectangle.DIRECTION_RIGHT;
             case 4:
                 current = this.getBottomRight();
                 if((other.x-current.x)<(other.y-current.y))
-                    return 2;
-                return 1;
+                    return draw2d.geo.Rectangle.DIRECTION_DOWN;
+                return draw2d.geo.Rectangle.DIRECTION_RIGHT;
             case 5:
-                return 2;
+                return draw2d.geo.Rectangle.DIRECTION_DOWN;
             case 6:
                 current = this.getBottomLeft();
                 if((current.x-other.x)<(other.y-current.y))
-                    return 2;
-                return 3;
+                    return draw2d.geo.Rectangle.DIRECTION_DOWN;
+                return draw2d.geo.Rectangle.DIRECTION_LEFT;
             case 7:
-                return 3;
+                return draw2d.geo.Rectangle.DIRECTION_LEFT;
             case 8: 
                 if(other.y>this.y){
-                    return 2;
+                    return draw2d.geo.Rectangle.DIRECTION_DOWN;
                 }
-                return 0;
+                return draw2d.geo.Rectangle.DIRECTION_UP;
             
         }
-        return 0;
+        return draw2d.geo.Rectangle.DIRECTION_UP;
     },
     
     
@@ -654,3 +656,10 @@ draw2d.geo.Rectangle = draw2d.geo.Point.extend({
 
 
 });
+/**
+ * ENUM for Direction
+ */
+draw2d.geo.Rectangle.DIRECTION_UP    =0;
+draw2d.geo.Rectangle.DIRECTION_RIGHT =1;
+draw2d.geo.Rectangle.DIRECTION_DOWN  =2;
+draw2d.geo.Rectangle.DIRECTION_LEFT  =3;

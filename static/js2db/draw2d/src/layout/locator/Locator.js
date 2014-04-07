@@ -53,6 +53,6 @@ draw2d.layout.locator.Locator= Class.extend({
      * @template
      **/
     relocate:function(index, figure){
-    	
+        
     }
 });

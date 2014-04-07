@@ -10,14 +10,14 @@
  */
 draw2d.layout.mesh.ProposedMeshChange = Class.extend({
 
-	/**
-	 * @constructor 
-	 * Creates change object.
-	 */
+    /**
+     * @constructor 
+     * Creates change object.
+     */
     init: function(figure, x, y){
-    	this.figure = figure;
-    	this.x = x;
-    	this.y = y;
+        this.figure = figure;
+        this.x = x;
+        this.y = y;
     },
     
     /**
@@ -28,7 +28,7 @@ draw2d.layout.mesh.ProposedMeshChange = Class.extend({
      */
     getFigure:function( )
     {
-    	return this.figure;
+        return this.figure;
     },
     
     /**
@@ -38,7 +38,7 @@ draw2d.layout.mesh.ProposedMeshChange = Class.extend({
      * @return {Number}
      */
     getX: function(){
-    	return this.x;
+        return this.x;
     },
     
     /**
@@ -48,7 +48,7 @@ draw2d.layout.mesh.ProposedMeshChange = Class.extend({
      * @return {Number}
      */
     getY: function(){
-    	return this.y;
+        return this.y;
     }
     
 });

@@ -16,23 +16,23 @@ draw2d.layout.connection.MazeConnectionRouter = draw2d.layout.connection.Connect
     NAME : "draw2d.layout.connection.MazeConnectionRouter",
 
     
-	/**
-	 * @constructor 
-	 * Creates a new Router object.
-	 * 
-	 */
+    /**
+     * @constructor 
+     * Creates a new Router object.
+     * 
+     */
     init: function(){
         this._super();
 
         this.useSpline = false;
-    	this.useSimplify = true;
-    	this.useSimplifyValue=2;
-    	this.useDebug = false;
-    	this.useShift = 4;
-    	this.portOutletOffset = 15;
-    	
+        this.useSimplify = true;
+        this.useSimplifyValue=2;
+        this.useDebug = false;
+        this.useShift = 4;
+        this.portOutletOffset = 15;
+        
    
-//    	this.finder = new PF.AStarFinder();
+//      this.finder = new PF.AStarFinder();
 //      this.finder = new PF.AStarFinder({ allowDiagonal: true, dontCrossCorners: true});
 //      this.finder = new PF.AStarFinder({ allowDiagonal: false});
 //      this.finder = new PF.BiBreadthFirstFinder({ allowDiagonal: false});
@@ -40,43 +40,45 @@ draw2d.layout.connection.MazeConnectionRouter = draw2d.layout.connection.Connect
         this.finder = new PF.JumpPointFinder({allowDiagonal: false, dontCrossCorners: true});
     },
     
-	/**
-	 * @method
-	 * Layout the hands over connection in a manhattan like layout
-	 * 
-	 * @param {draw2d.Connection} conn
-     * @param {draw2d.util.ArrayList} oldJunctionPoints old/existing junction points of the Connection
-	 */
-	route:function( conn, oldJunctionPoints)
-	{
-	   var fromPt  = conn.getStartPoint();
-	   var fromDir = conn.getSource().getConnectionDirection(conn, conn.getTarget());
+    
+    /**
+     * @method
+     * Callback method if the router has been assigned to a connection.
+     * 
+     * @param {draw2d.Connection} connection The assigned connection
+     * @template
+     * @since 2.7.2
+     */
+    onInstall: function(connection){
+        connection.installEditPolicy(new draw2d.policy.line.LineSelectionFeedbackPolicy());
+       
+    },
+ 
+    /**
+     * @method
+     * Layout the hands over connection in a manhattan like layout
+     * 
+     * @param {draw2d.Connection} conn
+     * @param {draw2d.util.ArrayList} oldVertices old/existing vertices of the Connection
+     */
+    route:function( conn, oldVertices)
+    {
+       var fromPt  = conn.getStartPoint();
+       var fromDir = conn.getSource().getConnectionDirection(conn, conn.getTarget());
 
        var toPt    = conn.getEndPoint();
-	   var toDir   = conn.getTarget().getConnectionDirection(conn, conn.getSource());
-	
-	   // calculate the lines between the two points.
-	   //
-	   this._route(conn,toPt, toDir, fromPt, fromDir);
-	   
-	   // calculate the path string for the SVG rendering
-	   // Important: to avoid subpixel error rendering we add 0.5 to each coordinate
-	   //            With this offset the canvas can paint the line on a "full pixel" instead
-	   //            of subpixel rendering.
-       var ps = conn.getPoints();
-       var p = ps.get(0);
-       var path = ["M",(p.x|0)+0.5," ",(p.y|0)+0.5];
-       for( var i=1;i<ps.getSize();i++){
-             p = ps.get(i);
-             path.push("L", (p.x|0)+0.5, " ", (p.y|0)+0.5);
-       }
-       conn.svgPathString = path.join("");
-	},
-	
-	/**
-	 * @method
-	 * Internal routing algorithm.
-	 *      * <p>
+       var toDir   = conn.getTarget().getConnectionDirection(conn, conn.getSource());
+    
+       // calculate the lines between the two points.
+       //
+       this._route(conn,toPt, toDir, fromPt, fromDir);
+       this._paint(conn);
+    },
+    
+    /**
+     * @method
+     * Internal routing algorithm.
+     *      * <p>
      * Possible values:
      * <ul>
      *   <li>up -&gt; 0</li>
@@ -86,32 +88,32 @@ draw2d.layout.connection.MazeConnectionRouter = draw2d.layout.connection.Connect
      * </ul>
      * <p>
 
-	 * @private
-	 * @param {draw2d.Connection} conn
-	 * @param {draw2d.geo.Point} fromPt
-	 * @param {Number} fromDir
-	 * @param {draw2d.geo.Point} toPt
-	 * @param {Number} toDir
-	 */
-	_route:function( conn, fromPt, fromDir, toPt, toDir)
-	{
+     * @private
+     * @param {draw2d.Connection} conn
+     * @param {draw2d.geo.Point} fromPt
+     * @param {Number} fromDir
+     * @param {draw2d.geo.Point} toPt
+     * @param {Number} toDir
+     */
+    _route:function( conn, fromPt, fromDir, toPt, toDir)
+    {
         var shift     = this.useShift ; 
         
         oldToPt   = toPt;
         oldFromPt = fromPt;
-	    
+        
         // move the points with an offset in the prefered routing direction of the ports
         // to avoid that the routed connection is sticking on one side of the figure.
         //
-	    fromPt = this.getAddjustedPoint(fromPt, fromDir, this.portOutletOffset);
-	    toPt   = this.getAddjustedPoint(toPt,   toDir,   this.portOutletOffset);
-	    
-	    var grid = this.generateNoGoGrid(conn, fromPt, fromDir, toPt, toDir);
+        fromPt = this.getAddjustedPoint(fromPt, fromDir, this.portOutletOffset);
+        toPt   = this.getAddjustedPoint(toPt,   toDir,   this.portOutletOffset);
+        
+        var grid = this.generateNoGoGrid(conn, fromPt, fromDir, toPt, toDir);
  
         // 4. Calculate the shortest path from source to target based on the grid
         //
         var path = this.finder.findPath(
-        		                   fromPt.x>>shift, fromPt.y>>shift, 
+                                   fromPt.x>>shift, fromPt.y>>shift, 
                                    toPt.x>>shift,   toPt.y>>shift, 
                                    grid);
         
@@ -166,13 +168,13 @@ draw2d.layout.connection.MazeConnectionRouter = draw2d.layout.connection.Connect
         
 
         if(this.useSpline){
-	        var p  =new draw2d.util.ArrayList();
-	        p.add(oldFromPt);
-	        $.each(path,function(i,e){
-	            p.add(new draw2d.geo.Point(e[0], e[1]));
-	        });
-	        p.add(oldToPt);
-	        
+            var p  =new draw2d.util.ArrayList();
+            p.add(oldFromPt);
+            $.each(path,function(i,e){
+                p.add(new draw2d.geo.Point(e[0], e[1]));
+            });
+            p.add(oldToPt);
+            
             if(this.useDebug){
                 $.each(path,function(i,e){
                     ROUTER_RECTS.push( conn.canvas.paper.rect(e.x-3,e.y-3,6,6).attr({"fill":"#00ff00","opacity": "0.8"}));
@@ -188,31 +190,31 @@ draw2d.layout.connection.MazeConnectionRouter = draw2d.layout.connection.Connect
             }
 
             this.spline = new draw2d.util.spline.CubicSpline();
-	        var splinePoints = this.spline.generate(p,8);
+            var splinePoints = this.spline.generate(p,8);
 
-	        if(this.useSimplify){
-		        path=[];
-		        splinePoints.each(function(i,e){
-		        	path.push({x:e.x,y:e.y});
-		        });
-		        path = this.simplify(path,this.useSimplifyValue ,true);
-		        
-		        $.each(path,function(i,e){
-		            conn.addPoint(e.x,e.y);
-		        });
-	        }
-	        else{
-	        	splinePoints.each(function(i,e){
-		            conn.addPoint(e);
-		        });
-	        }
-	    }
+            if(this.useSimplify){
+                path=[];
+                splinePoints.each(function(i,e){
+                    path.push({x:e.x,y:e.y});
+                });
+                path = this.simplify(path,this.useSimplifyValue ,true);
+                
+                $.each(path,function(i,e){
+                    conn.addPoint(e.x,e.y);
+                });
+            }
+            else{
+                splinePoints.each(function(i,e){
+                    conn.addPoint(e);
+                });
+            }
+        }
         else{
-        	if(this.useSimplify){
-        		path = this.simplify(path,this.useSimplifyValue ,true);
-        	}
+            if(this.useSimplify){
+                path = this.simplify(path,this.useSimplifyValue ,true);
+            }
             
-        	if(this.useDebug){
+            if(this.useDebug){
                 $.each(path,function(i,e){
                     ROUTER_RECTS.push( conn.canvas.paper.rect(e.x-3,e.y-3,6,6).attr({"fill":"#00ff00","opacity": "0.8"}));
                 });
@@ -227,27 +229,27 @@ draw2d.layout.connection.MazeConnectionRouter = draw2d.layout.connection.Connect
             }
 
             conn.addPoint(oldFromPt);
-	        $.each(path,function(i,e){
-	            conn.addPoint(e[0], e[1]);
-	        });
-	        conn.addPoint(oldToPt);
+            $.each(path,function(i,e){
+                conn.addPoint(e[0], e[1]);
+            });
+            conn.addPoint(oldToPt);
 
         }
 
-	},
-	
-	/**
-	 * @method
-	 * Generate a grid base no go map required for the path finding algorithm
-	 * 
-	 * @param conn
-	 * @returns {PF.Grid}
-	 */
-	generateNoGoGrid: function(conn, fromPt, fromDir, toPt, toDir){
+    },
+    
+    /**
+     * @method
+     * Generate a grid base no go map required for the path finding algorithm
+     * 
+     * @param conn
+     * @returns {PF.Grid}
+     */
+    generateNoGoGrid: function(conn, fromPt, fromDir, toPt, toDir){
         var shift     = this.useShift ; 
         var oneShift2 = (1<<shift)/2;
 
-	    // 1. generate a map with all "no go" areas. The bounding box of the shapes defines
+        // 1. generate a map with all "no go" areas. The bounding box of the shapes defines
         //    the no go areas.
         //
         var canvasWidth  = conn.getCanvas().paper.width>>shift;
@@ -326,32 +328,33 @@ draw2d.layout.connection.MazeConnectionRouter = draw2d.layout.connection.Connect
         }
         
         return grid;
-	},
-	
-	/**
-	 * @method
-	 * move the point in the given direction with the given offset
-	 * 
-	 * @param {draw2d.geo.Point} pt
-	 * @param {Number} direction
-	 * @param {Number} adjustment
-	 * 
-	 * @returns {draw2d.geo.Point}
-	 */
-	getAddjustedPoint: function(pt , direction, adjustment){
-	    switch(direction){
-	        case 0:
-	            return new draw2d.geo.Point(pt.x, pt.y-adjustment);
-            case 1:
+    },
+    
+    /**
+     * @method
+     * move the point in the given direction with the given offset
+     * 
+     * @param {draw2d.geo.Point} pt
+     * @param {Number} direction
+     * @param {Number} adjustment
+     * 
+     * @returns {draw2d.geo.Point}
+     */
+    getAddjustedPoint: function(pt , direction, adjustment){
+
+        switch(direction){
+            case draw2d.geo.Rectangle.DIRECTION_UP:
+                return new draw2d.geo.Point(pt.x, pt.y-adjustment);
+            case draw2d.geo.Rectangle.DIRECTION_RIGHT:
                 return new draw2d.geo.Point(pt.x+adjustment, pt.y);
-            case 2:
+            case draw2d.geo.Rectangle.DIRECTION_DOWN:
                 return new draw2d.geo.Point(pt.x,pt.y+adjustment);
-            case 3:
+            case draw2d.geo.Rectangle.DIRECTION_LEFT:
                 return new draw2d.geo.Point(pt.x-adjustment,pt.y);
-	    }
-	},
-	
-	adjustPath: function(pt , path, direction){
+        }
+    },
+    
+    adjustPath: function(pt , path, direction){
         var shift = this.useShift;
         var x = pt.x>>shift;
         var y = pt.y>>shift;
@@ -376,151 +379,148 @@ draw2d.layout.connection.MazeConnectionRouter = draw2d.layout.connection.Connect
 
     getSquareDistance: function(p1, p2) { // square distance between 2 points
 
-    		var dx = p1.x - p2.x,
-    		    dy = p1.y - p2.y;
+            var dx = p1.x - p2.x,
+                dy = p1.y - p2.y;
 
-    		return dx * dx +
-    		       dy * dy;
-    	},
+            return dx * dx +
+                   dy * dy;
+        },
 
-   	getSquareSegmentDistance: function(p, p1, p2) { // square distance from a point to a segment
+    getSquareSegmentDistance: function(p, p1, p2) { // square distance from a point to a segment
 
-    		var x = p1.x,
-    		    y = p1.y,
+            var x = p1.x,
+                y = p1.y,
 
-    		    dx = p2.x - x,
-    		    dy = p2.y - y,
+                dx = p2.x - x,
+                dy = p2.y - y,
 
-    		    t;
+                t;
 
-    		if (dx !== 0 || dy !== 0) {
+            if (dx !== 0 || dy !== 0) {
 
-    			t = ((p.x - x) * dx +
-    			     (p.y - y) * dy) /
-    			        (dx * dx +
-    			         dy * dy);
+                t = ((p.x - x) * dx +
+                     (p.y - y) * dy) /
+                        (dx * dx +
+                         dy * dy);
 
-    			if (t > 1) {
-    				x = p2.x;
-    				y = p2.y;
+                if (t > 1) {
+                    x = p2.x;
+                    y = p2.y;
 
-    			} else if (t > 0) {
-    				x += dx * t;
-    				y += dy * t;
-    			}
-    		}
+                } else if (t > 0) {
+                    x += dx * t;
+                    y += dy * t;
+                }
+            }
 
-    		dx = p.x - x;
-    		dy = p.y - y;
+            dx = p.x - x;
+            dy = p.y - y;
 
-    		return dx * dx +
-    		       dy * dy;
-    	},
+            return dx * dx +
+                   dy * dy;
+        },
 
-    	simplifyRadialDistance: function(points, sqTolerance) { // distance-based simplification
+        simplifyRadialDistance: function(points, sqTolerance) { // distance-based simplification
 
-    		var i,
-    		    len = points.length,
-    		    point =null,
-    		    prevPoint = points[0],
-    		    newPoints = [prevPoint];
+            var i,
+                len = points.length,
+                point =null,
+                prevPoint = points[0],
+                newPoints = [prevPoint];
 
-    		for (i = 1; i < len; i++) {
-    			point = points[i];
+            for (i = 1; i < len; i++) {
+                point = points[i];
 
-    			if (this.getSquareDistance(point, prevPoint) > sqTolerance) {
-    				newPoints.push(point);
-    				prevPoint = point;
-    			}
-    		}
+                if (this.getSquareDistance(point, prevPoint) > sqTolerance) {
+                    newPoints.push(point);
+                    prevPoint = point;
+                }
+            }
 
-    		if (prevPoint !== point) {
-    			newPoints.push(point);
-    		}
+            if (prevPoint !== point) {
+                newPoints.push(point);
+            }
 
-    		return newPoints;
-    	},
-
-
-    	// simplification using optimized Douglas-Peucker algorithm with recursion elimination
-
-    	simplifyDouglasPeucker: function(points, sqTolerance) {
-
-    		var len = points.length,
-
-    		    MarkerArray = (typeof Uint8Array !== undefined + '')
-    		                ? Uint8Array
-    		                : Array,
-
-    		    markers = new MarkerArray(len),
-
-    		    first = 0,
-    		    last  = len - 1,
-
-    		    i,
-    		    maxSqDist,
-    		    sqDist,
-    		    index,
-
-    		    firstStack = [],
-    		    lastStack  = [],
-
-    		    newPoints  = [];
-
-    		markers[first] = markers[last] = 1;
-
-    		while (last) {
-
-    			maxSqDist = 0;
-
-    			for (i = first + 1; i < last; i++) {
-    				sqDist = this.getSquareSegmentDistance(points[i], points[first], points[last]);
-
-    				if (sqDist > maxSqDist) {
-    					index = i;
-    					maxSqDist = sqDist;
-    				}
-    			}
-
-    			if (maxSqDist > sqTolerance) {
-    				markers[index] = 1;
-
-    				firstStack.push(first);
-    				lastStack.push(index);
-
-    				firstStack.push(index);
-    				lastStack.push(last);
-    			}
-
-    			first = firstStack.pop();
-    			last = lastStack.pop();
-    		}
-
-    		for (i = 0; i < len; i++) {
-    			if (markers[i]) {
-    				newPoints.push(points[i]);
-    			}
-    		}
-
-    		return newPoints;
-    	},
+            return newPoints;
+        },
 
 
+        // simplification using optimized Douglas-Peucker algorithm with recursion elimination
 
-    	simplify : function (points, tolerance, highestQuality) {
+        simplifyDouglasPeucker: function(points, sqTolerance) {
 
-    		var sqTolerance = (tolerance !== undefined)
-    		                ? tolerance * tolerance
-    		                : 1;
+            var len = points.length,
 
-    		if (!highestQuality) {
-    			points = this.simplifyRadialDistance(points, sqTolerance);
-    		}
-    		points = this.simplifyDouglasPeucker(points, sqTolerance);
+                MarkerArray = (typeof Uint8Array !== undefined + '')
+                            ? Uint8Array
+                            : Array,
 
-    		return points;
-    	}
+                markers = new MarkerArray(len),
 
-	
+                first = 0,
+                last  = len - 1,
 
+                i,
+                maxSqDist,
+                sqDist,
+                index,
+
+                firstStack = [],
+                lastStack  = [],
+
+                newPoints  = [];
+
+            markers[first] = markers[last] = 1;
+
+            while (last) {
+
+                maxSqDist = 0;
+
+                for (i = first + 1; i < last; i++) {
+                    sqDist = this.getSquareSegmentDistance(points[i], points[first], points[last]);
+
+                    if (sqDist > maxSqDist) {
+                        index = i;
+                        maxSqDist = sqDist;
+                    }
+                }
+
+                if (maxSqDist > sqTolerance) {
+                    markers[index] = 1;
+
+                    firstStack.push(first);
+                    lastStack.push(index);
+
+                    firstStack.push(index);
+                    lastStack.push(last);
+                }
+
+                first = firstStack.pop();
+                last = lastStack.pop();
+            }
+
+            for (i = 0; i < len; i++) {
+                if (markers[i]) {
+                    newPoints.push(points[i]);
+                }
+            }
+
+            return newPoints;
+        },
+
+
+
+        simplify : function (points, tolerance, highestQuality) {
+
+            var sqTolerance = (tolerance !== undefined)
+                            ? tolerance * tolerance
+                            : 1;
+
+            if (!highestQuality) {
+                points = this.simplifyRadialDistance(points, sqTolerance);
+            }
+            points = this.simplifyDouglasPeucker(points, sqTolerance);
+
+            return points;
+        }
 });

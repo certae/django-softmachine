@@ -49,7 +49,7 @@
  */
 draw2d.shape.layout.VerticalLayout= draw2d.shape.layout.Layout.extend({
 
-	NAME : "draw2d.shape.layout.VerticalLayout",
+    NAME : "draw2d.shape.layout.VerticalLayout",
 
     /**
      * @constructor
@@ -114,6 +114,7 @@ draw2d.shape.layout.VerticalLayout= draw2d.shape.layout.Layout.extend({
         this.children.each(function(i,e){
             height += e.figure.getMinHeight();
         });
+        
         return height;
     },
     
@@ -133,6 +134,3 @@ draw2d.shape.layout.VerticalLayout= draw2d.shape.layout.Layout.extend({
    
 
 });
-
-
-

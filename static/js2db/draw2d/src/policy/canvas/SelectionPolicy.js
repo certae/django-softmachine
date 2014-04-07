@@ -23,8 +23,9 @@ draw2d.policy.canvas.SelectionPolicy = draw2d.policy.canvas.CanvasPolicy.extend(
  
 
     unselect: function(canvas, figure){
-        figure.unselect();
         canvas.getSelection().remove(figure);
+
+        figure.unselect();
 
         canvas.selectionListeners.each(function(i,w){
             w.onSelectionChanged(null);

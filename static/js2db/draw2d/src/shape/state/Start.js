@@ -22,9 +22,9 @@ draw2d.shape.state.Start = draw2d.shape.basic.Circle.extend({
 
     NAME : "draw2d.shape.state.Start",
 
-	DEFAULT_COLOR : new draw2d.util.Color("#3369E8"),
+    DEFAULT_COLOR : new draw2d.util.Color("#3369E8"),
 
-	init : function()
+    init : function()
     {
         this._super();
         

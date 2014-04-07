@@ -22,9 +22,9 @@ draw2d.shape.node.Start = draw2d.shape.basic.Rectangle.extend({
 
     NAME : "draw2d.shape.node.Start",
 
-	DEFAULT_COLOR : new draw2d.util.Color("#4D90FE"),
+    DEFAULT_COLOR : new draw2d.util.Color("#4D90FE"),
 
-	init : function()
+    init : function()
     {
         this._super();
         

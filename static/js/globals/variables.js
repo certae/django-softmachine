@@ -38,7 +38,8 @@ _SM._PConfig =  {
     urlHelpQbe: 'protoLib/protoGetHelpQbe/',
     urlLogOut:  'protoLib/protoLogout/',
     urlGetNextIncrement: 'protoLib/getFieldIncrement/',
-    urlGetTableJSONDiagram: 'protoLib/getTableJSONDiagram/',
+    urlGetEntitiesJSONDiagram: 'protoLib/getEntitiesJSONDiagram/',
+    synchDBFromDiagram: 'protoLib/synchDBFromDiagram/',
 
     clsBaseModel: 'ProtoUL.model.'
 };

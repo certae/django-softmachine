@@ -32,7 +32,7 @@ draw2d.Canvas = Class.extend(
      * 
      * @param {String} canvasId the id of the DOM element to use a parent container
      */
-    init : function(canvasId)
+    init : function(canvasId, width, height)
     {
         // Hook the canvas calculation for IE8
         //
@@ -52,8 +52,14 @@ draw2d.Canvas = Class.extend(
         this.canvasId = canvasId;
         this.html = $("#"+canvasId);
         this.html.css({"cursor":"default"});
-        this.initialWidth = this.getWidth();
-        this.initialHeight = this.getHeight();
+        if(typeof width!=="undefined"){
+            this.initialWidth = width;
+            this.initialHeight = height;
+        }
+        else{
+            this.initialWidth = this.getWidth();
+            this.initialHeight = this.getHeight();
+        }
         
         // avoid the "highlighting" in iPad, iPhone if the user tab/touch on the canvas.
         // .... I don't like this.
@@ -106,7 +112,12 @@ draw2d.Canvas = Class.extend(
 
         // painting stuff
         //
-        this.paper = Raphael(canvasId, this.getWidth(), this.getHeight());
+        if(typeof height!== "undefined"){
+            this.paper = Raphael(canvasId,width, height);
+        }
+        else{
+            this.paper = Raphael(canvasId, this.getWidth(), this.getHeight());
+        }
         this.paper.canvas.style.position="absolute";
         
         // Status handling
@@ -175,13 +186,12 @@ draw2d.Canvas = Class.extend(
             }
 
             event = this._getEvent(event);
-
             this.calculateConnectionIntersection();
 
             this.mouseDown = false;
             var pos = this.fromDocumentToCanvasCoordinate(event.clientX, event.clientY);
             this.editPolicy.each($.proxy(function(i,policy){
-                policy.onMouseUp(this, pos.x, pos.y);
+                policy.onMouseUp(this, pos.x, pos.y, event.shiftKey, event.ctrlKey);
             },this));
             
             this.mouseDragDiffX = 0;
@@ -200,22 +210,22 @@ draw2d.Canvas = Class.extend(
                //
                // don't break the main event loop if one element fires an error during enter/leave event.
                try{
-	               var hover = this.getBestFigure(pos.x,pos.y);
-	               if(hover !== this.currentHoverFigure && this.currentHoverFigure!==null){
-	            	   this.currentHoverFigure.onMouseLeave();
-	               }
-	               if(hover !== this.currentHoverFigure && hover!==null){
-	            	   hover.onMouseEnter();
-	               }
-	               this.currentHoverFigure = hover;
+                   var hover = this.getBestFigure(pos.x,pos.y);
+                   if(hover !== this.currentHoverFigure && this.currentHoverFigure!==null){
+                       this.currentHoverFigure.onMouseLeave();
+                   }
+                   if(hover !== this.currentHoverFigure && hover!==null){
+                       hover.onMouseEnter();
+                   }
+                   this.currentHoverFigure = hover;
                }
                catch(exc){
-            	   // just write it to the console
-            	   console.log(exc);
+                   // just write it to the console
+                   console.log(exc);
                }
 
                this.editPolicy.each($.proxy(function(i,policy){
-                   policy.onMouseMove(this,pos.x, pos.y);
+                   policy.onMouseMove(this, pos.x, pos.y, event.shiftKey, event.ctrlKey);
                },this));
             }
             else{
@@ -244,14 +254,14 @@ draw2d.Canvas = Class.extend(
                 pos = this.fromDocumentToCanvasCoordinate(event.clientX, event.clientY);
                 this.mouseDown = true;
                 this.editPolicy.each($.proxy(function(i,policy){
-                    policy.onMouseDown(this,pos.x,pos.y);
+                    policy.onMouseDown(this,pos.x,pos.y, event.shiftKey, event.ctrlKey);
                 },this));
                 break;
             case 3: //Right mouse button pressed             
                 event.preventDefault();
                 event = this._getEvent(event);
                 pos = this.fromDocumentToCanvasCoordinate(event.clientX, event.clientY);
-                this.onRightMouseDown(pos.x, pos.y);
+                this.onRightMouseDown(pos.x, pos.y, event.shiftKey, event.ctrlKey);
                 break;
             case 2:
                 //Middle mouse button pressed
@@ -271,7 +281,7 @@ draw2d.Canvas = Class.extend(
             this.mouseDownX = event.clientX;
             this.mouseDownY = event.clientY;
             var pos = this.fromDocumentToCanvasCoordinate(event.clientX, event.clientY);
-            this.onDoubleClick(pos.x, pos.y);
+            this.onDoubleClick(pos.x, pos.y, event.shiftKey, event.ctrlKey);
         },this));
 
         
@@ -285,7 +295,7 @@ draw2d.Canvas = Class.extend(
             //
             if(this.mouseDownX === event.clientX ||  this.mouseDownY === event.clientY){
                 var pos = this.fromDocumentToCanvasCoordinate(event.clientX, event.clientY);
-                this.onClick(pos.x, pos.y);
+                this.onClick(pos.x, pos.y, event.shiftKey, event.ctrlKey);
             }
         },this));
 
@@ -301,6 +311,31 @@ draw2d.Canvas = Class.extend(
            }
         },this));
 
+    },
+
+    /**
+     * @method
+     * Callback for any kind of image export tools to trigger the canvas to hide all unwanted
+     * decorations. The method is called e.g. from the draw2d.io.png.Writer
+     * 
+     * @since 4.0.0
+     * @template
+     */
+    hideDecoration: function(){
+        
+    },
+
+    /**
+     * @method
+     * callback method for any image export writer to reactivate the decoration
+     * of the canvas. e.g. grids, rulers,...
+     * 
+     * 
+     * @since 4.0.0
+     * @template
+     */
+    showDecoration: function(){
+        
     },
 
     /**
@@ -386,6 +421,7 @@ draw2d.Canvas = Class.extend(
             this.getSelection().getAll().each(function(i,figure){
                 figure.unselect();
             });
+            
             // remove existing selection policy
             this.editPolicy.grep($.proxy(function(p){
                 var stay = !(p instanceof draw2d.policy.canvas.SelectionPolicy); 
@@ -425,7 +461,7 @@ draw2d.Canvas = Class.extend(
         }
         
         this.editPolicy.grep($.proxy(function(p){
-            if(p === policy){
+            if(p === policy || (p.NAME === policy.NAME)){
                 p.onUninstall(this);
                 return false;
             }
@@ -445,8 +481,8 @@ draw2d.Canvas = Class.extend(
         var _zoom = $.proxy(function(z){
             this.zoomFactor = Math.min(Math.max(0.01,z),10);
             
-            var viewBoxWidth  = (this.initialWidth*this.zoomFactor)|0;
-            var viewBoxHeight = (this.initialHeight*this.zoomFactor)|0;
+            var viewBoxWidth  = (this.initialWidth*(this.zoomFactor))|0;
+            var viewBoxHeight = (this.initialHeight*(this.zoomFactor))|0;
             
             this.paper.setViewBox(0, 0, viewBoxWidth, viewBoxHeight);
             
@@ -486,6 +522,7 @@ draw2d.Canvas = Class.extend(
         return this.zoomFactor;
     },
     
+    
     /**
      * @method
      * Transforms a document coordinate to canvas coordinate.
@@ -519,8 +556,8 @@ draw2d.Canvas = Class.extend(
      */
     fromCanvasToDocumentCoordinate : function(x,y) {
         return new draw2d.geo.Point(
-                (x + this.getAbsoluteX() - this.getScrollLeft())*this.zoomFactor,
-                (y + this.getAbsoluteY() - this.getScrollTop())*this.zoomFactor);
+                ((x*(1/this.zoomFactor)) + this.getAbsoluteX() - this.getScrollLeft()),
+                ((y*(1/this.zoomFactor)) + this.getAbsoluteY() - this.getScrollTop()));
     },
     
     /**
@@ -835,9 +872,10 @@ draw2d.Canvas = Class.extend(
       // All elements have the same drop targets.
       //
       port.targets= this.dropTargets;
-      
-      this.commonPorts.add(port);
-      this.dropTargets.add(port);
+      if(!this.commonPorts.contains(port)){
+          this.commonPorts.add(port);
+          this.dropTargets.add(port);
+      }
     },
 
     /**
@@ -850,10 +888,10 @@ draw2d.Canvas = Class.extend(
      **/
     unregisterPort:function(port )
     {
-      port.targets=null;
+        port.targets=null;
 
-      this.commonPorts.remove(port);
-      this.dropTargets.remove(port);
+        this.commonPorts.remove(port);
+        this.dropTargets.remove(port);
     },
 
     /**
@@ -910,7 +948,7 @@ draw2d.Canvas = Class.extend(
     {
         this.selection.each($.proxy(function(i,e){
             this.editPolicy.each($.proxy(function(i,policy){
-                if(typeof policy.select==="function"){
+                if(typeof policy.unselect==="function"){
                     policy.unselect(this,e);
                 }
             },this));
@@ -921,7 +959,6 @@ draw2d.Canvas = Class.extend(
                 policy.select(this,figure);
             }
         },this));
-        
     },
 
     /**
@@ -1210,6 +1247,7 @@ draw2d.Canvas = Class.extend(
       if(keyCode==46 && this.selection.getPrimary()!==null){
          this.commandStack.execute(this.selection.getPrimary().createCommand(new draw2d.command.CommandType(draw2d.command.CommandType.DELETE)));
       }
+      /*
       else if(keyCode==90 && ctrl){
          this.commandStack.undo();
       }
@@ -1222,12 +1260,13 @@ draw2d.Canvas = Class.extend(
       else if(keyCode ===109){
           this.setZoom(this.zoomFactor*1.05);
       }
+      */
     },
 
     /**
      * @private
      **/
-    onDoubleClick : function(/* :int */x, /* :int */y)
+    onDoubleClick : function(/* :int */x, /* :int */y, shiftKey, ctrlKey)
     {
         // check if a line has been hit
         //
@@ -1236,28 +1275,39 @@ draw2d.Canvas = Class.extend(
         if(figure!==null){
             figure.onDoubleClick();
         }
+        // forward the event to all install policies as well.
+        // (since 4.0.0)
+        this.editPolicy.each($.proxy(function(i,policy){
+            policy.onDoubleClick(figure, x,y, shiftKey, ctrlKey);
+        },this));
     },
 
     /**
+     * @param {Boolean} shiftKey true if the shift key has been pressed during this event
+     * @param {Boolean} ctrlKey true if the ctrl key has been pressed during the event
      * @private
      **/
-    onClick : function(/* :int */x, /* :int */y)
+    onClick : function(/* :int */x, /* :int */y, shiftKey, ctrlKey)
     {
-        // check if a line has been hit
+        // check if a figure has been hit
         //
         var figure = this.getBestFigure(x, y);
-
+        
+        // or a line/connection. May we should test the line before a figure..?
+        // (since 4.0.0)
+        if(figure===null){
+            figure = this.getBestLine(x,y);
+        }
+        
         if(figure!==null){
             figure.onClick();
             
-            // forward the event to all install policies ass well
-            // (since 3.0.0)
-            this.editPolicy.each($.proxy(function(i,policy){
-                if(typeof policy.onClick==="function"){
-                    policy.onClick(figure, x,y);
-                }
-            },this));
         }
+        // forward the event to all install policies as well.
+        // (since 3.0.0)
+        this.editPolicy.each($.proxy(function(i,policy){
+            policy.onClick(figure, x,y, shiftKey, ctrlKey);
+        },this));
 
     },
 

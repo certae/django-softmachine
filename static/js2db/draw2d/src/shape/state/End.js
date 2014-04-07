@@ -22,9 +22,9 @@ draw2d.shape.state.End = draw2d.shape.basic.Circle.extend({
 
     NAME : "draw2d.shape.state.End",
 
-	DEFAULT_COLOR : new draw2d.util.Color("#4D90FE"),
+    DEFAULT_COLOR : new draw2d.util.Color("#4D90FE"),
 
-	init : function()
+    init : function()
     {
         this.innerCircle = new draw2d.shape.basic.Circle(20);
 

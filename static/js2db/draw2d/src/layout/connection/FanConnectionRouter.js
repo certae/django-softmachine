@@ -65,14 +65,28 @@ draw2d.layout.connection.FanConnectionRouter = draw2d.layout.connection.DirectRo
         
     },
 
+    
+    /**
+     * @method
+     * Callback method if the router has been assigned to a connection.
+     * 
+     * @param {draw2d.Connection} connection The assigned connection
+     * @template
+     * @since 2.7.2
+     */
+    onInstall: function(connection){
+        connection.installEditPolicy(new draw2d.policy.line.LineSelectionFeedbackPolicy());
+       
+    },
+ 
     /**
      * @method 
      * Layout the hands over connection in a manhattan like layout
      * 
      * @param {draw2d.Connection}  conn
-     * @param {draw2d.util.ArrayList} oldJunctionPoints old/existing junction points of the Connection
+     * @param {draw2d.util.ArrayList} oldVertices old/existing vertices of the Connection
      */
-    route : function(conn, oldJunctionPoints)
+    route : function(conn, oldVertices)
     {
         var lines = conn.getSource().getConnections();
         var connections = new draw2d.util.ArrayList();
@@ -134,7 +148,7 @@ draw2d.layout.connection.FanConnectionRouter = draw2d.layout.connection.DirectRo
 
         // calculate the path string for the SVG rendering
         //
-        var ps = conn.getPoints();
+        var ps = conn.getVertices();
         var p = ps.get(0);
         var path = ["M",p.x," ",p.y];
         for( var i=1;i<ps.getSize();i++){

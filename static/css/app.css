@@ -355,6 +355,12 @@
 /*  --------------------------------------------------------------  */
 /*  -----------------------DIAGRAM EDITOR-------------------------  */
 /*  --------------------------------------------------------------  */
+/* Icons */
+
+.save-diagram    { background-image: url(../img/protoImg/d_save_detail.png ) !important;}
+.get-from-DB    { background-image: url(../img/protoImg/get_from_DB.png ) !important;}
+.send-to-DB    { background-image: url(../img/protoImg/send_to_DB.png ) !important;}
+
 .container{
  /*overflow: scroll !important;*/
 }

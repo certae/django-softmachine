@@ -33,7 +33,7 @@ draw2d.io.Writer = Class.extend({
      * @template
      * @since 2.10.1
      * @param {draw2d.Canvas} canvas
-     * @param {Function} resultCallback the method to call on success. The first argument is the result object
+     * @param {Function} resultCallback the method to call on success. The first argument is the result object, the second the base64 content of a corresponding file
      * @returns {Object}
      * 
      */
@@ -45,7 +45,7 @@ draw2d.io.Writer = Class.extend({
         }
         
         
-        resultCallback("");
+        resultCallback("", "");
     },
     
     /**

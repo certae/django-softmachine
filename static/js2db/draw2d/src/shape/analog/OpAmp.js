@@ -26,7 +26,7 @@ draw2d.shape.analog.OpAmp = draw2d.SVGFigure.extend({
           this._super();
         },    
         relocate:function(index, port){
-        	var parent = port.getParent();
+            var parent = port.getParent();
             var calcY = (8+18.5*index)*parent.scaleY;
             this.applyConsiderRotation(port, 1, calcY);
         }

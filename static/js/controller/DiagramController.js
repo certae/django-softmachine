@@ -58,6 +58,11 @@ Ext.define('ProtoUL.controller.DiagramController', {
 		this.getDiagramCanvas().getView().setZoom(this.getDiagramCanvas().getView().getZoom()*1.3, true);
     },
 
+	enableToolbarButton: function(button) {
+		var toolbarButton = this.getDiagramToolbar().getComponent(button);
+		toolbarButton.setDisabled(false);
+	},
+	
 	addAttribute: function(button,e ,eOpts){
 		var gridDetail = this.getEntityAttributes();
 		gridDetail.rowEditing.cancelEdit();
@@ -114,20 +119,19 @@ Ext.define('ProtoUL.controller.DiagramController', {
 			this.getDiagramCanvas().reload();
 		} else if (typeof propertySource.router !== "undefined"){
 			this.updateJsonDocument();
+			propertySource.userData.isRequired = propertySource.isRequired;
 			this.addOrUpdateJSONDocument(propertySource);
 			
 			this.getDiagramCanvas().reload();
 		}
 		entityEditor.collapse();
+		this.enableToolbarButton('btSyncToDB');
 	},
 	
 	saveDiagram: function(button,e ,eOpts) {
 		this.updateJsonDocument();
-	},
-	
-	enableToolbarButton: function(button) {
-		var toolbarButton = this.getDiagramToolbar().getComponent(button);
-		toolbarButton.setDisabled(false);
+		
+		this.enableToolbarButton('btSyncToDB');
 	},
 	
 	getTableFromContextMenu: function(button) {
@@ -185,7 +189,7 @@ Ext.define('ProtoUL.controller.DiagramController', {
 
 			table.getCanvas().addFigure(conn);
 			
-			this.enableToolbarButton('btSaveAll');
+			this.enableToolbarButton('btSaveDiagram');
 		}
 	},
 	
@@ -197,7 +201,7 @@ Ext.define('ProtoUL.controller.DiagramController', {
 		table.addPort(newPort);
 		table.layoutPorts();
 		
-		this.enableToolbarButton('btSaveAll');
+		this.enableToolbarButton('btSaveDiagram');
 	},
 	
 	addOutputPort: function(button,e ,eOpts) {
@@ -208,7 +212,7 @@ Ext.define('ProtoUL.controller.DiagramController', {
 		table.addPort(newPort);
 		table.layoutPorts();
 		
-		this.enableToolbarButton('btSaveAll');
+		this.enableToolbarButton('btSaveDiagram');
 	},
 	
 	removeUnusedPorts: function(button,e ,eOpts) {
@@ -221,7 +225,24 @@ Ext.define('ProtoUL.controller.DiagramController', {
         table.layoutPorts();
 		table.cachedPorts = null;
 		
-		this.enableToolbarButton('btSaveAll');
+		this.enableToolbarButton('btSaveDiagram');
+	},
+	
+	synchDBFromDiagram: function(button,e ,eOpts) {
+		Ext.Ajax.request({
+		    url: _SM._PConfig.synchDBFromDiagram,
+			params: {
+				// FIXME get value from selected row in Model View
+		        modelID: 1
+		    },
+		    jsonData: jsonDocument,
+		    success: function(response){
+		    	console.log('Success: synchDBFromDiagram');
+		    },
+		    failure: function(response){
+		    	console.log('Failure: synchDBFromDiagram');
+		    }
+		});
 	},
 	
     init: function(application) {
@@ -244,8 +265,11 @@ Ext.define('ProtoUL.controller.DiagramController', {
             "#btZoomOut": {
                 click: this.zoomOut
             },
-            "#btSaveAll": {
+            "#btSaveDiagram": {
             	click: this.saveDiagram
+            },
+            "#btSyncToDB" :{
+            	click: this.synchDBFromDiagram
             },
             "#btAddAttribute": {
             	click: this.addAttribute

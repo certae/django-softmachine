@@ -22,7 +22,7 @@
  */
 draw2d.shape.note.PostIt= draw2d.shape.basic.Label.extend({
 
-	NAME : "draw2d.shape.note.PostIt",
+    NAME : "draw2d.shape.note.PostIt",
 
     /**
      * @constructor
@@ -44,6 +44,3 @@ draw2d.shape.note.PostIt= draw2d.shape.basic.Label.extend({
        
     }
 });
-
-
-

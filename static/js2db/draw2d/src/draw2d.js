@@ -74,8 +74,10 @@ var draw2d =
 // avoid iPad bounce effect during DragDrop
 //
 document.ontouchmove = function(e){e.preventDefault();};
+
 // hide context menu
 document.oncontextmenu = function() {return false;};
+
 
 // hacking RaphaelJS to support groups of elements
 //
@@ -172,7 +174,7 @@ document.oncontextmenu = function() {return false;};
     };
 })();
 
-
+ 
 Math.sign = function()
 {
  if (this < 0) {return -1;}

@@ -10,10 +10,10 @@
  */
 draw2d.layout.mesh.MeshLayouter = Class.extend({
 
-	/**
-	 * @constructor 
-	 * Creates a new layouter object.
-	 */
+    /**
+     * @constructor 
+     * Creates a new layouter object.
+     */
     init: function(){
     },
     
@@ -30,6 +30,6 @@ draw2d.layout.mesh.MeshLayouter = Class.extend({
      */
     add:function( canvas, figure)
     {
-    	return new draw2d.util.ArrayList();
+        return new draw2d.util.ArrayList();
     }
 });

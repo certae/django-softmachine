@@ -14,7 +14,7 @@
  */
 draw2d.shape.node.Node = draw2d.Figure.extend({
  
-	NAME : "draw2d.shape.node.Node",
+    NAME : "draw2d.shape.node.Node",
 
    /**
      * @constructor
@@ -44,7 +44,7 @@ draw2d.shape.node.Node = draw2d.Figure.extend({
     onDoubleClick:function(){
         var w = this.getWidth();
         var h = this.getHeight();
-        // rotate in 90° increment steps..
+        // rotate in 90�? increment steps..
         this.setRotationAngle((this.getRotationAngle()+90)%360);
         // ..and toggle the orientation of the shape (portrait / landscape)
         this.setDimension(h,w);
@@ -54,7 +54,7 @@ draw2d.shape.node.Node = draw2d.Figure.extend({
     
     /**
      * @method
-     * Moves the element so it is the closest to the viewer’s eyes, on top of other elements. Additional
+     * Moves the element so it is the closest to the viewer?��s eyes, on top of other elements. Additional
      * the internal model changed as well.
      * 
      * @since 3.0.0
@@ -132,13 +132,13 @@ draw2d.shape.node.Node = draw2d.Figure.extend({
      **/
     getPort: function( portName)
     {
-    	var port = null;
-    	
+        var port = null;
+        
         this.getPorts().each(function(i,e){
             
             if (e.getName() === portName) {
                 port = e;
-         		return false;
+                return false;
             }
         });
         
@@ -229,7 +229,11 @@ draw2d.shape.node.Node = draw2d.Figure.extend({
             throw "Argument is not typeof 'draw2d.Port'. \nFunction: draw2d.shape.node.Node#addPort";
         }
 
-        this.cachedPorts = null;
+        // add to the internal cache if already build
+        if(this.cachedPorts !== null){
+            this.cachedPorts.add(port);
+        };
+        
         this.portRelayoutRequired=true;
         
         
@@ -298,32 +302,32 @@ draw2d.shape.node.Node = draw2d.Figure.extend({
         var newPort = null;
         var count =0;
         
-    	switch(type){
-    	case "input":
-    		newPort= new draw2d.InputPort();
-    		count = this.inputPorts.getSize();
-    		break;
-    	case "output":
-    		newPort= new draw2d.OutputPort();
+        switch(type){
+        case "input":
+            newPort= new draw2d.InputPort();
+            count = this.inputPorts.getSize();
+            break;
+        case "output":
+            newPort= new draw2d.OutputPort();
             count = this.outputPorts.getSize();
-    		break;
+            break;
         case "hybrid":
             newPort= new draw2d.HybridPort();
             count = this.hybridPorts.getSize();
             break;
-    	default:
+        default:
             throw "Unknown type ["+type+"] of port requested";
-    	}
-    	
-   	    newPort.setName(type+count);
-    	
-    	this.addPort(newPort, locator);
-    	// relayout the ports
-    	this.setDimension(this.width,this.height);
-    	
+        }
+        
+        newPort.setName(type+count);
+        
+        this.addPort(newPort, locator);
+        // relayout the ports
+        this.setDimension(this.width,this.height);
+        
         this.layoutPorts();
 
-    	return newPort;
+        return newPort;
     },
     
     /**
@@ -355,7 +359,6 @@ draw2d.shape.node.Node = draw2d.Figure.extend({
      **/
     setCanvas : function(canvas)
     {
-
         var oldCanvas = this.canvas;
         this._super(canvas);
        
@@ -445,6 +448,3 @@ draw2d.shape.node.Node = draw2d.Figure.extend({
      }
     
 });
-
-
-

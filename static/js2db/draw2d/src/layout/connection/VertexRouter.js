@@ -3,7 +3,7 @@
  *   Copyright (c) 2012 Andreas Herz
  ****************************************/
 /**
- * @class draw2d.layout.connection.JunctionRouter
+ * @class draw2d.layout.connection.VertexRouter
  * Router for direct connections between two ports. Beeline
  * 
  * See the example:
@@ -41,19 +41,31 @@
  * 
  * @extends  draw2d.layout.connection.ConnectionRouter
  */
-draw2d.layout.connection.JunctionRouter = draw2d.layout.connection.ConnectionRouter.extend({
+draw2d.layout.connection.VertexRouter = draw2d.layout.connection.ConnectionRouter.extend({
 
-    NAME : "draw2d.layout.connection.JunctionRouter",
+    NAME : "draw2d.layout.connection.VertexRouter",
 
     /**
-	 * @constructor 
-	 * Creates a new Router object
-	 */
+     * @constructor 
+     * Creates a new Router object
+     */
     init: function(){
         this._super();
     },
     
     
+    /**
+     * @method
+     * Callback method if the router has been assigned to a connection.
+     * 
+     * @param {draw2d.Connection} connection The assigned connection
+     * @template
+     * @since 2.7.2
+     */
+    onInstall: function(connection){
+        connection.installEditPolicy(new draw2d.policy.line.VertexSelectionFeedbackPolicy());
+    },
+ 
     /**
      * @method
      * Invalidates the given Connection
@@ -67,36 +79,27 @@ draw2d.layout.connection.JunctionRouter = draw2d.layout.connection.ConnectionRou
      * Routes the Connection in air line (beeline).
      * 
      * @param {draw2d.Connection} connection The Connection to route
-     * @param {draw2d.util.ArrayList} oldJunctionPoints old/existing junction points of the Connection
+     * @param {draw2d.util.ArrayList} oldVertices old/existing vertices of the Connection
      */
-    route:function( connection, oldJunctionPoints)
+    route:function( connection, oldVertices)
     {
-       var start =connection.getStartPoint();
-       var end = connection.getEndPoint();
-       
+        
        // required for hit tests
        //
-       var count = oldJunctionPoints.getSize()-1;
-       connection.addPoint(start);
-       for(var i=1; i<count;i++){
-           connection.addPoint(oldJunctionPoints.get(i));
+       var count = oldVertices.getSize();
+       for(var i=0; i<count;i++){
+           connection.addPoint(oldVertices.get(i));
        }
-       connection.addPoint(end);
-       
-		// calculate the manhatten bend points between start/end.
-		//
-//		this._route(conn, toPt, toDir, fromPt, fromDir);
 
-       var ps = connection.getPoints();
+       var ps = connection.getVertices();
        
-       length = ps.getSize();
-       var p = ps.get(0);
-       var path = ["M",p.x," ",p.y];
-       for(var i=1;i<length;i++){
-             p = ps.get(i);
-             path.push("L", p.x, " ", p.y);
-       }
-       connection.svgPathString = path.join("");
+       // respect the calculated anchor position if the start/end port has set any Anchor impl.
+       var startAnchor = connection.getStartPoint(ps.get(1));
+       var endAnchor   = connection.getEndPoint(ps.get(ps.getSize()-2));
+       ps.first().setPosition(startAnchor);
+       ps.last().setPosition(endAnchor);
+       
+       this._paint(connection);
     },
     
     /**
@@ -110,10 +113,10 @@ draw2d.layout.connection.JunctionRouter = draw2d.layout.connection.ConnectionRou
      */
     getPersistentAttributes : function(line, memento)
     {   
-        memento.junction = [];
+        memento.vertex = [];
         
-        line.getPoints().each(function(i,e){
-            memento.junction.push({x:e.x, y:e.y});
+        line.getVertices().each(function(i,e){
+            memento.vertex.push({x:e.x, y:e.y});
         });
         
         return memento;
@@ -130,13 +133,13 @@ draw2d.layout.connection.JunctionRouter = draw2d.layout.connection.ConnectionRou
     {
         // restore the points from the JSON data and add them to the polyline
         //
-        if(typeof memento.junction !=="undefined"){
+        if(typeof memento.vertex !=="undefined"){
             
             line.oldPoint=null;
             line.lineSegments = new draw2d.util.ArrayList();
-            line.basePoints   = new draw2d.util.ArrayList();
+            line.vertices     = new draw2d.util.ArrayList();
 
-            $.each(memento.junction, $.proxy(function(i,e){
+            $.each(memento.vertex, $.proxy(function(i,e){
                 line.addPoint(e.x, e.y);
             },this));
         }

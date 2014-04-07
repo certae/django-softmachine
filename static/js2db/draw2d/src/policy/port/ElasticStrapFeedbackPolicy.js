@@ -74,13 +74,13 @@ draw2d.policy.port.ElasticStrapFeedbackPolicy = draw2d.policy.port.PortFeedbackP
     },
     
     onHoverEnter: function(canvas, draggedFigure, hoverFiger){
-    	this.connectionLine.setGlow(true);
-    	hoverFiger.setGlow(true);
+        this.connectionLine.setGlow(true);
+        hoverFiger.setGlow(true);
     },
     
     onHoverLeave: function(canvas, draggedFigure, hoverFiger){
-    	hoverFiger.setGlow(false);
-    	this.connectionLine.setGlow(false);
+        hoverFiger.setGlow(false);
+        this.connectionLine.setGlow(false);
     }
 
         

@@ -21,10 +21,10 @@ draw2d.shape.node.Fulcrum = draw2d.shape.node.Hub.extend({
 
     NAME : "draw2d.shape.node.Fulcrum",
     
-	/**
-	 * 
-	 */
-	init : function()
+    /**
+     * 
+     */
+    init : function()
     {
         this._super(40,40);
 

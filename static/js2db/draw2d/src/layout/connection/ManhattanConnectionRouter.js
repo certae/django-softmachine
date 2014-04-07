@@ -58,14 +58,28 @@ draw2d.layout.connection.ManhattanConnectionRouter = draw2d.layout.connection.Co
         this._super();
     },
     
+    
+    /**
+     * @method
+     * Callback method if the router has been assigned to a connection.
+     * 
+     * @param {draw2d.Connection} connection The assigned connection
+     * @template
+     * @since 2.7.2
+     */
+    onInstall: function(connection){
+        connection.installEditPolicy(new draw2d.policy.line.LineSelectionFeedbackPolicy());
+       
+    },
+ 
 	/**
 	 * @method
 	 * Layout the hands over connection in a manhattan like layout
 	 * 
 	 * @param {draw2d.Connection} conn
-     * @param {draw2d.util.ArrayList} oldJunctionPoints old/existing junction points of the Connection
+     * @param {draw2d.util.ArrayList} oldVertices old/existing vertices of the Connection
 	 */
-	route:function( conn, oldJunctionPoints)
+	route:function( conn, oldVertices)
 	{
 	   var fromPt  = conn.getStartPoint();
 	   var fromDir = conn.getSource().getConnectionDirection(conn, conn.getTarget());
@@ -76,19 +90,7 @@ draw2d.layout.connection.ManhattanConnectionRouter = draw2d.layout.connection.Co
 	   // calculate the lines between the two points.
 	   //
 	   this._route(conn,toPt, toDir, fromPt, fromDir);
-	   
-	   // calculate the path string for the SVG rendering
-	   // Important: to avoid subpixel error rendering we add 0.5 to each coordinate
-	   //            With this offset the canvas can paint the line on a "full pixel" instead
-	   //            of subpixel rendering.
-       var ps = conn.getPoints();
-       var p = ps.get(0);
-       var path = ["M",(p.x|0)+0.5," ",(p.y|0)+0.5];
-       for( var i=1;i<ps.getSize();i++){
-             p = ps.get(i);
-             path.push("L", (p.x|0)+0.5, " ", (p.y|0)+0.5);
-       }
-       conn.svgPathString = path.join("");
+	   this._paint(conn);
 	},
 	
 	/**
@@ -107,10 +109,10 @@ draw2d.layout.connection.ManhattanConnectionRouter = draw2d.layout.connection.Co
 	   // fromPt is an x,y to start from.  
 	   // fromDir is an angle that the first link must 
 	   //
-	   var UP   = 0;
-	   var RIGHT= 1;
-	   var DOWN = 2;
-	   var LEFT = 3;
+	   var UP   = draw2d.geo.Rectangle.DIRECTION_UP;
+	   var RIGHT= draw2d.geo.Rectangle.DIRECTION_RIGHT;
+	   var DOWN = draw2d.geo.Rectangle.DIRECTION_DOWN;
+	   var LEFT = draw2d.geo.Rectangle.DIRECTION_LEFT;
 	
 	   var xDiff = fromPt.x - toPt.x;
 	   var yDiff = fromPt.y - toPt.y;

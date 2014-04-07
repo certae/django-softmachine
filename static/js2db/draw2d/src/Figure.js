@@ -10,10 +10,10 @@
  */
 draw2d.Figure = Class.extend({
     
-	NAME : "draw2d.Figure",
+    NAME : "draw2d.Figure",
     
-	MIN_TIMER_INTERVAL: 50, // minimum timer interval in milliseconds
-	
+    MIN_TIMER_INTERVAL: 50, // minimum timer interval in milliseconds
+    
     /**
      * @constructor
      * Creates a new figure element which are not assigned to any canvas.
@@ -47,6 +47,8 @@ draw2d.Figure = Class.extend({
         this.resizeable = true;
         this.draggable = true;
         this.visible = true;
+        // since 4.1.0. 
+        this.keepAspectRatio = false; 
         
         this.canSnapToHelper = true;
         this.snapToGridAnchor = new draw2d.geo.Point(0,0);    // hot spot for snap to grid  
@@ -123,6 +125,10 @@ draw2d.Figure = Class.extend({
               }
         },this));
 
+        if(this.canvas !==null){
+            this.canvas.getSelection().add(this);
+        }
+
         return this;
     },
     
@@ -143,6 +149,10 @@ draw2d.Figure = Class.extend({
               }
         },this));
 
+        if(this.canvas !==null){
+            this.canvas.getSelection().remove(this);
+        }
+        
         return this;
     },
     
@@ -334,12 +344,12 @@ draw2d.Figure = Class.extend({
       }
 
       if(canvas === null){
-    	  this.stopTimer();
+          this.stopTimer();
       }
       else{
-    	  if(this.timerInterval>= this.MIN_TIMER_INTERVAL){
+          if(this.timerInterval>= this.MIN_TIMER_INTERVAL){
               this.startTimer(this.timerInterval);
-    	  }
+          }
       }
       
       this.children.each(function(i,e){
@@ -370,14 +380,14 @@ draw2d.Figure = Class.extend({
       */
      startTimer: function(milliSeconds)
      {
-    	 this.stopTimer();
-    	 this.timerInterval = Math.max(this.MIN_TIMER_INTERVAL, milliSeconds);
-    	 
-    	 if(this.canvas!==null){
-    		 this.timerId = window.setInterval($.proxy(this.onTimer,this), this.timerInterval);
-    	 }
+         this.stopTimer();
+         this.timerInterval = Math.max(this.MIN_TIMER_INTERVAL, milliSeconds);
+         
+         if(this.canvas!==null){
+             this.timerId = window.setInterval($.proxy(this.onTimer,this), this.timerInterval);
+         }
 
-    	 return this;
+         return this;
      },
 
      /**
@@ -387,12 +397,12 @@ draw2d.Figure = Class.extend({
       */
      stopTimer: function()
      {
-    	if(this.timerId>=0){
-  		  window.clearInterval(this.timerId);
-		  this.timerId=-1;
-    	} 
-    	
-    	return this;
+        if(this.timerId>=0){
+          window.clearInterval(this.timerId);
+          this.timerId=-1;
+        } 
+        
+        return this;
      },
 
      /**
@@ -404,12 +414,12 @@ draw2d.Figure = Class.extend({
       */
      onTimer: function()
      {
-    	
+        
      },
      
      /**
       * @method
-      * Moves the element so it is the closest to the viewer’s eyes, on top of other elements. Additional
+      * Moves the element so it is the closest to the viewer?��s eyes, on top of other elements. Additional
       * the internal model changed as well.
       * 
       * @since 3.0.0
@@ -431,7 +441,6 @@ draw2d.Figure = Class.extend({
          this.children.each(function(i,child){
              child.figure.toFront();
          });
-
          return this;
      },
      
@@ -476,6 +485,10 @@ draw2d.Figure = Class.extend({
      **/
      addFigure : function(child, locator)
      {
+         if(typeof locator ==="undefined" || locator ===null){
+             throw "Second parameter 'locator' is requried for method 'Figure#addFigure'";
+         }
+         
          // the child is now a slave of the parent
          //
          child.setDraggable(false);
@@ -493,6 +506,38 @@ draw2d.Figure = Class.extend({
          return this;
      },
 
+     /**
+      * @method
+      * Remove the child figure from the this figure.
+      *
+      * @param {draw2d.Figure} figure the figure to remove.
+      * @since 4.0.0
+     **/
+     removeFigure : function(child)
+     {
+         if(typeof child ==="undefined" || child ===null){
+             debug.warn("The parameter child is required for Figure.removeFigure");
+             return; // silently
+         }
+         
+         child.setParent(null);
+         child.setCanvas(null);
+         
+         var oldSize= this.children.getSize();
+         this.children.grep(function(e){
+             return e.figure!==child;
+         });
+         
+         if(oldSize === this.children.getSize()){
+             debug.warn("Child figure is not part of the shape. Remove not possible.");
+         }
+         
+         this.repaint();
+
+         return this;
+     },
+
+     
      /**
       * @method
       * Return all children/decorations of this shape
@@ -572,12 +617,13 @@ draw2d.Figure = Class.extend({
 //             return;
 //         }
 
+         
          if(this.visible===true){
-        	 this.shape.show();
+             this.shape.show();
          }
          else{
-        	 this.shape.hide();
-        	 return;
+             this.shape.hide();
+             return;
          }
          
          
@@ -615,8 +661,8 @@ draw2d.Figure = Class.extend({
       * @template
       */
      setGlow: function(flag){
-    	 // do nothing in the base class. 
-    	 // Subclasses must implement this method.
+         // do nothing in the base class. 
+         // Subclasses must implement this method.
 
          return this;
      },
@@ -639,8 +685,8 @@ draw2d.Figure = Class.extend({
       this.command = this.createCommand(new draw2d.command.CommandType(draw2d.command.CommandType.MOVE));
 
       if(this.command!==null){
-         this.ox = this.x;
-         this.oy = this.y;
+         this.ox = this.getX();
+         this.oy = this.getY();
          this.isInDragDrop =true;
          
          // notify all installed policies
@@ -767,7 +813,7 @@ draw2d.Figure = Class.extend({
      **/
     onDragEnter : function( draggedFigure )
     {
-    	return null;
+        return null;
     },
  
     /**
@@ -832,7 +878,6 @@ draw2d.Figure = Class.extend({
      * Called when a user clicks on the element.
      * 
      * @template
-     * @aside example interaction_click
      */
     onClick: function(){
     },
@@ -914,6 +959,7 @@ draw2d.Figure = Class.extend({
         return this.rotationAngle;
     },
     
+    
     /**
      * @method
      * Show/hide the element. The element didn't receive any mouse events (click, dblclick) if you hide the
@@ -923,11 +969,11 @@ draw2d.Figure = Class.extend({
      * @since 1.1.0
      */
     setVisible: function(flag){
-    	this.visible = !!flag;
-    	
-    	this.repaint();
+        this.visible = !!flag;
+        
+        this.repaint();
 
-    	return this;
+        return this;
     },
     
     /**
@@ -939,6 +985,29 @@ draw2d.Figure = Class.extend({
      */
     isVisible: function(){
         return this.visible && this.shape!==null;
+    },
+    
+    /**
+     * @method
+     * Guarantee, that the figure width/height will not be distorted. Applicable before calling setDimension().
+     * It is false by default.
+     * 
+     * @since 4.1.0
+     * @param {Boolean} flag boolean flag if the figure should respect the aspect ratio
+     */
+    setKeepAspectRatio: function( flag){
+        this.keepAspectRatio = flag;
+        return this;
+    },
+    
+    /**
+     * @method
+     * Return the flag if the shape keep the aspect ratio.
+     * 
+     * @since 4.1.0
+     */
+    getKeepAspectRatio: function(){
+        return this.keepAspectRatio;
     },
     
     /**
@@ -1112,9 +1181,9 @@ draw2d.Figure = Class.extend({
     {
         if(this.parent===null){
             // provide some good defaults if the figure not placed
-            return this.x||0;
+            return this.getX()||0;
         }
-        return this.x + this.parent.getAbsoluteX();  
+        return this.getX() + this.parent.getAbsoluteX();  
     },
 
 
@@ -1128,9 +1197,9 @@ draw2d.Figure = Class.extend({
     {
         if(this.parent ===null){
             // provide some good defaults of the figure not placed
-            return this.y||0;
+            return this.getY()||0;
         }
-        return this.y + this.parent.getAbsoluteY();  
+        return this.getY() + this.parent.getAbsoluteY();  
     },
 
 
@@ -1198,7 +1267,7 @@ draw2d.Figure = Class.extend({
      * @since 2.0.0
      */
     getPosition: function(){
-        return new draw2d.geo.Point(this.x, this.y);
+        return new draw2d.geo.Point(this.getX(), this.getY());
     },
     
     /**
@@ -1210,9 +1279,9 @@ draw2d.Figure = Class.extend({
      **/
     translate:function(dx , dy )
     {
-    	this.setPosition(this.x+dx,this.y+dy);
-    	
-    	return this;
+        this.setPosition(this.getX()+dx,this.getY()+dy);
+        
+        return this;
     },
     
     
@@ -1232,7 +1301,8 @@ draw2d.Figure = Class.extend({
             return;
         }
 
-    	// apply all EditPolicy for DragDrop Operations
+        
+        // apply all EditPolicy to adjust/modify the new dimension
         //
         this.editPolicy.each($.proxy(function(i,e){
               if(e instanceof draw2d.policy.figure.DragDropEditPolicy){
@@ -1242,24 +1312,48 @@ draw2d.Figure = Class.extend({
               }
         },this));
 
-		this.width = Math.max(this.getMinWidth(),w);
-		this.height= Math.max(this.getMinHeight(),h);
-		  
-		this.repaint();
+        // respect the aspect ratio if required
+        //
+        if(this.keepAspectRatio===true){
+
+            // resize the icon and keep the aspect ratio
+            //
+            var cw = this.getWidth();
+            var ch = this.getHeight();
+            if(w!==cw && h!==ch){
+                h= ch;
+            }
+
+            // width is the same and height changed
+            //
+            if(h!==ch){
+                w = w*(h/ch);
+            }
+            // width has changed and height is the same
+            //
+            else if(w !==cw){
+                h = h*(w/cw);
+            }
+        }
+
+        this.width = Math.max(this.getMinWidth(),w);
+        this.height= Math.max(this.getMinHeight(),h);
+          
+        this.repaint();
 
         this.fireResizeEvent();
         // just to be backward compatible....cost a lot of performance...still
-		this.fireMoveEvent();
-		
-		// Update the resize handles if the user change the position of the element via an API call.
-		//
-		this.editPolicy.each($.proxy(function(i,e){
-		   if(e instanceof draw2d.policy.figure.DragDropEditPolicy){
-		       e.moved(this.canvas, this);
-		   }
-		},this));
+        this.fireMoveEvent();
+        
+        // Update the resize handles if the user change the position of the element via an API call.
+        //
+        this.editPolicy.each($.proxy(function(i,e){
+           if(e instanceof draw2d.policy.figure.DragDropEditPolicy){
+               e.moved(this.canvas, this);
+           }
+        },this));
 
-		return this;
+        return this;
     },
 
 
@@ -1373,13 +1467,15 @@ draw2d.Figure = Class.extend({
     /**
      * @method
      * Return true if the object doesn't care about the aspect ratio.
-     * You can change the height and width independent.
+     * You can change the height and width independent.<br>
      * 
+     * Replaced with "getKeepAspectRatio"
      * @return {boolean}
+     * @deprecated
      */
     isStrechable:function()
     {
-      return true;
+      return !this.getKeepAspectRatio();
     },
 
     /**
@@ -1509,16 +1605,16 @@ draw2d.Figure = Class.extend({
      *
      **/
      attachMoveListener:function(listener) {
-		if (listener === null) {
-			return;
-		}
+        if (listener === null) {
+            return;
+        }
 
-		if(!this.moveListener.contains(listener)){
-	        this.moveListener.add(listener);
-		}
+        if(!this.moveListener.contains(listener)){
+            this.moveListener.add(listener);
+        }
 
-		return this;
- 	 },
+        return this;
+     },
  
 
     /**
@@ -1607,23 +1703,41 @@ draw2d.Figure = Class.extend({
       return null;
     },
     
+    /**
+     * @method
+     * Clone the figure. <br> 
+     * You must override and implement the methods <b>getPersistentAttributes</b> and <b>setPersistentAttributes</b> for your custom
+     * figures if the have special attributes.
+     * 
+     * @since 4.1.0
+     */
+    clone: function(){
+        var clone = eval("new "+this.NAME+"();");
+        var initialId = clone.id;
+
+        clone.setPersistentAttributes( this.getPersistentAttributes());
+        
+        clone.id = initialId;
+        return clone;
+    },
     
     /**
      * @method 
      * Return an objects with all important attributes for XML or JSON serialization
      * 
-     *
+     * @return
      */
-    getPersistentAttributes : function()
-    {
+    getPersistentAttributes : function(){
+        // force deep copy of userData to avoid side effects in the clone method.
+        //
         var memento= {
             type  : this.NAME,
             id    : this.id,
-            x     : this.x,
-            y     : this.y,
+            x     : this.getX(),
+            y     : this.getY(),
             width : this.width,
             height: this.height,
-            userData: this.userData
+            userData: $.extend(true,{},this.userData)
         };
 
         
@@ -1639,7 +1753,6 @@ draw2d.Figure = Class.extend({
      * Read all attributes from the serialized properties and transfer them into the shape.
      * 
      * @param {Object} memento
-     * @return
      */
     setPersistentAttributes : function(memento)
     {
@@ -1669,5 +1782,3 @@ draw2d.Figure = Class.extend({
     }  
 
 });
-
-

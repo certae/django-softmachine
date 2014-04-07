@@ -5,7 +5,7 @@
 /**
  * @class draw2d.command.CommandCollection
  * 
- * A CommandCollection works a a single command. You can add more than one
+ * A CommandCollection works as a single command. You can add more than one
  * Command to this CommandCollection and execute/undo them onto the CommandStack as a
  * single Command.
  *
@@ -20,15 +20,47 @@ draw2d.command.CommandCollection = draw2d.command.Command.extend({
     /**
      * @constructor
      * Create a new CommandConnect objects which can be execute via the CommandStack.
-     *
+     * 
+     * @param {String} commandLabel the label to show on the command stack for the undo/redo operation
      */
-    init : function()
+    init : function(commandLabel)
      {
-       this._super("Execute Commands");
+       this._super((typeof commandLabel === 'undefined') ? draw2d.Configuration.i18n.command.collection : commandLabel);
        
        this.commands = new draw2d.util.ArrayList();
     },
     
+    /**
+     * @method
+     * Returns a label of the Command. e.g. "move figure".
+     *
+     * @return {String} the label for this command
+     **/
+    getLabel:function()
+    {
+        //return the label of the one and only command
+        //
+        if(this.commands.getSize()===1){
+           return this.commands.first().getLabel();
+        }
+        
+        // return a common label if all commands have the same label.
+        //
+        if(this.commands.getSize()>1){
+            var labels = this.commands.clone().map(function(e){
+                return e.getLabel();
+            });
+            labels.unique();
+            if(labels.getSize()===1){
+                return labels.first();
+            }
+        }
+        
+        // return the all purpose label.
+        return this._super();
+    },
+    
+
     
     /**
      * @method
@@ -37,7 +69,7 @@ draw2d.command.CommandCollection = draw2d.command.Command.extend({
      * @param {draw2d.command.Command} command
      */
     add: function(command){
-    	this.commands.add(command);
+        this.commands.add(command);
     },
     
     /**
@@ -68,9 +100,9 @@ draw2d.command.CommandCollection = draw2d.command.Command.extend({
      **/
     execute:function()
     {
-    	this.commands.each(function(i,cmd){
-    	    cmd.execute();
-    	});
+        this.commands.each(function(i,cmd){
+            cmd.execute();
+        });
     },
     
     /**

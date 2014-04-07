@@ -12,8 +12,8 @@
  */
 draw2d.shape.state.State = draw2d.shape.layout.VerticalLayout.extend({
 
-	NAME: "draw2d.shape.state.State",
-	
+    NAME: "draw2d.shape.state.State",
+    
     init : function()
     {
         this._super();
@@ -90,16 +90,16 @@ draw2d.shape.state.State = draw2d.shape.layout.VerticalLayout.extend({
       * @private
       */
      createLabel: function(txt){
-    	 var label =new draw2d.shape.basic.Label(txt);
-    	 label.setStroke(1);
-    	 label.setColor(this.darkerBgColor);
-    	 label.setRadius(0);
-    	 label.setBackgroundColor(null);
-    	 label.setPadding(5);
-    	 label.setColor(this.bgColor.darker(0.2));
-    	 label.onDoubleClick=function(angle){/* ignore them for the layout elements*/};
-    	    
-    	 return label;
+         var label =new draw2d.shape.basic.Label(txt);
+         label.setStroke(1);
+         label.setColor(this.darkerBgColor);
+         label.setRadius(0);
+         label.setBackgroundColor(null);
+         label.setPadding(5);
+         label.setColor(this.bgColor.darker(0.2));
+         label.onDoubleClick=function(angle){/* ignore them for the layout elements*/};
+            
+         return label;
      },
      
 

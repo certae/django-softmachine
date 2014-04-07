@@ -11,10 +11,10 @@
 draw2d.layout.connection.ConnectionRouter = Class.extend({
     NAME : "draw2d.layout.connection.ConnectionRouter",
 
-	/**
-	 * @constructor 
-	 * Creates a new Router object
-	 */
+    /**
+     * @constructor 
+     * Creates a new Router object
+     */
     init: function(){
     },
     
@@ -24,14 +24,65 @@ draw2d.layout.connection.ConnectionRouter = Class.extend({
      * Routes the Connection.
      * 
      * @param {draw2d.Connection} connection The Connection to route
-     * @param {draw2d.util.ArrayList} oldJunctionPoints old/existing junction points of the Connection
+     * @param {draw2d.util.ArrayList} oldVertices old/existing vertices of the Connection
      * @template
      */
-    route:function( connection, oldJunctionPoints)
+    route:function( connection, oldVertices)
     {
-    	throw "subclasses must implement the method [ConnectionRouter.route]";
+        throw "subclasses must implement the method [ConnectionRouter.route]";
     },
     
+    _paint: function(conn){
+        // calculate the path string for the SVG rendering
+        // Important: to avoid subpixel error rendering we add 0.5 to each coordinate
+        //            With this offset the canvas can paint the line on a "full pixel" instead
+        //            of subpixel rendering.
+        var ps = conn.getVertices();
+        var p = ps.get(0);
+        var distance = conn.getRadius();
+        var path = ["M",(p.x|0)+0.5," ",(p.y|0)+0.5];
+        var i=1;
+        if(distance>0){
+            var lastP = p;
+            var length = (ps.getSize()-1);
+            for(  ;i<length;i++){
+                  p = ps.get(i);
+                  inset = this.insetPoint(p,lastP, distance);
+                  path.push("L", (inset.x|0)+0.5, ",", (inset.y|0)+0.5);
+    
+                  p2 = ps.get(i+1);
+                  inset = this.insetPoint(p,p2,distance);
+                  
+                  path.push("Q",p.x,",",p.y," ", (inset.x|0)+0.5, ", ", (inset.y|0)+0.5);
+                  lastP = p;
+            }
+            p = ps.get(i);
+            path.push("L", (p.x|0)+0.5, ",", (p.y|0)+0.5);
+       }
+        else{
+            var length = ps.getSize();
+            for( ;i<length;i++){
+                p = ps.get(i);
+                path.push("L", (p.x|0)+0.5, ",", (p.y|0)+0.5);
+          }
+        }
+         conn.svgPathString = path.join("");
+     },
+     
+     insetPoint: function(start, end, distanceFromStart){
+         if(start.equals(end)){
+             return start;
+         }
+         var vx = start.x-end.x;
+         var vy = start.y-end.y;
+         var length = Math.sqrt(vx*vx + vy*vy);
+         var localDistance = Math.min(length/2,distanceFromStart);
+         return {x: end.x + vx/length * (length - localDistance),
+                y: end.y + vy/length * (length - localDistance)};
+
+     },
+     
+
     /**
      * @method
      * Callback method if the router has been assigned to a connection.

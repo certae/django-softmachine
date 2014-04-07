@@ -269,7 +269,10 @@
 })(window.Raphael);
 
 
-/**
+/*****************************************
+ *   Library is under GPL License (GPL)
+ *   Copyright (c) 2012 Andreas Herz
+ ****************************************//**
  * @class draw2d.io.png.Writer
  * Convert the canvas document into a PNG Image.
  * 
@@ -302,37 +305,61 @@ draw2d.io.png.Writer = draw2d.io.Writer.extend({
      * the callback instead of return the result.
      * 
      * @param {draw2d.Canvas} canvas
-     * @param {Function} resultCallback the method to call on success. The first argument is the base64 formated png image
+     * @param {Function} resultCallback the method to call on success. The first argument is the dataUrl, the second is the base64 formated png image
+     * @param {draw2d.geo.Rectangle} cropBoundingBox optional cropping/clipping bounding box 
      */
-    marshal: function(canvas, resultCallback){
+    marshal: function(canvas, resultCallback, cropBoundingBox){
         // I change the API signature from version 2.10.1 to 3.0.0. Throw an exception
         // if any application not care about this changes.
         if(typeof resultCallback === "undefined"){
             throw "Writer.marshal method signature has been change from version 2.10.1 to version 3.0.0. Please consult the API documentation about this issue.";
         }
-        
+
+        canvas.hideDecoration();
+
         var svg = canvas.getHtmlContainer().html().replace(/>\s+/g, ">").replace(/\s+</g, "<");
        
-        svg = canvas.paper.toSVG();
-        // required for IE9 support. 
- //       svg = svg.replace(/xmlns=\"http:\/\/www\.w3\.org\/2000\/svg\"/, '');
-//        svg = svg.replace(/xmlns=\"http:\/\/www\.w3\.org\/2000\/svg\"/, '');
-//        svg = svg.replace("<svg ", "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" ");
-
-//        svg = svg.replace("<image", "<image xmlns:xlink=\"http://www.w3.org/1999/xlink\" ");
-
+        // add missing namespace for images in SVG
+        //
+        svg = svg.replace("<svg ", "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" ");
         
-        var canvasDomNode = $("#canvas_png_export_for_draw2d");
-        if(canvasDomNode.length===0){
-            canvasDomNode= $('<canvas id="canvas_png_export_for_draw2d" style="display:none:"></canvas>');
-            $('body').append(canvasDomNode);
-        }
-        canvg('canvas_png_export_for_draw2d', svg, { 
+        canvasDomNode= $('<canvas id="canvas_png_export_for_draw2d" style="display:none"></canvas>');
+        $('body').append(canvasDomNode);
+        fullSizeCanvas = $("#canvas_png_export_for_draw2d")[0];
+        fullSizeCanvas.width = canvas.initialWidth;
+        fullSizeCanvas.height = canvas.initialHeight;
+          
+        canvg("canvas_png_export_for_draw2d", svg, { 
             ignoreMouse: true, 
             ignoreAnimation: true,
             renderCallback : function(){
-                var img = $('#canvas_png_export_for_draw2d')[0].toDataURL("image/png");
-                resultCallback(img);
+                try{
+                   canvas.showDecoration();
+    
+                    if(typeof cropBoundingBox!=="undefined"){
+                          var sourceX = cropBoundingBox.x;
+                          var sourceY = cropBoundingBox.y;
+                          var sourceWidth = cropBoundingBox.w;
+                          var sourceHeight = cropBoundingBox.h;
+                          
+                          croppedCanvas = document.createElement('canvas');
+                          croppedCanvas.width = sourceWidth;
+                          croppedCanvas.height = sourceHeight;
+                          
+                          croppedCanvas.getContext("2d").drawImage(fullSizeCanvas, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0,sourceWidth, sourceHeight);
+
+                          var dataUrl = croppedCanvas.toDataURL("image/png");
+                          var base64Image = dataUrl.replace("data:image/png;base64,","");
+                          resultCallback(dataUrl, base64Image);
+                    }
+                    else{
+                        var img = fullSizeCanvas.toDataURL("image/png");
+                        resultCallback(img,img.replace("data:image/png;base64,",""));
+                    }
+                }
+                finally{
+                    canvasDomNode.remove();
+                }
            }
         }) ;   
     }

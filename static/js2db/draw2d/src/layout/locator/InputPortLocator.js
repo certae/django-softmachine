@@ -28,19 +28,21 @@ draw2d.layout.locator.InputPortLocator = draw2d.layout.locator.PortLocator.exten
     * @method
     * Controls the location of an I{@link draw2d.Figure} 
     *
-    * @param {Number} index child index of the figure
+    * @param {Number} index port index of the figure
     * @param {draw2d.Figure} figure the figure to control
     * 
     * @template
     **/
     relocate:function(index, figure){
         var node = figure.getParent();
-        var h = node.getHeight();
-        var gap = h/(node.getInputPorts().getSize()+1);
-        this.applyConsiderRotation( figure, 0, gap*(index+1));
+        var dividerFactor = 1;
+        var thisNAME = this.NAME;
+        var portIndex =1;
+        node.getPorts().each(function(i,p){
+            portIndex = (p===figure)?dividerFactor:portIndex;
+            dividerFactor += p.getLocator().NAME === thisNAME?1:0;
+        });
+        this.applyConsiderRotation( figure, 0, (node.getHeight()/dividerFactor)*portIndex);
     }
     
 });
-
-
-

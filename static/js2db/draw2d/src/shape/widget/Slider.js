@@ -153,15 +153,15 @@ draw2d.shape.widget.Slider = draw2d.shape.widget.Widget.extend({
 
         // update slider
         //
-		if (this.svgNodes !== null) {
-			var attr = this.slideBoundingBox.toJSON();
-			attr.y = attr.y - 5;
-			attr.height = attr.height + 10;
-			attr.fill = this.getColor().hash();
-			attr.stroke = this.getColor().darker(0.2).hash();
-			attr.r = 4;
-			this.svgNodes.attr(attr);
-		}
+        if (this.svgNodes !== null) {
+            var attr = this.slideBoundingBox.toJSON();
+            attr.y = attr.y - 5;
+            attr.height = attr.height + 10;
+            attr.fill = this.getColor().hash();
+            attr.stroke = this.getColor().darker(0.2).hash();
+            attr.r = 4;
+            this.svgNodes.attr(attr);
+        }
  
         
         attributes.fill= "90-"+this.bgColor.hash()+":5-"+this.bgColor.lighter(0.3).hash()+":95";

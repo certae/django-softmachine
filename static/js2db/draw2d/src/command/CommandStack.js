@@ -23,23 +23,23 @@ draw2d.command.CommandStack = Class.extend({
        this.eventListeners = new draw2d.util.ArrayList();
        
        window.onpopstate = $.proxy(function(event) {
-    	   if( event.state === null){
-    		   return;
-    	   }
-    	   
-    	   /*
-    	   var stackLegth = event.state.length;
-    	   console.log(stackLegth +"<="+ this.undostack.length );
-    	   if(stackLegth <= this.undostack.length ){
-    		   console.log("Back");
-    		   this.undo();
-    	   }
-    	   else{
-    		   console.log("Forward");
-    		   this.redo();
-    	   }
-    	   console.log("location: " + document.location + ", state: " + JSON.stringify(event.state));
-    	   */
+         if( event.state === null){
+           return;
+         }
+         
+         /*
+         var stackLegth = event.state.length;
+         console.log(stackLegth +"<="+ this.undostack.length );
+         if(stackLegth <= this.undostack.length ){
+           console.log("Back");
+           this.undo();
+         }
+         else{
+           console.log("Forward");
+           this.redo();
+         }
+         console.log("location: " + document.location + ", state: " + JSON.stringify(event.state));
+         */
        },this);
     },
     
@@ -85,13 +85,13 @@ draw2d.command.CommandStack = Class.extend({
      **/
     execute:function(command)
     {
+        if(typeof command === "undefined")
+            throw "Missing parameter [command] for method call CommandStack.execute";
+        
        // nothing to do
        if(command===null)
           return; //silently
     
-       if(typeof command === "undefined")
-          throw "Missing parameter [command] for method call CommandStack.execute";
-          
        // return if the command can't execute or it doesn't change the model
        // => Empty command
        if(command.canExecute()===false)
@@ -128,13 +128,15 @@ draw2d.command.CommandStack = Class.extend({
     
     /**
      * @method
-     * Opens a transaction for further multiple transactions. If you execute a trnasaction all
+     * Opens a transaction for further multiple commands. If you execute a command all
      * {@ #execute} calls will be ignored until you commit the current transaction.
      * 
-     * @private
+     * @param {String} commandLabel the label to show for the undo/redo operation
+     * 
+     * @since 4.0.0
      */
-    startTransaction: function(){
-        this.transactionCommand = new draw2d.command.CommandCollection();
+    startTransaction: function(commandLabel){
+        this.transactionCommand = new draw2d.command.CommandCollection(commandLabel);
     },
     
     /**
@@ -142,8 +144,7 @@ draw2d.command.CommandStack = Class.extend({
      * Commit the running transaction. All commands between the start/end of a transaction
      * can be undo/redo in a single step.
      * 
-     * @private
-     * 
+     * @since 4.0.0
      */
     commitTransaction: function(){
         if(this.transactionCommand===null){
@@ -198,7 +199,7 @@ draw2d.command.CommandStack = Class.extend({
     **/
     getRedoLabel:function()
     {
-       if(this.redostack.lenght===0)
+       if(this.redostack.length===0)
          return "";
          
        var command = this.redostack[this.redostack.length-1];
@@ -219,7 +220,7 @@ draw2d.command.CommandStack = Class.extend({
      **/
     getUndoLabel:function()
     {
-       if(this.undostack.lenght===0)
+       if(this.undostack.length===0)
          return "";
          
        var command = this.undostack[this.undostack.length-1];
@@ -329,5 +330,4 @@ draw2d.command.CommandStack.POST_INIT=64;
 
 draw2d.command.CommandStack.POST_MASK = draw2d.command.CommandStack.POST_EXECUTE | draw2d.command.CommandStack.POST_UNDO | draw2d.command.CommandStack.POST_REDO;
 draw2d.command.CommandStack.PRE_MASK  = draw2d.command.CommandStack.PRE_EXECUTE  | draw2d.command.CommandStack.PRE_UNDO  |draw2d.command.CommandStack.PRE_REDO;
-
 

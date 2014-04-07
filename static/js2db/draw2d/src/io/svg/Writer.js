@@ -58,6 +58,8 @@ draw2d.io.svg.Writer = draw2d.io.Writer.extend({
         svg = svg.replace(/<desc>.*<\/desc>/g,"<desc>Create with draw2d JS graph library and RaphaelJS</desc>");
         
         canvas.setCurrentSelection(s);
-        resultCallback( svg);
+ 
+        var base64Content = draw2d.util.Base64.encode(svg);
+        resultCallback( svg, base64Content);
     }
 });

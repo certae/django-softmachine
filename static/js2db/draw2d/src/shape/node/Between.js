@@ -22,7 +22,7 @@ draw2d.shape.node.Between = draw2d.shape.basic.Rectangle.extend({
 
     DEFAULT_COLOR : new draw2d.util.Color("#4D90FE"),
 
-	init : function()
+    init : function()
     {
         this._super();
         

@@ -16,11 +16,11 @@
 draw2d.layout.connection.MuteableManhattanConnectionRouter = draw2d.layout.connection.ManhattanConnectionRouter.extend({
     NAME : "draw2d.layout.connection.MuteableManhattanConnectionRouter",
 
-	/**
-	 * @constructor 
-	 * Creates a new Router object.
-	 * 
-	 */
+    /**
+     * @constructor 
+     * Creates a new Router object.
+     * 
+     */
     UP      : new draw2d.geo.Ray(0, -1),
     DOWN    : new draw2d.geo.Ray(0, 1),
     LEFT    : new draw2d.geo.Ray(-1, 0),
@@ -41,9 +41,9 @@ draw2d.layout.connection.MuteableManhattanConnectionRouter = draw2d.layout.conne
      * Layout the hands over connection in a manhattan like layout
      * 
      * @param {draw2d.Connection} conn
-     * @param {draw2d.util.ArrayList} oldJunctionPoints old/existing junction points of the Connection
+     * @param {draw2d.util.ArrayList} oldVertices old/existing vertices of the Connection
      */
-    route:function( conn, oldJunctionPoints){
+    route:function( conn, oldVertices){
         this.rowsUsed     = {};//new HashMap<Integer, Integer>();
         this.colsUsed     = {};//new HashMap<Integer, Integer>();
         this.constraints  = {};//new HashMap<Connection, Object>();
@@ -75,7 +75,7 @@ draw2d.layout.connection.MuteableManhattanConnectionRouter = draw2d.layout.conne
         
         horizontal = !horizontal;
 
-        // dot product is zero if the vector orthogonal (90°)
+        // dot product is zero if the vector orthogonal (90�?)
         if (startNormal.dot(endNormal) === 0) {
             if ((startNormal.dot(direction) >= 0)  && (endNormal.dot(direction) <= 0)) {
                 // 0
@@ -208,18 +208,7 @@ draw2d.layout.connection.MuteableManhattanConnectionRouter = draw2d.layout.conne
         this.processPositions(start, end, positions, startNormal.isHorizontal(), conn);
 
     
-        // calculate the path string for the SVG rendering
-        // Important: to avoid subpixel error rendering we add 0.5 to each coordinate
-        //            With this offset the canvas can paint the line on a "full pixel" instead
-        //            of subpixel rendering.
-        var ps = conn.getPoints();
-        var p = ps.get(0);
-        var path = ["M",(p.x|0)+0.5," ",(p.y|0)+0.5];
-        for( var i=1;i<ps.getSize();i++){
-              p = ps.get(i);
-              path.push("L", (p.x|0)+0.5, " ", (p.y|0)+0.5);
-        }
-        conn.svgPathString = path.join("");
+        this._paint(conn);
     },
 
     /**
@@ -536,8 +525,8 @@ draw2d.layout.connection.MuteableManhattanConnectionRouter = draw2d.layout.conne
     
                 var end = conn.getTarget().getPosition();
                 if (start.x < end.x && start.y == end.y) {
-                    if (conn.getPoints().getMidpoint().x <= col)
-                        column = conn.getPoints().getMidpoint().x - 5;
+                    if (conn.getVertices().getMidpoint().x <= col)
+                        column = conn.getVertices().getMidpoint().x - 5;
                 }
             }
             catch(exc){

@@ -16,7 +16,7 @@
  *     // create a basic figure and add a Label/child via API call
  *     //
  *     var start = new draw2d.shape.node.Start();
- *     start.addFigure(new draw2d.shape.basic.Label("Left Label"), new draw2d.layout.locator.LeftLocator(start));	
+ *     start.addFigure(new draw2d.shape.basic.Label("Left Label"), new draw2d.layout.locator.LeftLocator(start));   
  *     canvas.addFigure( start, 100,50);
  *
  *     

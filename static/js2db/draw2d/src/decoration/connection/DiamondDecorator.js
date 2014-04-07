@@ -80,4 +80,3 @@ draw2d.decoration.connection.DiamondDecorator = draw2d.decoration.connection.Dec
 	}
 	
 });
-

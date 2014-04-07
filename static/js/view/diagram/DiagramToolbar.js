@@ -78,10 +78,17 @@ Ext.define('ProtoUL.view.diagram.DiagramToolbar', {
                 },
                 {
                 	xtype: 'button',
-                	iconCls: 'icon-save',
-                    itemId: 'btSaveAll',
+                	iconCls: 'save-diagram',
+                    itemId: 'btSaveDiagram',
                     disabled: true,
                     text: 'Save diagram'
+                },
+                {
+                	xtype: 'button',
+                	iconCls: 'send-to-DB',
+                    itemId: 'btSyncToDB',
+                    disabled: true,
+                    text: 'Synch to DB'
                 }
             ]
         });
@@ -123,7 +130,7 @@ Ext.define('ProtoUL.view.diagram.DiagramToolbar', {
 	{
 		var btnUndo = this.getComponent('btUndo');
 		var btnRedo = this.getComponent('btRedo');
-		var btnSaveAll = this.getComponent('btSaveAll');
+		var btnSaveAll = this.getComponent('btSaveDiagram');
 		if (event.getStack().canUndo()){
 			btnUndo.setDisabled(false);
 			btnSaveAll.setDisabled(false);

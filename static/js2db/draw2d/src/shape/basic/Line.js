@@ -56,6 +56,9 @@ draw2d.shape.basic.Line = draw2d.Figure.extend({
         this.isGlowing = false;
         this.lineColor = this.DEFAULT_COLOR;
         this.stroke=1;
+        this.outlineStroke = 0;
+        this.outlineColor = new draw2d.util.Color(null);
+        this.outlineVisible = false;
 
         this.dasharray = null;
         
@@ -68,9 +71,9 @@ draw2d.shape.basic.Line = draw2d.Figure.extend({
             this.end   = new draw2d.geo.Point(100,100);
         }
 
-        this.basePoints = new draw2d.util.ArrayList();
-        this.basePoints.add(this.start);
-        this.basePoints.add(this.end);
+        this.vertices = new draw2d.util.ArrayList();
+        this.vertices.add(this.start);
+        this.vertices.add(this.end);
         
         this._super();
         
@@ -81,6 +84,59 @@ draw2d.shape.basic.Line = draw2d.Figure.extend({
         this.setDeleteable(true);
    },
    
+   /**
+    * @method
+    * Set the outline color of the line.
+    * 
+    * @param {draw2d.util.Color/String} color The new color of the line.
+    * @since 4.2.1
+    **/
+   setOutlineColor:function( color)
+   {
+     this.outlineColor = new draw2d.util.Color(color);
+     this.repaint();
+     
+     return this;
+   },
+
+   /**
+    * @method
+    * The outlien color of the text
+    * 
+    * @returns {draw2d.util.Color}
+    * @since 4.2.1
+    */
+   getOutlineColor:function()
+   {
+     return this.outlineColor;
+   },
+   
+   /**
+    * @method
+    * Set the outline stroke of the line to use.
+    * 
+    * @param {Number} w The new outline width of the line
+    * @since 4.2.1
+    **/
+   setOutlineStroke:function( w )
+   {
+     this.outlineStroke=w;
+     this.repaint();
+     
+     return this;
+   },
+
+   /**
+    * @method
+    * The used outline line width.
+    * 
+    * @type {Number}
+    * @since 4.2.1
+    **/
+   getOutlineStroke:function( )
+   {
+     return this.outlineStroke;
+   },
 
    /**
     * @method
@@ -102,14 +158,14 @@ draw2d.shape.basic.Line = draw2d.Figure.extend({
        
        this.command.setTranslation(dx,dy);
        
-       this.getPoints().each(function(i,e){
+       this.vertices.each(function(i,e){
            e.translate(dx2, dy2);
        });
+       this.start=this.vertices.first().clone();
+       this.end=this.vertices.last().clone();
 
-       this._super(dx, dy, dx2, dy2);
-       
        this.svgPathString = null;
-       this.repaint();
+       this._super(dx, dy, dx2, dy2);
    },
 
    onDragEnd : function()
@@ -124,27 +180,38 @@ draw2d.shape.basic.Line = draw2d.Figure.extend({
            return;
        }
 
-	   // we must undo the interim drag/drop translation of the line. The real translation will be done
-	   // by the execute of the command. Yes - you are right. This is a HACK or design flaw :-/
-	   this.getPoints().each($.proxy(function(i,e){
+     // we must undo the interim drag/drop translation of the line. The real translation will be done
+     // by the execute of the command. Yes - you are right. This is a HACK or design flaw :-/
+     this.getVertices().each($.proxy(function(i,e){
            e.translate(-this.command.dx, -this.command.dy);
        },this));
 
+     
 
        this.canvas.getCommandStack().execute(this.command);
-	   this.command = null;
-	   this.isMoving = false;
-	   
-	   // notify all installed policies
-	   //
-	   this.editPolicy.each($.proxy(function(i,e){
-    	   if(e instanceof draw2d.policy.figure.DragDropEditPolicy){
-    		   e.onDragEnd(this.canvas, this);
-    	   }
-	   },this));
-	   
-	   // inform all other listener
-	   this.fireMoveEvent();
+     this.command = null;
+     this.isMoving = false;
+     
+     // notify all installed policies
+     //
+     this.editPolicy.each($.proxy(function(i,e){
+         if(e instanceof draw2d.policy.figure.DragDropEditPolicy){
+           e.onDragEnd(this.canvas, this);
+         }
+     },this));
+     
+     // inform all other listener
+     this.fireMoveEvent();
+   },
+
+   /**
+    * @method
+    * Called when a user clicks on the element.
+    * 
+    * @template
+    * @since 4.0.0
+    */
+   onClick: function(){
    },
 
    /**
@@ -182,7 +249,15 @@ draw2d.shape.basic.Line = draw2d.Figure.extend({
     **/
    createShapeElement:function()
    {
-     return this.canvas.paper.path("M"+this.start.x+" "+this.start.y+"L"+this.end.x+" "+this.end.y);
+     var set=  this.canvas.paper.set();
+
+     // the drop shadow or border line
+     set.push(this.canvas.paper.path("M"+this.start.x+" "+this.start.y+"L"+this.end.x+" "+this.end.y));
+     // the main path
+     set.push(this.canvas.paper.path("M"+this.start.x+" "+this.start.y+"L"+this.end.x+" "+this.end.y));
+     set.node = set.items[1].node;
+     
+     return set;
    },
 
    /**
@@ -199,16 +274,16 @@ draw2d.shape.basic.Line = draw2d.Figure.extend({
        // don't override existing values
        //
        if(typeof attributes === "undefined"){
-           attributes = {"stroke":"#"+this.lineColor.hex(),
+           attributes = {"stroke":this.lineColor.hash(),
                          "stroke-width":this.stroke,
                          "path":["M",this.start.x,this.start.y,"L",this.end.x,this.end.y].join(" ")};
        }
        else{
-    	   if(typeof attributes.path ==="undefined"){
-    		   attributes.path =["M",this.start.x,this.start.y,"L",this.end.x,this.end.y].join(" ");
-    	   }
-    	   attributes.stroke = this.lineColor.hash();
-    	   attributes["stroke-width"]=this.stroke;
+         if(typeof attributes.path ==="undefined"){
+           attributes.path =["M",this.start.x,this.start.y,"L",this.end.x,this.end.y].join(" ");
+         }
+         attributes.stroke = this.lineColor.hash();
+         attributes["stroke-width"]=this.stroke;
        }
        
        if(this.dasharray!==null){
@@ -216,6 +291,18 @@ draw2d.shape.basic.Line = draw2d.Figure.extend({
        }
        
        this._super(attributes);
+
+       if(this.outlineStroke>0){
+           this.shape.items[0].attr({"stroke-width":(this.outlineStroke+this.stroke), "stroke":this.outlineColor.hash()});
+           if(this.outlineVisible===false)
+               this.shape.items[0].show();
+           this.outlineVisible = true;
+       }
+       else if(this.outlineVisible===true){
+           // reset them once
+           this.shape.items[0].attr({"stroke-width":0, "stroke":"none"});
+           this.shape.items[0].hide();
+       }
    },
    
    /**
@@ -226,26 +313,26 @@ draw2d.shape.basic.Line = draw2d.Figure.extend({
     * @template
     */
    setGlow: function(flag){
-	   if(this.isGlowing===flag){
-		   return;
-	   }
-	   
-	   if(flag===true){
-		   // store old values for restore
-		   this._lineColor = this.lineColor;
-		   this._stroke = this.stroke;
-		   
-	       this.setColor( draw2d.util.Color("#3f72bf"));
-	       this.setStroke((this.stroke*4)|0);
-	   }
-	   else{
-	       this.setColor(this._lineColor);
-	       this.setStroke(this._stroke);
-	   }
-	   
-	   this.isGlowing = flag;
-	   
-	   return this;
+     if(this.isGlowing===flag){
+       return;
+     }
+     
+     if(flag===true){
+       // store old values for restore
+       this._lineColor = this.lineColor;
+       this._stroke = this.stroke;
+       
+         this.setColor( new draw2d.util.Color("#3f72bf"));
+         this.setStroke((this.stroke*4)|0);
+     }
+     else{
+         this.setColor(this._lineColor);
+         this.setStroke(this._stroke);
+     }
+     
+     this.isGlowing = flag;
+     
+     return this;
    },
 
 
@@ -277,6 +364,18 @@ draw2d.shape.basic.Line = draw2d.Figure.extend({
 
    /**
     * @method
+    * The used line width.
+    * 
+    * @type {Number}
+    **/
+   getStroke:function( )
+   {
+     return this.stroke;
+   },
+
+
+   /**
+    * @method
     * Set the color of the line.
     * This method fires a <i>document dirty</i> event.
     * 
@@ -299,6 +398,35 @@ draw2d.shape.basic.Line = draw2d.Figure.extend({
    getColor:function()
    {
      return this.lineColor;
+   },
+
+   /**
+    * @method
+    * Translate the line with the given x/y offset.
+    *
+    * @param {Number} dx The new x translate offset
+    * @param {Number} dy The new y translate offset
+    * @since 4.1.0
+    **/
+   translate:function(dx , dy )
+   {
+       this.vertices.each(function(i,e){
+           e.translate(dx, dy);
+       });
+       this.start=this.vertices.first().clone();
+       this.end=this.vertices.last().clone();
+
+       this.editPolicy.each($.proxy(function(i,e){
+           if(e instanceof draw2d.policy.figure.DragDropEditPolicy){
+               e.moved(this.canvas, this);
+           }
+       },this));
+
+       
+       this.svgPathString = null;
+       this.repaint();
+
+       return this;
    },
 
    /**
@@ -425,14 +553,27 @@ draw2d.shape.basic.Line = draw2d.Figure.extend({
 
    /**
     * @method
-    * Returns the fulcrums of the connection
+    * Return the Vertex with the given index.
+    *
+    * @param {Number} index the index of the vertex to return
+    */
+   getVertex:function( index)
+   {
+       return this.vertices.get(index);
+   },
+ 
+   /**
+    * @method
+    * Returns the vertices of the connection
     *
     * @return {draw2d.util.ArrayList} an draw2d.util.ArrayList of type draw2d.Point
     **/
-   getPoints:function()
+   getVertices:function()
    {
-       return this.basePoints;
+       return this.vertices;
    },
+   /* @deprecated */
+   getPoints:function (){return this.getVertices();},
    
    getSegments: function()
    {
@@ -463,18 +604,18 @@ draw2d.shape.basic.Line = draw2d.Figure.extend({
     * Returns the angle of the line in degree.
     *
     * <pre>
-    *                                 270°
+    *                                 270�?
     *                               |
     *                               |
     *                               |
     *                               |
-    * 180° -------------------------+------------------------> +X
-    *                               |                        0°
+    * 180�? -------------------------+------------------------> +X
+    *                               |                        0�?
     *                               |
     *                               |
     *                               |
     *                               V +Y
-    *                              90°
+    *                              90�?
     * </pre>
     * @return {Number}
     **/
@@ -540,7 +681,7 @@ draw2d.shape.basic.Line = draw2d.Figure.extend({
     **/
    hitTest: function( px, py)
    {
-     return draw2d.shape.basic.Line.hit(this.corona, this.start.x,this.start.y, this.end.x, this.end.y, px,py);
+     return draw2d.shape.basic.Line.hit(this.corona+ this.stroke, this.start.x,this.start.y, this.end.x, this.end.y, px,py);
    },
    
    /**
@@ -589,6 +730,8 @@ draw2d.shape.basic.Line = draw2d.Figure.extend({
 
        memento.stroke = this.stroke;
        memento.color  = this.getColor().hash();
+       memento.outlineStroke = this.outlineStroke;
+       memento.outlineColor = this.outlineColor.hash();
        if(this.editPolicy.getSize()>0){
            memento.policy = this.editPolicy.getFirstElement().NAME;
        }
@@ -613,6 +756,12 @@ draw2d.shape.basic.Line = draw2d.Figure.extend({
        if(typeof memento.color !=="undefined"){
            this.setColor(memento.color);
        }
+       if(typeof memento.outlineStroke !=="undefined"){
+           this.setOutlineStroke(memento.outlineStroke);
+       }
+       if(typeof memento.outlineColor !=="undefined"){
+           this.setOutlineColor(memento.outlineColor);
+       }
        if(typeof memento.policy !=="undefined"){
            try{
                this.installEditPolicy(eval("new "+memento.policy +"()" ));
@@ -632,6 +781,7 @@ draw2d.shape.basic.Line = draw2d.Figure.extend({
  * @param {draw2d.geo.Point} a2
  * @param {draw2d.geo.Point} b1
  * @param {draw2d.geo.Point} b2
+ * @private
  * @returns
  */
 draw2d.shape.basic.Line.intersection = function(a1, a2, b1, b2) {
@@ -729,4 +879,3 @@ draw2d.shape.basic.Line.hit= function( coronaWidth, X1, Y1,  X2,  Y2, px, py)
     }
     return Math.sqrt(lenSq)<coronaWidth;
 };
-

@@ -68,9 +68,11 @@ draw2d.policy.canvas.SnapToGeometryEditPolicy = draw2d.policy.canvas.SnapToEditP
      * @param {draw2d.Canvas} canvas
      * @param {Number} x the x-coordinate of the mouse down event
      * @param {Number} y the y-coordinate of the mouse down event
+     * @param {Boolean} shiftKey true if the shift key has been pressed during this event
+     * @param {Boolean} ctrlKey true if the ctrl key has been pressed during the event
      * @template
      */
-    onMouseUp: function(figure, x, y){
+    onMouseUp: function(figure, x, y, shiftKey, ctrlKey){
         this.rows=null;
         this.cols=null;
         this.hideVerticalLine();
@@ -115,37 +117,34 @@ draw2d.policy.canvas.SnapToGeometryEditPolicy = draw2d.policy.canvas.SnapToEditP
            result.y-= snapPoint.y;
            return result;
         }
+
         // The user drag&drop a normal figure
-        else{
-            var inputBounds = new draw2d.geo.Rectangle(pos.x,pos.y, figure.getWidth(), figure.getHeight());
-            var result = new draw2d.geo.Rectangle(pos.x,pos.y, figure.getWidth(), figure.getHeight());
-    
-            var snapDirections = draw2d.SnapToHelper.NSEW;
-            var direction = this.snapRectangle( inputBounds, result);
-    
-            // Show a vertical line if the snapper has modified the inputPoint
-            //
-            if((snapDirections & draw2d.SnapToHelper.WEST) && !(direction & draw2d.SnapToHelper.WEST))
-               this.showVerticalLine(result.x);
-            else if((snapDirections & draw2d.SnapToHelper.EAST) && !(direction & draw2d.SnapToHelper.EAST))
-               this.showVerticalLine(result.getX()+result.getWidth());
-            else
-               this.hideVerticalLine();
-    
-    
-            // Show a horizontal line if the snapper has modified the inputPoint
-            //
-            if((snapDirections & draw2d.SnapToHelper.NORTH) && !(direction & draw2d.SnapToHelper.NORTH))
-               this.showHorizontalLine(result.y);
-            else if((snapDirections & draw2d.SnapToHelper.SOUTH) && !(direction & draw2d.SnapToHelper.SOUTH))
-               this.showHorizontalLine(result.getY()+result.getHeight());
-            else
-               this.hideHorizontalLine();
-    
-            return result.getTopLeft();
-        }
-        
-        return pos;
+        var inputBounds = new draw2d.geo.Rectangle(pos.x,pos.y, figure.getWidth(), figure.getHeight());
+        var result = new draw2d.geo.Rectangle(pos.x,pos.y, figure.getWidth(), figure.getHeight());
+
+        var snapDirections = draw2d.SnapToHelper.NSEW;
+        var direction = this.snapRectangle( inputBounds, result);
+
+        // Show a vertical line if the snapper has modified the inputPoint
+        //
+        if((snapDirections & draw2d.SnapToHelper.WEST) && !(direction & draw2d.SnapToHelper.WEST))
+           this.showVerticalLine(result.x);
+        else if((snapDirections & draw2d.SnapToHelper.EAST) && !(direction & draw2d.SnapToHelper.EAST))
+           this.showVerticalLine(result.getX()+result.getWidth());
+        else
+           this.hideVerticalLine();
+
+
+        // Show a horizontal line if the snapper has modified the inputPoint
+        //
+        if((snapDirections & draw2d.SnapToHelper.NORTH) && !(direction & draw2d.SnapToHelper.NORTH))
+           this.showHorizontalLine(result.y);
+        else if((snapDirections & draw2d.SnapToHelper.SOUTH) && !(direction & draw2d.SnapToHelper.SOUTH))
+           this.showHorizontalLine(result.getY()+result.getHeight());
+        else
+           this.hideHorizontalLine();
+
+        return result.getTopLeft();
     },
     
     

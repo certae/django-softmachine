@@ -30,7 +30,7 @@ Ext.define('ProtoUL.view.diagram.DiagramMenu', {
                 },
                 {
                     xtype: 'panel',
-                    title: 'Search',
+                    title: 'Database',
                     items: [
                         {
                             xtype: 'searchmenu'

@@ -28,11 +28,11 @@ draw2d.shape.basic.LineEndResizeHandle = draw2d.shape.basic.LineResizeHandle.ext
      */
     getRelatedPort:function()
     {
-    	if(this.owner instanceof draw2d.Connection){
+        if(this.owner instanceof draw2d.Connection){
          return this.owner.getTarget();
-    	}
-    	
-    	return null;
+        }
+        
+        return null;
     },
     
     /**
@@ -43,11 +43,11 @@ draw2d.shape.basic.LineEndResizeHandle = draw2d.shape.basic.LineResizeHandle.ext
      */
     getOppositePort:function()
     {
-    	if(this.owner instanceof draw2d.Connection) {
+        if(this.owner instanceof draw2d.Connection) {
          return this.owner.getSource();
-    	}
-    	
-    	return null;
+        }
+        
+        return null;
     },
     
  
@@ -65,10 +65,10 @@ draw2d.shape.basic.LineEndResizeHandle = draw2d.shape.basic.LineResizeHandle.ext
     {
       this._super(dx,dy, dx2, dy2);
     
-      var objPos = this.owner.getEndPoint();
-      objPos.translate(dx2,dy2);
+      var objPos = this.owner.end.clone();//getEndPoint();
+     // objPos.translate(dx2,dy2);
       
-      this.owner.setEndPoint(objPos.x, objPos.y);
+      this.owner.setEndPoint(objPos.x+dx2, objPos.y+dy2);
       
       this.owner.isMoving = true;
     
@@ -81,7 +81,7 @@ draw2d.shape.basic.LineEndResizeHandle = draw2d.shape.basic.LineResizeHandle.ext
      **/
     onDrop:function( dropTarget)
     {
-    	this.owner.isMoving=false;
+        this.owner.isMoving=false;
       
       if(this.owner instanceof draw2d.Connection && this.command !==null){
          this.command.setNewPorts(this.owner.getSource(),dropTarget);

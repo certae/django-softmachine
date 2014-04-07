@@ -53,8 +53,10 @@ draw2d.policy.canvas.SingleSelectionPolicy =  draw2d.policy.canvas.SelectionPoli
      * @param {draw2d.Canvas} canvas
      * @param {Number} x the x-coordinate of the mouse down event
      * @param {Number} y the y-coordinate of the mouse down event
+     * @param {Boolean} shiftKey true if the shift key has been pressed during this event
+     * @param {Boolean} ctrlKey true if the ctrl key has been pressed during the event
      */
-    onMouseDown:function(canvas, x,y){
+    onMouseDown:function(canvas, x, y, shiftKey, ctrlKey){
         this.mouseMovedDuringMouseDown  = false;
         var canDragStart = true;
 
@@ -176,9 +178,11 @@ draw2d.policy.canvas.SingleSelectionPolicy =  draw2d.policy.canvas.SelectionPoli
      * @param {draw2d.Canvas} canvas
      * @param {Number} x the x-coordinate of the mouse up event
      * @param {Number} y the y-coordinate of the mouse up event
+     * @param {Boolean} shiftKey true if the shift key has been pressed during this event
+     * @param {Boolean} ctrlKey true if the ctrl key has been pressed during the event
      * @template
      */
-    onMouseUp: function(canvas, x, y){
+    onMouseUp: function(canvas, x, y, shiftKey, ctrlKey){
         if (this.mouseDraggingElement !== null) {
             var sel =canvas.getSelection().getAll();
             if(!sel.contains(this.mouseDraggingElement)){

@@ -3,37 +3,50 @@
  *   Copyright (c) 2012 Andreas Herz
  ****************************************/
 /**
- * @class draw2d.command.CommandAddJunctionPoint
+ * @class draw2d.command.CommandMoveVertex
  * 
- * Add a junction point to a polyline
+ * Command for the vertex movement of a polyline/polygon.
  *
  * @inheritable
  * @author Andreas Herz
  * 
  * @extends draw2d.command.Command
  */
-draw2d.command.CommandAddJunctionPoint = draw2d.command.Command.extend({
-    NAME : "draw2d.command.CommandAddJunctionPoint", 
+draw2d.command.CommandMoveVertex = draw2d.command.Command.extend({
+    NAME : "draw2d.command.CommandMoveVertex", 
   
     /**
      * @constructor
-     * Create a new Command objects which add a junction point to a PloyLine.
+     * Create a new Command objects which can be execute via the CommandStack.
      *
      * @param {draw2d.shape.basic.PolyLine} line the related line
-     * @param {Number} index the index where to add
-     * @param {Number} x the x coordinate for the new junction point
-     * @param {Number} y the y coordinate for the new junction point
      */
-    init : function(line, index, x ,y)
+    init : function(line)
     {
-        this._super("Junction point add");
+        this._super(draw2d.Configuration.i18n.command.moveVertex);
         
         this.line = line;
-        this.index = index;
-        this.newPoint = new draw2d.geo.Point(x,y);
+        this.index = -1;
+        this.newPoint = null;
     },
     
   
+    /**
+     * @method
+     * Set the index of the vertex of the polyline/polygon to modify.
+     *
+     * @param {Number} index the related index of the vertex
+     **/
+    setIndex:function( index)
+    {
+       this.index = index;
+       this.origPoint = this.line.getVertices().get(this.index).clone();
+    },
+    
+    updatePosition: function(x,y){
+        this.newPoint = new draw2d.geo.Point(x,y);
+    },
+    
     /**
      * @method
      * Returns [true] if the command can be execute and the execution of the
@@ -46,7 +59,7 @@ draw2d.command.CommandAddJunctionPoint = draw2d.command.Command.extend({
     canExecute:function()
     {
       // return false if we doesn't modify the model => NOP Command
-      return true;
+      return this.index!==-1 && this.newPoint!==null;
     },
     
     /**
@@ -67,7 +80,7 @@ draw2d.command.CommandAddJunctionPoint = draw2d.command.Command.extend({
      **/
     undo:function()
     {
-        this.line.removeJunctionPointAt(this.index);
+        this.line.setVertex(this.index, this.origPoint.x, this.origPoint.y);
     },
     
     /**
@@ -78,6 +91,6 @@ draw2d.command.CommandAddJunctionPoint = draw2d.command.Command.extend({
      **/
     redo:function()
     {
-        this.line.insertJunctionPointAt(this.index, this.newPoint.x, this.newPoint.y);
+        this.line.setVertex(this.index, this.newPoint.x, this.newPoint.y);
     }
 });

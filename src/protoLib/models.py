@@ -116,7 +116,7 @@ class ProtoModel(models.Model):
 
             super(ProtoModel, self).save(*args, **kwargs)
         else:
-            if not self.pk or not self.smUUID:
+            if not self.smUUID:
                 self.smUUID = uuid.uuid1().hex
             super(ProtoModel, self).save(*args, **kwargs)
 

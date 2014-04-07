@@ -68,9 +68,3 @@ draw2d.decoration.connection.CircleDecorator = draw2d.decoration.connection.Deco
 		return shape;
 	}
 });
-
-
-
-
-
-

@@ -48,8 +48,43 @@ draw2d.policy.figure.SelectionFeedbackPolicy = draw2d.policy.figure.DragDropEdit
             e.hide();
         });
         figure.selectionHandles = new draw2d.util.ArrayList();
+    },
+    
+    /**
+     * @method
+     * Called by the host if the policy has been installed.
+     * 
+     * @param {draw2d.Canvas/draw2d.Figure} figure
+     */
+    onInstall: function( figure){
+        this._super(figure);
         
+        var canvas = figure.getCanvas();
+        if(canvas!==null){
+            if(canvas.getSelection().contains(figure)){
+                this.onSelect(canvas, figure, true);
+            }
+        }
+    },
+    
+    
+    /**
+     * @method
+     * Called by the host if the policy has been uninstalled.
+     * 
+     * @param {draw2d.Canvas/draw2d.Figure} figure
+     */
+    onUninstall: function( figure){
+        this._super(figure);
+
+        if(typeof figure.selectionHandles ==="undefined"){
+            return;
+        }
         
+        figure.selectionHandles.each(function(i,e){
+            e.hide();
+        });
+        figure.selectionHandles = new draw2d.util.ArrayList();
     }
         
 });

@@ -11,21 +11,39 @@ dbModel.shape.TableConnection = draw2d.Connection.extend({
 	
     init: function() {
         this._super();
-        //this.setRouter(new draw2d.layout.connection.InteractiveManhattanConnectionRouter());
-        this.setRouter(new draw2d.layout.connection.ManhattanBridgedConnectionRouter());
-        //this.setOutlineStroke(1);
-        //this.setOutlineColor("#303030");
+        this.setRouter(new draw2d.layout.connection.InteractiveManhattanConnectionRouter());
 
         this.setColor("#5bcaff");
         this.setStroke(2);
         
+        this.label = this.createLabel("New connection");
+		// add the new decoration to the connection with a position locator.
+		this.addFigure(this.label, new draw2d.layout.locator.ManhattanMidpointLocator(this));
+		
         // Set the endpoint decorations for the connection
         this.setSourceDecorator(new draw2d.decoration.connection.BarDecorator());
     	this.setTargetDecorator(new draw2d.decoration.connection.DiamondDecorator());
-    
+    	
+    	this.setUserData({"isRequired":false});
+    	
         this.contextMenuListeners = new draw2d.util.ArrayList();
     },
+    
+	/**
+     * @method
+     * help method to create some labels
+     *
+     * @param {String} txt the label to display
+     * @returns {draw2d.shape.basic.Label}
+     */
+    createLabel: function(txt) {
+        var label = new dbModel.shape.CustomLabel(txt);
+		label.setStroke(0);
+		label.setFontColor("#0d0d0d");
 
+        return label;
+    },
+    
    	/**
      * @method
      * Return an objects with all important attributes for XML or JSON serialization
@@ -49,6 +67,7 @@ dbModel.shape.TableConnection = draw2d.Connection.extend({
         this._super(memento);
         
         if ( typeof memento.name !== "undefined") {
+        	this.resetChildren();
         	// Create any Draw2D figure as decoration for the connection
 	        //
 			this.label = new draw2d.shape.basic.Label(memento.name);

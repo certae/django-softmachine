@@ -25,13 +25,13 @@ draw2d.layout.locator.PortLocator = draw2d.layout.locator.Locator.extend({
     },
     
     applyConsiderRotation: function(port, x, y){
-    	var parent = port.getParent();
+        var parent = port.getParent();
     
-    	var halfW = parent.getWidth()/2;
-    	var halfH = parent.getHeight()/2;
-    	var rotAngle = parent.getRotationAngle();
-    	var m = Raphael.matrix();
-    	m.rotate(rotAngle, halfW, halfH);
+        var halfW = parent.getWidth()/2;
+        var halfH = parent.getHeight()/2;
+        var rotAngle = parent.getRotationAngle();
+        var m = Raphael.matrix();
+        m.rotate(rotAngle, halfW, halfH);
         if(rotAngle=== 90|| rotAngle===270){
             var ratio = parent.getHeight()/parent.getWidth();
             m.scale(ratio, 1/ratio, halfW, halfH);

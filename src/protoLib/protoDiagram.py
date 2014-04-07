@@ -2,18 +2,19 @@
 
 from django.http import HttpResponse
 from utilsWeb import JsonError
-from prototype.models import Entity, Relationship
+from prototype.models import Model, Entity, Relationship, Property
 
 import json, uuid
 
-def getTableJSONDiagram(request):
+def getEntitiesJSONDiagram(request):
     """ return metadata (columns, renderers, totalcount...)
     """
+    modelID = request.POST['modelID']
     selectedTables = []
     connectors = []
     table = {}
     try:
-        entities = Entity.objects.filter(model__project_id=1)
+        entities = Entity.objects.filter(model_id=modelID)
         x = 20
         y = 20
         for entity in entities:
@@ -98,12 +99,12 @@ def addConnectors(pProperty, table, connectors):
         "type": "dbModel.shape.TableConnection",
         "name": relationship.code,
         "id": str(uuid.UUID(relationship.smUUID)),
-        "userData": None,
+        "userData": {"isRequired":relationship.isRequired},
         "cssClass": "draw2d_Connection",
         "stroke": 2,
         "color": "#5BCAFF",
-        "policy": "draw2d.policy.line.LineSelectionFeedbackPolicy",
-        "router": "draw2d.layout.connection.ManhattanConnectionRouter",
+        "policy": "draw2d.policy.line.OrthogonalSelectionFeedbackPolicy",
+        "router": "draw2d.layout.connection.InteractiveManhattanConnectionRouter",
         "source": {
             "node": str(uuid.UUID(relationship.refEntity.smUUID)),
             "port": outputPortName
@@ -114,3 +115,92 @@ def addConnectors(pProperty, table, connectors):
         }
     }
     connectors.append(connector)
+    
+def synchDBFromDiagram(request):
+    """ synchronyze JSON File with database
+    """
+    modelID = request.REQUEST['modelID']
+    try:
+        model = Model.objects.get(id=modelID)
+        user = request.user
+        owningTeam = model.smOwningTeam
+    except Exception as e:
+        return JsonError(e)
+    
+    objects = json.loads(request.body)
+    for element in objects:
+        elementUUID = uuid.UUID(element['id']).hex
+        if element['type'] == 'dbModel.shape.DBTable':
+            try:
+                entity = Entity.objects.get(smUUID=elementUUID)
+                entity.code = element['tableName']
+                UUIDAttributeList = []
+                entity = saveAttributes(element, entity, UUIDAttributeList, user, owningTeam)
+                
+                entity.property_set.exclude(smUUID__in=UUIDAttributeList).delete()
+                    
+                entity.save()
+            except Exception as e:
+                print e, 'Creating a new one'
+                entity = Entity.objects.create(code=element['tableName'],model=model,smUUID=elementUUID)
+                entity.smCreatedBy = user
+                entity.smOwningTeam = owningTeam
+                entity.save()
+        else:
+            sourceUUID = uuid.UUID(element['source']['node']).hex
+            targetUUID = uuid.UUID(element['target']['node']).hex
+            try:
+                refEntity = Entity.objects.get(smUUID=sourceUUID)
+                connEntity = Entity.objects.get(smUUID=targetUUID)
+            except Exception as e:
+                return JsonError(e)
+            
+            try:
+                connector = Relationship.objects.get(smUUID=elementUUID)
+                connector.code = element['name']
+                connector.isRequired = element['userData']['isRequired']
+                connector.isPrimary = connector.isRequired
+                connector.refEntity = refEntity
+                connector.connEntity = connEntity
+                connector.save()
+            except Exception as e:
+                print e, 'Creating a new one'
+                connector = Relationship.objects.create(code=element['name'], smUUID=elementUUID, refEntity_id=refEntity.id, entity_id=connEntity.id, isPrimary=element['userData']['isRequired'], isLookUpResult=True, isNullable=True, isRequired=element['userData']['isRequired'], isReadOnly=False, isEssential=False)
+                connector.save()
+    
+    context = {
+        'message': 'message',
+        'success': True
+    }
+
+    return HttpResponse(json.dumps(context), content_type="application/json")
+
+def saveAttributes(element, entity, UUIDAttributeList, user, owningTeam):
+    for attribute in element['attributes']:
+        attribUUID = uuid.UUID(attribute['id']).hex
+        datatype = attribute['datatype']
+        isFK = attribute['fk']
+        isNullable = attribute['isNullable']
+        isRequired = attribute['isRequired']
+        isPK = attribute['pk']
+        attributeName = attribute['text']
+        UUIDAttributeList.append(attribUUID)
+        try:
+            pProperty = Property.objects.get(smUUID=attribUUID)
+            pProperty.code = attributeName
+            pProperty.baseType = datatype
+            pProperty.isPrimary = isPK
+            pProperty.isForeign = isFK
+            pProperty.isNullable = isNullable
+            pProperty.isRequired = isRequired
+            pProperty.save()
+        except Exception as e:
+            print e, 'Creating a new one'
+            pProperty = Property.objects.create(code=attributeName, entity=entity, smUUID=attribUUID, isSensitive=False, isPrimary=isPK, isLookUpResult=True, isNullable=isNullable, isRequired=isRequired, isReadOnly=False, isEssential=False)
+            pProperty.smCreatedBy = user
+            pProperty.smOwningTeam = owningTeam
+            pProperty.isForeign = isFK
+            pProperty.save()
+    
+    return entity
+

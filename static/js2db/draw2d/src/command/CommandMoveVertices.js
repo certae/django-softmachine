@@ -3,17 +3,17 @@
  *   Copyright (c) 2012 Andreas Herz
  ****************************************/
 /**
- * @class draw2d.command.CommandMoveJunction
+ * @class draw2d.command.CommandMoveVertices
  * 
- * Command for the junction point movement of a polyline.
+ * Command for the vertices movement of a polyline/polygon.
  *
  * @inheritable
  * @author Andreas Herz
  * 
  * @extends draw2d.command.Command
  */
-draw2d.command.CommandMoveJunction = draw2d.command.Command.extend({
-    NAME : "draw2d.command.CommandMoveJunction", 
+draw2d.command.CommandMoveVertices = draw2d.command.Command.extend({
+    NAME : "draw2d.command.CommandMoveVertices", 
   
     /**
      * @constructor
@@ -23,28 +23,17 @@ draw2d.command.CommandMoveJunction = draw2d.command.Command.extend({
      */
     init : function(line)
     {
-        this._super("Junction moved");
+        this._super(draw2d.Configuration.i18n.command.moveVertices);
         
         this.line = line;
-        this.index = -1;
-        this.newPoint = null;
+        this.oldVertices = line.getVertices().clone();
+        this.newVertices = null;
     },
     
   
-    /**
-     * @method
-     * Set the index of the junction point of the polyline to modify.
-     *
-     * @param {Number} index the related index of the junction point
-     **/
-    setIndex:function( index)
-    {
-       this.index = index;
-       this.origPoint = this.line.getPoints().get(this.index).clone();
-    },
     
-    updatePosition: function(x,y){
-        this.newPoint = new draw2d.geo.Point(x,y);
+    updateVertices: function(newVertices){
+       this.newVertices = newVertices;
     },
     
     /**
@@ -59,7 +48,7 @@ draw2d.command.CommandMoveJunction = draw2d.command.Command.extend({
     canExecute:function()
     {
       // return false if we doesn't modify the model => NOP Command
-      return this.index!==-1 && this.newPoint!==null;
+      return this.newVertices!==null;
     },
     
     /**
@@ -80,7 +69,7 @@ draw2d.command.CommandMoveJunction = draw2d.command.Command.extend({
      **/
     undo:function()
     {
-        this.line.setJunctionPoint(this.index, this.origPoint.x, this.origPoint.y);
+        this.line.setVertices(this.oldVertices);
     },
     
     /**
@@ -91,6 +80,6 @@ draw2d.command.CommandMoveJunction = draw2d.command.Command.extend({
      **/
     redo:function()
     {
-        this.line.setJunctionPoint(this.index, this.newPoint.x, this.newPoint.y);
+        this.line.setVertices(this.newVertices);
     }
 });

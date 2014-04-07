@@ -42,9 +42,10 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
         switch(item.itemId) {
         	case 'getAllTables':
         		Ext.Ajax.request({
-				    url: _SM._PConfig.urlGetTableJSONDiagram,
+				    url: _SM._PConfig.urlGetEntitiesJSONDiagram,
 				    params: {
-				        id: 1
+				    	// FIXME get value from selected row in Model View
+				        modelID: 1
 				    },
 				    success: function(response){
 				        var text = response.responseText;
@@ -61,9 +62,9 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
         		break;
             case 'getJSONTable':
             	Ext.Ajax.request({
-				    url: _SM._PConfig.urlGetTableJSONDiagram,
+				    url: _SM._PConfig.urlGetEntitiesJSONDiagram,
 				    params: {
-				        id: 1
+				        modelID: 1
 				    },
 				    success: function(response){
 				        var text = response.responseText;
@@ -71,6 +72,18 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
 				    }
 				});
                 break;
+            case 'syncDiagramFromDB':
+	        	Ext.Ajax.request({
+				    url: _SM._PConfig.urlGetEntitiesJSONDiagram,
+				    params: {
+				        modelID: 1
+				    },
+				    success: function(response){
+				        var text = response.responseText;
+						var outcome = Ext.JSON.decode(text);
+				    }
+				});
+	            break;
             default:
                 break;
         }

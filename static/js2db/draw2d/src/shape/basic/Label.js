@@ -20,7 +20,7 @@
  */
 draw2d.shape.basic.Label= draw2d.SetFigure.extend({
 
-	NAME : "draw2d.shape.basic.Label",
+    NAME : "draw2d.shape.basic.Label",
     FONT_FALLBACK:  {
       'Georgia'            :'Georgia, serif',
       'Palatino Linotype'  :'"Palatino Linotype", "Book Antiqua", Palatino, serif',
@@ -48,12 +48,12 @@ draw2d.shape.basic.Label= draw2d.SetFigure.extend({
         this._super();
         
         if(typeof text === "string"){
-    		this.text = text;
-    	}
-    	else{
-    		this.text = "";
-    	}
-    	// for performance reasons
+            this.text = text;
+        }
+        else{
+            this.text = "";
+        }
+        // for performance reasons
         //
         this.cachedWidth  = null;
         this.cachedHeight = null;
@@ -66,13 +66,17 @@ draw2d.shape.basic.Label= draw2d.SetFigure.extend({
         this.fontColor = new draw2d.util.Color("#080808");
         this.fontFamily = null;
         this.padding = 4;
+        
+        this.outlineStroke = 0;
+        this.outlineColor = new draw2d.util.Color(null);
+        
         this.bold = false;
         
         
         // set some good defaults
         //
         this.setStroke(1);
-        this.setDimension(10,10);
+        this.setDimension(1,1);
 
         // behavior of the shape
         //
@@ -89,9 +93,23 @@ draw2d.shape.basic.Label= draw2d.SetFigure.extend({
      **/
     createSet : function()
     {
-    	return this.canvas.paper.text(0, 0, this.text);
+        return this.canvas.paper.text(0, 0, this.text);
     },
 
+    /**
+     * @method
+     * Set the canvas element of this figures.
+     * 
+     * @param {draw2d.Canvas} canvas the new parent of the figure or null
+     */
+    setCanvas: function( canvas )
+    {
+        this.clearCache();
+        this._super(canvas);
+        this.clearCache();
+    },
+    
+    
     /**
      * @method
      * Trigger the repaint of the element and transport all style properties to the visual representation.<br>
@@ -105,31 +123,37 @@ draw2d.shape.basic.Label= draw2d.SetFigure.extend({
             return;
         }
 
- // PERFORMANCE     Problem. Warum muss der Cache bei jedem zeichnen gelöscht werden....?
- // Macht keinen Sinn. Andere Lösung muss her. 
- // Dummerweise zeichnen sich sonst die Labels nicht in der korrekte Breite
-        this.cachedWidth=null;
-        this.cachedHeight=null;
-        this.cachedMinWidth=null;
-        this.cachedMinHeight=null;
-
         // style the label
-        var lattr = {};
-        lattr.text = this.text;
-        lattr.x = this.padding;
-        lattr.y = this.getHeight()/2;
-        lattr["font-weight"] = (this.bold===true)?"bold":"normal";
-        lattr["text-anchor"] = "start";
-        lattr["font-size"] = this.fontSize;
-        if(this.fontFamily!==null){
-            lattr["font-family"] = this.fontFamily;
-        }
-        lattr.fill = this.fontColor.hash();
+        var lattr = this.calculateTextAttr();
+        lattr.text = this.text;        
         this.svgNodes.attr(lattr);
+        // set of the x/y must be done AFTER the font-size and bold has been set.
+        // Reason: the getHeight method needs the font-size for calculation because
+        //         it redirects the calculation to the SVG element.
+        this.svgNodes.attr({x:this.padding,y: this.getHeight()/2});
 
         this._super(attributes);
     },
     
+
+    /**
+     * 
+     * @private
+     */
+    calculateTextAttr:function(){
+        var lattr={"text-anchor":"start",
+                   "font-size":this.fontSize,
+                   "font-weight":(this.bold===true)?"bold":"normal",
+                   fill: this.fontColor.hash(),
+                   stroke : this.outlineColor.hash(),
+                   "stroke-width": this.outlineStroke
+                   };
+        if(this.fontFamily!==null){
+            lattr["font-family"] = this.fontFamily;
+        }
+        return lattr;
+    },
+
     /**
      * @private
      */
@@ -165,12 +189,37 @@ draw2d.shape.basic.Label= draw2d.SetFigure.extend({
      **/
     setFontSize: function( size)
     {
-      this.cachedMinWidth  = null;
-      this.cachedMinHeight = null;
+      this.clearCache();
       this.fontSize = size;
-      this.repaint();
       
+      this.repaint();
+
+      this.fireResizeEvent();
+      // just to be backward compatible....cost a lot of performance...still
+      this.fireMoveEvent();
+      
+      // Update the resize handles if the user change the position of the element via an API call.
+      //
+      this.editPolicy.each($.proxy(function(i,e){
+         if(e instanceof draw2d.policy.figure.DragDropEditPolicy){
+             e.moved(this.canvas, this);
+         }
+      },this));
+      
+    
       return this;
+    },
+    
+    /**
+     * @method
+     * Return the current used font size in px.
+     * 
+     * @returns {Number}
+     * @since 4.0.1
+     */
+    getFontSize: function( )
+    {
+      return this.fontSize;
     },
     
 
@@ -183,15 +232,67 @@ draw2d.shape.basic.Label= draw2d.SetFigure.extend({
      **/
     setBold: function( bold)
     {
-      this.cachedMinWidth  = null;
-      this.cachedMinHeight = null;
+      this.clearCache();
       this.bold = bold;
       this.repaint();
       
       return this;
     },
     
+    /**
+     * @method
+     * Set the outline color of the font.
+     * 
+     * @param {draw2d.util.Color/String} color The new color of the line.
+     * @since 4.2.1
+     **/
+    setOutlineColor:function( color)
+    {
+      this.outlineColor = new draw2d.util.Color(color);
+      this.repaint();
+      
+      return this;
+    },
+
+    /**
+     * @method
+     * The outlien color of the text
+     * 
+     * @returns {draw2d.util.Color}
+     * @since 4.2.1
+     */
+    getOutlineColor:function()
+    {
+      return this.outlineColor;
+    },
     
+    /**
+     * @method
+     * Set the stroke of the text to use.
+     * 
+     * @param {Number} w The new line width of the figure
+     * @since 4.2.1
+     **/
+    setOutlineStroke:function( w )
+    {
+      this.outlineStroke=w;
+      this.repaint();
+      
+      return this;
+    },
+
+    /**
+     * @method
+     * The used outline line width.
+     * 
+     * @type {Number}
+     * @since 4.2.1
+     **/
+    getOutlineStroke:function( )
+    {
+      return this.outlineStroke;
+    },
+
     /**
      * @method
      * Set the color of the font.
@@ -225,16 +326,25 @@ draw2d.shape.basic.Label= draw2d.SetFigure.extend({
      **/
     setPadding: function( padding)
     {
-      this.cachedMinWidth  = null;
-      this.cachedMinHeight = null;
-      this.cachedWidth=null;
-      this.cachedHeight=null;
+      this.clearCache();
       this.padding = padding;
       this.repaint();
       
       return this;
     },
+
     
+    /**
+     * @method
+     * Get the padding of the element.
+     *
+     * @since 4.0.1
+     **/
+    getPadding: function( )
+    {
+      return this.padding;
+    },
+
     /**
      * @method
      * Set the font family to use. If you use the <b>bold</b> font names the typical fallback 
@@ -269,10 +379,7 @@ draw2d.shape.basic.Label= draw2d.SetFigure.extend({
      **/
     setFontFamily: function( font)
     {
-      this.cachedMinWidth  = null;
-      this.cachedMinHeight = null;
-      this.cachedWidth=null;
-      this.cachedHeight=null;
+      this.clearCache();
       
       // check for fallback
       //
@@ -286,7 +393,6 @@ draw2d.shape.basic.Label= draw2d.SetFigure.extend({
       return this;
     },
     
-    
     /**
      * @method
      * A Label did have "autosize". Do nothing at all.
@@ -294,13 +400,23 @@ draw2d.shape.basic.Label= draw2d.SetFigure.extend({
      **/
     setDimension:function( w, h)
     {
-        // reset of the cache must stay here and in repaint!
-        this.cachedWidth=null;
-        this.cachedHeight=null;
+        this.clearCache();
         
         this._super(w,h);
         
         return this;
+    },
+    
+    /**
+     * @method
+     * clear the internal cache for width/height precalculation
+     * @private
+     */
+    clearCache:function(){
+        this.cachedMinWidth  = null;
+        this.cachedMinHeight = null;
+        this.cachedWidth=null;
+        this.cachedHeight=null;
     },
     
     /**
@@ -379,7 +495,6 @@ draw2d.shape.basic.Label= draw2d.SetFigure.extend({
             this.cachedHeight = Math.max(this.height, this.getMinHeight());
         }
         
-        
         return this.cachedHeight;
     },
 
@@ -430,10 +545,7 @@ draw2d.shape.basic.Label= draw2d.SetFigure.extend({
      **/
     setText:function( text )
     {
-      this.cachedWidth=null;
-      this.cachedHeight=null;
-      this.cachedMinWidth  = null;
-      this.cachedMinHeight = null;
+      this.clearCache();
       this.text = text;
       
       this.repaint();
@@ -465,7 +577,7 @@ draw2d.shape.basic.Label= draw2d.SetFigure.extend({
         // rotate the box with the current matrix of the
         // shape
         var matrix = this.shape.matrix;
-        var points = this.getBoundingBox().getPoints();
+        var points = this.getBoundingBox().getVertices();
         points.each(function(i,point){
             var x = matrix.x(point.x,point.y);
             var y = matrix.y(point.x,point.y);
@@ -502,6 +614,8 @@ draw2d.shape.basic.Label= draw2d.SetFigure.extend({
          var memento = this._super();
          
          memento.text = this.text;
+         memento.outlineStroke = this.outlineStroke;
+         memento.outlineColor = this.outlineColor.hash();
          memento.fontSize = this.fontSize;
          memento.fontColor = this.fontColor.hash();
          memento.fontFamily = this.fontFamily;
@@ -522,6 +636,12 @@ draw2d.shape.basic.Label= draw2d.SetFigure.extend({
          if(typeof memento.text !=="undefined"){
              this.setText(memento.text);
          }
+         if(typeof memento.outlineStroke !=="undefined"){
+             this.setOutlineStroke(memento.outlineStroke);
+         }
+         if(typeof memento.outlineColor !=="undefined"){
+             this.setOutlineColor(memento.outlineColor);
+         }
          if(typeof memento.fontFamily !=="undefined"){
              this.setFontFamily(memento.fontFamily);
          }
@@ -534,6 +654,3 @@ draw2d.shape.basic.Label= draw2d.SetFigure.extend({
      }
 
 });
-
-
-

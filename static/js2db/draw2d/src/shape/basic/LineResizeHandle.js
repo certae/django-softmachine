@@ -28,8 +28,7 @@ draw2d.shape.basic.LineResizeHandle = draw2d.shape.basic.Circle.extend({
             this.setDimension(10, 10);
         }
 
-        this.setBackgroundColor("#00bdee");
-        this.setColor("#7A7A7A");
+        this.setBackgroundColor(new draw2d.util.Color(draw2d.Configuration.color.vertexHandle));
         this.setStroke(1);
         this.setSelectable(false);
 
@@ -42,6 +41,25 @@ draw2d.shape.basic.LineResizeHandle = draw2d.shape.basic.Circle.extend({
         shape.attr({"cursor":"move"});
         return shape;
      },
+     
+     /**
+      * @method
+      * Set the new background color of the figure. It is possible to hands over
+      * <code>null</code> to set the background transparent.
+      *
+      * @param {draw2d.util.Color} color The new background color of the figure
+      **/
+      setBackgroundColor : function(color)
+      {
+          color = new draw2d.util.Color(color);
+          
+          this.bgGradient= "r(.4,.3)"+color.hash()+"-"+color.darker(0.1).hash()+":60-"+color.darker(0.2).hash();
+          this._super(color);
+          this.setColor(color.darker(0.3));
+          
+          return this;
+      },
+   
 
     /**
      * @method
@@ -105,19 +123,24 @@ draw2d.shape.basic.LineResizeHandle = draw2d.shape.basic.Circle.extend({
         if(typeof attributes === "undefined"){
             attributes= {};
         }
+
         
-        if(this.getAlpha()<0.9){
-            attributes.fill="#b4e391";
+        if(this.bgColor.hash()==="none"){
+            attributes.fill=this.bgColor.hash();
+        }
+        else if(this.getAlpha()<0.9){
+            attributes.fill=this.bgColor.hash();
         }
         else{
-            attributes.fill="r(.4,.3)#b4e391-#61c419:60-#299a0b";
+            attributes.fill=this.bgGradient;
         }
+        
         
         this._super(attributes);
     },
 
     /**
-     * Will be called if the drag and drop action beginns. You can return [false] if you
+     * Called if the drag and drop action beginns. You can return [false] if you
      * want avoid the that the figure can be move.
      *
      * @param {Number} x The x position where the mouse has been clicked in the figure
@@ -127,6 +150,8 @@ draw2d.shape.basic.LineResizeHandle = draw2d.shape.basic.Circle.extend({
     onDragStart : function()
     {
         this.command = this.getCanvas().getCurrentSelection().createCommand(new draw2d.command.CommandType(draw2d.command.CommandType.MOVE_BASEPOINT));
+        this.setAlpha(0.2);
+        this.shape.attr({"cursor":"crosshair"});
 
         return true;
     },
@@ -179,7 +204,9 @@ draw2d.shape.basic.LineResizeHandle = draw2d.shape.basic.Circle.extend({
         if (!this.isDraggable()) {
             return false;
         }
-  
+
+        this.shape.attr({"cursor":"move"});
+ 
         var port = this.getOppositePort();
         if (port !== null) {
             if (this.currentTarget !== null) {
@@ -212,6 +239,8 @@ draw2d.shape.basic.LineResizeHandle = draw2d.shape.basic.Circle.extend({
         this.command = null;
         this.getCanvas().hideSnapToHelperLines();
 
+        this.setAlpha(1);
+
         return true;
     },
 
@@ -223,7 +252,7 @@ draw2d.shape.basic.LineResizeHandle = draw2d.shape.basic.Circle.extend({
      * @template
      **/
     relocate:function(){
-    	
+        
     },
     
     

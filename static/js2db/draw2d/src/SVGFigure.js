@@ -28,15 +28,14 @@ draw2d.SVGFigure = draw2d.SetFigure.extend({
      * @returns
      */
     createSet : function() {
-		return this.importSVG(this.canvas, this.getSVG());
-	},
+    return this.importSVG(this.canvas, this.getSVG());
+  },
     
     /**
      * @private
      */
     importSVG : function (canvas, rawSVG) {
       
-
       var set = canvas.paper.set();
        
       try {

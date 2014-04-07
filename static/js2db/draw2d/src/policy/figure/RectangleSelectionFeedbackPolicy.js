@@ -79,7 +79,7 @@ draw2d.policy.figure.RectangleSelectionFeedbackPolicy = draw2d.policy.figure.Sel
 
             // and add them to the figure. We need the reference to the ResizeHandles
             // to remove the resize handles if the figure will be unselect. Just a simple
-            // refrence store
+            // reference store
             //
             figure.selectionHandles.add(r1);
             figure.selectionHandles.add(r2);
@@ -98,40 +98,26 @@ draw2d.policy.figure.RectangleSelectionFeedbackPolicy = draw2d.policy.figure.Sel
             r5.show(canvas);
             r7.show(canvas);
 
-            // The corner ResizeHandles are only draggable fi the figure is
-            // resizeable. But the Resize handles are visible
-            //
-            r1.setDraggable(figure.isResizeable());
-            r3.setDraggable(figure.isResizeable());
-            r5.setDraggable(figure.isResizeable());
-            r7.setDraggable(figure.isResizeable());
             
             // change the look&feel of the corner resizehandles if the
             // figure isn't resizeable
             //
-            if(figure.isResizeable()===true)
-            {
-              r1.setBackgroundColor(r1.DEFAULT_COLOR);
-              r3.setBackgroundColor(r3.DEFAULT_COLOR);
-              r5.setBackgroundColor(r5.DEFAULT_COLOR);
-              r7.setBackgroundColor(r7.DEFAULT_COLOR);
-            }
-            else
-            {
+            if(figure.isResizeable()===false) {
               r1.setBackgroundColor(null);
               r3.setBackgroundColor(null);
               r5.setBackgroundColor(null);
               r7.setBackgroundColor(null);
+              r1.setDraggable(false);
+              r3.setDraggable(false);
+              r5.setDraggable(false);
+              r7.setDraggable(false);
             }
 
-            // show only the additional resizehandles if the figure is resizeable
+            // show only the additional resizehandles if the figure is resizeable and didn't care about
+            // the aspect ration
             //
-            if(figure.isStrechable() && figure.isResizeable())
+            if((!figure.getKeepAspectRatio()) && figure.isResizeable())
             {
-              r2.setDraggable(figure.isResizeable());
-              r4.setDraggable(figure.isResizeable());
-              r6.setDraggable(figure.isResizeable());
-              r8.setDraggable(figure.isResizeable());
               r2.show(canvas);
               r4.show(canvas);
               r6.show(canvas);
@@ -175,7 +161,7 @@ draw2d.policy.figure.RectangleSelectionFeedbackPolicy = draw2d.policy.figure.Sel
         r5.setPosition(xPos+objWidth,yPos+objHeight);
         r7.setPosition(xPos-r7.getWidth(),yPos+objHeight);
         
-        if(figure.isStrechable())
+        if(!figure.getKeepAspectRatio())
         {
             var r2= figure.selectionHandles.get(1); 
             var r4= figure.selectionHandles.get(3); 

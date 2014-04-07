@@ -121,4 +121,3 @@ draw2d.shape.basic.Image = draw2d.shape.node.Node.extend({
     }
 
 });
-

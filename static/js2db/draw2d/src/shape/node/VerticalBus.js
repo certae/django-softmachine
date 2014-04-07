@@ -21,12 +21,12 @@ draw2d.shape.node.VerticalBus = draw2d.shape.node.Hub.extend({
 
     NAME : "draw2d.shape.node.VerticalBus",
 
-	/**
-	 * 
-	 * @param {Number} width initial width of the bus shape
-	 * @param {Number} height height of the bus
-	 */
-	init : function(width, height, labelString)
+    /**
+     * 
+     * @param {Number} width initial width of the bus shape
+     * @param {Number} height height of the bus
+     */
+    init : function(width, height, labelString)
     {
         this._super(width,height,labelString);
         

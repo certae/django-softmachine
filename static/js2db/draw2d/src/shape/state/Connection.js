@@ -22,9 +22,9 @@ draw2d.shape.state.Connection = draw2d.Connection.extend({
 
     NAME : "draw2d.shape.state.Connection",
 
-	DEFAULT_COLOR : new draw2d.util.Color("#4D90FE"),
+    DEFAULT_COLOR : new draw2d.util.Color("#4D90FE"),
 
-	init : function()
+    init : function()
     {
         this._super();
         this.setRouter(draw2d.shape.state.Connection.DEFAULT_ROUTER);
@@ -103,4 +103,3 @@ draw2d.shape.state.Connection = draw2d.Connection.extend({
 });
 
 draw2d.shape.state.Connection.DEFAULT_ROUTER = new draw2d.layout.connection.FanConnectionRouter();
-

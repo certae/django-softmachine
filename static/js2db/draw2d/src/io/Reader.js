@@ -31,4 +31,5 @@ draw2d.io.Reader = Class.extend({
     unmarshal: function(canvas, document){
         // do nothing. Inherit classes must implement this method
     }
+    
 });

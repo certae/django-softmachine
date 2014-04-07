@@ -113,9 +113,9 @@ draw2d.Port = draw2d.shape.basic.Circle.extend({
         // set some good defaults.
         if(typeof anchor ==="undefined" || anchor===null)
         {
-    		anchor = new draw2d.layout.anchor.ConnectionAnchor( );
-    	}
-    	
+            anchor = new draw2d.layout.anchor.ConnectionAnchor( );
+        }
+        
         this.connectionAnchor = anchor;
         this.connectionAnchor.setOwner(this);
 
@@ -124,12 +124,12 @@ draw2d.Port = draw2d.shape.basic.Circle.extend({
  
     getConnectionAnchorLocation:function(referencePoint)
     {
-    	return this.connectionAnchor.getLocation(referencePoint);
+        return this.connectionAnchor.getLocation(referencePoint);
     },
     
     getConnectionAnchorReferencePoint:function()
     {
-    	return this.connectionAnchor.getReferencePoint();
+        return this.connectionAnchor.getReferencePoint();
     },
  
     
@@ -168,6 +168,18 @@ draw2d.Port = draw2d.shape.basic.Circle.extend({
         this.locator = locator;
 
         return this;
+    },
+    
+    /**
+     * @method
+     * Get the locator/layouter of the port. A locator is responsive for the x/y arrangement of the 
+     * port in relation to the parent node.
+     * 
+     * @since 4.2.0
+     */
+    getLocator: function()
+    {
+        return this.locator;
     },
     
 
@@ -403,7 +415,7 @@ draw2d.Port = draw2d.shape.basic.Circle.extend({
           if(target!==null){
               this.currentTarget= target.onDragEnter(this);
               if(this.currentTarget!==null){
-            	  this.currentTargetPort = target;
+                  this.currentTargetPort = target;
                   this.editPolicy.each($.proxy(function(i,e){
                       if(e instanceof draw2d.policy.port.PortFeedbackPolicy){
                           e.onHoverEnter(this.canvas, this, this.currentTarget);
@@ -412,7 +424,7 @@ draw2d.Port = draw2d.shape.basic.Circle.extend({
               }
           }
           else{
-        	  this.currentTarget = null;
+              this.currentTarget = null;
           }
           
       }
@@ -441,11 +453,11 @@ draw2d.Port = draw2d.shape.basic.Circle.extend({
       // notify all installed policies
       //
       if(this.currentTarget){
-	      this.editPolicy.each($.proxy(function(i,e){
-	          if(e instanceof draw2d.policy.port.PortFeedbackPolicy){
-	              e.onHoverLeave(this.canvas, this, this.currentTarget);
-	          }
-	      },this));
+          this.editPolicy.each($.proxy(function(i,e){
+              if(e instanceof draw2d.policy.port.PortFeedbackPolicy){
+                  e.onHoverLeave(this.canvas, this, this.currentTarget);
+              }
+          },this));
       }
       
       this.editPolicy.each($.proxy(function(i,e){
@@ -469,17 +481,17 @@ draw2d.Port = draw2d.shape.basic.Circle.extend({
      **/
     onDragEnter : function( draggedFigure )
     {
-    	// Ports accepts only Ports as DropTarget
-    	//
-    	if(!(draggedFigure instanceof draw2d.Port)){
-    		return null;
-    	}
-    	
-    	// consider the max possible connections for this port
-    	//
-    	if(this.getConnections().getSize() >= this.maxFanOut){
-    	    return null;
-    	}
+        // Ports accepts only Ports as DropTarget
+        //
+        if(!(draggedFigure instanceof draw2d.Port)){
+            return null;
+        }
+        
+        // consider the max possible connections for this port
+        //
+        if(this.getConnections().getSize() >= this.maxFanOut){
+            return null;
+        }
         // Create a CONNECT Command to determine if we can show a Corona. Only valid
         // dropTarget did have a corona
         var request = new draw2d.command.CommandType(draw2d.command.CommandType.CONNECT);
@@ -503,11 +515,11 @@ draw2d.Port = draw2d.shape.basic.Circle.extend({
      **/
     onDragLeave:function( figure )
     {
-		// Ports accepts only Ports as DropTarget
-		//
-		if(!(figure instanceof draw2d.Port)){
-			return;
-		}
+        // Ports accepts only Ports as DropTarget
+        //
+        if(!(figure instanceof draw2d.Port)){
+            return;
+        }
     },
     
     /**
@@ -519,13 +531,13 @@ draw2d.Port = draw2d.shape.basic.Circle.extend({
      **/
     onDrop:function(dropTarget)
     {
-    	// Ports accepts only Ports as DropTarget
-    	//
-    	if(!(dropTarget instanceof draw2d.Port)){
-    		return;
-    	}
+        // Ports accepts only Ports as DropTarget
+        //
+        if(!(dropTarget instanceof draw2d.Port)){
+            return;
+        }
  
-    	var request = new draw2d.command.CommandType(draw2d.command.CommandType.CONNECT);
+        var request = new draw2d.command.CommandType(draw2d.command.CommandType.CONNECT);
         request.canvas = this.parent.getCanvas();
         request.source = dropTarget;
         request.target = this;
@@ -601,17 +613,18 @@ draw2d.Port = draw2d.shape.basic.Circle.extend({
     /**
      * @method
      * Hit test for ports. This method respect the corona diameter of the port for the hit test.
-     * 
+     * The corona width can be set with {@link draw2d.Port#setCoronaWidth}
      * @param {Number} iX
      * @param {Number} iY
      * @returns {Boolean}
      */
     hitTest:function ( iX , iY)
     {
-        var x = this.getAbsoluteX()-(this.coronaWidth*2)-this.getWidth()/2;
-        var y = this.getAbsoluteY()-(this.coronaWidth*2)-this.getHeight()/2;
-        var iX2 = x + this.width + (this.coronaWidth*2);
-        var iY2 = y + this.height + (this.coronaWidth*2);
+        var x   = this.getAbsoluteX()-this.coronaWidth-this.getWidth()/2;
+        var y   = this.getAbsoluteY()-this.coronaWidth-this.getHeight()/2;
+        var iX2 = x + this.getWidth()  + (this.coronaWidth*2);
+        var iY2 = y + this.getHeight() + (this.coronaWidth*2);
+
         return (iX >= x && iX <= iX2 && iY >= y && iY <= iY2);
     },
     
@@ -625,8 +638,8 @@ draw2d.Port = draw2d.shape.basic.Circle.extend({
     {
       if(flag===true && this.corona===null)
       {
-    	  this.corona = new draw2d.Corona();
-    	  this.corona.setDimension(this.getWidth()+(this.getCoronaWidth()*2),this.getWidth()+(this.getCoronaWidth()*2));
+          this.corona = new draw2d.Corona();
+          this.corona.setDimension(this.getWidth()+(this.getCoronaWidth()*2),this.getWidth()+(this.getCoronaWidth()*2));
           this.corona.setPosition(this.getAbsoluteX()-this.getCoronaWidth()-this.getWidth()/2, this.getAbsoluteY()-this.getCoronaWidth()-this.getHeight()/2);
           
           this.corona.setCanvas(this.getCanvas());
@@ -642,8 +655,8 @@ draw2d.Port = draw2d.shape.basic.Circle.extend({
       else if(flag===false && this.corona!==null)
       {
           this.corona.setCanvas(null);
-    	  this.parent.getCanvas().removeFigure(this.corona);
-    	  this.corona = null;
+          this.parent.getCanvas().removeFigure(this.corona);
+          this.corona = null;
       }
       
       return this;
@@ -715,10 +728,10 @@ draw2d.Port = draw2d.shape.basic.Circle.extend({
         var target = this.targets.get(i);
         if (target!==portToIgnore)
         {
-	        if (target.hitTest(x, y)===true)
-	        {
-	            return target;
-	        }
+            if (target.hitTest(x, y)===true)
+            {
+                return target;
+            }
         }
       }
       
@@ -737,8 +750,8 @@ draw2d.Port = draw2d.shape.basic.Circle.extend({
     getDropTargets: function ()
     {
       return this.targets.clone().grep($.proxy(function(element){
-	    	  return element!==this;
-	      },this));
+              return element!==this;
+          },this));
     }
 });
 

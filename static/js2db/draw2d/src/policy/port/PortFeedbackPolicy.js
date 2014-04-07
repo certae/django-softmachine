@@ -15,7 +15,7 @@
  */
 draw2d.policy.port.PortFeedbackPolicy = draw2d.policy.figure.DragDropEditPolicy.extend({
 
-	
+    
     NAME : "draw2d.policy.port.PortFeedbackPolicy",
     
     /**

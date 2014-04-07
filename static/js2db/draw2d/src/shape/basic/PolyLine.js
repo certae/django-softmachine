@@ -13,8 +13,8 @@
  */
 draw2d.shape.basic.PolyLine = draw2d.shape.basic.Line.extend({
     
-	NAME : "draw2d.shape.basic.PolyLine",
-	
+    NAME : "draw2d.shape.basic.PolyLine",
+    
     /**
      * @constructor
      * Creates a new figure element which are not assigned to any canvas.
@@ -29,11 +29,40 @@ draw2d.shape.basic.PolyLine = draw2d.shape.basic.Line.extend({
       this.router = router || draw2d.shape.basic.PolyLine.DEFAULT_ROUTER;
       this.routingRequired = true;
   
+      this.radius = 2;
+      
       // all line segments with start/end as simple object member
       this.lineSegments = new draw2d.util.ArrayList();
 
       this._super();
     },
+    
+    /**
+     * @method
+     * Sets the corner radius or the edges. 
+     * 
+     * @param {Number} radius
+     * @since 4.2.1
+     */
+     setRadius: function(radius){
+        this.radius = radius;
+        this.svgPathString =null;
+        this.repaint();
+        
+        return this;
+    },
+    
+    /**
+     * @method
+     * Get the corner radius of the edges.
+     * 
+     * @return {Number}
+     * @since 4.2.1
+     */
+    getRadius:function() {
+        return this.radius;
+    },
+    
     
     /**
      * @method
@@ -67,20 +96,71 @@ draw2d.shape.basic.PolyLine = draw2d.shape.basic.Line.extend({
         this.repaint();
     },
 
-    setJunctionPoint : function(index, x, y) 
+    /**
+     * @method
+     * Inserts the draw2d.geo.Point object into the vertex list of the polyline just after the object with the given index.
+     *  
+     * @param {Number} index the insert index
+     * @param {Number|draw2d.geo.Point} x the x coordinate or the draw2d.geo.Point object
+     * @param {Number} [y] the y coordinate or undefined of the second argument is a point
+     * 
+     * @since 4.0.0
+     */
+    addVertex:function(x, y) 
     {
-        var junctionPoint = this.basePoints.get(index);
+        this.vertices.add(new draw2d.geo.Point(x,y));
+        
+        this.start=this.vertices.first().clone();
+        this.end=this.vertices.last().clone();
+       
+        this.svgPathString = null;
+        this.repaint();
+
+        if(!this.selectionHandles.isEmpty()){
+            this.editPolicy.each($.proxy(function(i, e) {
+                if (e instanceof draw2d.policy.figure.SelectionFeedbackPolicy) {
+                    e.onUnselect(this.canvas, this);
+                    e.onSelect(this.canvas, this);
+                }
+            }, this));
+        }
+
+        return this;
+    },
+
+    /**
+     * @method
+     * Update the vertex at the give position with the new coordinate
+     * 
+     * @param {Number} index the index of the vertex to update
+     * @param {Number|draw2d.geo.Point} x the x coordinate or the draw2d.geo.Point object
+     * @param {Number} [y] the y coordinate or undefined of the second argument is a point
+     * 
+     * @since 4.0.0
+     */
+    setVertex : function(index, x, y) 
+    {
+        if(x instanceof draw2d.geo.Point){
+            y = x.y;
+            x = x.x;
+        }
+        
+        var vertex = this.vertices.get(index);
 
         // invalid point or nothing todo
         //
-        if (junctionPoint === null || (junctionPoint.x === x && junctionPoint.y === y)) {
+        if (vertex === null || (vertex.x === x && vertex.y === y)) {
             return;
         }
 
-        junctionPoint.x = parseFloat(x);
-        junctionPoint.y = parseFloat(y);
+        vertex.x = parseFloat(x);
+        vertex.y = parseFloat(y);
         
+        this.start=this.vertices.first().clone();
+        this.end=this.vertices.last().clone();
+
         this.svgPathString = null;
+        this.routingRequired=true;
         this.repaint();
 
         this.editPolicy.each($.proxy(function(i, e) {
@@ -92,22 +172,64 @@ draw2d.shape.basic.PolyLine = draw2d.shape.basic.Line.extend({
         return this;
     },
 
-    insertJunctionPointAt:function(index, x, y) 
+    /**
+     * @method
+     * Update the vertices of the object. The given array is copied and assigned.
+     * 
+     * @param {draw2d.util.ArrayList} vertices the new vertices of the polyline. 
+     * 
+     * @since 4.0.1
+     */
+    setVertices : function(vertices) 
     {
-        var junctionPoint = new draw2d.geo.Point(x,y);
+        this.vertices= vertices.clone();
 
-        this.basePoints.insertElementAt(junctionPoint,index);
-        
+        this.start=this.vertices.first().clone();
+        this.end=this.vertices.last().clone();
+
+        // update the UI and the segment parts
+        this.svgPathString = null;
+        this.repaint();
+
+        // notify the listener about the changes
+        this.editPolicy.each($.proxy(function(i, e) {
+            if (e instanceof draw2d.policy.figure.DragDropEditPolicy) {
+                e.moved(this.canvas, this);
+            }
+        }, this));
+
+        return this;
+    },
+
+    /**
+     * @method
+     * Inserts the draw2d.geo.Point object into the vertex list of the polyline just after the object with the given index.
+     *  
+     * @param {Number} index the insert index
+     * @param {Number|draw2d.geo.Point} x the x coordinate or the draw2d.geo.Point object
+     * @param {Number} [y] the y coordinate or undefined of the second argument is a point
+     * 
+     * @since 4.0.0
+     */
+    insertVertexAt:function(index, x, y) 
+    {
+        var vertex = new draw2d.geo.Point(x,y);
+
+        this.vertices.insertElementAt(vertex,index);
+
+        this.start=this.vertices.first().clone();
+        this.end=this.vertices.last().clone();
+
         this.svgPathString = null;
         this.repaint();
 
         if(!this.selectionHandles.isEmpty()){
-	        this.editPolicy.each($.proxy(function(i, e) {
-	            if (e instanceof draw2d.policy.figure.SelectionFeedbackPolicy) {
-	                e.onUnselect(this.canvas, this);
-	                e.onSelect(this.canvas, this);
-	            }
-	        }, this));
+            this.editPolicy.each($.proxy(function(i, e) {
+                if (e instanceof draw2d.policy.figure.SelectionFeedbackPolicy) {
+                    e.onUnselect(this.canvas, this);
+                    e.onSelect(this.canvas, this);
+                }
+            }, this));
         }
 
         return this;
@@ -116,26 +238,29 @@ draw2d.shape.basic.PolyLine = draw2d.shape.basic.Line.extend({
 
     /**
      * @method
-     * Remove a junction point from the polyline and return the removed point.
+     * Remove a vertex from the polyline and return the removed point.
      * 
      * @param index
      * @returns {draw2d.geo.Point} the removed point
+     * @since 4.0.0
      */
-    removeJunctionPointAt:function(index) 
+    removeVertexAt:function(index) 
     {
-
-        var removedPoint = this.basePoints.removeElementAt(index);
+        var removedPoint = this.vertices.removeElementAt(index);
         
+        this.start=this.vertices.first().clone();
+        this.end=this.vertices.last().clone();
+
         this.svgPathString = null;
         this.repaint();
 
         if(!this.selectionHandles.isEmpty()){
-	        this.editPolicy.each($.proxy(function(i, e) {
-	            if (e instanceof draw2d.policy.figure.SelectionFeedbackPolicy) {
-	                e.onUnselect(this.canvas, this);
-	                e.onSelect(this.canvas, this);
-	            }
-	        }, this));
+            this.editPolicy.each($.proxy(function(i, e) {
+                if (e instanceof draw2d.policy.figure.SelectionFeedbackPolicy) {
+                    e.onUnselect(this.canvas, this);
+                    e.onSelect(this.canvas, this);
+                }
+            }, this));
         }
 
         return removedPoint;
@@ -197,25 +322,28 @@ draw2d.shape.basic.PolyLine = draw2d.shape.basic.Line.extend({
     
         this.svgPathString = null;
         
-        var oldBasePoints = this.basePoints;
+        var oldVertices = this.vertices;
         
         // cleanup the routing cache
         //
         this.oldPoint=null;
         this.lineSegments = new draw2d.util.ArrayList();
-        this.basePoints = new draw2d.util.ArrayList();
+        this.vertices     = new draw2d.util.ArrayList();
     
         // Use the internal router
         //
-        this.router.route(this, oldBasePoints);
+        this.router.route(this, oldVertices);
         this.routingRequired=false;
     },
     
     /**
      * @private
      **/
-    repaint : function()
+    repaint : function(attributes)
     {
+      if(typeof attributes ==="undefined")
+        attributes = {};
+      
       if(this.repaintBlocked===true || this.shape===null){
           return;
       }
@@ -223,8 +351,10 @@ draw2d.shape.basic.PolyLine = draw2d.shape.basic.Line.extend({
       if(this.svgPathString===null || this.routingRequired===true){
           this.calculatePath();
       }
-      
-      this._super({path:this.svgPathString, "stroke-linejoin":"round"});
+ 
+      $.extend(attributes, {path:this.svgPathString,"stroke-linecap":"round", "stroke-linejoin":"round"}, attributes);
+       
+      this._super(attributes);
     },
     
     
@@ -239,8 +369,7 @@ draw2d.shape.basic.PolyLine = draw2d.shape.basic.Line.extend({
      * @template
      **/
     onDragEnter : function( draggedFigure ){
-    	this.setGlow(true);
-    	return this;
+        return this;
     },
  
     /**
@@ -251,7 +380,6 @@ draw2d.shape.basic.PolyLine = draw2d.shape.basic.Line.extend({
      * @template
      **/
     onDragLeave:function( draggedFigure ){
-    	this.setGlow(false);
     },
 
 
@@ -277,7 +405,7 @@ draw2d.shape.basic.PolyLine = draw2d.shape.basic.Line.extend({
       if(typeof y!=="undefined"){
           p = new draw2d.geo.Point(p, y);
       }
-      this.basePoints.add(p);
+      this.vertices.add(p);
 
       if(this.oldPoint!==null){
         // store the painted line segment for the "mouse selection test"
@@ -314,8 +442,8 @@ draw2d.shape.basic.PolyLine = draw2d.shape.basic.Line.extend({
     hitTest:function( px, py)
     {
       for(var i = 0; i< this.lineSegments.getSize();i++){
-         var line = this.lineSegments.get(i);
-         if(draw2d.shape.basic.Line.hit(this.corona, line.start.x,line.start.y,line.end.x, line.end.y, px,py)){
+         var segment = this.lineSegments.get(i);
+         if(draw2d.shape.basic.Line.hit(this.corona, segment.start.x,segment.start.y,segment.end.x, segment.end.y, px,py)){
            return true;
          }
       }
@@ -338,9 +466,14 @@ draw2d.shape.basic.PolyLine = draw2d.shape.basic.Line.extend({
           return new draw2d.command.CommandDelete(this);
         }
       }
-      else if(request.getPolicy() === draw2d.command.CommandType.MOVE_JUNCTION){
+      else if(request.getPolicy() === draw2d.command.CommandType.MOVE_VERTEX){
           if(this.isResizeable()===true){
-              return new draw2d.command.CommandMoveJunction(this);
+              return new draw2d.command.CommandMoveVertex(this);
+            }
+      }
+      else if(request.getPolicy() === draw2d.command.CommandType.MOVE_VERTICES){
+          if(this.isResizeable()===true){
+              return new draw2d.command.CommandMoveVertices(this);
             }
       }
     
@@ -352,7 +485,8 @@ draw2d.shape.basic.PolyLine = draw2d.shape.basic.Line.extend({
         var memento = this._super();
         
         memento.router = this.router.NAME;
-       
+        memento.radius = this.radius;
+      
         memento = this.router.getPersistentAttributes(this, memento);
         
         return memento;
@@ -378,7 +512,13 @@ draw2d.shape.basic.PolyLine = draw2d.shape.basic.Line.extend({
             }
         }
         
+        if(typeof memento.radius !=="undefined")
+            this.setRadius(memento.radius);
+
         this.router.setPersistentAttributes(this, memento);
+
+        this.start=this.vertices.first().clone();
+        this.end=this.vertices.last().clone();
     }
 });
 

@@ -36,7 +36,7 @@ draw2d.HybridPort = draw2d.Port.extend({
      */
     onDragEnter : function (figure)
     {
-    	// Accept any kind of port
+        // Accept any kind of port
         if (figure instanceof draw2d.Port) {
             return this._super(figure);
         }
@@ -50,13 +50,13 @@ draw2d.HybridPort = draw2d.Port.extend({
      */
     onDragLeave : function (figure)
     {
-	  // Ports accepts only Ports as DropTarget
-	  //
-	  if(!(figure instanceof draw2d.Port)){
-		 return;
-	  }
+      // Ports accepts only Ports as DropTarget
+      //
+      if(!(figure instanceof draw2d.Port)){
+         return;
+      }
 
-	  // accept any kind of port
+      // accept any kind of port
       if(figure instanceof draw2d.Port){
         this._super( figure);
       }

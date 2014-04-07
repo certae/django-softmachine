@@ -48,8 +48,8 @@ draw2d.policy.figure.GlowSelectionFeedbackPolicy = draw2d.policy.figure.Selectio
     * @param {draw2d.Figure} figure the unselected figure
     */
    onUnselect: function(canvas, figure ){
-		this._super(canvas, figure);
-		figure.setGlow(false);
+        this._super(canvas, figure);
+        figure.setGlow(false);
    }
      
-}); 
+});

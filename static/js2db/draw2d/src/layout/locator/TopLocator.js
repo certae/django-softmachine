@@ -39,7 +39,7 @@ draw2d.layout.locator.TopLocator= draw2d.layout.locator.Locator.extend({
     
        var targetBoundingBox = target.getBoundingBox();
        if(target instanceof draw2d.Port){
-           target.setPosition(boundingBox.w/2,2);
+           target.setPosition(boundingBox.w/2,0);
        }
        else{
            target.setPosition(boundingBox.w/2-(targetBoundingBox.w/2),-(targetBoundingBox.h+2));

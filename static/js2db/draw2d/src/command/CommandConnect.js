@@ -26,7 +26,7 @@ draw2d.command.CommandConnect = draw2d.command.Command.extend({
      */
     init : function(canvas, source, target, dropTarget)
      {
-       this._super("Connecting Ports");
+       this._super(draw2d.Configuration.i18n.command.connectPorts);
        this.canvas = canvas;
        this.source   = source;
        this.target   = target;
@@ -54,7 +54,7 @@ draw2d.command.CommandConnect = draw2d.command.Command.extend({
         },this);
         
         // the createConnection must return either a connection or "undefined". If the method return "undefined"
-        // the asynch callback must be called. Usefull fi the createConnection shows a selection dialog
+        // the asynch callback must be called. Usefull if the createConnection shows a selection dialog
         //
         if(this.connection===null){
           var result = draw2d.Connection.createConnection(this.source, this.target, optionalCallback, this.dropTarget);

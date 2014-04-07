@@ -3,34 +3,34 @@
  *   Copyright (c) 2012 Andreas Herz
  ****************************************/
 /**
- * @class draw2d.command.CommandRemoveJunctionPoint
+ * @class draw2d.command.CommandRemoveVertexPoint
  * 
- * Remove a junction point from a polyline
+ * Remove a vertex from a polyline or polygon
  *
  * @inheritable
  * @author Andreas Herz
  * 
  * @extends draw2d.command.Command
  */
-draw2d.command.CommandRemoveJunctionPoint = draw2d.command.Command.extend({
-    NAME : "draw2d.command.CommandRemoveJunctionPoint", 
+draw2d.command.CommandRemoveVertex = draw2d.command.Command.extend({
+    NAME : "draw2d.command.CommandRemoveVertex", 
   
     /**
      * @constructor
-     * Create a new Command objects which add a junction point to a PloyLine.
+     * Create a new Command objects which add a vertex to a PloyLine.
      *
      * @param {draw2d.shape.basic.PolyLine} line the related line
      * @param {Number} index the index where to add
-     * @param {Number} x the x coordinate for the new junction point
-     * @param {Number} y the y coordinate for the new junction point
+     * @param {Number} x the x coordinate for the new vertex
+     * @param {Number} y the y coordinate for the new vertex
      */
     init : function(line, index)
     {
-        this._super("Junction point removed");
+        this._super(draw2d.Configuration.i18n.command.deleteVertex);
         
         this.line = line;
         this.index = index;
-        this.oldPoint = line.getPoints().get(index).clone();
+        this.oldPoint = line.getVertices().get(index).clone();
     },
     
   
@@ -67,7 +67,7 @@ draw2d.command.CommandRemoveJunctionPoint = draw2d.command.Command.extend({
      **/
     undo:function()
     {
-    	this.line.insertJunctionPointAt(this.index, this.oldPoint.x, this.oldPoint.y);
+    	this.line.insertVertexAt(this.index, this.oldPoint.x, this.oldPoint.y);
     },
     
     /**
@@ -78,6 +78,6 @@ draw2d.command.CommandRemoveJunctionPoint = draw2d.command.Command.extend({
      **/
     redo:function()
     {
-    	this.line.removeJunctionPointAt(this.index);
+    	this.line.removeVertexAt(this.index);
     }
 });

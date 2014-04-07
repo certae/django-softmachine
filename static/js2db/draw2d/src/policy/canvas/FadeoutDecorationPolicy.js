@@ -5,6 +5,9 @@
 /**
  * @class draw2d.policy.canvas.FadeoutDecorationPolicy
  * 
+ * Install this edit policy in a canvas if you want fadeout all decorations like ports, resize handles 
+ * if the user didn't move the mouse. This is good for a clean representation of your diagram.
+ *  
  *
  * @author Andreas Herz
  * @extends draw2d.policy.canvas.DecorationPolicy
@@ -13,23 +16,26 @@ draw2d.policy.canvas.FadeoutDecorationPolicy = draw2d.policy.canvas.DecorationPo
 
     NAME : "draw2d.policy.canvas.FadeoutDecorationPolicy",
     
-    DEFAULT_FADEOUT_DURATION : 30,
-    TARGET_COLOR: new draw2d.util.Color("#707070"),
+    DEFAULT_FADEOUT_DURATION : 60,
+    DEFAULT_ALPHA_DECREMENT: 0.05,
     
     /**
      * @constructor 
-     * Creates a new Router object
+     * Creates a new fade out policy. Don't forget to install them into the canvas.
+     * 
      */
     init: function(){
         this._super();
         this.alpha = 1.0;
+        this.alphaDec = this.DEFAULT_ALPHA_DECREMENT;
         this.hidePortsCounter = this.DEFAULT_FADEOUT_DURATION;
         this.canvas = null;
+        this.portDragging = false;
     },
     
     onInstall: function(canvas){
         this.canvas = canvas;
-        this.timerId = window.setInterval($.proxy(this.onTimer,this), 100);
+        this.timerId = window.setInterval($.proxy(this.onTimer,this), 50);
         
         // initial hide all decorations after install of this policy
         //
@@ -49,7 +55,7 @@ draw2d.policy.canvas.FadeoutDecorationPolicy = draw2d.policy.canvas.DecorationPo
         this.hidePortsCounter--;
         
         if(this.hidePortsCounter<=0 && this.alpha >0){
-            this.alpha = Math.max(0,this.alpha-0.05);
+            this.alpha = Math.max(0,this.alpha-this.alphaDec);
             
             this.canvas.getAllPorts().each($.proxy(function(i,port){
                 port.setAlpha(this.alpha);
@@ -63,6 +69,7 @@ draw2d.policy.canvas.FadeoutDecorationPolicy = draw2d.policy.canvas.DecorationPo
         }
         else if(this.hidePortsCounter>0 && this.alpha!==1.0){
             this.alpha =1;// Math.min(1,this.alpha+0.1);
+            this.alphaDec = this.DEFAULT_ALPHA_DECREMENT;
             this.duringHide = false;
             this.canvas.getAllPorts().each($.proxy(function(i,port){
                 port.setAlpha(this.alpha);
@@ -82,9 +89,12 @@ draw2d.policy.canvas.FadeoutDecorationPolicy = draw2d.policy.canvas.DecorationPo
      * @param {draw2d.Canvas} canvas
      * @param {Number} x the x-coordinate of the mouse down event
      * @param {Number} y the y-coordinate of the mouse down event
+     * @param {Boolean} shiftKey true if the shift key has been pressed during this event
+     * @param {Boolean} ctrlKey true if the ctrl key has been pressed during the event
      */
-    onMouseDown:function(canvas, x,y){
+    onMouseDown:function(canvas, x,y, shiftKey, ctrlKey){
         this.hidePortsCounter=this.DEFAULT_FADEOUT_DURATION;
+        this.portDragging = (canvas.getBestFigure(x, y) instanceof draw2d.Port);
     },
     
     /**
@@ -93,10 +103,13 @@ draw2d.policy.canvas.FadeoutDecorationPolicy = draw2d.policy.canvas.DecorationPo
      * @param {draw2d.Canvas} canvas
      * @param {Number} x the x-coordinate of the mouse event
      * @param {Number} y the y-coordinate of the mouse event
+     * @param {Boolean} shiftKey true if the shift key has been pressed during this event
+     * @param {Boolean} ctrlKey true if the ctrl key has been pressed during the event
      * @template
      */
-    onMouseMove:function(canvas, x, y){
+    onMouseMove:function(canvas, x, y, shiftKey, ctrlKey){
         this.hidePortsCounter=this.DEFAULT_FADEOUT_DURATION;
+        this.portDragging = false;
     },
     
     /**
@@ -110,7 +123,11 @@ draw2d.policy.canvas.FadeoutDecorationPolicy = draw2d.policy.canvas.DecorationPo
      * @template
      */
     onMouseDrag:function(canvas, dx, dy, dx2, dy2){
-        this.hidePortsCounter=this.DEFAULT_FADEOUT_DURATION;
+        if(this.portDragging === false){
+            this.hidePortsCounter=0;
+            this.alphaDec = 0.1;
+            this.onTimer();
+        }
     },
     
     /**
@@ -119,10 +136,13 @@ draw2d.policy.canvas.FadeoutDecorationPolicy = draw2d.policy.canvas.DecorationPo
      * @param {draw2d.Canvas} canvas
      * @param {Number} x the x-coordinate of the mouse down event
      * @param {Number} y the y-coordinate of the mouse down event
+     * @param {Boolean} shiftKey true if the shift key has been pressed during this event
+     * @param {Boolean} ctrlKey true if the ctrl key has been pressed during the event
      * @template
      */
-    onMouseUp: function(figure, x, y){
+    onMouseUp: function(figure, x, y, shiftKey, ctrlKey){
         this.hidePortsCounter=this.DEFAULT_FADEOUT_DURATION;
+        this.portDragging = false;
     }
     
 });

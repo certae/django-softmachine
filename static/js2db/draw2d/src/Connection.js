@@ -81,8 +81,7 @@
  * is used to delegate to each child's constraint object, a Locator. <br>
  * <br>
  * {@link draw2d.decoration.connection.Decorator Decorator} can be used to create and render a rotatable shape at 
- * the end or start of a connection like arrows or boxes. Examples are {@link draw2d.decoration.connection.ArrowDecorator ArrowDecorator},  
- * {@link draw2d.decoration.connection.BarDecorator BarDecorator} or {@link draw2d.decoration.connection.CircleDecorator CircleDecorator}
+ * the end or start of a connection like arrows or boxes. Examples are {@link draw2d.decoration.connection.ArrowDecorator ArrowDecorator}, {@link draw2d.decoration.connection.BarDecorator BarDecorator} or {@link draw2d.decoration.connection.CircleDecorator CircleDecorator}
  * <br>
  * <h2>Connection Layout</h2>
  * Connections extend the process of validation and layout to include routing. Since layout is the process of positioning children, routing must 
@@ -276,35 +275,36 @@ draw2d.Connection = draw2d.shape.basic.PolyLine.extend({
       if(this.sourcePort===null || this.targetPort===null){
           return;
       }
-
+   
+   
       this._super(attributes);
 
-	    // paint the decorator if any exists
-	    //
+      // paint the decorator if any exists
+      //
         if(this.targetDecorator!==null && this.targetDecoratorNode===null){
-	      	this.targetDecoratorNode= this.targetDecorator.paint(this.getCanvas().paper);
-	    }
-	
-	    if(this.sourceDecorator!==null && this.sourceDecoratorNode===null){
-	      	this.sourceDecoratorNode= this.sourceDecorator.paint(this.getCanvas().paper);
-	    }
+          this.targetDecoratorNode= this.targetDecorator.paint(this.getCanvas().paper);
+      }
+  
+      if(this.sourceDecorator!==null && this.sourceDecoratorNode===null){
+          this.sourceDecoratorNode= this.sourceDecorator.paint(this.getCanvas().paper);
+      }
 
-	    
-	    // translate/transform the decorations to the end/start of the connection 
-	    // and rotate them as well
-	    //
-	    if(this.sourceDecoratorNode!==null){
-	    	var start = this.getPoints().get(0);
-	  	    this.sourceDecoratorNode.transform("r"+this.getStartAngle()+"," + start.x + "," + start.y +" t" + start.x + "," + start.y);
-	  	    // propagate the color and the opacity to the decoration as well
-	  	    this.sourceDecoratorNode.attr({"stroke":"#"+this.lineColor.hex(), opacity:this.alpha});
+      
+      // translate/transform the decorations to the end/start of the connection 
+      // and rotate them as well
+      //
+      if(this.sourceDecoratorNode!==null){
+        var start = this.getVertices().first();
+          this.sourceDecoratorNode.transform("r"+this.getStartAngle()+"," + start.x + "," + start.y +" t" + start.x + "," + start.y);
+          // propagate the color and the opacity to the decoration as well
+          this.sourceDecoratorNode.attr({"stroke":"#"+this.lineColor.hex(), opacity:this.alpha});
             this.sourceDecoratorNode.forEach($.proxy(function(shape){
                 shape.node.setAttribute("class",this.cssClass!==null?this.cssClass:"");
             },this));
-	    }
-	    
+      }
+      
         if(this.targetDecoratorNode!==null){
-	    	var end = this.getPoints().getLastElement();
+        var end = this.getVertices().last();
             this.targetDecoratorNode.transform("r"+this.getEndAngle()+"," + end.x + "," + end.y+" t" + end.x + "," + end.y);
             this.targetDecoratorNode.attr({"stroke":"#"+this.lineColor.hex(), opacity:this.alpha});
             this.targetDecoratorNode.forEach($.proxy(function(shape){
@@ -344,8 +344,62 @@ draw2d.Connection = draw2d.shape.basic.PolyLine.extend({
 
     postProcess: function(postProcessCache)
     {
-    	this.router.postProcess(this, this.getCanvas(), postProcessCache);
+      this.router.postProcess(this, this.getCanvas(), postProcessCache);
     },
+    
+    
+
+    /**
+     * @method
+     * Don't call them manually. This will be done by the framework.<br>
+     * Will be called if the object are moved via drag and drop.
+     * Sub classes can override this method to implement additional stuff. Don't forget to call
+     * the super implementation via <code>this._super(dx, dy, dx2, dy2);</code>
+     * @private
+     * @param {Number} dx the x difference between the start of the drag drop operation and now
+     * @param {Number} dy the y difference between the start of the drag drop operation and now
+     * @param {Number} dx2 The x diff since the last call of this dragging operation
+     * @param {Number} dy2 The y diff since the last call of this dragging operation
+     **/
+    onDrag : function( dx, dy, dx2, dy2)
+    {
+        if(this.command ===null){
+            return;
+        }
+        
+        this.command.setTranslation(dx,dy);
+        
+        // don't drag start/end around. This Points are bounded to the related
+        // ports.
+        var count = this.getVertices().getSize()-1;
+        for(var i=1; i<count;i++){
+            this.getVertex(i).translate(dx2, dy2);
+            
+        }
+
+        // notify all installed policies
+        //
+        this.editPolicy.each($.proxy(function(i,e){
+            if(e instanceof draw2d.policy.figure.DragDropEditPolicy){
+                e.onDrag(this.canvas, this);
+            }
+        },this));
+        
+       this.svgPathString = null;
+       this.repaint();
+        
+        // Update the resize handles if the user change the position of the
+        // element via an API call.
+        //
+        this.editPolicy.each($.proxy(function(i, e) {
+            if (e instanceof draw2d.policy.figure.DragDropEditPolicy) {
+                e.moved(this.canvas, this);
+            }
+        }, this));
+
+        this.fireMoveEvent();
+    },
+
     
     /**
      * @method
@@ -362,9 +416,9 @@ draw2d.Connection = draw2d.shape.basic.PolyLine.extend({
             return null;
         }
         
-//    	this.setGlow(true);
-    	
-    	return this;
+//      this.setGlow(true);
+      
+      return this;
     },
  
     /**
@@ -376,19 +430,24 @@ draw2d.Connection = draw2d.shape.basic.PolyLine.extend({
      **/
     onDragLeave:function( draggedFigure )
     {
-//    	this.setGlow(false);
+//      this.setGlow(false);
     },
 
 
     /**
-     * Return the recalculated position of the start point
+     * @method
+     * Return the recalculated position of the start point with the usage of 
+     * the installed connection anchor locator.
      * 
      * @return draw2d.geo.Point
      **/
-    getStartPoint:function()
+    getStartPoint:function( refPoint)
      {
       if(this.isMoving===false){
-         return this.sourcePort.getConnectionAnchorLocation(this.targetPort.getConnectionAnchorReferencePoint());
+          if(refPoint){
+              return this.sourcePort.getConnectionAnchorLocation(refPoint);
+          }
+          return this.sourcePort.getConnectionAnchorLocation(this.targetPort.getConnectionAnchorReferencePoint());
       }
 
       return this._super();
@@ -396,13 +455,18 @@ draw2d.Connection = draw2d.shape.basic.PolyLine.extend({
     
     
     /**
-     * Return the recalculated position of the start point
+     * @method
+     * Return the recalculated position of the start point with the usage of 
+     * the installed connection anchor locator.
      *
      * @return draw2d.geo.Point
      **/
-     getEndPoint:function()
+     getEndPoint:function(refPoint)
      {
       if(this.isMoving===false){
+          if(refPoint){
+              return this.targetPort.getConnectionAnchorLocation(refPoint);
+          }
          return this.targetPort.getConnectionAnchorLocation(this.sourcePort.getConnectionAnchorReferencePoint());
       }
       
@@ -573,12 +637,12 @@ draw2d.Connection = draw2d.shape.basic.PolyLine.extend({
      **/
     getStartAngle:function()
     {
-    	// return a good default value if the connection is not routed at the 
-    	//  moment
-    	if( this.lineSegments.getSize()===0){
-    		return 0;
-    	}
-    	
+      // return a good default value if the connection is not routed at the 
+      //  moment
+      if( this.lineSegments.getSize()===0){
+        return 0;
+      }
+      
       var p1 = this.lineSegments.get(0).start;
       var p2 = this.lineSegments.get(0).end;
       if(this.router instanceof draw2d.layout.connection.SplineConnectionRouter)
@@ -705,7 +769,7 @@ draw2d.Connection = draw2d.shape.basic.PolyLine.extend({
 
         var parentNode = this.getSource().getParent();
         while(parentNode.getParent()!==null){
-        	parentNode = parentNode.getParent();
+          parentNode = parentNode.getParent();
         }
         memento.source = {
                   node:parentNode.getId(),
@@ -714,7 +778,7 @@ draw2d.Connection = draw2d.shape.basic.PolyLine.extend({
         
         var parentNode = this.getTarget().getParent();
         while(parentNode.getParent()!==null){
-        	parentNode = parentNode.getParent();
+          parentNode = parentNode.getParent();
         }
         memento.target = {
                   node:parentNode.getId(),
@@ -746,12 +810,15 @@ draw2d.Connection = draw2d.shape.basic.PolyLine.extend({
  * Factory method to provide a default connection for all drag&drop connections. You
  * can override this method and customize this for your personal purpose.
  * 
+ * Either you return a conection of "undefined". If "undefined" returned the "callback" must
+ * be called by this method.
+ * 
  * @param {draw2d.Port} sourcePort port of the source of the connection
  * @param {draw2d.Port} targetPort port of the target of the connection
  * @template
  * @returns {draw2d.Connection}
  */
-draw2d.Connection.createConnection=function(sourcePort, targetPort){
+draw2d.Connection.createConnection=function(sourcePort, targetPort, callback, dropTarget){
     
     return new draw2d.Connection();
 };
@@ -766,4 +833,3 @@ draw2d.Connection.DEFAULT_ROUTER= new draw2d.layout.connection.ManhattanConnecti
 //draw2d.Connection.DEFAULT_ROUTER= new draw2d.layout.connection.ManhattanBridgedConnectionRouter();
 //draw2d.Connection.DEFAULT_ROUTER= new draw2d.layout.connection.FanConnectionRouter();
 //draw2d.Connection.DEFAULT_ROUTER= new draw2d.layout.connection.SplineConnectionRouter();
-        

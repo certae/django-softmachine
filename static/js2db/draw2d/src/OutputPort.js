@@ -36,8 +36,8 @@ draw2d.OutputPort = draw2d.Port.extend({
      */
     onDragEnter : function(figure)
     {
-    	// Ports accepts only InputPorts as DropTarget
-    	//
+        // Ports accepts only InputPorts as DropTarget
+        //
         if (figure instanceof draw2d.InputPort) {
             return this._super(figure);
         }
@@ -55,8 +55,8 @@ draw2d.OutputPort = draw2d.Port.extend({
      */
     onDragLeave:function( figure)
     {
-	  // Ports accepts only InputPorts as DropTarget
-	  //
+      // Ports accepts only InputPorts as DropTarget
+      //
       if(figure instanceof draw2d.InputPort){
         this._super( figure);
       }

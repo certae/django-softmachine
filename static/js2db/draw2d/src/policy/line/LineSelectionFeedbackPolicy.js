@@ -3,7 +3,7 @@
  *   Copyright (c) 2012 Andreas Herz
  ****************************************/
 /**
- * @class draw2d.policy.figure.LineSelectionFeedbackPolicy
+ * @class draw2d.policy.line.LineSelectionFeedbackPolicy
  * 
  *
  * @author Andreas Herz
@@ -48,7 +48,7 @@ draw2d.policy.line.LineSelectionFeedbackPolicy = draw2d.policy.figure.SelectionF
      * @template
      */
     moved: function(canvas,figure){
-    	figure.selectionHandles.each(function(i,e){
+        figure.selectionHandles.each(function(i,e){
             e.relocate();
         });
     }

@@ -52,7 +52,7 @@
  */
 draw2d.shape.layout.HorizontalLayout= draw2d.shape.layout.Layout.extend({
 
-	NAME : "draw2d.shape.layout.HorizontalLayout",
+    NAME : "draw2d.shape.layout.HorizontalLayout",
 
     /**
      * @constructor
@@ -153,6 +153,3 @@ draw2d.shape.layout.HorizontalLayout= draw2d.shape.layout.Layout.extend({
      }
 
 });
-
-
-

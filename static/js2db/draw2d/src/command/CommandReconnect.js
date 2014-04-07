@@ -23,11 +23,11 @@ draw2d.command.CommandReconnect = draw2d.command.Command.extend({
      * @param {draw2d.Connection} con the related Connection which is currently in the drag&drop operation
      */
     init : function(con){
-       this._super("Connecting Ports");
+       this._super(draw2d.Configuration.i18n.command.connectPorts);
        this.con      = con;
        this.oldSourcePort  = con.getSource();
        this.oldTargetPort  = con.getTarget();
-       this.oldRouter      = con.getRouter();
+//      this.oldRouter      = con.getRouter();
    },
     
     /**
@@ -77,7 +77,13 @@ draw2d.command.CommandReconnect = draw2d.command.Command.extend({
     {
         this.con.setSource(this.oldSourcePort);
         this.con.setTarget(this.oldTargetPort);
-       this.con.setRouter(this.oldRouter);
+        
+        // force a routing of the connection and DON'T set the old reouter again because this reset all manual added
+        // vertices
+        this.con.routingRequired =true;
+        this.con.repaint();
+        
+//       this.con.setRouter(this.oldRouter);
     },
     
     /**
@@ -89,7 +95,11 @@ draw2d.command.CommandReconnect = draw2d.command.Command.extend({
     {
       this.con.setSource(this.oldSourcePort);
       this.con.setTarget(this.oldTargetPort);
-      this.con.setRouter(this.oldRouter);
+      // force a routing of the connection and DON'T set the old reouter again because this reset all manual added
+      // vertices
+      this.con.routingRequired =true;
+      this.con.repaint();
+//      this.con.setRouter(this.oldRouter);
     },
     
     /** 
@@ -101,7 +111,11 @@ draw2d.command.CommandReconnect = draw2d.command.Command.extend({
     {
       this.con.setSource(this.newSourcePort);
       this.con.setTarget(this.newTargetPort);
-      this.con.setRouter(this.oldRouter);
+      // force a routing of the connection and DON'T set the old reouter again because this reset all manual added
+      // vertices
+      this.con.routingRequired =true;
+      this.con.repaint();
+//      this.con.setRouter(this.oldRouter);
     }
 
 });

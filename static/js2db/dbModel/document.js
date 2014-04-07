@@ -1,6 +1,7 @@
 
 // Document template used if there is no diagram in database
-var jsonDocument = [
+var jsonDocument = [];
+var jsonDocumentTest = [
                     {
                         "type": "dbModel.shape.DBTable",
                         "id": "63c0f27a-716e-804c-6873-cd99b945b63f",
@@ -169,7 +170,7 @@ var jsonDocument = [
                         "stroke": 2,
                         "color": "#5BCAFF",
                         "policy": "draw2d.policy.line.LineSelectionFeedbackPolicy",
-                        "router": "draw2d.layout.connection.ManhattanConnectionRouter",
+                        "router": "draw2d.layout.connection.InteractiveManhattanConnectionRouter",
                         "source": {
                           "node": "3253ff2a-a920-09d5-f033-ca759a778e19",
                           "port": "output1"
@@ -187,8 +188,8 @@ var jsonDocument = [
                         "cssClass": "draw2d_Connection",
                         "stroke": 2,
                         "color": "#5BCAFF",
-                        "policy": "draw2d.policy.line.LineSelectionFeedbackPolicy",
-                        "router": "draw2d.layout.connection.ManhattanConnectionRouter",
+                        "policy": "draw2d.policy.line.OrthogonalSelectionFeedbackPolicy",
+                        "router": "draw2d.layout.connection.InteractiveManhattanConnectionRouter",
                         "source": {
                           "node": "63c0f27a-716e-804c-6873-cd99b945b63f",
                           "port": "output0"

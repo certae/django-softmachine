@@ -25,15 +25,15 @@ draw2d.shape.node.Hub = draw2d.shape.basic.Rectangle.extend({
     DEFAULT_COLOR : new draw2d.util.Color("#4DF0FE"),
     BACKGROUND_COLOR : new draw2d.util.Color("#29AA77"),
 
-	/**
-	 * 
-	 * @param {Number} width initial width of the bus shape
-	 * @param {Number} height height of the bus
-	 */
-	init : function(width, height, labelString)
+  /**
+   * 
+   * @param {Number} width initial width of the bus shape
+   * @param {Number} height height of the bus
+   */
+  init : function(width, height, labelString)
     {
- 	    this.label = null;
-	    
+      this.label = null;
+      
         this._super(width,height);
         
         this.port = this.createPort("hybrid", new draw2d.layout.locator.CenterLocator(this));
@@ -83,7 +83,7 @@ draw2d.shape.node.Hub = draw2d.shape.basic.Rectangle.extend({
      {
          // redirect the dragEnter handling to the hybrid port
          //
-  		 return this.getHybridPort(0).onDragEnter(draggedFigure);
+       return this.getHybridPort(0).onDragEnter(draggedFigure);
      },
      
      /**
