@@ -6,54 +6,16 @@ from prototype.models import Model, Entity, Relationship, Property
 
 import json, uuid
 
+
 def getEntitiesJSONDiagram(request):
     """ return metadata (columns, renderers, totalcount...)
     """
     modelID = request.POST['modelID']
     selectedTables = []
     connectors = []
-    table = {}
+    
     try:
-        entities = Entity.objects.filter(model_id=modelID)
-        x = 20
-        y = 20
-        for entity in entities:
-            table = {
-                'type': 'dbModel.shape.DBTable',
-                'id': str(uuid.UUID(entity.smUUID)),
-                'x': x,
-                'y': y,
-                'width': 98,
-                'height': 81.265625,
-                'userData': None,
-                'cssClass': 'DBTable',
-                'bgColor': '#DBDDDE',
-                'color': '#D7D7D7',
-                'stroke': 1,
-                'alpha': 1,
-                'radius': 3,
-                'tableName': entity.code,
-                'tablePorts': [],
-                'attributes': [] 
-            }
-            x += 30
-            y += 30 
-            addOutputPorts(entity, table)
-            
-            for pProperty in entity.property_set.all():
-                table['attributes'].append( {
-                    'text':  pProperty.code,
-                    'id': str(uuid.UUID(pProperty.smUUID)),
-                    'datatype': pProperty.baseType,
-                    'pk': pProperty.isPrimary,
-                    'fk':  pProperty.isForeign,
-                    'isNullable': pProperty.isNullable,
-                    'isRequired': pProperty.isRequired
-                     })
-                if (pProperty.isForeign):
-                    addConnectors(pProperty, table, connectors)
-            
-            selectedTables.append(table)
+        getJSONElements(modelID, selectedTables, connectors)
                 
     except Exception as e:
         print(e)
@@ -67,6 +29,38 @@ def getEntitiesJSONDiagram(request):
     }
     context = json.dumps(jsondict)
     return HttpResponse(context, content_type="application/json")
+
+def getJSONElements(modelID, selectedTables, connectors):
+    table = {}
+    entities = Entity.objects.filter(model_id=modelID)
+    x = 20
+    y = 20
+    for entity in entities:
+        table = {'type':'dbModel.shape.DBTable', 
+            'id':str(uuid.UUID(entity.smUUID)), 
+            'x':x, 
+            'y':y, 
+            'width':98, 
+            'height':81.265625, 
+            'userData':None, 
+            'cssClass':'DBTable', 
+            'bgColor':'#DBDDDE', 
+            'color':'#D7D7D7', 
+            'stroke':1, 
+            'alpha':1, 
+            'radius':3, 
+            'tableName':entity.code, 
+            'tablePorts':[], 
+            'attributes':[]}
+        x += 30
+        y += 30
+        addOutputPorts(entity, table)
+        for pProperty in entity.property_set.all():
+            table['attributes'].append({'text':pProperty.code, 'id':str(uuid.UUID(pProperty.smUUID)), 'datatype':pProperty.baseType, 'pk':pProperty.isPrimary, 'fk':pProperty.isForeign, 'isNullable':pProperty.isNullable, 'isRequired':pProperty.isRequired})
+            if (pProperty.isForeign):
+                addConnectors(pProperty, table, connectors)
+        
+        selectedTables.append(table)
 
 def addOutputPorts(entity, table):
     relationships = Relationship.objects.filter(refEntity=entity)
@@ -116,6 +110,8 @@ def addConnectors(pProperty, table, connectors):
     }
     connectors.append(connector)
     
+
+
 def synchDBFromDiagram(request):
     """ synchronyze JSON File with database
     """
@@ -128,52 +124,78 @@ def synchDBFromDiagram(request):
         return JsonError(e)
     
     objects = json.loads(request.body)
+    deletedConnectors = []
     for element in objects:
         elementUUID = uuid.UUID(element['id']).hex
         if element['type'] == 'dbModel.shape.DBTable':
-            try:
-                entity = Entity.objects.get(smUUID=elementUUID)
-                entity.code = element['tableName']
-                UUIDAttributeList = []
-                entity = saveAttributes(element, entity, UUIDAttributeList, user, owningTeam)
-                
-                entity.property_set.exclude(smUUID__in=UUIDAttributeList).delete()
-                    
-                entity.save()
-            except Exception as e:
-                print e, 'Creating a new one'
-                entity = Entity.objects.create(code=element['tableName'],model=model,smUUID=elementUUID)
-                entity.smCreatedBy = user
-                entity.smOwningTeam = owningTeam
-                entity.save()
+            addOrUpdateEntity(model, user, owningTeam, deletedConnectors, element, elementUUID)
         else:
-            sourceUUID = uuid.UUID(element['source']['node']).hex
-            targetUUID = uuid.UUID(element['target']['node']).hex
-            try:
-                refEntity = Entity.objects.get(smUUID=sourceUUID)
-                connEntity = Entity.objects.get(smUUID=targetUUID)
-            except Exception as e:
-                return JsonError(e)
-            
-            try:
-                connector = Relationship.objects.get(smUUID=elementUUID)
-                connector.code = element['name']
-                connector.isRequired = element['userData']['isRequired']
-                connector.isPrimary = connector.isRequired
-                connector.refEntity = refEntity
-                connector.connEntity = connEntity
-                connector.save()
-            except Exception as e:
-                print e, 'Creating a new one'
-                connector = Relationship.objects.create(code=element['name'], smUUID=elementUUID, refEntity_id=refEntity.id, entity_id=connEntity.id, isPrimary=element['userData']['isRequired'], isLookUpResult=True, isNullable=True, isRequired=element['userData']['isRequired'], isReadOnly=False, isEssential=False)
-                connector.save()
+            if elementUUID not in deletedConnectors:
+                sourceUUID = uuid.UUID(element['source']['node']).hex
+                targetUUID = uuid.UUID(element['target']['node']).hex
+                try:
+                    refEntity = Entity.objects.get(smUUID=sourceUUID)
+                    connEntity = Entity.objects.get(smUUID=targetUUID)
+                except Exception as e:
+                    return JsonError(e)
+                
+                addOrUpdateConnector(element, elementUUID, refEntity, connEntity)
     
-    context = {
-        'message': 'message',
-        'success': True
+    # Return the updated JSON model
+    selectedTables = []
+    connectors = []
+    try:
+        getJSONElements(modelID, selectedTables, connectors)
+                
+    except Exception as e:
+        print(e)
+        return JsonError("Entity non trouvé")
+    
+    jsondict = {
+        'success':True,
+        'message': '',
+        'tables': selectedTables,
+        'connectors': connectors,
     }
+    context = json.dumps(jsondict)
+    return HttpResponse(context, content_type="application/json")
 
-    return HttpResponse(json.dumps(context), content_type="application/json")
+
+def addOrUpdateEntity(model, user, owningTeam, deletedConnectors, element, elementUUID):
+    try:
+        entity = Entity.objects.get(smUUID=elementUUID)
+        entity.code = element['tableName']
+        UUIDAttributeList = []
+        entity = saveAttributes(element, entity, UUIDAttributeList, user, owningTeam)
+        excluded = entity.property_set.exclude(smUUID__in=UUIDAttributeList)
+        for item in excluded:
+            if item.isForeign:
+                deletedConnectors.append(item.relationship.smUUID)
+        
+        entity.property_set.exclude(smUUID__in=UUIDAttributeList).delete()
+        entity.save()
+    except Exception as e:
+        print e, 'Creating a new one'
+        entity = Entity.objects.create(code=element['tableName'], model=model, smUUID=elementUUID)
+        entity.smCreatedBy = user
+        entity.smOwningTeam = owningTeam
+        entity.save()
+
+
+def addOrUpdateConnector(element, elementUUID, refEntity, connEntity):
+    try:
+        connector = Relationship.objects.get(smUUID=elementUUID)
+        connector.code = element['name']
+        connector.isRequired = element['userData']['isRequired']
+        connector.isPrimary = connector.isRequired
+        connector.refEntity = refEntity
+        connector.connEntity = connEntity
+        connector.save()
+    except Exception as e:
+        print e, 'Creating a new one'
+        connector = Relationship.objects.create(code=element['name'], smUUID=elementUUID, refEntity_id=refEntity.id, entity_id=connEntity.id, isPrimary=element['userData']['isRequired'], isLookUpResult=True, isNullable=True, isRequired=element['userData']['isRequired'], isReadOnly=False, isEssential=False)
+        connector.save()
+
 
 def saveAttributes(element, entity, UUIDAttributeList, user, owningTeam):
     for attribute in element['attributes']:
@@ -203,4 +225,6 @@ def saveAttributes(element, entity, UUIDAttributeList, user, owningTeam):
             pProperty.save()
     
     return entity
+
+
 

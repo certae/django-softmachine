@@ -60,9 +60,9 @@ Ext.define('ProtoUL.view.diagram.DiagramCanvas', {
 			figure.addContextMenuListener(me);
 		});
 		
-		me.view.lines.each(function(i, connection) {
-			// TODO add listener.
-		});
+		// TODO add listener.
+		// me.view.lines.each(function(i, connection) {
+		// });
     },
     
     getView: function() {
@@ -75,7 +75,7 @@ Ext.define('ProtoUL.view.diagram.DiagramCanvas', {
 			var tableContextMenu = Ext.create('ProtoUL.view.diagram.TableContextMenu', {
             	figure: figure
         	});
-        	tableContextMenu.showAt(x + me.getEl().getX(),y + me.getEl().getY());
+        	tableContextMenu.showAt(window.event.clientX,window.event.clientY);
 		} else {
 			console.log("Connection");
 		}

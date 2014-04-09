@@ -229,6 +229,8 @@ Ext.define('ProtoUL.controller.DiagramController', {
 	},
 	
 	synchDBFromDiagram: function(button,e ,eOpts) {
+		var controller = this;
+		var menuController = this.application.controllers.get('DiagramMenuController');
 		Ext.Ajax.request({
 		    url: _SM._PConfig.synchDBFromDiagram,
 			params: {
@@ -237,7 +239,16 @@ Ext.define('ProtoUL.controller.DiagramController', {
 		    },
 		    jsonData: jsonDocument,
 		    success: function(response){
-		    	console.log('Success: synchDBFromDiagram');
+		    	var text = response.responseText;
+				var outcome = Ext.JSON.decode(text);
+				for(var i = 0; i < outcome.tables.length; i += 1) {
+					menuController.synchronizeJSONDocument(outcome.tables[i]);
+				}
+				for(var i = 0; i < outcome.connectors.length; i += 1) {
+					menuController.synchronizeJSONDocument(outcome.connectors[i]);
+				}
+				controller.getDiagramCanvas().reload();
+				controller.updateJsonDocument();
 		    },
 		    failure: function(response){
 		    	console.log('Failure: synchDBFromDiagram');

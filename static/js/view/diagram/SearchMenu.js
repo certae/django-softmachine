@@ -23,6 +23,7 @@ Ext.define('ProtoUL.view.diagram.SearchMenu', {
                 {
                     xtype: 'menuitem',
                     itemId: 'getAllTables',
+                    iconCls: 'find-table',
                     text: 'Add all tables from Project',
                 },
                 {

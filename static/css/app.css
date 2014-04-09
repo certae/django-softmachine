@@ -358,8 +358,12 @@
 /* Icons */
 
 .save-diagram    { background-image: url(../img/protoImg/d_save_detail.png ) !important;}
-.get-from-DB    { background-image: url(../img/protoImg/get_from_DB.png ) !important;}
-.send-to-DB    { background-image: url(../img/protoImg/send_to_DB.png ) !important;}
+.get-from-DB    { background-image: url(../img/protoImg/database-refresh-icon.png ) !important;}
+.send-to-DB    { background-image: url(../img/protoImg/database-save-icon.png ) !important;}
+.find-table    { background-image: url(../img/protoImg/data-find-icon.png ) !important;}
+.table-relationship    { background-image: url(../img/protoImg/table-relationship-icon.png ) !important;}
+.input-port    { background-image: url(../img/protoImg/door-in-icon.png ) !important;}
+.output-port    { background-image: url(../img/protoImg/door_out.png ) !important;}
 
 .container{
  /*overflow: scroll !important;*/
@@ -447,12 +451,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cecece', end
 }
 
 .linkedBlock {
-
   fill: orange;
 }
 
 .node {
-
     stroke: #000000;
     stroke-width: 1;
 }
