@@ -15,7 +15,8 @@ def getEntitiesJSONDiagram(request):
     connectors = []
     
     try:
-        getJSONElements(modelID, selectedTables, connectors)
+        entities = Entity.objects.filter(model__project_id=modelID)
+        getJSONElements(entities, selectedTables, connectors)
                 
     except Exception as e:
         print(e)
@@ -30,9 +31,35 @@ def getEntitiesJSONDiagram(request):
     context = json.dumps(jsondict)
     return HttpResponse(context, content_type="application/json")
 
-def getJSONElements(modelID, selectedTables, connectors):
+def getElementsDiagramFromSelectedTables(request):
+    selectedTables = []
+    connectors = []
+    
+    objects = json.loads(request.body)
+    UUIDAttributeList = []
+    for element in objects:
+        elementUUID = uuid.UUID(element['id']).hex
+        UUIDAttributeList.append(elementUUID)
+        
+    try:
+        entities = Entity.objects.filter(smUUID__in=UUIDAttributeList)
+        getJSONElements(entities, selectedTables, connectors)
+                
+    except Exception as e:
+        print(e)
+        return JsonError("Entity non trouvé")
+    
+    jsondict = {
+        'success':True,
+        'message': '',
+        'tables': selectedTables,
+        'connectors': connectors,
+    }
+    context = json.dumps(jsondict)
+    return HttpResponse(context, content_type="application/json")
+
+def getJSONElements(entities, selectedTables, connectors):
     table = {}
-    entities = Entity.objects.filter(model_id=modelID)
     x = 20
     y = 20
     for entity in entities:

@@ -7,13 +7,14 @@
  */
 Ext.define('ProtoUL.view.searchmodel.LiveSearchGridPanel', {
     extend: 'Ext.grid.Panel',
+    alias: 'widget.livesearchgrid',
     requires: [
         'Ext.toolbar.TextItem',
         'Ext.form.field.Checkbox',
-        'Ext.form.field.Text',
-        'Ext.ux.statusbar.StatusBar'
+        'Ext.form.field.Text'
     ],
     
+    itemId: 'livesearchgrid',
     /**
      * @private
      * search value initialization
@@ -99,10 +100,9 @@ Ext.define('ProtoUL.view.searchmodel.LiveSearchGridPanel', {
                 scope: me
             }, 'Case sensitive'];
 
-        me.bbar = Ext.create('Ext.ux.StatusBar', {
-            defaultText: me.defaultStatusText,
-            name: 'searchStatusBar'
-        });
+        me.bbar = {
+        	xtype: 'searchgridbbar'
+        };
         
         me.callParent(arguments);
     },
@@ -112,7 +112,9 @@ Ext.define('ProtoUL.view.searchmodel.LiveSearchGridPanel', {
         var me = this;
         me.callParent(arguments);
         me.textField = me.down('textfield[name=searchField]');
-        me.statusBar = me.down('statusbar[name=searchStatusBar]');
+        me.statusBar = Ext.ComponentQuery.query('#bbarDefaultText')[0];
+        me.statusBar.setText(me.defaultStatusText);
+        
     },
     // detects html tag
     tagsRe: /<[^>]*>/gm,
@@ -144,10 +146,7 @@ Ext.define('ProtoUL.view.searchmodel.LiveSearchGridPanel', {
             try {
                 new RegExp(value);
             } catch (error) {
-                me.statusBar.setStatus({
-                    text: error.message,
-                    iconCls: 'x-status-error'
-                });
+            	me.statusBar.setText(error.message);
                 return null;
             }
             // this is stupid
@@ -181,10 +180,7 @@ Ext.define('ProtoUL.view.searchmodel.LiveSearchGridPanel', {
 
          me.view.refresh();
          // reset the statusbar
-         me.statusBar.setStatus({
-             text: me.defaultStatusText,
-             iconCls: ''
-         });
+         me.statusBar.setText(me.defaultStatusText);
 
          me.searchValue = me.getSearchValue();
          me.indexes = [];
@@ -226,10 +222,7 @@ Ext.define('ProtoUL.view.searchmodel.LiveSearchGridPanel', {
              // results found
              if (me.currentIndex !== null) {
                  me.getSelectionModel().select(me.currentIndex);
-                 me.statusBar.setStatus({
-                     text: count + ' matche(s) found.',
-                     iconCls: 'x-status-valid'
-                 });
+                 me.statusBar.setText(count + ' matche(s) found.');
              }
          }
 

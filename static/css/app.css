@@ -54,6 +54,7 @@
 
 .icon-accept      { background-image: url(../img/protoImg/st-accept.png ) !important;}
 .icon-cancel      { background-image: url(../img/protoImg/edit_cancel.png ) !important;}
+.icon-add      	  { background-image: url(../img/protoImg/edit_add.png ) !important;}
 .icon-close       { background-image: url(../img/protoImg/icon_close.png ) !important;}
 .icon-reset       { background-image:url(../img/protoDesigner/broom.png) !important; }
 
@@ -364,6 +365,7 @@
 .table-relationship    { background-image: url(../img/protoImg/table-relationship-icon.png ) !important;}
 .input-port    { background-image: url(../img/protoImg/door-in-icon.png ) !important;}
 .output-port    { background-image: url(../img/protoImg/door_out.png ) !important;}
+.icon-nodeInput    { background-image: url(../img/protoImg/node-input.png ) !important;}
 
 .container{
  /*overflow: scroll !important;*/

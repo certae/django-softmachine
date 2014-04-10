@@ -40,6 +40,7 @@ _SM._PConfig =  {
     urlGetNextIncrement: 'protoLib/getFieldIncrement/',
     urlGetEntitiesJSONDiagram: 'protoLib/getEntitiesJSONDiagram/',
     synchDBFromDiagram: 'protoLib/synchDBFromDiagram/',
+    getElementsDiagramFromSelectedTables: 'protoLib/getElementsDiagramFromSelectedTables/',
 
     clsBaseModel: 'ProtoUL.model.'
 };

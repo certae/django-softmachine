@@ -19,11 +19,11 @@ Ext.define('ProtoUL.view.diagram.TableContextMenu', {
                 itemId: 'btAddConnectorRecursive'
             }, {
                 text: 'Add input port',
-                iconCls: 'input-port',
+                iconCls: 'icon-nodeInput',
                 itemId: 'btAddInputPort'
             }, {
             	text: 'Add output port',
-            	iconCls: 'output-port',
+            	iconCls: 'icon-nodeInsert',
                 itemId: 'btAddOutputPort'
             }, {
                 text: 'Remove unused ports',

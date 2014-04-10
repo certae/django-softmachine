@@ -4,37 +4,37 @@ Ext.define('ProtoUL.store.DBTypesStore', {
     requires: ['Ext.data.proxy.Memory', 'Ext.data.reader.Json'],
     data: [{
         typeID: 'string',
-        typeName: 'CharField'
+        typeName: 'string'
     }, {
         typeID: 'text',
-        typeName: 'TextField'
+        typeName: 'text'
     }, {
         typeID: 'bool',
-        typeName: 'BooleanField'
+        typeName: 'bool'
     }, {
         typeID: 'int',
-        typeName: 'IntegerField'
+        typeName: 'int'
     }, {
         typeID: 'decimal',
-        typeName: 'DecimalField'
+        typeName: 'decimal'
     }, {
         typeID: 'sequence',
-        typeName: 'SequenceField'
+        typeName: 'sequence'
     }, {
         typeID: 'money',
-        typeName: 'CurrencyField'
+        typeName: 'currency'
     }, {
         typeID: 'combo',
-        typeName: 'ComboField'
+        typeName: 'combo'
     }, {
         typeID: 'date',
-        typeName: 'DateField'
+        typeName: 'date'
     }, {
         typeID: 'datetime',
-        typeName: 'DateTimeField'
+        typeName: 'datetime'
     }, {
         typeID: 'time',
-        typeName: 'TimeField'
+        typeName: 'time'
     }],
     constructor: function(cfg) {
         var me = this;

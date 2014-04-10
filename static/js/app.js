@@ -19,7 +19,8 @@ Ext.application({
     ],
     stores: [
         'EntityAttributeStore',
-        'DBTypesStore'
+        'DBTypesStore',
+        'DiagramModelStore'
     ],
 	views: [
         'diagram.DiagramMainView',
@@ -29,7 +30,9 @@ Ext.application({
         'diagram.EntityEditor',
         'diagram.EntityAttributes',
         'diagram.TableContextMenu',
-        'diagram.SearchMenu'
+        'diagram.SearchMenu',
+        'searchmodel.LiveSearchGridPanel',
+        'searchmodel.SearchBottomBar'
     ],
 	controllers: [
 		'PasswordManager',

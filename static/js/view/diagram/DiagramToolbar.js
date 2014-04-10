@@ -30,10 +30,8 @@ Ext.define('ProtoUL.view.diagram.DiagramToolbar', {
                     text: 'Redo'
                 },
                 {
-                    xtype: 'button',
-                    border: 0,
-                    disabled: true,
-                    itemId: 'splitter1'
+                    xtype: 'tbspacer',
+					width: 10
                 },
                 {
                     xtype: 'button',
@@ -42,10 +40,7 @@ Ext.define('ProtoUL.view.diagram.DiagramToolbar', {
                     text: 'Delete'
                 },
                 {
-                    xtype: 'button',
-                    border: 0,
-                    disabled: true,
-                    itemId: 'splitter2'
+                    xtype: 'tbspacer'
                 },
                 {
                     xtype: 'buttongroup',
@@ -71,10 +66,7 @@ Ext.define('ProtoUL.view.diagram.DiagramToolbar', {
                     ]
                 },
                 {
-                	xtype: 'button',
-                    border: 0,
-                    disabled: true,
-                    itemId: 'splitter2'
+                	xtype: 'tbspacer'
                 },
                 {
                 	xtype: 'button',
@@ -88,7 +80,7 @@ Ext.define('ProtoUL.view.diagram.DiagramToolbar', {
                 	iconCls: 'send-to-DB',
                     itemId: 'btSyncToDB',
                     disabled: true,
-                    text: 'Synch to DB'
+                    text: 'Create objects in DB'
                 }
             ]
         });
