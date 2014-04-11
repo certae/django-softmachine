@@ -161,7 +161,7 @@ class GetProtoFieldsTreeTest(TestCase):
 
     def test_GetProtoFieldsTree_Invalid(self):
         returnMessage = GetProtoFieldsTree(2)
-        self.assertTrue(len(returnMessage) > 0)
+        self.assertTrue(len(returnMessage) is 0)
 
 
 class GetDetailsConfigTreeTest(TestCase):
@@ -172,7 +172,7 @@ class GetDetailsConfigTreeTest(TestCase):
         testRelationShip = createTestRelationship()
         testRelationShip.save()
 
-        self.assertEqual(len(GetDetailsConfigTree(1)), 2)
+        self.assertEqual(len(GetDetailsConfigTree(1)), 1)
 
 # TODO  Do not delete 
 # class addProtoFieldToListTest(TestCase):
