@@ -8,6 +8,9 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
         ref: 'diagramToolbar',
         selector: '#diagramtoolbar'
     }, {
+        ref: 'diagramMainView',
+        selector: '#diagramMainView'
+    }, {
         ref: 'liveGridSearch',
         selector: '#livesearchgrid'
     }],
@@ -59,13 +62,13 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
 
     onSearchMenuClick: function(menu, item, e, opt) {
         var controller = this;
+        var projectID = controller.getDiagramMainView().getProjectID();
         switch(item.itemId) {
             case 'getAllTables':
                 Ext.Ajax.request({
                     url: _SM._PConfig.urlGetEntitiesJSONDiagram,
                     params: {
-                        // FIXME get value from selected row in Model View
-                        modelID: 1
+                        projectID: projectID
                     },
                     success: function(response) {
                         var text = response.responseText;
@@ -97,33 +100,14 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
                                 height: 200
                             }
                         }).show();
-                        // for(var i = 0; i < outcome.tables.length; i += 1) {
-                        // controller.addOrUpdateJSONDocument(outcome.tables[i]);
-                        // }
-                        // for(var i = 0; i < outcome.connectors.length; i += 1) {
-                        // controller.addOrUpdateJSONDocument(outcome.connectors[i]);
-                        // }
-                        // controller.getDiagramCanvas().reload();
-                    }
-                });
-                break;
-            case 'getJSONTable':
-                Ext.Ajax.request({
-                    url: _SM._PConfig.urlGetEntitiesJSONDiagram,
-                    params: {
-                        modelID: 1
-                    },
-                    success: function(response) {
-                        var text = response.responseText;
-                        var outcome = Ext.JSON.decode(text);
                     }
                 });
                 break;
             case 'syncDiagramFromDB':
                 Ext.Ajax.request({
-                    url: _SM._PConfig.urlGetEntitiesJSONDiagram,
+                    url: _SM._PConfig.synchDiagramFromDB,
                     params: {
-                        modelID: 1
+                        projectID: projectID
                     },
                     success: function(response) {
                         var text = response.responseText;
@@ -152,7 +136,7 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
         var controller = this;
         var liveGrid = this.getLiveGridSearch();
         var tables = liveGrid.getSelectionModel().getSelection();
-        // TODO replace for request...
+
         var jsonRequest = [];
         for (var i = 0; i < tables.length; i += 1) {
             jsonRequest.push(tables[i].data);
@@ -170,15 +154,12 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
                     controller.addOrUpdateJSONDocument(outcome.connectors[i]);
                 }
                 controller.getDiagramCanvas().reload();
-                controller.getDiagramCanvas().reload();
                 controller.updateJsonDocument();
             },
             failure: function(response) {
-                console.log('Failure: synchDBFromDiagram');
+                console.log('Failure: getElementsDiagramFromSelectedTables');
             }
         });
-
-        Ext.destroy(liveGrid.ownerCt);
     },
 
     init: function(application) {

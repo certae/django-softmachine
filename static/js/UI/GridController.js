@@ -138,7 +138,16 @@ Ext.define('ProtoUL.UI.GridController', {
             width : 20,
             scope : this,
             handler : this.onEditAction
-        }];
+        },{
+        	itemId : 'toolDiagramEdit',
+            tooltip : _SM.__language.GridBtn_Ttip_Edit_Diagram,
+            type : 'diagramEdit',
+            hidden : true,
+            width : 20,
+            scope : this,
+            handler : this.onEditAction
+        }
+        ];
 
         this.myGrid.addTools(editTools);
         this.setEditMode(false);
@@ -189,6 +198,10 @@ Ext.define('ProtoUL.UI.GridController', {
         me.setToolMode('#toolFormView', !(bRef && perms['change'] ));
 
         me.setToolMode('#toolRowDel', bRef && perms['delete']);
+        
+        if (me.myMeta.viewCode === "prototype.Project") {
+			me.setToolMode('#toolDiagramEdit', bEdit && perms['add']);
+		}
 
         // Dont Delete
         // setToolMode ( myExtGrid, '#toolRowAdd', bEdit && perms['add'])
@@ -212,19 +225,11 @@ Ext.define('ProtoUL.UI.GridController', {
             });
         }
 
-        // Lanza el evento de inicio de edicion
         this.myGrid.fireStartEdition(btn.itemId);
 
         // 'toolFormAdd', 'toolFormUpd', 'toolFormView', 'toolRowAdd', 'toolRowCopy', 'toolRowDel',
         switch( btn.itemId ) {
             case 'toolFormAdd' :
-
-                // TODO: FIX: Add Mask to form load ( is not the right place  )
-                // showLoadingMask();
-                // var delayedTask = new Ext.util.DelayedTask(function(args){
-                //         args.form.openNewForm(args.store);
-                // });
-                // delayedTask.delay(1, null, null, [{form: this.formController, store: this.myGrid.store}]);
 
                 this.formController.openNewForm(this.myGrid.store);
                 break;
@@ -240,11 +245,19 @@ Ext.define('ProtoUL.UI.GridController', {
                     this.formController.openLinkedForm(this.myGrid.selected, true);
                 }
                 break;
-
-            // case 'toolRowAdd' :
-            // this.myGrid.addNewRecord()
-            // break;
-
+                
+			case 'toolDiagramEdit' :
+				if (_SM.validaSelected(this.myGrid.selected)) {
+					scriptLibrary = [];
+					createJSFilesLibrary();
+					var selectedItem = this.myGrid.rowData;
+					loadJsFilesSequentially(scriptLibrary, 0, function(){
+						var win = Ext.create('ProtoUL.view.diagram.DiagramMainView');
+						win.setProjectID(selectedItem.id);
+						win.show();
+					});
+				}
+				break;
             case 'toolRowCopy' :
                 this.myGrid.duplicateRecord();
                 break;

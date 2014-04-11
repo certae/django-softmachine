@@ -2,21 +2,26 @@
 
 from django.http import HttpResponse
 from utilsWeb import JsonError
-from prototype.models import Model, Entity, Relationship, Property
+from prototype.models import Project, Model, Entity, Relationship, Property
 
 import json, uuid
 
 
 def getEntitiesJSONDiagram(request):
-    """ return metadata (columns, renderers, totalcount...)
+    """ return all tables from project
     """
-    modelID = request.POST['modelID']
+    projectID = request.POST['projectID']
     selectedTables = []
-    connectors = []
     
     try:
-        entities = Entity.objects.filter(model__project_id=modelID)
-        getJSONElements(entities, selectedTables, connectors)
+        entities = Entity.objects.filter(model__project_id=projectID)
+        table = {}
+        for entity in entities:
+            table = {
+                'id':str(uuid.UUID(entity.smUUID)), 
+                'tableName':entity.code}
+        
+            selectedTables.append(table)
                 
     except Exception as e:
         print(e)
@@ -26,12 +31,13 @@ def getEntitiesJSONDiagram(request):
         'success':True,
         'message': '',
         'tables': selectedTables,
-        'connectors': connectors,
     }
     context = json.dumps(jsondict)
     return HttpResponse(context, content_type="application/json")
 
 def getElementsDiagramFromSelectedTables(request):
+    """ Creates diagram objects from selected tables in LiveSearchGrid
+    """
     selectedTables = []
     connectors = []
     
@@ -138,13 +144,38 @@ def addConnectors(pProperty, table, connectors):
     connectors.append(connector)
     
 
+def synchDiagramFromDB(request):
+    """ Updates diagram objects from database
+    """
+    projectID = request.POST['projectID']
+    selectedTables = []
+    connectors = []
+    
+    try:
+        entities = Entity.objects.filter(model__project_id=projectID)
+        getJSONElements(entities, selectedTables, connectors)
+                
+    except Exception as e:
+        print(e)
+        return JsonError("Entity non trouvé")
+    
+    jsondict = {
+        'success':True,
+        'message': '',
+        'tables': selectedTables,
+        'connectors': connectors,
+    }
+    context = json.dumps(jsondict)
+    return HttpResponse(context, content_type="application/json")
+    
 
 def synchDBFromDiagram(request):
-    """ synchronyze JSON File with database
+    """ Create and synchronize elements in database
     """
-    modelID = request.REQUEST['modelID']
+    projectID = request.REQUEST['projectID']
     try:
-        model = Model.objects.get(id=modelID)
+        project = Project.objects.get(id=projectID)
+        model,created = Model.objects.get_or_create(project=project,code='default',smOwningTeam=project.smOwningTeam)
         user = request.user
         owningTeam = model.smOwningTeam
     except Exception as e:
@@ -152,9 +183,11 @@ def synchDBFromDiagram(request):
     
     objects = json.loads(request.body)
     deletedConnectors = []
+    UUIDList = []
     for element in objects:
         elementUUID = uuid.UUID(element['id']).hex
         if element['type'] == 'dbModel.shape.DBTable':
+            UUIDList.append(elementUUID)
             addOrUpdateEntity(model, user, owningTeam, deletedConnectors, element, elementUUID)
         else:
             if elementUUID not in deletedConnectors:
@@ -172,7 +205,8 @@ def synchDBFromDiagram(request):
     selectedTables = []
     connectors = []
     try:
-        getJSONElements(modelID, selectedTables, connectors)
+        entities = Entity.objects.filter(smUUID__in=UUIDList)
+        getJSONElements(entities, selectedTables, connectors)
                 
     except Exception as e:
         print(e)

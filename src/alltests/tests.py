@@ -20,4 +20,5 @@ from protoLib.testprotoLib.ProtoAuthTest import * #ProtoAuthTestSuite
 from protoLib.testprotoLib.ProtoGetDetailsTest import * #ProtoGetDetailsTestSuite
 from protoLib.testprotoLib.ProtoGetPciTest import * #ProtoGetPciTestSuite    
 from protoLib.testprotoLib.ProtoLoginTest import * #ProtoLoginTestSuite                                  
-from protoLib.testprotoLib.ProtoMenuTest import * #ProtoMenuTestSuite                                   
+from protoLib.testprotoLib.ProtoMenuTest import * #ProtoMenuTestSuite   
+from protoLib.testprotoLib.ProtoDiagramTest import *                                

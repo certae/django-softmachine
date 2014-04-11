@@ -75,6 +75,7 @@ __language ={
     'GridBtn_Ttip_Read_Only' : 'Visualiser ( en lecture seule )',
     'GridBtn_Ttip_Add_Row' : 'Ajouter ligne',
     'GridBtn_Ttip_Copy_Row' : 'Copier ligne',
+    'GridBtn_Ttip_Edit_Diagram':'Éditer diagramme',
     'GridAction_NoRecord' : 'aucun enregistrement sélectionné',
 
     'Tooltip_Filter_Grid_Button' : 'Filtrer',

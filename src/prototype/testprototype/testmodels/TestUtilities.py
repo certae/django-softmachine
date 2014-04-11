@@ -176,11 +176,11 @@ def createTestPrototype():
 
 
 def createTestDiagram():
-    testModel = createTestModel()
-    testModel.save()
+    projectModel = createTestProject()
+    projectModel.save()
 
     diagramdata = {
-        'model': testModel,
+        'project': projectModel,
         'code': 'testCode',
         'description': 'testDescription',
         'notes': 'testNotes'

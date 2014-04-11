@@ -9,7 +9,9 @@ Ext.define('ProtoUL.view.diagram.DiagramMainView', {
     maximizable: true,
     height: 600,
     width: 1200,
-
+	
+	projectID: null,
+	
     initComponent: function() {
         var me = this;
 
@@ -33,5 +35,13 @@ Ext.define('ProtoUL.view.diagram.DiagramMainView', {
         });
 
         me.callParent(arguments);
+    },
+    
+    setProjectID: function(id) {
+    	this.projectID = id;
+    },
+    
+    getProjectID: function() {
+    	return this.projectID;
     }
 });

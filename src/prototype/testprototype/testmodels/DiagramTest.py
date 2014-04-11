@@ -18,7 +18,7 @@ class DiagramTest(TestCase):
     def test_verifying_diagram_attribute_model_in_database(self):
         diagram_in_database = Diagram.objects.all()
         only_entry_in_database = diagram_in_database[0]
-        self.assertEqual(only_entry_in_database.model, self.diagram.model)
+        self.assertEqual(only_entry_in_database.project, self.diagram.project)
 
     def test_verifying_diagram_attribute_code_in_database(self):
         diagram_in_database = Diagram.objects.all()
