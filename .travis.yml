@@ -1,0 +1,16 @@
+language: python
+python:
+  - "2.7"
+# TODO correct imports before build using : - "3.3"
+# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
+install: 
+  - pip install -r requirements.txt --use-mirrors
+  - pip install coveralls
+# command to run tests, e.g. python setup.py test <package>
+script: 
+  - echo "key" > src/ProtoExt/secret_key.txt
+  - coverage run --rcfile=.coverage.rc src/manage.py test alltests
+  - coverage report -m
+after_success: coveralls --rcfile=.coverage.rc
+
+fast_finish: true

@@ -2,11 +2,11 @@
 # for project : "Modelibra.py" >
 
 
-from models import Project,  Model, Entity, Property,  Relationship, Diagram #, Prototype
+from models import Project,  Model, Entity, Property,  Relationship  #, Prototype
 from models import PropertyEquivalence
 from models import ProtoTable
-from models import Diagram #, DiagramEntity
-from models import Service #, ServiceRef
+from models import Diagram, DiagramEntity
+# from models import Service #, ServiceRef
 
 from django.contrib import admin
 

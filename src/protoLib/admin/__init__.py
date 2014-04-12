@@ -18,6 +18,7 @@ admin.site.register(UserProfile)
 admin.site.register(UserShare)
 
 admin.site.register(CustomDefinition)
+# from protoLib.models import  PtFunction
 # admin.site.register(PtFunction)
 
 from django.contrib.auth.models import User
@@ -38,3 +39,12 @@ admin.site.register(EntityMap)
 admin.site.register(FieldMap)
 
 
+# -----------------------------------------   Model
+
+from protoLib.actions import doWFlowResume
+from protoLib.models import WflowAdminResume
+
+class WflowAdminResumeAdmin(admin.ModelAdmin):
+    actions = [ doWFlowResume, ]
+
+admin.site.register(WflowAdminResume, WflowAdminResumeAdmin)

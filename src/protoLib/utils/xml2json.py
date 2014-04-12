@@ -36,7 +36,7 @@ R. White, 2006 November 6
 
 import xml.etree.cElementTree as ET
 import json as simplejson
-import optparse, sys, os
+import optparse, sys
 
 def elem_to_internal(elem, strip=1):
 
@@ -64,15 +64,18 @@ def elem_to_internal(elem, strip=1):
     tail = elem.tail
     if strip:
         # ignore leading and trailing whitespace
-        if text: text = text.strip()
-        if tail: tail = tail.strip()
+        if text:
+            text = text.strip()
+        if tail:
+            tail = tail.strip()
 
     if tail:
         d['#tail'] = tail
 
     if d:
         # use #text element if other attributes exist
-        if text: d["#text"] = text
+        if text:
+            d["#text"] = text
     else:
         # text is the value if no attributes
         d = text or None
@@ -188,7 +191,7 @@ def main():
         file.write(out)
         file.close()
     else:
-        print out
+        print (out)
 
 if __name__ == "__main__":
     main()

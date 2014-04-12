@@ -1,0 +1,2881 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domains>
+    <domain>
+        <code>Gestion études projet</code>
+        <origin>OpenModelSphere 3.2</origin>
+        <models>
+            <model>
+                <idModel>1</idModel>
+                <idRef>0</idRef>
+                <code>MSC</code>
+                <concepts>
+                    <concept>
+                        <code>CAS ETUDE</code>
+                        <physicalName>CAS_ET</physicalName>
+                        <properties>
+                            <property>
+                                <code>Date début</code>
+                                <physicalName>DATE_DEBUT</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>Date fin</code>
+                                <physicalName>DATE_FIN</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>C-128</code>
+                                <alias>PROGRAMME-CAS ETUDE</alias>
+                                <baseConcept>PROGRAMME</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-129</code>
+                                <alias>ETUDIANT-CAS ETUDE</alias>
+                                <baseConcept>ETUDIANT</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>SOUS EVENEMENT</code>
+                        <physicalName>SOUS_</physicalName>
+                        <properties>
+                            <property>
+                                <code>sous événement?</code>
+                                <physicalName>SOUS_EVENEME</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>obligatoire?</code>
+                                <physicalName>OBLIG</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>C-111</code>
+                                <alias>TYPE EVENEMENT-SOUS EVENEMENT</alias>
+                                <baseConcept>TYPE EVENEMENT</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-150</code>
+                                <alias>FAMILLE EVENEMENT-SOUS EVENEMENT</alias>
+                                <baseConcept>FAMILLE EVENEMENT</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>SOUS_EVENEMENT_PROF</code>
+                        <physicalName>EVENEME5</physicalName>
+                        <properties>
+                            <property>
+                                <code>numéro sous évé.</code>
+                                <physicalName>NUMERO_EVEADMP</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>date alarme</code>
+                                <physicalName>DATE_ALARME</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>complété?</code>
+                                <physicalName>COMPLET</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>commentaire</code>
+                                <physicalName>COMMENTA</physicalName>
+                                <baseType>memo</baseType>
+                                <length>500</length>
+                            </property>
+                            <property>
+                                <code>date1</code>
+                                <physicalName>DATE1</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>date2</code>
+                                <physicalName>DATE2</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>date3</code>
+                                <physicalName>DATE3</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>valeur1</code>
+                                <physicalName>VALEUR1</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>valeur2</code>
+                                <physicalName>VALEUR2</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>valeur3</code>
+                                <physicalName>VALEUR3</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>C-127</code>
+                                <alias>SOUS EVENEMENT-SOUS_EVENEMENT_PROF</alias>
+                                <baseConcept>SOUS EVENEMENT</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>A-73</code>
+                                <alias>TYPE EVENEMENT-SOUS_EVENEMENT_PROF</alias>
+                                <baseConcept>TYPE EVENEMENT</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>A-74</code>
+                                <alias>EVENEMENT ADMISSION-SOUS_EVENEMENT_PROF</alias>
+                                <baseConcept>EVENEMENT ADMISSION</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>A-75</code>
+                                <alias>PROFESSEUR-SOUS_EVENEMENT_PROF</alias>
+                                <baseConcept>PROFESSEUR</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>PROFESSEUR</code>
+                        <physicalName>PROFESS</physicalName>
+                        <properties>
+                            <property>
+                                <code>Numéro prof</code>
+                                <physicalName>NUMERO_D_EMPLO</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>N.A.S.</code>
+                                <physicalName>N_A_S_</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                                <isNullable>False</isNullable>
+                            </property>
+                            <property>
+                                <code>Nom Prof</code>
+                                <physicalName>NOM_PROF</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                                <isNullable>False</isNullable>
+                            </property>
+                            <property>
+                                <code>Prénom Prof</code>
+                                <physicalName>PRENOM_PROF</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>Adresse internet</code>
+                                <physicalName>ADRESSE_INTERNE</physicalName>
+                                <baseType>internet</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>Qualification</code>
+                                <physicalName>QUALIFI</physicalName>
+                                <baseType>Qualification</baseType>
+                                <length>2</length>
+                            </property>
+                            <property>
+                                <code>Fax</code>
+                                <physicalName>NUMERO_FAX</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                            </property>
+                            <property>
+                                <code>Adresse</code>
+                                <physicalName>ADRESSE</physicalName>
+                                <baseType>adresse</baseType>
+                                <length>120</length>
+                            </property>
+                            <property>
+                                <code>Tél. maison</code>
+                                <physicalName>NUMERO_TEL__MAISON</physicalName>
+                                <baseType>tel</baseType>
+                                <length>12</length>
+                            </property>
+                            <property>
+                                <code>Tél. travail</code>
+                                <physicalName>NUMERO_TEL__TRAVAI</physicalName>
+                                <baseType>tel</baseType>
+                                <length>12</length>
+                            </property>
+                            <property>
+                                <code>Directeur dep?</code>
+                                <physicalName>DIRECTE</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>Numéro Bureau</code>
+                                <physicalName>NUMERO_BUREAU</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                            </property>
+                            <property>
+                                <code>date affectation</code>
+                                <physicalName>DATE_AFFECTA</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>intérêts de recherche</code>
+                                <physicalName>INTER_DE_RECHE</physicalName>
+                                <baseType>memo</baseType>
+                                <length>500</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>fait partie du</code>
+                                <alias>DEPARTEMENT-PROFESSEUR</alias>
+                                <baseConcept>DEPARTEMENT</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>Directeur comité</code>
+                                <alias>ACTIVITE REDACTION-PROFESSEUR</alias>
+                                <baseConcept>ACTIVITE REDACTION</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>1</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>N</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>codirecteur</code>
+                                <alias>ACTIVITE REDACTION-PROFESSEUR</alias>
+                                <baseConcept>ACTIVITE REDACTION</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>1</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>N</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>PHASE</code>
+                        <physicalName>PHASE</physicalName>
+                        <properties>
+                            <property>
+                                <code>Phase</code>
+                                <physicalName>CODE_PHASE</physicalName>
+                                <baseType>code6</baseType>
+                                <length>6</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>nom phase</code>
+                                <physicalName>NOM_PHASE</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>type activité</code>
+                                <physicalName>TYPE_ACTIVIT</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                            </property>
+                            <property>
+                                <code>durée</code>
+                                <physicalName>DUREE</physicalName>
+                                <baseType>nombre</baseType>
+                                <length>4</length>
+                            </property>
+                            <property>
+                                <code>nb crédits mini</code>
+                                <physicalName>NB_CRED</physicalName>
+                                <baseType>nombre</baseType>
+                                <length>4</length>
+                            </property>
+                            <property>
+                                <code>nb crédits maxi</code>
+                                <physicalName>NB_CRED1</physicalName>
+                                <baseType>nombre</baseType>
+                                <length>4</length>
+                            </property>
+                            <property>
+                                <code>jury?</code>
+                                <physicalName>JURY_</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>note?</code>
+                                <physicalName>NOTE_</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>règle</code>
+                                <physicalName>REGLE</physicalName>
+                                <baseType>memo</baseType>
+                                <length>500</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>C-114</code>
+                                <alias>FAMILLE-PHASE</alias>
+                                <baseConcept>FAMILLE</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>CHOIX BLOC</code>
+                        <physicalName>CHOIX_BLOC</physicalName>
+                        <properties/>
+                        <foreigns>
+                            <foreign>
+                                <code>C-61</code>
+                                <alias>PLAN FORMATION-CHOIX BLOC</alias>
+                                <baseConcept>PLAN FORMATION</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-60</code>
+                                <alias>BLOC COURS-CHOIX BLOC</alias>
+                                <baseConcept>BLOC COURS</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-105</code>
+                                <alias>REALISATION CHEM-CHOIX BLOC</alias>
+                                <baseConcept>REALISATION CHEM</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>CHOIX COURS</code>
+                        <physicalName>CHOIX_COURS</physicalName>
+                        <properties>
+                            <property>
+                                <code>Trimestre</code>
+                                <physicalName>TRIME</physicalName>
+                                <baseType>trimestre</baseType>
+                                <length>6</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>C-131</code>
+                                <alias>CHOIX BLOC-CHOIX COURS</alias>
+                                <baseConcept>CHOIX BLOC</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-132</code>
+                                <alias>COURS-CHOIX COURS</alias>
+                                <baseConcept>COURS</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-134</code>
+                                <alias>COURS SESSION-CHOIX COURS</alias>
+                                <baseConcept>COURS SESSION</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-135</code>
+                                <alias>COMPOSITION B-CHOIX COURS</alias>
+                                <baseConcept>COMPOSITION B</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>TRIMESTRE</code>
+                        <physicalName>TRIMES</physicalName>
+                        <properties>
+                            <property>
+                                <code>Trimestre</code>
+                                <physicalName>TRIMEST</physicalName>
+                                <baseType>trimestre</baseType>
+                                <length>6</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>date début</code>
+                                <physicalName>DATE_DEBUT</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>date fin</code>
+                                <physicalName>DATE_FIN</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>date mi-session</code>
+                                <physicalName>DATE_MI_SESSIO</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                        </properties>
+                        <foreigns/>
+                    </concept>
+                    <concept>
+                        <code>CONCOMMITANT</code>
+                        <physicalName>CONCOM</physicalName>
+                        <properties/>
+                        <foreigns>
+                            <foreign>
+                                <code>C-144</code>
+                                <alias>COURS-CONCOMMITANT</alias>
+                                <baseConcept>COURS</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-143</code>
+                                <alias>COURS-CONCOMMITANT</alias>
+                                <baseConcept>COURS</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>COMITE PROG PROF</code>
+                        <physicalName>COMIT_PROG_PROF</physicalName>
+                        <properties/>
+                        <foreigns>
+                            <foreign>
+                                <code>C-136</code>
+                                <alias>PROFESSEUR-COMITE PROG PROF</alias>
+                                <baseConcept>PROFESSEUR</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-137</code>
+                                <alias>PROGRAMME-COMITE PROG PROF</alias>
+                                <baseConcept>PROGRAMME</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>PLANIF COURS</code>
+                        <physicalName>PLANI_COURS</physicalName>
+                        <properties/>
+                        <foreigns>
+                            <foreign>
+                                <code>C-108</code>
+                                <alias>PROFESSEUR-PLANIF COURS</alias>
+                                <baseConcept>PROFESSEUR</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-109</code>
+                                <alias>COURS SESSION-PLANIF COURS</alias>
+                                <baseConcept>COURS SESSION</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>COURS SESSION</code>
+                        <physicalName>COURS_SESSI</physicalName>
+                        <properties>
+                            <property>
+                                <code>nb_sections</code>
+                                <physicalName>NB_SECTI</physicalName>
+                                <baseType>nombre</baseType>
+                                <length>4</length>
+                            </property>
+                            <property>
+                                <code>demi-section</code>
+                                <physicalName>DEMI_SECTIO</physicalName>
+                                <baseType>nombrevar</baseType>
+                                <length>1</length>
+                            </property>
+                            <property>
+                                <code>date début</code>
+                                <physicalName>DATE_DEBUT</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>date fin</code>
+                                <physicalName>DATE_FIN</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>C-149</code>
+                                <alias>TRIMESTRE-COURS SESSION</alias>
+                                <baseConcept>TRIMESTRE</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-107</code>
+                                <alias>SECTION-COURS SESSION</alias>
+                                <baseConcept>SECTION</baseConcept>
+                                <baseMin>1</baseMin>
+                                <baseMax>1</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>N</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-106</code>
+                                <alias>COURS-COURS SESSION</alias>
+                                <baseConcept>COURS</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>PROVENANCE ETUD</code>
+                        <physicalName>PROVE_ETUD</physicalName>
+                        <properties/>
+                        <foreigns>
+                            <foreign>
+                                <code>C-142</code>
+                                <alias>COLLEGE UNIVERSITE-PROVENANCE ETUD</alias>
+                                <baseConcept>COLLEGE UNIVERSITE</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-130</code>
+                                <alias>ETUDIANT-PROVENANCE ETUD</alias>
+                                <baseConcept>ETUDIANT</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>Compo CPM</code>
+                        <physicalName>COMPO_C1</physicalName>
+                        <properties/>
+                        <foreigns>
+                            <foreign>
+                                <code>C-103</code>
+                                <alias>PROFESSEUR-Compo CPM</alias>
+                                <baseConcept>PROFESSEUR</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-104</code>
+                                <alias>PROGRAMME-Compo CPM</alias>
+                                <baseConcept>PROGRAMME</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>COLLEGE UNIVERSITE</code>
+                        <physicalName>COLLEGE</physicalName>
+                        <properties>
+                            <property>
+                                <code>code collège université</code>
+                                <physicalName>CODE_COLLEGE_UNIVE</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>nom collège université</code>
+                                <physicalName>NOM_COLLEGE_UNIVER</physicalName>
+                                <baseType>nomlong</baseType>
+                                <length>80</length>
+                            </property>
+                            <property>
+                                <code>nom abrégé</code>
+                                <physicalName>NOM_ABREGE</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>adresse</code>
+                                <physicalName>ADRESSE</physicalName>
+                                <baseType>adresse</baseType>
+                                <length>120</length>
+                            </property>
+                            <property>
+                                <code>contact</code>
+                                <physicalName>CONTACT</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                        </properties>
+                        <foreigns/>
+                    </concept>
+                    <concept>
+                        <code>CREDIT EXTERNE</code>
+                        <physicalName>CREDIT_</physicalName>
+                        <properties>
+                            <property>
+                                <code>no crédit externe</code>
+                                <physicalName>NO_CREDIT_EXTERNE</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>nom</code>
+                                <physicalName>NOM</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>nb crédits</code>
+                                <physicalName>NB_CREDITS</physicalName>
+                                <baseType>nombre</baseType>
+                                <length>4</length>
+                            </property>
+                            <property>
+                                <code>syllabus?</code>
+                                <physicalName>SYLLABU</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>approbation?</code>
+                                <physicalName>APPROBA</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>A-79</code>
+                                <alias>COLLEGE UNIVERSITE-CREDIT EXTERNE</alias>
+                                <baseConcept>COLLEGE UNIVERSITE</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>A-78</code>
+                                <alias>FORMATION-CREDIT EXTERNE</alias>
+                                <baseConcept>FORMATION</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>STAGE</code>
+                        <physicalName>STAGE</physicalName>
+                        <properties>
+                            <property>
+                                <code>no stage</code>
+                                <physicalName>NO_STAGE</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>titre stage</code>
+                                <physicalName>TITRE_STAGE</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>date soumission</code>
+                                <physicalName>DATE_SOUMISS</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>date début</code>
+                                <physicalName>DATE_DEBUT</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>date fin</code>
+                                <physicalName>DATE_FIN</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>répondant</code>
+                                <physicalName>REPONDA</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>adresse répondant</code>
+                                <physicalName>ADRESSE_REPONDA</physicalName>
+                                <baseType>adresse</baseType>
+                                <length>120</length>
+                            </property>
+                        </properties>
+                        <foreigns/>
+                    </concept>
+                    <concept>
+                        <code>FAMILLE EVENEMENT</code>
+                        <physicalName>FAMILLE1</physicalName>
+                        <properties>
+                            <property>
+                                <code>obligatoire?</code>
+                                <physicalName>OBLIG</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>C-22</code>
+                                <alias>TYPE EVENEMENT-FAMILLE EVENEMENT</alias>
+                                <baseConcept>TYPE EVENEMENT</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-23</code>
+                                <alias>FAMILLE-FAMILLE EVENEMENT</alias>
+                                <baseConcept>FAMILLE</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>FAMILLE</code>
+                        <physicalName>FAMILLE</physicalName>
+                        <properties>
+                            <property>
+                                <code>famille</code>
+                                <physicalName>CODE_FAMILLE_EVE</physicalName>
+                                <baseType>code6</baseType>
+                                <length>6</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>nom famille</code>
+                                <physicalName>NOM_FAMILLE_EVE</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                        </properties>
+                        <foreigns/>
+                    </concept>
+                    <concept>
+                        <code>EVENEMENT ADMISSION</code>
+                        <physicalName>EVENEME4</physicalName>
+                        <properties>
+                            <property>
+                                <code>numéro évé.</code>
+                                <physicalName>NUMERO_EVEADM</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>Date enregistrement</code>
+                                <physicalName>DATE_EN</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>Date fermeture</code>
+                                <physicalName>DATE_FE</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>date alarme</code>
+                                <physicalName>DATE_ALARME</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>complété?</code>
+                                <physicalName>COMPLET</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>commentaire</code>
+                                <physicalName>COMMENTA</physicalName>
+                                <baseType>memo</baseType>
+                                <length>500</length>
+                            </property>
+                            <property>
+                                <code>date1</code>
+                                <physicalName>DATE1</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>date2</code>
+                                <physicalName>DATE2</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>date3</code>
+                                <physicalName>DATE3</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>valeur1</code>
+                                <physicalName>VALEUR1</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>valeur2</code>
+                                <physicalName>VALEUR2</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>valeur3</code>
+                                <physicalName>VALEUR3</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>DEM ADM PROG-EVENEMENT ADMISSION</code>
+                                <baseConcept>DEM ADM PROG</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-126</code>
+                                <alias>FAMILLE EVENEMENT-EVENEMENT ADMISSION</alias>
+                                <baseConcept>FAMILLE EVENEMENT</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>A-71</code>
+                                <alias>TYPE EVENEMENT-EVENEMENT ADMISSION</alias>
+                                <baseConcept>TYPE EVENEMENT</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>Prob_adm</code>
+                                <alias>DEMANDE ADMISSION-EVENEMENT ADMISSION</alias>
+                                <baseConcept>DEMANDE ADMISSION</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>EVENEMEMENT FORMATION</code>
+                        <physicalName>EVENEME3</physicalName>
+                        <properties>
+                            <property>
+                                <code>numéro évé.</code>
+                                <physicalName>NUMERO_EVEFOR</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>Date enregistrement</code>
+                                <physicalName>DATE_EN</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>Date fermeture</code>
+                                <physicalName>DATE_FE</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>date alarme</code>
+                                <physicalName>DATE_ALARME</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>complété?</code>
+                                <physicalName>COMPLET</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>commentaire</code>
+                                <physicalName>COMMENTA</physicalName>
+                                <baseType>memo</baseType>
+                                <length>500</length>
+                            </property>
+                            <property>
+                                <code>date1</code>
+                                <physicalName>DATE1</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>date2</code>
+                                <physicalName>DATE2</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>date3</code>
+                                <physicalName>DATE3</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>valeur1</code>
+                                <physicalName>VALEUR1</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>valeur2</code>
+                                <physicalName>VALEUR2</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>valeur3</code>
+                                <physicalName>VALEUR3</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>C-125</code>
+                                <alias>FAMILLE EVENEMENT-EVENEMEMENT FORMATION</alias>
+                                <baseConcept>FAMILLE EVENEMENT</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>A-70</code>
+                                <alias>TYPE EVENEMENT-EVENEMEMENT FORMATION</alias>
+                                <baseConcept>TYPE EVENEMENT</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>A-69</code>
+                                <alias>FORMATION-EVENEMEMENT FORMATION</alias>
+                                <baseConcept>FORMATION</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>SOUS_EVENEMENT_ACTIVITE</code>
+                        <physicalName>EVENEME2</physicalName>
+                        <properties>
+                            <property>
+                                <code>numéro sous évé.</code>
+                                <physicalName>NUMERO_EVEPER</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>Date enregistrement</code>
+                                <physicalName>DATE_EN</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>Date fermeture</code>
+                                <physicalName>DATE_FE</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>date alarme</code>
+                                <physicalName>DATE_ALARME</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>complété?</code>
+                                <physicalName>COMPLET</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>commentaire</code>
+                                <physicalName>COMMENTA</physicalName>
+                                <baseType>memo</baseType>
+                                <length>500</length>
+                            </property>
+                            <property>
+                                <code>date1</code>
+                                <physicalName>DATE1</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>date2</code>
+                                <physicalName>DATE2</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>date3</code>
+                                <physicalName>DATE3</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>valeur1</code>
+                                <physicalName>VALEUR1</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>valeur2</code>
+                                <physicalName>VALEUR2</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>valeur3</code>
+                                <physicalName>VALEUR3</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>C-123</code>
+                                <alias>SOUS EVENEMENT-SOUS_EVENEMENT_ACTIVITE</alias>
+                                <baseConcept>SOUS EVENEMENT</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>A-65</code>
+                                <alias>PROFESSEUR-SOUS_EVENEMENT_ACTIVITE</alias>
+                                <baseConcept>PROFESSEUR</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>A-67</code>
+                                <alias>TYPE EVENEMENT-SOUS_EVENEMENT_ACTIVITE</alias>
+                                <baseConcept>TYPE EVENEMENT</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>A-64</code>
+                                <alias>MEMBRE EXTERNE-SOUS_EVENEMENT_ACTIVITE</alias>
+                                <baseConcept>MEMBRE EXTERNE</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>A-63</code>
+                                <alias>EVENEMENT ACTIVITE-SOUS_EVENEMENT_ACTIVITE</alias>
+                                <baseConcept>EVENEMENT ACTIVITE</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>COMPO CAS</code>
+                        <physicalName>COMPO_C</physicalName>
+                        <properties>
+                            <property>
+                                <code>Date début</code>
+                                <physicalName>DATE_DEBUT</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>Date fin</code>
+                                <physicalName>DATE_FIN</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>C-52</code>
+                                <alias>PROFESSEUR-COMPO CAS</alias>
+                                <baseConcept>PROFESSEUR</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-102</code>
+                                <alias>PROGRAMME-COMPO CAS</alias>
+                                <baseConcept>PROGRAMME</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>ACTIVITE REDACTION</code>
+                        <physicalName>ACTIVIT</physicalName>
+                        <properties>
+                            <property>
+                                <code>no activité</code>
+                                <physicalName>NO_ACTIVIT</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>titre</code>
+                                <physicalName>TITRE</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>langue</code>
+                                <physicalName>LANGUE</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>date début</code>
+                                <physicalName>DATE_DEBUT</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>date fin</code>
+                                <physicalName>DATE_FIN</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>terminé?</code>
+                                <physicalName>TERMINE</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>réussi?</code>
+                                <physicalName>REUSS</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>type activité</code>
+                                <alias>PHASE-ACTIVITE REDACTION</alias>
+                                <baseConcept>PHASE</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>A-76</code>
+                                <alias>STAGE-ACTIVITE REDACTION</alias>
+                                <baseConcept>STAGE</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>A-66</code>
+                                <alias>FORMATION-ACTIVITE REDACTION</alias>
+                                <baseConcept>FORMATION</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>codirige_ext</code>
+                                <alias>MEMBRE EXTERNE-ACTIVITE REDACTION</alias>
+                                <baseConcept>MEMBRE EXTERNE</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>REALISATION CHEM</code>
+                        <physicalName>REALISA2</physicalName>
+                        <properties>
+                            <property>
+                                <code>obligatoire?</code>
+                                <physicalName>OBLIGAT</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>crédits mini</code>
+                                <physicalName>CREDITS_MINI</physicalName>
+                                <baseType>nombre</baseType>
+                                <length>4</length>
+                            </property>
+                            <property>
+                                <code>crédits maxi</code>
+                                <physicalName>CREDITS_MAXI</physicalName>
+                                <baseType>nombre</baseType>
+                                <length>4</length>
+                            </property>
+                            <property>
+                                <code>type?</code>
+                                <physicalName>TYPE_</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>C-83</code>
+                                <alias>BLOC COURS-REALISATION CHEM</alias>
+                                <baseConcept>BLOC COURS</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-84</code>
+                                <alias>PHASE CHEMINEMENT-REALISATION CHEM</alias>
+                                <baseConcept>PHASE CHEMINEMENT</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>PHASE CHEMINEMENT</code>
+                        <physicalName>PHASE_C</physicalName>
+                        <properties>
+                            <property>
+                                <code>obligatoire?</code>
+                                <physicalName>OBLIGAT</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>crédits mini</code>
+                                <physicalName>CREDITS_MINI</physicalName>
+                                <baseType>nombre</baseType>
+                                <length>4</length>
+                            </property>
+                            <property>
+                                <code>crédits maxi</code>
+                                <physicalName>CREDITS_MAXI</physicalName>
+                                <baseType>nombre</baseType>
+                                <length>4</length>
+                            </property>
+                            <property>
+                                <code>durée maxi</code>
+                                <physicalName>DUREE_MAXI</physicalName>
+                                <baseType>nombre</baseType>
+                                <length>4</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>compo chem2</code>
+                                <alias>PHASE-PHASE CHEMINEMENT</alias>
+                                <baseConcept>PHASE</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>compo chem1</code>
+                                <alias>CHEMINEMENT PA-PHASE CHEMINEMENT</alias>
+                                <baseConcept>CHEMINEMENT PA</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>COMPOSITION B</code>
+                        <physicalName>COMPOSI</physicalName>
+                        <properties>
+                            <property>
+                                <code>obligatoire?</code>
+                                <physicalName>OBLIGAT</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>C-89</code>
+                                <alias>COURS-COMPOSITION B</alias>
+                                <baseConcept>COURS</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-90</code>
+                                <alias>BLOC COURS-COMPOSITION B</alias>
+                                <baseConcept>BLOC COURS</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>BLOC COURS</code>
+                        <physicalName>BLOC_CO</physicalName>
+                        <properties>
+                            <property>
+                                <code>code bloc cours</code>
+                                <physicalName>CODE_BLOC_COURS</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>nom bloc cours</code>
+                                <physicalName>NOM_BLOC_COURS</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>crédits maxi</code>
+                                <physicalName>CREDITS_MAXI</physicalName>
+                                <baseType>nombre</baseType>
+                                <length>4</length>
+                            </property>
+                            <property>
+                                <code>crédits mini</code>
+                                <physicalName>CREDITS_MINI</physicalName>
+                                <baseType>nombre</baseType>
+                                <length>4</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>responsable</code>
+                                <alias>PROFESSEUR-BLOC COURS</alias>
+                                <baseConcept>PROFESSEUR</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>AUTRE SUPPORT</code>
+                        <physicalName>AUTRE_S</physicalName>
+                        <properties/>
+                        <foreigns>
+                            <foreign>
+                                <code>C-94</code>
+                                <alias>DEPARTEMENT-AUTRE SUPPORT</alias>
+                                <baseConcept>DEPARTEMENT</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-95</code>
+                                <alias>CHEMINEMENT PA-AUTRE SUPPORT</alias>
+                                <baseConcept>CHEMINEMENT PA</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>COURS SUIVI</code>
+                        <physicalName>COURS_S</physicalName>
+                        <properties>
+                            <property>
+                                <code>évaluation</code>
+                                <physicalName>EVALUAT</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>révision évaluation</code>
+                                <physicalName>REVISIO_EVALUAT</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>date évaluation</code>
+                                <physicalName>DATE_EVALUAT</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>C-133</code>
+                                <alias>CHOIX COURS-COURS SUIVI</alias>
+                                <baseConcept>CHOIX COURS</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>Changement prog</code>
+                                <alias>FORMATION-COURS SUIVI</alias>
+                                <baseConcept>FORMATION</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>A-60</code>
+                                <alias>COURS-COURS SUIVI</alias>
+                                <baseConcept>COURS</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>A-59</code>
+                                <alias>INSCRIPTION-COURS SUIVI</alias>
+                                <baseConcept>INSCRIPTION</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>si multiplicité</code>
+                                <alias>SECTION-COURS SUIVI</alias>
+                                <baseConcept>SECTION</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>PLAN FORMATION</code>
+                        <physicalName>PLAN_FO</physicalName>
+                        <properties>
+                            <property>
+                                <code>no plan formation</code>
+                                <physicalName>NO_PLAN_FORMATI</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>trimestre début</code>
+                                <physicalName>TRIMEST_DEBUT</physicalName>
+                                <baseType>trimestre</baseType>
+                                <length>6</length>
+                            </property>
+                            <property>
+                                <code>trimestre fin</code>
+                                <physicalName>TRIMEST_FIN</physicalName>
+                                <baseType>trimestre</baseType>
+                                <length>6</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>plan</code>
+                                <alias>PHASE-PLAN FORMATION</alias>
+                                <baseConcept>PHASE</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>A-57</code>
+                                <alias>FORMATION-PLAN FORMATION</alias>
+                                <baseConcept>FORMATION</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>AVANCEMENT</code>
+                        <physicalName>AVANCEM</physicalName>
+                        <properties>
+                            <property>
+                                <code>Date début</code>
+                                <physicalName>DATE_DEBUT</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>Date fin</code>
+                                <physicalName>DATE_FIN</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>commentaire</code>
+                                <physicalName>COMMENTA</physicalName>
+                                <baseType>memo</baseType>
+                                <length>500</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>C-115</code>
+                                <alias>PHASE-AVANCEMENT</alias>
+                                <baseConcept>PHASE</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-116</code>
+                                <alias>FORMATION-AVANCEMENT</alias>
+                                <baseConcept>FORMATION</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>EQUIVALENCE</code>
+                        <physicalName>EQUIVAL</physicalName>
+                        <properties/>
+                        <foreigns>
+                            <foreign>
+                                <code>C-117</code>
+                                <alias>COURS-EQUIVALENCE</alias>
+                                <baseConcept>COURS</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-118</code>
+                                <alias>COURS-EQUIVALENCE</alias>
+                                <baseConcept>COURS</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>SECTION</code>
+                        <physicalName>SECTION</physicalName>
+                        <properties>
+                            <property>
+                                <code>Section</code>
+                                <physicalName>NUMERO_SECTION</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>dispense</code>
+                                <alias>PROFESSEUR-SECTION</alias>
+                                <baseConcept>PROFESSEUR</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>TYPE EVENEMENT</code>
+                        <physicalName>TYPE_EV</physicalName>
+                        <properties>
+                            <property>
+                                <code>événement</code>
+                                <physicalName>CODE_TYPE_EVENEME</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>nom événement</code>
+                                <physicalName>NOM_TYPE_EVENEME</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>commentaire</code>
+                                <physicalName>COMME</physicalName>
+                                <baseType>memo</baseType>
+                                <length>500</length>
+                            </property>
+                            <property>
+                                <code>date1?</code>
+                                <physicalName>DATE1</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>règle date1</code>
+                                <physicalName>REGLE_DATE1</physicalName>
+                                <baseType>memo</baseType>
+                                <length>500</length>
+                            </property>
+                            <property>
+                                <code>date2?</code>
+                                <physicalName>DATE2</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>règle date2</code>
+                                <physicalName>REGLE_DATE2</physicalName>
+                                <baseType>memo</baseType>
+                                <length>500</length>
+                            </property>
+                            <property>
+                                <code>date3?</code>
+                                <physicalName>DATE3</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>règle date3</code>
+                                <physicalName>REGLE_DATE3</physicalName>
+                                <baseType>memo</baseType>
+                                <length>500</length>
+                            </property>
+                            <property>
+                                <code>valeur1?</code>
+                                <physicalName>VALEUR1</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>règle valeur1</code>
+                                <physicalName>REGLE_VALEUR1</physicalName>
+                                <baseType>memo</baseType>
+                                <length>500</length>
+                            </property>
+                            <property>
+                                <code>valeur2?</code>
+                                <physicalName>VALEUR2</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>règle valeur2</code>
+                                <physicalName>REGLE_VALEUR2</physicalName>
+                                <baseType>memo</baseType>
+                                <length>500</length>
+                            </property>
+                            <property>
+                                <code>valeur3?</code>
+                                <physicalName>VALEUR3</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>règle valeur3</code>
+                                <physicalName>REGLE_VALEUR3</physicalName>
+                                <baseType>memo</baseType>
+                                <length>500</length>
+                            </property>
+                        </properties>
+                        <foreigns/>
+                    </concept>
+                    <concept>
+                        <code>EVENEMENT ACTIVITE</code>
+                        <physicalName>EVENEME</physicalName>
+                        <properties>
+                            <property>
+                                <code>numéro évé</code>
+                                <physicalName>NUMERO_EVEACT</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>Date enregistrement</code>
+                                <physicalName>DATE_EN</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>Date fermeture</code>
+                                <physicalName>DATE_FE</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>date alarme</code>
+                                <physicalName>DATE_ALARME</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>complété?</code>
+                                <physicalName>COMPLET</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>commentaire</code>
+                                <physicalName>COMMENTA</physicalName>
+                                <baseType>memo</baseType>
+                                <length>500</length>
+                            </property>
+                            <property>
+                                <code>date1</code>
+                                <physicalName>DATE1</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>date2</code>
+                                <physicalName>DATE2</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>date3</code>
+                                <physicalName>DATE3</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>valeur1</code>
+                                <physicalName>VALEUR1</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>valeur2</code>
+                                <physicalName>VALEUR2</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>valeur3</code>
+                                <physicalName>VALEUR3</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>C-124</code>
+                                <alias>FAMILLE EVENEMENT-EVENEMENT ACTIVITE</alias>
+                                <baseConcept>FAMILLE EVENEMENT</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>suivi1</code>
+                                <alias>ACTIVITE REDACTION-EVENEMENT ACTIVITE</alias>
+                                <baseConcept>ACTIVITE REDACTION</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>A-50</code>
+                                <alias>TYPE EVENEMENT-EVENEMENT ACTIVITE</alias>
+                                <baseConcept>TYPE EVENEMENT</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>DEM ADM PROG</code>
+                        <physicalName>DEM_ADM</physicalName>
+                        <properties>
+                            <property>
+                                <code>Date envoi</code>
+                                <physicalName>DATE_ENVOI</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>Date réponse</code>
+                                <physicalName>DATE_REPONSE</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>Date accusé réception</code>
+                                <physicalName>DATE_ACCUS_RECEP</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>Date relance</code>
+                                <physicalName>DATE_RELANCE</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>Réponse</code>
+                                <physicalName>REPONSE</physicalName>
+                                <baseType>memo</baseType>
+                                <length>500</length>
+                            </property>
+                            <property>
+                                <code>commentaire</code>
+                                <physicalName>COMMENTA</physicalName>
+                                <baseType>memo</baseType>
+                                <length>500</length>
+                            </property>
+                            <property>
+                                <code>BR-607 et BR-600</code>
+                                <physicalName>BR_60_ET_BR_60</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>CV</code>
+                                <physicalName>CV</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>Notes 1 cycle</code>
+                                <physicalName>NOTES_1_CYCLE</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>recommandations</code>
+                                <physicalName>RECOM</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>doc complémentaire (Phd)</code>
+                                <physicalName>DOC_COMPL__PHD_</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>notes 2 cycle</code>
+                                <physicalName>NOTES_2_CYCLE</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>A-56</code>
+                                <alias>PROGRAMME-DEM ADM PROG</alias>
+                                <baseConcept>PROGRAMME</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>A-45</code>
+                                <alias>DEMANDE ADMISSION-DEM ADM PROG</alias>
+                                <baseConcept>DEMANDE ADMISSION</baseConcept>
+                                <baseMin>1</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>CHEMINEMENT PA</code>
+                        <physicalName>CHEMINE</physicalName>
+                        <properties>
+                            <property>
+                                <code>code cheminement</code>
+                                <physicalName>CODE_CHEMINE</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>nom</code>
+                                <physicalName>NOM</physicalName>
+                                <baseType>nomlong</baseType>
+                                <length>80</length>
+                            </property>
+                            <property>
+                                <code>date établissement</code>
+                                <physicalName>DATE_ETABLIS</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>date modification</code>
+                                <physicalName>DATE_MODIFIC</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>version</code>
+                                <physicalName>VERSION</physicalName>
+                                <baseType>nombre</baseType>
+                                <length>4</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>responsable chem</code>
+                                <alias>PROFESSEUR-CHEMINEMENT PA</alias>
+                                <baseConcept>PROFESSEUR</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>établi pour</code>
+                                <alias>PROGRAMME-CHEMINEMENT PA</alias>
+                                <baseConcept>PROGRAMME</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>Support principal</code>
+                                <alias>DEPARTEMENT-CHEMINEMENT PA</alias>
+                                <baseConcept>DEPARTEMENT</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>FORMATION</code>
+                        <physicalName>FORMATI</physicalName>
+                        <properties>
+                            <property>
+                                <code>Date diplomation</code>
+                                <physicalName>DATE_DI</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>Statut</code>
+                                <physicalName>STATUT</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>dirigé par</code>
+                                <alias>PROFESSEUR-FORMATION</alias>
+                                <baseConcept>PROFESSEUR</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-120</code>
+                                <alias>FAMILLE-FORMATION</alias>
+                                <baseConcept>FAMILLE</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>A-47</code>
+                                <alias>DEM ADM PROG-FORMATION</alias>
+                                <baseConcept>DEM ADM PROG</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>1</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>MEMBRE EXT</code>
+                        <physicalName>MEMBRE_2</physicalName>
+                        <properties/>
+                        <foreigns>
+                            <foreign>
+                                <code>C-73</code>
+                                <alias>ACTIVITE REDACTION-MEMBRE EXT</alias>
+                                <baseConcept>ACTIVITE REDACTION</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-140</code>
+                                <alias>MEMBRE EXTERNE-MEMBRE EXT</alias>
+                                <baseConcept>MEMBRE EXTERNE</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>MEMBRE EXTERNE</code>
+                        <physicalName>MEMBRE_1</physicalName>
+                        <properties>
+                            <property>
+                                <code>Membre externe</code>
+                                <physicalName>CODE_MEMBRE_EXTERN</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>Nom Externe</code>
+                                <physicalName>NOM_EXTERNE</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                                <isNullable>False</isNullable>
+                            </property>
+                            <property>
+                                <code>Prénom Externe</code>
+                                <physicalName>PRENOM_EXTERNE</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>habilité ?</code>
+                                <physicalName>HABILIT__</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>Tél travail</code>
+                                <physicalName>TELEPHO_TRAVAIL</physicalName>
+                                <baseType>tel</baseType>
+                                <length>12</length>
+                            </property>
+                            <property>
+                                <code>Tél maison</code>
+                                <physicalName>TELEPHO_MAISON</physicalName>
+                                <baseType>tel</baseType>
+                                <length>12</length>
+                            </property>
+                            <property>
+                                <code>Fax</code>
+                                <physicalName>NUMERO_FAX</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                            </property>
+                            <property>
+                                <code>Adresse internet</code>
+                                <physicalName>ADRESSE_INTERNE</physicalName>
+                                <baseType>internet</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>Adresse</code>
+                                <physicalName>ADRESSE</physicalName>
+                                <baseType>adresse</baseType>
+                                <length>120</length>
+                            </property>
+                            <property>
+                                <code>date habilitation</code>
+                                <physicalName>DATE_HABILIT</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                        </properties>
+                        <foreigns/>
+                    </concept>
+                    <concept>
+                        <code>CONSTITUE</code>
+                        <physicalName>CONSTIT</physicalName>
+                        <properties>
+                            <property>
+                                <code>obligatoire?</code>
+                                <physicalName>OBLIGAT</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>C-145</code>
+                                <alias>PHASE-CONSTITUE</alias>
+                                <baseConcept>PHASE</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-146</code>
+                                <alias>PROGRAMME-CONSTITUE</alias>
+                                <baseConcept>PROGRAMME</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>PROGRAMME</code>
+                        <physicalName>PROGRAM</physicalName>
+                        <properties>
+                            <property>
+                                <code>Programme</code>
+                                <physicalName>NUMERO_PROGRAM</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>Nom Programme</code>
+                                <physicalName>NOM_PROGRAMME</physicalName>
+                                <baseType>nomlong</baseType>
+                                <length>80</length>
+                            </property>
+                            <property>
+                                <code>Type</code>
+                                <physicalName>TYPEP</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>Cycle</code>
+                                <physicalName>CYCLE</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                            </property>
+                            <property>
+                                <code>Nb_crédits</code>
+                                <physicalName>NB_CRED</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                            </property>
+                        </properties>
+                        <foreigns/>
+                    </concept>
+                    <concept>
+                        <code>REALISATION_COURS</code>
+                        <physicalName>REALISA</physicalName>
+                        <properties>
+                            <property>
+                                <code>Obligatoire?</code>
+                                <physicalName>OBLIGAT</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>C-148</code>
+                                <alias>PHASE-REALISATION_COURS</alias>
+                                <baseConcept>PHASE</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-147</code>
+                                <alias>COURS-REALISATION_COURS</alias>
+                                <baseConcept>COURS</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>PRE CATALOGUE</code>
+                        <physicalName>PRE_CAT</physicalName>
+                        <properties/>
+                        <foreigns>
+                            <foreign>
+                                <code>C-152</code>
+                                <alias>COURS-PRE CATALOGUE</alias>
+                                <baseConcept>COURS</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-153</code>
+                                <alias>COURS-PRE CATALOGUE</alias>
+                                <baseConcept>COURS</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>REPONDANT</code>
+                        <physicalName>REPONDA</physicalName>
+                        <properties>
+                            <property>
+                                <code>No répondant</code>
+                                <physicalName>NO_REPONDA</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>Nom Répondant</code>
+                                <physicalName>NOM_REPONDANT</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>Prénom Répondant</code>
+                                <physicalName>PRENOM_REPONDANT</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>Adresse</code>
+                                <physicalName>ADRESSE</physicalName>
+                                <baseType>adresse</baseType>
+                                <length>120</length>
+                            </property>
+                            <property>
+                                <code>Tél</code>
+                                <physicalName>NUMERO_TEL_</physicalName>
+                                <baseType>tel</baseType>
+                                <length>12</length>
+                            </property>
+                            <property>
+                                <code>Note</code>
+                                <physicalName>NOTE</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                            </property>
+                            <property>
+                                <code>Compagnie</code>
+                                <physicalName>COMPAGN</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>date envoi lettre</code>
+                                <physicalName>DATE_ENVOI_LETTRE</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>date reception lettre</code>
+                                <physicalName>DATE_RECEPTI_LETTR</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>Lettre_recommandation</code>
+                                <alias>DEMANDE ADMISSION-REPONDANT</alias>
+                                <baseConcept>DEMANDE ADMISSION</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>DEMANDE ADMISSION</code>
+                        <physicalName>DEMANDE</physicalName>
+                        <properties>
+                            <property>
+                                <code>Entrée</code>
+                                <physicalName>TRIMEST_ENTREE</physicalName>
+                                <baseType>trimestre</baseType>
+                                <length>6</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>Date réception</code>
+                                <physicalName>DATE_RECEPTI</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>C-119</code>
+                                <alias>FAMILLE-DEMANDE ADMISSION</alias>
+                                <baseConcept>FAMILLE</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>Report</code>
+                                <alias>DEMANDE ADMISSION-DEMANDE ADMISSION</alias>
+                                <baseConcept>DEMANDE ADMISSION</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>demande</code>
+                                <alias>ETUDIANT-DEMANDE ADMISSION</alias>
+                                <baseConcept>ETUDIANT</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>COMPTE</code>
+                        <physicalName>COMPTE</physicalName>
+                        <properties>
+                            <property>
+                                <code>Numéro facturation</code>
+                                <physicalName>NUMERO_FACTURA</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>Date facturation</code>
+                                <physicalName>DATE_FACTURA</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>Date échéance</code>
+                                <physicalName>DATE_EC</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>Solde</code>
+                                <physicalName>SOLDE</physicalName>
+                                <baseType>argent</baseType>
+                                <length>12</length>
+                                <decLength>2</decLength>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>est facturé</code>
+                                <alias>ETUDIANT-COMPTE</alias>
+                                <baseConcept>ETUDIANT</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>INSCRIPTION</code>
+                        <physicalName>INSCRIP</physicalName>
+                        <properties>
+                            <property>
+                                <code>Trimestre</code>
+                                <physicalName>TRIMEST</physicalName>
+                                <baseType>trimestre</baseType>
+                                <length>6</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>A-48</code>
+                                <alias>FORMATION-INSCRIPTION</alias>
+                                <baseConcept>FORMATION</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>DEPARTEMENT</code>
+                        <physicalName>DEPARTE</physicalName>
+                        <properties>
+                            <property>
+                                <code>Département</code>
+                                <physicalName>SIGLE</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>Nom Département</code>
+                                <physicalName>NOM_DEPARTEMENT</physicalName>
+                                <baseType>nomlong</baseType>
+                                <length>80</length>
+                            </property>
+                        </properties>
+                        <foreigns/>
+                    </concept>
+                    <concept>
+                        <code>DISPENSE</code>
+                        <physicalName>DISPENS</physicalName>
+                        <properties/>
+                        <foreigns>
+                            <foreign>
+                                <code>C-163</code>
+                                <alias>PROFESSEUR-DISPENSE</alias>
+                                <baseConcept>PROFESSEUR</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-154</code>
+                                <alias>COURS-DISPENSE</alias>
+                                <baseConcept>COURS</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>MEMBRE INTERNE</code>
+                        <physicalName>MEMBRE_</physicalName>
+                        <properties/>
+                        <foreigns>
+                            <foreign>
+                                <code>C-141</code>
+                                <alias>PROFESSEUR-MEMBRE INTERNE</alias>
+                                <baseConcept>PROFESSEUR</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                            <foreign>
+                                <code>C-74</code>
+                                <alias>ACTIVITE REDACTION-MEMBRE INTERNE</alias>
+                                <baseConcept>ACTIVITE REDACTION</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>1</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>COURS</code>
+                        <physicalName>COURS</physicalName>
+                        <properties>
+                            <property>
+                                <code>Cours</code>
+                                <physicalName>NUMERO_DU_COURS</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>Type</code>
+                                <physicalName>TYPEC</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>Nombre de crédits</code>
+                                <physicalName>NOMBRE_DE_CREDITS</physicalName>
+                                <baseType>nombre</baseType>
+                                <length>4</length>
+                            </property>
+                            <property>
+                                <code>Description</code>
+                                <physicalName>DESCRIP</physicalName>
+                                <baseType>nomlong</baseType>
+                                <length>80</length>
+                            </property>
+                            <property>
+                                <code>Objectifs</code>
+                                <physicalName>OBJECTI</physicalName>
+                                <baseType>memo</baseType>
+                                <length>500</length>
+                            </property>
+                            <property>
+                                <code>Version</code>
+                                <physicalName>VERSION</physicalName>
+                                <baseType>nombre</baseType>
+                                <length>4</length>
+                            </property>
+                            <property>
+                                <code>Syllabus</code>
+                                <physicalName>SYLLABU</physicalName>
+                                <baseType>memo</baseType>
+                                <length>500</length>
+                            </property>
+                            <property>
+                                <code>type de resultat</code>
+                                <physicalName>TYPE_DE_RESULTA</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                            </property>
+                            <property>
+                                <code>Offre permanente?</code>
+                                <physicalName>OFFRE_PERMANE</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>Nom Cours</code>
+                                <physicalName>NOM_COURS</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>modification titre</code>
+                                <physicalName>MODIFI_TITRE</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>modification crédits</code>
+                                <physicalName>MODIFI_CREDIT</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>Automne</code>
+                                <physicalName>AUTOMN</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>Hiver</code>
+                                <physicalName>HIVER</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>Été</code>
+                                <physicalName>ETE</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>R</code>
+                                <physicalName>R</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>Offre externe</code>
+                                <physicalName>OFFRE_EXTERN</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>Formule</code>
+                                <physicalName>FORMUL</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>PR1</code>
+                                <physicalName>PR1</physicalName>
+                                <baseType>nombre</baseType>
+                                <length>4</length>
+                            </property>
+                            <property>
+                                <code>PR2</code>
+                                <physicalName>PR2</physicalName>
+                                <baseType>nombre</baseType>
+                                <length>4</length>
+                            </property>
+                            <property>
+                                <code>PR3</code>
+                                <physicalName>PR3</physicalName>
+                                <baseType>nombre</baseType>
+                                <length>4</length>
+                            </property>
+                            <property>
+                                <code>PRe</code>
+                                <physicalName>PRE</physicalName>
+                                <baseType>nombre</baseType>
+                                <length>4</length>
+                            </property>
+                        </properties>
+                        <foreigns>
+                            <foreign>
+                                <code>cours/dépt</code>
+                                <alias>DEPARTEMENT-COURS</alias>
+                                <baseConcept>DEPARTEMENT</baseConcept>
+                                <baseMin>0</baseMin>
+                                <baseMax>N</baseMax>
+                                <refMin>0</refMin>
+                                <refMax>1</refMax>
+                            </foreign>
+                        </foreigns>
+                    </concept>
+                    <concept>
+                        <code>ETUDIANT</code>
+                        <physicalName>ETUDIAN</physicalName>
+                        <properties>
+                            <property>
+                                <code>Dossier</code>
+                                <physicalName>NUMERO_DE_DOSSIER</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                                <isNullable>False</isNullable>
+                                <isUnique>True</isUnique>
+                            </property>
+                            <property>
+                                <code>Nom Étudiant</code>
+                                <physicalName>NOM_ETUDIANT</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>Prénom Étudiant</code>
+                                <physicalName>PRENOM_ETUDIANT</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>Adresse</code>
+                                <physicalName>ADRESSE</physicalName>
+                                <baseType>adresse</baseType>
+                                <length>120</length>
+                            </property>
+                            <property>
+                                <code>Date naissance</code>
+                                <physicalName>DATE_DE_NAISSAN</physicalName>
+                                <baseType>datejour</baseType>
+                            </property>
+                            <property>
+                                <code>Tél travail</code>
+                                <physicalName>TELEPHO_TRAVAIL</physicalName>
+                                <baseType>tel</baseType>
+                                <length>12</length>
+                            </property>
+                            <property>
+                                <code>Tél maison</code>
+                                <physicalName>TELEPHO_MAISON</physicalName>
+                                <baseType>tel</baseType>
+                                <length>12</length>
+                            </property>
+                            <property>
+                                <code>Langue maternelle</code>
+                                <physicalName>LANGUE_MATERNE</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>Langue d'usage</code>
+                                <physicalName>LANGUE_D_USAGE</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>Lieu de naissance</code>
+                                <physicalName>LIEU_DE_NAISSAN</physicalName>
+                                <baseType>nom</baseType>
+                                <length>30</length>
+                            </property>
+                            <property>
+                                <code>Handicapé?</code>
+                                <physicalName>HANDICA</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>Code permanent</code>
+                                <physicalName>CODE_PERMANE_ETUDI</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                            </property>
+                            <property>
+                                <code>DEC?</code>
+                                <physicalName>DEC_</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>Publication?</code>
+                                <physicalName>PUBLICA</physicalName>
+                                <baseType>oui_non?</baseType>
+                                <length>3</length>
+                            </property>
+                            <property>
+                                <code>Statut</code>
+                                <physicalName>STATUT</physicalName>
+                                <baseType>code</baseType>
+                                <length>12</length>
+                            </property>
+                        </properties>
+                        <foreigns/>
+                    </concept>
+                </concepts>
+            </model>
+        </models>
+    </domain>
+</domains>

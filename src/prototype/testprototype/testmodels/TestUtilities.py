@@ -54,14 +54,36 @@ def createTestEntity():
     return testEntity
 
 
+def createTestPropertyBaseChild():
+    propertyBaseChilddata = {
+        'code' : 'testcode',
+        'baseType' : 'testbaseType',
+        'prpLength' : 15,
+        'prpScale' : 12,
+        'vType' : 'testvType',
+        'prpDefault' : 'testprpDefault',
+        'prpChoices' : 'testprpChoices',
+        'isSensitive' : True,
+        'description' : '',
+        'notes' : ''
+    }
+    
+    testProperty = PropertyBaseChild(**propertyBaseChilddata)
+    testProperty.save()
+
+    return testProperty
+
 
 def createTestProperty():
     testEntity = createTestEntity()
     testEntity.save()
 
+    testPropertyModel = createTestPropertyModel()
+    testPropertyModel.save()
 
     propertydata = {
         'entity': testEntity,
+        'propertyModel': testPropertyModel,
         'isPrimary': True,
         'isLookUpResult': True,
         'isNullable': True,
@@ -87,9 +109,12 @@ def createTestRelationship():
     testEntity2 = createTestEntity()
     testEntity2.save()
 
+    testPropertyModel = createTestPropertyModel()
+    testPropertyModel.save()
 
     relationshipdata = {
         'refEntity': testEntity1,
+        'relatedName': 'testPropertyModel',
         'baseMin': 'testBaseMin',
         'baseMax': 'testBaseMax',
         'refMin': 'testRefMin',
@@ -98,6 +123,7 @@ def createTestRelationship():
         'typeRelation': 'testTypeRelation',
 
         'entity': testEntity2,
+        'propertyModel': testPropertyModel,
         'isPrimary': True,
         'isLookUpResult': True,
         'isNullable': True,
@@ -115,16 +141,32 @@ def createTestRelationship():
 
     return testRelationShip
 
+def createTestPropertyModel():
+    testModel = createTestModel()
+    testModel.save()
+
+    propertymodeldata = {
+        'model': testModel,
+        'inherit': False,
+        'conceptType': 'testConceptType',
+        'isSensitive' : False
+    }
+
+    testPropertyModel = PropertyModel(**propertymodeldata)
+    testPropertyModel.save()
+
+    return testPropertyModel
+
 
 def createTestPropertyEquivalence():
-    testProperty1 = createTestProperty()
-    testProperty1.save()
-    testProperty2 = createTestProperty()
-    testProperty2.save()
+    testPropertyModel1 = createTestPropertyModel()
+    testPropertyModel1.save()
+    testPropertyModel2 = createTestPropertyModel()
+    testPropertyModel2.save()
 
     propertyequivalencedata = {
-        'sourceProperty': testProperty1,
-        'targetProperty': testProperty2,
+        'sourceProperty': testPropertyModel1,
+        'targetProperty': testPropertyModel2,
         'description': 'testDescription'
     }
 

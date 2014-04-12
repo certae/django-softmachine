@@ -151,7 +151,8 @@ def getDbSchemaDef( dProject , request  ):
         
         defValuesEnt = pEntity.copy()
         defValuesEnt['model'] = dModel
-        if 'properties' in defValuesEnt: del defValuesEnt['properties']
+        if 'properties' in defValuesEnt:
+            del defValuesEnt['properties']
         
         pEntity['dataEntity']  = Entity.objects.get_or_create( 
                                               model = dModel,  
@@ -197,11 +198,13 @@ def saveProperty( dEntity, pProperty, defValues, userProfile, prpName, seq   ):
 def saveRelation( dProject, dEntity, dModel, pProperty,  defValues, userProfile, prpName, seq   ):
 
     refName = pProperty['refEntity']                
-    if refName in  ['self', "'self'"]:  refName = dEntity.code 
+    if refName in  ['self', "'self'"]:
+        refName = dEntity.code 
     
     pRefEntity =  pEntities.get(  refName , None )
     if pRefEntity is None:
-        if not 'notes' in pProperty: pProperty[ 'notes' ] = ''  
+        if not 'notes' in pProperty:
+            pProperty[ 'notes' ] = ''  
         pProperty[ 'notes' ] += 'refEntity ( {0} ) not found;'.format( refName )   
         saveProperty( dEntity, pProperty, defValues, userProfile, prpName,  seq  )
         return 
@@ -224,7 +227,8 @@ def saveRelation( dProject, dEntity, dModel, pProperty,  defValues, userProfile,
     except IntegrityError:
         transaction.rollback()
         prpName = '{0}.{1}'.format( prpName.split('.')[0] , seq ) 
-        if not 'notes' in pProperty: pProperty[ 'notes' ] = ''  
+        if not 'notes' in pProperty:
+            pProperty[ 'notes' ] = ''  
         pProperty[ 'notes' ] += 'duplicate field {0} rename to {1};'.format( prpName.split('.')[0], prpName )
            
         saveRelation( dProject, dEntity, dModel, pProperty,  defValues, userProfile, prpName, seq + 1 )

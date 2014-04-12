@@ -1,5 +1,16 @@
 # -*- coding: utf-8 -*-
 
+"""
+
+140325:  Before merge 
+	Drop PropertyEquivalence 
+	Drop PropertyModel 
+	Drop Diagram
+	Drop DiagramEntity 
+
+	Do syncDb
+"""
+
 from django.db import models
 from django.db.models.signals import post_save, post_delete 
 
@@ -70,7 +81,7 @@ class Project(ProtoModel):
             { "name": "doImportSchema" },
             { "name": "doImportOMS", "selectionMode" : "single",
               "actionParams": [
-                {"name" : "viewCode", "type" : "string", "required": True, "tooltip" : "option de menu (msi)" }
+                # {"name" : "fileName", "type" : "string", "required": False, "tooltip" : "option de menu (msi)" }
                 ] 
             }
         ],
@@ -323,14 +334,22 @@ class PropertyEquivalence(ProtoModel):
     class Meta:
         unique_together = ('sourceProperty', 'targetProperty', 'smOwningTeam')
 
+    def delete(self, *args, **kwargs):
+#       twoWayPropEquivalence( self, PropertyEquivalence, True )
+        super(PropertyEquivalence, self).delete(*args, **kwargs)
+
 
     protoExt = { 
-#        "menuApp" : "dictionary", 
+#       "menuApp" : "dictionary", 
         "gridConfig" : {
             "listDisplay": ["__str__", "description", "smOwningTeam"]      
         }
     } 
 
+# def propEquivalence_post_save(sender, instance, created, **kwargs):
+#     twoWayPropEquivalence( instance, PropertyEquivalence, False )
+
+# post_save.connect(propEquivalence_post_save, sender = PropertyEquivalence)
     
 # This way when the save() method is called, 
 # it never fires another post_save signal because we've disconnected it.
@@ -389,8 +408,10 @@ class ProtoTable(ProtoModel):
         # Evalua el string de prototipos
         val = ''
         for arg in args:
-            try: val = val + '.' + slugify(self.info.get(arg[6:]))
-            except: pass 
+            try:
+                val = val + '.' + slugify( self.info.get( arg[6:] ) )
+            except:
+                pass 
         return  val[1:] 
 
     objects = JSONAwareManager(json_fields=['info'])
@@ -405,11 +426,8 @@ class ProtoTable(ProtoModel):
 
 #   --------------------------------------------------------------------------------
 
-
 class Diagram(ProtoModel):
-    """ 
-    TODO: Diagrama o subModelo   
-    """    
+
     project = models.ForeignKey('Project', blank=False, null=False)
     code = models.CharField(blank=False, null=False, max_length=200)
     
@@ -481,66 +499,3 @@ class DiagramEntity(ProtoModel):
 
     class Meta:
         unique_together = ('diagram', 'entity', 'smOwningTeam')
-
-
-#   --------------------------------------------------------------------------------
-        
-
-class Service(ProtoModel):
-    """ 
-    TODO: Servicios entre modelos ( entidades virtuales )    
-    """    
-    model = models.ForeignKey('Model', blank=False, null=False)
-    code = models.CharField(blank=False, null=False, max_length=200)
-
-    """Binding : SOAP, RPC, REST, DCOM, CORBA, DDS, RMI, WCF """
-    Binding = models.CharField(blank=True, null=True, max_length=20)
-    typeMessage = models.CharField(blank=True, null=True, max_length=20)
-       
-    description = models.TextField(blank=True, null=True)
-    notes = models.TextField(blank=True, null=True)
-
-    """REST subtypes ( POST, GET ),  notation ( XML, JSON ), etc  ... """ 
-    infoMesage = JSONField(default={})
-
-    """Message information """
-    infoRequest = JSONField(default={})
-    infoReponse = JSONField(default={})
-    objects = JSONAwareManager(json_fields=['infoMesage', 'infoRequest', 'infoReponse' ])
-
-    # Propieadad para ordenar el __str__ 
-    unicode_sort = ('model', 'code',)
-
-    def __unicode__(self):
-        return slugify(self.model.code + '-' + self.code) 
-
-    class Meta:
-        unique_together = ('model', 'code', 'smOwningTeam')
-
-    protoExt = { 
-        "menuApp" : "Others",
-        } 
-
-
-class ServiceRef(ProtoModel):
-    """ 
-    TODO: Cliente Servicios entre modelos ( entidades virtuales )    
-    """    
-    model = models.ForeignKey('Model', blank=False, null=False)
-    service = models.ForeignKey('Service', blank=False, null=False)
-
-    endpoint = models.CharField(blank=True, null=True, max_length=200)
-
-    description = models.TextField(blank=True, null=True)
-    notes = models.TextField(blank=True, null=True)
-
-    # Propieadad para ordenar el __str__ 
-    unicode_sort = ('model', 'service',)
-
-    def __unicode__(self):
-        return slugify(self.model.code + '-' + self.service.code) 
-
-    class Meta:
-        unique_together = ('model', 'service', 'smOwningTeam')
-
-    

@@ -34,7 +34,8 @@ def protoGetDetailsTree(request):
     if viewCode.startswith( PROTO_PREFIX )  and viewCode != viewEntity :
         # -------------------------------------------------------------------------  Prototipos 
         protoEntityId = request.POST.get( 'protoEntityId' )
-        if not protoEntityId >= 0: return JsonError( 'invalid idEntity')
+        if not protoEntityId >= 0:
+            return JsonError('invalid idEntity')
 
         try:  
             from prototype.actions.viewDefinition import GetDetailsConfigTree
@@ -64,7 +65,8 @@ def addDetailToList(  detailList , detail,  detailPath   ):
     """
 
 
-    if len( detailPath ) > 0: detailPath += '/'  
+    if len( detailPath ) > 0:
+        detailPath += '/'  
     detailPath +=  detail[ 'menuText' ]
     
 

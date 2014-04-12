@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# import sys
 
 # Importa el sitio con las collecciones admin ya definidas
 from django.db import models
@@ -19,7 +18,8 @@ from utilsBase import verifyList
 from prototype.models import Prototype 
 PROTO_PREFIX = "prototype.ProtoTable."
 
-class cAux: pass 
+class cAux: 
+    pass 
 
 
 # Ix tree 
@@ -57,21 +57,28 @@ def protoGetMenuData(request):
         appCode = model._meta.app_label
         
         # Define la rama del menu 
-        try: menuLabel = model.protoExt["menuApp"]
-        except: menuLabel = appCode  
+        try:
+            menuLabel = model.protoExt["menuApp"]
+        except:
+            menuLabel = appCode  
         
-        if menuLabel in ['contenttypes', 'sites']: menuLabel = 'auth' 
+        if menuLabel in ['contenttypes', 'sites']:
+            menuLabel = 'auth' 
         
         # Verifica q el usuairo tenga permiso, considera el admin 
-        if not getModelPermissions(currentUser, model, 'menu') : return  
+        if not getModelPermissions(currentUser, model, 'menu') :
+            return  
         
         pTitle = protoAdmin.get('title', model._meta.verbose_name.title())
     
         # Obtiene el menu de settigs.PROTO_APP          
-        try: menuDefinition = settings.PROTO_APP.get('app_menu', {}).get(menuLabel, {}) 
-        except: menuDefinition = {}
+        try:
+            menuDefinition = settings.PROTO_APP.get('app_menu', {}).get(menuLabel, {}) 
+        except:
+            menuDefinition = {}
             
-        if menuDefinition.get('hidden', False): return  
+        if menuDefinition.get('hidden', False):
+            return  
     
         # Icono por defecto
         viewIcon = protoAdmin.get('viewIcon', 'icon-1')
@@ -183,14 +190,13 @@ def protoGetMenuData(request):
 
             ix += 1 
 
-
         # Pega el menu sobre la definicion anterior  
         try: 
             menuAux = []
             menuTmp = verifyList(json.loads(protoDef.metaDefinition))
             for menuOp in menuTmp:
-                if menuOp.get('text', '') == 'AutoMenu': continue  
-                menuAux.append (menuOp) 
+                if menuOp.get( 'text', '') != 'AutoMenu':
+                    menuAux.append (menuOp) 
 
             menuAux.append({
                     'id': 'prototype.auto.nodes' ,
@@ -228,7 +234,7 @@ def getNodeBaseProto(prNodes, option):
     return prNBase
     
 
-def getNodeBaseViews(prNodes, option ):
+def getNodeBaseViews(prNodes, option):
 
     lApp, lMod = option.code.split(".")[0:2]
     
@@ -237,7 +243,7 @@ def getNodeBaseViews(prNodes, option ):
     return prNBase
 
 
-def getMenuNode(prNodes, optText ):
+def getMenuNode(prNodes, optText):
 
     global ix 
 

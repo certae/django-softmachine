@@ -207,7 +207,6 @@ def _protoEdit(request, myAction):
 
             except Exception, e:
                 data['_ptStatus'] = data['_ptStatus'] + getReadableError(e)
-                pass
 
         pList.append(data)
 
@@ -225,10 +224,11 @@ def _protoEdit(request, myAction):
 
     return HttpResponse(json.dumps(context, cls=JSONEncoder), content_type="application/json")
 
+
 def setSecurityInfo(rec, data, userProfile, insAction):
     """
-    rec      : registro al q se agrega la info de seguridad
-    data     : objeto buffer q puede ser {} utilizado para retornar la info guardad
+    rec      : record that the security info is added
+    data     : buffer object {} that can be used to return the saved info
     insAction: True if insert,  False if update
     """
     setProtoData(rec, data, 'smModifiedBy', userProfile.user)

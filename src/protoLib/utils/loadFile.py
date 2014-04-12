@@ -6,7 +6,6 @@
 from protoLib.utilsWeb import JsonError
 
 # from protoLibExt.models import UserFiles
-# from protoLibExt.forms import UserFilesForm
 
 def loadFiles(request):
     """ return full field tree 
@@ -32,7 +31,7 @@ def loadFiles(request):
             dest.write(fileObj.read())
         dest.close()
 
-    
+
 
     # form = DocumentForm( request.POST, request.FILES )
     # if form.is_valid():
@@ -56,3 +55,7 @@ def loadFiles(request):
     #     context_instance=RequestContext(request)
     # )
 
+# class UserFilesForm(forms.Form):
+#     docfile = forms.FileField(
+#     label='Select a file'
+#     )

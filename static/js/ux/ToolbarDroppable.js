@@ -79,7 +79,7 @@
             index = 0,
             el, xTotal, width, midpoint;
  
-        for (; index < count; index++) {
+        for (index = 0; index < count; index++) {
             el = items[index].getEl();
             xTotal = el.getXY()[0];
             width = el.getWidth();

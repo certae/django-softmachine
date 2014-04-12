@@ -9,6 +9,7 @@
 
  */
 
+/*jslint nomen: true, sloppy : true, white : true, sub : true */
 /*global Ext, _SM  */
 /*global Meta2Tree, Tree2Meta */
 
@@ -24,7 +25,6 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
     initComponent : function() {
 
         var me = this;
-
 
         Ext.apply(this, {
             layout : 'border',
@@ -49,97 +49,96 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
 
     updateFormTree : function() {
         // Genera el arbol a partir de la meta
-        var treeData = Meta2Tree( this.myMeta.formConfig, 'formConfig', 'formConfig'  );
+        var treeData = Meta2Tree(this.myMeta.formConfig, 'formConfig', 'formConfig');
         treeData.expanded = true;
 
-        this.formTree.getStore().setRootNode( treeData );
+        this.formTree.getStore().setRootNode(treeData);
 
     },
 
     onClickRedraw : function(myObj) {
 
-        this.formPreview.removeAll( true )
+        var formMeta, myForm;
 
-        var formMeta =  Tree2Meta( this.formTree.store.getRootNode() )
-        this.myMeta.formConfig = formMeta
-        this.formController.myMeta.formConfig = formMeta
+        this.formPreview.removeAll(true);
 
-        var myForm =  this.formController.newProtoForm()
-        myForm.setFormReadOnly( true )
-        this.formPreview.add( myForm  )
+        formMeta = Tree2Meta(this.formTree.store.getRootNode());
+        this.myMeta.formConfig = formMeta;
+        this.formController.myMeta.formConfig = formMeta;
+
+        myForm = this.formController.newProtoForm();
+        myForm.setFormReadOnly(true);
+        this.formPreview.add(myForm);
 
     },
 
     doFormatLayout : function(myObj) {
 
-        var me = this
+        var me = this, ix, myForm, vNod, propsGrid;
 
-        this.toolsPanel = me.down('#toolsPanel')
-        this.toolsTabs = me.down('#toolsTabs')
-        this.formTree = me.down('#formTree')
-        this.formPreview = me.down('#formPreview')
+        this.toolsPanel = me.down('#toolsPanel');
+        this.toolsTabs = me.down('#toolsTabs');
+        this.formTree = me.down('#formTree');
+        this.formPreview = me.down('#formPreview');
 
-        this.formController = Ext.create('ProtoUL.UI.FormController', { myMeta : me.myMeta });
+        this.formController = Ext.create('ProtoUL.UI.FormController', {
+            myMeta : me.myMeta
+        });
 
-        var myForm =  this.formController.newProtoForm()
+        myForm = this.formController.newProtoForm();
 
-//      -------------  Nested functions
-        function getTreeNodeByText( treeData, textKey ) {
+        //      -------------  Nested functions
+        function getTreeNodeByText(treeData, textKey) {
             // recupera un nodo del arbol segun su texto, para los fields y los details
-            for (var ix in treeData ) {
-                var vNod  =  treeData[ix];
+            for (ix in treeData ) {
+                vNod = treeData[ix];
                 if (vNod.text == textKey) {
                     return vNod;
                 }
             }
             // No deberia nunca llegar aqui
-            return {}
+            return {};
         }
 
+        //      --------------- function body
 
-//      --------------- function body
+        myForm.setFormReadOnly(true);
+        this.formPreview.add(myForm);
 
-        myForm.setFormReadOnly( true );
-        this.formPreview.add( myForm  );
-
-        this.tBar =  this.toolsPanel.addDocked({
-            xtype : 'toolbar',
-            dock : 'top',
-            items : myObj.tbar
+        this.tBar = this.toolsPanel.addDocked({
+        xtype : 'toolbar',
+        dock : 'top',
+        items : myObj.tbar
         })[0];
 
         this.toolsTabs.add(myObj.toolsTabs);
         this.toolsTree = this.toolsTabs.down('#toolsTree');
 
-
         // *******************   Properties
 
         var propsGrid = Ext.create('ProtoUL.ux.ProtoProperty', {});
         this.properties = this.toolsTabs.down('#properties');
-        this.properties.add( propsGrid );
+        this.properties.add(propsGrid);
         this.properties = propsGrid;
 
-
         propsGrid.on({
-            'edit': function ( editor, e, eOpts) {
+            'edit' : function(editor, e, eOpts) {
 
                 if (e.value == e.originalValue) {
-                    return
+                    return;
                 }
 
-                var oData = me.treeRecord.data.__ptConfig, 
-                    prpName = e.record.data.name;
+                var oData = me.treeRecord.data.__ptConfig, prpName = e.record.data.name;
 
                 // ****  Solo llegan objetos, los Array se manejan en otro lado
-                if ( _SM.typeOf(oData) ==  "object") {
-                    oData[ prpName ]  = e.value;
+                if (_SM.typeOf(oData) == "object") {
+                    oData[prpName] = e.value;
                 }
 
                 me.onClickRedraw();
             },
-            scope: me }
-        );
-
+            scope : me
+        });
 
         /* Se podrian cargar directamente desde el json, dejando un hook en el store y asignandolo
          * antes de crear el componente.
@@ -147,27 +146,24 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
 
         _SM.defineProtoPclTreeModel();
 
-        var treeData = _SM.clone ( myObj.toolsTree ),
-            treeNodAux,
-            treeNodAuxData,
-            ptConfig,
-            ix,
-            vFld;
+        var treeData, treeNodAux, treeNodAuxData, ptConfig, vFld;
 
+        treeData = _SM.clone(myObj.toolsTree);
+        
         // Agrega los campos de la pci particular
-        treeNodAux = getTreeNodeByText( treeData,  'Fields' );
+        treeNodAux = getTreeNodeByText(treeData, 'Fields');
         for (ix in this.myMeta.fields ) {
-            vFld  =  this.myMeta.fields[ix];
-            ptConfig =  _SM.getFormFieldDefinition( vFld );
-            ptConfig['name']  = vFld.name;
+            vFld = this.myMeta.fields[ix];
+            ptConfig = _SM.getFormFieldDefinition(vFld);
+            ptConfig['name'] = vFld.name;
             treeNodAuxData = {
-                "text": vFld.name ,
-                "qtip": vFld.cellToolTip,
-                "__ptType": "formField",
-                "leaf": true,
-                "__ptConfig": ptConfig
+                "text" : vFld.name,
+                "qtip" : vFld.cellToolTip,
+                "__ptType" : "formField",
+                "leaf" : true,
+                "__ptConfig" : ptConfig
             };
-            treeNodAux.children.push( treeNodAuxData );
+            treeNodAux.children.push(treeNodAuxData);
         };
 
         // FutureUse : Dont delete  ( dgt )
@@ -178,46 +174,47 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         // "masterTitleField" : vFld.masterTitleField,
 
         // Agrega los detalles
-        treeNodAux = getTreeNodeByText( treeData,  'Details' );
+        treeNodAux = getTreeNodeByText(treeData, 'Details');
         for (ix in this.myMeta.detailsConfig ) {
-            vFld  =  this.myMeta.detailsConfig[ix];
+            vFld = this.myMeta.detailsConfig[ix];
             treeNodAuxData = {
-                "text": vFld.menuText ,
-                "qtip": vFld.toolTip,
-                "__ptType": "protoGrid",
-                "leaf": true,
-                "__ptConfig": {
+                "text" : vFld.menuText,
+                "qtip" : vFld.toolTip,
+                "__ptType" : "protoGrid",
+                "leaf" : true,
+                "__ptConfig" : {
                     "menuText" : vFld.menuText,
-                    "viewCode" : vFld.conceptDetail ,
-                    "xtype": "protoGrid",
-                    "__ptType": "protoGrid"
+                    "viewCode" : vFld.conceptDetail,
+                    "xtype" : "protoGrid",
+                    "__ptType" : "protoGrid"
                 }
             };
-            treeNodAux.children.push( treeNodAuxData );
+            treeNodAux.children.push(treeNodAuxData);
         }
 
-        treeNodAux = getTreeNodeByText( treeData,  'DetailsButtons' );
+        treeNodAux = getTreeNodeByText(treeData, 'DetailsButtons');
         for (ix in this.myMeta.detailsConfig ) {
-            vFld  =  this.myMeta.detailsConfig[ix];
+            vFld = this.myMeta.detailsConfig[ix];
             treeNodAuxData = {
-                "text": vFld.menuText,
-                "qtip": vFld.toolTip,
-                "__ptType": "detailButton",
-                "leaf": true,
-                "__ptConfig": {
+                "text" : vFld.menuText,
+                "qtip" : vFld.toolTip,
+                "__ptType" : "detailButton",
+                "leaf" : true,
+                "__ptConfig" : {
                     "text" : vFld.menuText,
-                    "viewCode" : vFld.conceptDetail ,
-                    "xtype": "detailButton",
-                    "__ptType": "detailButton"
+                    "viewCode" : vFld.conceptDetail,
+                    "xtype" : "detailButton",
+                    "__ptType" : "detailButton"
                 }
             };
-            treeNodAux.children.push( treeNodAuxData );
+            treeNodAux.children.push(treeNodAuxData);
         }
-
 
         //  -----------------------------------
         // Crea el store
-        var treeStore = Ext.create('Ext.data.TreeStore', {
+        var treeStore, toolsTree, formTree, formTreeView;
+
+        treeStore = Ext.create('Ext.data.TreeStore', {
             model : 'Proto.PclTreeNode',
             root : {
                 expanded : true,
@@ -225,7 +222,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
             }
         });
 
-        var toolsTree = Ext.create('Ext.tree.Panel', {
+        toolsTree = Ext.create('Ext.tree.Panel', {
             layout : 'fit',
             itemId : 'baseTree',
             store : treeStore,
@@ -242,19 +239,18 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         this.toolsTree.add(toolsTree);
         this.toolsTree = toolsTree;
 
-
         // ------------------------------------------------
 
-        var treeStore = Ext.create('Ext.data.TreeStore', {
+        treeStore = Ext.create('Ext.data.TreeStore', {
             model : 'Proto.PclTreeNode',
             root : {
                 expanded : true,
-                text: _SM.__language.Title_Main_Panel,
+                text : _SM.__language.Title_Main_Panel,
                 children : []
             }
         });
 
-        var formTree = Ext.create('Ext.tree.Panel', {
+        formTree = Ext.create('Ext.tree.Panel', {
             layout : 'fit',
             store : treeStore,
             autoScroll : true,
@@ -266,70 +262,77 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
             }
         });
 
-        this.formTree.add( formTree );
+        this.formTree.add(formTree);
         this.formTree = formTree;
 
-
         // ------------------------------------------------
+        var rec, ptType, nParent, nIndex, tNode;
 
-        var formTreeView = this.formTree.getView()
-        this.formTreeViewId = formTreeView.id
+        formTreeView = this.formTree.getView();
+        this.formTreeViewId = formTreeView.id;
 
         formTreeView.on({
             'beforedrop' : {
                 fn : function(node, data, overModel, dropPosition, dropHandler, eOpts) {
 
                     // Verifica q el objeto sea valido ( no puede copiar las categorias ni los items  )
-                    if(data.view.id != this.formTreeViewId) {
-                        var rec = data.records[0]
-                        var ptType = rec.get('text')
-                        if ( ptType in  _SM.objConv(['Fields', 'Containers', 'Grids']))
-                            return false
+                    if (data.view.id != this.formTreeViewId) {
+                        rec = data.records[0];
+                        ptType = rec.get('text');
+                        if ( ptType in _SM.objConv(['Fields', 'Containers', 'Grids'])) {
+                            return false;
+                        }
 
-                        if ( ptType in _SM.objConv( ['htmlset', 'fieldset'])) {
+                        if ( ptType in _SM.objConv(['htmlset', 'fieldset'])) {
 
                             // Obtiene el padre y el ix
-                            var nParent = overModel.store.getById( overModel.data.parentId )
-                            var nIndex = overModel.data.index
+                            nParent = overModel.store.getById(overModel.data.parentId);
+                            nIndex = overModel.data.index;
 
-                            if ( !nParent ) nParent = overModel
-                            if ( dropPosition == 'after' ) nIndex += 1
+                            if (!nParent) {
+                                nParent = overModel;
+                            }
 
-                            dropHandler.cancelDrop()
+                            if (dropPosition == 'after') {
+                                nIndex += 1;
+                            }
+
+                            dropHandler.cancelDrop();
 
                             // Crea un nodo
-                            var tNode = getNodeBase( ptType, ptType, { '__ptType' : ptType } )
-                            nParent.insertChild( nIndex, tNode )
+                            tNode = getNodeBase(ptType, ptType, {
+                                '__ptType' : ptType
+                            });
+                            nParent.insertChild(nIndex, tNode);
 
                         }
 
                         // El drop genera una copia del mismo registro siempre
-                        data.copy = true
+                        data.copy = true;
                     }
 
                 }
             },
             'drop' : {
                 fn : function() {
-                    this.onClickRedraw()
+                    this.onClickRedraw();
                 }
             },
 
             scope : this
         });
 
-
         this.formTree.on({
-            'select': function ( rowModel , record,  rowIndex,  eOpts ) {
-                    // Guarda el registro actico, para actualizarlo mas tarde
-                    me.treeRecord  = record;
+            'select' : function(rowModel, record, rowIndex, eOpts) {
+                // Guarda el registro actico, para actualizarlo mas tarde
+                me.treeRecord = record;
 
-                    // prepara las propiedades corresponidnetes,
-                    // debe cpia las props por defecto de la pcl
-                    prepareProperties( record , me.myMeta,  me.properties  );
-                } , scope: me }
-        );
-
+                // prepara las propiedades corresponidnetes,
+                // debe cpia las props por defecto de la pcl
+                prepareProperties(record, me.myMeta, me.properties);
+            },
+            scope : me
+        });
 
         // Para manejar los botones dinamicamente addListener
 
@@ -337,45 +340,38 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
         // la URL ya probe q puede ser un archivo json,
 
         // revisar en el ejemplo como usar  jsonForm y jsonPropertyGrid   codepress
-        var btRedraw = this.tBar.down( '#redraw');
-        btRedraw.on('click',
-            function(  btn , event,  eOpts) {
-                this.onClickRedraw()
-            },me   );
+        var btRedraw = this.tBar.down('#redraw');
+        btRedraw.on('click', function(btn, event, eOpts) {
+            this.onClickRedraw()
+        }, me);
 
+        var btSave = this.tBar.down('#save');
+        btSave.on('click', function(btn, event, eOpts) {
 
-        var btSave = this.tBar.down( '#save');
-        btSave.on('click',
-            function(  btn , event,  eOpts) {
+            var formMeta = Tree2Meta(this.formTree.store.getRootNode());
+            this.myMeta.formConfig = formMeta;
 
-                var formMeta =  Tree2Meta( this.formTree.store.getRootNode() )
-                this.myMeta.formConfig = formMeta
+            _SM.savePclCache(this.myMeta.viewCode, this.myMeta, true);
+            _SM.savePci(this.myMeta);
+        }, me);
 
-                _SM.savePclCache( this.myMeta.viewCode, this.myMeta, true )
-                _SM.savePci( this.myMeta )
-            },me   );
-
-
-        var btDel = this.tBar.down( '#delete');
-        btDel.on('click',
-            function(  btn , event,  eOpts) {
-                // var ptType = me.treeRecord.data.__ptType
-                me.treeRecord.remove( )
-            },me   );
+        var btDel = this.tBar.down('#delete');
+        btDel.on('click', function(btn, event, eOpts) {
+            // var ptType = me.treeRecord.data.__ptType
+            me.treeRecord.remove();
+        }, me);
 
     },
 
-
     //  ==============================================================================
 
-
-    getPanelItems: function() {
+    getPanelItems : function() {
 
         // this.myForm = Ext.widget('protoform', {
-            // myMeta : this.myMeta
+        // myMeta : this.myMeta
         // });
 
-        return  [{
+        return [{
             region : 'center',
             layout : 'fit',
             itemId : 'formPreview',
@@ -388,7 +384,7 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
             collapsible : true,
             split : true,
             flex : 1,
-            title: _SM.__language.Title_Form_Panel,
+            title : _SM.__language.Title_Form_Panel,
             itemId : 'toolsPanel',
             layout : 'border',
             defaults : {
@@ -407,11 +403,9 @@ Ext.define('ProtoUL.proto.ProtoDesigner', {
                 collapsible : true,
                 split : true,
                 flex : 1,
-                title: _SM.__language.Title_Panel_Tools
+                title : _SM.__language.Title_Panel_Tools
             }]
-        }]
+        }]; 
 
     }
-
-
 });

@@ -10,7 +10,8 @@ def getTypedValue (sAux , sType):
     * se usa sobre todo para las UDP y los JsonField 
     """
 
-    if sAux == 'None': sAux = ''
+    if sAux == 'None':
+        sAux = ''
     sAux = smart_str(sAux)
 
     if sType == 'bool':
@@ -26,7 +27,8 @@ def getTypedValue (sAux , sType):
     elif sType == 'time':
         sAux = toTime(sAux)
     elif sType == 'foreigntext':
-        if sAux == 'None': sAux = ''
+        if sAux == 'None':
+            sAux = ''
 
     return sAux
 
@@ -107,7 +109,8 @@ def toTime(sVal, iDefault=None):
 def toDateTime(sVal, iDefault=None):
     """ Suponer formato Iso OrderingDate 
     """
-    if sVal is None: return iDefault
+    if sVal is None:
+        return iDefault
     try:
         if sVal.count("T") > 0:
             # IsoFormat DateTime
