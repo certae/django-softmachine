@@ -12,21 +12,21 @@
 /*global _SM */
 
 Ext.define('ProtoUL.proto.ProtoPcl', {
-    extend : 'Ext.panel.Panel',
-    alias : 'widget.protoPcl',
+    extend: 'Ext.panel.Panel',
+    alias: 'widget.protoPcl',
     /*
      * @Required
      * myMeta  : Metadata
      */
-    myMeta : null,
-    myFieldDict : null,
+    myMeta: null,
+    myFieldDict: null,
 
     /*
      * editable : False is ReadOnly
      */
-    editable : true,
+    editable: true,
 
-    initComponent : function() {
+    initComponent: function() {
 
         var me = this, tBar, sbar, treeData, treeGridStore, treeGrid;
 
@@ -43,50 +43,50 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
         _SM.defineProtoPclTreeModel();
 
         tBar = Ext.create('ProtoUL.proto.ProtoToolBar', {
-            dock : 'top'
+            dock: 'top'
         });
         sbar = Ext.create('Ext.form.Label', {
-            text : _SM.__language.ProtoPcl_Edition_Tool
+            text: _SM.__language.ProtoPcl_Edition_Tool
         });
 
         treeData = getTreeData(me);
         treeGridStore = Ext.create('Ext.data.TreeStore', {
-            model : 'Proto.PclTreeNode',
-            root : treeData
+            model: 'Proto.PclTreeNode',
+            root: treeData
         });
 
         this.treeGridStore = treeGridStore;
 
         treeGrid = Ext.create('Ext.tree.Panel', {
-            store : treeGridStore,
-            sortableColumns : false,
-            useArrows : true,
-            rootVisible : true,
-            multiSelect : false,
-            singleExpand : true,
-            stripeRows : true,
-            rowLines : true,
+            store: treeGridStore,
+            sortableColumns: false,
+            useArrows: true,
+            rootVisible: true,
+            multiSelect: false,
+            singleExpand: true,
+            stripeRows: true,
+            rowLines: true,
 
-            columns : [{
-                xtype : 'treecolumn', //this is so we know which column will show the tree
-                text : 'text',
-                flex : 3,
-                dataIndex : 'text'
+            columns: [{
+                xtype: 'treecolumn', //this is so we know which column will show the tree
+                text: 'text',
+                flex: 3,
+                dataIndex: 'text'
                 // },{
                 // text: 'Ix',
                 // dataIndex: 'id'
             }, {
-                text : '__ptType',
-                dataIndex : '__ptType'
+                text: '__ptType',
+                dataIndex: '__ptType'
             }],
-            listeners : {
-                'itemmouseenter' : function(view, record, item) {
+            listeners: {
+                'itemmouseenter': function(view, record, item) {
                     Ext.fly(item).set({
-                        'data-qtip' : getAttrMsg(record.data.text),
-                        'data-qtitle' : record.data.text
+                        'data-qtip': getAttrMsg(record.data.text),
+                        'data-qtitle': record.data.text
                     });
                 },
-                scope : me
+                scope: me
             }
 
         });
@@ -96,44 +96,44 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
         var propsGrid, fieldList, jsonText, panelItems;
 
         propsGrid = Ext.create('ProtoUL.ux.ProtoProperty', {
-            source : {
-                name : ''
+            source: {
+                name: ''
             }
         });
         fieldList = Ext.create('ProtoUL.ux.ProtoList', {
-            idTitle : 'SelectedFields'
+            idTitle: 'SelectedFields'
         });
 
         jsonText = Ext.create('Ext.form.TextArea', {
-            autoScroll : true,
-            labelAlign : 'top'
+            autoScroll: true,
+            labelAlign: 'top'
         });
 
         //  ================================================================================================
 
         panelItems = [{
-            region : 'center',
-            flex : 3,
-            layout : 'fit',
-            minSize : 50,
-            items : treeGrid,
-            border : false
+            region: 'center',
+            flex: 3,
+            layout: 'fit',
+            minSize: 50,
+            items: treeGrid,
+            border: false
         }, {
-            region : 'east',
-            collapsible : false,
-            split : true,
-            flex : 2,
-            layout : 'fit',
-            minSize : 200,
-            items : [propsGrid, fieldList, jsonText],
-            border : false
+            region: 'east',
+            collapsible: false,
+            split: true,
+            flex: 2,
+            layout: 'fit',
+            minSize: 200,
+            items: [propsGrid, fieldList, jsonText],
+            border: false
         }];
 
         Ext.apply(this, {
-            layout : 'border',
-            items : panelItems,
-            dockedItems : [tBar],
-            bbar : [sbar]
+            layout: 'border',
+            items: panelItems,
+            dockedItems: [tBar],
+            bbar: [sbar]
         });
 
         this.callParent(arguments);
@@ -144,29 +144,29 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
         // ----------------------------------------------------------------------------------------------
 
         tBar.on({
-            'save' : function() {
+            'save': function() {
                 me.save(me);
             },
-            'reload' : function() {
+            'reload': function() {
                 me.cancelChanges();
             },
-            'cancel' : function() {
+            'cancel': function() {
                 me.cancelChanges();
             },
-            'show1' : function() {
+            'show1': function() {
                 _SM.showConfig('Meta', me.myMeta);
             },
-            'add' : function(record) {
+            'add': function(record) {
                 addTreeNode(record);
             },
-            'del' : function(record) {
+            'del': function(record) {
                 delTreeNode(record);
             },
-            scope : this
+            scope: this
         });
 
         treeGrid.on({
-            'select' : function(rowModel, record, rowIndex, eOpts) {
+            'select': function(rowModel, record, rowIndex, eOpts) {
 
                 saveJsonText();
                 saveFieldList();
@@ -174,22 +174,23 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
                 me.treeRecord = record;
                 preparePropertiesPCL(record);
             },
-            scope : me
+            scope: me
         });
 
         propsGrid.on({
-            'beforeedit' : {
-                fn : function(editor, e, eOpts) {
+            'beforeedit': {
+                fn: function(editor, e, eOpts) {
                     if (me.editable === false) {
                         return false;
                     }
 
                 }
+
             },
 
             // Fires after a editing. ...
-            'edit' : {
-                fn : function(editor, e, eOpts) {
+            'edit': {
+                fn: function(editor, e, eOpts) {
                     if (e.value === e.originalValue) {
                         return;
                     }
@@ -212,22 +213,25 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
                         oData[prpName] = e.value;
                     }
                 }
+
             },
-            scope : me
+            scope: me
         });
 
         fieldList.on({
-            'checked' : {
-                fn : function(record, recordIndex, checked) {
+            'checked': {
+                fn: function(record, recordIndex, checked) {
                     saveFieldList();
                 }
+
             },
-            'reorder' : {
-                fn : function() {
+            'reorder': {
+                fn: function() {
                     saveFieldList();
                 }
+
             },
-            scope : me
+            scope: me
         });
 
         // ----------------------------------------------------------------------------------------------
@@ -238,9 +242,9 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
 
             if (me.custom) {
                 if (me.metaConfig) {
-                    // Si escribe sobre la meta copia el list|Display para hacerlo mas facil
+                    // If I write the copy on the target list | Display to make it easier
                     myCustom = {
-                        listDisplay : me.myMeta.gridConfig.listDisplay
+                        listDisplay: me.myMeta.gridConfig.listDisplay
                     };
                     myCustom = Ext.apply(myCustom, me.myMeta.gridSets);
                     treeData = Meta2Tree(myCustom, 'custom', 'custom');
@@ -252,6 +256,7 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
 
                 // Prepara la PCL
                 // delete me.myMeta.fields
+                tmpMeta = _SM.clone(me.myMeta, 0, ['fields']);
                 tmpMeta = _SM.clone(me.myMeta, 0, ['fields']);
                 tmpMeta.fieldsBase = tmpMeta.fieldsBase.sort(_SM.sortObjByName);
                 tmpMeta.fieldsAdm = tmpMeta.fieldsAdm.sort(_SM.sortObjByName);
@@ -300,7 +305,7 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
 
             // Crea el nodo base
             tNode = getNodeBase(pName, nodeDef.listOf, {
-                '__ptType' : nodeDef.listOf
+                '__ptType': nodeDef.listOf
             });
 
             // asigna el nombre del nodo
@@ -455,7 +460,7 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
 
     },
 
-    save : function(me) {
+    save: function(me) {
 
         var myCustom, saveAs = false, winTitle;
 
@@ -484,7 +489,7 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
         me.encodeViewName(me);
         winTitle = ' [ ' + me.myMeta.viewCode + ' ]';
 
-        // Si el nombre fue modificado es un saveAs
+        // If the name was changed, is a saveAs
         if (me.myViewCode && me.myViewCode !== me.myMeta.viewCode) {
             saveAs = true;
             winTitle = winTitle + '*';
@@ -504,40 +509,52 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
         } else {
             // Solo el custom, empaqueta el objeto para poder agregarle info de control
             myCustom = {
-                viewCode : '_custom.' + me.myMeta.viewCode,
-                metaVersion : _versionMeta,
-                custom : myCustom
+                viewCode: '_custom.' + me.myMeta.viewCode,
+                metaVersion: _versionMeta,
+                custom: myCustom
             };
             _SM.savePci(myCustom);
         }
 
     },
 
-    cancelChanges : function() {
+    cancelChanges: function() {
         //TODO: Verificar si hace un reload
         // this.treeGridStore.getRootNode().removeAll();
         // this.treeGridStore.setRootNode( this.treeData )
     },
 
-    decodeViewName : function(me) {
-        // Elimina el nombre de viewEntity para permitir la edicion
+    decodeViewName: function(me) {
+        // Eliminates viewEntity name to facilitate the user edition
 
-        if (me.myMeta.viewCode) {
-            me.myViewCode = me.myMeta.viewCode.toString();
-        } else {
-            me.myViewCode = me.myMeta.viewEntity.toString();
-        }
-
-        me.myMeta.viewCode = me.myViewCode.substring(me.myMeta.viewEntity.length + 1);
-    },
-
-    encodeViewName : function(me) {
-        // Recodifica el nombre de la vista
-        if (me.myMeta.viewCode) {
-            me.myMeta.viewCode = me.myMeta.viewEntity + '.' + me.myMeta.viewCode;
-        } else {
+        // view code must be not null 
+        if ( ( ! me.myMeta.viewCode ) || (  me.myMeta.viewCode.length == 0  )) { 
             me.myMeta.viewCode = me.myMeta.viewEntity;
         }
 
+        // Save Original ViewCode 
+        if ( ! me.myViewCode )  {
+            if ( me.myMeta.viewCode.substring(0, me.myMeta.viewEntity.length) == me.myMeta.viewEntity ) {
+                me.myViewCode = me.myMeta.viewCode.toString();
+            } else {
+                me.myViewCode = me.myMeta.viewEntity + '.' + me.myMeta.viewCode;    
+            }
+        }
+
+        // Strip prefix 
+        if ( me.myMeta.viewCode.substring(0, me.myMeta.viewEntity.length) == me.myMeta.viewEntity ) {
+            me.myMeta.viewCode = me.myViewCode.substring(me.myMeta.viewEntity.length + 1);
+        }
+
+
+    },
+
+    encodeViewName: function(me) {
+        // Recode viewEntity. Only one prefx 
+        if ( me.myMeta.viewCode.substring(0, me.myMeta.viewEntity.length) !== me.myMeta.viewEntity ) {
+            me.myMeta.viewCode = me.myMeta.viewEntity + '.' + me.myMeta.viewCode;
+        }
+
     }
+
 });

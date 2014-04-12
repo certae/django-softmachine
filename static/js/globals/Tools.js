@@ -288,6 +288,10 @@ _SM.savePclCache = function (viewCode, protoMeta, reOpen ) {
 
     // Asigna la llave, pues si se hace una copia seguiria trayendo la misma viewCode de base
    // console.log(protoMeta);
+    if ( viewCode.substring(0, protoMeta.viewEntity.length ) !== protoMeta.viewEntity ) {
+        viewCode =  protoMeta.viewEntity + '.' + protoMeta.viewCode;
+    }
+
     protoMeta.viewCode = viewCode
 
     _SM.DefineProtoModel(protoMeta );

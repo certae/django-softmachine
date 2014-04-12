@@ -317,10 +317,10 @@ def protoSaveProtoObj(request):
             # debe existir previamente
             protoCode = viewCode.replace(PROTO_PREFIX, '')
             
-            protoMeta = json.loads( sMeta )
+            protoMeta = json.loads(sMeta)
             entityId = protoMeta['protoEntityId'] 
-            entityObj = Entity.objects.get( id = entityId )
-            protoDef, create = Prototype.objects.get_or_create(code=protoCode, entity = entityObj, smOwningTeam=userProfile.userTeam )
+            entityObj = Entity.objects.get(id=entityId)
+            protoDef, create = Prototype.objects.get_or_create(code=protoCode, entity=entityObj, smOwningTeam=userProfile.userTeam)
  
         except Exception as e:
             return JsonError(getReadableError(e)) 
