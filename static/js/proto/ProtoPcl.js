@@ -551,7 +551,10 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
 
     encodeViewName: function(me) {
         // Recode viewEntity. Only one prefx 
-        if ( me.myMeta.viewCode.substring(0, me.myMeta.viewEntity.length) !== me.myMeta.viewEntity ) {
+        if ( ! me.myMeta.viewCode ) {
+            me.myMeta.viewCode = me.myMeta.viewEntity
+
+        } else if ( me.myMeta.viewCode.substring(0, me.myMeta.viewEntity.length) !== me.myMeta.viewEntity ) {
             me.myMeta.viewCode = me.myMeta.viewEntity + '.' + me.myMeta.viewCode;
         }
 
