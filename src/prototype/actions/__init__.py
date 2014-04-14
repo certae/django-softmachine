@@ -190,13 +190,16 @@ def doImportOMS( modeladmin, request, queryset, parameters):
     if queryset.count() != 1:
         return  {'success':False, 'message' : 'No record selected' }
 
+    from protoLib.protoAuth import getUserProfile
+    userProfile = getUserProfile( request.user, 'prototype', '' )
+    
     try: 
 
         import os 
         fileName = os.path.join(MEDIA_ROOT, 'OMS.exp' ) 
     
         import importOMS 
-        cOMS = importOMS.importOMS()
+        cOMS = importOMS.importOMS( userProfile )
     
         cOMS.loadFile( fileName  )
         cOMS.doImport( queryset[0] )

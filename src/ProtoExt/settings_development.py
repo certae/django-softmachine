@@ -3,7 +3,7 @@ from ProtoExt.settings import PPATH
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': PPATH + '/db/cellDb.db',
+        'NAME': PPATH + '/db/testproto.db',
     }
 }
 
@@ -45,7 +45,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'south',
+#     'south',
     'protoLib',
     'prototype',
     'alltests',

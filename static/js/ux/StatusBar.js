@@ -1,11 +1,11 @@
-/* 
+/*
  * Basada en  Examples.Ux.statusBar
- * 
- * Modif : 
- *      
+ *
+ * Modif :
+ *
  *      showBusy  -->  showBusyI  ( internal )
- *      showBusy ( text ,  clearTemp  ) para autolimpiar el status 
- * 
+ *      showBusy ( text ,  clearTemp  ) para autolimpiar el status
+ *
  */
 
 /*jslint nomen: true, sloppy : true, white : true, sub : true */
@@ -18,7 +18,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
     alias: 'widget.statusbar',
     requires: ['Ext.toolbar.TextItem'],
     cls: 'x-statusbar',
-    
+
     busyIconCls: 'x-status-busy',
     busyText: _SM.__language.StatusBar_Message_Loading,
     autoClear: 5000,
@@ -31,14 +31,13 @@ Ext.define('ProtoUL.ux.StatusBar', {
 
     // values to set initially:
     text: _SM.__language.StatusBar_Message_Ready,
-    iconCls: 'ready-icon', 
+    iconCls: 'ready-icon',
 
+    // Para manejar las cargas de datos del servidor
+    busyCount: 0,
 
-    // Para manejar las cargas de datos del servidor     
-    busyCount : 0, 
-    
-    initComponent: function () {
-        
+    initComponent: function() {
+
         var right = this.statusAlign === 'right';
         this.callParent(arguments);
         this.currIconCls = this.iconCls || this.defaultIconCls;
@@ -54,102 +53,88 @@ Ext.define('ProtoUL.ux.StatusBar', {
             this.insert(0, this.statusEl);
             this.insert(1, '->');
         }
-        
+
         // any standard Toolbar items:
-        this.add( [{
-                itemId : 'errBt', 
-                xtype  : 'splitbutton',
-                text   :  _SM.__language.StatusBar_Text_Clean_Button,
-                tooltip: _SM.__language.StatusBar_Tooltip_Clean_Button,
-                scope  : this,
-                iconCls: 'comment_delete',
-                handler: this.clearErrCount,
+        this.add([{
+            itemId: 'btClearCache',
+            xtype: 'button',
+            text: _SM.__language.StatusBar_Text_Clean_Button + ' cache',
+            tooltip: _SM.__language.StatusBar_Tooltip_Clean_Button,
+            iconCls: 'comment_delete',
+            handler: function() {
+                this.tooltip = '';
+                this.ownerCt.clearStatus({
+                    useDefaults: true
+                });
+                _SM.__TabContainer.closeAllTabs();
+                _SM._cllPCI = {};
+            }
+        }, {
+            itemId: 'openTaskForm',
+            xtype: 'button',
+            text: _SM.__language.StatusBar_Text_Task_Button,
+            hidden: true,
+            scope: this,
+            iconCls: 'taskManager',
+            handler: this.openTaskForm
 
-                // TITLE 
-                menu:  new Ext.menu.Menu({
-                    items: [
-                        {text: 'ClearTabs', 
-                        tooltip : 'clear all tabs',      
-                        iconCls: 'icon-4',  
-                        handler: function(){ 
-                            _SM.__TabContainer.closeAllTabs(); 
-                            _SM._cllPCI = {};
-                            }}
-                    ]                 
-                })
-                
-            },{
-                itemId : 'openTaskForm', 
-                xtype: 'button',
-                text: _SM.__language.StatusBar_Text_Task_Button,
-                hidden: true,
-                scope: this,
-                iconCls: 'taskManager',
-                handler: this.openTaskForm
+        }, '-', {
 
-            }, '-', {
-                // xtype: 'button',
-                // iconCls: 'icon-script_gear',
-                // text: _SM.__language.StatusBar_Text_Command_Button,
-                // handler: this.command
-            // }, {
+            xtype: 'splitbutton',
+            text: _SM._UserInfo.fullName || _SM._UserInfo.userName,
+            iconCls: 'icon-user',
+            menu: new Ext.menu.Menu({
+                items: [{
+                    text: _SM.__language.StatusBar_Text_Close_Session,
+                    handler: this.closeSession,
+                    iconCls: 'icon-logout'
+                }]
+            })
+        }]);
 
-                xtype: 'splitbutton',
-                text: _SM._UserInfo.fullName || _SM._UserInfo.userName,
-                iconCls:'icon-user', 
-                 menu: new Ext.menu.Menu({
-                 items: [
-                    { text: _SM.__language.StatusBar_Text_Close_Session,  
-                     handler: this.closeSession, 
-                     iconCls: 'icon-logout' 
-                     }
-                 ]
-                 })
-            }]);
+        // TODO: Boton q permita clear del sb y guarde en el tooltip la informacion de errores
+        this.errBt = this.getComponent('btClearCache');
 
-        // TODO: Boton q permita clear del sb y guarde en el tooltip la informacion de errores 
-        this.errBt = this.getComponent( 'errBt' );
-        
     },
 
+    command: function() {
+        Ext.MessageBox.prompt('Comando', 'Digite El Comando', function(btn, nemo) {
+            if (btn == 'ok') {
 
-    command: function (){
-        Ext.MessageBox.prompt('Comando', 'Digite El Comando',
-                function (btn, nemo) {
-                    if (btn == 'ok') {
-                        
-                    }
-                }, this, false, ValorPrompt);
+            }
+        }, this, false, ValorPrompt);
     },
 
-    closeSession:function(){
+    closeSession: function() {
         Ext.Ajax.request({
             url: _SM._PConfig.urlLogOut,
-            success: function (response) {
-                location.reload( true );
+            success: function(response) {
+                location.reload(true);
             },
-            failure: function () {
-                location.reload( true );
+            failure: function() {
+                location.reload(true);
             }
         });
     },
 
-    clearErrCount: function () {
+    clearErrCount: function() {
         // this.errBt.hide()
-        
+
         this.errBt.tooltip = '';
-        this.busyCount = 0; 
-        this.clearStatus( { useDefaults: true} );
-    }, 
-    
-    setStatus: function (o) {
+        this.busyCount = 0;
+        this.clearStatus({
+            useDefaults: true
+        });
+    },
+
+    setStatus: function(o) {
         var me = this;
         o = o || {};
 
         var a = me.isLayoutSuspended();
 
         Ext.suspendLayouts();
-        
+
         if (Ext.isString(o)) {
             o = {
                 text: o
@@ -162,12 +147,10 @@ Ext.define('ProtoUL.ux.StatusBar', {
             me.setIcon(o.iconCls);
         }
         if (o.clear) {
-            var c = o.clear,
-                wait = me.autoClear,
-                defaults = {
-                    useDefaults: true,
-                    anim: true
-                };
+            var c = o.clear, wait = me.autoClear, defaults = {
+                useDefaults: true,
+                anim: true
+            };
             if (Ext.isObject(c)) {
                 c = Ext.applyIf(c, defaults);
                 if (c.wait) {
@@ -185,21 +168,19 @@ Ext.define('ProtoUL.ux.StatusBar', {
         Ext.resumeLayouts(true);
         return me;
     },
-    
-    clearStatus: function (o) {
+
+    clearStatus: function(o) {
         o = o || {};
-        var me = this,
-            statusEl = me.statusEl;
+        var me = this, statusEl = me.statusEl;
         if (o.threadId && o.threadId !== me.activeThreadId) {
             return me;
         }
-        var text = o.useDefaults ? me.defaultText : me.emptyText,
-            iconCls = o.useDefaults ? (me.defaultIconCls ? me.defaultIconCls : '') : '';
+        var text = o.useDefaults ? me.defaultText : me.emptyText, iconCls = o.useDefaults ? (me.defaultIconCls ? me.defaultIconCls : '') : '';
         if (o.anim) {
             statusEl.el.puff({
                 remove: false,
                 useDisplay: true,
-                callback: function () {
+                callback: function() {
                     statusEl.el.show();
                     me.setStatus({
                         text: text,
@@ -215,8 +196,8 @@ Ext.define('ProtoUL.ux.StatusBar', {
         }
         return me;
     },
-    
-    setText: function (text) {
+
+    setText: function(text) {
         var me = this;
         me.activeThreadId++;
         me.text = text || '';
@@ -225,12 +206,12 @@ Ext.define('ProtoUL.ux.StatusBar', {
         }
         return me;
     },
-    
-    getText: function () {
+
+    getText: function() {
         return this.text;
     },
-    
-    setIcon: function (cls) {
+
+    setIcon: function(cls) {
         var me = this;
         me.activeThreadId++;
         cls = cls || '';
@@ -249,8 +230,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
         return me;
     },
 
-    
-    showBusyI: function (o) {
+    showBusyI: function(o) {
         if (Ext.isString(o)) {
             o = {
                 text: o
@@ -261,77 +241,83 @@ Ext.define('ProtoUL.ux.StatusBar', {
             iconCls: this.busyIconCls
         });
         return this.setStatus(o);
-    }, 
-    
-    showBusy: function ( text, origin, clear ) {
+    },
 
-        this.showBusyI( text ); 
-        
-        if( clear ) { 
-            Ext.defer(function(){
-                this.clearStatus({useDefaults:true});
+    showBusy: function(text, origin, clear) {
+
+        this.showBusyI(text);
+
+        if (clear) {
+            Ext.defer(function() {
+                this.clearStatus({
+                    useDefaults: true
+                });
             }, clear, this);
-        } else { 
+        } else {
             // console.log( 'busy: ' + origin,  text, this.busyCount )
-            this.busyCount ++;     
+            this.busyCount++;
         }
-    }, 
+    },
 
-    showMessage: function ( text, origin, clear ) {
+    showMessage: function(text, origin, clear) {
 
-        var o = {  text: origin + ' ' + text, iconCls: this.iconCls };
-        
-        if( clear ) { 
-            Ext.defer(function(){
-                this.clearStatus({useDefaults:true});
+        var o = {
+            text: origin + ' ' + text,
+            iconCls: this.iconCls
+        };
+
+        if (clear) {
+            Ext.defer(function() {
+                this.clearStatus({
+                    useDefaults: true
+                });
             }, clear, this);
         }
 
         return this.setStatus(o)
 
-    }, 
+    },
 
-
-    showError: function ( text, origin  ) {
+    showError: function(text, origin) {
 
         // console.log( 'error :' + origin  ,  text )
         this.setStatus({
-            text: 'Oops! ' + text ,
+            text: 'Oops! ' + text,
             iconCls: 'x-status-error',
-            clear: true 
-        });
-
-    }, 
-
-    showWarning: function ( text, origin   ) {
-
-        // console.log( 'warning :' + origin, text )
-
-        this.setStatus({
-            text: text ,
-            iconCls: 'x-status-warning',
-            clear: true 
+            clear: true
         });
 
     },
 
-    clear: function ( text, origin ) {
-        
-        // console.log( 'clear:' + origin,  text, this.busyCount ); 
-        this.busyCount --; 
-        if ( this.busyCount <= 0 ) {
-            this.busyCount = 0; 
-            this.clearStatus( { useDefaults: true} )    
+    showWarning: function(text, origin) {
+
+        // console.log( 'warning :' + origin, text )
+
+        this.setStatus({
+            text: text,
+            iconCls: 'x-status-warning',
+            clear: true
+        });
+
+    },
+
+    clear: function(text, origin) {
+
+        // console.log( 'clear:' + origin,  text, this.busyCount );
+        this.busyCount--;
+        if (this.busyCount <= 0) {
+            this.busyCount = 0;
+            this.clearStatus({
+                useDefaults: true
+            })
         }
-        
-    }, 
-    
-    openTaskForm: function( ) {
-    
-        var taskCont = Ext.create( 'ProtoUL.protoOrg.tasks.TaskController' )
+
+    },
+
+    openTaskForm: function() {
+
+        var taskCont = Ext.create('ProtoUL.protoOrg.tasks.TaskController')
         taskCont.openTaskForm()
-         
+
     }
-        
-    
-});
+}); 
