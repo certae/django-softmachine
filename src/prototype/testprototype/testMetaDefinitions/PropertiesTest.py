@@ -7,27 +7,7 @@ from django.utils.unittest.loader import makeSuite
 import json
 
 from prototype.models import *
-from protoLib.models import *
-
-def PropertiesTestSuite():
-    suite = TestSuite()
-    suite.addTest(makeSuite(ProjectPropertiesTest, 'test'))
-    suite.addTest(makeSuite(ModelPropertiesTest, 'test'))
-    suite.addTest(makeSuite(EntityPropertiesTest, 'test'))
-    suite.addTest(makeSuite(PropertyPropertiesTest, 'test'))
-    suite.addTest(makeSuite(RelationshipPropertiesTest, 'test'))
-    suite.addTest(makeSuite(PropertyModelPropertiesTest, 'test'))
-    suite.addTest(makeSuite(PropertyEquivalencePropertiesTest, 'test'))
-    suite.addTest(makeSuite(PrototypePropertiesTest, 'test'))
-    suite.addTest(makeSuite(ProtoTablePropertiesTest, 'test'))
-
-    suite.addTest(makeSuite(TeamHierarchyPropertiesTest, 'test'))
-    suite.addTest(makeSuite(ProtoDefinitionPropertiesTest, 'test'))
-    suite.addTest(makeSuite(CustomDefinitionPropertiesTest, 'test'))
-    suite.addTest(makeSuite(DiscreteValuePropertiesTest, 'test'))
-
-    return suite
-
+#from protoLib.models import *
 
 PossibleTypes = ['list', 'string']
 module_dir = os.path.dirname(__file__)  # get current directory
@@ -47,7 +27,8 @@ for fields in MetaProperties:
 def getFields(modelclass):
     fields = []
     for value in modelclass.protoExt:
-            fields.append(value)
+        fields.append(value)
+        
     return fields
 
 
@@ -157,38 +138,3 @@ class ProtoTablePropertiesTest(TestCase):
                 fieldtype = getFieldType(field, value, ProtoTable)
                 self.assertIn(fieldtype, PossibleTypes)
 
-
-class TeamHierarchyPropertiesTest(TestCase):
-    def test_structure(self):
-        fields = getFields(TeamHierarchy)
-        for field in fields:
-            for value in TeamHierarchy.protoExt[field]:
-                fieldtype = getFieldType(field, value, TeamHierarchy)
-                self.assertIn(fieldtype, PossibleTypes)
-
-
-class ProtoDefinitionPropertiesTest(TestCase):
-    def test_structure(self):
-        fields = getFields(ProtoDefinition)
-        for field in fields:
-            for value in ProtoDefinition.protoExt[field]:
-                fieldtype = getFieldType(field, value, ProtoDefinition)
-                self.assertIn(fieldtype, PossibleTypes)
-
-
-class CustomDefinitionPropertiesTest(TestCase):
-    def test_structure(self):
-        fields = getFields(CustomDefinition)
-        for field in fields:
-            for value in CustomDefinition.protoExt[field]:
-                fieldtype = getFieldType(field, value, CustomDefinition)
-                self.assertIn(fieldtype, PossibleTypes)
-
-
-class DiscreteValuePropertiesTest(TestCase):
-    def test_structure(self):
-        fields = getFields(DiscreteValue)
-        for field in fields:
-            for value in DiscreteValue.protoExt[field]:
-                fieldtype = getFieldType(field, value, DiscreteValue)
-                self.assertIn(fieldtype, PossibleTypes)

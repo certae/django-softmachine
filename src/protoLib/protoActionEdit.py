@@ -2,7 +2,6 @@
 
 # import traceback
 
-
 import json
 from django.http import HttpResponse
 from django.db import models
@@ -20,7 +19,6 @@ from utilsWeb import doReturn
 # Error Constants
 ERR_NOEXIST = '<b>ErrType:</b> KeyNotFound<br>The specifique record does not exist'
 ERR_REFONLY = '<b>ErrType:</b> RefOnly<br>The specifique record is reference only'
-
 
 def protoCreate(request):
     myAction = 'add'
@@ -207,7 +205,6 @@ def _protoEdit(request, myAction):
 
             except Exception, e:
                 data['_ptStatus'] = data['_ptStatus'] + getReadableError(e)
-                pass
 
         pList.append(data)
 
@@ -224,6 +221,7 @@ def _protoEdit(request, myAction):
     }
 
     return HttpResponse(json.dumps(context, cls=JSONEncoder), content_type="application/json")
+
 
 def setSecurityInfo(rec, data, userProfile, insAction):
     """
@@ -263,41 +261,41 @@ def setRegister(model, rec, key, data):
     # Si es definido como no editable en el modelo
     if getattr(field, 'editable', False) == False:
         return
-    if  cName == 'AutoField':
+    
+    elif  cName == 'AutoField':
         return
 
     # Obtiene el valor
-    value = data[key]
+    else :
+        value = data[key]
 
-    try:
+        try:
+            if cName == 'CharField' or cName == 'TextField':
+                setattr(rec, key, value)
+                return
 
-        if cName == 'CharField' or cName == 'TextField':
+            elif cName == 'ForeignKey':
+                keyId = key + '_id'
+                value = data[keyId]
+                exec('rec.' + keyId + ' =  ' + smart_str(value))
+                return
+
+            elif cName == 'DateField':
+                value = toDate(value)
+            elif cName == 'TimeField':
+                value = toTime(value)
+            elif cName == 'DateTimeField':
+                value = toDateTime(value)
+            elif cName == 'BooleanField':
+                value = toBoolean(value)
+            elif cName == 'IntegerField':
+                value = toInteger(value)
+            elif cName == 'DecimalField':
+                value = toDecimal(value)
+            elif cName == 'FloatField':
+                value = toFloat(value)
+
             setattr(rec, key, value)
-            return
 
-        elif  cName == 'ForeignKey':
-            keyId = key + '_id'
-            value = data[keyId]
-            exec('rec.' + keyId + ' =  ' + smart_str(value))
-            return
-
-        elif cName == 'DateField':
-            value = toDate(value)
-        elif cName == 'TimeField':
-            value = toTime(value)
-        elif cName == 'DateTimeField':
-            value = toDateTime(value)
-
-        elif cName == 'BooleanField':
-            value = toBoolean(value)
-        elif cName == 'IntegerField':
-            value = toInteger(value)
-        elif cName == 'DecimalField':
-            value = toDecimal(value)
-        elif cName == 'FloatField':
-            value = toFloat(value)
-
-        setattr(rec, key, value)
-
-    except Exception:
-        raise Exception
+        except Exception:
+            raise Exception

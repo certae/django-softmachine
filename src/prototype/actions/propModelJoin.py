@@ -35,7 +35,8 @@ def doPropModelJoin( queryset ):
     # Crea el nuevo propModel
     # TODO: Implementar la seguridad real, esta copiando del registro base
     
-    if len( sAux ) > 40: sAux = sAux[:40] + str( datetime.now() ) 
+    if len( sAux ) > 40:
+        sAux = sAux[:40] + str( datetime.now() ) 
      
     defValues = {
         'code' : sAux[1:], 

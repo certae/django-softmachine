@@ -54,33 +54,36 @@ def createTestEntity():
     return testEntity
 
 
-def createTestPropertyModel():
-    testModel = createTestModel()
-    testModel.save()
-
-    propertymodeldata = {
-        'model': testModel,
-        'inherit': False,
-        'conceptType': 'testConceptType',
-        'isSensitive' : False
+def createTestPropertyBaseChild():
+    propertyBaseChilddata = {
+        'code' : 'testcode',
+        'baseType' : 'testbaseType',
+        'prpLength' : 15,
+        'prpScale' : 12,
+        'vType' : 'testvType',
+        'prpDefault' : 'testprpDefault',
+        'prpChoices' : 'testprpChoices',
+        'isSensitive' : True,
+        'description' : '',
+        'notes' : ''
     }
+    
+    testProperty = PropertyBaseChild(**propertyBaseChilddata)
+    testProperty.save()
 
-    testPropertyModel = PropertyModel(**propertymodeldata)
-    testPropertyModel.save()
-
-    return testPropertyModel
+    return testProperty
 
 
 def createTestProperty():
     testEntity = createTestEntity()
     testEntity.save()
 
-    #testPropertyModel = createTestPropertyModel()
-    #testPropertyModel.save()
+    testPropertyModel = createTestPropertyModel()
+    testPropertyModel.save()
 
     propertydata = {
         'entity': testEntity,
-        #'propertyModel': testPropertyModel,
+        'propertyModel': testPropertyModel,
         'isPrimary': True,
         'isLookUpResult': True,
         'isNullable': True,
@@ -137,6 +140,22 @@ def createTestRelationship():
     testRelationShip.save()
 
     return testRelationShip
+
+def createTestPropertyModel():
+    testModel = createTestModel()
+    testModel.save()
+
+    propertymodeldata = {
+        'model': testModel,
+        'inherit': False,
+        'conceptType': 'testConceptType',
+        'isSensitive' : False
+    }
+
+    testPropertyModel = PropertyModel(**propertymodeldata)
+    testPropertyModel.save()
+
+    return testPropertyModel
 
 
 def createTestPropertyEquivalence():

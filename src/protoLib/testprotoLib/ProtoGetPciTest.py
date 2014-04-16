@@ -10,17 +10,6 @@ import json
 
 from protoLib.protoGetPci import protoGetPCI, protoSaveProtoObj, protoGetFieldTree
 
-
-def ProtoGetPciTestSuite():
-    suite = TestSuite()
-
-    suite.addTest(makeSuite(ProtoGetPciTest, 'test'))
-    suite.addTest(makeSuite(ProtoSaveProtoObjTest, 'test'))
-    suite.addTest(makeSuite(ProtoGetFieldTreeTest, 'test'))
-
-    return suite
-
-
 class ProtoGetPciTest(TestCase):
     fixtures = ['auth.json']
 

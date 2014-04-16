@@ -1,17 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# Efficient String Concatenation in Python ( http://www.skymind.com/~ocrow/python_string/ )
-
-# def method1():    ( Little string ) 
-#     out_str += `num`
-  
-# def method5():  ( BigString )
-#   from cStringIO import StringIO
-#   file_str = StringIO()
-#   file_str.write(`num`)
-#   return file_str.getvalue()
-  
-  
 from pttActionTools import getClassName, TypeEquivalence  
 from protoLib.utilsBase import slugify, repStr
 from cStringIO import StringIO
@@ -45,11 +33,9 @@ def exportPrototypeModel(request, pModel ):
             if pProperty.isForeign:
                 pType  = getClassName( pProperty.relationship.refEntity.code ) 
                 strAux = "{0} = models.ForeignKey('{1}', blank= {2}, null= {2}, related_name='+')\n"
-#                   on_delete={5} : CASCADE, PROTECT, SET_NULL 
                 
             else: 
                 pType  = TypeEquivalence.get( pProperty.baseType , 'CharField')
-#                   prpDefault
 
                 intLength = pProperty.prpLength 
                 intScale  = pProperty.prpScale  
@@ -73,7 +59,7 @@ def exportPrototypeModel(request, pModel ):
                 else: 
                     strAux = "{0} = models.{1}(blank = {2}, null = {2})\n"
 
-#               isRequired isNullable: 
+#           isRequired isNullable: 
             if pProperty.isRequired: 
                 strNull = 'False'
             else: 
@@ -90,7 +76,6 @@ def exportPrototypeModel(request, pModel ):
                           str( intScale ) 
                           ))  
             
-
         strModel.write("\n")
         strModel.write(repStr(' ',4)+ "def __unicode__(self):\n")
 
@@ -99,29 +84,30 @@ def exportPrototypeModel(request, pModel ):
             # Unicode 
             strOptions = ''
             for pProperty in pEntity.property_set.all():
-                if not pProperty.isPrimary : continue
-                if strOptions.__len__() > 0:  strOptions += " +  '.' + " 
+                if not pProperty.isPrimary :
+                    continue
+                if strOptions.__len__() > 0:
+                    strOptions += " +  '.' + " 
 
                 if pProperty.isForeign or not ( pProperty.baseType in  [ 'string', 'text' ] ):
                     strAux = 'str( self.{0})'.format( slugify(pProperty.code, '_'))
-                else :  strAux = 'self.{0}'.format( slugify(pProperty.code, '_'))  
+                else :
+                    strAux = 'self.{0}'.format( slugify(pProperty.code, '_'))  
                 strOptions += strAux  
 
             strModel.write( repStr(' ',8) + "return slugify({0})\n".format( strOptions ))
 
-
             #meta 
             strModel.write("\n")
-            strModel.write(repStr(' ',4)+ "class Meta:\n")
-            
+            strModel.write(repStr(' ',4)+ "class Meta:\n")           
             strOptions = ''
+            
             for pCode in arrKeys:
                 strOptions +=  "'{0}',".format( pCode ) 
  
             strModel.write( repStr(' ',8) + "unique_together = ({0})\n".format( strOptions ))
 
         else: 
-
             strModel.write( repStr(' ',8) + "return 'NoKey'")
                 
     strAux = strModel.getvalue()

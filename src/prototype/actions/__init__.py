@@ -140,7 +140,7 @@ def doExportProtoJson( modeladmin, request, queryset, parameters):
 #   Envia el QSet con la lista de modelos, 
     try:
         strModel = exportProtoJson ( request, queryset[0] )
-    except Exception as e:
+    except Exception :
         traceback.print_exc()
         return  {'success':False, 'message' : 'Load error' }
 
@@ -171,14 +171,10 @@ def doImportSchema( modeladmin, request, queryset, parameters):
 
     try: 
         getDbSchemaDef( queryset[0] , request  )
-#        from multiprocessing import Process
-#        p = Process (target= getDbSchemaDef ,args=( queryset[0] , request ))
-#        p.start()
     
 #   Recorre los registros selccionados   
-    except Exception as e:
+    except Exception :
         traceback.print_exc()
         return  {'success':False, 'message' : 'Load error' }
-        pass
         
     return {'success':True, 'message' :  'runing ...' } 

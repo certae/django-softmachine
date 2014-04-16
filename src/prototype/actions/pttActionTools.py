@@ -25,5 +25,6 @@ def getClassName( cName ):
 
 
 def getViewCode( pEntity, viewTitle = None ):
-    if viewTitle is None: viewTitle = pEntity.code
+    if viewTitle is None:
+        viewTitle = pEntity.code
     return slugify( pEntity.model.code + '-' + viewTitle )

@@ -1,9 +1,5 @@
 eclipse.preferences.version=1
 encoding//src/ProtoExt/settings.py=utf-8
-encoding//src/alltests/testMetaDefinitions/ObjectsTest.py=utf-8
-encoding//src/alltests/testMetaDefinitions/PropertiesTest.py=utf-8
-encoding//src/alltests/testSample0/SampleTest.py=utf-8
-encoding//src/alltests/testSampleProject/ViewCreationTest.py=utf-8
 encoding//src/alltests/tests.py=UTF-8
 encoding//src/ll/models.py=utf-8
 encoding//src/protoLib/actions/__init__.py=utf-8

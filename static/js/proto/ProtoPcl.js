@@ -82,20 +82,20 @@ Ext.define('ProtoUL.proto.ProtoPcl' ,{
 
         });
 
-        this.treeGrid = treeGrid
+        this.treeGrid = treeGrid ;
 
 
         var propsGrid = Ext.create('ProtoUL.ux.ProtoProperty', {
-            source : { name : '' }
+            source : { name : '' } 
         });
         var fieldList = Ext.create('ProtoUL.ux.ProtoList', {
             idTitle: 'SelectedFields'
-        })
+        });
 
         var jsonText = Ext.create('Ext.form.TextArea', {
             autoScroll : true,
             labelAlign : 'top'
-        })
+        });
 
 //  ================================================================================================
 

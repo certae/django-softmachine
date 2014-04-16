@@ -4,8 +4,6 @@ from django.db.models import Q
 from utilsConvert import isNumeric, toInteger
 import re
 
-
-
 def addFilter(Qs, sFilter):
 #   Agrega un filtro q viene en modo texto a un Qset
     if (len (sFilter) == 0):
@@ -24,8 +22,10 @@ def addFilter(Qs, sFilter):
 
     # Filtro String
     else:
-        try: protoStmt = eval(sFilter)
-        except: return Qs
+        try:
+            protoStmt = eval(sFilter)
+        except:
+            return Qs
 
     # en caso de q halla un stmt lo evalua
     if (len (protoStmt) == 0):
@@ -52,8 +52,6 @@ def getSearcheableFields(model):
 
     lFields = []
     filterableTypes = [ 'CharField', 'TextField', 'JSONField' ]
-#    filterableTypes.extend( ['IntegerField', 'DecimalField', 'FloatField' ]
-#    filterableTypes.extend( [ 'DateField', 'TimeField', 'DateTimeField', 'BooleanField' ])
 
     for field in model._meta.fields:
         if field.__class__.__name__ in filterableTypes:
@@ -79,7 +77,8 @@ def getQbeStmt(fieldName , sQBE, sType):
                 # TODO: Log error y seguimeinto para hacer nulo el Qs
                 return None
 
-        if sQBE == '' : return QResult
+        if sQBE == '' :
+            return QResult
 
     elif type(sQBE).__name__ in ['int', 'long', 'float', 'decimal']:
         # es un numero, no hay criterios posibles solo =
@@ -102,7 +101,8 @@ def getQbeStmt(fieldName , sQBE, sType):
 
         lCondicion = sQBE.split(";")
         for sCondicion in lCondicion:
-            if len (sCondicion) == 0: continue
+            if len (sCondicion) == 0:
+                continue
 
             bAndConector = False
             if sCondicion.startswith('!') :
@@ -115,7 +115,8 @@ def getQbeStmt(fieldName , sQBE, sType):
             else:
                 QResult = QResult | Qtmp
 
-        if bNot : QResult = ~QResult
+        if bNot :
+            QResult = ~QResult
         return QResult
 
 
@@ -173,7 +174,8 @@ def getQbeStmt(fieldName , sQBE, sType):
 #    TODO: if sType in ( [ 'date''datetime', 'time' ]) : 
 
     
-    if bNot : QResult = ~QResult
+    if bNot :
+        QResult = ~QResult
     return QResult
 
 

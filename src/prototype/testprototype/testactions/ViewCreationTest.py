@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from pprint import pprint
 from django.test import TestCase
 from django.utils.unittest.suite import TestSuite
 from django.utils.unittest.loader import makeSuite
@@ -8,25 +7,8 @@ from django.http import HttpRequest
 
 from prototype.models import *
 from prototype.actions.viewDefinition import *
-
 from prototype.actions.__init__ import doModelPrototype
 from prototype.actions.__init__ import doEntityPrototype
-
-from protoLib.protoAuth import getUserProfile
-from protoLib.utilsBase import slugify
-
-
-def ViewCreationTestSuite():
-    suite = TestSuite()
-
-    suite.addTest(makeSuite(GetViewDefinitionTest, 'test'))
-    suite.addTest(makeSuite(GetViewCodeTest, 'test'))
-    suite.addTest(makeSuite(CreateViewTest, 'test'))
-    suite.addTest(makeSuite(GetEntitiesTest, 'test'))
-    suite.addTest(makeSuite(DoModelPrototypeTest, 'test'))
-    suite.addTest(makeSuite(DoEntityPrototypeTest, 'test'))
-
-    return suite
 
 
 class GetViewDefinitionTest(TestCase):
@@ -148,5 +130,6 @@ class DoEntityPrototypeTest(TestCase):
         for pModel in self.model:
             for ii in range(0, len(pModel.entity_set.all())-1):
                 pModel.entity_set.all()[0].delete()
+                
             returnMessage = doEntityPrototype('', self.request, pModel.entity_set.all(), '')
             self.assertFalse(returnMessage['success'])

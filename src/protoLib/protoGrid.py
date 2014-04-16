@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib.admin.sites import  site
-
-
 from utilsBase import verifyList, copyProps, list2dict
 from usrDefProps import verifyUdpDefinition
 from protoField import  setFieldDict
@@ -19,17 +17,21 @@ def getProtoAdmin(model):
     model_admin = site._registry.get(model)
 
     # Si no esta registrado genera una definicion en blanco
-    if not model_admin: model_admin = {}
+    if not model_admin:
+        model_admin = {}
     protoExclude = getattr(model_admin , 'exclude', [])
-    if protoExclude is None: protoExclude = []
+    if protoExclude is None:
+        protoExclude = []
 
     protoMeta = getattr(model, 'protoExt', {})
     protoExt = getattr(model_admin, 'protoExt', {})
 
     protoMeta[ 'exclude'] = protoMeta.get('exclude', []) + protoExclude
 
-    if not isinstance(protoMeta, dict): protoMeta = {}
-    if not isinstance(protoExt, dict): protoExt = {}
+    if not isinstance(protoMeta, dict):
+        protoMeta = {}
+    if not isinstance(protoExt, dict):
+        protoExt = {}
 
     protoMeta = copyProps(protoMeta, protoExt)
 
@@ -74,11 +76,13 @@ class ProtoGridFactory(object):
             pListDisplay = verifyList(getattr(self.model_admin , 'list_display', []))
 
             # Por defecto solo vienen  Chk, _str_
-            try: pListDisplay.remove('action_checkbox')
-            except ValueError:  pass
+            try:
+                pListDisplay.remove('action_checkbox')
+            except ValueError:
+                pass
 
-            # if pListDisplay and (pListDisplay[0] == '__str__'): pListDisplay = []
-            if len(pListDisplay) == 0: pListDisplay = [ '__str__' ]
+            if len(pListDisplay) == 0:
+                pListDisplay = [ '__str__' ]
 
         self.gridConfig['listDisplay'] = pListDisplay
 
@@ -106,13 +110,9 @@ class ProtoGridFactory(object):
         # Se crean los campos con base al modelo ( trae todos los campos del modelo )
         # for field in self.model._meta._fields(): #only for django 1.4
         for field in self.model._meta.fields:
-            if field.name in protoExclude: continue
+            if field.name in protoExclude:
+                continue
             setFieldDict (self.fieldsDict , field)
-
-
-#         for field in self.model._meta._many_to_many():
-#             if field.name in protoExclude: continue
-#             setFieldDict (  self.fieldsDict , field )
 
         # Agrega el __str__ que sirve de base para los zooms
         fName = '__str__'
@@ -127,9 +127,11 @@ class ProtoGridFactory(object):
         # Genera la lista de campos y agrega el nombre al diccionario
         for key in self.fieldsDict:
             fdict = self.fieldsDict[ key ]
-            if (fdict.get('name', '') == '') : fdict[ 'name' ] = key
+            if (fdict.get('name', '') == '') :
+                fdict[ 'name' ] = key
 
-            if key in pReadOnlyFlds: fdict[ 'readOnly' ] = True
+            if key in pReadOnlyFlds:
+                fdict[ 'readOnly' ] = True
 
             # Repasa las propiedades de base, ver por q no esta pasando trayendo las props de base ( ie:  defaulValue )
             if (not (key.startswith('udp__'))):
@@ -140,7 +142,6 @@ class ProtoGridFactory(object):
                 except:
                     # Es posible q se puedan configuar propiedades no pertenecientes a la tabla como editables???
                     fdict[ 'readOnly' ] = True
-                    pass
 
             self.fields.append(fdict)
 
@@ -171,7 +172,8 @@ class ProtoGridFactory(object):
                     vFld = self.fieldsDict.get(key , {})
                     fType = vFld.get('type', 'string')
 
-                    if  vFld.get('crudType') == 'storeOnly' : continue
+                    if  vFld.get('crudType') == 'storeOnly' :
+                        continue
 
                     if (key in [ 'smOwningUser', 'smOwningTeam', 'smCreatedBy', 'smModifiedBy', 'smWflowStatus', 'smRegStatus', 'smCreatedOn', 'smModifiedOn' ]) :
                         prAdmin.append({ 'name' : key  , '__ptType' : 'formField'})
@@ -180,7 +182,6 @@ class ProtoGridFactory(object):
                         prTexts.append({ 'name' : key  , '__ptType' : 'formField'})
 
                     elif (fType in ['autofield', 'foreignid']) :
-#                        prIds.append( { 'name' : key  , '__ptType' : 'formField'} )
                         continue
 
                     elif (fType == 'bool') :
@@ -188,10 +189,8 @@ class ProtoGridFactory(object):
 
                     elif (fType == 'protoN2N') :
                         continue
-#                        prN2N.append( { 'name' : key  , '__ptType' : 'formField'} )
 
                     elif (key == '__str__') :
-#                        prTexts.insert( 0, { 'name' : key  , '__ptType' : 'formField'} )
                         continue
 
                     elif (vFld.get('required', False) == False):
@@ -286,7 +285,8 @@ def getModelDetails(model):
     # Tabla intermedia referenciada en N2N ( desde la tabla base )
     for detail in opts.get_all_related_many_to_many_objects():
         tmpTable = detail.field.rel.through._meta
-        if not tmpTable.auto_created:  continue
+        if not tmpTable.auto_created:
+            continue
 
         relTable = detail.model._meta
         details.append({
@@ -301,7 +301,8 @@ def getModelDetails(model):
     # Tabla intermedia referenciada en N2N ( desde la tabla referenciada )
     for field in opts._many_to_many():
         tmpTable = field.rel.through._meta
-        if not tmpTable.auto_created:  continue
+        if not tmpTable.auto_created:
+            continue
 
         relTable = field.related.parent_model._meta
         details.append({
@@ -351,8 +352,10 @@ def getBaseModelName(viewCode):
         viewEntity = viewCode
 
     if not(viewEntity.startswith(PROTO_PREFIX)  and viewEntity != PROTO_PREFIX):
-        try: protoDef = ProtoDefinition.objects.get(code=viewEntity)
-        except: return viewEntity
+        try:
+            protoDef = ProtoDefinition.objects.get(code=viewEntity)
+        except:
+            return viewEntity
 
         protoMeta = json.loads(protoDef.metaDefinition)
         viewEntity = protoMeta.get('viewEntity', viewCode)

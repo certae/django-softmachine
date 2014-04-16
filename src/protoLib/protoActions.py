@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from protoGrid import getBaseModelName
 from models import getDjangoModel, WflowUserReponse
 
-
 import json
 
 from datetime import datetime
@@ -36,7 +35,8 @@ def protoExecuteAction(request):
 
                     if len (parameters) > 0: 
                         strMsg = parameters[0].get('value')
-                    else : strMsg = actionDef.get('message', '') 
+                    else :
+                        strMsg = actionDef.get('message', '') 
 
                     UserReponse = WflowUserReponse()
                     UserReponse.viewEntity = viewEntity
@@ -90,7 +90,8 @@ def protoExecuteAction(request):
     def doAdminAction(model, selectedKeys, parameters, actionDef, modelAdmin):
 
         for action in modelAdmin.actions:
-            if action.__name__ == actionName: break;
+            if action.__name__ == actionName:
+                break
     
         if not action:
             return doReturn ({'success':False, 'message' : 'Action notFound'})
