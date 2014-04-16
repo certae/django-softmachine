@@ -8,6 +8,8 @@ omit =
 	output
 	templates
 	xml2db
+        *urls*
+        localisation/*
 
 [report]
 exclude_lines =
