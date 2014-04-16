@@ -360,6 +360,7 @@
 /* Icons */
 
 .save-diagram    { background-image: url(../img/protoImg/d_save_detail.png ) !important;}
+.open-file    { background-image: url(../img/protoImg/open-file-icon.png ) !important;}
 .get-from-DB    { background-image: url(../img/protoImg/database-refresh-icon.png ) !important;}
 .send-to-DB    { background-image: url(../img/protoImg/database-save-icon.png ) !important;}
 .find-table    { background-image: url(../img/protoImg/data-find-icon.png ) !important;}

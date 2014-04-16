@@ -42,6 +42,8 @@ _SM._PConfig =  {
     synchDBFromDiagram: 'protoLib/synchDBFromDiagram/',
     synchDiagramFromDB: 'protoLib/synchDiagramFromDB/',
     getElementsDiagramFromSelectedTables: 'protoLib/getElementsDiagramFromSelectedTables/',
+    getDefaultDiagram: 'protoLib/getDefaultDiagram/',
+    saveDiagram: 'protoLib/saveDiagram/',
 
     clsBaseModel: 'ProtoUL.model.'
 };

@@ -9,7 +9,7 @@ from protoLib.protoActionList import protoList
 from protoLib.protoActionRep  import sheetConfigRep, protoCsv
 from protoLib.protoActionEdit  import protoCreate, protoUpdate, protoDelete
 from protoLib.protoActions  import protoExecuteAction
-from protoLib.protoDiagram import getEntitiesJSONDiagram, synchDBFromDiagram, getElementsDiagramFromSelectedTables, synchDiagramFromDB
+from protoLib.protoDiagram import getEntitiesJSONDiagram, synchDBFromDiagram, getElementsDiagramFromSelectedTables, synchDiagramFromDB, getDefaultDiagram, saveDiagram
 
 urlpatterns = patterns('',
     url('protoList/$', protoList),
@@ -40,5 +40,6 @@ urlpatterns = patterns('',
     url('synchDBFromDiagram/$', synchDBFromDiagram),
     url('synchDiagramFromDB/$', synchDiagramFromDB),
     url('getElementsDiagramFromSelectedTables/$', getElementsDiagramFromSelectedTables),
-    
+    url('getDefaultDiagram/$',getDefaultDiagram),
+    url('saveDiagram/$',saveDiagram),
 )

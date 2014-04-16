@@ -14,6 +14,9 @@ Ext.define('ProtoUL.controller.DiagramController', {
         ref: 'entityEditor',
         selector: '#entityeditor'
     }, {
+        ref: 'diagramMainView',
+        selector: '#diagramMainView'
+    }, {
         ref: 'tableContextMenu',
         selector: '#tablecontextmenu'
     }],
@@ -125,6 +128,25 @@ Ext.define('ProtoUL.controller.DiagramController', {
     saveDiagram: function(button, e, eOpts) {
         this.updateJsonDocument();
 
+		var controller = this;
+        var projectID = controller.getDiagramMainView().getProjectID();
+        var diagramID = controller.getDiagramMainView().getDiagramID();
+        
+        Ext.Ajax.request({
+            url: _SM._PConfig.saveDiagram,
+            params: {
+                projectID: projectID,
+                diagramID: diagramID
+            },
+            jsonData: Ext.JSON.encode(jsonDocument),
+            success: function(response) {
+                console.log('Cuccess: saveDiagram');
+            },
+            failure: function(response) {
+                console.log('Failure: saveDiagram');
+            }
+        });
+        
         this.enableToolbarButton('btSyncToDB');
     },
 
@@ -251,6 +273,33 @@ Ext.define('ProtoUL.controller.DiagramController', {
         button.setDisabled(true);
     },
 
+	openDiagram: function(button, e, eOpts) {
+        var controller = this;
+        var projectID = controller.getDiagramMainView().getProjectID();
+        Ext.Ajax.request({
+            url: _SM._PConfig.getDefaultDiagram,
+            params: {
+                projectID: projectID
+            },
+            success: function(response) {
+                var text = response.responseText;
+                var outcome = Ext.JSON.decode(text);
+                
+                if (outcome.diagram === "{}") {
+                	jsonDocument = [];
+                } else {
+                    jsonDocument = Ext.JSON.decode(outcome.diagram).objects;
+                }
+                controller.getDiagramMainView().setTitle('Diagram: ' + outcome.diagramCode);
+                controller.getDiagramMainView().setDiagramID(outcome.diagramID);
+                controller.getDiagramCanvas().reload();
+            },
+            failure: function(response) {
+                console.log('Failure: openDiagram');
+            }
+        });
+    },
+    
     init: function(application) {
         this.control({
             "#btUndo": {
@@ -297,6 +346,9 @@ Ext.define('ProtoUL.controller.DiagramController', {
             },
             "#btRemoveUnusedPorts": {
                 click: this.removeUnusedPorts
+            },
+            'panel': {
+                opendiagram: this.openDiagram
             }
         });
     }

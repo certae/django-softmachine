@@ -124,6 +124,7 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
                 });
                 break;
             default:
+            	alert('Function to be implementated in future versions!');
                 break;
         }
     },

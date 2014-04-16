@@ -25,6 +25,21 @@ Ext.define('ProtoUL.view.diagram.SearchMenu', {
                     itemId: 'getAllTables',
                     iconCls: 'find-table',
                     text: 'Add table from DB',
+                },
+                {
+                	xtype: 'menuseparator'
+                },
+                {
+                    xtype: 'menuitem',
+                    itemId: 'menuCreateDiagram',
+                    iconCls: 'icon-pclDetails',
+                    text: 'New diagram',
+                },
+                {
+                    xtype: 'menuitem',
+                    itemId: 'menuOpenDiagram',
+                    iconCls: 'open-file',
+                    text: 'Open diagram',
                 }
             ]
         });

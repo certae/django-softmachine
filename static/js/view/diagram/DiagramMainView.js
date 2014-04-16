@@ -11,6 +11,7 @@ Ext.define('ProtoUL.view.diagram.DiagramMainView', {
     width: 1200,
 	
 	projectID: null,
+	diagramID: null,
 	
     initComponent: function() {
         var me = this;
@@ -33,15 +34,29 @@ Ext.define('ProtoUL.view.diagram.DiagramMainView', {
                 collapsible: true
             }]
         });
+    	me.addEvents(
+            'opendiagram'
+        );
+    	me.on('beforeshow', function(){
+    		this.fireEvent('opendiagram');
+		});
 
         me.callParent(arguments);
     },
-    
+		
     setProjectID: function(id) {
     	this.projectID = id;
     },
     
     getProjectID: function() {
     	return this.projectID;
+    },
+		
+    setDiagramID: function(id) {
+    	this.diagramID = id;
+    },
+    
+    getDiagramID: function() {
+    	return this.diagramID;
     }
 });

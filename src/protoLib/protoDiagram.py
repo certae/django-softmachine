@@ -2,7 +2,8 @@
 
 from django.http import HttpResponse
 from utilsWeb import JsonError
-from prototype.models import Project, Model, Entity, Relationship, Property
+from prototype.models import Project, Model, Entity, Relationship, Property, Diagram
+from utilsBase import JSONEncoder
 
 import json, uuid
 
@@ -288,4 +289,48 @@ def saveAttributes(element, entity, UUIDAttributeList, user, owningTeam):
     return entity
 
 
+def getDefaultDiagram(request):
+    projectID = request.REQUEST['projectID']
+    try:
+        project = Project.objects.get(id=projectID)
+        diagrams = Diagram.objects.filter(project_id=projectID)
+        if not diagrams:
+            diagram,created = Diagram.objects.get_or_create(project=project,code='default',smOwningTeam=project.smOwningTeam)
+        else:
+            diagram = diagrams[0]
+    except Exception as e:
+        return JsonError(e)
+    
+    jsonDiagram = diagram.info
+    if isinstance(jsonDiagram, dict):
+            jsonDiagram = json.dumps(jsonDiagram , cls=JSONEncoder)
+            
+    jsondict = {
+        'success':True,
+        'message': '',
+        'diagramID': diagram.id,
+        'diagramCode': diagram.code,
+        'diagram': jsonDiagram,
+    }
+    context = json.dumps(jsondict)
+    return HttpResponse(context, content_type="application/json")
 
+def saveDiagram(request):
+    diagramID = request.REQUEST['diagramID']
+    
+    jsonFile = json.loads(request.body)
+    jsonString = JSONEncoder().encode(jsonFile)
+    jsonString = '{"objects":'+jsonString+'}'
+    try:
+        diagram = Diagram.objects.get(id=diagramID)
+        diagram.info = jsonString
+        diagram.save()
+    except Exception as e:
+        return JsonError(e)
+    
+    jsondict = {
+        'success':True,
+        'message': 'Diagram saved',
+    }
+    context = json.dumps(jsondict)
+    return HttpResponse(context, content_type="application/json")
