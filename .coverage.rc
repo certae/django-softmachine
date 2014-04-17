@@ -8,9 +8,10 @@ omit =
 	output
 	templates
 	xml2db
-        *urls*
-        localisation/*
-        snippets/*
+    *urls*
+    src/protoLib/localisation/*
+    src/snippets/*
+	src/ProtoExt/settings*
 
 [report]
 exclude_lines =
