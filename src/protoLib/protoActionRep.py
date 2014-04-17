@@ -11,7 +11,7 @@ from protoActionList  import Q2Dict, getQSet
 from protoGrid import  getBaseModelName
 from utilsBase import  getReadableError
 from protoQbe import addFilter
-from downloadFile import getFullPath
+from utils.downloadFile import getFullPath
 
 from utilsWeb import JsonError, JsonSuccess
 
@@ -83,7 +83,7 @@ def getSheetConf( protoMeta , sheetName ):
 
     try:
         pSheets = protoMeta.get( 'sheetConfig', [] )
-    except Exception :
+    except Exception as e :
         return {}
 
     # Los recorre todos pero se queda con el primero
@@ -110,14 +110,14 @@ def getReportBase( viewCode ):
     # Obtiene el modelo
     try:
         model = getDjangoModel(viewEntity)
-    except Exception :
+    except Exception as e :
         pass
 
     # Obtiene la definicion
     try:
         protoDef  = ProtoDefinition.objects.get (code = viewCode )
         protoMeta = json.loads( protoDef.metaDefinition )
-    except Exception :
+    except Exception as e :
         pass
 
     # hace el QSet de los registros seleccionados
@@ -298,7 +298,6 @@ def protoCsv(request):
 
     filename = protoMeta.get('viewCode', '') + '.csv'
     fullpath = getFullPath( request, filename )
-
 
     import codecs
     with codecs.open(fullpath , 'w', 'utf-8') as outfile:

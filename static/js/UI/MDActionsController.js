@@ -121,6 +121,8 @@ Ext.define('ProtoUL.UI.MDActionsController', {
                 });
 
                 myWin.show();
+                // myWin.uploadFile()
+
             };
         };
 

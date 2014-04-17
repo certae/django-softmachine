@@ -10,6 +10,7 @@ omit =
 	xml2db
         *urls*
         localisation/*
+        snippets/*
 
 [report]
 exclude_lines =

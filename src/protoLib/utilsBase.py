@@ -1,5 +1,9 @@
 # -*- encoding: utf-8 -*-
 
+# some common routines
+# Compiled by : Dgt 11/11
+
+
 import os
 import re
 
@@ -18,20 +22,21 @@ class JSONEncoder(json.JSONEncoder):
             return json.JSONEncoder.default(self, obj)    
 
 
+
 def verifyList(obj, defList = []):
 #   Los objetos del admin son en su mayoria del tipo tuple,
 #   Es necesario convertirlos a listas por facilidad de trabajo
-    if isinstance(obj , basestring ):
+    if isinstance( obj , basestring ):
         try: 
             obj = json.loads(obj)  
         except : 
             obj = []
-    elif isinstance( obj, tuple ):  
-        obj = list(obj)
+    elif isinstance( obj, tuple  ):  
+        obj = list( obj )
 
-    if isinstance(obj, list):
-        if  len(obj) == 0 :
-            obj = defList        
+    if isinstance( obj, list ):
+        if  len( obj ) == 0 :
+            obj  = defList        
         return obj    
 
     else:
@@ -71,12 +76,11 @@ def guessNextPath(dst, slugify = True, idx = 0, checkExists = True):
     """ return a renamed path if provided one already exists 
         if slugify, file name is slugified first (fs encodings problems quick & dirty workaround)
     """
-    from django.template.defaultfilters import slugify as slugifyer
     newpath = dst
     if idx == 0:
         (path, file) = os.path.split(newpath)
         (file, ext) =  os.path.splitext(file)
-        slug = slugifyer(file)
+        slug = slugify(file)
 
         newpath = os.path.join(path, '%s%s' % (slug, ext))
 
@@ -354,3 +358,33 @@ def slugify(text, delim=u'-'):
 def repStr(string_to_expand, length):
     #Repeat to length  ( indent, fill, ... ) 
     return (string_to_expand * ((length/len(string_to_expand))+1))[:length]
+
+
+
+class Enum(tuple): 
+    # How to use it (forward and reverse lookup, keys, values, items, etc.)
+
+    # >>> State = Enum(['Unclaimed', 'Claimed'])
+    # >>> State.Claimed
+    # 1
+
+    # >>> State[1]
+    # 'Claimed'
+
+    # >>> State
+    # ('Unclaimed', 'Claimed')
+
+    # >>> range(len(State))
+    # [0, 1]
+
+    # >>> [(k, State[k]) for k in range(len(State))]
+    # [(0, 'Unclaimed'), (1, 'Claimed')]
+
+    # >>> [(k, getattr(State, k)) for k in State]
+    # [('Unclaimed', 0), ('Claimed', 1)]
+    __getattr__ = tuple.index
+
+
+def getClassName( cName ):
+    # Formatea un string tipo titulo 
+    return ''.join( slugify( cName , ' ').title().split() )

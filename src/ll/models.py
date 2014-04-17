@@ -8,6 +8,8 @@
 from django.db import models
 from protoLib.models import ProtoModel
 from protoLib.utilsBase import slugify
+from django.core.exceptions import PermissionDenied
+
 
 WORKFLOW = {  'initialStatus' :   'I', 
                     'OkStatus' : 'Ok', 
@@ -66,6 +68,7 @@ class Logiciel(ProtoModel):
     recommande_gouv_quebec = models.BooleanField()
     uri_commu_gouv = models.CharField(blank= True, null= True, max_length= 255)
     fourlog = models.ForeignKey('Logiciel', blank= True, null= True)
+    
     _WorkFlow =  WORKFLOW
 
     def __unicode__(self):
@@ -89,6 +92,7 @@ class Licence(ProtoModel):
     nom_licence = models.CharField(blank= True, null= True, max_length= 255)
     type_licence = models.CharField(blank= True, null= True, max_length= 255)
     uri_licence = models.CharField(blank= True, null= True, max_length= 255)
+
     _WorkFlow =  WORKFLOW
 
     def __unicode__(self):
@@ -150,6 +154,7 @@ class LangageUtilise(ProtoModel):
 
 class Langage(ProtoModel):
     nom_langage = models.CharField(blank= False, null= False, max_length= 255)
+
     _WorkFlow =  WORKFLOW
 
     def __unicode__(self):
@@ -160,6 +165,7 @@ class Langage(ProtoModel):
 
 class SystemeExploitation(ProtoModel):
     nom_systeme_exploitation = models.CharField(blank= False, null= False, max_length= 255)
+
     _WorkFlow =  WORKFLOW
 
     def __unicode__(self):
@@ -265,8 +271,8 @@ class Evaluation(ProtoModel):
     indice_maturite = models.DecimalField(blank= True, null= True, max_digits=48, decimal_places= 0)
     description_evaluation = models.TextField(blank = True, null = True)
     log_eva = models.ForeignKey('Logiciel', blank= False, null= False)
+
     _autoIncrementField = 'id_evaluation'
-    
     def __unicode__(self):
         return slugify(self.id_evaluation +  '.' + str( self.log_eva))
 
@@ -386,7 +392,7 @@ class Expert(ProtoModel):
 
 class HistoriqueUtilisateurs(ProtoModel):
     date_renseignements = models.CharField(blank= True, null= True, max_length= 255)
-    date_de_saisie = models.DateTimeField(blank = True, null = True)
+    date_de_saisie = models.DateField(blank = True, null = True)
     identifiant_nombre_utilisateurs = models.IntegerField(blank = False, null = False)
     nombre_utilisateurs = models.IntegerField(blank = True, null = True)
     usage_nombre_utilisateurs = models.ForeignKey('UsageLogiciel', blank= False, null= False)
@@ -399,7 +405,7 @@ class HistoriqueUtilisateurs(ProtoModel):
         unique_together = ('identifiant_nombre_utilisateurs','usage_nombre_utilisateurs',)
 
 class HistoriqueInstances(ProtoModel):
-    date_de_saisie = models.DateTimeField(blank = True, null = True)
+    date_de_saisie = models.DateField(blank = True, null = True)
     date_renseignements = models.CharField(blank= True, null= True, max_length= 255)
     identifiant_nombre_instances = models.IntegerField(blank = False, null = False)
     nombre_instances = models.IntegerField(blank = True, null = True)
@@ -586,10 +592,9 @@ class UsageLogiciel(ProtoModel):
 
     def save(self, *args, **kwargs):
         organismeUsage = self.organisme_usage
-        if self.smOwningTeam == organismeUsage.smOwningTeam:
+        if self.smOwningTeam == organismeUsage.smOwningTeam or self.smOwningUser.is_superuser:
             super(UsageLogiciel, self).save(*args, **kwargs)
         else:
-            from django.core.exceptions import PermissionDenied
             raise PermissionDenied('Votre compte n\'appartient pas à l\'organisme public sélectioné.')
 
 class OrganismePublic(ProtoModel):
@@ -598,9 +603,20 @@ class OrganismePublic(ProtoModel):
     mission = models.TextField(blank = True, null = True)
     numero_sct = models.CharField(blank= True, null= True, max_length= 255)
 
-    _WorkFlow =  WORKFLOW
     def __unicode__(self):
         return slugify(self.acronyme)
 
     class Meta:
         unique_together = ('acronyme',)
+        
+    def save(self, *args, **kwargs):
+        user = self.smOwningUser
+        outcome = None
+        try:
+            outcome = OrganismePublic.objects.get(smOwningUser_id=user.id)
+            raise Exception
+        except Exception:
+            if outcome is None or user.is_superuser:
+                super(OrganismePublic, self).save(*args, **kwargs)
+            else:
+                raise PermissionDenied('Votre compte appartient à l\'autre organisme public.')

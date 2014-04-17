@@ -5,8 +5,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
+from django.contrib.contenttypes.models import ContentType
 from django.db.models.signals import post_save
+
 from protoLib.fields import JSONField, JSONAwareManager
+from protoLib.utils.modelsTools import  getDjangoModel, getNodeHierarchy
 import uuid
 
 class TeamHierarchy(models.Model):
@@ -36,8 +39,6 @@ class TeamHierarchy(models.Model):
     def save(self, *args, **kwargs):
         if self.parentNode is not None:
             self.site = self.parentNode.site
-#        if self.site is None:
-#            raise Exception( 'site required')
         super(TeamHierarchy, self).save(*args, **kwargs)
 
     protoExt = { 'fields' : {
@@ -52,12 +53,17 @@ class UserProfile(models.Model):
 # Es necesario inlcuir el ususario en un BUnit, cada registro copiara el Bunit
 # del usuario para dar permisos tambien a la jerarquia ( ascendente )
     user = models.ForeignKey(User, unique=True)
-    userTeam = models.ForeignKey(TeamHierarchy, blank=True, null=True)
-    userTree = models.CharField(blank=True, null=True, max_length=500)
+    userTeam = models.ForeignKey(TeamHierarchy, blank=True, null=True, related_name='userTeam')
     language = models.CharField(blank=True, null=True, max_length=500)
 
-    # TODO: si  el usuario pertenece a varios grupos podria cambiar su grupo de trabajo
-    # workigTeam = models.ForeignKey( TeamHierarchy, blank = True, null = True )
+    # System generated hierachie 
+    userTree = models.CharField(blank=True, null=True, max_length=500)
+
+    # DGT : si el usuario pertenece a varios (usrShar)  podria asignar su grupo de trabajo
+    # workigTeam = models.ForeignKey( TeamHierarchy, blank = True, null = True, related_name =  'workigTeam' )
+
+    # DGT : Json space, preferencias de usuario ( menuClick, defaultVariables ..... )
+    # userConfig = models.TextField( blank = True, null = True)
 
     def __unicode__(self):
         return  self.user.username
@@ -72,13 +78,15 @@ def user_post_save(sender, instance, created, **kwargs):
 post_save.connect(user_post_save, sender=User)
 
 
+
 class UserShare(models.Model):
-    # si el usuairo comparte otros permisos
+    # DGT: si el usuairo comparte otros permisos
     user = models.ForeignKey(User)
     userTeam = models.ForeignKey(TeamHierarchy , related_name='userShares')
 
     def __unicode__(self):
         return self.user.username + '-' + self.userTeam.code
+
 
 
 # Tabla modelo para la creacion de entidades de usuario     ( sm  security mark )
@@ -97,14 +105,21 @@ class ProtoModel(models.Model):
 
     smUUID = models.CharField( max_length=32, null=True, blank=True, editable=False)
     
+    # DGT: Doc Json con definiciones adicionales
+    # smConfig = models.TextField( blank = True, null = True)
+    
     # Security indicator used to control permissions
     _protoObj = True
 
     class Meta:
         abstract = True
 
+
     def save(self, *args, **kwargs):
-        "Get last value of Code and Number from database, and increment before save"
+        """
+        Get last value of Code and Number from database, and increment before save
+        DGT: Upgrade to secuences 
+        """
         if hasattr(self , "_autoIncrementField") and not self.pk:
             _autoIncrementField = getattr(self, "_autoIncrementField")
             model = self.__class__
@@ -122,10 +137,13 @@ class ProtoModel(models.Model):
 
 class EntityMap(models.Model):
     """
-    TODO: Capa adicional para manejar permisos 
-        a nivel de campo,
-        vista
+    DGT: Capa adicional para manejar 
+        parametros de workflow 
+        autonumericos y secuencias         
+        permisos a nivel de campo ( fieldLevelSecurity ),
+        documentacion 
         acciones 
+        replicar conttenttype
         etc 
         
     Para manejar las vstas, se maneja directamente la protoOpcion,  (se prodria crear un conttenttype ) 
@@ -143,15 +161,20 @@ class EntityMap(models.Model):
     - se definen explicitamente las tablas q manejen fieldLevel securty  ( EntityMap )
     - se definen permisos por grupos   
      
-    se manejan referecias debiles por nombre para poder importar/exportar la info, de otra forma seria por contenttype 
-    
-          
+    se manejan referecias debiles por nombre para poder importar/exportar la info, 
+    de otra forma seria por contenttype 
            
     """
     appName = models.CharField(max_length=200, blank=False, null=False)
     modelName = models.CharField(max_length=200, blank=False, null=False)
-    fieldLevelSecurity = models.BooleanField(default=True)
 
+    # DGT: Doc Json con definiciones adicionales,  WorkFlow, Autonumeric, ... 
+    # entityConfig = models.TextField( blank = True, null = True)
+    # description = models.TextField( blank = True, null = True)
+
+    # DGT : Apunta a la tabla fisica 
+    # contentType = models.ForeignKey(ContentType, blank=True, null=True, on_delete=models.SET_NULL)
+    # fieldLevelSecurity = models.BooleanField(default=True)
     class Meta:
         unique_together = ("appName", "modelName")
 
@@ -163,13 +186,16 @@ class FieldMap(models.Model):
     entity = models.ForeignKey(EntityMap, blank=False, null=False)
     fieldName = models.CharField(max_length=200, blank=False, null=False)
 
-    # Permisos a nivel de campo ( se marcan como enteros para sumarlos 0 = False )
-    canRead = models.IntegerField(default=0, blank=False, null=False)
-    canIns = models.IntegerField(default=0, blank=False, null=False)
-    canUpd = models.IntegerField(default=0, blank=False, null=False)
+    # DGT: Doc Json con definiciones adicionales,  WorkFlow, Autonumeric, ... 
+    # fieldConfig = models.TextField( blank = True, null = True)
+    # description = models.TextField( blank = True, null = True)
+    # canRead = models.IntegerField(default=0, blank=False, null=False)
+    # canIns = models.IntegerField(default=0, blank=False, null=False)
+    # canUpd = models.IntegerField(default=0, blank=False, null=False)
 
     class Meta:
         unique_together = ("entity", "fieldName")
+
 
 
 # -------------------------------------------
@@ -190,10 +216,9 @@ class ProtoDefinition(models.Model):
     # Elto de control para sobre escribir,  podria ser un error el solo hecho de inactivarlo
     overWrite = models.BooleanField(default=True)
 
-    # For entity clasification  ( V14.01 )
-#     appName     = models.CharField(max_length=200, blank=True, null=True)
-#     entityName  = models.CharField(max_length=200, blank=True, null=True)
-#     contentType = models.ForeignKey(ContentType, blank=True, null=True)
+    # DGT : For entity clasification  ( V14.01 or Contenttype )
+    # entityMap = models.ForeignKey(EntityMap, blank=True, null=True)
+
 
     def __unicode__(self):
         return self.code
@@ -214,6 +239,7 @@ class ProtoDefinition(models.Model):
     }
 
 
+
 class CustomDefinition(ProtoModel):
     # maneja las definiciones por grupo
     # aqui se guardan los menus personalizados, y las customOptions
@@ -229,7 +255,6 @@ class CustomDefinition(ProtoModel):
 
     def __unicode__(self):
         return self.code
-
     class Meta:
         unique_together = ('smOwningTeam', 'code',)
 
@@ -240,38 +265,18 @@ class CustomDefinition(ProtoModel):
     }
 
 
-def getDjangoModel(modelName):
-    # Get the model
-
-    if modelName.count('.') == 1:
-        model = models.get_model(*modelName.split('.'))
-
-    elif modelName.count('.') == 0:
-        for m in models.get_models(include_auto_created=True):
-            if m._meta.object_name.lower() == modelName.lower():
-                model = m
-                break
-
-    elif modelName.count(".") == 2:
-        model = models.get_model(*modelName.split(".")[0:2])
-
-    if model is None:
-        raise Exception('model not found:' + modelName)
-
-    return model
+class UserFiles(models.Model):
+    
+    docfile = models.FileField(upload_to='documents/%Y/%m/%d')
 
 
 
-def getNodeHierarchy(record, parentField, codeField, pathFunction):
-    "Returns the full hierarchy path."
 
-    pRec = record.__getattribute__(parentField)
-    if pRec   :
-        return pRec.__getattribute__(pathFunction) + ',' + unicode(record.__getattribute__(codeField))
-    else:
-        return unicode(record.__getattribute__(codeField))
+"""
 
+DGT: Tablas adicionales para automatizacion de tareas 
 
+"""
 
 class DiscreteValue(models.Model):
     # TODO : Manejo de discretas
@@ -300,24 +305,15 @@ class DiscreteValue(models.Model):
     }
 
 
-class Languaje(models.Model):
-    """ TODO : Manejar una tabla con los diferentes lenguajes en formato Json    
-        { 'es' : 'incio', 'en' : 'start', .....  }
-        se aprovecha la pseudo definicion como en prototipos  
-    """
 
-    code = models.CharField(blank=False, null=False, max_length=200 , unique=True)
 
-    # to handle a variable name usr
-    alias = models.CharField(blank=False, null=False, max_length=200)
-
-    info = JSONField(default={})
+class ParametersBase(ProtoModel):
+    parameterKey = models.CharField(max_length=250 , blank=False, null=False)
+    parameterTag = models.CharField(max_length=250 , blank=False, null=False)
+    parameterValue = models.CharField(max_length=250 , blank=False, null=False)
 
     def __unicode__(self):
-        return self.code + '.' + self.info.__str__()
-
-    objects = JSONAwareManager(json_fields=['info'])
-
+        return self.parameterKey + '.' + self.parameterValue
 
 
 class PtFunction(models.Model):
@@ -345,15 +341,6 @@ class PtFunction(models.Model):
 
     def __unicode__(self):
         return self.code + '.' + self.tag
-
-
-class ParametersBase(ProtoModel):
-    parameterKey = models.CharField(max_length=250 , blank=False, null=False)
-    parameterTag = models.CharField(max_length=250 , blank=False, null=False)
-    parameterValue = models.CharField(max_length=250 , blank=False, null=False)
-
-    def __unicode__(self):
-        return self.parameterKey + '.' + self.parameterValue
 
 
 class WflowAdminResume(ProtoModel):
@@ -390,4 +377,3 @@ class WflowUserReponse(ProtoModel):
 
     def __unicode__(self):
         return self.viewEntity
-

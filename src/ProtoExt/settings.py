@@ -57,7 +57,6 @@ NUMBER_GROUPING = 1
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = os.path.join(PPATH, 'media')
-
 FILE_UPLOAD_PERMISSIONS = 0644
 
 
@@ -67,6 +66,7 @@ MEDIA_URL = '/media/'
 
 
 # ------------------    STATIC 
+
 
 #STATIC_ROOT = os.path.join( PPATH , 'static' )
 STATIC_ROOT = ''
@@ -99,7 +99,7 @@ TEMPLATE_LOADERS = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
-                               "django.core.context_processors.csrf",
+#                                "django.core.context_processors.csrf",
                                "django.core.context_processors.debug",
                                "django.core.context_processors.i18n",
                                "django.core.context_processors.media",
@@ -111,7 +111,7 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+#     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
@@ -148,6 +148,7 @@ LOGGING = {
 }
 
 
+
 AUTH_PROFILE_MODULE = 'protoLib.UserProfile'
 
 # Variables prototipeur
@@ -156,10 +157,10 @@ PROTO_APP = {}
 EMAIL_USE_TLS = True
 
 if DEBUG :
-    from settings_development import *
+    from ProtoExt.settings_development import *
     with open( PPATH + '/src/ProtoExt/secret_key.txt') as f:
         SECRET_KEY = f.read().strip()
 else :
-    from settings_production import *
+    from ProtoExt.settings_production import *
     with open('/etc/secret_key.txt') as f:
         SECRET_KEY = f.read().strip()

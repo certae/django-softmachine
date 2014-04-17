@@ -48,8 +48,8 @@ INSTALLED_APPS = (
 #     'south',
     'protoLib',
     'prototype',
-    'll',
-    'alltests'
+    'alltests',
+    'll' 
 )
 
 FIXTURE_DIRS = (

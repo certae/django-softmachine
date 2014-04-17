@@ -95,6 +95,7 @@ Ext.application({
         resetForm.show();
     }
 });
+
 // Add csrf token to every ajax request
 Ext.Ajax.on('beforerequest', function(conn, options) {
     if ( typeof (options.headers) == "undefined") {

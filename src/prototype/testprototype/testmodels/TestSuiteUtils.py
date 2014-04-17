@@ -3,12 +3,8 @@ from prototype.testprototype.testmodels.DiagramTest import *
 from prototype.testprototype.testmodels.EntityTest import *
 from prototype.testprototype.testmodels.ModelTest import *
 from prototype.testprototype.testmodels.ProjectTest import *
-from prototype.testprototype.testmodels.PropertyBaseTest import *
 from prototype.testprototype.testmodels.PropertyTest import *
 from prototype.testprototype.testmodels.PropertyEquivalenceTest import *
-from prototype.testprototype.testmodels.PropertyModelTest import *
 from prototype.testprototype.testmodels.ProtoTableTest import *
 from prototype.testprototype.testmodels.PrototypeTest import *
 from prototype.testprototype.testmodels.RelationshipTest import *
-from prototype.testprototype.testmodels.ServiceTest import *
-from prototype.testprototype.testmodels.ServiceRefTest import *

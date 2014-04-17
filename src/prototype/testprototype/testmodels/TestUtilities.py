@@ -54,36 +54,13 @@ def createTestEntity():
     return testEntity
 
 
-def createTestPropertyBaseChild():
-    propertyBaseChilddata = {
-        'code' : 'testcode',
-        'baseType' : 'testbaseType',
-        'prpLength' : 15,
-        'prpScale' : 12,
-        'vType' : 'testvType',
-        'prpDefault' : 'testprpDefault',
-        'prpChoices' : 'testprpChoices',
-        'isSensitive' : True,
-        'description' : '',
-        'notes' : ''
-    }
-    
-    testProperty = PropertyBaseChild(**propertyBaseChilddata)
-    testProperty.save()
-
-    return testProperty
-
 
 def createTestProperty():
     testEntity = createTestEntity()
     testEntity.save()
 
-    testPropertyModel = createTestPropertyModel()
-    testPropertyModel.save()
-
     propertydata = {
         'entity': testEntity,
-        'propertyModel': testPropertyModel,
         'isPrimary': True,
         'isLookUpResult': True,
         'isNullable': True,
@@ -109,9 +86,6 @@ def createTestRelationship():
     testEntity2 = createTestEntity()
     testEntity2.save()
 
-    testPropertyModel = createTestPropertyModel()
-    testPropertyModel.save()
-
     relationshipdata = {
         'refEntity': testEntity1,
         'relatedName': 'testPropertyModel',
@@ -123,7 +97,6 @@ def createTestRelationship():
         'typeRelation': 'testTypeRelation',
 
         'entity': testEntity2,
-        'propertyModel': testPropertyModel,
         'isPrimary': True,
         'isLookUpResult': True,
         'isNullable': True,
@@ -141,27 +114,12 @@ def createTestRelationship():
 
     return testRelationShip
 
-def createTestPropertyModel():
-    testModel = createTestModel()
-    testModel.save()
-
-    propertymodeldata = {
-        'model': testModel,
-        'inherit': False,
-        'conceptType': 'testConceptType',
-        'isSensitive' : False
-    }
-
-    testPropertyModel = PropertyModel(**propertymodeldata)
-    testPropertyModel.save()
-
-    return testPropertyModel
 
 
 def createTestPropertyEquivalence():
-    testPropertyModel1 = createTestPropertyModel()
+    testPropertyModel1 = createTestProperty()
     testPropertyModel1.save()
-    testPropertyModel2 = createTestPropertyModel()
+    testPropertyModel2 = createTestProperty()
     testPropertyModel2.save()
 
     propertyequivalencedata = {
@@ -227,46 +185,6 @@ def createTestDiagramEntity():
     testDiagramEntity.save()
 
     return testDiagramEntity
-
-
-def createTestService():
-    testModel = createTestModel()
-    testModel.save()
-
-    servicedata = {
-        'model': testModel,
-        'code': 'testCode',
-        'Binding': 'testBinding',
-        'typeMessage': 'testMessage',
-        'description': 'testDescription',
-        'notes': 'testNotes'
-    }
-
-    testService = Service(**servicedata)
-    testService.save()
-
-    return testService
-
-
-def createTestServiceRef():
-    testModel = createTestModel()
-    testModel.save()
-
-    testService = createTestService()
-    testService.save()
-
-    servicerefdata = {
-        'model': testModel,
-        'service': testService,
-        'endpoint': 'testEndPoint',
-        'description': 'testDescription',
-        'notes': 'testNotes'
-    }
-
-    testServiceRef = ServiceRef(**servicerefdata)
-    testServiceRef.save()
-
-    return testServiceRef
 
 
 def createTestProtoTable():

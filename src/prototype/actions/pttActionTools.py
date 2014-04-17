@@ -16,12 +16,9 @@ TypeEquivalence = {
         'int'       :   'IntegerField',
         'text'      :   'TextField',
         'time'      :   'TimeField',
-        'jsonfield' :   'JSONField'       ,
+        'jsonfield' :   'JSONField',
     }
 
-
-def getClassName( cName ):
-    return ''.join( slugify( cName , ' ').title().split() )
 
 
 def getViewCode( pEntity, viewTitle = None ):

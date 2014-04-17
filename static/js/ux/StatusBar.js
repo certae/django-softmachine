@@ -56,27 +56,19 @@ Ext.define('ProtoUL.ux.StatusBar', {
 
         // any standard Toolbar items:
         this.add([{
-            itemId: 'errBt',
-            xtype: 'splitbutton',
-            text: _SM.__language.StatusBar_Text_Clean_Button,
+            itemId: 'btClearCache',
+            xtype: 'button',
+            text: _SM.__language.StatusBar_Text_Clean_Button + ' cache',
             tooltip: _SM.__language.StatusBar_Tooltip_Clean_Button,
-            scope: this,
             iconCls: 'comment_delete',
-            handler: this.clearErrCount,
-
-            // TITLE
-            menu: new Ext.menu.Menu({
-                items: [{
-                    text: 'ClearTabs',
-                    tooltip: 'clear all tabs',
-                    iconCls: 'icon-4',
-                    handler: function() {
-                        _SM.__TabContainer.closeAllTabs();
-                        _SM._cllPCI = {};
-                    }
-                }]
-            })
-
+            handler: function() {
+                this.tooltip = '';
+                this.ownerCt.clearStatus({
+                    useDefaults: true
+                });
+                _SM.__TabContainer.closeAllTabs();
+                _SM._cllPCI = {};
+            }
         }, {
             itemId: 'openTaskForm',
             xtype: 'button',
@@ -87,11 +79,6 @@ Ext.define('ProtoUL.ux.StatusBar', {
             handler: this.openTaskForm
 
         }, '-', {
-            // xtype: 'button',
-            // iconCls: 'icon-script_gear',
-            // text: _SM.__language.StatusBar_Text_Command_Button,
-            // handler: this.command
-            // }, {
 
             xtype: 'splitbutton',
             text: _SM._UserInfo.fullName || _SM._UserInfo.userName,
@@ -106,7 +93,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
         }]);
 
         // TODO: Boton q permita clear del sb y guarde en el tooltip la informacion de errores
-        this.errBt = this.getComponent('errBt');
+        this.errBt = this.getComponent('btClearCache');
 
     },
 
@@ -287,7 +274,7 @@ Ext.define('ProtoUL.ux.StatusBar', {
             }, clear, this);
         }
 
-        return this.setStatus(o);
+        return this.setStatus(o)
 
     },
 
@@ -304,6 +291,8 @@ Ext.define('ProtoUL.ux.StatusBar', {
 
     showWarning: function(text, origin) {
 
+        // console.log( 'warning :' + origin, text )
+
         this.setStatus({
             text: text,
             iconCls: 'x-status-warning',
@@ -314,20 +303,21 @@ Ext.define('ProtoUL.ux.StatusBar', {
 
     clear: function(text, origin) {
 
+        // console.log( 'clear:' + origin,  text, this.busyCount );
         this.busyCount--;
         if (this.busyCount <= 0) {
             this.busyCount = 0;
             this.clearStatus({
                 useDefaults: true
-            });
+            })
         }
 
     },
 
     openTaskForm: function() {
 
-        var taskCont = Ext.create('ProtoUL.protoOrg.tasks.TaskController');
-        taskCont.openTaskForm();
+        var taskCont = Ext.create('ProtoUL.protoOrg.tasks.TaskController')
+        taskCont.openTaskForm()
 
     }
-});
+}); 

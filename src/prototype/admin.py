@@ -2,9 +2,11 @@
 # for project : "Modelibra.py" >
 
 
-from models import Project,  Model, Entity, Property,  Relationship #, Prototype
-from models import PropertyModel
+from models import Project,  Model, Entity, Property,  Relationship  #, Prototype
+from models import PropertyEquivalence
 from models import ProtoTable
+from models import Diagram, DiagramEntity
+# from models import Service #, ServiceRef
 
 from django.contrib import admin
 
@@ -25,26 +27,34 @@ class MyEntityAdmin( admin.ModelAdmin ):
 
 admin.site.register(Entity, MyEntityAdmin )
 
-# ------------------------------------------  PropertyModel
-
-from actions import doPropertyModelJoin 
-
-class MyPropertyModelAdmin( admin.ModelAdmin ):
-    actions = [ doPropertyModelJoin  ]
-
-admin.site.register(PropertyModel, MyPropertyModelAdmin )
 
 # ------------------------------------------  Entity
-from actions import doImportSchema 
+from actions import doImportSchema, doImportOMS
 
 class MyProjectAdmin( admin.ModelAdmin ):
-    actions = [ doImportSchema  ]
+    actions = [ doImportSchema, doImportOMS  ]
 
 admin.site.register(Project, MyProjectAdmin )
 
+
 # ------------------------------------------
 
-admin.site.register(Property )
-admin.site.register(Relationship )
-admin.site.register(ProtoTable)
 
+class MyDiagramAdmin( admin.ModelAdmin ):
+    actions = [  doModelGraph  ]
+
+admin.site.register(Diagram , MyDiagramAdmin)
+
+
+admin.site.register(Property )
+#admin.site.register(PropertyEquivalence )
+
+admin.site.register(Relationship )
+admin.site.register( ProtoTable )
+#admin.site.register( Prototype )
+
+#admin.site.register( Diagram )
+#admin.site.register( DiagramEntity )
+
+#admin.site.register( Service )
+#admin.site.register( ServiceRef )

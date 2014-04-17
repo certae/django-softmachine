@@ -19,7 +19,7 @@ urlpatterns = patterns('',
     url(r'media/(?P<path>.*)$', 'django.views.static.serve',{'document_root': PPATH + '/static'}),
 
 #   Archivos generados
-    url(r'getFile/(?P<path>.*)$', 'protoLib.downloadFile.getFile', {}),
+    url(r'getFile/(?P<path>.*)$', 'protoLib.utils.downloadFile.getFile', {}),
     
     # Pour executer les tests avec Jasmine
     url(r'^extjs-tests', TemplateView.as_view(template_name='extjs-tests.html')),

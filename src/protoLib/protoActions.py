@@ -109,6 +109,7 @@ def protoExecuteAction(request):
 
 
 #   ----------------------------------------
+
     if not request.user.is_authenticated():
         return doReturn ({'success':False , 'message' : 'readOnly User'})
 

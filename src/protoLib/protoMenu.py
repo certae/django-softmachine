@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 
+
 # Importa el sitio con las collecciones admin ya definidas
 from django.db import models
 from django.conf import settings
 from django.http import HttpResponse
+
+
 import json
 
 from models import CustomDefinition, ProtoDefinition
@@ -15,7 +18,7 @@ from utilsBase import verifyList
 from prototype.models import Prototype 
 PROTO_PREFIX = "prototype.ProtoTable."
 
-class cAux:
+class cAux: 
     pass 
 
 
@@ -30,17 +33,17 @@ def protoGetMenuData(request):
     Cada usuario tendra una rama de  favoritos para sus opciones frecuentes, 
     el menu es a nivel de grupo  
     """
-
+    
     global ix 
 
     if not request.user.is_authenticated(): 
         return JsonError('readOnly User')
 
     if request.method != 'POST': 
-        return JsonError( 'invalid message' ) 
+        return JsonError('invalid message') 
     
-    currentUser  = request.user
-    userProfile = getUserProfile( currentUser, 'getMenu', ''  ) 
+    currentUser = request.user
+    userProfile = getUserProfile(currentUser, 'getMenu', '') 
 
     app_dict = {}
 
@@ -49,7 +52,7 @@ def protoGetMenuData(request):
     appAux.ixMod = 1
     
 
-    def getMenuItem( protoAdmin, model, menuNode ):
+    def getMenuItem(protoAdmin, model, menuNode):
     
         appCode = model._meta.app_label
         
@@ -60,25 +63,25 @@ def protoGetMenuData(request):
             menuLabel = appCode  
         
         if menuLabel in ['contenttypes', 'sites']:
-            menuLabel= 'auth' 
+            menuLabel = 'auth' 
         
         # Verifica q el usuairo tenga permiso, considera el admin 
-        if not getModelPermissions( currentUser, model, 'menu' ) :
+        if not getModelPermissions(currentUser, model, 'menu') :
             return  
         
-        pTitle = protoAdmin.get('title', model._meta.verbose_name.title() )
+        pTitle = protoAdmin.get('title', model._meta.verbose_name.title())
     
         # Obtiene el menu de settigs.PROTO_APP          
         try:
-            menuDefinition = settings.PROTO_APP.get( 'app_menu', {}).get( menuLabel, {} ) 
+            menuDefinition = settings.PROTO_APP.get('app_menu', {}).get(menuLabel, {}) 
         except:
             menuDefinition = {}
             
-        if menuDefinition.get('hidden', False ):
+        if menuDefinition.get('hidden', False):
             return  
     
         # Icono por defecto
-        viewIcon =  protoAdmin.get( 'viewIcon', 'icon-1')
+        viewIcon = protoAdmin.get('viewIcon', 'icon-1')
     
         model_dict = {
             'viewCode': appCode + '.' + menuNode ,
@@ -92,9 +95,9 @@ def protoGetMenuData(request):
     
         else:
             app_dict[menuLabel] = {
-                'text': menuDefinition.get('title', menuLabel )  ,
+                'text': menuDefinition.get('title', menuLabel)  ,
                 'expanded': menuDefinition.get('expanded', False) ,
-                'index': menuDefinition.get('menu_index', appAux.ixApp ),
+                'index': menuDefinition.get('menu_index', appAux.ixApp),
                 'children': [model_dict],
             }
     
@@ -109,22 +112,22 @@ def protoGetMenuData(request):
 
     viewCode = '__menu'
     protoDef = CustomDefinition.objects.get_or_create(
-           code = viewCode, smOwningTeam = userProfile.userTeam, 
-           defaults= {'active': False, 'code' : viewCode, 'smOwningTeam' : userProfile.userTeam }
+           code=viewCode, smOwningTeam=userProfile.userTeam,
+           defaults={'active': False, 'code' : viewCode, 'smOwningTeam' : userProfile.userTeam }
            )[0]
 
     # El default solo parece funcionar al insertar en la Db
-    if protoDef.active and ( forceDefault == '0') :  
+    if protoDef.active and (forceDefault == '0') :  
         context = protoDef.metaDefinition 
 
     else:
 
-        for model in models.get_models( include_auto_created = True ):
-        #for model, model_admin in site._registry.items():
-            #protoAdmin = getattr(model_admin, 'protoExt', {})
+        for model in models.get_models(include_auto_created=True):
+        # for model, model_admin in site._registry.items():
+            # protoAdmin = getattr(model_admin, 'protoExt', {})
             menuNode = model._meta.object_name
-            protoAdmin = getattr( model, 'protoExt', {}) 
-            getMenuItem( protoAdmin, model, menuNode )
+            protoAdmin = getattr(model, 'protoExt', {}) 
+            getMenuItem(protoAdmin, model, menuNode)
     
         # Sort the apps alphabetically.
         app_list = app_dict.values()
@@ -136,7 +139,7 @@ def protoGetMenuData(request):
 
 
         # lee las opciones del prototipo -----------------------------------------------
-        prototypes = Prototype.objects.filter( smOwningTeam = userProfile.userTeam )
+        prototypes = Prototype.objects.filter(smOwningTeam=userProfile.userTeam)
         prNodes = {  
             'text': 'ProtoOptions' ,
             'expanded': True ,
@@ -144,7 +147,7 @@ def protoGetMenuData(request):
             'children': [],
             'leaf': False 
         }
-        app_list.append( prNodes )
+        app_list.append(prNodes)
 
         ix = 0 
         for option in prototypes:
@@ -170,7 +173,7 @@ def protoGetMenuData(request):
             'children': [],
             'leaf': False 
         }
-        app_list.append( prNodes )
+        app_list.append(prNodes)
 
         ix = 0 
         for option in prototypes:
@@ -190,13 +193,12 @@ def protoGetMenuData(request):
         # Pega el menu sobre la definicion anterior  
         try: 
             menuAux = []
-            menuTmp = verifyList( json.loads( protoDef.metaDefinition ))
+            menuTmp = verifyList(json.loads(protoDef.metaDefinition))
             for menuOp in menuTmp:
-                if menuOp.get( 'text', '') == 'AutoMenu':
-                    continue  
-                menuAux.append ( menuOp ) 
+                if menuOp.get( 'text', '') != 'AutoMenu':
+                    menuAux.append (menuOp) 
 
-            menuAux.append( {
+            menuAux.append({
                     'id': 'prototype.auto.nodes' ,
                     'text': 'AutoMenu' ,
                     'expanded': True,
@@ -207,19 +209,19 @@ def protoGetMenuData(request):
         except: 
             menuAux = app_list 
 
-        context = json.dumps( menuAux ) 
+        context = json.dumps(menuAux) 
 
         # Lo guarda  ( created : true  --> new
         protoDef.metaDefinition = context  
         protoDef.active = True  
         protoDef.description = 'Menu' 
 
-        setSecurityInfo( protoDef, {}, userProfile,  True  )
+        setSecurityInfo(protoDef, {}, userProfile, True)
 
         protoDef.save()
     
 
-    return HttpResponse( context, content_type="application/json")
+    return HttpResponse(context, content_type="application/json")
 
 
 
@@ -232,7 +234,7 @@ def getNodeBaseProto(prNodes, option):
     return prNBase
     
 
-def getNodeBaseViews(prNodes, option ):
+def getNodeBaseViews(prNodes, option):
 
     lApp, lMod = option.code.split(".")[0:2]
     
@@ -241,7 +243,7 @@ def getNodeBaseViews(prNodes, option ):
     return prNBase
 
 
-def getMenuNode(prNodes, optText ):
+def getMenuNode(prNodes, optText):
 
     global ix 
 

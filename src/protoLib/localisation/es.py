@@ -186,7 +186,7 @@ __language ={
     'ProtoPcl_Edition_Tool' : 'Herramienta edición Metadata',
     'ProtoPcl_Add_Instance' : 'Agregar instancia de',
     'ProtoPcl_Del_Current' : 'Borrar actual',
-    'ProtoToolbar_Save_Preview' : 'Guardar vista previa',
+    'ProtoToolbar_Save_As' : 'Guardar como',
     'ProtoToolbar_Upd_Def' :'Actualizar definición',
     'ProtoToolbar_Reload' :'Recargar',
     'ProtoToolbar_Add_Node' :'Agregar nodo',

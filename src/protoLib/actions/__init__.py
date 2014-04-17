@@ -1,6 +1,24 @@
 # -*- coding: utf-8 -*-
 
 
+
+def doFindReplace(modeladmin, request, queryset, parameters):
+    """ 
+    find and replace sobre la tabla actual 
+    parameters   campo,  findText, replaceText 
+    """
+
+#   El QSet viene con la lista de Ids  
+    if queryset.count() < 1:
+        return  {'success':False, 'message' : 'Multiple selection required'}
+
+    if len(parameters) != 3: 
+        return  {'success':False, 'message' : 'required: fieldName, findText, replaceText' }
+
+    from findReplace import actionFindReplace
+    return actionFindReplace(request, queryset, parameters)
+
+
 def doWFlowResume(modeladmin, request, queryset, parameters):
     """ 
     Genera un resumen de las novedades para WFlow, 
@@ -27,16 +45,18 @@ def doWFlowResume(modeladmin, request, queryset, parameters):
             continue
         wfStatus = pParam.parameterTag or 'I'
 
-        QsResume = wfModel.objects.filter(smWflowStatus=wfStatus).values('smOwningTeam').order_by().annotate(regCount=Count('smOwningTeam'))
+        QsResume = wfModel.objects.filter(smWflowStatus=wfStatus).values('smOwningUser', 'smOwningTeam', 'smCreatedBy').order_by().annotate(regCount=Count('smCreatedBy'))
         for regResume in QsResume:
             adminResume = WflowAdminResume()
             adminResume.viewEntity = pParam.parameterValue
+            adminResume.smWflowStatus = wfStatus
             adminResume.activityCount = regResume.get('regCount')
+            adminResume.smCreatedBy_id = regResume.get('smCreatedBy')
+            adminResume.smOwningUser_id = regResume.get('smOwningUser')
             adminResume.smOwningTeam_id = regResume.get('smOwningTeam')
 
             try:
-                setattr(adminResume, 'smOwningUser', request.user)
-                setattr(adminResume, 'smCreatedBy', request.user)
+                setattr(adminResume, 'smModifiedBy', request.user)
                 setattr(adminResume, 'smRegStatus', '0')
                 setattr(adminResume, 'smCreatedOn', datetime.now())
             except :

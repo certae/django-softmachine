@@ -13,7 +13,7 @@ class PropertyEquivalenceTest(TestCase):
         
     def test_creating_a_new_propertyequivalence_and_saving_it_to_the_database(self):
         propertyequivalence_in_database = PropertyEquivalence.objects.all()
-        self.assertEqual(len(propertyequivalence_in_database), 2)
+        self.assertEqual(len(propertyequivalence_in_database), 1)
 
     def test_verifying_propertyequivalence_attribute_sourceproperty_in_database(self):
         propertyequivalence_in_database = PropertyEquivalence.objects.all()

@@ -11,6 +11,8 @@ from protoLib.protoActionEdit  import protoCreate, protoUpdate, protoDelete
 from protoLib.protoActions  import protoExecuteAction
 from protoLib.protoDiagram import getEntitiesJSONDiagram, synchDBFromDiagram, getElementsDiagramFromSelectedTables, synchDiagramFromDB, getDefaultDiagram, saveDiagram
 
+from protoLib.utils.loadFile import loadFiles
+
 urlpatterns = patterns('',
     url('protoList/$', protoList),
     url('sheetConfigRep/$', sheetConfigRep),
@@ -35,6 +37,8 @@ urlpatterns = patterns('',
     url('protoLogout/$', protoLogout),
 
     url('getFieldIncrement/$', getFieldIncrement),
+    
+    url('loafFile/$', loadFiles),
     
     url('getEntitiesJSONDiagram/$', getEntitiesJSONDiagram),
     url('synchDBFromDiagram/$', synchDBFromDiagram),

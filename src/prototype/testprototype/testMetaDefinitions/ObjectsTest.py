@@ -6,6 +6,7 @@ from django.utils.unittest.loader import makeSuite
 import json
 
 from prototype.models import *
+from protoLib.models import *
 #from protoLib.models import *
 
 
@@ -91,11 +92,6 @@ class PropertyStructureTest(TestCase):
 class RelationshipStructureTest(TestCase):
     def test_field_and_value(self):
         self.assertTrue(checkAllFields(Relationship))
-
-
-class PropertyModelStructureTest(TestCase):
-    def test_field_and_value(self):
-        self.assertTrue(checkAllFields(PropertyModel))
 
 
 class PropertyEquivalenceStructureTest(TestCase):

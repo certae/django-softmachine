@@ -1,0 +1,68 @@
+digraph Sm {fontname="Helvetica";fontsize = 8;rankdir = BT;node [shape="record"];
+
+subgraph Base {style=invis;label="base";
+SousEvenementProf [label = "{SousEvenementProf|numero_sous_eve \ldate_alarme \lcomplete \lcommentaire \ldate1 \ldate2 \ldate3 \lvaleur1 \lvaleur2 \lvaleur3 \l+ sous_evenement_prof_sous_evenement \l+ sous_evenement_prof_type_evenement \l+ sous_evenement_prof_evenement_admission \l+ sous_evenement_prof_professeur \l}"]
+
+Professeur [label = "{Professeur|numero_prof \ln_a_s \lnom_prof \lprenom_prof \ladresse_internet \lqualification \lfax \ladresse \ltel_maison \ltel_travail \ldirecteur_dep \lnumero_bureau \ldate_affectation \linterets_de_recherche \l+ fait_partie_du \l+ directeur_comite \l+ codirecteur \l}"]
+
+Phase [label = "{Phase|phase \lnom_phase \ltype_activite \lduree \lnb_credits_mini \lnb_credits_maxi \ljury \lnote \lregle \l+ phase_famille \l}"]
+
+ChoixBloc [label = "{ChoixBloc|+ choix_bloc_plan_formation \l+ choix_bloc_bloc_cours \l+ choix_bloc_realisation_chem \l}"]
+
+ChoixCours [label = "{ChoixCours|trimestre \l+ choix_cours_choix_bloc \l+ choix_cours_cours \l+ choix_cours_cours_session \l+ choix_cours_composition_b \l}"]
+
+Trimestre [label = "{Trimestre|trimestre \ldate_debut \ldate_fin \ldate_mi_session \l}"]
+
+Concommitant [label = "{Concommitant|+ concommitant_cours \l+ concommitant_cours \l}"]
+
+ComiteProgProf [label = "{ComiteProgProf|+ comite_prog_prof_professeur \l+ comite_prog_prof_programme \l}"]
+
+PlanifCours [label = "{PlanifCours|+ planif_cours_professeur \l+ planif_cours_cours_session \l}"]
+
+CoursSession [label = "{CoursSession|nb_sections \ldemi_section \ldate_debut \ldate_fin \l+ cours_session_trimestre \l+ cours_session_section \l+ cours_session_cours \l}"]
+
+ProvenanceEtud [label = "{ProvenanceEtud|+ provenance_etud_college_universite \l+ provenance_etud_etudiant \l}"]
+
+CompoCpm [label = "{CompoCpm|+ compo_cpm_professeur \l+ compo_cpm_programme \l}"]
+
+CollegeUniversite [label = "{CollegeUniversite|code_college_universite \lnom_college_universite \lnom_abrege \ladresse \lcontact \l}"]
+
+CreditExterne [label = "{CreditExterne|no_credit_externe \lnom \lnb_credits \lsyllabus \lapprobation \l+ credit_externe_college_universite \l+ credit_externe_formation \l}"]
+
+Stage [label = "{Stage|no_stage \ltitre_stage \ldate_soumission \ldate_debut \ldate_fin \lrepondant \ladresse_repondant \l}"]
+
+FamilleEvenement [label = "{FamilleEvenement|obligatoire \l+ famille_evenement_type_evenement \l+ famille_evenement_famille \l}"]
+}
+SousEvenementProf -> SousEvenement [dir=both,arrowhead=diamond,arrowtail=none]
+SousEvenementProf -> TypeEvenement [dir=both,arrowhead=diamond,arrowtail=none]
+SousEvenementProf -> EvenementAdmission [dir=both,arrowhead=diamond,arrowtail=none]
+SousEvenementProf -> Professeur [dir=both,arrowhead=diamond,arrowtail=none]
+Professeur -> Departement [dir=both,arrowhead=diamond,arrowtail=none]
+Professeur -> ActiviteRedaction [dir=both,arrowhead=diamond,arrowtail=none]
+Professeur -> ActiviteRedaction [dir=both,arrowhead=diamond,arrowtail=none]
+Phase -> Famille [dir=both,arrowhead=diamond,arrowtail=none]
+ChoixBloc -> PlanFormation [dir=both,arrowhead=diamond,arrowtail=none]
+ChoixBloc -> BlocCours [dir=both,arrowhead=diamond,arrowtail=none]
+ChoixBloc -> RealisationChem [dir=both,arrowhead=diamond,arrowtail=none]
+ChoixCours -> ChoixBloc [dir=both,arrowhead=diamond,arrowtail=none]
+ChoixCours -> Cours [dir=both,arrowhead=diamond,arrowtail=none]
+ChoixCours -> CoursSession [dir=both,arrowhead=diamond,arrowtail=none]
+ChoixCours -> CompositionB [dir=both,arrowhead=diamond,arrowtail=none]
+Concommitant -> Cours [dir=both,arrowhead=diamond,arrowtail=none]
+Concommitant -> Cours [dir=both,arrowhead=diamond,arrowtail=none]
+ComiteProgProf -> Professeur [dir=both,arrowhead=diamond,arrowtail=none]
+ComiteProgProf -> Programme [dir=both,arrowhead=diamond,arrowtail=none]
+PlanifCours -> Professeur [dir=both,arrowhead=diamond,arrowtail=none]
+PlanifCours -> CoursSession [dir=both,arrowhead=diamond,arrowtail=none]
+CoursSession -> Trimestre [dir=both,arrowhead=diamond,arrowtail=none]
+CoursSession -> Section [dir=both,arrowhead=diamond,arrowtail=none]
+CoursSession -> Cours [dir=both,arrowhead=diamond,arrowtail=none]
+ProvenanceEtud -> CollegeUniversite [dir=both,arrowhead=diamond,arrowtail=none]
+ProvenanceEtud -> Etudiant [dir=both,arrowhead=diamond,arrowtail=none]
+CompoCpm -> Professeur [dir=both,arrowhead=diamond,arrowtail=none]
+CompoCpm -> Programme [dir=both,arrowhead=diamond,arrowtail=none]
+CreditExterne -> CollegeUniversite [dir=both,arrowhead=diamond,arrowtail=none]
+CreditExterne -> Formation [dir=both,arrowhead=diamond,arrowtail=none]
+FamilleEvenement -> TypeEvenement [dir=both,arrowhead=diamond,arrowtail=none]
+FamilleEvenement -> Famille [dir=both,arrowhead=diamond,arrowtail=none]
+}
