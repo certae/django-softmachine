@@ -8,7 +8,7 @@ Ext.require('Ext.form.Panel');
 var Application = null;
 
 Ext.onReady(function() {
-    	Ext.application({
+    Ext.application({
         name: 'ProtoUL',
         appfolder: 'static/js',
         

@@ -75,6 +75,7 @@ __language ={
     'GridBtn_Ttip_Read_Only' : 'View ( read only )',
     'GridBtn_Ttip_Add_Row' : 'Add row',
     'GridBtn_Ttip_Copy_Row' : 'Copy row',
+    'GridBtn_Ttip_Edit_Diagram':'Edit diagram',
     'GridAction_NoRecord' : 'No record selected',
 
     'Tooltip_Filter_Grid_Button' : 'Filter',

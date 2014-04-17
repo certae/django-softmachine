@@ -327,4 +327,3 @@ def getSimpleProperties(oData, ptType) :
                     cData += {lKey : cValue}
                         
     return cData
-

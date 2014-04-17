@@ -39,6 +39,12 @@ _SM._PConfig =  {
     urlLogOut:  'protoLib/protoLogout/',
     urlGetNextIncrement: 'protoLib/getFieldIncrement/',
     urlLoadFile: 'protoLib/loafFile/',
+    urlGetEntitiesJSONDiagram: 'protoLib/getEntitiesJSONDiagram/',
+    synchDBFromDiagram: 'protoLib/synchDBFromDiagram/',
+    synchDiagramFromDB: 'protoLib/synchDiagramFromDB/',
+    getElementsDiagramFromSelectedTables: 'protoLib/getElementsDiagramFromSelectedTables/',
+    getDefaultDiagram: 'protoLib/getDefaultDiagram/',
+    saveDiagram: 'protoLib/saveDiagram/',
 
     clsBaseModel: 'ProtoUL.model.'
 };

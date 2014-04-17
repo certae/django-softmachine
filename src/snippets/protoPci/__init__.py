@@ -94,4 +94,3 @@ def getNodeBase( pName, ptType, ptConfig = None ) :
         '__ptConfig' : ptConfig,
         'children' : []
         }
-

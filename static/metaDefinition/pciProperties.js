@@ -218,7 +218,7 @@ _MetaProperties =  {
     
     "fieldLabel.help": "Field label (in form)",
     "format.help": "input mask (automatic for date, time and numbers) (future use)",
-    "fsLayout": "fluid",
+    "fsLayout": "1col",
     "fsLayout.choices": ["fluid", "1col", "2col", "3col" ],
     "fsLayout.help": "Automatic layout distribution",
 

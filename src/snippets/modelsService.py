@@ -1,4 +1,9 @@
 
+from protoLib.models import ProtoModel
+from django.db import models
+from protoLib.fields import JSONField,  JSONAwareManager
+from protoLib.utilsBase import slugify
+
 class Service(ProtoModel):
     """ 
     TODO: Servicios entre modelos ( entidades virtuales )    

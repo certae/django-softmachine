@@ -10,6 +10,7 @@ from django.db.models.signals import post_save
 
 from protoLib.fields import JSONField, JSONAwareManager
 from protoLib.utils.modelsTools import  getDjangoModel, getNodeHierarchy
+import uuid
 
 class TeamHierarchy(models.Model):
 # Jerarquia funcional ( de seguridad ) de la app
@@ -102,13 +103,12 @@ class ProtoModel(models.Model):
     smCreatedOn = models.DateTimeField(auto_now=True , null=True, blank=True, editable=False)
     smModifiedOn = models.DateTimeField(auto_now=True , null=True, blank=True, editable=False)
 
-    # DGT: UUID 
-    # smUUID = models.CharField( max_length=32, null=True, blank=True, editable=False)
-
+    smUUID = models.CharField( max_length=32, null=True, blank=True, editable=False)
+    
     # DGT: Doc Json con definiciones adicionales
     # smConfig = models.TextField( blank = True, null = True)
-
-    # Indicador para manejo de seguridad
+    
+    # Security indicator used to control permissions
     _protoObj = True
 
     class Meta:
@@ -131,8 +131,9 @@ class ProtoModel(models.Model):
 
             super(ProtoModel, self).save(*args, **kwargs)
         else:
+            if not self.smUUID:
+                self.smUUID = uuid.uuid1().hex
             super(ProtoModel, self).save(*args, **kwargs)
-
 
 class EntityMap(models.Model):
     """
@@ -180,7 +181,8 @@ class EntityMap(models.Model):
 
 
 class FieldMap(models.Model):
-    # DGT : Implemenar con EntityMap
+    # TODO: Implemenar con EntityMap
+
     entity = models.ForeignKey(EntityMap, blank=False, null=False)
     fieldName = models.CharField(max_length=200, blank=False, null=False)
 
@@ -314,7 +316,6 @@ class ParametersBase(ProtoModel):
         return self.parameterKey + '.' + self.parameterValue
 
 
-
 class PtFunction(models.Model):
     """ TODO : En esta tabla se guardan funciones q seran ejectudas dinamicamente
         deben reespetar la syntaxis python y se precargaran con funcione de base 
@@ -340,7 +341,6 @@ class PtFunction(models.Model):
 
     def __unicode__(self):
         return self.code + '.' + self.tag
-
 
 
 class WflowAdminResume(ProtoModel):

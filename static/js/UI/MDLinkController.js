@@ -43,6 +43,9 @@ Ext.define('ProtoUL.UI.MDLinkController', {
 
         detDefinition.masterField = detDefinition.masterField || 'pk'; 
         if ( detDefinition.masterField === 'pk') {
+            if ( ! me.masterId ) {
+                me.masterId = -1 
+            }
             masterKey = me.masterId; 
         } else {
             masterKey = me.masterRowData[ detDefinition.masterField ];

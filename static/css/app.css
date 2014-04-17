@@ -54,6 +54,7 @@
 
 .icon-accept      { background-image: url(../img/protoImg/st-accept.png ) !important;}
 .icon-cancel      { background-image: url(../img/protoImg/edit_cancel.png ) !important;}
+.icon-add      	  { background-image: url(../img/protoImg/edit_add.png ) !important;}
 .icon-close       { background-image: url(../img/protoImg/icon_close.png ) !important;}
 .icon-reset       { background-image:url(../img/protoDesigner/broom.png) !important; }
 
@@ -351,5 +352,139 @@
 
 .x-tool-metaConfig  { background-image: url('../img/protoImg/config_meta.png') !important; }
 
+.x-tool-diagramEdit { background-image: url('../img/app/model.png') !important; }
 
 /*  --------------------------------------------------------------  */
+/*  -----------------------DIAGRAM EDITOR-------------------------  */
+/*  --------------------------------------------------------------  */
+/* Icons */
+
+.save-diagram    { background-image: url(../img/protoImg/d_save_detail.png ) !important;}
+.open-file    { background-image: url(../img/protoImg/open-file-icon.png ) !important;}
+.get-from-DB    { background-image: url(../img/protoImg/database-refresh-icon.png ) !important;}
+.send-to-DB    { background-image: url(../img/protoImg/database-save-icon.png ) !important;}
+.find-table    { background-image: url(../img/protoImg/data-find-icon.png ) !important;}
+.table-relationship    { background-image: url(../img/protoImg/table-relationship-icon.png ) !important;}
+.input-port    { background-image: url(../img/protoImg/door-in-icon.png ) !important;}
+.output-port    { background-image: url(../img/protoImg/door_out.png ) !important;}
+.icon-nodeInput    { background-image: url(../img/protoImg/node-input.png ) !important;}
+
+.container{
+ /*overflow: scroll !important;*/
+}
+
+.canvas {
+ padding:0px;
+ margin:0px;
+ background-color:#FAFAFA;
+ width: 1500px !important;
+ height: 1500px !important;
+}
+
+#navigation{
+ padding:0px;
+ margin:0px;
+ text-align: center;
+}
+
+#toolbar{
+background: #cecece; /* Old browsers */
+background: -moz-linear-gradient(top,  #cecece 0%, #a8a8a8 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cecece), color-stop(100%,#a8a8a8)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #cecece 0%,#a8a8a8 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #cecece 0%,#a8a8a8 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #cecece 0%,#a8a8a8 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #cecece 0%,#a8a8a8 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cecece', endColorstr='#a8a8a8',GradientType=0 ); /* IE6-9 */
+ padding:8px;
+ margin:0px;
+ height:50px;
+ border-bottom: 1px solid #515151;
+ overflow: hidden;
+}
+
+
+/******************************************************************
+ * Einstellungen der PropertyViews im Editmodus der "Form".
+ ******************************************************************/
+#propertypane {
+ padding:0px;
+ margin:0px;
+ width:150px;
+ background-color:#7D7D7D;
+ border-top:0px;
+}
+
+/*container of a single property entry*/
+.property_container {
+ padding:5px;
+ padding-bottom:15px;
+}
+
+.toolbar_delimiter {
+  margin-left:40px;
+}
+
+#content {
+ padding:0px;
+ margin:0px;
+}
+
+
+
+.palette_node_element{
+ border:1px solid gray;
+ background-color: #f3f3f3;
+ padding:10px;
+ cursor:move;
+ width:80px;
+ margin: 30px auto 30px auto;
+ text-align:center;
+ align:center;
+ border-radius: 5px;
+}
+
+.shadow {
+ -moz-box-shadow: 3px 3px 4px #000;
+ -webkit-box-shadow: 3px 3px 4px #000;
+ box-shadow: 3px 3px 4px #000;
+ /* For IE 8 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+ /* For IE 5.5 - 7 */
+ filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+}
+
+.linkedBlock {
+  fill: orange;
+}
+
+.node {
+    stroke: #000000;
+    stroke-width: 1;
+}
+
+.displaynone {
+
+    display: none;
+}
+
+.draw2d_InputPort{
+   fill:#F7F7F7;
+   stroke:#d7d7d7;
+}
+
+.draw2d_OutputPort{
+   fill:#F7F7F7;
+   stroke:#d7d7d7;
+}
+
+.draw2d_HybridPort{
+   fill:#F7F7F7;
+   stroke:#d7d7d7;
+}
+
+.table_div {
+	background-image: url('../js2db/img/Table.png');
+	background-repeat: no-repeat;
+	background-size: 25% 60%;
+}

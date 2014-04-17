@@ -1,7 +1,7 @@
 from django.test import TestCase
 from prototype.models import DiagramEntity
 from prototype.testprototype.testmodels.TestUtilities import createTestDiagramEntity
-from django.utils.unittest import skip
+
 
 class DiagramEntityTest(TestCase):
 
@@ -11,23 +11,19 @@ class DiagramEntityTest(TestCase):
     def tearDown(self):
         self.diagramEntity.delete()
 
-    @skip('à reviser')
     def test_creating_a_new_diagramentity_and_saving_it_to_the_database(self):
         diagramentity_in_database = DiagramEntity.objects.all()
         self.assertEqual(len(diagramentity_in_database), 1)
 
-    @skip('à reviser')
     def test_verifying_diagramentity_attribute_diagram_in_database(self):
         diagramentity_in_database = DiagramEntity.objects.all()
         only_entry_in_database = diagramentity_in_database[0]
         self.assertEqual(only_entry_in_database.diagram, self.diagramEntity.diagram)
 
-    @skip('à reviser')
     def test_verifying_diagramentity_attribute_entity_in_database(self):
         diagramentity_in_database = DiagramEntity.objects.all()
         only_entry_in_database = diagramentity_in_database[0]
         self.assertEqual(only_entry_in_database.entity, self.diagramEntity.entity)
 
-    @skip('à reviser')
     def test_verifying_string_representation(self):
         self.assertEqual('testcode-testentitycode', str(self.diagramEntity))

@@ -180,23 +180,6 @@ class DiscreteValueTest(TestCase):
 
         self.discreteValue.delete()
 
-@skip('à faire')
-class LanguajeTest(TestCase):
-    def setUp(self):
-        languajedata = {
-            'code': 'test_code',
-            'alias': 'alias of languaje',
-            'info': dict({'information': 'quelque chose'})
-        }
-        self.langaje = Languaje(**languajedata)
-        self.langaje.save()
-
-    def tearDown(self):
-        self.langaje.delete()
-
-    def test_verifying_string_representation(self):
-        self.assertEqual(self.langaje.code + '.' + str(self.langaje.info), str(self.langaje))
-
 
 class PtFunctionTest(TestCase):
     def setUp(self):
