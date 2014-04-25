@@ -262,6 +262,7 @@ Ext.define('ProtoUL.UI.GridController', {
 						var win = Ext.create('ProtoUL.view.diagram.DiagramMainView');
 						win.setProjectID(selectedItem.id);
 						win.show();
+						win.maximize();
 					});
 				}
 				break;

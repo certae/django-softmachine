@@ -64,7 +64,6 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
     onSelectionChanged : function(figure){
 		if (figure !== null) {
 			this.figure = figure;
-			this.expand();
 			if (figure.cssClass === 'dbModel_shape_DBTable' || figure.cssClass === 'DBTable') {
 				
 				var masterRecord = this.getComponent('protoProperty');

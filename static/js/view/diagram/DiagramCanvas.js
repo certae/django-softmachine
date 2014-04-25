@@ -75,7 +75,11 @@ Ext.define('ProtoUL.view.diagram.DiagramCanvas', {
 			var tableContextMenu = Ext.create('ProtoUL.view.diagram.TableContextMenu', {
             	figure: figure
         	});
-        	tableContextMenu.showAt(window.event.clientX,window.event.clientY);
+        	if (typeof window.event !== "undefined") {
+        		tableContextMenu.showAt(window.event.clientX,window.event.clientY);
+        	} else {
+        		tableContextMenu.showAt(x,y);
+        	}
 		} else {
 			console.log("Connection");
 		}

@@ -72,8 +72,8 @@ Ext.define('ProtoUL.controller.DiagramController', {
             unique: false,
             pk: false,
         });
-        gridDetail.getStore().insert(0, attribute);
-        gridDetail.rowEditing.startEdit(0, 0);
+        gridDetail.getStore().insert(gridDetail.getStore().data.length, attribute);
+        gridDetail.rowEditing.startEdit(gridDetail.getStore().data.length-1, 0);
     },
 
     deleteAttribute: function(button, e, eOpts) {

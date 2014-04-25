@@ -315,22 +315,3 @@ def getDefaultDiagram(request):
     context = json.dumps(jsondict)
     return HttpResponse(context, content_type="application/json")
 
-def saveDiagram(request):
-    diagramID = request.REQUEST['diagramID']
-    
-    jsonFile = json.loads(request.body)
-    jsonString = JSONEncoder().encode(jsonFile)
-    jsonString = '{"objects":'+jsonString+'}'
-    try:
-        diagram = Diagram.objects.get(id=diagramID)
-        diagram.info = jsonString
-        diagram.save()
-    except Exception as e:
-        return JsonError(e)
-    
-    jsondict = {
-        'success':True,
-        'message': 'Diagram saved',
-    }
-    context = json.dumps(jsondict)
-    return HttpResponse(context, content_type="application/json")
