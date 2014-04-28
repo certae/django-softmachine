@@ -5,7 +5,7 @@ from utilsWeb import JsonError
 from prototype.models import Project, Model, Entity, Relationship, Property, Diagram
 from utilsBase import JSONEncoder
 
-import json, uuid
+import json, uuid, ast
 
 def listDiagrams(request):
     projectID = request.GET['projectID']
@@ -24,8 +24,22 @@ def listDiagrams(request):
 
 
 def createDiagram(request):
-    test = request
-    # {u'diagrams': [u'{"projectID":1,"id":"","code":"TestDiagram","smUUID":""}']}
+    attributes = ast.literal_eval(request.POST['diagrams'])
+    user = request.user
+    code = attributes['code']
+    projectID = attributes['projectID']
+    try:
+        project = Project.objects.get(id=projectID)
+        diagram = Diagram.objects.create(project=project,code=code,smOwningTeam=project.smOwningTeam,smOwningUser=user,smCreatedBy=user)
+    except Exception as e:
+        return JsonError(e)
+    
+    jsondict = {
+        'success':True,
+        'message': 'Diagram created',
+    }
+    context = json.dumps(jsondict)
+    return HttpResponse(context, content_type="application/json")
 
 
 def saveDiagram(request):
@@ -38,6 +52,21 @@ def saveDiagram(request):
         diagram = Diagram.objects.get(id=diagramID)
         diagram.info = jsonString
         diagram.save()
+    except Exception as e:
+        return JsonError(e)
+    
+    jsondict = {
+        'success':True,
+        'message': 'Diagram saved',
+    }
+    context = json.dumps(jsondict)
+    return HttpResponse(context, content_type="application/json")
+
+def deleteDiagram(request):
+    attributes = ast.literal_eval(request.POST['diagrams'])
+    try:
+        diagram = Diagram.objects.get(id=attributes['id'])
+        diagram.delete()
     except Exception as e:
         return JsonError(e)
     

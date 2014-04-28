@@ -128,6 +128,10 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
                 }
                 controller.getDiagramCanvas().reload();
                 controller.updateJsonDocument();
+                Ext.Msg.alert('Success', 'The diagram has been synchronized!');
+            },
+            failure: function(response) {
+                Ext.Msg.alert('Failure', 'The system was unable to synchronize the diagram, please try again later!');
             }
         });
 	},
@@ -179,6 +183,8 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
         var controller = this;
         var liveGrid = this.getLiveGridSearch();
         var tables = liveGrid.getSelectionModel().getSelection();
+        var diagramController = controller.application.controllers.get('DiagramController');
+        diagramController.showProgressBar('Adding tables to canvas, please wait...','Processing...');
 
         var jsonRequest = [];
         for (var i = 0; i < tables.length; i += 1) {
@@ -198,9 +204,11 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
                 }
                 controller.getDiagramCanvas().reload();
                 controller.updateJsonDocument();
+                Ext.MessageBox.close();
             },
             failure: function(response) {
-                console.log('Failure: getElementsDiagramFromSelectedTables');
+            	Ext.MessageBox.close();
+                Ext.Msg.alert('Failure', 'Failed to get tables from database, please try again later!');
             }
         });
     },
@@ -239,6 +247,7 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
             var store = controller.getDiagramsStore();
             store.sync({
                 success: function(batch, options) {
+                	controller.getDiagramsStore().load(operation);
                     win.close();
                 },
                 failure: function(batch, options) {
@@ -254,20 +263,31 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
     },
 
     deleteDiagram: function(button) {
-
-        var grid = this.getDiagramGrid(), record = grid.getSelectionModel().getSelection(), store = this.getDiagramsStore();
-
-        store.remove(record);
-        store.sync({
-            failure: function(batch, options) {
-                Ext.Msg.alert('Failed', batch.proxy.getReader().jsonData.message);
-            },
-            scope: this
-        });
-        store.load();
-
-        //do update
-        this.getDiagramsStore().load();
+		var controller = this;
+        var projectID = controller.getDiagramMainView().getProjectID();
+        var operation = new Ext.data.Operation({
+		    action: 'read',
+			params: {"projectID": projectID}
+		});
+		
+        var grid = controller.getDiagramGrid(), record = grid.getSelectionModel().getSelection(), store = controller.getDiagramsStore();
+		var openedDiagramID = controller.getDiagramMainView().getDiagramID();
+		
+		if (openedDiagramID !== record[0].data.id){
+	        store.remove(record);
+	        store.sync({
+	        	success: function(batch, options) {
+	                controller.getDiagramsStore().load(operation);
+	            },
+	            failure: function(batch, options) {
+	                Ext.Msg.alert('Failed', batch.proxy.getReader().jsonData.message);
+	            },
+	            scope: this
+	        });
+	        store.load(operation);
+		} else {
+			Ext.Msg.alert('Warning', 'You cannot delete the active diagram!');
+		}
     },
 
     init: function(application) {

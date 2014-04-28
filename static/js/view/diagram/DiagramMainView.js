@@ -40,7 +40,7 @@ Ext.define('ProtoUL.view.diagram.DiagramMainView', {
     	me.on('beforeshow', function(){
     		this.fireEvent('opendiagram');
 		});
-
+		
         me.callParent(arguments);
     },
 		

@@ -224,10 +224,10 @@ def synchDBFromDiagram(request):
 
 
 def addOrUpdateEntity(model, user, owningTeam, deletedConnectors, element, elementUUID):
+    UUIDAttributeList = []
     try:
         entity = Entity.objects.get(smUUID=elementUUID)
         entity.code = element['tableName']
-        UUIDAttributeList = []
         entity = saveAttributes(element, entity, UUIDAttributeList, user, owningTeam)
         excluded = entity.property_set.exclude(smUUID__in=UUIDAttributeList)
         for item in excluded:
@@ -241,6 +241,8 @@ def addOrUpdateEntity(model, user, owningTeam, deletedConnectors, element, eleme
         entity = Entity.objects.create(code=element['tableName'], model=model, smUUID=elementUUID)
         entity.smCreatedBy = user
         entity.smOwningTeam = owningTeam
+        entity.save()
+        entity = saveAttributes(element, entity, UUIDAttributeList, user, owningTeam)
         entity.save()
 
 
@@ -291,11 +293,15 @@ def saveAttributes(element, entity, UUIDAttributeList, user, owningTeam):
 
 def getDefaultDiagram(request):
     projectID = request.REQUEST['projectID']
+    user = request.user
     try:
         project = Project.objects.get(id=projectID)
         diagrams = Diagram.objects.filter(project_id=projectID)
         if not diagrams:
             diagram,created = Diagram.objects.get_or_create(project=project,code='default',smOwningTeam=project.smOwningTeam)
+            diagram.smOwningUser = user
+            diagram.smCreatedBy = user
+            diagram.save()
         else:
             diagram = diagrams[0]
     except Exception as e:

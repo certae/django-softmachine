@@ -43,6 +43,7 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
     addAttribute: function(index, entity) {
         var label = new dbModel.shape.CustomLabel(entity.text);
         label.setStroke(0);
+        label.setBold(entity.pk);
         label.setRadius(0);
         label.setBackgroundColor(null);
         label.setPadding(5);

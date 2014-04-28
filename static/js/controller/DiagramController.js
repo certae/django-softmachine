@@ -21,6 +21,16 @@ Ext.define('ProtoUL.controller.DiagramController', {
         selector: '#tablecontextmenu'
     }],
 
+	showProgressBar: function(msg,progressText) {
+        Ext.MessageBox.show({
+           msg: msg,
+           progressText: progressText,
+           width:300,
+           wait:true,
+           waitConfig: {interval:200}
+       });    
+    },
+    
     updateJsonDocument: function() {
         var writer = new draw2d.io.json.Writer();
         writer.marshal(this.getDiagramCanvas().getView(), function(json) {
@@ -65,10 +75,10 @@ Ext.define('ProtoUL.controller.DiagramController', {
         gridDetail.rowEditing.cancelEdit();
         var label = new draw2d.shape.basic.Label('new attribute');
         var attribute = Ext.create('ProtoUL.model.EntityAttributesModel', {
-            text: 'new attribute',
+            text: 'new attribute'+gridDetail.getStore().data.length,
             id: label.id,
             inputPort: '',
-            datatype: 'CharField',
+            datatype: 'string',
             unique: false,
             pk: false,
         });
@@ -126,6 +136,7 @@ Ext.define('ProtoUL.controller.DiagramController', {
     },
 
     saveDiagram: function(button, e, eOpts) {
+    	this.showProgressBar('Saving your data, please wait...','Saving...');
         this.updateJsonDocument();
 
 		var controller = this;
@@ -140,9 +151,12 @@ Ext.define('ProtoUL.controller.DiagramController', {
             },
             jsonData: Ext.JSON.encode(jsonDocument),
             success: function(response) {
-                console.log('Cuccess: saveDiagram');
+                setTimeout(function(){
+                	Ext.MessageBox.close();
+		        }, 1000);
             },
             failure: function(response) {
+            	Ext.MessageBox.close();
                 console.log('Failure: saveDiagram');
             }
         });
@@ -246,6 +260,7 @@ Ext.define('ProtoUL.controller.DiagramController', {
 
     synchDBFromDiagram: function(button, e, eOpts) {
         var controller = this;
+        controller.showProgressBar('Creating objects in Database, please wait...','Saving...');
         var menuController = this.application.controllers.get('DiagramMenuController');
         var projectID = menuController.getDiagramMainView().getProjectID();
         Ext.Ajax.request({
@@ -265,8 +280,10 @@ Ext.define('ProtoUL.controller.DiagramController', {
                 }
                 controller.getDiagramCanvas().reload();
                 controller.updateJsonDocument();
+                Ext.MessageBox.close();
             },
             failure: function(response) {
+            	Ext.MessageBox.close();
                 console.log('Failure: synchDBFromDiagram');
             }
         });
