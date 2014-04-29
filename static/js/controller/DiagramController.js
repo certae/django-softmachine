@@ -290,13 +290,13 @@ Ext.define('ProtoUL.controller.DiagramController', {
         button.setDisabled(true);
     },
 
-	openDiagram: function(button, e, eOpts) {
-        var controller = this;
-        var projectID = controller.getDiagramMainView().getProjectID();
-        Ext.Ajax.request({
-            url: _SM._PConfig.getDefaultDiagram,
+	runAjaxOpenDiagram: function(controller, url, projectID, diagramID){
+		Ext.Ajax.request({
+            url: url,
+            method: "GET",
             params: {
-                projectID: projectID
+                projectID: projectID,
+                diagramID: diagramID
             },
             success: function(response) {
                 var text = response.responseText;
@@ -315,6 +315,12 @@ Ext.define('ProtoUL.controller.DiagramController', {
                 console.log('Failure: openDiagram');
             }
         });
+	},
+	
+	openDiagram: function(button, e, eOpts) {
+        var controller = this;
+        var projectID = controller.getDiagramMainView().getProjectID();
+        controller.runAjaxOpenDiagram(controller, _SM._PConfig.getDefaultDiagram, projectID, null);
     },
     
     init: function(application) {

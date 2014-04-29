@@ -22,6 +22,15 @@ Ext.define('ProtoUL.view.diagram.base.Grid', {
         flex: 1,
         dataIndex: 'code'
     }],
+    
+    listeners: {
+        select: {
+            fn: function(){ 
+                var btOpenDiagram = this.down('button[itemId=btOpenDiagram]');
+                btOpenDiagram.setDisabled(false);
+            }
+        }
+    },
 
     initComponent: function() {
         this.dockedItems = [{
@@ -38,6 +47,7 @@ Ext.define('ProtoUL.view.diagram.base.Grid', {
                 iconCls: 'open-file',
                 text: 'Open diagram',
                 action: 'openselecteddiagram',
+                itemId: 'btOpenDiagram',
                 disabled: true
             }]
         }, {

@@ -76,3 +76,24 @@ def deleteDiagram(request):
     }
     context = json.dumps(jsondict)
     return HttpResponse(context, content_type="application/json")
+
+def openDiagram(request):
+    diagramID = request.GET['diagramID']
+    try:
+        diagram = Diagram.objects.get(id=diagramID)
+    except Exception as e:
+        return JsonError(e)
+    
+    jsonDiagram = diagram.info
+    if isinstance(jsonDiagram, dict):
+            jsonDiagram = json.dumps(jsonDiagram , cls=JSONEncoder)
+            
+    jsondict = {
+        'success':True,
+        'message': '',
+        'diagramID': diagram.id,
+        'diagramCode': diagram.code,
+        'diagram': jsonDiagram,
+    }
+    context = json.dumps(jsondict)
+    return HttpResponse(context, content_type="application/json")

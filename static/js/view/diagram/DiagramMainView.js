@@ -7,6 +7,7 @@ Ext.define('ProtoUL.view.diagram.DiagramMainView', {
     itemId: 'diagramMainView',
     layout: 'border',
     maximizable: true,
+    modal: true,
     height: 600,
     width: 1200,
 	

@@ -61,6 +61,16 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
 		}
 	},
 	
+	hidePropertyGridAttributes: function(masterRecord) {
+		masterRecord.getView().getRowClass = function(row, index) {
+			if (row.data.name === 'id'){
+				return 'hide-this-row';
+			} else {
+				return '';
+			}
+		};
+	},
+	
     onSelectionChanged : function(figure){
 		if (figure !== null) {
 			this.figure = figure;
@@ -74,6 +84,9 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
 	    		
 	    		if (typeof myObj !== 'undefined'){
 					masterRecord.setSource(myObj);
+					//masterRecord.view.addRowCls(index, 'hide-this-row');
+					//masterRecord.view.removeRowCls(index, 'hide-this-row');
+					this.hidePropertyGridAttributes(masterRecord);
 					gridDetail.getStore().loadRawData(myObj.attributes);
 				}
 			} else {
@@ -85,6 +98,7 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
 				myObj.isRequired = myObj.userData.isRequired;
 				if (typeof myObj !== 'undefined'){
 					masterRecord.setSource(myObj);
+					this.hidePropertyGridAttributes(masterRecord);
 				}
 			}
 		}

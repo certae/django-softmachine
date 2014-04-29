@@ -289,6 +289,24 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
 			Ext.Msg.alert('Warning', 'You cannot delete the active diagram!');
 		}
     },
+    
+    openSelectedDiagram: function(button, event) {
+    	var controller = this;
+		var projectID = controller.getDiagramMainView().getProjectID();
+		
+		var grid = button.up('grid[itemId=diagramgrid]');
+		var record = grid.getSelectionModel().getSelection();
+		var diagramID = record[0].data.id;
+		
+		var openedDiagramID = controller.getDiagramMainView().getDiagramID();
+		
+		var diagramController = controller.application.controllers.get('DiagramController');
+		if (openedDiagramID !== diagramID){
+	        diagramController.runAjaxOpenDiagram(controller, '/protoLib/openDiagram/', projectID, diagramID);
+		} else {
+			Ext.Msg.alert('Warning', 'The selected diagram is already opened!');
+		}
+    },
 
     init: function(application) {
         this.control({
@@ -309,6 +327,9 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
             },
             'diagramgrid button[action=delete]': {
                 click: this.deleteDiagram
+            },
+            'diagramgrid button[action=openselecteddiagram]': {
+                click: this.openSelectedDiagram
             },
             'diagramform button[action=save]': {
                 click: this.updateDiagram

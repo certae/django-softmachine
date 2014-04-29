@@ -488,3 +488,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cecece', end
 	background-repeat: no-repeat;
 	background-size: 25% 60%;
 }
+
+.primary_key {
+	color: #000000;
+	text-decoration:underline;
+}
+
+.hide-this-row {
+	display: none;
+}
