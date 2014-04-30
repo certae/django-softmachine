@@ -205,7 +205,7 @@ Ext.define('ProtoUL.UI.GridController', {
 
         me.setToolMode('#toolRowDel', bRef && perms['delete']);
         
-        if (me.myMeta.viewCode === "prototype.Project") {
+        if (me.myMeta.viewCode === "prototype.Project" || me.myMeta.viewCode === "prototype.Diagram") {
 			me.setToolMode('#toolDiagramEdit', bRef && perms['add']);
 		}
 
@@ -255,13 +255,20 @@ Ext.define('ProtoUL.UI.GridController', {
                 
 			case 'toolDiagramEdit' :
 				if (_SM.validaSelected(this.myGrid)) {
+					Ext.getBody().mask('Loading...', 'loading');
 					scriptLibrary = [];
 					createJSFilesLibrary();
 					var selectedItem = this.myGrid.rowData;
 					loadJsFilesSequentially(scriptLibrary, 0, function(){
 						var win = Ext.create('ProtoUL.view.diagram.DiagramMainView');
-						win.setProjectID(selectedItem.id);
+						if (selectedItem.project_id) {
+							win.setDiagramID(selectedItem.id);
+							win.setProjectID(selectedItem.project_id);
+						} else {
+							win.setProjectID(selectedItem.id);
+						}
 						win.show();
+						Ext.getBody().unmask();
 						win.maximize();
 					});
 				}

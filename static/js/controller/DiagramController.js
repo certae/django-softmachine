@@ -320,7 +320,12 @@ Ext.define('ProtoUL.controller.DiagramController', {
 	openDiagram: function(button, e, eOpts) {
         var controller = this;
         var projectID = controller.getDiagramMainView().getProjectID();
-        controller.runAjaxOpenDiagram(controller, _SM._PConfig.getDefaultDiagram, projectID, null);
+        var diagramID = controller.getDiagramMainView().getDiagramID();
+        if (diagramID === null){
+        	controller.runAjaxOpenDiagram(controller, _SM._PConfig.getDefaultDiagram, projectID, null);
+        } else {
+        	controller.runAjaxOpenDiagram(controller, _SM._PConfig.openDiagram, projectID, diagramID);
+        }
     },
     
     init: function(application) {
