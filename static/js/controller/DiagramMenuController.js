@@ -108,8 +108,8 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
                 });
 				var searchGrid = win.down('grid');
 				var statusBar = searchGrid.query('#bbarDefaultText')[0];
-				statusBar.setText(statusText);
 				win.show();
+				statusBar.setText(statusText);
             }
         });
     },
