@@ -95,7 +95,7 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
 				gridDetail.hide();
 				
 				var myObj = this.getFigureFromJSONData(figure.id);
-				myObj.isRequired = myObj.userData.isRequired;
+				myObj.isPrimary = myObj.userData.isPrimary;
 				if (typeof myObj !== 'undefined'){
 					masterRecord.setSource(myObj);
 					this.hidePropertyGridAttributes(masterRecord);

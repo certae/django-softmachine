@@ -126,7 +126,7 @@ Ext.define('ProtoUL.controller.DiagramController', {
             this.getDiagramCanvas().reload();
         } else if ( typeof propertySource.router !== "undefined") {
             this.updateJsonDocument();
-            propertySource.userData.isRequired = propertySource.isRequired;
+            propertySource.userData.isPrimary = propertySource.isPrimary;
             this.addOrUpdateJSONDocument(propertySource);
 
             this.getDiagramCanvas().reload();

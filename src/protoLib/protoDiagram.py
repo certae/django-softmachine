@@ -130,7 +130,7 @@ def appendConnector(relationship, outputPortName, inputPortName, connectors):
         "type": "dbModel.shape.TableConnection",
         "name": relationship.code,
         "id": str(uuid.UUID(relationship.smUUID)),
-        "userData": {"isRequired":relationship.isRequired},
+        "userData": {"isPrimary":relationship.isPrimary},
         "cssClass": "draw2d_Connection",
         "stroke": 2,
         "color": "#5BCAFF",
