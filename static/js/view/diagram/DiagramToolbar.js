@@ -21,13 +21,13 @@ Ext.define('ProtoUL.view.diagram.DiagramToolbar', {
                     itemId: 'btUndo',
                     border: 1,
                     disabled: true,
-                    text: 'Undo'
+                    text: _SM.__language.Text_Undo_Button
                 },
                 {
                     xtype: 'button',
                     itemId: 'btRedo',
                     disabled: true,
-                    text: 'Redo'
+                    text: _SM.__language.Text_Redo_Button
                 },
                 {
                     xtype: 'tbspacer',
@@ -37,7 +37,7 @@ Ext.define('ProtoUL.view.diagram.DiagramToolbar', {
                     xtype: 'button',
                     itemId: 'btDelete',
 					disabled: true,
-                    text: 'Delete'
+                    text: _SM.__language.Text_Delete_Button
                 },
                 {
                     xtype: 'tbspacer'
@@ -51,7 +51,7 @@ Ext.define('ProtoUL.view.diagram.DiagramToolbar', {
                         {
                             xtype: 'button',
                             itemId: 'btZoomIn',
-                            text: 'Zoom in'
+                            text: _SM.__language.Text_ZoomIn_Button
                         },
                         {
                             xtype: 'button',
@@ -61,7 +61,7 @@ Ext.define('ProtoUL.view.diagram.DiagramToolbar', {
 						{
                             xtype: 'button',
                             itemId: 'btZoomOut',
-                            text: 'Zoom out'
+                            text: _SM.__language.Text_ZoomOut_Button
                         }
                     ]
                 },
@@ -73,14 +73,14 @@ Ext.define('ProtoUL.view.diagram.DiagramToolbar', {
                 	iconCls: 'save-diagram',
                     itemId: 'btSaveDiagram',
                     disabled: true,
-                    text: 'Save diagram'
+                    text: _SM.__language.Text_Save_Diagram_Button
                 },
                 {
                 	xtype: 'button',
                 	iconCls: 'send-to-DB',
                     itemId: 'btSyncToDB',
                     disabled: true,
-                    text: 'Create objects in DB'
+                    text: _SM.__language.Text_Commit_Changes_Button
                 }
             ]
         });

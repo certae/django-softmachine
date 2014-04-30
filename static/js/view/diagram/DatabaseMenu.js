@@ -18,13 +18,13 @@ Ext.define('ProtoUL.view.diagram.DatabaseMenu', {
                     xtype: 'menuitem',
                 	itemId: 'syncDiagramFromDB',
                 	iconCls: 'get-from-DB',
-                    text: 'Synchronyze diagram',
+                    text: _SM.__language.Menu_Update_Diagram,
                 },
                 {
                     xtype: 'menuitem',
                     itemId: 'getAllTables',
                     iconCls: 'find-table',
-                    text: 'Add table from DB',
+                    text: _SM.__language.Menu_Search_Table,
                 },
                 {
                 	xtype: 'menuseparator'
@@ -33,7 +33,7 @@ Ext.define('ProtoUL.view.diagram.DatabaseMenu', {
                     xtype: 'menuitem',
                     itemId: 'menuManageDiagram',
                     iconCls: 'icon-model',
-                    text: 'Manage diagrams',
+                    text: _SM.__language.Menu_Manage_Diagrams,
                 }
             ]
         });

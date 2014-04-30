@@ -136,7 +136,7 @@ Ext.define('ProtoUL.controller.DiagramController', {
     },
 
     saveDiagram: function(button, e, eOpts) {
-    	this.showProgressBar('Saving your data, please wait...','Saving...');
+    	this.showProgressBar(_SM.__language.Message_Saving_Data, _SM.__language.Text_Submit_Validation_Form);
         this.updateJsonDocument();
 
 		var controller = this;
@@ -260,7 +260,7 @@ Ext.define('ProtoUL.controller.DiagramController', {
 
     synchDBFromDiagram: function(button, e, eOpts) {
         var controller = this;
-        controller.showProgressBar('Creating objects in Database, please wait...','Saving...');
+        controller.showProgressBar(_SM.__language.Message_Creating_Objects, _SM.__language.Text_Submit_Validation_Form);
         var menuController = this.application.controllers.get('DiagramMenuController');
         var projectID = menuController.getDiagramMainView().getProjectID();
         Ext.Ajax.request({
@@ -307,7 +307,7 @@ Ext.define('ProtoUL.controller.DiagramController', {
                 } else {
                     jsonDocument = Ext.JSON.decode(outcome.diagram).objects;
                 }
-                controller.getDiagramMainView().setTitle('Diagram: ' + outcome.diagramCode);
+                controller.getDiagramMainView().setTitle(_SM.__language.Title_Work_Diagram + outcome.diagramCode);
                 controller.getDiagramMainView().setDiagramID(outcome.diagramID);
                 controller.getDiagramCanvas().reload();
             },

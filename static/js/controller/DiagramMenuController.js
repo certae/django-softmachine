@@ -87,7 +87,8 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
                 var store = Ext.create('ProtoUL.store.DiagramModelStore', {
                     data: outcome.tables
                 });
-                new Ext.Window({
+                var statusText = outcome.tables.length + ' item(s) found';
+                var win = new Ext.Window({
                     width: 540,
                     height: 300,
                     layout: 'fit',
@@ -104,7 +105,11 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
                         width: 540,
                         height: 200
                     }
-                }).show();
+                });
+				var searchGrid = win.down('grid');
+				var statusBar = searchGrid.query('#bbarDefaultText')[0];
+				statusBar.setText(statusText);
+				win.show();
             }
         });
     },
@@ -128,10 +133,10 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
                 }
                 controller.getDiagramCanvas().reload();
                 controller.updateJsonDocument();
-                Ext.Msg.alert('Success', 'The diagram has been synchronized!');
+                Ext.Msg.alert('Success', _SM.__language.Message_Diagram_Synchronized);
             },
             failure: function(response) {
-                Ext.Msg.alert('Failure', 'The system was unable to synchronize the diagram, please try again later!');
+                Ext.Msg.alert('Failure', _SM.__language.Message_Error_Diagram_Synchronized);
             }
         });
 	},
@@ -145,7 +150,7 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
 		});
         var win = Ext.create('Ext.window.Window', {
             width: 500,
-            title: 'Diagrams',
+            title: _SM.__language.Title_Diagrams,
             layout: 'fit',
             items: {
                 xtype: 'diagramgrid',
@@ -184,7 +189,7 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
         var liveGrid = this.getLiveGridSearch();
         var tables = liveGrid.getSelectionModel().getSelection();
         var diagramController = controller.application.controllers.get('DiagramController');
-        diagramController.showProgressBar('Adding tables to canvas, please wait...','Processing...');
+        diagramController.showProgressBar(_SM.__language.Message_Add_Table_Canvas,'Processing...');
 
         var jsonRequest = [];
         for (var i = 0; i < tables.length; i += 1) {
@@ -286,7 +291,7 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
 	        });
 	        store.load(operation);
 		} else {
-			Ext.Msg.alert('Warning', 'You cannot delete the active diagram!');
+			Ext.Msg.alert('Warning', _SM.__language.Warning_Delete_Active_Diagram);
 		}
     },
     
@@ -302,9 +307,9 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
 		
 		var diagramController = controller.application.controllers.get('DiagramController');
 		if (openedDiagramID !== diagramID){
-	        diagramController.runAjaxOpenDiagram(controller, '/protoLib/openDiagram/', projectID, diagramID);
+	        diagramController.runAjaxOpenDiagram(controller, _SM._PConfig.openDiagram, projectID, diagramID);
 		} else {
-			Ext.Msg.alert('Warning', 'The selected diagram is already opened!');
+			Ext.Msg.alert('Warning', _SM.__language.Warning_Diagram_Already_Open);
 		}
     },
 

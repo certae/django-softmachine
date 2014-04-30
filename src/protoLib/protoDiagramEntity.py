@@ -2,10 +2,10 @@
 
 from django.http import HttpResponse
 from utilsWeb import JsonError
-from prototype.models import Project, Model, Entity, Relationship, Property, Diagram
+from prototype.models import Project, Diagram
 from utilsBase import JSONEncoder
 
-import json, uuid, ast
+import json, ast
 
 def listDiagrams(request):
     projectID = request.GET['projectID']
@@ -37,6 +37,7 @@ def createDiagram(request):
     jsondict = {
         'success':True,
         'message': 'Diagram created',
+        'diagramID': diagram.id,
     }
     context = json.dumps(jsondict)
     return HttpResponse(context, content_type="application/json")

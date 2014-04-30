@@ -43,7 +43,7 @@ Ext.define('ProtoUL.view.diagram.base.Form', {
                 xtype: 'textfield',
                 name: 'code',
                 allowBlank: false,
-                fieldLabel: 'Name',
+                fieldLabel: _SM.__language.GridColumn_Name,
                 validator: function(val) {
                     if (!Ext.isEmpty(Ext.String.trim(val))) {
                         return true;
@@ -67,11 +67,11 @@ Ext.define('ProtoUL.view.diagram.base.Form', {
             ui: 'footer',
             items: ['->', {
                 iconCls: 'icon-save',
-                text: 'Save',
+                text: _SM.__language.Text_Save_Button,
                 action: 'save'
             }, {
                 iconCls: 'icon-reset',
-                text: 'Cancel',
+                text: _SM.__language.Text_Cancel_Button,
                 scope: this,
                 handler: this.close
             }]

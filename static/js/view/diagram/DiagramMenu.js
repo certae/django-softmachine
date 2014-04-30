@@ -29,7 +29,7 @@ Ext.define('ProtoUL.view.diagram.DiagramMenu', {
                 },
                 {
                     xtype: 'panel',
-                    title: 'Database',
+                    title: _SM.__language.Menu_Database_Title,
                     items: [
                         {
                             xtype: 'databasemenu'

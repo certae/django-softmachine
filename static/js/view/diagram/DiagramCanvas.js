@@ -81,6 +81,7 @@ Ext.define('ProtoUL.view.diagram.DiagramCanvas', {
         		tableContextMenu.showAt(x,y);
         	}
 		} else {
+			// TODO add listener.
 			console.log("Connection");
 		}
     },

@@ -18,7 +18,7 @@ Ext.define('ProtoUL.view.diagram.base.Grid', {
         width: 20,
         dataIndex: 'id'
     }, {
-        header: "NAME",
+        header: _SM.__language.GridColumn_Name,
         flex: 1,
         dataIndex: 'code'
     }],
@@ -37,15 +37,15 @@ Ext.define('ProtoUL.view.diagram.base.Grid', {
             xtype: 'toolbar',
             items: [{
                 iconCls: 'icon-save',
-                text: 'Add',
+                text: _SM.__language.Text_Add_Button,
                 action: 'add'
             }, {
                 iconCls: 'icon-delete',
-                text: 'Delete',
+                text: _SM.__language.Text_Delete_Button,
                 action: 'delete'
             }, {
                 iconCls: 'open-file',
-                text: 'Open diagram',
+                text: _SM.__language.Text_OpenDiagram_Button,
                 action: 'openselecteddiagram',
                 itemId: 'btOpenDiagram',
                 disabled: true

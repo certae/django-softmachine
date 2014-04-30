@@ -45,6 +45,11 @@ _SM._PConfig =  {
     getElementsDiagramFromSelectedTables: 'protoLib/getElementsDiagramFromSelectedTables/',
     getDefaultDiagram: 'protoLib/getDefaultDiagram/',
     saveDiagram: 'protoLib/saveDiagram/',
+    openDiagram: 'protoLib/openDiagram/',
+    createDiagram: 'protoLib/createDiagram/',
+    listDiagrams: 'protoLib/listDiagrams/',
+    updateDiagram: 'protoLib/updateDiagram/',
+    deleteDiagram: 'protoLib/deleteDiagram/',
 
     clsBaseModel: 'ProtoUL.model.'
 };

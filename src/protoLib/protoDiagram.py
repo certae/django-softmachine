@@ -88,15 +88,15 @@ def getJSONElements(entities, selectedTables, connectors):
             'attributes':[]}
         x += 30
         y += 30
-        addOutputPorts(entity, table)
+        addOutputPorts(entity, table, connectors)
         for pProperty in entity.property_set.all():
             table['attributes'].append({'text':pProperty.code, 'id':str(uuid.UUID(pProperty.smUUID)), 'datatype':pProperty.baseType, 'pk':pProperty.isPrimary, 'fk':pProperty.isForeign, 'isNullable':pProperty.isNullable, 'isRequired':pProperty.isRequired})
             if (pProperty.isForeign):
-                addConnectors(pProperty, table, connectors)
+                addConnectors(pProperty.relationship, table, connectors)
         
         selectedTables.append(table)
 
-def addOutputPorts(entity, table):
+def addOutputPorts(entity, table, connectors):
     relationships = Relationship.objects.filter(refEntity=entity)
     for port in relationships:
         if port.refEntity != port.entity:
@@ -106,9 +106,9 @@ def addOutputPorts(entity, table):
                 "name": outputPortName,
                 "position": "default"
                  })
+            appendConnector(port, outputPortName, "input"+str(port.id), connectors)
             
-def addConnectors(pProperty, table, connectors):
-    relationship = pProperty.relationship
+def addConnectors(relationship, table, connectors):
     inputPortName = "input"+str(relationship.id)
     outputPortName = "output"+str(relationship.id)
     if relationship.refEntity == relationship.entity:
@@ -123,6 +123,9 @@ def addConnectors(pProperty, table, connectors):
         "name": inputPortName,
         "position": "default"
          })
+    appendConnector(relationship, outputPortName, inputPortName, connectors)
+
+def appendConnector(relationship, outputPortName, inputPortName, connectors):
     connector = {
         "type": "dbModel.shape.TableConnection",
         "name": relationship.code,
@@ -142,9 +145,9 @@ def addConnectors(pProperty, table, connectors):
             "port": inputPortName
         }
     }
-    connectors.append(connector)
+    if connector not in connectors:
+        connectors.append(connector)
     
-
 def synchDiagramFromDB(request):
     """ Updates diagram objects from database
     """

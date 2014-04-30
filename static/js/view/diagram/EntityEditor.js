@@ -39,7 +39,7 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
             items: [{
                 iconCls: 'menu_reload',
                 itemId: 'btSaveTable',
-                text: 'Update diagram',
+                text: _SM.__language.Text_UpdateDiagram_Button,
                 action: 'savetable'
             }]
         }];

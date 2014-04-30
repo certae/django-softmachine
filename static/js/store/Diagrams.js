@@ -6,10 +6,10 @@ Ext.define('ProtoUL.store.Diagrams', {
     proxy: {
         type: 'ajax',
         api: {
-            create: '/protoLib/createDiagram/',
-            read: '/protoLib/listDiagrams/',
-            update: '/protoLib/updateDiagram/',
-            destroy: '/protoLib/deleteDiagram/',
+            create: _SM._PConfig.createDiagram,
+            read: _SM._PConfig.listDiagrams,
+            update: _SM._PConfig.updateDiagram,
+            destroy: _SM._PConfig.deleteDiagram,
         },
         reader: {
             type: 'json',
