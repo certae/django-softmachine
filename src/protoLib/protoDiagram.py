@@ -253,14 +253,13 @@ def addOrUpdateConnector(element, elementUUID, refEntity, connEntity):
     try:
         connector = Relationship.objects.get(smUUID=elementUUID)
         connector.code = element['name']
-        connector.isRequired = element['userData']['isRequired']
-        connector.isPrimary = connector.isRequired
+        connector.isPrimary = element['userData']['isPrimary']
         connector.refEntity = refEntity
         connector.connEntity = connEntity
         connector.save()
     except Exception as e:
         print e, 'Creating a new one'
-        connector = Relationship.objects.create(code=element['name'], smUUID=elementUUID, refEntity_id=refEntity.id, entity_id=connEntity.id, isPrimary=element['userData']['isRequired'], isLookUpResult=True, isNullable=True, isRequired=element['userData']['isRequired'], isReadOnly=False, isEssential=False)
+        connector = Relationship.objects.create(code=element['name'], smUUID=elementUUID, refEntity_id=refEntity.id, entity_id=connEntity.id, isPrimary=element['userData']['isPrimary'], isLookUpResult=True, isNullable=True, isRequired=False, isReadOnly=False, isEssential=False)
         connector.save()
 
 
