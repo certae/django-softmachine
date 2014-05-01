@@ -176,7 +176,7 @@ def synchDiagramFromDB(request):
 def synchDBFromDiagram(request):
     """ Create and synchronize elements in database
     """
-    projectID = request.REQUEST['projectID']
+    projectID = request.GET['projectID']
     try:
         project = Project.objects.get(id=projectID)
         model,created = Model.objects.get_or_create(project=project,code='default',smOwningTeam=project.smOwningTeam)

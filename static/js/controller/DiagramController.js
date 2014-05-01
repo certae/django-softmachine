@@ -265,6 +265,7 @@ Ext.define('ProtoUL.controller.DiagramController', {
         var projectID = menuController.getDiagramMainView().getProjectID();
         Ext.Ajax.request({
             url: _SM._PConfig.synchDBFromDiagram,
+            method: "POST",
             params: {
                 projectID: projectID
             },
