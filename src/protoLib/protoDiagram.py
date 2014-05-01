@@ -294,7 +294,7 @@ def saveAttributes(element, entity, UUIDAttributeList, user, owningTeam):
 
 
 def getDefaultDiagram(request):
-    projectID = request.REQUEST['projectID']
+    projectID = request.GET['projectID']
     user = request.user
     try:
         project = Project.objects.get(id=projectID)

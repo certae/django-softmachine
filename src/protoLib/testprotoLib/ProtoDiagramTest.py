@@ -3,9 +3,10 @@
 from django.test import TestCase
 from django.test.client import RequestFactory
 from django.http import HttpRequest
-from protoLib.protoDiagram import getEntitiesJSONDiagram, synchDiagramFromDB, getElementsDiagramFromSelectedTables, synchDBFromDiagram
+from protoLib.protoDiagram import getEntitiesJSONDiagram, synchDiagramFromDB, getElementsDiagramFromSelectedTables, synchDBFromDiagram, getDefaultDiagram
+from protoLib.protoDiagramEntity import listDiagrams, openDiagram
 from prototype.testprototype.testmodels.TestUtilities import createTestDiagram, createTestEntity
-from requests import Request, Session
+from requests import Request
 from django.contrib.auth import authenticate
 import json, uuid, unicodedata
 
@@ -16,7 +17,6 @@ def CreateBasicRequest():
     request.POST['password'] = '123'
     request.user = authenticate(username=request.POST['login'], password=request.POST['password'])
     request.POST['projectID'] = 1
-    request.GET['projectID'] = 1
     
     return request
 
@@ -33,7 +33,7 @@ def CreatePreparedAuthRequest():
 
     request = factory.request()
     request._body = data
-    request._get = {"projectID":1}
+    request._get = {"projectID":1, "diagramID":1}
     request.user = auth
     
     return request
@@ -59,16 +59,23 @@ class ProtoDiagramTest(TestCase):
     def test_synchDBFromDiagram(self):
         response = json.loads(synchDBFromDiagram(self.auth_request).content)
         self.assertTrue(response['success'])
+        
+    def test_getDefaultDiagram(self):
+        response = json.loads(getDefaultDiagram(self.auth_request).content)
+        self.assertTrue(response['success'])
 
 class ProtoDiagramEntityTest(TestCase):
     def setUp(self):
         self.entity = createTestEntity()
+        self.diagram = createTestDiagram()
         self.basic_request = CreateBasicRequest()
         self.prepped_request = CreatePreparedRequest()
+        self.auth_request = CreatePreparedAuthRequest()
 
     def tearDown(self):
         self.entity.delete()
-        
+        self.diagram.delete()
+
     def test_getEntitiesJSONDiagram_thenReturnEntity(self):
         response = json.loads(getEntitiesJSONDiagram(self.basic_request).content)
         tab = response['tables'][0]
@@ -79,3 +86,12 @@ class ProtoDiagramEntityTest(TestCase):
         response = json.loads(getElementsDiagramFromSelectedTables(self.prepped_request).content)
         smUUID = uuid.UUID(response['tables'][0]['id']).hex
         self.assertEqual(self.entity.smUUID, smUUID)
+        
+    def test_listDiagrams(self):
+        response = json.loads(listDiagrams(self.auth_request).content)
+        self.assertTrue(response['success'])
+        
+    def test_openDiagram(self):
+        response = json.loads(openDiagram(self.auth_request).content)
+        self.assertTrue(response['success'])
+        
