@@ -81,6 +81,12 @@ Ext.define('ProtoUL.view.diagram.DiagramToolbar', {
                     itemId: 'btSyncToDB',
                     disabled: true,
                     text: _SM.__language.Text_Commit_Changes_Button
+                },
+                {
+                	xtype: 'button',
+                	iconCls: 'icon-print',
+                	itemId: 'btExportDiagram',
+                	text: _SM.__language.Text_Export_Image
                 }
             ]
         });

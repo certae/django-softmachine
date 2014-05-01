@@ -243,6 +243,7 @@ __language ={
     'Text_Add_Button' : 'Ajouter',
     'Text_UpdateDiagram_Button' : 'Mettre à jour le diagramme',
     'Text_OpenDiagram_Button' : 'Ouvrir diagramme',
+    'Text_Export_Image': 'Imprimer diagramme',
     
     'GridColumn_Name' : 'Nom',
     'GridColumn_Datatype' : 'Type de données',

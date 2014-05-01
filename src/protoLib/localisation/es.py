@@ -244,6 +244,7 @@ __language ={
     'Text_Add_Button' : 'Add',
     'Text_UpdateDiagram_Button' : 'Update diagram',
     'Text_OpenDiagram_Button' : 'Open diagram',
+    'Text_Export_Image': 'Print diagram',
     
     'GridColumn_Name' : 'Name',
     'GridColumn_Datatype' : 'Datatype',

@@ -328,6 +328,40 @@ Ext.define('ProtoUL.controller.DiagramController', {
         }
     },
     
+    exportDiagramToPNG: function updatePreview(){
+	    // convert the canvas into a PNG image source string 
+	    //
+	    var canvas = this.getDiagramCanvas().getView();
+	    var xCoords = [];
+	    var yCoords = [];
+	    canvas.getFigures().each(function(i,f){
+	        var b = f.getBoundingBox();
+	        xCoords.push(b.x, b.x+b.w);
+	        yCoords.push(b.y, b.y+b.h);
+	    });
+	    var minX   = 0;
+	    var minY   = 0;
+	    var width  = Math.max.apply(Math, xCoords)-minX;
+	    var height = Math.max.apply(Math, yCoords)-minY;
+	    //<img class="shadow" id="preview" style="border-radius:5px;overflow:auto;position:absolute; top:10px; right:10px; width:150; border:3px solid gray;"/>
+	    var writer = new draw2d.io.png.Writer();
+	    var image = null;
+	    writer.marshal(canvas,function(png){
+	       image = png;
+	    }, new draw2d.geo.Rectangle(minX,minY,width,height));
+	    
+	    var printWindow = window.open('', '', 'width=800,height=600');
+		printWindow.document.write('<html><head>');
+		printWindow.document.write('<title>' + 'Title' + '</title>');
+		printWindow.document.write('<link rel="Stylesheet" type="text/css" href="http://dev.sencha.com/deploy/ext-4.0.1/resources/css/ext-all.css" />');
+		printWindow.document.write('<script type="text/javascript" src="http://dev.sencha.com/deploy/ext-4.0.1/bootstrap.js"></script>');
+		printWindow.document.write('</head><body>');
+		printWindow.document.write('<img class="shadow" '+ 'src='+ image +' id="preview" style="border-radius:1px;overflow:auto; top:10px; right:10px; border:0px solid gray;"/>');
+		printWindow.document.write('</body></html>');
+		printWindow.print();
+		
+	},
+	
     init: function(application) {
         this.control({
             "#btUndo": {
@@ -353,6 +387,9 @@ Ext.define('ProtoUL.controller.DiagramController', {
             },
             "#btSyncToDB": {
                 click: this.synchDBFromDiagram
+            },
+            "#btExportDiagram": {
+                click: this.exportDiagramToPNG
             },
             "#btAddAttribute": {
                 click: this.addAttribute
