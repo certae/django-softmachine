@@ -36,7 +36,7 @@ dbModel.shape.ManhattanRightConnectionLocator = draw2d.layout.locator.Connection
         var points = conn.getVertices();
 
 		var coordR = points.get(points.getSize()-1);
-        var x = coordR.x - 45;
+        var x = coordR.x - 35;
         var y = coordR.y - 20;
 
         target.setPosition(x, y);

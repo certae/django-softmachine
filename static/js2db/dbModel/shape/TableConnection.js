@@ -25,10 +25,6 @@ dbModel.shape.TableConnection = draw2d.Connection.extend({
         this.outputCardinality = this.createLabel("0:1");
         this.addFigure(this.outputCardinality, new dbModel.shape.ManhattanLeftConnectionLocator(this));
 
-        // Set the endpoint decorations for the connection
-        this.setSourceDecorator(new draw2d.decoration.connection.BarDecorator());
-        this.setTargetDecorator(new draw2d.decoration.connection.DiamondDecorator());
-
         this.setUserData({
             "isPrimary": false
         });
@@ -92,6 +88,12 @@ dbModel.shape.TableConnection = draw2d.Connection.extend({
             // add the new decoration to the connection with a position locator.
             //
             this.addFigure(this.label, new draw2d.layout.locator.ManhattanMidpointLocator(this));
+            
+        	// Set the endpoint decorations for the connection
+            if (memento.userData.useDecorators){
+		        this.setSourceDecorator(new draw2d.decoration.connection.BarDecorator());
+		        this.setTargetDecorator(new draw2d.decoration.connection.DiamondDecorator());
+            }
         }
 
         return this;
