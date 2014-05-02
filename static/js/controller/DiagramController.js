@@ -145,6 +145,7 @@ Ext.define('ProtoUL.controller.DiagramController', {
         
         Ext.Ajax.request({
             url: _SM._PConfig.saveDiagram,
+            method: "POST",
             params: {
                 projectID: projectID,
                 diagramID: diagramID

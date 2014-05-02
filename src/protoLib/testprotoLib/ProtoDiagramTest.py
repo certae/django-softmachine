@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.test.client import RequestFactory
 from django.http import HttpRequest
 from protoLib.protoDiagram import getEntitiesJSONDiagram, synchDiagramFromDB, getElementsDiagramFromSelectedTables, synchDBFromDiagram, getDefaultDiagram
-from protoLib.protoDiagramEntity import listDiagrams, openDiagram
+from protoLib.protoDiagramEntity import listDiagrams, openDiagram, createDiagram, saveDiagram
 from prototype.testprototype.testmodels.TestUtilities import createTestDiagram, createTestEntity
 from requests import Request
 from django.contrib.auth import authenticate
@@ -34,6 +34,16 @@ def CreatePreparedAuthRequest():
     request = factory.request()
     request._body = data
     request._get = {"projectID":1, "diagramID":1}
+    request.user = auth
+    
+    return request
+
+def CreatePreparedAuthPostRequest():
+    
+    factory = RequestFactory()
+    auth = authenticate(username='adube', password='123')
+
+    request = factory.post("/protoLib/createDiagram", {u'diagrams': [u'{"projectID":1,"id":"","code":"test","smUUID":""}']})
     request.user = auth
     
     return request
@@ -94,4 +104,12 @@ class ProtoDiagramEntityTest(TestCase):
     def test_openDiagram(self):
         response = json.loads(openDiagram(self.auth_request).content)
         self.assertTrue(response['success'])
+    
+    def test_saveDiagram(self):
+        response = json.loads(saveDiagram(self.auth_request).content)
+        self.assertTrue(response['success'])
         
+    def test_createDiagram(self):
+        request = CreatePreparedAuthPostRequest()
+        response = json.loads(createDiagram(request).content)
+        self.assertTrue(response['success'])

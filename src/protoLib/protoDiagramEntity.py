@@ -44,7 +44,7 @@ def createDiagram(request):
 
 
 def saveDiagram(request):
-    diagramID = request.REQUEST['diagramID']
+    diagramID = request.GET['diagramID']
     
     jsonFile = json.loads(request.body)
     jsonString = JSONEncoder().encode(jsonFile)
