@@ -21,6 +21,9 @@ Ext.define('ProtoUL.store.Diagrams', {
             writeAllFields: true,
             encode: true,
             root: 'diagrams'
-        }
+        },
+        pageParam:  false,
+        startParam: false,
+      	limitParam: false
     }
 });
