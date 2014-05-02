@@ -1,3 +1,14 @@
+# -*- coding: utf-8 -*-
+
+from datetime import datetime
+
+from protoLib.models import ProtoModel
+from prototype.models import Property
+from django.db import models
+from prototype.protoRules import  BASE_TYPES
+from protoLib.utilsBase import slugify
+from django.db.models.signals import post_delete
+import traceback
 
 class PropertyBase(ProtoModel):
 
@@ -222,10 +233,6 @@ def updProPropModel( Property ):
         pProp.save()
 
 
-# -*- coding: utf-8 -*-
-
-from prototype.models import PropertyModel 
-from datetime import datetime
 
 
 def doPropModelJoin( queryset ):

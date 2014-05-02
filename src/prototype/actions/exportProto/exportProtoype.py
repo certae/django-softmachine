@@ -12,7 +12,7 @@
 #   return file_str.getvalue()
   
   
-from pttActionTools import  TypeEquivalence  
+from prototype.actions.pttActionTools import  TypeEquivalence  
 from protoLib.utilsBase import slugify, repStr, getClassName
 from cStringIO import StringIO
 

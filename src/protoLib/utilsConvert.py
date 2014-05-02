@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 
-
 import datetime, time
 from decimal import Decimal
 from django.utils.encoding import smart_str
@@ -35,7 +34,7 @@ def getTypedValue (sAux , sType):
 
 def isNumeric(s):
     try:
-      i = float(s)
+        i = float(s)
     except ValueError, TypeError:
         return False
     else:
@@ -176,7 +175,6 @@ def isinteger(astring):
 
 
 # --------------------
-
 
 def product(*args):
     # product( ['ABCD', 'xy'] ) --> Ax Ay Bx By Cx Cy Dx Dy

@@ -3,21 +3,22 @@
 """
 
 140325:  Before merge 
-	Drop PropertyEquivalence 
-	Drop PropertyModel 
-	Drop Diagram
-	Drop DiagramEntity 
+    Drop PropertyEquivalence 
+    Drop PropertyModel 
+    Drop Diagram
+    Drop DiagramEntity 
 
-	Do syncDb
+    Do syncDb
 """
 
 from django.db import models
 from django.db.models.signals import post_save, post_delete 
 
 from protoLib.models import ProtoModel   
-from protoLib.fields import JSONField, JSONAwareManager
+from protoLib.fields import JSONField,  JSONAwareManager
 
-from protoRules import  ONDELETE_TYPES, BASE_TYPES, CRUD_TYPES, DB_ENGINE
+# from protoRules import  updatePropInfo
+from prototype.protoRules import  ONDELETE_TYPES, BASE_TYPES, CRUD_TYPES, DB_ENGINE
 
 
 from protoLib.utilsBase import slugify
@@ -57,11 +58,11 @@ PROTO_PREFIX = "prototype.ProtoTable."
    
 class Project(ProtoModel):
     
-    """Corresponde a un nivel conceptual corportativo MCCD"""
+    """Corresponds to a corporate conceptual level MCCD"""
     code = models.CharField(blank=False, null=False, max_length=200)
     description = models.TextField(blank=True, null=True)
 
-    """Info de la Db """
+    """Info from Db """
     dbEngine = models.CharField(blank=True, null=True, max_length=20, choices=DB_ENGINE, default='sqlite3')
     dbName = models.CharField(blank=True, null=True, max_length=200)
     dbUser = models.CharField(blank=True, null=True, max_length=200)
@@ -74,7 +75,6 @@ class Project(ProtoModel):
 
     class Meta:
         unique_together = ('code', 'smOwningTeam')
-        # permissions = (( "read_domain", "Can read project"), )        
 
     protoExt = { 
         "actions": [
@@ -88,8 +88,6 @@ class Project(ProtoModel):
         "gridConfig" : {
             "listDisplay": ["__str__", "description", "smOwningTeam"]      
         }
-
-
     } 
 
 
@@ -132,7 +130,7 @@ class Model(ProtoModel):
     
 class Entity(ProtoModel):
     """ 
-    Entity corresponde a las entidades FISICA;  
+    Entity corresponds to the PHYSICAL model;  
     """    
     model = models.ForeignKey('Model', blank=False, null=False, related_name='entity_set')
     code = models.CharField(blank=False, null=False, max_length=200)
@@ -214,7 +212,7 @@ class Property(ProtoModel):
     """prpChoices:  Lista de valores CSV ( idioma?? ) """ 
     prpChoices = models.TextField(blank=True, null=True)
 
-    """isSensitive: Indica si las propiedades requieren un nivel mayor de seguridad """  
+    """isSensitive: Should increase security level """  
     isSensitive = models.BooleanField(default=False)
 
     description = models.TextField(blank=True, null=True)
@@ -222,7 +220,7 @@ class Property(ProtoModel):
 
     # -----------  caracteristicas propias de la instancia
     """isPrimary : en el prototipo siempre es artificial, implica isLookUpResult"""  
-    isPrimary = models.BooleanField( default=False)
+    isPrimary = models.BooleanField(default=False)
     isLookUpResult = models.BooleanField(default=False)
 
     """isNullable: tiene q ver con la Db"""    
@@ -465,6 +463,13 @@ class Diagram(ProtoModel):
     # Propieadad para ordenar el __str__ 
     unicode_sort = ('project', 'code',)
 
+    def as_json(self):
+        return dict(
+            id=self.pk,
+            code=self.code,
+            projectID=self.project_id, 
+            smUUID=self.smUUID)
+        
     def __unicode__(self):
         return slugify(self.project.code + '-' + self.code) 
 

@@ -9,6 +9,8 @@ from protoLib.protoActionList import protoList
 from protoLib.protoActionRep  import sheetConfigRep, protoCsv
 from protoLib.protoActionEdit  import protoCreate, protoUpdate, protoDelete
 from protoLib.protoActions  import protoExecuteAction
+from protoLib.protoDiagram import getEntitiesJSONDiagram, synchDBFromDiagram, getElementsDiagramFromSelectedTables, synchDiagramFromDB, getDefaultDiagram
+from protoLib.protoDiagramEntity import saveDiagram, listDiagrams, createDiagram, deleteDiagram, openDiagram
 
 from protoLib.utils.loadFile import loadFiles
 
@@ -36,7 +38,17 @@ urlpatterns = patterns('',
     url('protoLogout/$', protoLogout),
 
     url('getFieldIncrement/$', getFieldIncrement),
-
+    
     url('loafFile/$', loadFiles),
-
+    
+    url('getEntitiesJSONDiagram/$', getEntitiesJSONDiagram),
+    url('synchDBFromDiagram/$', synchDBFromDiagram),
+    url('synchDiagramFromDB/$', synchDiagramFromDB),
+    url('getElementsDiagramFromSelectedTables/$', getElementsDiagramFromSelectedTables),
+    url('getDefaultDiagram/$',getDefaultDiagram),
+    url('saveDiagram/$',saveDiagram),
+    url('listDiagrams/$', listDiagrams),
+    url('createDiagram/$', createDiagram),
+    url('deleteDiagram/$', deleteDiagram),
+    url('openDiagram/$',openDiagram),
 )

@@ -140,7 +140,16 @@ Ext.define('ProtoUL.UI.GridController', {
             width : 20,
             scope : this,
             handler : this.onEditAction
-        }];
+        },{
+        	itemId : 'toolDiagramEdit',
+            tooltip : _SM.__language.GridBtn_Ttip_Edit_Diagram,
+            type : 'diagramEdit',
+            hidden : true,
+            width : 20,
+            scope : this,
+            handler : this.onEditAction
+        }
+        ];
 
         this.myGrid.addTools(editTools);
         this.setEditMode( editMode );
@@ -169,8 +178,11 @@ Ext.define('ProtoUL.UI.GridController', {
         if (!(perms['add'] || perms['change'] || perms['delete'] )) {
             bRef = false; 
         } else { 
-
-            bRef = bEdit && me.myGrid.selected;
+			var itemSelected = false;
+			if (typeof me.myGrid.selected !== 'undefined') {
+				itemSelected = me.myGrid.selected;
+			}
+            bRef = bEdit && itemSelected;
             if (bRef) {
                 record = me.myGrid.selected;
                 stRec = record.get('_ptStatus');
@@ -192,6 +204,10 @@ Ext.define('ProtoUL.UI.GridController', {
         me.setToolMode('#toolFormUpd', bRef && perms['change']);
 
         me.setToolMode('#toolRowDel', bRef && perms['delete']);
+        
+        if (me.myMeta.viewCode === "prototype.Project" || me.myMeta.viewCode === "prototype.Diagram") {
+			me.setToolMode('#toolDiagramEdit', bRef && perms['add']);
+		}
 
         // Dont Delete
         // setToolMode ( myExtGrid, '#toolRowAdd', bEdit && perms['add'])
@@ -216,19 +232,11 @@ Ext.define('ProtoUL.UI.GridController', {
             });
         }
 
-        // Lanza el evento de inicio de edicion
         this.myGrid.fireStartEdition(btn.itemId);
 
         // 'toolFormAdd', 'toolFormUpd', 'toolFormView', 'toolRowAdd', 'toolRowCopy', 'toolRowDel',
         switch( btn.itemId ) {
             case 'toolFormAdd' :
-
-                // TODO: FIX: Add Mask to form load ( is not the right place  )
-                // showLoadingMask();
-                // var delayedTask = new Ext.util.DelayedTask(function(args){
-                //         args.form.openNewForm(args.store);
-                // });
-                // delayedTask.delay(1, null, null, [{form: this.formController, store: this.myGrid.store}]);
 
                 this.formController.openNewForm(this.myGrid.store);
                 break;
@@ -244,11 +252,27 @@ Ext.define('ProtoUL.UI.GridController', {
                     this.formController.openLinkedForm(this.myGrid.selected, true);
                 }
                 break;
-
-            // case 'toolRowAdd' :
-            // this.myGrid.addNewRecord()
-            // break;
-
+                
+			case 'toolDiagramEdit' :
+				if (_SM.validaSelected(this.myGrid)) {
+					Ext.getBody().mask('Loading...', 'loading');
+					scriptLibrary = [];
+					createJSFilesLibrary();
+					var selectedItem = this.myGrid.rowData;
+					loadJsFilesSequentially(scriptLibrary, 0, function(){
+						var win = Ext.create('ProtoUL.view.diagram.DiagramMainView');
+						if (selectedItem.project_id) {
+							win.setDiagramID(selectedItem.id);
+							win.setProjectID(selectedItem.project_id);
+						} else {
+							win.setProjectID(selectedItem.id);
+						}
+						win.show();
+						Ext.getBody().unmask();
+						win.maximize();
+					});
+				}
+				break;
             case 'toolRowCopy' :
                 this.myGrid.duplicateRecord();
                 break;

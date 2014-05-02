@@ -257,7 +257,6 @@ Ext.define('ProtoUL.proto.ProtoPcl', {
                 // Prepara la PCL
                 // delete me.myMeta.fields
                 tmpMeta = _SM.clone(me.myMeta, 0, ['fields']);
-                tmpMeta = _SM.clone(me.myMeta, 0, ['fields']);
                 tmpMeta.fieldsBase = tmpMeta.fieldsBase.sort(_SM.sortObjByName);
                 tmpMeta.fieldsAdm = tmpMeta.fieldsAdm.sort(_SM.sortObjByName);
 

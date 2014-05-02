@@ -3,7 +3,6 @@
 from utilsBase import verifyStr
 from django.db.models.fields import NOT_PROVIDED
 
-
 # Equivalencia de tipos
 TypeEquivalence = {
         'BooleanField'      :'bool',

@@ -38,9 +38,9 @@ Ext.define('ProtoUL.ux.ProtoList' ,{
         for (var ix in this.columnList ) {
             var vFld = this.columnList[ix] ;
             if ( _SM.typeOf( vFld ) == 'string' ) {
-                myColumns.push( vFld  );
+                myColumns.push( vFld );
             }  else if ( vFld.dataIndex ) {
-                myColumns.push( vFld.dataIndex  );
+                myColumns.push( vFld.dataIndex );
             }       
         } 
                 

@@ -1,8 +1,6 @@
 # -*- encoding: UTF-8 -*-
 
-
 from models import UserProfile, TeamHierarchy
-
 
 def  getUserProfile(pUser, action, actionInfo):
     """
@@ -63,7 +61,9 @@ def  getUserProfile(pUser, action, actionInfo):
 
 def getUserNodes(pUser, viewEntity):
     userProfile = getUserProfile(pUser, 'list', viewEntity)
-    userNodes = userProfile.userTree.split(',')
+    userNodes = None
+    if userProfile and userProfile.userTree:
+        userNodes = userProfile.userTree.split(',')
 
     return userNodes
 

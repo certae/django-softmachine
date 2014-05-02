@@ -75,6 +75,7 @@ __language ={
     'GridBtn_Ttip_Read_Only' : 'Visualiser ( en lecture seule )',
     'GridBtn_Ttip_Add_Row' : 'Ajouter ligne',
     'GridBtn_Ttip_Copy_Row' : 'Copier ligne',
+    'GridBtn_Ttip_Edit_Diagram':'Éditer diagramme',
     'GridAction_NoRecord' : 'aucun enregistrement sélectionné',
 
     'Tooltip_Filter_Grid_Button' : 'Filtrer',
@@ -220,5 +221,44 @@ __language ={
     'HelpQBE_Tooltip_Containing_Button' : 'qui contient',
     'HelpQBE_GridNav_DisplayMsg' : 'registres {0} - {1} de {2}',
     'HelpQBE_GridNav_EmptyMsg' : 'no registres',
-    'HelpQBE_Window_Title' : 'Aider QBE'
+    'HelpQBE_Window_Title' : 'Aider QBE',
+    
+    
+    'Menu_Update_Diagram' : 'Mettre à jour le diagramme',
+    'Menu_Search_Table' : 'Chercher des tables dans la DB',
+    'Menu_Manage_Diagrams' : 'Gérer diagrammes',
+    'Menu_Database_Title' : 'Base de données',
+    'Menu_Add_Recursive_Association' : 'Ajouter association récursive',
+    'Menu_Add_Input_Port' : 'Ajouter un port d\'entrée',
+    'Menu_Add_Output_Port' : 'Ajouter un port de sortie',
+    'Menu_Remove_Unused_Ports' : 'Retirer les ports non utilisés',
+    
+    'Text_Undo_Button' : 'Défaire',
+    'Text_Redo_Button' : 'Refaire',
+    'Text_Delete_Button' : 'Effacer',
+    'Text_ZoomIn_Button' : 'Zoom avant',
+    'Text_ZoomOut_Button' : 'Zoom arrière',
+    'Text_Save_Diagram_Button' : 'Enregistrer diagramme',
+    'Text_Commit_Changes_Button' : 'Valider les modifications',
+    'Text_Add_Button' : 'Ajouter',
+    'Text_UpdateDiagram_Button' : 'Mettre à jour le diagramme',
+    'Text_OpenDiagram_Button' : 'Ouvrir diagramme',
+    'Text_Export_Image': 'Imprimer diagramme',
+    
+    'GridColumn_Name' : 'Nom',
+    'GridColumn_Datatype' : 'Type de données',
+    'GridColumn_Required' : 'Requis',
+    
+    'Title_Attributes' : 'Attributs',
+    'Title_Work_Diagram' : 'Diagramme de travail: ',
+    'Title_Diagrams' : 'Diagrammes',
+    
+    'Message_Saving_Data' : 'Sauvegarde de vos données, veuillez patienter s\'il vous plaît...',
+    'Message_Creating_Objects' : 'Création d\'objets dans la base de données, veuillez patienter s\'il vous plaît...',
+    'Message_Diagram_Synchronized' : 'Le diagramme a été synchronisé!',
+    'Message_Error_Diagram_Synchronized' : 'Le système n\'a pas pu synchroniser le diagramme, veuillez réessayer plus tard!',
+    'Message_Add_Table_Canvas' : 'Chargement ...',
+    
+    'Warning_Delete_Active_Diagram' : 'Vous ne pouvez pas supprimer le diagramme actif!',
+    'Warning_Diagram_Already_Open' : 'Le diagramme sélectionné est déjà ouvert!'
 }

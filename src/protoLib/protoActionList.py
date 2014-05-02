@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
 from django.db import models
 from django.http import HttpResponse
 from django.contrib.admin.util import  get_fields_from_path
@@ -20,7 +19,6 @@ from models import getDjangoModel
 
 from utilsWeb import doReturn
 
-
 import json
 import traceback
 
@@ -33,7 +31,7 @@ def protoList(request):
     PAGESIZE = 50
     message = ''
 
-    if not request.user.is_authenticated():
+    if not request.user or not request.user.is_authenticated():
         return doReturn ({'success':False , 'message' : 'readOnly User'})
 
     if request.method != 'POST':
@@ -155,7 +153,7 @@ def Q2Dict (protoMeta, pRows, fakeId, userNodes=[]):
         # Marca el zoom
         try:
             relModel = relModels[ lField.get('cpFromZoom') ]
-            relModel[ 'loaded'] = True
+            relModel['loaded'] = True
         except: 
             pass
 
@@ -163,8 +161,8 @@ def Q2Dict (protoMeta, pRows, fakeId, userNodes=[]):
     # 2.  borra los q no tienen marca
     for relName in relModels.keys():
         relModel = relModels[ relName ]
-        if not relModel[ 'loaded']: 
-            del relModels[ relName ]
+        if not relModel['loaded']: 
+            del relModels[relName]
 
 
     #   Esta forma permite agregar las funciones entre ellas el __unicode__
@@ -175,7 +173,7 @@ def Q2Dict (protoMeta, pRows, fakeId, userNodes=[]):
 
         # limpia los datos de tablas relacionadas
         for relName in relModels:
-            relModel = relModels[ relName ]
+            relModel = relModels[relName]
             relModel[ 'rowData'] = {}
             relModel[ 'loaded'] = False
 
@@ -217,9 +215,9 @@ def Q2Dict (protoMeta, pRows, fakeId, userNodes=[]):
 #            rowdict[ 'leaf' ] = False; rowdict[ 'children' ] = []
 
         # Agrega el Id Siempre como idInterno ( no representa una col, idProperty )
-        rowdict[ 'id'] = rowData.pk
+        rowdict['id'] = rowData.pk
         if fakeId:
-            rowdict[ 'id'] = rowId
+            rowdict['id'] = rowId
 
 
         # Verifica el refAllow 
@@ -304,7 +302,7 @@ def copyValuesFromFields(protoMeta, rowdict, relModels, JsonField):
                 # Obtiene el id
                 rowId = rowdict[ relModel['fkId'] ]
                 if rowId:
-                   relModel['rowData'] = getRowById(relModel['zoomModel'], rowId)
+                    relModel['rowData'] = getRowById(relModel['zoomModel'], rowId)
                 else:
                     relModel['rowData'] = None
                 relModel['loaded'] = True

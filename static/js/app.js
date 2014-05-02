@@ -5,24 +5,40 @@
 
  */
 
-// Ext.require('Ext.toolbar.Paging');
-// Ext.require('Ext.layout.container.Border');
-
-//borrar el body:  ( para quitar la mascara ) 
-//document.getElementById('Idbody').innerHTML = "";
-
 Ext.Loader.setConfig({
     enabled: true
 });
-// Ext.Loader.setPath('Ext.ux', 'static/extjs/examples/ux');
 
 Ext.application({
     name: 'ProtoUL',
     appFolder: 'static/js',
 
     requires: ['Ext.window.MessageBox', 'Ext.toolbar.Paging', 'Ext.layout.container.Border', 'Ext.util.Cookies', 'Ext.Ajax', 'ProtoUL.view.MenuTree', 'ProtoUL.view.ProtoTabContainer', 'ProtoUL.view.Viewport', 'ProtoUL.view.password.PasswordReset', 'ProtoUL.ux.Printer', 'ProtoUL.ux.GridHeaderToolTip', 'ProtoUL.ux.CheckColumn'],
-
-	controllers: ['PasswordManager'],
+	models: [
+        'EntityAttributesModel'
+    ],
+    stores: [
+        'EntityAttributeStore',
+        'DBTypesStore',
+        'DiagramModelStore'
+    ],
+	views: [
+        'diagram.DiagramMainView',
+        'diagram.DiagramMenu',
+        'diagram.DiagramCanvas',
+        'diagram.DiagramToolbar',
+        'diagram.EntityEditor',
+        'diagram.EntityAttributes',
+        'diagram.TableContextMenu',
+        'diagram.DatabaseMenu',
+        'searchmodel.LiveSearchGridPanel',
+        'searchmodel.SearchBottomBar'
+    ],
+	controllers: [
+		'PasswordManager',
+		'DiagramController',
+		'DiagramMenuController'
+	],
 	
     launch: function () {
 

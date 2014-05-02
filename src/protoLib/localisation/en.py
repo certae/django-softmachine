@@ -75,6 +75,7 @@ __language ={
     'GridBtn_Ttip_Read_Only' : 'View ( read only )',
     'GridBtn_Ttip_Add_Row' : 'Add row',
     'GridBtn_Ttip_Copy_Row' : 'Copy row',
+    'GridBtn_Ttip_Edit_Diagram':'Edit diagram',
     'GridAction_NoRecord' : 'No record selected',
 
     'Tooltip_Filter_Grid_Button' : 'Filter',
@@ -220,5 +221,44 @@ __language ={
     'HelpQBE_Tooltip_Containing_Button' : 'containing',
     'HelpQBE_GridNav_DisplayMsg' : 'records {0} - {1} of {2}',
     'HelpQBE_GridNav_EmptyMsg' : 'no records',
-    'HelpQBE_Window_Title' : 'Help QBE'
+    'HelpQBE_Window_Title' : 'Help QBE',
+    
+    
+    'Menu_Update_Diagram' : 'Update diagram',
+    'Menu_Search_Table' : 'Add table from DB',
+    'Menu_Manage_Diagrams' : 'Manage diagrams',
+    'Menu_Database_Title' : 'Database',
+    'Menu_Add_Recursive_Association' : 'Add recursive association',
+    'Menu_Add_Input_Port' : 'Add input port',
+    'Menu_Add_Output_Port' : 'Add output port',
+    'Menu_Remove_Unused_Ports' : 'Remove unused ports',
+    
+    'Text_Undo_Button' : 'Undo',
+    'Text_Redo_Button' : 'Redo',
+    'Text_Delete_Button' : 'Delete',
+    'Text_ZoomIn_Button' : 'Zoom in',
+    'Text_ZoomOut_Button' : 'Zoom out',
+    'Text_Save_Diagram_Button' : 'Save diagram',
+    'Text_Commit_Changes_Button' : 'Commit changes to DB',
+    'Text_Add_Button' : 'Add',
+    'Text_UpdateDiagram_Button' : 'Update diagram',
+    'Text_OpenDiagram_Button' : 'Open diagram',
+    'Text_Export_Image': 'Print diagram',
+    
+    'GridColumn_Name' : 'Name',
+    'GridColumn_Datatype' : 'Datatype',
+    'GridColumn_Required' : 'Required',
+    
+    'Title_Attributes' : 'Attributes',
+    'Title_Work_Diagram' : 'Work diagram: ',
+    'Title_Diagrams' : 'Diagrams',
+    
+    'Message_Saving_Data' : 'Saving your data, please wait...',
+    'Message_Creating_Objects' : 'Creating objects in Database, please wait...',
+    'Message_Diagram_Synchronized' : 'The diagram has been synchronized!',
+    'Message_Error_Diagram_Synchronized' : 'The system was unable to synchronize the diagram, please try again later!',
+    'Message_Add_Table_Canvas' : 'Adding tables to canvas, please wait...',
+    
+    'Warning_Delete_Active_Diagram' : 'You cannot delete the active diagram!',
+    'Warning_Diagram_Already_Open' : 'The selected diagram is already opened!'
 }

@@ -4,8 +4,6 @@ from django.db.models import Q
 from utilsConvert import isNumeric, toInteger
 import re
 
-
-
 def addFilter(Qs, sFilter):
 #   Agrega un filtro q viene en modo texto a un Qset
     if (len (sFilter) == 0):
@@ -72,7 +70,7 @@ def getQbeStmt(fieldName , sQBE, sType):
         sQBE = sQBE.strip()
 
         # Verifica si es una funcion
-        if (sQBE[0] == '@'):
+        if (sQBE and sQBE[0] == '@'):
             try:
                 sQBE = doGenericFuntion (sQBE)
             except Exception as e:

@@ -39,7 +39,7 @@ class GetViewDefinitionTest(TestCase):
         self.testRelationShip.isEssential = True
         self.testRelationShip.save()
 
-        self.assertTrue(self.pEntity.property_set.get(isEssential=True).isEssential)
+        #self.assertTrue(self.pEntity.property_set.get(isEssential=True).isEssential)
 
         infoEntity = getViewDefinition(self.pEntity, 'someViewTitle')
         self.assertEqual(''.join(infoEntity['gridConfig']['listDisplay']), 'info__' + slugify(self.testRelationShip.code))
