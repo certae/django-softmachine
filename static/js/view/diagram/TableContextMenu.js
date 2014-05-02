@@ -14,19 +14,19 @@ Ext.define('ProtoUL.view.diagram.TableContextMenu', {
 
         Ext.applyIf(me, {
             items: [{
-                text: 'Add recursive association',
+                text: _SM.__language.Menu_Add_Recursive_Association,
                 iconCls: 'table-relationship',
                 itemId: 'btAddConnectorRecursive'
             }, {
-                text: 'Add input port',
+                text: _SM.__language.Menu_Add_Input_Port,
                 iconCls: 'icon-nodeInput',
                 itemId: 'btAddInputPort'
             }, {
-            	text: 'Add output port',
+            	text: _SM.__language.Menu_Add_Output_Port,
             	iconCls: 'icon-nodeInsert',
                 itemId: 'btAddOutputPort'
             }, {
-                text: 'Remove unused ports',
+                text: _SM.__language.Menu_Remove_Unused_Ports,
                 iconCls: 'icon-nodeDelete',
                 itemId: 'btRemoveUnusedPorts'
             }]

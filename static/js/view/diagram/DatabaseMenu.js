@@ -1,13 +1,13 @@
-Ext.define('ProtoUL.view.diagram.SearchMenu', {
+Ext.define('ProtoUL.view.diagram.DatabaseMenu', {
     extend: 'Ext.menu.Menu',
-    alias: 'widget.searchmenu',
+    alias: 'widget.databasemenu',
 
     requires: [
         'Ext.menu.Item'
     ],
 
     floating: false,
-    itemId: 'SearchMenu',
+    itemId: 'DatabaseMenu',
 
     initComponent: function() {
         var me = this;
@@ -18,28 +18,22 @@ Ext.define('ProtoUL.view.diagram.SearchMenu', {
                     xtype: 'menuitem',
                 	itemId: 'syncDiagramFromDB',
                 	iconCls: 'get-from-DB',
-                    text: 'Synchronyze diagram',
+                    text: _SM.__language.Menu_Update_Diagram,
                 },
                 {
                     xtype: 'menuitem',
                     itemId: 'getAllTables',
                     iconCls: 'find-table',
-                    text: 'Add table from DB',
+                    text: _SM.__language.Menu_Search_Table,
                 },
                 {
                 	xtype: 'menuseparator'
                 },
                 {
                     xtype: 'menuitem',
-                    itemId: 'menuCreateDiagram',
-                    iconCls: 'icon-pclDetails',
-                    text: 'New diagram',
-                },
-                {
-                    xtype: 'menuitem',
-                    itemId: 'menuOpenDiagram',
-                    iconCls: 'open-file',
-                    text: 'Open diagram',
+                    itemId: 'menuManageDiagram',
+                    iconCls: 'icon-model',
+                    text: _SM.__language.Menu_Manage_Diagrams,
                 }
             ]
         });

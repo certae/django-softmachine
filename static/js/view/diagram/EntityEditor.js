@@ -39,7 +39,7 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
             items: [{
                 iconCls: 'menu_reload',
                 itemId: 'btSaveTable',
-                text: 'Update diagram',
+                text: _SM.__language.Text_UpdateDiagram_Button,
                 action: 'savetable'
             }]
         }];
@@ -61,10 +61,19 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
 		}
 	},
 	
+	hidePropertyGridAttributes: function(masterRecord) {
+		masterRecord.getView().getRowClass = function(row, index) {
+			if (row.data.name === 'id'){
+				return 'hide-this-row';
+			} else {
+				return '';
+			}
+		};
+	},
+	
     onSelectionChanged : function(figure){
 		if (figure !== null) {
 			this.figure = figure;
-			this.expand();
 			if (figure.cssClass === 'dbModel_shape_DBTable' || figure.cssClass === 'DBTable') {
 				
 				var masterRecord = this.getComponent('protoProperty');
@@ -75,6 +84,9 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
 	    		
 	    		if (typeof myObj !== 'undefined'){
 					masterRecord.setSource(myObj);
+					//masterRecord.view.addRowCls(index, 'hide-this-row');
+					//masterRecord.view.removeRowCls(index, 'hide-this-row');
+					this.hidePropertyGridAttributes(masterRecord);
 					gridDetail.getStore().loadRawData(myObj.attributes);
 				}
 			} else {
@@ -83,9 +95,10 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
 				gridDetail.hide();
 				
 				var myObj = this.getFigureFromJSONData(figure.id);
-				myObj.isRequired = myObj.userData.isRequired;
+				myObj.isPrimary = myObj.userData.isPrimary;
 				if (typeof myObj !== 'undefined'){
 					masterRecord.setSource(myObj);
+					this.hidePropertyGridAttributes(masterRecord);
 				}
 			}
 		}

@@ -30,7 +30,7 @@ Ext.application({
         'diagram.EntityEditor',
         'diagram.EntityAttributes',
         'diagram.TableContextMenu',
-        'diagram.SearchMenu',
+        'diagram.DatabaseMenu',
         'searchmodel.LiveSearchGridPanel',
         'searchmodel.SearchBottomBar'
     ],

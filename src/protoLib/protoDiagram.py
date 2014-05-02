@@ -76,7 +76,7 @@ def getJSONElements(entities, selectedTables, connectors):
             'y':y, 
             'width':98, 
             'height':81.265625, 
-            'userData':None, 
+            'userData':'', 
             'cssClass':'DBTable', 
             'bgColor':'#DBDDDE', 
             'color':'#D7D7D7', 
@@ -88,15 +88,15 @@ def getJSONElements(entities, selectedTables, connectors):
             'attributes':[]}
         x += 30
         y += 30
-        addOutputPorts(entity, table)
+        addOutputPorts(entity, table, connectors)
         for pProperty in entity.property_set.all():
             table['attributes'].append({'text':pProperty.code, 'id':str(uuid.UUID(pProperty.smUUID)), 'datatype':pProperty.baseType, 'pk':pProperty.isPrimary, 'fk':pProperty.isForeign, 'isNullable':pProperty.isNullable, 'isRequired':pProperty.isRequired})
             if (pProperty.isForeign):
-                addConnectors(pProperty, table, connectors)
+                addConnectors(pProperty.relationship, table, connectors)
         
         selectedTables.append(table)
 
-def addOutputPorts(entity, table):
+def addOutputPorts(entity, table, connectors):
     relationships = Relationship.objects.filter(refEntity=entity)
     for port in relationships:
         if port.refEntity != port.entity:
@@ -106,9 +106,9 @@ def addOutputPorts(entity, table):
                 "name": outputPortName,
                 "position": "default"
                  })
+            appendConnector(port, outputPortName, "input"+str(port.id), connectors)
             
-def addConnectors(pProperty, table, connectors):
-    relationship = pProperty.relationship
+def addConnectors(relationship, table, connectors):
     inputPortName = "input"+str(relationship.id)
     outputPortName = "output"+str(relationship.id)
     if relationship.refEntity == relationship.entity:
@@ -123,11 +123,14 @@ def addConnectors(pProperty, table, connectors):
         "name": inputPortName,
         "position": "default"
          })
+    appendConnector(relationship, outputPortName, inputPortName, connectors)
+
+def appendConnector(relationship, outputPortName, inputPortName, connectors):
     connector = {
         "type": "dbModel.shape.TableConnection",
         "name": relationship.code,
         "id": str(uuid.UUID(relationship.smUUID)),
-        "userData": {"isRequired":relationship.isRequired},
+        "userData": {"isPrimary":relationship.isPrimary, "useDecorators": False},
         "cssClass": "draw2d_Connection",
         "stroke": 2,
         "color": "#5BCAFF",
@@ -142,9 +145,9 @@ def addConnectors(pProperty, table, connectors):
             "port": inputPortName
         }
     }
-    connectors.append(connector)
+    if connector not in connectors:
+        connectors.append(connector)
     
-
 def synchDiagramFromDB(request):
     """ Updates diagram objects from database
     """
@@ -173,7 +176,7 @@ def synchDiagramFromDB(request):
 def synchDBFromDiagram(request):
     """ Create and synchronize elements in database
     """
-    projectID = request.REQUEST['projectID']
+    projectID = request.GET['projectID']
     try:
         project = Project.objects.get(id=projectID)
         model,created = Model.objects.get_or_create(project=project,code='default',smOwningTeam=project.smOwningTeam)
@@ -224,10 +227,10 @@ def synchDBFromDiagram(request):
 
 
 def addOrUpdateEntity(model, user, owningTeam, deletedConnectors, element, elementUUID):
+    UUIDAttributeList = []
     try:
         entity = Entity.objects.get(smUUID=elementUUID)
         entity.code = element['tableName']
-        UUIDAttributeList = []
         entity = saveAttributes(element, entity, UUIDAttributeList, user, owningTeam)
         excluded = entity.property_set.exclude(smUUID__in=UUIDAttributeList)
         for item in excluded:
@@ -242,20 +245,21 @@ def addOrUpdateEntity(model, user, owningTeam, deletedConnectors, element, eleme
         entity.smCreatedBy = user
         entity.smOwningTeam = owningTeam
         entity.save()
+        entity = saveAttributes(element, entity, UUIDAttributeList, user, owningTeam)
+        entity.save()
 
 
 def addOrUpdateConnector(element, elementUUID, refEntity, connEntity):
     try:
         connector = Relationship.objects.get(smUUID=elementUUID)
         connector.code = element['name']
-        connector.isRequired = element['userData']['isRequired']
-        connector.isPrimary = connector.isRequired
+        connector.isPrimary = element['userData']['isPrimary']
         connector.refEntity = refEntity
         connector.connEntity = connEntity
         connector.save()
     except Exception as e:
         print e, 'Creating a new one'
-        connector = Relationship.objects.create(code=element['name'], smUUID=elementUUID, refEntity_id=refEntity.id, entity_id=connEntity.id, isPrimary=element['userData']['isRequired'], isLookUpResult=True, isNullable=True, isRequired=element['userData']['isRequired'], isReadOnly=False, isEssential=False)
+        connector = Relationship.objects.create(code=element['name'], smUUID=elementUUID, refEntity_id=refEntity.id, entity_id=connEntity.id, isPrimary=element['userData']['isPrimary'], isLookUpResult=True, isNullable=True, isRequired=False, isReadOnly=False, isEssential=False)
         connector.save()
 
 
@@ -290,12 +294,16 @@ def saveAttributes(element, entity, UUIDAttributeList, user, owningTeam):
 
 
 def getDefaultDiagram(request):
-    projectID = request.REQUEST['projectID']
+    projectID = request.GET['projectID']
+    user = request.user
     try:
         project = Project.objects.get(id=projectID)
         diagrams = Diagram.objects.filter(project_id=projectID)
         if not diagrams:
             diagram,created = Diagram.objects.get_or_create(project=project,code='default',smOwningTeam=project.smOwningTeam)
+            diagram.smOwningUser = user
+            diagram.smCreatedBy = user
+            diagram.save()
         else:
             diagram = diagrams[0]
     except Exception as e:
@@ -315,22 +323,3 @@ def getDefaultDiagram(request):
     context = json.dumps(jsondict)
     return HttpResponse(context, content_type="application/json")
 
-def saveDiagram(request):
-    diagramID = request.REQUEST['diagramID']
-    
-    jsonFile = json.loads(request.body)
-    jsonString = JSONEncoder().encode(jsonFile)
-    jsonString = '{"objects":'+jsonString+'}'
-    try:
-        diagram = Diagram.objects.get(id=diagramID)
-        diagram.info = jsonString
-        diagram.save()
-    except Exception as e:
-        return JsonError(e)
-    
-    jsondict = {
-        'success':True,
-        'message': 'Diagram saved',
-    }
-    context = json.dumps(jsondict)
-    return HttpResponse(context, content_type="application/json")

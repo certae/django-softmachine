@@ -45,7 +45,8 @@ def createTestEntity():
         'model': testModel,
         'code': 'testEntityCode',
         'dbName': 'testEntitydbName',
-        'description': 'testEntityDescription'
+        'description': 'testEntityDescription',
+        'smUUID': '465bf0b2a50ff6cbfdf00cbf142d239b'
     }
 
     testEntity = Entity(**entitydata)

@@ -22,7 +22,7 @@ Ext.define('ProtoUL.store.DBTypesStore', {
         typeName: 'sequence'
     }, {
         typeID: 'money',
-        typeName: 'currency'
+        typeName: 'money'
     }, {
         typeID: 'combo',
         typeName: 'combo'

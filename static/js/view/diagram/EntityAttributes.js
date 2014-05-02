@@ -9,7 +9,7 @@ Ext.define('ProtoUL.view.diagram.EntityAttributes', {
         'Ext.grid.View'
     ],
 	itemId: 'entityattributes',
-    title: 'Attributes',
+    title: _SM.__language.Title_Attributes,
     store: 'EntityAttributeStore',
 
     initComponent: function() {
@@ -29,7 +29,7 @@ Ext.define('ProtoUL.view.diagram.EntityAttributes', {
                 {
                     xtype: 'gridcolumn',
                     dataIndex: 'text',
-                    text: 'Name',
+                    text: _SM.__language.GridColumn_Name,
 		            editor: {
 		                allowBlank: false
 		            }
@@ -37,7 +37,7 @@ Ext.define('ProtoUL.view.diagram.EntityAttributes', {
                 {
                     xtype: 'gridcolumn',
                     dataIndex: 'datatype',
-                    text: 'Datatype',
+                    text: _SM.__language.GridColumn_Datatype,
                     width: 75,
 		            editor: {
 		            	xtype: 'combo',
@@ -74,7 +74,7 @@ Ext.define('ProtoUL.view.diagram.EntityAttributes', {
                     xtype: 'checkcolumn',
                     width: 55,
                     dataIndex: 'isRequired',
-                    text: 'Required',
+                    text: _SM.__language.GridColumn_Required,
 		            editor: {
 		                xtype: 'checkbox',
 		                cls: 'x-grid-checkheader-editor'
@@ -98,12 +98,12 @@ Ext.define('ProtoUL.view.diagram.EntityAttributes', {
             items: [{
                 iconCls: 'icon-tableAdd',
                 itemId: 'btAddAttribute',
-                text: 'Add',
+                text: _SM.__language.Text_Add_Button,
                 action: 'addattribute'
             }, {
                 iconCls: 'icon-tableDelete',
                 itemId: 'btDeleteAttribute',
-                text: 'Delete',
+                text: _SM.__language.Text_Delete_Button,
                 action: 'deleteattribute'
             }]
         }];

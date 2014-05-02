@@ -7,6 +7,7 @@ Ext.define('ProtoUL.view.diagram.DiagramMainView', {
     itemId: 'diagramMainView',
     layout: 'border',
     maximizable: true,
+    modal: true,
     height: 600,
     width: 1200,
 	
@@ -40,7 +41,7 @@ Ext.define('ProtoUL.view.diagram.DiagramMainView', {
     	me.on('beforeshow', function(){
     		this.fireEvent('opendiagram');
 		});
-
+		
         me.callParent(arguments);
     },
 		

@@ -463,6 +463,13 @@ class Diagram(ProtoModel):
     # Propieadad para ordenar el __str__ 
     unicode_sort = ('project', 'code',)
 
+    def as_json(self):
+        return dict(
+            id=self.pk,
+            code=self.code,
+            projectID=self.project_id, 
+            smUUID=self.smUUID)
+        
     def __unicode__(self):
         return slugify(self.project.code + '-' + self.code) 
 

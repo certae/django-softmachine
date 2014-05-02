@@ -591,6 +591,8 @@ function createJSFilesLibrary() {
     scriptLibrary.push("static/js2db/dbModel/Toolbar.js");
     scriptLibrary.push("static/js2db/dbModel/document.js");
     scriptLibrary.push("static/js2db/dbModel/shape/DBTable.js");
+    scriptLibrary.push("static/js2db/dbModel/shape/ManhattanRightConnectionLocator.js");
+    scriptLibrary.push("static/js2db/dbModel/shape/ManhattanLeftConnectionLocator.js");
     scriptLibrary.push("static/js2db/dbModel/shape/TableConnection.js");
     scriptLibrary.push("static/js2db/dbModel/shape/CustomLabel.js");
 

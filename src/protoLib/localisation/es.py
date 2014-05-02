@@ -222,5 +222,44 @@ __language ={
     'HelpQBE_Tooltip_Containing_Button' : 'contiene',
     'HelpQBE_GridNav_DisplayMsg' : 'registros {0} - {1} de {2}',
     'HelpQBE_GridNav_EmptyMsg' : 'no hay registros', 
-    'HelpQBE_Window_Title' : 'Asistente QBE'
+    'HelpQBE_Window_Title' : 'Asistente QBE',
+    
+    
+    'Menu_Update_Diagram' : 'Update diagram',
+    'Menu_Search_Table' : 'Add table from DB',
+    'Menu_Manage_Diagrams' : 'Manage diagrams',
+    'Menu_Database_Title' : 'Database',
+    'Menu_Add_Recursive_Association' : 'Add recursive association',
+    'Menu_Add_Input_Port' : 'Add input port',
+    'Menu_Add_Output_Port' : 'Add output port',
+    'Menu_Remove_Unused_Ports' : 'Remove unused ports',
+    
+    'Text_Undo_Button' : 'Undo',
+    'Text_Redo_Button' : 'Redo',
+    'Text_Delete_Button' : 'Delete',
+    'Text_ZoomIn_Button' : 'Zoom in',
+    'Text_ZoomOut_Button' : 'Zoom out',
+    'Text_Save_Diagram_Button' : 'Save diagram',
+    'Text_Commit_Changes_Button' : 'Commit changes to DB',
+    'Text_Add_Button' : 'Add',
+    'Text_UpdateDiagram_Button' : 'Update diagram',
+    'Text_OpenDiagram_Button' : 'Open diagram',
+    'Text_Export_Image': 'Print diagram',
+    
+    'GridColumn_Name' : 'Name',
+    'GridColumn_Datatype' : 'Datatype',
+    'GridColumn_Required' : 'Required',
+    
+    'Title_Attributes' : 'Attributes',
+    'Title_Work_Diagram' : 'Work diagram: ',
+    'Title_Diagrams' : 'Diagrams',
+    
+    'Message_Saving_Data' : 'Saving your data, please wait...',
+    'Message_Creating_Objects' : 'Creating objects in Database, please wait...',
+    'Message_Diagram_Synchronized' : 'The diagram has been synchronized!',
+    'Message_Error_Diagram_Synchronized' : 'The system was unable to synchronize the diagram, please try again later!',
+    'Message_Add_Table_Canvas' : 'Adding tables to canvas, please wait...',
+    
+    'Warning_Delete_Active_Diagram' : 'You cannot delete the active diagram!',
+    'Warning_Diagram_Already_Open' : 'The selected diagram is already opened!'
 }
