@@ -1,6 +1,7 @@
 // declare the namespace for this app
 var dbModel = {
-	shape:   {}
+	shape: {},
+	locator: {}
 };
 
 dbModel.Application = Class.extend(

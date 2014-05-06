@@ -1,6 +1,8 @@
 Ext.define('ProtoUL.controller.DiagramController', {
     extend: 'Ext.app.Controller',
 
+	stores: ['PortPositions'],
+	
     refs: [{
         ref: 'diagramCanvas',
         selector: '#contentPanel'
@@ -21,16 +23,18 @@ Ext.define('ProtoUL.controller.DiagramController', {
         selector: '#tablecontextmenu'
     }],
 
-	showProgressBar: function(msg,progressText) {
+    showProgressBar: function(msg, progressText) {
         Ext.MessageBox.show({
-           msg: msg,
-           progressText: progressText,
-           width:300,
-           wait:true,
-           waitConfig: {interval:200}
-       });    
+            msg: msg,
+            progressText: progressText,
+            width: 300,
+            wait: true,
+            waitConfig: {
+                interval: 200
+            }
+        });
     },
-    
+
     updateJsonDocument: function() {
         var writer = new draw2d.io.json.Writer();
         writer.marshal(this.getDiagramCanvas().getView(), function(json) {
@@ -75,15 +79,15 @@ Ext.define('ProtoUL.controller.DiagramController', {
         gridDetail.rowEditing.cancelEdit();
         var label = new draw2d.shape.basic.Label('new attribute');
         var attribute = Ext.create('ProtoUL.model.EntityAttributesModel', {
-            text: 'new attribute'+gridDetail.getStore().data.length,
+            text: 'new attribute' + gridDetail.getStore().data.length,
             id: label.id,
             inputPort: '',
             datatype: 'string',
             unique: false,
-            pk: false,
+            pk: false
         });
         gridDetail.getStore().insert(gridDetail.getStore().data.length, attribute);
-        gridDetail.rowEditing.startEdit(gridDetail.getStore().data.length-1, 0);
+        gridDetail.rowEditing.startEdit(gridDetail.getStore().data.length - 1, 0);
     },
 
     deleteAttribute: function(button, e, eOpts) {
@@ -136,13 +140,13 @@ Ext.define('ProtoUL.controller.DiagramController', {
     },
 
     saveDiagram: function(button, e, eOpts) {
-    	this.showProgressBar(_SM.__language.Message_Saving_Data, _SM.__language.Text_Submit_Validation_Form);
+        this.showProgressBar(_SM.__language.Message_Saving_Data, _SM.__language.Text_Submit_Validation_Form);
         this.updateJsonDocument();
 
-		var controller = this;
+        var controller = this;
         var projectID = controller.getDiagramMainView().getProjectID();
         var diagramID = controller.getDiagramMainView().getDiagramID();
-        
+
         Ext.Ajax.request({
             url: _SM._PConfig.saveDiagram,
             method: "POST",
@@ -152,16 +156,16 @@ Ext.define('ProtoUL.controller.DiagramController', {
             },
             jsonData: Ext.JSON.encode(jsonDocument),
             success: function(response) {
-                setTimeout(function(){
-                	Ext.MessageBox.close();
-		        }, 1000);
+                setTimeout(function() {
+                    Ext.MessageBox.close();
+                }, 1000);
             },
             failure: function(response) {
-            	Ext.MessageBox.close();
+                Ext.MessageBox.close();
                 console.log('Failure: saveDiagram');
             }
         });
-        
+
         this.enableToolbarButton('btSyncToDB');
     },
 
@@ -201,7 +205,7 @@ Ext.define('ProtoUL.controller.DiagramController', {
 
         return newPort;
     },
-
+    
     addConnectorRecursive: function(button, e, eOpts) {
         var table = this.getTableFromContextMenu(button);
         if (table.hybridPorts.getSize() === 0) {
@@ -227,23 +231,45 @@ Ext.define('ProtoUL.controller.DiagramController', {
     addInputPort: function(button, e, eOpts) {
         var table = this.getTableFromContextMenu(button);
 
-        var newPort = this.createPort('draw2d_InputPort', 'default');
-        newPort.setName("input" + table.inputPorts.getSize());
-        table.addPort(newPort);
-        table.layoutPorts();
+        var positions = Ext.create('ProtoUL.store.PortPositions');
+        var options = {
+            label: 'Port position',
+            store: positions,
+            userData: {controller: this, table: table}
+        };
+        _SM.ComboBoxPrompt.prompt('New port', options, function(btn, text, cfg) {
+            if (btn == 'ok') {
+            	controller = cfg.userData.controller;
+				table = cfg.userData.table;
+				
+				name = "input" + table.inputPorts.getSize();
+				table.createCustomizedPort('draw2d_InputPort', name, text);
 
-        this.enableToolbarButton('btSaveDiagram');
+				controller.enableToolbarButton('btSaveDiagram');
+            }
+        });
     },
 
     addOutputPort: function(button, e, eOpts) {
         var table = this.getTableFromContextMenu(button);
+		
+		var positions = Ext.create('ProtoUL.store.PortPositions');
+        var options = {
+            label: 'Port position',
+            store: positions,
+            userData: {controller: this, table: table}
+        };
+        _SM.ComboBoxPrompt.prompt('New port', options, function(btn, text, cfg) {
+            if (btn == 'ok') {
+            	controller = cfg.userData.controller;
+				table = cfg.userData.table;
+				
+				name = "output" + table.outputPorts.getSize();
+				table.createCustomizedPort('draw2d_OutputPort', name, text);
 
-        var newPort = this.createPort('draw2d_OutputPort', 'default');
-        newPort.setName("output" + table.inputPorts.getSize());
-        table.addPort(newPort);
-        table.layoutPorts();
-
-        this.enableToolbarButton('btSaveDiagram');
+				controller.enableToolbarButton('btSaveDiagram');
+            }
+        });
     },
 
     removeUnusedPorts: function(button, e, eOpts) {
@@ -285,15 +311,15 @@ Ext.define('ProtoUL.controller.DiagramController', {
                 Ext.MessageBox.close();
             },
             failure: function(response) {
-            	Ext.MessageBox.close();
+                Ext.MessageBox.close();
                 console.log('Failure: synchDBFromDiagram');
             }
         });
         button.setDisabled(true);
     },
 
-	runAjaxOpenDiagram: function(controller, url, projectID, diagramID){
-		Ext.Ajax.request({
+    runAjaxOpenDiagram: function(controller, url, projectID, diagramID) {
+        Ext.Ajax.request({
             url: url,
             method: "GET",
             params: {
@@ -303,9 +329,9 @@ Ext.define('ProtoUL.controller.DiagramController', {
             success: function(response) {
                 var text = response.responseText;
                 var outcome = Ext.JSON.decode(text);
-                
+
                 if (outcome.diagram === "{}") {
-                	jsonDocument = [];
+                    jsonDocument = [];
                 } else {
                     jsonDocument = Ext.JSON.decode(outcome.diagram).objects;
                 }
@@ -317,53 +343,53 @@ Ext.define('ProtoUL.controller.DiagramController', {
                 console.log('Failure: openDiagram');
             }
         });
-	},
-	
-	openDiagram: function(button, e, eOpts) {
+    },
+
+    openDiagram: function(button, e, eOpts) {
         var controller = this;
         var projectID = controller.getDiagramMainView().getProjectID();
         var diagramID = controller.getDiagramMainView().getDiagramID();
-        if (diagramID === null){
-        	controller.runAjaxOpenDiagram(controller, _SM._PConfig.getDefaultDiagram, projectID, null);
+        if (diagramID === null) {
+            controller.runAjaxOpenDiagram(controller, _SM._PConfig.getDefaultDiagram, projectID, null);
         } else {
-        	controller.runAjaxOpenDiagram(controller, _SM._PConfig.openDiagram, projectID, diagramID);
+            controller.runAjaxOpenDiagram(controller, _SM._PConfig.openDiagram, projectID, diagramID);
         }
     },
-    
-    exportDiagramToPNG: function updatePreview(){
-	    // convert the canvas into a PNG image source string 
-	    //
-	    var canvas = this.getDiagramCanvas().getView();
-	    var xCoords = [];
-	    var yCoords = [];
-	    canvas.getFigures().each(function(i,f){
-	        var b = f.getBoundingBox();
-	        xCoords.push(b.x, b.x+b.w);
-	        yCoords.push(b.y, b.y+b.h);
-	    });
-	    var minX   = 0;
-	    var minY   = 0;
-	    var width  = Math.max.apply(Math, xCoords)-minX;
-	    var height = Math.max.apply(Math, yCoords)-minY;
-	    //<img class="shadow" id="preview" style="border-radius:5px;overflow:auto;position:absolute; top:10px; right:10px; width:150; border:3px solid gray;"/>
-	    var writer = new draw2d.io.png.Writer();
-	    var image = null;
-	    writer.marshal(canvas,function(png){
-	       image = png;
-	    }, new draw2d.geo.Rectangle(minX,minY,width,height));
-	    
-	    var printWindow = window.open('', '', 'width=800,height=600');
-		printWindow.document.write('<html><head>');
-		printWindow.document.write('<title>' + 'Title' + '</title>');
-		printWindow.document.write('<link rel="Stylesheet" type="text/css" href="http://dev.sencha.com/deploy/ext-4.0.1/resources/css/ext-all.css" />');
-		printWindow.document.write('<script type="text/javascript" src="http://dev.sencha.com/deploy/ext-4.0.1/bootstrap.js"></script>');
-		printWindow.document.write('</head><body>');
-		printWindow.document.write('<img class="shadow" '+ 'src='+ image +' id="preview" style="border-radius:1px;overflow:auto; top:10px; right:10px; border:0px solid gray;"/>');
-		printWindow.document.write('</body></html>');
-		printWindow.print();
-		
-	},
-	
+
+    exportDiagramToPNG: function updatePreview() {
+        // convert the canvas into a PNG image source string
+        //
+        var canvas = this.getDiagramCanvas().getView();
+        var xCoords = [];
+        var yCoords = [];
+        canvas.getFigures().each(function(i, f) {
+            var b = f.getBoundingBox();
+            xCoords.push(b.x, b.x + b.w);
+            yCoords.push(b.y, b.y + b.h);
+        });
+        var minX = 0;
+        var minY = 0;
+        var width = Math.max.apply(Math, xCoords) - minX;
+        var height = Math.max.apply(Math, yCoords) - minY;
+        //<img class="shadow" id="preview" style="border-radius:5px;overflow:auto;position:absolute; top:10px; right:10px; width:150; border:3px solid gray;"/>
+        var writer = new draw2d.io.png.Writer();
+        var image = null;
+        writer.marshal(canvas, function(png) {
+            image = png;
+        }, new draw2d.geo.Rectangle(minX, minY, width, height));
+
+        var printWindow = window.open('', '', 'width=800,height=600');
+        printWindow.document.write('<html><head>');
+        printWindow.document.write('<title>' + 'Title' + '</title>');
+        printWindow.document.write('<link rel="Stylesheet" type="text/css" href="http://dev.sencha.com/deploy/ext-4.0.1/resources/css/ext-all.css" />');
+        printWindow.document.write('<script type="text/javascript" src="http://dev.sencha.com/deploy/ext-4.0.1/bootstrap.js"></script>');
+        printWindow.document.write('</head><body>');
+        printWindow.document.write('<img class="shadow" ' + 'src=' + image + ' id="preview" style="border-radius:1px;overflow:auto; top:10px; right:10px; border:0px solid gray;"/>');
+        printWindow.document.write('</body></html>');
+        printWindow.print();
+
+    },
+
     init: function(application) {
         this.control({
             "#btUndo": {

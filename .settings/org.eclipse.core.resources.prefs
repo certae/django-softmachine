@@ -1,6 +1,7 @@
 eclipse.preferences.version=1
 encoding//src/ProtoExt/settings.py=utf-8
 encoding//src/alltests/tests.py=UTF-8
+encoding//src/dbDesigner/test/ProtoDiagramTest.py=UTF-8
 encoding//src/ll/models.py=utf-8
 encoding//src/protoLib/actions/__init__.py=utf-8
 encoding//src/protoLib/admin/__init__.py=utf-8
@@ -23,7 +24,6 @@ encoding//src/protoLib/testprotoLib/ModelsTest.py=utf-8
 encoding//src/protoLib/testprotoLib/ProtoActionListTest.py=utf-8
 encoding//src/protoLib/testprotoLib/ProtoActionRepTest.py=utf-8
 encoding//src/protoLib/testprotoLib/ProtoActionsTest.py=utf-8
-encoding//src/protoLib/testprotoLib/ProtoDiagramTest.py=UTF-8
 encoding//src/protoLib/testprotoLib/ProtoGetDetailsTest.py=utf-8
 encoding//src/protoLib/testprotoLib/ProtoGetPciTest.py=utf-8
 encoding//src/protoLib/testprotoLib/ProtoLoginTest.py=UTF-8

@@ -23,4 +23,4 @@ from protoLib.testprotoLib.ProtoGetDetailsTest import * #ProtoGetDetailsTestSuit
 from protoLib.testprotoLib.ProtoGetPciTest import * #ProtoGetPciTestSuite    
 from protoLib.testprotoLib.ProtoLoginTest import * #ProtoLoginTestSuite                                  
 from protoLib.testprotoLib.ProtoMenuTest import * #ProtoMenuTestSuite   
-from protoLib.testprotoLib.ProtoDiagramTest import *                                
+from dbDesigner.test.ProtoDiagramTest import *                          

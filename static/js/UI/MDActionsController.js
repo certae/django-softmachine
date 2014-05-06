@@ -26,20 +26,20 @@ Ext.define('ProtoUL.UI.MDActionsController', {
                 var pProtoAction = this.myMeta.WFlowActions[ix];
 
                 pProtoAction.menuText = pProtoAction.menuText || pProtoAction.name;
-                pProtoAction.actionType = 'wflow'
-                pProtoAction.selectionMode = 'multiple'
-                pProtoAction.refreshOnComplete = true 
+                pProtoAction.actionType = 'wflow';
+                pProtoAction.selectionMode = 'multiple';
+                pProtoAction.refreshOnComplete = true;
 
                 if ( pProtoAction.admMessagePropmt ) {
-                    pProtoAction.actionParams =  [{ 
+                    pProtoAction.actionParams =  [{
                         'name' : 'admMessage', 
                         'tooltip' : pProtoAction.description , 
                         'fieldLabel' :  pProtoAction.admMessagePropmt ,
                         'type' : 'string', 
                         'required' : true 
-                    }]
+                    }];
 
-                } else { pProtoAction.actionParams =  []}
+                } else { pProtoAction.actionParams =  [];}
                 
                 myProtoActions.push(new Ext.Action({
                     text: pProtoAction.menuText,

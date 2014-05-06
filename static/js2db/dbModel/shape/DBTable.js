@@ -98,7 +98,7 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
                 newPort = new draw2d.OutputPort();
                 break;
             case "draw2d_HybridPort":
-                newPort = new draw2d.HybridPort();
+				newPort = new draw2d.HybridPort();
                 break;
             default:
                 throw "Unknown type [" + type + "] of port requested";
@@ -108,6 +108,12 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
         switch(position) {
             case "default":
                 break;
+            case "right":
+            	locator = new dbModel.locator.PortRightLocator(this);
+            	break;
+            case "left":
+            	locator = new dbModel.locator.PortLeftLocator(this);
+            	break;
             case "top":
                 locator = new draw2d.layout.locator.TopLocator(this);
                 break;

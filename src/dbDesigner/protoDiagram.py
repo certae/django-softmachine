@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from django.http import HttpResponse
-from utilsWeb import JsonError
+from protoLib.utilsWeb import JsonError
 from prototype.models import Project, Model, Entity, Relationship, Property, Diagram
-from utilsBase import JSONEncoder
+from protoLib.utilsBase import JSONEncoder
 
 import json, uuid
 

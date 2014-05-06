@@ -3,8 +3,8 @@
 from django.test import TestCase
 from django.test.client import RequestFactory
 from django.http import HttpRequest
-from protoLib.protoDiagram import getEntitiesJSONDiagram, synchDiagramFromDB, getElementsDiagramFromSelectedTables, synchDBFromDiagram, getDefaultDiagram
-from protoLib.protoDiagramEntity import listDiagrams, openDiagram, createDiagram, saveDiagram
+from dbDesigner.protoDiagram import getEntitiesJSONDiagram, synchDiagramFromDB, getElementsDiagramFromSelectedTables, synchDBFromDiagram, getDefaultDiagram
+from dbDesigner.protoDiagramEntity import listDiagrams, openDiagram, createDiagram, saveDiagram
 from prototype.testprototype.testmodels.TestUtilities import createTestDiagram, createTestEntity
 from requests import Request
 from django.contrib.auth import authenticate

@@ -32,7 +32,8 @@ Ext.application({
         'diagram.TableContextMenu',
         'diagram.DatabaseMenu',
         'searchmodel.LiveSearchGridPanel',
-        'searchmodel.SearchBottomBar'
+        'searchmodel.SearchBottomBar',
+        'ComboBoxPrompt'
     ],
 	controllers: [
 		'PasswordManager',
