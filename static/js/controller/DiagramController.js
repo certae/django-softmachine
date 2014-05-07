@@ -233,11 +233,11 @@ Ext.define('ProtoUL.controller.DiagramController', {
 
         var positions = Ext.create('ProtoUL.store.PortPositions');
         var options = {
-            label: 'Port position',
+            label: 'Position du port',
             store: positions,
             userData: {controller: this, table: table}
         };
-        _SM.ComboBoxPrompt.prompt('New port', options, function(btn, text, cfg) {
+        _SM.ComboBoxPrompt.prompt('Nouveau port', options, function(btn, text, cfg) {
             if (btn == 'ok') {
             	controller = cfg.userData.controller;
 				table = cfg.userData.table;
@@ -255,11 +255,11 @@ Ext.define('ProtoUL.controller.DiagramController', {
 		
 		var positions = Ext.create('ProtoUL.store.PortPositions');
         var options = {
-            label: 'Port position',
+            label: 'Position du port',
             store: positions,
             userData: {controller: this, table: table}
         };
-        _SM.ComboBoxPrompt.prompt('New port', options, function(btn, text, cfg) {
+        _SM.ComboBoxPrompt.prompt('Nouveau port', options, function(btn, text, cfg) {
             if (btn == 'ok') {
             	controller = cfg.userData.controller;
 				table = cfg.userData.table;

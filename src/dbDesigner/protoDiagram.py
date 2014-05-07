@@ -89,7 +89,7 @@ def getJSONElements(entities, selectedTables, connectors):
         x += 30
         y += 30
         addOutputPorts(entity, table, connectors)
-        for pProperty in entity.property_set.all():
+        for pProperty in entity.property_set.all().order_by('-isPrimary','code'):
             table['attributes'].append({'text':pProperty.code, 'id':str(uuid.UUID(pProperty.smUUID)), 'datatype':pProperty.baseType, 'pk':pProperty.isPrimary, 'fk':pProperty.isForeign, 'isNullable':pProperty.isNullable, 'isRequired':pProperty.isRequired})
             if (pProperty.isForeign):
                 addConnectors(pProperty.relationship, table, connectors)

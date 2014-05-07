@@ -254,6 +254,11 @@
                     "path": "js/view/"
                 },
                 {
+                    "clsName": "ProtoUL.view.ComboBoxPrompt",
+                    "name": "ComboBoxPrompt.js",
+                    "path": "js/view/"
+                },
+                {
                     "clsName": "ProtoUL.view.password.PasswordReset",
                     "name": "PasswordReset.js",
                     "path": "js/view/password/"
@@ -286,6 +291,11 @@
                 {
                     "clsName": "ProtoUL.store.Diagrams",
                     "name": "Diagrams.js",
+                    "path": "js/store/"
+                },
+                {
+                    "clsName": "ProtoUL.store.PortPositions",
+                    "name": "PortPositions.js",
                     "path": "js/store/"
                 },
                 {
