@@ -213,9 +213,9 @@ Ext.define('ProtoUL.controller.DiagramController', {
             newPort.setName("hybrid" + table.hybridPorts.getSize());
             table.addPort(newPort, new draw2d.layout.locator.BottomLocator(table));
 
-            var inputPort = this.createPort('draw2d_InputPort', 'default');
+            var inputPort = this.createPort('draw2d_InputPort', 'left');
             inputPort.setName("input" + table.inputPorts.getSize());
-            table.addPort(inputPort);
+            table.addPort(inputPort, new dbModel.locator.PortLeftLocator(table));
             table.layoutPorts();
 
             var conn = new dbModel.shape.TableConnection();

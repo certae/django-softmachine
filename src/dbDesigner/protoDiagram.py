@@ -104,7 +104,7 @@ def addOutputPorts(entity, table, connectors):
             table['tablePorts'].append( {
                 "type": "draw2d_OutputPort",
                 "name": outputPortName,
-                "position": "default"
+                "position": "right"
                  })
             appendConnector(port, outputPortName, "input"+str(port.id), connectors)
             
@@ -121,7 +121,7 @@ def addConnectors(relationship, table, connectors):
     table['tablePorts'].append( {
         "type": "draw2d_InputPort",
         "name": inputPortName,
-        "position": "default"
+        "position": "left"
          })
     appendConnector(relationship, outputPortName, inputPortName, connectors)
 

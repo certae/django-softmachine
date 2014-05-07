@@ -6,7 +6,7 @@ Ext.define('ProtoUL.store.PortPositions', {
 
     fields: ['id', 'description'],
     data: [
-        {"id": "default","description": "Default"}, 
+        // {"id": "default","description": "Default"}, 
         {"id": "right","description": "Right"}, 
         {"id": "left","description": "Left"}, 
         {"id": "top","description": "Top"}, 
