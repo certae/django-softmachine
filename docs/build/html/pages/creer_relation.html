@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Créer une relation &mdash; documentation protoDoc 0.0.1</title>
+    
+    <link rel="stylesheet" href="../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+    <script type="text/javascript" src="../static/translations.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="documentation protoDoc 0.0.1" href="../index.html" />
+    <link rel="up" title="Enregistrement du modèle" href="enregistrer_modele.html" />
+    <link rel="next" title="Génération du modèle conceptuel graphique" href="generer_modele_conceptuel_graphique.html" />
+    <link rel="prev" title="Créer une propriété" href="creer_propriete.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Index général"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="generer_modele_conceptuel_graphique.html" title="Génération du modèle conceptuel graphique"
+             accesskey="N">suivant</a> |</li>
+        <li class="right" >
+          <a href="creer_propriete.html" title="Créer une propriété"
+             accesskey="P">précédent</a> |</li>
+        <li><a href="../index.html">documentation protoDoc 0.0.1</a> &raquo;</li>
+          <li><a href="demarche_prototypage.html" >Démarche et pratiques du prototypage</a> &raquo;</li>
+          <li><a href="enregistrer_modele.html" accesskey="U">Enregistrement du modèle</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="creer-une-relation">
+<h1>Créer une relation<a class="headerlink" href="#creer-une-relation" title="Lien permanent vers ce titre">¶</a></h1>
+<p>La cinquième étape pour construire un prototype consiste à créer les relations entre les entités du modèle.
+Les relations peuvent être créées à partir de l&#8217;entité enfant vers l&#8217;entité parente ou vice-versa. Les clés étrangères sont générées
+automatiquement par l&#8217;application du prototypeur au moment de créer la relation entre deux entités.</p>
+<p>De la même manière que dans les étapes précédentes, il y a deux façons de créer les relations entre les entités.</p>
+<div class="section" id="creer-une-nouvelle-relation-a-partir-du-menu-principal">
+<h2>Créer une nouvelle relation à partir du menu principal<a class="headerlink" href="#creer-une-nouvelle-relation-a-partir-du-menu-principal" title="Lien permanent vers ce titre">¶</a></h2>
+<blockquote>
+<div><img alt="../images/proto1.png" src="../images/proto1.png" />
+<p><em>Figure 50 : créer une relation.</em></p>
+</div></blockquote>
+<ol class="arabic simple">
+<li>À partir du menu principal, cliquez deux fois sur Relation du dossier Prototype pour ouvrir l&#8217;onglet Relation.</li>
+<li>Cliquez sur le bouton Ajouter, un formulaire sera affiché sur l&#8217;écran.</li>
+<li>Dans le formulaire, remplissez (voir figure 51) :</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>le nom de la relation (information obligatoire). Comme bonne pratique, composez les noms de vos relations en commençant par le nom de l&#8217;entité enfant suivi du nom de l&#8217;entité parent.
+Les deux noms séparés par un trait d&#8217;union, exemple séjour-chalet.</li>
+<li>le nom de l&#8217;entité parent (information obligatoire). Cliquez sur le bouton <img alt="img" src="../images/lupa.png" /> pour sélectionner l&#8217;entité de la liste.</li>
+<li>le nom de l&#8217;entité enfant (information obligatoire). Cliquez sur le bouton <img alt="img" src="../images/lupa.png" /> pour sélectionner l&#8217;entité de la liste.</li>
+<li>cochez la case de la dépendance de clé si la connectivité du côté enfant est dépendante : 1,1. Si votre connectivité est 1,1 ne cochez pas cette caisse.</li>
+<li>la description de la relation (information optionnelle).</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li>Cliquez sur le bouton <strong>Enregistrer</strong> de la fenêtre.</li>
+</ol>
+</div>
+<div class="section" id="creer-une-nouvelle-relation-a-partir-du-formulaire-de-l-entite">
+<h2>Créer une nouvelle relation à partir du formulaire de l&#8217;entité<a class="headerlink" href="#creer-une-nouvelle-relation-a-partir-du-formulaire-de-l-entite" title="Lien permanent vers ce titre">¶</a></h2>
+<blockquote>
+<div><img alt="../images/relation1.png" src="../images/relation1.png" />
+<p><em>Figure 51 : créer une relation.</em></p>
+</div></blockquote>
+<ol class="arabic simple">
+<li>À partir du formulaire de l&#8217;entité, cliquez sur le bouton Ajouter de la grille « relations filtrées par &#8221; &#8221; ».</li>
+<li>Un nouveau formulaire (comme celui de la figure à gauche) s&#8217;affichera dans l&#8217;interface.</li>
+<li>Dans le formulaire, remplissez les informations comme dans la partie précédente.</li>
+<li>Cliquez sur le bouton Enregistrer de la fenêtre.</li>
+</ol>
+<p>Maintenant que votre modèle est complet, nous allons voir comment générer le prototype et alimenter le modèle.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table des Matières</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Créer une relation</a><ul>
+<li><a class="reference internal" href="#creer-une-nouvelle-relation-a-partir-du-menu-principal">Créer une nouvelle relation à partir du menu principal</a></li>
+<li><a class="reference internal" href="#creer-une-nouvelle-relation-a-partir-du-formulaire-de-l-entite">Créer une nouvelle relation à partir du formulaire de l&#8217;entité</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Sujet précédent</h4>
+  <p class="topless"><a href="creer_propriete.html"
+                        title="Chapitre précédent">Créer une propriété</a></p>
+  <h4>Sujet suivant</h4>
+  <p class="topless"><a href="generer_modele_conceptuel_graphique.html"
+                        title="Chapitre suivant">Génération du modèle conceptuel graphique</a></p>
+  <h3>Cette page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/pages/creer_relation.txt"
+           rel="nofollow">Montrer la source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Recherche rapide</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Saisissez un mot clef ou un nom de module, classe ou fonction.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Index général"
+             >index</a></li>
+        <li class="right" >
+          <a href="generer_modele_conceptuel_graphique.html" title="Génération du modèle conceptuel graphique"
+             >suivant</a> |</li>
+        <li class="right" >
+          <a href="creer_propriete.html" title="Créer une propriété"
+             >précédent</a> |</li>
+        <li><a href="../index.html">documentation protoDoc 0.0.1</a> &raquo;</li>
+          <li><a href="demarche_prototypage.html" >Démarche et pratiques du prototypage</a> &raquo;</li>
+          <li><a href="enregistrer_modele.html" >Enregistrement du modèle</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Marieme Doua, Certae ulaval.
+      Mis à jour le May 03, 2014.
+      Créé avec <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

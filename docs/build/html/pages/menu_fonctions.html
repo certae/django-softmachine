@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Menu des fonctions : &mdash; documentation protoDoc 0.0.1</title>
+    
+    <link rel="stylesheet" href="../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+    <script type="text/javascript" src="../static/translations.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="documentation protoDoc 0.0.1" href="../index.html" />
+    <link rel="next" title="Formulaire" href="option_formulaire.html" />
+    <link rel="prev" title="La barre d’états" href="barre_etats.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Index général"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="option_formulaire.html" title="Formulaire"
+             accesskey="N">suivant</a> |</li>
+        <li class="right" >
+          <a href="barre_etats.html" title="La barre d’états"
+             accesskey="P">précédent</a> |</li>
+        <li><a href="../index.html">documentation protoDoc 0.0.1</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="menu-des-fonctions">
+<h1>Menu des fonctions :<a class="headerlink" href="#menu-des-fonctions" title="Lien permanent vers ce titre">¶</a></h1>
+<blockquote>
+<div><img alt="../images/menu_fonctions.png" src="../images/menu_fonctions.png" />
+<p><em>Figure 15 : menu des fonctions</em></p>
+</div></blockquote>
+<p>Ce menu regroupe les fonctions pour manipuler l’objet affiché dans la grille principale.</p>
+<p>Si vous cliquez sur le bouton, le sous-menu correspondant apparait au-dessous du menu de fonctions.</p>
+<p>Si vous cliquez sur la flèche noire (à côté du bouton), une liste de visualisation du sous-menu apparait.</p>
+<p>Dans les deux cas, vous pouvez accéder aux options pour la fonction choisie.</p>
+<p>Les fonctions de la grille dépendent de l’objet ouvert. Tous les objets n’ont pas les mêmes fonctions.</p>
+<p>Les fonctions de l’application sont :</p>
+<div class="section" id="rechercher">
+<h2>Rechercher<a class="headerlink" href="#rechercher" title="Lien permanent vers ce titre">¶</a></h2>
+<blockquote>
+<div><img alt="../images/filtrer.png" src="../images/filtrer.png" />
+<p><em>Figure 16 : fonction Rechercher</em></p>
+</div></blockquote>
+<p>Cette fonction permet de filtrer les résultats de la grille principale à partir du critère recherché (sensible aux accents).</p>
+<p>Pour rechercher, cliquez sur le bouton <img alt="btn1" src="../images/filtre.png" /> ou sur la touche <em>entrer</em>.</p>
+<p>Pour effacer le critère, cliquez sur le bouton <img alt="btn2" src="../images/erasefiltre.png" />.</p>
+<p>Le filtrage s’applique sur plusieurs critères, par exemple, la colonne « nom » et la colonne « description » de l’onglet actif.</p>
+<p>Les colonnes qui peuvent être filtrées peuvent être personnalisées à partir de la fonction configuration.</p>
+</div>
+<div class="section" id="classer">
+<h2>Classer<a class="headerlink" href="#classer" title="Lien permanent vers ce titre">¶</a></h2>
+<blockquote>
+<div><img alt="../images/classer.png" src="../images/classer.png" />
+<p><em>Figure 17 : fonction Classer</em></p>
+</div></blockquote>
+<p>Cette fonction permet de trier la grille principale selon la colonne choisie. En cliquant sur ce bouton, la liste d&#8217;option disponible pour le tri s&#8217;affiche.</p>
+<p>Cliquez sur la colonne choisie. Cliquez une deuxième fois, sur la même colonne pour inverser l&#8217;ordre de tri.</p>
+<p>Les colonnes qui peuvent être filtrées peuvent être personnalisées à partir de la fonction configuration.</p>
+</div>
+<div class="section" id="actions">
+<h2>Actions<a class="headerlink" href="#actions" title="Lien permanent vers ce titre">¶</a></h2>
+<blockquote>
+<div><img alt="../images/actions.png" src="../images/actions.png" />
+<p><em>Figure 18 : fonction Actions</em></p>
+</div></blockquote>
+<p>Selon l&#8217;objet actif, différentes actions sont disponibles. Ces actions sont entre autres :</p>
+<ul class="simple">
+<li><strong>doImportSchema :</strong></li>
+</ul>
+<blockquote>
+<div>L&#8217;action doImportSchema permet d&#8217;importer un schéma de base de données (exemple un schéma .sql) dans l&#8217;application.</div></blockquote>
+<ul class="simple">
+<li><strong>doImportOMS :</strong></li>
+</ul>
+<blockquote>
+<div><p>L&#8217;action doImportOMS permet d&#8217;importer un modèle OMS (open modèle sphère) dans l&#8217;application à fin de générer le prototype.</p>
+<p>Pour le moment, le fichier doit être nommé OMS.exp et placé dans le dossier media.</p>
+</div></blockquote>
+<ul class="simple">
+<li><strong>doModelPrototype :</strong></li>
+</ul>
+<blockquote>
+<div>L&#8217;action doModelPrototype génère le prototype pour un modèle sélectionné.</div></blockquote>
+<ul class="simple">
+<li><strong>doModelGraph :</strong></li>
+</ul>
+<blockquote>
+<div>L&#8217;action doModelGraph génère le modèle conceptuel graphique pour un modèle sélectionné.</div></blockquote>
+<ul class="simple">
+<li><strong>doExportPrototype :</strong></li>
+</ul>
+<blockquote>
+<div>L&#8217;action doExportPrototype permet l&#8217;exportation du prototype sous format d&#8217;un modèle django (models.py).</div></blockquote>
+<ul class="simple">
+<li><strong>doExportProtoJson :</strong></li>
+</ul>
+<blockquote>
+<div>L&#8217;action doExportProtoJson permet l&#8217;exportation du prototype sous format d&#8217;un fichier json.</div></blockquote>
+<ul class="simple">
+<li><strong>doEntityPrototype :</strong></li>
+</ul>
+<blockquote>
+<div>L&#8217;action doEntityPrototype génère le prototype pour une entité sélectionnée.</div></blockquote>
+<ul class="simple">
+<li><strong>doWFlowResume :</strong></li>
+</ul>
+<blockquote>
+<div>L&#8217;action doWFlowResume affiche la liste des modifications en attente de validation (<a class="reference internal" href="workflow.html"><em>voir workflow</em></a>).</div></blockquote>
+<ul class="simple">
+<li><strong>Accepter et Refuser :</strong></li>
+</ul>
+<blockquote>
+<div>Ces actions permettent d&#8217;accepter ou de refuser un (<a class="reference internal" href="workflow.html"><em>workflow</em></a>) en attente.</div></blockquote>
+</div>
+<div class="section" id="navigation">
+<h2>Navigation<a class="headerlink" href="#navigation" title="Lien permanent vers ce titre">¶</a></h2>
+<blockquote>
+<div><img alt="../images/fonction_n.png" src="../images/fonction_n.png" />
+<p><em>Figure 19 : Fonction navigation et son sous-menu pour l&#8217;entité.</em></p>
+</div></blockquote>
+<p>La fonction Navigation permet de naviguer vers les détails d&#8217;un objet sélectionné.</p>
+<p>En cliquant sur ce bouton, <a class="reference internal" href="grille_navigation.html"><em>la grille de navigation</em></a> s&#8217;affiche.</p>
+</div>
+<div class="section" id="imprimer">
+<h2>Imprimer<a class="headerlink" href="#imprimer" title="Lien permanent vers ce titre">¶</a></h2>
+<blockquote>
+<div><img alt="../images/imprimer.png" src="../images/imprimer.png" />
+<p><em>Figure 20 : Fonction imprimer et son sous-menu.</em></p>
+</div></blockquote>
+<p>La fonction <strong>imprimer</strong> permet d&#8217;imprimer le contenu de la grille principale. Le sous-menu d&#8217;imprimer est composé de deux
+options : <strong>Exporter CSV</strong> et <strong>Grille</strong>. Notez que vous pouvez aussi accéder aux options du sous-menu en cliquant sur le
+petit triangle noir situé à droit du bouton imprimer.</p>
+<p>Quand vous cliquez sur l&#8217;option <strong>Grille</strong>, un nouvel onglet sera ouvert automatiquement dans votre fureteur, la fenêtre du
+dialogue d&#8217;impression sera affichée à l&#8217;écran. Selon le type d&#8217;imprimante installée sur votre ordinateur, vous pourriez
+enregistrer le résultat de l&#8217;impression en format PDF. Le contenu de la grille est transformé dans un format de sortie
+en HTML (le résultat est montré dans le nouvel onglet ouvert). Vous pouvez enregistrer le contenu de cet onglet comme une page
+web (HTML).</p>
+<p>Quand vous cliquez sur l&#8217;option <strong>Exporter CSV</strong>, une fenêtre sera affichée à l&#8217;écran. À partir de cette fenêtre, il est
+possible d&#8217;ouvrir le fichier avec un logiciel de feuille de calcul comme Microsoft Excel ou Libre Office Calc ou de l&#8217;enregistrer
+sur votre ordinateur.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Notez que le contenu de la grille principale est imprimé ou exporté au complet. Par exemple, si vous avez 3000 résultats
+qui sont distribués dans 10 pages, quand vous utilisez une des fonctions Grille ou Exporter CSV, les 3000 résultats seront
+imprimés ou exportés. Il n&#8217;est pas nécessaire de se déplacer à chacune de pages pour faire l&#8217;impression/exportation.</p>
+</div>
+</div>
+<div class="section" id="filtres">
+<h2>Filtres<a class="headerlink" href="#filtres" title="Lien permanent vers ce titre">¶</a></h2>
+<blockquote>
+<div><img alt="../images/fonction_filtrer.png" src="../images/fonction_filtrer.png" />
+<p><em>Figure 21 : Fonction filtrer et son sous-menu.</em></p>
+</div></blockquote>
+<p>Cette fonction s&#8217;affiche avec les objets qui ont un <a class="reference internal" href="workflow.html"><em>workflow</em></a>. Les options sont :</p>
+<ul class="simple">
+<li><strong>À vérifier :</strong> affiche la liste des objets modifiés par l&#8217;utilisateur et en attente d&#8217;acceptation par l&#8217;administrateur.</li>
+<li><strong>Accepté :</strong> affiche la liste des objets modifiés par l&#8217;utilisateur et acceptés par l&#8217;administrateur.</li>
+<li><strong>Refusé :</strong> affiche la liste des objets modifiés par l&#8217;utilisateur et refusés par l&#8217;administrateur.</li>
+</ul>
+</div>
+<div class="section" id="onglets">
+<h2>Onglets<a class="headerlink" href="#onglets" title="Lien permanent vers ce titre">¶</a></h2>
+<blockquote>
+<div><img alt="../images/fonction_onglets.png" src="../images/fonction_onglets.png" />
+<p><em>Figure 22 : Fonction onglets et son sous-menu.</em></p>
+</div></blockquote>
+<p>Pour l&#8217;objet Proprieté, il existe une fonction Onglets qui permet d&#8217;afficher les propriétés de deux façons :</p>
+<ul class="simple">
+<li><strong>Default :</strong> pour l&#8217;affichage par défaut nom de propriété ;</li>
+<li><strong>admin :</strong> permet d&#8217;afficher les propriétés préfixées par le nom de la table.</li>
+</ul>
+</div>
+<div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Lien permanent vers ce titre">¶</a></h2>
+<blockquote>
+<div><img alt="../images/configuration.png" src="../images/configuration.png" />
+<p><em>Figure 23 : Fonction configuration et son sous-menu.</em></p>
+</div></blockquote>
+<p>Cette fonction permet la personnalisation de l&#8217;application.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">L&#8217;accès à toutes les options de la fonction Configuration est réservé aux utilisateurs avec les droits.
+Si votre compte n&#8217;a pas les droits suffisants, vous verrez uniquement les options pour la configuration de base.</p>
+</div>
+<p>Quand vous cliquez sur le bouton Configuration (ou sur le petit triangle noir à côté), un sous-menu apparait.
+Ce sous-menu est composé des options suivantes :</p>
+<ol class="arabic simple">
+<li><a class="reference internal" href="option_formulaire.html"><em>Formulaire;</em></a></li>
+<li><a class="reference internal" href="option_champs.html"><em>Champs;</em></a></li>
+<li><a class="reference internal" href="option_details.html"><em>Détails;</em></a></li>
+<li><a class="reference internal" href="option_configuration.html"><em>Configuration;</em></a></li>
+<li><a class="reference internal" href="option_meta.html"><em>Méta.</em></a></li>
+</ol>
+</div>
+<div class="section" id="aide-img">
+<h2>Aide <img alt="img" src="../images/help.png" /><a class="headerlink" href="#aide-img" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Le dernier bouton de menu des fonctions <img alt="img" src="../images/help.png" /> est le bouton d&#8217;aide en ligne de l&#8217;application.</p>
+<blockquote>
+<div></div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table des Matières</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Menu des fonctions :</a><ul>
+<li><a class="reference internal" href="#rechercher">Rechercher</a></li>
+<li><a class="reference internal" href="#classer">Classer</a></li>
+<li><a class="reference internal" href="#actions">Actions</a></li>
+<li><a class="reference internal" href="#navigation">Navigation</a></li>
+<li><a class="reference internal" href="#imprimer">Imprimer</a></li>
+<li><a class="reference internal" href="#filtres">Filtres</a></li>
+<li><a class="reference internal" href="#onglets">Onglets</a></li>
+<li><a class="reference internal" href="#configuration">Configuration</a></li>
+<li><a class="reference internal" href="#aide-img">Aide </a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Sujet précédent</h4>
+  <p class="topless"><a href="barre_etats.html"
+                        title="Chapitre précédent">La barre d&#8217;états</a></p>
+  <h4>Sujet suivant</h4>
+  <p class="topless"><a href="option_formulaire.html"
+                        title="Chapitre suivant">Formulaire</a></p>
+  <h3>Cette page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/pages/menu_fonctions.txt"
+           rel="nofollow">Montrer la source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Recherche rapide</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Saisissez un mot clef ou un nom de module, classe ou fonction.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Index général"
+             >index</a></li>
+        <li class="right" >
+          <a href="option_formulaire.html" title="Formulaire"
+             >suivant</a> |</li>
+        <li class="right" >
+          <a href="barre_etats.html" title="La barre d’états"
+             >précédent</a> |</li>
+        <li><a href="../index.html">documentation protoDoc 0.0.1</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Marieme Doua, Certae ulaval.
+      Mis à jour le May 03, 2014.
+      Créé avec <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

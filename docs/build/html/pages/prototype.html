@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Prototype &mdash; documentation protoDoc 0.0.1</title>
+    
+    <link rel="stylesheet" href="../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+    <script type="text/javascript" src="../static/translations.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="documentation protoDoc 0.0.1" href="../index.html" />
+    <link rel="next" title="Index des champs" href="annexe.html" />
+    <link rel="prev" title="ProtoLib" href="protoLib.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Index général"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="annexe.html" title="Index des champs"
+             accesskey="N">suivant</a> |</li>
+        <li class="right" >
+          <a href="protoLib.html" title="ProtoLib"
+             accesskey="P">précédent</a> |</li>
+        <li><a href="../index.html">documentation protoDoc 0.0.1</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="prototype">
+<h1>Prototype<a class="headerlink" href="#prototype" title="Lien permanent vers ce titre">¶</a></h1>
+<p>Cette application définit les concepts pour créer un prototype.</p>
+<div class="section" id="project">
+<h2>Project<a class="headerlink" href="#project" title="Lien permanent vers ce titre">¶</a></h2>
+<p>La classe qui représente un projet, elle hérite les propriétés de la classe ProtoModel dans le modèle ProtoLib. Ses attributs sont :</p>
+<ul class="simple">
+<li>code : nom du projet obligatoire;</li>
+<li>description : optionnelle.</li>
+</ul>
+<p>Les attributs ci-dessous sont optionnels et définit les paramètres pour la base de données du projet :</p>
+<ul class="simple">
+<li>dbEngine : type de la base de données;</li>
+<li>dbName : nom de la base de données;</li>
+<li>dbUser : nom d&#8217;utilisateur de la BD;</li>
+<li>dbPassword : mot de passe pour la BD;</li>
+<li>dbHost : nom de l’hôte;</li>
+<li>dbPort : numéro de port.</li>
+</ul>
+</div>
+<div class="section" id="model">
+<h2>Model<a class="headerlink" href="#model" title="Lien permanent vers ce titre">¶</a></h2>
+<p>La classe qui représente un modèle, elle hérite les propriétés de la classe ProtoModel dans le modèle ProtoLib. Ses attributs sont :</p>
+<ul class="simple">
+<li>project : nom du projet auquel appartient le modèle;</li>
+<li>code : nom du modèle (obligatoire);</li>
+<li>category : catégorie du modèle (optionnelle);</li>
+<li>modelPrefix : préfixe à ajouter au nom du modèle (optionnel);</li>
+<li>description : optionnelle.</li>
+</ul>
+</div>
+<div class="section" id="entity">
+<h2>Entity<a class="headerlink" href="#entity" title="Lien permanent vers ce titre">¶</a></h2>
+<p>La classe qui représente une entité (concept), elle hérite les propriétés de la classe ProtoModel dans le modèle ProtoLib. Ses attributs sont :</p>
+<ul class="simple">
+<li>model : nom du modèle auquel appartient l&#8217;entité</li>
+<li>code : nom de l&#8217;entité;</li>
+<li>dbName : nom de l&#8217;entité dans la BD;</li>
+<li>description : optionnelle.</li>
+</ul>
+</div>
+<div class="section" id="property">
+<h2>Property<a class="headerlink" href="#property" title="Lien permanent vers ce titre">¶</a></h2>
+<p>La classe qui représente les propriétés d&#8217;une entité, elle hérite les propriétés de la classe ProtoModel dans le modèle ProtoLib. Ses attributs sont :</p>
+<ul class="simple">
+<li>entity : nom du modèle à laquelle appartient l&#8217;entité;</li>
+<li>code : nom de la propriété;</li>
+<li>baseType : type de base de la propriété. Par défaut c&#8217;est string;</li>
+<li>prpLength : pour définir une longueur pour le champ;</li>
+<li>prpScale : nombre de positions après la virgule pour un chiffre;</li>
+<li>vType : type de validation;</li>
+<li>prpDefault : valeur par défaut (peut varier selon les cas);</li>
+<li>prpChoices : liste de choix pour les propriétés dont le baseType est combo;</li>
+<li>isSensitive : booléen qui indique si oui ou non la propriété requiert un niveau de sécurité plus élevé;</li>
+<li>description : description optionnelle;</li>
+<li>notes :</li>
+<li>isPrimary : booléen qui indique si oui ou non la propriété est une clé primaire;</li>
+<li>isLookUpResult : booléen qui indique si oui ou non la propriété est visible dans les résultats de la fonction rechercher;</li>
+<li>isNullable : booléen qui indique que la propriété peut être nulle ou non;</li>
+<li>isRequired : booléen qui indique que la propriété est requise ou non;</li>
+<li>isReadOnly : booléen qui indique que la propriété est en lecture seule (non modifiable à partir de l&#8217;application);</li>
+<li>isEssential : booléen qui indique si la propriété doit sortir dans la vue;</li>
+<li>isForeign : booléen qui indique si oui ou non la propriété est une clé étrangère;</li>
+<li>crudType : liste de choix pour type d&#8217;édition (editable, screenOnly, storeOnly, etc...);</li>
+<li>dbName : nom de la propriété dans la BD.</li>
+</ul>
+</div>
+<div class="section" id="relationship">
+<h2>Relationship<a class="headerlink" href="#relationship" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Cette classe hérite les propriétés de la classe Property. Elle définit les relations entre les concepts (entités). Ses attributs sont :</p>
+<ul class="simple">
+<li>refEntity : nom de l&#8217;entité enfant;</li>
+<li>relatedName : nom de la relation ;</li>
+<li>baseMin : cardinalité (baseMin &gt;= refMin);</li>
+<li>baseMax : cardinalité (baseMax &lt;= refMax);</li>
+<li>refMin : référence minimale pour la relation (0 : pour une relation 0 N);</li>
+<li>refMax : référence maximale pour la relation (N : pour une relation 0 N);</li>
+<li>onRefDelete :</li>
+<li>typeRelation :</li>
+</ul>
+</div>
+<div class="section" id="propertyequivalence">
+<h2>PropertyEquivalence<a class="headerlink" href="#propertyequivalence" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Cette classe indique l&#8217;équivalence entre deux propriétés. Elle hérite les propriétés de la classe ProtoModel. Ses attributs sont :</p>
+<ul class="simple">
+<li>sourceProperty : la première propriété (obligatoire).</li>
+<li>targetProperty : la deuxième propriété (obligatoire).</li>
+<li>description : description (optionnelle).</li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h2>Prototype<a class="headerlink" href="#id1" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Cette classe hérite les propriétés de la classe ProtoModel dans le modèle ProtoLib. Ses attributs sont :</p>
+<ul class="simple">
+<li>entity : nom de l&#8217;entité ;</li>
+<li>code : nom du prototype ;</li>
+<li>description : description optionnelle ;</li>
+<li>notes :</li>
+<li>metaDefinition : la Méta.</li>
+</ul>
+</div>
+<div class="section" id="prototable">
+<h2>ProtoTable<a class="headerlink" href="#prototable" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Cette classe hérite les propriétés de la classe ProtoModel dans le modèle ProtoLib. Ses attributs sont :</p>
+<ul class="simple">
+<li>entity : nom de l&#8217;entité ;</li>
+<li>info :</li>
+<li>objects :</li>
+</ul>
+</div>
+<div class="section" id="diagram">
+<h2>Diagram<a class="headerlink" href="#diagram" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Cette classe définit les diagrammes d&#8217;un projet, elle hérite les propriétés de la classe ProtoModel dans le modèle ProtoLib. Ses attributs sont :</p>
+<ul class="simple">
+<li>project : clé étrangère du projet représenté par le diagramme;</li>
+<li>code : nom du diagramme (obligatoire);</li>
+<li>description : description (optionnelle);</li>
+<li>notes : notes (optionnelle);</li>
+<li>title : titre du diagramme (optionnelle);</li>
+<li>prefix :</li>
+<li>graphLevel : entier qui indique le niveau de représentation ( &#8216;all&#8217;, &#8216;essential&#8217;, &#8216;required&#8217; , &#8216;primary&#8217;, &#8216;title&#8217;, etc. )</li>
+<li>grphMode : entier qui indique le mode de représentation ( record, htmlTable, graph );</li>
+<li>graphForm : entier qui indique le formalisme de représentation (ObjetRealational, ER, DataRun);</li>
+<li>showPrpType : si vrai, affiche le type de la propriété;</li>
+<li>showBorder : si vrai, affiche le borders;</li>
+<li>showFKey : affiche les clés étrangères.</li>
+<li>info :</li>
+<li>objects :</li>
+</ul>
+</div>
+<div class="section" id="diagramentity">
+<h2>DiagramEntity<a class="headerlink" href="#diagramentity" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Cette classe définit les diagrammes d&#8217;une entité, elle hérite les propriétés de la classe ProtoModel dans le modèle ProtoLib. Ses attributs sont :</p>
+<ul class="simple">
+<li>diagram : nom du diagramme auquel appartient le diagramme DigramEntity.</li>
+<li>entity : entité représentée par le diagramme;</li>
+<li>info :</li>
+<li>objects :</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table des Matières</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Prototype</a><ul>
+<li><a class="reference internal" href="#project">Project</a></li>
+<li><a class="reference internal" href="#model">Model</a></li>
+<li><a class="reference internal" href="#entity">Entity</a></li>
+<li><a class="reference internal" href="#property">Property</a></li>
+<li><a class="reference internal" href="#relationship">Relationship</a></li>
+<li><a class="reference internal" href="#propertyequivalence">PropertyEquivalence</a></li>
+<li><a class="reference internal" href="#id1">Prototype</a></li>
+<li><a class="reference internal" href="#prototable">ProtoTable</a></li>
+<li><a class="reference internal" href="#diagram">Diagram</a></li>
+<li><a class="reference internal" href="#diagramentity">DiagramEntity</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Sujet précédent</h4>
+  <p class="topless"><a href="protoLib.html"
+                        title="Chapitre précédent">ProtoLib</a></p>
+  <h4>Sujet suivant</h4>
+  <p class="topless"><a href="annexe.html"
+                        title="Chapitre suivant">Index des champs</a></p>
+  <h3>Cette page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/pages/prototype.txt"
+           rel="nofollow">Montrer la source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Recherche rapide</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Saisissez un mot clef ou un nom de module, classe ou fonction.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Index général"
+             >index</a></li>
+        <li class="right" >
+          <a href="annexe.html" title="Index des champs"
+             >suivant</a> |</li>
+        <li class="right" >
+          <a href="protoLib.html" title="ProtoLib"
+             >précédent</a> |</li>
+        <li><a href="../index.html">documentation protoDoc 0.0.1</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Marieme Doua, Certae ulaval.
+      Mis à jour le May 03, 2014.
+      Créé avec <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

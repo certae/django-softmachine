@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Génération du modèle conceptuel graphique &mdash; documentation protoDoc 0.0.1</title>
+    
+    <link rel="stylesheet" href="../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+    <script type="text/javascript" src="../static/translations.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="documentation protoDoc 0.0.1" href="../index.html" />
+    <link rel="up" title="Démarche et pratiques du prototypage" href="demarche_prototypage.html" />
+    <link rel="next" title="Générer le prototype" href="generer_modele_prototype.html" />
+    <link rel="prev" title="Créer une relation" href="creer_relation.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Index général"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="generer_modele_prototype.html" title="Générer le prototype"
+             accesskey="N">suivant</a> |</li>
+        <li class="right" >
+          <a href="creer_relation.html" title="Créer une relation"
+             accesskey="P">précédent</a> |</li>
+        <li><a href="../index.html">documentation protoDoc 0.0.1</a> &raquo;</li>
+          <li><a href="demarche_prototypage.html" accesskey="U">Démarche et pratiques du prototypage</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="generation-du-modele-conceptuel-graphique">
+<h1>Génération du modèle conceptuel graphique<a class="headerlink" href="#generation-du-modele-conceptuel-graphique" title="Lien permanent vers ce titre">¶</a></h1>
+<p>L&#8217;application vous permet de visualiser le modèle entré sous forme graphique :</p>
+<ol class="arabic">
+<li><p class="first">À partir de l&#8217;onglet <strong>Modèle</strong>, sélectionnez le modèle à générer.</p>
+</li>
+<li><p class="first">Cliquez sur le bouton <strong>Actions</strong> du <a class="reference internal" href="menu_fonctions.html"><em>menu des fonctions</em></a>.</p>
+</li>
+<li><p class="first">Cliquez sur l&#8217;option <strong>doModelGraph</strong> . Un message de confirmation de l&#8217;opération sera affiché sur <a class="reference internal" href="barre_etats.html"><em>la barre de message</em></a>.</p>
+</li>
+<li><p class="first">Le modèle graphique généré est ouvert dans un nouvel onglet de votre fureteur sous forme d&#8217;un fichier PDF.</p>
+<blockquote>
+<div><img alt="../images/executermod.png" src="../images/executermod.png" />
+<p><em>Figure 52 : fonction Exécuter et son sous-menu.</em></p>
+</div></blockquote>
+</li>
+</ol>
+<p>L&#8217;action doModelGraph génère le modèle conceptuel graphique pour un modèle sélectionné.</p>
+<div class="section" id="formalisme-du-modele-graphique">
+<h2>Formalisme du modèle graphique<a class="headerlink" href="#formalisme-du-modele-graphique" title="Lien permanent vers ce titre">¶</a></h2>
+<blockquote>
+<div><img alt="../images/generermodele.png" src="../images/generermodele.png" />
+<p><em>Figure 53 : formalisme du modèle graphique.</em></p>
+</div></blockquote>
+<ul class="simple">
+<li><strong>Clé primaire</strong> : la police du texte est grasse et sa couleur est noire. Exemples dans la figure : numero_ligne, numero_produit et date_expedition.</li>
+<li><strong>Clé étrangère</strong> : la police du texte est italique et sa couleur est gris pâle. Le nom de son entité enfant apparait du côté droit du nom de la clé (exemple : li_prt -&gt; produit ou cde_fact -&gt; facture).</li>
+<li><strong>Clé étrangère dépendante (obligatoire)</strong> : la police du texte est grasse et sa couleur est noire. Le nom de son entité enfant apparait du côté droit du nom de la clé (exemple : li_cde -&gt; commande).</li>
+<li><strong>Clé étrangère requise (obligatoire)</strong> : la police du texte est grasse et sa couleur est gris pâle. Le nom de son entité enfant apparait du côté droit du nom de la clé (exemple : pdt_fam -&gt; famille).</li>
+<li><strong>Propriété</strong> : la police du texte est en italique et sa couleur est gris pâle (exemples dans la figure : prix_vente, qte_vendue et prix_production).</li>
+<li><strong>Propriété requise (obligatoire)</strong> : la police du texte est grasse et sa couleur est gris pâle (exemples : nom_produit et numero_commande).</li>
+<li><strong>Relation dépendante (obligatoire)</strong> : la flèche est pleine.</li>
+<li><strong>Entité parent</strong> : la flèche pointe vers l&#8217;entité parent.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table des Matières</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Génération du modèle conceptuel graphique</a><ul>
+<li><a class="reference internal" href="#formalisme-du-modele-graphique">Formalisme du modèle graphique</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Sujet précédent</h4>
+  <p class="topless"><a href="creer_relation.html"
+                        title="Chapitre précédent">Créer une relation</a></p>
+  <h4>Sujet suivant</h4>
+  <p class="topless"><a href="generer_modele_prototype.html"
+                        title="Chapitre suivant">Générer le prototype</a></p>
+  <h3>Cette page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/pages/generer_modele_conceptuel_graphique.txt"
+           rel="nofollow">Montrer la source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Recherche rapide</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Saisissez un mot clef ou un nom de module, classe ou fonction.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Index général"
+             >index</a></li>
+        <li class="right" >
+          <a href="generer_modele_prototype.html" title="Générer le prototype"
+             >suivant</a> |</li>
+        <li class="right" >
+          <a href="creer_relation.html" title="Créer une relation"
+             >précédent</a> |</li>
+        <li><a href="../index.html">documentation protoDoc 0.0.1</a> &raquo;</li>
+          <li><a href="demarche_prototypage.html" >Démarche et pratiques du prototypage</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Marieme Doua, Certae ulaval.
+      Mis à jour le May 03, 2014.
+      Créé avec <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Formulaire &mdash; documentation protoDoc 0.0.1</title>
+    
+    <link rel="stylesheet" href="../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+    <script type="text/javascript" src="../static/translations.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="documentation protoDoc 0.0.1" href="../index.html" />
+    <link rel="next" title="Champs" href="option_champs.html" />
+    <link rel="prev" title="Menu des fonctions :" href="menu_fonctions.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Index général"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="option_champs.html" title="Champs"
+             accesskey="N">suivant</a> |</li>
+        <li class="right" >
+          <a href="menu_fonctions.html" title="Menu des fonctions :"
+             accesskey="P">précédent</a> |</li>
+        <li><a href="../index.html">documentation protoDoc 0.0.1</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="formulaire">
+<h1>Formulaire<a class="headerlink" href="#formulaire" title="Lien permanent vers ce titre">¶</a></h1>
+<p>À partir de cette option, vous pouvez personnaliser le formulaire qui s&#8217;affiche pour le menu d&#8217;édition.</p>
+<blockquote>
+<div><img alt="../images/formulaire.png" src="../images/formulaire.png" />
+<p><em>Figure 24 : Option formulaire du menu configuration.</em></p>
+</div></blockquote>
+<p>La fenêtre du formulaire est organisée en trois grandes sections :</p>
+<ol class="arabic">
+<li><p class="first"><strong>Les éléments du formulaire :</strong></p>
+<blockquote>
+<div><img alt="../images/eleformulaire.png" src="../images/eleformulaire.png" />
+<p><em>Figure 25 : la fenêtre des éléments du formulaire.</em></p>
+</div></blockquote>
+</li>
+</ol>
+<p>Les éléments du formulaire (côté haut-gauche de la fenêtre) affichent dans une arborescence les champs actifs sur les formulaires d&#8217;édition.</p>
+<p>À partir de cette fenêtre, il est possible de personnaliser l&#8217;affichage et l&#8217;ordre d&#8217;apparition de champs sur le formulaire.
+L&#8217;ordre d&#8217;apparition de champs est défini selon la position de l&#8217;objet dans
+l&#8217;arborescence. Il est possible aussi de regrouper les champs à l&#8217;intérieur des contenants de type « Fieldset » ou « HTMLset ».</p>
+<p>les icônes de cette fenêtre sont :</p>
+<ul class="simple">
+<li><img alt="img1" src="../images/saveform.png" /> : pour enregistrer les modifications du formulaire.</li>
+<li><img alt="img2" src="../images/refreshform.png" /> : pour rafraîchir l&#8217;aperçu du formulaire (côté droit de la fenêtre)</li>
+<li><img alt="img3" src="../images/erasenode.png" /> : pour supprimer un objet dans l&#8217;arborescence.</li>
+<li><img alt="img4" src="../images/icon_gauche.png" /> : pour cacher la fenêtre des éléments du formulaire de l&#8217;interface.</li>
+<li><img alt="img5" src="../images/champ.png" /> : icône attribuée aux champs.</li>
+<li><img alt="img6" src="../images/fieldset.png" /> : icône attribuée aux contenants de type fieldset et HTMLset.</li>
+</ul>
+<ol class="arabic" start="2">
+<li><p class="first"><strong>Les outils du formulaire :</strong></p>
+<blockquote>
+<div><img alt="../images/outilsform.png" src="../images/outilsform.png" />
+<p><em>Figure 26 : les outils du formulaire.</em></p>
+</div></blockquote>
+</li>
+</ol>
+<p>La fenêtre des outils (Tools) du formulaire (côté bas-gauche de la fenêtre, donne accès aux outils permettant de créer et de personnaliser un formulaire. Les outils sont
+organisés dans une arborescence où ils se retrouvent les champs, les contenants et les détails pour une vue.</p>
+<p>L&#8217;onglet des propriétés (Properties) donne accès aux propriétés de personnalisation de l&#8217;objet sélectionné dans la fenêtre des éléments.</p>
+<p>Pour l&#8217;onglet Outils :</p>
+<ul class="simple">
+<li><strong>Fields ( Champs ) :</strong></li>
+</ul>
+<p>Le dossier Fields contient la liste complète des champs pour l&#8217;objet sélectionné ( un projet, un modèle, une entité, une
+propriété, une relation ou une vue). Dans le cas d&#8217;une vue, les champs correspondent aux propriétés ou attributs des entités
+crées par l&#8217;utilisateur. On y retrouve aussi des champs crées par l&#8217;application du prototypeur comme la date de la dernière
+modification, le nombre de l&#8217;équipe ou groupe à qui appartient le projet, etc.</p>
+<ul class="simple">
+<li><strong>Containers ( Contenants ):</strong></li>
+</ul>
+<p>Le dossier Containers est composé de deux types de contenants qui servent à regrouper plusieurs champs dans le formulaire.</p>
+<ol class="arabic simple">
+<li>Un contenant de type Fieldset crée un contour autour des champs.</li>
+<li>Un contenant de type HTMLset c&#8217;est un éditeur de texte HTML. Le contenant HTMLset s&#8217;utilise pour les champs de type de base « texte » que stockent des chaînes de 65, 535 caractères maximum.</li>
+</ol>
+<ul class="simple">
+<li><strong>Details ( Détails ) :</strong></li>
+</ul>
+<p>Le dossier Détails contient les détails configurés pour les projets, les modèles, les entités, les propriétés et les relations.
+Quand un détail est ajouté au formulaire, ce détail s&#8217;affiche dans la forme d&#8217;une grille.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">voir <a class="reference internal" href="annexe.html"><em>annexe</em></a> pour la signification des champs de l&#8217;onglet Propriétés.</p>
+</div>
+<ol class="arabic simple" start="3">
+<li><strong>L&#8217;aperçu du formulaire :</strong></li>
+</ol>
+<p>L&#8217;espace réservé à l&#8217;aperçu du formulaire (côté droit de la fenêtre) permet de prévisualiser les modifications appliquées au formulaire. Les modifications
+sont affichées en temps réel, cela veut dire que si vous changez l&#8217;ordre des champs ou que vous regroupez plusieurs champs dans
+un fieldset, vous verrez dans l&#8217;espace de l&#8217;aperçu le résultat final quasi instantanément.</p>
+<div class="section" id="personnaliser-les-formulaires">
+<h2>Personnaliser les formulaires<a class="headerlink" href="#personnaliser-les-formulaires" title="Lien permanent vers ce titre">¶</a></h2>
+<ul>
+<li><p class="first"><strong>Personnaliser un contenant de type Fieldset :</strong></p>
+<blockquote>
+<div><img alt="../images/formperso1.png" src="../images/formperso1.png" />
+<p><em>Figure 27 : Personnaliser un contenant de type Fieldset.</em></p>
+</div></blockquote>
+</li>
+</ul>
+<ol class="arabic simple">
+<li>Sélectionnez le fieldset à personnaliser de l&#8217;arborescence.</li>
+<li>Cliquez sur l&#8217;onglet « Properties » de la fenêtre Outils du formulaire.</li>
+<li>Éditez les valeurs des propriétés en double-cliquant sur les champs pour les modifier. Enregistrez les changements au formulaire en cliquant sur le bouton <img alt="img" src="../images/saveform.png" />
+Enregistrer formulaire.</li>
+</ol>
+<ul>
+<li><p class="first"><strong>Ajouter des éléments au formulaire :</strong></p>
+<blockquote>
+<div><img alt="../images/formperso2.png" src="../images/formperso2.png" />
+<p><em>Figure 28 : Ajouter des éléments au formulaire.</em></p>
+</div></blockquote>
+</li>
+</ul>
+<ol class="loweralpha simple">
+<li>Ajouter un champ dans un fieldset :</li>
+</ol>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Cliquez sur l&#8217;onglet Tools de la fenêtre Outils du formulaire.</li>
+<li>Cliquez sur le plus « + » situé du côté gauche du dossier « Fields » pour visualiser la liste de champs disponibles.</li>
+<li>Sélectionnez de la liste le champ à ajouter au fieldset.</li>
+<li>Glissez et déposez le champ à l&#8217;intérieur du fieldset.</li>
+<li>Enregistrez les changements au formulaire en cliquant sur le bouton <img alt="img" src="../images/saveform.png" />.</li>
+</ol>
+</div></blockquote>
+<ol class="loweralpha simple" start="2">
+<li>Ajouter un contenant fieldset ou HTMLset :</li>
+</ol>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Cliquez sur l&#8217;onglet Tools de la fenêtre Outils du formulaire.</li>
+<li>Cliquez sur le plus « + » situé du côté gauche du dossier « Containers » pour visualiser la liste de contenants disponibles.</li>
+<li>Sélectionnez de la liste le type de contenant à ajouter à l&#8217;arborescence.</li>
+<li>Glissez et déposez le contenant à l&#8217;endroit désiré de l&#8217;arborescence. Notez qu&#8217;il est possible d&#8217;insérer un contenant à l&#8217;intérieur d&#8217;un autre contenant.</li>
+<li>Enregistrez les changements au formulaire en cliquant sur le bouton <img alt="img" src="../images/saveform.png" />.</li>
+</ol>
+</div></blockquote>
+<ol class="loweralpha simple" start="3">
+<li>Ajouter un détail à l&#8217;arborescence :</li>
+</ol>
+<blockquote>
+<div><p>Les détails prennent automatiquement la forme d&#8217;une grille (comme la grille principale de l&#8217;application). La grille n&#8217;est pas personnalisable à partir de la fenêtre formulaire.</p>
+<ol class="arabic simple">
+<li>Cliquez sur l&#8217;onglet Tools de la fenêtre Outils du formulaire.</li>
+<li>Cliquez sur le plus « + » situé du côté gauche du dossier « Details » pour visualiser la liste de détails disponibles.</li>
+<li>Sélectionnez de la liste le détail à ajouter à l&#8217;arborescence.</li>
+<li>Glissez et déposez le contenant à l&#8217;endroit désiré de l&#8217;arborescence.</li>
+<li>Enregistrez les changements au formulaire en cliquant sur le bouton <img alt="img" src="../images/saveform.png" />.</li>
+</ol>
+</div></blockquote>
+<ul>
+<li><p class="first"><strong>Personnaliser les champs du formulaire :</strong></p>
+<blockquote>
+<div><img alt="../images/formperso3.png" src="../images/formperso3.png" />
+<p><em>Figure 29 : personnaliser les champs.</em></p>
+</div></blockquote>
+</li>
+</ul>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Sélectionnez le champ à personnaliser.</li>
+<li>Cliquez sur l&#8217;onglet Properties de la fenêtre Outils du formulaire.</li>
+<li>Éditez les valeurs des propriétés et enregistrez les changements au formulaire en cliquant sur le bouton <img alt="img" src="../images/saveform.png" />.</li>
+</ol>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">voir <a class="reference internal" href="annexe.html"><em>annexe</em></a> pour la signification des champs de l&#8217;onglet Propriétés.</p>
+</div>
+<ul class="simple">
+<li><strong>Changer l&#8217;ordre d&#8217;apparition des champs du formulaire :</strong></li>
+</ul>
+<blockquote>
+<div><ol class="arabic simple">
+<li>sélectionnez le champ;</li>
+<li>glissez-le jusqu&#8217;au l&#8217;emplacement désiré dans le même contenant;</li>
+<li>vous pouvez déplacer un champ d&#8217;un contenant à l&#8217;autre de la même façon.</li>
+</ol>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table des Matières</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Formulaire</a><ul>
+<li><a class="reference internal" href="#personnaliser-les-formulaires">Personnaliser les formulaires</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Sujet précédent</h4>
+  <p class="topless"><a href="menu_fonctions.html"
+                        title="Chapitre précédent">Menu des fonctions :</a></p>
+  <h4>Sujet suivant</h4>
+  <p class="topless"><a href="option_champs.html"
+                        title="Chapitre suivant">Champs</a></p>
+  <h3>Cette page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/pages/option_formulaire.txt"
+           rel="nofollow">Montrer la source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Recherche rapide</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Saisissez un mot clef ou un nom de module, classe ou fonction.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Index général"
+             >index</a></li>
+        <li class="right" >
+          <a href="option_champs.html" title="Champs"
+             >suivant</a> |</li>
+        <li class="right" >
+          <a href="menu_fonctions.html" title="Menu des fonctions :"
+             >précédent</a> |</li>
+        <li><a href="../index.html">documentation protoDoc 0.0.1</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Marieme Doua, Certae ulaval.
+      Mis à jour le May 03, 2014.
+      Créé avec <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

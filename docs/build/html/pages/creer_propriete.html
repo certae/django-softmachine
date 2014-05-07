@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Créer une propriété &mdash; documentation protoDoc 0.0.1</title>
+    
+    <link rel="stylesheet" href="../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+    <script type="text/javascript" src="../static/translations.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="documentation protoDoc 0.0.1" href="../index.html" />
+    <link rel="up" title="Enregistrement du modèle" href="enregistrer_modele.html" />
+    <link rel="next" title="Créer une relation" href="creer_relation.html" />
+    <link rel="prev" title="Créer une entité" href="creer_entite.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Index général"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="creer_relation.html" title="Créer une relation"
+             accesskey="N">suivant</a> |</li>
+        <li class="right" >
+          <a href="creer_entite.html" title="Créer une entité"
+             accesskey="P">précédent</a> |</li>
+        <li><a href="../index.html">documentation protoDoc 0.0.1</a> &raquo;</li>
+          <li><a href="demarche_prototypage.html" >Démarche et pratiques du prototypage</a> &raquo;</li>
+          <li><a href="enregistrer_modele.html" accesskey="U">Enregistrement du modèle</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="creer-une-propriete">
+<h1>Créer une propriété<a class="headerlink" href="#creer-une-propriete" title="Lien permanent vers ce titre">¶</a></h1>
+<p>La quatrième étape pour construire notre prototype est la création des propriétés des entités.</p>
+<p>Il y a deux façons de créer les propriétés d&#8217;une entité que nous allons explorer ci-bas :</p>
+<div class="section" id="creer-une-nouvelle-propriete-a-partir-du-menu-principal">
+<h2>Créer une nouvelle propriété à partir du menu principal<a class="headerlink" href="#creer-une-nouvelle-propriete-a-partir-du-menu-principal" title="Lien permanent vers ce titre">¶</a></h2>
+<blockquote>
+<div><img alt="../images/proto1.png" src="../images/proto1.png" />
+<p><em>Figure 47 : créer une propriété.</em></p>
+</div></blockquote>
+<ol class="arabic simple">
+<li>À partir du menu principal, cliquez deux fois sur Propriété du dossier Prototype pour ouvrir l&#8217;onglet Propriété.</li>
+<li>Cliquez sur le bouton Ajouter, un formulaire sera affiché sur l&#8217;écran.</li>
+<li>Dans le formulaire, remplissez (voir figure plus bas) :</li>
+</ol>
+<blockquote>
+<div><ul>
+<li><p class="first">le nom de la propriété (information obligatoire);</p>
+</li>
+<li><p class="first">le nom de l&#8217;entité (information obligatoire); cliquez sur le bouton <img alt="img1" src="../images/lupa.png" /> pour sélectionner l&#8217;entité de la liste;</p>
+</li>
+<li><p class="first">la description de l&#8217;entité (information optionnelle);</p>
+</li>
+<li><p class="first">cochez la case de la clé primaire (isPrimary) si la propriété est la clé de l&#8217;entité. Quand vous cochez cette case, la case Réquis (isRequired) est cochée automatiquement.</p>
+<p>Si la propriété n&#8217;est pas une clé primaire, mais que la propriété est obligatoire, cochez la case Réquis (isRequired).</p>
+<p>La case Clé étrangère est cochée automatiquement par l&#8217;application et elle est disponible en lecture seulement;</p>
+</li>
+<li><p class="first">sélectionnez le Type de base (baseType, information optionnelle). Le type de base par défaut est string. Si le choix de type de base
+est décimal, remplissez le champ Décimales.</p>
+<p>Si le choix de type de base est combo, remplissez le champ Valeurs de la liste déroulante et le champ Valeur par défaut;</p>
+</li>
+<li><p class="first">la longueur (prpLength, information optionnelle).</p>
+</li>
+<li><p class="first">la valeur par défaut (prpDefault, information optionnelle). Ce champ est utilisé en combinaison avec le type de base combo. Inscrivez
+dans ce champ la valeur par défaut de votre liste de valeurs. Par exemple, si vous avez une liste de provinces et que votre
+projet est pour les gens de Québec, inscrivez QC dans la valeur par défaut. Cette valeur sera le premier choix montré à
+l&#8217;usager;</p>
+</li>
+<li><p class="first">les Décimales (prpScale, information optionnelle). Ce champ est utilisé en combinaison avec le type de base décimal. Inscrivez dans
+ce champ le nombre de positions après la virgule pour un chiffre;</p>
+</li>
+<li><p class="first">les Valeurs liste déroulante (prpChoices, information optionnelle). Ce champ est utilisé en combinaison avec le type de base combo.
+Inscrivez la liste de valeurs pour une propriété. Les mots doivent être séparés par des virgules sans espaces.
+Exemple: QC,ON,NS,NB,BC...</p>
+</li>
+<li><p class="first">voir les pages <a class="reference internal" href="prototype.html"><em>Prototype</em></a> et <a class="reference internal" href="annexe.html"><em>annexe</em></a> pour plus d&#8217;options sur les propriétés.</p>
+</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li>Cliquez sur le bouton Enregistrer de la fenêtre.</li>
+</ol>
+</div>
+<div class="section" id="creer-une-nouvelle-propriete-a-partir-du-formulaire-de-l-entite">
+<h2>Créer une nouvelle propriété à partir du formulaire de l&#8217;entité<a class="headerlink" href="#creer-une-nouvelle-propriete-a-partir-du-formulaire-de-l-entite" title="Lien permanent vers ce titre">¶</a></h2>
+<blockquote>
+<div><img alt="../images/proprietes1.png" src="../images/proprietes1.png" />
+<p><em>Figure 48 : créer une propriété détails.</em></p>
+</div></blockquote>
+<ol class="arabic simple">
+<li>À partir du formulaire de l&#8217;entité, cliquez sur le bouton Ajouter de la grille « propriétés filtrées par &#8221; &#8221; » ;</li>
+<li>Un nouveau formulaire (comme celui de la figure à gauche) s&#8217;affichera dans l&#8217;interface ;</li>
+<li>Dans le formulaire, remplissez les parties comme dans la partie précédente.</li>
+<li>Cliquez sur le bouton Enregistrer de la fenêtre.</li>
+</ol>
+<p>Notez dans la deuxième façon présentée dans ce texte que quand vous cliquez sur le bouton Enregistrer, la grille
+« Relation filtrées par &#8221; &#8220;» située en bas de la grille « Propriétés filtrées par &#8221; &#8220;» affiche les contrôles d&#8217;édition
+(voir figure 49). À partir de cette grille, il est possible de créer les relations entre les entités en cliquant sur le bouton
+Ajouter du menu d&#8217;édition.</p>
+<p>Ceci est une de deux façons de créer les relations entre les entités.
+Passez à l&#8217;étape <a class="reference internal" href="creer_relation.html"><em>créer les relations</em></a> entre les entités pour continuer avec la démarche.</p>
+<blockquote>
+<div><img alt="../images/proprietes2.png" src="../images/proprietes2.png" />
+<p><em>Figure 49 : ajout d&#8217;une relation à partir de la propriété.</em></p>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table des Matières</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Créer une propriété</a><ul>
+<li><a class="reference internal" href="#creer-une-nouvelle-propriete-a-partir-du-menu-principal">Créer une nouvelle propriété à partir du menu principal</a></li>
+<li><a class="reference internal" href="#creer-une-nouvelle-propriete-a-partir-du-formulaire-de-l-entite">Créer une nouvelle propriété à partir du formulaire de l&#8217;entité</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Sujet précédent</h4>
+  <p class="topless"><a href="creer_entite.html"
+                        title="Chapitre précédent">Créer une entité</a></p>
+  <h4>Sujet suivant</h4>
+  <p class="topless"><a href="creer_relation.html"
+                        title="Chapitre suivant">Créer une relation</a></p>
+  <h3>Cette page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/pages/creer_propriete.txt"
+           rel="nofollow">Montrer la source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Recherche rapide</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Saisissez un mot clef ou un nom de module, classe ou fonction.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Index général"
+             >index</a></li>
+        <li class="right" >
+          <a href="creer_relation.html" title="Créer une relation"
+             >suivant</a> |</li>
+        <li class="right" >
+          <a href="creer_entite.html" title="Créer une entité"
+             >précédent</a> |</li>
+        <li><a href="../index.html">documentation protoDoc 0.0.1</a> &raquo;</li>
+          <li><a href="demarche_prototypage.html" >Démarche et pratiques du prototypage</a> &raquo;</li>
+          <li><a href="enregistrer_modele.html" >Enregistrement du modèle</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Marieme Doua, Certae ulaval.
+      Mis à jour le May 03, 2014.
+      Créé avec <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

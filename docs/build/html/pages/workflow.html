@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Le Workflow &mdash; documentation protoDoc 0.0.1</title>
+    
+    <link rel="stylesheet" href="../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+    <script type="text/javascript" src="../static/translations.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="documentation protoDoc 0.0.1" href="../index.html" />
+    <link rel="up" title="Démarche et pratiques du prototypage" href="demarche_prototypage.html" />
+    <link rel="next" title="ProtoLib" href="protoLib.html" />
+    <link rel="prev" title="Générer le prototype" href="generer_modele_prototype.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Index général"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="protoLib.html" title="ProtoLib"
+             accesskey="N">suivant</a> |</li>
+        <li class="right" >
+          <a href="generer_modele_prototype.html" title="Générer le prototype"
+             accesskey="P">précédent</a> |</li>
+        <li><a href="../index.html">documentation protoDoc 0.0.1</a> &raquo;</li>
+          <li><a href="demarche_prototypage.html" accesskey="U">Démarche et pratiques du prototypage</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="le-workflow">
+<h1>Le Workflow<a class="headerlink" href="#le-workflow" title="Lien permanent vers ce titre">¶</a></h1>
+<p>De façon pratique, le workflow sert à décrire le circuit de validation, les tâches à répartir entre les différents acteurs d&#8217;un processus, les délais, les modes
+de validation, et à fournir à chacun des acteurs les informations nécessaires à l&#8217;exécution de sa tâche. <a class="footnote-reference" href="#id2" id="id1">[1]</a></p>
+<p>Dans notre application, un workflow permet aux administrateurs la validation des ajouts et modifications faits par les utilisateurs.</p>
+<div class="section" id="activer-le-workflow">
+<h2>Activer le Workflow<a class="headerlink" href="#activer-le-workflow" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Pour activer le Workflow sur une entité, il faut que la classe dans le modèle ait un attribut _workflow (non configurable à partir de l&#8217;application) ;</p>
+</div>
+<div class="section" id="verifier-les-workflows-en-attente">
+<h2>Vérifier les Workflows en attente<a class="headerlink" href="#verifier-les-workflows-en-attente" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Deux façons pour vérifier et accepter les workflows en attente de validation :</p>
+<ul>
+<li><p class="first">La fonction <strong>Filtres</strong> : disponible à partir du <a class="reference internal" href="menu_fonctions.html"><em>menu des fonctions</em></a> pour les vues qui ont un attribut workflow.</p>
+<p>Vous pouvez accepter ou refuser la modification par le biais des boutons <strong>Accepter</strong> ou <strong>Refuser</strong> de la fonction <strong>Actions</strong> sur le même menu.</p>
+</li>
+<li><p class="first">L&#8217;action <strong>doWFlowResume</strong> : disponible à partir du <a class="reference internal" href="menu_fonctions.html"><em>menu des fonctions</em></a> pour les vues Wflow Admin Resume de l&#8217;application protoLib.</p>
+<p>Pour cette dernière, vous devez avoir les droits pour l&#8217;application <a class="reference internal" href="protoLib.html"><em>protoLib</em></a> et ajouter un nouvel enregistrement dans la table ParametersBase, avec les paramètres suivants :</p>
+<ul class="simple">
+<li>parameterKey : wflow;</li>
+<li>parameterTag : I;</li>
+<li>parameterValue : nom_du_modèle.nom_de_l_entité.</li>
+</ul>
+</li>
+</ul>
+<p>L&#8217;action doWflowResume permet de voir tous les workflows sur toutes les entités/vues tandis que la fonction Filtres permet de voir seulement les workflow sur la vue ouverte.</p>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://fr.wikipedia.org/wiki/Workflow">wikipedia</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table des Matières</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Le Workflow</a><ul>
+<li><a class="reference internal" href="#activer-le-workflow">Activer le Workflow</a></li>
+<li><a class="reference internal" href="#verifier-les-workflows-en-attente">Vérifier les Workflows en attente</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Sujet précédent</h4>
+  <p class="topless"><a href="generer_modele_prototype.html"
+                        title="Chapitre précédent">Générer le prototype</a></p>
+  <h4>Sujet suivant</h4>
+  <p class="topless"><a href="protoLib.html"
+                        title="Chapitre suivant">ProtoLib</a></p>
+  <h3>Cette page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/pages/workflow.txt"
+           rel="nofollow">Montrer la source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Recherche rapide</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Saisissez un mot clef ou un nom de module, classe ou fonction.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Index général"
+             >index</a></li>
+        <li class="right" >
+          <a href="protoLib.html" title="ProtoLib"
+             >suivant</a> |</li>
+        <li class="right" >
+          <a href="generer_modele_prototype.html" title="Générer le prototype"
+             >précédent</a> |</li>
+        <li><a href="../index.html">documentation protoDoc 0.0.1</a> &raquo;</li>
+          <li><a href="demarche_prototypage.html" >Démarche et pratiques du prototypage</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Marieme Doua, Certae ulaval.
+      Mis à jour le May 03, 2014.
+      Créé avec <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ProtoLib &mdash; documentation protoDoc 0.0.1</title>
+    
+    <link rel="stylesheet" href="../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+    <script type="text/javascript" src="../static/translations.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="documentation protoDoc 0.0.1" href="../index.html" />
+    <link rel="next" title="Prototype" href="prototype.html" />
+    <link rel="prev" title="Le Workflow" href="workflow.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Index général"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="prototype.html" title="Prototype"
+             accesskey="N">suivant</a> |</li>
+        <li class="right" >
+          <a href="workflow.html" title="Le Workflow"
+             accesskey="P">précédent</a> |</li>
+        <li><a href="../index.html">documentation protoDoc 0.0.1</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="protolib">
+<h1>ProtoLib<a class="headerlink" href="#protolib" title="Lien permanent vers ce titre">¶</a></h1>
+<p>Cette application définit les concepts additionnels pour compléter la structure de Django pour les besoins génériques de l&#8217;application, dont, la sécurité.
+Elle permet de gérer les propriétés dynamiques du prototypage et offre les services de soutien à la gestion générique des vues.</p>
+<div class="section" id="teamhierarchy">
+<h2>TeamHierarchy<a class="headerlink" href="#teamhierarchy" title="Lien permanent vers ce titre">¶</a></h2>
+<p>La classe TeamHierachy définit la hiérarchie des groupes des utilisateurs.</p>
+<p>Les attributs de cette classe sont :</p>
+<ul class="simple">
+<li>code : nom du groupe (clé primaire);</li>
+<li>description : une description du groupe (optionnelle);</li>
+<li>parentNode : clé étrangère vers le groupe parent du nouveau groupe (non obligatoire);</li>
+<li>site : site du groupe (optionnel).</li>
+</ul>
+</div>
+<div class="section" id="userprofile">
+<h2>UserProfile<a class="headerlink" href="#userprofile" title="Lien permanent vers ce titre">¶</a></h2>
+<p>La classe UserProfile définit le profil des utilisateurs.</p>
+<p>Les attributs de cette classe sont :</p>
+<ul class="simple">
+<li>user : clé étrangère obligatoire vers un utilisateur (user de django)</li>
+<li>userTeam : clé étrangère vers un groupe de TeamHierarchy (optionnelle);</li>
+<li>langage : par défaut la langue de l&#8217;application est le français. Les langues disponibles sont :français : fr, anglais : en, espagnol :es.</li>
+<li>userTree : les équipes auxquelles appartient l&#8217;utilisateur.</li>
+</ul>
+</div>
+<div class="section" id="usershare">
+<h2>UserShare<a class="headerlink" href="#usershare" title="Lien permanent vers ce titre">¶</a></h2>
+<p>La classe UserShare permet de partager les droits d&#8217;un utilisateur.</p>
+<p>Les attributs de cette classe sont :</p>
+<ul class="simple">
+<li>user : clé étrangère obligatoire vers un utilisateur;</li>
+<li>userTeam : clé étrangère vers un groupe de TeamHierarchy.</li>
+</ul>
+</div>
+<div class="section" id="protomodel">
+<h2>ProtoModel<a class="headerlink" href="#protomodel" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Cette classe est une classe abstraite, elle implantée par plusieurs autres classes. Ses attributs seront automatiquement mis à jour par l&#8217;application.</p>
+<p>Les attributs de cette classe sont :</p>
+<ul class="simple">
+<li>smOwningUser : utilisateur propriétaire de l&#8217;objet;</li>
+<li>smOwningTeam : le groupe auquel appartient l&#8217;utilisateur;</li>
+<li>smCreatedBy : utilisateur qui a créé l&#8217;objet;</li>
+<li>smModifiedBy : le dernier utilisateur qui a modifié l&#8217;objet;</li>
+<li>smRegStatus :</li>
+<li>smWflowStatus : statut de workflow (I : à verifier, OK : accepté, R : refusé);</li>
+<li>smCreatedOn : date de création de l&#8217;objet;</li>
+<li>smModifiedOn : date de la dernière modification de l&#8217;objet;</li>
+<li>_protoObj :</li>
+</ul>
+</div>
+<div class="section" id="protodefinition">
+<h2>ProtoDefinition<a class="headerlink" href="#protodefinition" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Cette table stocke la définition des PCIs et des menus pour chaque vue :</p>
+<p>Les attributs de cette classe sont :</p>
+<ul class="simple">
+<li>code : nom de l&#8217;objet (obligatoire);</li>
+<li>description : description (optionnel);</li>
+<li>metaDefinition : contient la définition de la Méta;</li>
+<li>active : booléen qui indique si l&#8217;objet est actif ou non;</li>
+<li>overWrite : booléen qui était utilisé pour des fins de tests (non utile actuellement).</li>
+</ul>
+</div>
+<div class="section" id="customdefinition">
+<h2>CustomDefinition<a class="headerlink" href="#customdefinition" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Cette classe hérite de la classe ProtoModel. Elle contient la définition du menu pour chaque groupe.</p>
+<p>Les attributs de cette classe sont :</p>
+<ul class="simple">
+<li>code : nom de l&#8217;objet (obligatoire);</li>
+<li>description : description (optionnel);</li>
+<li>metaDefinition : contient la définition de la Méta;</li>
+<li>active : booléen qui indique si l&#8217;objet est actif ou non;</li>
+<li>overWrite : booléen qui était utilisé pour des fins de tests (non utile actuellement).</li>
+</ul>
+</div>
+<div class="section" id="userfiles">
+<h2>UserFiles<a class="headerlink" href="#userfiles" title="Lien permanent vers ce titre">¶</a></h2>
+<p>La classe UserFile sert à définir les documents des utilisateurs (fonctionnement pas encore testé).</p>
+<p>Les attributs de cette classe sont :</p>
+<ul class="simple">
+<li>docfile : champs de type Field qui définit le fichier.</li>
+</ul>
+</div>
+<div class="section" id="discretevalue">
+<h2>DiscreteValue<a class="headerlink" href="#discretevalue" title="Lien permanent vers ce titre">¶</a></h2>
+<p>La classe DiscretValue permet de définir des valeurs discrètes où la définition d&#8217;une table n&#8217;est pas vraiment utile.</p>
+<p>Les attributs de cette classe sont :</p>
+<ul class="simple">
+<li>code : la valeur de l&#8217;objet (obligatoire);</li>
+<li>value : la valeur de l&#8217;objet (obligatoire);</li>
+<li>description : description (optionnelle)</li>
+<li>title : clé étrangère vers un autre objet DiscreteValue.</li>
+</ul>
+</div>
+<div class="section" id="parametersbase">
+<h2>ParametersBase<a class="headerlink" href="#parametersbase" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Cette classe hérite de la classe ProtoModel, elle sert à configurer des paramètres de Bases. Pour le moment, elle permet seulement l&#8217;activation de workflow pour les entités qui ont cet attribut.</p>
+<p>Pour activer le workflow, initialiser les paramètres avec :</p>
+<ul class="simple">
+<li>parameterKey : wflow</li>
+<li>parameterTag : I</li>
+<li>parameterValue : nom_du_modèle.nom_de_l_entité</li>
+</ul>
+</div>
+<div class="section" id="ptfunction">
+<h2>PtFunction<a class="headerlink" href="#ptfunction" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Cette classe sera utilisée pour créer des fonctions à partir de l&#8217;application. Ce qui permettra de définir les règles d&#8217;affaires à partir de l&#8217;application (pas encore fonctionnelle).</p>
+<p>Les attributs de cette classe sont :</p>
+<ul class="simple">
+<li>code : nom de la fonction obligatoire;</li>
+<li>modelName : nom du modèle obligatoire;</li>
+<li>arguments : liste des paramètres séparés par des virgules;</li>
+<li>functionBody : corps de la fonction;</li>
+<li>tag : le tag de la fonction;</li>
+<li>description :  description de la fonction (optionnelle).</li>
+</ul>
+</div>
+<div class="section" id="wflowadminresume">
+<h2>WflowAdminResume<a class="headerlink" href="#wflowadminresume" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Cette classe hérite de la classe ProtoModel. Elle contient le dernier résumé des nouvelles qui requièrent une action de l&#8217;administrateur.</p>
+<p>Les attributs de cette classe sont :</p>
+<ul class="simple">
+<li>viewEntity : nom de l&#8217;entité sur laquelle le workflow est activé;</li>
+<li>activityCount : nombre de workflows en attente sur l&#8217;entité (rempli automatiquement).</li>
+</ul>
+</div>
+<div class="section" id="wflowuserreponse">
+<h2>WflowUserReponse<a class="headerlink" href="#wflowuserreponse" title="Lien permanent vers ce titre">¶</a></h2>
+<p>Cette classe hérite de la classe ProtoModel. Elle contient les résultats des actions de l&#8217;administrateur :</p>
+<p>Les attributs de cette classe sont :</p>
+<ul class="simple">
+<li>viewEntity : nom de l&#8217;entité sur laquelle le workflow est activé;</li>
+<li>wfAction : action (accepter ou refuser);</li>
+<li>strKey : la raison de refus;</li>
+<li>adminMsg : message de l&#8217;administrateur qui sera envoyé à l&#8217;utilisateur.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table des Matières</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">ProtoLib</a><ul>
+<li><a class="reference internal" href="#teamhierarchy">TeamHierarchy</a></li>
+<li><a class="reference internal" href="#userprofile">UserProfile</a></li>
+<li><a class="reference internal" href="#usershare">UserShare</a></li>
+<li><a class="reference internal" href="#protomodel">ProtoModel</a></li>
+<li><a class="reference internal" href="#protodefinition">ProtoDefinition</a></li>
+<li><a class="reference internal" href="#customdefinition">CustomDefinition</a></li>
+<li><a class="reference internal" href="#userfiles">UserFiles</a></li>
+<li><a class="reference internal" href="#discretevalue">DiscreteValue</a></li>
+<li><a class="reference internal" href="#parametersbase">ParametersBase</a></li>
+<li><a class="reference internal" href="#ptfunction">PtFunction</a></li>
+<li><a class="reference internal" href="#wflowadminresume">WflowAdminResume</a></li>
+<li><a class="reference internal" href="#wflowuserreponse">WflowUserReponse</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Sujet précédent</h4>
+  <p class="topless"><a href="workflow.html"
+                        title="Chapitre précédent">Le Workflow</a></p>
+  <h4>Sujet suivant</h4>
+  <p class="topless"><a href="prototype.html"
+                        title="Chapitre suivant">Prototype</a></p>
+  <h3>Cette page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/pages/protoLib.txt"
+           rel="nofollow">Montrer la source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Recherche rapide</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Saisissez un mot clef ou un nom de module, classe ou fonction.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Index général"
+             >index</a></li>
+        <li class="right" >
+          <a href="prototype.html" title="Prototype"
+             >suivant</a> |</li>
+        <li class="right" >
+          <a href="workflow.html" title="Le Workflow"
+             >précédent</a> |</li>
+        <li><a href="../index.html">documentation protoDoc 0.0.1</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Marieme Doua, Certae ulaval.
+      Mis à jour le May 03, 2014.
+      Créé avec <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
