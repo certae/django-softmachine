@@ -13,6 +13,5 @@ DELETE FROM "prototype_prototype";
 DELETE FROM "prototype_relationship";
 DELETE FROM "prototype_service";
 DELETE FROM "prototype_serviceref";
-DELETE FROM "south_migrationhistory";
 
 COMMIT;
