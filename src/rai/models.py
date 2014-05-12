@@ -47,6 +47,18 @@ class DomaineAffaires(ProtoModel):
     class Meta:
         unique_together = ('id_domaine_affaires',)
 
+
+    protoExt = { 
+        "actions": [
+            { "name": "doImportOMS", "selectionMode" : "single",
+            }
+        ],
+        "gridConfig" : {
+            "listDisplay": ["__str__", "description", "smOwningTeam"]      
+        }
+    } 
+
+
 class Projet(ProtoModel):
     domaff_projet = models.ForeignKey('DomaineAffaires', blank= False, null= False, related_name='projet_domaff_projet')
     nom_projet = models.CharField(blank= False, null= False, max_length= 200)

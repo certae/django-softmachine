@@ -12,7 +12,7 @@ from protoLib.utilsConvert import toBoolean
 from protoLib.protoActionEdit import setSecurityInfo 
 
 
-class importOMS():
+class importOMS_RAI():
 
     def __init__(self, userProfile ):
         self.__filename = ""
@@ -40,6 +40,64 @@ class importOMS():
         
 
         self.userProfile = userProfile
+
+        # tuple( Champs modèle de données RIA, Champs d'OMS ) 
+
+        self.MODELE = [
+        ('Nom modèle','Name'),
+        ('Description modèle','Description_modele'),
+        ('Version modèle','Version'),
+        ('Auteur modèle','Auteurmodele'),
+        ('Acteur principal','Acteur principal'),
+        ('Autres acteurs','Autres acteurs'),
+        ('Intrants declencheurs','Intrants Declencheurs'),
+        ]
+
+        self.ENTITE = [
+        ('Nom entite','Name'),
+        ('Description entite','Description'),
+        ] 
+
+        self.ELEMENT_DONNEE = [
+        ('Nom element donnee','Name'),
+        ('Numero elem CN','Alias'),
+        ] 
+
+        self.ELEMENT_DONNEE_PP = [
+        ('Type de base','Format'),
+        ('Definition','Description et Definition'),
+        ('Element transforme','elementtransforme'),
+        ('Gabarit','Gabarit'),
+        ('Element transmis','elementtransmis'),
+        ('Domaine valeurs','Domainedevaleurs'),
+        ('Date entree vigueur','entreeenvigueur'),
+        ('Date dernière modification','datedeladernieremodification'),
+        ('Consignes saisie','descriptioncn'),
+        ('Pratiques acceptees','precisions'),
+        ('Validation sur-element','validationsurelement et validation'),
+        ('Validations inter-elements','validationsinterelement'),
+        ('Validations inter-enregistrement','validationinterenregistrement'),
+        ('Requis par','requispar'),
+        ] 
+
+
+        self.RELATION = [
+        ('Nom relation','Name'),
+        ('Description','Description'),
+        ('ENTITE-RELA1',''),
+        ('ENTITE-RELA2',''),
+        ] 
+
+        self.MODELE_RACCORDEMENT = [
+        ('Nom modèle raccordement','Name'),
+        ('MOD-MODRAC1',''),
+        ('MOD-MODRAC2',''),
+        ] 
+
+        self.RACCORDEMENT = [
+        ('ELEDON-RAC1',''),
+        ('ELEDON-RAC2',''),
+        ] 
 
 
     # filename doit etre un fichier XML

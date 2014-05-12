@@ -25,8 +25,8 @@ def doImportOMS( modeladmin, request, queryset, parameters):
         import os 
         fileName = os.path.join(MEDIA_ROOT, 'OMS.exp' ) 
     
-        import importOMS 
-        cOMS = importOMS.importOMS( userProfile )
+        import importOMS_RAI 
+        cOMS = importOMS_RAI.importOMS_RAI( userProfile )
     
         cOMS.loadFile( fileName  )
         cOMS.doImport( queryset[0] )
