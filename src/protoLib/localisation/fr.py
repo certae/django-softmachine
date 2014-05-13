@@ -253,6 +253,10 @@ __language ={
     'Title_Work_Diagram' : 'Diagramme de travail: ',
     'Title_Diagrams' : 'Diagrammes',
     
+    'Label_Dependency':'Dépendance',
+    'Label_Table_Name':'Nom de la table',
+    'Label_Connector_Name':'Nom du connecteur',
+    
     'Message_Saving_Data' : 'Sauvegarde de vos données, veuillez patienter s\'il vous plaît...',
     'Message_Creating_Objects' : 'Création d\'objets dans la base de données, veuillez patienter s\'il vous plaît...',
     'Message_Diagram_Synchronized' : 'Le diagramme a été synchronisé!',

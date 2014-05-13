@@ -1,8 +1,8 @@
 Ext.define('ProtoUL.controller.DiagramController', {
     extend: 'Ext.app.Controller',
 
-	stores: ['PortPositions'],
-	
+    stores: ['PortPositions'],
+
     refs: [{
         ref: 'diagramCanvas',
         selector: '#contentPanel'
@@ -52,9 +52,24 @@ Ext.define('ProtoUL.controller.DiagramController', {
 
     deleteObject: function(button, e, eOpts) {
         var node = this.getDiagramCanvas().getView().getCurrentSelection();
+        if (node.targetPort) {
+            var attribute = null;
+            var table = node.targetPort.getParent();
+            table.getChildren().each(function(i, w) {
+                if (node.id === w.id) {
+                    attribute = w;
+                }
+            });
+            table.removeFigure(attribute);
+        }
         var command = new draw2d.command.CommandDelete(node);
         this.getDiagramCanvas().getView().getCommandStack().execute(command);
-        this.getEntityEditor().collapse();
+
+        var gridDetail = this.getEntityAttributes();
+        var entityEditor = this.getEntityEditor();
+        var masterRecord = entityEditor.getComponent('protoProperty');
+        gridDetail.hide();
+        masterRecord.setSource(null);
     },
 
     zoomIn: function(button, e, eOpts) {
@@ -67,37 +82,61 @@ Ext.define('ProtoUL.controller.DiagramController', {
 
     zoomOut: function(button, e, eOpts) {
         this.getDiagramCanvas().getView().setZoom(this.getDiagramCanvas().getView().getZoom() * 1.3, true);
-    },
+	},
 
     enableToolbarButton: function(button) {
         var toolbarButton = this.getDiagramToolbar().getComponent(button);
         toolbarButton.setDisabled(false);
     },
 
-    addAttribute: function(button, e, eOpts) {
-        var gridDetail = this.getEntityAttributes();
-        gridDetail.rowEditing.cancelEdit();
-        var label = new draw2d.shape.basic.Label('new attribute');
-        var attribute = Ext.create('ProtoUL.model.EntityAttributesModel', {
-            text: 'new attribute' + gridDetail.getStore().data.length,
-            id: label.id,
+	createEntityAttribute: function(text, id) {
+		return Ext.create('ProtoUL.model.EntityAttributesModel', {
+            text: text,
+            id: id,
             inputPort: '',
             datatype: 'string',
             unique: false,
             pk: false
         });
+	},
+	
+    addAttribute: function(button, e, eOpts) {
+        var entityEditor = this.getEntityEditor();
+        var gridDetail = this.getEntityAttributes();
+        gridDetail.rowEditing.cancelEdit();
+        var attribute = this.createEntityAttribute('new attribute' + gridDetail.getStore().data.length, draw2d.util.UUID.create());
         gridDetail.getStore().insert(gridDetail.getStore().data.length, attribute);
-        gridDetail.rowEditing.startEdit(gridDetail.getStore().data.length - 1, 0);
+        entityEditor.figure.addAttribute(0, attribute);
+        // gridDetail.rowEditing.startEdit(gridDetail.getStore().data.length - 1, 0);
+        entityEditor.figure.setDimension(1, 1);
+        // this.saveTable();
     },
 
     deleteAttribute: function(button, e, eOpts) {
         var gridDetail = this.getEntityAttributes();
         var sm = gridDetail.getSelectionModel();
+        var attribute = sm.getSelection()[0];
+        var figure = gridDetail.ownerCt.figure;
+        if (attribute.data.fk) {
+            var canvas = this.getDiagramCanvas().getView();
+            figure.getConnections().each(function(index, connection) {
+                if (attribute.data.id === connection.id) {
+                    canvas.removeFigure(connection);
+                }
+            });
+        }
+
         gridDetail.rowEditing.cancelEdit();
         gridDetail.getStore().remove(sm.getSelection());
         if (gridDetail.getStore().getCount() > 0) {
             sm.select(0);
         }
+        figure.getChildren().each(function(index, label) {
+            if (attribute.data.id === label.id) {
+                figure.removeFigure(label);
+            }
+        });
+        // this.saveTable();
     },
 
     addOrUpdateJSONDocument: function(data) {
@@ -135,7 +174,6 @@ Ext.define('ProtoUL.controller.DiagramController', {
 
             this.getDiagramCanvas().reload();
         }
-        entityEditor.collapse();
         this.enableToolbarButton('btSaveDiagram');
     },
 
@@ -167,122 +205,6 @@ Ext.define('ProtoUL.controller.DiagramController', {
         });
 
         this.enableToolbarButton('btSyncToDB');
-    },
-
-    getTableFromContextMenu: function(button) {
-        var tableContextMenu = button.ownerCt;
-        var table;
-        if (tableContextMenu.figure.getParent().getCssClass() === "draw2d_shape_layout_VerticalLayout") {
-            table = tableContextMenu.figure.getParent().getParent();
-        } else {
-            table = tableContextMenu.figure.getParent();
-        }
-        tableContextMenu.close();
-
-        return table;
-    },
-
-    createPort: function(type, position) {
-        var newPort = null;
-        switch(type) {
-            case "draw2d_InputPort":
-                newPort = new draw2d.InputPort();
-                break;
-            case "draw2d_OutputPort":
-                newPort = new draw2d.OutputPort();
-                break;
-            case "draw2d_HybridPort":
-                newPort = new draw2d.HybridPort();
-                break;
-            default:
-                throw "Unknown type [" + type + "] of port requested";
-        }
-        var userData = [];
-        userData.push({
-            position: position
-        });
-        newPort.setUserData(userData);
-
-        return newPort;
-    },
-    
-    addConnectorRecursive: function(button, e, eOpts) {
-        var table = this.getTableFromContextMenu(button);
-        if (table.hybridPorts.getSize() === 0) {
-            var newPort = this.createPort('draw2d_HybridPort', 'bottom');
-            newPort.setName("hybrid" + table.hybridPorts.getSize());
-            table.addPort(newPort, new draw2d.layout.locator.BottomLocator(table));
-
-            var inputPort = this.createPort('draw2d_InputPort', 'left');
-            inputPort.setName("input" + table.inputPorts.getSize());
-            table.addPort(inputPort, new dbModel.locator.PortLeftLocator(table));
-            table.layoutPorts();
-
-            var conn = new dbModel.shape.TableConnection();
-            conn.setSource(newPort);
-            conn.setTarget(inputPort);
-
-            table.getCanvas().addFigure(conn);
-
-            this.enableToolbarButton('btSaveDiagram');
-        }
-    },
-
-    addInputPort: function(button, e, eOpts) {
-        var table = this.getTableFromContextMenu(button);
-
-        var positions = Ext.create('ProtoUL.store.PortPositions');
-        var options = {
-            label: 'Position du port',
-            store: positions,
-            userData: {controller: this, table: table}
-        };
-        _SM.ComboBoxPrompt.prompt('Nouveau port', options, function(btn, text, cfg) {
-            if (btn == 'ok') {
-            	controller = cfg.userData.controller;
-				table = cfg.userData.table;
-				
-				name = "input" + table.inputPorts.getSize();
-				table.createCustomizedPort('draw2d_InputPort', name, text);
-
-				controller.enableToolbarButton('btSaveDiagram');
-            }
-        });
-    },
-
-    addOutputPort: function(button, e, eOpts) {
-        var table = this.getTableFromContextMenu(button);
-		
-		var positions = Ext.create('ProtoUL.store.PortPositions');
-        var options = {
-            label: 'Position du port',
-            store: positions,
-            userData: {controller: this, table: table}
-        };
-        _SM.ComboBoxPrompt.prompt('Nouveau port', options, function(btn, text, cfg) {
-            if (btn == 'ok') {
-            	controller = cfg.userData.controller;
-				table = cfg.userData.table;
-				
-				name = "output" + table.outputPorts.getSize();
-				table.createCustomizedPort('draw2d_OutputPort', name, text);
-
-				controller.enableToolbarButton('btSaveDiagram');
-            }
-        });
-    },
-
-    removeUnusedPorts: function(button, e, eOpts) {
-        var table = this.getTableFromContextMenu(button);
-        table.getPorts().each(function(i, port) {
-            if (port.getConnections().size < 1) {
-                table.removePort(port);
-            }
-        });
-        table.layoutPorts();
-        table.cachedPorts = null;
-
-        this.enableToolbarButton('btSaveDiagram');
     },
 
     synchDBFromDiagram: function(button, e, eOpts) {
@@ -358,20 +280,16 @@ Ext.define('ProtoUL.controller.DiagramController', {
 
     exportDiagramToPNG: function updatePreview() {
         // convert the canvas into a PNG image source string
-        //
         var canvas = this.getDiagramCanvas().getView();
-        var xCoords = [];
-        var yCoords = [];
+        var xCoords = [], yCoords = [];
         canvas.getFigures().each(function(i, f) {
             var b = f.getBoundingBox();
             xCoords.push(b.x, b.x + b.w);
             yCoords.push(b.y, b.y + b.h);
         });
-        var minX = 0;
-        var minY = 0;
+        var minX = 0, minY = 0;
         var width = Math.max.apply(Math, xCoords) - minX;
         var height = Math.max.apply(Math, yCoords) - minY;
-        //<img class="shadow" id="preview" style="border-radius:5px;overflow:auto;position:absolute; top:10px; right:10px; width:150; border:3px solid gray;"/>
         var writer = new draw2d.io.png.Writer();
         var image = null;
         writer.marshal(canvas, function(png) {
@@ -380,7 +298,7 @@ Ext.define('ProtoUL.controller.DiagramController', {
 
         var printWindow = window.open('', '', 'width=800,height=600');
         printWindow.document.write('<html><head>');
-        printWindow.document.write('<title>' + 'Title' + '</title>');
+        printWindow.document.write('<title>' + 'Print diagram' + '</title>');
         printWindow.document.write('<link rel="Stylesheet" type="text/css" href="http://dev.sencha.com/deploy/ext-4.0.1/resources/css/ext-all.css" />');
         printWindow.document.write('<script type="text/javascript" src="http://dev.sencha.com/deploy/ext-4.0.1/bootstrap.js"></script>');
         printWindow.document.write('</head><body>');
@@ -388,6 +306,60 @@ Ext.define('ProtoUL.controller.DiagramController', {
         printWindow.document.write('</body></html>');
         printWindow.print();
 
+    },
+
+    hidePropertyGridAttributes: function(masterRecord) {
+        masterRecord.getView().getRowClass = function(row, index) {
+            if (row.data.name !== 'isPrimary' && row.data.name !== 'name' && row.data.name !== 'tableName') {
+                return 'hide-this-row';
+            } else {
+                return '';
+            }
+        };
+    },
+
+    // dbModel listeners
+    onSelectionChanged: function(figure) {
+        var controller = this;
+        if (figure !== null) {
+            var gridDetail = controller.getEntityAttributes();
+            var entityEditor = controller.getEntityEditor();
+            var masterRecord = entityEditor.getComponent('protoProperty');
+            entityEditor.figure = figure;
+
+            var myObj = figure.getPersistentAttributes();
+            if (figure.cssClass === 'dbModel_shape_DBTable' || figure.cssClass === 'DBTable') {
+                gridDetail.show();
+
+                if ( typeof myObj !== 'undefined') {
+                    masterRecord.setSource(myObj);
+                    controller.hidePropertyGridAttributes(masterRecord);
+                    gridDetail.getStore().loadRawData(myObj.attributes);
+                }
+            } else {
+                gridDetail.hide();
+
+                myObj.isPrimary = myObj.userData.isPrimary;
+                if ( typeof myObj !== 'undefined') {
+                    masterRecord.setSource(myObj);
+                    controller.hidePropertyGridAttributes(masterRecord);
+                }
+            }
+        }
+    },
+
+    onDropConnection: function(connection, figure) {
+        var me = this;
+        me.onSelectionChanged(figure);
+
+        var gridDetail = me.getEntityAttributes();
+        var entityEditor = me.getEntityEditor();
+        gridDetail.rowEditing.cancelEdit();
+        var attribute = this.createEntityAttribute(connection.getConnectionName(), connection.getId());
+
+        gridDetail.getStore().insert(gridDetail.getStore().data.length, attribute);
+        entityEditor.figure.addAttribute(0, attribute);
+        entityEditor.figure.setDimension(1, 1);
     },
 
     init: function(application) {
@@ -427,18 +399,6 @@ Ext.define('ProtoUL.controller.DiagramController', {
             },
             "#btSaveTable": {
                 click: this.saveTable
-            },
-            "#btAddConnectorRecursive": {
-                click: this.addConnectorRecursive
-            },
-            "#btAddInputPort": {
-                click: this.addInputPort
-            },
-            "#btAddOutputPort": {
-                click: this.addOutputPort
-            },
-            "#btRemoveUnusedPorts": {
-                click: this.removeUnusedPorts
             },
             'panel': {
                 opendiagram: this.openDiagram

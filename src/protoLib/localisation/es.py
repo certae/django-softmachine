@@ -254,6 +254,10 @@ __language ={
     'Title_Work_Diagram' : 'Work diagram: ',
     'Title_Diagrams' : 'Diagrams',
     
+    'Label_Dependency':'Dependency',
+    'Label_Table_Name':'Table name',
+    'Label_Connector_Name':'Connector name',
+    
     'Message_Saving_Data' : 'Saving your data, please wait...',
     'Message_Creating_Objects' : 'Creating objects in Database, please wait...',
     'Message_Diagram_Synchronized' : 'The diagram has been synchronized!',

@@ -51,13 +51,12 @@ Ext.define('ProtoUL.view.diagram.DiagramCanvas', {
 		me.view.addSelectionListener(toolbar);
 		me.view.getCommandStack().addEventListener(toolbar);
 		
-		var editPanel = me.ownerCt.getComponent('entityeditor');
-		me.view.addSelectionListener(editPanel);
-		
-		me.view.getCommandStack().addEventListener(editPanel);
+		var controller = ProtoUL.app.getController('DiagramController');
+		me.view.addSelectionListener(controller);
 		
 		me.view.figures.each(function(i, figure) {
 			figure.addContextMenuListener(me);
+			figure.addOnDropConnectionListener(controller);
 		});
 		
 		// TODO add listener.

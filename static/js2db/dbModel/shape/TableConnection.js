@@ -47,6 +47,10 @@ dbModel.shape.TableConnection = draw2d.Connection.extend({
         return label;
     },
 
+    getConnectionName: function() {
+        return this.label.getText();
+    },
+
     /**
      * @method
      * Return an objects with all important attributes for XML or JSON serialization
@@ -79,8 +83,8 @@ dbModel.shape.TableConnection = draw2d.Connection.extend({
 
             this.inputCardinality = this.createLabel("1:1");
             if (memento.userData.isPrimary) {
-	        	this.inputCardinality.setCssClass('primary_key');
-	        }
+                this.inputCardinality.setCssClass('primary_key');
+            }
             this.addFigure(this.inputCardinality, new dbModel.shape.ManhattanRightConnectionLocator(this));
             this.outputCardinality = this.createLabel("0:1");
             this.addFigure(this.outputCardinality, new dbModel.shape.ManhattanLeftConnectionLocator(this));
@@ -88,17 +92,16 @@ dbModel.shape.TableConnection = draw2d.Connection.extend({
             // add the new decoration to the connection with a position locator.
             //
             this.addFigure(this.label, new draw2d.layout.locator.ManhattanMidpointLocator(this));
-            
-        	// Set the endpoint decorations for the connection
-            if (memento.userData.useDecorators){
-		        this.setSourceDecorator(new draw2d.decoration.connection.BarDecorator());
-		        this.setTargetDecorator(new draw2d.decoration.connection.DiamondDecorator());
+
+            // Set the endpoint decorations for the connection
+            if (memento.userData.useDecorators) {
+                this.setSourceDecorator(new draw2d.decoration.connection.BarDecorator());
+                this.setTargetDecorator(new draw2d.decoration.connection.DiamondDecorator());
             }
         }
 
         return this;
     },
-
     /**
      * @method
      * called by the framework if the figure should show the contextmenu.</br>
@@ -141,3 +144,7 @@ dbModel.shape.TableConnection = draw2d.Connection.extend({
         });
     }
 });
+
+draw2d.InputPort.onConnect = function(connection) {
+	alert('On Connect');	
+};

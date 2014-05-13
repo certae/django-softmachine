@@ -377,6 +377,11 @@
                     "clsName": "ProtoUL.controller.DiagramMenuController",
                     "name": "DiagramMenuController.js",
                     "path": "js/controller/"
+                },
+                {
+                    "clsName": "ProtoUL.controller.DiagramContextMenuController",
+                    "name": "DiagramContextMenuController.js",
+                    "path": "js/controller/"
                 }
             ]
         },

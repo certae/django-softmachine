@@ -1,7 +1,6 @@
 
-// Document template used if there is no diagram in database
-var jsonDocument = [];
-var jsonDocumentTest = [
+// Document template, used only if there is no diagram in database
+var jsonDocument = [
                     {
                         "type": "dbModel.shape.DBTable",
                         "id": "63c0f27a-716e-804c-6873-cd99b945b63f",

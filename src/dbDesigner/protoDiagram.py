@@ -7,7 +7,6 @@ from protoLib.utilsBase import JSONEncoder
 
 import json, uuid
 
-
 def getEntitiesJSONDiagram(request):
     """ return all tables from project
     """
@@ -41,6 +40,7 @@ def getElementsDiagramFromSelectedTables(request):
     """
     selectedTables = []
     connectors = []
+    jsondict = {}
     
     objects = json.loads(request.body)
     UUIDAttributeList = []
@@ -52,16 +52,21 @@ def getElementsDiagramFromSelectedTables(request):
         entities = Entity.objects.filter(smUUID__in=UUIDAttributeList)
         getJSONElements(entities, selectedTables, connectors)
                 
+        jsondict = {
+            'success':True,
+            'message': '',
+            'tables': selectedTables,
+            'connectors': connectors,
+        }
     except Exception as e:
         print(e)
-        return JsonError("Entity non trouvé")
+        jsondict = {
+            'success':False,
+            'message': e.message,
+        }
+        context = json.dumps(jsondict)
+        return HttpResponse(context, content_type="application/json", status=500)
     
-    jsondict = {
-        'success':True,
-        'message': '',
-        'tables': selectedTables,
-        'connectors': connectors,
-    }
     context = json.dumps(jsondict)
     return HttpResponse(context, content_type="application/json")
 
@@ -284,11 +289,12 @@ def saveAttributes(element, entity, UUIDAttributeList, user, owningTeam):
             pProperty.save()
         except Exception as e:
             print e, 'Creating a new one'
-            pProperty = Property.objects.create(code=attributeName, entity=entity, smUUID=attribUUID, isSensitive=False, isPrimary=isPK, isLookUpResult=True, isNullable=isNullable, isRequired=isRequired, isReadOnly=False, isEssential=False)
-            pProperty.smCreatedBy = user
-            pProperty.smOwningTeam = owningTeam
-            pProperty.isForeign = isFK
-            pProperty.save()
+            if not isFK:
+                pProperty = Property.objects.create(code=attributeName, entity=entity, smUUID=attribUUID, isSensitive=False, isPrimary=isPK, isLookUpResult=True, isNullable=isNullable, isRequired=isRequired, isReadOnly=False, isEssential=False)
+                pProperty.smCreatedBy = user
+                pProperty.smOwningTeam = owningTeam
+                pProperty.isForeign = isFK
+                pProperty.save()
     
     return entity
 

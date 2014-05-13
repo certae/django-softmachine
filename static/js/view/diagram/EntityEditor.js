@@ -16,19 +16,39 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
     title: 'Detail',
     autoScroll: true,
 
-    initComponent: function() {
+	initComponent: function() {
         var me = this;
 
         Ext.applyIf(me, {
             items: [
             	{
-            		xtype: 'protoProperty'
+            		xtype: 'propertygrid',
+            		itemId: 'protoProperty',
+					sourceConfig: {
+						tableName: {
+							displayName: '<strong>'+_SM.__language.Label_Table_Name+'</strong>'
+						},
+						isPrimary: {
+							displayName: _SM.__language.Label_Dependency
+						},
+						name: {
+							displayName: '<strong>'+_SM.__language.Label_Connector_Name+'</strong>'
+						}
+					},
+					listeners: {
+				        propertychange: function(source, recordId, value, oldValue, eOpts) {
+							var form = this.up('form');
+							var btSaveTable = form.getDockedItems('toolbar[dock="top"]')[0].getComponent('btSaveTable');
+							btSaveTable.fireEvent('click');
+				        }
+				    }
             	},
             	{
 					xtype: 'fieldset'
 				},
                 {
                     xtype: 'entityattributes',
+                    title: _SM.__language.Title_Attributes,
 					height: 280
                 }
             ]
@@ -36,6 +56,7 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
 
 		this.dockedItems = [{
             xtype: 'toolbar',
+            hidden: true,
             items: [{
                 iconCls: 'menu_reload',
                 itemId: 'btSaveTable',
@@ -45,89 +66,6 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
         }];
         
         me.callParent(arguments);
-    },
+    }
     
-    getFigureFromJSONData : function(figureId) {
-    	var writer = new draw2d.io.json.Writer();
-		var canvas = this.ownerCt.getComponent('contentPanel');
-		var jsonData = "";
-		writer.marshal(canvas.getView(), function(json){
-			jsonData = json;
-		});
-		for (var i = 0; i < jsonData.length; i++) {
-			if (jsonData[i].id === figureId) {
-				return jsonData[i];
-			}
-		}
-	},
-	
-	hidePropertyGridAttributes: function(masterRecord) {
-		masterRecord.getView().getRowClass = function(row, index) {
-			if (row.data.name === 'id'){
-				return 'hide-this-row';
-			} else {
-				return '';
-			}
-		};
-	},
-	
-    onSelectionChanged : function(figure){
-		if (figure !== null) {
-			this.figure = figure;
-			if (figure.cssClass === 'dbModel_shape_DBTable' || figure.cssClass === 'DBTable') {
-				
-				var masterRecord = this.getComponent('protoProperty');
-				var gridDetail = this.getComponent('entityattributes');
-				gridDetail.show();
-				
-				var myObj = this.getFigureFromJSONData(figure.id);
-	    		
-	    		if (typeof myObj !== 'undefined'){
-					masterRecord.setSource(myObj);
-					//masterRecord.view.addRowCls(index, 'hide-this-row');
-					//masterRecord.view.removeRowCls(index, 'hide-this-row');
-					this.hidePropertyGridAttributes(masterRecord);
-					gridDetail.getStore().loadRawData(myObj.attributes);
-				}
-			} else {
-				var masterRecord = this.getComponent('protoProperty');
-				var gridDetail = this.getComponent('entityattributes');
-				gridDetail.hide();
-				
-				var myObj = this.getFigureFromJSONData(figure.id);
-				myObj.isPrimary = myObj.userData.isPrimary;
-				if (typeof myObj !== 'undefined'){
-					masterRecord.setSource(myObj);
-					this.hidePropertyGridAttributes(masterRecord);
-				}
-			}
-		}
-	},
-	
-	stackChanged:function(event) {
-		var canvas = this.ownerCt.getComponent('contentPanel');
-		if(event.isPostChangeEvent()){
-			if (typeof this.figure !== 'undefined'){
-				var masterRecord = this.getComponent('protoProperty');
-					
-				var gridDetail = this.getComponent('entityattributes');
-				
-				var myObj = this.getFigureFromJSONData(this.figure.id);
-				
-				if (typeof myObj !== 'undefined'){
-					masterRecord.setSource(myObj);
-					gridDetail.getStore().loadRawData(myObj.attributes);
-				}
-			}
-			if (event.command.label==="Connecting Ports"){
-				event.command.connection.addContextMenuListener(canvas);
-			}
-		}
-		if(event.isPreChangeEvent()){
-			if (event.command.label==="Add Shape") {
-				event.command.figure.addContextMenuListener(canvas);
-			}
-		}
-	}
-
 });

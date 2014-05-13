@@ -10,12 +10,12 @@ Ext.define('ProtoUL.view.diagram.EntityAttributes', {
     initComponent: function() {
         var me = this;
 
-        this.rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
+        me.rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
             clicksToMoveEditor: 1,
             autoCancel: false
         });
 
-        this.plugins = [this.rowEditing];
+        me.plugins = [me.rowEditing];
 
         var storeDBTypes = Ext.create('ProtoUL.store.DBTypesStore');
 
@@ -31,7 +31,7 @@ Ext.define('ProtoUL.view.diagram.EntityAttributes', {
                 xtype: 'gridcolumn',
                 dataIndex: 'datatype',
                 text: _SM.__language.GridColumn_Datatype,
-                width: 75,
+                width: 90,
                 editor: {
                     xtype: 'combo',
                     store: storeDBTypes,
@@ -44,30 +44,46 @@ Ext.define('ProtoUL.view.diagram.EntityAttributes', {
                 }
             }, {
                 xtype: 'checkcolumn',
-                width: 35,
+                width: 30,
                 dataIndex: 'pk',
                 text: 'PK',
                 editor: {
                     xtype: 'checkbox',
                     cls: 'x-grid-checkheader-editor'
+                },
+                listeners: {
+                    checkchange: function(column, recordIndex, checked) {
+                        this.up('grid').checkChanged(column, recordIndex, checked);
+                    }
                 }
+
             }, {
                 xtype: 'checkcolumn',
-                width: 35,
+                width: 30,
                 dataIndex: 'fk',
                 text: 'FK',
                 editor: {
                     xtype: 'checkbox',
                     cls: 'x-grid-checkheader-editor'
+                },
+                listeners: {
+                    checkchange: function(column, recordIndex, checked) {
+                        this.up('grid').checkChanged(column, recordIndex, checked);
+                    }
                 }
             }, {
                 xtype: 'checkcolumn',
-                width: 55,
+                width: 50,
                 dataIndex: 'isRequired',
                 text: _SM.__language.GridColumn_Required,
                 editor: {
                     xtype: 'checkbox',
                     cls: 'x-grid-checkheader-editor'
+                },
+                listeners: {
+                    checkchange: function(column, recordIndex, checked) {
+                        this.up('grid').checkChanged(column, recordIndex, checked);
+                    }
                 }
             }, {
                 xtype: 'checkcolumn',
@@ -77,11 +93,16 @@ Ext.define('ProtoUL.view.diagram.EntityAttributes', {
                 editor: {
                     xtype: 'checkbox',
                     cls: 'x-grid-checkheader-editor'
+                },
+                listeners: {
+                    checkchange: function(column, recordIndex, checked) {
+                        this.up('grid').checkChanged(column, recordIndex, checked);
+                    }
                 }
             }]
         });
 
-        this.dockedItems = [{
+        me.dockedItems = [{
             xtype: 'toolbar',
             items: [{
                 iconCls: 'icon-tableAdd',
@@ -93,33 +114,38 @@ Ext.define('ProtoUL.view.diagram.EntityAttributes', {
                 itemId: 'btDeleteAttribute',
                 text: _SM.__language.Text_Delete_Button,
                 action: 'deleteattribute'
-            }, '->', 
-            {
-            	iconCls: 'icon-panelDown',
-            	itemId: 'btMoveDown',
-            	handler: function(btn,event) {
+            }, '->', {
+                iconCls: 'icon-panelDown',
+                itemId: 'btMoveDown',
+                handler: function(btn, event) {
                     var grid = btn.up('grid');
                     grid.moveSelectedRow(grid, -1);
-               },
-               disabled: true
-            }, 
-            {
-            	iconCls: 'icon-panelUp',
-            	itemId: 'btMoveUp',
-            	handler: function(btn,event) {
+                },
+                disabled: true
+            }, {
+                iconCls: 'icon-panelUp',
+                itemId: 'btMoveUp',
+                handler: function(btn, event) {
                     var grid = btn.up('grid');
                     grid.moveSelectedRow(grid, 1);
-               },
-               disabled: true
+                },
+                disabled: true
             }]
         }];
 
         me.callParent(arguments);
+
+        me.on('edit', function(editor, e) {
+            e.record.commit();
+            var form = this.ownerCt;
+            var btSaveTable = form.getDockedItems('toolbar[dock="top"]')[0].getComponent('btSaveTable');
+            btSaveTable.fireEvent('click');
+        });
     },
-    
+
     listeners: {
         select: {
-            fn: function(){ 
+            fn: function() {
                 var btMoveDown = this.down('button[itemId=btMoveDown]');
                 btMoveDown.setDisabled(false);
                 var btMoveUp = this.down('button[itemId=btMoveUp]');
@@ -127,7 +153,7 @@ Ext.define('ProtoUL.view.diagram.EntityAttributes', {
             }
         }
     },
-    
+
     moveSelectedRow: function(grid, direction) {
         var record = grid.getSelectionModel().getSelection();
         if (!record) {
@@ -149,5 +175,24 @@ Ext.define('ProtoUL.view.diagram.EntityAttributes', {
         grid.getStore().remove(record);
         grid.getStore().insert(index, record);
         grid.getSelectionModel().select(record);
+        
+		// var btSaveTable = grid.ownerCt.getDockedItems('toolbar[dock="top"]')[0].getComponent('btSaveTable');
+        // btSaveTable.fireEvent('click');
+    },
+
+    checkChanged: function(column, recordIndex, checked) {
+        // force selection of the clicked row
+        var grid = this;
+        grid.getSelectionModel().select(recordIndex);
+        // construct Event Object, could not find any method to retrieve it at this point
+        e = {
+            grid: grid,
+            record: grid.getSelectionModel().getSelection()[0],
+            field: 'visible',
+            value: checked,
+            rowIdx: recordIndex,
+            colIdx: column.getIndex()
+        };
+        grid.rowEditing.fireEvent('edit', this, e);
     }
-}); 
+});

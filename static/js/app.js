@@ -38,7 +38,8 @@ Ext.application({
 	controllers: [
 		'PasswordManager',
 		'DiagramController',
-		'DiagramMenuController'
+		'DiagramMenuController',
+		'DiagramContextMenuController'
 	],
 	
     launch: function () {

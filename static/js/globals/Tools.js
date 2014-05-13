@@ -528,6 +528,7 @@ var dbModel = {
     shape: {},
 	locator: {}
 };
+var jsonDocument = [];
 
 
 function loadJsFilesSequentially(scriptsCollection, startIndex, librariesLoadedCallback) {
@@ -590,7 +591,6 @@ function createJSFilesLibrary() {
 
     scriptLibrary.push("static/js2db/dbModel/View.js");
     scriptLibrary.push("static/js2db/dbModel/Toolbar.js");
-    scriptLibrary.push("static/js2db/dbModel/document.js");
     scriptLibrary.push("static/js2db/dbModel/locator/PortRightLocator.js");
     scriptLibrary.push("static/js2db/dbModel/locator/PortLeftLocator.js");
     scriptLibrary.push("static/js2db/dbModel/shape/DBTable.js");
