@@ -194,6 +194,12 @@ class Relation(ProtoModel):
     dependence = models.BooleanField()
     description = models.TextField(blank = True, null = True)
 
+    baseMin = models.CharField(blank=True, null=True, max_length=50)
+    baseMax = models.CharField(blank=True, null=True, max_length=50)
+    
+    refMin = models.CharField(blank=True, null=True, max_length=50)
+    refMax = models.CharField(blank=True, null=True, max_length=50)
+
     def __unicode__(self):
         return slugify(str( self.entite_rela1) +  '.' + str( self.entite_rela2) +  '.' + self.nom_relation)
 

@@ -7,7 +7,7 @@ from xml.etree.ElementTree import ElementTree
 import logging
 
 # Import Database class
-from prototype.models import  Model, Entity, Property, Relationship     
+from rai.models import  Modele, Entite, ElementDonnee, Relation, ModeleRaccordement, Raccordement
 from protoLib.utilsConvert import toBoolean
 from protoLib.protoActionEdit import setSecurityInfo 
 
@@ -41,8 +41,7 @@ class importOMS_RAI():
 
         self.userProfile = userProfile
 
-        # tuple( Champs modèle de données RIA, Champs d'OMS ) 
-
+        # tuples equivalence ( Champs modèle de données RIA, Champs d'OMS ) 
         self.MODELE = [
         ('Nom modèle','Name'),
         ('Description modèle','Description_modele'),
@@ -86,6 +85,10 @@ class importOMS_RAI():
         ('Description','Description'),
         ('ENTITE-RELA1',''),
         ('ENTITE-RELA2',''),
+        ('baseMin', ''), 
+        ('baseMax',''), 
+        ('refMin',''), 
+        ('refMax','') 
         ] 
 
         self.MODELE_RACCORDEMENT = [
@@ -131,16 +134,7 @@ class importOMS_RAI():
         # Logging info
         self.__logger.info("Ecriture dans la base de donnee...")
 
-        # Los elementos superXXX son referencias de tipo caracter,
-        fdsModel = ('code', 'category', 'modelPrefix',)
         
-        fdsEntity = ('code',)
-        
-        # fdsProperty = ( 'code', 'alias', 'physicalName', 'foreignEntity' )
-        fdsProperty = ('code',)
-        booProperty = ('isPrimary', 'isNullable', 'isRequired', 'isSensitive', 'isEssential',)
-        
-        fdsRelationship = ('code', 'baseMin', 'baseMax', 'refMin', 'refMax',)
 
         # need for setSecurityInfo 
         data = {}
@@ -153,12 +147,12 @@ class importOMS_RAI():
             # ------------------------------------------------------------------------------
             xModels = xProjects[0].getiterator("model")
             for xModel in xModels:
-                dModel = Model()
+                dModel = Modele()
                 dModel.project = self.project 
                 modelUdps = []
 
                 for child in xModel:
-                    if child.tag in fdsModel:
+                    if child.tag in self.MODELE:
                         setattr(dModel, child.tag, child.text)
                     elif child.tag == 'udps':
                         for xUdp in child:
@@ -176,11 +170,11 @@ class importOMS_RAI():
                 # ------------------------------------------------------------------------------
                 xEntitys = xModel.getiterator("concept")
                 for xEntity in xEntitys:
-                    dEntity = Entity()
+                    dEntity = Entite()
                     dEntity.model = dModel
                     
                     for child in xEntity:
-                        if (child.tag in fdsEntity):
+                        if (child.tag in self.ENTITE):
                             if (child.text is not None):
                                 setattr(dEntity, child.tag, child.text)
                         elif  (child.tag == 'physicalName'):
@@ -205,13 +199,13 @@ class importOMS_RAI():
 
                         for child in xProperty:
 
-                            if child.tag in fdsProperty:
+                            if child.tag in self.DONNEE:
                                 if (child.text is not None):
                                     setattr(dProperty, child.tag, child.text)
                                 
-                            elif child.tag in booProperty:
-                                bValue = toBoolean(child.text)
-                                setattr(dProperty, child.tag, bValue)
+#                             elif child.tag in booProperty:
+#                                 bValue = toBoolean(child.text)
+#                                 setattr(dProperty, child.tag, bValue)
 
 
                         try: 
@@ -231,7 +225,7 @@ class importOMS_RAI():
                         dForeign.refEntity = dEntity
 
                         for child in xForeign:
-                            if child.tag in fdsRelationship:
+                            if child.tag in self.RELATION:
                                 setattr(dForeign, child.tag, child.text)
 
                             elif  (child.tag == 'baseConcept'):
@@ -240,9 +234,9 @@ class importOMS_RAI():
                             elif  (child.tag == 'alias'):
                                 setattr(dForeign, 'relatedName' , child.text)
                                 
-                            elif child.tag in booProperty:
-                                bValue = toBoolean(child.text)
-                                setattr(dForeign, child.tag, bValue)
+#                             elif child.tag in booProperty:
+#                                 bValue = toBoolean(child.text)
+#                                 setattr(dForeign, child.tag, bValue)
 
                         try:
                             setSecurityInfo(dForeign, data, self.userProfile, True )
