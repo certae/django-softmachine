@@ -22,7 +22,7 @@ dbModel.shape.TableConnection = draw2d.Connection.extend({
 
         this.inputCardinality = this.createLabel("1:1");
         this.addFigure(this.inputCardinality, new dbModel.shape.ManhattanRightConnectionLocator(this));
-        this.outputCardinality = this.createLabel("0:1");
+        this.outputCardinality = this.createLabel("0:N");
         this.addFigure(this.outputCardinality, new dbModel.shape.ManhattanLeftConnectionLocator(this));
 
         this.setUserData({
@@ -86,7 +86,7 @@ dbModel.shape.TableConnection = draw2d.Connection.extend({
                 this.inputCardinality.setCssClass('primary_key');
             }
             this.addFigure(this.inputCardinality, new dbModel.shape.ManhattanRightConnectionLocator(this));
-            this.outputCardinality = this.createLabel("0:1");
+            this.outputCardinality = this.createLabel("0:N");
             this.addFigure(this.outputCardinality, new dbModel.shape.ManhattanLeftConnectionLocator(this));
 
             // add the new decoration to the connection with a position locator.

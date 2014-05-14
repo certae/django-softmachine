@@ -1,14 +1,8 @@
-
 Ext.define('ProtoUL.view.diagram.EntityEditor', {
     extend: 'Ext.form.Panel',
     alias: 'widget.entityeditor',
 
-    requires: [
-        'ProtoUL.view.diagram.EntityAttributes',
-        'Ext.form.FieldSet',
-        'Ext.form.field.Text',
-        'Ext.grid.Panel'
-    ],
+    requires: ['ProtoUL.view.diagram.EntityAttributes', 'Ext.form.FieldSet', 'Ext.form.field.Text', 'Ext.grid.Panel'],
 
     itemId: 'entityeditor',
     width: 370,
@@ -16,45 +10,60 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
     title: 'Detail',
     autoScroll: true,
 
-	initComponent: function() {
+    initComponent: function() {
         var me = this;
 
         Ext.applyIf(me, {
-            items: [
-            	{
-            		xtype: 'propertygrid',
-            		itemId: 'protoProperty',
-					sourceConfig: {
-						tableName: {
-							displayName: '<strong>'+_SM.__language.Label_Table_Name+'</strong>'
-						},
-						isPrimary: {
-							displayName: _SM.__language.Label_Dependency
-						},
-						name: {
-							displayName: '<strong>'+_SM.__language.Label_Connector_Name+'</strong>'
-						}
-					},
-					listeners: {
-				        propertychange: function(source, recordId, value, oldValue, eOpts) {
-							var form = this.up('form');
-							var btSaveTable = form.getDockedItems('toolbar[dock="top"]')[0].getComponent('btSaveTable');
-							btSaveTable.fireEvent('click');
-				        }
-				    }
-            	},
-            	{
-					xtype: 'fieldset'
-				},
-                {
-                    xtype: 'entityattributes',
-                    title: _SM.__language.Title_Attributes,
-					height: 280
+            items: [{
+                xtype: 'propertygrid',
+                itemId: 'protoProperty',
+                sourceConfig: {
+                    tableName: {
+                        displayName: '<strong>' + _SM.__language.Label_Table_Name + '</strong>'
+                    },
+                    isPrimary: {
+                        displayName: _SM.__language.Label_Dependency
+                    },
+                    name: {
+                        displayName: '<strong>' + _SM.__language.Label_Connector_Name + '</strong>'
+                    },
+                    color: {
+                    	displayName: 'Couleur',//Couleur de la bordure
+                        editor: Ext.create('Ext.form.field.Picker', {
+                            renderTo: Ext.getBody(),
+                            id: 'colorpicker',
+                            createPicker: function() {
+                                return Ext.create('Ext.picker.Color', {
+                                    resizable: true,
+                                    floating: true,
+                                    select: function(selColor) {
+                                        var editor = Ext.getCmp('colorpicker');
+                                        editor.setValue("#" + selColor);
+                                        //editor.setFieldStyle('background-color:' + editor.getValue() + ' ;background-image: none;');
+                                        editor.collapse();
+                                    }
+                                });
+                            }
+                        })
+                    }
+                },
+                listeners: {
+                    propertychange: function(source, recordId, value, oldValue, eOpts) {
+                        var form = this.up('form');
+                        var btSaveTable = form.getDockedItems('toolbar[dock="top"]')[0].getComponent('btSaveTable');
+                        btSaveTable.fireEvent('click');
+                    }
                 }
-            ]
+            }, {
+                xtype: 'fieldset'
+            }, {
+                xtype: 'entityattributes',
+                title: _SM.__language.Title_Attributes,
+                height: 280
+            }]
         });
 
-		this.dockedItems = [{
+        this.dockedItems = [{
             xtype: 'toolbar',
             hidden: true,
             items: [{
@@ -64,8 +73,7 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
                 action: 'savetable'
             }]
         }];
-        
+
         me.callParent(arguments);
     }
-    
-});
+}); 

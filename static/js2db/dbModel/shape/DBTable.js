@@ -13,7 +13,7 @@ draw2d.Connection.createConnection = function(sourcePort, targetPort, callback) 
     var labelSource = sourcePort.getParent().header.getChildren().data[0];
     var labelTarget = targetPort.getParent().header.getChildren().data[0];
     conn.label.setText(labelSource.getText() + "_" + labelTarget.getText());
-    conn.isInDragDrop = true;
+    conn.isNew = true;
 
     return conn;
 };
@@ -109,9 +109,10 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
             case "draw2d_InputPort":
                 newPort = new draw2d.InputPort();
                 newPort.onConnect = function(connection) {
-                    if (connection.isInDragDrop) {
+                    if (connection.isNew) {
                         var table = this.getParent();
                         table.setNewConnector(connection);
+						connection.isNew = false;
                     }
                 };
                 newPort.onDragLeave = function(figure) {
@@ -222,29 +223,16 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
         return memento;
     },
 
-    /**
-     * @method
-     * Read all attributes from the serialized properties and transfer them into the shape.
-     *
-     * @param {Object} memento
-     * @return
-     */
-    setPersistentAttributes: function(memento) {
-        this._super(memento);
-
-        this.header.resetChildren();
+	updateHeader: function(memento){
+		this.header.resetChildren();
 
         if ( typeof memento.tableName !== "undefined") {
             var label = this.createLabel(memento.tableName).setPadding(10).setFontColor("#5856d6");
             this.header.addFigure(label);
-        }
-
-        if ( typeof memento.tablePorts !== "undefined") {
-            $.each(memento.tablePorts, $.proxy(function(index, item) {
-                this.createCustomizedPort(item.type, item.name, item.position);
-            }, this));
-        }
-
+        }	
+	},
+	
+	updateAttributes: function(memento) {
         if ( typeof memento.attributes !== "undefined") {
             $.each(memento.attributes, $.proxy(function(i, e) {
                 var entity = this.addAttribute(i, e);
@@ -256,6 +244,26 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
                 entity.isNullable = e.isNullable;
             }, this));
         }
+    },
+    /**
+     * @method
+     * Read all attributes from the serialized properties and transfer them into the shape.
+     *
+     * @param {Object} memento
+     * @return
+     */
+    setPersistentAttributes: function(memento) {
+        this._super(memento);
+
+        this.updateHeader(memento);
+
+        if ( typeof memento.tablePorts !== "undefined") {
+            $.each(memento.tablePorts, $.proxy(function(index, item) {
+                this.createCustomizedPort(item.type, item.name, item.position);
+            }, this));
+        }
+
+        this.updateAttributes(memento);
 
         return this;
     },

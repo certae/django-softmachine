@@ -176,8 +176,8 @@ Ext.define('ProtoUL.view.diagram.EntityAttributes', {
         grid.getStore().insert(index, record);
         grid.getSelectionModel().select(record);
         
-		// var btSaveTable = grid.ownerCt.getDockedItems('toolbar[dock="top"]')[0].getComponent('btSaveTable');
-        // btSaveTable.fireEvent('click');
+		var btSaveTable = grid.ownerCt.getDockedItems('toolbar[dock="top"]')[0].getComponent('btSaveTable');
+        btSaveTable.fireEvent('click');
     },
 
     checkChanged: function(column, recordIndex, checked) {

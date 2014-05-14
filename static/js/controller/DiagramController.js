@@ -50,17 +50,21 @@ Ext.define('ProtoUL.controller.DiagramController', {
         this.getDiagramCanvas().getView().getCommandStack().redo();
     },
 
+    getAttributeFromTagetTable: function(connection) {
+    	var attribute = null;
+        connection.targetPort.getParent().getChildren().each(function(i, w) {
+            if (connection.id === w.id) {
+                attribute = w;
+            }
+        });
+        return attribute;
+    },
+
     deleteObject: function(button, e, eOpts) {
         var node = this.getDiagramCanvas().getView().getCurrentSelection();
         if (node.targetPort) {
-            var attribute = null;
-            var table = node.targetPort.getParent();
-            table.getChildren().each(function(i, w) {
-                if (node.id === w.id) {
-                    attribute = w;
-                }
-            });
-            table.removeFigure(attribute);
+            var attribute = this.getAttributeFromTagetTable(node);
+            node.targetPort.getParent().removeFigure(attribute);
         }
         var command = new draw2d.command.CommandDelete(node);
         this.getDiagramCanvas().getView().getCommandStack().execute(command);
@@ -82,34 +86,45 @@ Ext.define('ProtoUL.controller.DiagramController', {
 
     zoomOut: function(button, e, eOpts) {
         this.getDiagramCanvas().getView().setZoom(this.getDiagramCanvas().getView().getZoom() * 1.3, true);
-	},
+    },
 
     enableToolbarButton: function(button) {
         var toolbarButton = this.getDiagramToolbar().getComponent(button);
         toolbarButton.setDisabled(false);
     },
 
-	createEntityAttribute: function(text, id) {
-		return Ext.create('ProtoUL.model.EntityAttributesModel', {
+    createEntityAttribute: function(text, id, pk, fk, datatype) {
+        return Ext.create('ProtoUL.model.EntityAttributesModel', {
             text: text,
             id: id,
             inputPort: '',
             datatype: 'string',
             unique: false,
-            pk: false
+            pk: pk,
+            fk: fk,
+            isRequired: false,
+            isNullable: false
         });
-	},
-	
+    },
+
+    createAjaxRequest: function(url, method, params, jsonData, successFunction, failureFunction) {
+        Ext.Ajax.request({
+            url: url,
+            method: method,
+            params: params,
+            jsonData: jsonData,
+            success: successFunction,
+            failure: failureFunction
+        });
+    },
     addAttribute: function(button, e, eOpts) {
         var entityEditor = this.getEntityEditor();
         var gridDetail = this.getEntityAttributes();
         gridDetail.rowEditing.cancelEdit();
-        var attribute = this.createEntityAttribute('new attribute' + gridDetail.getStore().data.length, draw2d.util.UUID.create());
+        var attribute = this.createEntityAttribute('new attribute' + gridDetail.getStore().data.length, draw2d.util.UUID.create(), false, false, 'string');
         gridDetail.getStore().insert(gridDetail.getStore().data.length, attribute);
         entityEditor.figure.addAttribute(0, attribute);
-        // gridDetail.rowEditing.startEdit(gridDetail.getStore().data.length - 1, 0);
         entityEditor.figure.setDimension(1, 1);
-        // this.saveTable();
     },
 
     deleteAttribute: function(button, e, eOpts) {
@@ -136,7 +151,6 @@ Ext.define('ProtoUL.controller.DiagramController', {
                 figure.removeFigure(label);
             }
         });
-        // this.saveTable();
     },
 
     addOrUpdateJSONDocument: function(data) {
@@ -162,19 +176,23 @@ Ext.define('ProtoUL.controller.DiagramController', {
             gridDetailStore.each(function(record) {
                 propertySource.attributes.push(record.data);
             });
-
-            this.updateJsonDocument();
-            this.addOrUpdateJSONDocument(propertySource);
-
-            this.getDiagramCanvas().reload();
+            for (var i = entityEditor.figure.attributes.size - 1; i >= 0; i--) {
+                entityEditor.figure.removeFigure(entityEditor.figure.attributes.get(i));
+            }
+            entityEditor.figure.setColor(propertySource.color);
+            entityEditor.figure.updateHeader(propertySource);
+            entityEditor.figure.updateAttributes(propertySource);
+            entityEditor.figure.setDimension(1, 1);
         } else if ( typeof propertySource.router !== "undefined") {
-            this.updateJsonDocument();
             propertySource.userData.isPrimary = propertySource.isPrimary;
-            this.addOrUpdateJSONDocument(propertySource);
-
-            this.getDiagramCanvas().reload();
+            var attribute = this.getAttributeFromTagetTable(entityEditor.figure);
+            attribute.pk = propertySource.isPrimary;
+            attribute.setBold(attribute.pk);
+            if (attribute.pk) {
+                attribute.setCssClass('primary_key');
+            }
+            entityEditor.figure.setPersistentAttributes(propertySource);
         }
-        this.enableToolbarButton('btSaveDiagram');
     },
 
     saveDiagram: function(button, e, eOpts) {
@@ -182,61 +200,60 @@ Ext.define('ProtoUL.controller.DiagramController', {
         this.updateJsonDocument();
 
         var controller = this;
-        var projectID = controller.getDiagramMainView().getProjectID();
-        var diagramID = controller.getDiagramMainView().getDiagramID();
-
-        Ext.Ajax.request({
-            url: _SM._PConfig.saveDiagram,
-            method: "POST",
-            params: {
-                projectID: projectID,
-                diagramID: diagramID
-            },
-            jsonData: Ext.JSON.encode(jsonDocument),
-            success: function(response) {
-                setTimeout(function() {
-                    Ext.MessageBox.close();
-                }, 1000);
-            },
-            failure: function(response) {
+        params = {
+            projectID: controller.getDiagramMainView().getProjectID(),
+            diagramID: controller.getDiagramMainView().getDiagramID()
+        };
+        successFunction = function(response) {
+            setTimeout(function() {
                 Ext.MessageBox.close();
-                console.log('Failure: saveDiagram');
-            }
-        });
+            }, 1000);
+        };
+        failureFunction = function(response) {
+            Ext.MessageBox.close();
+            console.log('Failure: saveDiagram');
+        };
+        this.createAjaxRequest(_SM._PConfig.saveDiagram, "POST", params, Ext.JSON.encode(jsonDocument), successFunction, failureFunction);
 
         this.enableToolbarButton('btSyncToDB');
+    },
+
+    updateJSONFromData: function(index, data) {
+        if (data.type === 'dbModel.shape.DBTable') {
+            jsonDocument[index].tableName = data.tableName;
+            jsonDocument[index].attributes = data.attributes;
+        }
+    },
+
+    synchronizeJSONDocument: function(data) {
+        for (var i = 0; i < jsonDocument.length; i++) {
+            if (jsonDocument[i].id === data.id) {
+                this.updateJSONFromData(i, data);
+            }
+        }
     },
 
     synchDBFromDiagram: function(button, e, eOpts) {
         var controller = this;
         controller.showProgressBar(_SM.__language.Message_Creating_Objects, _SM.__language.Text_Submit_Validation_Form);
-        var menuController = this.application.controllers.get('DiagramMenuController');
-        var projectID = menuController.getDiagramMainView().getProjectID();
-        Ext.Ajax.request({
-            url: _SM._PConfig.synchDBFromDiagram,
-            method: "POST",
-            params: {
-                projectID: projectID
-            },
-            jsonData: jsonDocument,
-            success: function(response) {
-                var text = response.responseText;
-                var outcome = Ext.JSON.decode(text);
-                for (var i = 0; i < outcome.tables.length; i += 1) {
-                    menuController.synchronizeJSONDocument(outcome.tables[i]);
-                }
-                for (var i = 0; i < outcome.connectors.length; i += 1) {
-                    menuController.synchronizeJSONDocument(outcome.connectors[i]);
-                }
-                controller.getDiagramCanvas().reload();
-                controller.updateJsonDocument();
-                Ext.MessageBox.close();
-            },
-            failure: function(response) {
-                Ext.MessageBox.close();
-                console.log('Failure: synchDBFromDiagram');
+        params = {
+            projectID: controller.getDiagramMainView().getProjectID()
+        };
+        successFunction = function(response) {
+            var text = response.responseText;
+            var outcome = Ext.JSON.decode(text);
+            for (var i = 0; i < outcome.tables.length; i += 1) {
+                controller.synchronizeJSONDocument(outcome.tables[i]);
             }
-        });
+            controller.getDiagramCanvas().reload();
+            controller.updateJsonDocument();
+            Ext.MessageBox.close();
+        };
+        failureFunction = function(response) {
+            Ext.MessageBox.close();
+            console.log('Failure: synchDBFromDiagram');
+        };
+        this.createAjaxRequest(_SM._PConfig.synchDBFromDiagram, "POST", params, jsonDocument, successFunction, failureFunction);
         button.setDisabled(true);
     },
 
@@ -310,7 +327,7 @@ Ext.define('ProtoUL.controller.DiagramController', {
 
     hidePropertyGridAttributes: function(masterRecord) {
         masterRecord.getView().getRowClass = function(row, index) {
-            if (row.data.name !== 'isPrimary' && row.data.name !== 'name' && row.data.name !== 'tableName') {
+            if (row.data.name !== 'isPrimary' && row.data.name !== 'name' && row.data.name !== 'tableName' && row.data.name !== 'color') {
                 return 'hide-this-row';
             } else {
                 return '';
@@ -348,18 +365,27 @@ Ext.define('ProtoUL.controller.DiagramController', {
         }
     },
 
+    // Used to synchonize connector and attribute
     onDropConnection: function(connection, figure) {
         var me = this;
         me.onSelectionChanged(figure);
 
-        var gridDetail = me.getEntityAttributes();
-        var entityEditor = me.getEntityEditor();
-        gridDetail.rowEditing.cancelEdit();
-        var attribute = this.createEntityAttribute(connection.getConnectionName(), connection.getId());
+        if (connection !== null) {
+            var gridDetail = me.getEntityAttributes();
+            var entityEditor = me.getEntityEditor();
+            gridDetail.rowEditing.cancelEdit();
+            var attribute = this.createEntityAttribute(connection.getConnectionName(), connection.getId(), false, true, 'string');
 
-        gridDetail.getStore().insert(gridDetail.getStore().data.length, attribute);
-        entityEditor.figure.addAttribute(0, attribute);
-        entityEditor.figure.setDimension(1, 1);
+            gridDetail.getStore().insert(gridDetail.getStore().data.length, attribute);
+            var label = entityEditor.figure.addAttribute(0, attribute.data);
+            label.setId(attribute.data.id);
+            label.datatype = attribute.data.datatype;
+            label.pk = attribute.data.pk;
+            label.fk = attribute.data.fk;
+            label.isRequired = attribute.data.isRequired;
+            label.isNullable = attribute.data.isNullable;
+            entityEditor.figure.setDimension(1, 1);
+        }
     },
 
     init: function(application) {

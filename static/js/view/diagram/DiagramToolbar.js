@@ -72,7 +72,6 @@ Ext.define('ProtoUL.view.diagram.DiagramToolbar', {
                 	xtype: 'button',
                 	iconCls: 'save-diagram',
                     itemId: 'btSaveDiagram',
-                    disabled: true,
                     text: _SM.__language.Text_Save_Diagram_Button
                 },
                 {
