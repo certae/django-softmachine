@@ -16,7 +16,7 @@ class importOMS_RAI():
 
     def __init__(self, userProfile ):
         self.__filename = ""
-        self.project = None
+        self.domaff_modele = None
         self.__tree = None
 
 
@@ -42,60 +42,56 @@ class importOMS_RAI():
         self.userProfile = userProfile
 
         # tuples equivalence ( Champs modèle de données RIA, Champs d'OMS ) 
-        self.MODELE = [
-        ('Nom modèle','Name'),
-        ('Description modèle','Description_modele'),
-        ('Version modèle','Version'),
-        ('Auteur modèle','Auteurmodele'),
-        ('Acteur principal','Acteur principal'),
-        ('Autres acteurs','Autres acteurs'),
-        ('Intrants declencheurs','Intrants Declencheurs'),
-        ]
+        self.MODELE = { 
+            'code' : 'nom_modele',
+        }
 
-        self.ENTITE = [
-        ('Nom entite','Name'),
-        ('Description entite','Description'),
-        ] 
+        self.ENTITE = { 
+            'code' : 'nom_entite', 
+            'description' : 'description_entite'
+        }  
 
-        self.ELEMENT_DONNEE = [
-        ('Nom element donnee','Name'),
-        ('Numero elem CN','Alias'),
-        ] 
+        self.ELEMENT_DONNEE = { 
+            'code' : 'nom_element_donnee', 
+            'alias' : 'numero_elem_cn'
+        }  
 
-        self.ELEMENT_DONNEE_PP = [
-        ('Type de base','Format'),
-        ('Definition','Description et Definition'),
-        ('Element transforme','elementtransforme'),
-        ('Gabarit','Gabarit'),
-        ('Element transmis','elementtransmis'),
-        ('Domaine valeurs','Domainedevaleurs'),
-        ('Date entree vigueur','entreeenvigueur'),
-        ('Date dernière modification','datedeladernieremodification'),
-        ('Consignes saisie','descriptioncn'),
-        ('Pratiques acceptees','precisions'),
-        ('Validation sur-element','validationsurelement et validation'),
-        ('Validations inter-elements','validationsinterelement'),
-        ('Validations inter-enregistrement','validationinterenregistrement'),
-        ('Requis par','requispar'),
-        ] 
+        self.ELEMENT_DONNEE_PP = {
+          # 'entite'            : 'entite_elem', 
+            'FORMAT'            : 'type_de_base',
+            'DEFINITION'        : 'definition',
+            'ELEMENTTRANSFORME' : 'element_transforme', 
+            'GABARIT'           : 'gabarit',
+            'ELEMENTTRANSMIS'   :  'element_transmis', 
+            'DOMAINEDEVALEURS'  : 'domaine_valeurs', 
+            'ENTREEENVIGUEUR'   : 'date_entree_vigueur', 
+            'DATEDELADERNIEREMODIFICATION': 'date_derniere_modification', 
+            'DESCRIPTIONCN'     : 'consignes_saisie', 
+            'PRECISIONS'        : 'pratiques_acceptees',  
+            'VALIDATIONSURELEMENT' : 'validation_sur_element', 
+            'VALIDATIONSINTERELEMENT': 'validations_inter_elements', 
+            'VALIDATIONINTERENREGISTREMENT' : 'validations_inter_enregistrement', 
+            'REQUISPAR'         : 'requis_par'
+        } 
+
+        self.RELATION = {
+          # 'entite'            : 'entite_rela1', 
+            'baseConcept'       : 'entite_rela2', 
+
+            'code'              : 'nom_relation', 
+            'description'       : 'description',
+            'baseMin'           : 'baseMin', 
+            'baseMax'           : 'baseMax',
+            'refMin'            : 'refMin',
+            'refMax'            : 'refMax',
+        } 
 
 
-        self.RELATION = [
-        ('Nom relation','Name'),
-        ('Description','Description'),
-        ('ENTITE-RELA1',''),
-        ('ENTITE-RELA2',''),
-        ('baseMin', ''), 
-        ('baseMax',''), 
-        ('refMin',''), 
-        ('refMax','') 
-        ] 
-
-        self.MODELE_RACCORDEMENT = [
-        ('Nom modèle raccordement','Name'),
-        ('MOD-MODRAC1',''),
-        ('MOD-MODRAC2',''),
-        ] 
+        self.MODELE_RACCORDEMENT = {
+            'Nom modèle raccordement' : 'Name',
+            'MOD-MODRAC1':'',
+            'MOD-MODRAC2':'',
+        } 
 
         self.RACCORDEMENT = [
         ('ELEDON-RAC1',''),
@@ -148,15 +144,11 @@ class importOMS_RAI():
             xModels = xProjects[0].getiterator("model")
             for xModel in xModels:
                 dModel = Modele()
-                dModel.project = self.project 
-                modelUdps = []
+                dModel.domaff_modele = self.domaff_modele 
 
                 for child in xModel:
                     if child.tag in self.MODELE:
-                        setattr(dModel, child.tag, child.text)
-                    elif child.tag == 'udps':
-                        for xUdp in child:
-                            modelUdps.append((xUdp.tag, xUdp.get('text')))
+                        setattr(dModel, self.MODELE[ child.tag ], child.text)
 
                 try:
                     setSecurityInfo(dModel, data, self.userProfile, True )
@@ -165,20 +157,17 @@ class importOMS_RAI():
                     self.__logger.info("Error dModel.save")
                     return
                     
-                self.__logger.info("Model..." + dModel.code)
+                self.__logger.info("Model..." + dModel.__str__())
 
                 # ------------------------------------------------------------------------------
                 xEntitys = xModel.getiterator("concept")
                 for xEntity in xEntitys:
                     dEntity = Entite()
-                    dEntity.model = dModel
+                    dEntity.entite_mod = dModel
                     
                     for child in xEntity:
-                        if (child.tag in self.ENTITE):
-                            if (child.text is not None):
-                                setattr(dEntity, child.tag, child.text)
-                        elif  (child.tag == 'physicalName'):
-                            setattr(dEntity, 'dbName' , child.text)
+                        if (child.tag in self.ENTITE) and (child.text is not None ):
+                            setattr(dEntity, self.ENTITE[ child.tag ] , child.text)
                         
                     try:              
                         setSecurityInfo(dEntity, data, self.userProfile, True )
@@ -187,25 +176,25 @@ class importOMS_RAI():
                         self.__logger.info("Error dEntity.save")
                         return
 
-                    self.__logger.info("Entity..." + dEntity.code)
+                    self.__logger.info("Entity..." + dEntity.__str__())
 
 
                     # ------------------------------------------------------------------------------
                     xProperties = xEntity.getiterator("property")
                     for xProperty in xProperties:
                         
-                        dProperty = Property()
-                        dProperty.entity = dEntity
+                        dProperty = ElementDonnee()
+                        dProperty.entite_elem = dEntity
 
                         for child in xProperty:
-
-                            if child.tag in self.DONNEE:
+                            if child.tag in self.ELEMENT_DONNEE:
                                 if (child.text is not None):
-                                    setattr(dProperty, child.tag, child.text)
-                                
-#                             elif child.tag in booProperty:
-#                                 bValue = toBoolean(child.text)
-#                                 setattr(dProperty, child.tag, bValue)
+                                    setattr(dProperty, self.ELEMENT_DONNEE[ child.tag ] , child.text)
+
+                            elif child.tag == 'udps':
+                                for xUdp in child:
+                                    if xUdp.tag in self.ELEMENT_DONNEE_PP:
+                                        setattr(dProperty, self.ELEMENT_DONNEE_PP[ xUdp.tag ] , xUdp.get('text') )
 
 
                         try: 
@@ -219,7 +208,7 @@ class importOMS_RAI():
                     # Relationship -------------------------------------------------------------------
                     xForeigns = xEntity.getiterator("foreign")
                     for xForeign in xForeigns:
-                        dForeign = Relationship()
+                        dForeign = Relation()
 
                         dForeign.entity = dEntity 
                         dForeign.refEntity = dEntity
@@ -257,16 +246,16 @@ class importOMS_RAI():
         # self.dProject = Project.objects.get( code = "test1120")      
                 
         # Recorre las llaves para asociar los FK 
-        for dForeign in Relationship.objects.filter(entity__model__project=self.project):
+        for dForeign in Relation.objects.filter(entity__model__project=self.domaff_modele):
             try: 
-                dReference = Entity.objects.get(model__project=dForeign.entity.model.project, code=dForeign.dbName)
+                dReference = Entite.objects.get(model__project=dForeign.entity.model.domaff_modele, code=dForeign.dbName)
             except: 
                 continue
             
             dForeign.refEntity = dReference
             # OMS default name : C-### 
-            if len(dForeign.code) < 6:
-                dForeign.code = dForeign.entity.code + "-" + dReference.code 
+#             if len(dForeign.code) < 6:
+#                 dForeign.code = dForeign.entity.code + "-" + dReference.code 
 
             try: 
                 dForeign.save()
@@ -280,7 +269,7 @@ class importOMS_RAI():
     
     def doImport(self, dProject): 
         # We write in the database
-        self.project = dProject 
+        self.domaff_modele = dProject 
     
         dictWrite = self.__write()
         if (dictWrite['state'] != self.OK):

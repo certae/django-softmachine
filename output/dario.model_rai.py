@@ -71,7 +71,7 @@ class RegroupementDesModeles(ProtoModel):
 class Entite(ProtoModel):
     nom_entite = models.CharField(blank= False, null= False, max_length= 200)
     description_entite = models.TextField(blank = True, null = True)
-    historique = models.BooleanField()
+    historique = models.BooleanField(default=False)
     entite_mod = models.ForeignKey('Modele', blank= False, null= False, related_name='entite_entite_mod')
     physical_name = models.CharField(blank= True, null= True, max_length= 200)
 
@@ -95,12 +95,12 @@ class ReglesGestion(ProtoModel):
 
 class ElementDonnee(ProtoModel):
     nom_element_donnee = models.CharField(blank= False, null= False, max_length= 200)
-    historique = models.BooleanField()
+    historique = models.BooleanField(default=False)
     numero_elem_cn = models.CharField(blank= True, null= True, max_length= 200)
     type_de_base = models.CharField(blank= True, null= True, max_length= 200)
     definition = models.TextField(blank = True, null = True)
-    cle_etrangere = models.BooleanField()
-    cle_primaire = models.BooleanField()
+    cle_etrangere = models.BooleanField(default=False)
+    cle_primaire = models.BooleanField(default=False)
     longueur = models.CharField(blank= True, null= True, max_length= 200)
     element_transforme = models.TextField(blank = True, null = True)
     gabarit = models.CharField(blank= True, null= True, max_length= 200)
@@ -179,7 +179,7 @@ class Relation(ProtoModel):
     entite_rela1 = models.ForeignKey('Entite', blank= False, null= False, related_name='relation_entite_rela1')
     entite_rela2 = models.ForeignKey('Entite', blank= False, null= False, related_name='relation_entite_rela2')
     nom_relation = models.CharField(blank= False, null= False, max_length= 200)
-    dependence = models.BooleanField()
+    dependence = models.BooleanField(default=False)
     description = models.TextField(blank = True, null = True)
 
     def __unicode__(self):
