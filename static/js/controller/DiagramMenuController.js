@@ -117,28 +117,34 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
 	syncDiagramFromDB: function() {
 		var controller = this;
         var projectID = controller.getDiagramMainView().getProjectID();
-		Ext.Ajax.request({
-            url: _SM._PConfig.synchDiagramFromDB,
-            params: {
-                projectID: projectID
-            },
-            success: function(response) {
-                var text = response.responseText;
-                var outcome = Ext.JSON.decode(text);
-                for (var i = 0; i < outcome.tables.length; i += 1) {
-                    controller.synchronizeJSONDocument(outcome.tables[i]);
-                }
-                for (var i = 0; i < outcome.connectors.length; i += 1) {
-                    controller.synchronizeJSONDocument(outcome.connectors[i]);
-                }
-                controller.getDiagramCanvas().reload();
-                controller.updateJsonDocument();
-                Ext.Msg.alert('Success', _SM.__language.Message_Diagram_Synchronized);
-            },
-            failure: function(response) {
-                Ext.Msg.alert('Failure', _SM.__language.Message_Error_Diagram_Synchronized);
+		function doUpdate(btn) {
+            if (btn === 'yes') {
+                Ext.Ajax.request({
+					url: _SM._PConfig.synchDiagramFromDB,
+					params: {
+						projectID: projectID
+					},
+					success: function(response) {
+						var text = response.responseText;
+						var outcome = Ext.JSON.decode(text);
+						for (var i = 0; i < outcome.tables.length; i += 1) {
+						   controller.synchronizeJSONDocument(outcome.tables[i]);
+						}
+						for (var i = 0; i < outcome.connectors.length; i += 1) {
+						   controller.synchronizeJSONDocument(outcome.connectors[i]);
+						}
+						controller.getDiagramCanvas().reload();
+						controller.updateJsonDocument();
+						Ext.Msg.alert('Success', _SM.__language.Message_Diagram_Synchronized);
+					},
+					failure: function(response) {
+						Ext.Msg.alert('Failure', _SM.__language.Message_Error_Diagram_Synchronized);
+					}
+				});
             }
-        });
+        }
+		Ext.MessageBox.confirm('Confirmation', _SM.__language.Msg_Confirm_Delete_Operation + ' les configurations personnalisées seront perdues!', doUpdate);
+		
 	},
 	
     menuManageDiagram: function() {

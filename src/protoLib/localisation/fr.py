@@ -239,7 +239,7 @@ __language ={
     'Text_ZoomIn_Button' : 'Zoom avant',
     'Text_ZoomOut_Button' : 'Zoom arrière',
     'Text_Save_Diagram_Button' : 'Enregistrer diagramme',
-    'Text_Commit_Changes_Button' : 'Valider les modifications',
+    'Text_Commit_Changes_Button' : 'Mettre à jour la base de données',
     'Text_Add_Button' : 'Ajouter',
     'Text_UpdateDiagram_Button' : 'Mettre à jour le diagramme',
     'Text_OpenDiagram_Button' : 'Ouvrir diagramme',

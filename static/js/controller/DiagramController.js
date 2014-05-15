@@ -1,3 +1,11 @@
+/**
+ * @class TableConnection
+ *
+ * This controller is used to capture events from diagram toolbar and diagram detail.
+ *
+ * @author Giovanni Victorette
+ * @extend Ext.app.Controller
+ */
 Ext.define('ProtoUL.controller.DiagramController', {
     extend: 'Ext.app.Controller',
 
@@ -51,7 +59,7 @@ Ext.define('ProtoUL.controller.DiagramController', {
     },
 
     getAttributeFromTagetTable: function(connection) {
-    	var attribute = null;
+        var attribute = null;
         connection.targetPort.getParent().getChildren().each(function(i, w) {
             if (connection.id === w.id) {
                 attribute = w;
@@ -172,6 +180,21 @@ Ext.define('ProtoUL.controller.DiagramController', {
         var gridDetailStore = this.getEntityAttributes().getStore();
 
         if ( typeof propertySource.attributes !== "undefined") {
+            var sm = this.getEntityAttributes().getSelectionModel();
+            var attribute = sm.getSelection()[0];
+            if (attribute) {
+                if (attribute.data.fk) {
+                    entityEditor.figure.getConnections().each(function(index, connection) {
+                        if (attribute.data.id === connection.id) {
+                            var memento = connection.getPersistentAttributes();
+                            memento.name = attribute.data.text;
+                            memento.userData.isPrimary = attribute.data.pk;
+                            connection.setPersistentAttributes(memento);
+                        }
+                    });
+                }
+
+            }
             propertySource.attributes.splice(0, propertySource.attributes.length);
             gridDetailStore.each(function(record) {
                 propertySource.attributes.push(record.data);
@@ -187,9 +210,12 @@ Ext.define('ProtoUL.controller.DiagramController', {
             propertySource.userData.isPrimary = propertySource.isPrimary;
             var attribute = this.getAttributeFromTagetTable(entityEditor.figure);
             attribute.pk = propertySource.isPrimary;
+            attribute.setText(propertySource.name);
             attribute.setBold(attribute.pk);
             if (attribute.pk) {
                 attribute.setCssClass('primary_key');
+            } else {
+                attribute.setCssClass('draw2d_shape_basic_Label');
             }
             entityEditor.figure.setPersistentAttributes(propertySource);
         }
