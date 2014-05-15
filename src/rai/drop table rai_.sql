@@ -1,6 +1,6 @@
+-- drop table rai_domaineaffaires;
 drop table rai_indexdesdonnees;
 drop table rai_specifications;
-drop table rai_domaineaffaires;
 drop table rai_projet;
 drop table rai_regroupementdesmodeles;
 drop table rai_entite;

@@ -54,12 +54,12 @@ class importOMS_RAI():
         }  
 
         self.ELEMENT_DONNEE = { 
+          # 'entite'            : 'entite_elem', 
             'code' : 'nom_element_donnee', 
             'alias' : 'numero_elem_cn'
         }  
 
         self.ELEMENT_DONNEE_PP = {
-          # 'entite'            : 'entite_elem', 
             'description'       : 'description',
 
             'FORMAT'            : 'type_de_base',
@@ -80,9 +80,12 @@ class importOMS_RAI():
 
         self.RELATION = {
           # 'entite'            : 'entite_rela1', 
-            'baseConcept'       : 'tmp_foreign2', 
-
+          # 'ref'               : 'entite_rela2', 
             'code'              : 'nom_relation', 
+
+            'baseConcept'       : 'tmp_foreign', 
+            'alias'             : 'tmp_alias', 
+
             'description'       : 'description',
             'baseMin'           : 'baseMin', 
             'baseMax'           : 'baseMax',
@@ -92,15 +95,20 @@ class importOMS_RAI():
 
 
         self.MODELE_RACCORDEMENT = {
-            'Nom modèle raccordement' : 'Name',
-            'MOD-MODRAC1':'',
-            'MOD-MODRAC2':'',
+            'code'          : 'nom_modele_raccordement',
+            'source'        : 'tmp_modrac1',
+            'destination'   : 'tmp_modrac2',
         } 
 
-        self.RACCORDEMENT = [
-        ('ELEDON-RAC1',''),
-        ('ELEDON-RAC2',''),
-        ] 
+        self.RACCORDEMENT = {
+            # modrac_rac    
+            'code'              : 'no_raccordement',
+            'sourceCol'         : 'tmp_rac1',
+            'destinationCol'    : 'tmp_rac2',
+
+            'alias'             : 'tmp_alias',
+            'destinationText'   : 'tmp_destt',
+        } 
 
 
     # filename doit etre un fichier XML
@@ -219,17 +227,7 @@ class importOMS_RAI():
 
                         for child in xForeign:
                             if child.tag in self.RELATION:
-                                setattr(dForeign, child.tag, child.text)
-
-                            elif  (child.tag == 'baseConcept'):
-                                setattr(dForeign, 'dbName' , child.text)
-
-                            elif  (child.tag == 'alias'):
-                                setattr(dForeign, 'relatedName' , child.text)
-                                
-#                             elif child.tag in booProperty:
-#                                 bValue = toBoolean(child.text)
-#                                 setattr(dForeign, child.tag, bValue)
+                                setattr(dForeign, self.RELATION[ child.tag ], child.text)
 
                         try:
                             setSecurityInfo(dForeign, data, self.userProfile, True )
@@ -237,6 +235,43 @@ class importOMS_RAI():
                         except Exception, e: 
                             self.__logger.info("Error dForeign.save" + str(e))
                             return
+
+
+# RAC 
+            # ------------------------------------------------------------------------------
+            xLinkModels = xProjects[0].getiterator("linkModel")
+            for xLinkModel in xLinkModels:
+                dLinkModel = ModeleRaccordement()
+
+                for child in xLinkModel:
+                    if child.tag in self.MODELE_RACCORDEMENT:
+                        setattr(dLinkModel, self.MODELE_RACCORDEMENT[ child.tag ], child.text)
+
+                try:
+                    setSecurityInfo(dLinkModel, data, self.userProfile, True )
+                    dLinkModel.save()
+                except:  
+                    self.__logger.info("Error dLinkModel.save")
+                    return
+                    
+                self.__logger.info("LinkModel..." + dLinkModel.__str__())
+
+                # ------------------------------------------------------------------------------
+                xLinks = xLinkModel.getiterator("link")
+                for xLink in xLinks:
+                    dLink = Raccordement()
+                    dLink.modrac_rac = dLinkModel
+                    
+                    for child in xLink:
+                        if (child.tag in self.RACCORDEMENT) and (child.text is not None ):
+                            setattr(dLink, self.RACCORDEMENT[ child.tag ] , child.text)
+                    try:              
+                        setSecurityInfo(dLink, data, self.userProfile, True )
+                        dLink.save()
+                    except: 
+                        self.__logger.info("Error dLink.save")
+                        return
+
 
         
         # Logging info

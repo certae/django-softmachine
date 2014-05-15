@@ -58,8 +58,8 @@ class Modele(ProtoModel):
     def __unicode__(self):
         return slugify(str( self.domaff_modele) +  '.' + self.nom_modele)
 
-    class Meta:
-        unique_together = ('domaff_modele','nom_modele',)
+#     class Meta:
+#         unique_together = ('domaff_modele','nom_modele',)
 
 
 class Entite(ProtoModel):
@@ -74,8 +74,8 @@ class Entite(ProtoModel):
     def __unicode__(self):
         return slugify(self.nom_entite +  '.' + str( self.entite_mod))
 
-    class Meta:
-        unique_together = ('nom_entite','entite_mod',)
+#     class Meta:
+#         unique_together = ('nom_entite','entite_mod',)
 
 
 class ElementDonnee(ProtoModel):
@@ -131,15 +131,17 @@ class ElementDonnee(ProtoModel):
     def __unicode__(self):
         return slugify(self.nom_element_donnee +  '.' + str( self.entite_elem))
 
-    class Meta:
-        unique_together = ('nom_element_donnee','entite_elem',)
+#     class Meta:
+#         unique_together = ('nom_element_donnee','entite_elem',)
 
 
 class Relation(ProtoModel):
     entite_rela1 = models.ForeignKey('Entite', blank= False, null= False, related_name='relation_entite_rela1')
     entite_rela2 = models.ForeignKey('Entite', blank= False, null= False, related_name='relation_entite_rela2')
 
-    tmp_foreign  = models.CharField(blank= False, null= False, max_length= 200)
+    tmp_foreign  = models.CharField(blank= True, null= True, max_length= 200)
+    tmp_alias    = models.CharField(blank= True, null= True, max_length= 200)
+
     nom_relation = models.CharField(blank= False, null= False, max_length= 200)
 
     description = models.TextField(blank = True, null = True)
@@ -155,6 +157,45 @@ class Relation(ProtoModel):
 
     # class Meta:
     #     unique_together = ('entite_rela1','entite_rela2','nom_relation',)
+
+
+class ModeleRaccordement(ProtoModel):
+    mod_modrac1 = models.ForeignKey('Modele', blank= True, null= True, related_name='modele_raccordement_mod_modrac1')
+    mod_modrac2 = models.ForeignKey('Modele', blank= True, null= True, related_name='modele_raccordement_mod_modrac2')
+
+    nom_modele_raccordement = models.CharField(blank= True, null= True, max_length= 200)
+
+    tmp_modrac1 = models.CharField(blank= True, null= True, max_length= 200)
+    tmp_modrac2 = models.CharField(blank= True, null= True, max_length= 200)
+
+    notes_modele_raccordement = models.TextField(blank = True, null = True)
+
+    def __unicode__(self):
+        return slugify(self.nom_modele_raccordement)
+
+#     class Meta:
+#         unique_together = ('nom_modele_raccordement',)
+
+
+class Raccordement(ProtoModel):
+    modrac_rac = models.ForeignKey('ModeleRaccordement', blank= True, null= True, related_name='raccordement_modrac_rac')
+    
+    no_raccordement = models.CharField(blank= False, null= False, max_length= 200)
+
+    tmp_rac1 = models.CharField(blank= True, null= True, max_length= 200)
+    tmp_rac2 = models.CharField(blank= True, null= True, max_length= 200)
+
+    tmp_alias    = models.CharField(blank= True, null= True, max_length= 200)
+    tmp_destt    = models.CharField(blank= True, null= True, max_length= 200)
+
+    eledon_rac1 = models.ForeignKey('ElementDonnee', blank= True, null= True,  related_name='set_eledon_rac1')
+    eledon_rac2 = models.ForeignKey('ElementDonnee', blank= True, null= True,  related_name='set_eledon_rac2')
+
+    def __unicode__(self):
+        return slugify(self.no_raccordement)
+
+#     class Meta:
+#         unique_together = ('no_raccordement',)
 
 
 
@@ -230,31 +271,6 @@ class PorteeRegleGestion(ProtoModel):
 
     class Meta:
         unique_together = ('eledon_portee',)
-
-class Raccordement(ProtoModel):
-    eledon_rac1 = models.ForeignKey('ElementDonnee', blank= False, null= False, related_name='raccordement_eledon_rac1')
-    eledon_rac2 = models.ForeignKey('ElementDonnee', blank= True, null= True, related_name='raccordement_eledon_rac2')
-    modrac_rac = models.ForeignKey('ModeleRaccordement', blank= True, null= True, related_name='raccordement_modrac_rac')
-    no_raccordement = models.CharField(blank= False, null= False, max_length= 200)
-
-    def __unicode__(self):
-        return slugify(self.no_raccordement)
-
-    class Meta:
-        unique_together = ('no_raccordement',)
-
-class ModeleRaccordement(ProtoModel):
-    mod_modrac1 = models.ForeignKey('Modele', blank= True, null= True, related_name='modele_raccordement_mod_modrac1')
-    mod_modrac2 = models.ForeignKey('Modele', blank= True, null= True, related_name='modele_raccordement_mod_modrac2')
-    nom_modele_raccordement = models.CharField(blank= False, null= False, max_length= 200)
-    notes_modele_raccordement = models.TextField(blank = True, null = True)
-
-    def __unicode__(self):
-        return slugify(self.nom_modele_raccordement)
-
-    class Meta:
-        unique_together = ('nom_modele_raccordement',)
-
 
 class Norme(ProtoModel):
     code_norme = models.CharField(blank= False, null= False, max_length= 200)
