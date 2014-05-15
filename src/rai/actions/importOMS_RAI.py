@@ -44,6 +44,8 @@ class importOMS_RAI():
         # tuples equivalence ( Champs modèle de données RIA, Champs d'OMS ) 
         self.MODELE = { 
             'code' : 'nom_modele',
+            'idModel' : 'idModel',
+            'idRef' : 'idRef',
         }
 
         self.ENTITE = { 
@@ -58,11 +60,13 @@ class importOMS_RAI():
 
         self.ELEMENT_DONNEE_PP = {
           # 'entite'            : 'entite_elem', 
+            'description'       : 'description',
+
             'FORMAT'            : 'type_de_base',
             'DEFINITION'        : 'definition',
             'ELEMENTTRANSFORME' : 'element_transforme', 
             'GABARIT'           : 'gabarit',
-            'ELEMENTTRANSMIS'   :  'element_transmis', 
+            'ELEMENTTRANSMIS'   : 'element_transmis', 
             'DOMAINEDEVALEURS'  : 'domaine_valeurs', 
             'ENTREEENVIGUEUR'   : 'date_entree_vigueur', 
             'DATEDELADERNIEREMODIFICATION': 'date_derniere_modification', 
@@ -76,7 +80,7 @@ class importOMS_RAI():
 
         self.RELATION = {
           # 'entite'            : 'entite_rela1', 
-            'baseConcept'       : 'entite_rela2', 
+            'baseConcept'       : 'tmp_foreign2', 
 
             'code'              : 'nom_relation', 
             'description'       : 'description',
@@ -210,8 +214,8 @@ class importOMS_RAI():
                     for xForeign in xForeigns:
                         dForeign = Relation()
 
-                        dForeign.entity = dEntity 
-                        dForeign.refEntity = dEntity
+                        dForeign.entite_rela1 = dEntity 
+                        dForeign.entite_rela2 = dEntity
 
                         for child in xForeign:
                             if child.tag in self.RELATION:

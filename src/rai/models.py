@@ -36,6 +36,9 @@ class Modele(ProtoModel):
 
     nom_modele = models.CharField(blank= False, null= False, max_length= 200)
 
+    idModel = models.CharField(blank= True, null= False, max_length= 200)
+    idRef = models.CharField(blank= True, null= False, max_length= 200)
+
     type_modele = models.CharField(blank= True, null= True, max_length= 200)
     version_modele = models.CharField(blank= True, null= True, max_length= 200)
     auteur_modele = models.CharField(blank= True, null= True, max_length= 200)
@@ -65,7 +68,7 @@ class Entite(ProtoModel):
     nom_entite = models.CharField(blank= False, null= False, max_length= 200)
     description_entite = models.TextField(blank = True, null = True)
 
-    historique = models.BooleanField()
+    historique = models.BooleanField(default=False)
     physical_name = models.CharField(blank= True, null= True, max_length= 200)
 
     def __unicode__(self):
@@ -99,9 +102,9 @@ class ElementDonnee(ProtoModel):
     requis_par = models.CharField(blank= True, null= True, max_length= 200)
 
 
-    historique = models.BooleanField()
-    cle_etrangere = models.BooleanField()
-    cle_primaire = models.BooleanField()
+    historique = models.BooleanField(default=False)
+    cle_etrangere = models.BooleanField(default=False)
+    cle_primaire = models.BooleanField(default=False)
     longueur = models.CharField(blank= True, null= True, max_length= 200)
     obligation = models.CharField(blank= True, null= True, max_length= 200)
     mode_attribution = models.CharField(blank= True, null= True, max_length= 200)
@@ -133,12 +136,12 @@ class ElementDonnee(ProtoModel):
 
 
 class Relation(ProtoModel):
-    nom_relation = models.CharField(blank= False, null= False, max_length= 200)
-
     entite_rela1 = models.ForeignKey('Entite', blank= False, null= False, related_name='relation_entite_rela1')
     entite_rela2 = models.ForeignKey('Entite', blank= False, null= False, related_name='relation_entite_rela2')
 
-    dependence = models.BooleanField()
+    tmp_foreign  = models.CharField(blank= False, null= False, max_length= 200)
+    nom_relation = models.CharField(blank= False, null= False, max_length= 200)
+
     description = models.TextField(blank = True, null = True)
 
     baseMin = models.CharField(blank=True, null=True, max_length=50)
@@ -150,8 +153,8 @@ class Relation(ProtoModel):
     def __unicode__(self):
         return slugify(str( self.entite_rela1) +  '.' + str( self.entite_rela2) +  '.' + self.nom_relation)
 
-    class Meta:
-        unique_together = ('entite_rela1','entite_rela2','nom_relation',)
+    # class Meta:
+    #     unique_together = ('entite_rela1','entite_rela2','nom_relation',)
 
 
 
