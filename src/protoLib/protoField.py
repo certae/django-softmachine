@@ -160,9 +160,7 @@ def setFieldProperty(pField, pProperty, pDefault, field, fProperty, fpDefault):
 def isAdmField(fName):
 
     # Los campos de seguridad
-    if (fName in [ 'smOwningUser', 'smCreatedBy', 'smModifiedBy', 'smCreatedOn',
-                    'smOwningTeam', 'smModifiedOn', 'smWflowStatus', 'smRegStatus'
-                   ]):
+    if (fName in [ 'smOwningUser', 'smCreatedBy', 'smModifiedBy', 'smCreatedOn', 'smOwningTeam', 'smModifiedOn', 'smWflowStatus', 'smRegStatus', 'smUUID']):
         return True
 
     return False

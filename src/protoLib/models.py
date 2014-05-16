@@ -6,10 +6,13 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.contrib.contenttypes.models import ContentType
+
 from django.db.models.signals import post_save
 
 from protoLib.fields import JSONField, JSONAwareManager
 from protoLib.utils.modelsTools import  getDjangoModel, getNodeHierarchy
+
+from datetime import datetime
 import uuid
 
 class TeamHierarchy(models.Model):
@@ -116,24 +119,34 @@ class ProtoModel(models.Model):
 
 
     def save(self, *args, **kwargs):
-        """
-        Get last value of Code and Number from database, and increment before save
-        DGT: Upgrade to secuences 
-        """
-        if hasattr(self , "_autoIncrementField") and not self.pk:
-            _autoIncrementField = getattr(self, "_autoIncrementField")
-            model = self.__class__
-            top = model.objects.order_by('-pk')
-            if top:
-                setattr(self, _autoIncrementField, top[0].pk + 1)
-            else:
-                setattr(self, _autoIncrementField, 1)
 
-            super(ProtoModel, self).save(*args, **kwargs)
-        else:
-            if not self.smUUID:
-                self.smUUID = uuid.uuid1().hex
-            super(ProtoModel, self).save(*args, **kwargs)
+        # Insert 
+        if not self.pk:
+
+            # Date Creation 
+            setattr(self, 'smCreatedOn', datetime.now())
+
+            """
+            Get last value of Code and Number from database, and increment before save
+            DGT: Upgrade to secuences 
+            """
+            if hasattr(self , "_autoIncrementField") :
+                _autoIncrementField = getattr(self, "_autoIncrementField")
+                model = self.__class__
+                top = model.objects.order_by('-pk')
+                if top:
+                    setattr(self, _autoIncrementField, top[0].pk + 1)
+                else:
+                    setattr(self, _autoIncrementField, 1)
+
+        # UUID 
+        if not self.smUUID:
+            self.smUUID = uuid.uuid1().hex
+
+        # DateModif 
+        setattr(self, 'smModifiedOn', datetime.now())
+
+        super(ProtoModel, self).save(*args, **kwargs)
 
 
 class EntityMap(models.Model):

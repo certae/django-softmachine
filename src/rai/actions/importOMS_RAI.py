@@ -111,6 +111,21 @@ class importOMS_RAI():
         } 
 
 
+    def doImport(self, dProject): 
+
+        # We write in the database
+        self.domaff_modele = dProject 
+
+        # DGT Habilitar *******************************************    
+        # dictWrite = self.__write()
+        # if (dictWrite['state'] != self.OK):
+        #     return dictWrite
+
+        self.doFkMatch( )
+
+        return {'state':self.OK, 'message': 'Ecriture effectuee base donnee'}
+
+
     # filename doit etre un fichier XML
     def loadFile(self, filename):
         # In oder to conserve the file
@@ -285,16 +300,14 @@ class importOMS_RAI():
         # self.dProject = Project.objects.get( code = "test1120")      
                 
         # Recorre las llaves para asociar los FK 
-        for dForeign in Relation.objects.filter(entity__model__project=self.domaff_modele):
+        for dForeign in Relation.objects.filter(entite_rela1__entite_mod__domaff_modele = self.domaff_modele ):
             try: 
-                dReference = Entite.objects.get(model__project=dForeign.entity.model.domaff_modele, code=dForeign.dbName)
+                dReference = Entite.objects.get(entite_mod = dForeign.entite_rela1.entite_mod , 
+                                                nom_entite = dForeign.tmp_foreign )
             except: 
                 continue
             
-            dForeign.refEntity = dReference
-            # OMS default name : C-### 
-#             if len(dForeign.code) < 6:
-#                 dForeign.code = dForeign.entity.code + "-" + dReference.code 
+            dForeign.entite_rela2 = dReference
 
             try: 
                 dForeign.save()
@@ -306,13 +319,3 @@ class importOMS_RAI():
         self.__logger.info("Fk mathc effectuee...")
 
     
-    def doImport(self, dProject): 
-        # We write in the database
-        self.domaff_modele = dProject 
-    
-        dictWrite = self.__write()
-        if (dictWrite['state'] != self.OK):
-            return dictWrite
-                
-        return {'state':self.OK, 'message': 'Ecriture effectuee base donnee'}
-

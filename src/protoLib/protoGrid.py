@@ -177,7 +177,7 @@ class ProtoGridFactory(object):
                     if  vFld.get('crudType') == 'storeOnly' :
                         continue
 
-                    if (key in [ 'smOwningUser', 'smOwningTeam', 'smCreatedBy', 'smModifiedBy', 'smWflowStatus', 'smRegStatus', 'smCreatedOn', 'smModifiedOn' ]) :
+                    if (key in [ 'smOwningUser', 'smOwningTeam', 'smCreatedBy',  'smCreatedOn', 'smModifiedBy', 'smModifiedOn', 'smWflowStatus','smRegStatus',  'smUUID' ]) :
                         prAdmin.append({ 'name' : key  , '__ptType' : 'formField'})
 
                     elif (fType == 'text') :
