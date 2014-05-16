@@ -20,10 +20,10 @@ class importOMS_RAI():
         self.__tree = None
 
 
-        # Manejo del log 
-        self.__logger = logging.getLogger("Convert XML Database")
-        self.__logger.setLevel(logging.DEBUG)
-        
+        # Manejo del log
+#         logging.basicConfig(filename='output/rai.log',level=logging.INFO ) 
+        self.__logger = logging.getLogger("RAI import")
+
         formatter = logging.Formatter('[%(levelname)s] %(message)s')
         handler = logging.StreamHandler()
         handler.setFormatter(formatter)
@@ -49,30 +49,30 @@ class importOMS_RAI():
         }
 
         self.ENTITE = { 
-            'code' : 'nom_entite', 
-            'description' : 'description_entite'
+            'code'          : 'nom_entite', 
+            'description'   : 'description_entite', 
+            'physicalName'  : 'physical_name'
         }  
 
         self.ELEMENT_DONNEE = { 
           # 'entite'            : 'entite_elem', 
-            'code' : 'nom_element_donnee', 
-            'alias' : 'numero_elem_cn'
+            'code'  : 'nom_element_donnee', 
+            'alias' : 'numero_elem_cn', 
+            'description'      : 'description',
         }  
 
         self.ELEMENT_DONNEE_PP = {
-            'description'       : 'description',
-
-            'FORMAT'            : 'type_de_base',
-            'DEFINITION'        : 'definition',
-            'ELEMENTTRANSFORME' : 'element_transforme', 
-            'GABARIT'           : 'gabarit',
-            'ELEMENTTRANSMIS'   : 'element_transmis', 
-            'DOMAINEDEVALEURS'  : 'domaine_valeurs', 
-            'ENTREEENVIGUEUR'   : 'date_entree_vigueur', 
+            'FORMAT'              : 'type_de_base',
+            'DEFINITION'          : 'definition',
+            'ELEMENTTRANSFORME'   : 'element_transforme', 
+            'GABARIT'             : 'gabarit',
+            'ELEMENTTRANSMIS'     : 'element_transmis', 
+            'DOMAINEDEVALEURS'    : 'domaine_valeurs', 
+            'ENTREEENVIGUEUR'     : 'date_entree_vigueur', 
             'DATEDELADERNIEREMODIFICATION': 'date_derniere_modification', 
             'DESCRIPTIONCN'     : 'consignes_saisie', 
             'PRECISIONS'        : 'pratiques_acceptees',  
-            'VALIDATIONSURELEMENT' : 'validation_sur_element', 
+            'VALIDATIONSSURELEMENT' : 'validation_sur_element', 
             'VALIDATIONSINTERELEMENT': 'validations_inter_elements', 
             'VALIDATIONINTERENREGISTREMENT' : 'validations_inter_enregistrement', 
             'REQUISPAR'         : 'requis_par'
@@ -117,9 +117,9 @@ class importOMS_RAI():
         self.domaff_modele = dProject 
 
         # DGT Habilitar *******************************************    
-        # dictWrite = self.__write()
-        # if (dictWrite['state'] != self.OK):
-        #     return dictWrite
+        dictWrite = self.__write()
+        if (dictWrite['state'] != self.OK):
+            return dictWrite
 
         self.doFkMatch( )
 
@@ -180,9 +180,8 @@ class importOMS_RAI():
                 try:
                     setSecurityInfo(dModel, data, self.userProfile, True )
                     dModel.save()
-                except:  
-                    self.__logger.info("Error dModel.save")
-                    return
+                except Exception, e: 
+                    self.__logger.info("Error dModel.save " + str(e))
                     
                 self.__logger.info("Model..." + dModel.__str__())
 
@@ -199,12 +198,10 @@ class importOMS_RAI():
                     try:              
                         setSecurityInfo(dEntity, data, self.userProfile, True )
                         dEntity.save()
-                    except: 
-                        self.__logger.info("Error dEntity.save")
-                        return
+                    except Exception, e: 
+                        self.__logger.info("Error dEntity.save" + str(e))
 
                     self.__logger.info("Entity..." + dEntity.__str__())
-
 
                     # ------------------------------------------------------------------------------
                     xProperties = xEntity.getiterator("property")
@@ -227,9 +224,8 @@ class importOMS_RAI():
                         try: 
                             setSecurityInfo(dProperty, data, self.userProfile, True )
                             dProperty.save()
-                        except: 
-                            self.__logger.info("Error prpDom.save")
-                            return
+                        except Exception, e:  
+                            self.__logger.info("Error prpDom.save" + str(e))
 
 
                     # Relationship -------------------------------------------------------------------
@@ -249,7 +245,6 @@ class importOMS_RAI():
                             dForeign.save()
                         except Exception, e: 
                             self.__logger.info("Error dForeign.save" + str(e))
-                            return
 
 
 # RAC 
@@ -265,9 +260,8 @@ class importOMS_RAI():
                 try:
                     setSecurityInfo(dLinkModel, data, self.userProfile, True )
                     dLinkModel.save()
-                except:  
-                    self.__logger.info("Error dLinkModel.save")
-                    return
+                except Exception, e: 
+                    self.__logger.info("Error dLinkModel.save" + dLinkModel.__str__() + str(e))
                     
                 self.__logger.info("LinkModel..." + dLinkModel.__str__())
 
@@ -283,10 +277,8 @@ class importOMS_RAI():
                     try:              
                         setSecurityInfo(dLink, data, self.userProfile, True )
                         dLink.save()
-                    except: 
-                        self.__logger.info("Error dLink.save")
-                        return
-
+                    except  Exception, e:  
+                        self.__logger.info("Error dLink.save" + str(e))
 
         
         # Logging info
