@@ -165,6 +165,7 @@ class ModeleRaccordement(ProtoModel):
 
     nom_modele_raccordement = models.CharField(blank= True, null= True, max_length= 200)
 
+    tmp_domaff  = models.ForeignKey('DomaineAffaires', blank= True, null= True )
     tmp_modrac1 = models.CharField(blank= True, null= True, max_length= 200)
     tmp_modrac2 = models.CharField(blank= True, null= True, max_length= 200)
 

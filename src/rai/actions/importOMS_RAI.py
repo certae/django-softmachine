@@ -8,9 +8,7 @@ import logging
 
 # Import Database class
 from rai.models import  Modele, Entite, ElementDonnee, Relation, ModeleRaccordement, Raccordement
-from protoLib.utilsConvert import toBoolean
 from protoLib.protoActionEdit import setSecurityInfo 
-
 
 class importOMS_RAI():
 
@@ -117,12 +115,13 @@ class importOMS_RAI():
         self.domaff_modele = dProject 
 
         # DGT Habilitar *******************************************    
-        dictWrite = self.__write()
-        if (dictWrite['state'] != self.OK):
-            return dictWrite
-
-        self.doFkMatch( )
-
+#         dictWrite = self.__write()
+#         if (dictWrite['state'] != self.OK):
+#             return dictWrite
+#  
+#         self.doFkMatch( )
+        self.doRacMatch()
+        
         return {'state':self.OK, 'message': 'Ecriture effectuee base donnee'}
 
 
@@ -252,6 +251,7 @@ class importOMS_RAI():
             xLinkModels = xProjects[0].getiterator("linkModel")
             for xLinkModel in xLinkModels:
                 dLinkModel = ModeleRaccordement()
+                dLinkModel.tmp_domaff = self.domaff_modele 
 
                 for child in xLinkModel:
                     if child.tag in self.MODELE_RACCORDEMENT:
@@ -292,7 +292,10 @@ class importOMS_RAI():
         # self.dProject = Project.objects.get( code = "test1120")      
                 
         # Recorre las llaves para asociar los FK 
-        for dForeign in Relation.objects.filter(entite_rela1__entite_mod__domaff_modele = self.domaff_modele ):
+        for dForeign in Relation.objects.filter(
+            entite_rela1__entite_mod__domaff_modele = self.domaff_modele 
+            ):
+            
             try: 
                 dReference = Entite.objects.get(entite_mod = dForeign.entite_rela1.entite_mod , 
                                                 nom_entite = dForeign.tmp_foreign )
@@ -309,5 +312,64 @@ class importOMS_RAI():
                 
         # Logging info
         self.__logger.info("Fk mathc effectuee...")
+        
 
+    def doRacMatch(self):
+        
+        # Recorre las llaves para asociar los FK  ---------------------------------- 
+        for dModRec in ModeleRaccordement.objects.filter(
+            tmp_domaff  = self.domaff_modele 
+            ):
+            
+            try: 
+                dReference1 = Modele.objects.get(
+                    domaff_modele  = self.domaff_modele, 
+                    nom_modele = dModRec.tmp_modrac1 )
+
+                dReference2 = Modele.objects.get(
+                    domaff_modele  = self.domaff_modele, 
+                    nom_modele = dModRec.tmp_modrac2 )
+            except: 
+                continue
+            
+            
+            dModRec.mod_modrac1 = dReference1
+            dModRec.mod_modrac2 = dReference2
+
+            try: 
+                dModRec.save()
+            except Exception, e: 
+                self.__logger.info("Error dModRec.save" + str(e))
+                continue 
+            
+            
+            for dRac in Raccordement.objects.filter(
+                modrac_rac  = dModRec
+                ):
+            
+                try: 
+                    dReference1 = ElementDonnee.objects.filter(
+                        entite_elem__entite_mod  = dModRec.mod_modrac1, 
+                        nom_element_donnee = dRac.tmp_rac1 )[0]
+
+                    dReference2 = ElementDonnee.objects.filter(
+                        entite_elem__entite_mod  = dModRec.mod_modrac2, 
+                        nom_element_donnee = dRac.tmp_rac2 )[0]
     
+                except: 
+                    continue
+                
+                
+                dRac.eledon_rac1 = dReference1
+                dRac.eledon_rac2 = dReference2
+                    
+                try: 
+                    dRac.save()
+                except Exception, e: 
+                    self.__logger.info("Error dRac.save" + str(e))
+                    continue 
+            
+                
+        # Logging info
+        self.__logger.info("Rac mathc effectuee...")
+        
