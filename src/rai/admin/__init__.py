@@ -2,12 +2,20 @@
 
 from django.contrib import admin
 
-from rai.actions import  doImportOMS
 from rai.models import DomaineAffaires
-
+from rai.actions import  doImportRAI, doMatchRAI
 
 class AdmDomaineAffaires( admin.ModelAdmin ):
-    actions = [ doImportOMS  ]
+    actions = [ doImportRAI, doMatchRAI  ]
 
 admin.site.register( DomaineAffaires, AdmDomaineAffaires )
 
+
+
+from rai.models import ModeleRaccordement
+from rai.actions import  doFindReplace
+
+class AdmModeleRaccordement( admin.ModelAdmin ):
+    actions = [ doFindReplace ]
+
+admin.site.register( ModeleRaccordement, AdmModeleRaccordement )

@@ -15,6 +15,8 @@ from protoLib.utils.modelsTools import  getDjangoModel, getNodeHierarchy
 from datetime import datetime
 import uuid
 
+
+
 class TeamHierarchy(models.Model):
 # Jerarquia funcional ( de seguridad ) de la app
 # Es la base de la seguridad por registro
@@ -394,3 +396,63 @@ class WflowUserReponse(ProtoModel):
     def __unicode__(self):
         return self.viewEntity
 
+
+
+LOG_TYPE = (
+    ('INF', 'INFO'),
+    ('WAR', 'WARNING'),
+    ('ERR', 'ERROR'),
+
+    ('INS', 'INSERT'),
+    ('UPD', 'UPDAT'),
+    ('DEL', 'DELET'),
+)
+
+
+class Logger(models.Model):
+    smCreatedBy = models.ForeignKey(User, null=True, blank=True, related_name='+', editable=False)
+    smCreatedOn = models.DateTimeField(auto_now=True , null=True, blank=True, editable=False)
+    smOwningTeam = models.ForeignKey(TeamHierarchy, null=True, blank=True, related_name='+', editable=False)
+
+    logType = models.CharField(max_length=3, choices= LOG_TYPE, default= 'INF')
+    logObject = models.CharField(max_length=250, null=True, blank=True )
+    logNotes = models.CharField(max_length=250, null=True, blank=True )
+
+    logInfo = models.TextField(blank=True, null=True)
+
+    """Long proccess runing"""
+    logKey = models.CharField(max_length=5, choices= LOG_TYPE, default= '')
+
+    def __unicode__(self):
+        return self.logType + '.' +  self.logObject 
+
+
+def logEvent( logObject, logInfo, logUser, logTeam, logNotes = '', logType = 'INF', logKey = ''):
+
+    import json
+    from utilsBase import JSONEncoder
+
+    dLog = Logger()
+
+    setattr(dLog, 'smCreatedBy', logUser )
+    setattr(dLog, 'smOwningTeam', logTeam )
+    setattr(dLog, 'smCreatedOn', datetime.now())
+
+    setattr(dLog, 'logInfo', json.dumps(logInfo, cls=JSONEncoder)  )
+
+    if logType: 
+        setattr(dLog, 'logType', logType )
+
+    if logObject:
+        setattr(dLog, 'logObject', logObject )
+
+    if logNotes: 
+        setattr(dLog, 'logNotes', logNotes )
+
+    if logKey: 
+        setattr(dLog, 'logKey', logKey )
+
+    try: 
+        dLog.save()
+    except: 
+        pass  

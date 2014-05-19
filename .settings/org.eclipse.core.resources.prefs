@@ -29,6 +29,7 @@ encoding//src/protoLib/testprotoLib/ProtoGetPciTest.py=utf-8
 encoding//src/protoLib/testprotoLib/ProtoMenuTest.py=utf-8
 encoding//src/protoLib/utils/downloadFile.py=utf-8
 encoding//src/protoLib/utils/loadFile.py=utf-8
+encoding//src/protoLib/utils/logger.py=utf-8
 encoding//src/protoLib/utils/modelsTools.py=utf-8
 encoding//src/protoLib/utilsBase.py=utf-8
 encoding//src/protoLib/utilsConvert.py=utf-8

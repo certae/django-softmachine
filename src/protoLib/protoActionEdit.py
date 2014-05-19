@@ -7,7 +7,6 @@ import json
 from django.http import HttpResponse
 from django.db import models
 
-from datetime import datetime
 from models import getDjangoModel
 from protoActionList import Q2Dict
 from utilsConvert import toInteger, toDate, toDateTime, toTime, toFloat, toDecimal, toBoolean
@@ -17,22 +16,25 @@ from django.utils.encoding import smart_str
 from protoAuth import getUserProfile, getModelPermissions, getUserNodes
 from utilsWeb import doReturn
 
+from protoLib.models import logEvent 
+
 # Error Constants
 ERR_NOEXIST = '<b>ErrType:</b> KeyNotFound<br>The specifique record does not exist'
 ERR_REFONLY = '<b>ErrType:</b> RefOnly<br>The specifique record is reference only'
 
 
+
 def protoCreate(request):
-    myAction = 'add'
+    myAction = 'INS'
     msg = _protoEdit(request, myAction)
     return  msg
 
 def protoUpdate(request):
-    myAction = 'change'
+    myAction = 'UPD'
     return _protoEdit(request, myAction)
 
 def protoDelete(request):
-    myAction = 'delete'
+    myAction = 'DEL'
     return _protoEdit(request, myAction)
 
 def _protoEdit(request, myAction):
@@ -58,13 +60,14 @@ def _protoEdit(request, myAction):
 #   Obtiene el profile para saber el teamhierarchi
     userProfile = getUserProfile(request.user, 'edit', viewEntity)
 
+
 #   Verfica si es un protoModel ( maneja TeamHierarchy )
     isProtoModel = hasattr(model , '_protoObj')
 
 #   Verifica si hay registros que son solo de referencia
     userNodes = []
     refAllow = False
-    if myAction in ['delete', 'change'] and isProtoModel and not request.user.is_superuser  :
+    if myAction in ['DEL', 'UPD'] and isProtoModel and not request.user.is_superuser  :
         refAllow = getModelPermissions(request.user, model, 'refallow')
         if refAllow:
             userNodes = getUserNodes(request.user, viewEntity)
@@ -80,6 +83,10 @@ def _protoEdit(request, myAction):
     rows = request.POST.get('rows', [])
     rows = json.loads(rows)
 
+#   LogInfo 
+    logEvent( viewEntity, rows, request.user , userProfile.userTeam , '', myAction )
+
+#   Fields 
     fieldsDict = list2dict(protoMeta[ 'fields' ], 'name')
 
 #   JsonField
@@ -105,7 +112,7 @@ def _protoEdit(request, myAction):
 
         data['_ptStatus'] = ''
 
-        if myAction == 'add':
+        if myAction == 'INS':
             rec = model()
         else:
             try:
@@ -116,14 +123,14 @@ def _protoEdit(request, myAction):
                 continue
 
 
-        # refAllow verifica si corresponde a los registros modificables  ( solo es true en myAction in ['delete', 'change'] )
+        # refAllow verifica si corresponde a los registros modificables  ( solo es true en myAction in ['DEL', 'UPD'] )
         if refAllow and isProtoModel :
             if not (str(rec.smOwningTeam_id) in userNodes) :
                 data['_ptStatus'] = ERR_REFONLY + '<br>'
                 pList.append(data)
                 continue
 
-        if not (myAction == 'delete'):
+        if not (myAction == 'DEL'):
             # Upd, Ins
             for key in data:
                 key = smart_str(key)
@@ -155,7 +162,7 @@ def _protoEdit(request, myAction):
                     data['_ptStatus'] = data['_ptStatus'] + getReadableError(e)
 
             if isProtoModel:
-                setSecurityInfo(rec, data, userProfile, (myAction == 'add'))
+                setSecurityInfo(rec, data, userProfile, (myAction == 'INS'))
 
 
             if len(jsonField) > 0:

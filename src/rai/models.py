@@ -22,8 +22,9 @@ class DomaineAffaires(ProtoModel):
 
     protoExt = { 
         "actions": [
-            { "name": "doImportOMS", "selectionMode" : "single",
-            }
+            { "name": "doImportRAI", "selectionMode" : "single", }, 
+            { "name": "doMatchRAI", "selectionMode" : "single", }, 
+
         ],
         "gridConfig" : {
             "listDisplay": ["__str__", "description", "smOwningTeam"]      
@@ -177,6 +178,18 @@ class ModeleRaccordement(ProtoModel):
 #     class Meta:
 #         unique_together = ('nom_modele_raccordement',)
 
+    protoExt = { 
+        "actions": [
+            { "name": "doFindReplace", "selectionMode" : "multi", "refreshOnComplete" : True,
+               "actionParams": [
+                     {"name" : "fieldName", "type" : "string", "required": True, "tooltip" : "field name (meta)" }, 
+                     {"name" : "oldText", "type" : "string", "required": True, "tooltip" : "Old values: pyreg.sub(); @all for all text" }, 
+                     {"name" : "newText", "type" : "string", "required": True, "tooltip" : "New values" }, 
+                ] 
+            }, 
+        ],
+    } 
+
 
 class Raccordement(ProtoModel):
     modrac_rac = models.ForeignKey('ModeleRaccordement', blank= True, null= True, related_name='raccordement_modrac_rac')
@@ -197,7 +210,6 @@ class Raccordement(ProtoModel):
 
 #     class Meta:
 #         unique_together = ('no_raccordement',)
-
 
 
 class Specifications(ProtoModel):
