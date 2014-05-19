@@ -469,12 +469,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cecece', end
 }
 
 .draw2d_InputPort{
-   fill:#F7F7F7;
+   /*fill:#F7F7F7;*/
+   fill:#FF6666;
    stroke:#d7d7d7;
 }
 
 .draw2d_OutputPort{
-   fill:#F7F7F7;
+   /*fill:#F7F7F7;*/
+   fill:#339933;
    stroke:#d7d7d7;
 }
 
@@ -496,4 +498,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cecece', end
 
 .hide-this-row {
 	display: none;
+}
+
+.table-in-diagram .x-grid-cell { 
+    background-color: #e2ffe2; 
+    color: #090; 
 }

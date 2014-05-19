@@ -20,9 +20,9 @@ dbModel.shape.TableConnection = draw2d.Connection.extend({
         // add the new decoration to the connection with a position locator.
         this.addFigure(this.label, new draw2d.layout.locator.ManhattanMidpointLocator(this));
 
-        this.inputCardinality = this.createLabel("1:1");
+        this.inputCardinality = this.createLabel("1,1");
         this.addFigure(this.inputCardinality, new dbModel.shape.ManhattanRightConnectionLocator(this));
-        this.outputCardinality = this.createLabel("0:N");
+        this.outputCardinality = this.createLabel("0,N");
         this.addFigure(this.outputCardinality, new dbModel.shape.ManhattanLeftConnectionLocator(this));
 
         this.setUserData({
@@ -81,12 +81,12 @@ dbModel.shape.TableConnection = draw2d.Connection.extend({
             this.label.setStroke(0);
             this.label.setFontColor("#0d0d0d");
 
-            this.inputCardinality = this.createLabel("1:1");
+            this.inputCardinality = this.createLabel("1,1");
             if (memento.userData.isPrimary) {
                 this.inputCardinality.setCssClass('primary_key');
             }
             this.addFigure(this.inputCardinality, new dbModel.shape.ManhattanRightConnectionLocator(this));
-            this.outputCardinality = this.createLabel("0:N");
+            this.outputCardinality = this.createLabel("0,N");
             this.addFigure(this.outputCardinality, new dbModel.shape.ManhattanLeftConnectionLocator(this));
 
             // add the new decoration to the connection with a position locator.
@@ -144,7 +144,3 @@ dbModel.shape.TableConnection = draw2d.Connection.extend({
         });
     }
 });
-
-draw2d.InputPort.onConnect = function(connection) {
-	alert('On Connect');	
-};

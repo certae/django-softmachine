@@ -120,6 +120,9 @@ class ProtoModel(models.Model):
         Get last value of Code and Number from database, and increment before save
         DGT: Upgrade to secuences 
         """
+        if not self.smUUID:
+            self.smUUID = uuid.uuid1().hex
+        
         if hasattr(self , "_autoIncrementField") and not self.pk:
             _autoIncrementField = getattr(self, "_autoIncrementField")
             model = self.__class__
@@ -129,11 +132,8 @@ class ProtoModel(models.Model):
             else:
                 setattr(self, _autoIncrementField, 1)
 
-            super(ProtoModel, self).save(*args, **kwargs)
-        else:
-            if not self.smUUID:
-                self.smUUID = uuid.uuid1().hex
-            super(ProtoModel, self).save(*args, **kwargs)
+        
+        super(ProtoModel, self).save(*args, **kwargs)
 
 class EntityMap(models.Model):
     """

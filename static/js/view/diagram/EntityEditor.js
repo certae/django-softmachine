@@ -13,6 +13,29 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
     initComponent: function() {
         var me = this;
 
+		if (!me.fieldPicker) {
+	        me.fieldPicker = Ext.create('Ext.form.field.Picker', {
+	            renderTo: Ext.getBody(),
+	            id: 'colorpicker',
+	            createPicker: function() {
+	                return Ext.create('Ext.picker.Color', {
+	                    resizable: true,
+	                    floating: true,
+	                    select: function(selColor) {
+	                        var editor = Ext.getCmp('colorpicker');
+	                        editor.setValue("#" + selColor);
+	                        editor.setFieldStyle('background-color:' + editor.getValue() + ' ;background-image: none;');
+	                        editor.collapse();
+	                    }
+	                });
+	            },
+				listeners: {
+					focus: function(obj, event, eOpts) {
+						obj.setFieldStyle('background-color:' + obj.getValue() + ' ;background-image: none;');
+					}
+				}
+	        });
+		}
         Ext.applyIf(me, {
             items: [{
                 xtype: 'propertygrid',
@@ -28,23 +51,8 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
                         displayName: '<strong>' + _SM.__language.Label_Connector_Name + '</strong>'
                     },
                     color: {
-                    	displayName: 'Couleur',//Couleur de la bordure
-                        editor: Ext.create('Ext.form.field.Picker', {
-                            renderTo: Ext.getBody(),
-                            id: 'colorpicker',
-                            createPicker: function() {
-                                return Ext.create('Ext.picker.Color', {
-                                    resizable: true,
-                                    floating: true,
-                                    select: function(selColor) {
-                                        var editor = Ext.getCmp('colorpicker');
-                                        editor.setValue("#" + selColor);
-                                        //editor.setFieldStyle('background-color:' + editor.getValue() + ' ;background-image: none;');
-                                        editor.collapse();
-                                    }
-                                });
-                            }
-                        })
+                        displayName: 'Couleur', //Couleur de la bordure
+                        editor: me.fieldPicker
                     }
                 },
                 listeners: {
@@ -76,4 +84,4 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
 
         me.callParent(arguments);
     }
-}); 
+});

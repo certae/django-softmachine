@@ -73,9 +73,11 @@ Ext.define('ProtoUL.controller.DiagramController', {
         if (node.targetPort) {
             var attribute = this.getAttributeFromTagetTable(node);
             node.targetPort.getParent().removeFigure(attribute);
+            this.getDiagramCanvas().getView().removeFigure(node);
+        } else {
+	        var command = new draw2d.command.CommandDelete(node);
+	        this.getDiagramCanvas().getView().getCommandStack().execute(command);
         }
-        var command = new draw2d.command.CommandDelete(node);
-        this.getDiagramCanvas().getView().getCommandStack().execute(command);
 
         var gridDetail = this.getEntityAttributes();
         var entityEditor = this.getEntityEditor();

@@ -102,6 +102,10 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
                             dataIndex: 'tableName',
                             sortable: true
                         }],
+                        getRowClass: function(record) { 
+            				console.log(record);
+                			return record.get('tableName') === 'TableName' ? 'table-in-diagram' : ''; 
+            			},
                         width: 540,
                         height: 200
                     }

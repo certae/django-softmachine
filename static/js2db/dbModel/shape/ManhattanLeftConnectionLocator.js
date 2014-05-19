@@ -33,12 +33,18 @@ dbModel.shape.ManhattanLeftConnectionLocator = draw2d.layout.locator.ConnectionL
      **/
     relocate: function(index, target) {
         var conn = this.getParent();
+		var locator = conn.getSource().getLocator();
         var points = conn.getVertices();
 
 		var coordR = points.get(0);
-        var x = coordR.x + 10;
-        var y = coordR.y;
-
-        target.setPosition(x, y);
+		if (locator.__proto__.NAME === "dbModel.locator.PortLeftLocator") {
+			target.setPosition(coordR.x - 35, coordR.y);
+		} else if (locator.__proto__.NAME === "draw2d.layout.locator.TopLocator"){
+			target.setPosition(coordR.x + 10, coordR.y - 25);
+		} else if (locator.__proto__.NAME === "draw2d.layout.locator.BottomLocator"){
+			target.setPosition(coordR.x - 25, coordR.y);
+		}  else {
+			target.setPosition(coordR.x + 10, coordR.y);
+		}
     }
 }); 

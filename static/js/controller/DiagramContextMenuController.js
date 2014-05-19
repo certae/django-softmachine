@@ -62,6 +62,9 @@ Ext.define('ProtoUL.controller.DiagramContextMenuController', {
             var conn = new dbModel.shape.TableConnection();
             conn.setSource(newPort);
             conn.setTarget(inputPort);
+            
+            var diagramController = this.application.controllers.get('DiagramController');
+            diagramController.onDropConnection(conn, table);
 
             table.getCanvas().addFigure(conn);
 

@@ -16,7 +16,7 @@ def listDiagrams(request):
     
     jsondict = {
         'success':True,
-        'message': 'Diagram saved',
+        'message': 'Diagrams list',
         'diagrams': diagrams,
     }
     context = json.dumps(jsondict)
@@ -73,7 +73,7 @@ def deleteDiagram(request):
     
     jsondict = {
         'success':True,
-        'message': 'Diagram saved',
+        'message': 'Diagram deleted',
     }
     context = json.dumps(jsondict)
     return HttpResponse(context, content_type="application/json")

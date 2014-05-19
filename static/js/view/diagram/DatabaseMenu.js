@@ -21,12 +21,6 @@ Ext.define('ProtoUL.view.diagram.DatabaseMenu', {
                     text: _SM.__language.Menu_Update_Diagram,
                 },
                 {
-                    xtype: 'menuitem',
-                    itemId: 'getAllTables',
-                    iconCls: 'find-table',
-                    text: _SM.__language.Menu_Search_Table,
-                },
-                {
                 	xtype: 'menuseparator'
                 },
                 {
