@@ -184,8 +184,14 @@ def synchDBFromDiagram(request):
     projectID = request.GET['projectID']
     try:
         project = Project.objects.get(id=projectID)
-        model,created = Model.objects.get_or_create(project=project,code='default',smOwningTeam=project.smOwningTeam)
         user = request.user
+
+        model = Model.objects.filter(project=project)
+        if not model:
+            model = Model.objects.create(project=project,code='default',smOwningTeam=project.smOwningTeam,smCreatedBy=user,smOwningUser=user)
+        else:
+            model = model[0]
+
         owningTeam = model.smOwningTeam
     except Exception as e:
         return JsonError(e)

@@ -47,15 +47,42 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
     },
 
     addOrUpdateJSONDocument: function(data) {
-        var isAdd = true;
-        for (var i = 0; i < jsonDocument.length; i++) {
-            if (jsonDocument[i].id === data.id) {
-                this.updateJSONFromData(i, data);
-                isAdd = false;
-            }
-        }
-        if (isAdd) {
-            jsonDocument.push(data);
+        var canvas = this.getDiagramCanvas().getView();
+        if (data.type === 'dbModel.shape.DBTable') {
+			var table = canvas.getFigure(data.id);
+			if (table){
+				canvas.removeFigure(table);
+			}
+			table = new dbModel.shape.DBTable();
+			table.setPersistentAttributes(data);
+			table.addContextMenuListener(this.getDiagramCanvas());
+            table.addOnDropConnectionListener(this.application.controllers.get('DiagramController'));
+			canvas.addFigure(table);
+        } else {
+			var connection = canvas.getFigure(data.id);
+			if (!connection){
+				connection = new dbModel.shape.TableConnection();
+				connection.setPersistentAttributes(data);
+				
+				var sourceTable = canvas.getFigure(data.source.node);
+				var targetTable = canvas.getFigure(data.target.node);
+				if (sourceTable && targetTable) {
+					var sourcePort = sourceTable.getPort(data.source.port);
+					if (!sourcePort) {
+						sourcePort = sourceTable.createCustomizedPort("draw2d_OutputPort",data.source.port ,'right');
+					}
+
+					var targetPort = targetTable.getPort(data.target.port);
+					if (!targetPort) {
+						targetPort = targetTable.createCustomizedPort("draw2d_InputPort",data.target.port ,'left');
+					}
+
+					connection.setSource(sourcePort);
+					connection.setTarget(targetPort);
+					connection._routingMetaData.routedByUserInteraction = false;
+					canvas.addFigure(connection);
+				}
+			}
         }
     },
 
@@ -102,15 +129,20 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
                             dataIndex: 'tableName',
                             sortable: true
                         }],
-                        getRowClass: function(record) { 
-            				console.log(record);
-                			return record.get('tableName') === 'TableName' ? 'table-in-diagram' : ''; 
-            			},
                         width: 540,
                         height: 200
                     }
                 });
 				var searchGrid = win.down('grid');
+				searchGrid.getView().getRowClass = function(record, rowIndex, rowParams, store) {
+					controller = ProtoUL.app.getController('DiagramController');
+					var canvas = controller.getDiagramCanvas().getView();
+					var figure = canvas.getFigure(record.internalId);
+					if (figure){
+						return 'table-in-diagram';
+					}
+					return '';
+				};
 				var statusBar = searchGrid.query('#bbarDefaultText')[0];
 				win.show();
 				statusBar.setText(statusText);
@@ -217,8 +249,8 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
                 for (var i = 0; i < outcome.connectors.length; i += 1) {
                     controller.addOrUpdateJSONDocument(outcome.connectors[i]);
                 }
-                controller.getDiagramCanvas().reload();
-                controller.updateJsonDocument();
+                // controller.getDiagramCanvas().reload();
+                // controller.updateJsonDocument();
                 Ext.MessageBox.close();
             },
             failure: function(response) {

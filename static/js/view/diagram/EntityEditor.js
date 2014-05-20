@@ -15,7 +15,6 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
 
 		if (!me.fieldPicker) {
 	        me.fieldPicker = Ext.create('Ext.form.field.Picker', {
-	            renderTo: Ext.getBody(),
 	            id: 'colorpicker',
 	            createPicker: function() {
 	                return Ext.create('Ext.picker.Color', {
@@ -53,6 +52,9 @@ Ext.define('ProtoUL.view.diagram.EntityEditor', {
                     color: {
                         displayName: 'Couleur', //Couleur de la bordure
                         editor: me.fieldPicker
+                    },
+                    alpha: {
+                    	displayName: 'Transparence'
                     }
                 },
                 listeners: {

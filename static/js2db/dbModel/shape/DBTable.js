@@ -173,6 +173,7 @@ dbModel.shape.DBTable = draw2d.shape.layout.VerticalLayout.extend({
         this.setDimension(this.width, this.height);
 
         this.layoutPorts();
+        return newPort;
     },
 
     /**

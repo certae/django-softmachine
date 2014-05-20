@@ -205,6 +205,7 @@ Ext.define('ProtoUL.controller.DiagramController', {
                 entityEditor.figure.removeFigure(entityEditor.figure.attributes.get(i));
             }
             entityEditor.figure.setColor(propertySource.color);
+            entityEditor.figure.setAlpha(propertySource.alpha);
             entityEditor.figure.updateHeader(propertySource);
             entityEditor.figure.updateAttributes(propertySource);
             entityEditor.figure.setDimension(1, 1);
@@ -355,7 +356,7 @@ Ext.define('ProtoUL.controller.DiagramController', {
 
     hidePropertyGridAttributes: function(masterRecord) {
         masterRecord.getView().getRowClass = function(row, index) {
-            if (row.data.name !== 'isPrimary' && row.data.name !== 'name' && row.data.name !== 'tableName' && row.data.name !== 'color') {
+            if (row.data.name !== 'isPrimary' && row.data.name !== 'name' && row.data.name !== 'tableName' && row.data.name !== 'color' && row.data.name !== 'alpha') {
                 return 'hide-this-row';
             } else {
                 return '';
