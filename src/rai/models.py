@@ -140,6 +140,8 @@ class Relation(ProtoModel):
     entite_rela1 = models.ForeignKey('Entite', blank= False, null= False, related_name='relation_entite_rela1')
     entite_rela2 = models.ForeignKey('Entite', blank= False, null= False, related_name='relation_entite_rela2')
 
+    dependance   = models.BooleanField(default=False)
+
     tmp_foreign  = models.CharField(blank= True, null= True, max_length= 200)
     tmp_alias    = models.CharField(blank= True, null= True, max_length= 200)
 
