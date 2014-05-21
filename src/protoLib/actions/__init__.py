@@ -15,7 +15,7 @@ def doFindReplace(modeladmin, request, queryset, parameters):
     if len(parameters) != 3: 
         return  {'success':False, 'message' : 'required: fieldName, findText, replaceText' }
 
-    from findReplace import actionFindReplace
+    from protoLib.findReplace import actionFindReplace
     return actionFindReplace(request, queryset, parameters)
 
 

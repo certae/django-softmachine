@@ -199,7 +199,7 @@ def addProtoFiedToList( fieldList,  pEntity , fieldBase, zoomName   ):
         
     # agrega las props de seguridad         
     if len( fieldBase ) == 0 :  
-        for fName in ['smOwningUser','smOwningTeam','smCreatedBy','smModifiedBy','smWflowStatus','smRegStatus','smCreatedOn','smModifiedOn']: 
+        for fName in ['smOwningUser','smOwningTeam','smCreatedBy','smModifiedBy','smWflowStatus','smRegStatus','smCreatedOn','smModifiedOn', 'smUUID']: 
             propDict = { "name" : fName, "readOnly": True }
             field = property2Field( fName, propDict, True  )
             fieldList.append( field )

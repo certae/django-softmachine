@@ -1,0 +1,677 @@
+[
+{
+ "pk": 1, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "contenttype", 
+  "name": "content type", 
+  "app_label": "contenttypes"
+ }
+},
+{
+ "pk": 2, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "session", 
+  "name": "session", 
+  "app_label": "sessions"
+ }
+},
+{
+ "pk": 3, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "site", 
+  "name": "site", 
+  "app_label": "sites"
+ }
+},
+{
+ "pk": 4, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "permission", 
+  "name": "permission", 
+  "app_label": "auth"
+ }
+},
+{
+ "pk": 5, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "group", 
+  "name": "group", 
+  "app_label": "auth"
+ }
+},
+{
+ "pk": 6, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "user", 
+  "name": "user", 
+  "app_label": "auth"
+ }
+},
+{
+ "pk": 8, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "logentry", 
+  "name": "log entry", 
+  "app_label": "admin"
+ }
+},
+{
+ "pk": 9, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "migrationhistory", 
+  "name": "migration history", 
+  "app_label": "south"
+ }
+},
+{
+ "pk": 10, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "teamhierarchy", 
+  "name": "team hierarchy", 
+  "app_label": "protoLib"
+ }
+},
+{
+ "pk": 11, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "userprofile", 
+  "name": "user profile", 
+  "app_label": "protoLib"
+ }
+},
+{
+ "pk": 12, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "usershare", 
+  "name": "user share", 
+  "app_label": "protoLib"
+ }
+},
+{
+ "pk": 13, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "protodefinition", 
+  "name": "proto definition", 
+  "app_label": "protoLib"
+ }
+},
+{
+ "pk": 14, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "customdefinition", 
+  "name": "custom definition", 
+  "app_label": "protoLib"
+ }
+},
+{
+ "pk": 16, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "model", 
+  "name": "model", 
+  "app_label": "prototype"
+ }
+},
+{
+ "pk": 17, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "entity", 
+  "name": "entity", 
+  "app_label": "prototype"
+ }
+},
+{
+ "pk": 18, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "property", 
+  "name": "property", 
+  "app_label": "prototype"
+ }
+},
+{
+ "pk": 19, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "relationship", 
+  "name": "relationship", 
+  "app_label": "prototype"
+ }
+},
+{
+ "pk": 21, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "propertymodel", 
+  "name": "property model", 
+  "app_label": "prototype"
+ }
+},
+{
+ "pk": 22, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "prototable", 
+  "name": "proto table", 
+  "app_label": "prototype"
+ }
+},
+{
+ "pk": 25, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "entitymap", 
+  "name": "entity map", 
+  "app_label": "protoLib"
+ }
+},
+{
+ "pk": 26, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "fieldmap", 
+  "name": "field map", 
+  "app_label": "protoLib"
+ }
+},
+{
+ "pk": 27, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "diagram", 
+  "name": "diagram", 
+  "app_label": "prototype"
+ }
+},
+{
+ "pk": 28, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "diagramentity", 
+  "name": "diagram entity", 
+  "app_label": "prototype"
+ }
+},
+{
+ "pk": 29, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "service", 
+  "name": "service", 
+  "app_label": "prototype"
+ }
+},
+{
+ "pk": 30, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "serviceref", 
+  "name": "service ref", 
+  "app_label": "prototype"
+ }
+},
+{
+ "pk": 31, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "discretevalue", 
+  "name": "discrete value", 
+  "app_label": "protoLib"
+ }
+},
+{
+ "pk": 32, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "languaje", 
+  "name": "languaje", 
+  "app_label": "protoLib"
+ }
+},
+{
+ "pk": 33, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "propertyequivalence", 
+  "name": "property equivalence", 
+  "app_label": "prototype"
+ }
+},
+{
+ "pk": 34, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "project", 
+  "name": "project", 
+  "app_label": "prototype"
+ }
+},
+{
+ "pk": 35, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "ptfunction", 
+  "name": "pt function", 
+  "app_label": "protoLib"
+ }
+},
+{
+ "pk": 36, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "prototype", 
+  "name": "prototype", 
+  "app_label": "prototype"
+ }
+},
+{
+ "pk": 37, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "typeversiondisponible", 
+  "name": "type version disponible", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 38, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "classification", 
+  "name": "classification", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 39, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "typeversion", 
+  "name": "type version", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 40, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "compositioninstallation", 
+  "name": "composition installation", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 41, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "clientelefournisseur", 
+  "name": "clientele fournisseur", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 42, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "licenceappliquee", 
+  "name": "licence appliquee", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 43, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "clientelevisee", 
+  "name": "clientele visee", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 44, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "expertise", 
+  "name": "expertise", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 45, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "contrat", 
+  "name": "contrat", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 46, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "referencedocumentusage", 
+  "name": "reference document usage", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 47, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "langage", 
+  "name": "langage", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 48, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "expert", 
+  "name": "expert", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 49, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "langue", 
+  "name": "langue", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 50, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "logiciel", 
+  "name": "logiciel", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 51, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "organismepublic", 
+  "name": "organisme public", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 52, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "offredeservices", 
+  "name": "offre de services", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 53, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "referencedocumentcontrat", 
+  "name": "reference document contrat", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 54, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "fournisseurdeservices", 
+  "name": "fournisseur de services", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 55, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "referencedocumentinstallation", 
+  "name": "reference document installation", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 56, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "evaluation", 
+  "name": "evaluation", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 57, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "groupe", 
+  "name": "groupe", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 58, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "categorie", 
+  "name": "categorie", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 59, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "referencedocumentevaluation", 
+  "name": "reference document evaluation", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 60, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "personneressource", 
+  "name": "personne ressource", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 61, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "historiqueutilisateurs", 
+  "name": "historique utilisateurs", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 62, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "licence", 
+  "name": "licence", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 63, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "referencedocumentlogiciel", 
+  "name": "reference document logiciel", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 64, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "historiqueinstances", 
+  "name": "historique instances", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 65, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "typedeservice", 
+  "name": "type de service", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 66, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "clienteleciblesct", 
+  "name": "clientele cible sct", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 67, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "marchedesservi", 
+  "name": "marche desservi", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 68, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "marche", 
+  "name": "marche", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 69, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "referencedocumentexpertise", 
+  "name": "reference document expertise", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 70, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "installation", 
+  "name": "installation", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 71, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "plateforme", 
+  "name": "plateforme", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 72, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "prerequis", 
+  "name": "pre requis", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 73, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "usagelogiciel", 
+  "name": "usage logiciel", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 74, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "systemeexploitation", 
+  "name": "systeme exploitation", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 75, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "languesupportee", 
+  "name": "langue supportee", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 76, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "clienteleusagesct", 
+  "name": "clientele usage sct", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 77, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "langageutilise", 
+  "name": "langage utilise", 
+  "app_label": "ll"
+ }
+},
+{
+ "pk": 78, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "parametersbase", 
+  "name": "parameters base", 
+  "app_label": "protoLib"
+ }
+},
+{
+ "pk": 79, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "wflowadminresume", 
+  "name": "wflow admin resume", 
+  "app_label": "protoLib"
+ }
+},
+{
+ "pk": 80, 
+ "model": "contenttypes.contenttype", 
+ "fields": {
+  "model": "wflowuserreponse", 
+  "name": "wflow user reponse", 
+  "app_label": "protoLib"
+ }
+}
+]
