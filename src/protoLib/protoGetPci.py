@@ -514,7 +514,7 @@ def getFieldIncrement(request):
     
     fieldType = model._meta.get_field(fieldName).get_internal_type()
     increment = 0
-    if fieldType == 'IntegerField':
+    if fieldType == 'IntegerField' or fieldType == 'CharField':
         maxid = model.objects.aggregate(Max('id'))
         if maxid['id__max']:
             increment = maxid['id__max'] + 1
