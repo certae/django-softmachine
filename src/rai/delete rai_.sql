@@ -15,3 +15,6 @@ delete from rai_modele;
 delete from rai_norme;
 delete from rai_typeregle;
 delete from rai_codagenormalise;
+
+
+alter table rai_relation add column dependance bool;
