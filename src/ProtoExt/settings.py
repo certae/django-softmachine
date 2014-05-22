@@ -8,6 +8,8 @@ PPATH = os.path.abspath( os.path.join( os.path.dirname(__file__), os.pardir )).r
 if ('/src' in PPATH):
     PPATH = os.path.abspath(os.path.join( PPATH, os.pardir )).replace('\\','/')
 
+PROJECT_ROOT = os.path.join(
+    os.path.realpath(os.path.dirname(__file__)), os.pardir)
 # Django settings for debugger 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -69,8 +71,8 @@ MEDIA_URL = '/media/'
 
 
 #STATIC_ROOT = os.path.join( PPATH , 'static' )
-STATIC_ROOT = ''
-
+#STATIC_ROOT = ''
+STATIC_ROOT = 'static/'
 
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
@@ -95,18 +97,18 @@ STATICFILES_FINDERS = (
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-    'django.template.loaders.eggs.Loader',
+    #'django.template.loaders.eggs.Loader',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
-#                                "django.core.context_processors.csrf",
-                               "django.core.context_processors.debug",
-                               "django.core.context_processors.i18n",
-                               "django.core.context_processors.media",
-                               "django.core.context_processors.static",
-                               "django.core.context_processors.request",
-                               "django.contrib.messages.context_processors.messages"
-                               )
+# TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
+# #                                "django.core.context_processors.csrf",
+#                                "django.core.context_processors.debug",
+#                                "django.core.context_processors.i18n",
+#                                "django.core.context_processors.media",
+#                                "django.core.context_processors.static",
+#                                "django.core.context_processors.request",
+#                                "django.contrib.messages.context_processors.messages"
+#                                )
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',

@@ -3,13 +3,16 @@ from django.views.generic import TemplateView
 from ProtoExt.settings import PPATH, DEBUG
 from ProtoExt.generic_views import DirectTemplateView
 
-import django.contrib.admin
-django.contrib.admin.autodiscover()
+# import django.contrib.admin
+# django.contrib.admin.autodiscover()
 
+import xadmin
+xadmin.autodiscover()
 
 
 urlpatterns = patterns('',
-    url(r'^admin/', include(django.contrib.admin.site.urls)) ,
+#     url(r'^admin/', include(django.contrib.admin.site.urls)) ,
+    url(r'^admin/', include(xadmin.site.urls)),
 
     url(r'^protoLib/', include('protoLib.urls')),
     url(r'^protoDiagram/', include('dbDesigner.urls')),

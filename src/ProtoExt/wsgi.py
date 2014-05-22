@@ -17,6 +17,6 @@ import django.core.handlers.wsgi
 application = django.core.handlers.wsgi.WSGIHandler()
 
 
-path = '/home/SitePrototypeur/ProtoExt/src'
+path = '/var/www/prototypeur/ProtoExt/src'
 if path not in sys.path:
     sys.path.append(path)

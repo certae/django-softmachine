@@ -32,7 +32,7 @@ application = django.core.handlers.wsgi.WSGIHandler()
 # from helloworld.wsgi import HelloWorldApplication
 # application = HelloWorldApplication(application)
 
-path = '/home/SitePrototypeur/ProtoExt/src'
+path = '/var/www/prototypeur/ProtoExt/src'
 if path not in sys.path:
     sys.path.append(path)
 
