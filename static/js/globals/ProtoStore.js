@@ -818,15 +818,15 @@ _SM.getFormFieldDefinition = function(vFld) {
     // Add listener to avoid whitespaces
     // This works fine with ExtJS 4.2.2
     // Fix : error when  butoonDetail.addForm 
-    // if (vFld.required && !vFld.fkId) {
-        // formEditor.listeners = {
+    if (vFld.required && !vFld.fkId) {
+        formEditor.listeners = {
             // blur : function() {
                 // this.setValue(Ext.String.trim(this.getValue()));
             // },
-            // render : function(field) {
-            // }
-        // };
-    // }
+            render : function(field) {
+            }
+        };
+    }
     
     // Casos especiales
     switch( vFld.type ) {
@@ -842,7 +842,11 @@ _SM.getFormFieldDefinition = function(vFld) {
             formEditor.height = 100;
             formEditor.labelAlign = 'top';
             break;
-
+		
+		case 'filefield':
+			formEditor.xtype = 'filefield';
+            formEditor.buttonText = 'Select file...';
+			break;
         // case 'protoN2N':
         // formEditor.xtype = 'protoList'
         // formEditor.checkStyle = false

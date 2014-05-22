@@ -116,6 +116,13 @@ def protoExecuteAction(request):
     if request.method != 'POST':
         return doReturn ({'success':False , 'message' : 'PostAction required'})
 
+    files = request.FILES.items()
+    if len(files) > 0:
+        print('its working')
+        return None
+        # TODO
+        # return doUploadAction(file, model, selectedKeys, parameters, actionDef, viewEntity, request.user)
+
     actionName = request.POST.get('actionName', '')
 
     viewCode = request.POST.get('viewCode', '')
@@ -142,7 +149,7 @@ def protoExecuteAction(request):
     except :
         return doReturn ({'success':False, 'message' : 'Model notFound'})
 
-
+    
     if actionDef.get('actionType', '') == 'wflow': 
         return doWfAction(model, selectedKeys, parameters, actionDef, viewEntity, request.user)
          

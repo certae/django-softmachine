@@ -187,6 +187,7 @@ class ModeleRaccordement(ProtoModel):
                      {"name" : "fieldName", "type" : "string", "required": True, "tooltip" : "field name (meta)" }, 
                      {"name" : "oldText", "type" : "string", "required": True, "tooltip" : "Old values: pyreg.sub(); @all for all text" }, 
                      {"name" : "newText", "type" : "string", "required": True, "tooltip" : "New values" }, 
+                     #{"name" : "file", "type" : "filefield", "required": True, "tooltip" : "Select a file to upload" },
                 ] 
             }, 
         ],
@@ -196,7 +197,7 @@ class ModeleRaccordement(ProtoModel):
 class Raccordement(ProtoModel):
     modrac_rac = models.ForeignKey('ModeleRaccordement', blank= True, null= True, related_name='raccordement_modrac_rac')
     
-    no_raccordement = models.CharField(blank= False, null= False, max_length= 200)
+    no_raccordement = models.IntegerField(blank= False, null= False)
 
     tmp_rac1 = models.CharField(blank= True, null= True, max_length= 200)
     tmp_rac2 = models.CharField(blank= True, null= True, max_length= 200)
@@ -207,6 +208,7 @@ class Raccordement(ProtoModel):
     eledon_rac1 = models.ForeignKey('ElementDonnee', blank= True, null= True,  related_name='set_eledon_rac1')
     eledon_rac2 = models.ForeignKey('ElementDonnee', blank= True, null= True,  related_name='set_eledon_rac2')
 
+    _autoIncrementField = 'id_evaluation'
     def __unicode__(self):
         return slugify(self.no_raccordement)
 

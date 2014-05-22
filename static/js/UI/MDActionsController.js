@@ -113,7 +113,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
                     }
 
                 };
-
+                
                 var myWin = Ext.create('ProtoUL.ux.parameterWin', {
                     parameters: pAction.actionParams,
                     title: btn.actionName + ' - ' + pGrid.rowData['__str__'],
@@ -121,7 +121,6 @@ Ext.define('ProtoUL.UI.MDActionsController', {
                 });
 
                 myWin.show();
-                // myWin.uploadFile()
 
             };
         };
