@@ -69,17 +69,11 @@ MEDIA_URL = '/media/'
 
 
 #STATIC_ROOT = os.path.join( PPATH , 'static' )
-#STATIC_ROOT = ''
 STATIC_ROOT = 'static/'
 
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
-
-# DGT: Al cambiar esto deja de funcionar (alguna relacion con STATIC_URL? )
-#ADMIN_MEDIA_PREFIX = '/static/'
-#ADMIN_MEDIA_PREFIX = '/static/admin/'
-
 
 
 # List of finder classes that know how to find static files in
@@ -87,7 +81,6 @@ STATIC_ROOT = 'static/'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 
@@ -95,7 +88,6 @@ STATICFILES_FINDERS = (
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-    #'django.template.loaders.eggs.Loader',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
@@ -151,7 +143,7 @@ LOGGING = {
 
 AUTH_PROFILE_MODULE = 'protoLib.UserProfile'
 
-# Variables prototipeur
+# Variables prototypeur
 PROTO_APP = {}
 
 EMAIL_USE_TLS = True

@@ -2,12 +2,9 @@
 
 import re, os
 from django.test import TestCase
-from django.utils.unittest.suite import TestSuite
-from django.utils.unittest.loader import makeSuite
 import json
 
-from prototype.models import *
-#from protoLib.models import *
+from prototype.models import Project, Model, Entity, Property, Relationship, PropertyEquivalence, ProtoTable, Prototype
 
 PossibleTypes = ['list', 'string']
 module_dir = os.path.dirname(__file__)  # get current directory
@@ -19,9 +16,9 @@ MetaProperties = json.loads(open(file_path).read())
 DataTypes = dict()
 for fields in MetaProperties:
     if '.type' in fields:
-        type = MetaProperties[fields]
+        outcomeType = MetaProperties[fields]
         field = re.sub(r'\.type$', '', fields)
-        DataTypes[field] = type
+        DataTypes[field] = outcomeType
 
 
 def getFields(modelclass):
@@ -33,27 +30,27 @@ def getFields(modelclass):
 
 
 def getObjectType(field, value):
-    type = None
+    outcomeType = None
     if 'lists' in MetaObjects[field] and value in MetaObjects[field]['lists']:
-        type = 'list'
+        outcomeType = 'list'
     elif 'properties' in MetaObjects[field] and value in MetaObjects[field]['properties']:
-        type = DataTypes[value]
+        outcomeType = DataTypes[value]
 
-    return type
+    return outcomeType
 
 
 def getFieldType(field, value, modelclass):
-    type = None
+    outcomeType = None
     if field in MetaObjects['pcl']['lists']:
-        type = 'list'
+        outcomeType = 'list'
     elif field in MetaObjects['pcl']['properties']:
-        type = DataTypes[value]
+        outcomeType = DataTypes[value]
     elif field in MetaObjects['pcl']['objects']:
-        type = getObjectType(field, value)
+        outcomeType = getObjectType(field, value)
 
-    if type is None:
-        type = 'string'
-    return type
+    if outcomeType is None:
+        outcomeType = 'string'
+    return outcomeType
 
 
 class ProjectPropertiesTest(TestCase):

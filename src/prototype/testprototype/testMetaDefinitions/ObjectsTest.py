@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from django.test import TestCase
-from django.utils.unittest.suite import TestSuite
-from django.utils.unittest.loader import makeSuite
 import json
 
-from prototype.models import *
-from protoLib.models import *
-#from protoLib.models import *
+from prototype.models import Project, Model, Entity, Property, Relationship, PropertyEquivalence, ProtoTable, Prototype
+from protoLib.models import TeamHierarchy, CustomDefinition, ProtoDefinition, DiscreteValue
 
 
 import os

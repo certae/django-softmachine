@@ -121,7 +121,7 @@ def protoExecuteAction(request):
         print('its working')
         return None
         # TODO
-        # return doUploadAction(file, model, selectedKeys, parameters, actionDef, viewEntity, request.user)
+        # return doUploadAction(file, model, parameters, actionDef, viewEntity, request.user)
 
     actionName = request.POST.get('actionName', '')
 

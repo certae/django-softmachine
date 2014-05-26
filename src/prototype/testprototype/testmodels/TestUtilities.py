@@ -1,4 +1,4 @@
-from prototype.models import *
+from prototype.models import Project, Model, Entity, Property, Relationship, PropertyEquivalence, Prototype, ProtoTable, Diagram, DiagramEntity
 
 def createTestProject():
 

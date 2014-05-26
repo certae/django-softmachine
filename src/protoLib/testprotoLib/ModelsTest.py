@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from django.test import TestCase
-from django.utils.unittest.suite import TestSuite
-from django.utils.unittest.loader import makeSuite
 from django.utils.unittest import skip
 
-from protoLib.models import  *
+from protoLib.models import CustomDefinition, ProtoDefinition, TeamHierarchy, Site, User, UserProfile, UserShare, DiscreteValue, PtFunction, getDjangoModel
 from prototype.models import Project
 
 
@@ -26,20 +24,6 @@ class TeamHierarchyTest(TestCase):
 
     def test_verifying_string_representation(self):
         self.assertEqual(self.teamHierarchy.code, str(self.teamHierarchy))
-
-    @skip('unicode is not callable')
-    def test_fullpath(self):
-        returnValue = self.teamHierarchy.fullPath()
-        print(returnValue)
-
-    @skip('unicode is not callable')
-    def test_treehierarchy(self):
-        returnValue = self.teamHierarchy.treeHierarchy()
-        print(returnValue)
-
-    @skip('à faire')
-    def test_save(self):
-        pass
 
 
 class UserProfileTest(TestCase):

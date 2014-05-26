@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from django.test import TestCase
-from django.utils.unittest.suite import TestSuite
-from django.utils.unittest.loader import makeSuite
 from django.http import HttpRequest
 
 from prototype.models import *
-from prototype.actions.viewDefinition import *
+from prototype.actions.viewDefinition import getViewDefinition, getViewCode, createView, getUserProfile, getEntities
 from prototype.actions.__init__ import doModelPrototype
 from prototype.actions.__init__ import doEntityPrototype
 

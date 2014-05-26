@@ -208,7 +208,7 @@ class Raccordement(ProtoModel):
     eledon_rac1 = models.ForeignKey('ElementDonnee', blank= True, null= True,  related_name='set_eledon_rac1')
     eledon_rac2 = models.ForeignKey('ElementDonnee', blank= True, null= True,  related_name='set_eledon_rac2')
 
-    _autoIncrementField = 'id_evaluation'
+    _autoIncrementField = 'no_raccordement'
     def __unicode__(self):
         return slugify(self.no_raccordement)
 

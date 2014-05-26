@@ -3,10 +3,8 @@
 import random
 
 from django.test import TestCase
-from django.utils.unittest.suite import TestSuite
-from django.utils.unittest.loader import makeSuite 
 
-from prototype.actions.viewDefinition import *
+from prototype.actions.viewDefinition import getViewDefinition, slugify, getViewCode, property2Field, getFkId, GetProtoFieldsTree, GetDetailsConfigTree
 
 from prototype.testprototype.Utils import random_string_generator
 from prototype.testprototype.testmodels.TestUtilities import createTestEntity
@@ -159,23 +157,23 @@ class GetDetailsConfigTreeTest(TestCase):
 #         self.testRelationShip = createTestRelationship()
 #         self.testRelationShip.isForeign = True
 #         self.testRelationShip.save()
-# 
+#  
 #     def tearDown(self):
 #         self.testRelationShip.delete()
-# 
+ 
 #     @skip('Must redefine testRelationShip')
 #     def test_addprotoFieldToList_non_empty_fieldbase(self):
 #         fieldList = []
 #         pEntity = Entity.objects.all()[0]
-# 
+#  
 #         pprint(dir(pEntity.property_set))
 #         #pprint(dir(pEntity))
-# 
+#  
 #         self.assertTrue(len(pEntity.property_set.all()) > 0)
-# 
+#  
 #         for pProperty in pEntity.property_set.all():
 #             self.assertTrue(pProperty.isForeign)
-# 
+#  
 #         addProtoFieldToList(fieldList, pEntity, 'anyString', '')
 #         self.assertNotEqual(fieldList, [])
 # 
