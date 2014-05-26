@@ -8,8 +8,6 @@ PPATH = os.path.abspath( os.path.join( os.path.dirname(__file__), os.pardir )).r
 if ('/src' in PPATH):
     PPATH = os.path.abspath(os.path.join( PPATH, os.pardir )).replace('\\','/')
 
-PROJECT_ROOT = os.path.join(
-    os.path.realpath(os.path.dirname(__file__)), os.pardir)
 # Django settings for debugger 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -100,15 +98,15 @@ TEMPLATE_LOADERS = (
     #'django.template.loaders.eggs.Loader',
 )
 
-# TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
-# #                                "django.core.context_processors.csrf",
-#                                "django.core.context_processors.debug",
-#                                "django.core.context_processors.i18n",
-#                                "django.core.context_processors.media",
-#                                "django.core.context_processors.static",
-#                                "django.core.context_processors.request",
-#                                "django.contrib.messages.context_processors.messages"
-#                                )
+TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
+#                                "django.core.context_processors.csrf",
+                               "django.core.context_processors.debug",
+                               "django.core.context_processors.i18n",
+                               "django.core.context_processors.media",
+                               "django.core.context_processors.static",
+                               "django.core.context_processors.request",
+                               "django.contrib.messages.context_processors.messages"
+                               )
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',

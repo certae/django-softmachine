@@ -265,5 +265,10 @@ __language ={
     'Message_Add_Table_Canvas' : 'Adding tables to canvas, please wait...',
     
     'Warning_Delete_Active_Diagram' : 'You cannot delete the active diagram!',
-    'Warning_Diagram_Already_Open' : 'The selected diagram is already opened!'
+    'Warning_Diagram_Already_Open' : 'The selected diagram is already opened!',
+    
+    'Label_Left': 'Left',
+    'Label_Right': 'Right',
+    'Label_Top': 'Top',
+    'Label_Bottom': 'Bottom'
 }

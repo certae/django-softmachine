@@ -249,8 +249,6 @@ Ext.define('ProtoUL.controller.DiagramMenuController', {
                 for (var i = 0; i < outcome.connectors.length; i += 1) {
                     controller.addOrUpdateJSONDocument(outcome.connectors[i]);
                 }
-                // controller.getDiagramCanvas().reload();
-                // controller.updateJsonDocument();
                 Ext.MessageBox.close();
             },
             failure: function(response) {

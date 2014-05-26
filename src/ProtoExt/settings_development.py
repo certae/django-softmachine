@@ -1,30 +1,22 @@
-from ProtoExt.settings import PPATH, PROJECT_ROOT
-import os
+from ProtoExt.settings import PPATH
+
 DATABASES = {
-   'default': {
-       'ENGINE': 'django.db.backends.mysql',
-       'NAME':   'prototypeur',#prototypeur
-       'USER': 'manager',
-       'PASSWORD': 'password',
-       'HOST': '132.203.51.83',
-       'PORT': '3306',
-   }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': PPATH + '/db/testproto.db',
+    }
 }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': PPATH + '/db/testproto.db',
-#     }
-# }
 
 ALLOWED_HOSTS = [
-    'localhost', # Allow domain and subdomains
-    '127.0.0.1', # Also allow FQDN and subdomains
+    'certaedev', # Allow domain and subdomains
+    'localhost', 
+    '127.0.0.1',
+    '132.203.51.44',
+    'loli.fsa.ulaval.ca',  # Also allow FQDN and subdomains
 ]
 
 
 TEMPLATE_DIRS = (
-    os.path.join(PROJECT_ROOT, "templates"),
     PPATH + '/templates',
 )
 
@@ -54,10 +46,10 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.auth',
-#     'django.contrib.admin',
-#     'django.contrib.admindocs',
-    'xadmin',
-    'crispy_forms',
+    'django.contrib.admin',
+    'django.contrib.admindocs',
+#     'xadmin',
+#     'crispy_forms',
     'protoLib',
     'prototype',
     'alltests',
