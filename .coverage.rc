@@ -12,6 +12,8 @@ omit =
     src/protoLib/localisation/*
     src/snippets/*
 	src/ProtoExt/settings*
+    src/rai/*
+    src/ll/*
 
 [report]
 exclude_lines =
