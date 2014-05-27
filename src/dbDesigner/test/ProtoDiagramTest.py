@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.test.client import RequestFactory
 from django.http import HttpRequest
 from dbDesigner.protoDiagram import getEntitiesJSONDiagram, synchDiagramFromDB, getElementsDiagramFromSelectedTables, synchDBFromDiagram, getDefaultDiagram
-from dbDesigner.protoDiagramEntity import listDiagrams, openDiagram, createDiagram, saveDiagram
+from dbDesigner.protoDiagramEntity import listDiagrams, openDiagram, createDiagram, saveDiagram, deleteDiagram
 from prototype.testprototype.testmodels.TestUtilities import createTestDiagram, createTestEntity
 from requests import Request
 from django.contrib.auth import authenticate
@@ -43,7 +43,7 @@ def CreatePreparedAuthPostRequest():
     factory = RequestFactory()
     auth = authenticate(username='adube', password='123')
 
-    request = factory.post("/protoLib/createDiagram", {u'diagrams': [u'{"projectID":1,"id":"","code":"test","smUUID":""}']})
+    request = factory.post("/protoLib/createDiagram", {u'diagrams': [u'{"projectID":1,"id":"1","code":"test","smUUID":""}']})
     request.user = auth
     
     return request
@@ -112,4 +112,9 @@ class ProtoDiagramEntityTest(TestCase):
     def test_createDiagram(self):
         request = CreatePreparedAuthPostRequest()
         response = json.loads(createDiagram(request).content)
+        self.assertTrue(response['success'])
+        
+    def test_deleteDiagram(self):
+        request = CreatePreparedAuthPostRequest()
+        response = json.loads(deleteDiagram(request).content)
         self.assertTrue(response['success'])
