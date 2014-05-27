@@ -5,7 +5,7 @@ from django.test.client import RequestFactory
 from django.http import HttpRequest
 from dbDesigner.protoDiagram import getEntitiesJSONDiagram, synchDiagramFromDB, getElementsDiagramFromSelectedTables, synchDBFromDiagram, getDefaultDiagram
 from dbDesigner.protoDiagramEntity import listDiagrams, openDiagram, createDiagram, saveDiagram, deleteDiagram
-from prototype.testprototype.testmodels.TestUtilities import createTestDiagram, createTestEntity
+from prototype.testprototype.testmodels.TestUtilities import createTestDiagram, createTestEntity, createTestRelationship
 from requests import Request
 from django.contrib.auth import authenticate
 import json, uuid, unicodedata
@@ -81,10 +81,13 @@ class ProtoDiagramEntityTest(TestCase):
         self.basic_request = CreateBasicRequest()
         self.prepped_request = CreatePreparedRequest()
         self.auth_request = CreatePreparedAuthRequest()
+        
+        self.testRelationShip = createTestRelationship()
 
     def tearDown(self):
         self.entity.delete()
         self.diagram.delete()
+        self.testRelationShip.delete()
 
     def test_getEntitiesJSONDiagram_thenReturnEntity(self):
         response = json.loads(getEntitiesJSONDiagram(self.basic_request).content)
