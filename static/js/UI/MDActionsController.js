@@ -19,14 +19,14 @@ Ext.define('ProtoUL.UI.MDActionsController', {
         // if ( ! _SM._UserInfo.isStaff ) return
 
         // @formatter:off
-        var me = this, ix, 
-            myProtoActions = [],
+        var me = this, ix, pProtoAction,
+            myProtoActions = [],  
             __MasterDetail = this.__MasterDetail;
         // @formatter:on
 
         if (this.myMeta.WFlowActions) {
             for (ix in this.myMeta.WFlowActions ) {
-                var pProtoAction = this.myMeta.WFlowActions[ix];
+                pProtoAction = this.myMeta.WFlowActions[ix];
 
                 pProtoAction.menuText = pProtoAction.menuText || pProtoAction.name;
                 pProtoAction.actionType = 'wflow';
@@ -43,7 +43,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
                     }];
 
                 } else {
-                    pProtoAction.actionParams = []
+                    pProtoAction.actionParams = [];
                 }
 
                 myProtoActions.push(new Ext.Action({
@@ -60,7 +60,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
         }
 
         for (ix in this.myMeta.actions  ) {
-            var pProtoAction = this.myMeta.actions[ix];
+            pProtoAction = this.myMeta.actions[ix];
             pProtoAction.menuText = pProtoAction.menuText || pProtoAction.name;
             myProtoActions.push(new Ext.Action({
                 text: pProtoAction.menuText,
@@ -116,6 +116,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
                     acceptFn: function(parameters) {
                         this.doAction(me, pGrid.viewCode, btn.actionDef, selectedKeys, parameters);
                     }
+
                 };
 
                 myWin = Ext.create('ProtoUL.ux.parameterWin', {
@@ -127,8 +128,8 @@ Ext.define('ProtoUL.UI.MDActionsController', {
                 myWin.show();
                 // myWin.uploadFile()
 
-            };
-        };
+            }
+        }
 
     },
 
