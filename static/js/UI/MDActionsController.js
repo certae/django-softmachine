@@ -1,3 +1,7 @@
+/*jslint nomen: true, sloppy : true, white : true, sub : true */
+/*global Ext */
+/*global _SM */
+
 Ext.define('ProtoUL.UI.MDActionsController', {
     extend: 'Ext.Base',
     myMeta: null,
@@ -15,32 +19,33 @@ Ext.define('ProtoUL.UI.MDActionsController', {
         // if ( ! _SM._UserInfo.isStaff ) return
 
         // @formatter:off
-        var me = this, 
+        var me = this, ix, 
             myProtoActions = [],
             __MasterDetail = this.__MasterDetail;
         // @formatter:on
 
-
-        if ( this.myMeta.WFlowActions ) {
-            for (var ix in this.myMeta.WFlowActions ) {
+        if (this.myMeta.WFlowActions) {
+            for (ix in this.myMeta.WFlowActions ) {
                 var pProtoAction = this.myMeta.WFlowActions[ix];
 
                 pProtoAction.menuText = pProtoAction.menuText || pProtoAction.name;
-                pProtoAction.actionType = 'wflow'
-                pProtoAction.selectionMode = 'multiple'
-                pProtoAction.refreshOnComplete = true 
+                pProtoAction.actionType = 'wflow';
+                pProtoAction.selectionMode = 'multiple';
+                pProtoAction.refreshOnComplete = true;
 
-                if ( pProtoAction.admMessagePropmt ) {
-                    pProtoAction.actionParams =  [{ 
-                        'name' : 'admMessage', 
-                        'tooltip' : pProtoAction.description , 
-                        'fieldLabel' :  pProtoAction.admMessagePropmt ,
-                        'type' : 'string', 
-                        'required' : true 
-                    }]
+                if (pProtoAction.admMessagePropmt) {
+                    pProtoAction.actionParams = [{
+                        'name': 'admMessage',
+                        'tooltip': pProtoAction.description,
+                        'fieldLabel': pProtoAction.admMessagePropmt,
+                        'type': 'string',
+                        'required': true
+                    }];
 
-                } else { pProtoAction.actionParams =  []}
-                
+                } else {
+                    pProtoAction.actionParams = []
+                }
+
                 myProtoActions.push(new Ext.Action({
                     text: pProtoAction.menuText,
                     actionName: pProtoAction.name,
@@ -54,8 +59,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
 
         }
 
-
-        for (var ix in this.myMeta.actions  ) {
+        for (ix in this.myMeta.actions  ) {
             var pProtoAction = this.myMeta.actions[ix];
             pProtoAction.menuText = pProtoAction.menuText || pProtoAction.name;
             myProtoActions.push(new Ext.Action({
@@ -91,6 +95,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
             var pGrid = __MasterDetail.protoMasterGrid;
             var selectedKeys = pGrid.getSelectedIds();
             var pAction = btn.actionDef;
+            var myOptions, myWin;
 
             // "selectionMode",
             if ((pAction.selectionMode == "single"  ) && (selectedKeys.length != 1 )) {
@@ -106,15 +111,14 @@ Ext.define('ProtoUL.UI.MDActionsController', {
             if (pAction.actionParams.length == 0) {
                 this.doAction(me, pGrid.viewCode, btn.actionDef, selectedKeys, []);
             } else {
-                var myOptions = {
+                myOptions = {
                     scope: me,
                     acceptFn: function(parameters) {
                         this.doAction(me, pGrid.viewCode, btn.actionDef, selectedKeys, parameters);
                     }
-
                 };
 
-                var myWin = Ext.create('ProtoUL.ux.parameterWin', {
+                myWin = Ext.create('ProtoUL.ux.parameterWin', {
                     parameters: pAction.actionParams,
                     title: btn.actionName + ' - ' + pGrid.rowData['__str__'],
                     options: myOptions
