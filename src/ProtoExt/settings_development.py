@@ -8,11 +8,8 @@ DATABASES = {
 }
 
 ALLOWED_HOSTS = [
-    'certaedev', # Allow domain and subdomains
     'localhost', 
     '127.0.0.1',
-    '132.203.51.44',
-    'loli.fsa.ulaval.ca',  # Also allow FQDN and subdomains
 ]
 
 
