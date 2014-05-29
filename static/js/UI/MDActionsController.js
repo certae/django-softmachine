@@ -92,29 +92,43 @@ Ext.define('ProtoUL.UI.MDActionsController', {
         };
 
         function onClickDoAction(btn) {
+
             var pGrid = __MasterDetail.protoMasterGrid;
             var selectedKeys = pGrid.getSelectedIds();
             var pAction = btn.actionDef;
             var myOptions, myWin;
+            var detKeys = [];
 
             // "selectionMode",
             if ((pAction.selectionMode == "single"  ) && (selectedKeys.length != 1 )) {
                 _SM.__StBar.showMessage('TITLE_ACTION_SELECTION_SINLGLE', btn.actionName, 3000);
                 return;
+
             } else if ((pAction.selectionMode == "multiple"  ) && (selectedKeys.length < 1 )) {
                 _SM.__StBar.showMessage('TITLE_ACTION_SELECTION_MULTI', btn.actionName, 3000);
                 return;
+
+            } else if (pAction.selectionMode == "details"  ) {
+
+                for (ix in this.__MasterDetail.protoTabs.items.items ) {
+                    pdetGrid = this.__MasterDetail.protoTabs.items.items[ix];
+
+                    detKeys.push( { 
+                        'detName' : pdetGrid.detailDefinition.detailName, 
+                        'detKeys' : pdetGrid.getSelectedIds()
+                    }); 
+                }
             }
 
             // actionParams
             pAction.actionParams = _SM.verifyList(pAction.actionParams);
             if (pAction.actionParams.length == 0) {
-                this.doAction(me, pGrid.viewCode, btn.actionDef, selectedKeys, []);
+                this.doAction(me, pGrid.viewCode, btn.actionDef, selectedKeys, [], detKeys);
             } else {
                 myOptions = {
                     scope: me,
                     acceptFn: function(parameters) {
-                        this.doAction(me, pGrid.viewCode, btn.actionDef, selectedKeys, parameters);
+                        this.doAction(me, pGrid.viewCode, btn.actionDef, selectedKeys, parameters, detKeys);
                     }
 
                 };
@@ -133,7 +147,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
 
     },
 
-    doAction: function(me, viewCode, actionDef, selectedKeys, parameters) {
+    doAction: function(me, viewCode, actionDef, selectedKeys, parameters, detKeys) {
 
         var options = {
             scope: me,
@@ -158,7 +172,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
         };
 
         _SM.__StBar.showMessage('executing  ' + actionDef.name + '...', 'MDActionsController');
-        _SM.doProtoActions(viewCode, actionDef.name, selectedKeys, parameters, actionDef, options);
+        _SM.doProtoActions(viewCode, actionDef.name, selectedKeys, detKeys, parameters, actionDef, options);
 
     }
 

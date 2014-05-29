@@ -320,7 +320,8 @@ _MetaProperties =  {
     // none : Envia la accion sin QSet 
     // single : Exige un unico reg 
     // multiple : Exige al menos un reg       
-    "selectionMode.choices" : [ "none", "single", "multiple" ], 
+    // details : Envia la seleccion de detalles 
+    "selectionMode.choices" : [ "none", "single", "multiple", "details" ], 
 
     "addDetailForm.help" : "Shortcut to the add form", 
     "addDetailForm.type" : "boolean"

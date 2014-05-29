@@ -59,6 +59,24 @@ class Modele(ProtoModel):
     def __unicode__(self):
         return slugify(str( self.domaff_modele) +  '.' + self.nom_modele)
 
+    protoExt = {
+        "actions": [
+            { "name": "doMatrixRacc",
+              "selectionMode" : "details"
+            },
+        ], 
+        "detailsConfig": [{
+            "detailField": "mod_modrac1__pk",
+            "__ptType": "detailDef",
+            "conceptDetail": "rai.ModeleRaccordement",
+            "detailName": "mod_modrac1",
+            "menuText": "Modèles raccordés",
+            "masterField": "pk"
+        }]
+    }
+
+
+
 #     class Meta:
 #         unique_together = ('domaff_modele','nom_modele',)
 

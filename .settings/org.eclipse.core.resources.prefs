@@ -47,6 +47,7 @@ encoding//src/prototype/actions/viewTemplate.py=utf-8
 encoding//src/prototype/models.py=utf-8
 encoding//src/prototype/protoRules.py=utf-8
 encoding//src/rai/actions/__init__.py=utf-8
+encoding//src/rai/actions/actModele.py=utf-8
 encoding//src/rai/actions/importOMS_RAI.py=utf-8
 encoding//src/rai/admin/__init__.py=utf-8
 encoding//src/rai/models.py=utf-8

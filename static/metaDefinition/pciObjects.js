@@ -77,7 +77,7 @@
 function verifyMeta(oMeta, ptType, tNode) {
 
     //  Verifica un objeto de acuerdo a la estructura
-    //  Si es un objeto asociado a un arbol tNode es el nodo base,
+    //  Si es un objeto asociado a un arbol tNode es el de base,
 
     var __ptConfig = _MetaObjects[ptType];
     var listOfConf, sKey, nBranch, myObj, ix;
@@ -529,8 +529,9 @@ _MetaObjects = {
 
     "actionDef" : {
         "description" : "Actions definition (backend)",
-        "properties" : ["name", "title", "actionType", "selectionMode", "refreshOnComplete"],
+        "properties" : ["name", "title", "actionType", "selectionMode", "refreshOnComplete" ],
         "lists" : ["actionParams"],
+
         "addPrompt" : "Please enter the name for your action:",
         "allowDel" : true
 
