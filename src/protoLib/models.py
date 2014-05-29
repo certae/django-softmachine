@@ -426,6 +426,15 @@ class Logger(models.Model):
     def __unicode__(self):
         return self.logType + '.' +  self.logObject 
 
+    protoExt = {
+        "actions": [
+            { "name": "doClearLog",
+              "selectionMode" : "none",
+              "refreshOnComplete" : True
+            },
+        ]
+    }
+
 
 def logEvent( logObject, logInfo, logUser, logTeam, logNotes = '', logType = 'INF', logKey = ''):
 
