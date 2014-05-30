@@ -59,7 +59,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
 
         }
 
-        for (ix in this.myMeta.actions  ) {
+        for ( ix in this.myMeta.actions  ) {
             pProtoAction = this.myMeta.actions[ix];
             pProtoAction.menuText = pProtoAction.menuText || pProtoAction.name;
             myProtoActions.push(new Ext.Action({
@@ -97,7 +97,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
             var selectedKeys = pGrid.getSelectedIds();
             var pAction = btn.actionDef;
             var myOptions, myWin;
-            var detKeys = [];
+            var detKeys = {};
 
             // "selectionMode",
             if ((pAction.selectionMode == "single"  ) && (selectedKeys.length != 1 )) {
@@ -112,11 +112,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
 
                 for (ix in this.__MasterDetail.protoTabs.items.items ) {
                     pdetGrid = this.__MasterDetail.protoTabs.items.items[ix];
-
-                    detKeys.push( { 
-                        'detName' : pdetGrid.detailDefinition.detailName, 
-                        'detKeys' : pdetGrid.getSelectedIds()
-                    }); 
+                    detKeys[ pdetGrid.detailDefinition.detailName ]  = pdetGrid.getSelectedIds()
                 }
             }
 

@@ -164,7 +164,7 @@ def protoExecuteAction(request):
 
     # details 
     if actionDef.get('selectionMode', '') == 'details':
-        detKeys = request.POST.get('detKeys', [] )
+        detKeys = request.POST.get('detKeys', {} )
         detKeys = json.loads(detKeys)
 
         return doAdminDetailAction(model, selectedKeys, detKeys, parameters, actionDef, modelAdmin )

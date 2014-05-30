@@ -66,10 +66,10 @@ class Modele(ProtoModel):
             },
         ], 
         "detailsConfig": [{
+            "detailName": "mod_modrac1",
             "detailField": "mod_modrac1__pk",
             "__ptType": "detailDef",
             "conceptDetail": "rai.ModeleRaccordement",
-            "detailName": "mod_modrac1",
             "menuText": "Modèles raccordés",
             "masterField": "pk"
         }]
