@@ -267,9 +267,13 @@ _MetaObjects = {
 
     "gridConfig" : {
         "description" : "Grid configuration properties",
-        "properties" : ['hideRowNumbers',
-        // 'hideCheckSelect',
-        'gridSelectionMode', "exportCsv", 'hideSheet', 'denyAutoPrint', 'filterSetABC'],
+        "properties" : [
+            'hideRowNumbers',
+            // 'hideCheckSelect',
+            'gridSelectionMode', "exportCsv", 'hideSheet', 'denyAutoPrint', 'filterSetABC', 
+            'groupCol'
+        ],
+
         "lists" : ["listDisplay", "baseFilter", "initialFilter", "initialSort",
 
         // TODO: Eliminar de aqui y pasar a obj  colShortcuts

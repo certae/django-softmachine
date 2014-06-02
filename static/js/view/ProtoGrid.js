@@ -82,6 +82,7 @@ Ext.define('ProtoUL.view.ProtoGrid', {
 
             pageSize: myMeta.pageSize || _SM._PAGESIZE,
             localSort: myMeta.localSort,
+            groupCol : myMeta.gridConfig.groupCol, 
 
             // proxy.extraParams, siempre deben ser string
             baseFilter: baseFilter,
@@ -144,6 +145,16 @@ Ext.define('ProtoUL.view.ProtoGrid', {
 
         this.editable = this.autoEdit;
 
+        // Grouping 
+        var lFeatures = [], lField, sHeader, lGroup ; 
+        if ( myMeta.gridConfig.groupCol  ) {
+            if ( this.myFieldDict[ myMeta.gridConfig.groupCol ] ) { 
+                sHeader = '{name}'
+                lGroup = Ext.create('Ext.grid.feature.Grouping',{ groupHeaderTpl: sHeader }); 
+                lFeatures.push( lGroup  ); 
+            }
+        }
+
         // Definie el grid
         var grid;
         if (myMeta.pciStyle == 'tree') {
@@ -159,8 +170,14 @@ Ext.define('ProtoUL.view.ProtoGrid', {
                 flex: 1,
                 layout: 'fit',
                 minSize: 50,
-                // plugins: [    'headertooltip', this.rowEditing ],
-                plugins: ['headertooltip'],
+
+                plugins: [
+                    'headertooltip'
+                  // this.rowEditing 
+
+                ],
+
+                features: lFeatures,
 
                 selModel: this.selModel,
                 columns: gridColumns,

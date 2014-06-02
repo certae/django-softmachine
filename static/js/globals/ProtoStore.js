@@ -33,8 +33,9 @@ _SM.getStoreDefinition = function(stDef) {
         remoteSort : !(stDef.localSort || false),
         sorters : stDef.sorters,
         defaultSortDirection : 'ASC',
-        sortOnLoad : true,
+        groupField : stDef.groupCol || '',
 
+        sortOnLoad : true,
         autoSync : true,
 
         proxy : _SM.getProxyDefinition(stDef),
