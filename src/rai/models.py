@@ -148,7 +148,7 @@ class ElementDonnee(ProtoModel):
     volumetrie = models.CharField(blank= True, null= True, max_length= 200)
 
     def __unicode__(self):
-        return slugify(self.nom_element_donnee +  '.' + str( self.entite_elem))
+        return slugify( self.nom_element_donnee  )
 
 #     class Meta:
 #         unique_together = ('nom_element_donnee','entite_elem',)
@@ -226,7 +226,7 @@ class Raccordement(ProtoModel):
     eledon_rac2 = models.ForeignKey('ElementDonnee', blank= True, null= True,  related_name='set_eledon_rac2')
 
     def __unicode__(self):
-        return slugify(self.no_raccordement)
+        return slugify( self.no_raccordement )
 
 #     class Meta:
 #         unique_together = ('no_raccordement',)

@@ -63,8 +63,8 @@ def doMatrixRaccordement( request, selectedKeys, detKeys, parameters ):
 		return  {'success':False, 'message' : 'Load error' }
 
 
-	filename = 'mraccordement.csv'
-	fullpath = getFullPath( request, filename )
+	fileName = 'mraccordement.csv'
+	fullpath = getFullPath( request, fileName )
 
 	import codecs
 	with codecs.open(fullpath , 'w', 'utf-8') as outfile:
@@ -73,5 +73,5 @@ def doMatrixRaccordement( request, selectedKeys, detKeys, parameters ):
 			lineRacc =  expandRaccordment( matrixDef, row )
 			outfile.write( getLineCsv( lineRacc  ))
 
-	return  JsonSuccess( { 'message':  filename } )
+	return  {'success':True , 'message' : fileName,  'fileName' : fileName }
 

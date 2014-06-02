@@ -14,7 +14,6 @@ admin.site.register(TeamHierarchy)
 
 # from adminUserProf import usrProfileAdmin
 admin.site.register(UserProfile)
-
 admin.site.register(UserShare)
 
 admin.site.register(CustomDefinition)
