@@ -33,13 +33,17 @@ Ext.application({
         'diagram.DatabaseMenu',
         'searchmodel.LiveSearchGridPanel',
         'searchmodel.SearchBottomBar',
-        'ComboBoxPrompt'
+        'ComboBoxPrompt',
+        'raccordement.MainWindow',
+        'raccordement.GridPanel',
+        'raccordement.ListRaccordement'
     ],
 	controllers: [
 		'PasswordManager',
 		'DiagramController',
 		'DiagramMenuController',
-		'DiagramContextMenuController'
+		'DiagramContextMenuController',
+		'RaccordementController'
 	],
 	
     launch: function () {

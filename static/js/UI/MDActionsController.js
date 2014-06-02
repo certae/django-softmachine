@@ -103,26 +103,33 @@ Ext.define('ProtoUL.UI.MDActionsController', {
 
             // actionParams
             pAction.actionParams = _SM.verifyList(pAction.actionParams);
-            if (pAction.actionParams.length == 0) {
-                this.doAction(me, pGrid.viewCode, btn.actionDef, selectedKeys, []);
+            if (pAction.executeJS){
+                var win = Ext.create('ProtoUL.view.raccordement.MainWindow', {
+                	selectedModel: selectedKeys
+                });
+                win.show();
             } else {
-                var myOptions = {
-                    scope: me,
-                    acceptFn: function(parameters) {
-                        this.doAction(me, pGrid.viewCode, btn.actionDef, selectedKeys, parameters);
-                    }
+                if (pAction.actionParams.length == 0) {
+                	this.doAction(me, pGrid.viewCode, btn.actionDef, selectedKeys, []);
+                } else {
+                    var myOptions = {
+                        scope: me,
+                        acceptFn: function(parameters) {
+                            this.doAction(me, pGrid.viewCode, btn.actionDef, selectedKeys, parameters);
+                        }
+
+                    };
+
+                    var myWin = Ext.create('ProtoUL.ux.parameterWin', {
+                        parameters: pAction.actionParams,
+                        title: btn.actionName + ' - ' + pGrid.rowData['__str__'],
+                        options: myOptions
+                    });
+
+                    myWin.show();
 
                 };
-                
-                var myWin = Ext.create('ProtoUL.ux.parameterWin', {
-                    parameters: pAction.actionParams,
-                    title: btn.actionName + ' - ' + pGrid.rowData['__str__'],
-                    options: myOptions
-                });
-
-                myWin.show();
-
-            };
+            }
         };
 
     },

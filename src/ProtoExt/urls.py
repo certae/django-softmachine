@@ -17,6 +17,7 @@ urlpatterns = patterns('',
 
     url(r'^protoLib/', include('protoLib.urls')),
     url(r'^protoDiagram/', include('dbDesigner.urls')),
+    url(r'^rai/', include('rai.urls')),
 
 #    Use for production instalation and for load json configuration files
     url(r'static/(?P<path>.*)$', 'django.views.static.serve',{'document_root': PPATH + '/static'}),

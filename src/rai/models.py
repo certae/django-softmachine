@@ -189,7 +189,8 @@ class ModeleRaccordement(ProtoModel):
                      {"name" : "newText", "type" : "string", "required": True, "tooltip" : "New values" }, 
                      #{"name" : "file", "type" : "filefield", "required": True, "tooltip" : "Select a file to upload" },
                 ] 
-            }, 
+            },
+            { "name": "doRaccordement", "selectionMode" : "single", "executeJS": True},
         ],
     } 
 

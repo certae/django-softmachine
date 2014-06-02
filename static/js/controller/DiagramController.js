@@ -1,5 +1,5 @@
 /**
- * @class TableConnection
+ * @class DiagramController
  *
  * This controller is used to capture events from diagram toolbar and diagram detail.
  *
