@@ -27,7 +27,7 @@ Ext.define('ProtoUL.view.raccordement.GridPanel', {
                 features: [Ext.create('Ext.grid.feature.Grouping',{
 	              	groupHeaderTpl: 'Entity: {name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})'
 	           	})],
-                selModel: Ext.create('Ext.selection.CheckboxModel'),
+                selModel: Ext.create('Ext.selection.CheckboxModel', {injectCheckbox: 'last'}),
                 columns: [{
                     text: 'Attribute',
                     flex: 1,
@@ -51,7 +51,7 @@ Ext.define('ProtoUL.view.raccordement.GridPanel', {
                 features: [Ext.create('Ext.grid.feature.Grouping',{
 	              	groupHeaderTpl: 'Entity: {name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})'
 	           	})],
-                selModel: Ext.create('Ext.selection.CheckboxModel'),
+                selModel: Ext.create('Ext.selection.CheckboxModel', {injectCheckbox: 'last'}),
                 columns: [{
                     text: 'Attribute',
                     flex: 1,

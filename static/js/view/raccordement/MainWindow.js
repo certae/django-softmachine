@@ -26,9 +26,8 @@ Ext.define('ProtoUL.view.raccordement.MainWindow', {
                 flex: 1
             }, {
                 xtype: 'listRaccordementGrid',
-                selModel: Ext.create('Ext.selection.CheckboxModel'),
+                selModel: Ext.create('Ext.selection.CheckboxModel', {injectCheckbox: 'last'}),
                 flex: 1
-                // layout: 'fit'
             }]
         });
         
