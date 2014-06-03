@@ -108,6 +108,25 @@ def protoExecuteAction(request):
             return doReturn ({'success':False, 'message' : str(e) })
 
 
+
+#   ----------------------------------------
+    def doAdminDetailAction(model, selectedKeys, detKeys, parameters, actionDef, modelAdmin ):
+
+        for action in modelAdmin.actions:
+            if action.__name__ == actionName:
+                break
+    
+        if not action:
+            return doReturn ({'success':False, 'message' : 'Action notFound'})
+    
+        try:
+            returnObj = action( request, selectedKeys, detKeys, parameters )
+            return doReturn (returnObj)
+    
+        except Exception as e:
+            return doReturn ({'success':False, 'message' : str(e) })
+
+
 #   ----------------------------------------
 
     if not request.user.is_authenticated():
@@ -115,13 +134,6 @@ def protoExecuteAction(request):
 
     if request.method != 'POST':
         return doReturn ({'success':False , 'message' : 'PostAction required'})
-
-    files = request.FILES.items()
-    if len(files) > 0:
-        print('its working')
-        return None
-        # TODO
-        # return doUploadAction(file, model, parameters, actionDef, viewEntity, request.user)
 
     actionName = request.POST.get('actionName', '')
 
@@ -149,8 +161,15 @@ def protoExecuteAction(request):
     except :
         return doReturn ({'success':False, 'message' : 'Model notFound'})
 
-    
-    if actionDef.get('actionType', '') == 'wflow': 
+
+    # details 
+    if actionDef.get('selectionMode', '') == 'details':
+        detKeys = request.POST.get('detKeys', {} )
+        detKeys = json.loads(detKeys)
+
+        return doAdminDetailAction(model, selectedKeys, detKeys, parameters, actionDef, modelAdmin )
+
+    elif actionDef.get('actionType', '') == 'wflow': 
         return doWfAction(model, selectedKeys, parameters, actionDef, viewEntity, request.user)
          
     elif hasattr(modelAdmin, 'actions'):          

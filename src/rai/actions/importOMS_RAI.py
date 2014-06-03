@@ -182,8 +182,12 @@ class importOMS_RAI():
                     dEntity.entite_mod = dModel
                     
                     for child in xEntity:
-                        if (child.tag in self.ENTITE) and (child.text is not None):
-                            setattr(dEntity, self.ENTITE[ child.tag ] , child.text)
+                        if (child.tag in self.ENTITE):
+                            if child.text is not None:
+                                setattr(dEntity, self.ENTITE[ child.tag ] , child.text)
+
+                            elif type( child.attrib ) == dict and 'text' in child.attrib : 
+                                setattr(dEntity, self.ENTITE[ child.tag ] , child.get( 'text' )) 
                         
                     try:              
                         setSecurityInfo(dEntity, data, self.userProfile, True)
@@ -203,7 +207,11 @@ class importOMS_RAI():
                         for child in xProperty:
                             if child.tag in self.ELEMENT_DONNEE:
                                 if (child.text is not None):
-                                    setattr(dProperty, self.ELEMENT_DONNEE[ child.tag ] , child.text)
+                                    setattr(dProperty, self.ELEMENT_DONNEE[ child.tag ], child.text)
+
+                                elif type( child.attrib ) == dict and 'text' in child.attrib : 
+                                    setattr(dProperty, self.ELEMENT_DONNEE[ child.tag ], child.get( 'text' )) 
+                                
 
                             elif child.tag == 'udps':
                                 for xUdp in child:

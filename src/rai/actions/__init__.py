@@ -29,9 +29,11 @@ def doImportRAI( modeladmin, request, queryset, parameters):
 
     return doRaiActions( modeladmin, request, queryset, parameters, 'IMPORT' )
 
+
 def doMatchRAI( modeladmin, request, queryset, parameters):
 
     return doRaiActions( modeladmin, request, queryset, parameters, 'MATCH' )
+
 
 
 def doRaiActions( modeladmin, request, queryset, parameters, action ):
@@ -132,4 +134,8 @@ def doModelGraph(modeladmin, request, queryset, parameters):
     return  {'success':True , 'message' : fileName,  'fileName' : fileName }
 
 
+def doMatrixRacc( modeladmin, request, queryset, parameters):
 
+    from rai.actions.actModele import doMatrixRaccordement 
+
+    return doMatrixRaccordement( modeladmin, request, queryset, parameters  )

@@ -2,17 +2,15 @@
 # for project : "Modelibra.py" >
 
 
-from models import Project,  Model, Entity, Property,  Relationship  #, Prototype
 from models import PropertyEquivalence
 from models import ProtoTable
-from models import Diagram, DiagramEntity
 # from models import Service #, ServiceRef
 
 from django.contrib import admin
 
-
 # -----------------------------------------   Model  
 from actions import doModelPrototype, doModelGraph, doExportPrototype, doExportProtoJson  
+from models import Project,  Model, Property,  Relationship  #, Prototype
 
 class MyModelAdmin( admin.ModelAdmin ):
     actions = [ doModelPrototype, doModelGraph, doExportPrototype, doExportProtoJson  ]
@@ -21,6 +19,7 @@ admin.site.register(Model, MyModelAdmin)
 
 # ------------------------------------------  Entity
 from actions import  doEntityPrototype
+from models import Entity
 
 class MyEntityAdmin( admin.ModelAdmin ):
     actions = [ doEntityPrototype  ]
@@ -39,6 +38,7 @@ admin.site.register(Project, MyProjectAdmin )
 
 # ------------------------------------------
 
+from models import Diagram, DiagramEntity
 
 class MyDiagramAdmin( admin.ModelAdmin ):
     actions = [  doModelGraph  ]

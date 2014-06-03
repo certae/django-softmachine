@@ -59,6 +59,24 @@ class Modele(ProtoModel):
     def __unicode__(self):
         return slugify(str( self.domaff_modele) +  '.' + self.nom_modele)
 
+    protoExt = {
+        "actions": [
+            { "name": "doMatrixRacc",
+              "selectionMode" : "details"
+            },
+        ], 
+        "detailsConfig": [{
+            "detailName": "mod_modrac1",
+            "detailField": "mod_modrac1__pk",
+            "__ptType": "detailDef",
+            "conceptDetail": "rai.ModeleRaccordement",
+            "menuText": "Modèles raccordés",
+            "masterField": "pk"
+        }]
+    }
+
+
+
 #     class Meta:
 #         unique_together = ('domaff_modele','nom_modele',)
 
@@ -130,7 +148,7 @@ class ElementDonnee(ProtoModel):
     volumetrie = models.CharField(blank= True, null= True, max_length= 200)
 
     def __unicode__(self):
-        return slugify(self.nom_element_donnee +  '.' + str( self.entite_elem))
+        return slugify( self.nom_element_donnee  )
 
 #     class Meta:
 #         unique_together = ('nom_element_donnee','entite_elem',)
@@ -211,7 +229,7 @@ class Raccordement(ProtoModel):
 
     _autoIncrementField = 'no_raccordement'
     def __unicode__(self):
-        return slugify(self.no_raccordement)
+        return slugify( self.no_raccordement )
 
 #     class Meta:
 #         unique_together = ('no_raccordement',)

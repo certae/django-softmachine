@@ -11,6 +11,7 @@ class AdmDomaineAffaires( admin.ModelAdmin ):
 admin.site.register( DomaineAffaires, AdmDomaineAffaires )
 
 
+# ------------------------------------------------
 
 from rai.models import ModeleRaccordement
 from rai.actions import  doFindReplace
@@ -19,3 +20,16 @@ class AdmModeleRaccordement( admin.ModelAdmin ):
     actions = [ doFindReplace ]
 
 admin.site.register( ModeleRaccordement, AdmModeleRaccordement )
+
+
+# ------------------------------------------------
+
+from rai.models import Modele
+from rai.actions import  doMatrixRacc
+
+class AdmModele( admin.ModelAdmin ):
+    actions = [ doMatrixRacc ]
+
+admin.site.register( Modele, AdmModele )
+
+

@@ -15,7 +15,7 @@ def doFindReplace(modeladmin, request, queryset, parameters):
     if len(parameters) != 3: 
         return  {'success':False, 'message' : 'required: fieldName, findText, replaceText' }
 
-    from protoLib.findReplace import actionFindReplace
+    from protoLib.actions.findReplace import actionFindReplace  
     return actionFindReplace(request, queryset, parameters)
 
 
@@ -67,3 +67,16 @@ def doWFlowResume(modeladmin, request, queryset, parameters):
 
     # TODO add returnMsg
     return {'success':True, 'message' : returnMsg }
+
+
+
+def doClearLog(modeladmin, request, queryset, parameters):
+    """ 
+    Clear Log 
+    """
+
+    from protoLib.models import Logger
+
+    Logger.objects.all().delete()
+
+    return  {'success':True, 'message' : 'Ok' }
