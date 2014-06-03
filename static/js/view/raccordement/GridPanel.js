@@ -17,13 +17,6 @@ Ext.define('ProtoUL.view.raccordement.GridPanel', {
     initComponent: function() {
         var me = this;
 
-        var groupingFeatureleftGrid = Ext.create('Ext.grid.feature.Grouping', {
-            groupHeaderTpl: 'Entity: {name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})'
-        });
-        var groupingFeature = Ext.create('Ext.grid.feature.Grouping', {
-            groupHeaderTpl: 'Entity: {name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})'
-        });
-
         Ext.applyIf(me, {
             items: [{
                 xtype: 'gridpanel',
@@ -31,7 +24,9 @@ Ext.define('ProtoUL.view.raccordement.GridPanel', {
                 itemId: 'gridLeft',
                 iconCls: 'icon-grid',
                 frame: true,
-                features: [groupingFeatureleftGrid],
+                features: [Ext.create('Ext.grid.feature.Grouping',{
+	              	groupHeaderTpl: 'Entity: {name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})'
+	           	})],
                 selModel: Ext.create('Ext.selection.CheckboxModel'),
                 columns: [{
                     text: 'Attribute',
@@ -53,7 +48,9 @@ Ext.define('ProtoUL.view.raccordement.GridPanel', {
                 itemId: 'gridRight',
                 iconCls: 'icon-grid',
                 frame: true,
-                features: [groupingFeature],
+                features: [Ext.create('Ext.grid.feature.Grouping',{
+	              	groupHeaderTpl: 'Entity: {name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})'
+	           	})],
                 selModel: Ext.create('Ext.selection.CheckboxModel'),
                 columns: [{
                     text: 'Attribute',
