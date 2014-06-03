@@ -4,15 +4,13 @@
 Ext.define('ProtoUL.view.raccordement.ListRaccordement', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.listRaccordementGrid',
-    
+
     itemId: 'listRaccordementGrid',
     frame: true,
     store: 'Raccordements',
-    width: 750,
-    height: 300,
     title: 'Raccordement',
     modelRaccordement: null,
-    // features: [groupingFeature],
+    
     columns: [{
         text: 'Element raccordant',
         flex: 1,
@@ -26,12 +24,24 @@ Ext.define('ProtoUL.view.raccordement.ListRaccordement', {
         flex: 1,
         dataIndex: 'modelName'
     }],
-    
-    getModelRaccordement: function() {
-    	return this.modelRaccordement;
+
+    initComponent: function() {
+        this.dockedItems = [{
+            xtype: 'toolbar',
+            items: ['->',{
+                iconCls: 'x-tool-rowDel',
+                text: _SM.__language.Text_Delete_Button,
+                action: 'delete'
+            }]
+        }];
+        this.callParent(arguments);
     },
-    
+
+    getModelRaccordement: function() {
+        return this.modelRaccordement;
+    },
+
     setModelRaccordement: function(model) {
-    	this.modelRaccordement = model;
+        this.modelRaccordement = model;
     }
-}); 
+});

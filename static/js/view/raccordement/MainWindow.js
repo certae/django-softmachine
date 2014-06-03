@@ -7,9 +7,14 @@ Ext.define('ProtoUL.view.raccordement.MainWindow', {
 	itemId: 'raccordementMainWindow',
 	
     layout: {
-        type: 'vbox'
+        type: 'vbox',
+        align: 'stretch'
     },
     selectedModel: null,
+    maximizable: true,
+    modal: true,
+    height: 600,
+    width: 800,
     
     initComponent: function() {
         var me = this;
@@ -17,10 +22,13 @@ Ext.define('ProtoUL.view.raccordement.MainWindow', {
         Ext.applyIf(me, {
             items: [
             {
-                xtype: 'raccordementGridPanel'
+                xtype: 'raccordementGridPanel',
+                flex: 1
             }, {
                 xtype: 'listRaccordementGrid',
-                layout: 'fit'
+                selModel: Ext.create('Ext.selection.CheckboxModel'),
+                flex: 1
+                // layout: 'fit'
             }]
         });
         

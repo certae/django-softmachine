@@ -3,5 +3,5 @@
  */
 Ext.define('ProtoUL.model.Raccordement', {
     extend: 'Ext.data.Model',
-    fields: ['id', 'sourceName', 'targetName', 'modelName']
+    fields: ['id', 'sourceId', 'sourceName', 'targetId', 'targetName', 'modelId', 'modelName']
 });

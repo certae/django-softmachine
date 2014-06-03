@@ -30,11 +30,40 @@ Ext.define('ProtoUL.controller.RaccordementController', {
         });
     },
 
+	getReadRaccordementOperation: function() {
+        var operation = new Ext.data.Operation({
+            action: 'read',
+            params: {
+                "modelId": this.getMainWindow().getActiveModel()
+            }
+        });
+        return operation;
+    },
+    
+    syncListRaccordement: function(listRaccordement) {
+        var controller = this;
+
+        listRaccordement.getStore().sync({
+            success: function(batch, options) {
+                listRaccordement.getStore().load(controller.getReadRaccordementOperation());
+            },
+            failure: function(batch, options) {
+                Ext.Msg.alert('Error', 'Failed to create raccordement');
+            },
+            scope: this
+        });
+    },
+
     loadDataToGridPanel: function(grid, model) {
         grid.setTitle(model.modelName);
         grid.getStore().loadData(model.attributes);
     },
 
+	removeMask: function(gridPanel) {
+        gridPanel.getComponent('gridLeft').setLoading(false);
+        gridPanel.getComponent('gridRight').setLoading(false);
+    },
+    
     openModeleRaccordement: function(win) {
         var controller = this;
         var model = win.getActiveModel();
@@ -49,6 +78,7 @@ Ext.define('ProtoUL.controller.RaccordementController', {
                 var gridPanel = controller.getMainWindow().down('panel');
                 controller.loadDataToGridPanel(gridPanel.getComponent('gridLeft'), outcome.models[0]);
                 controller.loadDataToGridPanel(gridPanel.getComponent('gridRight'), outcome.models[1]);
+                controller.removeMask(gridPanel);
 
                 if (outcome.models[2]) {
                     var listRaccordement = controller.getMainWindow().getComponent('listRaccordementGrid');
@@ -58,15 +88,19 @@ Ext.define('ProtoUL.controller.RaccordementController', {
             }
         };
         failureFunction = function(response) {
-            console.log('');
+        	controller.removeMask(controller.getMainWindow().down('panel'));
+            console.log('Error on openModeleRaccordement method');
         };
         this.createAjaxRequest('rai/getModeleRaccordement/', "GET", params, null, successFunction, failureFunction);
     },
 
-    createRaccordementAttribute: function(modelName, sourceName, targetName) {
+    createRaccordementAttribute: function(modelName, modelId, source, target) {
         return Ext.create('ProtoUL.model.Raccordement', {
-            sourceName: sourceName,
-            targetName: targetName,
+            sourceId: source.id,
+            sourceName: source.attributeName,
+            targetId: target.id,
+            targetName: target.attributeName,
+            modelId: modelId,
             modelName: modelName
         });
     },
@@ -75,16 +109,15 @@ Ext.define('ProtoUL.controller.RaccordementController', {
         var controller = this;
         var listRaccordement = controller.getMainWindow().getComponent('listRaccordementGrid');
         var gridPanel = controller.getMainWindow().down('panel');
-        var leftGrid = gridPanel.getComponent('gridLeft');
-        var rightGrid = gridPanel.getComponent('gridRight');
 
-        var leftSelection = leftGrid.getSelectionModel().getSelection();
-        var rightSelection = rightGrid.getSelectionModel().getSelection();
+        var leftSelection = gridPanel.getComponent('gridLeft').getSelectionModel().getSelection();
+        var rightSelection = gridPanel.getComponent('gridRight').getSelectionModel().getSelection();
 
         var raccordementsJSON = [];
+        var shouldSyncStore = false;
         for (var i = 0; i < leftSelection.length; i++) {
             for (var j = 0; j < rightSelection.length; j++) {
-                var attribute = controller.createRaccordementAttribute(listRaccordement.getModelRaccordement(), leftSelection[i].data.attributeName, rightSelection[j].data.attributeName);
+                var attribute = controller.createRaccordementAttribute(listRaccordement.getModelRaccordement(), controller.getMainWindow().getActiveModel(), leftSelection[i].data, rightSelection[j].data);
                 var recordIndex = listRaccordement.getStore().findBy(function(record, id) {
                     if (record.get('modelName') === listRaccordement.getModelRaccordement() && record.get('sourceName') === attribute.data.sourceName && record.get('targetName') === attribute.data.targetName) {
                         return true;
@@ -92,17 +125,29 @@ Ext.define('ProtoUL.controller.RaccordementController', {
                     return false;
                 });
                 if (recordIndex === -1) {
-	                raccordementsJSON.push({
-	                    'model': controller.getMainWindow().getActiveModel(),
-	                    'source': leftSelection[i].data,
-	                    'target': rightSelection[j].data
-	                });
-	                listRaccordement.getStore().insert(listRaccordement.getStore().data.length, attribute);
+                    raccordementsJSON.push({
+                        'model': controller.getMainWindow().getActiveModel(),
+                        'source': leftSelection[i].data,
+                        'target': rightSelection[j].data
+                    });
+                    listRaccordement.getStore().insert(0, attribute);
+                    shouldSyncStore = true;
                 }
             }
         }
-		// TODO finir le save...
-        // url = 'rai/createRaccordement/'
+
+        if (shouldSyncStore) {
+        	controller.syncListRaccordement(listRaccordement);
+        }
+    },
+
+    deleteRaccordement: function(button) {
+        var controller = this;
+        var listRaccordement = controller.getMainWindow().getComponent('listRaccordementGrid');
+        var selection = listRaccordement.getSelectionModel().getSelection();
+
+        listRaccordement.getStore().remove(selection);
+        controller.syncListRaccordement(listRaccordement);
     },
 
     init: function(application) {
@@ -112,6 +157,9 @@ Ext.define('ProtoUL.controller.RaccordementController', {
             },
             "#btRaccorderElements": {
                 click: this.raccorderElements
+            },
+            'listRaccordementGrid button[action=delete]': {
+                click: this.deleteRaccordement
             }
         });
     }
