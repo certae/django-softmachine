@@ -112,17 +112,14 @@ Ext.define('ProtoUL.UI.MDActionsController', {
 
                 for (ix in this.__MasterDetail.protoTabs.items.items ) {
                     pdetGrid = this.__MasterDetail.protoTabs.items.items[ix];
-                    detKeys[ pdetGrid.detailDefinition.detailName ]  = pdetGrid.getSelectedIds()
+                    detKeys[ pdetGrid.detailDefinition.detailName ]  = pdetGrid.getSelectedIds();
                 }
             }
 
             // actionParams
             pAction.actionParams = _SM.verifyList(pAction.actionParams);
             if (pAction.executeJS){
-                myWin = Ext.create('ProtoUL.view.raccordement.MainWindow', {
-                	selectedModel: selectedKeys
-                });
-                myWin.show();
+            	eval(pAction.jsCode);
             } else {
                 if (pAction.actionParams.length == 0) {
                 	this.doAction(me, pGrid.viewCode, btn.actionDef, selectedKeys, [], detKeys);
@@ -149,7 +146,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
 
     },
 
-    doAction: function(me, viewCode, actionDef, selectedKeys, parameters) {
+    doAction: function(me, viewCode, actionDef, selectedKeys, parameters, detKeys) {
 
         var options = {
             scope: me,
@@ -174,7 +171,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
         };
 
         _SM.__StBar.showMessage('executing  ' + actionDef.name + '...', 'MDActionsController');
-        _SM.doProtoActions(viewCode, actionDef.name, selectedKeys, parameters, actionDef, options);
+        _SM.doProtoActions(viewCode, actionDef.name, selectedKeys, detKeys, parameters, actionDef, options);
 
     }
 

@@ -9,10 +9,11 @@
  * @author Giovanni Victorette
  * @extend Ext.app.Controller
  */
-Ext.define('ProtoUL.controller.RaccordementController', {
+Ext.define('RAI.controller.RaccordementController', {
     extend: 'Ext.app.Controller',
 
     stores: ['ElementsDonneeRightGrid', 'ElementsDonneeLeftGrid', 'Raccordements'],
+    views:  ['raccordement.MainWindow','raccordement.GridPanel','raccordement.ListRaccordement'],
 
     refs: [{
         ref: 'mainWindow',
@@ -48,7 +49,7 @@ Ext.define('ProtoUL.controller.RaccordementController', {
                 listRaccordement.getStore().load(controller.getReadRaccordementOperation());
             },
             failure: function(batch, options) {
-                Ext.Msg.alert('Error', 'Failed to create raccordement');
+                Ext.Msg.alert('Error', 'Failed to sync raccordement');
             },
             scope: this
         });
@@ -95,7 +96,7 @@ Ext.define('ProtoUL.controller.RaccordementController', {
     },
 
     createRaccordementAttribute: function(modelName, modelId, source, target) {
-        return Ext.create('ProtoUL.model.Raccordement', {
+        return Ext.create('RAI.model.Raccordement', {
             sourceId: source.id,
             sourceName: source.attributeName,
             targetId: target.id,

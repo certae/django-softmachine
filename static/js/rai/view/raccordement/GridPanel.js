@@ -1,7 +1,7 @@
 /**
  * @author Giovanni Victorette
  */
-Ext.define('ProtoUL.view.raccordement.GridPanel', {
+Ext.define('RAI.view.raccordement.GridPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.raccordementGridPanel',
     itemId: 'raccordementGridPanel',

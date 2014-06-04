@@ -379,9 +379,49 @@
                     "path": "js/controller/"
                 },
                 {
-                    "clsName": "ProtoUL.controller.DiagramContextMenuController",
-                    "name": "DiagramContextMenuController.js",
-                    "path": "js/controller/"
+                    "clsName": "RAI.model.Raccordement",
+                    "name": "Raccordement.js",
+                    "path": "js/rai/model/"
+                },
+                {
+                    "clsName": "RAI.model.ElementDonnee",
+                    "name": "ElementDonnee.js",
+                    "path": "js/rai/model/"
+                },
+                {
+                    "clsName": "RAI.store.Raccordements",
+                    "name": "Raccordements.js",
+                    "path": "js/rai/store/"
+                },
+                {
+                    "clsName": "RAI.store.ElementsDonneeLeftGrid",
+                    "name": "ElementsDonneeLeftGrid.js",
+                    "path": "js/rai/store/"
+                },
+                {
+                    "clsName": "RAI.store.ElementsDonneeRightGrid",
+                    "name": "ElementsDonneeRightGrid.js",
+                    "path": "js/rai/store/"
+                },
+                {
+                    "clsName": "RAI.view.raccordement.GridPanel",
+                    "name": "GridPanel.js",
+                    "path": "js/rai/view/raccordement/"
+                },
+                {
+                    "clsName": "RAI.view.raccordement.ListRaccordement",
+                    "name": "ListRaccordement.js",
+                    "path": "js/rai/view/raccordement/"
+                },
+                {
+                    "clsName": "RAI.view.raccordement.MainWindow",
+                    "name": "MainWindow.js",
+                    "path": "js/rai/view/raccordement/"
+                },
+                {
+                    "clsName": "RAI.controller.RaccordementController",
+                    "name": "RaccordementController.js",
+                    "path": "js/rai/controller/"
                 }
             ]
         },

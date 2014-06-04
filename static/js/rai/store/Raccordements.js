@@ -2,10 +2,10 @@
  * @author Giovanni Victorette
  */
 
-Ext.define('ProtoUL.store.Raccordements', {
+Ext.define('RAI.store.Raccordements', {
     extend: 'Ext.data.Store',
 
-    requires: ['ProtoUL.model.Raccordement', 'Ext.data.proxy.Memory', 'Ext.data.reader.Json'],
+    requires: ['RAI.model.Raccordement', 'Ext.data.proxy.Memory', 'Ext.data.reader.Json'],
     autoLoad: false,
 
     sorters: ['sourceName', 'targetName', 'modelName'],
@@ -14,7 +14,7 @@ Ext.define('ProtoUL.store.Raccordements', {
         var me = this;
         cfg = cfg || {};
         me.callParent([Ext.apply({
-            model: 'ProtoUL.model.Raccordement',
+            model: 'RAI.model.Raccordement',
             storeId: 'RaccordementStore',
             proxy: {
                 type: 'ajax',

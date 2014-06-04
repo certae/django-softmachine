@@ -2,11 +2,11 @@
  * @author Giovanni Victorette
  */
 
-Ext.define('ProtoUL.store.ElementsDonneeRightGrid', {
+Ext.define('RAI.store.ElementsDonneeRightGrid', {
     extend: 'Ext.data.Store',
 
     requires: [
-        'ProtoUL.model.ElementDonnee',
+        'RAI.model.ElementDonnee',
         'Ext.data.proxy.Memory',
         'Ext.data.reader.Json'
     ],
@@ -17,7 +17,7 @@ Ext.define('ProtoUL.store.ElementsDonneeRightGrid', {
         var me = this;
         cfg = cfg || {};
         me.callParent([Ext.apply({
-            model: 'ProtoUL.model.ElementDonnee',
+            model: 'RAI.model.ElementDonnee',
             storeId: 'ElementsDonneeRGStore',
             proxy: {
                 type: 'memory',

@@ -1,7 +1,7 @@
 /**
  * @author Giovanni Victorette
  */
-Ext.define('ProtoUL.model.Raccordement', {
+Ext.define('RAI.model.Raccordement', {
     extend: 'Ext.data.Model',
     fields: ['id', 'sourceId', 'sourceName', 'targetId', 'targetName', 'modelId', 'modelName']
 });

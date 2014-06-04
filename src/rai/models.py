@@ -208,7 +208,7 @@ class ModeleRaccordement(ProtoModel):
                      #{"name" : "file", "type" : "filefield", "required": True, "tooltip" : "Select a file to upload" },
                 ] 
             },
-            { "name": "doRaccordement", "selectionMode" : "single", "executeJS": True},
+            { "name": "doRaccordement", "selectionMode" : "single", "executeJS": True, "jsCode":"Ext.create('RAI.view.raccordement.MainWindow',{selectedModel:selectedKeys}).show();",},
         ],
     } 
 

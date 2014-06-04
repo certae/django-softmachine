@@ -6,11 +6,15 @@
  */
 
 Ext.Loader.setConfig({
-    enabled: true
+    enabled: true,
+    paths : {  
+        'RAI' : 'static/js/rai'  
+    }
 });
 
 Ext.application({
     name: 'ProtoUL',
+    namespaces: ['RAI'],
     appFolder: 'static/js',
 
     requires: ['Ext.window.MessageBox', 'Ext.toolbar.Paging', 'Ext.layout.container.Border', 'Ext.util.Cookies', 'Ext.Ajax', 'ProtoUL.view.MenuTree', 'ProtoUL.view.ProtoTabContainer', 'ProtoUL.view.Viewport', 'ProtoUL.view.password.PasswordReset', 'ProtoUL.ux.Printer', 'ProtoUL.ux.GridHeaderToolTip', 'ProtoUL.ux.CheckColumn'],
@@ -33,17 +37,14 @@ Ext.application({
         'diagram.DatabaseMenu',
         'searchmodel.LiveSearchGridPanel',
         'searchmodel.SearchBottomBar',
-        'ComboBoxPrompt',
-        'raccordement.MainWindow',
-        'raccordement.GridPanel',
-        'raccordement.ListRaccordement'
+        'ComboBoxPrompt'
     ],
 	controllers: [
 		'PasswordManager',
 		'DiagramController',
 		'DiagramMenuController',
 		'DiagramContextMenuController',
-		'RaccordementController'
+		'RAI.controller.RaccordementController'
 	],
 	
     launch: function () {

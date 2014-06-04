@@ -1,7 +1,7 @@
 /**
  * @author Giovanni Victorette
  */
-Ext.define('ProtoUL.view.raccordement.ListRaccordement', {
+Ext.define('RAI.view.raccordement.ListRaccordement', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.listRaccordementGrid',
 

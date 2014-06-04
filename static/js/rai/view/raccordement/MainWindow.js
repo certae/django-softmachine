@@ -1,7 +1,7 @@
 /**
  * @author Giovanni Victorette
  */
-Ext.define('ProtoUL.view.raccordement.MainWindow', {
+Ext.define('RAI.view.raccordement.MainWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.raccordementMainWindow',
 	itemId: 'raccordementMainWindow',
