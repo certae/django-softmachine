@@ -25,7 +25,7 @@ Ext.define('RAI.store.Raccordements', {
                 },
                 reader: {
                     type: 'json',
-                	root: 'raccordements',
+                    root: 'raccordements',
                     successProperty: 'success'
                 },
                 pageParam: false,

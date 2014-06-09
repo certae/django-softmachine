@@ -3,5 +3,5 @@
  */
 Ext.define('RAI.model.ElementDonnee', {
     extend: 'Ext.data.Model',
-    fields: ['id','attributeName', 'entityId', 'entityName']
+    fields: ['id', 'attributeName', 'entityId', 'entityName']
 });

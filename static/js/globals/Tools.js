@@ -590,7 +590,6 @@ function createJSFilesLibrary() {
     scriptLibrary.push("static/js2db/lib/jquery.layout.js");
 
     scriptLibrary.push("static/js2db/dbModel/View.js");
-    scriptLibrary.push("static/js2db/dbModel/Toolbar.js");
     scriptLibrary.push("static/js2db/dbModel/locator/PortRightLocator.js");
     scriptLibrary.push("static/js2db/dbModel/locator/PortLeftLocator.js");
     scriptLibrary.push("static/js2db/dbModel/shape/DBTable.js");

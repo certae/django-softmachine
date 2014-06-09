@@ -24,10 +24,12 @@ Ext.define('RAI.view.raccordement.GridPanel', {
                 itemId: 'gridLeft',
                 iconCls: 'icon-grid',
                 frame: true,
-                features: [Ext.create('Ext.grid.feature.Grouping',{
-	              	groupHeaderTpl: 'Entity: {name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})'
-	           	})],
-                selModel: Ext.create('Ext.selection.CheckboxModel', {injectCheckbox: 'last'}),
+                features: [Ext.create('Ext.grid.feature.Grouping', {
+                    groupHeaderTpl: 'Entity: {name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})'
+                })],
+                selModel: Ext.create('Ext.selection.CheckboxModel', {
+                    injectCheckbox: 'last'
+                }),
                 columns: [{
                     text: 'Attribute',
                     flex: 1,
@@ -38,9 +40,9 @@ Ext.define('RAI.view.raccordement.GridPanel', {
                     dataIndex: 'entityName'
                 }],
                 listeners: {
-                	afterrender: function() {
-			            this.setLoading(true);
-			        }
+                    afterrender: function() {
+                        this.setLoading(true);
+                    }
                 }
             }, {
                 xtype: 'gridpanel',
@@ -48,10 +50,12 @@ Ext.define('RAI.view.raccordement.GridPanel', {
                 itemId: 'gridRight',
                 iconCls: 'icon-grid',
                 frame: true,
-                features: [Ext.create('Ext.grid.feature.Grouping',{
-	              	groupHeaderTpl: 'Entity: {name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})'
-	           	})],
-                selModel: Ext.create('Ext.selection.CheckboxModel', {injectCheckbox: 'last'}),
+                features: [Ext.create('Ext.grid.feature.Grouping', {
+                    groupHeaderTpl: 'Entity: {name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})'
+                })],
+                selModel: Ext.create('Ext.selection.CheckboxModel', {
+                    injectCheckbox: 'last'
+                }),
                 columns: [{
                     text: 'Attribute',
                     flex: 1,
@@ -62,9 +66,9 @@ Ext.define('RAI.view.raccordement.GridPanel', {
                     dataIndex: 'entityName'
                 }],
                 listeners: {
-                	afterrender: function() {
-			            this.setLoading(true);
-			        }
+                    afterrender: function() {
+                        this.setLoading(true);
+                    }
                 }
             }],
             fbar: [{

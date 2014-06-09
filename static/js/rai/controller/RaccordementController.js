@@ -13,7 +13,7 @@ Ext.define('RAI.controller.RaccordementController', {
     extend: 'Ext.app.Controller',
 
     stores: ['ElementsDonneeRightGrid', 'ElementsDonneeLeftGrid', 'Raccordements'],
-    views:  ['raccordement.MainWindow','raccordement.GridPanel','raccordement.ListRaccordement'],
+    views: ['raccordement.MainWindow', 'raccordement.GridPanel', 'raccordement.ListRaccordement'],
 
     refs: [{
         ref: 'mainWindow',
@@ -31,7 +31,7 @@ Ext.define('RAI.controller.RaccordementController', {
         });
     },
 
-	getReadRaccordementOperation: function() {
+    getReadRaccordementOperation: function() {
         var operation = new Ext.data.Operation({
             action: 'read',
             params: {
@@ -40,7 +40,7 @@ Ext.define('RAI.controller.RaccordementController', {
         });
         return operation;
     },
-    
+
     syncListRaccordement: function(listRaccordement) {
         var controller = this;
 
@@ -60,14 +60,14 @@ Ext.define('RAI.controller.RaccordementController', {
         grid.getStore().loadData(model.attributes);
     },
 
-	removeMask: function(gridPanel) {
+    removeMask: function(gridPanel) {
         gridPanel.getComponent('gridLeft').setLoading(false);
         gridPanel.getComponent('gridRight').setLoading(false);
     },
-    
+
     openModeleRaccordement: function(win) {
-        var controller = this;
-        var model = win.getActiveModel();
+        var model, controller = this;
+        model = win.getActiveModel();
 
         params = {
             modelID: model
@@ -89,8 +89,8 @@ Ext.define('RAI.controller.RaccordementController', {
             }
         };
         failureFunction = function(response) {
-        	controller.removeMask(controller.getMainWindow().down('panel'));
-            console.log('Error on openModeleRaccordement method');
+            controller.removeMask(controller.getMainWindow().down('panel'));
+            Ext.Msg.alert('Error', 'Error on openModeleRaccordement method');
         };
         this.createAjaxRequest('rai/getModeleRaccordement/', "GET", params, null, successFunction, failureFunction);
     },
@@ -107,17 +107,17 @@ Ext.define('RAI.controller.RaccordementController', {
     },
 
     raccorderElements: function(button, e, eOpts) {
-        var controller = this;
-        var listRaccordement = controller.getMainWindow().getComponent('listRaccordementGrid');
-        var gridPanel = controller.getMainWindow().down('panel');
+        var listRaccordement, gridPanel, leftSelection, rightSelection, raccordementsJSON, shouldSyncStore, i, j, controller = this;
+        listRaccordement = controller.getMainWindow().getComponent('listRaccordementGrid');
+        gridPanel = controller.getMainWindow().down('panel');
 
-        var leftSelection = gridPanel.getComponent('gridLeft').getSelectionModel().getSelection();
-        var rightSelection = gridPanel.getComponent('gridRight').getSelectionModel().getSelection();
+        leftSelection = gridPanel.getComponent('gridLeft').getSelectionModel().getSelection();
+        rightSelection = gridPanel.getComponent('gridRight').getSelectionModel().getSelection();
 
-        var raccordementsJSON = [];
-        var shouldSyncStore = false;
-        for (var i = 0; i < leftSelection.length; i++) {
-            for (var j = 0; j < rightSelection.length; j++) {
+        raccordementsJSON = [];
+        shouldSyncStore = false;
+        for (i = 0; i < leftSelection.length; i++) {
+            for (j = 0; j < rightSelection.length; j++) {
                 var attribute = controller.createRaccordementAttribute(listRaccordement.getModelRaccordement(), controller.getMainWindow().getActiveModel(), leftSelection[i].data, rightSelection[j].data);
                 var recordIndex = listRaccordement.getStore().findBy(function(record, id) {
                     if (record.get('modelName') === listRaccordement.getModelRaccordement() && record.get('sourceName') === attribute.data.sourceName && record.get('targetName') === attribute.data.targetName) {
@@ -138,7 +138,7 @@ Ext.define('RAI.controller.RaccordementController', {
         }
 
         if (shouldSyncStore) {
-        	controller.syncListRaccordement(listRaccordement);
+            controller.syncListRaccordement(listRaccordement);
         }
     },
 

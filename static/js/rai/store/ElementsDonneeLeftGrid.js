@@ -5,12 +5,8 @@
 Ext.define('RAI.store.ElementsDonneeLeftGrid', {
     extend: 'Ext.data.Store',
 
-    requires: [
-        'RAI.model.ElementDonnee',
-        'Ext.data.proxy.Memory',
-        'Ext.data.reader.Json'
-    ],
-	
+    requires: ['RAI.model.ElementDonnee', 'Ext.data.proxy.Memory', 'Ext.data.reader.Json'],
+
     sorters: ['attributeName', 'entityName'],
     groupField: 'entityName',
     constructor: function(cfg) {

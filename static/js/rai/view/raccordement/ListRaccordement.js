@@ -10,7 +10,7 @@ Ext.define('RAI.view.raccordement.ListRaccordement', {
     store: 'Raccordements',
     title: 'Raccordement',
     modelRaccordement: null,
-    
+
     columns: [{
         text: 'Element raccordant',
         flex: 1,
@@ -28,7 +28,7 @@ Ext.define('RAI.view.raccordement.ListRaccordement', {
     initComponent: function() {
         this.dockedItems = [{
             xtype: 'toolbar',
-            items: ['->',{
+            items: ['->', {
                 iconCls: 'x-tool-rowDel',
                 text: _SM.__language.Text_Delete_Button,
                 action: 'delete'
