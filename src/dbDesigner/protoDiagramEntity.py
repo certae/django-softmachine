@@ -30,7 +30,11 @@ def createDiagram(request):
     projectID = attributes['projectID']
     try:
         project = Project.objects.get(id=projectID)
-        diagram = Diagram.objects.create(project=project,code=code,smOwningTeam=project.smOwningTeam,smOwningUser=user,smCreatedBy=user)
+        diagram = Diagram.objects.create(project=project,
+                                         code=code,
+                                         smOwningTeam=project.smOwningTeam,
+                                         smOwningUser=user,
+                                         smCreatedBy=user)
     except Exception as e:
         return JsonError(e)
     
