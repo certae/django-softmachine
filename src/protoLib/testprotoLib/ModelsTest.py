@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from django.test import TestCase
-from django.utils.unittest.suite import TestSuite
-from django.utils.unittest.loader import makeSuite
 from django.utils.unittest import skip
 
-from protoLib.models import  *
+from protoLib.models import CustomDefinition, ProtoDefinition, TeamHierarchy, Site, User, UserProfile, UserShare, DiscreteValue, PtFunction, getDjangoModel
 from prototype.models import Project
 
 
@@ -26,20 +24,6 @@ class TeamHierarchyTest(TestCase):
 
     def test_verifying_string_representation(self):
         self.assertEqual(self.teamHierarchy.code, str(self.teamHierarchy))
-
-    @skip('unicode is not callable')
-    def test_fullpath(self):
-        returnValue = self.teamHierarchy.fullPath()
-        print(returnValue)
-
-    @skip('unicode is not callable')
-    def test_treehierarchy(self):
-        returnValue = self.teamHierarchy.treeHierarchy()
-        print(returnValue)
-
-    @skip('à faire')
-    def test_save(self):
-        pass
 
 
 class UserProfileTest(TestCase):
@@ -179,23 +163,6 @@ class DiscreteValueTest(TestCase):
         self.assertEqual('.test_code', str(self.discreteValue))
 
         self.discreteValue.delete()
-
-
-class LanguajeTest(TestCase):
-    def setUp(self):
-        languajedata = {
-            'code': 'test_code',
-            'alias': 'alias of languaje',
-            'info': dict({'information': 'quelque chose'})
-        }
-        self.langaje = Languaje(**languajedata)
-        self.langaje.save()
-
-    def tearDown(self):
-        self.langaje.delete()
-
-    def test_verifying_string_representation(self):
-        self.assertEqual(self.langaje.code + '.' + str(self.langaje.info), str(self.langaje))
 
 
 class PtFunctionTest(TestCase):

@@ -19,6 +19,13 @@ ADMINS = (
 MANAGERS = ADMINS
 
 
+# Internationalization
+# https://docs.djangoproject.com/en/1.6/topics/i18n/
+
+# Language code for this installation. All choices can be found here:
+# http://www.i18nguy.com/unicode/language-identifiers.html
+LANGUAGE_CODE = 'fr-ca'
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -28,11 +35,10 @@ MANAGERS = ADMINS
 # system time zone.
 TIME_ZONE = 'America/Montreal'
 
-# Language code for this installation. All choices can be found here:
-# http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'fr-ca'
 
-SITE_ID = 1
+
+
+
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -45,7 +51,12 @@ USE_L10N = True
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
-# Formateo de numeros ???
+SITE_ID = 1
+
+
+# A boolean that specifies whether to display numbers using a thousand separator. 
+# When USE_L10N is set to True and if this is also set to True, 
+# Django will use the values of THOUSAND_SEPARATOR and NUMBER_GROUPING to format numbers.
 USE_THOUSAND_SEPARATOR = True
 NUMBER_GROUPING = 1
 #DECIMAL_SEPARATOR = '.'
@@ -56,7 +67,7 @@ NUMBER_GROUPING = 1
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = os.path.join(PPATH, 'media')
+MEDIA_ROOT = os.path.join(PPATH, 'media/')
 FILE_UPLOAD_PERMISSIONS = 0644
 
 
@@ -66,12 +77,26 @@ MEDIA_URL = '/media/'
 
 
 # ------------------    STATIC 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 
 #STATIC_ROOT = os.path.join( PPATH , 'static' )
-STATIC_ROOT = ''
+STATIC_ROOT = 'static/'
 
+TEMPLATE_DIRS = (
+    PPATH + '/templates',
+)
 
+if PPATH.startswith('/'):
+    EXT_PATH = '/opt/data/ExtJs'
+else:
+    EXT_PATH = 'd:/data/ExtJs'
+
+STATICFILES_DIRS = (
+    PPATH + '/static',
+    EXT_PATH,
+)
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
@@ -151,16 +176,16 @@ LOGGING = {
 
 AUTH_PROFILE_MODULE = 'protoLib.UserProfile'
 
-# Variables prototipeur
+# Variables prototypeur
 PROTO_APP = {}
 
 EMAIL_USE_TLS = True
 
 if DEBUG :
-    from settings_development import *
+    from ProtoExt.settings_development import *
     with open( PPATH + '/src/ProtoExt/secret_key.txt') as f:
         SECRET_KEY = f.read().strip()
 else :
-    from settings_production import *
+    from ProtoExt.settings_production import *
     with open('/etc/secret_key.txt') as f:
         SECRET_KEY = f.read().strip()

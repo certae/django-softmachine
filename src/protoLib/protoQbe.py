@@ -72,7 +72,7 @@ def getQbeStmt(fieldName , sQBE, sType):
         sQBE = sQBE.strip()
 
         # Verifica si es una funcion
-        if (sQBE[0] == '@'):
+        if (sQBE and sQBE[0] == '@'):
             try:
                 sQBE = doGenericFuntion (sQBE)
             except Exception as e:

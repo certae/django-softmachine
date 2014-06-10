@@ -1,25 +1,26 @@
 # -*- encoding: UTF-8 -*-
-# Pour rouler les tests a la ligne de commandes :
 
-from testMetaDefinitions.ObjectsTest import *                                   
-from testMetaDefinitions.PropertiesTest import *    
-
+from prototype.testprototype.testMetaDefinitions.ObjectsTest import *                                   
+from prototype.testprototype.testMetaDefinitions.PropertiesTest import *    
+                       
 from prototype.testprototype.testactions.ViewCreationTest import *
 from prototype.testprototype.testactions.ViewTemplateTest import *                
 from prototype.testprototype.testactions.ViewDefinitionTest import * 
+
 from prototype.testprototype.testmodels.TestSuiteUtils import *
-from prototype.testprototype.testmodels.PropertyBaseTest import *
-from prototype.testprototype.ProtoRulesTest import *                    
 
-from protoLib.testprotoLib.ModelsTest import *
-from protoLib.testprotoLib.ProtoActionEditTest import *                                
-from protoLib.testprotoLib.ProtoActionListTest import *                      
-from protoLib.testprotoLib.ProtoActionRepTest import *                     
-from protoLib.testprotoLib.ProtoActionsTest import *              
-from protoLib.testprotoLib.ProtoAuthTest import *
-from protoLib.testprotoLib.ProtoGetDetailsTest import *
-from protoLib.testprotoLib.ProtoGetPciTest import *  
-from protoLib.testprotoLib.ProtoLoginTest import *                              
-from protoLib.testprotoLib.ProtoMenuTest import *                               
-          
 
+from protoLib.testprotoLib.testMetaDefinitions.ObjectsTest import *                                   
+from protoLib.testprotoLib.testMetaDefinitions.PropertiesTest import *   
+
+from protoLib.testprotoLib.ModelsTest import * #protoLibModelsTestSuite      
+from protoLib.testprotoLib.ProtoActionEditTest import * #ProtoActionEditTestSuite                                
+from protoLib.testprotoLib.ProtoActionListTest import * #ProtoActionListTestSuite                       
+from protoLib.testprotoLib.ProtoActionRepTest import * #ProtoActionRepTestSuite                         
+from protoLib.testprotoLib.ProtoActionsTest import * #ProtoActionsTestSuite                             
+from protoLib.testprotoLib.ProtoAuthTest import * #ProtoAuthTestSuite   
+from protoLib.testprotoLib.ProtoGetDetailsTest import * #ProtoGetDetailsTestSuite
+from protoLib.testprotoLib.ProtoGetPciTest import * #ProtoGetPciTestSuite    
+from protoLib.testprotoLib.ProtoLoginTest import * #ProtoLoginTestSuite                                  
+from protoLib.testprotoLib.ProtoMenuTest import * #ProtoMenuTestSuite   
+from dbDesigner.test.ProtoDiagramTest import *                          

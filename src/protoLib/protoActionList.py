@@ -33,7 +33,7 @@ def protoList(request):
     PAGESIZE = 50
     message = ''
 
-    if not request.user.is_authenticated():
+    if not request.user or not request.user.is_authenticated():
         return doReturn ({'success':False , 'message' : 'readOnly User'})
 
     if request.method != 'POST':

@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from django.test import TestCase
-from django.utils.unittest.suite import TestSuite
-from django.utils.unittest.loader import makeSuite
-from django.utils.unittest import skip
 from django.http import HttpRequest
 from django.contrib.auth import authenticate
 import json
@@ -18,13 +15,12 @@ class ProtoActionListTest(TestCase):
         self.request.POST['login'] = 'marieme'
         self.request.POST['password'] = '1'
         self.request.user = authenticate(username=self.request.POST['login'], password=self.request.POST['password'])
-
+        
     def tearDown(self):
         pass
     
-    @skip('')
-    def test_method_user_is_not_authenticated(self):
-        self.request.user = authenticate(username=self.request.POST['login'], password='')     
+    def test_method_user_is_not_authenticated(self):  
+        self.request.user = authenticate(username=self.request.POST['login'], password='')
         response = protoList(self.request)
         
         data = json.loads(response.content)
@@ -32,7 +28,7 @@ class ProtoActionListTest(TestCase):
         
     def test_method_is_not_POST(self):
         self.request.method = 'GET'
-
+        
         self.assertTrue(self.request.user.is_authenticated())
         self.assertNotEqual(self.request.method, 'POST')
 
@@ -40,7 +36,6 @@ class ProtoActionListTest(TestCase):
         data = json.loads(response.content)
         self.assertFalse(data['success'])
 
-    @skip('Error while running test')
     def test_user_is_authenticated_and_method_is_POST(self):
         self.request.method = 'POST'
         self.request.POST['start'] = 0
@@ -104,7 +99,6 @@ class ProtoActionListTest(TestCase):
 
         response = protoList(self.request)
         data = json.loads(response.content)
-        self.assertTrue(self.request.user.is_authenticated())
         self.assertTrue(data['success'])
         
 

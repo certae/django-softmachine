@@ -254,29 +254,174 @@
                     "path": "js/view/"
                 },
                 {
+                    "clsName": "ProtoUL.view.ComboBoxPrompt",
+                    "name": "ComboBoxPrompt.js",
+                    "path": "js/view/"
+                },
+                {
                     "clsName": "ProtoUL.view.password.PasswordReset",
                     "name": "PasswordReset.js",
                     "path": "js/view/password/"
                 },
                 {
-                    "clsName": "Ext.ux.BoxReorderer",
-                    "name": "BoxReorderer.js",
-                    "path": "extjs/examples/ux/"
+                    "clsName": "ProtoUL.model.EntityAttributesModel",
+                    "name": "EntityAttributesModel.js",
+                    "path": "js/model/"
                 },
                 {
-                    "clsName": "Ext.ux.ToolbarDroppable",
-                    "name": "ToolbarDroppable.js",
-                    "path": "extjs/examples/ux/"
+                    "clsName": "ProtoUL.model.Diagram",
+                    "name": "Diagram.js",
+                    "path": "js/model/"
                 },
                 {
-                    "clsName": "ProtoUL.view.password.ForgotPasswordForm",
-                    "name": "ForgotPasswordForm.js",
-                    "path": "js/view/password/"
+                    "clsName": "ProtoUL.store.EntityAttributeStore",
+                    "name": "EntityAttributeStore.js",
+                    "path": "js/store/"
+                },
+                {
+                    "clsName": "ProtoUL.store.DBTypesStore",
+                    "name": "DBTypesStore.js",
+                    "path": "js/store/"
+                },
+                {
+                    "clsName": "ProtoUL.store.DiagramModelStore",
+                    "name": "DiagramModelStore.js",
+                    "path": "js/store/"
+                },
+                {
+                    "clsName": "ProtoUL.store.Diagrams",
+                    "name": "Diagrams.js",
+                    "path": "js/store/"
+                },
+                {
+                    "clsName": "ProtoUL.store.PortPositions",
+                    "name": "PortPositions.js",
+                    "path": "js/store/"
+                },
+                {
+                    "clsName": "ProtoUL.view.diagram.DiagramMainView",
+                    "name": "DiagramMainView.js",
+                    "path": "js/view/diagram/"
+                },
+                {
+                    "clsName": "ProtoUL.view.diagram.DiagramMainView",
+                    "name": "DiagramMainView.js",
+                    "path": "js/view/diagram/"
+                },
+                {
+                    "clsName": "ProtoUL.view.diagram.DiagramMenu",
+                    "name": "DiagramMenu.js",
+                    "path": "js/view/diagram/"
+                },
+                {
+                    "clsName": "ProtoUL.view.diagram.DiagramCanvas",
+                    "name": "DiagramCanvas.js",
+                    "path": "js/view/diagram/"
+                },
+                {
+                    "clsName": "ProtoUL.view.diagram.DiagramToolbar",
+                    "name": "DiagramToolbar.js",
+                    "path": "js/view/diagram/"
+                },
+                {
+                    "clsName": "ProtoUL.view.diagram.EntityEditor",
+                    "name": "EntityEditor.js",
+                    "path": "js/view/diagram/"
+                },
+                {
+                    "clsName": "ProtoUL.view.diagram.EntityAttributes",
+                    "name": "EntityAttributes.js",
+                    "path": "js/view/diagram/"
+                },
+                {
+                    "clsName": "ProtoUL.view.diagram.TableContextMenu",
+                    "name": "TableContextMenu.js",
+                    "path": "js/view/diagram/"
+                },
+                {
+                    "clsName": "ProtoUL.view.diagram.DatabaseMenu",
+                    "name": "DatabaseMenu.js",
+                    "path": "js/view/diagram/"
+                },
+                {
+                    "clsName": "ProtoUL.view.diagram.base.Grid",
+                    "name": "Grid.js",
+                    "path": "js/view/diagram/base/"
+                },
+                {
+                    "clsName": "ProtoUL.view.diagram.base.Form",
+                    "name": "Form.js",
+                    "path": "js/view/diagram/base/"
+                },
+                {
+                    "clsName": "ProtoUL.view.searchmodel.LiveSearchGridPanel",
+                    "name": "LiveSearchGridPanel.js",
+                    "path": "js/view/searchmodel/"
+                },
+                {
+                    "clsName": "ProtoUL.view.searchmodel.SearchBottomBar",
+                    "name": "SearchBottomBar.js",
+                    "path": "js/view/searchmodel/"
                 },
                 {
                     "clsName": "ProtoUL.controller.PasswordManager",
                     "name": "PasswordManager.js",
                     "path": "js/controller/"
+                },
+                {
+                    "clsName": "ProtoUL.controller.DiagramController",
+                    "name": "DiagramController.js",
+                    "path": "js/controller/"
+                },
+                {
+                    "clsName": "ProtoUL.controller.DiagramMenuController",
+                    "name": "DiagramMenuController.js",
+                    "path": "js/controller/"
+                },
+                {
+                    "clsName": "RAI.model.Raccordement",
+                    "name": "Raccordement.js",
+                    "path": "js/rai/model/"
+                },
+                {
+                    "clsName": "RAI.model.ElementDonnee",
+                    "name": "ElementDonnee.js",
+                    "path": "js/rai/model/"
+                },
+                {
+                    "clsName": "RAI.store.Raccordements",
+                    "name": "Raccordements.js",
+                    "path": "js/rai/store/"
+                },
+                {
+                    "clsName": "RAI.store.ElementsDonneeLeftGrid",
+                    "name": "ElementsDonneeLeftGrid.js",
+                    "path": "js/rai/store/"
+                },
+                {
+                    "clsName": "RAI.store.ElementsDonneeRightGrid",
+                    "name": "ElementsDonneeRightGrid.js",
+                    "path": "js/rai/store/"
+                },
+                {
+                    "clsName": "RAI.view.raccordement.GridPanel",
+                    "name": "GridPanel.js",
+                    "path": "js/rai/view/raccordement/"
+                },
+                {
+                    "clsName": "RAI.view.raccordement.ListRaccordement",
+                    "name": "ListRaccordement.js",
+                    "path": "js/rai/view/raccordement/"
+                },
+                {
+                    "clsName": "RAI.view.raccordement.MainWindow",
+                    "name": "MainWindow.js",
+                    "path": "js/rai/view/raccordement/"
+                },
+                {
+                    "clsName": "RAI.controller.RaccordementController",
+                    "name": "RaccordementController.js",
+                    "path": "js/rai/controller/"
                 }
             ]
         },

@@ -1,17 +1,23 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
-from settings import PPATH, DEBUG
-from generic_views import DirectTemplateView
+from ProtoExt.settings import PPATH, DEBUG
+from ProtoExt.generic_views import DirectTemplateView
 
 import django.contrib.admin
 django.contrib.admin.autodiscover()
 
+# Uncoment to use xadmin
+# import xadmin
+# xadmin.autodiscover()
 
 
 urlpatterns = patterns('',
     url(r'^admin/', include(django.contrib.admin.site.urls)) ,
+#     url(r'^admin/', include(xadmin.site.urls)),
 
     url(r'^protoLib/', include('protoLib.urls')),
+    url(r'^protoDiagram/', include('dbDesigner.urls')),
+#   url(r'^rai/', include('rai.urls')),
 
 #    Use for production instalation and for load json configuration files
     url(r'static/(?P<path>.*)$', 'django.views.static.serve',{'document_root': PPATH + '/static'}),

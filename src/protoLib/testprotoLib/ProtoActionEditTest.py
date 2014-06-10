@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from django.test import TestCase
-from django.utils.unittest.suite import TestSuite
-from django.utils.unittest.loader import makeSuite
 from django.http import HttpRequest
 from django.contrib.auth import authenticate
 
-from protoLib.protoActionEdit import *
+from protoLib.protoActionEdit import protoCreate, json, protoUpdate, protoDelete
 
 def protoMetaInitialize():
     return json.dumps({

@@ -116,7 +116,8 @@ def exportProtoJson(request, pModel ):
 
                 try: 
                     del fld['__ptType']
-                except: pass 
+                except:
+                    pass 
                 newFields.append( fld )
             
             cProto['fields'] = newFields 

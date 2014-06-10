@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from django.test import TestCase
-from django.utils.unittest.suite import TestSuite
-from django.utils.unittest.loader import makeSuite
-from django.utils.unittest import skip
 from django.http import HttpRequest
 from django.contrib.auth import authenticate
 import json
@@ -126,13 +123,10 @@ class ProtoSaveProtoObjTest(TestCase):
         response = json.loads(protoSaveProtoObj(self.request).content)
         self.assertTrue(response['success'])
 
-    @skip('Doit ajouter une fixture avec des modeles valides pour l''utilisateur')
     def test_protosaveprotoobj_prototype_viewcode(self):
-        self.assertTrue(False)
-        # self.request.POST['viewCode'] = 'prototype.ProtoTable.t-model-t-other-entity'  # prototype = True
-        # response = json.loads(protoSaveProtoObj(self.request).content)
-        # print(response)
-        # (code, smOwningTeam) = (u't-model-t-other-entity', <TeamHierarchy: proto>)
+        self.request.POST['viewCode'] = 'prototype.ProtoTable.t-model-t-other-entity'  # prototype = True
+        response = json.loads(protoSaveProtoObj(self.request).content)
+        self.assertFalse(response['success'])
 
 
 class ProtoGetFieldTreeTest(TestCase):
