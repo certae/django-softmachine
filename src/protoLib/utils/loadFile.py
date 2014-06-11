@@ -18,7 +18,7 @@ def loadFiles(request):
         return JsonError( 'invalid message' ) 
 
 
-    from ProtoExt.settings import MEDIA_ROOT
+    from softMachine.settings import MEDIA_ROOT
     import os 
 
     for key, fileObj in request.FILES.items():

@@ -1,0 +1,6 @@
+include LICENSE.md
+include README.md
+recursive-include src/protoLib *.py *.html *.js
+recursive-include src/protoLib/static *
+recursive-include src/protoLib/templates *
+recursive-include docs *

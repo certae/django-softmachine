@@ -2,9 +2,8 @@
 
 import mimetypes
 import os
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
-from ProtoExt.settings import PPATH
 from django.http import  HttpResponse
 from django.utils.http import http_date
 
@@ -43,4 +42,4 @@ def getFile(request, path ):
 
 
 def getFullPath( request, filename ):
-    return os.path.join( PPATH , 'output', request.user.username + '.' + filename )
+    return os.path.join( BASE_DIR , 'output', request.user.username + '.' + filename )

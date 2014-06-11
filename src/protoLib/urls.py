@@ -1,4 +1,6 @@
 from django.conf.urls import patterns, url
+from django.views.generic import TemplateView
+from protoLib.utils.generic_views import DirectTemplateView
 
 from protoLib.protoMenu import protoGetMenuData
 from protoLib.protoGetPci import protoGetPCI, protoSaveProtoObj, protoGetFieldTree, getFieldIncrement
@@ -13,30 +15,32 @@ from protoLib.protoActions  import protoExecuteAction
 from protoLib.utils.loadFile import loadFiles
 
 urlpatterns = patterns('',
-    url('protoList/$', protoList),
-    url('sheetConfigRep/$', sheetConfigRep),
-    url('protoCsv/$', protoCsv),
-
-    url('protoDoActions/$', protoExecuteAction),
-
-    url('protoAdd/$', protoCreate),
-    url('protoUpd/$', protoUpdate),
-    url('protoDel/$', protoDelete),
-
-    url('protoGetMenuData/$', protoGetMenuData),
-    url('protoGetPCI/$', protoGetPCI),
-    url('protoSaveProtoObj/$', protoSaveProtoObj),
-    url('protoGetFieldTree/$', protoGetFieldTree),
-    url('protoGetDetailsTree/$', protoGetDetailsTree),
-
-    url('protoGetUserRights/$', protoGetUserRights),
-    url('protoGetPasswordRecovery/$', protoGetPasswordRecovery),
-    url('resetpassword/$', resetpassword),
-    url('submitChangePassword/$', changepassword),
-    url('protoLogout/$', protoLogout),
-
-    url('getFieldIncrement/$', getFieldIncrement),
+    url(r'^protoExt$', TemplateView.as_view(template_name='protoExt.html')),
+    url(r'^protoExtReset$', DirectTemplateView.as_view(template_name='protoExt.html',extra_context={ 'isPasswordReseted': True })),
     
-    url('loafFile/$', loadFiles),
+    url('protoLib/protoList/$', protoList),
+    url('protoLib/sheetConfigRep/$', sheetConfigRep),
+    url('protoLib/protoCsv/$', protoCsv),
+
+    url('protoLib/protoDoActions/$', protoExecuteAction),
+
+    url('protoLib/protoAdd/$', protoCreate),
+    url('protoLib/protoUpd/$', protoUpdate),
+    url('protoLib/protoDel/$', protoDelete),
+
+    url('protoLib/protoGetMenuData/$', protoGetMenuData),
+    url('protoLib/protoGetPCI/$', protoGetPCI),
+    url('protoLib/protoSaveProtoObj/$', protoSaveProtoObj),
+    url('protoLib/protoGetFieldTree/$', protoGetFieldTree),
+    url('protoLib/protoGetDetailsTree/$', protoGetDetailsTree),
+
+    url('protoLib/protoGetUserRights/$', protoGetUserRights),
+    url('protoLib/protoGetPasswordRecovery/$', protoGetPasswordRecovery),
+    url('protoLib/resetpassword/$', resetpassword),
+    url('protoLib/submitChangePassword/$', changepassword),
+    url('protoLib/protoLogout/$', protoLogout),
+
+    url('protoLib/getFieldIncrement/$', getFieldIncrement),
     
+    url('protoLib/loadFile/$', loadFiles),
 )

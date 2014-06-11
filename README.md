@@ -41,9 +41,9 @@ Never enable debug in production so set it to False (`DEBUG = False`)
 Split configuration is used to avoid sending sensitive data to GitHub. This configuration is based on DEBUG variable. If debug is enabled the System is going to load “settings_development.py” otherwise it will import “settings_production.py”.
 ```python
 if DEBUG :
-    from ProtoExt.settings_development import *
+    from softMachine.settings_development import *
 else :
-    from ProtoExt.settings_production import *
+    from softMachine.settings_production import *
 ```
 Those files contain information about DATABASES, ALLOWED_HOSTS, TEMPLATE_LOADERS, TEMPLATE_CONTEXT_PROCESSORS, TEMPLATE_DIRS, INSTALLED_APPS and EMAIL configurations.
 
