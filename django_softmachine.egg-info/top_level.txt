@@ -1,3 +1,0 @@
-src/prototype
-src/dbDesigner
-src/protoLib

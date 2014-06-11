@@ -3,6 +3,6 @@
 *.pyo
 *.bak
 .deployables
+coverage.xml
 django_softmachine.egg-info
 dist
-coverage.xml
