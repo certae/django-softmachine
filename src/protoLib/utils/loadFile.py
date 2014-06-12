@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from django.http import HttpResponse
+from protoLib.utilsWeb import JsonError
+from django.views.decorators.csrf import csrf_exempt    
 import json
 
-from protoLib.utilsWeb import JsonError
-
-
+@csrf_exempt
 def loadFiles(request):
 
     if not request.user.is_authenticated(): 
@@ -13,7 +13,6 @@ def loadFiles(request):
 
     if request.method != 'POST':
         return JsonError( 'invalid message' ) 
-
 
     from django.conf import settings
     import os 
