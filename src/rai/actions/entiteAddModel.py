@@ -92,6 +92,14 @@ def extractModel(request, queryset, parameters):
         setSecurityInfo(dEntite, {}, userProfile, True)
         dEntite.save()
 
+        # Modele de racc ( same DomAff ) 
+        dMRacc = None 
+        if sEntite.entite_mod.domaff_modele == lModele.domaff_modele : 
+            dMRacc = ModeleRaccordement.objects.get_or_create( mod_modrac1 = sEntite.entite_mod, mod_modrac2 = lModele )[0]
+            
+            setSecurityInfo(dMRacc, {}, userProfile, True)
+            dMRacc.save()
+
 
         for sElto in sEntite.element_donnee_entite_elem.all():
 
@@ -100,6 +108,16 @@ def extractModel(request, queryset, parameters):
             
             setSecurityInfo(dElto, {}, userProfile, True)
             dElto.save()
+
+            if dMRacc: 
+                dRacc = Raccordement.objects.get_or_create( 
+                            modrac_rac = dMRacc, 
+                            eledon_rac1 = sElto,  
+                            eledon_rac2 = dElto,  
+                            )[0]
+                
+                setSecurityInfo(dRacc, {}, userProfile, True)
+                dRacc.save()
 
     # new loop because relation need all entities  
     for sEntite in queryset:

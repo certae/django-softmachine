@@ -234,6 +234,9 @@ class ModeleRaccordement(ProtoModel):
 class Raccordement(ProtoModel):
     modrac_rac = models.ForeignKey('ModeleRaccordement', blank= True, null= True, related_name='raccordement_modrac_rac')
 
+    eledon_rac1 = models.ForeignKey('ElementDonnee', blank= True, null= True,  related_name='set_eledon_rac1')
+    eledon_rac2 = models.ForeignKey('ElementDonnee', blank= True, null= True,  related_name='set_eledon_rac2')
+
     no_raccordement = models.IntegerField(blank= False, null= False)
 
     tmp_rac1 = models.CharField(blank= True, null= True, max_length= 200)
@@ -242,8 +245,6 @@ class Raccordement(ProtoModel):
     tmp_alias    = models.CharField(blank= True, null= True, max_length= 200)
     tmp_destt    = models.CharField(blank= True, null= True, max_length= 200)
 
-    eledon_rac1 = models.ForeignKey('ElementDonnee', blank= True, null= True,  related_name='set_eledon_rac1')
-    eledon_rac2 = models.ForeignKey('ElementDonnee', blank= True, null= True,  related_name='set_eledon_rac2')
 
     _autoIncrementField = 'no_raccordement'
     def __unicode__(self):
