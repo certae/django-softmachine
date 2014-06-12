@@ -9,4 +9,4 @@ dist
 .project
 .pydevproject
 .settings
-src/protoLib/output/*
+output/*.*
