@@ -10,7 +10,7 @@ omit =
     *urls*
     src/protoLib/localisation/*
     src/snippets/*
-	src/ProtoExt/settings*
+	src/softmachine/settings*
 
 [report]
 exclude_lines =
