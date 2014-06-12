@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-
+from protoLib.utilsBase import copyModelProps
+from protoLib.protoActionEdit import setSecurityInfo 
 
 def extractModel(request, queryset, parameters):
     """
@@ -17,38 +18,108 @@ def extractModel(request, queryset, parameters):
     if queryset.count() == 0:
         return 'No record selected'
 
+
+    ixEntite = [
+        'description_entite', 
+        'historique', 
+        'physical_name' 
+    ]
+
+    ixElto = [
+        'cle_etrangere',
+        'cle_primaire',
+        'consignes_saisie',
+        'contexte_particulier',
+        'date_creation',
+        'date_derniere_modification',
+        'date_entree_vigueur',
+        'date_trans_bdm',
+        'definition',
+        'domaine_valeurs',
+        'element_provenance',
+        'element_transforme',
+        'element_transmis',
+        'elements_de_source',
+        'exceptions',
+        'gabarit',
+        'historique',
+        'longueur',
+        'methode_transfert',
+        'methode_transformation',
+        'mode_attribution',
+        'nom_element_donnee',
+        'notes',
+        'numero_elem_cn',
+        'obligation',
+        'pratiques_acceptees',
+        'provenance_reference',
+        'reference_foire_questions',
+        'requis_par',
+        'si_provenance',
+        'statut_element',
+        'type_de_base',
+        'type_mode_attribution',
+        'validation_sur_element',
+        'validations_inter_elements',
+        'validations_inter_enregistrement',
+        'volumetrie',              
+    ]
+
+    ixRelation = [
+        'baseMax',
+        'baseMin',
+        'dependance',
+        'description',
+        'nom_relation',
+        'refMax',
+        'refMin',
+    ]
+
+    from protoLib.protoAuth import getUserProfile
+    userProfile = getUserProfile( request.user, 'prototype', '' )
+
     # get destination model and project
     from rai.models import Modele,  Entite, ElementDonnee, Relation  
-    lModele = Modele.objects.get( id = parameters[1]['value']  )
+    from rai.models import ModeleRaccordement, Raccordement 
     
-    #   es invocada desde propertyModel ( el Qset es propModel )
+    lModele = Modele.objects.get( id = parameters[1]['value']  )
+
+    # get source Entities      
     for sEntite in queryset:
+        dEntite  = Entite.objects.get_or_create( entite_mod = lModele, nom_entite = sEntite.nom_entite )[0]
+        dEntite = copyModelProps ( sEntite, dEntite, ixEntite) 
 
-        dEntite  = Entite.objects.get_or_create( entite_mod = lModele, nom_entite = sEntite.nom_entite )[1]
-
-        dEntite.description_entite = sEntite.description_entite
-        dEntite.historique = sEntite.historique
-        dEntite.physical_name = sEntite.physical_name
+        setSecurityInfo(dEntite, {}, userProfile, True)
         dEntite.save()
+
 
         for sElto in sEntite.element_donnee_entite_elem.all():
 
-            dElto = ElementDonnee.objects.get_or_create( entite_elem = sElto, nom_element_donnee = sElto.nom_element_donnee )[1]
-
-
-        for sRel in sEntite.relation_entite_rela2.all():
-
-            dElto = ElementDonnee.objects.get_or_create( entite_elem = sElto, nom_element_donnee = sElto.nom_element_donnee )[1]
-
+            dElto = ElementDonnee.objects.get_or_create( entite_elem = dEntite, nom_element_donnee = sElto.nom_element_donnee )[0]
+            dElto = copyModelProps( sElto, dElto, ixElto )
             
-            
-#         dPropDom = objPropModel.propertyDom
-#         if dModel == None :
-#             dModel = getModel( dPropDom.domain, 'New Model' )
-# 
-#         dPropModel = PropertyModel()
-#         dPropModel.model = dModel
-#         dPropModel.propertyDom = dPropDom
-#         dPropModel.save()
+            setSecurityInfo(dElto, {}, userProfile, True)
+            dElto.save()
+
+    # new loop because relation need all entities  
+    for sEntite in queryset:
+        dEntite  = Entite.objects.get_or_create( entite_mod = lModele, nom_entite = sEntite.nom_entite )[0]
+
+        for sRel in sEntite.relation_entite_rela1.all():
+
+            # get refEntity  
+            try:
+                rEntite  = Entite.objects.get( entite_mod = lModele, nom_entite = sRel.entite_rela2.nom_entite )
+            except Exception:
+                continue 
+
+            # get or Create relation  
+            dRel = Relation.objects.get_or_create( entite_rela1 = dEntite, entite_rela2 = rEntite )[0]
+            dRel = copyModelProps( sRel, dRel, ixRelation )
+
+            setSecurityInfo(dRel, {}, userProfile, True)
+            dRel.save()
+
+
 
     return

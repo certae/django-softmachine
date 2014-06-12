@@ -97,7 +97,7 @@ def protoExecuteAction(request):
             return doReturn ({'success':False, 'message' : 'Action notFound'})
 
 
-        Qs = model.objects.select_related(depth=1)
+        Qs = model.objects.select_related()
         Qs = Qs.filter(pk__in=selectedKeys)
 
         try:

@@ -88,8 +88,14 @@ def doRaiActions( modeladmin, request, queryset, parameters, action ):
 def doMatrixRacc( request, queryset, detKeys, parameters):
 
     from rai.actions.racMatrix import doMatrixRaccordement
-    return doMatrixRaccordement(  request, queryset, parameters  )
+    
+    try: 
+        doMatrixRaccordement(  request, queryset, parameters  )
+    except Exception as e:
+        traceback.print_exc()
+        return  {'success':False, 'message' : 'Generation error' }
 
+    return {'success':True, 'message' :  'Ok ...' }
 
 
 def doAddModel(modeladmin, request, queryset, parameters):
@@ -106,4 +112,11 @@ def doAddModel(modeladmin, request, queryset, parameters):
         return  {'success':False, 'message' : 'required: entite_mod, entite_mod_id' }
 
     from rai.actions.entiteAddModel import extractModel
-    return extractModel(request, queryset, parameters)
+
+    try: 
+        extractModel(request, queryset, parameters)
+    except Exception as e:
+        traceback.print_exc()
+        return  {'success':False, 'message' : 'Extraction error' }
+
+    return {'success':True, 'message' :  'Ok ...' }
