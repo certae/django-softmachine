@@ -94,6 +94,14 @@ Ext.define('ProtoUL.ux.parameterWin', {
                     parameter : myField.getName(),
                     value : myField.getValue()
                 });
+
+                if ( myField.fkId && myField.zoomRecord ) {
+                    myReponse.push({
+                        parameter : myField.fkId,
+                        value : myField.zoomRecord.data.id
+                    });
+                };
+
             }
             this.options.acceptFn.call(this.options.scope, myReponse);
             this.close();
@@ -146,12 +154,12 @@ Ext.define('ProtoUL.ux.parameterWin', {
                     var form = win.down('form').getForm();
                     if (form.isValid()) {
                         form.submit({
-                            url : _SM._PConfig.urlLoadFile, 
+                            url : _SM._PConfig.urlLoadFile,
                             method: 'POST',
                             // scope: me,
                             waitMsg : 'Uploading your file...',
                             success : function(f, a) {
-                                var result = a.result, data = result.data; 
+                                var result = a.result, data = result.data;
                                 win.close();
                             },
                             failure : function(f, a) {
@@ -163,7 +171,7 @@ Ext.define('ProtoUL.ux.parameterWin', {
             }]
         });
 
-        win.show(); 
+        win.show();
 
     }
 });

@@ -20,7 +20,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
 
         // @formatter:off
         var me = this, ix, pProtoAction,
-            myProtoActions = [],  
+            myProtoActions = [],
             __MasterDetail = this.__MasterDetail;
         // @formatter:on
 
@@ -131,7 +131,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
 
                 myWin = Ext.create('ProtoUL.ux.parameterWin', {
                     parameters: pAction.actionParams,
-                    title: btn.actionName + ' - ' + pGrid.rowData['__str__'],
+                    title: btn.actionName,
                     options: myOptions
                 });
 
