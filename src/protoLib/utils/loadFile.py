@@ -18,7 +18,7 @@ def loadFiles(request):
         return JsonError( 'invalid message' ) 
 
 
-    from softMachine.settings import MEDIA_ROOT
+    from softmachine.settings import MEDIA_ROOT
     import os 
 
     for key, fileObj in request.FILES.items():

@@ -8,7 +8,7 @@ https://docs.djangoproject.com/en/1.6/howto/deployment/wsgi/
 """
 
 import os, sys
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "softMachine.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "softmachine.settings")
 
 # from django.core.wsgi import get_wsgi_application
 # application = get_wsgi_application()

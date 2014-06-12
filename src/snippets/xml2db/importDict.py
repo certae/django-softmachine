@@ -11,7 +11,7 @@ import os
 os.environ['DJANGO_SETTINGS_MODULE'] = 'proto.settings'
 
 from django.core import management
-import softMachine.settings as settings 
+import softmachine.settings as settings 
 management.setup_environ(settings)
 
 

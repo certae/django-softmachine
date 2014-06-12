@@ -184,7 +184,7 @@ def doImportOMS( modeladmin, request, queryset, parameters):
     funcion para importar modelos realizados en OMS ( Open Model Spher )  
     """
 
-    from softMachine.settings import MEDIA_ROOT
+    from softmachine.settings import MEDIA_ROOT
 
 #   El QSet viene con la lista de Ids  
     if queryset.count() != 1:

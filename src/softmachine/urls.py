@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
-from softMachine.settings import PPATH
+from softmachine.settings import PPATH
 
 import django.contrib.admin
 django.contrib.admin.autodiscover()

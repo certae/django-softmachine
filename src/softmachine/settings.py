@@ -105,7 +105,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
-ROOT_URLCONF = 'softMachine.urls'
+ROOT_URLCONF = 'softmachine.urls'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -145,10 +145,10 @@ PROTO_APP = {}
 
 
 if DEBUG :
-    from softMachine.settings_development import *
-    with open( PPATH + '/src/softMachine/secret_key.txt') as f:
+    from softmachine.settings_development import *
+    with open( PPATH + '/src/softmachine/secret_key.txt') as f:
         SECRET_KEY = f.read().strip()
 else :
-    from softMachine.settings_production import *
+    from softmachine.settings_production import *
     with open('/etc/secret_key.txt') as f:
         SECRET_KEY = f.read().strip()
