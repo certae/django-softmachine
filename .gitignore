@@ -9,4 +9,3 @@ dist
 .project
 .pydevproject
 .settings
-output/*.*
