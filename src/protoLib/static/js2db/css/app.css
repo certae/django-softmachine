@@ -1,0 +1,15 @@
+.draw2d_InputPort{
+   fill:#F7F7F7;
+   stroke:#d7d7d7;
+}
+
+.draw2d_OutputPort{
+   fill:#F7F7F7;
+   stroke:#d7d7d7;
+}
+
+.table_div {
+	background-image: url('../js2db/img/Table.png');
+	background-repeat: no-repeat;
+	background-size: 25% 60%;
+}
