@@ -82,7 +82,7 @@ MEDIA_URL = '/media/'
 
 
 #STATIC_ROOT = os.path.join( PPATH , 'static' )
-STATIC_ROOT = 'static/'
+STATIC_ROOT = ''
 
 TEMPLATE_DIRS = (
     PPATH + '/templates',
@@ -97,6 +97,7 @@ STATICFILES_DIRS = (
     PPATH + '/static',
     EXT_PATH,
 )
+
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
@@ -180,7 +181,6 @@ AUTH_PROFILE_MODULE = 'protoLib.UserProfile'
 PROTO_APP = {}
 
 EMAIL_USE_TLS = True
-
 if DEBUG :
     from ProtoExt.settings_development import *
     with open( PPATH + '/src/ProtoExt/secret_key.txt') as f:

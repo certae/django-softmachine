@@ -65,7 +65,7 @@ def getUserNodes(pUser, viewEntity):
     userProfile = getUserProfile(pUser, 'list', viewEntity)
     userNodes = None
     if userProfile and userProfile.userTree:
-    userNodes = userProfile.userTree.split(',')
+        userNodes = userProfile.userTree.split(',')
 
     return userNodes
 

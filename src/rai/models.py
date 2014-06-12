@@ -20,16 +20,16 @@ class DomaineAffaires(ProtoModel):
         unique_together = ('id_domaine_affaires',)
 
 
-    protoExt = { 
+    protoExt = {
         "actions": [
-            { "name": "doImportRAI", "selectionMode" : "single", }, 
-            { "name": "doMatchRAI", "selectionMode" : "single", }, 
+            { "name": "doImportRAI", "selectionMode" : "single", },
+            { "name": "doMatchRAI", "selectionMode" : "single", },
 
         ],
         "gridConfig" : {
-            "listDisplay": ["__str__", "description", "smOwningTeam"]      
+            "listDisplay": ["__str__", "description", "smOwningTeam"]
         }
-    } 
+    }
 
 
 class Modele(ProtoModel):
@@ -64,7 +64,7 @@ class Modele(ProtoModel):
             { "name": "doMatrixRacc",
               "selectionMode" : "details"
             },
-        ], 
+        ],
         "detailsConfig": [{
             "detailName": "mod_modrac1",
             "detailField": "mod_modrac1__pk",
@@ -92,6 +92,25 @@ class Entite(ProtoModel):
 
     def __unicode__(self):
         return slugify(self.nom_entite +  '.' + str( self.entite_mod))
+
+    protoExt = {
+        "actions": [
+            { "name": "addModel",
+              "selectionMode" : "multi",
+              "actionParams": [
+                 {"name" : "entite_mod",
+                  "type" : "foreigntext",
+                  "header": "entite mod",
+                  "zoomModel": "rai.Modele",
+                  "fkId": "entite_mod_id",
+                  "required": True,
+                  "tooltip" : "target model"
+                  }
+                ]
+            }
+        ]
+    }
+
 
 #     class Meta:
 #         unique_together = ('nom_entite','entite_mod',)
@@ -169,7 +188,7 @@ class Relation(ProtoModel):
 
     baseMin = models.CharField(blank=True, null=True, max_length=50)
     baseMax = models.CharField(blank=True, null=True, max_length=50)
-    
+
     refMin = models.CharField(blank=True, null=True, max_length=50)
     refMax = models.CharField(blank=True, null=True, max_length=50)
 
@@ -198,23 +217,23 @@ class ModeleRaccordement(ProtoModel):
 #     class Meta:
 #         unique_together = ('nom_modele_raccordement',)
 
-    protoExt = { 
+    protoExt = {
         "actions": [
             { "name": "doFindReplace", "selectionMode" : "multi", "refreshOnComplete" : True,
                "actionParams": [
-                     {"name" : "fieldName", "type" : "string", "required": True, "tooltip" : "field name (meta)" }, 
-                     {"name" : "oldText", "type" : "string", "required": True, "tooltip" : "Old values: pyreg.sub(); @all for all text" }, 
-                     {"name" : "newText", "type" : "string", "required": True, "tooltip" : "New values" }, 
-                ] 
-            }, 
+                     {"name" : "fieldName", "type" : "string", "required": True, "tooltip" : "field name (meta)" },
+                     {"name" : "oldText", "type" : "string", "required": True, "tooltip" : "Old values: pyreg.sub(); @all for all text" },
+                     {"name" : "newText", "type" : "string", "required": True, "tooltip" : "New values" },
+                ]
+            },
             { "name": "doRaccordement", "selectionMode" : "single", "executeJS": True, "jsCode":"Ext.create('RAI.view.raccordement.MainWindow',{selectedModel:selectedKeys}).show();",},
         ],
-    } 
+    }
 
 
 class Raccordement(ProtoModel):
     modrac_rac = models.ForeignKey('ModeleRaccordement', blank= True, null= True, related_name='raccordement_modrac_rac')
-    
+
     no_raccordement = models.IntegerField(blank= False, null= False)
 
     tmp_rac1 = models.CharField(blank= True, null= True, max_length= 200)
