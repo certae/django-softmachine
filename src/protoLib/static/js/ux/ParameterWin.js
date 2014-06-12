@@ -130,7 +130,7 @@ Ext.define('ProtoUL.ux.parameterWin', {
                     me.close();
                 },
                 failure: function(f, a) {
-                    Ext.Msg.alert('Failure', a.failureType);
+                    Ext.Msg.alert('Failure', a.failureType + ': error, try again later!');
                 }
             });
         }

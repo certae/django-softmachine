@@ -11,10 +11,15 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 setup(
     name='django-softmachine',
     version='1.0',
-    packages=['src/protoLib','src/prototype','src/dbDesigner'],
+#     packages=['protoLib','prototype','dbDesigner'],
+#     package_dir={'protoLib': 'src', 
+#              'prototype': 'src', 
+#              'dbDesigner': 'src'},
 #     packages=find_packages(),
+    packages=find_packages('src',exclude=["*.softmachine","*.softmachine.*","softmachine.*", "*.alltests.*", "alltests*", "alltests", "softmachine"]),
+    package_dir = {'':'src'},
     include_package_data=True,
-    license='GPL License, see LICENCE.md',
+    license='GPL License, see docs/LICENCE.md',
     description='CeRTAE SoftMachine est une application web qui consiste à réaliser'+ \
     ' les interfaces d’une application par la construction de vues à partir d’un modèle de données standard.',
     long_description=README,
