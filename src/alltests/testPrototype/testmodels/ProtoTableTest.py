@@ -1,6 +1,6 @@
 from django.test import TestCase
 from prototype.models import ProtoTable
-from prototype.tests.testmodels.TestUtilities import createTestProtoTable
+from alltests.testPrototype.testmodels.TestUtilities import createTestProtoTable
 
 
 class ProtoTableTest(TestCase):

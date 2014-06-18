@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from django.http import HttpResponse
 from protoLib.utilsWeb import JsonError
+from protoLib.protoActions import protoExecuteAction
 from django.views.decorators.csrf import csrf_exempt    
-import json
 
 @csrf_exempt
 def loadFiles(request):
@@ -28,7 +27,4 @@ def loadFiles(request):
             dest.write(fileObj.read())
         dest.close()
 
-
-    jsondict = {'success':True , 'message' : 'File saved!' }
-    context = json.dumps(jsondict)
-    return HttpResponse(context, content_type="application/json")
+    return protoExecuteAction(request)

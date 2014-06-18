@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+#Do not delete
 #from django.db import load_backend
 #myBackend = load_backend('postgresql_psycopg2') # or 'mysql', 'sqlite3', 'oracle'
 #myConnection = myBackend.DatabaseWrapper({})

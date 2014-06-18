@@ -1,22 +1,26 @@
 # -*- encoding: UTF-8 -*-
 
-from testMetaDefinitions.ObjectsTest import *
-from testMetaDefinitions.PropertiesTest import *
+from alltests.testPrototype.testMetaDefinitions.ObjectsTest import *                                   
+from alltests.testPrototype.testMetaDefinitions.PropertiesTest import *    
 
-from prototype.testactions.ViewCreationTest import *
-from prototype.testactions.ViewTemplateTest import *
-from prototype.testactions.ViewDefinitionTest import *
-from prototype.testmodels.TestSuiteUtils import *
+from alltests.testPrototype.testactions.ViewCreationTest import *
+from alltests.testPrototype.testactions.ViewTemplateTest import *                
+from alltests.testPrototype.testactions.ViewDefinitionTest import * 
 
-from protoLib.ModelsTest import * #protoLibModelsTestSuite
-from protoLib.ProtoActionEditTest import * #ProtoActionEditTestSuite
-from protoLib.ProtoActionListTest import * #ProtoActionListTestSuite
-from protoLib.ProtoActionRepTest import * #ProtoActionRepTestSuite
-from protoLib.ProtoActionsTest import * #ProtoActionsTestSuite
-from protoLib.ProtoAuthTest import * #ProtoAuthTestSuite
-from protoLib.ProtoGetDetailsTest import * #ProtoGetDetailsTestSuite
-from protoLib.ProtoGetPciTest import * #ProtoGetPciTestSuite
-from protoLib.ProtoLoginTest import * #ProtoLoginTestSuite
-from protoLib.ProtoMenuTest import * #ProtoMenuTestSuite
+from alltests.testPrototype.testmodels.TestSuiteUtils import *
 
-from dbDesigner.ProtoDiagramTest import *
+
+from alltests.testProtoLib.testMetaDefinitions.ObjectsTest import *                                   
+from alltests.testProtoLib.testMetaDefinitions.PropertiesTest import *   
+
+from alltests.testProtoLib.ModelsTest import *      
+from alltests.testProtoLib.ProtoActionEditTest import *                                
+from alltests.testProtoLib.ProtoActionListTest import *                       
+from alltests.testProtoLib.ProtoActionRepTest import *                         
+from alltests.testProtoLib.ProtoActionsTest import *                             
+from alltests.testProtoLib.ProtoAuthTest import *   
+from alltests.testProtoLib.ProtoGetDetailsTest import *
+from alltests.testProtoLib.ProtoGetPciTest import *    
+from alltests.testProtoLib.ProtoLoginTest import *                                  
+from alltests.testProtoLib.ProtoMenuTest import *   
+from alltests.testDbDesigner.ProtoDiagramTest import *                          

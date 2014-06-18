@@ -238,6 +238,13 @@ Ext.define('ProtoUL.UI.GridController', {
         switch( btn.itemId ) {
             case 'toolFormAdd' :
 
+                // TODO: FIX: Add Mask to form load ( is not the right place  )
+                // showLoadingMask();
+                // var delayedTask = new Ext.util.DelayedTask(function(args){
+                //         args.form.openNewForm(args.store);
+                // });
+                // delayedTask.delay(1, null, null, [{form: this.formController, store: this.myGrid.store}]);
+
                 this.formController.openNewForm(this.myGrid.store);
                 break;
 
