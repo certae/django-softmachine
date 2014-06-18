@@ -1,6 +1,6 @@
 from django.test import TestCase
 from prototype.models import PropertyEquivalence
-from prototype.tests.testmodels.TestUtilities import createTestPropertyEquivalence
+from alltests.testPrototype.testmodels.TestUtilities import createTestPropertyEquivalence
 
 
 class PropertyEquivalenceTest(TestCase):

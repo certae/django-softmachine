@@ -1,6 +1,6 @@
 from django.test import TestCase
 from prototype.models import Project
-from prototype.tests.testmodels.TestUtilities import createTestProject
+from alltests.testPrototype.testmodels.TestUtilities import createTestProject
 
 
 class ProjectTest(TestCase):

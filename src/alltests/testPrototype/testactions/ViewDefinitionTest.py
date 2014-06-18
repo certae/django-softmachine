@@ -6,9 +6,9 @@ from django.test import TestCase
 
 from prototype.actions.viewDefinition import getViewDefinition, slugify, getViewCode, property2Field, getFkId, GetProtoFieldsTree, GetDetailsConfigTree
 
-from prototype.tests.Utils import random_string_generator
-from prototype.tests.testmodels.TestUtilities import createTestEntity
-from prototype.tests.testmodels.TestUtilities import createTestRelationship
+from alltests.testPrototype.Utils import random_string_generator
+from alltests.testPrototype.testmodels.TestUtilities import createTestEntity
+from alltests.testPrototype.testmodels.TestUtilities import createTestRelationship
 
 
 class GetViewDefinitionTest(TestCase):

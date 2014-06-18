@@ -53,6 +53,7 @@ def saveDiagram(request):
     jsonFile = json.loads(request.body)
     jsonString = JSONEncoder().encode(jsonFile)
     jsonString = '{"objects":'+jsonString+'}'
+    # TODO save DiagramEntity for each UUID (table inside jsonString)
     try:
         diagram = Diagram.objects.get(id=diagramID)
         diagram.info = jsonString
