@@ -14,7 +14,7 @@ The system architecture is a Web MVC variant, this means that we use the basic c
 
 * [Get Started](#get-started)
   * [Software requirements](#software-requirements)
-  * [Install using PIP](#install-using-pip)
+  * [Install using pip](#install-using-pip)
   * [Deploying as Django app](#deploying-as-django-app)
    * [Production requirements](#production-requirements)
    * [Installation](#installation)
@@ -195,7 +195,7 @@ mysite/
         tests.py
         views.py
 ```
-At this point you should have modified those files **settings.py** and **urls.py** as mentioned in [Install using PIP](#install-using-pip) section.
+At this point you should have modified those files **settings.py** and **urls.py** as mentioned in [Install using pip](#install-using-pip) section.
 
 ### Extend a template
 
