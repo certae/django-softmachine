@@ -168,6 +168,7 @@ def doImportSchema( modeladmin, request, queryset, parameters):
 
     try: 
         getDbSchemaDef( queryset[0] , request  )
+#        Do no delete 
 #        from multiprocessing import Process
 #        p = Process (target= getDbSchemaDef ,args=( queryset[0] , request ))
 #        p.start()
@@ -188,7 +189,7 @@ def doImportOMS( modeladmin, request, queryset, parameters):
     funcion para importar modelos realizados en OMS ( Open Model Spher )  
     """
 
-    from ProtoExt.settings import MEDIA_ROOT
+    from softmachine.settings import MEDIA_ROOT
 
 #   El QSet viene con la lista de Ids  
     if queryset.count() != 1:

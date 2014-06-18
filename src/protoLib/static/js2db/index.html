@@ -1,0 +1,268 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+	<title></title>
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<link type="text/css" rel="stylesheet" href="./draw2d/css/aristo/jquery-ui-1.8.16.custom.css" />
+   	<link type="text/css" rel="stylesheet" href="./draw2d/css/jquery.layout.css" />
+   	<link type="text/css" rel="stylesheet" href="./draw2d/css/application.css" />
+
+    <link type="text/css" rel="stylesheet" href="./draw2d/css/contextmenu.css" />
+
+    <link type="text/css" rel="stylesheet" href="./css/app.css" />
+
+	<!-- ## Required Imports ## -->
+	<!-- jQuery -->
+	<SCRIPT src="./lib/jquery-1.10.2.min.js"></SCRIPT>
+	<SCRIPT src="./lib/jquery.autoresize.js"></SCRIPT>
+	<SCRIPT src="./lib/jquery-touch_punch.js"></SCRIPT>
+	<SCRIPT src="./lib/jquery.contextmenu.js"></SCRIPT>
+
+	<!-- Shifty is an excellent animation solution for scenarios -->
+	<SCRIPT src="./lib/shifty.js"></SCRIPT>
+
+	<!-- Unfortunately the latest version of raphael didn't fix some bug. In this case I did it and patch the version in the Draw2D. You can't replace the provided raphael version with the common version without lost of functionality. Grep from FREEGROUP to find all patches in the raphael.js file -->
+	<SCRIPT src="./lib/raphael.js"></SCRIPT>
+	<SCRIPT src="./lib/rgbcolor.js"></SCRIPT>
+	<SCRIPT src="./lib/canvg.js"></SCRIPT>
+
+	<!-- Simple JavaScript Inheritance by John Resig -->
+	<SCRIPT src="./lib/Class.js"></SCRIPT>
+
+	<!-- This file creates a global JSON object containing two methods: stringify and parse -->
+	<SCRIPT src="./lib/json2.js"></SCRIPT>
+
+	<!-- Connection routing -->
+	<SCRIPT src="./lib/pathfinding-browser.min.js"></SCRIPT>
+
+	<SCRIPT src="./draw2d/src/draw2d.js"></SCRIPT>
+    <SCRIPT src="./draw2d/src/util/Debug.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/util/Color.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/util/ArrayList.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/util/SVGUtil.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/util/UUID.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/util/spline/Spline.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/util/spline/CubicSpline.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/util/spline/CatmullRomSpline.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/util/spline/BezierSpline.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/geo/PositionConstants.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/geo/Point.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/geo/Rectangle.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/geo/Ray.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/command/CommandType.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/command/Command.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/command/CommandCollection.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/command/CommandStack.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/command/CommandStackEvent.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/command/CommandStackEventListener.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/command/CommandMove.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/command/CommandMoveLine.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/command/CommandMoveJunction.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/command/CommandResize.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/command/CommandConnect.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/command/CommandReconnect.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/command/CommandDelete.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/command/CommandAdd.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/command/CommandAddJunctionPoint.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/command/CommandRemoveJunctionPoint.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/connection/ConnectionRouter.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/connection/DirectRouter.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/connection/JunctionRouter.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/connection/ManhattanConnectionRouter.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/connection/ManhattanBridgedConnectionRouter.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/connection/CircuitConnectionRouter.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/connection/SplineConnectionRouter.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/connection/FanConnectionRouter.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/connection/MazeConnectionRouter.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/connection/MuteableManhattanConnectionRouter.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/connection/SketchConnectionRouter.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/mesh/MeshLayouter.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/mesh/ExplodeLayouter.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/mesh/ProposedMeshChange.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/locator/Locator.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/locator/PortLocator.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/locator/InputPortLocator.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/locator/OutputPortLocator.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/locator/ConnectionLocator.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/locator/ManhattanMidpointLocator.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/locator/PolylineMidpointLocator.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/locator/TopLocator.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/locator/BottomLocator.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/locator/LeftLocator.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/locator/RightLocator.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/locator/CenterLocator.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/EditPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/canvas/CanvasPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/canvas/SelectionPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/canvas/SingleSelectionPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/canvas/PanningSelectionPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/canvas/BoundingboxSelectionPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/canvas/ReadOnlySelectionPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/canvas/DecorationPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/canvas/FadeoutDecorationPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/canvas/CoronaDecorationPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/canvas/SnapToEditPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/canvas/SnapToGridEditPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/canvas/ShowGridEditPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/canvas/SnapToGeometryEditPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/figure/DragDropEditPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/figure/RegionEditPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/figure/HorizontalEditPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/figure/VerticalEditPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/figure/SelectionFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/figure/RectangleSelectionFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/figure/BigRectangleSelectionFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/figure/RoundRectangleSelectionFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/figure/BusSelectionFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/figure/VBusSelectionFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/figure/HBusSelectionFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/figure/AntSelectionFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/figure/GlowSelectionFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/figure/SlimSelectionFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/line/LineSelectionFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/line/JunctionSelectionFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/port/PortFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/port/ElasticStrapFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/policy/port/IntrusivePortsFeedbackPolicy.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/Canvas.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/Selection.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/Figure.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/node/Node.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/VectorFigure.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/basic/Rectangle.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/SetFigure.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/SVGFigure.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/node/Hub.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/node/HorizontalBus.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/node/VerticalBus.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/node/Fulcrum.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/basic/Oval.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/basic/Circle.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/basic/Label.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/basic/Line.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/basic/PolyLine.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/basic/Diamond.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/basic/Image.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/Connection.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/VectorFigure.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/ResizeHandle.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/basic/LineResizeHandle.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/basic/LineStartResizeHandle.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/basic/LineEndResizeHandle.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/basic/JunctionResizeHandle.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/basic/GhostJunctionResizeHandle.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/Port.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/InputPort.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/OutputPort.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/HybridPort.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/anchor/ConnectionAnchor.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/anchor/ChopboxConnectionAnchor.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/anchor/ShortesPathConnectionAnchor.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/layout/anchor/CenterEdgeConnectionAnchor.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/arrow/CalligrapherArrowLeft.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/arrow/CalligrapherArrowDownLeft.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/node/Start.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/node/End.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/node/Between.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/note/PostIt.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/widget/Widget.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/widget/Slider.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/diagram/Diagram.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/diagram/Pie.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/diagram/Sparkline.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/analog/OpAmp.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/analog/ResistorBridge.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/analog/ResistorVertical.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/analog/VoltageSupplyHorizontal.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/analog/VoltageSupplyVertical.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/layout/Layout.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/layout/HorizontalLayout.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/shape/layout/VerticalLayout.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/ui/LabelEditor.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/ui/LabelInplaceEditor.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/decoration/connection/Decorator.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/decoration/connection/ArrowDecorator.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/decoration/connection/DiamondDecorator.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/decoration/connection/CircleDecorator.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/decoration/connection/BarDecorator.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/io/Reader.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/io/Writer.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/io/svg/Writer.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/io/png/Writer.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/io/json/Writer.js"> </SCRIPT>
+    <SCRIPT src="./draw2d/src/io/json/Reader.js"> </SCRIPT>
+
+    <SCRIPT src="./lib/jquery.browser.js"></SCRIPT>
+    <SCRIPT src="./lib/jquery-ui-1.8.23.custom.min.js"></SCRIPT>
+    <SCRIPT src="./lib/jquery.layout.js"></SCRIPT>
+
+    <SCRIPT src="./dbModel/Application.js"></SCRIPT>
+	<SCRIPT src="./dbModel/View.js"></SCRIPT>
+	<SCRIPT src="./dbModel/Toolbar.js"></SCRIPT>
+	<SCRIPT src="./dbModel/document.js"></SCRIPT>
+	<SCRIPT src="./dbModel/shape/DBTable.js"></SCRIPT>
+    
+	<script type="text/javascript">
+	/**
+	 * @method
+	 * Factory method to provide a default connection for all drag&drop connections. You
+	 * can override this method and customize this for your personal purpose.
+	 * 
+	 * @param {draw2d.Port} sourcePort port of the source of the connection
+	 * @param {draw2d.Port} targetPort port of the target of the connection
+	 * @template
+	 * @returns {draw2d.Connection}
+	 */
+	draw2d.Connection.createConnection=function(sourcePort, targetPort){
+	    
+	    var conn= new draw2d.Connection();
+	    conn.setColor("#5bcaff");
+	    conn.setStroke(2);
+	    return conn;
+	};
+
+	$(window).load(function () {
+
+	    var app  = new dbModel.Application();
+
+	    // unmarshal the JSON document into the canvas
+		// (load)
+		var reader = new draw2d.io.json.Reader();
+		reader.unmarshal(app.getView(), jsonDocument);
+		// display the JSON document in the preview DIV
+		//
+		displayJSON(app.getView());
+
+		// add an event listener to the Canvas for change notifications.
+		// We just dump the current canvas document into the DIV
+		app.getView().getCommandStack().addEventListener(function(e){
+			if(e.isPostChangeEvent()){
+				displayJSON(app.getView());
+			}
+		});
+	});
+	function displayJSON(canvas){
+	    var writer = new draw2d.io.json.Writer();
+	    writer.marshal(canvas, function(json){
+	        $("#json").text(JSON.stringify(json,null,2));
+	    });
+	}
+	</script>
+
+</head>
+<body id="container">
+
+   <div id="content">
+   		<div id="toolbar"></div>
+   		<div id="canvas" class="" style="width:1500px; height:1500px;-webkit-tap-highlight-color: rgba(0,0,0,0); "></div>
+   		<pre id="json" style="overflow:auto;position:absolute; top:40px; right:15px; width:350; height:500;background:white;border:1px solid gray">
+   </div>
+   
+   <div id="navigation" class="">
+    	<div data-shape="dbModel.shape.DBTable"   class="palette_node_element draw2d_droppable table_div">Table</div>
+   </div>
+   
+</body>
+</html>

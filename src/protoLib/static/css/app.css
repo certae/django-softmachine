@@ -1,0 +1,501 @@
+
+.title {
+    font-family: Arial, sans-serif;
+    color: #596F8F;
+    font-size: 22px;
+    font-weight: 200;
+    padding: 25px 0px 20px 0px;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.subtitle {
+    font-size: 12px;
+    padding: 0px 0px 0px 0px;
+    color: #369;
+}
+
+
+.background-SM {
+
+    background-image:url(../img/varios/fondo.png) !important;
+    background-size:100% 100% !important;
+    background-repeat:no-repeat  !important;
+}
+
+.background-SM2 {
+
+    background-image:url(../img/varios/sm.jpg) !important;
+    background-size:100% 100% !important;
+    background-repeat:no-repeat  !important;
+}
+
+.x-tree-selected {
+    font-weight: bold;
+}
+
+
+.icon-login   { background-image: url(../img/protoImg/login.png )!important;}
+.icon-logout  { background-image: url(../img/protoImg/logout.png )!important;}
+.icon-user    {	background-image: url(../img/protoImg/user.png )!important;}
+.icon-edit    { background-image: url(../img/protoImg/base-edit.png ) !important;}
+.icon-editoff { background-image: url(../img/protoImg/base-editoff.png ) !important;}
+.icon-order   { background-image: url(../img/protoImg/base-sort.png ) !important;  }
+.icon-print   { background-image: url(../img/protoImg/base-print.png ) !important;}
+.icon-action  { background-image: url(../img/protoImg/base-action.png ) !important;}
+.icon-filters { background-image: url(../img/protoImg/base-filters.png ) !important;}
+.icon-tabs    { background-image: url(../img/protoImg/base-tabs.png ) !important;}
+.icon-sorters { background-image: url(../img/protoImg/base-sorters.png ) !important;}
+
+.icon-details { background-image: url(../img/protoImg/base-details.png ) !important;}
+.icon-custom  { background-image: url(../img/protoImg/base-custom.png ) !important;}
+.icon-help    { background-image: url(../img/protoImg/base-help.png ) !important;}
+
+.icon-accept      { background-image: url(../img/protoImg/st-accept.png ) !important;}
+.icon-cancel      { background-image: url(../img/protoImg/edit_cancel.png ) !important;}
+.icon-add      	  { background-image: url(../img/protoImg/edit_add.png ) !important;}
+.icon-close       { background-image: url(../img/protoImg/icon_close.png ) !important;}
+.icon-reset       { background-image:url(../img/protoDesigner/broom.png) !important; }
+
+.door_out         { background-image: url(../img/protoImg/door_out.png ) !important;}
+
+.icon-filter       { background-image: url(../img/protoImg/filter.png ) !important; }
+.icon-filterdelete { background-image: url(../img/protoImg/filter_delete.png ) !important; }
+.icon-filterqbe    { background-image: url(../img/protoImg/filter_edit.png ) !important; }
+
+.icon-search      { background-image: url(../img/protoImg/icon_search16.png ) !important; }
+.icon-clearsearch { background-image: url(../img/protoImg/icon_searchclear.png ) !important; }
+
+.icon-script_gear      { background-image: url(../img/protoImg/script_gear.png ) !important;}
+.icon-script_edit      { background-image: url(../img/protoImg/script_edit.png ) !important;}
+
+
+.icon-printGrid  { background-image: url(../img/protoImg/print_grid.png) !important;  }
+.icon-printSheet { background-image: url(../img/protoImg/print_sheet.png) !important; }
+
+.icon-promote { background-image: url(../img/protoImg/table_promote.png) !important; }
+
+.menu_new_folder { background-image: url(../img/protoImg/menu_new_folder.png) !important; }
+.menu_new_option { background-image: url(../img/protoImg/menu_new_option.png) !important; }
+
+.menu_reset  { background-image: url(../img/protoImg/page_reset.png) !important; }
+.menu_save   { background-image: url(../img/protoImg/page_save.png) !important; }
+.menu_reload { background-image: url(../img/protoImg/page_refresh.png) !important; }
+
+.comment_delete { background-image: url(../img/protoImg/comment_delete.png ) !important; }
+
+
+/* Iconos Config - Edit */
+.icon-tableSheet        { background-image: url(../img/protoImg/print_sheet.png ) !important;}
+
+.icon-tableAutoSync     { background-image: url(../img/protoImg/edit_autosync.png ) !important;}
+.icon-tableSave         { background-image: url(../img/protoImg/edit_save.png ) !important;}
+.icon-tableCancel       { background-image: url(../img/protoImg/edit_cancel.png ) !important;}
+.icon-saveDraft         { background-image: url(../img/protoImg/edit_draft.png ) !important;}
+
+.icon-saveMs            { background-image: url(../img/protoImg/edit_save.png ) !important;}
+.icon-saveDt            { background-image: url(../img/protoImg/table_save.png ) !important;}
+
+.icon-tableAdd          { background-image: url(../img/protoImg/table_row_insert.png ) !important;}
+.icon-tableDelete       { background-image: url(../img/protoImg/table_row_delete.png ) !important;}
+.icon-tableDuplicate    { background-image: url(../img/protoImg/table_row_copy.png ) !important;}
+.icon-tableEdit         { background-image: url(../img/protoImg/table_row_edit.png ) !important;}
+
+
+.icon-formAdd     	{ background-image: url(../img/protoImg/form_add.png ) !important;}
+.icon-formEdit      { background-image: url(../img/protoImg/form_edit.png ) !important;}
+.icon-formView      { background-image: url(../img/protoImg/form_view.png ) !important;}
+.icon-configForm    { background-image: url(../img/protoImg/form_edit.png ) !important;}
+
+.icon-config        { background-image: url(../img/protoImg/config_preview.png ) !important;}
+.icon-configMeta    { background-image: url(../img/protoImg/config_meta.png ) !important;}
+.icon-configFields  { background-image: url(../img/protoImg/config_fields.png ) !important;}
+.icon-configDetails { background-image: url(../img/protoImg/base-details.png ) !important;}
+.icon-configPreview { background-image: url(../img/protoImg/config_preview.png ) !important;}
+.icon-configReset   { background-image: url(../img/protoImg/config_reset.png ) !important;}
+.icon-configReload  { background-image: url(../img/protoImg/config_reload.png ) !important;}
+.icon-configCustom  { background-image: url(../img/protoImg/config_custom.png ) !important;}
+
+.icon-nodeInsert  { background-image: url(../img/protoImg/node-insert.png ) !important;}
+.icon-nodeEdit    { background-image: url(../img/protoImg/node-edit.png ) !important;}
+.icon-nodeDelete  { background-image: url(../img/protoImg/node-delete.png ) !important;}
+
+.icon-pclFields     { background-image: url(../img/protoImg/form_add.png ) !important;}
+.icon-pclContainers { background-image: url(../img/protoImg/d_add_folder.png ) !important;}
+.icon-pclDetails    { background-image: url(../img/protoImg/d_add_detail.png ) !important;}
+.icon-pclOthers     { background-image: url(../img/protoImg/d_add_plugin.png ) !important;}
+
+.icon-proto         { background-image: url(../img/protoImg/icon_proto.png ) !important;}
+
+/*  Iconos Adv Sort  */
+.sort-desc { background-image: url(../img/protoImg/sort_desc.gif) !important; background-position: 4px 7px !important; }
+.sort-asc  { background-image: url(../img/protoImg/sort_asc.gif) !important; background-position: 4px 7px !important; }
+
+.icon-panelDown  { background-image: url(../img/protoImg/panelDown.png) !important }
+.icon-panelUp    { background-image: url(../img/protoImg/panelUp.png) !important }
+
+
+
+/* login */
+.st-user-who   { background-image: url(../img/protoImg/st-user-who.png ) !important;}
+.st-user-go    { background-image: url(../img/protoImg/st-user-go.png ) !important;}
+.st-key-go     { background-image: url(../img/protoImg/st-key-go.png ) !important;}
+.st-loading    { background-image: url(../img/protoImg/st-loading.gif )!important;}
+.st-exit       { background-image: url(../img/protoImg/st-exit.png ) !important;}
+
+/*.protofolder       { background-image: url(../img/protoImg/bluefolder-open.png ) !important;}*/
+
+/*  Iconos temporales */
+.icon-1 { background-image: url(../img/app/1.png ) !important; }
+.icon-2 { background-image: url(../img/app/2.png ) !important; }
+.icon-3 { background-image: url(../img/app/3.png ) !important; }
+.icon-4 { background-image: url(../img/app/4.png ) !important; }
+.icon-5 { background-image: url(../img/app/5.png ) !important; }
+.icon-6 { background-image: url(../img/app/6.png ) !important; }
+.icon-7 { background-image: url(../img/app/7.png ) !important; }
+
+
+/* Row Status  */
+.ROWST_NEW .x-grid-cell { background-color: #FFF98B !important; }
+.ROWST_ERR .x-grid-cell { background-color: #FFEAC9 !important; }
+
+
+/*Fiche */
+
+.negro {padding:5px;font-weight: bold; width:25%;vertical-align:top;}
+.desc {padding:5px;width:75%;text-align:justify;}
+.ficha {width:100%; border-style:none;}
+
+/*.barra {width:100%;height:100%;overflow:auto;}*/
+.blanco{font:normal 12px tahoma, arial, verdana, sans-serif;background-color:white;border-color:#ededed;border-style:solid;border-width:1px 0;border-top-color:#fafafa}
+.azul  {font:normal 12px tahoma, arial, verdana, sans-serif;background-color:#fafafa;border-color:#ededed;border-style:solid;border-width:1px 0;border-top-color:white}
+
+
+/*.x-grid-row-alt .x-grid-cell,.x-grid-row-alt .x-grid-rowwrap-div{background-color:#fafafa}*/
+
+/*ul.cuadro {list-style-type:circle;font:normal 12px tahoma, arial, verdana, sans-serif;} */
+
+.cuadro {list-style-type:circle;font:normal 12px tahoma, arial, verdana, sans-serif;}
+
+.table_interieure{border-style: none;}
+.table_interieure th{
+	border-width:2px;
+	padding:3px;
+	border-style:solid;
+	border-bottom-color:gray;
+	border-top-color:#fafafa;
+	border-right-color:#fafafa;
+	border-left-color:#fafafa;
+	background-color:white;
+	font:normal 11px tahoma, arial, verdana, sans-serif;}
+
+.table_interieure td {border-width: thin;
+	padding:3px;
+	border-style:solid;
+	border-top-color:#fafafa;
+	border-right-color:#fafafa;
+	border-bottom-color:#ededed;
+	border-left-color:#fafafa;
+	background-color: white;
+	font:normal 11px tahoma, arial, verdana, sans-serif;text-align:justify;
+	vertical-align:top;}
+
+
+
+/*  CheckHeader.css */
+
+.x-grid-checkheader {
+    height: 14px;
+    background-image: url(../img/protoImg/unchecked.gif);
+    background-position: 50% -2px;
+    background-repeat: no-repeat;
+    background-color: transparent;
+}
+
+.x-grid-checkheader-checked {
+    background-image: url(../img/protoImg/checked.gif);
+}
+
+.x-grid-checkheader-editor .x-form-cb-wrap {
+    text-align: center;
+}
+
+
+.x-grid-stopligth-red {
+    background-color:#FF7D7D ;
+}
+
+.x-grid-cell .x-grid-stopligth-yellow {
+	background-color:#FFE13D;
+}
+
+.x-grid-stopligth-green {
+    background-color:#78FF78 ;
+}
+
+
+.taskManager {
+    background-image: url(../img/protoOrg/mark_active.png) !important
+}
+
+.logout {
+    background-image: url(../../Recursos/Imagenes/logout.png) !important
+}
+
+
+/*
+	These are examples of styles for the button icons (you must supply the icon files yourself)
+
+	For nice icon sets, check out the following sites.
+	- http://www.famfamfam.com/
+	- http://code.google.com/p/fugue-icons/
+    - http://www.everaldo.com/crystal/
+
+    See the notice.txt file in the images folder for possible licence conflicts with these images.
+    Some icons may be licenced under the Creative Commons licence - http://creativecommons.org/licenses/by/2.5/
+
+    Some icons have been modified slightly from their source files, in which case the original authors license still applies.
+
+*/
+.x-edit-wordpaste {background: url(../img/protoImg/edit-word-text.png) 0 0 no-repeat !important;}
+.x-edit-table {background: url(../img/protoImg/edit-table.png) 0 0 no-repeat !important;}
+.x-edit-hr {background: url(../img/protoImg/edit-rule.png) 0 0 no-repeat !important;}
+.x-edit-indent {background: url(../img/protoImg/edit-indent.png) 0 0 no-repeat !important;}
+.x-edit-char {background: url(../img/protoImg/edit-char.png) 0 0 no-repeat !important;}
+.x-edit-outdent {background: url(../img/protoImg/edit-outdent.png) 0 0 no-repeat !important;}
+.x-edit-subscript {background: url(../img/protoImg/edit-subscript.png) 0 0 no-repeat !important;}
+.x-edit-superscript {background: url(../img/protoImg/edit-superscript.png) 0 0 no-repeat !important;}
+.x-edit-removeFormat {background: url(../img/protoImg/edit-removeFormat.png) 0 0 no-repeat !important;}
+.x-edit-formatblock-h1 {background: url(../img/protoImg/edit-heading-h1.png) 0 0 no-repeat !important;}
+.x-edit-formatblock-h2 {background: url(../img/protoImg/edit-heading-h2.png) 0 0 no-repeat !important;}
+
+
+/*
+	These styles are used for the character map
+*/
+.char-item {
+	float: left;
+	border: 1px solid #99BBE8;
+	margin: 3px;
+	text-align: center;
+	vertical-align: middle;
+	width: 20px;
+	height: 20px;
+	font-size: 14px;
+	color: #15428B;
+	cursor: pointer;
+}
+
+.char-item.x-item-selected {
+    background-color: #777;
+}
+
+.char-over {
+    border: 1px solid #15428B;
+    background-color:#d0def0;
+}
+
+
+/* Efecto visual de ReadOnly  DFE8F6  15428B FAFAD2  --------------- */
+
+.read-only{
+	background-color:#15428B !important;
+}
+
+
+.x-item-disabled{
+/*  background: #DFE8F6;*/
+  opacity:1;
+  -moz-opacity:1;
+  filter: alpha(opacity=100);
+}
+
+
+
+/*
+
+.protofield-readonly{
+  background: #DFE8F6 !important;
+  opacity:1 !important;
+  -moz-opacity:1 !important;
+  filter: alpha(opacity=100 !important);
+}
+
+*/
+
+.protofield-readonly input, .protofield-readonly textarea, .protofield-readonly div{
+	background-image: none !important;
+	background-color: #E0E0E0 !important;
+}
+
+
+.protoLink {
+    color: -webkit-link !important; text-decoration: underline !important;
+}
+
+
+
+.x-tool-readOnly  { background-image: url('../img/protoImg/lock.png') !important; }
+.x-tool-separator { background-image: url('../img/protoImg/separator2.png') !important; }
+
+.x-tool-rowAdd   { background-image: url('../img/protoImg/table_row_insert.png') !important; }
+.x-tool-rowCopy  { background-image: url('../img/protoImg/table_row_copy.png') !important; }
+.x-tool-rowDel   { background-image: url('../img/protoImg/table_row_delete.png') !important; }
+
+.x-tool-formUpd  { background-image: url('../img/protoImg/form_edit.png') !important; }
+.x-tool-formView { background-image: url('../img/protoImg/form_view.png') !important; }
+.x-tool-formAdd  { background-image: url('../img/protoImg/form_add.png' ) !important;}
+
+.x-tool-metaConfig  { background-image: url('../img/protoImg/config_meta.png') !important; }
+
+.x-tool-diagramEdit { background-image: url('../img/app/model.png') !important; }
+
+/*  --------------------------------------------------------------  */
+/*  -----------------------DIAGRAM EDITOR-------------------------  */
+/*  --------------------------------------------------------------  */
+/* Icons */
+
+.save-diagram    { background-image: url(../img/protoImg/d_save_detail.png ) !important;}
+.open-file    { background-image: url(../img/protoImg/open-file-icon.png ) !important;}
+.get-from-DB    { background-image: url(../img/protoImg/database-refresh-icon.png ) !important;}
+.send-to-DB    { background-image: url(../img/protoImg/database-save-icon.png ) !important;}
+.find-table    { background-image: url(../img/protoImg/data-find-icon.png ) !important;}
+.table-relationship    { background-image: url(../img/protoImg/table-relationship-icon.png ) !important;}
+.input-port    { background-image: url(../img/protoImg/door-in-icon.png ) !important;}
+.output-port    { background-image: url(../img/protoImg/door_out.png ) !important;}
+.icon-nodeInput    { background-image: url(../img/protoImg/node-input.png ) !important;}
+
+.container{
+ /*overflow: scroll !important;*/
+}
+
+.canvas {
+ padding:0px;
+ margin:0px;
+ background-color:#FAFAFA;
+ width: 1500px !important;
+ height: 1500px !important;
+}
+
+#navigation{
+ padding:0px;
+ margin:0px;
+ text-align: center;
+}
+
+#toolbar{
+background: #cecece; /* Old browsers */
+background: -moz-linear-gradient(top,  #cecece 0%, #a8a8a8 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cecece), color-stop(100%,#a8a8a8)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #cecece 0%,#a8a8a8 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #cecece 0%,#a8a8a8 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #cecece 0%,#a8a8a8 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #cecece 0%,#a8a8a8 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cecece', endColorstr='#a8a8a8',GradientType=0 ); /* IE6-9 */
+ padding:8px;
+ margin:0px;
+ height:50px;
+ border-bottom: 1px solid #515151;
+ overflow: hidden;
+}
+
+
+/******************************************************************
+ * Einstellungen der PropertyViews im Editmodus der "Form".
+ ******************************************************************/
+#propertypane {
+ padding:0px;
+ margin:0px;
+ width:150px;
+ background-color:#7D7D7D;
+ border-top:0px;
+}
+
+/*container of a single property entry*/
+.property_container {
+ padding:5px;
+ padding-bottom:15px;
+}
+
+.toolbar_delimiter {
+  margin-left:40px;
+}
+
+#content {
+ padding:0px;
+ margin:0px;
+}
+
+
+
+.palette_node_element{
+ border:1px solid gray;
+ background-color: #f3f3f3;
+ padding:10px;
+ cursor:move;
+ width:80px;
+ margin: 30px auto 30px auto;
+ text-align:center;
+ align:center;
+ border-radius: 5px;
+}
+
+.shadow {
+ -moz-box-shadow: 3px 3px 4px #000;
+ -webkit-box-shadow: 3px 3px 4px #000;
+ box-shadow: 3px 3px 4px #000;
+ /* For IE 8 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+ /* For IE 5.5 - 7 */
+ filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+}
+
+.linkedBlock {
+  fill: orange;
+}
+
+.node {
+    stroke: #000000;
+    stroke-width: 1;
+}
+
+.displaynone {
+
+    display: none;
+}
+
+.draw2d_InputPort{
+   /*fill:#F7F7F7;*/
+   fill:#FF6666;
+   stroke:#d7d7d7;
+}
+
+.draw2d_OutputPort{
+   /*fill:#F7F7F7;*/
+   fill:#339933;
+   stroke:#d7d7d7;
+}
+
+.draw2d_HybridPort{
+   fill:#F7F7F7;
+   stroke:#d7d7d7;
+}
+
+.table_div {
+	background-image: url('../js2db/img/Table.png');
+	background-repeat: no-repeat;
+	background-size: 25% 60%;
+}
+
+.primary_key {
+	color: #000000;
+	text-decoration:underline;
+}
+
+.hide-this-row {
+	display: none;
+}
+
+.table-in-diagram .x-grid-cell {
+    background-color: #e2ffe2;
+    color: #090;
+}

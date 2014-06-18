@@ -9,3 +9,10 @@ static/extjs-4.2.x
 static/extjs
 static/all-classes.js
 coverage.xml
+media
+output
+django_softmachine.egg-info
+dist
+.project
+.pydevproject
+.settings

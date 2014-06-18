@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.test import TestCase
-from django.utils.unittest.suite import TestSuite
-from django.utils.unittest.loader import makeSuite
 import json
-
-from prototype.models import *
-from protoLib.models import *
 
 
 import os
@@ -18,18 +13,18 @@ DataTree = json.loads(open(file_path).read())
 def getFields(modelclass):
     fields = []
     for value in modelclass.protoExt:
-            fields.append(value)
+        fields.append(value)
         
     return fields
 
 
 def getValue(modelclass, field):
-        if type(modelclass.protoExt[field]) != list:
-            for values in modelclass.protoExt[field]:
-                return values
-        else:
-            for values in modelclass.protoExt[field][0]:
-                return values
+    if type(modelclass.protoExt[field]) != list:
+        for values in modelclass.protoExt[field]:
+            return values
+    else:
+        for values in modelclass.protoExt[field][0]:
+            return values
 
 
 def validatePair(field, value):
@@ -67,6 +62,34 @@ def checkAllFields(modelclass):
 
     return True
 
+# -----------------------------------
+
+
+from protoLib.models import TeamHierarchy, ProtoDefinition, CustomDefinition, DiscreteValue
+
+class TeamHierarchyStructureTest(TestCase):
+    def test_field_and_value(self):
+        self.assertFalse(checkAllFields(TeamHierarchy))  # Value is not in MetaObjects
+
+
+class ProtoDefinitionStructureTest(TestCase):
+    def test_field_and_value(self):
+        self.assertTrue(checkAllFields(ProtoDefinition))
+
+
+class CustomDefinitionStructureTest(TestCase):
+    def test_field_and_value(self):
+        self.assertTrue(checkAllFields(CustomDefinition))
+
+
+class DiscreteValueStructureTest(TestCase):
+    def test_field_and_value(self):
+        self.assertTrue(checkAllFields(DiscreteValue))
+
+
+# ------------------------------
+
+from prototype.models import Project, Model, Entity, Property, Relationship, PropertyEquivalence, ProtoTable, Prototype
 
 class ProjectStructureTest(TestCase):
     def test_field_and_value(self):
@@ -108,21 +131,4 @@ class ProtoTableStructureTest(TestCase):
         self.assertTrue(checkAllFields(ProtoTable))
 
 
-class TeamHierarchyStructureTest(TestCase):
-    def test_field_and_value(self):
-        self.assertFalse(checkAllFields(TeamHierarchy))  # Value is not in MetaObjects
 
-
-class ProtoDefinitionStructureTest(TestCase):
-    def test_field_and_value(self):
-        self.assertTrue(checkAllFields(ProtoDefinition))
-
-
-class CustomDefinitionStructureTest(TestCase):
-    def test_field_and_value(self):
-        self.assertTrue(checkAllFields(CustomDefinition))
-
-
-class DiscreteValueStructureTest(TestCase):
-    def test_field_and_value(self):
-        self.assertTrue(checkAllFields(DiscreteValue))

@@ -1,0 +1,411 @@
+{
+    "projectName": "SoftMachine",
+    "licenseText": "Copyright(c) 2012 CeRTAE",
+    "builds": [
+        {
+            "name": "All Classes",
+            "target": "all-classes.js",
+            "options": {
+                "debug": true
+            },
+            "files": [
+                {
+                    "name": "pciObjects.js",
+                    "path": "metaDefinition/"
+                },
+                {
+                    "name": "pciProperties.js",
+                    "path": "metaDefinition/"
+                },
+                {
+                    "name": "Tools.js",
+                    "path": "js/globals/"
+                },
+                {
+                    "name": "ProtoStore.js",
+                    "path": "js/globals/"
+                },
+                {
+                    "name": "SM__lang-fr.js",
+                    "path": "js/globals/locale/"
+                },
+                {
+                    "clsName": "ProtoUL.UI.MDLinkController",
+                    "name": "MDLinkController.js",
+                    "path": "js/UI/"
+                },
+                {
+                    "clsName": "ProtoUL.UI.ConfigController",
+                    "name": "ConfigController.js",
+                    "path": "js/UI/"
+                },
+                {
+                    "clsName": "ProtoUL.UI.FormController",
+                    "name": "FormController.js",
+                    "path": "js/UI/"
+                },
+                {
+                    "clsName": "ProtoUL.UI.GridController",
+                    "name": "GridController.js",
+                    "path": "js/UI/"
+                },
+                {
+                    "clsName": "ProtoUL.UI.GridSheetController",
+                    "name": "GridSheetController.js",
+                    "path": "js/UI/"
+                },
+                {
+                    "clsName": "ProtoUL.UI.MDActionsController",
+                    "name": "MDActionsController.js",
+                    "path": "js/UI/"
+                },
+                {
+                    "clsName": "ProtoUL.UI.MDDetailsController",
+                    "name": "MDDetailsController.js",
+                    "path": "js/UI/"
+                },
+                {
+                    "clsName": "ProtoUL.UI.MDPrintOptsController",
+                    "name": "MDPrintOptsController.js",
+                    "path": "js/UI/"
+                },
+                {
+                    "clsName": "ProtoUL.UI.MDSetFiltersController",
+                    "name": "MDSetFiltersController.js",
+                    "path": "js/UI/"
+                },
+                {
+                    "clsName": "ProtoUL.UI.MDSetSortersController",
+                    "name": "MDSetSortersController.js",
+                    "path": "js/UI/"
+                },
+                {
+                    "clsName": "ProtoUL.UI.MDSetTabsController",
+                    "name": "MDSetTabsController.js",
+                    "path": "js/UI/"
+                },
+                {
+                    "clsName": "ProtoUL.UI.MDTbSortByController",
+                    "name": "MDTbSortByController.js",
+                    "path": "js/UI/"
+                },
+                {
+                    "clsName": "ProtoUL.UI.TbMasterDetail",
+                    "name": "TbMasterDetail.js",
+                    "path": "js/UI/"
+                },
+                {
+                    "clsName": "ProtoUL.proto.ProtoDesigner",
+                    "name": "ProtoDesigner.js",
+                    "path": "js/proto/"
+                },
+                {
+                    "clsName": "ProtoUL.proto.ProtoDetailSelector",
+                    "name": "ProtoDetailSelector.js",
+                    "path": "js/proto/"
+                },
+                {
+                    "clsName": "ProtoUL.proto.ProtoFieldSelector",
+                    "name": "ProtoFieldSelector.js",
+                    "path": "js/proto/"
+                },
+                {
+                    "clsName": "ProtoUL.proto.ProtoPcl",
+                    "name": "ProtoPcl.js",
+                    "path": "js/proto/"
+                },
+                {
+                    "clsName": "ProtoUL.proto.ProtoPropertiesTools",
+                    "name": "ProtoPropertiesTools.js",
+                    "path": "js/proto/"
+                },
+                {
+                    "clsName": "ProtoUL.proto.ProtoToolBar",
+                    "name": "ProtoToolBar.js",
+                    "path": "js/proto/"
+                },
+                {
+                    "clsName": "ProtoUL.proto.ProtoTools",
+                    "name": "ProtoTools.js",
+                    "path": "js/proto/"
+                },
+                {
+                    "clsName": "ProtoUL.ux.FieldHtmlEditor",
+                    "name": "FieldHtmlEditor.js",
+                    "path": "js/ux/" 
+                },
+                {
+                    "clsName": "ProtoUL.ux.GridCheckColumn",
+                    "name": "GridCheckColumn.js",
+                    "path": "js/ux/"
+                },
+                {
+                    "clsName": "ProtoUL.ux.GridHeaderToolTip",
+                    "name": "GridHeaderToolTip.js",
+                    "path": "js/ux/"
+                },
+                {
+                    "clsName": "ProtoUL.ux.HelpQbe.js",
+                    "name": "HelpQbe.js",
+                    "path": "js/ux/"
+                },
+                {
+                    "clsName": "ProtoUL.ux.HtmlSet",
+                    "name": "HtmlSet.js",
+                    "path": "js/ux/"
+                },
+                {
+                    "clsName": "ProtoUL.ux.Login",
+                    "name": "Login.js",
+                    "path": "js/ux/"
+                },
+                {
+                    "clsName": "ProtoUL.ux.ParameterWin",
+                    "name": "ParameterWin.js",
+                    "path": "js/ux/"
+                },
+                {
+                    "clsName": "ProtoUL.ux.Printer",
+                    "name": "Printer.js",
+                    "path": "js/ux/"
+                },
+                {
+                    "clsName": "ProtoUL.ux.ProtoList",
+                    "name": "ProtoList.js",
+                    "path": "js/ux/"
+                },
+                {
+                    "clsName": "ProtoUL.ux.ProtoProperty",
+                    "name": "ProtoProperty.js",
+                    "path": "js/ux/"
+                },
+                {
+                    "clsName": "ProtoUL.ux.ProtoQBE",
+                    "name": "ProtoQBE.js",
+                    "path": "js/ux/"
+                },
+                {
+                    "clsName": "ProtoUL.ux.ProtoSearchBG",
+                    "name": "ProtoSearchBG.js",
+                    "path": "js/ux/"
+                },
+                {
+                    "clsName": "ProtoUL.ux.protoZoom",
+                    "name": "ProtoZoom.js",
+                    "path": "js/ux/" 
+                },
+                {
+                    "clsName": "ProtoUL.ux.StatusBar",
+                    "name": "StatusBar.js",
+                    "path": "js/ux/"
+                },
+                {
+                    "clsName": "ProtoUL.ux.TabCloseMenu",
+                    "name": "TabCloseMenu.js",
+                    "path": "js/ux/"
+                },
+                {
+                    "clsName": "ProtoUL.ux.TabScrollerMenu",
+                    "name": "TabScrollerMenu.js",
+                    "path": "js/ux/"
+                },
+                {
+                    "clsName": "Ext.ux.statusbar.ValidationStatus",
+                    "name": "ValidationStatus.js",
+                    "path": "js/ux/"
+                },
+                {
+                    "clsName": "Ext.ux.BoxReorderer",
+                    "name": "BoxReorderer.js",
+                    "path": "js/ux/"
+                },
+                {
+                    "clsName": "Ext.ux.ToolbarDroppable",
+                    "name": "ToolbarDroppable.js",
+                    "path": "js/ux/"
+                },
+                {
+                    "clsName": "ProtoUL.view.MenuTree",
+                    "name": "MenuTree.js",
+                    "path": "js/view/"
+                },
+                {
+                    "clsName": "ProtoUL.view.ProtoForm",
+                    "name": "ProtoForm.js",
+                    "path": "js/view/" 
+                },
+                {
+                    "clsName": "ProtoUL.view.ProtoGrid",
+                    "name": "ProtoGrid.js",
+                    "path": "js/view/"
+                },
+                {
+                    "clsName": "ProtoUL.view.ProtoMasterDetail",
+                    "name": "ProtoMasterDetail.js",
+                    "path": "js/view/" 
+                },
+                {
+                    "clsName": "ProtoUL.view.ProtoTabContainer",
+                    "name": "ProtoTabContainer.js",
+                    "path": "js/view/"
+                },
+                {
+                    "clsName": "ProtoUL.view.Viewport",
+                    "name": "Viewport.js",
+                    "path": "js/view/"
+                },
+                {
+                    "clsName": "ProtoUL.view.ComboBoxPrompt",
+                    "name": "ComboBoxPrompt.js",
+                    "path": "js/view/"
+                },
+                {
+                    "clsName": "ProtoUL.view.password.ForgotPasswordForm",
+                    "name": "ForgotPasswordForm.js",
+                    "path": "js/view/password/"
+                },
+                {
+                    "clsName": "ProtoUL.view.password.PasswordReset",
+                    "name": "PasswordReset.js",
+                    "path": "js/view/password/"
+                },
+                {
+                    "clsName": "ProtoUL.model.EntityAttributesModel",
+                    "name": "EntityAttributesModel.js",
+                    "path": "js/model/"
+                },
+                {
+                    "clsName": "ProtoUL.model.Diagram",
+                    "name": "Diagram.js",
+                    "path": "js/model/"
+                },
+                {
+                    "clsName": "ProtoUL.store.EntityAttributeStore",
+                    "name": "EntityAttributeStore.js",
+                    "path": "js/store/"
+                },
+                {
+                    "clsName": "ProtoUL.store.DBTypesStore",
+                    "name": "DBTypesStore.js",
+                    "path": "js/store/"
+                },
+                {
+                    "clsName": "ProtoUL.store.DiagramModelStore",
+                    "name": "DiagramModelStore.js",
+                    "path": "js/store/"
+                },
+                {
+                    "clsName": "ProtoUL.store.Diagrams",
+                    "name": "Diagrams.js",
+                    "path": "js/store/"
+                },
+                {
+                    "clsName": "ProtoUL.store.PortPositions",
+                    "name": "PortPositions.js",
+                    "path": "js/store/"
+                },
+                {
+                    "clsName": "ProtoUL.view.diagram.DiagramMenu",
+                    "name": "DiagramMenu.js",
+                    "path": "js/view/diagram/"
+                },
+                {
+                    "clsName": "ProtoUL.view.diagram.DiagramToolbar",
+                    "name": "DiagramToolbar.js",
+                    "path": "js/view/diagram/"
+                },
+                {
+                    "clsName": "ProtoUL.view.diagram.DiagramCanvas",
+                    "name": "DiagramCanvas.js",
+                    "path": "js/view/diagram/"
+                },
+                {
+                    "clsName": "ProtoUL.view.diagram.EntityAttributes",
+                    "name": "EntityAttributes.js",
+                    "path": "js/view/diagram/"
+                },
+                {
+                    "clsName": "ProtoUL.view.diagram.EntityEditor",
+                    "name": "EntityEditor.js",
+                    "path": "js/view/diagram/"
+                },
+                {
+                    "clsName": "ProtoUL.view.diagram.TableContextMenu",
+                    "name": "TableContextMenu.js",
+                    "path": "js/view/diagram/"
+                },
+                {
+                    "clsName": "ProtoUL.view.diagram.DatabaseMenu",
+                    "name": "DatabaseMenu.js",
+                    "path": "js/view/diagram/"
+                },
+                {
+                    "clsName": "ProtoUL.view.diagram.DiagramMainView",
+                    "name": "DiagramMainView.js",
+                    "path": "js/view/diagram/"
+                },
+                {
+                    "clsName": "ProtoUL.view.diagram.base.Grid",
+                    "name": "Grid.js",
+                    "path": "js/view/diagram/base/"
+                },
+                {
+                    "clsName": "ProtoUL.view.diagram.base.Form",
+                    "name": "Form.js",
+                    "path": "js/view/diagram/base/"
+                },
+                {
+                    "clsName": "ProtoUL.view.searchmodel.LiveSearchGridPanel",
+                    "name": "LiveSearchGridPanel.js",
+                    "path": "js/view/searchmodel/"
+                },
+                {
+                    "clsName": "ProtoUL.view.searchmodel.SearchBottomBar",
+                    "name": "SearchBottomBar.js",
+                    "path": "js/view/searchmodel/"
+                },
+                {
+                    "clsName": "ProtoUL.controller.PasswordManager",
+                    "name": "PasswordManager.js",
+                    "path": "js/controller/"
+                },
+                {
+                    "clsName": "ProtoUL.controller.DiagramController",
+                    "name": "DiagramController.js",
+                    "path": "js/controller/"
+                },
+                {
+                    "clsName": "ProtoUL.controller.DiagramMenuController",
+                    "name": "DiagramMenuController.js",
+                    "path": "js/controller/"
+                },
+                {
+                    "clsName": "ProtoUL.controller.DiagramContextMenuController",
+                    "name": "DiagramContextMenuController.js",
+                    "path": "js/controller/"
+                },
+                {
+                    "clsName": "ProtoUL.Application",
+                    "name": "Application.js",
+                    "path": "js/"
+                }
+            ]
+        },
+        {
+            "name": "Application - Production",
+            "target": "app-all.js",
+            "compress": true,
+            "files": [
+                {
+                    "path": "",
+                    "name": "all-classes.js"
+                },
+                {
+                    "path": "js/",
+                    "name": "app.js"
+                }
+            ]
+        }
+    ],
+    "resources": []
+}

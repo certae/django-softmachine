@@ -12,11 +12,11 @@
 	
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}testing/lib/jasmine-1.3.1/jasmine.css">
 
-    <script type="text/javascript" src="{{ STATIC_URL }}extjs/ext-dev.js"></script>
-
     <script type="text/javascript" src="{{ STATIC_URL }}testing/lib/jasmine-1.3.1/jasmine.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}testing/lib/jasmine-1.3.1/jasmine-html.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}testing/lib/jasmine-1.3.1/mock-ajax.js"></script>
 
+    <script type="text/javascript" src="{{ STATIC_URL }}extjs-4.2.x/ext-dev.js"></script>
 
     <script type="text/javascript" src="{{ STATIC_URL }}metaDefinition/pciObjects.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}metaDefinition/pciProperties.js"></script>
@@ -36,7 +36,7 @@
     <!-- include specs here -->
     <script type="text/javascript" src="{{ STATIC_URL }}testing/tests/example.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}testing/tests/LoginTest.js"></script>
-<!--     <script type="text/javascript" src="{{ STATIC_URL }}testing/tests/ViewportTest.js"></script> -->
+	<script type="text/javascript" src="{{ STATIC_URL }}testing/tests/DiagramEditorTest.js"></script>
 
     <!-- test launcher -->
     <script type="text/javascript" src="{{ STATIC_URL }}testing/app-test.js"></script>
