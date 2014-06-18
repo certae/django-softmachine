@@ -1,5 +1,5 @@
 import os
-from ProtoExt.settings import PPATH
+from softmachine.settings import PPATH
 
 DATABASES = {
     'default': {
@@ -14,23 +14,11 @@ ALLOWED_HOSTS = [
 ]
 
 
-if PPATH.startswith('/'):
-    EXT_PATH = '/u/data/ExtJs'
-else:
-    EXT_PATH = 'd:/data/ExtJs'
 
 # URL prefix for static files.
 STATIC_URL = '/static/'
 
 
-# Additional locations of static files ( Dev Only  ) 
-STATICFILES_DIRS = (
-    PPATH + '/static',
-    EXT_PATH
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-)
 
 
 INSTALLED_APPS = (

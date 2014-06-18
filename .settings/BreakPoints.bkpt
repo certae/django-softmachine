@@ -21,7 +21,7 @@
 </marker>
 </breakpoint>
 <breakpoint enabled="false" persistant="true" registered="true">
-<resource path="/protoExt/src/protoExt/protoConcept.py" type="1"/>
+
 <marker lineNumber="60" type="org.python.pydev.debug.pyStopBreakpointMarker">
 <attrib name="message" value="PyDev breakpoint"/>
 <attrib name="org.eclipse.debug.core.id" value="org.python.pydev.debug"/>

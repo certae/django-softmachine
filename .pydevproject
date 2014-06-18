@@ -6,7 +6,7 @@
 <key>DJANGO_MANAGE_LOCATION</key>
 <value>src/manage.py</value>
 <key>DJANGO_SETTINGS_MODULE</key>
-<value>ProtoExt.settings</value>
+<value>softmachine.settings</value>
 </pydev_variables_property>
 <pydev_pathproperty name="org.python.pydev.PROJECT_SOURCE_PATH">
 <path>/ProtoExt/src</path>

@@ -11,14 +11,14 @@
 		<meta name="author" content="CeRTAE U.Laval/ Dario Gomez">
 		{% endblock %}
 		{% csrf_token %}
-		
+
 		<!-- icon -->
 		<link rel="shortcut icon" href="laval.ico">
 
 		<!-- Ext JS Files -->
 		{% block extjs %}
-		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}extjs/resources/css/ext-all-gray.css">
-		<script type="text/javascript" src="{{ STATIC_URL }}extjs/ext-all-debug.js"></script>
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}resources/css/ext-all-gray.css">
+		<script type="text/javascript" src="{{ STATIC_URL }}ext-all-debug.js"></script>
 		{% endblock %}
 
 		{% block defaultstylesheets %}
@@ -32,9 +32,13 @@
 		<script type="text/javascript" src="{{ STATIC_URL }}metaDefinition/pciProperties.js"></script>
 
 		<script type="text/javascript" src="{{ STATIC_URL }}js/globals/variables.js"></script>
+
+
 		{% block configproperties %}
 		<script type="text/javascript" src="{{ STATIC_URL }}js/globals/configProperties.js"></script>
 		{% endblock %}
+
+
 		<script type="text/javascript" src="{{ STATIC_URL }}js/globals/Tools.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/globals/ProtoStore.js"></script>
 
@@ -61,10 +65,10 @@
                 }
             };
 
-            // Insert src attribute to extlocale and protolocale
+            // Insert src attribute to extlocale and protolocale  ( extjs )
             if (locale) {
                 Ext.fly('extlocale').set({
-                    src: '{{ STATIC_URL }}extjs/locale/ext-lang-' + locale + '.js'
+                    src: '{{ STATIC_URL }}locale/ext-lang-' + locale + '.js'
                 });
                 Ext.fly('protolocale').set({
                     src: '{{ STATIC_URL }}js/globals/locale/SM__lang-' + locale + '.js'
@@ -119,10 +123,11 @@
 		<script type="text/javascript" src="{{ STATIC_URL }}js/view/ProtoForm.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/view/ProtoTabContainer.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/view/Viewport.js"></script>
-		
+
 		{% block extjsloader %}{% endblock %}
 		<script type="text/javascript" src="{{ STATIC_URL }}js/app.js"></script>
 		{% block javascript %}{% endblock %}
+
 	</head>
 	<body></body>
 </html>

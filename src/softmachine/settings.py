@@ -8,10 +8,10 @@ PPATH = os.path.abspath( os.path.join( os.path.dirname(__file__), os.pardir )).r
 if ('/src' in PPATH):
     PPATH = os.path.abspath(os.path.join( PPATH, os.pardir )).replace('\\','/')
 
-# Django settings for debugger 
+# Django settings for debugger
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-  
+
 ADMINS = (
      ('Dario Gomez', 'dariogomezt@gmail.com'),
 )
@@ -54,17 +54,17 @@ USE_TZ = True
 SITE_ID = 1
 
 
-# A boolean that specifies whether to display numbers using a thousand separator. 
-# When USE_L10N is set to True and if this is also set to True, 
+# A boolean that specifies whether to display numbers using a thousand separator.
+# When USE_L10N is set to True and if this is also set to True,
 # Django will use the values of THOUSAND_SEPARATOR and NUMBER_GROUPING to format numbers.
 USE_THOUSAND_SEPARATOR = True
 NUMBER_GROUPING = 1
 
-#TOVerify 
+#TOVerify
 #DECIMAL_SEPARATOR = '.'
 #THOUSAND_SEPARATOR = ','
 
-# ------------------    UPLOAD MEDIA 
+# ------------------    UPLOAD MEDIA
 
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
@@ -78,7 +78,7 @@ FILE_UPLOAD_PERMISSIONS = 0644
 MEDIA_URL = '/media/'
 
 
-# ------------------    STATIC 
+# ------------------    STATIC
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
@@ -92,10 +92,13 @@ TEMPLATE_DIRS = (
 )
 
 if PPATH.startswith('/'):
-    EXT_PATH = '/opt/data/ExtJs'
+    EXT_PATH = '/u/data/ExtJs/extjs-4.2.x'
 else:
-    EXT_PATH = 'd:/data/ExtJs'
+    EXT_PATH = 'd:/data/ExtJs/extjs-4.2.x'
 
+# STATICFILES_DIRS: Put strings here, like "/home/html/static" or "C:/www/django/static".
+# Always use forward slashes, even on Windows.
+# Don't forget to use absolute paths, not relative paths.
 STATICFILES_DIRS = (
     PPATH + '/static',
     PPATH + '/src/protoLib/static',

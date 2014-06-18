@@ -1,4 +1,4 @@
-from ProtoExt.settings import PPATH
+from softmachine.settings import PPATH
 # DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.mysql',
