@@ -13,11 +13,10 @@ DATABASES = {
 ALLOWED_HOSTS = [
     'localhost', # Allow domain and subdomains
     '127.0.0.1',
-    '132.203.51.6',
 ]
 
 
-WSGI_APPLICATION = 'ProtoExt.wsgi.application'
+WSGI_APPLICATION = 'softmachine.wsgi.application'
 
 # URL prefix for static files.  ( Relative for prod )  
 # Example: "http://media.lawrence.com/static/"
