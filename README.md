@@ -38,7 +38,7 @@ SoftMachine can be installed and used in two ways:
 * graphviz ([OPTION] For export database diagram)
 * south ([OPTION] For export database migration)
 
-### <i class="icon-download"></i> Install using PIP
+### <i class="icon-download"></i> Install using pip
 SoftMachine is best installed via PyPI. To install the latest version, run:
 ```
 pip install django-softmachine
