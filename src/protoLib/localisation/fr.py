@@ -264,5 +264,10 @@ __language ={
     'Message_Add_Table_Canvas' : 'Chargement ...',
     
     'Warning_Delete_Active_Diagram' : 'Vous ne pouvez pas supprimer le diagramme actif!',
-    'Warning_Diagram_Already_Open' : 'Le diagramme sélectionné est déjà ouvert!'
+    'Warning_Diagram_Already_Open' : 'Le diagramme sélectionné est déjà ouvert!',
+    
+    'Label_Left': 'Gauche',
+    'Label_Right': 'Droite',
+    'Label_Top': 'Haut',
+    'Label_Bottom': 'Bas'
 }

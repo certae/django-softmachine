@@ -6,11 +6,16 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.contrib.contenttypes.models import ContentType
+
 from django.db.models.signals import post_save
 
 from protoLib.fields import JSONField, JSONAwareManager
 from protoLib.utils.modelsTools import  getDjangoModel, getNodeHierarchy
+
+from datetime import datetime
 import uuid
+
+
 
 class TeamHierarchy(models.Model):
 # Jerarquia funcional ( de seguridad ) de la app
@@ -104,10 +109,10 @@ class ProtoModel(models.Model):
     smModifiedOn = models.DateTimeField(auto_now=True , null=True, blank=True, editable=False)
 
     smUUID = models.CharField( max_length=32, null=True, blank=True, editable=False)
-    
+
     # DGT: Doc Json con definiciones adicionales
     # smConfig = models.TextField( blank = True, null = True)
-    
+
     # Security indicator used to control permissions
     _protoObj = True
 
@@ -116,24 +121,35 @@ class ProtoModel(models.Model):
 
 
     def save(self, *args, **kwargs):
-        """
-        Get last value of Code and Number from database, and increment before save
-        DGT: Upgrade to secuences 
-        """
+
+        # Insert 
+        if not self.pk:
+
+            # Date Creation 
+            setattr(self, 'smCreatedOn', datetime.now())
+
+            """
+            Get last value of Code and Number from database, and increment before save
+            DGT: Upgrade to secuences 
+            """
+            if hasattr(self , "_autoIncrementField") :
+                _autoIncrementField = getattr(self, "_autoIncrementField")
+                model = self.__class__
+                top = model.objects.order_by('-pk')
+                if top:
+                    setattr(self, _autoIncrementField, top[0].pk + 1)
+                else:
+                    setattr(self, _autoIncrementField, 1)
+
+        # UUID 
         if not self.smUUID:
             self.smUUID = uuid.uuid1().hex
-        
-        if hasattr(self , "_autoIncrementField") and not self.pk:
-            _autoIncrementField = getattr(self, "_autoIncrementField")
-            model = self.__class__
-            top = model.objects.order_by('-pk')
-            if top:
-                setattr(self, _autoIncrementField, top[0].pk + 1)
-            else:
-                setattr(self, _autoIncrementField, 1)
 
-        
+        # DateModif 
+        setattr(self, 'smModifiedOn', datetime.now())
+
         super(ProtoModel, self).save(*args, **kwargs)
+
 
 class EntityMap(models.Model):
     """
@@ -316,6 +332,7 @@ class ParametersBase(ProtoModel):
         return self.parameterKey + '.' + self.parameterValue
 
 
+
 class PtFunction(models.Model):
     """ TODO : En esta tabla se guardan funciones q seran ejectudas dinamicamente
         deben reespetar la syntaxis python y se precargaran con funcione de base 
@@ -341,6 +358,7 @@ class PtFunction(models.Model):
 
     def __unicode__(self):
         return self.code + '.' + self.tag
+
 
 
 class WflowAdminResume(ProtoModel):
@@ -377,3 +395,73 @@ class WflowUserReponse(ProtoModel):
 
     def __unicode__(self):
         return self.viewEntity
+
+
+
+LOG_TYPE = (
+    ('INF', 'INFO'),
+    ('WAR', 'WARNING'),
+    ('ERR', 'ERROR'),
+
+    ('INS', 'INSERT'),
+    ('UPD', 'UPDAT'),
+    ('DEL', 'DELET'),
+)
+
+
+class Logger(models.Model):
+    smCreatedBy = models.ForeignKey(User, null=True, blank=True, related_name='+', editable=False)
+    smCreatedOn = models.DateTimeField(auto_now=True , null=True, blank=True, editable=False)
+    smOwningTeam = models.ForeignKey(TeamHierarchy, null=True, blank=True, related_name='+', editable=False)
+
+    logType = models.CharField(max_length=3, choices= LOG_TYPE, default= 'INF')
+    logObject = models.CharField(max_length=250, null=True, blank=True )
+    logNotes = models.CharField(max_length=250, null=True, blank=True )
+
+    logInfo = models.TextField(blank=True, null=True)
+
+    """Long proccess runing"""
+    logKey = models.CharField(max_length=5, choices= LOG_TYPE, default= '')
+
+    def __unicode__(self):
+        return self.logType + '.' +  self.logObject 
+
+    protoExt = {
+        "actions": [
+            { "name": "doClearLog",
+              "selectionMode" : "none",
+              "refreshOnComplete" : True
+            },
+        ]
+    }
+
+
+def logEvent( logObject, logInfo, logUser, logTeam, logNotes = '', logType = 'INF', logKey = ''):
+
+    import json
+    from utilsBase import JSONEncoder
+
+    dLog = Logger()
+
+    setattr(dLog, 'smCreatedBy', logUser )
+    setattr(dLog, 'smOwningTeam', logTeam )
+    setattr(dLog, 'smCreatedOn', datetime.now())
+
+    setattr(dLog, 'logInfo', json.dumps(logInfo, cls=JSONEncoder)  )
+
+    if logType: 
+        setattr(dLog, 'logType', logType )
+
+    if logObject:
+        setattr(dLog, 'logObject', logObject )
+
+    if logNotes: 
+        setattr(dLog, 'logNotes', logNotes )
+
+    if logKey: 
+        setattr(dLog, 'logKey', logKey )
+
+    try: 
+        dLog.save()
+    except: 
+        pass  

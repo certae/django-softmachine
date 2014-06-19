@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		{% block sitetitle %}
+		<title>Proto Certae</title>
+		{% endblock %}
+
+		{% block meta %}
+		<meta name="description" content="">
+		<meta name="author" content="CeRTAE U.Laval/ Dario Gomez">
+		{% endblock %}
+		{% csrf_token %}
+		
+		<!-- icon -->
+		<link rel="shortcut icon" href="laval.ico">
+
+		<!-- Ext JS Files -->
+		{% block extjs %}
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}extjs/resources/css/ext-all-gray.css">
+		<script type="text/javascript" src="{{ STATIC_URL }}extjs/ext-all-debug.js"></script>
+		{% endblock %}
+
+		{% block defaultstylesheets %}
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/app.css">
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/designer.css">
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/statusbar.css">
+		{% endblock %}
+		{% block extrastylesheets %}{% endblock %}
+
+		<script type="text/javascript" src="{{ STATIC_URL }}metaDefinition/pciObjects.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}metaDefinition/pciProperties.js"></script>
+
+		<script type="text/javascript" src="{{ STATIC_URL }}js/globals/variables.js"></script>
+		{% block configproperties %}
+		<script type="text/javascript" src="{{ STATIC_URL }}js/globals/configProperties.js"></script>
+		{% endblock %}
+		<script type="text/javascript" src="{{ STATIC_URL }}js/globals/Tools.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/globals/ProtoStore.js"></script>
+
+		<!-- load i18n files on the fly -->
+		<script type="text/javascript" id="extlocale"></script>
+		<script type="text/javascript" id="protolocale"></script>
+		<script type="text/javascript">
+			getParams = '{{ isPasswordReseted }}';
+			window.isPasswordReseted = getParams;
+            // get the system language
+            var userLang = '{{LANGUAGE_CODE}}';
+            if (/en-[US|us]/.test(userLang)) {
+                userLang = 'en';
+            }
+            // available locale files
+            var locales = ['fr', 'es', 'en'];
+            // default locale
+            var locale = 'fr';
+            // check browser language against available locale files
+            for (var i = locales.length - 1; i >= 0; i--) {
+                if (userLang === locales[i]) {
+                    locale = userLang;
+                    break;
+                }
+            };
+
+            // Insert src attribute to extlocale and protolocale
+            if (locale) {
+                Ext.fly('extlocale').set({
+                    src: '{{ STATIC_URL }}extjs/locale/ext-lang-' + locale + '.js'
+                });
+                Ext.fly('protolocale').set({
+                    src: '{{ STATIC_URL }}js/globals/locale/SM__lang-' + locale + '.js'
+                });
+            }
+		</script>
+		<!-- ==== i18n ==== -->
+
+        <script type="text/javascript" src="{{ STATIC_URL }}js/UI/DetailButton.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/UI/TbMasterDetail.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/UI/FormController.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/UI/GridController.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/UI/GridSheetController.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/UI/ConfigController.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/UI/WinGridController.js"></script>
+
+		<script type="text/javascript" src="{{ STATIC_URL }}js/UI/MDTbSortByController.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/UI/MDDetailsController.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/UI/MDPrintOptsController.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/UI/MDActionsController.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/UI/MDSetFiltersController.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/UI/MDSetSortersController.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/UI/MDSetTabsController.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/UI/MDLinkController.js"></script>
+
+		<script type="text/javascript" src="{{ STATIC_URL }}js/proto/ProtoFieldSelector.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/proto/ProtoDesigner.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/proto/ProtoPcl.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/proto/ProtoToolBar.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/proto/ProtoTools.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/proto/ProtoPropertiesTools.js"></script>
+
+		<script type="text/javascript" src="{{ STATIC_URL }}js/ux/ProtoZoom.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/ux/GridHeaderToolTip.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/ux/GridCheckColumn.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/ux/FieldHtmlEditor.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/ux/ProtoSearchBG.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/ux/StatusBar.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/ux/Login.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/ux/ProtoList.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/ux/HtmlSet.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/ux/ParameterWin.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/ux/ProtoProperty.js"></script>
+
+		<script type="text/javascript" src="{{ STATIC_URL }}js/ux/ProtoQBE.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/ux/HelpQbe.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/ux/ToolbarDroppable.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/ux/BoxReorderer.js"></script>
+
+		<script type="text/javascript" src="{{ STATIC_URL }}js/view/ProtoGrid.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/view/ProtoMasterDetail.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/view/ProtoForm.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/view/ProtoTabContainer.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}js/view/Viewport.js"></script>
+		
+		{% block extjsloader %}{% endblock %}
+		<script type="text/javascript" src="{{ STATIC_URL }}js/app.js"></script>
+		{% block javascript %}{% endblock %}
+	</head>
+	<body></body>
+</html>

@@ -24,7 +24,7 @@ describe('ProtoUL.store.Diagrams', function() {
     it('calls out to the proper listDiagrams url', function() {
         store.load();
         var request = jasmine.Ajax.requests.mostRecent();
-        expect(request.url).toMatch('protoLib/listDiagrams/');
+        expect(request.url).toMatch('protoDiagram/listDiagrams/');
     });
     
     it('New item should be added to store', function() {
@@ -55,12 +55,12 @@ describe('ProtoUL.controller.DiagramController', function() {
         controller.init();
     });
     
-    it("test createPort", function () {
-       spyOn(controller, 'createPort');
+    it("test createEntityAttribute", function () {
+       spyOn(controller, 'createEntityAttribute');
    
-       var port = controller.createPort("draw2d_InputPort","default");
+       var port = controller.createEntityAttribute('attribute', 'id', 'pk', 'fk', 'string');
    
-       expect(controller.createPort).toHaveBeenCalled();
-       expect(controller.createPort).toHaveBeenCalledWith("draw2d_InputPort","default");
+       expect(controller.createEntityAttribute).toHaveBeenCalled();
+       expect(controller.createEntityAttribute).toHaveBeenCalledWith('attribute', 'id', 'pk', 'fk', 'string');
    });
 });

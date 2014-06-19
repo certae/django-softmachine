@@ -1,0 +1,9 @@
+include docs/LICENSE.md
+include README.md
+recursive-include src/protobase *.py *.html *.js
+recursive-include src/protoLib *.py
+recursive-include src/prototype *.py
+recursive-include src/dbDesigner *.py
+recursive-include src/protobase/static *
+recursive-include src/protobase/templates *
+recursive-include docs *

@@ -30,7 +30,11 @@ def createDiagram(request):
     projectID = attributes['projectID']
     try:
         project = Project.objects.get(id=projectID)
-        diagram = Diagram.objects.create(project=project,code=code,smOwningTeam=project.smOwningTeam,smOwningUser=user,smCreatedBy=user)
+        diagram = Diagram.objects.create(project=project,
+                                         code=code,
+                                         smOwningTeam=project.smOwningTeam,
+                                         smOwningUser=user,
+                                         smCreatedBy=user)
     except Exception as e:
         return JsonError(e)
     
@@ -49,6 +53,7 @@ def saveDiagram(request):
     jsonFile = json.loads(request.body)
     jsonString = JSONEncoder().encode(jsonFile)
     jsonString = '{"objects":'+jsonString+'}'
+    # TODO save DiagramEntity for each UUID (table inside jsonString)
     try:
         diagram = Diagram.objects.get(id=diagramID)
         diagram.info = jsonString
