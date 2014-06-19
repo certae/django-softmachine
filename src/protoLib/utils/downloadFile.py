@@ -3,9 +3,8 @@
 import mimetypes
 import os
 
-
-from softmachine.settings import PPATH
-from django.http import  HttpResponse
+from django.conf import settings
+from django.http import HttpResponse
 from django.utils.http import http_date
 
 from protoLib.utilsWeb import JsonError
@@ -43,4 +42,5 @@ def getFile(request, path ):
 
 
 def getFullPath( request, filename ):
+	PPATH = settings.PPATH
     return os.path.join( PPATH , 'output', request.user.username + '.' + filename )

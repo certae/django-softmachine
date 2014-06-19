@@ -122,7 +122,7 @@ Ext.define('ProtoUL.view.Viewport', {
 
             xtype: 'menuTree'
 
-            // ---------------------  manejo de favoritos
+            // ---------------------  Do not delete 
             // layout: 'accordion',
             // items: [{
                 // // title: 'Menu',

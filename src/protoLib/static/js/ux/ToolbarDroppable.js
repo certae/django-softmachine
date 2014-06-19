@@ -76,7 +76,6 @@
             items = toolbar.items.items,
             count = items.length,
             xHover = e.getXY()[0],
-            index = 0,
             el, xTotal, width, midpoint;
  
         for (index = 0; index < count; index++) {
