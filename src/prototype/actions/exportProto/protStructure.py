@@ -1,122 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
-_PROTOSTRUCTURE =
-{
-  "version"  :"140222",
-
-  "Project" : {
-      "properties" : ["code","description","dbEngine","dbName","dbUser","dbPassword","dbHost","dbPort"],
-      "details" : ["Model", ],
-   },
-
-
-  "Model" :{
-      "properties" : ["code","category","modelPrefix","description"],
-      "references" : ["projet"],
-      "details" : ["Entity"],
-    }
-
-  "Entity" :{
-      "properties" : ["code","dbName","description"],
-      "references" : ["model"],
-      "details" : ["Property" ],
-    }
-
-
-  "Property" :{
-      "properties" : [
-        "code","baseType","prpLength","prpScale",
-        "prpDefault","prpChoices", "vType",
-        "isReadOnly","isRequired","isNullable",
-        "isPrimary","isLookUpResult", "isSensitive","isEssential", 
-        "crudType","dbName",
-        "description","notes",
-      ],
-      "where" : [ "isForeign" : False ], 
-      "references" : ["entity"],
-      "details" : [],
-    }
-
-  "Relationship" :{
-      "properties" : [
-        "code", "relatedName", "isForeign", "prpDefault",
-        "baseMin", "baseMax", "refMin", "refMax", "onRefDelete", "typeRelation",
-        "isReadOnly","isRequired","isNullable",
-        "isPrimary","isLookUpResult", "isSensitive","isEssential", 
-        "crudType","dbName",
-        "description","notes",
-      ],
-      "references" : ["entity", "refEntity", ],
-      "details" : [],
-    }
-
-
-
-  "PropertyModel" :{
-      "properties" : [
-      ],
-      "references" : ["model"],
-      "details" : ["Property"],
-    }
-
-
-"PropertyEquivalence",
-"sourceProperty",
-"targetProperty",
-"description",
-
-
-
-"Prototype",
-"entity",
-"code",
-"description",
-"notes ",
-"metaDefinition",
-
-
-"ProtoTable",
-"entity",
-"info",
-"      ",
-
-"Diagram",
-"model",
-"code",
-"description",
-"notes ",
-"info",
-
-
-"DiagramEntity",
-"diagram",
-"entity",
-"info",
-
-
-
-"Service",
-"model",
-"code",
-"Binding",
-"typeMessage",
-"description",
-"notes ",
-"infoMesage",
-"infoRequest",
-"infoReponse",
-
-
-"ServiceRef",
-"model",
-"service",
-"endpoint",
-"description",
-"notes ",
-
-
-
 ''' 
 Exportar vistas
 '''
@@ -138,13 +21,13 @@ def exportProtoJson(request, pModel ):
     for pEntity in pModel.entity_set.all():
 
         # Do not delete ( dgt )
-       cEntity = {
+        cEntity = {
           'code'  : pEntity.code,
           'entity' :  getClassName( pEntity.code ),
           'fullName' : cViews['model' ] + '.' + getClassName( pEntity.code ), 
 #          'properties' : {},  
           'prototypes' : {},  
-       } 
+        } 
 
         cViews['entities'][ cEntity['code'] ]  = cEntity 
 
@@ -202,65 +85,64 @@ def exportProtoJson(request, pModel ):
             # Migration proto - App
             sAux = pPrototype.metaDefinition.replace("info__","").replace("-","_" )
             sAux = sAux.replace("prototype.ProtoTable.","" ) 
-           sAux = sAux.replace( '"' + slugify(pModel.code, '_') + '_', '"' + cViews['model' ] + '.' )
+            sAux = sAux.replace( '"' + slugify(pModel.code, '_') + '_', '"' + cViews['model' ] + '.' )
              
-           cProto = json.loads( sAux )
+            cProto = json.loads( sAux )
 
             # Propiedades de base
             try:
                 del cProto[ 'jsonField' ]
                 del cProto[ 'protoEntity' ] 
-               del cProto[ 'protoEntityId' ]
+                del cProto[ 'protoEntityId' ]
                 del cProto['__ptType']
             except:
-               pass
+                pass
               
-           cProto[ 'localSort' ] = False
-           cProto[ 'viewIcon' ]  = 'icon-1'
+            cProto[ 'localSort' ] = False
+            cProto[ 'viewIcon' ]  = 'icon-1'
             cProto[ 'viewEntity' ] = cEntity[ 'fullName']
           
-           # Elimina campos de control de prototypos y redirecciona zooms 
-           newFields = []
-           for fld in cProto['fields'] :
-               if fld['name'] in [ 'entity', 'entity_id', 'info' ]:
-                   continue
+            # Elimina campos de control de prototypos y redirecciona zooms 
+            newFields = []
+            for fld in cProto['fields'] :
+                if fld['name'] in [ 'entity', 'entity_id', 'info' ]:
+                    continue
                 if fld['name'] == '__str__':  
-                   try:
-                       del fld['cpFromZoom']
+                    try:
+                        del fld['cpFromZoom']
                         del fld['cpFromField']
                         del fld['physicalName']
                     except:
-                       pass 
+                        pass 
 
                 try:
-                   del fld['__ptType']
+                    del fld['__ptType']
                 except: pass
-               newFields.append( fld )
+                newFields.append( fld )
            
-           cProto['fields'] = newFields
+            cProto['fields'] = newFields
           
-           cPrototype =  {
+            cPrototype =  {
                 'code'           : pPrototype.code,
                'description'    : pPrototype.description,
                 'notes'          : cEntity[ 'fullName'],
                 'metaDefinition' : cProto 
-           }
+            }
           
-           cEntity['prototypes'][ cPrototype['code'] ]  = cPrototype  
+            cEntity['prototypes'][ cPrototype['code'] ]  = cPrototype  
 
             # Creacion de la vista
-           try:
+            try:
                 protoDef  = ProtoDefinition.objects.get_or_create(code = cProto[ 'viewCode' ] )[0]
                 protoDef.active = True
-               protoDef.overWrite = False
-               protoDef.description  = cEntity.get('fullName','')  + ' - '  + cProto.get('viewCode','')  + '<br>'
+                protoDef.overWrite = False
+                protoDef.description  = cEntity.get('fullName','')  + ' - '  + cProto.get('viewCode','')  + '<br>'
                 protoDef.description += cProto.get('shortTitle','')   + '<br>' + cProto.get( 'description','')   
 
                 protoDef.metaDefinition = json.dumps( cProto, cls = JSONEncoder )
-               protoDef.save()  
+                protoDef.save()  
       
-           except :
+            except :
                 pass 
-
 
     return json.dumps( cViews , cls = JSONEncoder , sort_keys= True, indent = 4, separators=(',', ':') )

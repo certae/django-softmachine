@@ -1,0 +1,9 @@
+.title {
+    font-family: Arial, sans-serif;
+    color: #596F8F;
+    font-size: 22px;
+    font-weight: 200;
+    padding: 20px 15px 30px 200px;
+    text-shadow: 0 1px 0 #fff;
+    background: url(../img/logo.png) no-repeat 1px 16px ;
+}

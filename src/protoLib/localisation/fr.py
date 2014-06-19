@@ -239,7 +239,7 @@ __language ={
     'Text_ZoomIn_Button' : 'Zoom avant',
     'Text_ZoomOut_Button' : 'Zoom arrière',
     'Text_Save_Diagram_Button' : 'Enregistrer diagramme',
-    'Text_Commit_Changes_Button' : 'Valider les modifications',
+    'Text_Commit_Changes_Button' : 'Mettre à jour la base de données',
     'Text_Add_Button' : 'Ajouter',
     'Text_UpdateDiagram_Button' : 'Mettre à jour le diagramme',
     'Text_OpenDiagram_Button' : 'Ouvrir diagramme',
@@ -253,6 +253,10 @@ __language ={
     'Title_Work_Diagram' : 'Diagramme de travail: ',
     'Title_Diagrams' : 'Diagrammes',
     
+    'Label_Dependency':'Dépendance',
+    'Label_Table_Name':'Nom de la table',
+    'Label_Connector_Name':'Nom du connecteur',
+    
     'Message_Saving_Data' : 'Sauvegarde de vos données, veuillez patienter s\'il vous plaît...',
     'Message_Creating_Objects' : 'Création d\'objets dans la base de données, veuillez patienter s\'il vous plaît...',
     'Message_Diagram_Synchronized' : 'Le diagramme a été synchronisé!',
@@ -260,5 +264,10 @@ __language ={
     'Message_Add_Table_Canvas' : 'Chargement ...',
     
     'Warning_Delete_Active_Diagram' : 'Vous ne pouvez pas supprimer le diagramme actif!',
-    'Warning_Diagram_Already_Open' : 'Le diagramme sélectionné est déjà ouvert!'
+    'Warning_Diagram_Already_Open' : 'Le diagramme sélectionné est déjà ouvert!',
+    
+    'Label_Left': 'Gauche',
+    'Label_Right': 'Droite',
+    'Label_Top': 'Haut',
+    'Label_Bottom': 'Bas'
 }

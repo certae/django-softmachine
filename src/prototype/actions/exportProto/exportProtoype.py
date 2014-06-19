@@ -12,12 +12,12 @@
 #   return file_str.getvalue()
   
   
-from prototype.actions.pttActionTools import  TypeEquivalence  
+from prototype.actions.pttActionTools import TypeEquivalence  
 from protoLib.utilsBase import slugify, repStr, getClassName
 from cStringIO import StringIO
 
 
-def exportPrototypeModel(request, pModel ):
+def exportPrototypeModel(request, pModel):
 
     strModel = StringIO()        
     modelCode = slugify(pModel.code, '_')

@@ -1,4 +1,6 @@
 from django.conf.urls import patterns, url
+from django.views.generic import TemplateView
+from protoLib.utils.generic_views import DirectTemplateView
 
 from protoLib.protoMenu import protoGetMenuData
 from protoLib.protoGetPci import protoGetPCI, protoSaveProtoObj, protoGetFieldTree, getFieldIncrement
@@ -9,12 +11,13 @@ from protoLib.protoActionList import protoList
 from protoLib.protoActionRep  import sheetConfigRep, protoCsv
 from protoLib.protoActionEdit  import protoCreate, protoUpdate, protoDelete
 from protoLib.protoActions  import protoExecuteAction
-from protoLib.protoDiagram import getEntitiesJSONDiagram, synchDBFromDiagram, getElementsDiagramFromSelectedTables, synchDiagramFromDB, getDefaultDiagram
-from protoLib.protoDiagramEntity import saveDiagram, listDiagrams, createDiagram, deleteDiagram, openDiagram
 
 from protoLib.utils.loadFile import loadFiles
 
 urlpatterns = patterns('',
+    url(r'^protoExt$', TemplateView.as_view(template_name='protoExt.html')),
+    url(r'^protoExtReset$', DirectTemplateView.as_view(template_name='protoExt.html',extra_context={ 'isPasswordReseted': True })),
+    
     url('protoList/$', protoList),
     url('sheetConfigRep/$', sheetConfigRep),
     url('protoCsv/$', protoCsv),
@@ -38,17 +41,5 @@ urlpatterns = patterns('',
     url('protoLogout/$', protoLogout),
 
     url('getFieldIncrement/$', getFieldIncrement),
-    
-    url('loafFile/$', loadFiles),
-    
-    url('getEntitiesJSONDiagram/$', getEntitiesJSONDiagram),
-    url('synchDBFromDiagram/$', synchDBFromDiagram),
-    url('synchDiagramFromDB/$', synchDiagramFromDB),
-    url('getElementsDiagramFromSelectedTables/$', getElementsDiagramFromSelectedTables),
-    url('getDefaultDiagram/$',getDefaultDiagram),
-    url('saveDiagram/$',saveDiagram),
-    url('listDiagrams/$', listDiagrams),
-    url('createDiagram/$', createDiagram),
-    url('deleteDiagram/$', deleteDiagram),
-    url('openDiagram/$',openDiagram),
+    url('loadFile/$', loadFiles),
 )

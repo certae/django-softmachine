@@ -3,9 +3,9 @@
 *.pyo
 *.bak
 .deployables
-static/pruebas/tmp.js
-static/extjs-4.1.x
-static/extjs-4.2.x
-static/extjs
-static/all-classes.js
 coverage.xml
+django_softmachine.egg-info
+dist
+.project
+.pydevproject
+.settings

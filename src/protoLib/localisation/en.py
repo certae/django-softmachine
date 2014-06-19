@@ -253,6 +253,10 @@ __language ={
     'Title_Work_Diagram' : 'Work diagram: ',
     'Title_Diagrams' : 'Diagrams',
     
+    'Label_Dependency':'Dependency',
+    'Label_Table_Name':'Table name',
+    'Label_Connector_Name':'Connector name',
+    
     'Message_Saving_Data' : 'Saving your data, please wait...',
     'Message_Creating_Objects' : 'Creating objects in Database, please wait...',
     'Message_Diagram_Synchronized' : 'The diagram has been synchronized!',
@@ -260,5 +264,10 @@ __language ={
     'Message_Add_Table_Canvas' : 'Adding tables to canvas, please wait...',
     
     'Warning_Delete_Active_Diagram' : 'You cannot delete the active diagram!',
-    'Warning_Diagram_Already_Open' : 'The selected diagram is already opened!'
+    'Warning_Diagram_Already_Open' : 'The selected diagram is already opened!',
+    
+    'Label_Left': 'Left',
+    'Label_Right': 'Right',
+    'Label_Top': 'Top',
+    'Label_Bottom': 'Bottom'
 }
