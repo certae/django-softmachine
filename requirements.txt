@@ -3,5 +3,6 @@ south
 coverage==3.7
 docopt==0.6.1
 unittest-xml-reporting==1.0.3
+pygraphviz
 django-xadmin
 django-crispy-forms
