@@ -89,7 +89,7 @@ def protoGetPasswordRecovery(request):
     return HttpResponseRedirect('/')
 
 def resetpassword(request):
-    link = '../../protoExtReset'
+    link = '../protoExtReset'
     if request.GET.get('a') and request.GET.get('t'):
         user = User.objects.get(pk = request.GET['a'])
         token = user_token(user)

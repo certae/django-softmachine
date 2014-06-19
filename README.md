@@ -51,6 +51,7 @@ Edit your **settings.py** file and add `protoLib` and `prototypeur` to your `INS
 ```python
 INSTALLED_APPS = (
     ...
+    'protobase',
     'protoLib',
     'prototype',
     'myapp',

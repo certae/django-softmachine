@@ -13,12 +13,11 @@ django.contrib.admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^admin/', include(django.contrib.admin.site.urls)) ,
 #     url(r'^admin/', include(xadmin.site.urls)),
-
-    url(r'^', include('protoLib.urls')),
     url(r'^main$', TemplateView.as_view(template_name='index.html')),
     url(r'^debug$', TemplateView.as_view(template_name='debug.html')),
+
+    url(r'^protoLib/', include('protoLib.urls')),
     url(r'^protoDiagram/', include('dbDesigner.urls')),
-#     url(r'^rai/', include('rai.urls')),
 
 #    Use for production instalation and for load json configuration files
     url(r'static/(?P<path>.*)$', 'django.views.static.serve',{'document_root': PPATH + '/static'}),
