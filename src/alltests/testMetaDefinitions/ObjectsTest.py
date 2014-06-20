@@ -3,9 +3,6 @@
 from django.test import TestCase
 import json
 
-from prototype.models import Project, Model, Entity, Property, Relationship, PropertyEquivalence, ProtoTable, Prototype
-from protoLib.models import TeamHierarchy, CustomDefinition, ProtoDefinition, DiscreteValue
-
 
 import os
 module_dir = os.path.dirname(__file__)  # get current directory
@@ -65,6 +62,34 @@ def checkAllFields(modelclass):
 
     return True
 
+# -----------------------------------
+
+
+from protoLib.models import TeamHierarchy, ProtoDefinition, CustomDefinition, DiscreteValue
+
+class TeamHierarchyStructureTest(TestCase):
+    def test_field_and_value(self):
+        self.assertFalse(checkAllFields(TeamHierarchy))  # Value is not in MetaObjects
+
+
+class ProtoDefinitionStructureTest(TestCase):
+    def test_field_and_value(self):
+        self.assertTrue(checkAllFields(ProtoDefinition))
+
+
+class CustomDefinitionStructureTest(TestCase):
+    def test_field_and_value(self):
+        self.assertTrue(checkAllFields(CustomDefinition))
+
+
+class DiscreteValueStructureTest(TestCase):
+    def test_field_and_value(self):
+        self.assertTrue(checkAllFields(DiscreteValue))
+
+
+# ------------------------------
+
+from prototype.models import Project, Model, Entity, Property, Relationship, PropertyEquivalence, ProtoTable, Prototype
 
 class ProjectStructureTest(TestCase):
     def test_field_and_value(self):
@@ -106,21 +131,4 @@ class ProtoTableStructureTest(TestCase):
         self.assertTrue(checkAllFields(ProtoTable))
 
 
-class TeamHierarchyStructureTest(TestCase):
-    def test_field_and_value(self):
-        self.assertFalse(checkAllFields(TeamHierarchy))  # Value is not in MetaObjects
 
-
-class ProtoDefinitionStructureTest(TestCase):
-    def test_field_and_value(self):
-        self.assertTrue(checkAllFields(ProtoDefinition))
-
-
-class CustomDefinitionStructureTest(TestCase):
-    def test_field_and_value(self):
-        self.assertTrue(checkAllFields(CustomDefinition))
-
-
-class DiscreteValueStructureTest(TestCase):
-    def test_field_and_value(self):
-        self.assertTrue(checkAllFields(DiscreteValue))

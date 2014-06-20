@@ -17,7 +17,7 @@ from protoLib.utils.loadFile import loadFiles
 urlpatterns = patterns('',
     url(r'^protoExt$', TemplateView.as_view(template_name='protoExt.html')),
     url(r'^protoExtReset$', DirectTemplateView.as_view(template_name='protoExt.html',extra_context={ 'isPasswordReseted': True })),
-    
+
     url('protoList/$', protoList),
     url('sheetConfigRep/$', sheetConfigRep),
     url('protoCsv/$', protoCsv),
@@ -41,5 +41,6 @@ urlpatterns = patterns('',
     url('protoLogout/$', protoLogout),
 
     url('getFieldIncrement/$', getFieldIncrement),
+
     url('loadFile/$', loadFiles),
 )

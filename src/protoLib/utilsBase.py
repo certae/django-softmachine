@@ -19,7 +19,7 @@ class JSONEncoder(json.JSONEncoder):
         elif isinstance(obj,  decimal.Decimal ):
             return str( obj )
         else:
-            return json.JSONEncoder.default(self, obj)    
+            return json.JSONEncoder.default(self, obj)
 
 
 
@@ -27,53 +27,53 @@ def verifyList(obj, defList = []):
 #   Los objetos del admin son en su mayoria del tipo tuple,
 #   Es necesario convertirlos a listas por facilidad de trabajo
     if isinstance( obj , basestring ):
-        try: 
-            obj = json.loads(obj)  
-        except : 
+        try:
+            obj = json.loads(obj)
+        except :
             obj = []
-    elif isinstance( obj, tuple  ):  
+    elif isinstance( obj, tuple  ):
         obj = list( obj )
 
     if isinstance( obj, list ):
         if  len( obj ) == 0 :
-            obj  = defList        
-        return obj    
+            obj  = defList
+        return obj
 
     else:
-        return [] 
+        return []
 
 def verifyStr( vrBase , vrDefault ):
     sAux = vrBase or vrDefault
-    return  u'%s' % sAux 
+    return  u'%s' % sAux
 
-             
+
 def parseEmailAddress(fullemail, delimitorLeft = '<', delimitorRight = '>'):
-    """ 
-        split a full name/email pair to name/email tuple 
+    """
+        split a full name/email pair to name/email tuple
         matches :
         # julien@bouquillon.com
         # Julien Bouquillon <julien@bouquillon.com>
     """
-    
+
     if delimitorLeft == '(':
         delimitorLeft = '\\('
     if delimitorRight == ')':
         delimitorRight = '\\)'
-        
+
     reg = re.compile('([^%s\n]+) ?%s?([^%s\r\n]+)?%s?' % (delimitorLeft, delimitorLeft, delimitorRight, delimitorRight) )
-    
+
     matches = reg.findall(fullemail)
 
     if matches:
         (name, email) = matches[0]
-        if email == '': 
+        if email == '':
             email = name
         return (name, email)
-    
+
     return None
-    
+
 def guessNextPath(dst, slugify = True, idx = 0, checkExists = True):
-    """ return a renamed path if provided one already exists 
+    """ return a renamed path if provided one already exists
         if slugify, file name is slugified first (fs encodings problems quick & dirty workaround)
     """
     newpath = dst
@@ -89,10 +89,10 @@ def guessNextPath(dst, slugify = True, idx = 0, checkExists = True):
         name, ext = os.path.splitext(newpath)
         newpath = '%s-copy%s' % (name, ext)
         return guessNextPath(newpath, slugify, idx, checkExists)
-        
+
     return newpath
-    
-    
+
+
 def unique_id(more = ''):
     import time
     a = str(time.time())
@@ -101,9 +101,9 @@ def unique_id(more = ''):
     a += '-%s' % str(random.randint(0, 2000))
     a += more
     return a
-    
-    
-    
+
+
+
 def reduceDict(inDict, keep_keys):
     """ keep only keep_keys in the dict (return a new one) """
     dict2 = inDict.copy()
@@ -122,33 +122,33 @@ def dict2tuple(indict):
 
 
 def list2dict(alist , key ):
-    # Convierte una lista de objetos en dict usando key como llave del dict. 
+    # Convierte una lista de objetos en dict usando key como llave del dict.
     aDict = {}
     for item in alist:
-        
-        #Verifica si es un dict  
-        if isinstance( item, dict ):   
-            aDict[ item[key] ]  = item 
 
-        # si es un string lo crea con el key por defecto 
-        elif isinstance( item, str ):  
+        #Verifica si es un dict
+        if isinstance( item, dict ):
+            aDict[ item[key] ]  = item
+
+        # si es un string lo crea con el key por defecto
+        elif isinstance( item, str ):
             aDict[ item  ]  = { key : { key : item }}
-            
+
     return aDict
 
-     
+
 def CleanFilePath(inFileName):
     """ assure qu'un nom de fichier n'est bien qu'un nom de fichier (remove slashes) """
     inFileName = os.path.basename(inFileName)
     inFileName = inFileName.replace('/', '')
     inFileName = inFileName.replace('\\', '')
     return inFileName
-    
-        
+
+
 def CheckPathSecurity(testPath, rootPath):
     if not os.path.realpath(testPath).startswith(rootPath):
         raise Exception("forbidden path %s !" % os.path.realpath(testPath))
-    
+
 def ReadFile(inFile, mode='r'):
     contents = ""
     try:
@@ -158,12 +158,12 @@ def ReadFile(inFile, mode='r'):
     except:
         pass
     return contents
-    
+
 def WriteFile(inFile, contents):
     f=open(inFile,'wb')
     f.write(contents)
     f.close()
-    
+
 def PathToList(inPath, template_type="", showExt = True):
     mylist = []
     for file in os.listdir(inPath):
@@ -176,8 +176,8 @@ def PathToList(inPath, template_type="", showExt = True):
         mydict = {"name": file, "type": template_type}
         mylist.append(mydict)
     return mylist
-      
-        
+
+
 def strip_html(inHtml):
     # regularExp
     #    import re
@@ -190,7 +190,7 @@ def strip_html(inHtml):
     inHtml = re.sub(r'<style>[^>]*</style>', '', inHtml)
 
     return inHtml
- 
+
 def strip_accents(inStr):
     inStr = u'%s' % inStr
     drep = {}
@@ -200,7 +200,7 @@ def strip_accents(inStr):
     drep["c"] = u'ç'
     drep["u"] = u'ùû'
     drep["o"] = u'ôòö'
- 
+
     drep["E"] = u'ÉÊÈË'
     drep["A"] = u'ÀÂÄ'
     drep["I"] = u'ÎÏ'
@@ -212,9 +212,9 @@ def strip_accents(inStr):
         for ch in drep[k]:
             inStr = inStr.replace(ch, k)
 
-    # De todas formas lo estandariza 
-    return slugify( inStr ) 
-    
+    # De todas formas lo estandariza
+    return slugify( inStr )
+
 def strip_euro(inStr):
     inStr = u'%s' % inStr
     inStr = inStr.replace(u'€', u'euro(s)')
@@ -230,7 +230,7 @@ def DateFormatConverter(to_extjs = None, to_python = None):
     f['A'] = 'l'
     f['b'] = 'M'
     f['B'] = 'F'
-    #f['c'] = 
+    #f['c'] =
     f['d'] = 'd'
     f['H'] = 'H'
     f['I'] = 'h'
@@ -240,9 +240,9 @@ def DateFormatConverter(to_extjs = None, to_python = None):
     f['p'] = 'A'
     f['S'] = 's'
     f['U'] = 'W'
-    #f['w'] = 
+    #f['w'] =
     f['W'] = 'W'
-    #f['x'] = 
+    #f['x'] =
     #f['X'] =
     f['y'] = 'y'
     f['Y'] = 'Y'
@@ -259,9 +259,9 @@ def DateFormatConverter(to_extjs = None, to_python = None):
                 out += '%%%s' % key
             else:
                 out += char
-            
+
     return out
-    
+
 
 
 # Utilizado para campos q no tienen relacion en el modelo,
@@ -273,14 +273,14 @@ class VirtualField(object):
 def getReadableError( e ):
     sAux = '<b>ErrType:</b> ' + type( e ).__name__ + '<br>'
     sAux +=  smart_str( e )
-    
+
 #    if len( e.args ) > 1: sAux += '<br>' +  str( '; '.join( e.args ))
     return sAux + '<br>'
 
 
 def strNotNull(  sValue, sDefault ):
     if (sValue is None):
-        if (sDefault is None):  
+        if (sDefault is None):
             return "_"
         else:
             return sDefault
@@ -290,39 +290,55 @@ def strNotNull(  sValue, sDefault ):
 
 def copyProps ( objBase, objNew ):
     "Adiciona las propiedades a un objeto base igual q Ext.apply "
-    "Todo: xxx.update : un metodo directo para hacerlo "
+    "Todo: xxx.update : un metodo directo para hacerlo   destination.__dict__.update(source.__dict__) "
     for mProp in objNew:
-        objBase[ mProp ] = objNew[ mProp ] 
+        objBase[ mProp ] = objNew[ mProp ]
 
-    return objBase 
+    return objBase
+
+
+
+def copyModelProps ( objfrom, objto, props  ):
+    """copia valores de una instancia de modelo a otro
+    """
+    for n in props:
+        if hasattr(objfrom, n):
+            v = getattr(objfrom, n)
+            try: 
+                setattr(objto, n, v);
+            except:
+                continue
+
+    return objto
+
 
 import unicodedata
 def stripAccents(s):
     return ''.join((c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn'))
 
 
-        
-        
+
+
 def explode(s):
-    ''' Uso:   
-    explode( 'fName(p1,p2)' ) 
+    ''' Uso:
+    explode( 'fName(p1,p2)' )
     ['fName', 'p1,p2']
-    
-    alternativas mas poderosas 
+
+    alternativas mas poderosas
         http://docs.python.org/2/library/ast.html#ast.parse
 
     import re
     '''
-    
+
     pattern = r'(\w[\w\d_]*)\((.*)\)$'
     match = re.match(pattern, s)
     if match:
         return list(match.groups())
     else:
-        return []    
+        return []
 
 def findBrackets( aString ):
-    # busca el primer paraentesis 
+    # busca el primer paraentesis
     if '(' in aString:
         match = aString.split('(',1)[1]
         openB = 1
@@ -330,7 +346,7 @@ def findBrackets( aString ):
             if match[index] in '()':
                 openB = (openB + 1) if match[index] == '(' else (openB - 1)
             if not openB:
-                return match[:index]    
+                return match[:index]
 
 
 
@@ -349,19 +365,19 @@ def slugify(text, delim=u'-'):
         word = normalize('NFKD', word).encode('ascii', 'ignore')
         if word:
             result.append(word)
-    
+
     rText = unicode(delim.join(result)).replace( '--', '-')
-     
-    return rText 
+
+    return rText
 
 
 def repStr(string_to_expand, length):
-    #Repeat to length  ( indent, fill, ... ) 
+    #Repeat to length  ( indent, fill, ... )
     return (string_to_expand * ((length/len(string_to_expand))+1))[:length]
 
 
 
-class Enum(tuple): 
+class Enum(tuple):
     # How to use it (forward and reverse lookup, keys, values, items, etc.)
 
     # >>> State = Enum(['Unclaimed', 'Claimed'])
@@ -386,5 +402,5 @@ class Enum(tuple):
 
 
 def getClassName( cName ):
-    # Formatea un string tipo titulo 
+    # Formatea un string tipo titulo
     return ''.join( slugify( cName , ' ').title().split() )

@@ -15,7 +15,7 @@ def loadFiles(request):
 
     from django.conf import settings
     import os 
-    
+
     
     for key, fileObj in request.FILES.items():
         path = os.path.join(settings.MEDIA_ROOT, fileObj.name ) 

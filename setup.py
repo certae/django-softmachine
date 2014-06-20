@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import os
 from setuptools import setup
 from setuptools import find_packages
@@ -19,8 +20,8 @@ setup(
     ' les interfaces d’une application par la construction de vues à partir d’un modèle de données standard.',
     long_description=README,
     url='http://certae.github.io/ProtoExt/',
-    author='Giovanni Victorette',
-    author_email='gigiow@gmail.com',
+    author='Dario Gomez Tafur',
+    author_email='dariogomeztw@gmail.com',
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',

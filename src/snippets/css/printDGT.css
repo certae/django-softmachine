@@ -1,0 +1,84 @@
+html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,blockquote,th,td{margin:0;padding:0;}
+img,body,html{border:0;}
+address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
+ol,ul {list-style:none;}caption,th {text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;}q:before,q:after{content:'';}
+
+
+h1 {
+  font-size: 14px;
+  font-family: arial;
+}
+
+h2 {
+  font-size: 12px;
+  font-family: arial;
+}
+
+table {
+  width: 100%;
+  text-align: left;
+  font-size: 11px;
+  font-family: arial;
+  border-collapse: collapse;
+}
+
+table th {
+  padding: 4px 3px 4px 5px;
+  border: 1px solid #d0d0d0;
+  border-left-color: #eee;
+  background-color: #ededed;
+}
+
+table td {
+  padding: 4px 3px 4px 5px;
+  border-style: none solid solid;
+  border-width: 1px;
+  border-color: #ededed;
+}
+
+thead {display: table-header-group;}
+
+@media print {
+   thead {display: table-header-group;}
+}
+
+
+/*Fiche */
+
+.negro {padding:5px;font-weight: normal; width:25%;vertical-align:top;}
+.desc {padding:5px;width:75%;text-align:justify;}
+.ficha {width:100%; border-style:none;} 
+
+/*.barra {width:100%;height:100%;overflow:auto;}*/
+ul.cuadro {list-style-type: square;}
+
+
+.blanco{font:normal 12px tahoma, arial, verdana, sans-serif;background-color:white;border-color:#ededed;border-style:solid;border-width:1px 0;border-top-color:#fafafa}
+.azul  {font:normal 12px tahoma, arial, verdana, sans-serif;background-color:#fafafa;border-color:#ededed;border-style:solid;border-width:1px 0;border-top-color:white}
+
+
+/*.x-grid-row-alt .x-grid-cell,.x-grid-row-alt .x-grid-rowwrap-div{background-color:#fafafa}*/
+
+.cuadro {list-style-type:square;font:normal 11px tahoma, arial, verdana, sans-serif;}
+.table_interieure{border-style: none;}
+.table_interieure th{
+    border-width:2px;
+    padding:3px;
+    border-style:solid;
+    border-bottom-color:gray;
+    border-top-color:#fafafa;
+    border-right-color:#fafafa;
+    border-left-color:#fafafa;
+    background-color:white;
+    font:normal 11px tahoma, arial, verdana, sans-serif;}
+
+.table_interieure td {border-width: thin;
+    padding:3px;
+    border-style:solid;
+    border-top-color:#fafafa;
+    border-right-color:#fafafa;
+    border-bottom-color:#ededed;
+    border-left-color:#fafafa;
+    background-color: white;
+    font:normal 11px tahoma, arial, verdana, sans-serif;text-align:justify;
+    vertical-align:top;}

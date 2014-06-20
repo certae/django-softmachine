@@ -121,7 +121,7 @@ def getReportBase( viewCode ):
         pass
 
     # hace el QSet de los registros seleccionados
-    Qs = model.objects.select_related(depth=1)
+    Qs = model.objects.select_related()
 
     return protoMeta, Qs
 
@@ -280,9 +280,9 @@ def protoCsv(request):
 
 #   Obtiene las filas del modelo
     Qs, orderBy, fakeId, refAllow = getQSet( protoMeta, protoFilter, baseFilter , sort , request.user  )
-    
-    # El refAllow no es necesario para reportes 
-    refAllow = refAllow and False 
+
+    # El refAllow no es necesario para reportes
+    refAllow = refAllow and False
 
     if orderBy:
         pRows =  Qs.order_by(*orderBy)

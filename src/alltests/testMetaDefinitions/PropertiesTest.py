@@ -52,6 +52,86 @@ def getFieldType(field, value, modelclass):
         outcomeType = 'string'
     return outcomeType
 
+# ------------------
+
+from prototype.models import Project, Model, Entity, Property, Relationship, PropertyEquivalence, ProtoTable, Prototype
+
+
+class ProjectPropertiesTest(TestCase):
+    def test_structure(self):
+        fields = getFields(Project)
+        for field in fields:
+            for value in Project.protoExt[field]:
+                fieldtype = getFieldType(field, value, Project)
+                self.assertIn(fieldtype, PossibleTypes)
+
+
+class ModelPropertiesTest(TestCase):
+    def test_structure(self):
+        fields = getFields(Model)
+        for field in fields:
+            for value in Model.protoExt[field]:
+                fieldtype = getFieldType(field, value, Model)
+                self.assertIn(fieldtype, PossibleTypes)
+
+
+class EntityPropertiesTest(TestCase):
+    def test_structure(self):
+        fields = getFields(Entity)
+        for field in fields:
+            for value in Entity.protoExt[field]:
+                fieldtype = getFieldType(field, value, Entity)
+                self.assertIn(fieldtype, PossibleTypes)
+
+
+class PropertyPropertiesTest(TestCase):
+    def test_structure(self):
+        fields = getFields(Property)
+        for field in fields:
+            for value in Property.protoExt[field]:
+                fieldtype = getFieldType(field, value, Property)
+                self.assertIn(fieldtype, PossibleTypes)
+
+
+class RelationshipPropertiesTest(TestCase):
+    def test_structure(self):
+        fields = getFields(Relationship)
+        for field in fields:
+            if field is 'exclude':
+                continue
+            for value in Relationship.protoExt[field]:
+                fieldtype = getFieldType(field, value, Relationship)
+                self.assertIn(fieldtype, PossibleTypes)
+
+
+
+class PropertyEquivalencePropertiesTest(TestCase):
+    def test_structure(self):
+        fields = getFields(PropertyEquivalence)
+        for field in fields:
+            for value in PropertyEquivalence.protoExt[field]:
+                fieldtype = getFieldType(field, value, PropertyEquivalence)
+                self.assertIn(fieldtype, PossibleTypes)
+
+
+class PrototypePropertiesTest(TestCase):
+    def test_structure(self):
+        fields = getFields(Prototype)
+        for field in fields:
+            for value in Prototype.protoExt[field]:
+                fieldtype = getFieldType(field, value, Prototype)
+                self.assertIn(fieldtype, PossibleTypes)
+
+
+class ProtoTablePropertiesTest(TestCase):
+    def test_structure(self):
+        fields = getFields(ProtoTable)
+        for field in fields:
+            for value in ProtoTable.protoExt[field]:
+                fieldtype = getFieldType(field, value, ProtoTable)
+                self.assertIn(fieldtype, PossibleTypes)
+
+
 
 
 class TeamHierarchyPropertiesTest(TestCase):
