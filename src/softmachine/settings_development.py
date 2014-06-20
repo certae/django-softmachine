@@ -30,6 +30,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.admin',
     'django.contrib.admindocs',
+    'protobase',
     'protoLib',
     'prototype',
     'alltests',

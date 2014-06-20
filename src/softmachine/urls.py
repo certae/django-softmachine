@@ -16,11 +16,11 @@ urlpatterns = patterns('',
     url(r'^admin/', include(django.contrib.admin.site.urls)) ,
 #     url(r'^admin/', include(xadmin.site.urls)),
 
-    url(r'^protoLib/', include('protoLib.urls')),
 
     url(r'^main$', TemplateView.as_view(template_name='index.html')),
     url(r'^debug$', TemplateView.as_view(template_name='debug.html')),
 
+    url(r'^protoLib/', include('protoLib.urls')),
     url(r'^protoDiagram/', include('dbDesigner.urls')),
 
 #    Use for production instalation and for load json configuration files
@@ -35,13 +35,3 @@ urlpatterns = patterns('',
     url(r'^extjs-tests', TemplateView.as_view(template_name='extjs-tests.html')),
 )
 
-# if DEBUG :
-#     urlpatterns += patterns('',
-#         url(r'^protoExt$', TemplateView.as_view(template_name='protoExt.html')),
-#         url(r'^protoExtReset$', DirectTemplateView.as_view(template_name='protoExt.html',extra_context={ 'isPasswordReseted': True })),
-#     )
-# else :
-#     urlpatterns += patterns('',
-#         url(r'^protoExt$', TemplateView.as_view(template_name='protoExt_production.html')),
-#         url(r'^protoExtReset$', DirectTemplateView.as_view(template_name='protoExt.html',extra_context={ 'isPasswordReseted': True })),
-#     )
