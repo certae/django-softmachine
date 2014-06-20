@@ -13,7 +13,6 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 EXTJS_VERSION = '4.2.1'
-EXTJS_URL = 'http://cdn.sencha.com/ext/gpl/'
 
 ADMINS = (
      ('Dario Gomez', 'dariogomezt@gmail.com'),
@@ -91,9 +90,9 @@ TEMPLATE_DIRS = (
 )
 
 if PPATH.startswith('/'):
-    EXT_PATH = '/opt/data/ExtJs'
+    EXT_PATH = '/opt/data/ext-%(extjsversion)s' % {"extjsversion" : EXTJS_VERSION}
 else:
-    EXT_PATH = 'd:/data/ExtJs'
+    EXT_PATH = 'd:/data/ExtJs/'
 
 STATICFILES_DIRS = (
     PPATH + '/static',

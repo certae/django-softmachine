@@ -204,3 +204,6 @@ At this point you should have modified those files **settings.py** and **urls.py
 ### Add a new ExtJS app
 
 ### Customizing models
+
+### Production
+Copy ...Python/2.7/lib/python/site-packages/protobase/static to your local static folder...
