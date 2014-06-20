@@ -87,7 +87,7 @@ STATIC_ROOT = 'static/'
 
 TEMPLATE_DIRS = (
     PPATH + '/templates',
-    PPATH + '/src/protoLib/templates',
+    PPATH + '/src/protobase/templates',
 )
 
 if PPATH.startswith('/'):
@@ -97,7 +97,7 @@ else:
 
 STATICFILES_DIRS = (
     PPATH + '/static',
-    PPATH + '/src/protoLib/static',
+    PPATH + '/src/protobase/static',
     EXT_PATH,
 )
 
