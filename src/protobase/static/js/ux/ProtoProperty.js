@@ -17,7 +17,6 @@
 Ext.define('ProtoUL.ux.ProtoProperty', {
     extend : 'Ext.grid.property.Grid',
     alias : 'widget.protoProperty',
-    itemId: 'protoProperty',
     source : {},
     readOnlyProps : [],
     editable : true,

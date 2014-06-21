@@ -11,7 +11,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 setup(
     name='django-softmachine',
     version='1.0.2',
-    packages=find_packages('src',exclude=['tests','alltests', 'softmachine']),
+    packages=find_packages('src',exclude=['alltests', 'softmachine', 'alltests.*']),
     package_dir = {'':'src'},
     include_package_data=True,
     license='GPL License, see docs/LICENCE.md',
@@ -19,8 +19,8 @@ setup(
     ' les interfaces d’une application par la construction de vues à partir d’un modèle de données standard.',
     long_description=README,
     url='http://certae.github.io/ProtoExt/',
-    author='Giovanni Victorette',
-    author_email='gigiow@gmail.com',
+    author='Dario Gomez Tafur',
+    author_email='dariogomeztw@gmail.com',
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',

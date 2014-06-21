@@ -134,7 +134,7 @@ Ext.define('ProtoUL.UI.MDActionsController', {
 
                     myWin = Ext.create('ProtoUL.ux.parameterWin', {
                         parameters: pAction.actionParams,
-                        title: btn.actionName + ' - ' + pGrid.rowData['__str__'],
+                        title: btn.actionName,
                         options: myOptions
                     });
 

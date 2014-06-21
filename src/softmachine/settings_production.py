@@ -15,7 +15,6 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
 ]
 
-
 WSGI_APPLICATION = 'softmachine.wsgi.application'
 
 # URL prefix for static files.  ( Relative for prod )  

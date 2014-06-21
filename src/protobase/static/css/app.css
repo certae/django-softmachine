@@ -16,16 +16,16 @@
 
 
 .background-SM {
-    
-    background-image:url(../img/varios/fondo.png) !important; 
-    background-size:100% 100% !important; 
+
+    background-image:url(../img/varios/fondo.png) !important;
+    background-size:100% 100% !important;
     background-repeat:no-repeat  !important;
 }
 
 .background-SM2 {
-    
-    background-image:url(../img/varios/sm.jpg) !important; 
-    background-size:100% 100% !important; 
+
+    background-image:url(../img/varios/sm.jpg) !important;
+    background-size:100% 100% !important;
     background-repeat:no-repeat  !important;
 }
 
@@ -48,7 +48,6 @@
 
 .icon-details { background-image: url(../img/protoImg/base-details.png ) !important;}
 .icon-custom  { background-image: url(../img/protoImg/base-custom.png ) !important;}
-.icon-config  { background-image: url(../img/protoImg/base-config.png ) !important;}
 .icon-help    { background-image: url(../img/protoImg/base-help.png ) !important;}
 
 .icon-accept      { background-image: url(../img/protoImg/st-accept.png ) !important;}
@@ -105,11 +104,12 @@
 .icon-formAdd     	{ background-image: url(../img/protoImg/form_add.png ) !important;}
 .icon-formEdit      { background-image: url(../img/protoImg/form_edit.png ) !important;}
 .icon-formView      { background-image: url(../img/protoImg/form_view.png ) !important;}
+.icon-configForm    { background-image: url(../img/protoImg/form_edit.png ) !important;}
 
+.icon-config        { background-image: url(../img/protoImg/config_preview.png ) !important;}
 .icon-configMeta    { background-image: url(../img/protoImg/config_meta.png ) !important;}
-.icon-configForm    { background-image: url(../img/protoImg/config_form.png ) !important;}
 .icon-configFields  { background-image: url(../img/protoImg/config_fields.png ) !important;}
-.icon-configDetails { background-image: url(../img/protoImg/config_details.png ) !important;}
+.icon-configDetails { background-image: url(../img/protoImg/base-details.png ) !important;}
 .icon-configPreview { background-image: url(../img/protoImg/config_preview.png ) !important;}
 .icon-configReset   { background-image: url(../img/protoImg/config_reset.png ) !important;}
 .icon-configReload  { background-image: url(../img/protoImg/config_reload.png ) !important;}
@@ -119,7 +119,7 @@
 .icon-nodeEdit    { background-image: url(../img/protoImg/node-edit.png ) !important;}
 .icon-nodeDelete  { background-image: url(../img/protoImg/node-delete.png ) !important;}
 
-.icon-pclFields     { background-image: url(../img/protoImg/d_add_form.png ) !important;}
+.icon-pclFields     { background-image: url(../img/protoImg/form_add.png ) !important;}
 .icon-pclContainers { background-image: url(../img/protoImg/d_add_folder.png ) !important;}
 .icon-pclDetails    { background-image: url(../img/protoImg/d_add_detail.png ) !important;}
 .icon-pclOthers     { background-image: url(../img/protoImg/d_add_plugin.png ) !important;}
@@ -134,10 +134,6 @@
 .icon-panelUp    { background-image: url(../img/protoImg/panelUp.png) !important }
 
 
-/*  Iconos Aplicacion  */
-.icon-model    { background-image: url(../img/app/model.png ) !important;}
-.icon-concept  { background-image: url(../img/app/concept.png ) !important;}
-.icon-property { background-image: url(../img/app/property.png ) !important;}
 
 /* login */
 .st-user-who   { background-image: url(../img/protoImg/st-user-who.png ) !important;}
@@ -149,13 +145,13 @@
 /*.protofolder       { background-image: url(../img/protoImg/bluefolder-open.png ) !important;}*/
 
 /*  Iconos temporales */
-.icon-1 { background-image: url(../img/tmp/1.png ) !important; }
-.icon-2 { background-image: url(../img/tmp/2.png ) !important; }
-.icon-3 { background-image: url(../img/tmp/3.png ) !important; }
-.icon-4 { background-image: url(../img/tmp/4.png ) !important; }
-.icon-5 { background-image: url(../img/tmp/5.png ) !important; }
-.icon-6 { background-image: url(../img/tmp/6.png ) !important; }
-.icon-7 { background-image: url(../img/tmp/7.png ) !important; }
+.icon-1 { background-image: url(../img/app/1.png ) !important; }
+.icon-2 { background-image: url(../img/app/2.png ) !important; }
+.icon-3 { background-image: url(../img/app/3.png ) !important; }
+.icon-4 { background-image: url(../img/app/4.png ) !important; }
+.icon-5 { background-image: url(../img/app/5.png ) !important; }
+.icon-6 { background-image: url(../img/app/6.png ) !important; }
+.icon-7 { background-image: url(../img/app/7.png ) !important; }
 
 
 /* Row Status  */
@@ -167,7 +163,7 @@
 
 .negro {padding:5px;font-weight: bold; width:25%;vertical-align:top;}
 .desc {padding:5px;width:75%;text-align:justify;}
-.ficha {width:100%; border-style:none;} 
+.ficha {width:100%; border-style:none;}
 
 /*.barra {width:100%;height:100%;overflow:auto;}*/
 .blanco{font:normal 12px tahoma, arial, verdana, sans-serif;background-color:white;border-color:#ededed;border-style:solid;border-width:1px 0;border-top-color:#fafafa}
@@ -215,7 +211,7 @@
     background-color: transparent;
 }
 
-.x-grid-checkheader-checked { 
+.x-grid-checkheader-checked {
     background-image: url(../img/protoImg/checked.gif);
 }
 
@@ -229,7 +225,7 @@
 }
 
 .x-grid-cell .x-grid-stopligth-yellow {
-	background-color:#FFE13D; 
+	background-color:#FFE13D;
 }
 
 .x-grid-stopligth-green {
@@ -238,27 +234,27 @@
 
 
 .taskManager {
-    background-image: url(../img/protoOrg/mark_active.png) !important 
+    background-image: url(../img/protoOrg/mark_active.png) !important
 }
 
 .logout {
-    background-image: url(../../Recursos/Imagenes/logout.png) !important 
+    background-image: url(../../Recursos/Imagenes/logout.png) !important
 }
 
 
 /*
 	These are examples of styles for the button icons (you must supply the icon files yourself)
-	
+
 	For nice icon sets, check out the following sites.
 	- http://www.famfamfam.com/
 	- http://code.google.com/p/fugue-icons/
     - http://www.everaldo.com/crystal/
-    
+
     See the notice.txt file in the images folder for possible licence conflicts with these images.
     Some icons may be licenced under the Creative Commons licence - http://creativecommons.org/licenses/by/2.5/
-    
+
     Some icons have been modified slightly from their source files, in which case the original authors license still applies.
-    
+
 */
 .x-edit-wordpaste {background: url(../img/protoImg/edit-word-text.png) 0 0 no-repeat !important;}
 .x-edit-table {background: url(../img/protoImg/edit-table.png) 0 0 no-repeat !important;}
@@ -277,13 +273,13 @@
 	These styles are used for the character map
 */
 .char-item {
-	float: left; 
-	border: 1px solid #99BBE8; 
-	margin: 3px; 
-	text-align: center; 
-	vertical-align: middle; 
-	width: 20px; 
-	height: 20px; 
+	float: left;
+	border: 1px solid #99BBE8;
+	margin: 3px;
+	text-align: center;
+	vertical-align: middle;
+	width: 20px;
+	height: 20px;
 	font-size: 14px;
 	color: #15428B;
 	cursor: pointer;
@@ -302,7 +298,7 @@
 /* Efecto visual de ReadOnly  DFE8F6  15428B FAFAD2  --------------- */
 
 .read-only{
-	background-color:#15428B !important; 
+	background-color:#15428B !important;
 }
 
 
@@ -310,18 +306,18 @@
 /*  background: #DFE8F6;*/
   opacity:1;
   -moz-opacity:1;
-  filter: alpha(opacity=100);  
+  filter: alpha(opacity=100);
 }
 
 
 
-/* 
+/*
 
 .protofield-readonly{
   background: #DFE8F6 !important;
   opacity:1 !important;
   -moz-opacity:1 !important;
-  filter: alpha(opacity=100 !important);  
+  filter: alpha(opacity=100 !important);
 }
 
 */
@@ -333,7 +329,7 @@
 
 
 .protoLink {
-    color: -webkit-link !important; text-decoration: underline !important;  
+    color: -webkit-link !important; text-decoration: underline !important;
 }
 
 
@@ -347,7 +343,7 @@
 
 .x-tool-formUpd  { background-image: url('../img/protoImg/form_edit.png') !important; }
 .x-tool-formView { background-image: url('../img/protoImg/form_view.png') !important; }
-.x-tool-formAdd  { background-image: url('../img/protoImg/form_add.png' ) !important;} 
+.x-tool-formAdd  { background-image: url('../img/protoImg/form_add.png' ) !important;}
 
 .x-tool-metaConfig  { background-image: url('../img/protoImg/config_meta.png') !important; }
 
@@ -499,7 +495,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cecece', end
 	display: none;
 }
 
-.table-in-diagram .x-grid-cell { 
-    background-color: #e2ffe2; 
-    color: #090; 
+.table-in-diagram .x-grid-cell {
+    background-color: #e2ffe2;
+    color: #090;
 }
