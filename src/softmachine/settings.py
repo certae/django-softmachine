@@ -185,12 +185,12 @@ AUTH_PROFILE_MODULE = 'protoLib.UserProfile'
 # Variables prototypeur
 PROTO_APP = {}
 
-
 if DEBUG :
-    from softmachine.settings_development import *
     with open( PPATH + '/src/softmachine/secret_key.txt') as f:
         SECRET_KEY = f.read().strip()
+    from softmachine.settings_development import *
+
 else :
-    from softmachine.settings_production import *
     with open('/etc/secret_key.txt') as f:
         SECRET_KEY = f.read().strip()
+    from softmachine.settings_production import *

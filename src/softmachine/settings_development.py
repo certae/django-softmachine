@@ -1,7 +1,7 @@
 import os
 from django.conf import settings
 
-PPATH = settings.PATH
+PPATH = settings.PPATH
 
 DATABASES = {
     'default': {
