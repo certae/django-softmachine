@@ -12,6 +12,8 @@ if ('/src' in PPATH):
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+EXTJS_VERSION = '4.2.1'
+
 ADMINS = (
      ('Dario Gomez', 'dariogomezt@gmail.com'),
 )
@@ -99,7 +101,7 @@ else:
 # Don't forget to use absolute paths, not relative paths.
 STATICFILES_DIRS = (
     PPATH + '/static',
-    PPATH + '/src/protoLib/static',
+    PPATH + '/src/protobase/static',
     EXT_PATH,
 )
 

@@ -10,8 +10,8 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-softmachine',
-    version='1.0',
-    packages=find_packages('src',exclude=['tests','alltests', 'softmachine']),
+    version='1.0.2',
+    packages=find_packages('src',exclude=['alltests', 'softmachine', 'alltests.*']),
     package_dir = {'':'src'},
     include_package_data=True,
     license='GPL License, see docs/LICENCE.md',

@@ -1,4 +1,6 @@
-from softmachine.settings import PPATH
+from django.conf import settings
+PPATH = settings.PATH
+
 # DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.mysql',
