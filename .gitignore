@@ -11,3 +11,4 @@ dist
 .project
 .pydevproject
 .settings
+*all-classes.js
