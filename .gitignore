@@ -10,4 +10,4 @@ django_softmachine.egg-info
 dist
 .project
 .pydevproject
-.settings
+*all-classes.js
