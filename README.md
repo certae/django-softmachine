@@ -235,6 +235,37 @@ At this point you should have modified those files **settings.py** and **urls.py
 </html>
 ```
 
+```html
+{% extends "protoDebug.html" %}
+
+{% block sitetitle %}
+<title>RAI Certae</title>
+{% endblock %}
+
+{% block meta %}
+<meta name="description" content="">
+<meta name="author" content="CeRTAE U.Laval">
+{% endblock %}
+		
+{% block extrastylesheets %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/rai.css">
+{% endblock %}
+{% block configproperties %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/config/configProperties.js"></script>
+{% endblock %}
+
+{% block extjsloader %}
+<script type="text/javascript">
+// Place to use Ext.Loader methods
+</script>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/rai/app.js"></script>
+{% endblock %}
+```
+
+
 ### Add a new ExtJS app
 
 ### Customizing models
