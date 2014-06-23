@@ -12,8 +12,6 @@ if ('/src' in PPATH):
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-EXTJS_VERSION = '4.2.1'
-
 ADMINS = (
      ('Dario Gomez', 'dariogomezt@gmail.com'),
 )
@@ -89,15 +87,9 @@ TEMPLATE_DIRS = (
     PPATH + '/src/protobase/templates',
 )
 
-if PPATH.startswith('/'):
-    EXT_PATH = '/opt/data/ext-%(extjsversion)s' % {"extjsversion" : EXTJS_VERSION}
-else:
-    EXT_PATH = 'd:/data/ExtJs/'
-
 STATICFILES_DIRS = (
     PPATH + '/static',
     PPATH + '/src/protobase/static',
-    EXT_PATH,
 )
 
 # List of finder classes that know how to find static files in
@@ -171,10 +163,10 @@ PROTO_APP = {}
 
 
 if DEBUG :
-    from softmachine.settings_development import *
     with open( PPATH + '/src/softmachine/secret_key.txt') as f:
         SECRET_KEY = f.read().strip()
+    from softmachine.settings_development import *
 else :
-    from softmachine.settings_production import *
     with open('/etc/secret_key.txt') as f:
         SECRET_KEY = f.read().strip()
+    from softmachine.settings_production import *
