@@ -1,17 +1,13 @@
 # -*- encoding: UTF-8 -*-
 
-from alltests.testPrototype.testMetaDefinitions.ObjectsTest import *                                   
-from alltests.testPrototype.testMetaDefinitions.PropertiesTest import *    
-                       
+from alltests.testMetaDefinitions.ObjectsTest import *                                   
+from alltests.testMetaDefinitions.PropertiesTest import *    
+
 from alltests.testPrototype.testactions.ViewCreationTest import *
 from alltests.testPrototype.testactions.ViewTemplateTest import *                
 from alltests.testPrototype.testactions.ViewDefinitionTest import * 
 
 from alltests.testPrototype.testmodels.TestSuiteUtils import *
-
-
-from alltests.testProtoLib.testMetaDefinitions.ObjectsTest import *                                   
-from alltests.testProtoLib.testMetaDefinitions.PropertiesTest import *   
 
 from alltests.testProtoLib.ModelsTest import *      
 from alltests.testProtoLib.ProtoActionEditTest import *                                

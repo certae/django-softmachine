@@ -8,8 +8,17 @@ DATABASES = {
     }
 }
 
+ALLOWED_HOSTS = [
+    'localhost', # Allow domain and subdomains
+    '127.0.0.1', # Also allow FQDN and subdomains
+]
+
+
+
 # URL prefix for static files.
 STATIC_URL = '/static/'
+
+
 
 
 INSTALLED_APPS = (
@@ -34,6 +43,13 @@ FIXTURE_DIRS = (
 
 HOST_DOMAIN = ''
 
+#add email settings
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'protoext@gmail.com'
+EMAIL_HOST_PASSWORD = '*****'
+DEFAULT_FROM_EMAIL = 'protoext@gmail.com'
+
 #used for debug
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'protoext@gmail.com'

@@ -16,8 +16,8 @@
 		<link rel="shortcut icon" href="laval.ico">
 		<!-- Ext JS Files -->
 		{% block extjs %}
-		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}extjs/resources/css/ext-all-gray.css">
-		<script type="text/javascript" src="{{ STATIC_URL }}extjs/ext-all-debug.js"></script>
+		<link rel="stylesheet" type="text/css" href="http://cdn.sencha.com/ext/gpl/4.2.1/resources/css/ext-all-gray.css">
+		<script type="text/javascript" src="http://cdn.sencha.com/ext/gpl/4.2.1/ext-all.js"></script>
 		{% endblock %}
 		
 		{% block defaultstylesheets %}
@@ -59,7 +59,7 @@
             // Insert src attribute to extlocale and protolocale
             if (locale) {
                 Ext.fly('extlocale').set({
-                    src: '{{ STATIC_URL }}extjs/locale/ext-lang-' + locale + '.js'
+                    src: 'http://cdn.sencha.com/ext/gpl/4.2.1/locale/ext-lang-' + locale + '.js'
                 });
                 Ext.fly('protolocale').set({
                     src: '{{ STATIC_URL }}js/globals/locale/SM__lang-' + locale + '.js'

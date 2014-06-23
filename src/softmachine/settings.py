@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 
+# Django settings for PROTO project.
 import os.path
 PPATH = os.path.abspath( os.path.join( os.path.dirname(__file__), os.pardir )).replace('\\','/')
+
 
 if ('/src' in PPATH):
     PPATH = os.path.abspath(os.path.join( PPATH, os.pardir )).replace('\\','/')
 
-# Django settings for debugger 
+# Django settings for debugger
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-  
+
 ADMINS = (
      ('Dario Gomez', 'dariogomezt@gmail.com'),
 )
@@ -19,35 +21,62 @@ MANAGERS = ADMINS
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
+
+# Language code for this installation. All choices can be found here:
+# http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'fr-ca'
 
+# Local time zone for this installation. Choices can be found here:
+# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
+# although not all choices may be available on all operating systems.
+# On Unix systems, a value of None will cause Django to use the same
+# timezone as the operating system.
+# If running in a Windows environment this must be set to the same as your
+# system time zone.
 TIME_ZONE = 'America/Montreal'
 
+
+
+
+# If you set this to False, Django will make some optimizations so as not
+# to load the internationalization machinery.
 USE_I18N = True
 
+# If you set this to False, Django will not format dates, numbers and
+# calendars according to the current locale
 USE_L10N = True
 
+# If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
 SITE_ID = 1
 
 
-# A boolean that specifies whether to display numbers using a thousand separator. 
-# When USE_L10N is set to True and if this is also set to True, 
+# A boolean that specifies whether to display numbers using a thousand separator.
+# When USE_L10N is set to True and if this is also set to True,
 # Django will use the values of THOUSAND_SEPARATOR and NUMBER_GROUPING to format numbers.
 USE_THOUSAND_SEPARATOR = True
 NUMBER_GROUPING = 1
 
-# ------------------    UPLOAD MEDIA 
+#TOVerify
+#DECIMAL_SEPARATOR = '.'
+#THOUSAND_SEPARATOR = ','
+
+# ------------------    UPLOAD MEDIA
+
+
 # Absolute filesystem path to the directory that will hold user-uploaded files.
+# Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = os.path.join(PPATH, 'media/')
 FILE_UPLOAD_PERMISSIONS = 0644
 
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a trailing slash.
+# Examples: "http://xxx.com/media/"
 MEDIA_URL = '/media/'
 
-# ------------------    STATIC 
+
+# ------------------    STATIC
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
@@ -55,18 +84,12 @@ STATIC_ROOT = 'static/'
 
 TEMPLATE_DIRS = (
     PPATH + '/templates',
-    PPATH + '/src/protoLib/templates',
+    PPATH + '/src/protobase/templates',
 )
-
-if PPATH.startswith('/'):
-    EXT_PATH = '/opt/data/ExtJs'
-else:
-    EXT_PATH = 'd:/data/ExtJs'
 
 STATICFILES_DIRS = (
     PPATH + '/static',
-    PPATH + '/src/protoLib/static',
-    EXT_PATH,
+    PPATH + '/src/protobase/static',
 )
 
 # List of finder classes that know how to find static files in
@@ -140,10 +163,10 @@ PROTO_APP = {}
 
 
 if DEBUG :
-    from softmachine.settings_development import *
     with open( PPATH + '/src/softmachine/secret_key.txt') as f:
         SECRET_KEY = f.read().strip()
+    from softmachine.settings_development import *
 else :
-    from softmachine.settings_production import *
     with open('/etc/secret_key.txt') as f:
         SECRET_KEY = f.read().strip()
+    from softmachine.settings_production import *

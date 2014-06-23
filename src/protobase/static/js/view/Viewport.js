@@ -121,7 +121,25 @@ Ext.define('ProtoUL.view.Viewport', {
             collapsed: _SM._MENU_COLLAPSED,
 
             xtype: 'menuTree'
+
+            // ---------------------  Do not delete 
+            // layout: 'accordion',
+            // items: [{
+                // // title: 'Menu',
+                // layout: 'fit',
+                // xtype: 'menuTree'
+                // // xtype: 'treepanel',
+            // }, {
+                // title: 'Favorits',
+                // hidden: true,
+            // }]
         };
+        // );
+
+        // listeners: {
+            // scope: this,
+            // feedselect: this.onFeedSelect
+        // };
 
         return this.menuPanel;
     },

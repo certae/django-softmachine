@@ -7,6 +7,7 @@ CeRTAE [ProtoExt](http://www.certae.org/index.php?id=88) proposes an approach ba
 The system architecture is a Web MVC variant, this means that we use the basic concepts of Model, View and Controller adapted to a Web App.
 
 >[GPL License](docs/LICENSE.md)
+
 >Suggested IDE : [Aptana Studio 3](http://aptana.com/)
 
 
@@ -203,3 +204,6 @@ At this point you should have modified those files **settings.py** and **urls.py
 ### Add a new ExtJS app
 
 ### Customizing models
+
+### Production
+Copy ...Python/2.7/lib/python/site-packages/protobase/static to your local static folder...

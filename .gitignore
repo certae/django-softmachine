@@ -4,8 +4,12 @@
 *.bak
 .deployables
 coverage.xml
+media
+output
 django_softmachine.egg-info
 dist
 .project
 .pydevproject
 .settings
+*all-classes.js
+build

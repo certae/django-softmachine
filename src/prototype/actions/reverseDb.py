@@ -1,11 +1,22 @@
 # -*- coding: utf-8 -*-
 
+#Do not delete
+#from django.db import load_backend
+#myBackend = load_backend('postgresql_psycopg2') # or 'mysql', 'sqlite3', 'oracle'
+#myConnection = myBackend.DatabaseWrapper({})
+#myCursor = myConnection.cursor()
+
 # ----------------------------------------------------
+
 import keyword
-from prototype.models import Model, Entity, Relationship
+import traceback
+from prototype.models import Model, Entity, Property, Relationship
 from protoLib.protoAuth import getUserProfile
 from protoLib.utilsDb import setDefaults2Obj
-from django.db import connections, transaction, IntegrityError
+
+from django.db import connections, transaction, IntegrityError, DatabaseError
+from django.db.transaction import TransactionManagementError 
+
 
 # Coleccion de entidades a importar 
 pEntities  = {}
@@ -178,7 +189,7 @@ def saveProperty( dEntity, pProperty, defValues, userProfile, prpName, seq   ):
         dProperty.save()
         transaction.commit()
 
-    except Exception :
+    except Exception as e:
         transaction.rollback()
         prpName = '{0}.{1}'.format( prpName.split('.')[0] , seq ) 
         saveProperty( dEntity, pProperty, defValues, userProfile, prpName,  seq +1 )
@@ -224,7 +235,7 @@ def saveRelation( dProject, dEntity, dModel, pProperty,  defValues, userProfile,
         saveRelation( dProject, dEntity, dModel, pProperty,  defValues, userProfile, prpName, seq + 1 )
         return 
 
-    except Exception :  
+    except Exception as e:  
         transaction.rollback()
         #log 
         return  
@@ -260,4 +271,3 @@ def get_field_type( connection, table_name, row):
         field_params['decimal_places'] = row[5]
 
     return field_type, field_params, field_notes
-

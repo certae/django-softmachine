@@ -106,6 +106,14 @@ Ext.define('ProtoUL.ux.parameterWin', {
                     parameter: myField.getName(),
                     value: myField.getValue()
                 });
+
+                if ( myField.fkId && myField.zoomRecord ) {
+                    myReponse.push({
+                        parameter : myField.fkId,
+                        value : myField.zoomRecord.data.id
+                    });
+                };
+
             }
             this.options.acceptFn.call(this.options.scope, myReponse);
             this.close();

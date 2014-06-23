@@ -1,0 +1,20 @@
+body { width: 100%; font-size: 12pt; font-family: Arial,Helvetica,sans-serif; background: white; }
+@page {size: auto;}
+.maj {text-transform:uppercase;}
+.margepage {width: 100%; margin: 0; padding:0;}
+.info {margin: 5px; padding:0;}
+.pagebreakbefore {display: block; page-break-before: always;}
+p {text-align:justify; font-size: 12pt;}
+h3 {font-size: 14pt !important;}
+.coltabla { width: 200px;}
+.tabla {border-collapse:collapse;}
+.tabla th, .tabla td {padding: 5px; padding-right:10px; text-align: left;}
+.tabla td {border-bottom: 1px solid #CCC;}
+.tabla td+td {border-left: 1px solid #CCC;}
+.tabla caption {caption-side:bottom; text-align:left; padding: 5px;}
+.elemtete {border-bottom: 1px solid #000000;}
+.elemtete td {padding: 5px; text-align: left; font-weight: bold; font-size: 14pt;}
+.table_interieure{border-style: none;}
+.maincontent {height: auto;}
+.titrecentre, .titre2centre, .versioncentre {margin-left: 30px; margin-right: 30px; padding: 5px 20px; text-align:center;  margin-bottom: 50px;}
+.footer {margin-top: 50px; page-break-before: avoid;}
