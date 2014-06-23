@@ -200,6 +200,40 @@ mysite/
 At this point you should have modified those files **settings.py** and **urls.py** as mentioned in [Install using pip](#install-using-pip) section.
 
 ### Extend a template
+```html
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		{% block sitetitle %}
+		<!-- put site title here. i.e.: <title>Proto Certae</title> -->
+		{% endblock %}
+
+		{% block meta %}
+		<meta name="author" content="CeRTAE U.Laval">
+		{% endblock %}
+		
+		{% block extjs %}
+		<!-- you can replace the extjs implementation-->
+		{% endblock %}
+		
+		{% block defaultstylesheets %}
+		<!-- You can replace all application stylesheets, 
+		if you want to use the default put something here -->
+		{% endblock %}
+		{% block extrastylesheets %}{% endblock %}
+		
+		{% block configproperties %}
+		<script type="text/javascript" src="{{ STATIC_URL }}js/globals/configProperties.js"></script>
+		{% endblock %}
+
+		
+		{% block extjsloader %}{% endblock %}
+		{% block javascript %}{% endblock %}
+	</head>
+	<body></body>
+</html>
+```
 
 ### Add a new ExtJS app
 
