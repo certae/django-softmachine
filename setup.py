@@ -35,5 +35,4 @@ setup(
     install_requires=[
         "Django >= 1.5",
     ],
-    zip_safe=False,
 )

@@ -1,8 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
 
-from softmachine.settings import PPATH, DEBUG
-from protoLib.utils.generic_views import DirectTemplateView
+from softmachine.settings import PPATH
 
 import django.contrib.admin
 django.contrib.admin.autodiscover()

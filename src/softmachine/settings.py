@@ -88,13 +88,9 @@ STATIC_ROOT = ''
 
 TEMPLATE_DIRS = (
     PPATH + '/templates',
-    PPATH + '/src/protoLib/templates',
+    PPATH + '/src/protobase/templates',
 )
 
-if PPATH.startswith('/'):
-    EXT_PATH = '/u/data/ExtJs/extjs-4.2.x'
-else:
-    EXT_PATH = 'd:/data/ExtJs/extjs-4.2.x'
 
 # STATICFILES_DIRS: Put strings here, like "/home/html/static" or "C:/www/django/static".
 # Always use forward slashes, even on Windows.
@@ -102,7 +98,6 @@ else:
 STATICFILES_DIRS = (
     PPATH + '/static',
     PPATH + '/src/protobase/static',
-    EXT_PATH,
 )
 
 # URL prefix for admin static files -- CSS, JavaScript and images.

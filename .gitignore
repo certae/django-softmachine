@@ -8,7 +8,7 @@ media
 output
 
 .deployables
-static/all-classes.js
+all-classes.js
 coverage.xml
 django_softmachine.egg-info
 dist

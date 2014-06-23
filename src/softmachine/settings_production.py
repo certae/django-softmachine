@@ -22,16 +22,10 @@ DATABASES = {
 ALLOWED_HOSTS = [
     'localhost', # Allow domain and subdomains
     '127.0.0.1',
-    '132.203.51.6',
-    '.ulaval.ca',  # Also allow FQDN and subdomains
 ]
 
+WSGI_APPLICATION = 'softmachine.wsgi.application'
 
-WSGI_APPLICATION = 'ProtoExt.wsgi.application'
-
-TEMPLATE_DIRS = (
-    PPATH + '/templates',
-)
 
 # URL prefix for static files.  ( Relative for prod )
 # Example: "http://media.lawrence.com/static/"
@@ -47,10 +41,8 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'south',
     'protoLib',
     'prototype',
-#     'll',
 )
 
 HOST_DOMAIN = 'loli.fsa.ulaval.ca/artdev'
