@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/victorette/django-softmachine.svg?branch=master)](https://travis-ci.org/victorette/django-softmachine)
 [![Coverage Status](https://coveralls.io/repos/victorette/ProtoExt/badge.png?branch=master)](https://coveralls.io/r/victorette/ProtoExt?branch=master)
 
-CeRTAE [ProtoExt](http://www.certae.org/index.php?id=88) proposes an approach based on DATARUN method. This approach consists in achieving the interfaces of an application by the contruction of views from a standard data model. In other words, you can prototype and export a new application model. 
+CeRTAE [SoftMachine](http://www.certae.org/index.php?id=88) proposes an approach based on DATARUN method. This approach consists in achieving the interfaces of an application by the contruction of views from a standard data model. In other words, you can prototype and export a new application model. 
 The system architecture is a Web MVC variant, this means that we use the basic concepts of Model, View and Controller adapted to a Web App.
 
 >[GPL License](docs/LICENSE.md)
