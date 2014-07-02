@@ -1,0 +1,63 @@
+{
+    "projectName": "DBModel",
+    "licenseText": "Copyright(c) 2014 CeRTAE",
+    "builds": [
+        {
+            "name": "All Classes",
+            "target": "all-classes.js",
+            "options": {
+                "debug": true
+            },
+            "files": [
+            	{
+            		"name": "View.js",
+                    "path": "dbModel/"
+            	},
+            	{
+            		"name": "PortRightLocator.js",
+                    "path": "dbModel/locator/"
+            	},
+            	{
+            		"name": "PortLeftLocator.js",
+                    "path": "dbModel/locator/"
+            	},
+            	{
+            		"name": "DBTable.js",
+                    "path": "dbModel/shape/"
+            	},
+            	{
+            		"name": "ManhattanRightConnectionLocator.js",
+                    "path": "dbModel/shape/"
+            	},
+            	{
+            		"name": "ManhattanLeftConnectionLocator.js",
+                    "path": "dbModel/shape/"
+            	},
+            	{
+            		"name": "TableConnection.js",
+                    "path": "dbModel/shape/"
+            	},
+            	{
+            		"name": "CustomLabel.js",
+                    "path": "dbModel/shape/"
+            	}
+            ]
+        },
+        {
+            "name": "Application - Production",
+            "target": "dbModel-all.js",
+            "compress": true,
+            "files": [
+                {
+                    "path": "draw2d/src/",
+                    "name": "draw2d-all.js"
+                },
+                {
+                    "path": "dbModel/",
+                    "name": "all-classes.js"
+                }
+            ]
+        }
+    ],
+    "resources": []
+}
