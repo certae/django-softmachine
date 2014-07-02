@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
+
 from softmachine.settings import PPATH
 
 import django.contrib.admin
@@ -13,6 +14,8 @@ django.contrib.admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^admin/', include(django.contrib.admin.site.urls)) ,
 #     url(r'^admin/', include(xadmin.site.urls)),
+
+
     url(r'^main$', TemplateView.as_view(template_name='index.html')),
     url(r'^debug$', TemplateView.as_view(template_name='debug.html')),
 
@@ -26,7 +29,7 @@ urlpatterns = patterns('',
 
 #   Generated files
     url(r'getFile/(?P<path>.*)$', 'protoLib.utils.downloadFile.getFile', {}),
-    
+
     # Pour executer les tests avec Jasmine
     url(r'^extjs-tests', TemplateView.as_view(template_name='extjs-tests.html')),
 )

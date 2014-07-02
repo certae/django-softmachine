@@ -17,7 +17,8 @@ ALLOWED_HOSTS = [
 
 WSGI_APPLICATION = 'softmachine.wsgi.application'
 
-# URL prefix for static files.  ( Relative for prod )  
+
+# URL prefix for static files.  ( Relative for prod )
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = 'static/'
 
@@ -31,7 +32,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'south',
+    'protobase',
     'protoLib',
     'prototype',
 )

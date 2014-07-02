@@ -3,7 +3,6 @@
 import mimetypes
 import os
 
-from django.conf import settings
 from django.http import HttpResponse
 from django.utils.http import http_date
 
@@ -12,7 +11,6 @@ from protoLib.utilsWeb import JsonError
 
 """
 Views and functions for serving downloads files
-
 url
         url(r'^(?P<path>.*)$', 'getFile', {'document_root' : '/path/to/my/files/'})
 """
@@ -42,5 +40,6 @@ def getFile(request, path ):
 
 
 def getFullPath( request, filename ):
+    from django.conf import settings
     PPATH = settings.PPATH
     return os.path.join( PPATH , 'output', request.user.username + '.' + filename )
