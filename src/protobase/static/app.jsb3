@@ -9,6 +9,14 @@
                 "debug": true
             },
             "files": [
+            	{
+            		"name": "variables.js",
+                    "path": "js/globals/"
+            	},
+            	{
+            		"name": "configProperties.js",
+                    "path": "js/globals/"
+            	},
                 {
                     "name": "pciObjects.js",
                     "path": "metaDefinition/"
@@ -397,7 +405,7 @@
             "compress": true,
             "files": [
                 {
-                    "path": "",
+                    "path": "js/",
                     "name": "all-classes.js"
                 },
                 {

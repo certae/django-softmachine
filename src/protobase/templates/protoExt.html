@@ -27,10 +27,11 @@
 		{% endblock %}
 		{% block extrastylesheets %}{% endblock %}
 		
-		<script type="text/javascript" src="{{ STATIC_URL }}js/globals/variables.js"></script>
-		{% block configproperties %}
-		<script type="text/javascript" src="{{ STATIC_URL }}js/globals/configProperties.js"></script>
-		{% endblock %}
+		<script type="text/javascript">
+			// SoftMachine global variable
+			_SM = {};
+		</script>
+		
 		
 		<!-- load i18n files on the fly -->
 		<script type="text/javascript" id="extlocale"></script>
@@ -70,6 +71,8 @@
 		
 		{% block extjsloader %}{% endblock %}
 		<script type="text/javascript" src="{{ STATIC_URL }}js/app-all.js"></script>
+		
+		{% block configproperties %}{% endblock %}
 		{% block javascript %}{% endblock %}
 	</head>
 	<body></body>

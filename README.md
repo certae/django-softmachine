@@ -23,6 +23,13 @@ The system architecture is a Web MVC variant, this means that we use the basic c
 * [Reusing SoftMachine in customized projects](#reusing-softmachine-in-customized-projects)
   * [Generating an application](#generating-an-application)
   * [Setup a new project](#setup-a-new-project)
+  * [Extend a template](#extend-a-template)
+  * [Add a new ExtJS app](#add-a-new-extjs-app)
+  * [Customizing models](#customizing-models)
+    * [Executing JavaScript](#executing-javascript)
+    * [Dynamic window](#dynamic-window)
+    * [Auto-increment](#auto-increment)
+  * [Production](#production)
 
 
 ## Get Started
@@ -39,7 +46,7 @@ SoftMachine can be installed and used in two ways:
 * graphviz ([OPTION] For export database diagram)
 * south ([OPTION] For export database migration)
 
-### <i class="icon-download"></i> Install using pip
+### Install using pip
 SoftMachine is best installed via PyPI. To install the latest version, run:
 ```
 pip install django-softmachine
@@ -68,7 +75,7 @@ urlpatterns = patterns('',
 ```
 >See [<i class="icon-share"></i> Setup a new project](#setup-a-new-project) section for a detailed description.
 
-### <i class="icon-folder-open"></i> Deploying as Django app
+### Deploying as Django app
 
 #### Production requirements:
 
@@ -177,6 +184,8 @@ If we run the project as a simple Django application we're able to create a rela
 
 Once that we've defined our model, entities, attributes and relationships it's possible to create and customize a functional **prototype** (CRUD) based on entities.
 
+If you're ready to generate a new App, follow the steps below. You should also check this [Example](https://github.com/victorette/certae-rai)
+
 ### Generating an application
 When the prototype is finished we can export the model to generate a new application. The output is a `models.py` file containing the basics for a new Django app.
 
@@ -200,6 +209,9 @@ mysite/
 At this point you should have modified those files **settings.py** and **urls.py** as mentioned in [Install using pip](#install-using-pip) section.
 
 ### Extend a template
+
+django-softmachine has two main templates, protoExt.html and protoDebug.html. Both have the same blocks, the difference is that protoExt.html uses minified JavaScript files.
+See the code bellow to understand how the template is organized (code outside blocks were omitted).
 ```html
 <!DOCTYPE html>
 <html lang="fr">
@@ -210,31 +222,31 @@ At this point you should have modified those files **settings.py** and **urls.py
 		{% endblock %}
 
 		{% block meta %}
-		<meta name="author" content="CeRTAE U.Laval">
+		<!-- put meta content here. i.e.: <meta name="author" content="CeRTAE U.Laval"> -->
 		{% endblock %}
 		
 		{% block extjs %}
-		<!-- you can replace the extjs implementation-->
+		<!-- Use this block to replace the extjs implementation-->
 		{% endblock %}
 		
 		{% block defaultstylesheets %}
 		<!-- You can replace all application stylesheets, 
-		if you want to use the default put something here -->
+		if you don't want to use the default css put something here -->
 		{% endblock %}
 		{% block extrastylesheets %}{% endblock %}
 		
-		{% block configproperties %}
-		<script type="text/javascript" src="{{ STATIC_URL }}js/globals/configProperties.js"></script>
-		{% endblock %}
 
 		
 		{% block extjsloader %}{% endblock %}
+		{% block configproperties %}<!-- You can replace application's variables here -->{% endblock %}
 		{% block javascript %}{% endblock %}
 	</head>
 	<body></body>
 </html>
 ```
 
+Now we're going to extend the templates to customize your application. Django's template inheritance mechanism allows templates to extend other templates and replace named blocks within them.
+Create a new file inside your templates dir, name it `debug.html` (it's a good idea to start using the debug mode). Replace the blocks as you wish, for consultation, you can see the example below:
 ```html
 {% extends "protoDebug.html" %}
 
@@ -250,9 +262,6 @@ At this point you should have modified those files **settings.py** and **urls.py
 {% block extrastylesheets %}
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/rai.css">
 {% endblock %}
-{% block configproperties %}
-<script type="text/javascript" src="{{ STATIC_URL }}js/config/configProperties.js"></script>
-{% endblock %}
 
 {% block extjsloader %}
 <script type="text/javascript">
@@ -260,6 +269,9 @@ At this point you should have modified those files **settings.py** and **urls.py
 </script>
 {% endblock %}
 
+{% block configproperties %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/config/configProperties.js"></script>
+{% endblock %}
 {% block javascript %}
 <script type="text/javascript" src="{{ STATIC_URL }}js/rai/app.js"></script>
 {% endblock %}
@@ -268,7 +280,79 @@ At this point you should have modified those files **settings.py** and **urls.py
 
 ### Add a new ExtJS app
 
+SoftMachine UI is based on ExtJS framework. If you don't like it, you're free to use whatever you want. Just keep in mind that using ExtJS could avoid a lot of hard work :)
+
+So you've decided to use ExtJS. We suppose that you're comfortable with the concept of Single Page Application.
+SoftMachine UI application is also extensible, you can create your own app, but your app.js must extend `ProtoUL.Application`
+```javascript
+Ext.application({
+    name: 'RAI',
+    paths: {
+        'RAI' : 'static/js/rai'
+    },
+
+    extend: 'ProtoUL.Application',
+
+    controllers: [
+		'RAI.controller.RaccordementController'
+	]
+});
+```
+
+Once this is done you are free to create everything that you want, but to execute you code you must create an especific action inside your model [Executing JavaScript](#executing-javascript).
+
 ### Customizing models
 
+#### Executing JavaScript
+You have defined a new application and there is a need to use this code for an especific table. Create an action inside `protoExt` and add the parameters `name`, `executeJS` and `jsCode` as you can see in the cexample code :
+
+```python 
+class MyAmazingTable(ProtoModel):
+    # omitted code ...
+
+    protoExt = { 
+        "actions": [
+            { "name": "doAmazingAction", "selectionMode" : "single", "executeJS": True, "jsCode":"Ext.create('RAI.view.raccordement.MainWindow',{selectedModel:selectedKeys}).show();",},
+        ],
+    } 
+```
+If your action uses a selected row you should also add `selectionMode` (`single` or `multiple`). SoftMachine will validate if there is a row selected, otherwise nothing will happen.
+If you need to get the selected row(s), you must send the parameter `selectedKeys` to your Window
+
+#### Dynamic window
+You also can execute actions based on dynamic forms. All fields must be defined under `actionParams` 
+
+```python 
+class OtherTable(ProtoModel):
+
+    protoExt = { 
+        "actions": [
+            { "name": "doFindReplace", "selectionMode" : "multi", "refreshOnComplete" : True,
+               "actionParams": [
+                     {"name" : "fieldName", "type" : "string", "required": True, "tooltip" : "field name (meta)" }, 
+                     {"name" : "oldText", "type" : "string", "required": True, "tooltip" : "Old values: pyreg.sub(); @all for all text" }, 
+                     {"name" : "newText", "type" : "string", "required": True, "tooltip" : "New values" }, 
+                ] 
+            },
+        ],
+    } 
+```
+You should take a look on the models code to check other custom actions
+
+#### Auto-increment
+If for any unknown reason you need to create *another* auto-increment field, you just need to add the attribute `_autoIncrementField` and specify which column will use the auto-increment, note that this column should be `IntegerField`
+
+```python
+class Evaluation(ProtoModel):
+    id_evaluation = models.IntegerField(blank = False, null = False)
+    date_evaluation = models.DateField(blank = True, null = True)
+    auteur_evaluation = models.CharField(blank= True, null= True, max_length= 255)
+    description_evaluation = models.TextField(blank = True, null = True)
+
+    _autoIncrementField = 'id_evaluation'
+```
+  
 ### Production
-Copy ...Python/2.7/lib/python/site-packages/protobase/static to your local static folder...
+If you're ready to deploy your new App, check the security remarks and the Django documentation ([Deploying Django](https://docs.djangoproject.com/en/dev/howto/deployment/))
+
+> Hint: To serve SoftMachine static files copy `...Python/2.7/lib/python/site-packages/protobase/static` to your local static folder...
