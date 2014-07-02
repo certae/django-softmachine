@@ -28,13 +28,16 @@
 		{% endblock %}
 		{% block extrastylesheets %}{% endblock %}
 
-		<script type="text/javascript" src="{{ STATIC_URL }}metaDefinition/pciObjects.js"></script>
-		<script type="text/javascript" src="{{ STATIC_URL }}metaDefinition/pciProperties.js"></script>
+		<script type="text/javascript">
+			// SoftMachine global variable
+			_SM = {};
+		</script>
 
 		<script type="text/javascript" src="{{ STATIC_URL }}js/globals/variables.js"></script>
-		{% block configproperties %}
 		<script type="text/javascript" src="{{ STATIC_URL }}js/globals/configProperties.js"></script>
-		{% endblock %}
+
+		<script type="text/javascript" src="{{ STATIC_URL }}metaDefinition/pciObjects.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}metaDefinition/pciProperties.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/globals/Tools.js"></script>
 		<script type="text/javascript" src="{{ STATIC_URL }}js/globals/ProtoStore.js"></script>
 
@@ -122,6 +125,7 @@
 		
 		{% block extjsloader %}{% endblock %}
 		<script type="text/javascript" src="{{ STATIC_URL }}js/app.js"></script>
+		{% block configproperties %}{% endblock %}
 		{% block javascript %}{% endblock %}
 	</head>
 	<body></body>

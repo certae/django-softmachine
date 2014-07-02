@@ -577,19 +577,13 @@ function createJSFilesLibrary() {
 
     scriptLibrary.push("static/js2db/lib/pathfinding-browser.min.js");
 	
-	scriptLibrary.push("static/js2db/draw2d/src/draw2d-all.js");
-	
     scriptLibrary.push("static/js2db/lib/jquery.browser.js");
     scriptLibrary.push("static/js2db/lib/jquery-ui-1.8.23.custom.min.js");
     scriptLibrary.push("static/js2db/lib/jquery.layout.js");
 
-    scriptLibrary.push("static/js2db/dbModel/View.js");
-    scriptLibrary.push("static/js2db/dbModel/locator/PortRightLocator.js");
-    scriptLibrary.push("static/js2db/dbModel/locator/PortLeftLocator.js");
-    scriptLibrary.push("static/js2db/dbModel/shape/DBTable.js");
-    scriptLibrary.push("static/js2db/dbModel/shape/ManhattanRightConnectionLocator.js");
-    scriptLibrary.push("static/js2db/dbModel/shape/ManhattanLeftConnectionLocator.js");
-    scriptLibrary.push("static/js2db/dbModel/shape/TableConnection.js");
-    scriptLibrary.push("static/js2db/dbModel/shape/CustomLabel.js");
-
+	// Used for debub
+	// scriptLibrary.push("static/js2db/draw2d/src/draw2d-all.js");
+    // scriptLibrary.push("static/js2db/dbModel/all-classes.js");
+	
+	scriptLibrary.push("static/js2db/dbModel/dbModel-all.js");
 }
