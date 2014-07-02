@@ -3,6 +3,7 @@
 from protoLib.utilsWeb import JsonError
 from protoLib.protoActions import protoExecuteAction
 from django.views.decorators.csrf import csrf_exempt    
+import datetime 
 
 @csrf_exempt
 def loadFiles(request):
@@ -16,15 +17,27 @@ def loadFiles(request):
     from django.conf import settings
     import os 
 
-    
-    for key, fileObj in request.FILES.items():
-        path = os.path.join(settings.MEDIA_ROOT, fileObj.name ) 
-        dest = open(path, 'w')
-        if fileObj.multiple_chunks:
-            for c in fileObj.chunks():
-                dest.write(c)
-        else:
-            dest.write(fileObj.read())
-        dest.close()
+    fileroot = request.user.__str__() + datetime.datetime.now().strftime("_%y%m%d%H%M%S_")
+
+    actionFiles = {}
+    try:     
+        for key, fileObj in request.FILES.items():
+            
+            path = os.path.join(settings.MEDIA_ROOT, fileroot + fileObj.name ) 
+            actionFiles[ key ] = path 
+            
+            dest = open(path, 'w')
+            if fileObj.multiple_chunks:
+                for c in fileObj.chunks():
+                    dest.write(c)
+            else:
+                dest.write(fileObj.read())
+            dest.close()
+            
+        request.POST[ "actionFiles" ] = actionFiles
+        
+    except: 
+        return JsonError( 'fileLoad error: ' + fileObj.name  )
+
 
     return protoExecuteAction(request)
