@@ -87,16 +87,31 @@ TEMPLATE_DIRS = (
     PPATH + '/src/protobase/templates',
 )
 
+
+# STATICFILES_DIRS: Put strings here, like "/home/html/static" or "C:/www/django/static".
+# Always use forward slashes, even on Windows.
+# Don't forget to use absolute paths, not relative paths.
 STATICFILES_DIRS = (
     PPATH + '/static',
     PPATH + '/src/protobase/static',
 )
+
+# URL prefix for admin static files -- CSS, JavaScript and images.
+# Make sure to use a trailing slash.
+# Examples: "http://foo.com/static/admin/", "/static/admin/".
+
+# DGT: Al cambiar esto deja de funcionar (alguna relacion con STATIC_URL? )
+#ADMIN_MEDIA_PREFIX = '/static/'
+#ADMIN_MEDIA_PREFIX = '/static/admin/'
+
+
 
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+
 )
 
 
@@ -161,11 +176,11 @@ AUTH_PROFILE_MODULE = 'protoLib.UserProfile'
 # Variables prototypeur
 PROTO_APP = {}
 
-
 if DEBUG :
     with open( PPATH + '/src/softmachine/secret_key.txt') as f:
         SECRET_KEY = f.read().strip()
     from softmachine.settings_development import *
+
 else :
     with open('/etc/secret_key.txt') as f:
         SECRET_KEY = f.read().strip()

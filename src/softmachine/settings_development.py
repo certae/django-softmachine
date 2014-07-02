@@ -14,11 +14,8 @@ ALLOWED_HOSTS = [
 ]
 
 
-
 # URL prefix for static files.
 STATIC_URL = '/static/'
-
-
 
 
 INSTALLED_APPS = (
