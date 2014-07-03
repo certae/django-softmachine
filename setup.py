@@ -8,14 +8,14 @@ README = 'Django-Softmachine proposes an approach based on DATARUN method. ' + \
 'In other words, you can prototype and export a new application model. \n' +\
 'The system architecture is a Web MVC variant, this means that we use the basic concepts of Model, View and Controller adapted to a Meta-Data Driven Web App.' + \
 'Doc : http://certae.github.io/django-softmachine/ ' + \
-'Source : https://github.com/certae/django-softmachine' 
+'Source : https://github.com/certae/django-softmachine'
 
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-softmachine',
-    version='1.0.3',
+    version='1.0.4',
     packages=find_packages('src',exclude=['alltests', 'softmachine', 'alltests.*']),
     package_dir = {'':'src'},
     include_package_data=True,

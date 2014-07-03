@@ -286,17 +286,18 @@ _SM.updateWinPosition = function (myWidth, myHeight) {
 
 _SM.savePclCache = function (viewCode, protoMeta, reOpen ) {
 
-   // Asigna la llave, pues si se hace una copia seguiria trayendo la misma viewCode de base
-   // console.log(protoMeta);
-    if ( viewCode.substring(0, protoMeta.viewEntity.length ) !== protoMeta.viewEntity ) {
-        viewCode =  protoMeta.viewEntity + '.' + protoMeta.viewCode;
-    }
+   // Check if there is a view inside the cache, if exists will verify if is a copy and will create a new viewCode
+   if(typeof _SM._cllPCI[viewCode] !== 'undefined'){
+   		if ( viewCode.substring(0, protoMeta.viewEntity.length ).toUpperCase() !== protoMeta.viewEntity.toUpperCase() ) {
+        	viewCode =  protoMeta.viewEntity + '.' + protoMeta.viewCode;
+    	}
+ 	};
 
-    protoMeta.viewCode = viewCode
+    protoMeta.viewCode = viewCode;
 
     _SM.DefineProtoModel(protoMeta );
 
-    // Guarda el cache de  pcl's
+    // Saves pcl's cache
     _SM._cllPCI[viewCode] = protoMeta;
 
     // Cierra todas las instancias de esta pcl

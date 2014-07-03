@@ -24,6 +24,7 @@ __language ={
     'Text_Edit_Button' : 'Éditer',
     'Text_SaveMs_Button' : 'Enregistrer',
     'Text_SaveDt_Button' : 'Enregistrer details',
+    'Text_Help_Button' : 'Aide',
     
     'MenuTree_Text_Add_Event' : "Ajouter événement ",
     'MenuTree_Text_Edit_Event' : "Modifier événement",

@@ -131,8 +131,9 @@ Ext.define('ProtoUL.UI.TbMasterDetail', {
                 handler: editOpts
 
             }, {
-                xtype: 'splitbutton',
+                xtype: 'button',
                 iconCls: 'icon-help',
+                text: _SM.__language.Text_Help_Button,
                 handler: toogleTb2,
                 itemId: 'tbHelp'
             }]

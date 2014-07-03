@@ -271,9 +271,12 @@ class VirtualField(object):
 
 
 def getReadableError( e ):
-    sAux = '<b>ErrType:</b> ' + type( e ).__name__ + '<br>'
-    sAux +=  smart_str( e )
-
+    errorType = type(e).__name__
+    sAux = '<b>ErrorType:</b> ' + errorType + '<br>'
+    if errorType is 'IntegrityError':
+        sAux +=  smart_str('le registre n\'a pas pu être créé, car il n\'est pas unique')
+    else:
+        sAux +=  smart_str(e.message)
 #    if len( e.args ) > 1: sAux += '<br>' +  str( '; '.join( e.args ))
     return sAux + '<br>'
 
