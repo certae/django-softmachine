@@ -131,8 +131,11 @@ Ext.define('ProtoUL.ux.parameterWin', {
         if (form.isValid()) {
             form.submit({
                 url: _SM._PConfig.urlLoadFile,
+                params : me.requestparams, 
+
                 method: 'POST',
                 waitMsg: 'Uploading your file...',
+
                 success: function(f, a) {
                     var result = a.result, data = result.data;
                     me.close();
