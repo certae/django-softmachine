@@ -135,6 +135,15 @@ Ext.define('ProtoUL.UI.MDActionsController', {
                     myWin = Ext.create('ProtoUL.ux.parameterWin', {
                         parameters: pAction.actionParams,
                         title: btn.actionName,
+                        requestparams : {
+                            viewCode : pGrid.viewCode,
+                            actionName : btn.actionName,
+                            parameters : Ext.encode(pAction.parameters),
+                            actionDef : Ext.encode(btn.actionDef),
+                            selectedKeys : Ext.encode(selectedKeys), 
+                            detKeys : Ext.encode(detKeys)
+                        },
+
                         options: myOptions
                     });
 
