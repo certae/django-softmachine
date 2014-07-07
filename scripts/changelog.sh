@@ -2,7 +2,7 @@
 # Author: tim.tang
 rm -f ../CHANGELOG.md
 
-git for-each-ref --sort='*authordate' --format='%(tag)' refs/tags | grep -v '^$' | tail -r | while read TAG ; do
+git for-each-ref --sort='*authordate' --format='%(refname:short)' refs/tags | grep -v '^$' | tail -r | while read TAG ; do
     echo
     if [ $NEXT ];then
         echo '       ' >> ../CHANGELOG.md

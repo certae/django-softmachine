@@ -2,7 +2,7 @@
 *CURRENT*
 ---
     
-    
+- 2014-07-07 (Victorette) change: Update CHANGELOG.md -> [view commit](https://github.com/certae/django-softmachine/commit/ae818991c0b0827a9368a49d3bcf619eb438adb2)    
        
 *v1.0.5*
 ---
@@ -329,3 +329,8 @@
 - 2014-02-05 (Victorette) First commit for Django 1.6 -> [view commit](https://github.com/certae/django-softmachine/commit/aa7a6463d1b7cdd6a8b11b74e609860f81a62da5)
 - 2014-02-03 (Victorette) urls config -> [view commit](https://github.com/certae/django-softmachine/commit/c39601c2f455e48dc7748426b470ce90bec60654)
 - 2014-01-30 (dariogt) Preparacion Merge -> [view commit](https://github.com/certae/django-softmachine/commit/1dd2442b3cdc598a7841f7b530de3f48b0279518)    
+       
+*v0.02RC*
+---
+    
+    
