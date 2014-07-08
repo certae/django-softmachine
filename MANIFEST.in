@@ -1,5 +1,6 @@
 include docs/LICENSE.md
 include README.md
+include PYPI.rst
 recursive-include src/protobase *.py *.html *.js
 recursive-include src/protoLib *.py
 recursive-include src/prototype *.py
