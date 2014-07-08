@@ -65,7 +65,7 @@ Ext.define('ProtoUL.controller.PasswordManager', {
                 failure: function(form, action) {
                     Ext.Msg.show({
                         title: _SM.__language.Message_Error,
-                        msg: action.response.statusText,
+                        msg: "La connexion au serveur a été interrompue. Si ce problème persiste, contactez l'administrateur du serveur ou le fournisseur de services Internet.",
                         buttons: Ext.Msg.OK,
                         icon: Ext.MessageBox.WARNING
                     });
