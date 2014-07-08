@@ -2,6 +2,7 @@
 *CURRENT*
 ---
     
+- 2014-07-07 (Victorette) new: Add scripts to build and publish APP -> [view commit](https://github.com/certae/django-softmachine/commit/a79bb748803077d9e9a149a1d54b79d2e942feda)
 - 2014-07-07 (Victorette) change: Update CHANGELOG.md -> [view commit](https://github.com/certae/django-softmachine/commit/ae818991c0b0827a9368a49d3bcf619eb438adb2)    
        
 *v1.0.5*
@@ -334,3 +335,9 @@
 ---
     
     
+       
+*v1.0.4*
+---
+    
+- 2014-07-07 (Victorette) setup.py update -> [view commit](https://github.com/certae/django-softmachine/commit/e5a491304f628081c8a1b1af9cc0cc7e7d9f30c8)
+- 2014-07-03 (Victorette) Solving issue when the view code were different from viewEntity. Add text to help button in Master Detail. -> [view commit](https://github.com/certae/django-softmachine/commit/c2edd9fa4c76b02eb4a226272fd39f3588f1b7cd)    
