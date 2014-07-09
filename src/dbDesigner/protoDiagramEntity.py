@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from protoLib.utilsWeb import JsonError
 from prototype.models import Project, Diagram
 from protoLib.utilsBase import JSONEncoder
+from dbDesigner.service.diagramService import saveDiagramEntity
 
 import json, ast
 
@@ -53,14 +54,16 @@ def saveDiagram(request):
     jsonFile = json.loads(request.body)
     jsonString = JSONEncoder().encode(jsonFile)
     jsonString = '{"objects":'+jsonString+'}'
-    # TODO save DiagramEntity for each UUID (table inside jsonString)
+    
     try:
         diagram = Diagram.objects.get(id=diagramID)
         diagram.info = jsonString
         diagram.save()
+        
     except Exception as e:
         return JsonError(e)
     
+    saveDiagramEntity(jsonFile, diagram, request.user)
     jsondict = {
         'success':True,
         'message': 'Diagram saved',
