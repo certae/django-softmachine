@@ -38,6 +38,19 @@ def CreatePreparedAuthRequest():
     
     return request
 
+def CreatePreparedExistentEntityAuthRequest():
+    
+    factory = RequestFactory()
+    data = '[{"type":"dbModel.shape.DBTable","id":"465bf0b2-a50f-f6cb-fdf0-0cbf142d239b","x":20,"y":20,"width":99,"height":57.84375,"userData":{},"cssClass":"DBTable","bgColor":"#DBDDDE","color":"#D7D7D7","stroke":1,"alpha":1,"radius":3,"tableName":"TableName10","tablePorts":[],"attributes":[{"text":"new attribute0","id":"b3177ad1-b220-805e-e748-be12434e578d","datatype":"string","pk":true,"fk":false,"isRequired":true,"isNullable":false}]}]'
+    auth = authenticate(username='adube', password='123')
+
+    request = factory.request()
+    request._body = data
+    request._get = {"projectID":1, "diagramID":1}
+    request.user = auth
+    
+    return request
+
 def CreatePreparedAuthPostRequest():
     
     factory = RequestFactory()
@@ -54,6 +67,7 @@ class ProtoDiagramTest(TestCase):
         self.diagram = createTestDiagram()
         self.basic_request = CreateBasicRequest()
         self.auth_request = CreatePreparedAuthRequest()
+        self.auth_request_existent_entity = CreatePreparedExistentEntityAuthRequest()
 
     def tearDown(self):
         self.diagram.delete()
@@ -70,6 +84,10 @@ class ProtoDiagramTest(TestCase):
         response = json.loads(synchDBFromDiagram(self.auth_request).content)
         self.assertTrue(response['success'])
         
+    def test_synchDBFromDiagramWhenEntityExistsThenReturnSuccess(self):
+        response = json.loads(synchDBFromDiagram(self.auth_request_existent_entity).content)
+        self.assertTrue(response['success'])
+        
     def test_getDefaultDiagram(self):
         response = json.loads(getDefaultDiagram(self.auth_request).content)
         self.assertTrue(response['success'])
@@ -81,6 +99,7 @@ class ProtoDiagramEntityTest(TestCase):
         self.basic_request = CreateBasicRequest()
         self.prepped_request = CreatePreparedRequest()
         self.auth_request = CreatePreparedAuthRequest()
+        self.auth_request_existent_entity = CreatePreparedExistentEntityAuthRequest()
         
         self.testRelationShip = createTestRelationship()
 
@@ -109,7 +128,7 @@ class ProtoDiagramEntityTest(TestCase):
         self.assertTrue(response['success'])
     
     def test_saveDiagram(self):
-        response = json.loads(saveDiagram(self.auth_request).content)
+        response = json.loads(saveDiagram(self.auth_request_existent_entity).content)
         self.assertTrue(response['success'])
         
     def test_createDiagram(self):

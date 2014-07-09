@@ -2,6 +2,12 @@
 *CURRENT*
 ---
     
+    
+       
+*v1.0.6*
+---
+    
+- 2014-07-08 (Victorette) update: new version to be uploaded -> [view commit](https://github.com/certae/django-softmachine/commit/d4c09fbd6822b79bc4cf015bd31d4c0d7715443d)
 - 2014-07-08 (Victorette) error: IOError: [Errno 2] No such file or directory -> [view commit](https://github.com/certae/django-softmachine/commit/767f2a65529238387854728988ade69900b64317)
 - 2014-07-08 (Victorette) change: update changelog -> [view commit](https://github.com/certae/django-softmachine/commit/ab39d245f0ac023ba2d74e97ebbf5ffff669d422)
 - 2014-07-07 (Victorette) new: Add scripts to build and publish APP -> [view commit](https://github.com/certae/django-softmachine/commit/a79bb748803077d9e9a149a1d54b79d2e942feda)

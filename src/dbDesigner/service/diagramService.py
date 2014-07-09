@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from prototype.models import Entity, Relationship, Property
+from prototype.models import Entity, Relationship, Property, DiagramEntity
 import uuid
 
 def addOrUpdateEntity(model, user, owningTeam, deletedConnectors, element, elementUUID):
@@ -69,3 +69,16 @@ def saveAttributes(element, entity, UUIDAttributeList, user, owningTeam):
                 pProperty.save()
     
     return entity
+
+def saveDiagramEntity(jsonFile, diagram, user):
+    for element in jsonFile:
+        elementUUID = uuid.UUID(element['id']).hex
+        if element['type'] == 'dbModel.shape.DBTable':
+            try:
+                refEntity = Entity.objects.get(smUUID=elementUUID)
+                diagramEntity,created = DiagramEntity.objects.get_or_create(diagram=diagram,entity=refEntity)
+                diagramEntity.smOwningUser = user
+                diagramEntity.smCreatedBy = user
+                diagramEntity.save()
+            except Exception as e:
+                print e
