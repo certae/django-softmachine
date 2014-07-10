@@ -7,8 +7,9 @@ coverage.xml
 output
 django_softmachine.egg-info
 dist
+build
 .project
 .pydevproject
 .settings
 *all-classes.js
-build
+*test_file.txt

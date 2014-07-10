@@ -72,27 +72,6 @@ def parseEmailAddress(fullemail, delimitorLeft = '<', delimitorRight = '>'):
 
     return None
 
-def guessNextPath(dst, slugify = True, idx = 0, checkExists = True):
-    """ return a renamed path if provided one already exists
-        if slugify, file name is slugified first (fs encodings problems quick & dirty workaround)
-    """
-    newpath = dst
-    if idx == 0:
-        (path, file) = os.path.split(newpath)
-        (file, ext) =  os.path.splitext(file)
-        slug = slugify(file)
-
-        newpath = os.path.join(path, '%s%s' % (slug, ext))
-
-    if checkExists and os.path.isfile(newpath):
-        idx += 1
-        name, ext = os.path.splitext(newpath)
-        newpath = '%s-copy%s' % (name, ext)
-        return guessNextPath(newpath, slugify, idx, checkExists)
-
-    return newpath
-
-
 def unique_id(more = ''):
     import time
     a = str(time.time())

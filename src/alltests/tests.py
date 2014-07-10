@@ -18,5 +18,7 @@ from alltests.testProtoLib.ProtoAuthTest import *
 from alltests.testProtoLib.ProtoGetDetailsTest import *
 from alltests.testProtoLib.ProtoGetPciTest import *    
 from alltests.testProtoLib.ProtoLoginTest import *                                  
-from alltests.testProtoLib.ProtoMenuTest import *   
+from alltests.testProtoLib.ProtoMenuTest import *
+from alltests.testProtoLib.UtilsConvertTest import *
+from alltests.testProtoLib.UtilsBaseTest import *
 from alltests.testDbDesigner.ProtoDiagramTest import *                          
