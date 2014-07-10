@@ -11,4 +11,4 @@ dist
 .pydevproject
 .settings
 *all-classes.js
-build
+*test_file.txt
