@@ -130,38 +130,10 @@ def toDateTime(sVal, iDefault=None):
                 (h, m, s) = time.split(':')
                 return datetime.datetime(int(an), int(mois), int(jour), int(h), int(m), int(s))
             else:
-                (jour, mois, an) = date.split('/')
+                (jour, mois, an) = sVal.split('/')
                 return datetime.date(int(an), int(mois), int(jour))
     except:
         return iDefault
-
-
-
-def toDate__(sVal):
-    # Este metodo usa eltos propios del typo datetime,
-    # podria seria interesante para iterar sobre diferentes formatos
-
-    # For DateField() :
-    # '%Y-%m-%d', '%m/%d/%Y', '%m/%d/%y', # '2006-10-25', '10/25/2006', '10/25/06'
-    # '%b %d %Y', '%b %d, %Y',            # 'Oct 25 2006', 'Oct 25, 2006'
-    # '%d %b %Y', '%d %b, %Y',            # '25 Oct 2006', '25 Oct, 2006'
-    # '%B %d %Y', '%B %d, %Y',            # 'October 25 2006', 'October 25, 2006'
-    # '%d %B %Y', '%d %B, %Y',            # '25 October 2006', '25 October, 2006'
-
-    # For DateTimeField():
-    # '%Y-%m-%d %H:%M:%S',     # '2006-10-25 14:30:59'
-    # '%Y-%m-%d %H:%M',        # '2006-10-25 14:30'
-    # '%Y-%m-%d',              # '2006-10-25'
-    # '%m/%d/%Y %H:%M:%S',     # '10/25/2006 14:30:59'
-    # '%m/%d/%Y %H:%M',        # '10/25/2006 14:30'
-    # '%m/%d/%Y',              # '10/25/2006'
-    # '%m/%d/%y %H:%M:%S',     # '10/25/06 14:30:59'
-    # '%m/%d/%y %H:%M',        # '10/25/06 14:30'
-    # '%m/%d/%y',              # '10/25/06'
-
-    strp_time = time.strptime(sVal , "%m/%d/%Y %H:%M:%S")
-    date_django = datetime.datetime.fromtimestamp(time.mktime(strp_time))
-    return date_django
 
 
 def isinteger(astring):
@@ -172,14 +144,3 @@ def isinteger(astring):
         if not char in string.digits:
             return False
     return True
-
-
-# --------------------
-
-def product(*args):
-    # product( ['ABCD', 'xy'] ) --> Ax Ay Bx By Cx Cy Dx Dy
-    pools = map(tuple, args)
-    result = [[]]
-    for pool in pools:
-        result = [x + [y] for x in result for y in pool]
-    return result
