@@ -65,12 +65,14 @@ class ProtoDiagramTest(TestCase):
 
     def setUp(self):
         self.diagram = createTestDiagram()
+        self.entity = createTestEntity()
         self.basic_request = CreateBasicRequest()
         self.auth_request = CreatePreparedAuthRequest()
         self.auth_request_existent_entity = CreatePreparedExistentEntityAuthRequest()
 
     def tearDown(self):
         self.diagram.delete()
+        self.entity.delete()
         
     def test_verifying_diagram_entities_in_database(self):
         response = json.loads(getEntitiesJSONDiagram(self.basic_request).content)

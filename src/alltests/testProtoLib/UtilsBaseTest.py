@@ -1,8 +1,14 @@
 # -*- encoding: UTF-8 -*-
 
 from django.test import TestCase
+from django.http import HttpResponse
 from protoLib.utilsBase import parseEmailAddress, verifyList, unique_id, reduceDict, dict2tuple, CleanFilePath, ReadFile, PathToList, strip_html, strip_accents, strip_euro, DateFormatConverter
+from protoLib.utilsWeb import set_cookie, DownloadLocalFile
 import os
+
+def CreateBasicResponse():
+    response = HttpResponse()
+    return response
 
 class UtilsBaseTest(TestCase):
 
@@ -69,3 +75,21 @@ class UtilsBaseTest(TestCase):
     def test_DateFormatConverterThenReturnString(self):
         outcome = DateFormatConverter('12/01/2012%')
         self.assertTrue(outcome == '12/01/2012')
+
+class UtilsWebTest(TestCase):
+    
+    def test_verifyingSetCookieThenReturnCookie(self):
+        key = "key"
+        value = "data"
+        outcome = set_cookie(CreateBasicResponse(), key, value)
+        cookie = outcome.cookies[key].value
+        self.assertTrue(cookie == value)
+        
+    def test_verifyDownloadLocalFileThenReturnResponse(self):
+        filename = 'test_file.txt'
+        target = open (filename, 'w') ## a will append, w will over-write 
+        line1 = "line 1: "
+        target.write(line1)
+        target.close()
+        outcome = DownloadLocalFile(filename)
+        self.assertTrue(outcome.content == line1)
