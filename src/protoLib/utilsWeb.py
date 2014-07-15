@@ -94,11 +94,13 @@ def my_send_mail(subject, txt, sender, to=[], files=[], charset='UTF-8'):
         
         from smtplib import SMTP
         smtp = SMTP()
-        smtp.connect(host=settings.EMAIL_HOST)
-        smtp.sendmail(sender,dest, msg.as_string())
-        smtp.quit()
- 
- 
+        try:
+            smtp.connect(host=settings.EMAIL_HOST)
+            smtp.sendmail(sender,dest, msg.as_string())
+            smtp.quit()
+            return smtp
+        except Exception as e:
+            return e
  
 
 

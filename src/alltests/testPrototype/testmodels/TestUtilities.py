@@ -107,7 +107,8 @@ def createTestRelationship():
         'isForeign': False,
         'isSensitive' : False,
         'crudType': 'testCrudType',
-        'dbName': 'testDbName'
+        'dbName': 'testDbName',
+        'smUUID': 'f8735797cf1d8431d891c2d10f0a67be'
     }
 
     testRelationShip = Relationship(**relationshipdata)

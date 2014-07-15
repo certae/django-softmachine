@@ -5,6 +5,8 @@ from django.test.client import RequestFactory
 from django.http import HttpRequest
 from dbDesigner.protoDiagram import getEntitiesJSONDiagram, synchDiagramFromDB, getElementsDiagramFromSelectedTables, synchDBFromDiagram, getDefaultDiagram
 from dbDesigner.protoDiagramEntity import listDiagrams, openDiagram, createDiagram, saveDiagram, deleteDiagram
+from dbDesigner.service.diagramService import addOrUpdateConnector
+from prototype.models import Relationship
 from alltests.testPrototype.testmodels.TestUtilities import createTestDiagram, createTestEntity, createTestRelationship
 from requests import Request
 from django.contrib.auth import authenticate
@@ -108,7 +110,6 @@ class ProtoDiagramEntityTest(TestCase):
     def tearDown(self):
         self.entity.delete()
         self.diagram.delete()
-        self.testRelationShip.delete()
 
     def test_getEntitiesJSONDiagram_thenReturnEntity(self):
         response = json.loads(getEntitiesJSONDiagram(self.basic_request).content)
@@ -142,3 +143,29 @@ class ProtoDiagramEntityTest(TestCase):
         request = CreatePreparedAuthPostRequest()
         response = json.loads(deleteDiagram(request).content)
         self.assertTrue(response['success'])
+        
+    def test_addOrUpdateConnector(self):
+        element = {
+                    "type": "dbModel.shape.TableConnection",
+                    "id": "f8735797-cf1d-8431-d891-c2d10f0a67be",
+                    "name": "Connection t1 t2",
+                    "userData": {"isPrimary":True, "useDecorators": False},
+                    "cssClass": "draw2d_Connection",
+                    "stroke": 2,
+                    "color": "#5BCAFF",
+                    "policy": "draw2d.policy.line.LineSelectionFeedbackPolicy",
+                    "router": "draw2d.layout.connection.InteractiveManhattanConnectionRouter",
+                    "source": {
+                      "node": "3253ff2a-a920-09d5-f033-ca759a778e19",
+                      "port": "output1"
+                    },
+                    "target": {
+                      "node": "2810494b-931f-da59-fd9d-6deba4385fe0",
+                      "port": "input0"
+                    }
+                  }
+        elementUUID = 'f8735797cf1d8431d891c2d10f0a67be'
+        addOrUpdateConnector(element, elementUUID, self.entity, self.entity)
+        connector = Relationship.objects.get(smUUID=elementUUID)
+        self.assertTrue(connector.code == 'Connection t1 t2')
+        # TODO

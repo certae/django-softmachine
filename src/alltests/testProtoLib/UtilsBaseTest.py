@@ -3,8 +3,9 @@
 from django.test import TestCase
 from django.http import HttpResponse
 from protoLib.utilsBase import parseEmailAddress, verifyList, unique_id, reduceDict, dict2tuple, CleanFilePath, ReadFile, PathToList, strip_html, strip_accents, strip_euro, DateFormatConverter
-from protoLib.utilsWeb import set_cookie, DownloadLocalFile
+from protoLib.utilsWeb import set_cookie, DownloadLocalFile, my_send_mail
 import os
+from mailbox import Error
 
 def CreateBasicResponse():
     response = HttpResponse()
@@ -93,3 +94,12 @@ class UtilsWebTest(TestCase):
         target.close()
         outcome = DownloadLocalFile(filename)
         self.assertTrue(outcome.content == line1)
+        
+    def test_sendMailThenThrowException(self):
+        subject = 'mail subject'
+        txt = 'message'
+        sender = 'certae@ulaval.ca'
+        to = ['receiver@ulaval.ca']
+        smtp = my_send_mail(subject, txt, sender, to)
+        self.assertTrue(isinstance(smtp, Exception))
+        
