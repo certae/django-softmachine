@@ -55,7 +55,6 @@ def createTestEntity():
     return testEntity
 
 
-
 def createTestProperty():
     testEntity = createTestEntity()
     testEntity.save()
@@ -71,7 +70,8 @@ def createTestProperty():
         'isForeign': False,
         'isSensitive' : True,
         'crudType': 'testCrudType',
-        'dbName': 'testDbName'
+        'dbName': 'testDbName',
+        'smUUID': '49be7d784dcf38ab3733b4108701fce4'
     }
 
     testProperty = Property(**propertydata)
