@@ -7,7 +7,7 @@ from dbDesigner.protoDiagram import getEntitiesJSONDiagram, synchDiagramFromDB, 
 from dbDesigner.protoDiagramEntity import listDiagrams, openDiagram, createDiagram, saveDiagram, deleteDiagram
 from dbDesigner.service.diagramService import addOrUpdateConnector
 from prototype.models import Relationship
-from alltests.testPrototype.testmodels.TestUtilities import createTestDiagram, createTestEntity, createTestRelationship, createTestProperty
+from alltests.testPrototype.testmodels.TestUtilities import createTestDiagram, createTestEntity, createTestRelationship, createTestProperty, createTestProject
 from requests import Request
 from django.contrib.auth import authenticate
 import json, uuid, unicodedata
@@ -119,7 +119,6 @@ class ProtoDiagramTest(TestCase):
 
     def setUp(self):
         self.diagram = createTestDiagram()
-#         self.entity = createTestEntity()
         self.property = createTestProperty()
         self.basic_request = CreateBasicRequest()
         self.auth_request = CreatePreparedAuthRequest()
@@ -128,7 +127,6 @@ class ProtoDiagramTest(TestCase):
     def tearDown(self):
         self.diagram.delete()
         self.property.delete()
-#         self.entity.delete()
 
     def test_verifying_diagram_entities_in_database(self):
         response = json.loads(getEntitiesJSONDiagram(self.basic_request).content)
@@ -150,6 +148,20 @@ class ProtoDiagramTest(TestCase):
         response = json.loads(getDefaultDiagram(self.auth_request).content)
         self.assertTrue(response['success'])
 
+class ProtoCreateDiagramTest(TestCase):
+    def setUp(self):
+        self.auth_request = CreatePreparedAuthRequest()
+    
+    def test_getDefaultDiagramThenCreateANewOne(self):
+        self.project = createTestProject()
+        response = json.loads(getDefaultDiagram(self.auth_request).content)
+        self.project.delete()
+        self.assertTrue(response['success'])
+        
+    def test_getDefaultDiagramThenThrowException(self):
+        response = json.loads(getDefaultDiagram(self.auth_request).content)
+        self.assertFalse(response['success'])
+        
 class ProtoDiagramEntityTest(TestCase):
     def setUp(self):
         self.entity = createTestEntity()
