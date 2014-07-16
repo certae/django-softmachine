@@ -12,4 +12,4 @@ The system architecture is a Web MVC variant, this means that we use the basic c
 
 .. image:: http://certae.github.io/django-softmachine/docs/build/html/images/interface.png
 
-* ``Page edited with online reStructuredText editor:`` http://rst.ninjs.org/
+* ``Page edited with online reStructuredText editor:`` https://github.com/anru/rsted
