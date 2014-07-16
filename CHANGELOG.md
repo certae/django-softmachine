@@ -2,7 +2,10 @@
 *CURRENT*
 ---
     
-    
+- 2014-07-10 (Victorette) update: .gitignore -> [view commit](https://github.com/certae/django-softmachine/commit/e39c66645d30fd996fc6cad79df806818c8c2fc2)
+- 2014-07-10 (Victorette) update: Improving unit tests -> [view commit](https://github.com/certae/django-softmachine/commit/bc041c8a2f5b9cb3ff149a496c900963e50fff8e)
+- 2014-07-09 (Victorette) change: Improving unit tests -> [view commit](https://github.com/certae/django-softmachine/commit/ea4ac6d9171037c5aca1f00d2551658963918da1)
+- 2014-07-09 (Victorette) new: Saving each entity from DBDiagram inside DiagramEntity -> [view commit](https://github.com/certae/django-softmachine/commit/532aac804c712e445f333e45882a62d2b2bc0cf3)    
        
 *v1.0.6*
 ---

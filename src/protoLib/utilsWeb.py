@@ -37,7 +37,7 @@ def set_cookie(response, key, value, days_expire = 7):
     else:
         max_age = days_expire*24*60*60 
         
-    expires = datetime.datetime.strftime(datetime.datetime.utcnow() + timedelta(seconds=max_age), "%a, %d-%b-%Y %H:%M:%S GMT")
+    expires = datetime.strftime(datetime.utcnow() + timedelta(seconds=max_age), "%a, %d-%b-%Y %H:%M:%S GMT")
     response.set_cookie(key, value, max_age=max_age, expires=expires, domain=settings.SESSION_COOKIE_DOMAIN, secure=settings.SESSION_COOKIE_SECURE or None)
 #   response.set_cookie(key, value, max_age=max_age, expires=expires)
     return response
@@ -94,11 +94,13 @@ def my_send_mail(subject, txt, sender, to=[], files=[], charset='UTF-8'):
         
         from smtplib import SMTP
         smtp = SMTP()
-        smtp.connect(host=settings.EMAIL_HOST)
-        smtp.sendmail(sender,dest, msg.as_string())
-        smtp.quit()
- 
- 
+        try:
+            smtp.connect(host=settings.EMAIL_HOST)
+            smtp.sendmail(sender,dest, msg.as_string())
+            smtp.quit()
+            return smtp
+        except Exception as e:
+            return e
  
 
 
