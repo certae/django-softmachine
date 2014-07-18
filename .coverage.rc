@@ -2,18 +2,20 @@
 source = src
 branch = True
 omit = 
-	static/*
-	scripts
-	docs
-	output
-	templates
+    static/*
+    scripts
+    docs
+    output
+    templates
     *urls*
     *wsgi*
     src/protoLib/utils/generic_views.py
     src/prototype/admin.py
     src/protoLib/localisation/*
     src/snippets/*
-	src/softmachine/settings*
+    src/softmachine/settings*
+    src/protoLib/utils/authPlugins.py
+	
 
 [report]
 exclude_lines =
