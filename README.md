@@ -46,6 +46,11 @@ SoftMachine can be installed and used in two ways:
 * graphviz ([OPTION] For export database diagram)
 * south ([OPTION] For export database migration)
 
+For testing:
+```
+$ pip install requests
+```
+
 ### Install using pip
 SoftMachine is best installed via PyPI. To install the latest version, run:
 ```
