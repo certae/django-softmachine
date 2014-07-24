@@ -302,6 +302,13 @@ _MetaProperties =  {
     "paramType.help" : "Parameter type", 
     "paramType.choices" : [ "", "string", "bool", "number"], 
 
+    "executeJS.help" : "js plugin?",  
+    "executeJS.type" : "boolean",  
+
+    "jsCode.help" : "executing code", 
+//  "jsCode.type" : "", 
+
+
     "cpFromField.help" : "Derived by copy",  
     "cpFromZoom.help" : "Derived form zoom (fk property)? ", 
     

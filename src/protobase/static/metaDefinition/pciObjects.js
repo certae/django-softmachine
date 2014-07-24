@@ -533,7 +533,13 @@ _MetaObjects = {
 
     "actionDef" : {
         "description" : "Actions definition (backend)",
-        "properties" : ["name", "title", "actionType", "selectionMode", "refreshOnComplete" ],
+        "properties" : [
+            "name", 
+            "title", "actionType", "selectionMode", 
+            "refreshOnComplete",
+            "executeJS", 
+            "jsCode"
+         ],
         "lists" : ["actionParams"],
 
         "addPrompt" : "Please enter the name for your action:",
