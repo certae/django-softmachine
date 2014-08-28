@@ -6,7 +6,7 @@ Ext.define('ProtoUL.Application', {
 	
     extend: 'Ext.app.Application',
 	paths: {
-        'ProtoUL': 'static/js'
+        'ProtoUL': '/static/js'
     },
     
     requires: [

@@ -1,16 +1,16 @@
 Ext.Loader.setConfig({
     enabled: true,
     paths : {  
-        'ProtoUL' : 'static/js' 
+        'ProtoUL' : '/static/js' 
     }
 });
 
 Ext.application({
     name: 'ProtoUL',
     
-    appFolder: 'static/js',
+    appFolder: '/static/js',
     paths: {
-        'ProtoUL': 'static/js'
+        'ProtoUL': '/static/js'
     },
 
     extend: 'ProtoUL.Application',
