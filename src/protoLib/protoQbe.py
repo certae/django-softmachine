@@ -30,7 +30,7 @@ def addFilter(Qs, sFilter):
             return Qs
 
     # en caso de q halla un stmt lo evalua
-    if (len (protoStmt) == 0):
+    if (len (protoStmt) != 0):
         Qs = Qs.filter(**protoStmt)
 
     return Qs

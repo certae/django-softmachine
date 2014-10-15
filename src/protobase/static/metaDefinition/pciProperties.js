@@ -288,8 +288,8 @@ _MetaProperties =  {
     "wordWrap.type": "boolean",
     "wordWrap.help": "Auto wordWrap (more than one line)", 
 
-    "sheetType.help" : "Sheet type (Grid, Report)", 
-    "sheetType.choices" : [ "", "printerOnly", "gridOnly"], 
+    "sheetType.help" : "Sheet type (showPrint, Grid, Report)", 
+    "sheetType.choices" : [ "showPrint", "printerOnly", "gridOnly"], 
     
     "detailName.help" : "Detail name (used in MD definition)",              
 

@@ -18,17 +18,15 @@ Ext.define('ProtoUL.UI.GridSheetController', {
         var me = this.myGrid, myMeta = me.myMeta, ix, sType;
 
         // Verifia q al menos una hoja sea visible en la grilla
-        var hideSheet = true;
+        myMeta.gridConfig.hideSheet = true;
         for (ix in myMeta.sheetConfig  ) {
             sType = myMeta.sheetConfig[ix].sheetType;
-            if (sType == 'gridOnly') {
+            if (sType == 'printerOnly') {
                 continue;
             }
-            hideSheet = false;
+            // DGT : ActiveSheet ???  si son varias, esto podria ayudar 
+            myMeta.gridConfig.hideSheet = false;
             break;
-        }
-        if (hideSheet) {
-            myMeta.gridConfig.hideSheet = true;
         }
 
         // Los zooms ( initialConfig ) no deben manejar sheets

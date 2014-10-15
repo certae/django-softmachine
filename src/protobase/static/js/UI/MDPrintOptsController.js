@@ -33,6 +33,7 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
                 handler: onClickPrintGrid
             }));
 
+            // Print Sheet Image 
             if (__MasterDetail.protoMasterGrid.IdeSheet != undefined) {
                 myPrinterOpts.push(new Ext.Action({
                     text: 'Fiche',
@@ -48,7 +49,7 @@ Ext.define('ProtoUL.UI.MDPrintOptsController', {
 
             for (var ix in this.myMeta.sheetConfig  ) {
                 var pPrinterOpts = this.myMeta.sheetConfig[ix];
-                if (pPrinterOpts.sheetStyle == 'gridOnly') {
+                if (pPrinterOpts.sheetType == 'gridOnly') {
                     continue;
                 }
 
