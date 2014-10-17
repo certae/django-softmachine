@@ -24,88 +24,88 @@
 /*global _SM */
 
 Ext.define('ProtoUL.view.ProtoForm', {
-    extend : 'Ext.form.Panel',
-    alias : 'widget.protoform',
+    extend: 'Ext.form.Panel',
+    alias: 'widget.protoform',
 
-    requires : ['Ext.form.field.Text', 'Ext.form.*', 'Ext.data.*', 'Ext.tip.QuickTipManager'],
+    requires: ['Ext.form.field.Text', 'Ext.form.*', 'Ext.data.*', 'Ext.tip.QuickTipManager'],
 
     //@myMeta   Base Definition
-    myMeta : null,
-    newForm : false,
+    myMeta: null,
+    newForm: false,
 
     //@formConfig  Objeto correspondiente a la forma en la meta ( forma parte de la meta )
-    formConfig : null,
+    formConfig: null,
 
     //@prFormLayout  :  Componentes de la forma ( Itmems del arbol )
-    prFormLayout : [],
+    prFormLayout: [],
 
     // Mantiene el IdMaster para las operaciones maestro detalle
-    idMaster : -1,
-    masterRecord : null,
+    idMaster: -1,
+    masterRecord: null,
 
-    linkDetails : false,
-    isReadOnly : false,
+    linkDetails: false,
+    isReadOnly: false,
 
     //@ Store asociado al registro de entrada linked o independiente
-    store : null,
+    store: null,
 
     // Coleccion de campos html definidos en htmlSet
-    cllDetGrids : [],
-    htmlPanels : {},
+    cllDetGrids: [],
+    htmlPanels: {},
 
     // Defne como manejar  maneja los campos heredados de los zoom
-    zoomReturnDef : null,
+    zoomReturnDef: null,
 
     // Coleccion con los retornos
-    zoomMultiReturn : [],
+    zoomMultiReturn: [],
 
-    initComponent : function() {
+    initComponent: function() {
         this.addEvents('create', 'close', 'hide');
 
         var me = this, myMeta = this.myMeta, _pForm = this;
 
         this.btSave = Ext.create('Ext.Button', {
             // id : this.idSaveBt,
-            iconCls : 'icon-saveMs',
-            text : _SM.__language.Text_SaveMs_Button,
-            scope : this,
-            handler : this.onSave
+            iconCls: 'icon-saveMs',
+            text: _SM.__language.Text_SaveMs_Button,
+            scope: this,
+            handler: this.onSave
         });
 
         this.btSaveDet = Ext.create('Ext.Button', {
             // id :  this.idSaveBtDt,
-            iconCls : 'icon-saveDt',
-            text : _SM.__language.Text_SaveDt_Button,
-            hidden : true,
-            disabled : true,
-            scope : this,
-            handler : this.onSaveDet
+            iconCls: 'icon-saveDt',
+            text: _SM.__language.Text_SaveDt_Button,
+            hidden: true,
+            disabled: true,
+            scope: this,
+            handler: this.onSaveDet
         });
 
         this.btCancelFormEdt = Ext.create('Ext.Button', {
             // id :  this.idSCancel,
-            iconCls : 'icon-close',
-            text : _SM.__language.Text_Close_Button,
-            scope : this,
-            handler : this.onReset
+            iconCls: 'icon-close',
+            text: _SM.__language.Text_Close_Button,
+            scope: this,
+            handler: this.onReset
         });
 
         this.stMsg = Ext.create('Ext.toolbar.TextItem');
 
         Ext.apply(this, {
-            frame : true,
-            autoScroll : true,
+            frame: true,
+            autoScroll: true,
 
-            bodyStyle : 'padding:5px 5px',
-            bodyPadding : 10,
-            masterRecord : null,
-            items : this.prFormLayout,
+            bodyStyle: 'padding:5px 5px',
+            bodyPadding: 10,
+            masterRecord: null,
+            items: this.prFormLayout,
 
-            dockedItems : [{
-                xtype : 'toolbar',
-                dock : 'bottom',
-                ui : 'footer',
-                items : [this.stMsg, '->', this.btSave, this.btSaveDet, this.btCancelFormEdt]
+            dockedItems: [{
+                xtype: 'toolbar',
+                dock: 'bottom',
+                ui: 'footer',
+                items: [this.stMsg, '->', this.btSave, this.btSaveDet, this.btCancelFormEdt]
             }]
 
         });
@@ -114,6 +114,9 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         this.linkController = Ext.create('ProtoUL.UI.MDLinkController', {});
         this.getHtmlPanels();
+
+        // Asigna los campos heredados 
+        defineCpFromReturn( me ); 
 
         // Obtiene los botones de detalle
         this.cllBtDetails = getBtDetails(me.items.items, me);
@@ -174,9 +177,30 @@ Ext.define('ProtoUL.view.ProtoForm', {
             }
         }
 
+        function defineCpFromReturn(me) {
+            // Define la coleccion de campos heredados a partir del zoom
+            // mantiene una lista con la definicion de los cpFromField
+            var ix, cpFrom, vFld;
+
+            this.zoomReturnDef = [];
+
+            // Crea la coleccion de campos q deben heredarse
+            for (ix in me.myMeta.fields ) {
+                vFld = me.myMeta.fields[ix];
+                if (!vFld.cpFromZoom) {
+                    continue;
+                }
+                cpFrom = {
+                    "name": vFld.fName,
+                    "cpFromZoom": vFld.cpFromZoom,
+                    "cpFromField": vFld.cpFromField
+                };
+                this.zoomReturnDef.push(cpFrom);
+            }
+        }
     },
 
-    setDetailsTilte : function() {
+    setDetailsTilte: function() {
         var ix, lGrid;
         for (ix in this.cllDetGrids ) {
             lGrid = this.cllDetGrids[ix];
@@ -185,15 +209,15 @@ Ext.define('ProtoUL.view.ProtoForm', {
         }
     },
 
-    showProtoForm : function() {
+    showProtoForm: function() {
         _SM.showConfig('Form Config', this.myMeta.formConfig);
     },
 
-    showLayoutConfig : function() {
+    showLayoutConfig: function() {
         _SM.showConfig('LayoutConfig', this.prFormLayout);
     },
 
-    updateHtmlPanels : function(record) {
+    updateHtmlPanels: function(record) {
         var sHtml, ix, obj;
         for (ix in this.htmlPanels  ) {
             obj = this.htmlPanels[ix];
@@ -207,7 +231,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
         }
     },
 
-    readHtmlPanels : function(record) {
+    readHtmlPanels: function(record) {
         var ix, obj;
         for (ix in this.htmlPanels  ) {
             obj = this.htmlPanels[ix];
@@ -215,18 +239,18 @@ Ext.define('ProtoUL.view.ProtoForm', {
         }
     },
 
-    setText : function(sText) {
+    setText: function(sText) {
         this.stMsg.setText(sText);
     },
 
-    onReset : function() {
+    onReset: function() {
         // this.setActiveRecord(null);
         // this.getForm().reset();
         this.idMaster = null;
         this.fireEvent('close', this);
     },
 
-    updateZoomIds : function() {
+    updateZoomIds: function() {
 
         // La info del zoom permanece en el campo fk, es necesario actualizar el registro
         // antes de guardarlo, TODO: esto se podria hacer en el zoomReturn ( cpFromField ) para actualzar
@@ -252,7 +276,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 }
                 me.zoomMultiReturn.push(zoomField.zoomRecords);
 
-            } else if (zoomField.zoomRecord) {
+            } else if ( zoomField.zoomRecord ) {
                 // Actualiza el IdValue en el zoom para hacer los vinculos
                 zoomField.fkIdValue = this.masterRecord.get(zoomField.fkId);
 
@@ -265,7 +289,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
     },
 
-    updateFormField : function(fldName, fldValue) {
+    updateFormField: function(fldName, fldValue) {
         var lRec = {};
         lRec[fldName] = fldValue;
         this.getForm().setValues(lRec);
@@ -277,7 +301,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
         }
     },
 
-    onCreate : function() {
+    onCreate: function() {
         var form = this.getForm();
 
         if (form.isValid()) {
@@ -287,7 +311,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
     },
 
-    setFormReadOnly : function(bReadOnly) {
+    setFormReadOnly: function(bReadOnly) {
 
         // por defecto viene editable
         this.isReadOnly = bReadOnly;
@@ -300,14 +324,13 @@ Ext.define('ProtoUL.view.ProtoForm', {
         this.setReadOnlyFields(bReadOnly);
         this.setDetailsReadOnly(bReadOnly);
 
-        if ( this.linkController ) {
+        if (this.linkController) {
             this.linkController.isReadOnly = this.isReadOnly;
         }
-                        
 
     },
 
-    setDetailsReadOnly : function(bReadOnly) {
+    setDetailsReadOnly: function(bReadOnly) {
         var lObj, ix;
         for (ix in this.cllDetGrids  ) {
             lObj = this.cllDetGrids[ix];
@@ -315,7 +338,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
         }
     },
 
-    setReadOnlyFields : function(bReadOnly, readOnlyFields) {
+    setReadOnlyFields: function(bReadOnly, readOnlyFields) {
         /*
         * @bReadOnly indica q toda la forma es readOnly, podria servir para prender y apagar el readOnly
         * FIX: Una mascara seria mejor
@@ -346,7 +369,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
         }
     },
 
-    getHtmlPanels : function() {
+    getHtmlPanels: function() {
         // Busca si tiene htmlSets podria agregarse los paneles como campos,
         // los paneles al interior deberian heredar de  'Ext.form.field.Base' y mezclar Ext.form.Basic
         // setear propiedad  isFormField : true
@@ -369,7 +392,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
     },
 
-    setActiveRecord : function(record) {
+    setActiveRecord: function(record) {
         var me = this;
         this.masterRecord = record;
         this.store = record.store;
@@ -392,7 +415,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
         // -------------------------------------------------- --------  evento del store
         this.store.on({
-            update : function(store, record, operation, eOpts) {
+            update: function(store, record, operation, eOpts) {
                 if (record && this.linkDetails) {
                     this.idMaster = record.get('id');
                     this.myFormController.newForm = false;
@@ -400,11 +423,11 @@ Ext.define('ProtoUL.view.ProtoForm', {
                     this.setDetailsReadOnly(false);
                 }
             },
-            scope : me
+            scope: me
         });
     },
 
-    linkDetail : function(record) {
+    linkDetail: function(record) {
         if (!this.linkDetails) {
             return;
         }
@@ -413,8 +436,8 @@ Ext.define('ProtoUL.view.ProtoForm', {
         me.linkController.setMasterData(record.data);
 
         for (ixDet in me.cllDetGrids ) {
-            
-            me.linkController.isReadOnly = me.isReadOnly; 
+
+            me.linkController.isReadOnly = me.isReadOnly;
             lGrid = me.cllDetGrids[ixDet];
             detailLink = me.linkController.getDetailLink(lGrid.detailDefinition);
             lGrid.store.myLoadData(detailLink.detFilter, null, me.idMaster);
@@ -434,22 +457,23 @@ Ext.define('ProtoUL.view.ProtoForm', {
         }
     },
 
-    _doSyncMasterStore : function() {
+    _doSyncMasterStore: function() {
         this.store.sync({
-            success : function(result, request) {
+            success: function(result, request) {
                 var myReponse = result.operations[0].response, myResult = Ext.decode(myReponse.responseText);
                 if (myResult.message) {
                     _SM.errorMessage(_SM.__language.Msg_Error_Save_Form, myResult.message);
                 }
                 // else { me.fireEvent('close', me );}
             },
-            failure : function(result, request) {
+            failure: function(result, request) {
                 _SM.errorMessage(_SM.__language.Msg_Error_Save_Form, _SM.__language.Msg_Failed_Operation);
             }
+
         });
     },
 
-    onSaveDet : function() {
+    onSaveDet: function() {
         /*  El guardado se hace en varios ciclos.
          - Se requiere tener un maestro,
          si es upd, el maestro ya existe los defectos se sinclronizan
@@ -467,7 +491,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
     },
 
-    onSave : function() {
+    onSave: function() {
 
         var me = this, tmpAutoSync, form, lProduct, lBase, lRec, lZRet, ix, iz;
 
@@ -538,7 +562,7 @@ Ext.define('ProtoUL.view.ProtoForm', {
 
     },
 
-    setZoomEditMode : function(me) {
+    setZoomEditMode: function(me) {
         // Para determinar el comportamiento del zoom de seleccion multiple
 
         var lFields = me.getForm().getFields().items, ix;
@@ -549,39 +573,28 @@ Ext.define('ProtoUL.view.ProtoForm', {
                 lFields[ix].newForm = me.newForm;
             }
         }
+    },
+
+    updateZoomReturn: function( zoomFld ) {
+        // El problema es en q momento se dispara,
+        // hay q capturar un evento para cerrar la ventana de zoom
+        // verifica si esta definido y lo define a necesidad
+
+        var ix, cpFrom;
+
+        // Verifica si hay elementos a heredar
+        if (this.zoomReturnDef.length == 0) {
+            return;
+        };
+
+        // Recorre las propiedades a heredar
+        for (ix in this.zoomReturnDef ) {
+            cpFrom = this.zoomReturnDef[ix]
+            if (cpForm.cpFromZoom == zoomFld.name) {
+                this.updateFormField(zoomFld.name, zoomFld[cpForm.cpFromField])
+            }
+        }
     }
+
 });
 
-/*
- DOnt delete !!!
- updateZoomReturn: function (  zoomFld  ) {
- // El problema es en q momento se dispara,
- // hay q capturar un evento para cerrar la ventana de zoom
- // verifica si esta definido y lo define a necesidad
- if ( ! this.zoomReturnDef  ) {
- // mantiene una lista con la definicion de los cpFromField
- this.zoomReturnDef = []
- // Crea la coleccion de campos q deben heredarse
- for (var ix in this.myMeta.fields ) {
- var vFld = this.myMeta.fields[ix]
- if ( ! vFld.cpFromZoom ) continue;
- var cpFrom = {
- "name"    : vFld.fName,
- "cpFromZoom" : vFld.cpFromZoom,
- "cpFromField" : vFld.cpFromField
- }
- }
- }
-
- // Verifica si hay elementos a heredar
- if ( this.zoomReturnDef.length  == 0 ) { return }
-
- // Recorre las propiedades a heredar
- for (var ix in this.zoomReturnDef ) {
- var cpFrom = this.zoomReturnDef[ix]
- if ( cpForm.cpFromZoom == zoomFld.name   ) {
- this.updateFormField(  zoomFld.name , zoomFld[ cpForm.cpFromField ] )
- }
- }
- },
- */
