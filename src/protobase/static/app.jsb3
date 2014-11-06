@@ -1,6 +1,6 @@
 {
-    "projectName": "SoftMachine",
-    "licenseText": "Copyright(c) 2012 CeRTAE",
+    "projectName": "Django.SoftMachine",
+    "licenseText": "Copyright(c) 2014 CeRTAE",
     "builds": [
         {
             "name": "All Classes",
@@ -397,7 +397,7 @@
             "compress": true,
             "files": [
                 {
-                    "path": "",
+                    "path": "js/",
                     "name": "all-classes.js"
                 },
                 {
