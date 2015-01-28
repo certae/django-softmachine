@@ -147,6 +147,6 @@ class JSONField(models.TextField):
         return super(JSONField, self).get_db_prep_save(value, *args, **kwargs)
 
 
-from south.modelsinspector import add_introspection_rules
-add_introspection_rules([], ["^protoLib\.fields\.JSONField"])
+# from south.modelsinspector import add_introspection_rules
+# add_introspection_rules([], ["^protoLib\.fields\.JSONField"])
 
