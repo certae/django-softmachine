@@ -119,7 +119,7 @@ class Model(ProtoModel):
     protoExt = { 
         "actions": [
             { "name": "doModelPrototype" },
-#             { "name": "doModelGraph" },
+            { "name": "doExport2Json" },
             { "name": "doExportPrototype" },
             { "name": "doExportProtoJson" }
         ],

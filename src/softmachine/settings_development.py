@@ -11,8 +11,8 @@ DATABASES = {
 }
 
 ALLOWED_HOSTS = [
-    'localhost', # Allow domain and subdomains
-    '127.0.0.1', # Also allow FQDN and subdomains
+    'localhost',  # Allow domain and subdomains
+    '127.0.0.1',  # Also allow FQDN and subdomains
 ]
 
 
@@ -45,13 +45,13 @@ FIXTURE_DIRS = (
 
 HOST_DOMAIN = ''
 
-#add email settings
+# add email settings
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'protoext@gmail.com'
-EMAIL_HOST_PASSWORD = '*****'
-DEFAULT_FROM_EMAIL = 'protoext@gmail.com'
+EMAIL_HOST_USER = 'certae.sm@gmail.com'
+EMAIL_HOST_PASSWORD = 'dariogomezt'
+DEFAULT_FROM_EMAIL = 'certae.sm@gmail.com'
 
-#used for debug
+# used for debug
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

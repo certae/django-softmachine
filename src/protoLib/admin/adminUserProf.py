@@ -63,7 +63,19 @@ class usrProfileAdmin(django.contrib.admin.ModelAdmin):
         "header": "userTeam",
         "type": "foreigntext"
     }],
-    "actions": [],
+    "actions": [
+        { "name": "doWFlowResume",
+          "selectionMode" : "none",
+          "refreshOnComplete" : True,
+          "actionParams": [
+             {"name" : "User", "type" : "string", "required": True, "tooltip" : "UserName" }, 
+             {"name" : "Pwd", "type" : "string", "required": False, "tooltip" : "Pwd" }, 
+             {"name" : "EMail", "type" : "string", "required": False, "tooltip" : "Email" }, 
+             {"name" : "Team", "type" : "string", "required": False, "tooltip" : "Tean" }, 
+             {"name" : "Groups", "type" : "string", "required": False, "tooltip" : "gr1,gr2,..." }, 
+            ] 
+        },
+    ], 
     "detailsConfig": [{
         "__ptType": "detailDef",
         "detailField": "userprofile__pk",

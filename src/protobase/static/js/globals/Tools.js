@@ -34,7 +34,7 @@ _SM.objConv=function ( a ){
 
 _SM.OpenFile = function (fileName) {
 
-    // TODO: Los templates de las finchas deberian ser leidos de un archivo
+    // TODO: Los templates de las fichas deberian ser leidos de un archivo
     // fh = window.open( fileName , 0);     // Open the file for reading
     // if(fh!=-1)                          // If the file has been successfully opened
     // {

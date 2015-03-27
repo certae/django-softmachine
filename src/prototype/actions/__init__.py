@@ -217,3 +217,66 @@ def doImportOMS( modeladmin, request, queryset, parameters):
         pass
         
     return {'success':True, 'message' :  'runing ...' } 
+
+
+
+def doExport2Json( modeladmin, request, queryset, parameters):
+
+    
+    from prototype.actions.export2json  import exportPrototype2Json
+    
+
+#   El QSet viene con la lista de Ids  
+    if queryset.count() != 1:
+        return  {'success':False, 'message' : 'No record selected' }
+
+            
+#   Envia el QSet con la lista de modelos, 
+    strModel = exportPrototype2Json( request, queryset[0] )
+        
+#   Genera el archvivo py      
+    fileName = 'model_{0}.jex'.format( slugify( queryset[0].code ) )
+    fullPath = getFullPath( request, fileName )
+
+    fo = open( fullPath , "w")
+    fo.write( strModel.encode('utf-8'))
+    fo.close()
+
+    return  {'success':True , 'message' : fileName,  'fileName' : fileName }
+
+
+
+def doImport4Json( modeladmin, request, queryset, parameters):
+    """ 
+    funcion para importar desde el export2json 
+    """
+
+    from softmachine.settings import MEDIA_ROOT
+
+#   El QSet viene con la lista de Ids  
+    if queryset.count() != 1:
+        return  {'success':False, 'message' : 'No record selected' }
+
+    from protoLib.protoAuth import getUserProfile
+    userProfile = getUserProfile( request.user, 'prototype', '' )
+    
+    try: 
+
+        import os 
+        fileName = os.path.join(MEDIA_ROOT, 'sm.jex' ) 
+    
+        import importOMS 
+        cOMS = importOMS.importOMS( userProfile )
+    
+        cOMS.loadFile( fileName  )
+        cOMS.doImport( queryset[0] )
+        cOMS.doFkMatch( )
+    
+#   Recorre los registros selccionados   
+    except Exception as e:
+        traceback.print_exc()
+        return  {'success':False, 'message' : 'Load error' }
+        pass
+        
+    return {'success':True, 'message' :  'runing ...' } 
+

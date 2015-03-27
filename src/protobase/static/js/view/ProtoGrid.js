@@ -473,7 +473,9 @@ Ext.define('ProtoUL.view.ProtoGrid', {
 
         // Condicionar los botones de edicion segun los permisos ( refAllow )
         var perms = _SM._UserInfo.perms[this.myMeta.viewCode];
-        if (this.editable && record && perms['refallow']) {
+
+        // FIX : && perms['refallow']  Dgt 1503
+        if (this.editable && record ) {
             this.verifyEdition(record, perms)
         }
 

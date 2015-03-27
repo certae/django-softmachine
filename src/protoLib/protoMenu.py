@@ -179,6 +179,7 @@ def protoGetMenuData(request):
         for option in prototypes:
 
             prBase = getNodeBaseViews(prNodes, option)
+            if prBase is None: continue  
             prBase['children'].append({
                 'text':  option.code,
                 'expanded': True ,
@@ -236,7 +237,10 @@ def getNodeBaseProto(prNodes, option):
 
 def getNodeBaseViews(prNodes, option):
 
-    lApp, lMod = option.code.split(".")[0:2]
+    try: 
+        lApp, lMod = option.code.split(".")[0:2]
+    except:
+        return None 
     
     prNBase = getMenuNode(prNodes, lApp)
     prNBase = getMenuNode(prNBase, lMod)

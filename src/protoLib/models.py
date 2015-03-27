@@ -69,9 +69,26 @@ class UserProfile(models.Model):
 
     # DGT : Json space, preferencias de usuario ( menuClick, defaultVariables ..... )
     # userConfig = models.TextField( blank = True, null = True)
+    protoExt = {
+        "actions": [
+            { "name": "doAddUser",
+              "selectionMode" : "none",
+              "refreshOnComplete" : True,
+              "actionParams": [
+                 {"name" : "User", "type" : "string", "required": True, "tooltip" : "UserName" }, 
+                 {"name" : "Pwd", "type" : "string", "required": False, "tooltip" : "Pwd" }, 
+                 {"name" : "EMail", "type" : "string", "required": False, "tooltip" : "Email" }, 
+                 {"name" : "Team", "type" : "string", "required": False, "tooltip" : "Tean" }, 
+                 {"name" : "Groups", "type" : "string", "required": False, "tooltip" : "gr1,gr2,..." }, 
+                ] 
+            },
+        ], 
+    }
 
     def __unicode__(self):
         return  self.user.username
+
+
 
 def user_post_save(sender, instance, created, **kwargs):
     """Create a user profile when a new user account is created"""
@@ -404,8 +421,8 @@ LOG_TYPE = (
     ('ERR', 'ERROR'),
 
     ('INS', 'INSERT'),
-    ('UPD', 'UPDAT'),
-    ('DEL', 'DELET'),
+    ('UPD', 'UPDATE'),
+    ('DEL', 'DELETE'),
 )
 
 
@@ -414,7 +431,7 @@ class Logger(models.Model):
     smCreatedOn = models.DateTimeField(auto_now=True , null=True, blank=True, editable=False)
     smOwningTeam = models.ForeignKey(TeamHierarchy, null=True, blank=True, related_name='+', editable=False)
 
-    logType = models.CharField(max_length=3, choices= LOG_TYPE, default= 'INF')
+    logType = models.CharField(max_length=10, default= 'INF')
     logObject = models.CharField(max_length=250, null=True, blank=True )
     logNotes = models.CharField(max_length=250, null=True, blank=True )
 
@@ -430,7 +447,7 @@ class Logger(models.Model):
         "actions": [
             { "name": "doClearLog",
               "selectionMode" : "none",
-              "refreshOnComplete" : True
+              "refreshOnComplete" : True, 
             },
         ]
     }

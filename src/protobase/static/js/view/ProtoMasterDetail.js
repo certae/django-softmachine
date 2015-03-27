@@ -150,6 +150,7 @@ Ext.define('ProtoUL.view.ProtoMasterDetail', {
 
         //  ****************************************************************
         //  Eventos de los objetos internos para el manejo Master-Detail
+        //  TODO:  Deberia cambiar el toolbar para mostrar los permisos de acuerdo al registro 
 
         this.protoMasterGrid.on({
             selectionChange: {

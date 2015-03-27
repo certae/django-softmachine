@@ -16,7 +16,6 @@ from prototype.actions.pttActionTools import TypeEquivalence
 from protoLib.utilsBase import slugify, repStr, getClassName
 from cStringIO import StringIO
 
-
 def exportPrototypeModel(request, pModel):
 
     strModel = StringIO()        

@@ -1,6 +1,16 @@
 # -*- coding: utf-8 -*-
 
 
+def doAddUser(modeladmin, request, queryset, parameters):
+    """ 
+    Add user  
+    parameters : sUser,sPwd,sMail,sTeam,[sGroups]
+    """
+
+#   El QSet viene con la lista de Ids  
+    from protoLib.actions.addUser import actionAddUser   
+    return actionAddUser(request, queryset, parameters)
+
 
 def doFindReplace(modeladmin, request, queryset, parameters):
     """ 

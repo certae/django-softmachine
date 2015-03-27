@@ -1,5 +1,5 @@
 /**
- * @author Giovanni Victorette
+ * @author Giovanni Victorette / Dario Gomez -
  */
 Ext.define('ProtoUL.Application', {
     name: 'ProtoUL',

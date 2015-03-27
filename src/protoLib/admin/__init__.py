@@ -11,11 +11,7 @@ admin.site.register(ProtoDefinition, protoDefinitionAdmin)
 
 from adminOrgTree import orgTreeAdmin
 admin.site.register(TeamHierarchy)
-
-# from adminUserProf import usrProfileAdmin
-admin.site.register(UserProfile)
 admin.site.register(UserShare)
-
 admin.site.register(CustomDefinition)
 # from protoLib.models import  PtFunction
 # admin.site.register(PtFunction)
@@ -38,7 +34,7 @@ admin.site.register(EntityMap)
 admin.site.register(FieldMap)
 
 
-# -----------------------------------------   Model
+# -----------------------------------------   WflowAdminResume
 
 from protoLib.actions import doWFlowResume
 from protoLib.models import WflowAdminResume
@@ -57,3 +53,17 @@ class LoggerAdmin( admin.ModelAdmin ):
     actions = [ doClearLog ]
 
 admin.site.register(Logger, LoggerAdmin )
+
+
+# -----------------------------------------   AddUser  
+# from adminUserProf import usrProfileAdmin
+# admin.site.register(UserProfile)
+
+from protoLib.actions import doAddUser 
+from protoLib.models import UserProfile
+
+class UserProfileAdmin( admin.ModelAdmin ):
+    actions = [ doAddUser ]
+
+admin.site.register( UserProfile, UserProfileAdmin )
+

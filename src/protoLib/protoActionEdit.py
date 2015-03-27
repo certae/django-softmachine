@@ -22,19 +22,23 @@ from protoLib.models import logEvent
 ERR_NOEXIST = '<b>ErrType:</b> KeyNotFound<br>The specifique record does not exist'
 ERR_REFONLY = '<b>ErrType:</b> RefOnly<br>The specifique record is reference only'
 
+# Actions 
+ACT_INS = 'add'
+ACT_UPD = 'change'
+ACT_DEL = 'delete'
 
 
 def protoCreate(request):
-    myAction = 'INS'
+    myAction = ACT_INS
     msg = _protoEdit(request, myAction)
     return  msg
 
 def protoUpdate(request):
-    myAction = 'UPD'
+    myAction = ACT_UPD
     return _protoEdit(request, myAction)
 
 def protoDelete(request):
-    myAction = 'DEL'
+    myAction = ACT_DEL
     return _protoEdit(request, myAction)
 
 def _protoEdit(request, myAction):
@@ -67,7 +71,7 @@ def _protoEdit(request, myAction):
 #   Verifica si hay registros que son solo de referencia
     userNodes = []
     refAllow = False
-    if myAction in ['DEL', 'UPD'] and isProtoModel and not request.user.is_superuser  :
+    if myAction in [ACT_DEL, ACT_UPD] and isProtoModel and not request.user.is_superuser  :
         refAllow = getModelPermissions(request.user, model, 'refallow')
         if refAllow:
             userNodes = getUserNodes(request.user, viewEntity)
@@ -112,7 +116,7 @@ def _protoEdit(request, myAction):
 
         data['_ptStatus'] = ''
 
-        if myAction == 'INS':
+        if myAction == ACT_INS:
             rec = model()
         else:
             try:
@@ -123,14 +127,14 @@ def _protoEdit(request, myAction):
                 continue
 
 
-        # refAllow verifica si corresponde a los registros modificables  ( solo es true en myAction in ['DEL', 'UPD'] )
+        # refAllow verifica si corresponde a los registros modificables  ( solo es true en myAction in [ACT_DEL, ACT_UPD] )
         if refAllow and isProtoModel :
             if not (str(rec.smOwningTeam_id) in userNodes) :
                 data['_ptStatus'] = ERR_REFONLY + '<br>'
                 pList.append(data)
                 continue
 
-        if not (myAction == 'DEL'):
+        if not (myAction == ACT_DEL):
             # Upd, Ins
             for key in data:
                 key = smart_str(key)
@@ -162,7 +166,7 @@ def _protoEdit(request, myAction):
                     data['_ptStatus'] = data['_ptStatus'] + getReadableError(e)
 
             if isProtoModel:
-                setSecurityInfo(rec, data, userProfile, (myAction == 'INS'))
+                setSecurityInfo(rec, data, userProfile, (myAction == ACT_INS))
 
 
             if len(jsonField) > 0:

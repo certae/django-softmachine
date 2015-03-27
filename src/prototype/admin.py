@@ -9,11 +9,11 @@ from models import ProtoTable
 from django.contrib import admin
 
 # -----------------------------------------   Model  
-from actions import doModelPrototype, doModelGraph, doExportPrototype, doExportProtoJson  
+from actions import doModelPrototype, doModelGraph, doExportPrototype, doExportProtoJson, doExport2Json  
 from models import Project,  Model, Property,  Relationship  #, Prototype
 
 class MyModelAdmin( admin.ModelAdmin ):
-    actions = [ doModelPrototype, doModelGraph, doExportPrototype, doExportProtoJson  ]
+    actions = [ doModelPrototype, doModelGraph, doExportPrototype, doExportProtoJson, doExport2Json  ]
 
 admin.site.register(Model, MyModelAdmin)
 
