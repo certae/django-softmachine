@@ -262,23 +262,3 @@ def doImport4Json( modeladmin, request, queryset, parameters):
     returnTmp = importProto4Json( request, queryset[0] )
     return {'success':True, 'message' :  returnTmp } 
 
-
-    
-#     try: 
-
-#         import os 
-#         from softmachine.settings import MEDIA_ROOT
-#         fileName = os.path.join(MEDIA_ROOT, 'sm.jex' ) 
-    
-#         import importOMS 
-#         cOMS = importOMS.importOMS( userProfile )
-    
-#         cOMS.loadFile( fileName  )
-    
-# #   Recorre los registros selccionados   
-#     except Exception as e:
-#         traceback.print_exc()
-#         return  {'success':False, 'message' : 'Load error' }
-        
-#     return {'success':True, 'message' :  'runing ...' } 
-

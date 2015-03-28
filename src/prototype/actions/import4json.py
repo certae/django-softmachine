@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 
+#  Dgt 1503 - Permite importar la configuracion exportada con export2json
+ 
+# Restricciones :  Debe cargarse sobre el mismo nombre de modelo para q las vistas funcionen, 
+# ya q las vistas tienen una referencia directa al prototable
 
 # Import Database class
 from prototype.models import  Entity, Property, Relationship, Prototype 
-
-from protoLib.utilsConvert import toBoolean
 from protoLib.utilsBase import reduceDict
-
 from protoLib.protoActionEdit import setSecurityInfo 
-
+from protoLib.protoAuth import getUserProfile
 
 #  Export 2 Json 
 import json
@@ -16,7 +17,6 @@ import json
 def importProto4Json(request, pModel):
 
 #   To set permissions 
-    from protoLib.protoAuth import getUserProfile
     userProfile = getUserProfile( request.user, 'prototype', '' )
 
 #   Get filename   
@@ -30,6 +30,7 @@ def importProto4Json(request, pModel):
     except: 
         return 'load file error' 
 
+
 #   entity      ==============================
     for jEntity in jModel[ 'entities' ]: 
  
@@ -37,6 +38,8 @@ def importProto4Json(request, pModel):
  
         pEntity = Entity.objects.get_or_create( model = pModel, code = defAux['code'], defaults= defAux )[0]
         pModel.entity_set.add( pEntity )
+        setSecurityLocal ( pEntity, userProfile )
+
 
 #       property      ==============================
         for jAux in jEntity.get( 'property_set' ): 
@@ -44,38 +47,41 @@ def importProto4Json(request, pModel):
 
             pProp = Property.objects.get_or_create( entity = pEntity, code = jAux['code'], defaults= jAux )[0]
             pEntity.property_set.add( pProp )
+            setSecurityLocal ( pProp, userProfile )
 
 
 #       Prototype      ==============================
         for jAux in jEntity.get( 'prototype_set' ): 
-            jAux['metaDefinition']  = json.dump( jAux['metaDefinition'] )
+            jAux['metaDefinition']  = json.dumps( jAux['metaDefinition'] )
             pProp = Prototype.objects.get_or_create( entity = pEntity, code = jAux['code'], defaults= jAux )[0]
             pEntity.prototype_set.add( pProp )
+            setSecurityLocal ( pProp, userProfile )
 
 
 #   entity      ==============================
-    for jRel in jModel[ 'relations' ]: 
+    for jAux in jModel[ 'relations' ]: 
  
-        pEntity = Entity.objects.get( model = pModel, code = jRel['entity'] )
-        pRefEntity = Entity.objects.get( model = pModel, code = jRel['refEntity'] )
+        pEntity = Entity.objects.get( model = pModel, code = jAux['entity'] )
+        pRefEntity = Entity.objects.get( model = pModel, code = jAux['refEntity'] )
  
-        del jRel['entity']
-        del jRel['refEntity']
+        del jAux['entity']
+        del jAux['refEntity']
 
         Relationship.objects.get_or_create( entity = pEntity, refEntity = pRefEntity, defaults = jAux )[0]
+        setSecurityLocal ( Relationship, userProfile )
 
 
     return 'Ok'
 
-#         # need for setSecurityInfo 
-#         data = {}
 
-        # try:
-        #     setSecurityInfo(dModel, data, self.userProfile, True )
-        #     dModel.save()
-        # except:  
-        #     self.__logger.info("Error dModel.save")
-        #     return
+def setSecurityLocal( dModel, userProfile ):
 
+    # need for setSecurityInfo 
+    data = {}
 
+    try:
+        setSecurityInfo(dModel, data, userProfile, True )
+        dModel.save()
+    except:  
+        return
 
