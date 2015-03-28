@@ -4,56 +4,139 @@
 _PROTOSTRUCTURE = {
   "version"  :"140222",
 
+
   "Project" : {
-      "properties" : ["code","description","dbEngine","dbName","dbUser","dbPassword","dbHost","dbPort"],
-      "details" : ["Model", ],
+      "properties" : ["code",
+          "description",
+          "dbEngine",
+          "dbName",
+          "dbUser",
+          "dbPassword",
+          "dbHost",
+          "dbPort"],
+      "details" : [
+          "Model",
+      ],
    },
 
 
     "Model" :{
-      "properties" : ["code","category","modelPrefix","description"],
-      "references" : ["projet"],
-      "details" : ["Entity"],
+      "properties" : ["code",
+          "category",
+          "modelPrefix",
+          "description"],
+
+      "references" : [
+          "projet"],
+
+      "details" : [
+        "Entity"],
+
     },
 
+
     "Entity" :{
-      "properties" : ["code","dbName","description"],
-      "references" : ["model"],
-      "details" : ["Property" ],
+      "properties" : [
+        "code",
+        "dbName",
+        "description"
+        ],
+
+      "references" : [
+          "model"],
+
+      "details" : [
+        "Property" ],
+
     },
+
 
     "Property" :{
       "properties" : [
-        "code","baseType","prpLength","prpScale",
-        "prpDefault","prpChoices", "vType",
-        "isReadOnly","isRequired","isNullable",
-        "isPrimary","isLookUpResult", "isSensitive","isEssential",
-        "crudType","dbName",
-        "description","notes",
+          "code",
+          "baseType",
+          "prpLength",
+          "prpScale",
+
+          "prpDefault",
+          "prpChoices",
+          "vType",
+
+          "isReadOnly",
+          "isRequired",
+          "isNullable",
+
+          "isPrimary",
+          "isLookUpResult",
+          "isSensitive",
+          "isEssential",
+
+          "crudType",
+          "dbName",
+
+          "description",
+          "notes",
+
       ],
-      "where" : [ { "isForeign" : False },  ],
+
       "references" : [ "entity" ],
+
       "details" : [],
+
+      "where" : [ { "isForeign" : False },
+      ],
+
     },
+
 
     "Relationship" :{
       "properties" : [
-        "code", "relatedName", "isForeign", "prpDefault",
-        "baseMin", "baseMax", "refMin", "refMax", "onRefDelete", "typeRelation",
-        "isReadOnly","isRequired","isNullable",
-        "isPrimary","isLookUpResult", "isSensitive","isEssential",
-        "crudType","dbName",
-        "description","notes",
+
+        "code",
+        "isReadOnly",
+        "isRequired",
+        "isNullable",
+
+        "isPrimary",
+        "isLookUpResult",
+        "isSensitive",
+        "isEssential",
+
+        "crudType",
+        "dbName",
+
+        "prpDefault",
+        "description",
+        "notes",
+
+        "isForeign",
+        "relatedName",
+        "baseMin",
+        "baseMax",
+        "refMin",
+        "refMax",
+        "onRefDelete",
+        "typeRelation",
+
       ],
-      "references" : ["entity", "refEntity", ],
+
+      "references" : [
+          "entity",
+          "refEntity",
+      ],
+
       "details" : [],
+
     },
+
 
     "PropertyModel" :{
       "properties" : [],
       "references" : ["model"],
       "details" : ["Property"],
+
     },
+
 
 }
 
@@ -68,12 +151,17 @@ from protoLib.models import ProtoDefinition
 import json
 
 
-def exportProtoJson(request, pModel ):
+def exportProtoJson(request,
+ pModel ):
 
     cViews = {
      'code' :  pModel.code,
-     'model':  slugify(pModel.code, '_'),
+
+     'model':  slugify(pModel.code,
+ '_'),
+
      'entities' : {},
+
     }
 
     for pEntity in pModel.entity_set.all():
@@ -85,6 +173,7 @@ def exportProtoJson(request, pModel ):
           'fullName' : cViews['model' ] + '.' + getClassName( pEntity.code ),
 #          'properties' : {},
           'prototypes' : {},
+
           }
 
         cViews['entities'][ cEntity['code'] ]  = cEntity
@@ -95,33 +184,48 @@ def exportProtoJson(request, pModel ):
 #
 #             cProperty =  {
 #                 'code'      : pProperty.code,
+
 #                 'property'  : slugify(pProperty.code, '_'),
 #                 'isForeign' : pProperty.isForeign,
-#
+
 #                 'baseType'   : pProperty.baseType,
 #                 'prpLength'  : pProperty.prpLength,
 #                 'prpScale'   : pProperty.prpScale,
 #
 #                 'isPrimary'   : pProperty.isPrimary,
 #                 'isReadOnly'  : pProperty.isReadOnly,
+
 #
 #                 'isNullable'  : pProperty.isNullable,
+
 #                 'isRequired'  : pProperty.isRequired,
+
 #                 'isSensitive' : pProperty.isSensitive,
+
 #                 'prpChoices'  : pProperty.prpChoices,
+
 #                 'prpDefault'  : pProperty.prpDefault,
+
 #                 'vType'       : pProperty.vType,
+
 #
 #                 'crudType'    : pProperty.crudType,
+
 #                 'description' : pProperty.description,
+
 #                 'notes'       : pProperty.notes,
+
 #
 #                 'dbName'      : pProperty.dbName,
+
 #                 'isEssential' : pProperty.isEssential,
+
 #                 'isLookUpResult' : pProperty.isLookUpResult,
+
 #             }
 #
 #             #TODO: 'propertyModel'  :pProperty.propertyModel,
+
 #
 #             if pProperty.isForeign:
 #                 cProperty[ 'refEntity' ]    = pProperty.relationship.refEntity.code
@@ -193,8 +297,8 @@ def exportProtoJson(request, pModel ):
                 protoDef  = ProtoDefinition.objects.get_or_create(code = cProto[ 'viewCode' ] )[0]
                 protoDef.active = True
                 protoDef.overWrite = False
-                protoDef.description  = cEntity.get('fullName','')  + ' - '  + cProto.get('viewCode','')  + '<br>'
-                protoDef.description += cProto.get('shortTitle','')   + '<br>' + cProto.get( 'description','')
+                protoDef.description  = cEntity.get('fullName', '')  + ' - '  + cProto.get('viewCode', '')  + '<br>'
+                protoDef.description += cProto.get('shortTitle', '')   + '<br>' + cProto.get( 'description', '')
 
                 protoDef.metaDefinition = json.dumps( cProto, cls = JSONEncoder )
                 protoDef.save()
@@ -203,5 +307,8 @@ def exportProtoJson(request, pModel ):
                 pass
 
 
-    return json.dumps( cViews , cls = JSONEncoder , sort_keys= True, indent = 4, separators=(',', ':') )
-
+    return json.dumps( cViews ,
+ cls = JSONEncoder ,
+ sort_keys= True,
+ indent = 4,
+ separators=(', ', ':') )

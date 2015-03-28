@@ -251,32 +251,34 @@ def doImport4Json( modeladmin, request, queryset, parameters):
     funcion para importar desde el export2json 
     """
 
-    from softmachine.settings import MEDIA_ROOT
-
 #   El QSet viene con la lista de Ids  
     if queryset.count() != 1:
         return  {'success':False, 'message' : 'No record selected' }
 
-    from protoLib.protoAuth import getUserProfile
-    userProfile = getUserProfile( request.user, 'prototype', '' )
-    
-    try: 
+    from prototype.actions.import4json import importProto4Json
 
-        import os 
-        fileName = os.path.join(MEDIA_ROOT, 'sm.jex' ) 
-    
-        import importOMS 
-        cOMS = importOMS.importOMS( userProfile )
-    
-        cOMS.loadFile( fileName  )
-        cOMS.doImport( queryset[0] )
-        cOMS.doFkMatch( )
-    
+
 #   Recorre los registros selccionados   
-    except Exception as e:
-        traceback.print_exc()
-        return  {'success':False, 'message' : 'Load error' }
-        pass
+    returnTmp = importProto4Json( request, queryset[0] )
+    return {'success':True, 'message' :  returnTmp } 
+
+
+    
+#     try: 
+
+#         import os 
+#         from softmachine.settings import MEDIA_ROOT
+#         fileName = os.path.join(MEDIA_ROOT, 'sm.jex' ) 
+    
+#         import importOMS 
+#         cOMS = importOMS.importOMS( userProfile )
+    
+#         cOMS.loadFile( fileName  )
+    
+# #   Recorre los registros selccionados   
+#     except Exception as e:
+#         traceback.print_exc()
+#         return  {'success':False, 'message' : 'Load error' }
         
-    return {'success':True, 'message' :  'runing ...' } 
+#     return {'success':True, 'message' :  'runing ...' } 
 

@@ -105,7 +105,10 @@ def unique_id(more = ''):
 
 
 def reduceDict(inDict, keep_keys):
-    """ keep only keep_keys in the dict (return a new one) """
+    """ keep only keep_keys in the dict (return a new one) 
+        inDict : {}
+        keep_keys : []
+    """
     dict2 = inDict.copy()
     for k in dict2.keys():
         if k not in keep_keys:

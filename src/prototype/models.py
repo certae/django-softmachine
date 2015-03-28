@@ -118,10 +118,14 @@ class Model(ProtoModel):
     
     protoExt = { 
         "actions": [
-            { "name": "doModelPrototype" },
             { "name": "doExport2Json" },
+            { "name": "doModelPrototype" },
             { "name": "doExportPrototype" },
-            { "name": "doExportProtoJson" }
+            { "name": "doImport4Json",  
+              "actionParams": [
+                {"name" : "file", "type" : "filefield", "required": True, "tooltip" : "Select a file to upload" }
+                ] 
+            }
         ],
         "gridConfig" : {
             "listDisplay": ["__str__", "description", "smOwningTeam"]      
