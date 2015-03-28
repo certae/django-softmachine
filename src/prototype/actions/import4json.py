@@ -49,7 +49,6 @@ def importProto4Json(request, pModel):
             pEntity.property_set.add( pProp )
             setSecurityLocal ( pProp, userProfile )
 
-
 #       Prototype      ==============================
         for jAux in jEntity.get( 'prototype_set' ): 
             jAux['metaDefinition']  = json.dumps( jAux['metaDefinition'] )

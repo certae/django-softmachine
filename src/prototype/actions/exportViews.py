@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 ''' 
-Exportar vistas
+Dgt 1503
+Exportar vistas de un prototypo para ser usadas por una aplicacion generada a partir del prototypo
 '''
   
 from protoLib.utilsBase import slugify, JSONEncoder, getClassName 

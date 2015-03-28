@@ -213,6 +213,7 @@ class GraphModel():
     def getEntityCode(self, code, prefix):
         # Formatea el nombre de la entidad 
         enttCode = code 
+        prefix = prefix or ''
         if len(prefix) and enttCode.startswith(prefix):
             enttCode = enttCode[len(prefix):] 
             
