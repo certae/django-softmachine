@@ -72,15 +72,14 @@ def doModelDiagram(modeladmin, request, queryset, parameters):
     }
 
     # Crea o trae el diagrama
-    diagram, created  = Diagram.objects.get_or_create(project=project, code=code, defaults = jAux )
+    diagram  = Diagram.objects.get_or_create(project=project, code=code, defaults = jAux )[0]
 
     # Si no existe le agrega todas las tablas del modelo 
-    if created : 
-        for entity in model.entity_set.all(): 
-            try: 
-                diagEntity = DiagramEntity.objects.get_or_create(diagram = diagram, entity = entity, defaults = jAux)[0]
-            except: 
-                continue
+    for entity in model.entity_set.all(): 
+        try: 
+            diagEntity = DiagramEntity.objects.get_or_create(diagram = diagram, entity = entity, defaults = jAux)[0]
+        except: 
+            continue
 
     return doDiagram(modeladmin, request, [ diagram ], parameters)
 
