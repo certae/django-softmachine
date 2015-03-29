@@ -118,16 +118,16 @@ class Model(ProtoModel):
     
     protoExt = { 
         "actions": [
+            { "name": "doModelDiagram" },
             { "name": "doModelPrototype" },
-#             { "name": "doModelGraph" },
-            { "name": "doExportPrototype" },
-            { "name": "doExportProtoJson" },            
             { "name": "doExport2Json" },
             { "name": "doImport4Json",  
               "actionParams": [
-                {"name" : "file", "type" : "filefield", "required": True, "tooltip" : "Select a file to upload" }
-                ] 
-            }
+                {"name" : "file", "type" : "filefield", "required": True, "tooltip" : "Select a file to upload" } ]
+            },
+            { "name": "doExportPrototype" },
+            { "name": "doExportProtoJson" },            
+            
         ],
         "gridConfig" : {
             "listDisplay": ["__str__", "description", "smOwningTeam"]      
@@ -487,7 +487,7 @@ class Diagram(ProtoModel):
 
     protoExt = { 
         "actions": [
-            { "name": "doModelGraph" , "selectionMode" : "multiple" },
+            { "name": "doDiagram" , "selectionMode" : "multiple" },
         ],
     } 
 

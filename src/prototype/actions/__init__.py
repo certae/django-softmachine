@@ -8,6 +8,7 @@ from protoLib.utils.downloadFile import getFullPath
 from viewDefinition import getViewDefinition, getViewCode, getEntities
 
 
+
 def doModelPrototype( modeladmin, request, queryset, parameters):
     """ 
     funcion para crear el prototipo sobre 'protoTable' con la definicion del diccionario
@@ -47,15 +48,51 @@ def doEntityPrototype( modeladmin, request, queryset, parameters ):
 
 # -----------  Models  
 
-def doModelGraph(modeladmin, request, queryset, parameters):
+def doModelDiagram(modeladmin, request, queryset, parameters):
     """ 
-    funcion para crear el modelo grafico 
-    a partir de Model ( doModel )   
-    el proyecto enviara la el QSet de todos los modelos 
+    funcion para crear el diagrama del modelos 
+    Produce un diagrama por defecto  con el nombre del modelo y agrega todas las tablas 
     """
+
+    from prototype.models import Diagram, DiagramEntity
 
 #   El QSet viene con la lista de Ids  
     if queryset.count() != 1:
+        return  {'success':False, 'message' : 'No record selected' }
+
+    model =  queryset[0]
+    code = model.code
+    project = model.project 
+    user = request.user
+
+    jAux  = {
+        'smOwningTeam' : project.smOwningTeam,
+        'smOwningUser' : user,
+        'smCreatedBy' :  user
+    }
+
+    # Crea o trae el diagrama
+    diagram, created  = Diagram.objects.get_or_create(project=project, code=code, defaults = jAux )
+
+    # Si no existe le agrega todas las tablas del modelo 
+    if created : 
+        for entity in model.entity_set.all(): 
+            try: 
+                diagEntity = DiagramEntity.objects.get_or_create(diagram = diagram, entity = entity, defaults = jAux)[0]
+            except: 
+                continue
+
+    return doDiagram(modeladmin, request, [ diagram ], parameters)
+
+
+def doDiagram(modeladmin, request, queryset, parameters):
+    """ 
+    funcion para crear el modelo grafico 
+    el proyecto enviara la el QSet de todos los diagramas
+    """
+
+#   El QSet viene con la lista de Ids  
+    if len( queryset ) == 0:
         return  {'success':False, 'message' : 'No record selected' }
 
     try:
@@ -125,7 +162,6 @@ def doExportPrototype( modeladmin, request, queryset, parameters):
 
 def doExportProtoJson( modeladmin, request, queryset, parameters):
 
-    
     from prototype.actions.exportViews  import exportProtoJson
     
 

@@ -9,11 +9,11 @@ from models import ProtoTable
 from django.contrib import admin
 
 # -----------------------------------------   Model  
-from actions import doModelPrototype, doModelGraph, doExportPrototype, doExportProtoJson, doExport2Json , doImport4Json
+from actions import doModelPrototype, doDiagram, doExportPrototype, doExportProtoJson, doExport2Json , doImport4Json, doModelDiagram 
 from models import Project,  Model, Property,  Relationship  #, Prototype
 
 class MyModelAdmin( admin.ModelAdmin ):
-    actions = [ doModelPrototype, doModelGraph, doExportPrototype, doExportProtoJson, doExport2Json, doImport4Json ]
+    actions = [ doModelPrototype, doModelDiagram, doExportPrototype, doExportProtoJson, doExport2Json, doImport4Json ]
 
 admin.site.register(Model, MyModelAdmin)
 
@@ -41,7 +41,7 @@ admin.site.register(Project, MyProjectAdmin )
 from models import Diagram, DiagramEntity
 
 class MyDiagramAdmin( admin.ModelAdmin ):
-    actions = [  doModelGraph  ]
+    actions = [  doDiagram  ]
 
 admin.site.register(Diagram , MyDiagramAdmin)
 
