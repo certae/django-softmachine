@@ -76,6 +76,11 @@ def getModelPermissions(pUser, model , perm=None):
     appName = model._meta.app_label
     modName = model._meta.module_name
 
+    return  getOptionPermissions(pUser, appName, modName , perm)
+
+
+def getOptionPermissions(pUser, appName, modName , perm=None):
+
     # Verifica los permisos para cada opcion
     permissions = {}
 

@@ -1,0 +1,734 @@
+{
+  "entities": [
+    {
+      "code": "detail", 
+      "dbName": null, 
+      "description": null, 
+      "property_set": [
+        {
+          "baseType": "string", 
+          "code": "id detail", 
+          "crudType": null, 
+          "dbName": null, 
+          "description": null, 
+          "isEssential": false, 
+          "isLookUpResult": true, 
+          "isNullable": false, 
+          "isPrimary": true, 
+          "isReadOnly": false, 
+          "isRequired": true, 
+          "isSensitive": false, 
+          "notes": null, 
+          "prpChoices": null, 
+          "prpDefault": null, 
+          "prpLength": 0, 
+          "prpScale": 0, 
+          "vType": null
+        }, 
+        {
+          "baseType": "string", 
+          "code": "nom detail", 
+          "crudType": null, 
+          "dbName": null, 
+          "description": null, 
+          "isEssential": false, 
+          "isLookUpResult": false, 
+          "isNullable": false, 
+          "isPrimary": false, 
+          "isReadOnly": false, 
+          "isRequired": false, 
+          "isSensitive": false, 
+          "notes": null, 
+          "prpChoices": null, 
+          "prpDefault": null, 
+          "prpLength": 0, 
+          "prpScale": 0, 
+          "vType": null
+        }
+      ], 
+      "prototype_set": [
+        {
+          "code": "regles-detail", 
+          "description": null, 
+          "metaDefinition": {
+            "__ptType": "pcl", 
+            "description": null, 
+            "detailsConfig": [], 
+            "fields": [
+              {
+                "hidden": true, 
+                "name": "id", 
+                "readOnly": true, 
+                "type": "autofield"
+              }, 
+              {
+                "hidden": true, 
+                "name": "entity", 
+                "readOnly": true
+              }, 
+              {
+                "hidden": true, 
+                "name": "entity_id", 
+                "prpDefault": 98, 
+                "readOnly": true
+              }, 
+              {
+                "hidden": true, 
+                "name": "info", 
+                "readOnly": true, 
+                "searchable": true, 
+                "type": "jsonfield"
+              }, 
+              {
+                "name": "smOwningUser", 
+                "readOnly": true, 
+                "type": "foreigntext"
+              }, 
+              {
+                "name": "smOwningTeam", 
+                "readOnly": true, 
+                "type": "foreigntext"
+              }, 
+              {
+                "name": "smCreatedOn", 
+                "readOnly": true, 
+                "type": "datetime"
+              }, 
+              {
+                "choices": null, 
+                "crudType": null, 
+                "header": "id detail", 
+                "name": "info__id-detail", 
+                "primary": true, 
+                "prpDefault": null, 
+                "prpLength": 0, 
+                "prpScale": 0, 
+                "readOnly": false, 
+                "required": true, 
+                "tooltip": null, 
+                "type": "string", 
+                "vType": null
+              }, 
+              {
+                "choices": null, 
+                "crudType": null, 
+                "header": "nom detail", 
+                "name": "info__nom-detail", 
+                "primary": false, 
+                "prpDefault": null, 
+                "prpLength": 0, 
+                "prpScale": 0, 
+                "readOnly": false, 
+                "required": false, 
+                "tooltip": null, 
+                "type": "string", 
+                "vType": null
+              }, 
+              {
+                "fkField": "info__det-mai_id", 
+                "hidden": true, 
+                "name": "info__det-mai_id", 
+                "readOnly": true, 
+                "type": "foreignid"
+              }, 
+              {
+                "choices": null, 
+                "crudType": null, 
+                "fkId": "info__det-mai_id", 
+                "header": "det-mai", 
+                "name": "info__det-mai", 
+                "primary": true, 
+                "prpDefault": null, 
+                "prpLength": null, 
+                "prpScale": null, 
+                "readOnly": false, 
+                "required": true, 
+                "tooltip": null, 
+                "type": "foreigntext", 
+                "vType": "string", 
+                "zoomModel": "prototype.ProtoTable.regles-maitre"
+              }, 
+              {
+                "cellLink": true, 
+                "fkId": "id", 
+                "flex": 1, 
+                "header": "regles-detail", 
+                "name": "__str__", 
+                "physicalName": "@myStr(\"info__id-detail\",\"info__det-mai\")", 
+                "readOnly": true, 
+                "sortable": true, 
+                "type": "string", 
+                "zoomModel": "prototype.ProtoTable.regles-detail"
+              }
+            ], 
+            "formConfig": {
+              "__ptType": "formConfig", 
+              "items": [
+                {
+                  "__ptType": "fieldset", 
+                  "fsLayout": "2col", 
+                  "items": [
+                    {
+                      "__ptType": "formField", 
+                      "name": "info__id-detail"
+                    }, 
+                    {
+                      "__ptType": "formField", 
+                      "name": "info__nom-detail"
+                    }, 
+                    {
+                      "__ptType": "formField", 
+                      "name": "info__det-mai"
+                    }
+                  ]
+                }
+              ]
+            }, 
+            "gridConfig": {
+              "baseFilter": [
+                {
+                  "filterStmt": "=98", 
+                  "property": "entity"
+                }
+              ], 
+              "hiddenFields": [
+                "id", 
+                "info", 
+                "entity_id"
+              ], 
+              "listDisplay": [
+                "info__id-detail", 
+                "info__nom-detail", 
+                "info__det-mai"
+              ], 
+              "readOnlyFields": [], 
+              "searchFields": [
+                "info"
+              ], 
+              "sortFields": [
+                "info__id-detail", 
+                "info__nom-detail", 
+                "info__det-mai", 
+                "__str__"
+              ]
+            }, 
+            "idProperty": "id", 
+            "jsonField": "info", 
+            "localSort": true, 
+            "metaVersion": "13.0301", 
+            "protoEntity": "regles-detail", 
+            "protoEntityId": 98, 
+            "shortTitle": "regles-detail", 
+            "updateTime": "2015-03-26T20:57:25.136812", 
+            "viewCode": "prototype.ProtoTable.regles-detail", 
+            "viewEntity": "prototype.ProtoTable", 
+            "viewIcon": "icon-proto"
+          }, 
+          "notes": null
+        }
+      ]
+    }, 
+    {
+      "code": "Ma\u00eetre", 
+      "dbName": null, 
+      "description": null, 
+      "property_set": [
+        {
+          "baseType": "string", 
+          "code": "id ma\u00eetre", 
+          "crudType": null, 
+          "dbName": null, 
+          "description": null, 
+          "isEssential": false, 
+          "isLookUpResult": true, 
+          "isNullable": false, 
+          "isPrimary": true, 
+          "isReadOnly": false, 
+          "isRequired": true, 
+          "isSensitive": false, 
+          "notes": null, 
+          "prpChoices": null, 
+          "prpDefault": null, 
+          "prpLength": 0, 
+          "prpScale": 0, 
+          "vType": null
+        }, 
+        {
+          "baseType": "string", 
+          "code": "nom ma\u00eetre", 
+          "crudType": null, 
+          "dbName": null, 
+          "description": null, 
+          "isEssential": false, 
+          "isLookUpResult": false, 
+          "isNullable": false, 
+          "isPrimary": false, 
+          "isReadOnly": false, 
+          "isRequired": false, 
+          "isSensitive": false, 
+          "notes": null, 
+          "prpChoices": null, 
+          "prpDefault": null, 
+          "prpLength": 0, 
+          "prpScale": 0, 
+          "vType": null
+        }
+      ], 
+      "prototype_set": [
+        {
+          "code": "regles-maitre", 
+          "description": null, 
+          "metaDefinition": {
+            "__ptType": "pcl", 
+            "description": null, 
+            "detailsConfig": [
+              {
+                "conceptDetail": "prototype.ProtoTable.regles-detail", 
+                "detailField": "info__det-mai_id", 
+                "detailName": "detail", 
+                "masterField": "pk", 
+                "menuText": "detail"
+              }
+            ], 
+            "fields": [
+              {
+                "hidden": true, 
+                "name": "id", 
+                "readOnly": true, 
+                "type": "autofield"
+              }, 
+              {
+                "hidden": true, 
+                "name": "entity", 
+                "readOnly": true
+              }, 
+              {
+                "hidden": true, 
+                "name": "entity_id", 
+                "prpDefault": 97, 
+                "readOnly": true
+              }, 
+              {
+                "hidden": true, 
+                "name": "info", 
+                "readOnly": true, 
+                "searchable": true, 
+                "type": "jsonfield"
+              }, 
+              {
+                "name": "smOwningUser", 
+                "readOnly": true, 
+                "type": "foreigntext"
+              }, 
+              {
+                "name": "smOwningTeam", 
+                "readOnly": true, 
+                "type": "foreigntext"
+              }, 
+              {
+                "name": "smCreatedOn", 
+                "readOnly": true, 
+                "type": "datetime"
+              }, 
+              {
+                "choices": null, 
+                "crudType": null, 
+                "header": "id ma\u00eetre", 
+                "name": "info__id-maitre", 
+                "primary": true, 
+                "prpDefault": null, 
+                "prpLength": 0, 
+                "prpScale": 0, 
+                "readOnly": false, 
+                "required": true, 
+                "tooltip": null, 
+                "type": "string", 
+                "vType": null
+              }, 
+              {
+                "choices": null, 
+                "crudType": null, 
+                "header": "nom ma\u00eetre", 
+                "name": "info__nom-maitre", 
+                "primary": false, 
+                "prpDefault": null, 
+                "prpLength": 0, 
+                "prpScale": 0, 
+                "readOnly": false, 
+                "required": false, 
+                "tooltip": null, 
+                "type": "string", 
+                "vType": null
+              }, 
+              {
+                "fkField": "info__mai-ref_id", 
+                "hidden": true, 
+                "name": "info__mai-ref_id", 
+                "readOnly": true, 
+                "type": "foreignid"
+              }, 
+              {
+                "choices": null, 
+                "crudType": null, 
+                "fkId": "info__mai-ref_id", 
+                "header": "mai-ref", 
+                "name": "info__mai-ref", 
+                "primary": false, 
+                "prpDefault": null, 
+                "prpLength": null, 
+                "prpScale": null, 
+                "readOnly": false, 
+                "required": true, 
+                "tooltip": null, 
+                "type": "foreigntext", 
+                "vType": "string", 
+                "zoomModel": "prototype.ProtoTable.regles-reference"
+              }, 
+              {
+                "cellLink": true, 
+                "fkId": "id", 
+                "flex": 1, 
+                "header": "regles-maitre", 
+                "name": "__str__", 
+                "physicalName": "@myStr(\"info__id-maitre\",\"info__mai-ref\")", 
+                "readOnly": true, 
+                "sortable": true, 
+                "type": "string", 
+                "zoomModel": "prototype.ProtoTable.regles-maitre"
+              }
+            ], 
+            "formConfig": {
+              "__ptType": "formConfig", 
+              "items": [
+                {
+                  "__ptType": "fieldset", 
+                  "fsLayout": "2col", 
+                  "items": [
+                    {
+                      "__ptType": "formField", 
+                      "name": "info__id-maitre"
+                    }, 
+                    {
+                      "__ptType": "formField", 
+                      "name": "info__nom-maitre"
+                    }, 
+                    {
+                      "__ptType": "formField", 
+                      "name": "info__mai-ref"
+                    }
+                  ]
+                }
+              ]
+            }, 
+            "gridConfig": {
+              "baseFilter": [
+                {
+                  "filterStmt": "=97", 
+                  "property": "entity"
+                }
+              ], 
+              "hiddenFields": [
+                "id", 
+                "info", 
+                "entity_id"
+              ], 
+              "listDisplay": [
+                "info__id-maitre", 
+                "info__nom-maitre", 
+                "info__mai-ref"
+              ], 
+              "readOnlyFields": [], 
+              "searchFields": [
+                "info"
+              ], 
+              "sortFields": [
+                "info__id-maitre", 
+                "info__nom-maitre", 
+                "info__mai-ref", 
+                "__str__"
+              ]
+            }, 
+            "idProperty": "id", 
+            "jsonField": "info", 
+            "localSort": true, 
+            "metaVersion": "13.0301", 
+            "protoEntity": "regles-maitre", 
+            "protoEntityId": 97, 
+            "shortTitle": "regles-maitre", 
+            "updateTime": "2015-03-26T20:57:25.227106", 
+            "viewCode": "prototype.ProtoTable.regles-maitre", 
+            "viewEntity": "prototype.ProtoTable", 
+            "viewIcon": "icon-proto"
+          }, 
+          "notes": null
+        }
+      ]
+    }, 
+    {
+      "code": "reference", 
+      "dbName": null, 
+      "description": null, 
+      "property_set": [
+        {
+          "baseType": "string", 
+          "code": "id reference", 
+          "crudType": null, 
+          "dbName": null, 
+          "description": null, 
+          "isEssential": false, 
+          "isLookUpResult": true, 
+          "isNullable": false, 
+          "isPrimary": true, 
+          "isReadOnly": false, 
+          "isRequired": true, 
+          "isSensitive": false, 
+          "notes": null, 
+          "prpChoices": null, 
+          "prpDefault": null, 
+          "prpLength": 0, 
+          "prpScale": 0, 
+          "vType": null
+        }, 
+        {
+          "baseType": "string", 
+          "code": "nom reference", 
+          "crudType": null, 
+          "dbName": null, 
+          "description": null, 
+          "isEssential": false, 
+          "isLookUpResult": false, 
+          "isNullable": false, 
+          "isPrimary": false, 
+          "isReadOnly": false, 
+          "isRequired": false, 
+          "isSensitive": false, 
+          "notes": null, 
+          "prpChoices": null, 
+          "prpDefault": null, 
+          "prpLength": 0, 
+          "prpScale": 0, 
+          "vType": null
+        }
+      ], 
+      "prototype_set": [
+        {
+          "code": "regles-reference", 
+          "description": null, 
+          "metaDefinition": {
+            "__ptType": "pcl", 
+            "description": null, 
+            "detailsConfig": [
+              {
+                "conceptDetail": "prototype.ProtoTable.regles-maitre", 
+                "detailField": "info__mai-ref_id", 
+                "detailName": "maitre", 
+                "masterField": "pk", 
+                "menuText": "Ma\u00eetre"
+              }
+            ], 
+            "fields": [
+              {
+                "hidden": true, 
+                "name": "id", 
+                "readOnly": true, 
+                "type": "autofield"
+              }, 
+              {
+                "hidden": true, 
+                "name": "entity", 
+                "readOnly": true
+              }, 
+              {
+                "hidden": true, 
+                "name": "entity_id", 
+                "prpDefault": 99, 
+                "readOnly": true
+              }, 
+              {
+                "hidden": true, 
+                "name": "info", 
+                "readOnly": true, 
+                "searchable": true, 
+                "type": "jsonfield"
+              }, 
+              {
+                "name": "smOwningUser", 
+                "readOnly": true, 
+                "type": "foreigntext"
+              }, 
+              {
+                "name": "smOwningTeam", 
+                "readOnly": true, 
+                "type": "foreigntext"
+              }, 
+              {
+                "name": "smCreatedOn", 
+                "readOnly": true, 
+                "type": "datetime"
+              }, 
+              {
+                "choices": null, 
+                "crudType": null, 
+                "header": "id reference", 
+                "name": "info__id-reference", 
+                "primary": true, 
+                "prpDefault": null, 
+                "prpLength": 0, 
+                "prpScale": 0, 
+                "readOnly": false, 
+                "required": true, 
+                "tooltip": null, 
+                "type": "string", 
+                "vType": null
+              }, 
+              {
+                "choices": null, 
+                "crudType": null, 
+                "header": "nom reference", 
+                "name": "info__nom-reference", 
+                "primary": false, 
+                "prpDefault": null, 
+                "prpLength": 0, 
+                "prpScale": 0, 
+                "readOnly": false, 
+                "required": false, 
+                "tooltip": null, 
+                "type": "string", 
+                "vType": null
+              }, 
+              {
+                "cellLink": true, 
+                "fkId": "id", 
+                "flex": 1, 
+                "header": "regles-reference", 
+                "name": "__str__", 
+                "physicalName": "@myStr(\"info__id-reference\")", 
+                "readOnly": true, 
+                "sortable": true, 
+                "type": "string", 
+                "zoomModel": "prototype.ProtoTable.regles-reference"
+              }
+            ], 
+            "formConfig": {
+              "__ptType": "formConfig", 
+              "items": [
+                {
+                  "__ptType": "fieldset", 
+                  "fsLayout": "2col", 
+                  "items": [
+                    {
+                      "__ptType": "formField", 
+                      "name": "info__id-reference"
+                    }, 
+                    {
+                      "__ptType": "formField", 
+                      "name": "info__nom-reference"
+                    }
+                  ]
+                }
+              ]
+            }, 
+            "gridConfig": {
+              "baseFilter": [
+                {
+                  "filterStmt": "=99", 
+                  "property": "entity"
+                }
+              ], 
+              "hiddenFields": [
+                "id", 
+                "info", 
+                "entity_id"
+              ], 
+              "listDisplay": [
+                "info__id-reference", 
+                "info__nom-reference"
+              ], 
+              "readOnlyFields": [], 
+              "searchFields": [
+                "info"
+              ], 
+              "sortFields": [
+                "info__id-reference", 
+                "info__nom-reference", 
+                "__str__"
+              ]
+            }, 
+            "idProperty": "id", 
+            "jsonField": "info", 
+            "localSort": true, 
+            "metaVersion": "13.0301", 
+            "protoEntity": "regles-reference", 
+            "protoEntityId": 99, 
+            "shortTitle": "regles-reference", 
+            "updateTime": "2015-03-26T20:57:25.309620", 
+            "viewCode": "prototype.ProtoTable.regles-reference", 
+            "viewEntity": "prototype.ProtoTable", 
+            "viewIcon": "icon-proto"
+          }, 
+          "notes": null
+        }
+      ]
+    }
+  ], 
+  "relations": [
+    {
+      "baseMax": "", 
+      "baseMin": "", 
+      "baseType": "string", 
+      "code": "det-mai", 
+      "crudType": null, 
+      "dbName": null, 
+      "description": null, 
+      "entity": "detail", 
+      "isEssential": false, 
+      "isLookUpResult": true, 
+      "isNullable": false, 
+      "isPrimary": true, 
+      "isReadOnly": false, 
+      "isRequired": true, 
+      "isSensitive": false, 
+      "notes": null, 
+      "onRefDelete": "", 
+      "prpChoices": null, 
+      "prpDefault": null, 
+      "prpLength": null, 
+      "prpScale": null, 
+      "refEntity": "Ma\u00eetre", 
+      "refMax": "", 
+      "refMin": "", 
+      "relatedName": "", 
+      "typeRelation": "", 
+      "vType": "string"
+    }, 
+    {
+      "baseMax": "", 
+      "baseMin": "", 
+      "baseType": "string", 
+      "code": "mai-ref", 
+      "crudType": null, 
+      "dbName": null, 
+      "description": null, 
+      "entity": "Ma\u00eetre", 
+      "isEssential": false, 
+      "isLookUpResult": true, 
+      "isNullable": false, 
+      "isPrimary": false, 
+      "isReadOnly": false, 
+      "isRequired": true, 
+      "isSensitive": false, 
+      "notes": null, 
+      "onRefDelete": "", 
+      "prpChoices": null, 
+      "prpDefault": null, 
+      "prpLength": null, 
+      "prpScale": null, 
+      "refEntity": "reference", 
+      "refMax": "", 
+      "refMin": "", 
+      "relatedName": "", 
+      "typeRelation": "", 
+      "vType": "string"
+    }
+  ]
+}

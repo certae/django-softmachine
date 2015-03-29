@@ -11,7 +11,7 @@ import json
 
 from models import CustomDefinition, ProtoDefinition
 from protoActionEdit import setSecurityInfo
-from protoAuth import getUserProfile, getModelPermissions
+from protoAuth import getUserProfile, getModelPermissions, getOptionPermissions
 from utilsWeb import JsonError
 from utilsBase import verifyList
 
@@ -138,7 +138,7 @@ def protoGetMenuData(request):
             app['children'].sort(key=lambda x: x['index'])
 
 
-        # lee las opciones del prototipo -----------------------------------------------
+#=====  lee las opciones del prototipo -----------------------------------------------
         prototypes = Prototype.objects.filter(smOwningTeam=userProfile.userTeam)
         prNodes = {  
             'text': 'ProtoOptions' ,
@@ -164,7 +164,7 @@ def protoGetMenuData(request):
 
             ix += 1 
 
-        # lee las vistas 
+#=====  lee las vistas  -----------------------------------------------
         prototypes = ProtoDefinition.objects.all()
         prNodes = {  
             'text': 'ProtoViews' ,
@@ -177,6 +177,10 @@ def protoGetMenuData(request):
 
         ix = 0 
         for option in prototypes:
+
+            appName, modName = option.code.split('.')[:2]
+            if not getOptionPermissions(currentUser, appName, modName.lower() , 'menu'):
+                continue 
 
             prBase = getNodeBaseViews(prNodes, option)
             if prBase is None: continue  

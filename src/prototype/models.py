@@ -118,9 +118,11 @@ class Model(ProtoModel):
     
     protoExt = { 
         "actions": [
-            { "name": "doExport2Json" },
             { "name": "doModelPrototype" },
+#             { "name": "doModelGraph" },
             { "name": "doExportPrototype" },
+            { "name": "doExportProtoJson" },            
+            { "name": "doExport2Json" },
             { "name": "doImport4Json",  
               "actionParams": [
                 {"name" : "file", "type" : "filefield", "required": True, "tooltip" : "Select a file to upload" }
