@@ -495,7 +495,7 @@ class Diagram(ProtoModel):
 
 class DiagramEntity(ProtoModel):
     """ 
-    TODO: Entidades del diagrama  ( Relationship )    
+    Entidades del diagrama  
     """    
     diagram = models.ForeignKey('Diagram', blank=False, null=False)
     entity = models.ForeignKey(Entity, blank=False, null=False)

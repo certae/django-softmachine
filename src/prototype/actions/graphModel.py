@@ -25,7 +25,8 @@ class GraphModel():
 
         else:
     #       Animal [label = "{{{1}|+ name : string\l+ age : int\l|+ die() : void\l}"]
-            self.dotSource += 'rankdir = BT;node [shape="record"];\n'
+
+            self.dotSource += 'rankdir = BT;node [shape=record,width=0,height=0,concentrate=true];\n'
             self.tblRecord = '\n{0} [label = "{{{1}|'
 
         self.lnkComposition = '[dir=both,arrowhead=diamond,arrowtail=none]\n'
@@ -50,6 +51,7 @@ class GraphModel():
                 'graphForm'  : getattr(pDiag, 'graphForm' , self.GRAPH_FORM.orf),
                 'showPrpType': getattr(pDiag, 'showPrpType' , False),
                 'showBorder' : getattr(pDiag, 'showBorder' , False),
+                'showFKey'   : getattr(pDiag, 'showFKey' , False),
                 'prefix'     : getattr(pDiag, 'prefix' , ''),
                 'entities': []
             }
@@ -59,6 +61,7 @@ class GraphModel():
                 pEntity = pDiagEntity.entity 
                 enttCode = self.getEntityCode(pEntity.code, gDiagram.get('prefix'))
 
+                #  Si ya se encuentra en otro diagrama no la dibuja 
                 if enttCode in self.entities: 
                     continue 
                 
@@ -75,11 +78,11 @@ class GraphModel():
                     pptCode = slugify(pProperty.code, '_')
                      
                     if pProperty.isForeign:
-                        pType = self.getEntityCode(pProperty.relationship.refEntity.code, gDiagram.get('prefix'))
+                        pLinkTo = self.getEntityCode(pProperty.relationship.refEntity.code, gDiagram.get('prefix'))
 
                         gEntity['relations'].append({
                             'code': pptCode,
-                            'type': pType,
+                            'linkTo': pLinkTo,
                             'primary': pProperty.isPrimary,
                             'required': pProperty.isRequired,
                             'essential': pProperty.isEssential,
@@ -111,10 +114,10 @@ class GraphModel():
         for gDiagram in self.diagrams:
             if gDiagram.get('graphLevel') < self.GRAPH_LEVEL.title :
                 
-                self.dotSource += '\nsubgraph {0} {{'.format(gDiagram.get('code'))
+                self.dotSource += '\nsubgraph cluster_{0} {{'.format(gDiagram.get('code'))
         
                 if not gDiagram.get('showBorder', False) : 
-                    self.dotSource += 'style=invis;'
+                    self.dotSource += 'style=dotted;'
                 if len(gDiagram.get('label', '')) > 0: 
                     self.dotSource += 'label="{}";'.format(gDiagram.get('label', '')) 
     
@@ -124,10 +127,10 @@ class GraphModel():
                 self.dotSource += '}\n'
 
 
-        # Dibuja los vinculos ( tiene q ser otro recorrido )   
+        # Dibuja los vinculos 
         for gDiagram in self.diagrams:
             for gEntity in gDiagram['entities']:
-                self.link2dot(gEntity)
+                self.link2dot(gEntity, gDiagram.get( 'showFKey'))
 
         self.dotSource += '}'
 
@@ -141,10 +144,16 @@ class GraphModel():
         return self.dotSource
          
 
-    def link2dot(self, gEntity):
+    def link2dot(self, gEntity, showFKey):
         
         for gLink in gEntity['relations']:
-            self.dotSource += '{0} -> {1} '.format(gEntity.get('code') , gLink.get('type')) + self.lnkComposition
+
+            pEntity = gEntity.get('code')
+            pLinkTo = gLink.get('linkTo')
+            if ( not showFKey ) and ( pLinkTo not in self.entities ): 
+                continue
+
+            self.dotSource += '{0} -> {1} '.format(pEntity, pLinkTo) + self.lnkComposition
         
 
     def entity2dot(self, gDiagram, gEntity):
@@ -159,7 +168,7 @@ class GraphModel():
         for gField in gEntity['fields'] + gEntity['relations'] :
 
             if gDiagram.get('showPrpType') :
-                sPrpType = gField.get('type')
+                sPrpType = gField.get('type', ' ')
             else : sPrpType = ' '
                  
             sPk = ''
