@@ -9,36 +9,36 @@ from protoField import  setFieldDict
 
 
 def getProtoAdmin(model):
-    """ Carga la protoDefinicion, del modelo y luego del admin,
-    * La definicion del admin sirve para definir los EntryPoint, 
-    * pero no es necesario, la protoDefinicion se puede guardar directamente 
-    * en el modelo 
+    """ 
+    Carga la protoDefinicion, del modelo y luego del admin,
+    La definicion del admin sirve para definir los EntryPoint, 
+    pero no es necesario, la protoDefinicion se puede guardar directamente 
+    en el modelo 
     """
 
     # Siempre existe, la creacion del site la asigna por defecto
     model_admin = site._registry.get(model)
 
     # Si no esta registrado genera una definicion en blanco
-    if not model_admin:
-        model_admin = {}
+    if not model_admin: model_admin = {}
+
     protoExclude = getattr(model_admin , 'exclude', [])
-    if protoExclude is None:
-        protoExclude = []
+    if protoExclude is None: protoExclude = []
 
-    protoMeta = getattr(model, 'protoExt', {})
-    protoExt = getattr(model_admin, 'protoExt', {})
+    protoModel = getattr(model, 'protoExt', {})
+    protoAdmin = getattr(model_admin, 'protoExt', {})
 
-    protoMeta[ 'exclude'] = protoMeta.get('exclude', []) + protoExclude
+    protoModel[ 'exclude'] = protoModel.get('exclude', []) + protoExclude
 
-    if not isinstance(protoMeta, dict):
-        protoMeta = {}
-    if not isinstance(protoExt, dict):
-        protoExt = {}
+    if not isinstance(protoModel, dict): protoModel = {}
+    if not isinstance(protoAdmin, dict): protoAdmin = {}
 
-    protoMeta = copyProps(protoMeta, protoExt)
+    #  PAra garantizar la creacion la meta 
+    protoMeta = {}
+    protoMeta.update( protoModel ) 
+    protoMeta.update( protoAdmin)
 
     return  model_admin, protoMeta
-
 
 
 class ProtoGridFactory(object):
@@ -115,6 +115,7 @@ class ProtoGridFactory(object):
             if field.name in protoExclude:
                 continue
             setFieldDict (self.fieldsDict , field)
+
 
         # Agrega el __str__ que sirve de base para los zooms
         fName = '__str__'
@@ -347,20 +348,23 @@ def getBaseModelName(viewCode):
     # import django.utils.simplejson as json
     import json
 
-    if viewCode.count(".") == 2:
+    if viewCode.count(".") >= 2:
         app, model = viewCode.split(".")[:2]
         viewEntity = app + '.' + model
+
     else:
         viewEntity = viewCode
 
-    if not(viewEntity.startswith(PROTO_PREFIX)  and viewEntity != PROTO_PREFIX):
-        try:
-            protoDef = ProtoDefinition.objects.get(code=viewEntity)
-        except:
-            return viewEntity
+    # TODO : RAIVerificar q funcione bien con prototipos 
 
-        protoMeta = json.loads(protoDef.metaDefinition)
-        viewEntity = protoMeta.get('viewEntity', viewCode)
+    # if not(viewEntity.startswith(PROTO_PREFIX)  and viewEntity != PROTO_PREFIX):
+    #     try:
+    #         protoDef = ProtoDefinition.objects.get(code=viewEntity)
+    #     except:
+    #         return viewEntity
+
+    #     protoMeta = json.loads(protoDef.metaDefinition)
+    #     viewEntity = protoMeta.get('viewEntity', viewCode)
 
     return viewEntity
 

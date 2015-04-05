@@ -17,7 +17,7 @@ from django.db.models.signals import post_save, post_delete
 from protoLib.models import ProtoModel   
 from protoLib.fields import JSONField, JSONAwareManager
 
-from prototype.protoRules import  ONDELETE_TYPES, BASE_TYPES, CRUD_TYPES, DB_ENGINE
+from protobase.protoRules import  ONDELETE_TYPES, BASE_TYPES, CRUD_TYPES, DB_ENGINE
 
 
 from protoLib.utilsBase import slugify

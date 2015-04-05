@@ -97,6 +97,7 @@ def setFieldDict(protoFields , field):
         pField['type'] = 'text'
         pField['readOnly'] = True
         pField['sortable'] = False
+        pField['crudType'] = 'storeOnly' 
 
     elif field.__class__.__name__ == 'ManyToManyField':
         tmpModel = field.rel.through._meta

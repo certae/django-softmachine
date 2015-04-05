@@ -243,15 +243,14 @@ class ProtoDefinition(models.Model):
 
     metaDefinition = models.TextField(blank=True, null=True)
 
-    # Si esta activo toma la definicion de la Db, si no esta activa usa la definicion por defecto
-    active = models.BooleanField(default=False)
+    # Si no esta activo no permite la ejecucion 
+    active = models.BooleanField(default = True)
 
-    # Elto de control para sobre escribir,  podria ser un error el solo hecho de inactivarlo
-    overWrite = models.BooleanField(default=True)
+    # overWrite indica que debe generarse cada vez, 
+    overWrite = models.BooleanField(default = False)
 
     # DGT : For entity clasification  ( V14.01 or Contenttype )
     # entityMap = models.ForeignKey(EntityMap, blank=True, null=True)
-
 
     def __unicode__(self):
         return self.code

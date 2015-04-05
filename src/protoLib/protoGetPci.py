@@ -5,7 +5,7 @@ from protoGrid import  getBaseModelName, setDefaultField , getProtoAdmin
 from protoLib import protoGrid
 from protoField import  setFieldDict, isAdmField 
 from models import getDjangoModel, ProtoDefinition, CustomDefinition 
-from utilsBase import getReadableError, copyProps
+from utilsBase import getReadableError, copyProps, list2dict
 from utilsWeb import JsonError, JsonSuccess 
 from django.db.models import Max
 
@@ -45,63 +45,59 @@ def protoGetPCI(request):
     try: 
         model = getDjangoModel(viewEntity)
     except :
-        return JsonError('model not found:' + viewEntity) 
+        return JsonError('model not found: {0}'.format( viewEntity)) 
     
     # 
     userProfile = getUserProfile(request.user, 'getPci', viewEntity) 
 
 
     # PROTOTIPOS
+    isPrototype = False 
     if viewCode.startswith(PROTO_PREFIX)  and viewCode != viewEntity :
         try:
             prototypeView = viewCode.replace(PROTO_PREFIX, '')
             protoDef = Prototype.objects.get(code=prototypeView, smOwningTeam=userProfile.userTeam)
             created = False   
+            isPrototype = True 
+            
         except:
-            jsondict = { 'success':False, 'message': viewCode + ' notFound' } 
-            return HttpResponse(json.dumps(jsondict), content_type="application/json")
+            return JsonError('prototype not found: {0}'.format( viewCode ))
 
     else:
-        # created : El objeto es nuevo
-        # protoDef : PCI leida de la DB 
+        # protoDef : PCI leida de la DB ; created : El objeto es nuevo
         protoDef, created = ProtoDefinition.objects.get_or_create(code=viewCode)
-    
-    # Verifica si es una version vieja 
-    if created: 
-        protoDef.overWrite = True
 
-    # active solo viene de protoDefinition     
-    try:
-        active = protoDef.active
-    except:
-        active = True 
-        
-    # Si es nuevo o no esta activo lee Django 
-    if created or (not  active) :
+
+    if ( not isPrototype ) :
+        # if ( not protoDef.active) :
+        #     return JsonError('Inactive definition : {0}'.format( viewCode ))
+
+        if protoDef.overWrite :
+            # Si la directiva es reescribirlo es como si fuera nuevo cada vez 
+            created = True 
+
+
+    # Si es nuevo lee Django 
+    if created  :
 
         model_admin, protoMeta = getProtoAdmin(model)
-        version = protoMeta.get('metaVersion')
 
-        # La version determina q es una carga completa de la meta y no es necesario reconstruirla
-        # solo en caso de q la definicion no este en la Db        
-        if (version is None) or (version < PROTOVERSION): 
-
-            # Verifica si existe una propiedad ProtoMeta es la copia de la meta cargada a la Db,
-            grid = protoGrid.ProtoGridFactory(model, viewCode, model_admin, protoMeta)
-            protoMeta = createProtoMeta(model, grid, viewEntity, viewCode)
+        # Genera la definicion de la vista 
+        grid = protoGrid.ProtoGridFactory(model, viewCode, model_admin, protoMeta)
+        protoMeta = createProtoMeta(model, grid, viewEntity, viewCode)
     
-        # Guarda la Meta si es nuevo o si se especifica overWrite
-        if  created or protoDef.overWrite: 
-            protoDef.metaDefinition = json.dumps(protoMeta) 
-            protoDef.description = protoMeta['description'] 
-            protoDef.save()    
+        # Guarda o refresca la Meta y mantiene la directiva overWrite
+        protoDef.metaDefinition = json.dumps(protoMeta) 
+        protoDef.description = protoMeta['description'] 
+        protoDef.save()    
 
 
     else:
         protoMeta = json.loads(protoDef.metaDefinition) 
         protoMeta['viewCode'] = viewCode  
 
-    
+
+
     # La definicion del arbol es fija, pues las cols deben ser siempre uniformes sin importar el tipo de modelo.
 #    pStyle = protoMeta.get( 'pciStyle', '')      
 #    if pStyle == 'tree':  setTreeDefinition()
@@ -235,6 +231,25 @@ def createProtoMeta(model, grid, viewEntity , viewCode):
     
     # FIX: busca el id en la META  ( id_field = model._meta.pk.name ) 
     id_field = u'id'
+
+
+    # Manejo de documentos rai02db          
+    if getattr(model, '_uddObject', False ):
+        dBase = getattr(model, '_jDefValueDoc', False )    
+
+        # TODO : RAI Esto debe ser dinamico 
+        dtype = 'process'
+        grid.fieldsDict['dtype']['prpDefault'] = dtype 
+        
+        if len( dBase ) > 0 and len( dtype ) > 0:
+            docFields = model.getJfields( dBase, dtype )
+            grid.fieldsDict.update( docFields )
+
+            grid.fields = []
+            for lField in grid.fieldsDict.itervalues():
+                grid.fields.append( lField )
+
+
 
     protoTmp = { 
          'metaVersion' : PROTOVERSION ,
