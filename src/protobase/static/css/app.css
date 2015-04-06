@@ -499,3 +499,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cecece', end
     background-color: #e2ffe2;
     color: #090;
 }
+
+
+.rai_art   { background-image: url(../img/rai/rai-art.png )!important;}
+.rai_cap   { background-image: url(../img/rai/rai-cap.png )!important;}
+.rai_req   { background-image: url(../img/rai/rai-req.png )!important;}

@@ -84,10 +84,10 @@ def protoGetPCI(request):
 
         # Genera la definicion de la vista 
         grid = protoGrid.ProtoGridFactory(model, viewCode, model_admin, protoMeta)
-        protoMeta = createProtoMeta(model, grid, viewEntity, viewCode)
+        createProtoMeta(model, grid, viewEntity, viewCode)  
     
         # Guarda o refresca la Meta y mantiene la directiva overWrite
-        protoDef.metaDefinition = json.dumps(protoMeta) 
+        protoDef.metaDefinition = json.dumps(grid.protoMeta) 
         protoDef.description = protoMeta['description'] 
         protoDef.save()    
 
@@ -271,7 +271,7 @@ def createProtoMeta(model, grid, viewEntity , viewCode):
          }
     
 
-    return copyProps(grid.protoMeta, protoTmp) 
+    grid.protoMeta.update( protoTmp ) 
     
 
 # ------------------------------------------------------------------------
