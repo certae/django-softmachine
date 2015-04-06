@@ -84,7 +84,8 @@ def protoGetPCI(request):
 
         # Genera la definicion de la vista 
         grid = protoGrid.ProtoGridFactory(model, viewCode, model_admin, protoMeta)
-        createProtoMeta(model, grid, viewEntity, viewCode)  
+        if not createProtoMeta(model, grid, viewEntity, viewCode) : 
+            return JsonError('Document type required: {0}.???'.format( viewCode ))
     
         # Guarda o refresca la Meta y mantiene la directiva overWrite
         protoDef.metaDefinition = json.dumps(grid.protoMeta) 
@@ -231,24 +232,31 @@ def createProtoMeta(model, grid, viewEntity , viewCode):
     
     # FIX: busca el id en la META  ( id_field = model._meta.pk.name ) 
     id_field = u'id'
-
+    shortTitle = grid.protoMeta.get('shortTitle', grid.title),
 
     # Manejo de documentos rai02db          
     if getattr(model, '_uddObject', False ):
         dBase = getattr(model, '_jDefValueDoc', False )    
 
-        # TODO : RAI Esto debe ser dinamico 
-        dtype = 'process'
+        try: 
+            dtype = viewCode.split('.')[2]
+            shortTitle = dtype 
+            gridConfig['baseFilter'].append( { 'property':'dtype', 'filterStmt' : '=' + dtype  } )
+
+        except: 
+            dtype = ''
+            # return False 
+        
         grid.fieldsDict['dtype']['prpDefault'] = dtype 
         
         if len( dBase ) > 0 and len( dtype ) > 0:
             docFields = model.getJfields( dBase, dtype )
             grid.fieldsDict.update( docFields )
 
+            pDescription = '{0}: {1}'.format( dBase, dtype ).lower()
             grid.fields = []
             for lField in grid.fieldsDict.itervalues():
                 grid.fields.append( lField )
-
 
 
     protoTmp = { 
@@ -256,7 +264,7 @@ def createProtoMeta(model, grid, viewEntity , viewCode):
          'viewCode' : viewCode,
          'viewEntity' : viewEntity,
          'idProperty': grid.protoMeta.get('idProperty', id_field),
-         'shortTitle': grid.protoMeta.get('shortTitle', grid.title),
+         'shortTitle': shortTitle,
          'description': pDescription ,
          'viewIcon': viewIcon,
 
@@ -272,6 +280,7 @@ def createProtoMeta(model, grid, viewEntity , viewCode):
     
 
     grid.protoMeta.update( protoTmp ) 
+    return True 
     
 
 # ------------------------------------------------------------------------
