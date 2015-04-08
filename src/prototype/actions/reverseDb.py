@@ -12,6 +12,7 @@ import keyword, re, traceback
 from prototype.models import Model, Entity, Property, Relationship
 from protoLib.protoAuth import getUserProfile
 from protoLib.utilsDb import setDefaults2Obj
+from protoLib.utilsBase import slugify
 
 from django.db import connections, transaction, IntegrityError, DatabaseError
 from django.db.transaction import TransactionManagementError
@@ -39,7 +40,8 @@ def readSchemaDef(dProject):
 
 
     # Add connection information dynamically..
-    connections.databases[ dProject.code ] = {
+    pCode = slugify( dProject.code )
+    connections.databases[ pCode ] = {
             'ENGINE': dProject.dbEngine ,
             'NAME':  dProject.dbName ,
             'USER':  dProject.dbUser ,
@@ -53,7 +55,7 @@ def readSchemaDef(dProject):
 
     # Ensure the remaining default connection information is defined.
     # connections.databases.ensure_defaults('new-alias')
-    connection = connections[ dProject.code ]
+    connection = connections[ pCode ]
     cursor = connection.cursor()
 
     for table_name in connection.introspection.get_table_list(cursor):

@@ -243,6 +243,9 @@ def createProtoMeta(model, grid, viewEntity , viewCode):
         except: pass 
             # return False 
 
+
+        # TODO : Los hijos deben ser del mismo tipo, o deben eliminarse 
+
         if len( dBase ) > 0 and len( idType ) > 0:
 
             docFields, shortTitle  = model.getJfields( idType )

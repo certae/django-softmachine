@@ -45,14 +45,14 @@ class GraphModel():
             
             gDiagram = {
                 'code': getClassName(pDiag.code) ,
-                'label': pDiag.code ,
-                'clusterName': getattr(pDiag, 'title', pDiag.code),
+                'label': slugify( pDiag.code ),
+                'clusterName': slugify( getattr(pDiag, 'title', pDiag.code)),
                 'graphLevel' : getattr(pDiag, 'graphLevel' , self.GRAPH_LEVEL.all),
                 'graphForm'  : getattr(pDiag, 'graphForm' , self.GRAPH_FORM.orf),
                 'showPrpType': getattr(pDiag, 'showPrpType' , False),
                 'showBorder' : getattr(pDiag, 'showBorder' , False),
                 'showFKey'   : getattr(pDiag, 'showFKey' , False),
-                'prefix'     : getattr(pDiag, 'prefix' , ''),
+                'prefix'     : slugify( getattr(pDiag, 'prefix' , '')),
                 'entities': []
             }
 
@@ -221,9 +221,9 @@ class GraphModel():
 
     def getEntityCode(self, code, prefix):
         # Formatea el nombre de la entidad 
-        enttCode = code 
+        enttCode = code.lower() 
         prefix = prefix or ''
-        if len(prefix) and enttCode.startswith(prefix):
+        if len(prefix) and enttCode.startswith(prefix.lower()):
             enttCode = enttCode[len(prefix):] 
             
         return getClassName(enttCode)
