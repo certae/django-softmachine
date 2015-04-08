@@ -5,7 +5,7 @@ from protoGrid import  getBaseModelName, setDefaultField , getProtoAdmin
 from protoLib import protoGrid
 from protoField import  setFieldDict, isAdmField 
 from models import getDjangoModel, ProtoDefinition, CustomDefinition 
-from utilsBase import getReadableError, copyProps, list2dict
+from utilsBase import getReadableError
 from utilsWeb import JsonError, JsonSuccess 
 from django.db.models import Max
 
@@ -13,8 +13,9 @@ from protoActionEdit import setSecurityInfo
 from protoQbe import getSearcheableFields
 
 from protoAuth import getUserProfile, getModelPermissions 
-
 from prototype.models import Prototype, Entity  
+
+
 PROTO_PREFIX = "prototype.ProtoTable."
 
 # TODO: 
@@ -175,7 +176,6 @@ def protoGetPCI(request):
 
 def createProtoMeta(model, grid, viewEntity , viewCode):
 
-
     # Los criterios de busqueda ni los ordenamientos son heredados del admin, 
     pSearchFields = grid.gridConfig.get('searchFields', []) 
     if len(pSearchFields) == 0:
@@ -222,7 +222,6 @@ def createProtoMeta(model, grid, viewEntity , viewCode):
              'hiddenFields': grid.protoMeta.get('hiddenFields', ['id', ]),
          } 
 
-
     #---------- Ahora las propiedades generales de la PCI 
     viewIcon = grid.protoMeta.get('viewIcon', 'icon-1') 
 
@@ -234,26 +233,31 @@ def createProtoMeta(model, grid, viewEntity , viewCode):
     id_field = u'id'
     shortTitle = grid.protoMeta.get('shortTitle', grid.title),
 
-    # Manejo de documentos rai02db          
+    # Manejo de documentos rai          
     if getattr(model, '_uddObject', False ):
         dBase = getattr(model, '_jDefValueDoc', False )    
+        idType = ''
 
         try: 
-            dtype = viewCode.split('.')[2]
-            shortTitle = dtype 
-            gridConfig['baseFilter'].append( { 'property':'dtype', 'filterStmt' : '=' + dtype  } )
-
-        except: 
-            dtype = ''
+            idType =  viewCode.split('.')[2] 
+        except: pass 
             # return False 
-        
-        grid.fieldsDict['dtype']['prpDefault'] = dtype 
-        
-        if len( dBase ) > 0 and len( dtype ) > 0:
-            docFields = model.getJfields( dBase, dtype )
+
+        if len( dBase ) > 0 and len( idType ) > 0:
+
+            docFields, shortTitle  = model.getJfields( idType )
+
+            gridConfig['baseFilter'].append( { 'property':'docType', 'filterStmt' : '=' + idType  } )
+
+            grid.fieldsDict['docType_id']['prpDefault'] = idType 
+
+            grid.fieldsDict['docType']['prpDefault'] = shortTitle 
+            grid.fieldsDict['docType']['readOnly'] = True
+            grid.fieldsDict['docType']['hidden'] = True
+
             grid.fieldsDict.update( docFields )
 
-            pDescription = '{0}: {1}'.format( dBase, dtype ).lower()
+            pDescription = '{0}: {1}'.format( dBase, shortTitle ).lower()
             grid.fields = []
             for lField in grid.fieldsDict.itervalues():
                 grid.fields.append( lField )

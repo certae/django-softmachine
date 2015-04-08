@@ -175,7 +175,7 @@ class ProtoGridFactory(object):
                     vFld = self.fieldsDict.get(key , {})
                     fType = vFld.get('type', 'string')
 
-                    if  vFld.get('crudType') == 'storeOnly' :
+                    if (vFld.get('crudType') == 'storeOnly') or (vFld.get('hidden', False)) :
                         continue
 
                     if (key in [ 'smOwningUser', 'smOwningTeam', 'smCreatedBy',  'smCreatedOn', 'smModifiedBy', 'smModifiedOn', 'smWflowStatus','smRegStatus',  'smUUID' ]) :

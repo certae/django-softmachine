@@ -2,7 +2,6 @@
 # for project : "Modelibra.py" >
 
 
-from models import PropertyEquivalence
 from models import ProtoTable
 # from models import Service #, ServiceRef
 
@@ -38,7 +37,7 @@ admin.site.register(Project, MyProjectAdmin )
 
 # ------------------------------------------
 
-from models import Diagram, DiagramEntity
+from models import Diagram
 
 class MyDiagramAdmin( admin.ModelAdmin ):
     actions = [  doDiagram  ]

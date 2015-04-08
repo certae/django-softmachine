@@ -7,7 +7,7 @@ import json
 from django.http import HttpResponse
 from django.db import models
 
-from models import getDjangoModel
+from models import getDjangoModel, ProtoDefinition
 from protoActionList import Q2Dict
 from utilsConvert import toInteger, toDate, toDateTime, toTime, toFloat, toDecimal, toBoolean
 from utilsBase import JSONEncoder, getReadableError, list2dict
@@ -52,8 +52,16 @@ def _protoEdit(request, myAction):
     message = ''
 
 #   Carga el modelo
-    protoMeta = request.POST.get('protoMeta', '')
-    protoMeta = json.loads(protoMeta)
+#   protoMeta = request.POST.get('protoMeta', '')
+#   protoMeta = json.loads(protoMeta)
+    viewCode = request.POST.get('viewCode', '')
+    try:
+        protoDef = ProtoDefinition.objects.get(code=viewCode)
+        protoMeta = json.loads(protoDef.metaDefinition)
+    except Exception as e :
+        return doReturn ({'success':False , 'message' : 'ProtoDefinition {0} not found '.format( viewCode) })
+
+
     viewEntity = protoMeta.get('viewEntity', '')
     model = getDjangoModel(viewEntity)
 

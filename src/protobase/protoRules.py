@@ -44,9 +44,12 @@ DB_ENGINE = (
 def docProperty2Field( fName, propDict, fBase = 'info' ):
     """ Genera la definicion del campo en la pci a partir de un diccionario (RAI) 
     """
-       
+
+    from protoLib.utilsBase import slugify
+    fCode = slugify( fName )
+
     field =  { 
-        "name"    : '{0}__{1}'.format( fBase, fName ), 
+        "name"    : '{0}__{1}'.format( fBase, fCode ), 
         "header"  : propDict.get('code', fName),
         "type"    : propDict.get('baseType', 'string'), 
         "required": propDict.get('isRequired', False),

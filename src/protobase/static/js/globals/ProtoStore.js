@@ -209,8 +209,8 @@ _SM.getProxyDefinition = function(stDef) {
         extraParams : {
             viewCode : stDef.viewCode,
             protoFilter : _SM.obj2tx(stDef.protoFilter),
-            baseFilter : _SM.obj2tx(stDef.baseFilter),
-            protoMeta : _SM.obj2tx(stDef.sProtoMeta)
+            baseFilter : _SM.obj2tx(stDef.baseFilter)
+            // protoMeta : _SM.obj2tx(stDef.sProtoMeta)
         },
 
         listeners : {

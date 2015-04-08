@@ -16,7 +16,7 @@ from protoAuth import  getModelPermissions, getUserNodes
 
 from usrDefProps import verifyUdpDefinition, readUdps
 from protoField import TypeEquivalence
-from models import getDjangoModel
+from models import getDjangoModel, ProtoDefinition
 
 from utilsWeb import doReturn
 
@@ -40,8 +40,16 @@ def protoList(request):
         return doReturn ({'success':False, 'message' : 'invalid message'})
 
 #   Los objetos vienen textoJson y hay q hacer el load para construirlos como objetos.
-    protoMeta = request.POST.get('protoMeta', '')
-    protoMeta = json.loads(protoMeta)
+    # protoMeta = request.POST.get('protoMeta', '')
+    # protoMeta = json.loads(protoMeta)
+
+    viewCode = request.POST.get('viewCode', '')
+    try:
+        protoDef = ProtoDefinition.objects.get( code=viewCode )
+        protoMeta = json.loads(protoDef.metaDefinition)
+    except Exception as e :
+        return doReturn ({'success':False , 'message' : 'ProtoDefinition {0} not found '.format( viewCode) })
+
 
 #
     protoFilter = request.POST.get('protoFilter', '')
