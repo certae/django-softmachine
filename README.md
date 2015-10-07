@@ -1,12 +1,12 @@
 # django-softmachine
 
-[![Build Status](https://travis-ci.org/certae/django-softmachine.svg?branch=master)](https://travis-ci.org/certae/django-softmachine)
+
 [![Coverage Status](https://coveralls.io/repos/certae/django-softmachine/badge.png?branch=master)](https://coveralls.io/r/certae/django-softmachine?branch=master)
 
 CeRTAE [SoftMachine](http://www.certae.org/index.php?id=88) proposes an approach based on DATARUN method. This approach consists in achieving the interfaces of an application by the contruction of views from a standard data model. In other words, you can prototype and export a new application model. 
 The system architecture is a Web MVC variant, this means that we use the basic concepts of Model, View and Controller adapted to a Web App.
 
->[GPL License](docs/LICENSE.md)
+>[GPL License V3](docs/LICENSE.md)
 
 >Suggested IDE : [Aptana Studio 3](http://aptana.com/)
 
