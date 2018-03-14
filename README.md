@@ -3,7 +3,7 @@
 
 [![Coverage Status](https://coveralls.io/repos/certae/django-softmachine/badge.png?branch=master)](https://coveralls.io/r/certae/django-softmachine?branch=master)
 
-CeRTAE [SoftMachine](http://www.certae.org/index.php?id=88) proposes an approach based on DATARUN method. This approach consists in achieving the interfaces of an application by the contruction of views from a standard data model. 
+Dj-SoftMachine proposes an approach based on DATARUN method. This approach consists in achieving the interfaces of an application by the contruction of views from a standard data model. 
 
 Dj-SoftMachine is in practice a knowledge management system relating to the construction, operation and evolution of information resources (IR). Is a sort of Swiss Army knife to evolve the information system of an organization in accordance with its strategic plans.
 
