@@ -9,6 +9,8 @@ Dj-SoftMachine is in practice a knowledge management system relating to the cons
 
 You can prototype and export a new application model. The system architecture is a Web MVC variant, this means that we use the basic concepts of Model, View and Controller adapted to a Web App.
 
+Dj Softmachine was developed by the center of research and knowledge transfer in business architecture ( CEntre de Recherche et de Transfert en Architecture d'Entreprise CeRTAE ) of Laval University (Québec, CA.). 
+
 >[GPL License V3](docs/LICENSE.md)
 
 >Suggested IDE : [Aptana Studio 3](http://aptana.com/)
