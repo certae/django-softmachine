@@ -3,8 +3,11 @@
 
 [![Coverage Status](https://coveralls.io/repos/certae/django-softmachine/badge.png?branch=master)](https://coveralls.io/r/certae/django-softmachine?branch=master)
 
-CeRTAE [SoftMachine](http://www.certae.org/index.php?id=88) proposes an approach based on DATARUN method. This approach consists in achieving the interfaces of an application by the contruction of views from a standard data model. In other words, you can prototype and export a new application model. 
-The system architecture is a Web MVC variant, this means that we use the basic concepts of Model, View and Controller adapted to a Web App.
+CeRTAE [SoftMachine](http://www.certae.org/index.php?id=88) proposes an approach based on DATARUN method. This approach consists in achieving the interfaces of an application by the contruction of views from a standard data model. 
+
+Dj-SoftMachine is in practice a knowledge management system relating to the construction, operation and evolution of information resources (IR). Is a sort of Swiss Army knife to evolve the information system of an organization in accordance with its strategic plans.
+
+You can prototype and export a new application model. The system architecture is a Web MVC variant, this means that we use the basic concepts of Model, View and Controller adapted to a Web App.
 
 >[GPL License V3](docs/LICENSE.md)
 
